@@ -1,20 +1,6 @@
 {
   "form526": {
-    "ratedDisabilities": [
-      {
-        "name": "Diabetes mellitus0",
-        "ratedDisabilityId": "0",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "NONE"
-      },
-      {
-        "name": "Diabetes mellitus1",
-        "ratedDisabilityId": "1",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "NONE",
-        "unemployabilityDisability": true
-      }
-    ],
+    "ratedDisabilities": [],
     "isVaEmployee": false,
     "homelessOrAtRisk": "no",
     "phoneAndEmail": {
@@ -328,7 +314,7 @@
             "dates": "A while ago. Weird that this isn't a date field, right?"
           }
         ],
-        "disabilityPreventingEmployment": "Diabetes mellitus1,PTSD (post traumatic stress disorder)",
+        "disabilityPreventingEmployment": "PTSD (post traumatic stress disorder)",
         "underDoctorHopitalCarePast12M": true
       }
     },

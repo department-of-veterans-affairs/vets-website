@@ -95,8 +95,6 @@
           "state": "AK"
         },
         "treatedDisabilityNames": {
-          "diabetes mellitus0": true,
-          "diabetes mellitus1": true,
           "myocardial infarction (mi)": true
         }
       },
@@ -160,7 +158,7 @@
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "Diabetes Mellitus0",
+          "causedByDisability": "Asthma",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "phlebitis",
@@ -187,51 +185,7 @@
       }
     ],
     "view:newDisabilities": true,
-    "ratedDisabilities": [
-      {
-        "name": "Diabetes mellitus0",
-        "ratedDisabilityId": "0",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE",
-        "view:selected": true
-      },
-      {
-        "name": "Diabetes mellitus1",
-        "ratedDisabilityId": "1",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE",
-        "view:selected": true
-      },
-      {
-        "name": "De-selected",
-        "ratedDisabilityId": "2",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE",
-        "view:selected": false
-      },
-      {
-        "name": "Not selected",
-        "ratedDisabilityId": "3",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE"
-      }
-    ],
+    "ratedDisabilities": [],
     "view:disabilitiesClarification": {},
     "serviceInformation": {
       "reservesNationalGuardService": {

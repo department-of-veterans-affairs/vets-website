@@ -168,30 +168,7 @@
     ],
     "view:uploadUnemployabilitySupportingDocumentsChoice": true,
     "view:privateMedicalFacility": {},
-    "ratedDisabilities": [
-      {
-        "name": "Diabetes mellitus0",
-        "ratedDisabilityId": "0",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE",
-        "view:selected": false
-      },
-      {
-        "name": "Diabetes mellitus1",
-        "ratedDisabilityId": "1",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE",
-        "unemployabilityDisability": true
-      }
-    ],
+    "ratedDisabilities": [],
     "newDisabilities": [
       {
         "condition": "PTSD (post traumatic stress disorder)",

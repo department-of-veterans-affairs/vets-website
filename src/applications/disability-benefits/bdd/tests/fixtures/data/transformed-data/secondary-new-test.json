@@ -42,32 +42,7 @@
         "treatedDisabilityNames": ["knee replacement"]
       }
     ],
-    "ratedDisabilities": [
-      {
-        "name": "Diabetes mellitus0",
-        "ratedDisabilityId": "0",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "NONE"
-      },
-      {
-        "name": "Diabetes mellitus1",
-        "ratedDisabilityId": "1",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "NONE"
-      },
-      {
-        "name": "De-selected",
-        "ratedDisabilityId": "2",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "NONE"
-      },
-      {
-        "name": "Not selected",
-        "ratedDisabilityId": "3",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "NONE"
-      }
-    ],
+    "ratedDisabilities": [],
     "serviceInformation": {
       "reservesNationalGuardService": {
         "title10Activation": {
@@ -94,6 +69,12 @@
     },
     "servedInCombatZonePost911": true,
     "newPrimaryDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "test data.",
+        "condition": "Diabetes Mellitus",
+        "classificationCode": "2080"
+      },
       {
         "cause": "NEW",
         "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",

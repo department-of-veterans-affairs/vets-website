@@ -19,30 +19,8 @@
     "view:contactInfoDescription": {},
     "view:hasEvidence": false,
     "view:powStatus": false,
-    "view:newDisabilities": false,
-    "ratedDisabilities": [
-      {
-        "name": "Diabetes mellitus0",
-        "ratedDisabilityId": "0",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE",
-        "view:selected": true
-      },
-      {
-        "name": "Diabetes mellitus1",
-        "ratedDisabilityId": "1",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "NONE"
-      }
-    ],
+    "view:newDisabilities": true,
+    "ratedDisabilities": [],
     "view:disabilitiesClarification": {},
     "serviceInformation": {
       "reservesNationalGuardService": {
@@ -66,6 +44,14 @@
       "separationLocation": "Fort Hood"
     },
     "servedInCombatZonePost911": false,
+    "newDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "condition": "asthma",
+        "view:descriptionInfo": {}
+      }
+    ],
     "view:selectablePtsdTypes": {},
     "view:ptsdTypeHelp": {},
     "view:upload781ChoiceHelp": {},

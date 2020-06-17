@@ -43,8 +43,6 @@
           "state": "AK"
         },
         "treatedDisabilityNames": [
-          "Diabetes mellitus0",
-          "Diabetes mellitus1",
           "myocardial infarction (MI)"
         ]
       },
@@ -62,32 +60,7 @@
       { "from": "2016-01-01", "to": "2017-01-01" },
       { "from": "2017-01-06", "to": "2017-04-01" }
     ],
-    "ratedDisabilities": [
-      {
-        "name": "Diabetes mellitus0",
-        "ratedDisabilityId": "0",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "INCREASE"
-      },
-      {
-        "name": "Diabetes mellitus1",
-        "ratedDisabilityId": "1",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "INCREASE"
-      },
-      {
-        "name": "De-selected",
-        "ratedDisabilityId": "2",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "NONE"
-      },
-      {
-        "name": "Not selected",
-        "ratedDisabilityId": "3",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "NONE"
-      }
-    ],
+    "ratedDisabilities": [],
     "serviceInformation": {
       "reservesNationalGuardService": {
         "title10Activation": {
@@ -139,7 +112,7 @@
       },
       {
         "cause": "NEW",
-        "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",
+        "primaryDescription": "Secondary to Asthma\nAgain, this doesn't really make sense.",
         "condition": "phlebitis",
         "classificationCode": "5300"
       }

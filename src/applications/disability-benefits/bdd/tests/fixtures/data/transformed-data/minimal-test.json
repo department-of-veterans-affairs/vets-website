@@ -13,20 +13,7 @@
       "state": "AK",
       "zipCode": "12345"
     },
-    "ratedDisabilities": [
-      {
-        "name": "Diabetes mellitus0",
-        "ratedDisabilityId": "0",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "INCREASE"
-      },
-      {
-        "name": "Diabetes mellitus1",
-        "ratedDisabilityId": "1",
-        "diagnosticCode": 5238,
-        "disabilityActionType": "NONE"
-      }
-    ],
+    "ratedDisabilities": [],
     "serviceInformation": {
       "reservesNationalGuardService": {
         "obligationTermOfServiceDateRange": {
@@ -44,6 +31,14 @@
       "separationLocation": "Fort Hood"
     },
     "servedInCombatZonePost911": false,
+    "newPrimaryDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "condition": "asthma",
+        "classificationCode": "540"
+      }
+    ],
     "standardClaim": false
   }
 }
