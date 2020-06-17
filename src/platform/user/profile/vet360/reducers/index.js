@@ -231,7 +231,7 @@ export default function vet360(state = initialState, action) {
           return true;
         }
 
-        if (key.startsWith('view')) {
+        if (key.startsWith('view:')) {
           return true;
         }
 
