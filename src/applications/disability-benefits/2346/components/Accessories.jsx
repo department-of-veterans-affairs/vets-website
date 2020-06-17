@@ -70,7 +70,8 @@ class Accessories extends Component {
         )}
         {!haveAccessoriesBeenOrderedInLastFiveMonths &&
           haveAccessoriesBeenOrderedInLastTwoYears &&
-          !areAccessorySuppliesEligible && (
+          !areAccessorySuppliesEligible &&
+          accessorySupplies.length === 0 && (
             <>
               <AlertBox
                 headline="You can't add accessories to your order at this time"

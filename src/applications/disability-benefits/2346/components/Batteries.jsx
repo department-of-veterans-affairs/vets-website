@@ -67,7 +67,8 @@ class Batteries extends Component {
           </h3>
         )}
         {haveBatteriesBeenOrderedInLastFiveMonths &&
-          !areBatterySuppliesEligible && (
+          !areBatterySuppliesEligible &&
+          batterySupplies.length === 0 && (
             <>
               <AlertBox
                 headline="You can't add batteries to your order at this time"
