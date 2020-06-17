@@ -281,6 +281,8 @@
     "leaflet-control-geocoder": "^1.13.0",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.15",
+    "markdown-it": "^11.0.0",
+    "markdown-it-link-attributes": "^3.0.0",
     "metalsmith": "^2.1.0",
     "metalsmith-collections": "^0.9.0",
     "metalsmith-filenames": "^1.0.0",

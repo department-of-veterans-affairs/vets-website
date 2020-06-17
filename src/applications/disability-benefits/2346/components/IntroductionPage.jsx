@@ -110,15 +110,15 @@ class IntroductionPage extends Component {
                 <li className="process-step list-three">
                   <h3 className="vads-u-font-size--h4">Track your order </h3>
                   <p>
-                    You will receive an email with an order tracking number 1-2
-                    days after your order is submitted.
+                    You’ll receive an email with an order tracking number 1 to 2
+                    days after you submit your order.
                   </p>
                 </li>
                 <li className="process-step list-four">
                   <h3 className="vads-u-font-size--h4">Receive your order</h3>
                   <p>
-                    You should receive your order within the timeframe indicated
-                    by the order tracking number.
+                    You should receive your order within the time frame shown on
+                    your order tracking number.
                   </p>
                   <p className="vads-u-font-weight--bold">
                     What if I have questions about my order?

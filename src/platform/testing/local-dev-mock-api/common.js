@@ -57,7 +57,6 @@ const responses = {
         { name: 'dashboardShowCovid19Alert', value: true },
         { name: 'facilityLocatorShowCommunityCares', value: true },
         { name: 'profile_show_profile_2.0', value: false },
-        { name: 'profileShowReceiveTextNotifications', value: true },
         { name: 'vaOnlineScheduling', value: true },
         { name: 'vaOnlineSchedulingCancel', value: true },
         { name: 'vaOnlineSchedulingRequests', value: true },

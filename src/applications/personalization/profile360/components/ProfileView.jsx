@@ -28,7 +28,6 @@ import {
   directDepositIsSetUp,
   directDepositAddressIsSetUp,
   directDepositIsBlocked as directDepositIsBlockedSelector,
-  profileShowReceiveTextNotifications,
 } from 'applications/personalization/profile360/selectors';
 
 const ProfileTOC = ({ militaryInformation, showDirectDepositLink }) => (
@@ -126,9 +125,7 @@ class ProfileView extends React.Component {
                 showDirectDepositLink={showDirectDepositLink}
               />
               <div id="contact-information" />
-              <ContactInformation
-                showReceiveTextNotifications={showReceiveTextNotifications}
-              />
+              <ContactInformation />
               <>
                 <div id="direct-deposit" />
                 <PaymentInformation />
@@ -206,7 +203,6 @@ function mapStateToProps(state) {
     showDirectDepositLink:
       !directDepositIsBlocked &&
       (directDepositIsSetUp(state) || directDepositAddressIsSetUp(state)),
-    showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
   };
 }
 
