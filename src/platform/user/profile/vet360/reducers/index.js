@@ -224,16 +224,19 @@ export default function vet360(state = initialState, action) {
       const initialFormFieldValues = state.initialFormFields[modalName]?.value;
       let formFieldValues = formFields[modalName]?.value;
 
-      formFieldValues = pickBy(formFieldValues, value => value !== undefined);
-
       // Initial form fields does not have 'view' properties, those get added to formFields
       // After editing a field. So we need to strip of those 'view' fields to be able to compare
-      // eslint-disable-next-line no-restricted-syntax
-      for (const key in formFieldValues) {
-        if (key.startsWith('view')) {
-          delete formFieldValues[key];
+      formFieldValues = pickBy(formFieldValues, (value, key) => {
+        if (value !== undefined) {
+          return true;
         }
-      }
+
+        if (key.startsWith('view')) {
+          return true;
+        }
+
+        return false;
+      });
 
       const hasUnsavedEdits =
         !isEmpty(state.initialFormFields) &&
