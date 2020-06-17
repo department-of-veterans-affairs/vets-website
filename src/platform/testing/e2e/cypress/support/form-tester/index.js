@@ -146,7 +146,17 @@ const processPage = () => {
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
       performPageActions(pathname, false);
-      cy.findByLabelText(/accept/i).click();
+
+      // Check the privacy agreement box if it exists.
+      cy.get(APP_SELECTOR, COMMAND_OPTIONS).then($form => {
+        const privacyAgreement = $form.find('input[name^="privacyAgreement"]');
+        if (privacyAgreement.length) {
+          cy.wrap(privacyAgreement)
+            .first()
+            .click();
+        }
+      });
+
       cy.findByText(/submit/i, { selector: 'button' }).click();
 
       // The form should end up at the confirmation page after submitting.
