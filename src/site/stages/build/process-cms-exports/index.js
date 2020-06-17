@@ -10,6 +10,42 @@ const {
   validateTransformedEntity,
 } = require('./schema-validation');
 
+/**
+ * @param {Object} entity - The current entity
+ * @param {Object[]} ancestors - A list of all ancestors like
+ * {
+ *   id: '<baseType>.<uuid>',
+ *   entity: { ... } // The whole entity
+ * }
+ * @return {Object} If the current entity is a circular reference, return the original
+ * @return {false} If the current entity is not a circular reference, return false
+ */
+const findCircularReference = (entity, ancestors) => {
+  const ancestorIds = ancestors.map(a => a.id);
+  const a = ancestors.find(r => r.id === toId(entity));
+  if (a) {
+    /* eslint-disable no-console */
+    // This logging is to help debug if AJV fails on an unexpected circular
+    // reference
+    console.log(`I'm my own grandpa! (${toId(entity)})`);
+    console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
+    /* eslint-enable no-console */
+
+    // NOTE: If we find a circular reference, it needs to be addressed in the
+    // transformer and accounted for in the transformed schema.
+    //
+    // If it isn't handled in the transformer, the post-transformation
+    // validation will fail because of a circular reference (AJV will throw
+    // up).
+    //
+    // If the modified child isn't accounted for in the transformed schema, it
+    // won't be valid (assuming we've omited a normally-required property to
+    // avoid the circular reference).
+    return a;
+  }
+  return false;
+};
+
 const entityAssemblerFactory = contentDir => {
   /**
    * Takes an entity type and uuid, reads the corresponding file,
@@ -32,28 +68,8 @@ const entityAssemblerFactory = contentDir => {
    */
   const assembleEntityTree = (entity, ancestors = [], parentFieldName = '') => {
     // Handle circular references
-    const ancestorIds = ancestors.map(a => a.id);
-    const a = ancestors.find(r => r.id === toId(entity));
-    if (a) {
-      /* eslint-disable no-console */
-      // This logging is to help debug if AJV fails on an unexpected circular
-      // reference
-      console.log(`I'm my own grandpa! (${toId(entity)})`);
-      console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
-      /* eslint-enable no-console */
-
-      // NOTE: If we find a circular reference, it needs to be addressed in the
-      // transformer and accounted for in the transformed schema.
-      //
-      // If it isn't handled in the transformer, the post-transformation
-      // validation will fail because of a circular reference (AJV will throw
-      // up).
-      //
-      // If the modified child isn't accounted for in the transformed schema, it
-      // won't be valid (assuming we've omited a normally-required property to
-      // avoid the circular reference).
-      return a;
-    }
+    const a = findCircularReference(entity, ancestors);
+    if (a) return a;
 
     // Pre-transformation JSON schema validation
     const rawErrors = validateRawEntity(entity);
