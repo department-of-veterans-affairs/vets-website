@@ -18,10 +18,9 @@ export const verifyVaFileNumber = () => async dispatch => {
     // TODO: fire off analytics event when endpoint is wired up.
     //   const errCode = res.errors[0].code;
     //   isServerError(errCode) ? recordEvent({}) : recordEvent({})
-
     recordEvent({
       event: 'disability-file-number-gate-failed',
-      'error-key': response.errors[0].code + '_error_description',
+      'error-key': `${response.errors[0].code}_error_description`,
     });
     dispatch({ type: VERIFY_VA_FILE_NUMBER_FAILED, response });
   } else {
