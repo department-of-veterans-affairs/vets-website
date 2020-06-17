@@ -70,7 +70,7 @@
                         </ul>
                     </section>
 
-                    {% if fieldBannerAlert.0.entity.status != false and fieldBannerAlert.0.entity.fieldSituationUpdates.0.entity %}
+                    {% if fieldBannerAlert %}
                     {% include "src/site/components/situation_updates.drupal.liquid" with fieldBannerAlert %}
                     {% endif %}
 
