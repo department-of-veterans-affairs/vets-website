@@ -63,7 +63,7 @@ class Accessories extends Component {
     }
     return (
       <div className="accessory-page">
-        {areAccessorySuppliesEligible && (
+        {accessorySupplies.length > 0 && (
           <h3 className="vads-u-font-size--h4 vads-u-margin-top--5">
             Select the hearing aid accessories you need
           </h3>

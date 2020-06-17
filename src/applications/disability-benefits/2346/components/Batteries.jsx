@@ -61,7 +61,7 @@ class Batteries extends Component {
 
     return (
       <div className="battery-page">
-        {areBatterySuppliesEligible && (
+        {batterySupplies.length > 0 && (
           <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--2p5">
             Select the hearing aids that need batteries
           </h3>
