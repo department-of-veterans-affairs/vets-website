@@ -5,7 +5,7 @@ import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
 export const otherSourcesDescription = (
   <div>
-    <h3>Other sources of information</h3>
+    <h3 className="vads-u-font-size--h5">Other sources of information</h3>
     <p>
       If you were treated at a military or private facility for this event, or
       reported the event to the authorities or anyone else, we can help you
@@ -29,10 +29,10 @@ export const otherSourcesHelpText = (
       )
     }
   >
-    <h5>
+    <h4 className="vads-u-font-size--h5">
       Choose "Yes" if you’d like help getting private medical treatment records
       or statements from military authorities
-    </h5>
+    </h4>
     <p>
       We can request statements or reports you made to military or civilian
       authorities about the event. We’ll need their name and contact information
@@ -43,9 +43,9 @@ export const otherSourcesHelpText = (
       private health care providers and counselors. You’ll have a chance to do
       this later in the application.
     </p>
-    <h5>
+    <h4 className="vads-u-font-size--h5">
       Choose "No" if you don’t need help getting this evidence for your claim
-    </h5>
+    </h4>
     <p>You’ll have a chance to upload them later in the application.</p>
   </AdditionalInfo>
 );

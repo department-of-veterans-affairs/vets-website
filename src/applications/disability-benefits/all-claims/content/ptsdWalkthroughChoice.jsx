@@ -27,13 +27,13 @@ export const PtsdUploadChoiceDescription = ({ formType }) => {
         recordEventOnce(ptsdWalkthroughEvent, HELP_TEXT_CLICKED_EVENT)
       }
     >
-      <h5>Answer questions</h5>
+      <h3 className="vads-u-font-size--h5">Answer questions</h3>
       <p>
         If you choose this option, we’ll ask you several questions about the
         events related to your PTSD. If you have evidence or documents to
         include, you’ll be able to upload them later in the application.
       </p>
-      <h5>Upload your completed form</h5>
+      <h3 className="vads-u-font-size--h5">Upload your completed form</h3>
       <p>
         If you choose to upload a completed VA Form {`21-0${formType}`}, you’ll
         move to the next section of the disability application.
