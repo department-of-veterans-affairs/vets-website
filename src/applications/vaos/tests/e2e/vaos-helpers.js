@@ -86,7 +86,9 @@ function newAppointmentTest(client, nextElement = '.rjsf [type="submit"]') {
 
 function appointmentDateTimeTest(client, nextElement) {
   client
+    .pause(Timeouts.normal)
     .click('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
+    .waitForElementVisible('.vaos-calendar__option-cell', Timeouts.normal)
     .click(
       '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     )
@@ -122,9 +124,7 @@ function howToBeSeenTest(client, nextElement) {
 
 function contactInformationTest(client, nextElement) {
   client
-    .fill('input#root_phoneNumber', '5035551234')
     .click('input#root_bestTimeToCall_morning')
-    .fill('input#root_email', 'mail@gmail.com')
     .axeCheck('.main')
     .click('.rjsf [type="submit"]')
     .waitForElementPresent(nextElement, Timeouts.normal);
