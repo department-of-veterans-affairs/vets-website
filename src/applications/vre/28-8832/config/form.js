@@ -3,13 +3,7 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-const formFields = {
-  firstName: 'firstName',
-};
+import { veteranInformation } from './chapters/veteran-information';
 
 const formConfig = {
   urlPrefix: '/',
@@ -34,20 +28,8 @@ const formConfig = {
         page1: {
           path: 'first-name',
           title: 'Personal Information - Page 1',
-          uiSchema: {
-            [formFields.firstName]: {
-              'ui:title': 'First Name',
-            },
-          },
-          schema: {
-            required: [formFields.firstName],
-            type: 'object',
-            properties: {
-              [formFields.firstName]: {
-                type: 'string',
-              },
-            },
-          },
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
         },
       },
     },

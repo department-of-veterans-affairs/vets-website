@@ -11,9 +11,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp.jsx';
 
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
 import {
@@ -71,7 +68,6 @@ const formConfig = {
   version: migrations.length,
   migrations,
   prefillEnabled: true,
-  prefillTransformer,
   verifyRequiredPrefill: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for declare or remove a dependent.',
