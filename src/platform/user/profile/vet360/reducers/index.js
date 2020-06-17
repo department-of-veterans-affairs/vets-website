@@ -226,17 +226,11 @@ export default function vet360(state = initialState, action) {
 
       // Initial form fields does not have 'view' properties, those get added to formFields
       // After editing a field. So we need to strip of those 'view' fields to be able to compare
-      formFieldValues = pickBy(formFieldValues, (value, key) => {
-        if (value !== undefined) {
-          return true;
-        }
-
-        if (key.startsWith('view:')) {
-          return true;
-        }
-
-        return false;
-      });
+      formFieldValues = pickBy(formFieldValues, value => value !== undefined);
+      formFieldValues = pickBy(
+        formFieldValues,
+        (value, key) => !key.startsWith('view:'),
+      );
 
       const hasUnsavedEdits =
         !isEmpty(state.initialFormFields) &&
@@ -255,6 +249,7 @@ export default function vet360(state = initialState, action) {
         ...state,
         modal: action.modal,
         modalData: action.modalData,
+        hasUnsavedEdits: false,
       };
 
     case ADDRESS_VALIDATION_INITIALIZE:
