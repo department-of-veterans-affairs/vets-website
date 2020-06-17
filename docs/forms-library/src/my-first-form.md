@@ -48,8 +48,21 @@ yo @department-of-veterans-affairs/vets-website
 
 This will take you through a few questions as follows - 
 
-|  Question | Answer type | Sample Answer | Notes |
-|-----------|-------------|---------------|-------|
-| What's the name of your application? | String | 'My Form' | This is used as the 'appName' and can be changed at any time |
-| What folder in `src/applications/` should your app live in? | String | 'new-form' | This is the folder inside `src/applications` you want your form to live in. This can be an existing folder if needed, just put the name of the existing folder if it is.
-| What should be the name of your app's entry bundle? | String | 'newForm' | This is used as the name of the entry file by React when it builds your form's HTML, CSS and JavaScript. It can be changed later if needed. |
+|  Question | Sample Answer | Notes |
+|-----------|---------------|-------|
+| What's the name of your application? | 'My Form' | This is used as the 'appName' and can be changed at any time |
+| What folder in `src/applications/` should your app live in? | 'new-form' | This is the folder inside `src/applications` you want your form to live in. This can be an existing folder if needed, just put the name of the existing folder if it is.
+| What should be the name of your app's entry bundle? | 'newForm' | This is used as the name of the entry file by React when it builds your form's HTML, CSS and JavaScript. It can be changed later if needed. |
+| What's the root url for this app? | '/new-form' | This is the URl you will use to access your form |
+| Is this a form app? | Y | This is if the app we are building is a form app or not |
+| What's your form number? | '21-230' | Each for at the VA has a form number accosiated with it, this is where that form number goes for the digital version |
+| What's the Google Analytics event prefix you want to use? | 'my-form' | Our forms come out of the box with a standard set of Google Analytics events, this is the prefox you want for your events to be tracked in Google Analytics based on. This can be changed later |
+| What's the respondent burden of this form in minutes? | 30 | Each form at the VA has a respondent burden, the time it takes to fill out the paper form, accosiated with it. This will be displayed on the introduction page to your form |
+| What's the OMB control number for this form? | 112233 | The Paperwork Reduction Act mandates that all federal government agencies receive approval from OMB, this is the number that the OMB assigned to the form. You can change this later if you need to |
+| What's the OMB expiration date (in M/D/YYYY format) for this form? | 5/31/2018 | This is when the OMB contol number expires and the paper version of your form would need to be reviewed. You can change this later if you need to |
+| What's the benefit description for this form? | 'new form benefits' | This is a short description of what benefit the form you are working on is for. This doesn't show up anywhere on the front end and can be changed later if you need to |
+| Which form template would you like to start with? | BLANK: A form without any fields | Our form generator can create three different types of forms with three different levels of complexity. This is how complex your form will be and what the generator should generate for you |
+
+
+
+
