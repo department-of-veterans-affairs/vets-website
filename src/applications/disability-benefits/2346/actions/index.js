@@ -56,7 +56,10 @@ export const fetchFormStatus = () => async dispatch => {
       }
       const eligibility = body.formData.eligibility;
 
-      if (eligibility && !eligibility.accessories && !eligibility.batteries) {
+      if (
+        !eligibility ||
+        (eligibility && !eligibility.accessories && !eligibility.batteries)
+      ) {
         const sortedSuppliesByAvailability = sortBy(
           body.formData.supplies,
           'nextAvailabilityDate',
