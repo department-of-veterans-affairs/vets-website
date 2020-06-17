@@ -47,12 +47,6 @@
     </div>
     <h3>Appointments</h3>
 
-    {% if about.fieldFacilityDescription %}
-    <p>
-        {{ about.fieldFacilityDescription }}
-    </p>
-    {% endif %}
-
     {% if about.fieldReferralRequired %}<p class="vads-u-margin-bottom--0">
         <strong>Referral required?
         </strong>{% if about.fieldReferralRequired == 'yes' %}Yes{% else %}No{% endif %}

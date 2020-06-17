@@ -50,7 +50,6 @@ module.exports = `
       endhours
       comment
     }
-    fieldFacilityDescription
     fieldOnlineSchedulingAvailabl
     fieldOperatingStatus
     fieldOperatingStatusInfo
