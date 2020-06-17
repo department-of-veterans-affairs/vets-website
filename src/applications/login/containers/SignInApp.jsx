@@ -3,22 +3,14 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
-import recordEvent from 'platform/monitoring/record-event';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import { login, signup } from 'platform/user/authentication/utilities';
 import environment from 'platform/utilities/environment';
 
+import SignInButtons from '../components/SignInButtons';
+import SignInDescription from '../components/SignInDescription';
+import FedWarning from '../components/FedWarning';
 import LogoutAlert from '../components/LogoutAlert';
 import downtimeBanners from '../utilities/downtimeBanners';
-
-function loginHandler(loginType, application = null, redirect = null) {
-  recordEvent({ event: `login-attempted-${loginType}` });
-  login(loginType, 'v1', application, redirect);
-}
-
-function signupHandler(application = null, redirect = null) {
-  signup('v1', application, redirect);
-}
 
 const vaGovFullDomain = environment.BASE_URL;
 
@@ -35,7 +27,8 @@ class SignInPage extends React.Component {
   };
 
   downtimeBanner = (
-    { dependencies, headline, status, message, globalDowntime },
+    { dependencies, headline, status, message },
+    globalDowntime,
     index,
   ) => (
     <ExternalServicesError
@@ -83,7 +76,7 @@ class SignInPage extends React.Component {
             </div>
           </div>
           {downtimeBanners.map((props, index) =>
-            this.downtimeBanner(props, index),
+            this.downtimeBanner(props, globalDowntime, index),
           )}
           <div className="row">
             <div className="usa-width-one-half">
@@ -103,102 +96,15 @@ class SignInPage extends React.Component {
                 </div>
                 <div className="signin-actions">
                   <h5>Sign in with an existing account</h5>
-                  <div>
-                    <button
-                      disabled={globalDowntime}
-                      className="dslogon"
-                      onClick={() =>
-                        loginHandler('dslogon', application, redirect)
-                      }
-                    >
-                      <img
-                        alt="DS Logon"
-                        src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
-                      />
-                      <strong> Sign in with DS Logon</strong>
-                    </button>
-                    <button
-                      disabled={globalDowntime}
-                      className="mhv"
-                      onClick={() => loginHandler('mhv', application, redirect)}
-                    >
-                      <img
-                        alt="My HealtheVet"
-                        src={`${vaGovFullDomain}/img/signin/mhv-icon.svg`}
-                      />
-                      <strong> Sign in with My HealtheVet</strong>
-                    </button>
-                    <button
-                      disabled={globalDowntime}
-                      className="usa-button-primary va-button-primary"
-                      onClick={() =>
-                        loginHandler('idme', application, redirect)
-                      }
-                    >
-                      <img
-                        alt="ID.me"
-                        src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
-                      />
-                      <strong> Sign in with ID.me</strong>
-                    </button>
-                    <span className="sidelines">OR</span>
-                    <div className="alternate-signin">
-                      <h5>Don't have those accounts?</h5>
-                      <button
-                        disabled={globalDowntime}
-                        className="idme-create usa-button usa-button-secondary"
-                        onClick={() => signupHandler(application, redirect)}
-                      >
-                        <img
-                          alt="ID.me"
-                          src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
-                        />
-                        <strong> Create an ID.me account</strong>
-                      </button>
-                      <p>Use your email, Google, or Facebook</p>
-                    </div>
-                  </div>
+                  <SignInButtons
+                    isDisabled={globalDowntime}
+                    application={application}
+                    redirect={redirect}
+                  />
                 </div>
               </div>
             </div>
-            <div className="usa-width-one-half">
-              <div className="explanation-content vads-u-padding-left--2p5">
-                <div className="vads-u-display--none medium-screen:vads-u-display--block usa-font-lead">
-                  One sign in. A lifetime of benefits and services at your
-                  fingertips.
-                </div>
-                <ul>
-                  <li>Check your disability claim and appeal status</li>
-                  <li>
-                    Find out how much money you have left to pay for school or
-                    training
-                  </li>
-                  <li>
-                    Refill your prescriptions and communicate with your health
-                    care team
-                  </li>
-                  <li>...and more</li>
-                </ul>
-                <p>
-                  Use your existing DS Logon, My HealtheVet, or ID.me account to
-                  sign in to access and manage your VA benefits and health care.
-                </p>
-                <p>
-                  <strong>A secure account powered by ID.me</strong>
-                  <br />
-                  ID.me is our trusted technology partner in helping to keep
-                  your personal information safe. They specialize in digital
-                  identity protection and help us make sure you're you—and not
-                  someone pretending to be you—before we give you access to your
-                  information.
-                </p>
-                <p>
-                  <a href="/sign-in-faq/#what-is-idme" target="_blank">
-                    Learn more about ID.me
-                  </a>
-                </p>
-              </div>
-            </div>
+            <SignInDescription />
           </div>
           <div className="row">
             <div className="columns small-12">
@@ -214,29 +120,7 @@ class SignInPage extends React.Component {
                 </p>
               </div>
               <hr />
-              <div className="fed-warning">
-                <p>
-                  When you sign in to VA.gov, you’re using a United States
-                  federal government information system.
-                </p>
-                <p>
-                  By signing in, you agree to only use information you have
-                  legal authority to view and use. You also agree to let us
-                  monitor and record your activity on the system and share this
-                  information with auditors or law enforcement officials.
-                </p>
-                <p>
-                  By signing in, you confirm that you understand the following:
-                </p>
-                <p>
-                  Unauthorized use of this system is prohibited and may result
-                  in criminal, civil, or administrative penalties. Unauthorized
-                  use includes gaining unauthorized data access, changing data,
-                  harming the system or its data, or misusing the system. We can
-                  suspend or block your access to this system if we suspect any
-                  unauthorized use.
-                </p>
-              </div>
+              <FedWarning />
             </div>
           </div>
         </div>
