@@ -908,7 +908,7 @@ describe('VAOS newAppointment actions', () => {
             vaFacility: 'var983GC',
             vaParent: 'var983A6',
             typeOfCareId: '323',
-            clinicId: '1234',
+            clinicId: 'var983_1234',
           },
           fetchedAppointmentSlotMonths: [],
           parentFacilities: [
@@ -979,7 +979,7 @@ describe('VAOS newAppointment actions', () => {
             vaFacility: 'var983GC',
             vaParent: 'var983A6',
             typeOfCareId: '323',
-            clinicId: '1234',
+            clinicId: 'var983_1234',
           },
           fetchedAppointmentSlotMonths: [],
           parentFacilities: [

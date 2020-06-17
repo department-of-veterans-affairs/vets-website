@@ -19,7 +19,7 @@ describe('VAOS Slot service', () => {
       data = await getSlots({
         siteId: 'var983',
         typeOfCareId: '323',
-        clinicId: '308',
+        clinicId: 'var983_308',
         startDate: '2020-05-01',
         endDate: '2020-06-30',
       });
@@ -41,7 +41,7 @@ describe('VAOS Slot service', () => {
         data = await getSlots({
           siteId: 'var983',
           typeOfCareId: '323',
-          clinicId: '308',
+          clinicId: 'var983_308',
           startDate: '2020-05-01',
           endDate: '2020-06-30',
         });
