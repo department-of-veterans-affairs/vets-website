@@ -62,24 +62,9 @@ class Batteries extends Component {
     return (
       <div className="battery-page">
         {areBatterySuppliesEligible && (
-          <>
-            <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--2p5">
-              Select the hearing aids that need batteries
-            </h3>
-            <p>
-              We'll send you a 6-month supply of batteries for each device you
-              choose below. You can only order batteries for each device once
-              every 5 months.
-            </p>
-            <p>
-              If you need unavailable batteries sooner, please call the DLC
-              Customer Service Section at{' '}
-              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                303-273-6200
-              </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-            </p>
-          </>
+          <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--2p5">
+            Select the hearing aids that need batteries
+          </h3>
         )}
         {haveBatteriesBeenOrderedInLastFiveMonths &&
           !areBatterySuppliesEligible && (
@@ -166,7 +151,7 @@ class Batteries extends Component {
             <div
               key={batterySupply.productId}
               className={classnames({
-                'vads-u-background-color--gray-lightest vads-u-margin-bottom--2': true,
+                'vads-u-background-color--gray-lightest vads-u-margin-bottom--2 vads-u-margin-top--3': true,
                 'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isBatterySelected(
                   batterySupply.productId,
                 ),
