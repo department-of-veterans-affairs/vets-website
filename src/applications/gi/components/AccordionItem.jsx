@@ -22,7 +22,7 @@ class AccordionItem extends React.Component {
     this.state = {
       expanded: props.expanded,
     };
-    this.id = _.uniqueId('accordion-item-');
+    this.id = `${createId(props.button)}-accordion`;
   }
 
   expanded = () => {
@@ -84,16 +84,21 @@ class AccordionItem extends React.Component {
 
   render() {
     const expanded = this.expanded();
-    const { button, section, children } = this.props;
+    const { section, children } = this.props;
 
     const liClassName = section ? 'section-item' : 'accordion-item';
     const contentClassName = section
       ? 'section-content'
       : 'usa-accordion-content';
     return (
-      <li className={liClassName} id={`${createId(button)}-accordion`}>
+      <li className={liClassName} id={this.id}>
         {this.renderHeader()}
-        <div id={this.id} className={contentClassName} aria-hidden={!expanded}>
+        <div
+          id={`${this.id}-content`}
+          className={contentClassName}
+          aria-hidden={!expanded}
+          hidden={!expanded}
+        >
           {expanded ? children : null}
         </div>
       </li>
