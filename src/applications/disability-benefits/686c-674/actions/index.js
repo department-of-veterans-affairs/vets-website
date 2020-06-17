@@ -1,5 +1,4 @@
-// import recordEvent from 'platform/monitoring/record-event';
-// import { isServerError, isClientError } from '../config/utilities';
+import recordEvent from 'platform/monitoring/record-event';
 import { getData, isServerError, isClientError } from '../util';
 
 export const VERIFY_VA_FILE_NUMBER_STARTED = 'VERIFY_VA_FILE_NUMBER_STARTED';
@@ -19,8 +18,16 @@ export const verifyVaFileNumber = () => async dispatch => {
     // TODO: fire off analytics event when endpoint is wired up.
     //   const errCode = res.errors[0].code;
     //   isServerError(errCode) ? recordEvent({}) : recordEvent({})
+
+    recordEvent({
+      event: 'disability-file-number-gate-failed',
+      'error-key': response.errors[0].code + '_error_description',
+    });
     dispatch({ type: VERIFY_VA_FILE_NUMBER_FAILED, response });
   } else {
+    recordEvent({
+      event: 'disability-file-number-gate-successful',
+    });
     dispatch({ type: VERIFY_VA_FILE_NUMBER_SUCCEEDED, response });
   }
 };
