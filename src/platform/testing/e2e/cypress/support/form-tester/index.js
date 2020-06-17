@@ -2,10 +2,10 @@ import { join, sep } from 'path';
 
 import get from 'platform/utilities/data/get';
 
+const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 const FIELD_SELECTOR = 'input, select, textarea';
-const FORM_SELECTOR = 'form.rjsf';
 const LOADING_SELECTOR = '.loading-indicator';
 
 // Suppress logs for most commands, particularly calls to wrap and get
@@ -349,7 +349,7 @@ Cypress.Commands.add('fillPage', () => {
       };
 
       const fillAvailableFields = () => {
-        cy.get(FORM_SELECTOR, COMMAND_OPTIONS)
+        cy.get(APP_SELECTOR, COMMAND_OPTIONS)
           .then($form => {
             // Get the starting number of array items and fields to compare
             // after filling out all currently visible fields, as new fields
