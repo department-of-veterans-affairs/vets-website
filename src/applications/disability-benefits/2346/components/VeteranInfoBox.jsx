@@ -58,6 +58,16 @@ VeteranInfoBox.propTypes = {
   ssnLastFour: PropTypes.string.isRequired,
 };
 
+VeteranInfoBox.defaultProps = {
+  first: '',
+  last: '',
+  middle: '',
+  suffix: '',
+  gender: '',
+  dateOfBirth: '',
+  ssnLastFour: '',
+};
+
 const mapStateToProps = state => ({
   first: state.form?.data?.fullName?.first,
   middle: state.form?.data?.fullName?.middle,
