@@ -11,13 +11,16 @@ const {
 } = require('./schema-validation');
 
 /**
+ * An ancestor for an entity.
+ * @typedef {Object} Ancestor
+ * @property {string} id - The toId()'d string for the ancestor
+ * @property {Object} entity - The actual ancestor entity
+ */
+
+/**
  * @param {Object} entity - The current entity
- * @param {Object[]} ancestors - A list of all ancestors like
- * {
- *   id: '<baseType>.<uuid>',
- *   entity: { ... } // The whole entity
- * }
- * @return {Object} If the current entity is a circular reference, return the original
+ * @param {Ancestor[]} ancestors - A list of all ancestors
+ * @return {Object|bool} If the current entity is a circular reference, return the original
  * @return {false} If the current entity is not a circular reference, return false
  */
 const findCircularReference = (entity, ancestors) => {
@@ -109,6 +112,39 @@ const validateOutput = (entity, transformedEntity) => {
 
 const entityAssemblerFactory = contentDir => {
   /**
+   * @param {Object} entity - The entity with entity references
+   * @param {Ancestor[]} ancestors - A list of all ancestors
+   * @param {function} assembleTree - The assembleEntityTree closure; defined as
+   *                                  a parameter here because eslint didn't
+   *                                  like using it before it was defined
+   * @return {Object} The entity with the references filled in
+   */
+  const expandEntityReferences = (entity, ancestors, assembleTree) => {
+    const filteredEntity = getFilteredEntity(entity);
+
+    // Recursively expand entity references
+    for (const [key, prop] of Object.entries(filteredEntity)) {
+      // Properties with target_uuids are always arrays from tome-sync
+      if (Array.isArray(prop)) {
+        prop.forEach((item, index) => {
+          const { target_uuid: targetUuid, target_type: targetType } = item;
+
+          // We found a reference! Override it with the expanded entity.
+          if (targetUuid && targetType) {
+            filteredEntity[key][index] = assembleTree(
+              readEntity(contentDir, targetType, targetUuid),
+              ancestors.concat([{ id: toId(entity), entity }]),
+              key,
+            );
+          }
+        });
+      }
+    }
+
+    return filteredEntity;
+  };
+
+  /**
    * Takes an entity type and uuid, reads the corresponding file,
    * searches for references to other entities, and replaces the
    * references with the contents of those entities recursively.
@@ -136,33 +172,21 @@ const entityAssemblerFactory = contentDir => {
 
     const filteredEntity = getFilteredEntity(entity);
 
-    // Recursively expand entity references
-    for (const [key, prop] of Object.entries(filteredEntity)) {
-      // Properties with target_uuids are always arrays from tome-sync
-      if (Array.isArray(prop)) {
-        prop.forEach((item, index) => {
-          const { target_uuid: targetUuid, target_type: targetType } = item;
-
-          // We found a reference! Override it with the expanded entity.
-          if (targetUuid && targetType) {
-            filteredEntity[key][index] = assembleEntityTree(
-              readEntity(contentDir, targetType, targetUuid),
-              ancestors.concat([{ id: toId(entity), entity }]),
-              key,
-            );
-          }
-        });
-      }
-    }
+    const expandedEntity = expandEntityReferences(
+      filteredEntity,
+      ancestors,
+      assembleEntityTree,
+    );
 
     // Post-transformation JSON schema validation
-    const transformedEntity = transformEntity(filteredEntity, {
+    const transformedEntity = transformEntity(expandedEntity, {
       uuid: entity.uuid[0].value,
       ancestors,
       parentFieldName,
       contentDir,
       assembleEntityTree,
     });
+
     validateOutput(entity, transformedEntity);
 
     return transformedEntity;
