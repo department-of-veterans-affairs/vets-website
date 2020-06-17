@@ -64,6 +64,7 @@ class RoutedSavableReviewPage extends React.Component {
     const { route, user, form, location, showLoginModal } = this.props;
     const errorText = route.formConfig.errorText;
     const savedStatus = form.savedStatus;
+    const CustomSubmissionError = route.formConfig?.submissionError;
 
     const saveLink = (
       <SaveFormLink
@@ -82,38 +83,47 @@ class RoutedSavableReviewPage extends React.Component {
       return saveLink;
     }
 
-    let InlineErrorComponent;
-    if (typeof errorText === 'function') {
-      InlineErrorComponent = errorText;
-    } else if (typeof errorText === 'string') {
-      InlineErrorComponent = () => <p>{errorText}</p>;
-    } else {
-      InlineErrorComponent = () => (
-        <p>
-          If it still doesn’t work, please <CallHRC />
-        </p>
+    const DefaultErrorMessage = () => {
+      let InlineErrorComponent;
+      if (typeof errorText === 'function') {
+        InlineErrorComponent = errorText;
+      } else if (typeof errorText === 'string') {
+        InlineErrorComponent = () => <p>{errorText}</p>;
+      } else {
+        InlineErrorComponent = () => (
+          <p>
+            If it still doesn’t work, please <CallHRC />
+          </p>
+        );
+      }
+
+      return (
+        <div className="usa-alert usa-alert-error schemaform-failure-alert">
+          <div className="usa-alert-body">
+            <p className="schemaform-warning-header">
+              <strong>We’re sorry. We can't submit your form right now.</strong>
+            </p>
+            <p>
+              We’re working to fix the problem. Please make sure you’re
+              connected to the Internet, and then try saving your form again.{' '}
+              {saveLink}.
+            </p>
+            {!user.login.currentlyLoggedIn && (
+              <p>
+                If you don’t have an account, you’ll have to start over. Try
+                submitting your form again tomorrow.
+              </p>
+            )}
+            <InlineErrorComponent />
+          </div>
+        </div>
       );
-    }
+    };
 
     return (
-      <div className="usa-alert usa-alert-error schemaform-failure-alert">
-        <div className="usa-alert-body">
-          <p className="schemaform-warning-header">
-            <strong>We’re sorry. We can't submit your form right now.</strong>
-          </p>
-          <p>
-            We’re working to fix the problem. Please make sure you’re connected
-            to the Internet, and then try saving your form again. {saveLink}.
-          </p>
-          {!user.login.currentlyLoggedIn && (
-            <p>
-              If you don’t have an account, you’ll have to start over. Try
-              submitting your form again tomorrow.
-            </p>
-          )}
-          <InlineErrorComponent />
-        </div>
-      </div>
+      <CustomSubmissionError location={location} form={form} user={user} /> || (
+        <DefaultErrorMessage />
+      )
     );
   };
 
