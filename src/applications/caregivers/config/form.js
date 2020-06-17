@@ -98,7 +98,6 @@ const formConfig = {
   introduction: IntroductionPage,
   footerContent: NeedHelpFooter,
   preSubmitInfo: PreSubmitInfo,
-  submissionError: customErrorMessage,
   confirmation: ConfirmationPage,
   formId: '10-10CG',
   version: 0,

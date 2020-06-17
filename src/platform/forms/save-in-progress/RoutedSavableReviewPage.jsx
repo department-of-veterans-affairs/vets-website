@@ -120,10 +120,10 @@ class RoutedSavableReviewPage extends React.Component {
       );
     };
 
-    return (
-      <CustomSubmissionError location={location} form={form} user={user} /> || (
-        <DefaultErrorMessage />
-      )
+    return CustomSubmissionError ? (
+      <CustomSubmissionError location={location} form={form} user={user} />
+    ) : (
+      <DefaultErrorMessage />
     );
   };
 
