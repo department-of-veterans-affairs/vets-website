@@ -442,6 +442,20 @@ const schema = {
             },
           },
         },
+        separationLocation: {
+          type: 'object',
+          required: ['separationLocationCode', 'separationLocationName'],
+          properties: {
+            separationLocationCode: {
+              type: 'string',
+            },
+            separationLocationName: {
+              type: 'string',
+              maxLength: 256,
+              pattern: "([a-zA-Z0-9/-'.#,*()&][a-zA-Z0-9/-'.#,*()& ]?)*$",
+            },
+          },
+        },
         reservesNationalGuardService: {
           type: 'object',
           required: ['unitName', 'obligationTermOfServiceDateRange'],
