@@ -346,6 +346,7 @@ Cypress.Commands.add('fillPage', () => {
       const processFieldObject = field => {
         const shouldSkipField =
           !field.key ||
+          field.element.prop('disabled') ||
           touchedFields.has(field.key) ||
           !field.key.startsWith('root_') ||
           Cypress.dom.isDetached(field.element);
