@@ -209,14 +209,11 @@ export default function vet360(state = initialState, action) {
     }
 
     case UPDATE_PROFILE_FORM_FIELD: {
-      let initialFormFields = state.initialFormFields || {};
-
-      const emptyInitialFormState =
-        Object.keys(state.initialFormFields).length === 0;
-
-      if (emptyInitialFormState) {
-        initialFormFields = state.formFields;
-      }
+      // The action gets fired upon initial opening of the edit modal
+      // We only want to capture initialFormFields once, it should not update
+      const initialFormFields = isEmpty(state.initialFormFields)
+        ? state.formFields
+        : state.initialFormFields;
 
       const formFields = {
         ...state.formFields,
@@ -229,6 +226,9 @@ export default function vet360(state = initialState, action) {
 
       formFieldValues = pickBy(formFieldValues, value => value !== undefined);
 
+      // Initial form fields does not have 'view' properties, those get added to formFields
+      // After editing a field. So we need to strip of those 'view' fields to be able to compare
+      // eslint-disable-next-line no-restricted-syntax
       for (const key in formFieldValues) {
         if (key.startsWith('view')) {
           delete formFieldValues[key];
@@ -236,7 +236,7 @@ export default function vet360(state = initialState, action) {
       }
 
       const hasUnsavedEdits =
-        !emptyInitialFormState &&
+        !isEmpty(state.initialFormFields) &&
         !isEqual(formFieldValues, initialFormFieldValues);
 
       return {
