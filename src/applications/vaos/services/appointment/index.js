@@ -1,6 +1,9 @@
 import moment from 'moment';
-import { getConfirmedAppointments } from '../../api';
-import { transformConfirmedAppointments } from './transformers';
+import { getConfirmedAppointments, getPendingAppointments } from '../../api';
+import {
+  transformConfirmedAppointments,
+  transformPendingAppointments,
+} from './transformers';
 import { mapToFHIRErrors } from '../../utils/fhir';
 import { APPOINTMENT_TYPES } from '../../utils/constants';
 
@@ -10,7 +13,7 @@ import { APPOINTMENT_TYPES } from '../../utils/constants';
  * @export
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @returns {Object} A FHIR searchset of Appointment resources
+ * @returns {Object} A FHIR searchset of booked Appointment resources
  */
 export async function getBookedAppointments({ startDate, endDate }) {
   try {
@@ -27,6 +30,28 @@ export async function getBookedAppointments({ startDate, endDate }) {
       ...appointments[0],
       ...appointments[1],
     ]);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
+/**
+ * Fetch the logged in user's pending appointments that fall between a startDate and endDate
+ *
+ * @export
+ * @param {String} startDate Date in YYYY-MM-DD format
+ * @param {String} endDate Date in YYYY-MM-DD format
+ * @returns {Object} A FHIR searchset of pending Appointment resources
+ */
+export async function getAppointmentRequests({ startDate, endDate }) {
+  try {
+    const appointments = await getPendingAppointments(startDate, endDate);
+
+    return transformPendingAppointments(appointments);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
