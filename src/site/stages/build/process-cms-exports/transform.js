@@ -41,7 +41,7 @@ function getEntityTransformer(entityType, verbose = true) {
  * @param {Object} rest - Contains the lesser-used arguments for the
  *                        transformers.
  * @property {string} rest.uuid - The UUID of the current entity
- * @property {Array<Object>} rest.ancestors - All the current entity's
+ * @property {Object[]} rest.ancestors - All the current entity's
  *                        ancestors. ancestors[1] is the child of
  *                        ancestors[0], etc.
  *                        ancestors[ancestors.length - 1] is the

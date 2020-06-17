@@ -21,7 +21,7 @@ const {
  * @param {Object} entity - The current entity
  * @param {Ancestor[]} ancestors - A list of all ancestors
  * @return {Object|bool} If the current entity is a circular reference, return the original
- * @return {false} If the current entity is not a circular reference, return false
+ * If the current entity is not a circular reference, return false
  */
 const findCircularReference = (entity, ancestors) => {
   const ancestorIds = ancestors.map(a => a.id);
