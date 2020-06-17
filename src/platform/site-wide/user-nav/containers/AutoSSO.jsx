@@ -20,7 +20,7 @@ function AutoSSO(props) {
 
   if (userLoggedIn) {
     removeForceAuth();
-  } else if (!useInboundSSOe) {
+  } else if (useInboundSSOe === false) {
     // if inbound ssoe is disabled, always force the user to re enter their
     // credentials when they attempt to authenticate
     setForceAuth();

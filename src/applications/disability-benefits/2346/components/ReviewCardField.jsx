@@ -47,8 +47,6 @@ class ReviewCardField extends React.Component {
 
   constructor(props) {
     super(props);
-    this.editTitle = React.createRef();
-
     // Throw an error if there’s no viewComponent (should be React component)
     if (
       typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function'
@@ -106,14 +104,14 @@ class ReviewCardField extends React.Component {
       this.state.editing &&
       this.props.name === 'permanentAddress'
     ) {
-      focusElement('#permanentAddress-editTitle');
+      focusElement('#permanentAddress.review-card--edit-title');
       this.resetAddressFocus();
     } else if (
       this.state.tempAddressShouldBeFocused &&
       this.state.editing &&
       this.props.name === 'temporaryAddress'
     ) {
-      focusElement('#temporaryAddress-editTitle');
+      focusElement('#temporaryAddress.review-card--edit-title');
       this.resetAddressFocus();
     }
   }
@@ -203,7 +201,7 @@ class ReviewCardField extends React.Component {
     const title = editTitle || this.getTitle();
     const subtitle = this.getSubtitle();
     const titleClasses = [
-      'review-card--title',
+      'review-card--edit-title',
       'vads-u-margin-top--1',
       'vads-u-margin-bottom--2p5',
       'vads-u-margin-x--0',
@@ -255,7 +253,7 @@ class ReviewCardField extends React.Component {
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
-          <h4 className={titleClasses} id={`${this.props.name}-editTitle`}>
+          <h4 className={titleClasses} id={this.props.name}>
             Edit {title.toLowerCase()}
           </h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
@@ -319,8 +317,6 @@ class ReviewCardField extends React.Component {
       'vads-u-display--flex',
       'vads-u-justify-content--space-between',
       'vads-u-align-items--center',
-      'vads-u-padding-top--3',
-      'vads-u-padding-x--3',
       'vads-u-padding-bottom--2',
     ].join(' ');
     const titleClasses = [
@@ -332,10 +328,6 @@ class ReviewCardField extends React.Component {
       'review-card--body',
       'vads-u-border-color--gray-lightest',
       'vads-u-border--2px',
-      /* Remove the top border because it looks like it just extends the header */
-      'vads-u-padding-x--3',
-      'vads-u-margin-bottom--1',
-      'vads-u-padding-bottom--3',
     ].join(' ');
     const editLink = [
       'vads-c-link',
@@ -368,20 +360,37 @@ class ReviewCardField extends React.Component {
             this.props.name === this.props['view:currentAddress'],
         })}
       >
-        <div className={headerClasses} style={{ minHeight: '5rem' }}>
+        <div
+          className={classnames({
+            [`${headerClasses}`]: true,
+            'vads-u-padding-top--21 vads-u-padding-x--21':
+              this.props.name === this.props['view:currentAddress'],
+            'vads-u-padding-top--3 vads-u-padding-x--3':
+              this.props.name !== this.props['view:currentAddress'],
+          })}
+          style={{ minHeight: '5rem' }}
+        >
           <h4 className={titleClasses}>{title}</h4>
         </div>
-        <div className={bodyClasses}>
+        <div
+          className={classnames({
+            [`${bodyClasses}`]: true,
+            'vads-u-padding-x--21 vads-u-padding-bottom--21':
+              this.props.name === this.props['view:currentAddress'],
+            'vads-u-padding-x--3 vads-u-padding-bottom--3':
+              this.props.name !== this.props['view:currentAddress'],
+          })}
+        >
           <ViewComponent formData={this.props.formData} />
           {!volatileData &&
             street &&
             city &&
             country && (
               <button
-                className={`${editLink} va-button-link `}
+                className={`${editLink} va-button-link vads-u-display--block vads-u-margin-top--2`}
                 aria-label={`Edit ${title.toLowerCase()}`}
                 style={{ minWidth: '8rem' }}
-                onClick={this.startEditing}
+                onClick={() => this.startEditing(this.props.name)}
                 type="button"
               >
                 Edit {title.toLowerCase()}
@@ -395,7 +404,7 @@ class ReviewCardField extends React.Component {
                 className={`${editButton} usa-button-secondary vads-u-background-color--white`}
                 aria-label={`Add a ${title.toLowerCase()}`}
                 style={{ minWidth: '8rem' }}
-                onClick={this.startEditing}
+                onClick={() => this.startEditing(this.props.name)}
                 type="button"
               >
                 Add a {title.toLowerCase()}
@@ -405,11 +414,11 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <div>
+              <div className="vads-u-margin-top--2">
                 <input
                   id={this.props.name}
                   type="radio"
-                  className="vads-u-font-weight--bold vads-u-width--auto"
+                  className=" vads-u-width--auto"
                   onChange={() =>
                     this.onChange('view:currentAddress', this.props.name)
                   }
@@ -433,7 +442,7 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <div className="vads-u-margin-top--2 vads-u-max-width--293">
+              <div>
                 <input
                   id={this.props.name}
                   className="vads-u-margin-left--0 vads-u-max-width--293"
@@ -447,7 +456,7 @@ class ReviewCardField extends React.Component {
                 />
                 <label
                   className={classnames({
-                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto': true,
+                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto vads-u-margin-top--2': true,
                     'vads-u-color--white':
                       this.props.name === this.props['view:currentAddress'],
                     'vads-u-background-color--white vads-u-color--primary':
@@ -464,7 +473,7 @@ class ReviewCardField extends React.Component {
           <button
             className={`usa-button-primary ${editButton}`}
             style={{ minWidth: '8rem' }}
-            onClick={this.startEditing}
+            onClick={() => this.startEditing(this.props.name)}
           >
             {itemNameAction || 'New'} {itemName || title}
           </button>
@@ -473,8 +482,13 @@ class ReviewCardField extends React.Component {
     );
   };
 
-  startEditing = () => {
+  startEditing = addressType => {
     const newState = { editing: true };
+    if (addressType === 'permanentAddress') {
+      newState.permAddressShouldBeFocused = true;
+    } else if (addressType === 'temporaryAddress') {
+      newState.tempAddressShouldBeFocused = true;
+    }
 
     // If the data is volatile, cache the original data before clearing it out so we
     //  have the option to cancel later
