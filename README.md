@@ -4,7 +4,9 @@
 
 This is the front end repository for VA.gov. It contains application code and templates used across the site.
 
-There are several repositories that contain the code and content used to build VA.gov. If you're looking to get started running VA.gov locally, you should read the [Getting Started](https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/getting-started) documentation.
+There are several repositories that contain the code and content used to build VA.gov. 
+If you're looking to get started running VA.gov locally, 
+you should read the [Getting Started](https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/getting-started) documentation.
 
 ## Common commands
 
@@ -23,10 +25,12 @@ The `vets-website` build has two main functions:
 1. Create the static HTML pages
 
 ### Building applications
-`vets-website` uses [Webpack](https://webpack.js.org) to bundle application
-assets.
+This project uses a custom "micro-applications" architecture. Each folder under
+`src/applications` is a separate mini-app.
+[Webpack](https://webpack.js.org) is used to bundle application
+assets. 
 
-To **build all applications**, run the following:
+To **build assets for all applications**, run the following:
 
 ``` sh
 yarn build:webpack
