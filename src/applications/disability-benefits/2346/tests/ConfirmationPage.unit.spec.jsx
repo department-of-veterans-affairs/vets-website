@@ -116,7 +116,7 @@ describe('ConfirmationPage', () => {
     const confirmationPage = mount(<ConfirmationPage store={fakeStore} />);
     const alertBox = confirmationPage.find('AlertBox').last();
     expect(alertBox.find('h4').text()).to.equal(
-      'Request for Batteries and Accessories (Form 2346)',
+      'Request for Batteries and Accessories (Form 2346A)',
     );
     expect(
       alertBox
@@ -124,7 +124,7 @@ describe('ConfirmationPage', () => {
         .at(0)
         .text(),
     ).to.equal('DOME (Quantity: 10)');
-    expect(alertBox.text()).to.include('Shipping Address');
+    expect(alertBox.text()).to.include('Shipping address');
     expect(alertBox.text()).to.include('101 Example Street Apt 2');
     expect(alertBox.text()).to.include('Kansas City');
     expect(alertBox.text()).to.include('MO');

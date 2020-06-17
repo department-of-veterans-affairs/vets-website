@@ -74,16 +74,19 @@ class VAPProfileField extends React.Component {
     fieldName: '',
   };
 
+  closeModalTimeoutID = null;
+
   componentDidUpdate(prevProps) {
-    // Just close the edit modal if it takes more than 5 seconds for the update
-    // transaction to resolve. ie, give it 5 seconds before reverting to the old
-    // behavior of showing the "we're saving your new information..." message on
-    // the Profile page
+    // Exit the edit view if it takes more than 5 seconds for the update/save
+    // transaction to resolve. If the transaction has not resolved after 5
+    // seconds we will show a "we're saving your new information..." message on
+    // the Profile
     if (!prevProps.transaction && this.props.transaction) {
-      setTimeout(() => this.props.openModal(), 5000);
+      this.closeModalTimeoutID = setTimeout(() => this.closeModal(), 5000);
     }
 
     if (this.justClosedModal(prevProps, this.props)) {
+      clearTimeout(this.closeModalTimeoutID);
       if (this.props.transaction) {
         focusElement(`div#${this.props.fieldName}-transaction-status`);
       }

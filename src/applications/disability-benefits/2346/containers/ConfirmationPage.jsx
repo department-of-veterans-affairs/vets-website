@@ -30,7 +30,7 @@ const ConfirmationPage = ({
         <section>
           <h4 className="vads-u-margin-top--0">
             Request for Batteries and Accessories{' '}
-            <span className="vads-u-font-weight--normal">(Form 2346)</span>
+            <span className="vads-u-font-weight--normal">(Form 2346A)</span>
           </h4>
           <p className="vads-u-margin--0">
             for {fullName.first} {fullName.last}
@@ -46,7 +46,7 @@ const ConfirmationPage = ({
             ))}
           </ul>
           <p className="vads-u-margin-bottom--0">
-            <strong>Shipping Address</strong>
+            <strong>Shipping address</strong>
           </p>
           <div className="shippingAddress">
             <p className="vads-u-margin-y--0">
