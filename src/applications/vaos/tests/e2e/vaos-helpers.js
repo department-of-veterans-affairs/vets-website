@@ -156,7 +156,7 @@ function showMoreTest(client) {
       'li[data-request-id="8a48912a6cab0202016cb4fcaa8b0038"] .additional-info-button.va-button-link',
     )
     .waitForElementVisible(
-      '#8a48912a6cab0202016cb4fcaa8b0038-vaos-info-content',
+      '[id="8a48912a6cab0202016cb4fcaa8b0038-vaos-info-content"]',
       Timeouts.slow,
     )
     .pause(Timeouts.normal)
