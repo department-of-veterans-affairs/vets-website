@@ -11,7 +11,7 @@
   width: 50%;
   display: flex;
 
-  @include media($medium-screen) {
+  @include media($medium-screen) { 
     width: 200px;
   }
 }
@@ -32,9 +32,7 @@
   align-items: center;
   justify-content: center;
 
-  &:hover,
-  &:focus,
-  &:active {
+  &:hover, &:focus, &:active {
     color: $color-gray-dark;
     text-decoration: none;
     background: $color-gray-lighter;
@@ -289,8 +287,7 @@
       cursor: not-allowed;
     }
 
-    input[type="checkbox"],
-    input[type="checkbox"] + label::before {
+    input[type="checkbox"], input[type="checkbox"] + label::before {
       box-shadow: 0 0 0 1px $color-gray-light;
       background: $color-gray-lightest;
       cursor: not-allowed;
