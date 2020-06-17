@@ -233,7 +233,7 @@ export default function vet360(state = initialState, action) {
       );
 
       const hasUnsavedEdits =
-        !isEmpty(state.initialFormFields) &&
+        !isEmpty(initialFormFields) &&
         !isEqual(formFieldValues, initialFormFieldValues);
 
       return {
