@@ -77,6 +77,36 @@ const validateInput = entity => {
   }
 };
 
+/**
+ * @param {Object} transformedEntity - The entity after transformation
+ * @throws {Error} If the entity is invalid
+ */
+const validateOutput = (entity, transformedEntity) => {
+  const transformedErrors = validateTransformedEntity(transformedEntity);
+  if (transformedErrors.length) {
+    /* eslint-disable no-console */
+    console.warn(
+      chalk.yellow(
+        `${toId(entity)} (${getContentModelType(
+          entity,
+        )}) is invalid after transformation:`,
+      ),
+    );
+    console.warn(`${transformedErrors.map(e => JSON.stringify(e, null, 2))}`);
+    transformedErrors.forEach(e => {
+      console.warn(
+        chalk.yellow(`Data found at ${e.dataPath}:`),
+        JSON.stringify(get(transformedEntity, e.dataPath.slice(1))),
+      );
+    });
+    console.warn(`-------------------`);
+    /* eslint-enable no-console */
+
+    // Abort! (We may want to change this later)
+    throw new Error(`${toId(entity)} is invalid after transformation`);
+  }
+};
+
 const entityAssemblerFactory = contentDir => {
   /**
    * Takes an entity type and uuid, reads the corresponding file,
@@ -133,29 +163,7 @@ const entityAssemblerFactory = contentDir => {
       contentDir,
       assembleEntityTree,
     });
-    const transformedErrors = validateTransformedEntity(transformedEntity);
-    if (transformedErrors.length) {
-      /* eslint-disable no-console */
-      console.warn(
-        chalk.yellow(
-          `${toId(entity)} (${getContentModelType(
-            entity,
-          )}) is invalid after transformation:`,
-        ),
-      );
-      console.warn(`${transformedErrors.map(e => JSON.stringify(e, null, 2))}`);
-      transformedErrors.forEach(e => {
-        console.warn(
-          chalk.yellow(`Data found at ${e.dataPath}:`),
-          JSON.stringify(get(transformedEntity, e.dataPath.slice(1))),
-        );
-      });
-      console.warn(`-------------------`);
-      /* eslint-enable no-console */
-
-      // Abort! (We may want to change this later)
-      throw new Error(`${toId(entity)} is invalid after transformation`);
-    }
+    validateOutput(entity, transformedEntity);
 
     return transformedEntity;
   };
