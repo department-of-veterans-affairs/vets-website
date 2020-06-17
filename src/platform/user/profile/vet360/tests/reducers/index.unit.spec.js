@@ -263,7 +263,7 @@ describe('vet360 reducer', () => {
   it('should update profile form fields', () => {
     const state = vet360(
       {
-        initialFormState: {
+        initialFormFields: {
           mailingAddress: {
             value: 'value',
           },

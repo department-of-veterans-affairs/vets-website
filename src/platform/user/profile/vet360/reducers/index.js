@@ -19,7 +19,7 @@ import {
   ADDRESS_VALIDATION_UPDATE,
 } from '../actions';
 
-import { isEqual, pickBy } from 'lodash';
+import { isEmpty, isEqual, pickBy } from 'lodash';
 
 import { isFailedTransaction } from '../util/transactions';
 
@@ -44,7 +44,7 @@ const initialAddressValidationState = {
 
 const initialState = {
   hasUnsavedEdits: false,
-  initialFormState: {},
+  initialFormFields: {},
   modal: null,
   modalData: null,
   formFields: {},
@@ -115,7 +115,7 @@ export default function vet360(state = initialState, action) {
             transactionId: action.transaction.data.attributes.transactionId,
           },
         },
-        initialFormState: {},
+        initialFormFields: {},
         hasUnsavedEdits: false,
       };
     }
@@ -209,13 +209,13 @@ export default function vet360(state = initialState, action) {
     }
 
     case UPDATE_PROFILE_FORM_FIELD: {
-      let initialFormState = state.initialFormState || {};
+      let initialFormFields = state.initialFormFields || {};
 
       const emptyInitialFormState =
-        Object.keys(state.initialFormState).length === 0;
+        Object.keys(state.initialFormFields).length === 0;
 
       if (emptyInitialFormState) {
-        initialFormState = state.formFields;
+        initialFormFields = state.formFields;
       }
 
       const formFields = {
@@ -224,12 +224,11 @@ export default function vet360(state = initialState, action) {
       };
 
       const modalName = state?.modal;
-      const initialFormFieldValues = state.initialFormState[modalName]?.value;
+      const initialFormFieldValues = state.initialFormFields[modalName]?.value;
       let formFieldValues = formFields[modalName]?.value;
 
       formFieldValues = pickBy(formFieldValues, value => value !== undefined);
 
-      // eslint-disable-next-line no-restricted-syntax
       for (const key in formFieldValues) {
         if (key.startsWith('view')) {
           delete formFieldValues[key];
@@ -244,7 +243,7 @@ export default function vet360(state = initialState, action) {
         ...state,
         formFields,
         hasUnsavedEdits,
-        initialFormState,
+        initialFormFields,
       };
     }
 
