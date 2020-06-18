@@ -105,16 +105,6 @@ describe('VAOS scheduling eligibility logic', () => {
         'hasMatchingClinics',
         'pastAppointments',
       );
-
-      eligibilityData.clinics?.forEach((clinic, index) => {
-        const nextClinic = eligibilityData.clinics[index + 1];
-        if (nextClinic) {
-          expect(
-            clinic.clinicFriendlyLocationName.toUpperCase() <
-              nextClinic.clinicFriendlyLocationName.toUpperCase(),
-          );
-        }
-      });
       expect(eligibilityData.hasMatchingClinics).to.be.true;
       expect('startDate' in eligibilityData.pastAppointments[0]).to.be.true;
       expect(eligibilityData.pastAppointments.length).to.be.greaterThan(0);
