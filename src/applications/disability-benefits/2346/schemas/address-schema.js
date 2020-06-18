@@ -442,6 +442,7 @@ export const addressUISchema = (
             pattern: '^.*\\S.*',
           };
         },
+        useDlWrap: true,
       },
     },
     state: {
