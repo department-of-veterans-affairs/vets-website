@@ -1,6 +1,7 @@
-import { expect } from 'chai';
 import React from 'react';
+import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+
 import FormNav from '../../../src/js/components/FormNav';
 
 describe('Schemaform FormNav', () => {

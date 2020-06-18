@@ -1,14 +1,17 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
-import PropTypes from 'prop-types';
 import React from 'react';
+import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import shallowEqual from 'recompose/shallowEqual';
-import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
+
+import SegmentedProgressBar from './SegmentedProgressBar';
+
 import {
   createFormPageList,
   createPageList,
   getActiveExpandedPages,
 } from '../helpers';
-import SegmentedProgressBar from './SegmentedProgressBar';
+
+import PropTypes from 'prop-types';
+import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default class FormNav extends React.Component {
   // The formConfig transforming is a little heavy, so skip it if we can
