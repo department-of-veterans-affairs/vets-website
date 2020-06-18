@@ -4,7 +4,9 @@ import { PtsdNameTitle } from '../content/ptsdClassification';
 
 const additionalDescriptionChanges = (
   <div>
-    <h5>Changes in Behavior or Activities: Additional Information</h5>
+    <h3 className="vads-u-font-size--h5">
+      Changes in Behavior or Activities: Additional Information
+    </h3>
     <p>
       Please provide additional information about any behavior changes or
       actions you took as a result of the event.
@@ -16,9 +18,8 @@ export const uiSchema = {
   'ui:title': ({ formData }) => (
     <PtsdNameTitle formData={formData} formType="781a" />
   ),
-  'ui:description': additionalDescriptionChanges,
   additionalChanges: {
-    'ui:title': ' ',
+    'ui:title': additionalDescriptionChanges,
     'ui:widget': 'textarea',
     'ui:options': {
       rows: 5,

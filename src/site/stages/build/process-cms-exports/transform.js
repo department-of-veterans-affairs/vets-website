@@ -40,22 +40,22 @@ function getEntityTransformer(entityType, verbose = true) {
  *                          transformation.
  * @param {Object} rest - Contains the lesser-used arguments for the
  *                        transformers.
- * @property {string} uuid - The UUID of the current entity
- * @property {Array<Object>} ancestors - All the current entity's
+ * @property {string} rest.uuid - The UUID of the current entity
+ * @property {Object[]} rest.ancestors - All the current entity's
  *                        ancestors. ancestors[1] is the child of
  *                        ancestors[0], etc.
  *                        ancestors[ancestors.length - 1] is the
  *                        current entity's direct parent.
  *                        Each item in the array is like:
  *                        { id: toId(entity), entity: entity }
- * @property {string} parentFieldName - The name of the field in the
- *                        entity's parent in which the current entity
- *                        can be found.
- * @property {string} contentDir - The path to the tome-sync content
+ * @property {string} rest.parentFieldName - The name of the field in the
+ *                        entity's parent in which the current entity can be
+ *                        found.
+ * @property {string} rest.contentDir - The path to the tome-sync content
  *                        directory.
- * @property {function} assembleEntityTree - The function to assemble
- *                        the entity tree. This is usually the
- *                        caller of transformEntity.
+ * @property {function} rest.assembleEntityTree - The function to assemble the
+ *                        entity tree. This is usually the caller of
+ *                        transformEntity.
  *
  * @return {Object} - The entity with modified properties based on
  *                    the specific content model type.
