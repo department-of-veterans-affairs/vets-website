@@ -1,17 +1,12 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { veteranInformation } from './chapters/veteran-information';
+import { additionalInformation } from './chapters/additional-information';
 
-import { serviceHistory, serviceFlags } from './chapters/military-history';
-
-import { workInformation } from './chapters/work-information';
-
-import { educationInformation } from './chapters/education-information';
-
-import { disabilityInformation } from './chapters/disability-information';
-
-import { documentUpload } from './chapters/documnent-upload';
+import {
+  veteranInformation,
+  veteranAddress,
+} from './chapters/veteran-information';
 
 const formConfig = {
   urlPrefix: '/',
@@ -19,7 +14,7 @@ const formConfig = {
   trackingPrefix: '28-1900-chapter-31-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21-1900',
+  formId: '28-1900',
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
@@ -39,66 +34,22 @@ const formConfig = {
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
-      },
-    },
-    serviceHistory: {
-      title: 'Military History',
-      pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
-        },
-        serviceFlags: {
-          path: 'service-type',
-          title: 'Service Type',
-          uiSchema: serviceFlags.uiSchema,
-          schema: serviceFlags.schema,
+        contactInformation: {
+          path: 'veteran-contact-information',
+          title: 'Veteran Contact Information',
+          uiSchema: veteranAddress.uiSchema,
+          schema: veteranAddress.schema,
         },
       },
     },
-    workInformation: {
-      title: 'Work Information',
+    additionalInformation: {
+      title: 'Additional Information',
       pages: {
-        workInformation: {
-          path: 'work-information',
-          title: 'Work Information',
-          uiSchema: workInformation.uiSchema,
-          schema: workInformation.schema,
-        },
-      },
-    },
-    educationInformation: {
-      title: 'Education Information',
-      pages: {
-        educationInformation: {
-          path: 'education-information',
-          title: 'Education Information',
-          uiSchema: educationInformation.uiSchema,
-          schema: educationInformation.schema,
-        },
-      },
-    },
-    disabilityInformation: {
-      title: 'Disability Information',
-      pages: {
-        disabilityInformation: {
-          path: 'disability-information',
-          title: 'Disability Information',
-          uiSchema: disabilityInformation.uiSchema,
-          schema: disabilityInformation.schema,
-        },
-      },
-    },
-    documentUpload: {
-      title: 'Document Upload',
-      pages: {
-        document: {
-          path: 'document-upload',
-          title: 'Document Upload',
-          uiSchema: documentUpload.uiSchema,
-          schema: documentUpload.schema,
+        additionalInformation: {
+          path: 'additional-information',
+          title: 'Additional Information',
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema,
         },
       },
     },
