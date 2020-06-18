@@ -306,16 +306,42 @@ function getAppointmentDuration(appt) {
   return isNaN(appointmentLength) ? 60 : appointmentLength;
 }
 
+/*
+ * ICS files have a 75 character line limit. Longer fields need to be broken
+ * into 75 character chunks with a CRLF in between. They also apparenly need to have a tab
+ * character at the start of each new line, which is why I set the limit to 74
+ * 
+ * Additionally, any actual line breaks in the text need to be escaped
+ */
+const ICS_LINE_LIMIT = 74;
+function formatDescription(description) {
+  if (!description) {
+    return description;
+  }
+
+  const descWithEscapedBreaks = description
+    .replace(/\r/g, '')
+    .replace(/\n/g, '\\n');
+
+  const chunked = [];
+  let restOfDescription = `DESCRIPTION:${descWithEscapedBreaks}`;
+  while (restOfDescription.length > ICS_LINE_LIMIT) {
+    chunked.push(restOfDescription.substring(0, ICS_LINE_LIMIT));
+    restOfDescription = restOfDescription.substring(ICS_LINE_LIMIT);
+  }
+  chunked.push(restOfDescription);
+
+  return chunked.join('\r\n\t');
+}
 /**
  * Function to generate ICS.
  *
- * @param {*} summary - summary or subject of invite
- * @param {*} description - additional detials
- * @param {*} location - address / location
- * @param {*} startDateTime - start datetime in js date format
- * @param {*} endDateTime - end datetime in js date format
+ * @param {String} summary - summary or subject of invite
+ * @param {String} description - additional detials
+ * @param {Object} location - address / location
+ * @param {Date} startDateTime - start datetime in js date format
+ * @param {Date} endDateTime - end datetime in js date format
  */
-
 export function generateICS(
   summary,
   description,
@@ -331,7 +357,7 @@ PRODID:VA
 BEGIN:VEVENT
 UID:${guid()}
 SUMMARY:${summary}
-DESCRIPTION:${description}
+${formatDescription(description)}
 LOCATION:${location}
 DTSTAMP:${startDate}
 DTSTART:${startDate}
