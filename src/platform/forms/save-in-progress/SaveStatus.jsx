@@ -1,8 +1,8 @@
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
+import moment from 'moment';
 import SignInLink from '../components/SignInLink';
-import { saveErrors, SAVE_STATUSES } from './actions';
+import { SAVE_STATUSES, saveErrors } from './actions';
 import { APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE } from './constants';
 
 function SaveStatus({
