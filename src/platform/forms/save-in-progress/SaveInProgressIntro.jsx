@@ -1,25 +1,27 @@
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import {
-  formBenefits,
-  formDescriptions,
-} from 'applications/personalization/dashboard/helpers';
-import moment from 'moment';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
-import DowntimeNotification, {
-  externalServiceStatus,
-} from 'platform/monitoring/DowntimeNotification';
-import recordEvent from 'platform/monitoring/record-event';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import _ from 'platform/utilities/data';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
+import moment from 'moment';
+
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import recordEvent from 'platform/monitoring/record-event';
+import _ from 'platform/utilities/data';
+
+import {
+  formDescriptions,
+  formBenefits,
+} from 'applications/personalization/dashboard/helpers';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import { APP_TYPE_DEFAULT, UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from './constants';
-import DowntimeMessage from './DowntimeMessage';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
+import DowntimeNotification, {
+  externalServiceStatus,
+} from 'platform/monitoring/DowntimeNotification';
+import DowntimeMessage from './DowntimeMessage';
+import { APP_TYPE_DEFAULT, UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from './constants';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {

@@ -1,9 +1,9 @@
+import React from 'react';
+import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import moment from 'moment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import React from 'react';
 import sinon from 'sinon';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import { SaveInProgressIntro } from '../../save-in-progress/SaveInProgressIntro';
 
 describe('Schemaform <SaveInProgressIntro>', () => {
