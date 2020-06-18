@@ -11,6 +11,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { removeSavedForm } from '../../user/profile/actions';
+import {
+  CONTINUE_APP_DEFAULT_MESSAGE,
+  START_NEW_APP_DEFAULT_MESSAGE,
+} from './constants';
 
 export class ApplicationStatus extends React.Component {
   constructor(props) {
@@ -74,10 +78,12 @@ export class ApplicationStatus extends React.Component {
     let { formId } = this.props;
     const { formConfig } = this.props;
     let multipleForms = false;
-    const startNewAppMessage =
-      formConfig.startNewAppMessage || 'Start a new application';
-    const continueAppMessage =
-      formConfig.continueAppMessage || 'Continue your application';
+    const startNewAppButtonText =
+      formConfig.savedFormMessages.startNewAppButtonText ||
+      START_NEW_APP_DEFAULT_MESSAGE;
+    const continueAppButtonText =
+      formConfig.savedFormMessages.continueAppButtonText ||
+      CONTINUE_APP_DEFAULT_MESSAGE;
     if (formIds) {
       const matchingForms = profile.savedForms.filter(({ form }) =>
         formIds.has(form),
@@ -131,13 +137,13 @@ export class ApplicationStatus extends React.Component {
                 className="usa-button-primary"
                 href={`${formLinks[formId]}resume`}
               >
-                {continueAppMessage}
+                {continueAppButtonText}
               </a>
               <button
                 className="usa-button-secondary"
                 onClick={this.toggleModal}
               >
-                {startNewAppMessage}
+                {startNewAppButtonText}
               </button>
             </p>
             {multipleForms && (
@@ -159,7 +165,7 @@ export class ApplicationStatus extends React.Component {
               <p>Are you sure you want to start over?</p>
               <ProgressButton
                 onButtonClick={() => this.removeForm(formId)}
-                buttonText={startNewAppMessage}
+                buttonText={startNewAppButtonText}
                 buttonClass="usa-button-primary"
               />
               <ProgressButton
@@ -181,7 +187,7 @@ export class ApplicationStatus extends React.Component {
           <br />
           <p>
             <button className="usa-button-primary" onClick={this.toggleModal}>
-              {startNewAppMessage}
+              {startNewAppButtonText}
             </button>
           </p>
           {multipleForms && (
@@ -203,7 +209,7 @@ export class ApplicationStatus extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={() => this.removeForm(formId)}
-              buttonText={startNewAppMessage}
+              buttonText={startNewAppButtonText}
               buttonClass="usa-button-primary"
             />
             <ProgressButton
@@ -268,8 +274,10 @@ ApplicationStatus.propTypes = {
   stayAfterDelete: PropTypes.bool,
   showLearnMoreLink: PropTypes.bool,
   formConfig: PropTypes.shape({
-    continueAppMessage: PropTypes.string,
-    startNewAppMessage: PropTypes.string,
+    savedFormMessages: PropTypes.shape({
+      continueAppButtonText: PropTypes.string,
+      startNewAppButtonText: PropTypes.string,
+    }),
   }).isRequired,
 };
 

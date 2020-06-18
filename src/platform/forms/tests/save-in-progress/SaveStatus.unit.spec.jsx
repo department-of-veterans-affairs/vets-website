@@ -17,6 +17,11 @@ describe('<SaveStatus>', () => {
         currentlyLoggedIn: true,
       },
     },
+    formConfig: {
+      savedFormMessages: {
+        appSavedSuccessfullyMessage: '',
+      },
+    },
   };
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<SaveStatus {...props} />);
@@ -54,5 +59,27 @@ describe('<SaveStatus>', () => {
     props.form.autoSavedStatus = SAVE_STATUSES.failure;
     const tree = SkinDeep.shallowRender(<SaveStatus {...props} />);
     expect(tree.text()).to.have.string('having some issues');
+  });
+  it('should display the appSavedSuccessfullyMessage', () => {
+    const appSavedSuccessfullyMessageProps = {
+      ...props,
+      form: {
+        formId: VA_FORM_IDS.FORM_10_10EZ,
+        lastSavedDate: 1505770055,
+        autoSavedStatus: 'success',
+      },
+      formConfig: {
+        savedFormMessages: {
+          appSavedSuccessfullyMessage:
+            'Custom message saying your app has been saved.',
+        },
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <SaveStatus {...appSavedSuccessfullyMessageProps} />,
+    );
+    expect(tree.subTree('.panel').text()).to.include(
+      'Custom message saying your app has been saved.',
+    );
   });
 });

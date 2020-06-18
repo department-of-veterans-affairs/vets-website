@@ -10,11 +10,18 @@ describe('Schemaform <RoutedSavablePage>', () => {
     pathname: '/testing/0',
   };
 
+  let formConfigDefaultData;
+
+  beforeEach(() => {
+    formConfigDefaultData = {
+      savedFormMessages: {
+        finishAppLaterMessage: '',
+      },
+    };
+  });
+
   it('should include SaveLink and SaveStatus', () => {
     const route = {
-      formConfig: {
-        finishLaterLinkText: 'foo',
-      },
       pageConfig: {
         pageKey: 'testPage',
         schema: {},
@@ -53,6 +60,7 @@ describe('Schemaform <RoutedSavablePage>', () => {
         route={route}
         user={user}
         location={location}
+        formConfig={formConfigDefaultData}
       />,
     )
       .find('FormPage')
@@ -63,11 +71,8 @@ describe('Schemaform <RoutedSavablePage>', () => {
     tree.unmount();
   });
 
-  it('should pass correct text to SaveFormlink', () => {
+  it('should display the finishAppLaterMessage if passed in', () => {
     const route = {
-      formConfig: {
-        finishLaterLinkText: 'foo',
-      },
       pageConfig: {
         pageKey: 'testPage',
         schema: {},
@@ -100,12 +105,21 @@ describe('Schemaform <RoutedSavablePage>', () => {
       },
     };
 
+    const finishLaterLinkFormConfigData = {
+      ...formConfigDefaultData,
+      savedFormMessages: {
+        finishAppLaterMessage:
+          'Custom finish this application another time message.',
+      },
+    };
+
     const tree = shallow(
       <RoutedSavablePage
         form={form}
         route={route}
         user={user}
         location={location}
+        formConfig={finishLaterLinkFormConfigData}
       />,
     )
       .find('FormPage')
@@ -117,15 +131,12 @@ describe('Schemaform <RoutedSavablePage>', () => {
         .find('SaveFormLink')
         .children()
         .text(),
-    ).to.equal('foo');
+    ).to.equal('Custom finish this application another time message.');
     tree.unmount();
   });
 
   it('should auto save on change', () => {
     const route = {
-      formConfig: {
-        finishLaterLinkText: 'foo',
-      },
       pageConfig: {
         pageKey: 'testPage',
         schema: {},
@@ -168,6 +179,7 @@ describe('Schemaform <RoutedSavablePage>', () => {
         user={user}
         location={location}
         autoSave={autosave}
+        formConfig={formConfigDefaultData}
       />,
     );
     tree.instance().debouncedAutoSave = autosave;

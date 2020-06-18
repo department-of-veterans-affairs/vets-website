@@ -11,6 +11,7 @@ import {
   saveAndRedirectToReturnUrl,
   saveErrors,
 } from './actions';
+import { FINISH_APP_LATER_DEFAULT_MESSAGE } from './constants';
 import SaveFormLink from './SaveFormLink';
 import SaveStatus from './SaveStatus';
 import { getFormContext } from './selectors';
@@ -56,7 +57,8 @@ class RoutedSavablePage extends React.Component {
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}
         >
-          {formConfig.finishLaterLinkText}
+          {formConfig.savedFormMessages.finishAppLaterMessage ||
+            FINISH_APP_LATER_DEFAULT_MESSAGE}
         </SaveFormLink>
       </div>
     );
@@ -108,7 +110,9 @@ RoutedSavablePage.propTypes = {
   }),
   setData: PropTypes.func,
   formConfig: PropTypes.shape({
-    finishLaterLinkText: PropTypes.string,
+    savedFormMessages: PropTypes.shape({
+      finishAppLaterMessage: PropTypes.string,
+    }),
   }).isRequired,
 };
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import SignInLink from '../components/SignInLink';
 import { saveErrors, SAVE_STATUSES } from './actions';
+import { APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE } from './constants';
 
 function SaveStatus({
   form: { lastSavedDate, autoSavedStatus },
@@ -31,7 +32,8 @@ function SaveStatus({
       {autoSavedStatus === SAVE_STATUSES.success && (
         <div className="panel saved-success-container">
           <i className="fa fa-check-circle saved-success-icon" />
-          {formConfig.saveSuccessMessage || 'Application has been saved.'}
+          {formConfig.savedFormMessages.appSavedSuccessfullyMessage ||
+            APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE}
           {savedAtMessage}
         </div>
       )}
@@ -72,7 +74,9 @@ SaveStatus.propTypes = {
   form: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   formConfig: PropTypes.shape({
-    saveSuccessMessage: PropTypes.string,
+    savedFormMessages: PropTypes.shape({
+      appSavedSuccessfullyMessage: PropTypes.string,
+    }),
   }).isRequired,
 };
 

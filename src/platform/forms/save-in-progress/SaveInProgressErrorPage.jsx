@@ -12,6 +12,7 @@ import {
   removeInProgressForm,
   setFetchFormStatus,
 } from './actions';
+import { CONTINUE_APP_DEFAULT_MESSAGE } from './constants';
 
 const DEFAULT_FORBIDDEN_MESSAGE = `
   We're sorry. We can't give you access to this information. For help, please call the VA.gov help desk at 855-574-7286 (TTY: 711). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
@@ -60,8 +61,9 @@ class SaveInProgressErrorPage extends React.Component {
   render() {
     const { loadedStatus, formConfig } = this.props;
     const { forbidden, noAuth, notFound } = formConfig.savedFormMessages || {};
-    const continueAppMessage =
-      formConfig.continueAppMessage || 'Continue your application';
+    const continueAppButtonText =
+      formConfig.savedFormMessages.continueAppButtonText ||
+      CONTINUE_APP_DEFAULT_MESSAGE;
     let content;
 
     switch (loadedStatus) {
@@ -99,7 +101,7 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                {continueAppMessage}
+                {continueAppButtonText}
               </button>
             </div>
           </div>
@@ -125,7 +127,7 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                {continueAppMessage}
+                {continueAppButtonText}
               </button>
             </div>
           </div>
@@ -142,7 +144,7 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                {continueAppMessage}
+                {continueAppButtonText}
               </button>
             </div>
           </div>
@@ -172,16 +174,15 @@ class SaveInProgressErrorPage extends React.Component {
 
 SaveInProgressErrorPage.propTypes = {
   loadedStatus: PropTypes.string.isRequired,
-  savedFormMessages: PropTypes.shape({
-    notFound: PropTypes.string,
-    noAuth: PropTypes.string,
-  }),
-
   isStartingOver: PropTypes.bool.isRequired,
   // For SignInLink
   isLoggedIn: PropTypes.bool.isRequired,
   formConfig: PropTypes.shape({
-    continueAppMessage: PropTypes.string,
+    savedFormMessages: PropTypes.shape({
+      notFound: PropTypes.string,
+      noAuth: PropTypes.string,
+      continueAppButtonText: PropTypes.string,
+    }),
   }).isRequired,
 };
 

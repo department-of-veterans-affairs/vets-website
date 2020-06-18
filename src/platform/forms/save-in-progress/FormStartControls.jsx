@@ -4,6 +4,10 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { withRouter } from 'react-router';
+import {
+  CONTINUE_APP_DEFAULT_MESSAGE,
+  START_NEW_APP_DEFAULT_MESSAGE,
+} from './constants';
 
 class FormStartControls extends React.Component {
   constructor(props) {
@@ -63,26 +67,28 @@ class FormStartControls extends React.Component {
   };
 
   render() {
-    // get access to the formConfig through this route
+    // get access to the formConfig object through this route
     const { formConfig } = this.props.routes[1];
-    const startNewAppMessage =
-      formConfig.startNewAppMessage || 'Start a new application';
-    const continueAppMessage =
-      formConfig.continueAppMessage || 'Continue your application';
+    const startNewAppButtonText =
+      formConfig.savedFormMessages.startNewAppButtonText ||
+      START_NEW_APP_DEFAULT_MESSAGE;
+    const continueAppButtonText =
+      formConfig.savedFormMessages.continueAppButtonText ||
+      CONTINUE_APP_DEFAULT_MESSAGE;
     if (this.props.formSaved) {
       return (
         <div>
           {!this.props.isExpired && (
             <ProgressButton
               onButtonClick={this.handleLoadForm}
-              buttonText={continueAppMessage}
+              buttonText={continueAppButtonText}
               buttonClass="usa-button-primary no-text-transform"
             />
           )}
           {!this.props.resumeOnly && (
             <ProgressButton
               onButtonClick={this.toggleModal}
-              buttonText={startNewAppMessage}
+              buttonText={startNewAppButtonText}
               buttonClass={
                 this.props.isExpired
                   ? 'usa-button-primary'
@@ -100,7 +106,7 @@ class FormStartControls extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}
-              buttonText={startNewAppMessage}
+              buttonText={startNewAppButtonText}
               buttonClass="usa-button-primary"
             />
             <ProgressButton
@@ -140,10 +146,22 @@ FormStartControls.propTypes = {
   startText: PropTypes.string,
   resumeOnly: PropTypes.bool,
   gaStartEventName: PropTypes.string,
+  formConfig: PropTypes.shape({
+    savedFormMessages: PropTypes.shape({
+      startNewAppButtonText: PropTypes.string,
+      continueAppButtonText: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 FormStartControls.defaultProps = {
   gaStartEventName: 'login-successful-start-form',
+  formConfig: {
+    savedFormMessages: {
+      startNewAppButtonText: '',
+      continueAppButtonText: '',
+    },
+  },
 };
 
 export default withRouter(FormStartControls);
