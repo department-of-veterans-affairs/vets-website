@@ -306,6 +306,13 @@ function getAppointmentDuration(appt) {
   return isNaN(appointmentLength) ? 60 : appointmentLength;
 }
 
+/*
+ * ICS files have a 75 character line limit. Longer fields need to be broken
+ * into 75 character chunks with a CRLF in between. They also apparenly need to have a tab
+ * character at the start of each new line, which is why I set the limit to 74
+ * 
+ * Additionally, any actual line breaks in the text need to be escaped
+ */
 const ICS_LINE_LIMIT = 74;
 function formatDescription(description) {
   if (!description) {
