@@ -1,17 +1,20 @@
-import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { toggleLoginModal } from '../../site-wide/user-nav/actions';
-import SignInLink from '../components/SignInLink';
+
 import {
-  fetchInProgressForm,
   LOAD_STATUSES,
   PREFILL_STATUSES,
-  removeInProgressForm,
+  fetchInProgressForm,
   setFetchFormStatus,
+  removeInProgressForm,
 } from './actions';
+
+import SignInLink from '../components/SignInLink';
+import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
+
+import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import { CONTINUE_APP_DEFAULT_MESSAGE } from './constants';
 
 const DEFAULT_FORBIDDEN_MESSAGE = `
