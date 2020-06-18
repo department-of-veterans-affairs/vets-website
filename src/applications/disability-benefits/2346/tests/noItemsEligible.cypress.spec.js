@@ -53,7 +53,7 @@ const testConfig = createTestConfig(
       cy.login();
       cy.route('GET', '/v0/user', paulineUserData);
       cy.route('GET', '/v0/in_progress_forms/MDOT', noItemsEligibleData);
-      cy.route('POST', '/v0/mdot/supplies', 200);
+      cy.route('POST', '/v0/mdot/supplies', 500);
     },
   },
   manifest,
