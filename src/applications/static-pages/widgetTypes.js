@@ -18,4 +18,5 @@ export default {
   SECURE_MESSAGING_PAGE: 'secure-messaging',
   SCHEDULE_VIEW_VA_APPOINTMENTS: 'schedule-view-va-appointments',
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
+  VIEW_TEST_LAB_RESULTS_PAGE: 'view-test-lab-results-page',
 };
