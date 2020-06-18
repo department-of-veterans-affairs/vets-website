@@ -177,10 +177,10 @@ describe('Video visit', () => {
     tree.unmount();
   });
 
-  it('should disable video link if appointment is over 4 hours away', () => {
+  it('should disable video link if appointment is over 4 hours in the past', () => {
     const futureAppointment = {
       ...appointment,
-      start: moment().add(245, 'minutes'),
+      start: moment().add(-245, 'minutes'),
     };
 
     const tree = shallow(<VideoVisitSection appointment={futureAppointment} />);
