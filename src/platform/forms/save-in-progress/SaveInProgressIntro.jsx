@@ -16,6 +16,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
+import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from './constants';
 import DowntimeMessage from './DowntimeMessage';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
@@ -127,11 +128,11 @@ class SaveInProgressIntro extends React.Component {
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
-      const { buttonOnly, retentionPeriod, unverifiedStartText } = this.props;
+      const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
       alert = buttonOnly ? (
         <>
           <button className="usa-button-primary" onClick={this.openLoginModal}>
-            {unverifiedStartText || 'Sign in to start your application'}
+            {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
           </button>
           {!this.props.hideUnauthedStartLink && (
             <p>
@@ -175,7 +176,7 @@ class SaveInProgressIntro extends React.Component {
                 className="usa-button-primary"
                 onClick={this.openLoginModal}
               >
-                {unverifiedStartText || 'Sign in to start your application'}
+                {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
               </button>
               {!this.props.hideUnauthedStartLink && (
                 <p>
@@ -355,10 +356,12 @@ SaveInProgressIntro.propTypes = {
   gaStartEventName: PropTypes.string,
   startMessageOnly: PropTypes.bool,
   hideUnauthedStartLink: PropTypes.bool,
+  unauthStartText: PropTypes.string,
 };
 
 SaveInProgressIntro.defaultProps = {
   retentionPeriod: '60 days',
+  unauthStartText: '',
 };
 
 function mapStateToProps(state) {

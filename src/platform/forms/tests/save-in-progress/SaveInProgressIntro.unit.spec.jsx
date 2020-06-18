@@ -1,10 +1,9 @@
-import React from 'react';
-import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
+import moment from 'moment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-
+import React from 'react';
+import sinon from 'sinon';
 import { SaveInProgressIntro } from '../../save-in-progress/SaveInProgressIntro';
 
 describe('Schemaform <SaveInProgressIntro>', () => {
@@ -538,6 +537,40 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('.schemaform-start-button').exists()).to.be.false;
 
+    tree.unmount();
+  });
+  it('should display an unauthStartText message', () => {
+    const user = {
+      profile: {
+        savedForms: [],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        prefillEnabled
+        hideUnauthedStartLink
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        startMessageOnly
+        unauthStartText="Custom message displayed to non-signed-in users"
+      />,
+    );
+    expect(tree.find('.usa-button-primary').text()).to.equal(
+      'Custom message displayed to non-signed-in users',
+    );
     tree.unmount();
   });
 });

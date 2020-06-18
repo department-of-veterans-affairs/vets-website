@@ -4,3 +4,5 @@ export const APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE =
   'Application has been saved.';
 export const FINISH_APP_LATER_DEFAULT_MESSAGE =
   'Finish this application later.';
+export const UNAUTH_SIGN_IN_DEFAULT_MESSAGE =
+  'Sign in to start your application';
