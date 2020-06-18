@@ -8,6 +8,7 @@ import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from 'vet360/constants';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
 import VAPProfileField from 'vet360/containers/VAPProfileField';
+import ReceiveTextMessages from 'vet360/containers/ReceiveTextMessages';
 
 import PhoneEditView from './PhoneEditView';
 import PhoneView from './PhoneView';
@@ -132,10 +133,21 @@ export default class PhoneField extends React.Component {
   };
 
   render() {
+    const ContentView =
+      this.props.fieldName === FIELD_NAMES.MOBILE_PHONE
+        ? ({ data }) => {
+            return (
+              <div>
+                <PhoneView data={data} />
+                <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
+              </div>
+            );
+          }
+        : PhoneView;
     return (
       <VAPProfileField
         apiRoute={API_ROUTES.TELEPHONES}
-        ContentView={PhoneView}
+        ContentView={ContentView}
         convertCleanDataToPayload={this.convertCleanDataToPayload}
         EditView={PhoneEditView}
         fieldName={this.props.fieldName}

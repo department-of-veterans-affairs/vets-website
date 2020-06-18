@@ -29,7 +29,6 @@ import {
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
   isDisabilityPtsd,
-  directToCorrectForm,
 } from '../../all-claims/utils';
 
 import captureEvents from '../../all-claims/analytics-functions';
@@ -110,7 +109,6 @@ const formConfig = {
     dependencies: [services.evss, services.emis, services.mvi, services.vet360],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ_BDD,
-  onFormLoaded: directToCorrectForm,
   version: migrations.length,
   migrations,
   prefillTransformer,

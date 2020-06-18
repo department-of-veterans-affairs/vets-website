@@ -320,7 +320,7 @@ export const addressUISchema = (
 ) => {
   // As mentioned above, there are certain fields that depend on the values of other fields when using updateSchema, replaceSchema, and hideIf.
   // The two constants below are paths used to retrieve the values in those other fields.
-  const livesOnMilitaryBasePath = `${path}${MILITARY_BASE_PATH}`;
+  const livesOnMilitaryBasePath = `${path}.${MILITARY_BASE_PATH}`;
   const insertArrayIndex = (key, index) => key.replace('[INDEX]', `[${index}]`);
 
   const addressDescription = (
@@ -356,7 +356,7 @@ export const addressUISchema = (
     'ui:field': ReviewCardField,
     isMilitaryBase: {
       'ui:title':
-        'I live on a United States military base outside of the United States',
+        'I live on a United States military base outside of the United States.',
       'ui:options': {
         hideIf: () => !isMilitaryBaseAddress,
         hideOnReviewIfFalse: true,
@@ -527,7 +527,7 @@ export const addressUISchema = (
           (isMilitaryBaseAddress && livesOnMilitaryBase)
         );
       },
-      'ui:title': 'Postal Code',
+      'ui:title': 'Postal code',
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern: 'Zip code must be 5 digits',

@@ -352,7 +352,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <input
           type="text"
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           name={inStateTuitionFeesId}
           id={inStateTuitionFeesId}
           value={formatCurrency(this.props.inputs.inStateTuitionFees)}
@@ -379,7 +379,7 @@ class EstimateYourBenefitsForm extends React.Component {
         })}
         <input
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           type="text"
           name={tuitionFeesId}
           id={tuitionFeesId}
@@ -400,7 +400,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <label htmlFor={booksId}>Books and supplies per year</label>
         <input
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           type="text"
           name={booksId}
           id={booksId}
@@ -481,7 +481,7 @@ class EstimateYourBenefitsForm extends React.Component {
             </label>
             <input
               inputMode="decimal"
-              pattern="[0-9]*"
+              pattern="(\d*\d+)(?=\,)"
               id="yellowRibbonContributionAmount"
               type="text"
               name="yellowRibbonAmount"
@@ -529,7 +529,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <input
           inputMode="decimal"
           type="text"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           name={scholarshipsId}
           id={scholarshipsId}
           value={formatCurrency(this.props.inputs.scholarships)}
@@ -555,7 +555,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </label>
         <input
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           type="text"
           name={tuitionAssistId}
           id={tuitionAssistId}
@@ -703,7 +703,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <label htmlFor={kickerAmountId}>How much is your kicker?</label>
         <input
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           type="text"
           name={kickerAmountId}
           id={kickerAmountId}
@@ -891,7 +891,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </label>
         <input
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           type="text"
           name={buyUpAmountId}
           id={buyUpAmountId}
@@ -1021,7 +1021,7 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderSchoolCostsAndCalendar = () => {
+  hideSchoolCostsAndCalendar = () => {
     const {
       inState,
       tuition,
@@ -1031,8 +1031,18 @@ class EstimateYourBenefitsForm extends React.Component {
       enrolledOld,
     } = this.props.displayedInputs;
 
-    if (!(inState || tuition || books || calendar || enrolled || enrolledOld))
-      return null;
+    return !(
+      inState ||
+      tuition ||
+      books ||
+      calendar ||
+      enrolled ||
+      enrolledOld
+    );
+  };
+
+  renderSchoolCostsAndCalendar = () => {
+    if (this.hideSchoolCostsAndCalendar()) return null;
 
     const name = 'School costs and calendar';
 
@@ -1090,7 +1100,7 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderScholarshipsAndOtherVAFunding = () => {
+  hideScholarshipsAndOtherVAFunding = () => {
     const {
       yellowRibbon,
       tuitionAssist,
@@ -1098,8 +1108,11 @@ class EstimateYourBenefitsForm extends React.Component {
       buyUp,
       scholarships,
     } = this.props.displayedInputs;
-    if (!(yellowRibbon || tuitionAssist || kicker || buyUp || scholarships))
-      return null;
+    return !(yellowRibbon || tuitionAssist || kicker || buyUp || scholarships);
+  };
+
+  renderScholarshipsAndOtherVAFunding = () => {
+    if (this.hideScholarshipsAndOtherVAFunding()) return null;
     const name = 'Scholarships and other VA funding';
     return (
       <AccordionItem
@@ -1130,7 +1143,11 @@ class EstimateYourBenefitsForm extends React.Component {
   render() {
     const isOjt =
       _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
-    const sectionCount = isOjt ? '3' : '4';
+
+    let sectionCount = 2;
+    if (!this.hideSchoolCostsAndCalendar()) sectionCount += 1;
+    if (!this.hideScholarshipsAndOtherVAFunding()) sectionCount += 1;
+
     const className = classNames(
       'estimate-your-benefits-form',
       'medium-5',
