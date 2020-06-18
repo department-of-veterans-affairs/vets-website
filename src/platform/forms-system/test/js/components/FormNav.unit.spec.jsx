@@ -5,38 +5,58 @@ import SkinDeep from 'skin-deep';
 import FormNav from '../../../src/js/components/FormNav';
 
 describe('Schemaform FormNav', () => {
-  let formConfigDefaultData;
-  before(() => {
-    formConfigDefaultData = {
-      chapters: {
-        chapter1: {
-          title: 'Testing',
-          pages: {
-            page1: {
-              path: 'testing',
-            },
-          },
-        },
-        chapter2: {
-          pages: {
-            page2: {
-              path: 'testing',
-            },
-          },
-        },
-        chapter3: {
-          pages: {
-            page3: {
-              path: 'testing',
-            },
+  const getDefaultData = () => ({
+    chapters: {
+      chapter1: {
+        title: 'Testing',
+        pages: {
+          page1: {
+            path: 'testing',
           },
         },
       },
-    };
+      chapter2: {
+        pages: {
+          page2: {
+            path: 'testing',
+          },
+        },
+      },
+      chapter3: {
+        pages: {
+          page3: {
+            path: 'testing',
+          },
+        },
+      },
+    },
   });
+  const getReviewData = () => ({
+    chapters: {
+      chapter1: {
+        title: 'Testing',
+        pages: {
+          page1: {
+            path: 'testing',
+          },
+        },
+      },
+      chapter2: {
+        pages: {
+          page2: {
+            path: 'testing',
+          },
+        },
+      },
+    },
+    savedFormMessages: {
+      reviewPageTitle: 'Custom Review Page Title',
+    },
+  });
+
   it('should render current chapter data', () => {
     const currentPath = 'testing';
-
+    const formConfigDefaultData = getDefaultData();
     const tree = SkinDeep.shallowRender(
       <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
     );
@@ -46,28 +66,7 @@ describe('Schemaform FormNav', () => {
     expect(tree.subTree('.nav-header').text()).to.equal('1 of 4 Testing');
   });
   it('should display a custom review page title', () => {
-    const formConfigReviewData = {
-      chapters: {
-        chapter1: {
-          title: 'Testing',
-          pages: {
-            page1: {
-              path: 'testing',
-            },
-          },
-        },
-        chapter2: {
-          pages: {
-            page2: {
-              path: 'testing',
-            },
-          },
-        },
-      },
-      savedFormMessages: {
-        reviewPageTitle: 'Custom Review Page Title',
-      },
-    };
+    const formConfigReviewData = getReviewData();
     const currentPath = 'review-and-submit';
 
     const tree = SkinDeep.shallowRender(
