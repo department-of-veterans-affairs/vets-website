@@ -8,6 +8,7 @@ import {
   getLongTermAppointmentHistory,
 } from '../api';
 import { getFacilityIdFromLocation } from '../services/location';
+import { getAvailableHealthcareServices } from '../services/healthcare-service';
 
 import { recordVaosError, recordEligibilityFailure } from './events';
 
@@ -83,17 +84,26 @@ export async function getEligibilityData(
       ).catch(createErrorHandler('direct', 'direct-check-past-visits-error'));
     }
 
-    eligibilityChecks.clinics = getAvailableClinics(
+    eligibilityChecks.clinics = getAvailableHealthcareServices({
       facilityId,
       typeOfCareId,
       systemId,
-    ).catch(createErrorHandler('direct', 'direct-available-clinics-error'));
+    }).catch(createErrorHandler('direct', 'direct-available-clinics-error'));
     eligibilityChecks.pastAppointments = getLongTermAppointmentHistory().catch(
       createErrorHandler('direct', 'direct-no-matching-past-clinics-error'),
     );
   }
 
   const results = await promiseAllFromObject(eligibilityChecks);
+
+  if (results.clinics?.length) {
+    // This sorting will be handled by the HealthcareService service once implemented
+    results.clinics = results.clinics.sort((a, b) => {
+      const aName = a.clinicFriendlyLocationName || a.clinicName;
+      const bName = b.clinicFriendlyLocationName || b.clinicName;
+      return aName.toUpperCase() < bName.toUpperCase() ? -1 : 1;
+    });
+  }
 
   const eligibility = {
     ...results,
@@ -107,9 +117,7 @@ export async function getEligibilityData(
     eligibility.hasMatchingClinics = eligibility.clinics.some(
       clinic =>
         !!eligibility.pastAppointments.find(
-          appt =>
-            clinic.siteCode === appt.facilityId &&
-            clinic.clinicId === appt.clinicId,
+          appt => clinic.id === `var${appt.facilityId}_${appt.clinicId}`,
         ),
     );
 

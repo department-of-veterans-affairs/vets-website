@@ -356,7 +356,7 @@ export const addressUISchema = (
     'ui:field': ReviewCardField,
     isMilitaryBase: {
       'ui:title':
-        'I live on a United States military base outside of the United States',
+        'I live on a United States military base outside of the United States.',
       'ui:options': {
         hideIf: () => !isMilitaryBaseAddress,
         hideOnReviewIfFalse: true,
@@ -527,7 +527,7 @@ export const addressUISchema = (
           (isMilitaryBaseAddress && livesOnMilitaryBase)
         );
       },
-      'ui:title': 'Postal Code',
+      'ui:title': 'Postal code',
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern: 'Zip code must be 5 digits',

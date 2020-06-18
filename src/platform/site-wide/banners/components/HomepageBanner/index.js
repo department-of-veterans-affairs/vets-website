@@ -6,6 +6,7 @@ import classnames from 'classnames';
 // Relative imports.
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
+import recordEvent from 'platform/monitoring/record-event';
 
 const HOMEPAGE_BANNER_LOCALSTORAGE = 'HOMEPAGE_BANNER';
 
@@ -38,6 +39,15 @@ export class HomepageBanner extends Component {
     });
   };
 
+  onClick = event => {
+    if (event.target?.nodeName === 'A') {
+      recordEvent({
+        event: 'nav-warning-alert-box-content-link-click',
+        alertBoxHeading: this.props.title,
+      });
+    }
+  };
+
   render() {
     const { title, content, type, visible } = this.props;
 
@@ -53,6 +63,7 @@ export class HomepageBanner extends Component {
 
     return (
       <div
+        onClick={this.onClick}
         className={classnames(
           'usa-alert-full-width',
           'vads-u-border-top--5px',

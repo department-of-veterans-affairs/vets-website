@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
 
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+
+import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
@@ -72,6 +74,10 @@ class VAPProfileField extends React.Component {
 
   static defaultProps = {
     fieldName: '',
+  };
+
+  state = {
+    showCannotEditModal: false,
   };
 
   closeModalTimeoutID = null;
@@ -186,7 +192,11 @@ class VAPProfileField extends React.Component {
   };
 
   openEditModal = () => {
-    this.props.openModal(this.props.fieldName);
+    if (this.props.blockEditMode) {
+      this.setState({ showCannotEditModal: true });
+    } else {
+      this.props.openModal(this.props.fieldName);
+    }
   };
 
   refreshTransaction = () => {
@@ -208,7 +218,7 @@ class VAPProfileField extends React.Component {
 
   render() {
     const {
-      analyticsSectionName,
+      activeEditView,
       ContentView,
       EditView,
       fieldName,
@@ -277,6 +287,29 @@ class VAPProfileField extends React.Component {
 
     return (
       <div className="vet360-profile-field" data-field-name={fieldName}>
+        <Modal
+          title={`You’re currently editing your ${VET360.FIELD_TITLES[
+            activeEditView
+          ]?.toLowerCase()}`}
+          status="warning"
+          visible={this.state.showCannotEditModal}
+          onClose={() => {
+            this.setState({ showCannotEditModal: false });
+          }}
+        >
+          <p>
+            Please go back and save or cancel your work before editing a new
+            section of your profile. If you cancel, your in-progress work won’t
+            be saved.
+          </p>
+          <button
+            onClick={() => {
+              this.setState({ showCannotEditModal: false });
+            }}
+          >
+            OK
+          </button>
+        </Modal>
         <Vet360Transaction
           isModalOpen={showEditView || showValidationView}
           id={`${fieldName}-transaction-status`}
@@ -301,14 +334,27 @@ export const mapStateToProps = (state, ownProps) => {
   const data = selectVet360Field(state, fieldName);
   const isEmpty = !data;
   const addressValidationType = selectAddressValidationType(state);
+  const activeEditView = selectCurrentlyOpenEditModal(state);
   const showValidationView =
     ownProps.ValidationView &&
     addressValidationType === fieldName &&
     // TODO: use a constant for 'addressValidation'
-    selectCurrentlyOpenEditModal(state) === 'addressValidation';
+    activeEditView === 'addressValidation';
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
+    blockEditMode: !!activeEditView,
+    /*
+    This ternary is to deal with an edge case: if the user is currently viewing
+    the address validation view we need to handle things differently or text in
+    the modal would be inaccurate. This is an unfortunate hack to get around an
+    existing hack we've been using to determine if we need to show the address
+    validation view or not.
+    */
+    activeEditView:
+      activeEditView === 'addressValidation'
+        ? addressValidationType
+        : activeEditView,
     data,
     fieldName,
     field: selectEditedFormField(state, fieldName),

@@ -2,7 +2,7 @@ import React from 'react';
 
 export const uploadDescription = () => (
   <div>
-    <h3>Supporting documents</h3>
+    <h3 className="vads-u-font-size--h5">Supporting documents</h3>
     <p>
       Some examples of other documents that could help support your claim
       include:
