@@ -1,8 +1,10 @@
-import { expect } from 'chai';
-import moment from 'moment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 import React from 'react';
+import moment from 'moment';
+import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
 import { ApplicationStatus } from '../../save-in-progress/ApplicationStatus';
 
 describe('schemaform <ApplicationStatus>', () => {

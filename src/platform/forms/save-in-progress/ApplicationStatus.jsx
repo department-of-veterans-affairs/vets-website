@@ -1,16 +1,18 @@
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
-import {
-  formBenefits,
-  formDescriptions,
-  formLinks,
-} from 'applications/personalization/dashboard/helpers';
-import moment from 'moment';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import moment from 'moment';
 import { connect } from 'react-redux';
+
+import {
+  formLinks,
+  formDescriptions,
+  formBenefits,
+} from 'applications/personalization/dashboard/helpers';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { removeSavedForm } from '../../user/profile/actions';
+
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
