@@ -32,6 +32,13 @@ const emptyPaymentAccount = {
   financialInstitutionRoutingNumber: '',
 };
 
+const newPaymentAccount = {
+  accountType: 'Savings',
+  financialInstitutionName: 'COMERICA BANK',
+  accountNumber: '*****6789',
+  financialInstitutionRoutingNumber: '*****4321',
+};
+
 function createBasicInitialState() {
   return {
     user: {
@@ -172,6 +179,47 @@ describe('DirectDepositContent', () => {
       editForm = wrapper.find('form');
       expect(editForm.exists()).to.be.false;
     });
+    it('should handle a successful attempt to update bank info', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch.onFirstCall(), {
+        data: {
+          attributes: {
+            responses: [
+              {
+                paymentAccount: newPaymentAccount,
+              },
+            ],
+          },
+        },
+      });
+
+      // find and click on the set up button
+      findSetUpBankInfoButton(wrapper).simulate('click');
+
+      // fill out form info
+      fillOutAndSubmitBankInfoForm(wrapper.find('form'));
+
+      await asyncFlush();
+      wrapper.update();
+
+      // the form should be removed
+      expect(wrapper.find('form').exists()).to.be.false;
+
+      // a success alert should appear
+      expect(
+        wrapper.text().includes('We’ve saved your direct deposit information'),
+      ).to.be.true;
+
+      // and the bank info from the mocked call should be shown
+      expect(
+        wrapper.text().includes(newPaymentAccount.financialInstitutionName),
+      ).to.be.true;
+      expect(wrapper.text().includes(newPaymentAccount.accountNumber)).to.be
+        .true;
+      expect(wrapper.text().includes(newPaymentAccount.accountType)).to.be.true;
+
+      resetFetch();
+    });
   });
 
   describe('when bank info is already set up', () => {
@@ -206,12 +254,6 @@ describe('DirectDepositContent', () => {
       expect(editForm.exists()).to.be.false;
     });
     it('should handle a successful attempt to update bank info', async () => {
-      const newPaymentAccount = {
-        accountType: 'Savings',
-        financialInstitutionName: 'COMERICA BANK',
-        accountNumber: '*****6789',
-        financialInstitutionRoutingNumber: '*****4321',
-      };
       mockFetch();
       setFetchJSONResponse(global.fetch.onFirstCall(), {
         data: {
