@@ -1,5 +1,4 @@
 import React from 'react';
-
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 
