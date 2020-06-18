@@ -1,3 +1,5 @@
+import MarkdownIt from 'markdown-it';
+import markdownitLinkAttributes from 'markdown-it-link-attributes';
 import recordEvent from 'platform/monitoring/record-event';
 
 export const GA_PREFIX = 'chatbot';
@@ -65,3 +67,12 @@ export const handleButtonsPostRender = () => {
     });
   }, 10);
 };
+
+export const markdownRenderer = MarkdownIt({
+  html: true,
+}).use(markdownitLinkAttributes, {
+  attrs: {
+    target: '_blank',
+    rel: 'noopener',
+  },
+});

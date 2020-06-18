@@ -7,8 +7,6 @@ import { isEnrolledInVAHealthCare as isEnrolledInVAHealthCareSelector } from 'ap
 
 import { FIELD_NAMES } from 'vet360/constants';
 
-import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
-
 import ContactInfoForm from '../ContactInfoForm';
 
 class PhoneEditModal extends React.Component {
@@ -65,16 +63,10 @@ class PhoneEditModal extends React.Component {
 }
 
 export function mapStateToProps(state, ownProps) {
-  const showReceiveTextNotifications = profileShowReceiveTextNotifications(
-    state,
-  );
   const isEnrolledInVAHealthCare = isEnrolledInVAHealthCareSelector(state);
   const showSMSCheckbox =
-    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE &&
-    showReceiveTextNotifications &&
-    isEnrolledInVAHealthCare;
+    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE && isEnrolledInVAHealthCare;
   return {
-    showReceiveTextNotifications,
     isEnrolledInVAHealthCare,
     showSMSCheckbox,
   };

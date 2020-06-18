@@ -6,9 +6,10 @@ export default ({ formData }) => {
   const { name, dates } = formData;
 
   return (
-    <div>
-      <h5>{name}</h5>
-      <p>{formatDateRange(dates)}</p>
-    </div>
+    <p>
+      <strong>{name}</strong>
+      <br />
+      {formatDateRange(dates)}
+    </p>
   );
 };
