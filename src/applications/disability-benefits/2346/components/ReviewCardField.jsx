@@ -348,9 +348,11 @@ class ReviewCardField extends React.Component {
       ...temporaryAddress
     } = data.temporaryAddress;
     /* eslint-enable no-unused-vars */
-    const isTempAddressMissing = Object.values(temporaryAddress).every(
-      prop => !prop,
-    );
+    let isTempAddressValid = true;
+    if (this.props.name === 'temporaryAddress') {
+      isTempAddressValid = Boolean(street && city && country);
+    }
+    const addressTypeWithSpace = this.props.name.replace('Address', ' address');
 
     return (
       <div
@@ -383,9 +385,7 @@ class ReviewCardField extends React.Component {
         >
           <ViewComponent formData={this.props.formData} />
           {!volatileData &&
-            street &&
-            city &&
-            country && (
+            isTempAddressValid && (
               <button
                 className={`${editLink} va-button-link vads-u-display--block vads-u-margin-top--2`}
                 aria-label={`Edit ${title.toLowerCase()}`}
@@ -396,12 +396,11 @@ class ReviewCardField extends React.Component {
                 Edit {title.toLowerCase()}
               </button>
             )}
+
           {!volatileData &&
-            !street &&
-            !city &&
-            !country && (
+            !isTempAddressValid && (
               <button
-                className={`${editButton} usa-button-secondary vads-u-background-color--white`}
+                className={`${editLink} va-button-link`}
                 aria-label={`Add a ${title.toLowerCase()}`}
                 style={{ minWidth: '8rem' }}
                 onClick={() => this.startEditing(this.props.name)}
@@ -410,8 +409,7 @@ class ReviewCardField extends React.Component {
                 Add a {title.toLowerCase()}
               </button>
             )}
-          {isTempAddressMissing &&
-            street &&
+          {street &&
             city &&
             country && (
               <div className="vads-u-margin-top--2">
@@ -419,10 +417,12 @@ class ReviewCardField extends React.Component {
                   id={this.props.name}
                   type="radio"
                   className=" vads-u-width--auto"
+                  checked={
+                    this.props['view:currentAddress'] === this.props.name
+                  }
                   onChange={() =>
                     this.onChange('view:currentAddress', this.props.name)
                   }
-                  checked
                 />
                 <label
                   className={classnames({
@@ -434,37 +434,7 @@ class ReviewCardField extends React.Component {
                   })}
                   htmlFor={this.props.name}
                 >
-                  Send my order to this address
-                </label>
-              </div>
-            )}
-          {!isTempAddressMissing &&
-            street &&
-            city &&
-            country && (
-              <div>
-                <input
-                  id={this.props.name}
-                  className="vads-u-margin-left--0 vads-u-max-width--293"
-                  type="radio"
-                  checked={
-                    this.props['view:currentAddress'] === this.props.name
-                  }
-                  onChange={() =>
-                    this.onChange('view:currentAddress', this.props.name)
-                  }
-                />
-                <label
-                  className={classnames({
-                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto vads-u-margin-top--2': true,
-                    'vads-u-color--white':
-                      this.props.name === this.props['view:currentAddress'],
-                    'vads-u-background-color--white vads-u-color--primary':
-                      this.props.name !== this.props['view:currentAddress'],
-                  })}
-                  htmlFor={this.props.name}
-                >
-                  Send my order to this address
+                  Send this order to my {addressTypeWithSpace}
                 </label>
               </div>
             )}
@@ -510,14 +480,14 @@ class ReviewCardField extends React.Component {
     this.setState({ editing: false });
     if (this.props.name === 'temporaryAddress') {
       const { street, city, country } = this.state.oldData;
-      const isTempAddressMissing = !street && !city && !country;
-      if (isTempAddressMissing) {
+      const isTempAddressValid = street && city && country;
+      if (isTempAddressValid) {
         this.setState({
-          permAddressShouldBeFocused: true,
+          tempAddressShouldBeFocused: true,
         });
       } else {
         this.setState({
-          tempAddressShouldBeFocused: true,
+          permAddressShouldBeFocused: true,
         });
       }
     } else if (this.props.name === 'permanentAddress') {
@@ -567,6 +537,7 @@ class ReviewCardField extends React.Component {
       this.props.formContext.onError();
     } else {
       if (this.props.name === 'permanentAddress') {
+        this.onChange('view:currentAddress', 'permanentAddress');
         this.setState({
           editing: false,
           canCancel: true,
@@ -574,14 +545,28 @@ class ReviewCardField extends React.Component {
           permAddressShouldBeFocused: true,
           tempAddressShouldBeFocused: false,
         });
-      } else {
-        this.setState({
-          editing: false,
-          canCancel: true,
-          oldData: this.props.formData,
-          permAddressShouldBeFocused: false,
-          tempAddressShouldBeFocused: true,
-        });
+      } else if (this.props.name === 'temporaryAddress') {
+        const { street, city, country } = this.props.formData;
+        const isTempAddressValid = Boolean(street && city && country);
+        if (isTempAddressValid) {
+          this.onChange('view:currentAddress', 'temporaryAddress');
+          this.setState({
+            editing: false,
+            canCancel: true,
+            oldData: this.props.formData,
+            permAddressShouldBeFocused: false,
+            tempAddressShouldBeFocused: true,
+          });
+        } else {
+          this.onChange('view:currentAddress', 'permanentAddress');
+          this.setState({
+            editing: false,
+            canCancel: true,
+            oldData: this.props.formData,
+            permAddressShouldBeFocused: true,
+            tempAddressShouldBeFocused: false,
+          });
+        }
       }
       if (this.props.uiSchema.saveClickTrackEvent) {
         recordEvent(this.props.uiSchema.saveClickTrackEvent);
