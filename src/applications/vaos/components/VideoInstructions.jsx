@@ -40,9 +40,9 @@ export function VideoVisitInstructions({ instructionsType }) {
         <strong>Medication review</strong>
         <p>
           During your video appointment, your provider will want to review all
-          the medications, vitamins, herbs, and supplements you’re taking—no
-          matter if you got them from another provider, VA clinic, or local
-          store.
+          the medications, vitamins, herbs, and supplements you’re taking
+          &mdash; no matter if you got them from another provider, VA clinic, or
+          local store.
         </p>
         <p>
           Please be ready to talk about your medications during your video visit
