@@ -138,15 +138,15 @@ export const DirectDepositContent = ({
 
   // When direct deposit is not set up, we will show
   const notSetUpContent = (
-    <>
-      <button
-        onClick={() => {
-          toggleEditState();
-        }}
-      >
-        Set up direct deposit
-      </button>
-    </>
+    <button
+      className="va-button-link"
+      ref={editBankInfoButton}
+      onClick={() => {
+        toggleEditState();
+      }}
+    >
+      Please add your bank information
+    </button>
   );
 
   // When editing/setting up direct deposit, we'll show a form that accepts bank
@@ -195,22 +195,27 @@ export const DirectDepositContent = ({
     return notSetUpContent;
   };
 
-  const directDepositData = () => [
-    // top row of the table can show multiple states so we set its value with
-    // the getBankInfo() helper
-    {
-      title: 'Account',
-      value: getBankInfo(),
-    },
-    {
-      title: 'Payment history',
-      value: (
-        <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
-          View your payment history
-        </EbenefitsLink>
-      ),
-    },
-  ];
+  const directDepositData = () => {
+    const data = [
+      // top row of the table can show multiple states so we set its value with
+      // the getBankInfo() helper
+      {
+        title: 'Account',
+        value: getBankInfo(),
+      },
+    ];
+    if (isDirectDepositSetUp) {
+      data.push({
+        title: 'Payment history',
+        value: (
+          <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
+            View your payment history
+          </EbenefitsLink>
+        ),
+      });
+    }
+    return data;
+  };
 
   const educationBenefitsData = () => [
     {
