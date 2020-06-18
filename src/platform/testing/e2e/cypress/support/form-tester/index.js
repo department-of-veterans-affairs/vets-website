@@ -487,6 +487,7 @@ const testForm = testConfig => {
     dataSets.forEach(testKey => {
       context(testKey, () => {
         beforeEach(() => {
+          cy.wrap(testKey).as('testKey');
           cy.fixture(`data/${testKey}`)
             .then(extractTestData)
             .as('testData')
