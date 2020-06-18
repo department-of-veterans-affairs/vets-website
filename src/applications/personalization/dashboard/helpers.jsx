@@ -112,7 +112,7 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
     }
     const formDescription =
       key === VA_FORM_IDS.FORM_VA_2346A
-        ? `${formBenefits[key]}`
+        ? `${formBenefits[key]} ${formNumber}`
         : `${formBenefits[key]} application ${formNumber}`;
     descriptions[key] = formDescription; // eslint-disable-line no-param-reassign
     return descriptions;

@@ -6,3 +6,4 @@ export const FINISH_APP_LATER_DEFAULT_MESSAGE =
   'Finish this application later.';
 export const UNAUTH_SIGN_IN_DEFAULT_MESSAGE =
   'Sign in to start your application';
+export const APP_TYPE_DEFAULT = 'application';

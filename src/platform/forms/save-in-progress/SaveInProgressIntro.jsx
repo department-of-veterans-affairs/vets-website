@@ -16,7 +16,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from './constants';
+import { APP_TYPE_DEFAULT, UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from './constants';
 import DowntimeMessage from './DowntimeMessage';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
@@ -31,11 +31,15 @@ class SaveInProgressIntro extends React.Component {
       verifyRequiredPrefill,
       verifiedPrefillAlert,
       unverifiedPrefillAlert,
+      formConfig,
     } = this.props;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
     );
+    const appType = formConfig.savedFormMessages.appType || APP_TYPE_DEFAULT;
+    /* eslint-disable no-debugger */
+    debugger;
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const lastUpdated =
@@ -49,6 +53,7 @@ class SaveInProgressIntro extends React.Component {
 
         if (!isExpired) {
           const lastSavedDateTime = savedAt.format('M/D/YYYY [at] h:mm a');
+
           alert = (
             <div>
               <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
@@ -61,11 +66,11 @@ class SaveInProgressIntro extends React.Component {
                   </span>
                   <br />
                   <span className="saved-form-item-metadata">
-                    Your application was last saved on {lastSavedDateTime}
+                    Your {appType} was last saved on {lastSavedDateTime}
                   </span>
                   <div className="expires-container">
                     You can continue applying now, or come back later to finish
-                    your application. Your application{' '}
+                    your {appType}. Your {appType}{' '}
                     <span className="expires">
                       will expire on {expirationDate}.
                     </span>
@@ -86,8 +91,8 @@ class SaveInProgressIntro extends React.Component {
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
                     Your saved {formDescriptions[formId]} has expired. If you
-                    want to apply for {formBenefits[formId]}, please start a new
-                    application.
+                    want to apply for {formBenefits[formId]}, please start a new{' '}
+                    {appType}.
                   </span>
                 </div>
                 <div>{this.props.children}</div>
@@ -102,7 +107,7 @@ class SaveInProgressIntro extends React.Component {
             <div className="usa-alert usa-alert-info schemaform-sip-alert">
               <div className="usa-alert-body">
                 <strong>Note:</strong> Since you’re signed in to your account,
-                we can prefill part of your application based on your account
+                we can prefill part of your {appType} based on your account
                 details. You can also save your form in progress and come back
                 later to finish filling it out.
               </div>
@@ -140,7 +145,7 @@ class SaveInProgressIntro extends React.Component {
                 className="va-button-link schemaform-start-button"
                 onClick={this.goToBeginning}
               >
-                Start your application without signing in
+                Start your {appType} without signing in
               </button>
             </p>
           )}
@@ -150,26 +155,26 @@ class SaveInProgressIntro extends React.Component {
           <div className="usa-alert-body">
             <h3 className="usa-alert-heading">
               Save time—and save your work in progress—by signing in before
-              starting your application
+              starting your {appType}
             </h3>
             <div className="usa-alert-text">
               <p>When you’re signed in to your VA.gov account:</p>
               <ul>
                 <li>
-                  We can prefill part of your application based on your account
+                  We can prefill part of your {appType} based on your account
                   details.
                 </li>
                 <li>
-                  You can save your application in progress, and come back later
+                  You can save your {appType} in progress, and come back later
                   to finish filling it out. You’ll have {retentionPeriod} from
-                  the date you start or update your application to submit it.
+                  the date you start or update your {appType} to submit it.
                   After {retentionPeriod}, we’ll delete the form and you’ll need
                   to start over.
                 </li>
               </ul>
               <p>
                 <strong>Note:</strong> If you sign in after you’ve started your
-                application, you won’t be able to save the information you’ve
+                {appType}, you won’t be able to save the information you’ve
                 already filled in.
               </p>
               <button
@@ -184,7 +189,7 @@ class SaveInProgressIntro extends React.Component {
                     className="va-button-link schemaform-start-button"
                     onClick={this.goToBeginning}
                   >
-                    Start your application without signing in
+                    Start your {appType} without signing in
                   </button>
                 </p>
               )}
@@ -245,6 +250,8 @@ class SaveInProgressIntro extends React.Component {
 
   render() {
     const { profile } = this.props.user;
+    const { formConfig } = this.props;
+    const appType = formConfig.savedFormMessages.appType || APP_TYPE_DEFAULT;
     const startPage = this.getStartPage();
     const savedForm =
       profile && profile.savedForms.find(f => f.form === this.props.formId);
@@ -261,7 +268,9 @@ class SaveInProgressIntro extends React.Component {
     if (profile.loading && !this.props.resumeOnly) {
       return (
         <div>
-          <LoadingIndicator message="Checking to see if you have a saved version of this application..." />
+          <LoadingIndicator
+            message={`Checking to see if you have a saved version of this ${appType} ...`}
+          />
           <br />
         </div>
       );
@@ -357,11 +366,21 @@ SaveInProgressIntro.propTypes = {
   startMessageOnly: PropTypes.bool,
   hideUnauthedStartLink: PropTypes.bool,
   unauthStartText: PropTypes.string,
+  formConfig: PropTypes.shape({
+    savedFormMessages: PropTypes.shape({
+      appType: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 SaveInProgressIntro.defaultProps = {
   retentionPeriod: '60 days',
   unauthStartText: '',
+  formConfig: {
+    savedFormMessages: {
+      appType: '',
+    },
+  },
 };
 
 function mapStateToProps(state) {

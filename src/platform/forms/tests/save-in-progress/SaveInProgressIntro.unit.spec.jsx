@@ -19,6 +19,12 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   const removeInProgressForm = () => {};
   const toggleLoginModal = () => {};
 
+  const formConfig = {
+    savedFormMessages: {
+      appType: '',
+    },
+  };
+
   it('should render in progress message', () => {
     const user = {
       profile: {
@@ -50,12 +56,16 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
     expect(
-      tree.find('.saved-form-item-metadata').get(1).props.children[1],
-    ).to.equal(moment.unix(946684800).format('M/D/YYYY [at] h:mm a'));
+      tree
+        .find('.saved-form-item-metadata')
+        .last()
+        .text(),
+    ).to.include(moment.unix(946684800).format('M/D/YYYY [at] h:mm a'));
 
     expect(tree.find('.usa-alert').text()).to.contain(
       'Your form is in progress',
@@ -94,6 +104,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -129,6 +140,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -169,6 +181,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -205,6 +218,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -235,6 +249,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -276,6 +291,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         retentionPeriod={'1 year'}
+        formConfig={formConfig}
       />,
     );
 
@@ -310,6 +326,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -343,6 +360,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -383,6 +401,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -423,6 +442,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -462,6 +482,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -498,6 +519,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         startMessageOnly
+        formConfig={formConfig}
       />,
     );
 
@@ -532,6 +554,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         startMessageOnly
+        formConfig={formConfig}
       />,
     );
 
@@ -566,6 +589,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         toggleLoginModal={toggleLoginModal}
         startMessageOnly
         unauthStartText="Custom message displayed to non-signed-in users"
+        formConfig={formConfig}
       />,
     );
     expect(tree.find('.usa-button-primary').text()).to.equal(
