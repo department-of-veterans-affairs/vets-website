@@ -98,7 +98,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
       />,
     );
 
-    expect(baseElement).to.contain.text('some comment');
+    expect(baseElement).not.to.contain.text('some comment');
   });
 });
 
