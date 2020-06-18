@@ -15,4 +15,5 @@ export default {
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
   FORM_686_CONTENT_REVEAL: '686UnauthContentBlock',
   CAREGIVER_CONTENT_TOGGLE: 'caregiver-content-toggle',
+  SCHEDULE_VIEW_VA_APPOINTMENTS: 'schedule-view-va-appointments',
 };
