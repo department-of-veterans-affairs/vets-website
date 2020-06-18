@@ -79,13 +79,15 @@ div.review {
     border-top: 1px solid $color-gray-light;
     padding: 1.5rem;
     padding-left: 0;
-  }
-  .review-row dd {
-    font-weight: bold;
-    text-align: right;
-  }
-  .review-row dt p {
-    margin-top: 0;
-    margin-bottom: 0;
+
+    dd {
+      font-weight: bold;
+      text-align: right;
+    }
+    dt p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 }
+
