@@ -4,6 +4,7 @@ const get = require('lodash/get');
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
 const { toId, readEntity, getContentModelType } = require('./helpers');
+const { transformFields } = require('./transform-fields');
 
 const {
   validateRawEntity,
@@ -164,6 +165,15 @@ const entityAssemblerFactory = contentDir => {
    *                    with the body of the referenced entities.
    */
   const assembleEntityTree = (entity, ancestors = [], parentFieldName = '') => {
+    // Use the automatic transformer process for certain content models
+    // This is a test. Eventually,
+    if (getContentModelType(entity) === 'node-vba_facility') {
+      validateInput(entity);
+      const transformed = transformFields(entity);
+      validateOutput(entity, transformed);
+      return transformed;
+    }
+
     // Handle circular references
     const a = findCircularReference(entity, ancestors);
     if (a) return a;
