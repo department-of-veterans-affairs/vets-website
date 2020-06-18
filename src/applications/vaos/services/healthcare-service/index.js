@@ -35,6 +35,9 @@ export async function getAvailableHealthcareServices({
       parseId(facilityId),
       typeOfCareId,
       clinics,
+    ).sort(
+      (a, b) =>
+        a.serviceName.toUpperCase() < b.serviceName.toUpperCase() ? -1 : 1,
     );
   } catch (e) {
     if (e.errors) {
