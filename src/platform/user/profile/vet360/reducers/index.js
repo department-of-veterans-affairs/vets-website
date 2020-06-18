@@ -209,16 +209,16 @@ export default function vet360(state = initialState, action) {
     }
 
     case UPDATE_PROFILE_FORM_FIELD: {
-      // The action gets fired upon initial opening of the edit modal
-      // We only want to capture initialFormFields once, it should not update
-      const initialFormFields = isEmpty(state.initialFormFields)
-        ? state.formFields
-        : state.initialFormFields;
-
       const formFields = {
         ...state.formFields,
         [action.field]: action.newState,
       };
+
+      // The action gets fired upon initial opening of the edit modal
+      // We only want to capture initialFormFields once, it should not update
+      const initialFormFields = isEmpty(state.initialFormFields)
+        ? formFields
+        : state.initialFormFields;
 
       const modalName = state?.modal;
       const initialFormFieldValues = state.initialFormFields[modalName]?.value;
@@ -233,7 +233,7 @@ export default function vet360(state = initialState, action) {
       );
 
       const hasUnsavedEdits =
-        !isEmpty(initialFormFields) &&
+        !isEmpty(initialFormFieldValues) &&
         !isEqual(formFieldValues, initialFormFieldValues);
 
       return {

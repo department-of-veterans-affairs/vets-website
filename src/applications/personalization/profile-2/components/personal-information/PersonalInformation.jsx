@@ -8,9 +8,11 @@ import { focusElement } from 'platform/utilities/ui';
 import PersonalInformationContent from './PersonalInformationContent';
 
 class PersonalInformation extends Component {
-  componentDidUpdate() {
+  componentDidMount() {
     focusElement('[data-focus-target]');
+  }
 
+  componentDidUpdate() {
     // Show alert when navigating away.
     if (this.props.hasUnsavedEdits) {
       window.onbeforeunload = () => true;
