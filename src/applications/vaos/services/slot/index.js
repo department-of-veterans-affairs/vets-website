@@ -35,7 +35,7 @@ export async function getSlots({
     const data = await getAvailableSlots(
       parseId(siteId),
       typeOfCareId,
-      clinicId,
+      clinicId.split('_')[1],
       startDate,
       endDate,
     );
