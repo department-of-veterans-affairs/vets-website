@@ -434,7 +434,7 @@ class ReviewCardField extends React.Component {
                   })}
                   htmlFor={this.props.name}
                 >
-                  Send this order to my {addressTypeWithSpace}
+                  Send to {addressTypeWithSpace}
                 </label>
               </div>
             )}
