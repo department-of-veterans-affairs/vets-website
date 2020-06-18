@@ -170,10 +170,8 @@ const entityAssemblerFactory = contentDir => {
 
     validateInput(entity);
 
-    const filteredEntity = getFilteredEntity(entity);
-
     const expandedEntity = expandEntityReferences(
-      filteredEntity,
+      entity,
       ancestors,
       assembleEntityTree,
     );
