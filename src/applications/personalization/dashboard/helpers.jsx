@@ -1,45 +1,50 @@
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import React from 'react';
+
 import * as Sentry from '@sentry/browser';
-import burialsConfig from 'applications/burials/config/form.js';
-import burialsManifest from 'applications/burials/manifest.json';
-import mdotConfig from 'applications/disability-benefits/2346/config/form';
-import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
-import disability526Config from 'applications/disability-benefits/526EZ/config/form.js';
-import dependentStatusConfig from 'applications/disability-benefits/686/config/form';
-import dependentStatusManifest from 'applications/disability-benefits/686/manifest.json';
-import hlrConfig from 'applications/disability-benefits/996/config/form';
-import hlrManifest from 'applications/disability-benefits/996/manifest.json';
-import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
-import bddConfig from 'applications/disability-benefits/bdd/config/form.js';
-import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
-import edu0993Config from 'applications/edu-benefits/0993/config/form.js';
-import edu0993Manifest from 'applications/edu-benefits/0993/manifest.json';
-import edu0994Config from 'applications/edu-benefits/0994/config/form.js';
-import edu0994Manifest from 'applications/edu-benefits/0994/manifest.json';
-import edu1990Config from 'applications/edu-benefits/1990/config/form.js';
-import edu1990Manifest from 'applications/edu-benefits/1990/manifest.json';
-import edu1990eConfig from 'applications/edu-benefits/1990e/config/form.js';
-import edu1990eManifest from 'applications/edu-benefits/1990e/manifest.json';
-import edu1990nConfig from 'applications/edu-benefits/1990n/config/form.js';
-import edu1990nManifest from 'applications/edu-benefits/1990n/manifest.json';
-import edu1995Config from 'applications/edu-benefits/1995/config/form.js';
-import edu1995Manifest from 'applications/edu-benefits/1995/manifest.json';
-import edu5490Config from 'applications/edu-benefits/5490/config/form.js';
-import edu5490Manifest from 'applications/edu-benefits/5490/manifest.json';
-import edu5495Config from 'applications/edu-benefits/5495/config/form.js';
-import edu5495Manifest from 'applications/edu-benefits/5495/manifest.json';
-import feedbackConfig from 'applications/edu-benefits/feedback-tool/config/form.js';
-import feedbackManifest from 'applications/edu-benefits/feedback-tool/manifest.json';
-import hcaConfig from 'applications/hca/config/form.js';
-import hcaManifest from 'applications/hca/manifest.json';
-import pensionConfig from 'applications/pensions/config/form.js';
-import pensionManifest from 'applications/pensions/manifest.json';
-import preneedConfig from 'applications/pre-need/config/form.jsx';
-import preneedManifest from 'applications/pre-need/manifest.json';
 import { isPlainObject } from 'lodash';
+
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
 import { VA_FORM_IDS } from 'platform/forms/constants.js';
 import recordEvent from 'platform/monitoring/record-event';
-import React from 'react';
+
+import hcaManifest from 'applications/hca/manifest.json';
+import dependentStatusManifest from 'applications/disability-benefits/686/manifest.json';
+import feedbackManifest from 'applications/edu-benefits/feedback-tool/manifest.json';
+import burialsManifest from 'applications/burials/manifest.json';
+import edu1990Manifest from 'applications/edu-benefits/1990/manifest.json';
+import edu1995Manifest from 'applications/edu-benefits/1995/manifest.json';
+import edu1990eManifest from 'applications/edu-benefits/1990e/manifest.json';
+import edu1990nManifest from 'applications/edu-benefits/1990n/manifest.json';
+import edu5490Manifest from 'applications/edu-benefits/5490/manifest.json';
+import edu5495Manifest from 'applications/edu-benefits/5495/manifest.json';
+import edu0993Manifest from 'applications/edu-benefits/0993/manifest.json';
+import edu0994Manifest from 'applications/edu-benefits/0994/manifest.json';
+import preneedManifest from 'applications/pre-need/manifest.json';
+import pensionManifest from 'applications/pensions/manifest.json';
+import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
+import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
+import hlrManifest from 'applications/disability-benefits/996/manifest.json';
+
+import hcaConfig from 'applications/hca/config/form.js';
+import dependentStatusConfig from 'applications/disability-benefits/686/config/form';
+import feedbackConfig from 'applications/edu-benefits/feedback-tool/config/form.js';
+import burialsConfig from 'applications/burials/config/form.js';
+import edu1990Config from 'applications/edu-benefits/1990/config/form.js';
+import edu1995Config from 'applications/edu-benefits/1995/config/form.js';
+import edu1990eConfig from 'applications/edu-benefits/1990e/config/form.js';
+import edu1990nConfig from 'applications/edu-benefits/1990n/config/form.js';
+import edu5490Config from 'applications/edu-benefits/5490/config/form.js';
+import edu5495Config from 'applications/edu-benefits/5495/config/form.js';
+import edu0993Config from 'applications/edu-benefits/0993/config/form.js';
+import edu0994Config from 'applications/edu-benefits/0994/config/form.js';
+import preneedConfig from 'applications/pre-need/config/form.jsx';
+import pensionConfig from 'applications/pensions/config/form.js';
+import disability526Config from 'applications/disability-benefits/526EZ/config/form.js';
+import bddConfig from 'applications/disability-benefits/bdd/config/form.js';
+import hlrConfig from 'applications/disability-benefits/996/config/form';
+import mdotConfig from 'applications/disability-benefits/2346/config/form';
+import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 
 export const formConfigs = {
   [VA_FORM_IDS.FORM_10_10EZ]: hcaConfig,
