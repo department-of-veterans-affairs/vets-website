@@ -33,7 +33,6 @@ export default function PastAppointmentsDateDropdown({
         type="button"
         className="vads-u-display--inline-block vads-u-margin-left--2"
         aria-label="Update my appointments list"
-        disabled={currentRange === dateRangeIndex}
         onClick={() => {
           onChange(dateRangeIndex);
         }}

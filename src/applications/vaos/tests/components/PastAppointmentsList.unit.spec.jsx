@@ -283,4 +283,21 @@ describe('VAOS <PastAppointmentsList>', () => {
     expect(fetchPastAppointments.called).to.be.false;
     tree.unmount();
   });
+
+  it('should render the text that describes which months is being displayed', () => {
+    const tree = shallow(
+      <PastAppointmentsList
+        appointments={appointments}
+        showPastAppointments
+        pastSelectedIndex={0}
+      />,
+    );
+
+    const display = tree.find(
+      'span.vads-u-font-size--sm.vads-u-font-weight--normal',
+    );
+    expect(display.text()).to.contains('Past 3 months');
+
+    tree.unmount();
+  });
 });

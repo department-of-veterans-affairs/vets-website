@@ -72,6 +72,10 @@ export class PastAppointmentsList extends React.Component {
     } else if (pastStatus === FETCH_STATUS.succeeded && past?.length > 0) {
       content = (
         <>
+          <span className="vads-u-font-size--sm vads-u-font-weight--normal">
+            Showing appointments for:{' '}
+            {this.dateRangeOptions[appointments.pastSelectedIndex].label}
+          </span>
           <ul className="usa-unstyled-list" id="appointments-list">
             {past.map((appt, index) => {
               switch (appt.vaos?.appointmentType) {
