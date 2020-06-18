@@ -38,8 +38,6 @@ class SaveInProgressIntro extends React.Component {
       profile && profile.prefillsAvailable.includes(formId)
     );
     const appType = formConfig.savedFormMessages.appType || APP_TYPE_DEFAULT;
-    /* eslint-disable no-debugger */
-    debugger;
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const lastUpdated =
