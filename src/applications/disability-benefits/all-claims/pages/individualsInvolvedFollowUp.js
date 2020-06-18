@@ -18,11 +18,12 @@ export const uiSchema = index => ({
   'ui:description': individualsDescription,
   [`incident${index}`]: {
     personsInvolved: {
-      'ui:title': ' ',
+      'ui:title': '',
       'ui:options': {
         viewField: IndividualsInvolvedCard,
         itemName: 'Person',
         title: 'New Person',
+        reviewTitle: 'Persons Involved',
       },
       items: {
         'ui:order': [

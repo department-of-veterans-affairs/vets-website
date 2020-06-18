@@ -4,11 +4,13 @@ export default function RecentJobApplicationField({ formData }) {
   const { name, address } = formData;
 
   return (
-    <div>
+    <p>
       <strong>{name}</strong>
-      <p>
-        {address.city && address.state && `${address.city}, ${address.state}`}
-      </p>
-    </div>
+      <br />
+      {address.city && address.state && `${address.city}, ${address.state}`}
+      {address.city &&
+        address?.country !== 'USA' &&
+        `${address.city}, ${address.country}`}
+    </p>
   );
 }

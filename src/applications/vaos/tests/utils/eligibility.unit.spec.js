@@ -105,7 +105,6 @@ describe('VAOS scheduling eligibility logic', () => {
         'hasMatchingClinics',
         'pastAppointments',
       );
-
       expect(eligibilityData.hasMatchingClinics).to.be.true;
       expect('startDate' in eligibilityData.pastAppointments[0]).to.be.true;
       expect(eligibilityData.pastAppointments.length).to.be.greaterThan(0);
