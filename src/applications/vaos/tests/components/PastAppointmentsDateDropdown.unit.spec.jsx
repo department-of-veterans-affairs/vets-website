@@ -24,7 +24,6 @@ describe('VAOS <PastAppointmentsDateDropdown/>', () => {
     expect(label.props().htmlFor).to.equal('options');
     const options = tree.find('option');
     expect(tree.find('select').exists()).to.be.true;
-    expect(tree.find('button').props().disabled).to.be.true;
     expect(options.length).to.equal(6);
     tree.unmount();
   });
@@ -41,7 +40,6 @@ describe('VAOS <PastAppointmentsDateDropdown/>', () => {
     );
 
     tree.find('select').simulate('change', { target: { value: 1 } });
-    expect(tree.find('button').props().disabled).to.be.false;
     tree.find('button').simulate('click');
     expect(onChange.called).to.be.true;
     tree.unmount();
