@@ -1,9 +1,10 @@
-import { expect } from 'chai';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
-import sinon from 'sinon';
+import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import sinon from 'sinon';
+import ReactTestUtils from 'react-dom/test-utils';
+
 import { getFormDOM } from '../../../testing/unit/schemaform-utils';
 import { FormStartControls } from '../../save-in-progress/FormStartControls';
 
