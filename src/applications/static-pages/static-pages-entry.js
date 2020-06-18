@@ -35,6 +35,7 @@ import createSecureMessagingPage from './health-care-manage-benefits/secure-mess
 import createScheduleViewVAAppointments from './health-care-manage-benefits/schedule-view-va-appointments';
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
 import createViewTestLabResultsPage from './health-care-manage-benefits/view-test-lab-results-page';
+import createPrescriptionsRefillContent from './health-care-manage-benefits/prescriptions-refill-content';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -148,6 +149,10 @@ createScheduleViewVAAppointments(
 );
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createViewTestLabResultsPage(store, widgetTypes.VIEW_TEST_LAB_RESULTS_PAGE);
+createPrescriptionsRefillContent(
+  store,
+  widgetTypes.PRESCRIPTIONS_REFILL_CONTENT,
+);
 
 // homepage widgets
 if (location.pathname === '/') {
