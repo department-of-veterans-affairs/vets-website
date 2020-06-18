@@ -21,7 +21,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .openUrl(`${E2eHelpers.baseUrl}${coronavirusChatbotPath}`)
     .waitForElementVisible('body', Timeouts.verySlow)
     .assert.title('VA coronavirus chatbot | Veterans Affairs')
-    .waitForElementVisible(loadError, 45000)
+    .waitForElementVisible(loadError, Timeouts.normal)
     .assert.containsText(loadErrorHeading, "We can't load the chatbot")
     .axeCheck('.main')
     .end();
