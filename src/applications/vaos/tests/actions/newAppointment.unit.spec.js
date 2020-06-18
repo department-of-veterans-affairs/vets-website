@@ -97,7 +97,7 @@ const facilities983Parsed = transformDSFacilities(
     ...item.attributes,
     id: item.id,
   })),
-);
+).sort((a, b) => (a.name < b.name ? -1 : 1));
 
 const parentFacilitiesParsed = transformParentFacilities(
   parentFacilities.data.map(item => ({
