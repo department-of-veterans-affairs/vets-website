@@ -25,7 +25,7 @@ describe('<NavItemRow>', () => {
     const defaultProps = {
       depth: 2,
       item,
-      toggleItemExpanded: noop,
+      trackEvents: noop,
     };
 
     const wrapper = shallow(<NavItemRow {...defaultProps} />);
@@ -51,7 +51,7 @@ describe('<NavItemRow>', () => {
     const defaultProps = {
       depth: 2,
       item,
-      toggleItemExpanded: noop,
+      trackEvents: noop,
     };
 
     const wrapper = shallow(<NavItemRow {...defaultProps} />);
