@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   transformAvailableClinic,
   transformAvailableClinics,
+  findCharacteristic,
 } from '../../../services/healthcare-service/transformers';
 
 const facilityId = '983';
@@ -92,19 +93,17 @@ describe('VAOS HealthcareService transformer', () => {
     });
 
     describe('Collection of characteristics (attributes)', () => {
-      it('should contain 2 attributes', () => {
-        expect(data[0].characteristic.length).to.equal(2);
+      it('should contain 5 attributes', () => {
+        expect(data[0].characteristic.length).to.equal(5);
       });
 
       describe('directSchedulingFlag', () => {
         it('should set code', () => {
-          expect(data[0].characteristic[0].coding.code).to.equal('Y');
+          expect(data[0].characteristic[0].coding.code).to.be.undefined;
         });
 
         it('should set display', () => {
-          expect(data[0].characteristic[0].coding.display).to.equal(
-            'directSchedulingFlag',
-          );
+          expect(data[0].characteristic[0].coding.display).to.equal('Y');
         });
 
         it('should set userSelected', () => {
@@ -120,13 +119,11 @@ describe('VAOS HealthcareService transformer', () => {
 
       describe('displayToPatientFlag', () => {
         it('should set code', () => {
-          expect(data[0].characteristic[1].coding.code).to.equal('Y');
+          expect(data[0].characteristic[1].coding.code).to.be.undefined;
         });
 
         it('should set display', () => {
-          expect(data[0].characteristic[1].coding.display).to.equal(
-            'displayToPatientFlag',
-          );
+          expect(data[0].characteristic[1].coding.display).to.equal('Y');
         });
 
         it('should set userSelected', () => {
@@ -143,6 +140,39 @@ describe('VAOS HealthcareService transformer', () => {
 
     it('should set appointment is required flag for access to this service', () => {
       expect(data[0].appointmentRequired).to.be.true;
+    });
+  });
+
+  describe('findCharacteristic', () => {
+    const clinic = transformAvailableClinics(
+      facilityId,
+      typeOfCareId,
+      clinics,
+    )[0];
+
+    it('should find the "directSchedulingFlag" characteristic of a clinic', () => {
+      const result = findCharacteristic(clinic, 'directSchedulingFlag');
+      expect(result).to.equal('Y');
+    });
+
+    it('should find the "displayToPatientFlag" characteristic of a clinic', () => {
+      const result = findCharacteristic(clinic, 'displayToPatientFlag');
+      expect(result).to.equal('Y');
+    });
+
+    it('should find the "institutionCode" characteristic of a clinic', () => {
+      const result = findCharacteristic(clinic, 'institutionCode');
+      expect(result).to.equal('983');
+    });
+
+    it('should find the "institutionName" characteristic of a clinic', () => {
+      const result = findCharacteristic(clinic, 'institutionName');
+      expect(result).to.equal('CHYSHR-Cheyenne VA Medical Center');
+    });
+
+    it('should find the "clinicFriendlyLocationName" characteristic of a clinic', () => {
+      const result = findCharacteristic(clinic, 'clinicFriendlyLocationName');
+      expect(result).to.equal('Green Team Clinic1');
     });
   });
 });

@@ -20,7 +20,7 @@ export default function VideoVisitSection({ appointment }) {
       ?.value
   ) {
     const url = appointment.contained?.[0]?.telecom?.[0]?.value;
-    const diff = moment(appointment.start).diff(moment(), 'minutes');
+    const diff = moment().diff(moment(appointment.start), 'minutes');
 
     // Button is enabled 30 minutes prior to start time, until 4 hours after start time
     const disableVideoLink = diff < -30 || diff > 240;

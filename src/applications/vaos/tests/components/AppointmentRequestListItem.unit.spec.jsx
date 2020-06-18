@@ -67,7 +67,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     );
 
     const toggleExpand = tree
-      .find('AdditionalInfo')
+      .find('AdditionalInfoRow')
       .find('.additional-info-button');
     toggleExpand.simulate('click');
 
@@ -191,7 +191,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       'Cancel appointment',
     );
 
-    const toggleExpand = tree.find('AdditionalInfo');
+    const toggleExpand = tree.find('AdditionalInfoRow');
     toggleExpand.props().onClick();
     const preferredDates = tree
       .find('ul')

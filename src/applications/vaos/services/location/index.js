@@ -49,7 +49,7 @@ export async function getSupportedLocationsByTypeOfCare({
       parentFacilities.filter(
         f => f.directSchedulingSupported || f.requestSupported,
       ),
-    );
+    ).sort((a, b) => (a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1));
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);

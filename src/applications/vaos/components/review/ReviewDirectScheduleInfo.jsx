@@ -24,9 +24,7 @@ export default function ReviewDirectScheduleInfo({
         systemId={systemId}
       />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
-      <h3 className="vaos-appts__block-label">
-        {clinic.clinicFriendlyLocationName || clinic.clinicName}
-      </h3>
+      <h3 className="vaos-appts__block-label">{clinic.serviceName}</h3>
       {facility.name}
       <br />
       {facility.address?.city}, {facility.address?.state}

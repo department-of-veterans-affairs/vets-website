@@ -14,7 +14,7 @@ export const uiSchema = {
     <UploadPtsdDescription formData={formData} formType={combatNonCombat} />
   ),
   'view:upload781Choice': {
-    'ui:title': ' ',
+    'ui:title': 'How would you like to provide information about your PTSD?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
