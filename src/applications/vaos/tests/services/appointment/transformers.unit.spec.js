@@ -8,7 +8,10 @@ import {
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
 } from '../../../utils/constants';
-import { transformConfirmedAppointments } from '../../../services/appointment/transformers';
+import {
+  transformConfirmedAppointments,
+  transformPendingAppointments,
+} from '../../../services/appointment/transformers';
 
 const appt = {
   id: '22cdc6741c00ac67b6cbf6b972d084c0',
@@ -123,6 +126,60 @@ const videoAppt = {
       ],
     },
   ],
+};
+
+const now = moment();
+const tomorrow = moment().add(1, 'days');
+
+const vaRequest = {
+  id: '8a4829dc7281184e017285000ab700cf',
+  type: 'appointment_requests',
+  facility: {
+    type: null,
+    address: null,
+    name: 'CHYSHR-Cheyenne VA Medical Center',
+    facilityCode: '983',
+    state: 'WY',
+    city: 'Cheyenne',
+    parentSiteCode: '983',
+  },
+  patient: {
+    displayName: 'MORRISON, JUDY',
+    inpatient: false,
+    textMessagingAllowed: false,
+  },
+  lastUpdatedAt: null,
+  createdDate: '06/05/2020 09:01:11',
+  appointmentDate: '06/17/2020',
+  appointmentTime: 'AM',
+  optionDate1: tomorrow,
+  optionTime1: 'PM',
+  optionDate2: tomorrow,
+  optionTime2: 'AM',
+  optionDate3: now,
+  optionTime3: 'AM',
+  status: 'Booked',
+  appointmentType: 'Primary Care',
+  visitType: 'Office Visit',
+  reasonForVisit: null,
+  email: 'aarathi.poldass@va.gov',
+  textMessagingAllowed: false,
+  phoneNumber: '(999) 999-9999',
+  purposeOfVisit: 'New Issue',
+  providerId: '0',
+  secondRequest: false,
+  secondRequestSubmitted: false,
+  bestTimetoCall: ['Morning'],
+  hasVeteranNewMessage: true,
+  hasProviderNewMessage: false,
+  providerSeenAppointmentRequest: true,
+  requestedPhoneCall: false,
+  bookedApptDateTime: '06/17/2020 14:00:00',
+  typeOfCareId: '323',
+  friendlyLocationName: 'CHYSHR-Cheyenne VA Medical Center',
+  ccAppointmentRequest: null,
+  date: '2020-06-05T09:01:11.000+0000',
+  assigningAuthority: 'ICN',
 };
 
 describe('VAOS Appointment transformer', () => {
@@ -331,6 +388,110 @@ describe('VAOS Appointment transformer', () => {
           },
         ])[0];
         expect(gfeData.vaos.videoType).to.equal(VIDEO_TYPES.gfe);
+      });
+    });
+
+    describe('VA Request', () => {
+      const data = transformPendingAppointments([vaRequest])[0];
+
+      it('should set resourceType', () => {
+        expect(data.resourceType).to.equal('Appointment');
+      });
+
+      it('should set id', () => {
+        expect(data.id).to.equal('var8a4829dc7281184e017285000ab700cf');
+      });
+
+      it('should set status to "pending"', () => {
+        expect(data.status).to.equal(APPOINTMENT_STATUS.pending);
+      });
+
+      it('should set minutesDuration', () => {
+        expect(data.minutesDuration).to.equal(60);
+      });
+
+      it('should set reason', () => {
+        expect(data.reason).to.equal('New issue');
+      });
+
+      it('should set facility as Location in participants', () => {
+        const locationActor = data.participant.filter(p =>
+          p.actor.reference.includes('Location'),
+        )[0];
+        expect(locationActor.actor.reference).to.equal('Location/var983');
+        expect(locationActor.actor.display).to.equal(
+          'CHYSHR-Cheyenne VA Medical Center',
+        );
+      });
+
+      it('should set patient info in participants', () => {
+        const patientActor = data.participant.filter(p =>
+          p.actor.reference.includes('Patient'),
+        )[0];
+        expect(patientActor.actor.display).to.equal('MORRISON, JUDY');
+        const telecomPhone = patientActor.actor.telecom.filter(
+          t => t.system === 'phone',
+        )[0];
+        expect(telecomPhone.value).to.equal('(999) 999-9999');
+        const telecomEmail = patientActor.actor.telecom.filter(
+          t => t.system === 'email',
+        )[0];
+        expect(telecomEmail.value).to.equal('aarathi.poldass@va.gov');
+      });
+
+      it('should return vaos.isPastAppointment', () => {
+        expect(data.vaos.isPastAppointment).to.equal(false);
+      });
+
+      it('should return vaos.isCommunityCare', () => {
+        expect(data.vaos.isCommunityCare).to.equal(false);
+      });
+
+      it('should return vaos.appointmentType', () => {
+        expect(data.vaos.appointmentType).to.equal(APPOINTMENT_TYPES.request);
+      });
+
+      it('should not return vaos.videoType', () => {
+        expect(data.vaos.videoType).to.equal(undefined);
+      });
+
+      it('should set requestedPeriods', () => {
+        expect(data.requestedPeriod.length).to.equal(3);
+        expect(data.requestedPeriod[0].start).to.equal(
+          `${now.format('YYYY-MM-DD')}T00:00:00.000Z`,
+        );
+        expect(data.requestedPeriod[0].end).to.equal(
+          `${now.format('YYYY-MM-DD')}T11:59:99.999Z`,
+        );
+        expect(data.requestedPeriod[1].start).to.equal(
+          `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000Z`,
+        );
+        expect(data.requestedPeriod[1].end).to.equal(
+          `${tomorrow.format('YYYY-MM-DD')}T11:59:99.999Z`,
+        );
+        expect(data.requestedPeriod[2].start).to.equal(
+          `${tomorrow.format('YYYY-MM-DD')}T12:00:00.000Z`,
+        );
+        expect(data.requestedPeriod[2].end).to.equal(
+          `${tomorrow.format('YYYY-MM-DD')}T23:59:99.999Z`,
+        );
+      });
+
+      it('should set bestTimeToCall', () => {
+        expect(data.legacyVAR.bestTimeToCall).to.deep.equal(['Morning']);
+      });
+
+      it('should set isExpressCare to false', () => {
+        expect(data.vaos.isExpressCare).to.equal(false);
+      });
+
+      it('should set express care reasonForVisit and isExpressCare', () => {
+        const expressData = transformPendingAppointments([
+          { ...vaRequest, typeOfCareId: 'CR1', reasonForVisit: 'some reason' },
+        ])[0];
+
+        expect(expressData.reason).to.equal('some reason');
+        expect(expressData.vaos.isExpressCare).to.equal(true);
       });
     });
 

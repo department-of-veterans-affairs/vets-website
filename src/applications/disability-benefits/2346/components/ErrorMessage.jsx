@@ -27,7 +27,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
         </AlertBox>
       );
       break;
-    case 'MDOT_VETERAN_NOT_FOUND':
+    case 'MDOT_INVALID':
       content = (
         <AlertBox
           status="warning"

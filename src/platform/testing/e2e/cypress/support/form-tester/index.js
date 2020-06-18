@@ -2,10 +2,10 @@ import { join, sep } from 'path';
 
 import get from 'platform/utilities/data/get';
 
+const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 const FIELD_SELECTOR = 'input, select, textarea';
-const FORM_SELECTOR = 'form.rjsf';
 const LOADING_SELECTOR = '.loading-indicator';
 
 // Suppress logs for most commands, particularly calls to wrap and get
@@ -146,7 +146,17 @@ const processPage = () => {
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
       performPageActions(pathname, false);
-      cy.findByLabelText(/accept/i).click();
+
+      // Check the privacy agreement box if it exists.
+      cy.get(APP_SELECTOR, COMMAND_OPTIONS).then($form => {
+        const privacyAgreement = $form.find('input[name^="privacyAgreement"]');
+        if (privacyAgreement.length) {
+          cy.wrap(privacyAgreement)
+            .first()
+            .click();
+        }
+      });
+
       cy.findByText(/submit/i, { selector: 'button' }).click();
 
       // The form should end up at the confirmation page after submitting.
@@ -336,6 +346,7 @@ Cypress.Commands.add('fillPage', () => {
       const processFieldObject = field => {
         const shouldSkipField =
           !field.key ||
+          field.element.prop('disabled') ||
           touchedFields.has(field.key) ||
           !field.key.startsWith('root_') ||
           Cypress.dom.isDetached(field.element);
@@ -349,7 +360,7 @@ Cypress.Commands.add('fillPage', () => {
       };
 
       const fillAvailableFields = () => {
-        cy.get(FORM_SELECTOR, COMMAND_OPTIONS)
+        cy.get(APP_SELECTOR, COMMAND_OPTIONS)
           .then($form => {
             // Get the starting number of array items and fields to compare
             // after filling out all currently visible fields, as new fields

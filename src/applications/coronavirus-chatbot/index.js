@@ -1,6 +1,11 @@
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
-import { recordLinkClicks, GA_PREFIX, handleButtonsPostRender } from './utils';
+import {
+  recordLinkClicks,
+  GA_PREFIX,
+  handleButtonsPostRender,
+  markdownRenderer,
+} from './utils';
 import * as Sentry from '@sentry/browser';
 import localStorage from 'platform/utilities/storage/localStorage';
 
@@ -108,6 +113,7 @@ const initBotConversation = jsonWebToken => {
     directLine: botConnection,
     styleOptions,
     store: webchatStore,
+    renderMarkdown: text => markdownRenderer.render(text),
     userID: user.id,
     username: user.name,
     locale: user.locale,
