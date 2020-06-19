@@ -20,7 +20,7 @@ class SideNav extends Component {
     };
   }
 
-  trackEvents = id => () => {
+  trackEvents = id => {
     const { navItemsLookup } = this.state;
 
     // Derive the nav item and its properties.
