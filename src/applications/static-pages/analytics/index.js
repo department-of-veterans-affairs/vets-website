@@ -1,7 +1,6 @@
 import addJumplinkListeners from './addJumpLinkListeners';
 import addQaSectionListeners from './addQaSectionListeners';
 import addTeaserListeners from './addTeaserListeners';
-import addHomepageBannerListeners from './addHomepageBannerListeners';
 import addButtonLinkListeners from './addButtonLinkListeners';
 
 /**
@@ -15,8 +14,6 @@ PAGE_EVENT_LISTENERS.set('/coronavirus-veteran-frequently-asked-questions/', [
   addJumplinkListeners,
   addQaSectionListeners,
 ]);
-
-PAGE_EVENT_LISTENERS.set('/', [addHomepageBannerListeners]);
 
 function attachAnalytics() {
   try {

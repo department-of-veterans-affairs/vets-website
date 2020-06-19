@@ -21,7 +21,7 @@ function Vet360Transaction(props) {
     transactionRequest,
   } = props;
 
-  const method = transactionRequest ? transactionRequest.method : 'PUT';
+  const method = transactionRequest?.method || 'PUT';
   const hasError = isFailedTransaction(transaction);
   const classes = classNames('vet360-profile-field-content', {
     'usa-input-error': hasError,

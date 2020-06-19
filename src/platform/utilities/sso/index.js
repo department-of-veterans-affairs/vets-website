@@ -27,7 +27,7 @@ export async function ssoKeepAliveSession() {
   }
 }
 
-export async function checkAutoSession() {
+export async function checkAutoSession(application = null, to = null) {
   await ssoKeepAliveSession();
   if (hasSession() && hasSessionSSO() === false) {
     // explicitly check to see if the SSOe session is false, as it could also
@@ -35,7 +35,14 @@ export async function checkAutoSession() {
     // case we don't want to logout the user because we don't know
     logout('v1', 'sso-automatic-logout');
   } else if (!hasSession() && hasSessionSSO() && !getForceAuth()) {
-    login('idme', 'v1', null, null, { inbound: 'true' }, 'sso-automatic-login');
+    login(
+      'idme',
+      'v1',
+      application,
+      to,
+      { inbound: 'true' },
+      'sso-automatic-login',
+    );
   }
 }
 

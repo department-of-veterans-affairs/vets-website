@@ -356,10 +356,11 @@ export const addressUISchema = (
     'ui:field': ReviewCardField,
     isMilitaryBase: {
       'ui:title':
-        'I live on a United States military base outside of the United States',
+        'I live on a United States military base outside of the United States.',
       'ui:options': {
         hideIf: () => !isMilitaryBaseAddress,
         hideOnReviewIfFalse: true,
+        useDlWrap: true,
       },
     },
     'view:livesOnMilitaryBaseInfo': {
@@ -368,6 +369,7 @@ export const addressUISchema = (
       'ui:options': {
         hideIf: () => !isMilitaryBaseAddress,
         hideOnReviewIfFalse: true,
+        useDlWrap: true,
       },
     },
     country: {
@@ -392,6 +394,7 @@ export const addressUISchema = (
             enum: countries.map(country => country.label),
           };
         },
+        useDlWrap: true,
       },
       'ui:errorMessages': {
         required: 'Please select a country',
@@ -404,11 +407,15 @@ export const addressUISchema = (
         required: 'Please enter a street address',
         pattern: 'Street address must be under 100 characters',
       },
+      'ui:options': {
+        useDlWrap: true,
+      },
     },
     street2: {
       'ui:title': 'Line 2',
       'ui:options': {
         hideOnReviewIfFalse: true,
+        useDlWrap: true,
       },
     },
     city: {
@@ -435,6 +442,7 @@ export const addressUISchema = (
             pattern: '^.*\\S.*',
           };
         },
+        useDlWrap: true,
       },
     },
     state: {
@@ -469,6 +477,7 @@ export const addressUISchema = (
           const countryName = get(countryNamePath, formData);
           return countryName && countryName !== USA.label;
         },
+        useDlWrap: true,
         hideOnReviewIfFalse: true,
         updateSchema: formData => {
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
@@ -512,6 +521,7 @@ export const addressUISchema = (
           return countryName === USA.label || !countryName;
         },
         hideOnReviewIfFalse: true,
+        useDlWrap: true,
       },
     },
     postalCode: {
@@ -527,7 +537,7 @@ export const addressUISchema = (
           (isMilitaryBaseAddress && livesOnMilitaryBase)
         );
       },
-      'ui:title': 'Postal Code',
+      'ui:title': 'Postal code',
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern: 'Zip code must be 5 digits',
@@ -550,6 +560,7 @@ export const addressUISchema = (
           return countryName && countryName !== USA.label;
         },
         hideOnReviewIfFalse: true,
+        useDlWrap: true,
       },
     },
     internationalPostalCode: {
@@ -580,6 +591,7 @@ export const addressUISchema = (
           return countryName === USA.label || !countryName;
         },
         hideOnReviewIfFalse: true,
+        useDlWrap: true,
       },
     },
   };

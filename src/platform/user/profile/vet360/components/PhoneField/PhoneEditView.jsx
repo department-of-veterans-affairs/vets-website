@@ -7,8 +7,6 @@ import { isEnrolledInVAHealthCare as isEnrolledInVAHealthCareSelector } from 'ap
 
 import { FIELD_NAMES } from 'vet360/constants';
 
-import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
-
 import ContactInfoForm from '../ContactInfoForm';
 
 class PhoneEditView extends React.Component {
