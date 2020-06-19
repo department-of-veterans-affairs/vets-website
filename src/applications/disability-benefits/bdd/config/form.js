@@ -50,7 +50,6 @@ import {
   choosePtsdType,
   claimExamsInfo,
   contactInformation,
-  evidenceTypes,
   federalOrders,
   finalIncident,
   individualUnemployability,
@@ -74,7 +73,11 @@ import {
   workBehaviorChanges,
 } from '../../all-claims/pages';
 
-import { militaryHistory, serviceTreatmentRecords } from '../pages';
+import {
+  evidenceTypes,
+  militaryHistory,
+  serviceTreatmentRecords,
+} from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../../all-claims/content/ancillaryFormsWizardIntro';
 
