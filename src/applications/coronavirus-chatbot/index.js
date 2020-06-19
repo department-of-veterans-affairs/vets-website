@@ -120,22 +120,12 @@ const initBotConversation = jsonWebToken => {
   };
 };
 
-export const requestChatBot = async loc => {
+export const requestChatBot = async () => {
   const params = new URLSearchParams(location.search);
   const locale = params.has('locale')
     ? extractLocale(params.get('locale'))
     : defaultLocale;
-  let path = `/coronavirus_chatbot/tokens?locale=${locale}`;
-
-  if (loc) {
-    path += `&lat=${loc.lat}&long=${loc.long}`;
-  }
-  if (params.has('userId')) {
-    path += `&userId=${params.get('userId')}`;
-  }
-  if (params.has('userName')) {
-    path += `&userName=${params.get('userName')}`;
-  }
+  const path = `/coronavirus_chatbot/tokens?locale=${locale}`;
 
   try {
     const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -158,7 +148,7 @@ export const requestChatBot = async loc => {
   }
 };
 
-const chatRequested = async scenario => {
+const chatRequested = scenario => {
   chatBotScenario = scenario;
   const params = new URLSearchParams(location.search);
   if (params.has('shareLocation')) {
