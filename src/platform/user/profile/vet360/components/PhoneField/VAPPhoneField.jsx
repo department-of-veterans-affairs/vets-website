@@ -38,7 +38,11 @@ const formSchema = {
 const uiSchema = {
   'view:noInternationalNumbers': {
     'ui:description': () => (
-      <AlertBox isVisible status="info" className="vads-u-margin-bottom--3">
+      <AlertBox
+        isVisible
+        status="info"
+        className="vads-u-margin-bottom--3 vads-u-margin-top--0"
+      >
         <p>
           We can only support U.S. phone numbers right now. If you have an
           international number, please check back later.
