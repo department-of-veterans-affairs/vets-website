@@ -286,6 +286,11 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleAccordionFocus();
   };
 
+  handleEYBSkipLinkOnClick = () => {
+    scroller.scrollTo('estimated-benefits', getScrollOptions());
+    focusElement('#estimated-benefits');
+  };
+
   /**
    * Renders a learn more label with common props for this component being set
    * @param text
@@ -1017,6 +1022,16 @@ class EstimateYourBenefitsForm extends React.Component {
         >
           Update benefits
         </button>
+        <div className="vads-u-padding-bottom--2p5">
+          <button
+            type="button"
+            className="va-button-link learn-more-button eyb-skip-link"
+            aria-label="Skip to your estimated benefits"
+            onClick={this.handleEYBSkipLinkOnClick}
+          >
+            Skip to your estimated benefits
+          </button>
+        </div>
       </AccordionItem>
     );
   };
@@ -1068,6 +1083,16 @@ class EstimateYourBenefitsForm extends React.Component {
         >
           Update benefits
         </button>
+        <div className="vads-u-padding-bottom--2p5">
+          <button
+            type="button"
+            className="va-button-link learn-more-button eyb-skip-link"
+            aria-label="Skip to your estimated benefits"
+            onClick={this.handleEYBSkipLinkOnClick}
+          >
+            Skip to your estimated benefits
+          </button>
+        </div>
       </AccordionItem>
     );
   };
@@ -1096,6 +1121,16 @@ class EstimateYourBenefitsForm extends React.Component {
         >
           Update benefits
         </button>
+        <div className="vads-u-padding-bottom--2p5">
+          <button
+            type="button"
+            className="va-button-link learn-more-button eyb-skip-link"
+            aria-label="Skip to your estimated benefits"
+            onClick={this.handleEYBSkipLinkOnClick}
+          >
+            Skip to your estimated benefits
+          </button>
+        </div>
       </AccordionItem>
     );
   };
@@ -1136,6 +1171,16 @@ class EstimateYourBenefitsForm extends React.Component {
         >
           Update benefits
         </button>
+        <div className="vads-u-padding-bottom--2p5">
+          <button
+            type="button"
+            className="va-button-link learn-more-button eyb-skip-link"
+            aria-label="Skip to your estimated benefits"
+            onClick={this.handleEYBSkipLinkOnClick}
+          >
+            Skip to your estimated benefits
+          </button>
+        </div>
       </AccordionItem>
     );
   };
