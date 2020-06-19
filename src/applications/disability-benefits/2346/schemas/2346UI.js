@@ -144,6 +144,7 @@ export default {
         widgetClassNames: 'va-input-large',
         inputType: 'email',
         hideOnReview: true,
+        useDlWrap: true,
       },
       'ui:validations': [
         {
