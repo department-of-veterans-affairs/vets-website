@@ -49,8 +49,8 @@ describe('coronavirus-screener', () => {
           clearQuestionValues={mockclearQuestionValues}
         />,
       );
-      expect(wrapper.find('.usa-button-secondary')).to.have.lengthOf(2);
-      expect(wrapper.find('.usa-button')).to.have.lengthOf(0);
+      expect(wrapper.find('.site-button-inverse')).to.have.lengthOf(2);
+      expect(wrapper.find('.usa-button')).to.have.lengthOf(2);
       wrapper.unmount();
     });
     it('sets button class when some option is selected', () => {
@@ -64,8 +64,8 @@ describe('coronavirus-screener', () => {
           clearQuestionValues={mockclearQuestionValues}
         />,
       );
-      expect(wrapper.find('.usa-button')).to.have.lengthOf(1);
-      expect(wrapper.find('.usa-button-secondary')).to.have.lengthOf(1);
+      expect(wrapper.find('.usa-button')).to.have.lengthOf(2);
+      expect(wrapper.find('.site-button-inverse')).to.have.lengthOf(1);
       wrapper.unmount();
     });
 
