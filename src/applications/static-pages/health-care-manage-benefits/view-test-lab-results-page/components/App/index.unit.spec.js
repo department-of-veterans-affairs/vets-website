@@ -10,7 +10,6 @@ describe('View Test Lab Results Page <App>', () => {
     const wrapper = shallow(<App />);
 
     const text = wrapper.text();
-    expect(text).to.include('View your VA lab and test results online');
     expect(text).to.include('How can this tool help me manage my health care?');
     expect(text).to.include('Am I eligible to use this tool?');
     expect(text).to.include(

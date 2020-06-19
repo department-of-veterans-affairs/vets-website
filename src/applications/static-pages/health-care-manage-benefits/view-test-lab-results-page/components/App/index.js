@@ -5,15 +5,7 @@ import './styles.scss';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 export const App = () => (
-  <article className="usa-content">
-    <h1>View your VA lab and test results online</h1>
-    <div className="va-introtext">
-      <p>
-        You can view your VA lab and test results online with our lab and test
-        tool. Find out if you&apos;re eligible to use this tool and how to sign
-        in to view your results.
-      </p>
-    </div>
+  <>
     <CallToActionWidget appId="lab-and-test-results" setFocus={false} />
     <div data-template="paragraphs/q_a_section" data-entity-id={3507}>
       <div
@@ -360,7 +352,7 @@ export const App = () => (
         </div>
       </div>
     </div>
-  </article>
+  </>
 );
 
 export default App;
