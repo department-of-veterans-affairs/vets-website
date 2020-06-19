@@ -21,12 +21,12 @@ function checkForCMSUrls(BUILD_OPTIONS) {
 
     if (filesWithBadUrls.length) {
       console.log(
-        'The following pages have an internal AWS, cms.va.gov, or va.agile6.com url referenced:',
+        "The following pages have an 'internal-dsva-vagov-*' or '*.cms.va.gov' URL referenced:",
       );
       console.log(filesWithBadUrls.join('\n'));
 
       if (BUILD_OPTIONS.buildtype === ENVIRONMENTS.VAGOVPROD) {
-        throw new Error('Pages found that reference internal CMS urls');
+        throw new Error('Pages found that reference internal CMS URLs');
       }
     }
 
