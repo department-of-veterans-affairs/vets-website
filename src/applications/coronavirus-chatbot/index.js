@@ -1,13 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
-import recordEvent from 'platform/monitoring/record-event';
-import {
-  GA_PREFIX,
-  handleButtonsPostRender,
-  markdownRenderer,
-  recordLinkClicks,
-} from './utils';
-import * as Sentry from '@sentry/browser';
+import { markdownRenderer } from './utils';
 import localStorage from 'platform/utilities/storage/localStorage';
+import { recordInitChatbotFailure } from './gaEvents';
 
 const CHATBOT_SCENARIO = 'va_coronavirus_chatbot';
 const STYLE_OPTIONS = {
@@ -30,7 +24,7 @@ const createBotConnection = tokenPayload => {
   });
 };
 
-const initBotConversation = jsonWebToken => {
+const configureWebchat = jsonWebToken => {
   const tokenPayload = JSON.parse(atob(jsonWebToken.split('.')[1]));
   const botConnection = createBotConnection(tokenPayload);
 
@@ -69,7 +63,7 @@ const initBotConversation = jsonWebToken => {
   };
 };
 
-const requestChatbot = async () => {
+export const initializeChatbot = async () => {
   const path = `/coronavirus_chatbot/tokens?locale=en-US`;
 
   try {
@@ -82,19 +76,9 @@ const requestChatbot = async () => {
         'X-CSRF-Token': csrfTokenStored,
       },
     });
-    return initBotConversation(token);
+    return configureWebchat(token);
   } catch (error) {
-    Sentry.captureException(error);
-    recordEvent({
-      event: `${GA_PREFIX}-connection-failure`,
-      'error-key': 'XX_failed_to_init_bot_convo',
-    });
+    recordInitChatbotFailure(error);
     throw error;
   }
 };
-
-export async function initializeChatbot() {
-  recordLinkClicks();
-  handleButtonsPostRender();
-  return requestChatbot();
-}
