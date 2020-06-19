@@ -10,7 +10,6 @@ describe('Prescriptions Refill Page <App>', () => {
     const wrapper = shallow(<App />);
 
     const text = wrapper.text();
-    expect(text).to.include('VA Prescription Refill and Tracking');
     expect(text).to.include(
       'How can the VA Prescription Refill and Tracking tool help me manage my',
     );

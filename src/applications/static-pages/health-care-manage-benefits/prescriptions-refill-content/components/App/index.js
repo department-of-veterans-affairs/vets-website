@@ -5,16 +5,7 @@ import './styles.scss';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 export const App = () => (
-  <article className="usa-content">
-    <h1>VA Prescription Refill and Tracking</h1>
-    <div className="va-introtext">
-      <p>
-        With our VA Prescription Refill and Tracking tool, you can refill your
-        VA prescriptions, track their delivery, and create lists to organize
-        your medicines. Find out if you’re eligible and how to sign up to begin
-        using this tool in our health management portal within My HealtheVet.
-      </p>
-    </div>
+  <>
     <CallToActionWidget appId="rx" setFocus={false} />
     <div data-template="paragraphs/q_a_section" data-entity-id={3258}>
       <div
@@ -418,7 +409,7 @@ export const App = () => (
         </div>
       </div>
     </div>
-  </article>
+  </>
 );
 
 export default App;
