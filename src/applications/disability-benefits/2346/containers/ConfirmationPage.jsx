@@ -22,7 +22,7 @@ const ConfirmationPage = ({
       <h1 className="vads-u-font-size--h3">
         Order hearing aid batteries and accessories
       </h1>
-      <span>Form 2346</span>
+      <span>Form 2346A</span>
       <h2 className="vads-u-font-size--h4">
         Your order has been been submitted
       </h2>
