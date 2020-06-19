@@ -67,6 +67,7 @@ const ConfirmationPage = ({
           <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
             303-273-6200
           </a>{' '}
+          .
         </p>
       </section>
     </div>
