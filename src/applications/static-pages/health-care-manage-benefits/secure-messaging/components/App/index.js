@@ -5,16 +5,7 @@ import './styles.scss';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 export const App = () => (
-  <article className="usa-content">
-    <h1>VA Secure Messaging</h1>
-    <div className="va-introtext">
-      <p>
-        With VA Secure Messaging, you can communicate privately online with your
-        VA health care team. Find out if you’re eligible to use Secure
-        Messaging, and how to sign in to begin using this tool in the health
-        management portal.
-      </p>
-    </div>
+  <>
     <CallToActionWidget appId="messaging" setFocus={false} />
     <div data-template="paragraphs/q_a_section" data-entity-id={3480}>
       <div
@@ -396,7 +387,7 @@ export const App = () => (
         </div>
       </div>
     </div>
-  </article>
+  </>
 );
 
 export default App;

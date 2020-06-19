@@ -10,7 +10,6 @@ describe('Secure Messaging Page <App>', () => {
     const wrapper = shallow(<App />);
 
     const text = wrapper.text();
-    expect(text).to.include('VA Secure Messaging');
     expect(text).to.include(
       'How can VA Secure Messaging help me manage my health care?',
     );
