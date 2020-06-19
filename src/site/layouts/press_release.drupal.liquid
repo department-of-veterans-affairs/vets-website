@@ -106,7 +106,6 @@
 
                 {% comment %} Content {% endcomment %}
                 <div class="usa-width-three-fourths">
-                    {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                     <article class="usa-content">
                         <section class="vads-u-margin-bottom--5">
                             <h1 class="vads-u-margin-bottom--2p5">{{ title }}</h1>
@@ -177,7 +176,6 @@
         {% comment %} On non-prod environments, do not show the SideNav. {% endcomment %}
         {% else %}
             <div class="usa-grid usa-grid-full">
-                {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                 <article class="usa-content">
                     <section class="vads-u-margin-bottom--5">
                         <h1 class="vads-u-margin-bottom--2p5">{{ title }}</h1>

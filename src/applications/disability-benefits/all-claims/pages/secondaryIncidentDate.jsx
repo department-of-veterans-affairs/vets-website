@@ -19,7 +19,7 @@ export const uiSchema = index => ({
     />
   ),
   [`secondaryIncident${index}`]: {
-    incidentDate: currentOrPastDateUI(' '),
+    incidentDate: currentOrPastDateUI('Date of event'),
   },
 });
 
