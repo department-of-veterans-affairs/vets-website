@@ -4,7 +4,7 @@ import React from 'react';
 import './styles.scss';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
-const App = () => (
+export const App = () => (
   <article className="usa-content">
     <h1>Schedule and view VA appointments online</h1>
     <div className="va-introtext">
