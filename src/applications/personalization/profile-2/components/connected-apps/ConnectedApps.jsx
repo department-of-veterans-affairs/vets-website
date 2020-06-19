@@ -10,6 +10,7 @@ import {
   dismissDeletedAppAlert,
   loadConnectedApps,
 } from 'applications/personalization/profile-2/components/connected-apps/actions';
+import { AdditionalInfoSections } from './AdditionalInfoSections';
 
 export class ConnectedApps extends Component {
   componentDidMount() {
@@ -44,11 +45,9 @@ export class ConnectedApps extends Component {
         {apps &&
           !allAppsDeleted && (
             <p className="va-introtext vads-u-font-size--md">
-              You’ve given these third-party apps or websites access to some of
-              your Veteran data, like health or service records. You can remove
-              their access at any time by disconnecting the app. Disconnected
-              apps can’t receive any new data from VA, but may still have access
-              to information that you’ve previously shared.
+              Your VA.gov profile is connected to the third-party (non-VA) apps
+              listed below. If you want to stop sharing information with an app,
+              you can disconnect it from your profile at any time.
             </p>
           )}
 
@@ -82,29 +81,29 @@ export class ConnectedApps extends Component {
           />
         ))}
 
+        <AdditionalInfoSections />
+
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-top--2">
           <h3 className="vads-u-margin--0 vads-u-font-size--lg">
-            Have questions about connecting to VA.gov?
+            Have more questions about connected apps?
           </h3>
           <p>
-            Get answers to frequently asked questions about how connected
-            third-party apps work, what types of information they can see, and
-            the benefits of sharing your information.
+            Visit our{' '}
+            <a
+              className="vads-u-color--primary-alt-darkest"
+              onClick={() =>
+                recordEvent({
+                  event: 'account-navigation',
+                  'account-action': 'view-link',
+                  'account-section': 'vets-faqs',
+                })
+              }
+              href="/sign-in-faq/"
+            >
+              frequently asked questions
+            </a>
+            .
           </p>
-
-          <a
-            className="vads-u-color--primary-alt-darkest"
-            href="/sign-in-faq/"
-            onClick={() =>
-              recordEvent({
-                event: 'account-navigation',
-                'account-action': 'view-link',
-                'account-section': 'vets-faqs',
-              })
-            }
-          >
-            Go to Connected Account FAQs
-          </a>
         </div>
       </div>
     );
