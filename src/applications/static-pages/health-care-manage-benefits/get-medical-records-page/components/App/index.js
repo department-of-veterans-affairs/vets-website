@@ -5,15 +5,7 @@ import './styles.scss';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 export const App = () => (
-  <article className="usa-content">
-    <h1>Get your VA medical records online</h1>
-    <div className="va-introtext">
-      <p>
-        Our online tools can help you view, organize, and share your VA medical
-        records and personal health information. Find out if you’re eligible and
-        how to sign in to start using these tools.
-      </p>
-    </div>
+  <>
     <div
       data-template="paragraphs/wysiwyg"
       data-entity-id={3369}
@@ -561,7 +553,7 @@ export const App = () => (
         </div>
       </div>
     </div>
-  </article>
+  </>
 );
 
 export default App;

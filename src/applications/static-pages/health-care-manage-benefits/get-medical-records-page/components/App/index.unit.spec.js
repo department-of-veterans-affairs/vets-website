@@ -10,7 +10,6 @@ describe('Get Medical Records Page <App>', () => {
     const wrapper = shallow(<App />);
 
     const text = wrapper.text();
-    expect(text).to.include('Get your VA medical records online');
     expect(text).to.include(
       "What's VA Blue Button, and how can it help me manage my health care?",
     );
