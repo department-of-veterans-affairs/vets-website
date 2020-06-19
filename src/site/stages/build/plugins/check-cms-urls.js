@@ -11,9 +11,8 @@ function checkForCMSUrls(BUILD_OPTIONS) {
       if (file.isDrupalPage && !ignoredPages.has(fileName)) {
         const contents = file.contents.toString();
         if (
-          contents.includes('cms.va.gov') ||
-          contents.includes('-vagovcms-3000') ||
-          contents.includes('va.agile6.com')
+          contents.includes('internal-dsva-vagov') ||
+          contents.includes('cms.va.gov')
         ) {
           filesWithBadUrls.push(fileName);
         }
