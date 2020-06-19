@@ -12,6 +12,8 @@ import {
 } from 'applications/personalization/profile-2/components/connected-apps/actions';
 import { AdditionalInfoSections } from './AdditionalInfoSections';
 
+import { isEmpty } from 'lodash';
+
 export class ConnectedApps extends Component {
   componentDidMount() {
     this.props.loadConnectedApps();
@@ -81,7 +83,7 @@ export class ConnectedApps extends Component {
           />
         ))}
 
-        <AdditionalInfoSections />
+        <AdditionalInfoSections activeApps={activeApps} />
 
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-top--2">
           <h3 className="vads-u-margin--0 vads-u-font-size--lg">
