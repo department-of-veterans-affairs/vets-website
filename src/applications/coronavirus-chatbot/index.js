@@ -9,11 +9,11 @@ import {
 import * as Sentry from '@sentry/browser';
 import localStorage from 'platform/utilities/storage/localStorage';
 
-export const defaultLocale = 'en-US';
+const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
 let chatBotScenario = 'unknown';
 
-export const extractLocale = localeParam => {
+const extractLocale = localeParam => {
   if (localeParam === 'autodetect') {
     return navigator.language;
   }
@@ -25,7 +25,7 @@ export const extractLocale = localeParam => {
   return defaultLocale;
 };
 
-export const getUserLocation = callback => {
+const getUserLocation = callback => {
   navigator.geolocation.getCurrentPosition(
     position => {
       const latitude = position.coords.latitude;
@@ -120,7 +120,7 @@ const initBotConversation = jsonWebToken => {
   };
 };
 
-export const requestChatBot = async () => {
+const requestChatBot = async () => {
   const params = new URLSearchParams(location.search);
   const locale = params.has('locale')
     ? extractLocale(params.get('locale'))
