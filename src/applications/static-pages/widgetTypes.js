@@ -17,4 +17,5 @@ export default {
   CAREGIVER_CONTENT_TOGGLE: 'caregiver-content-toggle',
   SECURE_MESSAGING_PAGE: 'secure-messaging',
   SCHEDULE_VIEW_VA_APPOINTMENTS: 'schedule-view-va-appointments',
+  GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
 };
