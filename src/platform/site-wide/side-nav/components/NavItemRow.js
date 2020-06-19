@@ -41,6 +41,10 @@ const NavItemRow = ({ depth, item, trackEvents }) => {
     );
   }
 
+  const handleClick = () => {
+    trackEvents(id);
+  };
+
   // Render the row not as a link when there are child nav items.
   if (hasChildren) {
     return (
@@ -55,7 +59,7 @@ const NavItemRow = ({ depth, item, trackEvents }) => {
           open: moreThanLevel2SelectedExpanded,
         })}
         href={href}
-        onClick={trackEvents(id)}
+        onClick={handleClick}
         rel="noopener noreferrer"
         style={{ paddingLeft: indentation }}
       >
@@ -80,7 +84,7 @@ const NavItemRow = ({ depth, item, trackEvents }) => {
         open: !!(depth >= 2 && isSelected),
       })}
       href={href}
-      onClick={trackEvents(id)}
+      onClick={handleClick}
       rel="noopener noreferrer"
       style={{ paddingLeft: indentation }}
     >
