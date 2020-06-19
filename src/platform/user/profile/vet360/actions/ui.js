@@ -28,6 +28,7 @@ export const updateFormFieldWithSchema = (
     value,
     true,
   );
+
   return {
     type: UPDATE_PROFILE_FORM_FIELD,
     field: fieldName,
