@@ -66,8 +66,7 @@ export class EstimateYourBenefits extends React.Component {
     }
   };
 
-  updateEstimatedBenefits = event => {
-    event.preventDefault();
+  updateEstimatedBenefits = () => {
     this.props.updateEstimatedBenefits(this.props.calculated.outputs);
   };
 

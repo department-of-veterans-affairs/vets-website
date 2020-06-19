@@ -115,6 +115,7 @@ class EstimateYourBenefitsForm extends React.Component {
     } else {
       this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
+      focusElement('#update-benefits-button');
     }
   };
 
@@ -1016,6 +1017,7 @@ class EstimateYourBenefitsForm extends React.Component {
           </BenefitsForm>
         </div>
         <button
+          id="update-benefits-button"
           className="calculate-button"
           onClick={this.handleCalculateBenefitsClick}
           disabled={!this.state.inputUpdated}
@@ -1077,6 +1079,7 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderEnrolled()}
         </div>
         <button
+          id="update-benefits-button"
           className="calculate-button"
           onClick={this.handleCalculateBenefitsClick}
           disabled={!this.state.inputUpdated}
@@ -1115,6 +1118,7 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderWorking()}
         </div>
         <button
+          id="update-benefits-button"
           className="calculate-button"
           onClick={this.handleCalculateBenefitsClick}
           disabled={!this.state.inputUpdated}
@@ -1165,6 +1169,7 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderScholarships()}
         </div>
         <button
+          id="update-benefits-button"
           className="calculate-button"
           onClick={this.handleCalculateBenefitsClick}
           disabled={!this.state.inputUpdated}
