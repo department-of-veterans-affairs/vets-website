@@ -6,12 +6,7 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 export const App = () => (
   <>
-    <div
-      data-template="blocks/alert"
-      data-entity-id={38}
-      className="usa-alert usa-alert-info"
-      role="alert"
-    >
+    <div className="usa-alert usa-alert-info" role="alert">
       <div className="usa-alert-body">
         <h3 className="usa-alert-heading" id="due-to-covid-19-you-can-only-r">
           Due to COVID-19, you can only request an appointment online
@@ -27,11 +22,7 @@ export const App = () => (
         </p>
       </div>
     </div>
-    <div
-      data-template="paragraphs/wysiwyg"
-      data-entity-id={3457}
-      className="processed-content"
-    >
+    <div className="processed-content">
       <p>&nbsp;</p>
       <p>
         <strong>Please note:</strong> The fastest way to make all your VA
@@ -48,30 +39,18 @@ export const App = () => (
       </h2>
     </div>
     <CallToActionWidget appId="view-appointments" setFocus={false} />
-    <div data-template="paragraphs/q_a_section" data-entity-id={3462}>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3461}
-        data-analytics-faq-section
-        data-analytics-faq-text="How can VA appointment tools help me manage my health care?"
-      >
+    <div>
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-can-va-appointment-tools-h">
           How can VA appointment tools help me manage my health care?
         </h2>
         <div
-          data-entity-id={3461}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3463}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 These appointment tools offer a secure, online way to schedule,
                 view, and organize your VA appointments. The appointments you
@@ -94,29 +73,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3464}
-        data-analytics-faq-section
-        data-analytics-faq-text="Am I eligible to use the VA appointment tools?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="am-i-eligible-to-use-the-va-ap">
           Am I eligible to use the VA appointment tools?
         </h2>
         <div
-          data-entity-id={3464}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3465}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 You can use the&nbsp;online appointment tools if you meet all of
                 the requirements listed below.
@@ -128,9 +95,6 @@ export const App = () => (
                 <li>
                   You're{' '}
                   <a
-                    data-entity-substitution="canonical"
-                    data-entity-type="node"
-                    data-entity-uuid="f8323733-28cd-497d-b536-349005be9b71"
                     href="/health-care/how-to-apply"
                     title="How to apply for VA health care"
                   >
@@ -175,29 +139,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3466}
-        data-analytics-faq-section
-        data-analytics-faq-text="How do I know if my VA health facility uses online scheduling?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-do-i-know-if-my-va-health-">
           How do I know if my VA health facility uses online scheduling?
         </h2>
         <div
-          data-entity-id={3466}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3467}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Online scheduling&nbsp;is available at all VA facilities except
                 at the following locations:
@@ -232,29 +184,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3468}
-        data-analytics-faq-section
-        data-analytics-faq-text="What types of medical appointments can I schedule online?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="what-types-of-medical-appointm">
           What types of medical appointments can I schedule online?
         </h2>
         <div
-          data-entity-id={3468}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3469}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 It depends on the VA health facility where you’re receiving
                 care. You can typically schedule an appointment online for the
@@ -274,29 +214,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3470}
-        data-analytics-faq-section
-        data-analytics-faq-text="Can I use this tool to schedule non-VA appointments?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="can-i-use-this-tool-to-schedul">
           Can I use this tool to schedule non-VA appointments?
         </h2>
         <div
-          data-entity-id={3470}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3471}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 It depends on the VA health management portal you are using.
                 Once you&apos;re signed in to the appointments tool, you&apos;ll
@@ -306,29 +234,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3472}
-        data-analytics-faq-section
-        data-analytics-faq-text="Can I schedule appointments through VA Secure Messaging?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="can-i-schedule-appointments-th">
           Can I schedule appointments through VA Secure Messaging?
         </h2>
         <div
-          data-entity-id={3472}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3473}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 If you use Secure Messaging with your VA health care team, you
                 may be able to use this service to schedule and cancel
@@ -351,29 +267,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3474}
-        data-analytics-faq-section
-        data-analytics-faq-text="Will my personal health information be protected?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="will-my-personal-health-inform">
           Will my personal health information be protected?
         </h2>
         <div
-          data-entity-id={3474}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3475}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Yes. This is a secure website. We follow strict security
                 policies and practices to protect your personal health
@@ -396,29 +300,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3476}
-        data-analytics-faq-section
-        data-analytics-faq-text="What if I have more questions?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="what-if-i-have-more-questions">
           What if I have more questions?
         </h2>
         <div
-          data-entity-id={3476}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3477}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 <strong>
                   If you have questions about scheduling an appointment
