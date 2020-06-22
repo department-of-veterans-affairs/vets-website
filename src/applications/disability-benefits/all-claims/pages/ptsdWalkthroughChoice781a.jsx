@@ -17,7 +17,7 @@ export const uiSchema = {
     />
   ),
   'view:upload781aChoice': {
-    'ui:title': ' ',
+    'ui:title': 'How would you like to provide information about your PTSD?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {

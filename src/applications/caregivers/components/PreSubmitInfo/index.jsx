@@ -1,26 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import SignatureCheckbox from './components/SignatureBox';
 
-const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
+const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const veteranLabel = `Enter Veteran's or service member\u2019s full name`;
   const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';
   const secondaryOneLabel = 'Enter Secondary Family Caregiver\u2019s full name';
   const secondaryTwoLabel =
     'Enter Secondary Family Caregiver\u2019s (2) full name';
-  const [signatures, setSignature] = useState({});
+  const [signatures, setSignature] = useState({
+    [veteranLabel]: false,
+    [primaryLabel]: false,
+  });
 
   const [secondaryCaregivers, setSecondaryCaregivers] = useState({
-    hasSecondaryOne: false,
-    hasSecondaryTwo: false,
+    [secondaryOneLabel]: false,
+    [secondaryTwoLabel]: false,
   });
+  const unSignedLength = Object.values(signatures).filter(
+    obj => Boolean(obj) === false,
+  ).length;
 
   useEffect(
     () => {
-      const unSignedLength = Object.values(signatures).filter(
-        obj => Boolean(obj) === false,
-      ).length;
+      if (!unSignedLength) {
+        onSectionComplete(true);
+      }
 
-      if (!unSignedLength) onSectionComplete(true);
+      if (unSignedLength) {
+        onSectionComplete(false);
+      }
 
       const hasSecondaryOne =
         formData?.secondaryOneFullName?.first &&
@@ -35,7 +43,15 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
         hasSecondaryTwo,
       });
     },
-    [formData, onSectionComplete, signatures],
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      formData.secondaryOneFullName.first,
+      formData.secondaryOneFullName.last,
+      formData.secondaryTwoFullName.first,
+      formData.secondaryTwoFullName.last,
+      unSignedLength,
+    ],
   );
 
   const PrivacyPolicy = () => (
@@ -104,6 +120,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
         label={veteranLabel}
         signatures={signatures}
         setSignature={setSignature}
+        isRequired
+        showError={showError}
       >
         <h3>Veteran or service member statement of truth</h3>
         <p>
@@ -121,6 +139,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
         label={primaryLabel}
         signatures={signatures}
         setSignature={setSignature}
+        isRequired
+        showError={showError}
       >
         <h3 className="vads-u-margin-top--4">
           Primary Family Caregiver statement of truth
@@ -163,6 +183,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
           label={secondaryOneLabel}
           signatures={signatures}
           setSignature={setSignature}
+          isRequired
+          showError={showError}
         >
           <SecondaryCaregiverCopy label="Secondary Family Caregiver" />
         </SignatureCheckbox>
@@ -174,6 +196,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
           label={secondaryTwoLabel}
           signatures={signatures}
           setSignature={setSignature}
+          isRequired
+          showError={showError}
         >
           <SecondaryCaregiverCopy label="Secondary Family Caregiver (2)" />
         </SignatureCheckbox>

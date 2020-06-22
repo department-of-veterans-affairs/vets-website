@@ -8,11 +8,7 @@ import VeteranInfoBox from '../components/VeteranInfoBox';
 import { schemaFields } from '../constants';
 import { addressUISchema } from './address-schema';
 
-const {
-  permanentAddressField,
-  temporaryAddressField,
-  viewCurrentAddressField,
-} = schemaFields;
+const { permanentAddressField, temporaryAddressField } = schemaFields;
 
 const emailUITitle = <h4>Email address</h4>;
 
@@ -105,6 +101,7 @@ export default {
       'ui:options': {
         classNames: 'vads-u-display--none',
         hideOnReview: true,
+        customTitle: ' ',
       },
     },
     emailUI: {
@@ -119,6 +116,7 @@ export default {
         classNames: 'vads-u-margin-bottom--3',
         widgetClassNames: 'va-input-large',
         inputType: 'email',
+        useDlWrap: true,
       },
       'ui:validations': [
         {
@@ -142,6 +140,7 @@ export default {
         widgetClassNames: 'va-input-large',
         inputType: 'email',
         hideOnReview: true,
+        useDlWrap: true,
       },
       'ui:validations': [
         {

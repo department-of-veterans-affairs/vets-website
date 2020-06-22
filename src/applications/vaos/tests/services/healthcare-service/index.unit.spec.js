@@ -30,6 +30,19 @@ describe('VAOS Healthcare service', () => {
       );
     });
 
+    it('should sort by serviceName', async () => {
+      const data = await getAvailableHealthcareServices({
+        facilityId: 'var983',
+        typeOfCareId: '123',
+        systemId: '456',
+      });
+
+      expect(data[0].serviceName).to.equal('CHY PC CASSIDY');
+      expect(data[1].serviceName).to.equal('CHY PC VAR2');
+      expect(data[2].serviceName).to.equal('Green Team Clinic1');
+      expect(data[3].serviceName).to.equal('Green Team Clinic2');
+    });
+
     it('should set identifier', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: 'var983',
@@ -38,7 +51,7 @@ describe('VAOS Healthcare service', () => {
       });
 
       expect(data[0].identifier[0].value).to.equal(
-        'urn:va:healthcareservice:983:983:308',
+        'urn:va:healthcareservice:983:983:455',
       );
     });
 
@@ -79,7 +92,7 @@ describe('VAOS Healthcare service', () => {
         systemId: '456',
       });
 
-      expect(data[1].serviceName).to.equal('CHY PC CASSIDY');
+      expect(data[1].serviceName).to.equal('CHY PC VAR2');
     });
 
     it('should set service name to friendly name when present', async () => {
@@ -89,7 +102,7 @@ describe('VAOS Healthcare service', () => {
         systemId: '456',
       });
 
-      expect(data[0].serviceName).to.equal('Green Team Clinic1');
+      expect(data[0].serviceName).to.equal('CHY PC CASSIDY');
     });
 
     it('should return OperationOutcome error', async () => {

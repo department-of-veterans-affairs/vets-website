@@ -15,7 +15,14 @@ import {
 } from 'platform/utilities/sso/forceAuth';
 
 function AutoSSO(props) {
-  const { useSSOe, useInboundSSOe, hasCalledKeepAlive, userLoggedIn } = props;
+  const {
+    useSSOe,
+    useInboundSSOe,
+    hasCalledKeepAlive,
+    userLoggedIn,
+    application = null,
+    to = null,
+  } = props;
   const params = new URLSearchParams(window.location.search);
 
   if (userLoggedIn) {
@@ -27,7 +34,7 @@ function AutoSSO(props) {
   }
 
   if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
-    checkAutoSession().then(() => {
+    checkAutoSession(application, to).then(() => {
       props.checkKeepAlive();
     });
   }

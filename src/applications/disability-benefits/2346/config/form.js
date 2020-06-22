@@ -18,7 +18,6 @@ const {
 
 const {
   vetEmailField,
-  fullNameField,
   viewConfirmationEmailField,
   suppliesField,
   permanentAddressField,

@@ -59,7 +59,7 @@ describe('ErrorMessage', () => {
     const fakeStore = {
       getState: () => ({
         mdot: {
-          errorCode: 'MDOT_DECEASED_VETERAN',
+          errorCode: 'MDOT_DECEASED',
           pending: false,
           nextAvailabilityDate: '2019-04-01',
         },

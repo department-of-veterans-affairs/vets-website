@@ -12,6 +12,10 @@ import {
   ITF_CREATION_INITIATED,
   ITF_CREATION_SUCCEEDED,
   ITF_CREATION_FAILED,
+  addPerson,
+  MVI_ADD_INITIATED,
+  MVI_ADD_SUCCEEDED,
+  MVI_ADD_FAILED,
 } from '../../actions';
 
 const originalFetch = global.fetch;
@@ -75,6 +79,37 @@ describe('ITF actions', () => {
           ITF_CREATION_INITIATED,
         );
         expect(dispatch.secondCall.args[0].type).to.eql(ITF_CREATION_FAILED);
+      });
+    });
+  });
+});
+
+describe('MVI action', () => {
+  describe('MVI add person action', () => {
+    afterEach(() => {
+      global.fetch = originalFetch;
+    });
+
+    it('should dispatch an add person succeeded action', () => {
+      const mockData = { data: 'asdf' };
+      mockApiRequest(mockData);
+      const dispatch = sinon.spy();
+      return addPerson()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(MVI_ADD_INITIATED);
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: MVI_ADD_SUCCEEDED,
+          data: mockData.data,
+        });
+      });
+    });
+
+    it('should dispatch an add person failed action', () => {
+      const mockData = { data: 'asdf' };
+      mockApiRequest(mockData, false);
+      const dispatch = sinon.spy();
+      return addPerson()(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(MVI_ADD_INITIATED);
+        expect(dispatch.secondCall.args[0].type).to.equal(MVI_ADD_FAILED);
       });
     });
   });

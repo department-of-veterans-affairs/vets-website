@@ -35,6 +35,22 @@ describe('VAOS Location service', () => {
       expect(data[0].identifier[1].value).to.equal('urn:va:division:983:983');
     });
 
+    it('should sort by name', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, facilities983);
+      data = await getSupportedLocationsByTypeOfCare({
+        rootOrgId: 'var983',
+        parentId: 'var983A6',
+        typeOfCareId: '123',
+      });
+
+      expect(data[0].name).to.equal('CHYSHR-Cheyenne VA Medical Center');
+      expect(data[1].name).to.equal('CHYSHR-Fort Collins VA Clinic');
+      expect(data[2].name).to.equal('CHYSHR-Loveland VA Clinic');
+      expect(data[3].name).to.equal('CHYSHR-Sidney VA Clinic');
+      expect(data[4].name).to.equal('CHYSHR-Wheatland VA Mobile Clinic');
+    });
+
     it('should return OperationOutcome error', async () => {
       mockFetch();
       setFetchJSONFailure(global.fetch, {
@@ -74,7 +90,6 @@ describe('VAOS Location service', () => {
       );
       expect(data[0].identifier[0].value).to.equal('urn:va:division:442:442');
     });
-
     it('should return OperationOutcome error', async () => {
       mockFetch();
       setFetchJSONFailure(global.fetch, {
