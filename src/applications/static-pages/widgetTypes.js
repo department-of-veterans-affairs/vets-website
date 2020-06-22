@@ -16,4 +16,5 @@ export default {
   FORM_686_CONTENT_REVEAL: '686UnauthContentBlock',
   CAREGIVER_CONTENT_TOGGLE: 'caregiver-content-toggle',
   SECURE_MESSAGING_PAGE: 'secure-messaging',
+  SCHEDULE_VIEW_VA_APPOINTMENTS: 'schedule-view-va-appointments',
 };
