@@ -1,0 +1,38 @@
+{
+  "id": "vha_442GC",
+  "type": "va_facilities",
+  "attributes": {
+    "uniqueId": "442GC",
+    "name": "Cheyenne VA Medical Center",
+    "address": {
+      "physical": {
+        "zip": "82001-5356",
+        "city": "Cheyenne",
+        "state": "WY",
+        "address1": "2360 East Pershing Boulevard",
+        "address2": null,
+        "address3": null
+      }
+    },
+    "phone": {
+      "fax": "307-778-7381",
+      "main": "307-778-7550",
+      "pharmacy": "866-420-6337",
+      "afterHours": "307-778-7550",
+      "patientAdvocate": "307-778-7550 x7517",
+      "mentalHealthClinic": "307-778-7349",
+      "enrollmentCoordinator": "307-778-7550 x7579"
+    },
+    "hours": {
+      "monday": "24/7",
+      "tuesday": "Sunrise - Sunset",
+      "wednesday": "9AM-5PM",
+      "thursday": "Closed",
+      "friday": "-",
+      "saturday": "By appointment only",
+      "sunday": "24/7"
+    },
+    "lat": 41.1457280000001,
+    "long": -104.7895949
+  }
+}
