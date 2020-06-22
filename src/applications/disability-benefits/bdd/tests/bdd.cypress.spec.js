@@ -10,7 +10,15 @@ import { mockItf } from './bdd.cypress.helpers';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['maximal-test', 'minimal-test', 'newOnly-test'],
+    dataSets: [
+      // disable all test until BDD is in production
+      // 'maximal-test',
+      // 'minimal-test',
+      // 'newOnly-test',
+      // 'secondary-new-test',
+      // 'full-781-781a-8940-test',
+      // 'upload-781-781a-8940-test',
+    ],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
