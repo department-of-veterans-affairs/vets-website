@@ -31,6 +31,7 @@ import createPost911GiBillStatusWidget, {
 
 import create686ContentReveal from './view-modify-dependent/686-cta/create686CcontentReveal.js';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
+import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -137,6 +138,7 @@ createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 create686ContentReveal(store, widgetTypes.FORM_686_CONTENT_REVEAL);
 
 createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
+createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
 
 // homepage widgets
 if (location.pathname === '/') {
