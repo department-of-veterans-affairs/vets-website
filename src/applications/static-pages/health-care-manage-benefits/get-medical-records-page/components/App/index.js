@@ -6,39 +6,23 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 export const App = () => (
   <>
-    <div
-      data-template="paragraphs/wysiwyg"
-      data-entity-id={3369}
-      className="processed-content"
-    >
+    <div className="processed-content">
       <h2 id="va-blue-button">VA Blue Button</h2>
     </div>
     <CallToActionWidget appId="health-records" setFocus={false} />
-    <div data-template="paragraphs/q_a_section" data-entity-id={3372}>
+    <div>
       <h2 id="more-about-va-blue-button">More about VA Blue Button</h2>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3373}
-        data-analytics-faq-section="More about VA Blue Button"
-        data-analytics-faq-text="What's VA Blue Button, and how can it help me manage my health care?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h3 itemProp="name" id="whats-va-blue-button-and-how-c">
           What's VA Blue Button, and how can it help me manage my health care?
         </h3>
         <div
-          data-entity-id={3373}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3374}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 VA Blue Button is a feature of the health management portal
                 within My HealtheVet. It lets you view, print, save, download,
@@ -79,29 +63,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3375}
-        data-analytics-faq-section="More about VA Blue Button"
-        data-analytics-faq-text="Am I eligible to use all the features of VA Blue Button?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h3 itemProp="name" id="am-i-eligible-to-use-all-the-f">
           Am I eligible to use all the features of VA Blue Button?
         </h3>
         <div
-          data-entity-id={3375}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3376}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 You can use all the features of this tool if you meet all of the
                 requirements listed below.
@@ -157,29 +129,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3377}
-        data-analytics-faq-section="More about VA Blue Button"
-        data-analytics-faq-text="Once I’m signed in, how do I get to my medical records?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h3 itemProp="name" id="once-im-signed-in-how-do-i-get">
           Once I’m signed in, how do I get to my medical records?
         </h3>
         <div
-          data-entity-id={3377}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3378}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Go to your Welcome page dashboard, and click on “Health
                 Records.” You’ll go to a new page.
@@ -199,29 +159,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3379}
-        data-analytics-faq-section="More about VA Blue Button"
-        data-analytics-faq-text="Will my personal health information be protected?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h3 itemProp="name" id="will-my-personal-health-inform">
           Will my personal health information be protected?
         </h3>
         <div
-          data-entity-id={3379}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3380}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Yes. This is a secure website. We follow strict security
                 policies and practices to protect your personal health
@@ -243,29 +191,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3381}
-        data-analytics-faq-section="More about VA Blue Button"
-        data-analytics-faq-text="What if I have more questions?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h3 itemProp="name" id="what-if-i-have-more-questions">
           What if I have more questions?
         </h3>
         <div
-          data-entity-id={3381}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3382}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 You can get answers to frequently asked questions about VA Blue
                 Button and related tools within My HealtheVet.
@@ -316,34 +252,22 @@ export const App = () => (
         </div>
       </div>
     </div>
-    <div data-template="paragraphs/q_a_section" data-entity-id={3383}>
+    <div>
       <h2 id="the-veterans-health-informatio">
         The Veterans Health Information Exchange
       </h2>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={9811}
-        data-analytics-faq-section="The Veterans Health Information Exchange"
-        data-analytics-faq-text="What's the Veterans Health Information Exchange (VHIE), and how can it help me manage my health care?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h3 itemProp="name" id="whats-the-veterans-health-info">
           What is the Veterans Health Information Exchange (VHIE), and how can
           it help me manage my health care?
         </h3>
         <div
-          data-entity-id={9811}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={9810}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 The Veterans Health Information Exchange (VHIE) program lets us
                 share your health information with participating community care
@@ -381,29 +305,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={9809}
-        data-analytics-faq-section="The Veterans Health Information Exchange"
-        data-analytics-faq-text="VHIE sharing options"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h3 itemProp="name" id="vhie-sharing-options">
           Can I opt out of sharing my information?
         </h3>
         <div
-          data-entity-id={9809}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={9808}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>Yes. You can opt out of sharing by mail or in person.</p>
               <h4>To opt out by mail</h4>
               <p>
@@ -436,29 +348,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={9889}
-        data-analytics-faq-section="The Veterans Health Information Exchange"
-        data-analytics-faq-text="Can I change my mind if I want to share my information later?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h3 itemProp="name" id="can-i-change-my-mind-share-information-later">
           Can I change my mind if I want to share my information later?
         </h3>
         <div
-          data-entity-id={9889}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={9888}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Yes. If you change your mind and want to share your health
                 information, complete and submit VA Form 10-10163 (Request for
@@ -483,14 +383,7 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={9891}
-        data-analytics-faq-section="The Veterans Health Information Exchange"
-        data-analytics-faq-text="Will my personal health information be protected?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h3
           itemProp="name"
           id="will-my-personal-health-information-be-protected"
@@ -498,17 +391,12 @@ export const App = () => (
           Will my personal health information be protected?
         </h3>
         <div
-          data-entity-id={9891}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={9890}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Yes. The Veterans Health Information Exchange uses secure
                 technology to share information between VA and participating
@@ -521,29 +409,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={10274}
-        data-analytics-faq-section="The Veterans Health Information Exchange"
-        data-analytics-faq-text="What if I have more questions?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h3 itemProp="name" id="what-if-i-have-more-questions">
           What if I have more questions?
         </h3>
         <div
-          data-entity-id={10274}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={10273}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Call us toll-free at <a href="tel:+18446982311">844-698-2311</a>
                 .
