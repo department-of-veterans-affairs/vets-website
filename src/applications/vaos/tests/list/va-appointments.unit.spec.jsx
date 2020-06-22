@@ -16,7 +16,7 @@ const initialState = {
   },
 };
 
-describe('VAOS appointment list future booked', () => {
+describe('VAOS integration: appointment list future booked', () => {
   describe('va appointments', () => {
     it('should show information without facility details', async () => {
       const appointment = merge(singleVAAppointment, {
