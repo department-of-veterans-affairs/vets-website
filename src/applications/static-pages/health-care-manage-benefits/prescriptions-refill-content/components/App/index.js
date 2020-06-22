@@ -7,31 +7,19 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 export const App = () => (
   <>
     <CallToActionWidget appId="rx" setFocus={false} />
-    <div data-template="paragraphs/q_a_section" data-entity-id={3258}>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3257}
-        data-analytics-faq-section
-        data-analytics-faq-text="How can the VA Prescription Refill and Tracking tool help me manage my health care?"
-      >
+    <div>
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-can-the-va-prescription-re">
           How can the VA Prescription Refill and Tracking tool help me manage my
           health care?
         </h2>
         <div
-          data-entity-id={3257}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3259}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Our Prescription Refill and Tracking tool is a web-based service
                 that helps you manage your VA prescriptions online.
@@ -60,29 +48,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3260}
-        data-analytics-faq-section
-        data-analytics-faq-text="Am I eligible to use this tool?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="am-i-eligible-to-use-this-tool">
           Am I eligible to use this tool?
         </h2>
         <div
-          data-entity-id={3260}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3261}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 You can use this tool if you meet all of the requirements listed
                 below.
@@ -133,29 +109,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3262}
-        data-analytics-faq-section
-        data-analytics-faq-text="Once I’m signed in, how do I get started?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="once-im-signed-in-how-do-i-get">
           Once I’m signed in, how do I get started?
         </h2>
         <div
-          data-entity-id={3262}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3263}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 On your Welcome page, you’ll see a module for “Pharmacy.” Within
                 that module, you’ll see these options:
@@ -173,29 +137,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3264}
-        data-analytics-faq-section
-        data-analytics-faq-text="Can I use this tool to refill and track all my VA prescriptions?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="can-i-use-this-tool-to-refill-">
           Can I use this tool to refill and track all my VA prescriptions?
         </h2>
         <div
-          data-entity-id={3264}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3265}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 <strong>
                   You can refill and track most of your VA prescriptions,
@@ -227,29 +179,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3266}
-        data-analytics-faq-section
-        data-analytics-faq-text="Where will VA send my prescriptions?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="where-will-va-send-my-prescrip">
           Where will VA send my prescriptions?
         </h2>
         <div
-          data-entity-id={3266}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3267}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Our mail order pharmacy will send your prescriptions to the
                 address we have on file for you. We ship to all addresses in the
@@ -269,30 +209,18 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3268}
-        data-analytics-faq-section
-        data-analytics-faq-text="How long will my prescriptions take to arrive, and when should I reorder?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-long-will-my-prescriptions">
           How long will my prescriptions take to arrive, and when should I
           reorder?
         </h2>
         <div
-          data-entity-id={3268}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3269}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Prescriptions usually arrive within 3 to 5 days. But you’ll be
                 able to find specific information about your order on the
@@ -307,29 +235,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3270}
-        data-analytics-faq-section
-        data-analytics-faq-text="Will my personal health information be protected?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="will-my-personal-health-inform">
           Will my personal health information be protected?
         </h2>
         <div
-          data-entity-id={3270}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3271}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Yes. This is a secure website. We follow strict security
                 policies and practices to protect your personal health
@@ -352,29 +268,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3272}
-        data-analytics-faq-section
-        data-analytics-faq-text="What if I have more questions?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="what-if-i-have-more-questions">
           What if I have more questions?
         </h2>
         <div
-          data-entity-id={3272}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3273}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 If you have questions about prescriptions and refills on
                 MyHealtheVet, please go to the{' '}
