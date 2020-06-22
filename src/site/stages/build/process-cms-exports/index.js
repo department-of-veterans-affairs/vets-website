@@ -82,6 +82,7 @@ const validateInput = entity => {
 };
 
 /**
+ * @param {Object} entity - The original entity; used for error logging
  * @param {Object} transformedEntity - The entity after transformation
  * @throws {Error} If the entity is invalid
  */
