@@ -174,7 +174,7 @@ describe('VAOS appointment list future booked', () => {
       expect(baseElement).not.to.contain.text('Cancel appointment');
     });
 
-    it('should exclude appointments with hidden statuses', () => {
+    it('should not display when they have hidden statuses', () => {
       const appointment = merge(singleVAAppointment, {
         attributes: {
           startDate: moment().format(),
@@ -196,7 +196,7 @@ describe('VAOS appointment list future booked', () => {
         .eventually.be.ok;
     });
 
-    it('should exclude appointments over 13 months away', () => {
+    it('should not display when over 13 months away', () => {
       const appointment = merge(singleVAAppointment, {
         attributes: {
           startDate: moment()
