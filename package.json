@@ -38,6 +38,7 @@
     "nightwatch-visual": "node src/platform/testing/visual-regression/index.js",
     "install-repos": "./script/install-repos.sh",
     "postinstall": "npm rebuild node-sass",
+    "proxy-rewrite:verify-targets": "node src/applications/proxy-rewrite/scripts/verify-injection-targets.js",
     "pr-check": "node script/pr-check.js",
     "reset:env": "./script/reset-environment.sh",
     "security-check": "node ./script/security-check.js",
