@@ -6,23 +6,12 @@ import { focusElement } from 'platform/utilities/ui';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import { AvailableApps } from './AvailableApps';
+
 export const AdditionalInfoSections = ({ activeApps }) => {
   return (
     <>
-      {activeApps && (
-        <div className="vads-u-margin-y--2">
-          <AdditionalInfo
-            triggerText={`What other third-party apps can I connect to my profile?`}
-          >
-            <p>
-              <strong>At this time, you can connect any of these apps:</strong>
-            </p>
-            <ul>
-              <li>Test</li>
-            </ul>
-          </AdditionalInfo>
-        </div>
-      )}
+      {activeApps && <AvailableApps activeApps={activeApps} />}
 
       <div className="vads-u-margin-bottom--2">
         <AdditionalInfo
