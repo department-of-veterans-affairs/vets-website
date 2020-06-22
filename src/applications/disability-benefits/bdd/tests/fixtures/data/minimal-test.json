@@ -18,6 +18,9 @@
     },
     "view:contactInfoDescription": {},
     "view:hasEvidence": false,
+    "view:uploadServiceTreatmentRecordsQualifier": {
+      "view:hasServiceTreatmentRecordsToUpload": false
+    },
     "view:powStatus": false,
     "view:newDisabilities": true,
     "ratedDisabilities": [],

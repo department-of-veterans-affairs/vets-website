@@ -447,6 +447,9 @@
     },
     "view:contactInfoDescription": {},
     "view:hasEvidence": false,
+    "view:uploadServiceTreatmentRecordsQualifier": {
+      "view:hasServiceTreatmentRecordsToUpload": false
+    },
     "view:powStatus": false,
     "hasTrainingPay": false,
     "serviceInformation": {

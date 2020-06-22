@@ -113,6 +113,11 @@
         "name": "Success.jpg",
         "confirmationCode": "de89492d-2d3f-4486-a73d-1fa4868aa49d",
         "attachmentId": "L023"
+      },
+      {
+        "name": "STR.pdf",
+        "confirmationCode": "abcdef00-a42f-4bbc-88f3-873c5bea6c00",
+        "attachmentId": "L451"
       }
     ]
   }

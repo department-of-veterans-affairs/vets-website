@@ -124,6 +124,14 @@
       },
       "view:evidenceTypeHelp": {}
     },
+    "view:uploadServiceTreatmentRecordsQualifier": {
+      "view:hasServiceTreatmentRecordsToUpload": true
+    },
+    "serviceTreatmentRecordsAttachments": [{
+      "name": "STR.pdf",
+      "confirmationCode": "abcdef00-a42f-4bbc-88f3-873c5bea6c00",
+      "attachmentId": "L451"
+    }],
     "view:unemployable": false,
     "view:aidAndAttendance": true,
     "view:modifyingHome": true,
