@@ -7,6 +7,7 @@ import ExpandingGroup from '@department-of-veterans-affairs/formation-react/Expa
 import { SMALL_SCREEN_WIDTH } from '../constants';
 import { handleScrollOnInputFocus } from '../utils/helpers';
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 
 /**
  * A radio button group with a label.
@@ -27,8 +28,15 @@ class RadioButtons extends React.Component {
   }
 
   handleChange = domEvent => {
+    const { name: field, value } = domEvent.target;
+
     this.handleFocus();
     this.props.onChange(domEvent);
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': field,
+      'gibct-form-value': value,
+    });
   };
 
   handleFocus = () => {

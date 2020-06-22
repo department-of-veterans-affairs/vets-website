@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { createId } from '../utils/helpers';

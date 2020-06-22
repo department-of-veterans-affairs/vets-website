@@ -80,6 +80,10 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     this.setState({ inputUpdated: false });
     this.setProgramFields(this.state.programName);
     focusElement('.estimated-benefits-header');
+    recordEvent({
+      event: 'cta-default-button-click',
+      'gibct-parent-accordion-section': 'Estimate your benefits',
+    });
   };
 
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>

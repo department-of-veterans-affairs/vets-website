@@ -3,12 +3,24 @@ import React from 'react';
 import { handleScrollOnInputFocus } from '../utils/helpers';
 import { SMALL_SCREEN_WIDTH } from '../constants';
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 
 class Dropdown extends React.Component {
   constructor(props) {
     super(props);
     this.dropdownId = `${this.props.name}-dropdown`;
   }
+
+  handleChange = domEvent => {
+    const { name: field, value } = domEvent.target;
+
+    this.props.onChange(domEvent);
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': field,
+      'gibct-form-value': value,
+    });
+  };
 
   handleFocus = () => {
     const field = document.getElementById(this.dropdownId);
@@ -31,7 +43,7 @@ class Dropdown extends React.Component {
           name={this.props.name}
           alt={this.props.alt}
           value={this.props.value}
-          onChange={this.props.onChange}
+          onChange={this.handleChange}
           onFocus={
             // prod flag for bah-8821
             environment.isProduction()
