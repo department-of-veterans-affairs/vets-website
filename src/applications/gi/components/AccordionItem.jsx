@@ -52,6 +52,7 @@ class AccordionItem extends React.Component {
     if (section) {
       return (
         <button
+          id={`${this.id}-button`}
           aria-expanded={expanded}
           aria-controls={this.id}
           onClick={this.toggle}
