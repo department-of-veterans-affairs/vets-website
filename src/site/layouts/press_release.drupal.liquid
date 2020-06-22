@@ -238,7 +238,7 @@
                         {{ fieldOffice.entity.fieldPressReleaseBlurb.processed }}
                     </section>
                     {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
-                    <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all news releases</a>
+                    <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: 2, 'url.path' }}">See all news releases</a>
                 </article>
             </div>
         {% endif %}
