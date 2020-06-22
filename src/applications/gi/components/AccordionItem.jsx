@@ -40,9 +40,12 @@ class AccordionItem extends React.Component {
       this.props.onClick(expanded);
     }
 
-    const type = this.props.section ? 'section' : 'accordion';
+    const event = expanded ? 'expand' : 'collapse';
+    const accordionSize = this.props.section ? 'small' : null;
+
     recordEvent({
-      event: expanded ? `nav-${type}-expand` : `nav-${type}-collapse`,
+      event: `nav-accordion-${event}`,
+      'accordion-size': accordionSize,
     });
   };
 
