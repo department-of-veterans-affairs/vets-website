@@ -34,19 +34,24 @@ class AccordionItem extends React.Component {
 
   toggle = () => {
     const expanded = !this.expanded();
+    const { section, onClick } = this.props;
+
     this.setState({ expanded });
 
-    if (this.props.onClick) {
-      this.props.onClick(expanded);
+    if (onClick) {
+      onClick(expanded);
     }
 
     const event = expanded ? 'expand' : 'collapse';
-    const accordionSize = this.props.section ? 'small' : null;
 
-    recordEvent({
-      event: `nav-accordion-${event}`,
-      'accordion-size': accordionSize,
-    });
+    if (section) {
+      recordEvent({
+        event: `nav-accordion-${event}`,
+        'accordion-size': 'small',
+      });
+    } else {
+      recordEvent({ event: `nav-accordion-${event}` });
+    }
   };
 
   renderHeader = () => {

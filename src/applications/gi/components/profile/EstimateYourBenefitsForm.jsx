@@ -99,7 +99,7 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
-  handleCalculateBenefitsClick = () => {
+  handleCalculateBenefitsClick = name => {
     const { beneficiaryZIPError, beneficiaryZIP } = this.props.inputs;
 
     if (
@@ -121,7 +121,7 @@ class EstimateYourBenefitsForm extends React.Component {
     recordEvent({
       event: 'cta-default-button-click',
       'gibct-parent-accordion-section': 'Estimate your benefits',
-      'gibct-child-accordion-section': this.state.expandedAccordionName,
+      'gibct-child-accordion-section': name,
     });
   };
 
@@ -211,15 +211,6 @@ class EstimateYourBenefitsForm extends React.Component {
       this.props.calculatorInputChange({
         field: 'buyUpAmount',
         value: 600,
-      });
-    }
-  };
-
-  setExpandedAccordionName = (name, expanded) => {
-    if (expanded) {
-      this.setState({
-        ...this.state,
-        expandedAccordionName: name,
       });
     }
   };
@@ -1004,15 +995,13 @@ class EstimateYourBenefitsForm extends React.Component {
 
   renderMilitaryDetails = () => {
     const name = 'Your military details';
-    const expanded = this.state.yourBenefitsExpanded;
-    this.setExpandedAccordionName(name, expanded);
 
     return (
       <AccordionItem
         button={name}
         id={`eyb-${createId(name)}`}
         section
-        expanded
+        expanded={this.state.yourBenefitsExpanded}
         onClick={this.toggleYourBenefits}
       >
         <div>
@@ -1031,7 +1020,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </div>
         <button
           className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
@@ -1064,14 +1053,12 @@ class EstimateYourBenefitsForm extends React.Component {
     if (this.hideSchoolCostsAndCalendar()) return null;
 
     const name = 'School costs and calendar';
-    const expanded = this.state.aboutYourSchoolExpanded;
-    this.setExpandedAccordionName(name, expanded);
 
     return (
       <AccordionItem
         button={name}
         id={`eyb-${createId(name)}`}
-        expanded
+        expanded={this.state.aboutYourSchoolExpanded}
         section
         onClick={this.toggleAboutYourSchool}
       >
@@ -1084,7 +1071,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </div>
         <button
           className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
@@ -1097,14 +1084,12 @@ class EstimateYourBenefitsForm extends React.Component {
     const name = isOjt
       ? 'Learning format and schedule'
       : 'Learning format and location';
-    const expanded = this.state.learningFormatAndScheduleExpanded;
-    this.setExpandedAccordionName(name, expanded);
 
     return (
       <AccordionItem
         button={name}
         id={`eyb-${createId(name)}`}
-        expanded
+        expanded={this.state.learningFormatAndScheduleExpanded}
         section
         onClick={this.toggleLearningFormatAndSchedule}
       >
@@ -1115,7 +1100,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </div>
         <button
           className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
@@ -1138,13 +1123,12 @@ class EstimateYourBenefitsForm extends React.Component {
   renderScholarshipsAndOtherVAFunding = () => {
     if (this.hideScholarshipsAndOtherVAFunding()) return null;
     const name = 'Scholarships and other VA funding';
-    const expanded = this.state.scholarshipsAndOtherFundingExpanded;
-    this.setExpandedAccordionName(name, expanded);
+
     return (
       <AccordionItem
         button={name}
         id={`eyb-${createId(name)}`}
-        expanded
+        expanded={this.state.scholarshipsAndOtherFundingExpanded}
         section
         onClick={this.toggleScholarshipsAndOtherFunding}
       >
@@ -1157,7 +1141,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </div>
         <button
           className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
