@@ -1,23 +1,26 @@
-const path = require('path');
+require('@babel/polyfill');
 const fs = require('fs');
+const path = require('path');
 const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-require('@babel/polyfill');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
+const ManifestPlugin = require('webpack-manifest-plugin');
 
-const ENVIRONMENTS = require('../src/site/constants/environments');
+const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
-const generateWebpackDevConfig = require('./webpack.dev.config.js');
+const ENVIRONMENTS = require('../src/site/constants/environments');
+
 const {
   getAppManifests,
   getWebpackEntryPoints,
 } = require('./manifest-helpers');
-const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
+
+const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
 const timestamp = new Date().getTime();
 
