@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <script>
-      {% include "src/site/assets/js/record-event.js" %}
+      <%= inlineScripts['record-event.js'] %>
     </script>
 
 
@@ -29,13 +29,13 @@
     <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/generated/style.css">
-    <link rel="stylesheet" href="/generated/<%= entryName %>.css">
+    <link rel="stylesheet" href="<%= assetPath('style.css') %>">
+    <link rel="stylesheet" href="<%= assetPath(`${entryName}.css`) %>">
 
 
-    <script defer nomodule src="/generated/polyfills.entry.js"></script>
-    <script defer src="/generated/vendor.entry.js"></script>
-    <script defer src="/generated/<%= entryName %>.entry.js"></script>
+    <script defer nomodule src="<%= assetPath('polyfills.js') %>"></script>
+    <script defer src="<%= assetPath('vendor.js') %>"></script>
+    <script defer src="<%= assetPath(`${entryName}.js`) %>"></script>
 
     <script type="text/javascript">
       window.VetsGov = window.VetsGov || {};
@@ -121,15 +121,19 @@
       </div>
     </header>
 
-    <!-- TODO: Add breadcrumbs -->
-
     <script type="text/javascript">
     (function() {
       var module = {};
-      {% include "src/site/assets/js/incompatible-browser.js" %}
+      <%= inlineScripts['incompatible-browser.js'] %>
       checkBrowserCompatibility();
     })();
     </script>
+
+    <!-- TODO: Add breadcrumbs -->
+    <% if (includeBreadcrumbs) { %>
+    <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
+    </nav>
+    <% } %>
 
     <!-- React root -->
     <div id="content">
@@ -159,15 +163,15 @@
         - Abraham Lincoln
       -->
 
-    <!--
+    <% if (entryName === 'static-pages') { %>
     <script type="text/javascript">
       (function() {
       var module = {};
-      {% include "src/site/assets/js/static-page-widgets.js" %}
+      <%= inlineScripts['static-page-widgets.js'] %>
       mountWidgets(document.querySelectorAll('[data-widget-type]'), 6000);
       })();
     </script>
-    -->
+    <% } %>
 
 
   </body>
