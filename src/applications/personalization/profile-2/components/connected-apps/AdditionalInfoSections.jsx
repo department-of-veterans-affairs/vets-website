@@ -5,13 +5,48 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-
-import { AvailableApps } from './AvailableApps';
+import { isEmpty } from 'lodash';
+import availableConnectedApps from './availableConnectedApps';
 
 export const AdditionalInfoSections = ({ activeApps }) => {
+  const connectedAppsNames = activeApps.map(app => app.attributes.title);
+
+  // This filters out any availableConnectedApps that the user has already connected to
+  const filteredApps = availableConnectedApps.filter(
+    app => !connectedAppsNames.includes(app.name),
+  );
+
   return (
     <>
-      {activeApps && <AvailableApps activeApps={activeApps} />}
+      {activeApps &&
+        !isEmpty(filteredApps) && (
+          <div className="vads-u-margin-y--2">
+            <AdditionalInfo
+              triggerText={`What other third-party apps can I connect to my profile?`}
+            >
+              <p>
+                <strong>
+                  At this time, you can connect any of these apps:
+                </strong>
+              </p>
+              <ul>
+                {filteredApps.map(app => {
+                  return (
+                    <li key={app.name}>
+                      <a
+                        href={app.appURL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {app.name}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </AdditionalInfo>
+          </div>
+        )}
 
       <div className="vads-u-margin-bottom--2">
         <AdditionalInfo
