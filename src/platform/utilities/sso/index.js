@@ -35,7 +35,7 @@ export async function checkAutoSession() {
     // be null if we failed to get a response from the SSOe server, in which
     // case we don't want to logout the user because we don't know
     logout('v1', 'sso-automatic-logout');
-  } else if (!hasSession() && hasSessionSSO() && !getForceAuth()) {
+  } else if (!hasSession() && hasSessionSSO() && !getForceAuth() && authn) {
     // FUTURE: remove inbound param
     // https://github.com/department-of-veterans-affairs/va.gov-team/issues/10460
     const params = { inbound: 'true', authn };
