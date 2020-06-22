@@ -91,7 +91,10 @@ export const App = () => (
               <ul>
                 <li>
                   A{' '}
-                  <a href="">
+                  <a
+                    href="https://www.myhealth.va.gov/mhv-portal-web/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication"
+                    rel="noreferrer noopener"
+                  >
                     Premium <strong>My HealtheVet account</strong>
                   </a>
                   , <strong>or</strong>
