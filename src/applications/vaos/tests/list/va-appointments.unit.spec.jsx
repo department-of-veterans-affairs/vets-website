@@ -44,6 +44,7 @@ describe('VAOS appointment list future booked', () => {
         ),
       );
 
+      expect(baseElement).to.contain.text('VA Appointment');
       expect(baseElement).to.contain.text('Confirmed');
       expect(baseElement).to.contain('.fa-check-circle');
 
@@ -75,7 +76,7 @@ describe('VAOS appointment list future booked', () => {
         },
       );
 
-      const dateHeader = await findByText(
+      await findByText(
         new RegExp(
           moment()
             .add(3, 'days')
@@ -84,10 +85,6 @@ describe('VAOS appointment list future booked', () => {
         ),
       );
 
-      expect(baseElement).to.contain.text('Confirmed');
-      expect(baseElement).to.contain('.fa-check-circle');
-
-      expect(dateHeader).to.have.tagName('h3');
       expect(getByText(/directions/i)).to.have.attribute(
         'href',
         'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
@@ -134,6 +131,7 @@ describe('VAOS appointment list future booked', () => {
       expect(baseElement).to.contain.text('Follow-up/Routine');
       expect(baseElement).to.contain.text('Instructions');
     });
+
     it('should have correct status when previously cancelled', async () => {
       let appointment = set(
         'attributes.startDate',
