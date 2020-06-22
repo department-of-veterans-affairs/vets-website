@@ -130,7 +130,7 @@ class ObjectField extends React.Component {
         divWrapper = objectFields.some(name => {
           const options = uiSchema?.[name]?.['ui:options'] || {};
           return (
-            options.volatileData || // ReviewCardField
+            (options.volatileData && !formContext.reviewMode) || // ReviewCardField
             options.customTitle || // SelectArrayItemsWidget
             (options.addAnotherLabel && formContext.reviewMode) // fileUiSchema
           );
