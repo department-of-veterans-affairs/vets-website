@@ -54,6 +54,15 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     }
   };
 
+  recordInputChange = event => {
+    const { name: field, value } = event.target;
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': field,
+      'gibct-form-value': value,
+    });
+  };
+
   handleApprovedProgramsChange = event => {
     const vetTecProgramName = event.target.value;
     const program = this.getProgramByName(vetTecProgramName);
@@ -115,12 +124,13 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         pattern="(\d*\d+)(?=\,)"
         name="vetTecScholarships"
         value={formatDollarAmount(this.state.scholarships)}
-        onChange={e =>
+        onChange={e => {
           this.setState({
             inputUpdated: true,
             scholarships: removeNonNumberCharacters(e.target.value),
-          })
-        }
+          });
+          this.recordInputChange(e);
+        }}
         onFocus={
           // prod flag for bah-8821
           !environment.isProduction() &&
@@ -151,12 +161,13 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         type="text"
         inputMode="decimal"
         value={formatDollarAmount(this.state.tuitionFees)}
-        onChange={e =>
+        onChange={e => {
           this.setState({
             inputUpdated: true,
             tuitionFees: removeNonNumberCharacters(e.target.value),
-          })
-        }
+          });
+          this.recordInputChange(e);
+        }}
         onFocus={
           !environment.isProduction() &&
           handleScrollOnInputFocus.bind(this, 'tuition-field')
@@ -180,6 +191,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         onChange={e => {
           this.setState({ inputUpdated: true });
           this.handleApprovedProgramsChange(e);
+          this.recordInputChange(e);
         }}
       />
     ) : (
@@ -192,6 +204,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         onChange={e => {
           this.setState({ inputUpdated: true });
           this.handleApprovedProgramsChange(e);
+          this.recordInputChange(e);
         }}
         visible
       />
