@@ -3,6 +3,10 @@
 .va-connected-apps {
   margin-bottom: 6em;
 
+  .available-connected-apps ul {
+    list-style: none;
+  }
+
   .va-modal-inner {
     max-width: 60rem;
   }

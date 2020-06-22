@@ -20,7 +20,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
     <>
       {activeApps &&
         !isEmpty(filteredApps) && (
-          <div className="vads-u-margin-y--2">
+          <div className="vads-u-margin-y--2 available-connected-apps">
             <AdditionalInfo
               triggerText={`What other third-party apps can I connect to my profile?`}
             >
@@ -29,7 +29,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
                   At this time, you can connect any of these apps:
                 </strong>
               </p>
-              <ul>
+              <ul className="vads-u-padding-right--0 vads-u-margin-bottom--2">
                 {filteredApps.map(app => {
                   return (
                     <li key={app.name}>
