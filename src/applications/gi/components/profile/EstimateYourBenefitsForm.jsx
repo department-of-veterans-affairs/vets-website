@@ -35,7 +35,6 @@ class EstimateYourBenefitsForm extends React.Component {
       learningFormatAndScheduleExpanded: false,
       scholarshipsAndOtherFundingExpanded: false,
       inputUpdated: false,
-      expandedAccordionName: null,
     };
   }
 
@@ -99,7 +98,7 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
-  handleCalculateBenefitsClick = name => {
+  handleCalculateBenefitsClick = childSection => {
     const { beneficiaryZIPError, beneficiaryZIP } = this.props.inputs;
 
     if (
@@ -121,7 +120,7 @@ class EstimateYourBenefitsForm extends React.Component {
     recordEvent({
       event: 'cta-default-button-click',
       'gibct-parent-accordion-section': 'Estimate your benefits',
-      'gibct-child-accordion-section': name,
+      'gibct-child-accordion-section': childSection,
     });
   };
 
