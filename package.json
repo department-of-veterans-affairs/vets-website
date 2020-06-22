@@ -157,6 +157,7 @@
     "command-line-args": "^3.0.1",
     "command-line-usage": "^6.1.0",
     "concurrently": "^5.2.0",
+    "copy-webpack-plugin": "^6.0.2",
     "cors": "^2.7.1",
     "css-loader": "^0.28.10",
     "cypress": "^4.8.0",

@@ -5,7 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const HtmlPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 require('@babel/polyfill');
 
@@ -281,7 +282,7 @@ module.exports = env => {
       loadingMessage = 'Please wait while we load the application for you.',
       rootUrl,
     }) =>
-      new HtmlWebpackPlugin({
+      new HtmlPlugin({
         filename: landingPagePath(rootUrl),
         template: 'src/platform/landing-pages/dev-template.ejs',
         templateParameters: {
@@ -301,6 +302,17 @@ module.exports = env => {
       getAppManifests()
         .filter(({ rootUrl }) => rootUrl)
         .map(generateLandingPage),
+    );
+
+    baseConfig.plugins.push(
+      new CopyPlugin({
+        patterns: [
+          {
+            from: 'src/site/assets/img/',
+            to: path.join(outputPath, '../', 'img/'),
+          },
+        ],
+      }),
     );
   }
 
