@@ -33,6 +33,7 @@ import create686ContentReveal from './view-modify-dependent/686-cta/create686Cco
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
 import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging';
 import createScheduleViewVAAppointments from './health-care-manage-benefits/schedule-view-va-appointments';
+import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -144,6 +145,7 @@ createScheduleViewVAAppointments(
   store,
   widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS,
 );
+createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 
 // homepage widgets
 if (location.pathname === '/') {
