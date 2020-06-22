@@ -2,24 +2,23 @@
   "id": "21cdc6741c00ac67b6cbf6b972d084c1",
   "type": "va_appointments",
   "attributes": {
-    "startDate": "2019-06-19T16:00:00Z",
-    "clinicId": "308",
-    "clinicFriendlyName": "C&P BEV AUDIO FTC1",
-    "facilityId": "983",
-    "sta6aid": "983GC",
+    "clinicFriendlyName": "Fake",
+    "clinicId": "fake",
+    "facilityId": "fake",
+    "sta6aid": "fake",
     "communityCare": false,
     "vdsAppointments": [
       {
-        "bookingNote": "Some random note",
+        "bookingNote": null,
         "appointmentLength": "60",
-        "appointmentTime": "2019-06-19T16:00:00Z",
+        "appointmentTime": "fake",
         "clinic": {
-          "name": "CHY OPT VAR1",
+          "name": "fake",
           "askForCheckIn": false,
-          "facilityCode": "983"
+          "facilityCode": "fake"
         },
         "type": "REGULAR",
-        "currentStatus": "NO ACTION TAKEN/TODAY"
+        "currentStatus": "fake"
       }
     ],
     "vvsAppointments": []

@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import set from 'platform/utilities/data/set';
+import { merge } from 'lodash/fp';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import reducers from '../../reducers';
 import singleVAAppointment from '../mocks/single-va-appointment.json';
@@ -19,13 +19,23 @@ const initialState = {
 describe('VAOS appointment list future booked', () => {
   describe('va appointments', () => {
     it('should show information without facility details', async () => {
-      const appointment = set(
-        'attributes.startDate',
-        moment()
-          .add(3, 'days')
-          .format(),
-        singleVAAppointment,
-      );
+      const appointment = merge(singleVAAppointment, {
+        attributes: {
+          startDate: moment()
+            .add(3, 'days')
+            .format(),
+          clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+          facilityId: '983',
+          sta6aid: '983GC',
+          vdsAppointments: [
+            {
+              bookingNote: 'Some random note',
+              currentStatus: 'FUTURE',
+            },
+          ],
+        },
+      });
+
       mockAppointmentInfo({ va: [appointment] });
       const { findByText, baseElement, getByText } = renderInReduxProvider(
         <FutureAppointmentsList />,
@@ -59,15 +69,41 @@ describe('VAOS appointment list future booked', () => {
     });
 
     it('should show information with facility details', async () => {
-      const appointment = set(
-        'attributes.startDate',
-        moment()
-          .add(3, 'days')
-          .format(),
-        singleVAAppointment,
-      );
+      const appointment = merge(singleVAAppointment, {
+        attributes: {
+          startDate: moment()
+            .add(3, 'days')
+            .format(),
+          clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+          facilityId: '983',
+          sta6aid: '983GC',
+          vdsAppointments: [
+            {
+              currentStatus: 'FUTURE',
+            },
+          ],
+        },
+      });
       mockAppointmentInfo({ va: [appointment] });
-      mockFacilitesFetch('vha_442GC', [singleVAFacility]);
+      const facility = merge(singleVAFacility, {
+        id: 'vha_442GC',
+        attributes: {
+          uniqueId: '442GC',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            physical: {
+              zip: '82001-5356',
+              city: 'Cheyenne',
+              state: 'WY',
+              address1: '2360 East Pershing Boulevard',
+            },
+          },
+          phone: {
+            main: '307-778-7550',
+          },
+        },
+      });
+      mockFacilitesFetch('vha_442GC', [facility]);
       const { findByText, baseElement, getByText } = renderInReduxProvider(
         <FutureAppointmentsList />,
         {
@@ -97,19 +133,19 @@ describe('VAOS appointment list future booked', () => {
     });
 
     it('should show comment for self-scheduled appointments', async () => {
-      let appointment = set(
-        'attributes.startDate',
-        moment()
-          .add(3, 'days')
-          .format(),
-        singleVAAppointment,
-      );
-      // Self-scheduled appointments have a booking note with our purpose text at the start
-      appointment = set(
-        'attributes.vdsAppointments[0].bookingNote',
-        'Follow-up/Routine: Instructions',
-        appointment,
-      );
+      const appointment = merge(singleVAAppointment, {
+        attributes: {
+          startDate: moment()
+            .add(3, 'days')
+            .format(),
+          vdsAppointments: [
+            {
+              bookingNote: 'Follow-up/Routine: Instructions',
+              currentStatus: 'FUTURE',
+            },
+          ],
+        },
+      });
       mockAppointmentInfo({ va: [appointment] });
       const { findByText, baseElement } = renderInReduxProvider(
         <FutureAppointmentsList />,
@@ -133,18 +169,18 @@ describe('VAOS appointment list future booked', () => {
     });
 
     it('should have correct status when previously cancelled', async () => {
-      let appointment = set(
-        'attributes.startDate',
-        moment()
-          .add(3, 'days')
-          .format(),
-        singleVAAppointment,
-      );
-      appointment = set(
-        'attributes.vdsAppointments[0].currentStatus',
-        'CANCELLED BY CLINIC',
-        appointment,
-      );
+      const appointment = merge(singleVAAppointment, {
+        attributes: {
+          startDate: moment()
+            .add(3, 'days')
+            .format(),
+          vdsAppointments: [
+            {
+              currentStatus: 'CANCELLED BY CLINIC',
+            },
+          ],
+        },
+      });
       mockAppointmentInfo({ va: [appointment] });
       const { findByText, baseElement } = renderInReduxProvider(
         <FutureAppointmentsList />,
