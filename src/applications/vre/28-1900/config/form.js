@@ -3,10 +3,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { additionalInformation } from './chapters/additional-information';
 
-import {
-  veteranInformation,
-  veteranAddress,
-} from './chapters/veteran-information';
+import { veteranInformation, veteranAddress } from './chapters/veteran';
 
 const formConfig = {
   urlPrefix: '/',

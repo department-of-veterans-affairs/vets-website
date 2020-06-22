@@ -56,7 +56,7 @@ export const uiSchema = {
   isMoving: {
     'ui:widget': 'yesNo',
     'ui:title': (
-      <p>
+      <p className="vads-u-margin--0">
         Are you moving in the <strong>next 30 days?</strong>
       </p>
     ),
