@@ -21,7 +21,7 @@ import {
 import { renderLearnMoreLabel } from '../../utils/render';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
-import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
+import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 
@@ -35,6 +35,7 @@ class EstimateYourBenefitsForm extends React.Component {
       learningFormatAndScheduleExpanded: false,
       scholarshipsAndOtherFundingExpanded: false,
       inputUpdated: false,
+      expandedAccordionName: null,
     };
   }
 
@@ -116,6 +117,12 @@ class EstimateYourBenefitsForm extends React.Component {
       this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
     }
+
+    recordEvent({
+      event: 'cta-default-button-click',
+      'gibct-parent-accordion-section': 'Estimate your benefits',
+      'gibct-child-accordion-section': this.state.expandedAccordionName,
+    });
   };
 
   updateEligibility = e => {
@@ -204,6 +211,15 @@ class EstimateYourBenefitsForm extends React.Component {
       this.props.calculatorInputChange({
         field: 'buyUpAmount',
         value: 600,
+      });
+    }
+  };
+
+  setExpandedAccordionName = (name, expanded) => {
+    if (expanded) {
+      this.setState({
+        ...this.state,
+        expandedAccordionName: name,
       });
     }
   };
@@ -988,12 +1004,15 @@ class EstimateYourBenefitsForm extends React.Component {
 
   renderMilitaryDetails = () => {
     const name = 'Your military details';
+    const expanded = this.state.yourBenefitsExpanded;
+    this.setExpandedAccordionName(name, expanded);
+
     return (
       <AccordionItem
         button={name}
         id={`eyb-${createId(name)}`}
         section
-        expanded={this.state.yourBenefitsExpanded}
+        expanded
         onClick={this.toggleYourBenefits}
       >
         <div>
@@ -1045,12 +1064,14 @@ class EstimateYourBenefitsForm extends React.Component {
     if (this.hideSchoolCostsAndCalendar()) return null;
 
     const name = 'School costs and calendar';
+    const expanded = this.state.aboutYourSchoolExpanded;
+    this.setExpandedAccordionName(name, expanded);
 
     return (
       <AccordionItem
         button={name}
         id={`eyb-${createId(name)}`}
-        expanded={this.state.aboutYourSchoolExpanded}
+        expanded
         section
         onClick={this.toggleAboutYourSchool}
       >
@@ -1076,11 +1097,14 @@ class EstimateYourBenefitsForm extends React.Component {
     const name = isOjt
       ? 'Learning format and schedule'
       : 'Learning format and location';
+    const expanded = this.state.learningFormatAndScheduleExpanded;
+    this.setExpandedAccordionName(name, expanded);
+
     return (
       <AccordionItem
         button={name}
         id={`eyb-${createId(name)}`}
-        expanded={this.state.learningFormatAndScheduleExpanded}
+        expanded
         section
         onClick={this.toggleLearningFormatAndSchedule}
       >
@@ -1114,11 +1138,13 @@ class EstimateYourBenefitsForm extends React.Component {
   renderScholarshipsAndOtherVAFunding = () => {
     if (this.hideScholarshipsAndOtherVAFunding()) return null;
     const name = 'Scholarships and other VA funding';
+    const expanded = this.state.scholarshipsAndOtherFundingExpanded;
+    this.setExpandedAccordionName(name, expanded);
     return (
       <AccordionItem
         button={name}
         id={`eyb-${createId(name)}`}
-        expanded={this.state.scholarshipsAndOtherFundingExpanded}
+        expanded
         section
         onClick={this.toggleScholarshipsAndOtherFunding}
       >
