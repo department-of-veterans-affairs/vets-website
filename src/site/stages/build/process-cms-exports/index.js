@@ -169,6 +169,14 @@ const entityAssemblerFactory = contentDir => {
     // Use the automatic transformer process for certain content models
     // This is a test. Eventually,
     if (getContentModelType(entity) === 'node-vba_facility') {
+      // eslint-disable-next-line no-console
+      console.log(
+        chalk.blue(
+          `Using the prototype field transformer on ${getContentModelType(
+            entity,
+          )}`,
+        ),
+      );
       validateInput(entity);
       const transformed = transformFields(entity);
       validateOutput(entity, transformed);
