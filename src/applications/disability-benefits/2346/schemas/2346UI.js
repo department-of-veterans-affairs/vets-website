@@ -8,11 +8,7 @@ import VeteranInfoBox from '../components/VeteranInfoBox';
 import { schemaFields } from '../constants';
 import { addressUISchema } from './address-schema';
 
-const {
-  permanentAddressField,
-  temporaryAddressField,
-  viewCurrentAddressField,
-} = schemaFields;
+const { permanentAddressField, temporaryAddressField } = schemaFields;
 
 const emailUITitle = <h4>Email address</h4>;
 
