@@ -56,8 +56,13 @@
   max-width: 293px;
 }
 
-.confirmation-page > .usa-alert-success::before {
-  color: $color-black;
+.confirmation-page {
+  .print-details {
+    display: none;
+  }
+  .usa-alert-success::before {
+    color: $color-black;
+  }
 }
 
 .usa-accordion > ul button, .usa-accordion-bordered > ul button {
@@ -87,6 +92,24 @@ div.review {
     dt p {
       margin-top: 0;
       margin-bottom: 0;
+    }
+  }
+}
+
+@media print {
+  .header, .va-nav-breadcrumbs, .schemaform-title, .print-copy, .order-submission-alert, .order-summary-alert, .order-timeframe-section, .order-questions-section, .footer, .help-footer-box {
+    display: none;
+  }
+  .confirmation-page {
+    .print-details {
+      display: block;
+    }
+    .schemaform-title {
+      display: block;
+      h1 {
+        font-size: 21px;
+        margin-bottom: inherit;
+      }
     }
   }
 }
