@@ -36,7 +36,7 @@ export const fetchFormStatus = () => async dispatch => {
     // always result in that error so we can go ahead and return
     return dispatch(resetError());
   }
-  fetch(`${environment.API_URL}/v0/in_progress_forms/MDOT`, {
+  fetch(`${environment.API_URL}/v0/in_progress_forms/mdot`, {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',

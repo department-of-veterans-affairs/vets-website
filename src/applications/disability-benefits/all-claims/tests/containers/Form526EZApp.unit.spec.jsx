@@ -6,10 +6,15 @@ import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 
 import { commonReducer } from 'platform/startup/store';
-import reducers from '../../reducers';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import Form526Entry, { serviceRequired } from '../../Form526EZApp';
+import reducers from '../../reducers';
+import {
+  MVI_ADD_INITIATED,
+  MVI_ADD_SUCCEEDED,
+  MVI_ADD_FAILED,
+} from '../../actions';
 
 const fakeSipsIntro = user => {
   const { profile, login } = user;
@@ -28,6 +33,7 @@ describe('Form 526EZ Entry Page', () => {
     verified = false,
     currentlyLoggedIn = true,
     services = [],
+    mvi = '',
   } = {}) => {
     const initialState = {
       form: {
@@ -51,6 +57,9 @@ describe('Form 526EZ Entry Page', () => {
       currentLocation: {
         pathname: '/introduction',
         search: '',
+      },
+      mvi: {
+        addPersonState: mvi,
       },
     };
     const fakeStore = createStore(
@@ -116,6 +125,51 @@ describe('Form 526EZ Entry Page', () => {
     localStorage.removeItem('hasSession');
     expect(tree.find('main').text()).to.contain('Need to be verified');
 
+    tree.unmount();
+  });
+
+  // Logged in but has add-person service (missing BIRLS or participant ID)
+  it('should render add-person loader', () => {
+    localStorage.setItem('hasSession', true);
+    const tree = testPage({
+      currentlyLoggedIn: true,
+      verified: true,
+      services: ['add-person'],
+      mvi: MVI_ADD_INITIATED,
+    });
+    localStorage.removeItem('hasSession');
+    expect(tree.find('main')).to.have.lengthOf(0);
+    expect(tree.find('LoadingIndicator')).to.have.lengthOf(1);
+    expect(tree.find('LoadingIndicator').text()).to.contain('additional work');
+    tree.unmount();
+  });
+
+  // Logged in, has add-person service (missing BIRLS or participant ID), but
+  // succeeded in adding id
+  it('should render intro page after successful add person', () => {
+    localStorage.setItem('hasSession', true);
+    const tree = testPage({
+      currentlyLoggedIn: true,
+      verified: true,
+      services: ['add-person', ...serviceRequired],
+      mvi: MVI_ADD_SUCCEEDED,
+    });
+    localStorage.removeItem('hasSession');
+    expect(tree.find('main').text()).to.contain('Start the form');
+    tree.unmount();
+  });
+
+  // Logged in & failed add person call
+  it('should render Missing services page after failed add person call', () => {
+    const tree = testPage({
+      currentlyLoggedIn: true,
+      verified: true,
+      services: ['add-person'],
+      mvi: MVI_ADD_FAILED,
+    });
+    expect(tree.find('main')).to.have.lengthOf(0);
+    expect(tree.find('AlertBox')).to.have.lengthOf(1);
+    expect(tree.find('AlertBox').text()).to.contain('missing some information');
     tree.unmount();
   });
 });

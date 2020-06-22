@@ -19,6 +19,8 @@ import {
   ADDRESS_VALIDATION_UPDATE,
 } from '../actions';
 
+import { isEmpty, isEqual, pickBy } from 'lodash';
+
 import { isFailedTransaction } from '../util/transactions';
 
 const initialAddressValidationState = {
@@ -41,6 +43,8 @@ const initialAddressValidationState = {
 };
 
 const initialState = {
+  hasUnsavedEdits: false,
+  initialFormFields: {},
   modal: null,
   modalData: null,
   formFields: {},
@@ -111,6 +115,8 @@ export default function vet360(state = initialState, action) {
             transactionId: action.transaction.data.attributes.transactionId,
           },
         },
+        initialFormFields: {},
+        hasUnsavedEdits: false,
       };
     }
 
@@ -207,11 +213,45 @@ export default function vet360(state = initialState, action) {
         ...state.formFields,
         [action.field]: action.newState,
       };
-      return { ...state, formFields };
+
+      // The action gets fired upon initial opening of the edit modal
+      // We only want to capture initialFormFields once, it should not update
+      const initialFormFields = isEmpty(state.initialFormFields)
+        ? formFields
+        : state.initialFormFields;
+
+      const modalName = state?.modal;
+      const initialFormFieldValues = state.initialFormFields[modalName]?.value;
+      let formFieldValues = formFields[modalName]?.value;
+
+      // Initial form fields does not have 'view' properties, those get added to formFields
+      // After editing a field. So we need to strip of those 'view' fields to be able to compare
+      formFieldValues = pickBy(formFieldValues, value => value !== undefined);
+      formFieldValues = pickBy(
+        formFieldValues,
+        (value, key) => !key.startsWith('view:'),
+      );
+
+      const hasUnsavedEdits =
+        !isEmpty(initialFormFieldValues) &&
+        !isEqual(formFieldValues, initialFormFieldValues);
+
+      return {
+        ...state,
+        formFields,
+        hasUnsavedEdits,
+        initialFormFields,
+      };
     }
 
     case OPEN_MODAL:
-      return { ...state, modal: action.modal, modalData: action.modalData };
+      return {
+        ...state,
+        modal: action.modal,
+        modalData: action.modalData,
+        hasUnsavedEdits: false,
+        initialFormFields: {},
+      };
 
     case ADDRESS_VALIDATION_INITIALIZE:
       return {
