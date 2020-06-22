@@ -7,7 +7,7 @@ const {
   getAllImportsFrom,
   readEntity,
 } = require('./helpers');
-const { getDrupalValue } = require('./transformers/helpers');
+const { fieldTransformers, serialize } = require('./field-transformers');
 
 const transformers = getAllImportsFrom(
   path.resolve(__dirname, 'field-transformers'),
@@ -18,55 +18,6 @@ const inputSchemas = getAllImportsFrom(path.resolve(__dirname, 'schemas/raw'));
 const outputSchemas = getAllImportsFrom(
   path.resolve(__dirname, 'schemas/transformed'),
 );
-
-/**
- * Reorders object properties for consistency. Returns all other types
- * unmodified.
- * @param {*} thing - The variable to normalize
- * @returns {*} Whatever type thing is
- */
-const normalize = thing => {
-  if (typeof thing !== 'object' || thing === null) {
-    return thing;
-  }
-
-  // Alphabetize fields
-  return Object.keys(thing)
-    .sort()
-    .reduce((res, currentKey) => {
-      res[currentKey] = thing[currentKey];
-      return res;
-    }, {});
-};
-
-/**
- * Normalizes and stringifies a variable.
- *
- * For objects, normalization means alphabetizing the properties so two
- * otherwise-equal objects can be stringified and compared to each other even if
- * the properties are in a different order.
- * @param {*} thing - A variable to normalize and stringify
- * @returns {String}
- */
-const serialize = thing => JSON.stringify(normalize(thing), null, 2);
-
-/**
- * Maps a transformer to an input and output schema for an individual field.
- *
- * TODO: Make this less annoying for enums. This may mean removing enums
- * recursively in normalize(), but that seems maybe too specific? Not sure what
- * else we may need to do. Probably reasonable for a prototype, though.
- */
-const fieldTransformers = new Map([
-  [
-    // Input schema: Data from Drupal looks like this
-    serialize({ $ref: 'GenericNestedString' }),
-    new Map([
-      // Output schema: Data in the templates look like this
-      [serialize({ type: 'string' }), getDrupalValue],
-    ]),
-  ],
-]);
 
 // These will change if we can replace the manual JSON schema creation process
 const getInputSchema = entity => inputSchemas[getContentModelType(entity)];
@@ -96,8 +47,6 @@ function transformFields(entity, outputSchemaFromParent) {
   // throw new Error('stopping');
 
   const inputSchema = getInputSchema(entity);
-  // TODO: Log the missing schema
-  //     Not sure about this one; it should be logged already in validateInput
   if (!inputSchema) {
     throw new Error(
       `Could not find input schema for ${getContentModelType(entity)}`,
