@@ -7,30 +7,18 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 export const App = () => (
   <>
     <CallToActionWidget appId="lab-and-test-results" setFocus={false} />
-    <div data-template="paragraphs/q_a_section" data-entity-id={3507}>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3506}
-        data-analytics-faq-section
-        data-analytics-faq-text="How can this tool help me manage my health care?"
-      >
+    <div>
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-can-this-tool-help-me-mana">
           How can this tool help me manage my health care?
         </h2>
         <div
-          data-entity-id={3506}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3508}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 With this tool, you&apos;ll be able to view and keep a record of
                 your VA lab and test results.
@@ -48,29 +36,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3509}
-        data-analytics-faq-section
-        data-analytics-faq-text="Am I eligible to use this tool?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="am-i-eligible-to-use-this-tool">
           Am I eligible to use this tool?
         </h2>
         <div
-          data-entity-id={3509}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3510}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 You can use this tool to view and track your VA lab and test
                 results if you meet all of the requirements listed below.
@@ -125,29 +101,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3511}
-        data-analytics-faq-section
-        data-analytics-faq-text="Can I view all my VA lab and test information using this tool?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="can-i-view-all-my-va-lab-and-t">
           Can I view all my VA lab and test information using this tool?
         </h2>
         <div
-          data-entity-id={3511}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3512}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 At this time, you can view only your VA chemistry/hematology
                 results. These include tests for blood sugar, liver function, or
@@ -157,29 +121,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3513}
-        data-analytics-faq-section
-        data-analytics-faq-text="Can I view results from non-VA providers or labs?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="can-i-view-results-from-non-va">
           Can I view results from non-VA providers or labs?
         </h2>
         <div
-          data-entity-id={3513}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3514}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 No. But you can enter this information yourself to keep all your
                 results in one place.
@@ -188,29 +140,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3515}
-        data-analytics-faq-section
-        data-analytics-faq-text="Once I’m signed in within My HealtheVet, how do I view my results?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="once-im-signed-in-within-my-he">
           Once I’m signed in within My HealtheVet, how do I view my results?
         </h2>
         <div
-          data-entity-id={3515}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3516}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 On your Welcome page dashboard, you’ll see a module for “Health
                 Records.” Within that module, click on “Labs and Tests.”
@@ -250,29 +190,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3517}
-        data-analytics-faq-section
-        data-analytics-faq-text="Will my personal health information be protected?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="will-my-personal-health-inform">
           Will my personal health information be protected?
         </h2>
         <div
-          data-entity-id={3517}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3518}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 Yes. This is a secure website. We follow strict security
                 policies and practices to protect your personal health
@@ -295,29 +223,17 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div
-        itemScope
-        itemType="http://schema.org/Question"
-        data-template="paragraphs/q_a"
-        data-entity-id={3519}
-        data-analytics-faq-section
-        data-analytics-faq-text="What if I have more questions?"
-      >
+      <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="what-if-i-have-more-questions">
           What if I have more questions?
         </h2>
         <div
-          data-entity-id={3519}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3520}
-              className="processed-content"
-            >
+            <div className="processed-content">
               <p>
                 If you have questions about lab and test results on
                 MyHealtheVet, please got to the{' '}
