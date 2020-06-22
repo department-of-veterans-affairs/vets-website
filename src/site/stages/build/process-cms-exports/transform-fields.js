@@ -98,11 +98,7 @@ function transformFields(entity, outputSchemaFromParent) {
             ),
           );
         } else if (outputFieldSchema.type === 'object') {
-          // TODO: Collapse the array into an object. It's commented out right
-          // now because it _should_ be throwing a validation error, but it
-          // isn't and I'm not sure why not.
-          //
-          // result[outputKey] = result[outputKey][0];
+          result[outputKey] = result[outputKey][0];
         }
         return result;
       }

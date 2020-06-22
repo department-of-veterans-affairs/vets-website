@@ -179,6 +179,8 @@ const entityAssemblerFactory = contentDir => {
       );
       validateInput(entity);
       const transformed = transformFields(entity);
+      // So we can find the right output schema
+      transformed.contentModelType = getContentModelType(entity);
       validateOutput(entity, transformed);
       return transformed;
     }
