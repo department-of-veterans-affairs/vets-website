@@ -39,6 +39,9 @@ const serialize = thing => JSON.stringify(normalize(thing), null, 2);
  * TODO: Make this less annoying for enums. This may mean removing enums
  * recursively in normalize(), but that seems maybe too specific? Not sure what
  * else we may need to do. Probably reasonable for a prototype, though.
+ *
+ * TODO: Make a system to register() new transformers
+ * Example: register(inputSchema, outputSchema, transformerFunction)
  */
 const fieldTransformers = new Map([
   [
