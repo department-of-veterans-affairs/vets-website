@@ -1,11 +1,6 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import {
-  resetFetch,
-  mockFetch,
-  setFetchJSONResponse,
-  setFetchJSONFailure,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 export function mockAppointmentInfo({ va = [], cc = [], requests = [] }) {
   mockFetch();
@@ -38,6 +33,32 @@ export function mockAppointmentInfo({ va = [], cc = [], requests = [] }) {
         .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
     ),
     { data: requests },
+  );
+}
+
+export function mockPastAppointmentInfo({ va = [], cc = [] }) {
+  mockFetch();
+  setFetchJSONResponse(global.fetch, { data: [] });
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
+        .startOf('day')
+        .add(-3, 'months')
+        .toISOString()}&end_date=${moment()
+        .startOf('day')
+        .toISOString()}&type=va`,
+    ),
+    { data: va },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
+        .add(-3, 'months')
+        .format('YYYY-MM-DD')}&end_date=${moment().format(
+        'YYYY-MM-DD',
+      )}&type=cc`,
+    ),
+    { data: cc },
   );
 }
 

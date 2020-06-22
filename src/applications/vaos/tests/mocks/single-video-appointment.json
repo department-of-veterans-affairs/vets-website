@@ -1,0 +1,50 @@
+{
+  "id": "05760f00c80ae60ce49879cf37a05fc8",
+  "type": "va_appointments",
+  "attributes": {
+    "startDate": "fake",
+    "clinicId": null,
+    "clinicFriendlyName": null,
+    "facilityId": "fake",
+    "communityCare": false,
+    "vdsAppointments": [],
+    "vvsAppointments": [
+      {
+        "id": "8a74bdfa-0e66-4848-87f5-0d9bb413ae6d",
+        "appointmentKind": "fake",
+        "sourceSystem": "SM",
+        "dateTime": "fake",
+        "duration": 20,
+        "status": { "description": null, "code": "FAKE" },
+        "schedulingRequestType": "NEXT_AVAILABLE_APPT",
+        "type": "REGULAR",
+        "bookingNotes": "fake",
+        "instructionsOther": false,
+        "patients": [
+          {
+            "name": { "firstName": "JUDY", "lastName": "MORRISON" },
+            "contactInformation": {
+              "mobile": "fake",
+              "preferredEmail": "fake"
+            },
+            "location": {
+              "type": "NonVA",
+              "facility": {
+                "name": "fake name",
+                "siteCode": "fake",
+                "timeZone": "fake"
+              }
+            },
+            "patientAppointment": true,
+            "virtualMeetingRoom": {
+              "conference": "VVC8275247",
+              "pin": "fake",
+              "url": "fake"
+            }
+          }
+        ],
+        "providers": []
+      }
+    ]
+  }
+}
