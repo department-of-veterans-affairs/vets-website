@@ -44,7 +44,7 @@ const axeExceptions = {
     }),
 };
 
-const removeAxeExpections = violations => {
+const removeAxeExceptions = violations => {
   const exceptions = Object.keys(axeExceptions);
   return violations.map(violation => {
     let nodes = [];
@@ -120,8 +120,8 @@ export function command(context, config, _callback) {
 
       const { violations } = results;
 
-      const filteredViolations = removeAxeExpections(violations).filter(
-        v => v.nodes.length,
+      const filteredViolations = removeAxeExceptions(violations).filter(
+        v => v?.nodes.length,
       );
 
       // if (filteredViolations.length) console.log('======> ', JSON.stringify(filteredViolations))
