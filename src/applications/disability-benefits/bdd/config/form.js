@@ -70,6 +70,7 @@ import {
   summaryOfEvidence,
   uploadPersonalPtsdDocuments,
   uploadPtsdDocuments,
+  vaEmployee,
   workBehaviorChanges,
 } from '../../all-claims/pages';
 
@@ -477,6 +478,12 @@ const formConfig = {
           uiSchema: paymentInformation.uiSchema,
           schema: paymentInformation.schema,
           onContinue: captureEvents.paymentInformation,
+        },
+        vaEmployee: {
+          title: 'VA employee',
+          path: 'va-employee',
+          uiSchema: vaEmployee.uiSchema,
+          schema: vaEmployee.schema,
         },
       },
     },
