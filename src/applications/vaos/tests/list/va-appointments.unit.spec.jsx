@@ -21,9 +21,7 @@ describe('VAOS appointment list future booked', () => {
     it('should show information without facility details', async () => {
       const appointment = merge(singleVAAppointment, {
         attributes: {
-          startDate: moment()
-            .add(3, 'days')
-            .format(),
+          startDate: moment().format(),
           clinicFriendlyName: 'C&P BEV AUDIO FTC1',
           facilityId: '983',
           sta6aid: '983GC',
@@ -37,23 +35,21 @@ describe('VAOS appointment list future booked', () => {
       });
 
       mockAppointmentInfo({ va: [appointment] });
-      const { findByText, baseElement, getByText } = renderInReduxProvider(
-        <FutureAppointmentsList />,
-        {
-          initialState,
-          reducers,
-        },
-      );
+      const {
+        findByText,
+        baseElement,
+        getByText,
+        queryByText,
+      } = renderInReduxProvider(<FutureAppointmentsList />, {
+        initialState,
+        reducers,
+      });
 
       const dateHeader = await findByText(
-        new RegExp(
-          moment()
-            .add(3, 'days')
-            .format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+        new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
       );
 
+      expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
       expect(baseElement).to.contain.text('VA Appointment');
       expect(baseElement).to.contain.text('Confirmed');
       expect(baseElement).to.contain('.fa-check-circle');
@@ -71,9 +67,7 @@ describe('VAOS appointment list future booked', () => {
     it('should show information with facility details', async () => {
       const appointment = merge(singleVAAppointment, {
         attributes: {
-          startDate: moment()
-            .add(3, 'days')
-            .format(),
+          startDate: moment().format(),
           clinicFriendlyName: 'C&P BEV AUDIO FTC1',
           facilityId: '983',
           sta6aid: '983GC',
@@ -112,14 +106,7 @@ describe('VAOS appointment list future booked', () => {
         },
       );
 
-      await findByText(
-        new RegExp(
-          moment()
-            .add(3, 'days')
-            .format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      );
+      await findByText(new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'));
 
       expect(getByText(/directions/i)).to.have.attribute(
         'href',
@@ -135,9 +122,7 @@ describe('VAOS appointment list future booked', () => {
     it('should show comment for self-scheduled appointments', async () => {
       const appointment = merge(singleVAAppointment, {
         attributes: {
-          startDate: moment()
-            .add(3, 'days')
-            .format(),
+          startDate: moment().format(),
           vdsAppointments: [
             {
               bookingNote: 'Follow-up/Routine: Instructions',
@@ -155,14 +140,7 @@ describe('VAOS appointment list future booked', () => {
         },
       );
 
-      await findByText(
-        new RegExp(
-          moment()
-            .add(3, 'days')
-            .format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      );
+      await findByText(new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'));
 
       expect(baseElement).to.contain.text('Follow-up/Routine');
       expect(baseElement).to.contain.text('Instructions');
@@ -171,9 +149,7 @@ describe('VAOS appointment list future booked', () => {
     it('should have correct status when previously cancelled', async () => {
       const appointment = merge(singleVAAppointment, {
         attributes: {
-          startDate: moment()
-            .add(3, 'days')
-            .format(),
+          startDate: moment().format(),
           vdsAppointments: [
             {
               currentStatus: 'CANCELLED BY CLINIC',
@@ -190,19 +166,58 @@ describe('VAOS appointment list future booked', () => {
         },
       );
 
-      await findByText(
-        new RegExp(
-          moment()
-            .add(3, 'days')
-            .format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      );
+      await findByText(new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'));
 
       expect(baseElement).to.contain.text('Canceled');
       expect(baseElement).to.contain('.fa-exclamation-circle');
       expect(baseElement).not.to.contain.text('Add to calendar');
       expect(baseElement).not.to.contain.text('Cancel appointment');
+    });
+
+    it('should exclude appointments with hidden statuses', () => {
+      const appointment = merge(singleVAAppointment, {
+        attributes: {
+          startDate: moment().format(),
+          vdsAppointments: [
+            {
+              currentStatus: 'NO-SHOW',
+            },
+          ],
+        },
+      });
+
+      mockAppointmentInfo({ va: [appointment] });
+      const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
+        initialState,
+        reducers,
+      });
+
+      return expect(findByText(/You don’t have any appointments/i)).to
+        .eventually.be.ok;
+    });
+
+    it('should exclude appointments over 13 months away', () => {
+      const appointment = merge(singleVAAppointment, {
+        attributes: {
+          startDate: moment()
+            .add(14, 'months')
+            .format(),
+          vdsAppointments: [
+            {
+              currentStatus: 'FUTURE',
+            },
+          ],
+        },
+      });
+
+      mockAppointmentInfo({ va: [appointment] });
+      const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
+        initialState,
+        reducers,
+      });
+
+      return expect(findByText(/You don’t have any appointments/i)).to
+        .eventually.be.ok;
     });
   });
 });
