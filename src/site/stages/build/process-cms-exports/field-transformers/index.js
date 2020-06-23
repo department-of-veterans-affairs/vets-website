@@ -1,3 +1,5 @@
+const chalk = require('chalk');
+
 // TODO: Move this to field-transformers/getDrupalValue.js once we replace the
 // content model transformers with these field transformers.
 const { getDrupalValue } = require('../transformers/helpers');
@@ -39,19 +41,63 @@ const serialize = thing => JSON.stringify(normalize(thing), null, 2);
  * TODO: Make this less annoying for enums. This may mean removing enums
  * recursively in normalize(), but that seems maybe too specific? Not sure what
  * else we may need to do. Probably reasonable for a prototype, though.
- *
- * TODO: Make a system to register() new transformers
- * Example: register(inputSchema, outputSchema, transformerFunction)
  */
-const fieldTransformers = new Map([
-  [
-    // Input schema: Data from Drupal looks like this
-    serialize({ $ref: 'GenericNestedString' }),
-    new Map([
-      // Output schema: Data in the templates look like this
-      [serialize({ type: 'string' }), getDrupalValue],
-    ]),
-  ],
-]);
+class TransformerRegistry {
+  constructor() {
+    this.registry = new Map();
+    this.warnings = {
+      input: new Set(),
+      output: new Set(),
+    };
+  }
+
+  register(inputSchema, outputSchema, transformer) {
+    const input = serialize(inputSchema);
+    const output = serialize(outputSchema);
+    if (!this.registry.has(input)) {
+      this.registry.set(input, new Map());
+    }
+    this.registry.get(input).set(output, transformer);
+  }
+
+  getTransformer(inputSchema, outputSchema) {
+    const input = serialize(inputSchema);
+    const output = serialize(outputSchema);
+
+    if (!this.registry.has(input)) {
+      // Log only once
+      if (!this.warnings.input.has(input)) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          chalk.yellow('No transformers found for the input schema:'),
+          input,
+        );
+        this.warnings.input.add(input);
+      }
+      return null;
+    }
+
+    const transformer = this.registry.get(input).get(output) || null;
+
+    // Log only once
+    if (!transformer && !this.warnings.output.has(output)) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        chalk.yellow('No transformers found for the output schema:'),
+        output,
+      );
+      this.warnings.output.add(output);
+    }
+
+    return transformer;
+  }
+}
+
+const fieldTransformers = new TransformerRegistry();
+fieldTransformers.register(
+  { $ref: 'GenericNestedString' },
+  { type: 'string' },
+  getDrupalValue,
+);
 
 module.exports = { fieldTransformers, normalize, serialize };

@@ -106,31 +106,12 @@ function transformFields(entity, outputSchemaFromParent) {
       // TODO: If the content model has a transformer hook for that field, use it
 
       // Find the input schema transformers
-      const inputTransformerMap = fieldTransformers.get(
-        serialize(inputSchema.properties[inputKey]),
+      const transformField = fieldTransformers.getTransformer(
+        inputSchema.properties[inputKey],
+        outputSchema.properties[outputKey],
       );
-      if (!inputTransformerMap) {
-        console.warn(
-          chalk.yellow(
-            `Could not find transformer map for ${inputKey} (${getContentModelType(
-              entity,
-            )})`,
-          ),
-        );
-        result[outputKey] = entity[inputKey];
-        return result;
-      }
 
-      // Find the specific field transformer
-      const transformField = inputTransformerMap.get(
-        serialize(outputSchema.properties[outputKey]),
-      );
       if (!transformField) {
-        console.warn(
-          `Could not find transformer for ${outputKey} (${getContentModelType(
-            entity,
-          )})`,
-        );
         result[outputKey] = entity[inputKey];
         return result;
       }
