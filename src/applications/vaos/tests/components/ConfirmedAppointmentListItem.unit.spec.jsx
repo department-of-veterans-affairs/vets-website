@@ -1,9 +1,106 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
+import moment from 'moment';
 
-import { APPOINTMENT_TYPES, APPOINTMENT_STATUS } from '../../utils/constants';
+import {
+  APPOINTMENT_TYPES,
+  APPOINTMENT_STATUS,
+  VIDEO_TYPES,
+} from '../../utils/constants';
 import ConfirmedAppointmentListItem from '../../components/ConfirmedAppointmentListItem';
+
+describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
+  const appointment = {
+    resourceType: 'Appointment',
+    status: APPOINTMENT_STATUS.booked,
+    description: 'NO ACTION TAKEN/TODAY',
+    start: '2019-12-11T10:00:00-07:00',
+    minutesDuration: 60,
+    comment: 'Follow-up/Routine: Instructions',
+    participant: [
+      {
+        actor: {
+          reference: 'HealthcareService/var983_455',
+          display: 'C&P BEV AUDIO FTC1',
+        },
+      },
+    ],
+    contained: null,
+    id: '17dd714287e151195b99164cc1a8e49a',
+    vaos: {
+      isPastAppointment: false,
+      appointmentType: APPOINTMENT_TYPES.vaAppointment,
+      videoType: null,
+      isCommunityCare: false,
+      timeZone: null,
+    },
+  };
+
+  const facility = {
+    id: 'var983',
+    name: 'Cheyenne VA Medical Center',
+    address: {
+      postalCode: '82001-5356',
+      city: 'Cheyenne',
+      state: 'WY',
+      line: ['2360 East Pershing Boulevard'],
+    },
+    telecom: [
+      {
+        system: 'phone',
+        value: '307-778-7550',
+      },
+    ],
+  };
+
+  const cancelAppointment = sinon.spy();
+
+  it('should render all expected information', () => {
+    const { getByText, baseElement } = render(
+      <ConfirmedAppointmentListItem
+        showCancelButton
+        cancelAppointment={cancelAppointment}
+        appointment={appointment}
+        facility={facility}
+      />,
+    );
+
+    expect(baseElement).to.contain.text('Confirmed');
+    expect(baseElement).to.contain('.fa-check-circle');
+
+    expect(getByText(/Wednesday, December 11, 2019/)).to.have.tagName('h3');
+    expect(baseElement).to.contain.text('C&P BEV AUDIO FTC1');
+    expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
+    expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
+    expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(baseElement).to.contain.text('Follow-up/Routine');
+    expect(baseElement).to.contain.text('Instructions');
+
+    fireEvent.click(getByText('Cancel appointment'));
+    expect(cancelAppointment.called).to.be.true;
+  });
+
+  it('should not show instructions if comment does not start with preset purpose text', () => {
+    const appt = {
+      ...appointment,
+      comment: 'some comment',
+    };
+
+    const { baseElement } = render(
+      <ConfirmedAppointmentListItem
+        showCancelButton
+        cancelAppointment={cancelAppointment}
+        appointment={appt}
+        facility={facility}
+      />,
+    );
+
+    expect(baseElement).not.to.contain.text('some comment');
+  });
+});
 
 describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () => {
   const appointment = {
@@ -107,6 +204,117 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
       false,
     );
     newTree.unmount();
+  });
+});
+
+describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
+  const apptTime = moment()
+    .add(50, 'minutes')
+    .format();
+  const appointment = {
+    resourceType: 'Appointment',
+    status: APPOINTMENT_STATUS.booked,
+    description: 'FUTURE',
+    start: apptTime,
+    minutesDuration: 20,
+    comment: '',
+    participant: null,
+    contained: [
+      {
+        resourceType: 'HealthcareService',
+        id: 'HealthcareService/var8a74bdfa-0e66-4848-87f5-0d9bb413ae6d',
+        type: [
+          {
+            text: 'Patient Virtual Meeting Room',
+          },
+        ],
+        telecom: [
+          {
+            system: 'url',
+            value:
+              'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
+            period: {
+              start: apptTime,
+            },
+          },
+        ],
+      },
+    ],
+    legacyVAR: {
+      apiData: {
+        facilityId: '983',
+      },
+    },
+    id: '05760f00c80ae60ce49879cf37a05fc8',
+    vaos: {
+      isPastAppointment: false,
+      appointmentType: APPOINTMENT_TYPES.vaAppointment,
+      videoType: VIDEO_TYPES.videoConnect,
+      isCommunityCare: false,
+      timeZone: null,
+    },
+  };
+
+  it('should render expected video information', () => {
+    const { getByText, queryByText } = render(
+      <ConfirmedAppointmentListItem appointment={appointment} />,
+    );
+
+    expect(getByText(/join session/i)).to.have.attribute(
+      'aria-disabled',
+      'true',
+    );
+    expect(queryByText(/prepare for video visit/i)).not.to.exist;
+  });
+
+  it('should render active video link', () => {
+    const { getByText } = render(
+      <ConfirmedAppointmentListItem
+        appointment={{
+          ...appointment,
+          start: moment()
+            .add(20, 'minutes')
+            .format(),
+        }}
+      />,
+    );
+
+    expect(getByText(/join session/i)).to.have.attribute(
+      'aria-disabled',
+      'false',
+    );
+  });
+
+  it('should reveal medication review instructions', () => {
+    const { getByText, queryByText, findByText } = render(
+      <ConfirmedAppointmentListItem
+        appointment={{
+          ...appointment,
+          comment: 'Medication Review',
+        }}
+      />,
+    );
+
+    expect(queryByText(/medication review/i)).to.not.exist;
+    fireEvent.click(getByText(/prepare for video visit/i));
+
+    return expect(findByText(/medication review/i)).to.eventually.exist;
+  });
+
+  it('should reveal video visit instructions', () => {
+    const { getByText, queryByText, findByText } = render(
+      <ConfirmedAppointmentListItem
+        appointment={{
+          ...appointment,
+          comment: 'Video Visit Preparation',
+        }}
+      />,
+    );
+
+    expect(queryByText(/before your appointment/i)).to.not.exist;
+    fireEvent.click(getByText(/prepare for video visit/i));
+
+    return expect(findByText('Before your appointment:')).to.eventually.exist;
   });
 });
 
