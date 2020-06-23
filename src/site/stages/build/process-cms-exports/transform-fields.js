@@ -91,7 +91,9 @@ function transformFields(entity, outputSchemaFromParent) {
   const outputSchema = outputSchemaFromParent || getOutputSchema(entity);
   if (!outputSchema) {
     // eslint-disable-next-line no-console
-    console.log(`No output schema found for ${getContentModelType(entity)}`);
+    console.log(
+      `Could not find output schema for ${getContentModelType(entity)}`,
+    );
     return entity;
   }
 
@@ -108,9 +110,9 @@ function transformFields(entity, outputSchemaFromParent) {
       if (!inputSchema.properties[inputKey]) {
         console.log(
           chalk.gray(
-            `No schema found for ${inputKey} on ${getContentModelType(
+            `${getContentModelType(
               entity,
-            )}. Skipping.`,
+            )}: No input schema found for ${inputKey}. Skipping.`,
           ),
         );
         return result;
@@ -126,7 +128,7 @@ function transformFields(entity, outputSchemaFromParent) {
       if (isEntityReferenceArray(entity[inputKey])) {
         // eslint-disable-next-line no-console
         console.log(
-          chalk.gray(`Expanding ${outputKey} (${getContentModelType(entity)})`),
+          chalk.gray(`${getContentModelType(entity)}: Expanding ${outputKey}`),
         );
         result[outputKey] = expandEntityReferenceArray({
           entityReferences: entity[inputKey],
@@ -136,8 +138,6 @@ function transformFields(entity, outputSchemaFromParent) {
           contentModelType: getContentModelType(entity),
         });
         return result;
-      } else {
-        console.log(chalk.gray(`${inputKey} is not an entity reference array`));
       }
 
       // TODO: If the content model has a transformer hook for that field, use it
