@@ -239,6 +239,7 @@ module.exports = env => {
           ? '[name].css'
           : `[name].[contenthash]-${timestamp}.css`,
       }),
+
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
     devServer: generateWebpackDevConfig(buildOptions),
@@ -252,17 +253,25 @@ module.exports = env => {
     );
   }
 
-  // Generate landing pages in absence of a content build.
+  // Optionally generate landing pages in the absence of a content build.
   if (buildOptions.scaffold) {
+    const landingPagePath = rootUrl =>
+      path.join(outputPath, '../', rootUrl, 'index.html');
+
     const fileManifestPath = path.join(outputPath, 'file-manifest.json');
+    let fileManifest;
 
-    const fileManifest = fs.existsSync(fileManifestPath)
-      ? JSON.parse(fs.readFileSync(fileManifestPath))
-      : null;
+    // The manifest is read when HTML Webpack Plugin calls this function,
+    // ensuring that it's done only after Manifest Plugin has been applied.
+    const assetPath = asset => {
+      if (!fileManifest && fs.existsSync(fileManifestPath)) {
+        fileManifest = JSON.parse(fs.readFileSync(fileManifestPath));
+      }
 
-    const assetPath = fileManifest
-      ? asset => fileManifest[asset]
-      : asset => `${baseConfig.output.publicPath}${asset}`;
+      return fileManifest
+        ? fileManifest[asset]
+        : `${baseConfig.output.publicPath}${asset}`;
+    };
 
     const inlineScripts = [
       'incompatible-browser.js',
@@ -275,9 +284,6 @@ module.exports = env => {
       }),
       {},
     );
-
-    const landingPagePath = rootUrl =>
-      path.join(outputPath, '../', rootUrl, 'index.html');
 
     const generateLandingPage = ({
       entryName = 'static-pages',
