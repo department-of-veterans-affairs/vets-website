@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { createId } from '../utils/helpers';
@@ -34,16 +33,24 @@ class AccordionItem extends React.Component {
 
   toggle = () => {
     const expanded = !this.expanded();
+    const { section, onClick } = this.props;
+
     this.setState({ expanded });
 
-    if (this.props.onClick) {
-      this.props.onClick(expanded);
+    if (onClick) {
+      onClick(expanded);
     }
 
-    const type = this.props.section ? 'section' : 'accordion';
-    recordEvent({
-      event: expanded ? `nav-${type}-expand` : `nav-${type}-collapse`,
-    });
+    const event = expanded ? 'expand' : 'collapse';
+
+    if (section) {
+      recordEvent({
+        event: `nav-accordion-${event}`,
+        'accordion-size': 'small',
+      });
+    } else {
+      recordEvent({ event: `nav-accordion-${event}` });
+    }
   };
 
   renderHeader = () => {
