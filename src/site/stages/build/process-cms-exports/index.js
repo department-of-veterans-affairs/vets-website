@@ -171,7 +171,7 @@ const entityAssemblerFactory = contentDir => {
       chalk.blue(
         `Using the prototype field transformer on ${getContentModelType(
           entity,
-        )}`,
+        )} (${toId(entity)})`,
       ),
     );
     validateInput(entity);
