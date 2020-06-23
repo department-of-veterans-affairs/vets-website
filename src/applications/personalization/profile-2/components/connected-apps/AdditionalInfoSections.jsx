@@ -13,7 +13,9 @@ import Telephone, {
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export const AdditionalInfoSections = ({ activeApps }) => {
-  const connectedAppsNames = activeApps.map(app => app.attributes.title);
+  const connectedAppsNames = activeApps
+    ? activeApps.map(app => app.attributes.title)
+    : [];
 
   // This filters out any availableConnectedApps that the user has already connected to
   const filteredApps = availableConnectedApps.filter(
@@ -34,7 +36,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
                 </strong>
               </p>
               <ul className="vads-u-padding-left--0 vads-u-margin-bottom--2">
-                {filteredApps.map(app => {
+                {filteredApps?.map(app => {
                   return (
                     <li key={app.name}>
                       <a
