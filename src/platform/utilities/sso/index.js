@@ -37,7 +37,7 @@ export async function checkAutoSession(application = null, to = null) {
     logout('v1', 'sso-automatic-logout');
   } else if (!hasSession() && hasSessionSSO() && !getForceAuth() && authn) {
     const params = { inbound: 'true', authn };
-    login('idme', 'v1', application, to, params, 'sso-automatic-login');
+    login('custom', 'v1', application, to, params, 'sso-automatic-login');
   }
 }
 
