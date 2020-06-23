@@ -4,7 +4,7 @@ import moment from 'moment';
 import { merge } from 'lodash/fp';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import reducers from '../../reducers';
-import singleVideoAppointment from '../mocks/single-video-appointment.json';
+import { getVideoAppointmentMock } from '../mocks/v0';
 import { mockPastAppointmentInfo } from '../mocks/helpers';
 
 import PastAppointmentsList from '../../components/PastAppointmentsList';
@@ -18,26 +18,25 @@ const initialState = {
 
 describe('VAOS integration: past appointments', () => {
   it('should show expected video information', async () => {
-    const appointment = merge(singleVideoAppointment, {
-      attributes: {
-        facilityId: '983',
-        clinicId: null,
-        startDate: moment()
-          .add(-3, 'days')
-          .format(),
-        vvsAppointments: [
-          {
-            dateTime: moment()
-              .add(-3, 'days')
-              .format(),
-            bookingNotes: 'Some random note',
-            status: { description: 'C', code: 'CHECKED OUT' },
-          },
-        ],
-      },
-    });
-
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: moment()
+        .add(-3, 'days')
+        .format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: moment()
+        .add(-3, 'days')
+        .format(),
+      bookingNotes: 'Some random note',
+      status: { description: 'C', code: 'CHECKED OUT' },
+    };
     mockPastAppointmentInfo({ va: [appointment] });
+
     const { findByText, baseElement, queryByText } = renderInReduxProvider(
       <PastAppointmentsList />,
       {

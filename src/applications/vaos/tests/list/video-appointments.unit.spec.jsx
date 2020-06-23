@@ -1,12 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import { merge } from 'lodash/fp';
 import { fireEvent } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import reducers from '../../reducers';
-import singleVideoAppointment from '../mocks/single-video-appointment.json';
 import { mockAppointmentInfo } from '../mocks/helpers';
+import { getVideoAppointmentMock } from '../mocks/v0';
 
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 
@@ -18,27 +17,26 @@ const initialState = {
 
 describe('VAOS integration: upcoming video appointments', () => {
   it('should show info and disabled link when ad hoc', async () => {
-    const appointment = merge(singleVideoAppointment, {
-      attributes: {
-        facilityId: '983',
-        clinicId: null,
-        startDate: moment()
-          .add(3, 'days')
-          .format(),
-        vvsAppointments: [
-          {
-            dateTime: moment()
-              .add(3, 'days')
-              .format(),
-            bookingNotes: 'Some random note',
-            appointmentKind: 'ADHOC',
-            status: { description: 'F', code: 'FUTURE' },
-          },
-        ],
-      },
-    });
-
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: moment()
+        .add(3, 'days')
+        .format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: moment()
+        .add(3, 'days')
+        .format(),
+      bookingNotes: 'Some random note',
+      appointmentKind: 'ADHOC',
+      status: { description: 'F', code: 'FUTURE' },
+    };
     mockAppointmentInfo({ va: [appointment] });
+
     const {
       findByText,
       baseElement,
@@ -75,34 +73,33 @@ describe('VAOS integration: upcoming video appointments', () => {
   });
 
   it('should show active link if 30 minutes in the future', async () => {
-    const appointment = merge(singleVideoAppointment, {
-      attributes: {
-        facilityId: '983',
-        clinicId: null,
-        startDate: moment()
-          .add(30, 'minutes')
-          .format(),
-        vvsAppointments: [
-          {
-            dateTime: moment()
-              .add(30, 'minutes')
-              .format(),
-            bookingNotes: 'Some random note',
-            appointmentKind: 'ADHOC',
-            status: { description: 'F', code: 'FUTURE' },
-            patients: [
-              {
-                virtualMeetingRoom: {
-                  url: 'http://videourl.va.gov',
-                },
-              },
-            ],
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: moment()
+        .add(30, 'minutes')
+        .format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: moment()
+        .add(30, 'minutes')
+        .format(),
+      bookingNotes: 'Some random note',
+      appointmentKind: 'ADHOC',
+      status: { description: 'F', code: 'FUTURE' },
+      patients: [
+        {
+          virtualMeetingRoom: {
+            url: 'http://videourl.va.gov',
           },
-        ],
-      },
-    });
-
+        },
+      ],
+    };
     mockAppointmentInfo({ va: [appointment] });
+
     const { findByText, getByText, queryByText } = renderInReduxProvider(
       <FutureAppointmentsList />,
       {
@@ -134,34 +131,33 @@ describe('VAOS integration: upcoming video appointments', () => {
   });
 
   it('should show active link if less than 4 hours in the past', async () => {
-    const appointment = merge(singleVideoAppointment, {
-      attributes: {
-        facilityId: '983',
-        clinicId: null,
-        startDate: moment()
-          .add(-239, 'minutes')
-          .format(),
-        vvsAppointments: [
-          {
-            dateTime: moment()
-              .add(-239, 'minutes')
-              .format(),
-            bookingNotes: 'Some random note',
-            appointmentKind: 'ADHOC',
-            status: { description: 'F', code: 'FUTURE' },
-            patients: [
-              {
-                virtualMeetingRoom: {
-                  url: 'http://videourl.va.gov',
-                },
-              },
-            ],
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: moment()
+        .add(-239, 'minutes')
+        .format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: moment()
+        .add(-239, 'minutes')
+        .format(),
+      bookingNotes: 'Some random note',
+      appointmentKind: 'ADHOC',
+      status: { description: 'F', code: 'FUTURE' },
+      patients: [
+        {
+          virtualMeetingRoom: {
+            url: 'http://videourl.va.gov',
           },
-        ],
-      },
-    });
-
+        },
+      ],
+    };
     mockAppointmentInfo({ va: [appointment] });
+
     const { findByText, getByText, queryByText } = renderInReduxProvider(
       <FutureAppointmentsList />,
       {
@@ -192,33 +188,25 @@ describe('VAOS integration: upcoming video appointments', () => {
     );
   });
   it('should show message about when to join if mobile gfe', async () => {
-    const appointment = merge(singleVideoAppointment, {
-      attributes: {
-        facilityId: '983',
-        clinicId: null,
-        startDate: moment()
-          .add(30, 'minutes')
-          .format(),
-        vvsAppointments: [
-          {
-            dateTime: moment()
-              .add(30, 'minutes')
-              .format(),
-            appointmentKind: 'MOBILE_GFE',
-            status: { description: 'F', code: 'FUTURE' },
-            patients: [
-              {
-                virtualMeetingRoom: {
-                  url: 'http://videourl.va.gov',
-                },
-              },
-            ],
-          },
-        ],
-      },
-    });
-
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: moment()
+        .add(30, 'minutes')
+        .format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: moment()
+        .add(30, 'minutes')
+        .format(),
+      appointmentKind: 'MOBILE_GFE',
+      status: { description: 'F', code: 'FUTURE' },
+    };
     mockAppointmentInfo({ va: [appointment] });
+
     const { findByText, baseElement, queryByText } = renderInReduxProvider(
       <FutureAppointmentsList />,
       {
@@ -244,33 +232,25 @@ describe('VAOS integration: upcoming video appointments', () => {
     );
   });
   it('should reveal medication review instructions', async () => {
-    const appointment = merge(singleVideoAppointment, {
-      attributes: {
-        facilityId: '983',
-        clinicId: null,
-        startDate: moment()
-          .add(30, 'minutes')
-          .format(),
-        vvsAppointments: [
-          {
-            dateTime: moment()
-              .add(30, 'minutes')
-              .format(),
-            status: { description: 'F', code: 'FUTURE' },
-            instructionsTitle: 'Medication Review',
-            patients: [
-              {
-                virtualMeetingRoom: {
-                  url: 'http://videourl.va.gov',
-                },
-              },
-            ],
-          },
-        ],
-      },
-    });
-
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: moment()
+        .add(30, 'minutes')
+        .format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: moment()
+        .add(30, 'minutes')
+        .format(),
+      instructionsTitle: 'Medication Review',
+      status: { description: 'F', code: 'FUTURE' },
+    };
     mockAppointmentInfo({ va: [appointment] });
+
     const { findByText, getByText, queryByText } = renderInReduxProvider(
       <FutureAppointmentsList />,
       {
@@ -297,33 +277,25 @@ describe('VAOS integration: upcoming video appointments', () => {
   });
 
   it('should reveal video visit instructions', async () => {
-    const appointment = merge(singleVideoAppointment, {
-      attributes: {
-        facilityId: '983',
-        clinicId: null,
-        startDate: moment()
-          .add(30, 'minutes')
-          .format(),
-        vvsAppointments: [
-          {
-            dateTime: moment()
-              .add(30, 'minutes')
-              .format(),
-            status: { description: 'F', code: 'FUTURE' },
-            instructionsTitle: 'Video Visit Preparation',
-            patients: [
-              {
-                virtualMeetingRoom: {
-                  url: 'http://videourl.va.gov',
-                },
-              },
-            ],
-          },
-        ],
-      },
-    });
-
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: moment()
+        .add(30, 'minutes')
+        .format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: moment()
+        .add(30, 'minutes')
+        .format(),
+      instructionsTitle: 'Video Visit Preparation',
+      status: { description: 'F', code: 'FUTURE' },
+    };
     mockAppointmentInfo({ va: [appointment] });
+
     const { findByText, getByText, queryByText } = renderInReduxProvider(
       <FutureAppointmentsList />,
       {
