@@ -61,6 +61,21 @@ class IntroductionPage extends React.Component {
           {ctaState}
         </div>
       );
+    } else if (
+      user?.login?.currentlyLoggedIn &&
+      !hasVaFileNumber?.validVaFileNumber
+    ) {
+      content = (
+        <div className="schemaform-intro">
+          <IntroductionPageHeader />
+          <AlertBox
+            className={alertClasses}
+            content={VaFileNumberMissingAlert}
+            status="error"
+            isVisible
+          />
+        </div>
+      );
     } else if (user?.login?.currentlyLoggedIn && isLoading) {
       ctaState = (
         <LoadingIndicator message="Verifying veteran account information..." />
