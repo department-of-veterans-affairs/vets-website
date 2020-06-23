@@ -85,13 +85,16 @@ class TransformerRegistry {
     const transformer = this.registry.get(input).get(output) || null;
 
     // Log only once
-    if (!transformer && !this.warnings.output.has(output)) {
+    const combination = `${input} -> ${output}`;
+    if (!transformer && !this.warnings.output.has(combination)) {
       // eslint-disable-next-line no-console
       console.warn(
-        chalk.yellow('No transformers found for the output schema:'),
-        output,
+        chalk.yellow(
+          'No transformer found for the input & output schema combination:',
+        ),
+        combination,
       );
-      this.warnings.output.add(output);
+      this.warnings.output.add(combination);
     }
 
     return transformer;
