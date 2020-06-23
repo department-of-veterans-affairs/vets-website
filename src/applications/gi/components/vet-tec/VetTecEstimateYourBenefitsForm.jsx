@@ -71,17 +71,6 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       programName: vetTecProgramName,
       tuitionFees: program.tuitionAmount,
     });
-    this.trackChange('Approved Programs Field', event);
-  };
-
-  trackChange = (fieldName, event) => {
-    const value = +event.target.value.replace(/[^0-9.]+/g, '');
-
-    recordEvent({
-      event: 'gibct-form-change',
-      'gibct-form-field': fieldName,
-      'gibct-form-value': value,
-    });
   };
 
   updateBenefitsOnClick = event => {
@@ -138,7 +127,6 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           !environment.isProduction() &&
           handleScrollOnInputFocus.bind(this, 'scholarships-field')
         }
-        onBlur={event => this.trackChange('Scholarships Text Field', event)}
       />
     </div>
   );
@@ -174,7 +162,6 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           !environment.isProduction() &&
           handleScrollOnInputFocus.bind(this, 'tuition-field')
         }
-        onBlur={event => this.trackChange('Tuition & Fees Text Field', event)}
       />
     </div>
   );
@@ -222,6 +209,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         {this.renderScholarships()}
         <button
           type="button"
+          id="calculate-button"
           className="vads-u-margin-top--2p5"
           onClick={this.updateBenefitsOnClick}
           disabled={!this.state.inputUpdated}
