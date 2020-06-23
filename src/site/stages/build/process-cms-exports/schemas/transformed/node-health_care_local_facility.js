@@ -5,7 +5,7 @@ module.exports = {
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['health_care_local_facility'] },
     title: { type: 'string' },
-    changed: { type: 'number' },
+    changed: { title: 'unix time', type: 'number' },
     entityPublished: { type: 'boolean' },
     entityMetatags: { $ref: 'MetaTags' },
     entityUrl: { $ref: 'EntityUrl' },
