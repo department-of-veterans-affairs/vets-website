@@ -1,8 +1,13 @@
+const assert = require('assert');
+const path = require('path');
 const chalk = require('chalk');
+const _ = require('lodash');
+const { getAllImportsFrom } = require('../helpers');
 
-// TODO: Move this to field-transformers/getDrupalValue.js once we replace the
-// content model transformers with these field transformers.
-const { getDrupalValue } = require('../transformers/helpers');
+const transformerMappings = _.omit(
+  getAllImportsFrom(path.resolve(__dirname)),
+  'index',
+);
 
 /**
  * Reorders object properties for consistency. Returns all other types
@@ -51,7 +56,7 @@ class TransformerRegistry {
     };
   }
 
-  register(inputSchema, outputSchema, transformer) {
+  _register(inputSchema, outputSchema, transformer) {
     const input = serialize(inputSchema);
     const output = serialize(outputSchema);
     if (!this.registry.has(input)) {
@@ -91,13 +96,51 @@ class TransformerRegistry {
 
     return transformer;
   }
+
+  /**
+   * Register the transformer function for all input and output schema
+   * combinations specified in schemaMap.
+   */
+  registerTransformer(schemaMap, transformer) {
+    // Sanity checks; the assertion messages could maybe use some polishing
+    assert(
+      Array.isArray(schemaMap),
+      `schemaMap must be an array, but found ${typeof schemaMap}`,
+    );
+    assert(
+      schemaMap.every(m => m.input && m.output),
+      'Each entry in schemaMap must have an input and output property.',
+    );
+    assert(
+      schemaMap.every(m => Array.isArray(m.output)),
+      'The output property of every item in schemaMap must be an array',
+    );
+
+    for (const { input, output } of schemaMap) {
+      for (const outputSchema of output) {
+        this._register(input, outputSchema, transformer);
+      }
+    }
+  }
 }
 
 const fieldTransformers = new TransformerRegistry();
-fieldTransformers.register(
-  { $ref: 'GenericNestedString' },
-  { type: 'string' },
-  getDrupalValue,
-);
+
+// Register all transformers in field-transformers/
+Object.entries(transformerMappings).forEach(([moduleName, moduleExports]) => {
+  assert(
+    typeof moduleExports.transformer === 'function',
+    `${moduleName}.js does not export a transformer function`,
+  );
+  assert(
+    moduleExports.schemaMap,
+    `${moduleName}.js does not export a schemaMap property`,
+  );
+
+  fieldTransformers.registerTransformer(
+    moduleExports.schemaMap,
+    moduleExports.transformer,
+  );
+});
 
 module.exports = { fieldTransformers, normalize, serialize };
