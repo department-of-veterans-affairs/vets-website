@@ -68,16 +68,16 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
       />,
     );
 
-    expect(getByText(/Confirmed/)).to.be.ok;
-    expect(baseElement.querySelector('.fa-check-circle')).to.be.ok;
+    expect(baseElement).to.contain.text('Confirmed');
+    expect(baseElement).to.contain('.fa-check-circle');
 
-    expect(getByText(/Wednesday, December 11, 2019/).nodeName).to.equal('H3');
-    expect(getByText('C&P BEV AUDIO FTC1')).to.be.ok;
-    expect(getByText(/Cheyenne VA Medical Center/)).to.be.ok;
-    expect(getByText(/2360 East Pershing Boulevard/)).to.be.ok;
-    expect(getByText(/Cheyenne, WY 82001-5356/)).to.be.ok;
-    expect(getByText(/Follow-up\/Routine/)).to.be.ok;
-    expect(getByText(/Instructions/)).to.be.ok;
+    expect(getByText(/Wednesday, December 11, 2019/)).to.have.tagName('h3');
+    expect(baseElement).to.contain.text('C&P BEV AUDIO FTC1');
+    expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
+    expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
+    expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(baseElement).to.contain.text('Follow-up/Routine');
+    expect(baseElement).to.contain.text('Instructions');
 
     fireEvent.click(getByText('Cancel appointment'));
     expect(cancelAppointment.called).to.be.true;
@@ -89,7 +89,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
       comment: 'some comment',
     };
 
-    const { queryByText } = render(
+    const { baseElement } = render(
       <ConfirmedAppointmentListItem
         showCancelButton
         cancelAppointment={cancelAppointment}
@@ -98,7 +98,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
       />,
     );
 
-    expect(queryByText(/some comment/)).to.not.be.ok;
+    expect(baseElement).not.to.contain.text('some comment');
   });
 });
 
@@ -209,7 +209,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
 
 describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
   const apptTime = moment()
-    .add(20, 'minutes')
+    .add(50, 'minutes')
     .format();
   const appointment = {
     resourceType: 'Appointment',
@@ -260,8 +260,29 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
       <ConfirmedAppointmentListItem appointment={appointment} />,
     );
 
-    expect(getByText(/join session/i).getAttribute('disabled')).not.to.be.ok;
-    expect(queryByText(/prepare for video visit/i)).not.to.be.ok;
+    expect(getByText(/join session/i)).to.have.attribute(
+      'aria-disabled',
+      'true',
+    );
+    expect(queryByText(/prepare for video visit/i)).not.to.exist;
+  });
+
+  it('should render active video link', () => {
+    const { getByText } = render(
+      <ConfirmedAppointmentListItem
+        appointment={{
+          ...appointment,
+          start: moment()
+            .add(20, 'minutes')
+            .format(),
+        }}
+      />,
+    );
+
+    expect(getByText(/join session/i)).to.have.attribute(
+      'aria-disabled',
+      'false',
+    );
   });
 
   it('should reveal medication review instructions', () => {
@@ -274,10 +295,10 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
       />,
     );
 
-    expect(queryByText(/medication review/i)).to.not.be.ok;
+    expect(queryByText(/medication review/i)).to.not.exist;
     fireEvent.click(getByText(/prepare for video visit/i));
 
-    return expect(findByText(/medication review/i)).to.eventually.be.ok;
+    return expect(findByText(/medication review/i)).to.eventually.exist;
   });
 
   it('should reveal video visit instructions', () => {
@@ -290,10 +311,10 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
       />,
     );
 
-    expect(queryByText(/before your appointment/i)).to.not.be.ok;
+    expect(queryByText(/before your appointment/i)).to.not.exist;
     fireEvent.click(getByText(/prepare for video visit/i));
 
-    return expect(findByText('Before your appointment:')).to.eventually.be.ok;
+    return expect(findByText('Before your appointment:')).to.eventually.exist;
   });
 });
 
