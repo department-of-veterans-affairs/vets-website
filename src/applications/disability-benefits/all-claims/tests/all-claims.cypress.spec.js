@@ -61,7 +61,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.login();
 
-      cy.route('GET', '/v0/feature_toggles', 'fx:mocks/feature-toggles');
+      cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
 
       // `mockItf` is not a fixture; it can't be loaded as a fixture
       // because fixtures don't evaluate JS.
