@@ -167,7 +167,7 @@
                         <section class="vads-u-margin-bottom--3">
                             {{ fieldOffice.entity.fieldPressReleaseBlurb.processed }}
                         </section>
-                        {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
+                        {% assign index = entityUrl.breadcrumb.length | minus: 1 %}
                         <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all news releases</a>
                     </article>
                 </div>
