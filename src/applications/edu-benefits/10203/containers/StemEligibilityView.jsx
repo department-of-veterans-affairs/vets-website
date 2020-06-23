@@ -21,8 +21,8 @@ export class StemEligibilityView extends React.Component {
   iconClass = indication =>
     classNames('fa', {
       'fa-check': indication,
-      'vads-u-color--green': indication,
       'fa-times': !indication,
+      'vads-u-color--green': indication,
       'vads-u-color--gray-medium': !indication,
     });
 
@@ -38,6 +38,18 @@ export class StemEligibilityView extends React.Component {
       {text}
     </li>
   );
+
+  renderBenefitLeftCheck = () => {
+    const { benefitLeft } = this.props;
+    const check = benefitLeft === 'moreThanSixMonths';
+
+    const text =
+      'Have used all your education benefits or are within 6 months of doing so';
+    const title = this.iconText(check);
+    const iconTitle = `${title} ${text}`;
+
+    return this.renderCheck(this.iconClass(check), iconTitle, title, text);
+  };
 
   renderIsEdithNourseRogersScholarshipCheck = () => {
     const { isEdithNourseRogersScholarship, benefit } = this.props;
@@ -110,9 +122,10 @@ export class StemEligibilityView extends React.Component {
         <b>Your responses:</b>
       </p>
       <ul className="fa-ul vads-u-margin-left--3 vads-u-margin-top--0p5 stem-eligibility-ul">
-        {this.renderIsEdithNourseRogersScholarshipCheck()}
-        {this.renderExhaustionOfBenefitsCheck()}
-        {this.renderIsEnrolledStemCheck()}
+        {this.renderBenefitLeftCheck()}
+        {/* {this.renderIsEdithNourseRogersScholarshipCheck()} */}
+        {/* {this.renderExhaustionOfBenefitsCheck()} */}
+        {/* {this.renderIsEnrolledStemCheck()} */}
       </ul>
     </div>
   );
@@ -262,13 +275,8 @@ const mapStateToProps = (state, ownProps) => {
   const errors =
     ownProps?.errorSchema['view:determineEligibility']?.__errors || [];
   return {
-    isEdithNourseRogersScholarship:
-      state?.form?.data?.isEdithNourseRogersScholarship,
     benefit: state?.form?.data?.benefit,
-    exhaustionOfBenefits: state?.form?.data['view:exhaustionOfBenefits'],
-    exhaustionOfBenefitsAfterPursuingTeachingCert:
-      state?.form?.data['view:exhaustionOfBenefitsAfterPursuingTeachingCert'] ||
-      false,
+    benefitLeft: state?.form?.data.benefitLeft,
     isEnrolledStem: state?.form?.data.isEnrolledStem,
     isPursuingTeachingCert: state?.form?.data?.isPursuingTeachingCert || false,
     determineEligibility,

@@ -1,11 +1,15 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import createContactInformationPage from '../../pages/contactInformation';
-import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
-import { display10203StemFlow, displayStemEligibility } from '../helpers';
+import { display10203StemFlow } from '../helpers';
 
-import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
+import {
+  activeDuty,
+  benefitSelection,
+  stemEligibility,
+  confirmEligibility,
+} from '../pages';
 
 export const chapters = {
   applicantInformation: {
@@ -13,12 +17,7 @@ export const chapters = {
     pages: {
       applicantInformation: createApplicantInformationPage(fullSchema10203, {
         isVeteran: true,
-        fields: [
-          'veteranFullName',
-          'veteranSocialSecurityNumber',
-          'view:noSSN',
-          'vaFileNumber',
-        ],
+        fields: ['veteranFullName', 'veteranSocialSecurityNumber'],
         required: ['veteranFullName'],
       }),
     },
@@ -32,19 +31,23 @@ export const chapters = {
         uiSchema: benefitSelection.uiSchema,
         schema: benefitSelection.schema,
       },
-      stem: {
-        title: 'Rogers STEM Scholarship',
-        path: 'benefits/stem',
-        uiSchema: stem.uiSchema,
-        schema: stem.schema,
-      },
+    },
+  },
+  programDetails: {
+    title: 'Program Details',
+    pages: {
       stemEligibility: {
         title: 'Rogers STEM Scholarship eligibility',
         path: 'benefits/stem-eligibility',
-        pageClass: 'vads-u-max-width--100 vads-u-vads-u-width--full',
-        depends: form => displayStemEligibility(form),
         uiSchema: stemEligibility.uiSchema,
         schema: stemEligibility.schema,
+      },
+      confirmEligibility: {
+        title: '',
+        path: 'benefits/confirm-eligibility',
+        pageClass: 'vads-u-max-width--100 vads-u-vads-u-width--full',
+        uiSchema: confirmEligibility.uiSchema,
+        schema: confirmEligibility.schema,
       },
     },
   },
@@ -64,7 +67,6 @@ export const chapters = {
     title: 'Personal Information',
     pages: {
       contactInformation: createContactInformationPage(fullSchema10203),
-      directDeposit: createDirectDepositChangePage(fullSchema10203),
     },
   },
 };

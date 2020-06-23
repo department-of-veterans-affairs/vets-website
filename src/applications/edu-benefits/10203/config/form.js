@@ -1,4 +1,4 @@
-import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
+import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 
 import { transform } from '../submit-transformer';
 import { prefillTransformer } from '../prefill-transformer';
@@ -22,16 +22,16 @@ const {
   date,
   dateRange,
   serviceBefore1977,
-} = fullSchema1995.definitions;
+} = fullSchema10203.definitions;
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10203`,
   submit: submitForm,
-  trackingPrefix: 'edu-1995-',
-  formId: VA_FORM_IDS.FORM_22_1995S,
+  trackingPrefix: 'edu-10203-',
+  formId: VA_FORM_IDS.FORM_22_10203,
   version: 1,
-  migrations: [urlMigration('/1995S')],
+  migrations: [urlMigration('/10203')],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {

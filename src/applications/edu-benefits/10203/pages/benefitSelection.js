@@ -1,4 +1,4 @@
-import fullSchema from 'vets-json-schema/dist/22-1995-schema.json';
+import fullSchema from 'vets-json-schema/dist/22-10203-schema.json';
 
 import { benefitsLabels } from '../../utils/labels';
 
