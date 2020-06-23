@@ -183,7 +183,9 @@ export function clearAutocompleteSuggestions() {
   return { type: AUTOCOMPLETE_CLEARED };
 }
 
-export function eligibilityChange({ field, value }) {
+export function eligibilityChange(e) {
+  const field = e.target.name;
+  const value = e.target.value;
   recordEvent({
     event: 'gibct-form-change',
     'gibct-form-field': field,
