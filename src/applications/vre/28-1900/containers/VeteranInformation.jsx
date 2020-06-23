@@ -12,102 +12,94 @@
  */
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import set from 'platform/utilities/data/set';
 import { VeteranInformationViewComponent } from '../components/VeteranInformationViewComponent';
+//   const [veteran, setVeteran] = useState({});
+//   useEffect(
+//     () => {
+//       setVeteran(props.user);
+//     },
+//     [props.user],
+//   );
 
-const schema = {
-  type: 'object',
-  properties: {
-    fullName: {
-      type: 'object',
-      properties: {
-        first: {
-          type: 'string',
-        },
-        middle: {
-          type: 'string',
-        },
-        last: {
-          type: 'string',
-        },
-        suffix: {
-          type: 'string',
-          enum: ['Jr.', 'Sr.', 'II', 'III', 'IV'],
-        },
-      },
-    },
-    ssn: {
-      type: 'string',
-    },
-    VAFileNumber: {
-      type: 'string',
-    },
-    dob: {
-      type: 'string',
-      pattern:
-        '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
-    },
-  },
-};
+const VeteranInformation = props => {
+  const {
+    user,
+    formData,
+    registry,
+    schema,
+    uiSchema,
+    onBlur,
+    errorSchema,
+  } = props;
+  const onPropertyChange = name => {
+    return value => {
+      props.onChange(set(name, value, props.formData));
+    };
+  };
+  const SchemaField = registry?.fields.SchemaField;
 
-const uiSchema = {
-  fullName: {
-    first: {
-      'ui:title': 'Your first name',
-    },
-    middle: {
-      'ui:title': 'Your middle name',
-    },
-    last: {
-      'ui:title': 'Your last name',
-    },
-    suffix: {
-      'ui:title': 'Suffix',
-      'ui:options': {
-        widgetClassNames: 'form-select-medium',
-      },
-    },
-  },
-  ssn: {
-    'ui:title': 'Your Social Security number',
-    ...ssnUI,
-  },
-  VAFileNumber: {
-    'ui:title': 'Your VA file number (*If different from SSN)',
-    'ui:options': {
-      widgetClassNames: 'usa-input-medium',
-    },
-  },
-  dob: currentOrPastDateUI('Date of birth'),
-};
-
-const VeteranInformation = ({ user, formData, formSubmit, formChange }) => {
-  const [veteran, setVeteran] = useState({});
-  useEffect(
-    () => {
-      setVeteran(user);
-    },
-    [user],
-  );
   return (
     <>
-      {veteran?.login?.currentlyLoggedIn &&
-      veteran?.profile?.verified &&
-      veteran?.profile.status === 'OK' ? (
-        <VeteranInformationViewComponent {...veteran.profile} />
+      {user?.login?.currentlyLoggedIn &&
+      user?.profile?.verified &&
+      user?.profile.status === 'OK' ? (
+        <VeteranInformationViewComponent {...user.profile} />
       ) : (
-        // TODO: SchemaForm can't be used as a child of a parent form...have to handwrite inputs it seems.
-        <SchemaForm
-          name="Veteran Information"
-          title="Veteran Information"
-          schema={schema}
-          uiSchema={uiSchema}
-          data={formData}
-          onChange={formChange}
-          onSubmit={formSubmit}
-        />
+        // TODO: SchemaForm can't be used as a child of a parent form...have
+        //   to handwrite inputs it seems.
+        // <h3>User Not logged in</h3>
+        <div>
+          <SchemaField
+            name="fullName"
+            required
+            schema={props.schema.properties.fullName}
+            uiSchema={props.uiSchema.fullName}
+            formData={formData.fullName}
+            registry={registry}
+            idSchema={props.idSchema.fullName}
+            onBlur={props.onBlur}
+            onChange={onPropertyChange('fullName')}
+            errorSchema={props.errorSchema.fullName}
+          />
+          <SchemaField
+            name="ssn"
+            required
+            schema={props.schema.properties.ssn}
+            uiSchema={props.uiSchema.ssn}
+            formData={formData.ssn}
+            registry={registry}
+            idSchema={props.idSchema.ssn}
+            onBlur={props.onBlur}
+            onChange={onPropertyChange('ssn')}
+            errorSchema={props.errorSchema.ssn}
+          />
+          <SchemaField
+            name="VAFileNumber"
+            required
+            schema={props.schema.properties.VAFileNumber}
+            uiSchema={props.uiSchema.VAFileNumber}
+            formData={formData.VAFileNumber}
+            registry={registry}
+            idSchema={props.idSchema.VAFileNumber}
+            onBlur={props.onBlur}
+            onChange={onPropertyChange('VAFileNumber')}
+            errorSchema={props.errorSchema.VAFileNumber}
+          />
+          <SchemaField
+            name="dob"
+            required
+            schema={props.schema.properties.dob}
+            uiSchema={props.uiSchema.dob}
+            formData={formData.dob}
+            registry={registry}
+            idSchema={props.idSchema.dob}
+            onBlur={props.onBlur}
+            onChange={onPropertyChange('dob')}
+            errorSchema={props.errorSchema.dob}
+          />
+        </div>
       )}
     </>
   );
