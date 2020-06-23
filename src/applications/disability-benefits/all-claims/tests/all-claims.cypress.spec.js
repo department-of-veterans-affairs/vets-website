@@ -10,7 +10,14 @@ import { mockItf } from './all-claims.cypress.helpers';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['maximal-test', 'minimal-test', 'newOnly-test'],
+    dataSets: [
+      'full-781-781a-8940-test.json',
+      'maximal-test',
+      'minimal-test',
+      'newOnly-test',
+      'secondary-new-test.json',
+      'upload-781-781a-8940-test.json',
+    ],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
