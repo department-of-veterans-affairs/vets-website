@@ -281,7 +281,6 @@ module.exports = env => {
 
     const generateLandingPage = ({
       entryName = 'static-pages',
-      includeBreadcrumbs = false,
       loadingMessage = 'Please wait while we load the application for you.',
       rootUrl,
     }) =>
@@ -290,7 +289,6 @@ module.exports = env => {
         template: 'src/platform/landing-pages/dev-template.ejs',
         templateParameters: {
           entryName,
-          includeBreadcrumbs,
           loadingMessage,
           assetPath,
           headerFooterData, // TODO: Get this placeholder data from another file
