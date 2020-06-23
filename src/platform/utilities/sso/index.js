@@ -28,7 +28,7 @@ export async function ssoKeepAliveSession() {
   return authn;
 }
 
-export async function checkAutoSession() {
+export async function checkAutoSession(application = null, to = null) {
   const authn = await ssoKeepAliveSession();
   if (hasSession() && hasSessionSSO() === false) {
     // explicitly check to see if the SSOe session is false, as it could also
@@ -36,10 +36,8 @@ export async function checkAutoSession() {
     // case we don't want to logout the user because we don't know
     logout('v1', 'sso-automatic-logout');
   } else if (!hasSession() && hasSessionSSO() && !getForceAuth() && authn) {
-    // FUTURE: remove inbound param
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/10460
     const params = { inbound: 'true', authn };
-    login('custom', 'v1', null, null, params, 'sso-automatic-login');
+    login('idme', 'v1', application, to, params, 'sso-automatic-login');
   }
 }
 
