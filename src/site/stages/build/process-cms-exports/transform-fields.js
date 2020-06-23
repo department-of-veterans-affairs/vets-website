@@ -116,6 +116,12 @@ function transformFields(entity, outputSchemaFromParent) {
         return result;
       }
 
+      // If there is no data, make it null
+      if (Array.isArray(entity[inputKey]) && !entity[inputKey].length) {
+        result[outputKey] = null;
+        return result;
+      }
+
       // If the input schema is an entity reference, find the entity reference data and recurse
       if (isEntityReferenceArray(entity[inputKey])) {
         // eslint-disable-next-line no-console
