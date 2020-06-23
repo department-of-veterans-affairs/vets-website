@@ -34,6 +34,41 @@ const getOutputSchema = entity => outputSchemas[getContentModelType(entity)];
 const isEntityReferenceArray = prop =>
   Array.isArray(prop) && prop[0] && prop[0].target_type && prop[0].target_uuid;
 
+function expandEntityReferenceArray({
+  entityReferences,
+  outputFieldSchema,
+  inputKey,
+  outputKey,
+  contentModelType,
+}) {
+  let result = entityReferences.map(ref => {
+    const childEntity = readEntity(
+      path.resolve(
+        __dirname,
+        '../../../../../.cache/localhost/cms-export-content',
+      ),
+      ref.target_type,
+      ref.target_uuid,
+    );
+
+    // Disabling because we can rely on function hoisting here
+    // eslint-disable-next-line no-use-before-define
+    return transformFields(childEntity, outputFieldSchema);
+  });
+
+  if (result.length > 1 && outputFieldSchema.type !== 'array') {
+    // eslint-disable-next-line no-console
+    console.error(
+      chalk.red(
+        `Multiple entity references found at ${inputKey} on ${contentModelType}, but the output schema for ${outputKey} expects a single object.`,
+      ),
+    );
+  } else if (outputFieldSchema.type === 'object') {
+    result = result[0];
+  }
+  return result;
+}
+
 /**
  * @param {Object} entity - The raw entity
  * @param {Object} [outputSchemaFromParent] - The schema defining what the
@@ -68,39 +103,35 @@ function transformFields(entity, outputSchemaFromParent) {
       // Find the snake_case key for use in the input schema and entity data
       const inputKey = _.snakeCase(outputKey);
 
+      // Sometimes the output specifies fields added by the transformer.
+      // This is for entityType, contentModelType, entityBundle, etc.
+      if (!inputSchema.properties[inputKey]) {
+        console.log(
+          chalk.gray(
+            `No schema found for ${inputKey} on ${getContentModelType(
+              entity,
+            )}. Skipping.`,
+          ),
+        );
+        return result;
+      }
+
       // If the input schema is an entity reference, find the entity reference data and recurse
       if (isEntityReferenceArray(entity[inputKey])) {
+        // eslint-disable-next-line no-console
         console.log(
           chalk.gray(`Expanding ${outputKey} (${getContentModelType(entity)})`),
         );
-        result[outputKey] = entity[inputKey].map(ref => {
-          const childEntity = readEntity(
-            path.resolve(
-              __dirname,
-              '../../../../../.cache/localhost/cms-export-content',
-            ),
-            ref.target_type,
-            ref.target_uuid,
-          );
-          return transformFields(childEntity, outputFieldSchema);
+        result[outputKey] = expandEntityReferenceArray({
+          entityReferences: entity[inputKey],
+          outputFieldSchema,
+          inputKey,
+          outputKey,
+          contentModelType: getContentModelType(entity),
         });
-
-        if (
-          result[outputKey].length > 1 &&
-          outputFieldSchema.type !== 'array'
-        ) {
-          // eslint-disable-next-line no-console
-          console.error(
-            chalk.red(
-              `Multiple entity references found at ${inputKey} on ${getContentModelType(
-                entity,
-              )}, but the output schema for ${outputKey} expects a single object.`,
-            ),
-          );
-        } else if (outputFieldSchema.type === 'object') {
-          result[outputKey] = result[outputKey][0];
-        }
         return result;
+      } else {
+        console.log(chalk.gray(`${inputKey} is not an entity reference array`));
       }
 
       // TODO: If the content model has a transformer hook for that field, use it
