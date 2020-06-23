@@ -49,7 +49,7 @@ export const chapters = {
     },
   },
   militaryService: {
-    title: 'Military History',
+    title: 'Military Details',
     pages: {
       activeDuty: {
         title: 'Active Duty',
