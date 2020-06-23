@@ -100,7 +100,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
           status="error"
           headline="We're sorry. Something went wrong on our end."
         >
-          <div>
+          <div className="mdot-server-error-alert">
             <p>
               You can't place an order for hearing aid batteries and accessories
               because something went wrong on our end.
