@@ -32,13 +32,13 @@ const defaultProps = {
     ],
   },
 };
-const verifyTrackedInputChange = (wrapper, field, value) => {
+const verifyTrackedInputChange = (wrapper, field, value, eventIndex = 0) => {
   wrapper
     .find(`input[name="${field}"]`)
     .at(0)
     .simulate('change', value);
 
-  const recordedEvent = global.window.dataLayer[0];
+  const recordedEvent = global.window.dataLayer[eventIndex];
   expect(recordedEvent.event).to.eq('gibct-form-change');
   expect(recordedEvent['gibct-form-field']).to.eq(field);
   expect(recordedEvent['gibct-form-value']).to.not.be.null;

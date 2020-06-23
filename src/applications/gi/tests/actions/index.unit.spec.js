@@ -37,8 +37,8 @@ const verifyAction = (expectedAction, actualAction) => {
   expect(expectedAction).to.eql(actualAction);
 };
 
-const verifyGibctFormChange = (field, value) => {
-  const recordedEvent = global.window.dataLayer[0];
+const verifyGibctFormChange = (field, value, actionIndex = 0) => {
+  const recordedEvent = global.window.dataLayer[actionIndex];
   expect(recordedEvent.event).to.eq('gibct-form-change');
   expect(recordedEvent['gibct-form-field']).to.eq(field);
   expect(recordedEvent['gibct-form-value']).to.eq(value);
