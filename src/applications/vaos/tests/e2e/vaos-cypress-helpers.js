@@ -7,10 +7,6 @@ import confirmedCC from '../../api/confirmed_cc.json';
 import requests from '../../api/requests.json';
 import cancelReasons from '../../api/cancel_reasons.json';
 import supportedSites from '../../api/sites-supporting-var.json';
-import facilities from '../../api/facilities.json';
-import facilities983 from '../../api/facilities_983.json';
-import clinicList983 from '../../api/clinicList983.json';
-import slots from '../../api/slots.json';
 
 function updateConfirmedVADates(data) {
   data.data.forEach(item => {
@@ -49,31 +45,6 @@ function updateRequestDates(data) {
   });
   return data;
 }
-
-function updateTimeslots(data) {
-  const startDateTime = moment()
-    .add(4, 'days')
-    .day(9)
-    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
-  const endDateTime = moment()
-    .add(4, 'days')
-    .day(9)
-    .add(60, 'minutes')
-    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
-
-  const newSlot = {
-    bookingStatus: '1',
-    remainingAllowedOverBookings: '3',
-    availability: true,
-    startDateTime,
-    endDateTime,
-  };
-
-  data.data[0].attributes.appointmentTimeSlot = [newSlot];
-
-  return data;
-}
-
 export function initAppointmentListMock() {
   cy.server();
   cy.login();
