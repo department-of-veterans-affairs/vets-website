@@ -11,7 +11,6 @@ import facilities from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinicList983 from '../../api/clinicList983.json';
 import slots from '../../api/slots.json';
-import Helpers from './vaos-helpers';
 
 function updateConfirmedVADates(data) {
   data.data.forEach(item => {
