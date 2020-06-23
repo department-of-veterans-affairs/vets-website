@@ -172,27 +172,25 @@ class EstimateYourBenefitsForm extends React.Component {
     this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
 
-    let gibctFormField = field;
-    let gibctFormValue = value;
     if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
       if (value === 'extension' || value === profile.attributes.name) {
-        gibctFormField = 'gibctExtensionCampusSelection';
-        gibctFormValue =
-          value === 'extension'
-            ? 'An extension campus'
-            : profile.attributes.name;
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'gibctExtensionCampusSelection',
+          'gibct-form-value':
+            value === 'extension'
+              ? 'An extension campus'
+              : profile.attributes.name,
+        });
       }
       if (value === 'other') {
-        gibctFormField = 'gibctOtherCampusLocation';
-        gibctFormValue = 'other location';
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'gibctOtherCampusLocation ',
+          'gibct-form-value': 'other location',
+        });
       }
     }
-
-    recordEvent({
-      event: 'gibct-form-change',
-      'gibct-form-field': gibctFormField,
-      'gibct-form-value': gibctFormValue,
-    });
   };
 
   handleAccordionFocus = () => {

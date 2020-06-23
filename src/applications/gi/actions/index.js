@@ -183,9 +183,7 @@ export function clearAutocompleteSuggestions() {
   return { type: AUTOCOMPLETE_CLEARED };
 }
 
-export function eligibilityChange(e) {
-  const field = e.target.name;
-  const value = e.target.value;
+export function eligibilityChange({ field, value }) {
   recordEvent({
     event: 'gibct-form-change',
     'gibct-form-field': field,
@@ -298,6 +296,11 @@ export function fetchProfile(facilityCode, version) {
 }
 
 export function calculatorInputChange({ field, value }) {
+  recordEvent({
+    event: 'gibct-form-change',
+    'gibct-form-field': field,
+    'gibct-form-value': value,
+  });
   return {
     type: CALCULATOR_INPUTS_CHANGED,
     field,
