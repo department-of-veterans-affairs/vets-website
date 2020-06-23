@@ -165,53 +165,22 @@ const entityAssemblerFactory = contentDir => {
    * @return {Object} - The entity with all the references filled in
    *                    with the body of the referenced entities.
    */
-  const assembleEntityTree = (entity, ancestors = [], parentFieldName = '') => {
-    // Use the automatic transformer process for certain content models
-    // This is a test. Eventually,
-    if (getContentModelType(entity) === 'node-vba_facility') {
-      // eslint-disable-next-line no-console
-      console.log(
-        chalk.blue(
-          `Using the prototype field transformer on ${getContentModelType(
-            entity,
-          )}`,
-        ),
-      );
-      validateInput(entity);
-      const transformed = transformFields(entity);
-      // So we can find the right output schema
-      transformed.contentModelType = getContentModelType(entity);
-      validateOutput(entity, transformed);
-      return transformed;
-    }
-
-    // Handle circular references
-    const a = findCircularReference(entity, ancestors);
-    if (a) return a;
-
-    validateInput(entity);
-
-    const expandedEntity = expandEntityReferences(
-      entity,
-      ancestors,
-      assembleEntityTree,
+  return (entity, ancestors = [], parentFieldName = '') => {
+    // eslint-disable-next-line no-console
+    console.log(
+      chalk.blue(
+        `Using the prototype field transformer on ${getContentModelType(
+          entity,
+        )}`,
+      ),
     );
-
-    // Post-transformation JSON schema validation
-    const transformedEntity = transformEntity(expandedEntity, {
-      uuid: entity.uuid[0].value,
-      ancestors,
-      parentFieldName,
-      contentDir,
-      assembleEntityTree,
-    });
-
-    validateOutput(entity, transformedEntity);
-
-    return transformedEntity;
+    validateInput(entity);
+    const transformed = transformFields(entity);
+    // So we can find the right output schema
+    transformed.contentModelType = getContentModelType(entity);
+    validateOutput(entity, transformed);
+    return transformed;
   };
-
-  return assembleEntityTree;
 };
 
 module.exports = entityAssemblerFactory;
