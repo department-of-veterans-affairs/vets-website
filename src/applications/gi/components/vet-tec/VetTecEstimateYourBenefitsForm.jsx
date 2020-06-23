@@ -92,6 +92,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     recordEvent({
       event: 'cta-default-button-click',
       'gibct-parent-accordion-section': 'Estimate your benefits',
+      'gibct-child-accordion-section': undefined,
     });
   };
 
