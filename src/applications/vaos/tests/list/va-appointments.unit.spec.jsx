@@ -16,17 +16,16 @@ const initialState = {
 
 describe('VAOS integration: upcoming VA appointments', () => {
   it('should show information without facility details', async () => {
-      const appointment = getVAAppointmentMock();
-      appointment.attributes = {
-        ...appointment.attributes,
-        startDate: moment().format(),
-        clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-        facilityId: '983',
-        sta6aid: '983GC',
-      };
-      appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
-      appointment.attributes.vdsAppointments[0].bookingNote =
-        'Some random note';
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: moment().format(),
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
     mockAppointmentInfo({ va: [appointment] });
     const {
@@ -59,21 +58,21 @@ describe('VAOS integration: upcoming VA appointments', () => {
   });
 
   it('should show information with facility details', async () => {
-      const appointment = getVAAppointmentMock();
-      appointment.attributes = {
-        ...appointment.attributes,
-        startDate: moment().format(),
-        clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-        facilityId: '983',
-        sta6aid: '983GC',
-      };
-      appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: moment().format(),
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
     mockAppointmentInfo({ va: [appointment] });
 
-      const facility = {
+    const facility = {
       id: 'vha_442GC',
       attributes: {
-          ...getVAFacilityMock().attributes,
+        ...getVAFacilityMock().attributes,
         uniqueId: '442GC',
         name: 'Cheyenne VA Medical Center',
         address: {
@@ -88,7 +87,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
           main: '307-778-7550',
         },
       },
-      };
+    };
     mockFacilitesFetch('vha_442GC', [facility]);
 
     const { findByText, baseElement, getByText } = renderInReduxProvider(
@@ -113,11 +112,11 @@ describe('VAOS integration: upcoming VA appointments', () => {
   });
 
   it('should show comment for self-scheduled appointments', async () => {
-      const appointment = getVAAppointmentMock();
-      appointment.attributes.startDate = moment().format();
-      appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
-      appointment.attributes.vdsAppointments[0].bookingNote =
-        'Follow-up/Routine: Instructions';
+    const appointment = getVAAppointmentMock();
+    appointment.attributes.startDate = moment().format();
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].bookingNote =
+      'Follow-up/Routine: Instructions';
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, baseElement } = renderInReduxProvider(
@@ -135,10 +134,10 @@ describe('VAOS integration: upcoming VA appointments', () => {
   });
 
   it('should have correct status when previously cancelled', async () => {
-      const appointment = getVAAppointmentMock();
-      appointment.attributes.startDate = moment().format();
-      appointment.attributes.vdsAppointments[0].currentStatus =
-        'CANCELLED BY CLINIC';
+    const appointment = getVAAppointmentMock();
+    appointment.attributes.startDate = moment().format();
+    appointment.attributes.vdsAppointments[0].currentStatus =
+      'CANCELLED BY CLINIC';
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, baseElement } = renderInReduxProvider(
@@ -158,9 +157,9 @@ describe('VAOS integration: upcoming VA appointments', () => {
   });
 
   it('should not display when they have hidden statuses', () => {
-      const appointment = getVAAppointmentMock();
-      appointment.attributes.startDate = moment().format();
-      appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
+    const appointment = getVAAppointmentMock();
+    appointment.attributes.startDate = moment().format();
+    appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
 
     mockAppointmentInfo({ va: [appointment] });
     const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
@@ -173,11 +172,11 @@ describe('VAOS integration: upcoming VA appointments', () => {
   });
 
   it('should not display when over 13 months away', () => {
-      const appointment = getVAAppointmentMock();
-      appointment.attributes.startDate = moment()
-        .add(14, 'months')
-        .format();
-      appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    const appointment = getVAAppointmentMock();
+    appointment.attributes.startDate = moment()
+      .add(14, 'months')
+      .format();
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
 
     mockAppointmentInfo({ va: [appointment] });
     const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
