@@ -59,7 +59,6 @@ export const chapters = {
     title: 'Personal Information',
     pages: {
       contactInformation: createContactInformationPage(fullSchema10203),
-      directDeposit: createDirectDepositChangePage(fullSchema10203),
     },
   },
 };
