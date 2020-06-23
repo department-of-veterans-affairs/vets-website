@@ -32,6 +32,9 @@ import createPost911GiBillStatusWidget, {
 import create686ContentReveal from './view-modify-dependent/686-cta/create686CcontentReveal.js';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
 import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging';
+import createScheduleViewVAAppointments from './health-care-manage-benefits/schedule-view-va-appointments';
+import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
+import createViewTestLabResultsPage from './health-care-manage-benefits/view-test-lab-results-page';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -139,6 +142,12 @@ create686ContentReveal(store, widgetTypes.FORM_686_CONTENT_REVEAL);
 
 createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
 createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
+createScheduleViewVAAppointments(
+  store,
+  widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS,
+);
+createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
+createViewTestLabResultsPage(store, widgetTypes.VIEW_TEST_LAB_RESULTS_PAGE);
 
 // homepage widgets
 if (location.pathname === '/') {

@@ -13,12 +13,7 @@ export const chapters = {
     pages: {
       applicantInformation: createApplicantInformationPage(fullSchema10203, {
         isVeteran: true,
-        fields: [
-          'veteranFullName',
-          'veteranSocialSecurityNumber',
-          'view:noSSN',
-          'vaFileNumber',
-        ],
+        fields: ['veteranFullName', 'veteranSocialSecurityNumber'],
         required: ['veteranFullName'],
       }),
     },

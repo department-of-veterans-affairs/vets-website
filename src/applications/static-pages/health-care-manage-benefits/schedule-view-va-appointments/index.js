@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "secure-messaging" */
+    import(/* webpackChunkName: "schedule-view-va-appointments" */
     './components/App').then(module => {
       const App = module.default;
       ReactDOM.render(
