@@ -1,11 +1,6 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import {
-  resetFetch,
-  mockFetch,
-  setFetchJSONResponse,
-  setFetchJSONFailure,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 export function mockAppointmentInfo({ va = [], cc = [], requests = [] }) {
   mockFetch();
