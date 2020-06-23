@@ -21,7 +21,7 @@ import {
 import { renderLearnMoreLabel } from '../../utils/render';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
-import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
+import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 
@@ -98,7 +98,7 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
-  handleCalculateBenefitsClick = () => {
+  handleCalculateBenefitsClick = childSection => {
     const { beneficiaryZIPError, beneficiaryZIP } = this.props.inputs;
 
     if (
@@ -116,6 +116,12 @@ class EstimateYourBenefitsForm extends React.Component {
       this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
     }
+
+    recordEvent({
+      event: 'cta-default-button-click',
+      'gibct-parent-accordion-section': 'Estimate your benefits',
+      'gibct-child-accordion-section': childSection,
+    });
   };
 
   updateEligibility = e => {
@@ -166,22 +172,24 @@ class EstimateYourBenefitsForm extends React.Component {
     this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
 
-    if (value === 'extension' || value === profile.attributes.name) {
-      recordEvent({
-        event: 'gibct-form-change',
-        'gibct-form-field': 'gibctExtensionCampusSelection',
-        'gibct-form-value':
-          value === 'extension'
-            ? 'An extension campus'
-            : profile.attributes.name,
-      });
-    }
-    if (value === 'other') {
-      recordEvent({
-        event: 'gibct-form-change',
-        'gibct-form-field': 'gibctOtherCampusLocation ',
-        'gibct-form-value': 'other location',
-      });
+    if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
+      if (value === 'extension' || value === profile.attributes.name) {
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'gibctExtensionCampusSelection',
+          'gibct-form-value':
+            value === 'extension'
+              ? 'An extension campus'
+              : profile.attributes.name,
+        });
+      }
+      if (value === 'other') {
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'gibctOtherCampusLocation ',
+          'gibct-form-value': 'other location',
+        });
+      }
     }
   };
 
@@ -988,6 +996,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   renderMilitaryDetails = () => {
     const name = 'Your military details';
+
     return (
       <AccordionItem
         button={name}
@@ -1012,7 +1021,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </div>
         <button
           className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
@@ -1063,7 +1072,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </div>
         <button
           className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
@@ -1076,6 +1085,7 @@ class EstimateYourBenefitsForm extends React.Component {
     const name = isOjt
       ? 'Learning format and schedule'
       : 'Learning format and location';
+
     return (
       <AccordionItem
         button={name}
@@ -1091,7 +1101,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </div>
         <button
           className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
@@ -1114,6 +1124,7 @@ class EstimateYourBenefitsForm extends React.Component {
   renderScholarshipsAndOtherVAFunding = () => {
     if (this.hideScholarshipsAndOtherVAFunding()) return null;
     const name = 'Scholarships and other VA funding';
+
     return (
       <AccordionItem
         button={name}
@@ -1131,7 +1142,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </div>
         <button
           className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
