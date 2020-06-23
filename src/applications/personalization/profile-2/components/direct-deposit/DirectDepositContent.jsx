@@ -27,7 +27,6 @@ import PaymentInformationEditError from 'applications/personalization/profile360
 
 import ProfileInfoTable from '../ProfileInfoTable';
 import FraudVictimAlert from './FraudVictimAlert';
-import AdditionalInformation from './DirectDepositInformation';
 
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
@@ -281,7 +280,6 @@ export const DirectDepositContent = ({
       </div>
       <ProfileInfoTable title="Bank information" data={directDepositData()} />
       <FraudVictimAlert />
-      <AdditionalInformation />
       <ProfileInfoTable
         title="Education benefits"
         data={educationBenefitsData()}

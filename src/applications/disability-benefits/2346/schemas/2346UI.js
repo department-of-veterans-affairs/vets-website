@@ -8,11 +8,7 @@ import VeteranInfoBox from '../components/VeteranInfoBox';
 import { schemaFields } from '../constants';
 import { addressUISchema } from './address-schema';
 
-const {
-  permanentAddressField,
-  temporaryAddressField,
-  viewCurrentAddressField,
-} = schemaFields;
+const { permanentAddressField, temporaryAddressField } = schemaFields;
 
 const emailUITitle = <h4>Email address</h4>;
 
@@ -144,6 +140,7 @@ export default {
         widgetClassNames: 'va-input-large',
         inputType: 'email',
         hideOnReview: true,
+        useDlWrap: true,
       },
       'ui:validations': [
         {
