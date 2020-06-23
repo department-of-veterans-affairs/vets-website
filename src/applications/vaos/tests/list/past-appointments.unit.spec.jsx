@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import { merge } from 'lodash/fp';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import reducers from '../../reducers';
 import { getVideoAppointmentMock } from '../mocks/v0';
