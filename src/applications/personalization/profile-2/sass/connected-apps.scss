@@ -29,15 +29,18 @@
     }
   }
 
-  .form-expanding-group,
-  .form-expanding-group-open,
-  .form-expanding-group-closed {
-    border-left: none;
-    padding-left: 20px;
+  .connected-app {
+    .form-expanding-group,
+    .form-expanding-group-open,
+    .form-expanding-group-closed {
+      border-left: none;
+      padding-left: 20px;
 
-    @media (max-width: $medium-screen) {
-      margin-left: -60px;
-      padding-left: 0;
+
+      @media (max-width: $medium-screen) {
+        margin-left: -60px;
+        padding-left: 0;
+      }
     }
   }
 }
