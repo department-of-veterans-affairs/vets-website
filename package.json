@@ -158,7 +158,7 @@
     "command-line-usage": "^6.1.0",
     "concurrently": "^5.2.0",
     "cors": "^2.7.1",
-    "css-loader": "^0.28.10",
+    "css-loader": "^3.6.0",
     "cypress": "^4.8.0",
     "cypress-axe": "^0.8.1",
     "cypress-multi-reporters": "^1.4.0",
