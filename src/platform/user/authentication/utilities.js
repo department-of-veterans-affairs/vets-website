@@ -11,6 +11,12 @@ export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
 };
 
+export const externalRedirects = {
+  myvahealth: environment.isProduction()
+    ? 'https://patientportal.myhealth.va.gov/'
+    : 'https://ehrm-va-test.patientportal.us.healtheintent.com/',
+};
+
 export const ssoKeepAliveEndpoint = () => {
   const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
   return `https://${envPrefix}eauth.va.gov/keepalive`;
@@ -79,12 +85,22 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
+function standaloneRedirect() {
+  const { application, to } = window.location.query;
+  let url = externalRedirects[application] || null;
+  if (url && to) {
+    url = url.replace(new RegExp('/$'), '');
+    url += to.replace(new RegExp('^/'), '').replace('\r\n', '');
+  }
+  return url;
+}
+
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
   const returnUrl =
     window.location.pathname === '/sign-in/'
-      ? window.location.origin
+      ? standaloneRedirect()
       : window.location;
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
