@@ -156,4 +156,19 @@ describe('ErrorMessage', () => {
     );
     errorMessage.unmount();
   });
+  it('should render server error content', () => {
+    const fakeStore = {
+      getState: () => ({
+        mdot: {
+          errorCode: 'MDOT_SERVER_ERROR',
+          nextAvailabilityDate: '',
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const errorMessage = mount(<ErrorMessage store={fakeStore} />);
+    expect(errorMessage.find('.mdot-server-error-alert')).length.to.be(1);
+    errorMessage.unmount();
+  });
 });
