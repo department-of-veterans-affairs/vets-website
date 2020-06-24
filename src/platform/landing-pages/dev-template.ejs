@@ -29,13 +29,9 @@
     <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="<%= assetPath('style.css') %>">
-    <link rel="stylesheet" href="<%= assetPath(`${entryName}.css`) %>">
+    <%= modifyStyleTags(htmlWebpackPlugin.tags.headTags) %>
 
-
-    <script defer nomodule src="<%= assetPath('polyfills.js') %>"></script>
-    <script defer src="<%= assetPath('vendor.js') %>"></script>
-    <script defer src="<%= assetPath(`${entryName}.js`) %>"></script>
+    <%= modifyScriptTags(htmlWebpackPlugin.tags.bodyTags) %>
 
     <script type="text/javascript">
       window.VetsGov = window.VetsGov || {};

@@ -258,21 +258,6 @@ module.exports = env => {
     const landingPagePath = rootUrl =>
       path.join(outputPath, '../', rootUrl, 'index.html');
 
-    const fileManifestPath = path.join(outputPath, 'file-manifest.json');
-    let fileManifest;
-
-    // The manifest is read when HTML Webpack Plugin calls this function,
-    // ensuring that it's done only after Manifest Plugin has been applied.
-    const assetPath = asset => {
-      if (!fileManifest && fs.existsSync(fileManifestPath)) {
-        fileManifest = JSON.parse(fs.readFileSync(fileManifestPath));
-      }
-
-      return fileManifest
-        ? fileManifest[asset]
-        : `${baseConfig.output.publicPath}${asset}`;
-    };
-
     const inlineScripts = [
       'incompatible-browser.js',
       'record-event.js',
@@ -285,24 +270,56 @@ module.exports = env => {
       {},
     );
 
+    // Modifies the style tags output from HTML Webpack Plugin.
+    const modifyStyleTags = pluginStyleTags =>
+      pluginStyleTags
+        .reduce(
+          (tags, tag) =>
+            // Puts style.css before the app-specific stylesheet.
+            tag.attributes.href.match(/style/)
+              ? [tag, ...tags]
+              : [...tags, tag],
+          [],
+        )
+        .join('');
+
+    // Modifies the script tags output from HTML Webpack Plugin.
+    const modifyScriptTags = pluginScriptTags =>
+      pluginScriptTags
+        .reduce((tags, tag) => {
+          // Exclude style.entry.js, which gets included with the style chunk.
+          if (tag.attributes.src.match(/style/)) return tags;
+
+          // Force polyfills.entry.js to be first (and set `nomodules`), since
+          // vendor.entry.js gets put first even with chunksSortMode: 'manual'.
+          return tag.attributes.src.match(/polyfills/)
+            ? [
+                { ...tag, attributes: { ...tag.attributes, nomodule: true } },
+                ...tags,
+              ]
+            : [...tags, tag];
+        }, [])
+        .join('');
+
     const generateLandingPage = ({
       entryName = 'static-pages',
       loadingMessage = 'Please wait while we load the application for you.',
       rootUrl,
     }) =>
       new HtmlPlugin({
+        chunks: ['polyfills', 'vendor', 'style', entryName],
         filename: landingPagePath(rootUrl),
+        inject: false,
+        scriptLoading: 'defer',
         template: 'src/platform/landing-pages/dev-template.ejs',
         templateParameters: {
           entryName,
-          loadingMessage,
-          assetPath,
           headerFooterData, // TODO: Get this placeholder data from another file
           inlineScripts,
+          loadingMessage,
+          modifyScriptTags,
+          modifyStyleTags,
         },
-        // Don't inject all the assets into all the landing pages
-        // The assets we want are referenced in the template itself
-        inject: false,
       });
 
     baseConfig.plugins = baseConfig.plugins.concat(
@@ -315,8 +332,8 @@ module.exports = env => {
       new CopyPlugin({
         patterns: [
           {
-            from: 'src/site/assets/img/',
-            to: path.join(outputPath, '../', 'img/'),
+            from: 'src/site/assets/img',
+            to: path.join(outputPath, '..', 'img'),
           },
         ],
       }),
