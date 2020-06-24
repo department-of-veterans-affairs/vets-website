@@ -77,16 +77,16 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     event.preventDefault();
     this.setState({ inputUpdated: false });
     this.setProgramFields(this.state.programName);
-  };
-
-  handleEYBSkipLinkOnClick = () => {
-    focusElement('.estimated-benefits-header');
     // the undefined is intentional see https://github.com/department-of-veterans-affairs/va.gov-team/issues/10353
     recordEvent({
       event: 'cta-default-button-click',
       'gibct-parent-accordion-section': 'Estimate your benefits',
       'gibct-child-accordion-section': undefined,
     });
+  };
+
+  handleEYBSkipLinkOnClick = () => {
+    focusElement('.estimated-benefits-header');
   };
 
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
