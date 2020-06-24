@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { IntroductionPage } from '../../../10203/containers/IntroductionPage';
+import { IntroductionPage } from '../../containers/IntroductionPage';
 
 describe('Edu 10203 <IntroductionPage>', () => {
   it('should render', () => {
