@@ -1,3 +1,5 @@
+const healthCareLocalHealthService = require('./node-health_care_local_health_service');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -5,8 +7,8 @@ module.exports = {
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['health_care_local_facility'] },
     title: { type: 'string' },
-    changed: { title: 'unix time', type: 'number' },
-    entityPublished: { type: 'boolean' },
+    changed: { title: 'epoch-time', type: 'number' },
+    entityPublished: { title: 'published-state', type: 'boolean' },
     entityMetatags: { $ref: 'MetaTags' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldAddress: { $ref: 'Address' },
@@ -38,7 +40,7 @@ module.exports = {
       type: ['array', 'null'],
       // Alternatively, we can pull out only the bits of this schema that we'll use,
       // but for now, that' just more work.
-      items: { $ref: 'transformed/node-health_care_local_health_service' },
+      items: healthCareLocalHealthService,
     },
     fieldLocationServices: {
       type: ['array', 'null'],
