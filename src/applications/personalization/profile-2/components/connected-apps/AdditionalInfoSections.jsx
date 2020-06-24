@@ -35,7 +35,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
                   At this time, you can connect any of these apps:
                 </strong>
               </p>
-              <ul className="vads-u-padding-left--0 vads-u-margin-bottom--2">
+              <ul className="vads-u-margin-bottom--2 vads-u-margin-left--3">
                 {filteredApps?.map(app => {
                   return (
                     <li key={app.name}>

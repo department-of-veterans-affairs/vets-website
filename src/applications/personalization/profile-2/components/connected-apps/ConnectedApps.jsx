@@ -62,9 +62,13 @@ export class ConnectedApps extends Component {
                   websites that can share certain information from your VA.gov
                   profile, with your permission. For example, you can connect
                   information from your VA health record to an app that helps
-                  you track your health. We offer this feature for your
-                  convenience. It’s always your choice whether to connect, or
-                  stay connected, to a third-party app.
+                  you track your health.
+                </p>
+
+                <p className="va-introtext vads-u-font-size--md">
+                  We offer this feature for your convenience. It’s always your
+                  choice whether to connect, or stay connected, to a third-party
+                  app.
                 </p>
                 <h3>Third-party apps you can connect to your profile</h3>
                 <ul className="vads-u-padding-left--0 vads-u-margin-bottom--2">
