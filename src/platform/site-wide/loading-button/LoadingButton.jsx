@@ -17,7 +17,9 @@ export default function LoadingButton({
           aria-hidden="true"
           role="presentation"
         />
-        <span className="sr-only">{loadingText}</span>
+        <span className="sr-only" role="status">
+          {loadingText}
+        </span>
       </>
     ) : (
       children
