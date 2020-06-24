@@ -74,6 +74,8 @@ const validateOutput = (entity, transformedEntity) => {
 };
 
 const entityAssemblerFactory = contentDir => {
+  // TODO: Pass contentDir down to where we finally read the entities from disk.
+
   /**
    * Takes an entity type and uuid, reads the corresponding file,
    * searches for references to other entities, and replaces the
