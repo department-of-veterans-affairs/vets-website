@@ -436,4 +436,13 @@
   .secondary-sco-list {
     padding-left: 0;
   }
+
+  .eyb-skip-link {
+    position: absolute;
+    top: -100rem;
+
+    &:focus {
+      top: auto;
+    }
+  }
 }
