@@ -50,7 +50,7 @@ export function initAppointmentListMock() {
   cy.login();
   cy.route({
     method: 'GET',
-    url: '**/v0/feature_toggles*',
+    url: '/v0/feature_toggles*',
     status: 200,
     response: {
       data: {
@@ -86,13 +86,13 @@ export function initAppointmentListMock() {
 
   cy.route({
     method: 'GET',
-    url: '**/vaos/v0/community_care/supported_sites',
+    url: '/vaos/v0/community_care/supported_sites',
     response: supportedSites,
   });
 
   cy.route({
     method: 'GET',
-    url: '**/vaos/v0/appointment_requests**',
+    url: '/vaos/v0/appointment_requests*',
     response: updateRequestDates(requests),
   });
 
@@ -110,20 +110,20 @@ export function initAppointmentListMock() {
 
   cy.route({
     method: 'GET',
-    url: '**/vaos/v0/facilities/983/cancel_reasons',
+    url: '/vaos/v0/facilities/983/cancel_reasons',
     response: cancelReasons,
   });
 
   cy.route({
     method: 'PUT',
-    url: '**/vaos/v0/appointments/cancel',
+    url: '/vaos/v0/appointments/cancel',
     response: '',
   });
 
   cy.route({
     method: 'GET',
     url:
-      '**/vaos/v0/appointment_requests/8a48912a6cab0202016cb4fcaa8b0038/messages',
+      '/vaos/v0/appointment_requests/8a48912a6cab0202016cb4fcaa8b0038/messages',
     response: {
       data: [
         {
