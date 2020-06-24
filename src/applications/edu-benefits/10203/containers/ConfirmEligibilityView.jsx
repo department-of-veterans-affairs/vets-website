@@ -15,8 +15,8 @@ export class ConfirmEligibilityView extends React.Component {
   inReviewEditMode = () => this.props.onReviewPage && this.props.reviewMode;
   showNotApplyingToStemInformation = () =>
     !this.props.onReviewPage &&
-    this.props.determineEligibility !== undefined &&
-    !this.props.determineEligibility;
+    this.props.confirmEligibility !== undefined &&
+    !this.props.confirmEligibility;
 
   iconClass = indication =>
     classNames('fa', {
@@ -109,9 +109,9 @@ export class ConfirmEligibilityView extends React.Component {
     return null;
   };
 
-  renderDetermineEligibility = () => {
-    const { showErrors, determineEligibility } = this.props;
-    const id = 'root_determineEligibility';
+  renderConfirmEligibility = () => {
+    const { showErrors, confirmEligibility } = this.props;
+    const id = 'root_confirmEligibility';
     const divClassName = classNames(
       'form-radio-buttons',
       showErrors ? 'usa-input-error' : '',
@@ -125,8 +125,8 @@ export class ConfirmEligibilityView extends React.Component {
 
     if (this.inReviewEditMode()) {
       let value;
-      if (determineEligibility !== undefined) {
-        value = determineEligibility ? 'Yes' : 'No';
+      if (confirmEligibility !== undefined) {
+        value = confirmEligibility ? 'Yes' : 'No';
       }
 
       return (
@@ -171,24 +171,24 @@ export class ConfirmEligibilityView extends React.Component {
             {this.renderErrorMessage()}
             <input
               type="radio"
-              checked={determineEligibility != null && !determineEligibility}
+              checked={confirmEligibility != null && !confirmEligibility}
               id={`${id}No`}
               name={`${id}`}
               value="N"
               onChange={() =>
-                this.onChange({ 'view:determineEligibility': false })
+                this.onChange({ 'view:confirmEligibility': false })
               }
               onClick={() => captureEvents.ineligibilityStillApply(false)}
             />
             <label htmlFor={`${id}No`}>No</label>
             <input
               type="radio"
-              checked={determineEligibility}
+              checked={confirmEligibility}
               id={`${id}Yes`}
               name={`${id}`}
               value="Y"
               onChange={() =>
-                this.onChange({ 'view:determineEligibility': true })
+                this.onChange({ 'view:confirmEligibility': true })
               }
               onClick={() => {
                 captureEvents.ineligibilityStillApply(true);
@@ -206,27 +206,28 @@ export class ConfirmEligibilityView extends React.Component {
       <div>
         <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2">
           {this.renderChecks()}
-          {this.renderDetermineEligibility()}
+          {this.renderConfirmEligibility()}
         </div>
       </div>
     );
   }
 }
 const mapStateToProps = (state, ownProps) => {
-  const determineEligibility = ownProps?.formData['view:determineEligibility'];
+  const confirmEligibility = ownProps?.formData['view:confirmEligibility'];
   const errors =
-    ownProps?.errorSchema['view:determineEligibility']?.__errors || [];
+    ownProps?.errorSchema['view:confirmEligibility']?.__errors || [];
+
   return {
     benefit: state?.form?.data?.benefit,
     benefitLeft: state?.form?.data.benefitLeft,
     isEnrolledStem: state?.form?.data.isEnrolledStem,
     isPursuingTeachingCert: state?.form?.data?.isPursuingTeachingCert || false,
-    determineEligibility,
+    confirmEligibility,
     errors,
     showErrors:
       errors.length > 0 &&
       ownProps?.formContext?.submitted &&
-      determineEligibility === undefined,
+      confirmEligibility === undefined,
     reviewMode: ownProps?.formContext?.reviewMode,
     onReviewPage: ownProps?.formContext?.onReviewPage,
   };

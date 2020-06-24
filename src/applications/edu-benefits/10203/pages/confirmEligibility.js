@@ -1,19 +1,25 @@
 import ConfirmEligibilityView from '../containers/ConfirmEligibilityView';
 
+const confirmEligibilityIsNotChecked = formData =>
+  formData['view:confirmEligibility']['view:confirmEligibility'] === undefined;
+
 export const uiSchema = {
-  'view:determineEligibility': {
+  'view:confirmEligibility': {
+    'view:confirmEligibility': {
+      'ui:required': confirmEligibilityIsNotChecked,
+    },
     'ui:field': ConfirmEligibilityView,
   },
 };
 
 export const schema = {
   type: 'object',
-  required: ['view:determineEligibility'],
+  required: ['view:confirmEligibility'],
   properties: {
-    'view:determineEligibility': {
+    'view:confirmEligibility': {
       type: 'object',
       properties: {
-        'view:determineEligibility': {
+        'view:confirmEligibility': {
           type: 'boolean',
         },
       },

@@ -15,11 +15,3 @@ export const displayConfirmEligibility = form =>
   !isChapter33(form) ||
   (!form.isEnrolledStem && !form.isPursuingTeachingCert) ||
   form.benefitLeft === 'moreThanSixMonths';
-
-export const determineEligibilityFor10203Stem = form =>
-  form['view:determineEligibility']['view:determineEligibility'];
-
-export const display10203StemFlow = form =>
-  isEdithNourseRogersScholarship(form) &&
-  (isEligibleForEdithNourseRogersScholarship(form) ||
-    determineEligibilityFor10203Stem(form));
