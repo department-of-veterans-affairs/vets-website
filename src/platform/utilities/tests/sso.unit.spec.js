@@ -112,6 +112,18 @@ describe('checkAutoSession', () => {
     );
   });
 
+  it('should not auto login if user is logged out, they have a PIV SSOe session and dont need to force auth', async () => {
+    const sandbox = sinon.createSandbox();
+    sandbox.stub(profUtils, 'hasSession').returns(false);
+    sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
+    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    setKeepAliveResponse(global.fetch.onFirstCall(), 900, '33');
+    const auto = sandbox.stub(authUtils, 'login');
+    await checkAutoSession();
+    sandbox.restore();
+    sinon.assert.notCalled(auto);
+  });
+
   it('should not auto login if user is logged out, they dont have a SSOe session and dont need to force auth', async () => {
     const sandbox = sinon.createSandbox();
     sandbox.stub(profUtils, 'hasSession').returns(false);
