@@ -44,4 +44,21 @@ describe('VAOS <PastAppointmentsDateDropdown/>', () => {
     expect(onChange.called).to.be.true;
     tree.unmount();
   });
+
+  it('should NOT call onChange event when date range has not changed', () => {
+    const onChange = sinon.spy();
+
+    const tree = mount(
+      <PastAppointmentsDateDropdown
+        onChange={onChange}
+        options={dateRanges}
+        currentRange={1}
+      />,
+    );
+
+    tree.find('select').simulate('change', { target: { value: 1 } });
+    tree.find('button').simulate('click');
+    expect(onChange.called).to.be.false;
+    tree.unmount();
+  });
 });

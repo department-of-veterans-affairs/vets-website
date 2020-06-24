@@ -294,7 +294,7 @@ describe('VAOS <PastAppointmentsList>', () => {
     );
 
     const display = tree.find(
-      'span.vads-u-font-size--sm.vads-u-font-weight--normal',
+      'span.vads-u-font-size--sm.vads-u-display--block.vads-u-margin-bottom--1',
     );
     expect(display.text()).to.contains('Past 3 months');
 
