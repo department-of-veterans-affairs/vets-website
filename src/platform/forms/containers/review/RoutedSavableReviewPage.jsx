@@ -9,12 +9,7 @@ import { withRouter } from 'react-router';
 import {
   autoSaveForm,
   saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction,
-  saveErrors,
 } from 'platform/forms/save-in-progress/actions';
-
-// platform - forms components
-import ErrorMessage from 'platform/forms/components/review/ErrorMessage';
-import FailureAlert from 'platform/forms/components/common/alerts/FailureAlert';
 
 // platform - forms containers
 import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
@@ -23,6 +18,9 @@ import SubmitController from 'platform/forms/containers/review/SubmitController'
 // platform - forms-system components
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 // import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
+
+// platform - forms - selectors
+import { formSelector, userSelector } from 'platform/forms/selectors/review';
 
 // utils
 import debounce from 'platform/utilities/data/debounce';
@@ -49,15 +47,6 @@ const scrollToTop = () => {
     },
   );
 };
-
-// TODO: rename variable when we revisit all submission states.
-const VALID_SUBMISSION_STATES = [
-  'submitPending',
-  'applicationSubmitted',
-  'clientError',
-  'throttledError',
-  'validationError',
-];
 
 class RoutedSavableReviewPage extends Component {
   constructor(props) {
@@ -91,16 +80,6 @@ class RoutedSavableReviewPage extends Component {
     return children;
   };
 
-  hasErrorMessage = () => {
-    const { form } = this.props;
-
-    const submissionStatus = form?.submission?.status;
-
-    return (
-      submissionStatus && !VALID_SUBMISSION_STATES.includes(submissionStatus)
-    );
-  };
-
   render() {
     const {
       form,
@@ -109,7 +88,6 @@ class RoutedSavableReviewPage extends Component {
       location,
       pageList,
       path,
-      route,
       saveAndRedirectToReturnUrl,
       showLoginModal,
       toggleLoginModal,
@@ -117,7 +95,6 @@ class RoutedSavableReviewPage extends Component {
     } = this.props;
 
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
-    const hasSavedErrors = saveErrors?.has(form?.savedStatus);
 
     return (
       <div>
@@ -136,29 +113,7 @@ class RoutedSavableReviewPage extends Component {
             formConfig={formConfig}
             pageList={pageList}
             path={path}
-          >
-            <ErrorMessage
-              active={this.hasErrorMessage()}
-              location={location}
-              form={form}
-              route={route}
-              showLoginModal={showLoginModal}
-              toggleLoginModal={toggleLoginModal}
-              user={user}
-            >
-              <FailureAlert
-                errorText={route?.formConfig?.errorText}
-                form={form}
-                hasSavedErrors={hasSavedErrors}
-                isLoggedIn={user?.login?.currentlyLoggedIn}
-                locationPathname={location?.pathname}
-                saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-                showLoginModal={showLoginModal}
-                toggleLoginModal={toggleLoginModal}
-                user={user}
-              />
-            </ErrorMessage>
-          </SubmitController>
+          />
         </DowntimeNotification>
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
@@ -185,7 +140,8 @@ function mapStateToProps(state, ownProps) {
   const route = ownProps.route;
   const { formConfig, pageList, path } = route;
 
-  const { form, user } = state;
+  const form = formSelector(state);
+  const user = userSelector(state);
 
   const formContext = getFormContext({ form, user, onReviewPage: true });
 

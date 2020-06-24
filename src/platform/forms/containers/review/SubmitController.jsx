@@ -1,23 +1,22 @@
 // libs
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 // platform - forms components
-
-// platform - forms containers
-import SubmitButtons from 'platform/forms/containers/review/SubmitButtons';
+import ApplicationSubmitted from 'platform/forms/components/review/ApplicationSubmitted';
+import ClientError from 'platform/forms/components/review/ClientError';
+import GenericError from 'platform/forms/components/review/GenericError';
+import SubmitButtons from 'platform/forms/components/review/SubmitButtons';
+import SubmitPending from 'platform/forms/components/review/SubmitPending';
+import ThrottledError from 'platform/forms/components/review/ThrottledError';
+import ValidationError from 'platform/forms/components/review/ValidationError';
 
 // platform - forms-system components
-// import SubmitButtons from 'platform/forms-system/src/js/review/SubmitButtons';
-import { PreSubmitSection } from 'platform/forms-system/src/js/components/PreSubmitSection';
 import { isValidForm } from 'platform/forms-system/src/js/validation';
-import {
-  // createPageListByChapter,
-  getActiveExpandedPages,
-} from 'platform/forms-system/src/js/helpers';
+import { getActiveExpandedPages } from 'platform/forms-system/src/js/helpers';
 import {
   setPreSubmit,
   setSubmission,
@@ -27,47 +26,52 @@ import {
 // platform - monitoring
 import recordEvent from 'platform/monitoring/record-event';
 
-// TODO: rename to something more descriptive.
-class SubmitController extends Component {
-  /* eslint-disable-next-line camelcase */
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const nextStatus = nextProps.form.submission.status;
-    const previousStatus = this.props.form.submission.status;
-    if (
-      nextStatus !== previousStatus &&
-      nextStatus === 'applicationSubmitted'
-    ) {
-      const newRoute = `${nextProps.formConfig.urlPrefix}confirmation`;
-      this.props.router.push(newRoute);
-    }
-  }
+// platform - forms - selectors
+import {
+  formSelector,
+  preSubmitSelector,
+} from 'platform/forms/selectors/review';
 
-  getPreSubmit = formConfig => ({
-    required: false,
-    field: 'AGREED',
-    label: 'I agree to the terms and conditions.',
-    error: 'You must accept the agreement before submitting.',
-    ...formConfig.preSubmitInfo,
-  });
+// platform - utls
+import { usePrevious } from 'platform/utilities/react-hooks';
 
-  goBack = () => {
-    const { form, pageList, router } = this.props;
+// TODO: should probably be a common const somewhere..
+const SUBMISSION_STATUSES = {
+  applicationSubmitted: 'applicationSubmitted',
+  clientError: 'clientError',
+  submitPending: 'submitPending',
+  throttledError: 'throttledError',
+  validationError: 'validationError',
+};
 
+function SubmitController(props) {
+  const {
+    form,
+    formConfig,
+    pageList,
+    preSubmit,
+    router,
+    trackingPrefix,
+  } = props;
+  const { submission } = form;
+  const { status } = submission;
+
+  const prevStatus = usePrevious(status);
+  // const submissionStatus = form.submission?.savedStatus || false;
+
+  function goBack() {
     const expandedPageList = getActiveExpandedPages(pageList, form.data);
 
     // TODO: Fix this bug that assumes there is a confirmation page.
     // Actually, it assumes the app also doesn't add routes at the end!
     // A component at this level should not need to know these things!
-    router.push(expandedPageList[expandedPageList.length - 2].path);
-  };
+    return router.push(expandedPageList[expandedPageList.length - 2].path);
+  }
 
-  handleSubmit = () => {
-    const { form, formConfig, pageList, trackingPrefix } = this.props;
-
+  function onSubmit() {
     // If a pre-submit agreement is required, make sure it was accepted
-    const preSubmit = this.getPreSubmit(formConfig);
     if (preSubmit.required && !form.data[preSubmit.field]) {
-      this.props.setSubmission('hasAttemptedSubmit', true);
+      props.setSubmission('hasAttemptedSubmit', true);
       // <PreSubmitSection/> is displaying an error for this case
       return;
     }
@@ -84,76 +88,103 @@ class SubmitController extends Component {
         scope.setExtra('prefix', trackingPrefix);
         Sentry.captureMessage('Validation issue not displayed');
       });
-      this.props.setSubmission('status', 'validationError');
-      this.props.setSubmission('hasAttemptedSubmit', true);
+      props.setSubmission('status', 'validationError');
+      props.setSubmission('hasAttemptedSubmit', true);
       return;
     }
 
     // User accepted if required, and no errors, so submit
-    this.props.submitForm(formConfig, form);
-  };
-
-  /*
-*  RenderPreSubmitSection - Component that conditionally renders PreSubmitSection, which is default, or a custom override
-*  PreSubmitSection - Default component that renders if no CustomComponent is provided
-*  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
-*/
-  RenderPreSubmitSection = () => {
-    const { form, formConfig, showPreSubmitError } = this.props;
-    const preSubmit = this.getPreSubmit(formConfig);
-    const { CustomComponent } = preSubmit;
-
-    return (
-      <>
-        {CustomComponent ? (
-          <CustomComponent
-            formData={form.data}
-            preSubmitInfo={preSubmit}
-            showError={showPreSubmitError}
-            onSectionComplete={value =>
-              this.props.setPreSubmit(preSubmit.field, value)
-            }
-          />
-        ) : (
-          <PreSubmitSection
-            checked={form.data[preSubmit.field] || false}
-            formData={form.data}
-            preSubmitInfo={preSubmit}
-            showError={showPreSubmitError}
-            onSectionComplete={value =>
-              this.props.setPreSubmit(preSubmit.field, value)
-            }
-          />
-        )}
-      </>
-    );
-  };
-
-  render() {
-    const { children, form, renderErrorMessage } = this.props;
-    // Render inside SubmitButtons by using `preSubmitSection` so the alert is _above_ the submit button;
-    // helps with accessibility
-
-    return (
-      <SubmitButtons
-        onBack={this.goBack}
-        onSubmit={this.handleSubmit}
-        submission={form.submission}
-        renderErrorMessage={renderErrorMessage}
-        preSubmitSection={this.RenderPreSubmitSection()}
-      >
-        {children}
-      </SubmitButtons>
-    );
+    props.submitForm(formConfig, form);
   }
+
+  const [activeComponent, setActiveComponent] = useState(
+    <SubmitButtons
+      formConfig={formConfig}
+      goBack={goBack}
+      onSubmit={onSubmit}
+    />,
+  );
+
+  useEffect(
+    () => {
+      switch (status) {
+        case true:
+          setActiveComponent(<GenericError formConfig={formConfig} />);
+          break;
+        case SUBMISSION_STATUSES.applicationSubmitted:
+          {
+            const newRoute = `${formConfig.urlPrefix}confirmation`;
+            setActiveComponent(
+              <ApplicationSubmitted
+                formConfig={formConfig}
+                formSubmission={submission}
+                goBack={goBack}
+                onSubmit={onSubmit}
+              />,
+            );
+            if (status !== prevStatus) router.push(newRoute);
+          }
+          break;
+        case SUBMISSION_STATUSES.clienError:
+          setActiveComponent(
+            <ClientError
+              formConfig={formConfig}
+              goBack={goBack}
+              onSubmit={onSubmit}
+            />,
+          );
+          break;
+        case SUBMISSION_STATUSES.submitPending:
+          setActiveComponent(
+            <SubmitPending
+              formConfig={formConfig}
+              goBack={goBack}
+              onSubmit={onSubmit}
+            />,
+          );
+          break;
+        case SUBMISSION_STATUSES.throttledError:
+          setActiveComponent(
+            <ThrottledError
+              formConfig={formConfig}
+              formSubmission={submission}
+              goBack={goBack}
+              onSubmit={onSubmit}
+            />,
+          );
+          break;
+        case SUBMISSION_STATUSES.validationError:
+          setActiveComponent(
+            <ValidationError
+              formConfig={formConfig}
+              goBack={goBack}
+              onSubmit={onSubmit}
+            />,
+          );
+          break;
+        default:
+          setActiveComponent(
+            <SubmitButtons
+              formConfig={formConfig}
+              goBack={goBack}
+              onSubmit={onSubmit}
+            />,
+          );
+          break;
+      }
+    },
+    [status, prevStatus],
+  );
+
+  return activeComponent;
 }
 
 function mapStateToProps(state, ownProps) {
   const { formConfig, pageList, renderErrorMessage } = ownProps;
   const router = ownProps.router;
 
-  const form = state.form;
-  // const pagesByChapter = createPageListByChapter(formConfig);
+  const form = formSelector(state);
+  const preSubmit = preSubmitSelector(ownProps?.formConfig);
   const trackingPrefix = formConfig.trackingPrefix;
   const submission = form.submission;
   const showPreSubmitError = submission.hasAttemptedSubmit;
@@ -161,8 +192,8 @@ function mapStateToProps(state, ownProps) {
   return {
     form,
     formConfig,
-    // pagesByChapter,
     pageList,
+    preSubmit,
     renderErrorMessage,
     router,
     submission,
@@ -180,7 +211,6 @@ const mapDispatchToProps = {
 SubmitController.propTypes = {
   form: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
-  // pagesByChapter: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
   renderErrorMessage: PropTypes.func,
   router: PropTypes.object.isRequired,
