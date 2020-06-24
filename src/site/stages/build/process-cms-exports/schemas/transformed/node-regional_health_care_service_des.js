@@ -1,16 +1,17 @@
+const hcsTaxonomy = require('./taxonomy_term-health_care_service_taxonomy');
+
 module.exports = {
   type: 'object',
   properties: {
     contentModelType: { enum: ['node-regional_health_care_service_des'] },
     entity: {
       type: 'object',
+      $expand: true,
       properties: {
         entityType: { enum: ['node'] },
         entityBundle: { enum: ['regional_health_care_service_des'] },
         fieldBody: { $ref: 'ProcessedString' },
-        fieldServiceNameAndDescripti: {
-          $ref: 'transformed/taxonomy_term-health_care_service_taxonomy',
-        },
+        fieldServiceNameAndDescripti: hcsTaxonomy,
       },
       required: ['fieldBody', 'fieldServiceNameAndDescripti'],
     },
