@@ -3,8 +3,6 @@ import React from 'react';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 
-// TODO: Safety checks for `selected` callback and `label` element
-
 export default class SelectArrayItemsWidget extends React.Component {
   onChange = (index, checked) => {
     const items = set(
@@ -36,7 +34,6 @@ export default class SelectArrayItemsWidget extends React.Component {
 
     const Tag = formContext.onReviewPage ? 'h4' : 'h3';
 
-    // Note: Much of this was stolen from CheckboxWidget
     return (
       <>
         {customTitle?.trim() &&
