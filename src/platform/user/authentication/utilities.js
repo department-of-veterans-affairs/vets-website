@@ -22,26 +22,13 @@ export const ssoKeepAliveEndpoint = () => {
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
-function sessionTypeUrl(
-  type = '',
-  version = 'v0',
-  application = null,
-  to = null,
-  queryParams = {},
-) {
+function sessionTypeUrl(type = '', version = 'v0', queryParams = {}) {
   const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
 
   const searchParams = new URLSearchParams(queryParams);
-  if (application) {
-    searchParams.append('application', application);
-
-    if (to) {
-      searchParams.append('to', to);
-    }
-  }
 
   if (version === 'v1' && getForceAuth()) {
     searchParams.append('force', 'true');
@@ -115,12 +102,10 @@ function redirect(redirectUrl, clickedEvent) {
 export function login(
   policy,
   version = 'v0',
-  application = null,
-  to = null,
   queryParams = {},
   clickedEvent = 'login-link-clicked-modal',
 ) {
-  const url = sessionTypeUrl(policy, version, application, to, queryParams);
+  const url = sessionTypeUrl(policy, version, queryParams);
   setForceAuth();
   return redirect(url, clickedEvent);
 }
@@ -138,9 +123,6 @@ export function logout(version = 'v0', clickedEvent = 'logout-link-clicked') {
   return redirect(sessionTypeUrl('slo', version), clickedEvent);
 }
 
-export function signup(version = 'v0', application = null, to = null) {
-  return redirect(
-    sessionTypeUrl('signup', version, application, to),
-    'register-link-clicked',
-  );
+export function signup(version = 'v0') {
+  return redirect(sessionTypeUrl('signup', version), 'register-link-clicked');
 }

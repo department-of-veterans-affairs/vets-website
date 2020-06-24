@@ -28,7 +28,7 @@ export async function ssoKeepAliveSession() {
   return authn;
 }
 
-export async function checkAutoSession(application = null, to = null) {
+export async function checkAutoSession() {
   const authn = await ssoKeepAliveSession();
   if (hasSession() && hasSessionSSO() === false) {
     // explicitly check to see if the SSOe session is false, as it could also
@@ -37,7 +37,7 @@ export async function checkAutoSession(application = null, to = null) {
     logout('v1', 'sso-automatic-logout');
   } else if (!hasSession() && hasSessionSSO() && !getForceAuth() && authn) {
     const params = { inbound: 'true', authn };
-    login('custom', 'v1', application, to, params, 'sso-automatic-login');
+    login('custom', 'v1', params, 'sso-automatic-login');
   }
 }
 
