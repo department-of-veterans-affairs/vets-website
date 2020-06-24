@@ -50,7 +50,7 @@ export const fetchFormStatus = () => async dispatch => {
         // In the event there are multiple errors - but I don't think that is possible
         const firstError = head(body.errors);
         if (firstError.code === '500') {
-          return dispatch(resetError());
+          return dispatch(handleError('MDOT_SERVER_ERROR'));
         }
         return dispatch(handleError(firstError.code.toUpperCase()));
       }
