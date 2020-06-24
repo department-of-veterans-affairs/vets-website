@@ -6,7 +6,7 @@ const ReviewPageSupplies = ({
   accessorySupplies,
   selectedBatteryProductInfo,
   selectedAccessoryProductInfo,
-  eligibilty,
+  eligibility,
 }) => (
   <>
     <dt className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2">
@@ -14,17 +14,17 @@ const ReviewPageSupplies = ({
         You have requested to receive supplies for the following hearing aids:
       </span>
       <span>
-        ({selectedBatteryProductInfo?.length || 0} out of{' '}
-        {batterySupplies?.length || 0} selected)
+        ({selectedBatteryProductInfo?.length} out of{' '}
+        {eligibility?.batteries ? batterySupplies?.length : 0} selected)
       </span>
-      {!eligibilty?.batteries && (
+      {!eligibility?.batteries && (
         <p className="vads-u-font-style--italic">
           You can't add batteries to your order at this time due to
           ineligibility
         </p>
       )}
     </dt>
-    {eligibilty?.batteries && (
+    {eligibility?.batteries && (
       <div className="vads-u-margin-bottom--3">
         {selectedBatteryProductInfo &&
           selectedBatteryProductInfo.map((product, index) => (
@@ -47,17 +47,17 @@ const ReviewPageSupplies = ({
         You have requested to receive the following accessories:
       </span>
       <span>
-        ({selectedAccessoryProductInfo?.length || 0} out of{' '}
-        {accessorySupplies?.length || 0} selected)
+        ({selectedAccessoryProductInfo?.length} out of{' '}
+        {eligibility?.accessories ? accessorySupplies?.length : 0} selected)
       </span>
-      {!eligibilty?.accessories && (
+      {!eligibility?.accessories && (
         <p className="vads-u-font-style--italic">
           You can't add accessories to your order at this time due to
           ineligibility
         </p>
       )}
     </dd>
-    {eligibilty?.accessories && (
+    {eligibility?.accessories && (
       <div className="vads-u-margin-bottom--3">
         {selectedAccessoryProductInfo &&
           selectedAccessoryProductInfo.map((product, index) => (
@@ -98,7 +98,7 @@ const mapStateToProps = state => {
     accessorySupplies,
     selectedBatteryProductInfo,
     selectedAccessoryProductInfo,
-    eligibilty: state.form?.data?.eligibilty,
+    eligibility: state.form?.data?.eligibility,
   };
 };
 
