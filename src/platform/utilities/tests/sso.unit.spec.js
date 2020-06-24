@@ -103,11 +103,11 @@ describe('checkAutoSession', () => {
     sinon.assert.calledOnce(auto);
     sinon.assert.calledWith(
       auto,
-      'mhv',
+      'custom',
       'v1',
       null,
       null,
-      { inbound: 'true' },
+      { authn: 'myhealthevet', inbound: 'true' },
       'sso-automatic-login',
     );
   });
