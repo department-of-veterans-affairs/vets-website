@@ -6,7 +6,7 @@ const transformer = fieldData => utcToEpochTime(getDrupalValue(fieldData));
 const schemaMap = [
   {
     input: { $ref: 'GenericNestedString' },
-    output: [{ title: 'unix time', type: 'number' }],
+    output: [{ title: 'epoch-time', type: 'number' }],
   },
 ];
 
