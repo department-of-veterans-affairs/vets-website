@@ -298,6 +298,11 @@ export function fetchProfile(facilityCode, version) {
 }
 
 export function calculatorInputChange({ field, value }) {
+  recordEvent({
+    event: 'gibct-form-change',
+    'gibct-form-field': field,
+    'gibct-form-value': value,
+  });
   return {
     type: CALCULATOR_INPUTS_CHANGED,
     field,

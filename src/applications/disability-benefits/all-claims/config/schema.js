@@ -836,6 +836,29 @@ const schema = {
       type: 'array',
       items: { $ref: '#/definitions/secondaryPtsdIncident' },
     },
+    serviceTreatmentRecordsAttachments: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'attachmentId'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          confirmationCode: {
+            type: 'string',
+          },
+          attachmentId: {
+            type: 'string',
+            enum: ['L450', 'L451'],
+            enumNames: [
+              'STR - Dental - Photocopy',
+              'STR - Medical - Photocopy',
+            ],
+          },
+        },
+      },
+    },
     privateMedicalRecordAttachments: {
       type: 'array',
       items: {

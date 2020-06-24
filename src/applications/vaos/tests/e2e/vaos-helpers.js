@@ -155,7 +155,10 @@ function showMoreTest(client) {
     .click(
       'li[data-request-id="8a48912a6cab0202016cb4fcaa8b0038"] .additional-info-button.va-button-link',
     )
-    .waitForElementVisible('.additional-info-content', Timeouts.slow)
+    .waitForElementVisible(
+      '[id="8a48912a6cab0202016cb4fcaa8b0038-vaos-info-content"]',
+      Timeouts.slow,
+    )
     .pause(Timeouts.normal)
     .axeCheck('.main')
     .assert.containsText('.vaos_appts__message dd', 'Request 2 Message 1 Text');

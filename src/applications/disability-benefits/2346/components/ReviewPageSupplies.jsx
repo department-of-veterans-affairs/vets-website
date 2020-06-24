@@ -7,8 +7,8 @@ const ReviewPageSupplies = ({
   selectedBatteryProductInfo,
   selectedAccessoryProductInfo,
 }) => (
-  <div>
-    <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2">
+  <>
+    <dt className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2">
       <span className="vads-u-font-weight--bold">
         You have requested to receive supplies for the following hearing aids:
       </span>
@@ -16,11 +16,11 @@ const ReviewPageSupplies = ({
         ({selectedBatteryProductInfo?.length || 0} out of{' '}
         {batterySupplies?.length || 0} selected)
       </span>
-    </div>
+    </dt>
     <div className="vads-u-margin-bottom--3">
       {selectedBatteryProductInfo &&
         selectedBatteryProductInfo.map((product, index) => (
-          <div
+          <dd
             key={`${product.productId}_${index}`}
             className="vads-u-background-color--gray-light-alt vads-u-width--full vads-u-padding--4 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
           >
@@ -30,10 +30,10 @@ const ReviewPageSupplies = ({
             <span>
               {product.productName} batteries (Quantity: {product.quantity})
             </span>
-          </div>
+          </dd>
         ))}
     </div>
-    <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2">
+    <dd className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2">
       <span className="vads-u-font-weight--bold">
         You have requested to receive the following accessories:
       </span>
@@ -41,11 +41,11 @@ const ReviewPageSupplies = ({
         ({selectedAccessoryProductInfo?.length || 0} out of{' '}
         {accessorySupplies?.length || 0} selected)
       </span>
-    </div>
+    </dd>
     <div className="vads-u-margin-bottom--3">
       {selectedAccessoryProductInfo &&
         selectedAccessoryProductInfo.map((product, index) => (
-          <div
+          <dd
             key={`${product.productId}_${index}`}
             className="vads-u-background-color--gray-light-alt vads-u-width--full vads-u-padding--4 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
           >
@@ -53,10 +53,10 @@ const ReviewPageSupplies = ({
               {product.productName}
             </h5>
             <span>Quantity: {product.quantity}</span>
-          </div>
+          </dd>
         ))}
     </div>
-  </div>
+  </>
 );
 
 const mapStateToProps = state => {

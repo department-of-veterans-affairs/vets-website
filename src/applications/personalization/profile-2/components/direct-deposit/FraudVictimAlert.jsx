@@ -3,7 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const FraudVictimAlert = () => (
   <AlertBox
-    className="vads-u-margin-bottom--2 medium-screen:vads-u-margin-top--4 medium-screen:vads-u--margin-bottom--3"
+    className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
     backgroundOnly
   >
     <strong>Note:</strong> If you think you’ve been the victim of bank fraud,
