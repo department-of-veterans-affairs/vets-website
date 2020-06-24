@@ -98,7 +98,7 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
-  handleCalculateBenefitsClick = async childSection => {
+  handleCalculateBenefitsClick = childSection => {
     const accordionId = `${createId(childSection)}-accordion`;
     const { beneficiaryZIPError, beneficiaryZIP } = this.props.inputs;
 
@@ -108,14 +108,18 @@ class EstimateYourBenefitsForm extends React.Component {
       this.displayExtensionBeneficiaryZipcode() &&
       (beneficiaryZIPError || beneficiaryZIP.length !== 5)
     ) {
-      await this.toggleLearningFormatAndSchedule(true);
-      scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
-      focusElement('input[name=beneficiaryZIPCode]');
+      this.toggleLearningFormatAndSchedule(true);
+      setTimeout(() => {
+        scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
+        focusElement('input[name=beneficiaryZIPCode]');
+      }, 1);
     } else {
-      await this.setState({ inputUpdated: false });
+      this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
-      scroller.scrollTo(accordionId, getScrollOptions());
-      focusElement(`#${accordionId}`);
+      setTimeout(() => {
+        scroller.scrollTo(accordionId, getScrollOptions());
+        focusElement(`#${accordionId}`);
+      }, 1);
     }
 
     recordEvent({
