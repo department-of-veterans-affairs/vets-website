@@ -1,3 +1,4 @@
+const assert = require('assert');
 const path = require('path');
 const _ = require('lodash');
 const chalk = require('chalk');
@@ -86,38 +87,13 @@ function expandEntityReferenceArray({
   return result;
 }
 
-/**
- * @param {Object} entity - The raw entity
- * @param {Object} [outputSchemaFromParent] - The schema defining what the
- *                 output should look like. If undefined, this will use the
- *                 transformed schema for the content model type. This is meant
- *                 to be passed for a child entity from the parent's schema,
- *                 specifying only the fields the parent needs.
- */
-function transformFields(entity, outputSchemaFromParent) {
-  // console.log(JSON.stringify(entity, null, 2));
-  // throw new Error('stopping');
-
-  const inputSchema = getInputSchema(entity);
-  if (!inputSchema) {
-    throw new Error(
-      `Could not find input schema for ${getContentModelType(entity)}`,
-    );
-  }
-
-  const outputSchema = outputSchemaFromParent || getOutputSchema(entity);
-  if (!outputSchema) {
-    // eslint-disable-next-line no-console
-    console.log(
-      `Could not find output schema for ${getContentModelType(entity)}`,
-    );
-    return entity;
-  }
-
+function transformObject(entity, inputSchema, outputSchema) {
   // TODO: Be more descriptive of the problem
   if (!outputSchema.properties) {
     throw new Error(
-      chalk.yellow(`outputSchema is not an object: ${serialize(outputSchema)}`),
+      `${chalk.yellow(
+        "outputSchema is not of schema { type: 'object' }:",
+      )} ${serialize(outputSchema)}`,
     );
   }
 
@@ -131,6 +107,8 @@ function transformFields(entity, outputSchemaFromParent) {
 
       // Sometimes the output schema nests fields in a new object. Check for this.
       if (outputFieldSchema.$expand) {
+        // Disabling this rule because we can rely on function hoisting here
+        // eslint-disable-next-line no-use-before-define
         result[outputKey] = transformFields(entity, outputFieldSchema);
         return result;
       }
@@ -196,13 +174,55 @@ function transformFields(entity, outputSchemaFromParent) {
   transformedEntity.contentModelType = getContentModelType(entity); // So we can find the right output schema
   // NOTE: Assumes every bundle has a base type and machine name. This may not
   // always be true for media or files.
-  const [baseType, entityBundle] = transformedEntity.contentModelType.split(
+  const [entityType, entityBundle] = transformedEntity.contentModelType.split(
     '-',
   );
-  transformedEntity.baseType = baseType;
+  transformedEntity.entityType = entityType;
   transformedEntity.entityBundle = entityBundle;
 
   return transformedEntity;
+}
+
+/**
+ * @param {Object} entity - The raw entity
+ * @param {Object} [outputSchemaFromParent] - The schema defining what the
+ *                 output should look like. If undefined, this will use the
+ *                 transformed schema for the content model type. This is meant
+ *                 to be passed for a child entity from the parent's schema,
+ *                 specifying only the fields the parent needs.
+ */
+function transformFields(entity, outputSchemaFromParent) {
+  const inputSchema = getInputSchema(entity);
+  if (!inputSchema) {
+    throw new Error(
+      `Could not find input schema for ${getContentModelType(entity)}`,
+    );
+  }
+
+  const outputSchema = outputSchemaFromParent || getOutputSchema(entity);
+  if (!outputSchema) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Could not find output schema for ${getContentModelType(entity)}`,
+    );
+    return entity;
+  }
+
+  if (outputSchema.type === 'object') {
+    return transformObject(entity, inputSchema, outputSchema);
+  }
+
+  if (outputSchema.type === 'array') {
+    // This ternary is here because we sometimes need an array, but we only have
+    // a single object.
+    return (Array.isArray(entity) ? entity : [entity]).map(fieldData =>
+      transformFields(fieldData, outputSchema.items),
+    );
+  }
+
+  throw new Error(
+    `Unexpected schema type in transformFields: ${outputSchema.type}`,
+  );
 }
 
 module.exports = { serialize, transformFields };
