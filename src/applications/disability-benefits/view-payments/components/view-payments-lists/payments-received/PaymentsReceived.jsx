@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
+import ResponsiveTable from '../../responsive-table/ResponsiveTable';
 import { clientServerErrorContent } from '../helpers';
 
 const alertClasses =
@@ -10,7 +10,7 @@ const PaymentsReceived = props => {
   let tableContent = '';
   if (props.data) {
     tableContent = (
-      <SortableTable
+      <ResponsiveTable
         className="va-table"
         currentSort={{
           value: 'String',
@@ -18,6 +18,7 @@ const PaymentsReceived = props => {
         }}
         fields={props.fields}
         data={props.data}
+        maxRows={10}
       />
     );
   } else {
