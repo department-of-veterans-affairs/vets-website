@@ -179,6 +179,13 @@ const entityAssemblerFactory = contentDir => {
     // So we can find the right output schema
     transformed.contentModelType = getContentModelType(entity);
     validateOutput(entity, transformed);
+    // eslint-disable-next-line no-console
+    console.log(
+      chalk.green(
+        `Transformed ${transformed.contentModelType} (${toId(entity)}:`,
+      ),
+      JSON.stringify(transformed, null, 2),
+    );
     return transformed;
   };
 };
