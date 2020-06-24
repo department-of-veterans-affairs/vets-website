@@ -67,7 +67,10 @@ function expandEntityReferenceArray({
 
     // Disabling because we can rely on function hoisting here
     // eslint-disable-next-line no-use-before-define
-    return transformFields(childEntity, outputFieldSchema);
+    return transformFields(
+      childEntity,
+      outputFieldSchema.items || outputFieldSchema,
+    );
   });
 
   if (result.length > 1 && outputFieldSchema.type !== 'array') {
