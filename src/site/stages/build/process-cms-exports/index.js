@@ -112,9 +112,9 @@ const entityAssemblerFactory = contentDir => {
     // eslint-disable-next-line no-console
     console.log(
       chalk.green(
-        `Transformed ${transformed.contentModelType} (${toId(entity)}:`,
+        `Transformed ${transformed.contentModelType} (${toId(entity)}`,
       ),
-      JSON.stringify(transformed, null, 2),
+      // JSON.stringify(transformed, null, 2),
     );
     return transformed;
   };
