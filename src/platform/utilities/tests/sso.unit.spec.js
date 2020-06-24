@@ -83,8 +83,6 @@ describe('checkAutoSession', () => {
       auto,
       'custom',
       'v1',
-      null,
-      null,
       { authn: 'http://idmanagement.gov/ns/assurance/loa/3', inbound: 'true' },
       'sso-automatic-login',
     );
@@ -105,8 +103,6 @@ describe('checkAutoSession', () => {
       auto,
       'custom',
       'v1',
-      null,
-      null,
       { authn: 'myhealthevet', inbound: 'true' },
       'sso-automatic-login',
     );
