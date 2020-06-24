@@ -24,7 +24,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
 
   return (
     <>
-      {activeApps &&
+      {!isEmpty(activeApps) &&
         !isEmpty(filteredApps) && (
           <div className="vads-u-margin-y--2 available-connected-apps">
             <AdditionalInfo
@@ -81,7 +81,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
         </AdditionalInfo>
       </div>
 
-      {activeApps && (
+      {!isEmpty(activeApps) && (
         <div className="vads-u-margin-bottom--2">
           <AdditionalInfo
             triggerText={`What should I do if my records are wrong or out of date in a connected app?`}
@@ -127,7 +127,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
         </div>
       )}
 
-      {activeApps && (
+      {!isEmpty(activeApps) && (
         <div className="vads-u-margin-bottom--4">
           <AdditionalInfo
             triggerText={`What should I do if I no longer trust a connected app?`}
