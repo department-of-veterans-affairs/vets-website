@@ -6,8 +6,10 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { focusElement } from 'platform/utilities/ui';
+
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
 import {
@@ -15,11 +17,25 @@ import {
   showContestableIssueError,
 } from '../content/contestableIssueAlerts';
 
-class IntroductionPage extends React.Component {
+export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-    if (!this.props.contestableIssues?.issueStatus) {
+    if (!this.props.contestableIssues?.status) {
       this.props.getContestableIssues();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { contestableIssues = {} } = this.props;
+    if (
+      contestableIssues.status !== prevProps.contestableIssues.status &&
+      contestableIssues.issues?.length > 0
+    ) {
+      const { setFormData, form } = this.props;
+      setFormData({
+        ...form.data,
+        contestedIssues: contestableIssues.issues,
+      });
     }
   }
 
@@ -38,8 +54,8 @@ class IntroductionPage extends React.Component {
   getCallToActionContent = () => {
     const { route, contestableIssues } = this.props;
     const { formConfig } = route;
-    if (contestableIssues.issuesError) {
-      return showContestableIssueError(contestableIssues.issuesError.errors);
+    if (contestableIssues?.error) {
+      return showContestableIssueError(contestableIssues.error.errors);
     }
     return contestableIssues?.issues.length > 0 ? (
       <SaveInProgressIntro
@@ -190,6 +206,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   toggleLoginModal,
+  setFormData: setData,
   getContestableIssues: getContestableIssuesAction,
 };
 
@@ -197,5 +214,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(IntroductionPage);
-
-export { IntroductionPage };
