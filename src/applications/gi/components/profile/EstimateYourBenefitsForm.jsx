@@ -98,7 +98,8 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
-  handleCalculateBenefitsClick = async (accordionButtonId, childSection) => {
+  handleCalculateBenefitsClick = async childSection => {
+    const accordionId = `${createId(childSection)}-accordion`;
     const { beneficiaryZIPError, beneficiaryZIP } = this.props.inputs;
 
     if (
@@ -113,8 +114,8 @@ class EstimateYourBenefitsForm extends React.Component {
     } else {
       this.setState({ inputUpdated: false });
       await this.props.updateEstimatedBenefits();
-      scroller.scrollTo(accordionButtonId, getScrollOptions());
-      focusElement(`#${accordionButtonId}`);
+      scroller.scrollTo(accordionId, getScrollOptions());
+      focusElement(`#${accordionId}`);
     }
 
     recordEvent({
@@ -999,9 +1000,23 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
+  renderEYBSkipLink = () => {
+    return (
+      <div className="vads-u-padding-bottom--2p5">
+        <button
+          type="button"
+          className="va-button-link learn-more-button eyb-skip-link"
+          aria-label="Skip to your estimated benefits"
+          onClick={this.handleEYBSkipLinkOnClick}
+        >
+          Skip to your estimated benefits
+        </button>
+      </div>
+    );
+  };
+
   renderMilitaryDetails = () => {
     const name = 'Your military details';
-    const accordionId = `${createId(name)}-accordion`;
     return (
       <AccordionItem
         button={name}
@@ -1026,21 +1041,12 @@ class EstimateYourBenefitsForm extends React.Component {
         <button
           id="update-benefits-button"
           className="calculate-button"
-          onClick={() => this.handleCalculateBenefitsClick(accordionId, name)}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
         </button>
-        <div className="vads-u-padding-bottom--2p5">
-          <button
-            type="button"
-            className="va-button-link learn-more-button eyb-skip-link"
-            aria-label="Skip to your estimated benefits"
-            onClick={this.handleEYBSkipLinkOnClick}
-          >
-            Skip to your estimated benefits
-          </button>
-        </div>
+        {this.renderEYBSkipLink()}
       </AccordionItem>
     );
   };
@@ -1069,7 +1075,6 @@ class EstimateYourBenefitsForm extends React.Component {
     if (this.hideSchoolCostsAndCalendar()) return null;
 
     const name = 'School costs and calendar';
-    const accordionId = `${createId(name)}-accordion`;
     return (
       <AccordionItem
         button={name}
@@ -1087,21 +1092,12 @@ class EstimateYourBenefitsForm extends React.Component {
         <button
           id="update-benefits-button"
           className="calculate-button"
-          onClick={() => this.handleCalculateBenefitsClick(accordionId, name)}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
         </button>
-        <div className="vads-u-padding-bottom--2p5">
-          <button
-            type="button"
-            className="va-button-link learn-more-button eyb-skip-link"
-            aria-label="Skip to your estimated benefits"
-            onClick={this.handleEYBSkipLinkOnClick}
-          >
-            Skip to your estimated benefits
-          </button>
-        </div>
+        {this.renderEYBSkipLink()}
       </AccordionItem>
     );
   };
@@ -1111,7 +1107,6 @@ class EstimateYourBenefitsForm extends React.Component {
       ? 'Learning format and schedule'
       : 'Learning format and location';
 
-    const accordionId = `${createId(name)}-accordion`;
     return (
       <AccordionItem
         button={name}
@@ -1127,21 +1122,12 @@ class EstimateYourBenefitsForm extends React.Component {
         <button
           id="update-benefits-button"
           className="calculate-button"
-          onClick={() => this.handleCalculateBenefitsClick(accordionId, name)}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
         </button>
-        <div className="vads-u-padding-bottom--2p5">
-          <button
-            type="button"
-            className="va-button-link learn-more-button eyb-skip-link"
-            aria-label="Skip to your estimated benefits"
-            onClick={this.handleEYBSkipLinkOnClick}
-          >
-            Skip to your estimated benefits
-          </button>
-        </div>
+        {this.renderEYBSkipLink()}
       </AccordionItem>
     );
   };
@@ -1161,7 +1147,6 @@ class EstimateYourBenefitsForm extends React.Component {
     if (this.hideScholarshipsAndOtherVAFunding()) return null;
     const name = 'Scholarships and other VA funding';
 
-    const accordionId = `${createId(name)}-accordion`;
     return (
       <AccordionItem
         button={name}
@@ -1179,21 +1164,12 @@ class EstimateYourBenefitsForm extends React.Component {
         <button
           id="update-benefits-button"
           className="calculate-button"
-          onClick={() => this.handleCalculateBenefitsClick(accordionId, name)}
+          onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
         </button>
-        <div className="vads-u-padding-bottom--2p5">
-          <button
-            type="button"
-            className="va-button-link learn-more-button eyb-skip-link"
-            aria-label="Skip to your estimated benefits"
-            onClick={this.handleEYBSkipLinkOnClick}
-          >
-            Skip to your estimated benefits
-          </button>
-        </div>
+        {this.renderEYBSkipLink()}
       </AccordionItem>
     );
   };
