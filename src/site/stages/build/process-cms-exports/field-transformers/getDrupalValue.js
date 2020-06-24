@@ -17,10 +17,6 @@ const schemaMap = [
           },
         ],
       },
-      // Unsure about this one
-      {
-        $ref: 'ProcessedString',
-      },
       {
         type: ['string', 'null'],
       },
