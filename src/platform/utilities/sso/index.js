@@ -11,7 +11,7 @@ const keepAlive = environment.isLocalhost() ? mockKeepAlive : liveKeepAlive;
 const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
 
 export async function ssoKeepAliveSession() {
-  const ttl = await keepAlive();
+  const { ttl, authn } = await keepAlive();
   if (ttl > 0) {
     // ttl is positive, user has an active session
     // ttl is in seconds, add from now
@@ -25,24 +25,19 @@ export async function ssoKeepAliveSession() {
     // ttl is null, we can't determine if the user has a session or not
     localStorage.removeItem('hasSessionSSO');
   }
+  return authn;
 }
 
 export async function checkAutoSession(application = null, to = null) {
-  await ssoKeepAliveSession();
+  const authn = await ssoKeepAliveSession();
   if (hasSession() && hasSessionSSO() === false) {
     // explicitly check to see if the SSOe session is false, as it could also
     // be null if we failed to get a response from the SSOe server, in which
     // case we don't want to logout the user because we don't know
     logout('v1', 'sso-automatic-logout');
-  } else if (!hasSession() && hasSessionSSO() && !getForceAuth()) {
-    login(
-      'idme',
-      'v1',
-      application,
-      to,
-      { inbound: 'true' },
-      'sso-automatic-login',
-    );
+  } else if (!hasSession() && hasSessionSSO() && !getForceAuth() && authn) {
+    const params = { inbound: 'true', authn };
+    login('custom', 'v1', application, to, params, 'sso-automatic-login');
   }
 }
 

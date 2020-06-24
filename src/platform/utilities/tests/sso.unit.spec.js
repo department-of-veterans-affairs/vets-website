@@ -15,6 +15,10 @@ function setKeepAliveResponse(stub, sessionTimeout = 0) {
   response.headers.set('content-type', 'application/json');
   response.headers.set('session-alive', 'true');
   response.headers.set('session-timeout', sessionTimeout);
+  response.headers.set(
+    'va_eauth_authncontextclassref',
+    sessionTimeout ? 'mhv' : null,
+  );
   response.json = () =>
     Promise.resolve({
       status: 200,
@@ -36,6 +40,7 @@ describe('checkAutoSession', () => {
     await checkAutoSession();
     sandbox.restore();
     sinon.assert.calledOnce(auto);
+    sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout');
   });
 
   it('should not auto logout if user is logged in and they have a SSOe session', async () => {
@@ -65,10 +70,21 @@ describe('checkAutoSession', () => {
     sandbox.stub(profUtils, 'hasSession').returns(false);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
     sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    mockFetch();
+    setKeepAliveResponse(global.fetch.onFirstCall(), SSO_SESSION_TIMEOUT);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
     sandbox.restore();
     sinon.assert.calledOnce(auto);
+    sinon.assert.calledWith(
+      auto,
+      'custom',
+      'v1',
+      null,
+      null,
+      { authn: 'mhv', inbound: 'true' },
+      'sso-automatic-login',
+    );
   });
 
   it('should not auto login if user is logged out, they dont have a SSOe session and dont need to force auth', async () => {

@@ -17,12 +17,15 @@ export default async function keepAlive() {
         'Content-Type': 'application/json',
       },
     });
-    return Number(resp.headers.get('session-timeout'));
+    return {
+      ttl: Number(resp.headers.get('session-timeout')),
+      authn: resp.headers.get('va_eauth_authncontextclassref'),
+    };
   } catch (err) {
     Sentry.withScope(scope => {
       scope.setExtra('error', err);
       Sentry.captureMessage(`SSOe error: ${err.message}`);
     });
-    return null;
+    return {};
   }
 }

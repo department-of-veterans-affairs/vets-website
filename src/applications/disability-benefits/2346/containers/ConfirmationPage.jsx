@@ -10,89 +10,161 @@ const ConfirmationPage = ({
   selectedProductArray,
   fullName,
   shippingAddress,
-}) => (
-  <div className="confirmation-page">
-    <p className="vads-u-font-weight--bold">
-      Please print this page for your records.
-    </p>
-    <AlertBox
-      headline="Your order has been submitted"
-      content={
+}) => {
+  const PrintDetails = () => (
+    <div className="print-details">
+      <img
+        src="/img/design/logo/logo-black-and-white.png"
+        alt="VA logo"
+        width="300"
+        className="vads-u-margin-bottom--2"
+      />
+      <h1 className="vads-u-font-size--h3">
+        Order hearing aid batteries and accessories
+      </h1>
+      <span>Form 2346A</span>
+      <h2 className="vads-u-font-size--h4">
+        Your order has been been submitted
+      </h2>
+      <p>
+        We'll send you an email confirming your order to{' '}
+        <strong>{vetEmail}</strong>.
+      </p>
+      <h3 className="vads-u-font-size--h4">Your order details</h3>
+      <p>
+        <span className="vads-u-font-weight--bold">Order date:</span>{' '}
+        {moment(submittedAt).format('MMM D, YYYY')}
+      </p>
+      <h4>Items ordered</h4>
+      {selectedProductArray.map(product => (
+        <div key={product.productId}>
+          <p>
+            <strong>{product.productName}</strong>
+          </p>
+          <p>Qty: {product.quantity}</p>
+        </div>
+      ))}
+      <section className="print-order-timeframe-section">
+        <h4 className="vads-u-font-size--h4">
+          How long will it take to receive my order?
+        </h4>
         <p>
-          We'll send you an email confirming your order to{' '}
-          <strong>{vetEmail}</strong>.
+          You'll receive an email with your order tracking number within 1 to 2
+          business days.
+        </p>{' '}
+        <p>
+          You are able to view both the status of your order and your order
+          history at any time.
         </p>
-      }
-      status="success"
-    />
-    <AlertBox
-      content={
-        <section>
-          <h4 className="vads-u-margin-top--0">
-            Request for Batteries and Accessories{' '}
-            <span className="vads-u-font-weight--normal">(Form 2346A)</span>
-          </h4>
-          <p className="vads-u-margin--0">
-            for {fullName.first} {fullName.last}
+      </section>
+      <section className="print-order-questions-section vads-u-margin-bottom--4">
+        <h4 className="vads-u-font-size--h4">
+          What if I have questions about my order?
+        </h4>
+        <p>
+          If you have any questions about your order please call the Denver
+          Logistics Center at{' '}
+          <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+            303-273-6200
+          </a>{' '}
+          .
+        </p>
+      </section>
+    </div>
+  );
+  return (
+    <div className="confirmation-page">
+      <p className="vads-u-font-weight--bold print-copy">
+        Please print this page for your records.
+      </p>
+      <AlertBox
+        headline="Your order has been submitted"
+        className="order-submission-alert"
+        content={
+          <p>
+            We'll send you an email confirming your order to{' '}
+            <strong>{vetEmail}</strong>.
           </p>
-          <p className="vads-u-margin-bottom--0">
-            <strong>Items ordered</strong>
-          </p>
-          <ul className="vads-u-margin-bottom--1">
-            {selectedProductArray.map(product => (
-              <li key={product.productId}>
-                {product.productName} (Quantity: {product.quantity})
-              </li>
-            ))}
-          </ul>
-          <p className="vads-u-margin-bottom--0">
-            <strong>Shipping address</strong>
-          </p>
-          <div className="shippingAddress">
-            <p className="vads-u-margin-y--0">
-              {shippingAddress.street} {shippingAddress.street2 || ''}
+        }
+        status="success"
+      />
+      <AlertBox
+        className="order-summary-alert"
+        content={
+          <section>
+            <h4 className="vads-u-margin-top--0">
+              Request for Batteries and Accessories{' '}
+              <span className="vads-u-font-weight--normal">(Form 2346A)</span>
+            </h4>
+            <p className="vads-u-margin--0">
+              for {fullName.first} {fullName.last}
             </p>
-            <p className="vads-u-margin-top--0">
-              {`${shippingAddress.city},
+            <p className="vads-u-margin-bottom--0">
+              <strong>Items ordered</strong>
+            </p>
+            <ul className="vads-u-margin-bottom--1">
+              {selectedProductArray.map(product => (
+                <li key={product.productId}>
+                  {product.productName} (Quantity: {product.quantity})
+                </li>
+              ))}
+            </ul>
+            <p className="vads-u-margin-bottom--0">
+              <strong>Shipping address</strong>
+            </p>
+            <div className="shippingAddress">
+              <p className="vads-u-margin-y--0">
+                {shippingAddress.street} {shippingAddress.street2 || ''}
+              </p>
+              <p className="vads-u-margin-top--0">
+                {`${shippingAddress.city},
             ${shippingAddress.state || shippingAddress.province} ${' '}
             ${shippingAddress.postalCode ||
               shippingAddress.internationalPostalCode}
             `}
+              </p>
+            </div>
+            <p className="vads-u-margin-bottom--0">
+              <strong>Date submitted</strong>
             </p>
-          </div>
-          <p className="vads-u-margin-bottom--0">
-            <strong>Date submitted</strong>
-          </p>
-          <p className="vads-u-margin-top--0">
-            {' '}
-            {moment(submittedAt).format('MMM D, YYYY')}
-          </p>
-        </section>
-      }
-      status="info"
-      backgroundOnly
-    />
-    <section>
-      <h4>How long will it take to receive my order?</h4>
-      <p>
-        You'll receive an email with your order tracking number within 1 to 2
-        days of your order. Orders typically arrive within 7 to 10 business
-        days.
-      </p>
-    </section>
-    <section className="vads-u-margin-bottom--4">
-      <h4>What if I have questions about my order?</h4>
-      <p>
-        If you have any questions about your order, please call the DLC Customer
-        Service Section at{' '}
-        <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-          303-273-6200
-        </a>{' '}
-        or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-      </p>
-    </section>
-  </div>
-);
+            <p className="vads-u-margin-top--0">
+              {' '}
+              {moment(submittedAt).format('MMM D, YYYY')}
+            </p>
+            <button
+              className="usa-button button"
+              onClick={() => window.print()}
+            >
+              Print this page
+            </button>
+          </section>
+        }
+        status="info"
+        backgroundOnly
+      />
+      <section className="order-timeframe-section">
+        <h4>How long will it take to receive my order?</h4>
+        <p>
+          You'll receive an email with your order tracking number within 1 to 2
+          days of your order. Orders typically arrive within 7 to 10 business
+          days.
+        </p>
+      </section>
+      <section className="order-questions-section vads-u-margin-bottom--4">
+        <h4>What if I have questions about my order?</h4>
+        <p>
+          If you have any questions about your order, please call the DLC
+          Customer Service Section at{' '}
+          <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+            303-273-6200
+          </a>{' '}
+          or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+        </p>
+      </section>
+      <PrintDetails />
+    </div>
+  );
+};
 
 ConfirmationPage.propTypes = {
   confirmationPageData: PropTypes.shape({
