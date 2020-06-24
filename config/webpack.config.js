@@ -302,6 +302,7 @@ module.exports = env => {
         .join('');
 
     const generateLandingPage = ({
+      appName,
       entryName = 'static-pages',
       loadingMessage = 'Please wait while we load the application for you.',
       rootUrl,
@@ -320,6 +321,7 @@ module.exports = env => {
           modifyScriptTags,
           modifyStyleTags,
         },
+        title: appName ? `${appName} | VA.gov` : 'VA.gov',
       });
 
     baseConfig.plugins = baseConfig.plugins.concat(
