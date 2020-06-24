@@ -1,11 +1,15 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
-import createContactInformationPage from '../../pages/contactInformation';
-import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 import { display10203StemFlow, displayStemEligibility } from '../helpers';
 
-import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
+import {
+  activeDuty,
+  benefitSelection,
+  personalInformation,
+  stem,
+  stemEligibility,
+} from '../pages';
 
 export const chapters = {
   applicantInformation: {
@@ -58,7 +62,12 @@ export const chapters = {
   personalInformation: {
     title: 'Personal Information',
     pages: {
-      contactInformation: createContactInformationPage(fullSchema10203),
+      contactInformation: {
+        title: personalInformation.title,
+        path: personalInformation.path,
+        uiSchema: personalInformation.uiSchema,
+        schema: personalInformation.schema,
+      },
     },
   },
 };
