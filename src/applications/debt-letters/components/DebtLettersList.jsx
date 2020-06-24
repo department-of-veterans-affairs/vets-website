@@ -10,7 +10,7 @@ const DebtLettersList = ({ debts }) => (
       <a href="/debt-letters">Debt Letters</a>
       <a href="/debt-letters/debt-list">Debt List</a>
     </Breadcrumbs>
-    {debts.length &&
+    {debts.length > 0 &&
       debts.map((debt, index) => (
         <DebtLetterCard key={`${index}-${debt.fileNumber}`} debt={debt} />
       ))}

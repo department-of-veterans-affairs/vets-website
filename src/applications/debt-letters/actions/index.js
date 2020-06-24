@@ -1,6 +1,4 @@
-import { isVet360Configured } from 'platform/user/profile/vet360/util/local-vet360';
-import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
-import { debtLettersSuccess } from '../utils/mockResponses';
+import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
@@ -25,11 +23,21 @@ export const setActiveDebt = debt => ({
 export const fetchDebtLetters = () => async dispatch => {
   dispatch(fetchDebtLettersInitiated());
   try {
-    const response = isVet360Configured()
-      ? await fetch(`${environment.API_URL}/v0/debts`)
-      : await debtLettersSuccess();
-    dispatch(fetchDebtLettersSuccess(response.data));
+    const options = {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+    };
+    const response = await apiRequest(
+      `${environment.API_URL}/v0/debts`,
+      options,
+    );
+    return dispatch(fetchDebtLettersSuccess(response.data));
   } catch (error) {
-    dispatch(fetchDebtLettersFailure());
+    return dispatch(fetchDebtLettersFailure());
   }
 };
