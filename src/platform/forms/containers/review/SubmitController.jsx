@@ -108,8 +108,14 @@ function SubmitController(props) {
   useEffect(
     () => {
       switch (status) {
-        case true:
-          setActiveComponent(<GenericError formConfig={formConfig} />);
+        case false:
+          setActiveComponent(
+            <SubmitButtons
+              formConfig={formConfig}
+              goBack={goBack}
+              onSubmit={onSubmit}
+            />,
+          );
           break;
         case SUBMISSION_STATUSES.applicationSubmitted:
           {
@@ -163,13 +169,7 @@ function SubmitController(props) {
           );
           break;
         default:
-          setActiveComponent(
-            <SubmitButtons
-              formConfig={formConfig}
-              goBack={goBack}
-              onSubmit={onSubmit}
-            />,
-          );
+          setActiveComponent(<GenericError formConfig={formConfig} />);
           break;
       }
     },
