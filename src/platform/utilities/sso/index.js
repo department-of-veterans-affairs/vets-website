@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { pickBy, identity } from 'lodash';
+import { pickBy } from 'lodash';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSession, hasSessionSSO } from '../../user/profile/utilities';
@@ -43,7 +43,7 @@ export async function checkAutoSession(application = null, to = null) {
     // c) is not required for forceAuth (meaning their environment has SSOe
     //    enabled and they have not previously tried to login)
     // d) we have a non empty type value from the keepalive call to login with
-    const params = pickBy({ inbound: 'true', authn }, identity);
+    const params = pickBy({ inbound: 'true', authn });
     login(type, 'v1', application, to, params, 'sso-automatic-login');
   }
 }
