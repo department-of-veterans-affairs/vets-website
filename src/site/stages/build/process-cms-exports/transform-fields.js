@@ -119,7 +119,7 @@ function transformFields(entity, outputSchemaFromParent) {
   }
 
   // Iterate over each field:
-  return Object.entries(outputSchema.properties).reduce(
+  const transformedEntity = Object.entries(outputSchema.properties).reduce(
     /* eslint-disable no-param-reassign */
     /* eslint-disable no-console */
     (result, [outputKey, outputFieldSchema]) => {
@@ -188,6 +188,18 @@ function transformFields(entity, outputSchemaFromParent) {
     /* eslint-enable no-console */
     /* eslint-enable no-param-reassign */
   );
+
+  // Add some properties to every entity
+  transformedEntity.contentModelType = getContentModelType(entity); // So we can find the right output schema
+  // NOTE: Assumes every bundle has a base type and machine name. This may not
+  // always be true for media or files.
+  const [baseType, entityBundle] = transformedEntity.contentModelType.split(
+    '-',
+  );
+  transformedEntity.baseType = baseType;
+  transformedEntity.entityBundle = entityBundle;
+
+  return transformedEntity;
 }
 
 module.exports = { serialize, transformFields };
