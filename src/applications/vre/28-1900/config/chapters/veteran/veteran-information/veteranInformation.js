@@ -2,10 +2,6 @@ import VeteranInformation from '../../../../containers/VeteranInformation';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
-const infoSchema = {};
-
-const infoUiSchema = {};
-
 export const schema = {
   type: 'object',
   properties: {

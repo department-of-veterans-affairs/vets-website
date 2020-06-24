@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import merge from 'lodash/merge';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 import moment from 'moment';
 
-export const VeteranInformationViewComponent = ({
-  gender,
-  dob,
-  userFullName: { first, last },
-}) => {
+const NAME_PATH = 'veteranInformation.fullName';
+const DOB_PATH = 'veteranInformation.dob';
+
+export const VeteranInformationViewComponent = props => {
+  const { profile, formData, setData } = props;
+  const {
+    gender,
+    dob,
+    userFullName: { first, last },
+  } = profile;
   let dateOfBirthFormatted = '-';
   let genderFull = '-';
   if (dob) {
@@ -20,6 +26,22 @@ export const VeteranInformationViewComponent = ({
   } else if (gender === 'F') {
     genderFull = 'Female';
   }
+
+  // Update the formData with values pulled from profile
+  const veteranFormData = {
+    veteranInformation: {
+      fullName: profile?.userFullName,
+      dob: profile?.dob,
+    },
+    veteranAddress: {},
+  };
+  const updatedFormData = { ...formData, ...veteranFormData };
+  useEffect(
+    () => {
+      setData(updatedFormData);
+    },
+    [profile],
+  );
   const alertContent = (
     <dl className="vads-u-margin--0 vads-u-padding-left--2">
       <dt className="vads-u-line-height--4 vads-u-padding-bottom--2">

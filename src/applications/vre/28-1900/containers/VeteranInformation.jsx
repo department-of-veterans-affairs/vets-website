@@ -9,19 +9,17 @@
  *
  * There needs to be a mechanism that toggles between these two states (logged in/out).
  * We need to connect to the store in this component.
+ *
+ * Done:
+ * 1. Toggle between view component and form fields when logged in/out
+ * 2. Update formData via setData action dispatch
  */
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import set from 'platform/utilities/data/set';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { VeteranInformationViewComponent } from '../components/VeteranInformationViewComponent';
-//   const [veteran, setVeteran] = useState({});
-//   useEffect(
-//     () => {
-//       setVeteran(props.user);
-//     },
-//     [props.user],
-//   );
 
 const VeteranInformation = props => {
   const {
@@ -39,17 +37,17 @@ const VeteranInformation = props => {
     };
   };
   const SchemaField = registry?.fields.SchemaField;
-
   return (
     <>
       {user?.login?.currentlyLoggedIn &&
       user?.profile?.verified &&
       user?.profile.status === 'OK' ? (
-        <VeteranInformationViewComponent {...user.profile} />
+        <VeteranInformationViewComponent
+          profile={user.profile}
+          formData={formData}
+          setData={props.setData}
+        />
       ) : (
-        // TODO: SchemaForm can't be used as a child of a parent form...have
-        //   to handwrite inputs it seems.
-        // <h3>User Not logged in</h3>
         <div>
           <SchemaField
             name="fullName"
@@ -109,4 +107,11 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(VeteranInformation);
+const mapDispatchToProps = {
+  setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VeteranInformation);
