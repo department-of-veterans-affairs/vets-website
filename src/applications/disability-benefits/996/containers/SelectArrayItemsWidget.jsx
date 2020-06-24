@@ -91,8 +91,8 @@ export default class SelectArrayItemsWidget extends React.Component {
             // a include dt and dd elements in the markup; this change fixes an
             // accessibility issue
             const content = (
-              <>
-                <dt key={index} className={widgetClasses}>
+              <React.Fragment key={index}>
+                <dt className={widgetClasses}>
                   {checkboxVisible && (
                     <input
                       type="checkbox"
@@ -115,7 +115,7 @@ export default class SelectArrayItemsWidget extends React.Component {
                   </label>
                 </dt>
                 <dd />
-              </>
+              </React.Fragment>
             );
             return formContext.reviewMode ? (
               content
