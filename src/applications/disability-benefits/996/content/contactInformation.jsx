@@ -2,12 +2,8 @@ import React from 'react';
 import { countries } from 'vets-json-schema/dist/constants.json';
 import titleCase from 'platform/utilities/data/titleCase';
 
-import { makeTitle } from '../helpers';
-
-// Much of the mock data is in all caps; not good for a11y
-export const changeCase = string => makeTitle(string || '');
-const addBrAfter = line => line && [changeCase(line), <br key={line} />];
-const addBrBefore = line => line && [<br key={line} />, changeCase(line)];
+const addBrAfter = line => line && [line, <br key={line} />];
+const addBrBefore = line => line && [<br key={line} />, line];
 
 export const formatPhone = number => {
   let i = 0;
@@ -65,7 +61,7 @@ export const contactInfoDescription = ({ formData: { veteran = {} } }) => {
           {addBrAfter(addressLine1)}
           {addBrAfter(addressLine2)}
           {addBrAfter(addressLine3)}
-          {changeCase(city)}
+          {city || ''}
           {city && ','} {titleCase(stateOrProvinceCode)} {postalString}
           {addBrBefore(getCountryName(countryCode))}
           &nbsp;
