@@ -85,7 +85,7 @@ export class ConnectedApps extends Component {
 
         <AdditionalInfoSections activeApps={activeApps} />
 
-        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-top--2">
+        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--primary-alt-lightest vads-u-padding--2p5 vads-u-margin-top--2">
           <h3 className="vads-u-margin--0 vads-u-font-size--lg">
             Have more questions about connected apps?
           </h3>

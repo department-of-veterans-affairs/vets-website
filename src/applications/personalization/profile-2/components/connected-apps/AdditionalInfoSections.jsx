@@ -128,23 +128,27 @@ export const AdditionalInfoSections = ({ activeApps }) => {
       )}
 
       {activeApps && (
-        <AdditionalInfo
-          triggerText={`What should I do if I no longer trust a connected app?`}
-        >
-          <p>
-            <strong>Take these 3 steps to protect your information:</strong>
-          </p>
-          <ol>
-            <li className="vads-u-padding-left--1">Disconnect from the app.</li>
-            <li className="vads-u-padding-left--1">
-              Contact the app’s support and ask them to permanently delete any
-              stored information they may still have from you.
-            </li>
-            <li className="vads-u-padding-left--1">
-              <a href="mailto:api@va.gov">Report the app to us</a>
-            </li>
-          </ol>
-        </AdditionalInfo>
+        <div className="vads-u-margin-bottom--4">
+          <AdditionalInfo
+            triggerText={`What should I do if I no longer trust a connected app?`}
+          >
+            <p>
+              <strong>Take these 3 steps to protect your information:</strong>
+            </p>
+            <ol>
+              <li className="vads-u-padding-left--1">
+                Disconnect from the app.
+              </li>
+              <li className="vads-u-padding-left--1">
+                Contact the app’s support and ask them to permanently delete any
+                stored information they may still have from you.
+              </li>
+              <li className="vads-u-padding-left--1">
+                <a href="mailto:api@va.gov">Report the app to us</a>
+              </li>
+            </ol>
+          </AdditionalInfo>
+        </div>
       )}
     </>
   );
