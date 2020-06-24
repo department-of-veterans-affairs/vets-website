@@ -267,7 +267,7 @@
     "cookie-parser": "^1.4.3",
     "core-js": "^2.5.7",
     "downloadjs": "^1.4.7",
-    "downshift": "^4.1.0",
+    "downshift": "^2.2.3",
     "express": "^4.17.1",
     "express-http-proxy": "^1.5.1",
     "fast-levenshtein": "^2.0.6",
