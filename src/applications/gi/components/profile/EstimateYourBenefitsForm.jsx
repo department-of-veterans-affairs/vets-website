@@ -99,6 +99,7 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   handleCalculateBenefitsClick = childSection => {
+    const accordionId = `${createId(childSection)}-accordion`;
     const { beneficiaryZIPError, beneficiaryZIP } = this.props.inputs;
 
     if (
@@ -111,10 +112,14 @@ class EstimateYourBenefitsForm extends React.Component {
       setTimeout(() => {
         scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
         focusElement('input[name=beneficiaryZIPCode]');
-      }, 1);
+      }, 50);
     } else {
       this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
+      setTimeout(() => {
+        scroller.scrollTo(accordionId, getScrollOptions());
+        focusElement(`#${accordionId}`);
+      }, 50);
     }
 
     recordEvent({
@@ -292,6 +297,11 @@ class EstimateYourBenefitsForm extends React.Component {
       scholarshipsAndOtherFundingExpanded: expanded,
     });
     this.handleAccordionFocus();
+  };
+
+  handleEYBSkipLinkOnClick = () => {
+    scroller.scrollTo('estimated-benefits', getScrollOptions());
+    focusElement('#estimated-benefits');
   };
 
   /**
@@ -994,13 +1004,26 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
+  renderEYBSkipLink = () => {
+    return (
+      <div className="vads-u-padding-bottom--2p5">
+        <button
+          type="button"
+          className="va-button-link learn-more-button eyb-skip-link"
+          aria-label="Skip to your estimated benefits"
+          onClick={this.handleEYBSkipLinkOnClick}
+        >
+          Skip to your estimated benefits
+        </button>
+      </div>
+    );
+  };
+
   renderMilitaryDetails = () => {
     const name = 'Your military details';
-
     return (
       <AccordionItem
         button={name}
-        id={`eyb-${createId(name)}`}
         section
         expanded={this.state.yourBenefitsExpanded}
         onClick={this.toggleYourBenefits}
@@ -1020,12 +1043,14 @@ class EstimateYourBenefitsForm extends React.Component {
           </BenefitsForm>
         </div>
         <button
+          id="update-benefits-button"
           className="calculate-button"
           onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
         </button>
+        {this.renderEYBSkipLink()}
       </AccordionItem>
     );
   };
@@ -1054,11 +1079,9 @@ class EstimateYourBenefitsForm extends React.Component {
     if (this.hideSchoolCostsAndCalendar()) return null;
 
     const name = 'School costs and calendar';
-
     return (
       <AccordionItem
         button={name}
-        id={`eyb-${createId(name)}`}
         expanded={this.state.aboutYourSchoolExpanded}
         section
         onClick={this.toggleAboutYourSchool}
@@ -1071,12 +1094,14 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderEnrolled()}
         </div>
         <button
+          id="update-benefits-button"
           className="calculate-button"
           onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
         </button>
+        {this.renderEYBSkipLink()}
       </AccordionItem>
     );
   };
@@ -1089,7 +1114,6 @@ class EstimateYourBenefitsForm extends React.Component {
     return (
       <AccordionItem
         button={name}
-        id={`eyb-${createId(name)}`}
         expanded={this.state.learningFormatAndScheduleExpanded}
         section
         onClick={this.toggleLearningFormatAndSchedule}
@@ -1100,12 +1124,14 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderWorking()}
         </div>
         <button
+          id="update-benefits-button"
           className="calculate-button"
           onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
         </button>
+        {this.renderEYBSkipLink()}
       </AccordionItem>
     );
   };
@@ -1128,7 +1154,6 @@ class EstimateYourBenefitsForm extends React.Component {
     return (
       <AccordionItem
         button={name}
-        id={`eyb-${createId(name)}`}
         expanded={this.state.scholarshipsAndOtherFundingExpanded}
         section
         onClick={this.toggleScholarshipsAndOtherFunding}
@@ -1141,12 +1166,14 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderScholarships()}
         </div>
         <button
+          id="update-benefits-button"
           className="calculate-button"
           onClick={() => this.handleCalculateBenefitsClick(name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
         </button>
+        {this.renderEYBSkipLink()}
       </AccordionItem>
     );
   };
