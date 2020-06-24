@@ -23,6 +23,20 @@ const outputSchemas = getAllImportsFrom(
 const getInputSchema = entity => inputSchemas[getContentModelType(entity)];
 const getOutputSchema = entity => outputSchemas[getContentModelType(entity)];
 
+// An alternative to this approach would be to map the output field to the input
+// field in the output schema with a $comment or something
+const inputKeyExceptions = new Map([
+  ['entityPublished', 'moderation_state'],
+  ['entityUrl', 'path'],
+  // This may not work; if I recall, this is sometimes metatags with an s in the CMS output
+  ['entityMetatags', 'metatag'],
+  // Temporary workaround to account for the extra underscore
+  ['fieldLocalHealthCareService', 'field_local_health_care_service_'],
+]);
+
+const getInputKey = outputKey =>
+  inputKeyExceptions.get(outputKey) || _.snakeCase(outputKey);
+
 /**
  * Identify whether the entity property is an entity reference.
  *
@@ -97,13 +111,26 @@ function transformFields(entity, outputSchemaFromParent) {
     return entity;
   }
 
+  // TODO: Be more descriptive of the problem
+  if (!outputSchema.properties) {
+    throw new Error(
+      chalk.yellow(`outputSchema is not an object: ${serialize(outputSchema)}`),
+    );
+  }
+
   // Iterate over each field:
   return Object.entries(outputSchema.properties).reduce(
     /* eslint-disable no-param-reassign */
     /* eslint-disable no-console */
     (result, [outputKey, outputFieldSchema]) => {
       // Find the snake_case key for use in the input schema and entity data
-      const inputKey = _.snakeCase(outputKey);
+      const inputKey = getInputKey(outputKey);
+
+      // Sometimes the output schema nests fields in a new object. Check for this.
+      if (outputFieldSchema.$expand) {
+        result[outputKey] = transformFields(entity, outputFieldSchema);
+        return result;
+      }
 
       // Sometimes the output specifies fields added by the transformer.
       // This is for entityType, contentModelType, entityBundle, etc.
