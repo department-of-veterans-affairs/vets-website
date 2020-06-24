@@ -1,9 +1,8 @@
-import StemEligibilityView from '../containers/StemEligibilityView';
+import ConfirmEligibilityView from '../containers/ConfirmEligibilityView';
 
 export const uiSchema = {
-  'ui:title': 'Rogers STEM Scholarship eligibility',
   'view:determineEligibility': {
-    'ui:field': StemEligibilityView,
+    'ui:field': ConfirmEligibilityView,
   },
 };
 

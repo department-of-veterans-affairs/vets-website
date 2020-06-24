@@ -9,7 +9,7 @@ const {
 } = fullSchema10203.properties;
 
 export const uiSchema = {
-  'ui:title': 'Rogers STEM Scholarship eligibility',
+  'ui:title': 'STEM Scholarship eligibility',
   isEnrolledStem: {
     'ui:title':
       'Are you enrolled in a science, technology, engineering, or math (STEM) undergraduate degree?',
@@ -31,8 +31,8 @@ export const uiSchema = {
     'ui:options': {
       labels: {
         moreThanSixMonths: 'More than 6 months',
-        sixMonthsOrLess: '6 months or less',
-        none: "None, I've used it all",
+        sixMonthsOrLess: 'Less than 6 months',
+        none: "None. I've used all of my education benefit",
       },
     },
     'ui:widget': 'radio',

@@ -11,9 +11,10 @@ const isEligibleForEdithNourseRogersScholarship = form =>
     form['view:exhaustionOfBenefitsAfterPursuingTeachingCert']) &&
   (form.isEnrolledStem || form.isPursuingTeachingCert);
 
-export const displayStemEligibility = form =>
-  isEdithNourseRogersScholarship(form) &&
-  !isEligibleForEdithNourseRogersScholarship(form);
+export const displayConfirmEligibility = form =>
+  !isChapter33(form) ||
+  (!form.isEnrolledStem && !form.isPursuingTeachingCert) ||
+  form.benefitLeft === 'moreThanSixMonths';
 
 export const determineEligibilityFor10203Stem = form =>
   form['view:determineEligibility']['view:determineEligibility'];

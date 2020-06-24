@@ -6,7 +6,7 @@ const benefitLeftDescription = (
     target="_blank"
     rel="noopener noreferrer"
   >
-    Check remaining benefits
+    Check your remaining benefits
   </a>
 );
 
