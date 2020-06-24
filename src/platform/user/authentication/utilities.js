@@ -72,12 +72,15 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
-function standaloneRedirect() {
-  const { application, to } = window.location.query;
+export function standaloneRedirect() {
+  const searchParams = new URLSearchParams(window.location.search);
+  const application = searchParams.get('application');
+  const to = searchParams.get('to');
   let url = externalRedirects[application] || null;
+
   if (url && to) {
     url = url.replace(new RegExp('/$'), '');
-    url += to.replace(new RegExp('^/'), '').replace('\r\n', '');
+    url += `/${to.replace(new RegExp('^/'), '').replace('\r\n', '')}`;
   }
   return url;
 }
