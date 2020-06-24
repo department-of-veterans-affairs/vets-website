@@ -7,3 +7,4 @@
 1. Ensure error validation works properly???
 1. Make sure field titles line up
 1. Investigate authenticated first paint issue when refreshing veteran information page
+1. Resolve console warnings

@@ -14,7 +14,7 @@
  * 1. Toggle between view component and form fields when logged in/out
  * 2. Update formData via setData action dispatch
  */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import set from 'platform/utilities/data/set';
