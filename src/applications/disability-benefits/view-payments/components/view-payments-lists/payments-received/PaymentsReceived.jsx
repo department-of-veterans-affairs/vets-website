@@ -6,7 +6,60 @@ import { clientServerErrorContent } from '../helpers';
 const alertClasses =
   'vads-u-padding-y--2p5 vads-u-padding-right--4 vads-u-padding-left--2';
 
-const PaymentsReceived = props => {
+class PaymentsReceived extends Component {
+
+  state = {
+    page: 1,
+    maxRows: 5,
+    paginationStartIndex: 0,
+    paginationEndIndex: 5,
+    numberOfPages: null,
+    allTableData: mockData,
+    currentlyShowingData: [],
+  };
+
+  componentDidMount() {
+    this.handleLoadData();
+    this.handleNumberOfPages();
+  }
+
+  // when the page loads, load the initial data set into the table
+  handleLoadData() {
+    const dataCopy = [...this.state.allTableData];
+    const initialDataSet = dataCopy.slice(
+      this.state.paginationStartIndex,
+      this.state.paginationEndIndex,
+    );
+    this.setState({ currentlyShowingData: initialDataSet });
+  }
+
+  /*
+    We need to figure out how many pages to display on the Pagination
+    we can do this by taking the number of rows in all the table data
+    and dividing it by what the maxRows is and rounding up to the nearest
+    wole number
+  */
+  handleNumberOfPages = () => {
+    let howManyPages = this.state.allTableData.length / this.state.maxRows;
+    howManyPages = Math.ceil(howManyPages);
+    this.setState({ numberOfPages: howManyPages });
+  };
+
+  paginate = (array, pageSize, pageNumber) =>
+    array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+
+  handleDataPagination = page => {
+    // console.log(`The page passed in is ${page}`);
+    // incriment or decriment pagination indexes by number of maxRows
+    const paginatedData = this.paginate(
+      this.state.allTableData,
+      this.state.maxRows,
+      page,
+    );
+    this.setState({ currentlyShowingData: paginatedData, page });
+  };
+
+  render() {
   let tableContent = '';
   if (props.data) {
     tableContent = (
@@ -43,6 +96,7 @@ const PaymentsReceived = props => {
       {tableContent}
     </>
   );
+  };
 };
 
 export default PaymentsReceived;
