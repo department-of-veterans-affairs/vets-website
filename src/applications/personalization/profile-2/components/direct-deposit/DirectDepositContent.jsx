@@ -31,7 +31,6 @@ import FraudVictimAlert from './FraudVictimAlert';
 import AdditionalInformation from './DirectDepositInformation';
 
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
-import { isEmpty } from 'lodash';
 
 export const DirectDepositContent = ({
   isAuthorized,
