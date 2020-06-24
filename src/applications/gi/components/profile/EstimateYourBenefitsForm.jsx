@@ -21,7 +21,7 @@ import {
 import { renderLearnMoreLabel } from '../../utils/render';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
-import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
+import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 
@@ -98,7 +98,7 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
-  handleCalculateBenefitsClick = async accordionButtonId => {
+  handleCalculateBenefitsClick = async (accordionButtonId, childSection) => {
     const { beneficiaryZIPError, beneficiaryZIP } = this.props.inputs;
 
     if (
@@ -116,6 +116,12 @@ class EstimateYourBenefitsForm extends React.Component {
       scroller.scrollTo(accordionButtonId, getScrollOptions());
       focusElement(`#${accordionButtonId}`);
     }
+
+    recordEvent({
+      event: 'cta-default-button-click',
+      'gibct-parent-accordion-section': 'Estimate your benefits',
+      'gibct-child-accordion-section': childSection,
+    });
   };
 
   updateEligibility = e => {
@@ -166,22 +172,24 @@ class EstimateYourBenefitsForm extends React.Component {
     this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
 
-    if (value === 'extension' || value === profile.attributes.name) {
-      recordEvent({
-        event: 'gibct-form-change',
-        'gibct-form-field': 'gibctExtensionCampusSelection',
-        'gibct-form-value':
-          value === 'extension'
-            ? 'An extension campus'
-            : profile.attributes.name,
-      });
-    }
-    if (value === 'other') {
-      recordEvent({
-        event: 'gibct-form-change',
-        'gibct-form-field': 'gibctOtherCampusLocation ',
-        'gibct-form-value': 'other location',
-      });
+    if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
+      if (value === 'extension' || value === profile.attributes.name) {
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'gibctExtensionCampusSelection',
+          'gibct-form-value':
+            value === 'extension'
+              ? 'An extension campus'
+              : profile.attributes.name,
+        });
+      }
+      if (value === 'other') {
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'gibctOtherCampusLocation ',
+          'gibct-form-value': 'other location',
+        });
+      }
     }
   };
 
@@ -993,11 +1001,10 @@ class EstimateYourBenefitsForm extends React.Component {
 
   renderMilitaryDetails = () => {
     const name = 'Your military details';
-    const accordionId = `eyb-${createId(name)}`;
+    const accordionId = `${createId(name)}-accordion`;
     return (
       <AccordionItem
         button={name}
-        id={accordionId}
         section
         expanded={this.state.yourBenefitsExpanded}
         onClick={this.toggleYourBenefits}
@@ -1019,11 +1026,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <button
           id="update-benefits-button"
           className="calculate-button"
-          onClick={() =>
-            this.handleCalculateBenefitsClick(
-              'your-military-details-accordion-button',
-            )
-          }
+          onClick={() => this.handleCalculateBenefitsClick(accordionId, name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
@@ -1066,11 +1069,10 @@ class EstimateYourBenefitsForm extends React.Component {
     if (this.hideSchoolCostsAndCalendar()) return null;
 
     const name = 'School costs and calendar';
-    const accordionId = `eyb-${createId(name)}`;
+    const accordionId = `${createId(name)}-accordion`;
     return (
       <AccordionItem
         button={name}
-        id={accordionId}
         expanded={this.state.aboutYourSchoolExpanded}
         section
         onClick={this.toggleAboutYourSchool}
@@ -1085,11 +1087,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <button
           id="update-benefits-button"
           className="calculate-button"
-          onClick={() =>
-            this.handleCalculateBenefitsClick(
-              'school-costs-and-calendar-accordion-button',
-            )
-          }
+          onClick={() => this.handleCalculateBenefitsClick(accordionId, name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
@@ -1112,11 +1110,11 @@ class EstimateYourBenefitsForm extends React.Component {
     const name = isOjt
       ? 'Learning format and schedule'
       : 'Learning format and location';
-    const accordionId = `eyb-${createId(name)}`;
+
+    const accordionId = `${createId(name)}-accordion`;
     return (
       <AccordionItem
         button={name}
-        id={accordionId}
         expanded={this.state.learningFormatAndScheduleExpanded}
         section
         onClick={this.toggleLearningFormatAndSchedule}
@@ -1129,11 +1127,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <button
           id="update-benefits-button"
           className="calculate-button"
-          onClick={() =>
-            this.handleCalculateBenefitsClick(
-              'learning-format-and-location-accordion-button',
-            )
-          }
+          onClick={() => this.handleCalculateBenefitsClick(accordionId, name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
@@ -1166,11 +1160,11 @@ class EstimateYourBenefitsForm extends React.Component {
   renderScholarshipsAndOtherVAFunding = () => {
     if (this.hideScholarshipsAndOtherVAFunding()) return null;
     const name = 'Scholarships and other VA funding';
-    const accordionId = `eyb-${createId(name)}`;
+
+    const accordionId = `${createId(name)}-accordion`;
     return (
       <AccordionItem
         button={name}
-        id={accordionId}
         expanded={this.state.scholarshipsAndOtherFundingExpanded}
         section
         onClick={this.toggleScholarshipsAndOtherFunding}
@@ -1185,11 +1179,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <button
           id="update-benefits-button"
           className="calculate-button"
-          onClick={() =>
-            this.handleCalculateBenefitsClick(
-              'scholarships-and-other-va-funding-accordion-button',
-            )
-          }
+          onClick={() => this.handleCalculateBenefitsClick(accordionId, name)}
           disabled={!this.state.inputUpdated}
         >
           Update benefits

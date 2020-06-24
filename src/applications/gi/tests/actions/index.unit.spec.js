@@ -27,7 +27,22 @@ import {
   FETCH_CONSTANTS_FAILED,
   SEARCH_STARTED,
   SEARCH_FAILED,
+  eligibilityChange,
+  ELIGIBILITY_CHANGED,
+  calculatorInputChange,
+  CALCULATOR_INPUTS_CHANGED,
 } from '../../actions/index';
+
+const verifyAction = (expectedAction, actualAction) => {
+  expect(expectedAction).to.eql(actualAction);
+};
+
+const verifyGibctFormChange = (field, value, actionIndex = 0) => {
+  const recordedEvent = global.window.dataLayer[actionIndex];
+  expect(recordedEvent.event).to.eq('gibct-form-change');
+  expect(recordedEvent['gibct-form-field']).to.eq(field);
+  expect(recordedEvent['gibct-form-value']).to.eq(value);
+};
 
 describe('beneficiaryZIPCodeChanged', () => {
   beforeEach(() => mockFetch());
@@ -38,7 +53,7 @@ describe('beneficiaryZIPCodeChanged', () => {
       type: 'BENEFICIARY_ZIP_CODE_CHANGED',
       beneficiaryZIP: '1111',
     };
-    expect(expectedAction).to.eql(actualAction);
+    verifyAction(expectedAction, actualAction);
   });
 
   it('should dispatch started and success actions', done => {
@@ -376,5 +391,37 @@ describe('constants', () => {
       });
       done();
     }, 0);
+  });
+});
+
+describe('eligibility change', () => {
+  it('should return ELIGIBILITY_CHANGED ', () => {
+    const field = 'militaryStatus';
+    const value = 'veteran';
+    const actualAction = eligibilityChange({ target: { name: field, value } });
+
+    const expectedAction = {
+      type: ELIGIBILITY_CHANGED,
+      field,
+      value,
+    };
+    verifyAction(expectedAction, actualAction);
+    verifyGibctFormChange(field, value);
+  });
+});
+
+describe('calculator input change', () => {
+  it('should return ELIGIBILITY_CHANGED ', () => {
+    const field = 'calendar';
+    const value = 'quarters';
+    const actualAction = calculatorInputChange({ field, value });
+
+    const expectedAction = {
+      type: CALCULATOR_INPUTS_CHANGED,
+      field,
+      value,
+    };
+    verifyAction(expectedAction, actualAction);
+    verifyGibctFormChange(field, value);
   });
 });
