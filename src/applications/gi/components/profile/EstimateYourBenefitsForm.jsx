@@ -112,14 +112,14 @@ class EstimateYourBenefitsForm extends React.Component {
       setTimeout(() => {
         scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
         focusElement('input[name=beneficiaryZIPCode]');
-      }, 1);
+      }, 50);
     } else {
       this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
       setTimeout(() => {
         scroller.scrollTo(accordionId, getScrollOptions());
         focusElement(`#${accordionId}`);
-      }, 1);
+      }, 50);
     }
 
     recordEvent({
