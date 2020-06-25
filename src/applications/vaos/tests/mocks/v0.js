@@ -110,3 +110,57 @@ export function getVideoAppointmentMock() {
     },
   };
 }
+
+export function getVARequestMock() {
+  return {
+    id: '8a4886886e4c8e22016e6613216d001g',
+    attributes: {
+      dataIdentifier: {
+        uniqueId: '8a4886886e4c8e22016e6613216d001g',
+        systemId: 'var',
+      },
+      lastUpdatedDate: '11/13/2019 11:42:40',
+      optionDate1: 'No Date Selected',
+      optionTime1: 'No Time Selected',
+      optionDate2: 'No Date Selected',
+      optionTime2: 'No Time Selected',
+      optionDate3: 'No Date Selected',
+      optionTime3: 'No Time Selected',
+      status: 'fake',
+      appointmentType: 'fake',
+      visitType: 'fake',
+      facility: {
+        name: 'fake',
+        facilityCode: 'fake',
+        state: 'fake',
+        city: 'fake',
+        address: 'fake',
+        parentSiteCode: 'fake',
+      },
+      email: 'fake@va.gov',
+      phoneNumber: 'fake',
+      purposeOfVisit: 'fake',
+      bestTimetoCall: [],
+      typeOfCareId: 'fake',
+      friendlyLocationName: 'fake',
+      createdDate: '11/13/2019 11:42:40',
+    },
+  };
+}
+
+export function getMessageMock() {
+  return {
+    id: 'fake',
+    type: 'messages',
+    attributes: {
+      surrogateIdentifier: {},
+      messageText: 'fake',
+      messageDateTime: '11/11/2019 12:26:13',
+      senderId: 'fake',
+      appointmentRequestId: 'fake',
+      date: 'fake',
+      assigningAuthority: 'ICN',
+      systemId: 'var',
+    },
+  };
+}

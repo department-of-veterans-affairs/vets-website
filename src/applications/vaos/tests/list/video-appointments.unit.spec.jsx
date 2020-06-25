@@ -273,7 +273,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(queryByText(/medication review/i)).to.not.exist;
     fireEvent.click(getByText(/prepare for video visit/i));
 
-    return expect(findByText(/medication review/i)).to.eventually.exist;
+    return expect(findByText(/medication review/i)).to.eventually.be.ok;
   });
 
   it('should reveal video visit instructions', async () => {
@@ -317,6 +317,6 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(queryByText(/before your appointment/i)).to.not.exist;
     fireEvent.click(getByText(/prepare for video visit/i));
 
-    return expect(findByText('Before your appointment:')).to.eventually.exist;
+    return expect(findByText('Before your appointment:')).to.eventually.be.ok;
   });
 });
