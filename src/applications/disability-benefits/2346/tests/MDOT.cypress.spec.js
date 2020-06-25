@@ -3,8 +3,6 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import gregUserData from './data/users/gregUserData.json';
-import happyPathData from './data/happyPath.json';
 
 const dataSetToUserMap = {
   happyPath: 'fx:users/gregUserData',
@@ -14,9 +12,201 @@ const dataSetToUserMap = {
   noItemsEligible: 'fx:users/paulineUserData',
 };
 
+const happyPathPageHooks = {
+  // Due to automatic path resolution, this URL expands to:
+  // '/some-form-app-url/introduction'. Either format can be used.
+  introduction: () => {
+    cy.findAllByText(/order/i, { selector: 'button' })
+      .first()
+      .click();
+  },
+
+  address: () => {
+    cy.findAllByText('Edit permanent address', { selector: 'button' })
+      .first()
+      .click();
+    cy.findByLabelText(/Country/i).select('Canada');
+    cy.findByLabelText(/Province/i).type('Alberta');
+    cy.findByLabelText(/International Postal Code/i).type('T7N');
+    cy.findByText(/Save permanent address/i).click();
+    cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
+    cy.findByText(/Continue/i).click();
+  },
+
+  supplies: () => {
+    cy.get('#1').click();
+    cy.get('#3').click();
+    cy.get('#5').click();
+    cy.findAllByText(/Continue/i, { selector: 'button' })
+      .first()
+      .click();
+  },
+};
+
+const noTempAddressPageHooks = {
+  introduction: () => {
+    cy.findAllByText(/order/i, { selector: 'button' })
+      .first()
+      .click();
+  },
+
+  address: () => {
+    cy.findAllByText('Add a temporary address', { selector: 'button' })
+      .first()
+      .click();
+    cy.findByLabelText(/Country/i).select('Canada');
+    cy.findByLabelText(/Street address/i).type('205 Test Lane');
+    cy.findByLabelText(/City/i).type('Calgary');
+    cy.findByLabelText(/Province/i).type('Alberta');
+    cy.findByLabelText(/International Postal Code/i).type('T7N');
+    cy.findByText(/Save temporary address/i).click();
+    cy.findAllByLabelText(/Email address/i)
+      .first()
+      .type('vet@vet.com');
+    cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
+    cy.findByText(/Continue/i).click();
+  },
+
+  supplies: () => {
+    cy.get('#1').click();
+    cy.get('#3').click();
+    cy.get('#5').click();
+    cy.findAllByText(/Continue/i, { selector: 'button' })
+      .first()
+      .click();
+  },
+};
+
+const noBatteriesPageHooks = {
+  // Due to automatic path resolution, this URL expands to:
+  // '/some-form-app-url/introduction'. Either format can be used.
+  introduction: () => {
+    cy.findAllByText(/order/i, { selector: 'button' })
+      .first()
+      .click();
+  },
+
+  address: () => {
+    cy.findAllByText('Edit permanent address', { selector: 'button' })
+      .first()
+      .click();
+    cy.findByLabelText(/Country/i).select('Canada');
+    cy.findByLabelText(/Province/i).type('Alberta');
+    cy.findByLabelText(/International Postal Code/i).type('T7N');
+    cy.findByText(/Save permanent address/i).click();
+    cy.findAllByLabelText(/Email address/i)
+      .first()
+      .type('vet@vet.com');
+    cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
+    cy.findByText(/Continue/i).click();
+  },
+
+  supplies: () => {
+    cy.get('#3').click();
+    cy.get('#5').click();
+    cy.findAllByText(/Continue/i, { selector: 'button' })
+      .first()
+      .click();
+  },
+};
+
+const noAccessoriesPageHooks = {
+  // Due to automatic path resolution, this URL expands to:
+  // '/some-form-app-url/introduction'. Either format can be used.
+  introduction: () => {
+    cy.findAllByText(/order/i, { selector: 'button' })
+      .first()
+      .click();
+  },
+
+  address: () => {
+    cy.findAllByText('Edit permanent address', { selector: 'button' })
+      .first()
+      .click();
+    cy.findByLabelText(/Country/i).select('Canada');
+    cy.findByLabelText(/Province/i).type('Alberta');
+    cy.findByLabelText(/International Postal Code/i).type('T7N');
+    cy.findByText(/Save permanent address/i).click();
+    cy.findAllByLabelText(/Email address/i)
+      .first()
+      .type('vet@vet.com');
+    cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
+    cy.findByText(/Continue/i).click();
+  },
+
+  supplies: () => {
+    cy.get('#1').click();
+    cy.findAllByText(/Continue/i, { selector: 'button' })
+      .first()
+      .click();
+  },
+};
+
+const noItemsEligiblePageHooks = {
+  // Due to automatic path resolution, this URL expands to:
+  // '/some-form-app-url/introduction'. Either format can be used.
+  introduction: () => {
+    cy.findAllByText(/order/i, { selector: 'button' })
+      .first()
+      .click();
+  },
+
+  address: () => {
+    cy.findAllByText('Edit permanent address', { selector: 'button' })
+      .first()
+      .click();
+    cy.findByLabelText(/Country/i).select('Canada');
+    cy.findByLabelText(/Province/i).type('Alberta');
+    cy.findByLabelText(/International Postal Code/i).type('T7N');
+    cy.findByText(/Save permanent address/i).click();
+    cy.findAllByLabelText(/Email address/i)
+      .first()
+      .type('vet@vet.com');
+    cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
+    cy.findByText(/Continue/i).click();
+  },
+
+  supplies: () => {
+    cy.findAllByText(/Continue/i, { selector: 'button' })
+      .first()
+      .click();
+  },
+};
+
+let pageHooksData = {};
+
+const getPageHookData = () => {
+  cy.get('@testKey').then(testKey => {
+    switch (testKey) {
+      case 'happyPath':
+        pageHooksData = happyPathPageHooks;
+        break;
+      case 'noTempAddress':
+        pageHooksData = noTempAddressPageHooks;
+        break;
+      case 'noBatteries':
+        pageHooksData = noBatteriesPageHooks;
+        break;
+      case 'noAccessories':
+        pageHooksData = noAccessoriesPageHooks;
+        break;
+      case 'noItemsEligible':
+        pageHooksData = noItemsEligiblePageHooks;
+        break;
+      default:
+        break;
+    }
+    /* eslint-disable no-debugger */
+    debugger;
+    return pageHooksData;
+  });
+  /* eslint-disable no-debugger */
+  debugger;
+};
+
 const testConfig = createTestConfig(
   {
-    dataPrefix: 'formData',
+    dataPrefix: 'testData',
 
     dataSets: [
       'happyPath',
@@ -31,36 +221,7 @@ const testConfig = createTestConfig(
       users: path.join(__dirname, 'data/users'),
     },
 
-    pageHooks: {
-      // Due to automatic path resolution, this URL expands to:
-      // '/some-form-app-url/introduction'. Either format can be used.
-      introduction: () => {
-        cy.findAllByText(/order/i, { selector: 'button' })
-          .first()
-          .click();
-      },
-
-      address: () => {
-        cy.findAllByText('Edit permanent address', { selector: 'button' })
-          .first()
-          .click();
-        cy.findByLabelText(/Country/i).select('Canada');
-        cy.findByLabelText(/Province/i).type('Alberta');
-        cy.findByLabelText(/International Postal Code/i).type('T7N');
-        cy.findByText(/Save permanent address/i).click();
-        cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
-        cy.findByText(/Continue/i).click();
-      },
-
-      supplies: () => {
-        cy.get('#1').click();
-        cy.get('#3').click();
-        cy.get('#5').click();
-        cy.findAllByText(/Continue/i, { selector: 'button' })
-          .first()
-          .click();
-      },
-    },
+    pageHooks: () => {},
 
     setup: () => {
       cy.log('Logging something before starting tests.');
@@ -70,9 +231,10 @@ const testConfig = createTestConfig(
       cy.get('@testKey').then(testKey => {
         cy.login();
         cy.route('GET', 'v0/user', dataSetToUserMap[testKey]);
-        cy.route('GET', 'v0/in_progress_forms/MDOT', happyPathData);
       });
-      // cy.route('GET', '/v0/user', gregUserData);
+      cy.get('@testData').then(testData => {
+        cy.route('GET', 'v0/in_progress_forms/MDOT', testData);
+      });
       cy.route('POST', '/v0/mdot/supplies', 200);
     },
   },
