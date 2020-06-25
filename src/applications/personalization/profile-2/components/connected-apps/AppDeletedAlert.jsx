@@ -11,7 +11,7 @@ export const AppDeletedAlert = props => {
   }, []);
 
   const { id, title, dismissAlert } = props;
-  const alertMessage = `Weve disconnected ${title}. This app can’t access any new information from your VA.gov profile. Some apps may still store information you’ve already shared. If you’d like to ask the app to delete any stored information, contact the app’s support.`;
+  const alertMessage = `We’ve disconnected ${title}. This app can’t access any new information from your VA.gov profile. Some apps may still store information you’ve already shared. If you’d like to ask the app to delete any stored information, contact the app’s support.`;
   const headline = `We’ve disconnected ${title}`;
   return (
     <div tabIndex="-1" data-focus-target>
