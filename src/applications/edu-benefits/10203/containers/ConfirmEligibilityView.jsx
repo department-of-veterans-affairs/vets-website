@@ -145,6 +145,7 @@ export class ConfirmEligibilityView extends React.Component {
       'wizard-button',
       'va-button-primary',
     );
+
     return (
       <div className={divClassName}>
         <div className={'vads-u-padding-bottom--2'}>
@@ -171,7 +172,7 @@ export class ConfirmEligibilityView extends React.Component {
             {this.renderErrorMessage()}
             <input
               type="radio"
-              checked={confirmEligibility != null && !confirmEligibility}
+              checked={confirmEligibility === false}
               id={`${id}No`}
               name={`${id}`}
               value="N"
@@ -183,7 +184,7 @@ export class ConfirmEligibilityView extends React.Component {
             <label htmlFor={`${id}No`}>No</label>
             <input
               type="radio"
-              checked={confirmEligibility}
+              checked={confirmEligibility === true}
               id={`${id}Yes`}
               name={`${id}`}
               value="Y"
