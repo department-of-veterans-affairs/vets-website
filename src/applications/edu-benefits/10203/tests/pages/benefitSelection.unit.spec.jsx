@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../10203/config/form';
+import formConfig from '../../config/form';
 
 describe('Edu 10203 benefitSelection', () => {
   const {
