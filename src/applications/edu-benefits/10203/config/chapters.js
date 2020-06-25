@@ -22,7 +22,7 @@ export const chapters = {
         ...createApplicantInformationPage(fullSchema10203, {
           isVeteran: true,
           fields: ['veteranFullName', 'veteranSocialSecurityNumber'],
-          required: ['veteranFullName'],
+          required: ['veteranFullName', 'veteranSocialSecurityNumber'],
         }),
         uiSchema: applicantInformation.uiSchema,
       },
