@@ -31,7 +31,7 @@ const ReviewPageSupplies = ({
               No batteries added.
             </p>
             <button
-              className="va-button-link eligible"
+              className="va-button-link"
               onClick={() => formContext.onEdit()}
             >
               Add batteries to your order
