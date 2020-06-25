@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { getFormContext } from 'platform/forms/save-in-progress/selectors';
 
 const ReviewPageSupplies = ({
   batterySupplies,
