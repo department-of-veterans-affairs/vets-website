@@ -54,6 +54,8 @@ class PaymentsReceived extends Component {
       } else {
         toDisplayNumber = page * this.state.maxRows;
       }
+    } else {
+      toDisplayNumber = this.props.data.length;
     }
     this.setState({ fromNumber: fromDisplayNumber, toNumber: toDisplayNumber });
   };
@@ -64,7 +66,7 @@ class PaymentsReceived extends Component {
       tableContent = (
         <>
           {this.props.textContent}
-          <p>
+          <p className="vads-u-font-size--lg">
             Displaying {this.state.fromNumber} - {this.state.toNumber} of{' '}
             {this.props.data.length}
           </p>
