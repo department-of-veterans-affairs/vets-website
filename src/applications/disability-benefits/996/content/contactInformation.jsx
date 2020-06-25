@@ -5,7 +5,7 @@ import titleCase from 'platform/utilities/data/titleCase';
 const addBrAfter = line => line && [line, <br key={line} />];
 const addBrBefore = line => line && [<br key={line} />, line];
 
-export const formatPhone = number => {
+export const formatPhone = (number = '') => {
   let i = 0;
   return '###-###-####'.replace(/#/g, () => number[i++] || '');
 };
@@ -51,7 +51,7 @@ export const contactInfoDescription = ({ formData: { veteran = {} } }) => {
       <div className="blue-bar-block">
         <h3 className="vads-u-font-size--h4">Phone &amp; email</h3>
         <p>
-          <strong>Primary phone</strong>: {formatPhone(phoneNumber || '')}
+          <strong>Primary phone</strong>: {formatPhone(phoneNumber)}
         </p>
         <p>
           <strong>Email address</strong>: {emailAddress || ''}
