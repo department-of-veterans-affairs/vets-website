@@ -34,7 +34,7 @@ const defaultProps = {
   },
 };
 
-describe('IntroductionPage', () => {
+describe.skip('IntroductionPage', () => {
   it('should render CallToActionWidget', () => {
     const oldWindow = global.window;
     global.window = { location: { replace: () => {} } };

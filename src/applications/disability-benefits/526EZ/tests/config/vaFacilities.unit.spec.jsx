@@ -14,7 +14,7 @@ import initialData from '../schema/initialData.js';
 
 const originalFetch = global.fetch;
 
-describe('Disability benefits 526EZ VA facility', () => {
+describe.skip('Disability benefits 526EZ VA facility', () => {
   beforeEach(() => {
     mockApiRequest({ data: [] });
   });
