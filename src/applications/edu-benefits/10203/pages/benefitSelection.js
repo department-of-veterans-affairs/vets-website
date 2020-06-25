@@ -1,5 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/22-1995-schema.json';
 import { benefitsLabels } from './../content/benefitSelection';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 const { benefit } = fullSchema.properties;
 
@@ -28,6 +29,13 @@ export const uiSchema = {
   'view:benefit': {
     'ui:title':
       'Which benefit are you currently using or have you used most recently?',
+    'ui:validations': [validateBooleanGroup],
+    'ui:errorMessages': {
+      atLeastOne: 'Please select at least one',
+    },
+    'ui:options': {
+      showFieldLabel: true,
+    },
     ...uiSchemaCheckboxes(),
   },
 };
