@@ -27,7 +27,7 @@ const getOutputSchema = entity => outputSchemas[getContentModelType(entity)];
 // An alternative to this approach would be to map the output field to the input
 // field in the output schema with a $comment or something
 const inputKeyExceptions = new Map([
-  ['entityPublished', 'moderation_state'],
+  // ['entityPublished', 'status'], // We don't need to map it to the status key since we're passing the entire entity to this function
   ['entityUrl', 'path'],
   // This may not work; if I recall, this is sometimes metatags with an s in the CMS output
   ['entityMetatags', 'metatag'],
@@ -186,7 +186,7 @@ function transformObject(entity, inputSchema, outputSchema) {
       }
 
       // Return the transformed field
-      result[outputKey] = transformField(entity[inputKey]);
+      result[outputKey] = transformField(entity[inputKey], entity);
       return result;
     },
     {},

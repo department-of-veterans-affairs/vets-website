@@ -40,6 +40,27 @@ function getContentModelType(entity) {
   );
   return [entity.baseType, subType].filter(x => x).join('-');
 }
+/**
+ * Determine if an entity is published.
+ *
+ * An entity is considered published if its 'status[0].value' is true. If the
+ * entity has no 'status' property, it is also considered published.
+ *
+ * @param {Object} entity - The untransformed entity
+ * @return {bool}
+ */
+function entityIsPublished(entity) {
+  if (entity.status === undefined) {
+    throw new Error(
+      `Expected a status property on the entity: ${JSON.stringify(
+        entity,
+        null,
+        2,
+      )}`,
+    );
+  }
+  return entity.status && entity.status[0] && entity.status[0].value;
+}
 
 module.exports = {
   defaultCMSExportContentDir,
@@ -96,9 +117,11 @@ module.exports = {
    *                          filename even if it's not used. This _does_ mean
    *                          it won't log files that may be used.
    *
-   * @return {Object} - The contents of the file.
+   * @return {Object|null} - The contents of the file. If the entity is
+   *                         unpublished, return null unless readUnpublished is
+   *                         true.
    */
-  readEntity(dir, baseType, uuid, { noLog } = {}) {
+  readEntity(dir, baseType, uuid, { noLog, readUnpublished } = {}) {
     // Used only in script/remove-unnecessary-raw-entity-files.sh to get the
     // list of all entities the assemble-entity-tree.unit.spec.js tests access.
     if (process.env.LOG_USED_ENTITIES && !noLog) {
@@ -116,7 +139,8 @@ module.exports = {
     // Overrides the UUID property in the contents of the entity
     entity.uuid = uuid;
     entity.contentModelType = getContentModelType(entity);
-    return entity;
+
+    return entityIsPublished(entity) || readUnpublished ? entity : null;
   },
 
   /**

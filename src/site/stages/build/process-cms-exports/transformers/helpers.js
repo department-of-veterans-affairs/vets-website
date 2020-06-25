@@ -156,10 +156,6 @@ module.exports = {
     ].filter(t => t.value);
   },
 
-  isPublished(moderationState) {
-    return moderationState === 'published';
-  },
-
   /**
    * Takes an object schema and array of properties and returns a new schema
    * with only the properties we specify. If any of the `properties` are

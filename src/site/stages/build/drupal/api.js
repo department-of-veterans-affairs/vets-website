@@ -190,9 +190,9 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
     getExportedPages() {
       say('Transforming CMS export');
       const contentDir = buildOptions['cms-export-dir'];
-      const entities = readAllNodeNames(contentDir).map(entityDetails =>
-        readEntity(contentDir, ...entityDetails),
-      );
+      const entities = readAllNodeNames(contentDir)
+        .map(entityDetails => readEntity(contentDir, ...entityDetails))
+        .filter(e => e); // Filter out unpublished entities
       const assembleEntityTree = entityTreeFactory(contentDir);
 
       return entities.map(entity => assembleEntityTree(entity));

@@ -3,7 +3,12 @@ const get = require('lodash/get');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
-const { toId, readEntity, getContentModelType } = require('./helpers');
+const {
+  toId,
+  readEntity,
+  getContentModelType,
+  entityIsPublished,
+} = require('./helpers');
 const { transformFields } = require('./transform-fields');
 
 const {

@@ -1,7 +1,7 @@
-const { isPublished } = require('../transformers/helpers');
+const { entityIsPublished } = require('../helpers');
 const { transformer: getDrupalValue } = require('./getDrupalValue');
 
-const transformer = fieldData => isPublished(getDrupalValue(fieldData));
+const transformer = (fieldData, entity) => entityIsPublished(entity);
 
 const schemaMap = [
   {
