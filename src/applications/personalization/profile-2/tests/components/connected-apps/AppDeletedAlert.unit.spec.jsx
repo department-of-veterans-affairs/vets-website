@@ -9,7 +9,7 @@ describe('<AppDeletedAlert>', () => {
     const wrapper = mount(<AppDeletedAlert />);
     const text = wrapper.text();
 
-    expect(text).to.include('This app has been disconnected');
+    expect(text).to.include("We've disconnected ");
 
     wrapper.unmount();
   });
