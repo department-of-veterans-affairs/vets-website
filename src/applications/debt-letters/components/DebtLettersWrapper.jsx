@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { bindActionCreators } from 'redux';
 import { fetchDebtLetters } from '../actions';
 
@@ -18,11 +19,13 @@ class DebtLettersWrapper extends Component {
     const { isPending, children, isError } = this.props;
     return (
       <>
-        <div className="usa-grid usa-grid-full vads-u-margin-bottom--4 vads-u-margin-top--2">
-          <div className="usa-content usa-width-three-fourths">
-            {isPending && <LoadingIndicator />}
-            {isError && this.renderError()}
-            {!isPending && !isError && children}
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--4 vads-u-margin-top--2">
+          <div>
+            <CallToActionWidget appId="debt-letters">
+              {isPending && <LoadingIndicator />}
+              {isError && this.renderError()}
+              {!isPending && !isError && children}
+            </CallToActionWidget>
           </div>
         </div>
       </>

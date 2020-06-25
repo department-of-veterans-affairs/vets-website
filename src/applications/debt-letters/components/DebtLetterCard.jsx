@@ -35,7 +35,7 @@ class DebtLetterCard extends React.Component {
           onClick={() => this.props.setActiveDebt(debt)}
           to="/view-details"
         >
-          View Details
+          View debt details <i className="fa fa-chevron-right" />
         </Link>
       </div>
     );
