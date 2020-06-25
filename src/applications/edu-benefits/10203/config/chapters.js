@@ -4,6 +4,7 @@ import createApplicantInformationPage from 'platform/forms/pages/applicantInform
 import { display10203StemFlow, displayStemEligibility } from '../helpers';
 
 import {
+  applicantInformation,
   activeDuty,
   benefitSelection,
   personalInformation,
@@ -15,11 +16,14 @@ export const chapters = {
   applicantInformation: {
     title: 'Applicant Information',
     pages: {
-      applicantInformation: createApplicantInformationPage(fullSchema10203, {
-        isVeteran: true,
-        fields: ['veteranFullName', 'veteranSocialSecurityNumber'],
-        required: ['veteranFullName'],
-      }),
+      applicantInformation: {
+        ...createApplicantInformationPage(fullSchema10203, {
+          isVeteran: true,
+          fields: ['veteranFullName', 'veteranSocialSecurityNumber'],
+          required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+        }),
+        uiSchema: applicantInformation.uiSchema,
+      },
     },
   },
   benefitSelection: {
@@ -48,7 +52,7 @@ export const chapters = {
     },
   },
   militaryService: {
-    title: 'Military History',
+    title: 'Military Details',
     pages: {
       activeDuty: {
         title: 'Active Duty',

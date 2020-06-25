@@ -105,8 +105,10 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
               You can't place an order for hearing aid batteries and accessories
               because something went wrong on our end.
             </p>
-            <p className="vads-u-font-weight--bold">What you can do</p>
-            <p>
+            <p className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-font-family--serif">
+              What you can do
+            </p>
+            <p className="vads-u-margin-top--0">
               For help ordering hearing aid batteries and accessories, please
               call the DLC Customer Service Section at{' '}
               <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
