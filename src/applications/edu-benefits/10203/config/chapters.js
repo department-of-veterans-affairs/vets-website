@@ -1,4 +1,5 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
+import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import createContactInformationPage from '../../pages/contactInformation';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
@@ -23,7 +24,6 @@ export const chapters = {
           fields: ['veteranFullName', 'veteranSocialSecurityNumber'],
           required: ['veteranFullName'],
         }),
-
         uiSchema: applicantInformation.uiSchema,
       },
     },

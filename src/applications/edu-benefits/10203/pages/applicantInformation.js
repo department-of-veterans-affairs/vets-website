@@ -1,6 +1,8 @@
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
 
 export const uiSchema = {
+  'ui:description': ApplicantDescription,
   veteranFullName: {
     first: {
       'ui:title': 'Your first name',
