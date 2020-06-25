@@ -15,17 +15,26 @@ import {
 } from 'platform/utilities/sso/forceAuth';
 
 function AutoSSO(props) {
-  const { useSSOe, useInboundSSOe, hasCalledKeepAlive, userLoggedIn } = props;
+  const {
+    useSSOe,
+    useInboundSSOe,
+    hasCalledKeepAlive,
+    userLoggedIn,
+    application = null,
+    to = null,
+  } = props;
   const params = new URLSearchParams(window.location.search);
 
   if (userLoggedIn) {
     removeForceAuth();
-  } else if (params.get('auth') !== 'success') {
+  } else if (useInboundSSOe === false) {
+    // if inbound ssoe is disabled, always force the user to re enter their
+    // credentials when they attempt to authenticate
     setForceAuth();
   }
 
   if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
-    checkAutoSession().then(() => {
+    checkAutoSession(application, to).then(() => {
       props.checkKeepAlive();
     });
   }

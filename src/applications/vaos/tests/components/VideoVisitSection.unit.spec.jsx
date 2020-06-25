@@ -146,7 +146,7 @@ describe('Video visit', () => {
   it('should enable video link if appointment is less than 30 minutes away', () => {
     const pastAppointment = {
       ...appointment,
-      start: moment().add(-20, 'minutes'),
+      start: moment().add(20, 'minutes'),
     };
 
     const tree = shallow(<VideoVisitSection appointment={pastAppointment} />);
@@ -159,10 +159,28 @@ describe('Video visit', () => {
     tree.unmount();
   });
 
-  it('should disable video link if appointment is over 4 hours away', () => {
+  it('should disable video link if appointment is more than 30 minutes away', () => {
     const futureAppointment = {
       ...appointment,
-      start: moment().add(245, 'minutes'),
+      start: moment().add(32, 'minutes'),
+    };
+
+    const tree = shallow(<VideoVisitSection appointment={futureAppointment} />);
+    expect(tree.exists('.usa-button')).to.equal(true);
+    expect(tree.exists('.usa-button-disabled')).to.equal(true);
+
+    const describedById = 'description-join-link-123';
+    const link = tree.find('.usa-button');
+    expect(link.props()['aria-describedby']).to.equal(describedById);
+    expect(link.props()['aria-disabled']).to.equal('true');
+    expect(tree.exists(`span#${describedById}`)).to.be.true;
+    tree.unmount();
+  });
+
+  it('should disable video link if appointment is over 4 hours in the past', () => {
+    const futureAppointment = {
+      ...appointment,
+      start: moment().add(-245, 'minutes'),
     };
 
     const tree = shallow(<VideoVisitSection appointment={futureAppointment} />);

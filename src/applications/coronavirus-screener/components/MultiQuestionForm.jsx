@@ -27,7 +27,7 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
         if (completed === false) {
           recordEvent({
             event: 'covid-screening-tool-result-displayed',
-            'screening-tool-result': formState.result,
+            'screening-tool-result': newStatus,
             'time-to-complete': moment().unix() - formState.startTime,
           });
           completed = true;
@@ -112,15 +112,14 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
     (question, index) =>
       (index === 0 ||
         Object.hasOwnProperty.call(questionState[index - 1], 'value')) && (
-        <div key={`question-${question.id}`}>
-          <FormQuestion
-            question={question}
-            recordStart={recordStart}
-            optionsConfig={defaultOptions}
-            setQuestionValue={setQuestionValue}
-            clearQuestionValues={clearQuestionValues}
-          />
-        </div>
+        <FormQuestion
+          question={question}
+          recordStart={recordStart}
+          optionsConfig={defaultOptions}
+          setQuestionValue={setQuestionValue}
+          clearQuestionValues={clearQuestionValues}
+          key={`question-${question.id}`}
+        />
       ),
   );
 

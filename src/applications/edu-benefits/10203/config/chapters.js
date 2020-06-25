@@ -1,26 +1,31 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
+import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import createContactInformationPage from '../../pages/contactInformation';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 import { display10203StemFlow, displayStemEligibility } from '../helpers';
 
-import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
+import {
+  applicantInformation,
+  activeDuty,
+  benefitSelection,
+  stem,
+  stemEligibility,
+} from '../pages';
 
 export const chapters = {
   applicantInformation: {
     title: 'Applicant Information',
     pages: {
-      applicantInformation: createApplicantInformationPage(fullSchema10203, {
-        isVeteran: true,
-        fields: [
-          'veteranFullName',
-          'veteranSocialSecurityNumber',
-          'view:noSSN',
-          'vaFileNumber',
-        ],
-        required: ['veteranFullName'],
-      }),
+      applicantInformation: {
+        ...createApplicantInformationPage(fullSchema10203, {
+          isVeteran: true,
+          fields: ['veteranFullName', 'veteranSocialSecurityNumber'],
+          required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+        }),
+        uiSchema: applicantInformation.uiSchema,
+      },
     },
   },
   benefitSelection: {
@@ -49,7 +54,7 @@ export const chapters = {
     },
   },
   militaryService: {
-    title: 'Military History',
+    title: 'Military Details',
     pages: {
       activeDuty: {
         title: 'Active Duty',
@@ -64,7 +69,6 @@ export const chapters = {
     title: 'Personal Information',
     pages: {
       contactInformation: createContactInformationPage(fullSchema10203),
-      directDeposit: createDirectDepositChangePage(fullSchema10203),
     },
   },
 };

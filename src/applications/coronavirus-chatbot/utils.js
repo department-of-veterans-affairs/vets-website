@@ -1,3 +1,5 @@
+import MarkdownIt from 'markdown-it';
+import markdownitLinkAttributes from 'markdown-it-link-attributes';
 import recordEvent from 'platform/monitoring/record-event';
 
 export const GA_PREFIX = 'chatbot';
@@ -57,30 +59,20 @@ const handleDisableAndScroll = event => {
   }, 700);
 };
 
-/*
-https://github.com/department-of-veterans-affairs/covid19-chatbot/issues/98
-Bot framework renders button containers with tab index 0. This method sets
-tab index to -1 so button containers have javascript-only focus.
-*/
-const removeKeyboardFocusFromContainer = () => {
-  const buttonContainers = document.getElementsByClassName('ac-adaptiveCard');
-  buttonContainers.forEach(buttonContainer => {
-    if (buttonContainer.hasAttribute('tabIndex')) {
-      buttonContainer.setAttribute('tabIndex', '-1');
-    }
-  });
-};
-
-const addEventListenerToButtons = () => {
-  const buttons = document.getElementsByClassName('ac-pushButton');
-  buttons.forEach(button => {
-    button.addEventListener('click', handleDisableAndScroll);
-  });
-};
-
 export const handleButtonsPostRender = () => {
   setInterval(() => {
-    removeKeyboardFocusFromContainer();
-    addEventListenerToButtons();
+    const buttons = document.getElementsByClassName('ac-pushButton');
+    buttons.forEach(button => {
+      button.addEventListener('click', handleDisableAndScroll);
+    });
   }, 10);
 };
+
+export const markdownRenderer = MarkdownIt({
+  html: true,
+}).use(markdownitLinkAttributes, {
+  attrs: {
+    target: '_blank',
+    rel: 'noopener',
+  },
+});

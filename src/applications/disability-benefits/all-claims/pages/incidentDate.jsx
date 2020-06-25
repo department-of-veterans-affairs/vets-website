@@ -15,7 +15,7 @@ export const uiSchema = index => ({
     'ui:description': (
       <PtsdDateDescription formType={PTSD_TYPES_TO_FORMS.combatNonCombat} />
     ),
-    incidentDate: currentOrPastDateUI(' '),
+    incidentDate: currentOrPastDateUI('Date of event'),
   },
 });
 

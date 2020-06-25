@@ -11,26 +11,23 @@ import { ACCESSORIES } from '../constants';
 
 class Accessories extends Component {
   handleChecked = (checked, supply) => {
-    const { selectedProducts, formData } = this.props;
-    let updatedSelectedProducts;
+    const { order, formData } = this.props;
+    let updatedOrder;
     if (checked) {
-      updatedSelectedProducts = [
-        ...selectedProducts,
-        { productId: supply.productId },
-      ];
+      updatedOrder = [...order, { productId: supply.productId }];
     } else {
-      updatedSelectedProducts = selectedProducts.filter(
+      updatedOrder = order.filter(
         selectedProduct => selectedProduct.productId !== supply.productId,
       );
     }
     const updatedFormData = {
       ...formData,
-      selectedProducts: updatedSelectedProducts,
+      order: updatedOrder,
     };
     return this.props.setData(updatedFormData);
   };
   render() {
-    const { supplies, selectedProducts, eligibility } = this.props;
+    const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
     const accessorySupplies = supplies.filter(
       supply => supply.productGroup === ACCESSORIES,
@@ -52,7 +49,7 @@ class Accessories extends Component {
     const earliestAvailableDateForReordering = accessorySupplyAvailabilityDates.sort()[0];
 
     const isAccessorySelected = accessoryProductId => {
-      const selectedProductIds = selectedProducts.map(
+      const selectedProductIds = order.map(
         selectedProduct => selectedProduct.productId,
       );
       return selectedProductIds.includes(accessoryProductId);
@@ -66,29 +63,15 @@ class Accessories extends Component {
     }
     return (
       <div className="accessory-page">
-        {areAccessorySuppliesEligible && (
-          <>
-            <h3 className="vads-u-font-size--h4">
-              Select the hearing aid accessories you need
-            </h3>
-            <p>
-              You'll be sent a 6-month supply for each accessory you choose
-              below. You can only order each hearing aid accessory once every 5
-              months.
-            </p>
-            <p>
-              If you need unavailable items sooner, call the DLC Customer
-              Service Section at{' '}
-              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                303-273-6200
-              </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-            </p>
-          </>
+        {accessorySupplies.length > 0 && (
+          <h3 className="vads-u-font-size--h4 vads-u-margin-top--5">
+            Select the hearing aid accessories you need
+          </h3>
         )}
         {!haveAccessoriesBeenOrderedInLastFiveMonths &&
           haveAccessoriesBeenOrderedInLastTwoYears &&
-          !areAccessorySuppliesEligible && (
+          !areAccessorySuppliesEligible &&
+          accessorySupplies.length === 0 && (
             <>
               <AlertBox
                 headline="You can't add accessories to your order at this time"
@@ -160,8 +143,11 @@ class Accessories extends Component {
             <div
               key={accessorySupply.productId}
               className={classnames({
-                'vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3': true,
-                'vads-u-border-color--primary vads-u-border--3px': isAccessorySelected(
+                'vads-u-background-color--gray-lightest vads-u-margin-y--3': true,
+                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isAccessorySelected(
+                  accessorySupply.productId,
+                ),
+                'vads-u-padding--3': !isAccessorySelected(
                   accessorySupply.productId,
                 ),
               })}
@@ -185,13 +171,16 @@ class Accessories extends Component {
               </div>
               {currentDate.diff(accessorySupply.nextAvailabilityDate, 'days') <
               0 ? (
-                <AlertBox
-                  className="vads-u-color--black vads-u-background-color--white"
-                  headline={`You can't order this accessory online until ${moment(
-                    accessorySupply.nextAvailabilityDate,
-                  ).format('MMMM D, YYYY')}`}
-                  status="warning"
-                />
+                <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
+                  <div className="usa-alert-body">
+                    <h3 className="usa-alert-heading vads-u-font-family--sans">
+                      You can't order this accessory online until{' '}
+                      {moment(accessorySupply.nextAvailabilityDate).format(
+                        'MMMM D, YYYY',
+                      )}
+                    </h3>
+                  </div>
+                </div>
               ) : (
                 <div className="vads-u-max-width--226">
                   <input
@@ -254,7 +243,7 @@ class Accessories extends Component {
 Accessories.defaultProps = {
   formData: {},
   supplies: [],
-  selectedProducts: [],
+  order: [],
   eligibility: {},
 };
 
@@ -272,7 +261,7 @@ Accessories.propTypes = {
       size: PropTypes.string,
     }),
   ),
-  selectedProducts: PropTypes.arrayOf(
+  order: PropTypes.arrayOf(
     PropTypes.shape({
       productId: PropTypes.number,
     }),
@@ -283,7 +272,7 @@ Accessories.propTypes = {
 const mapStateToProps = state => ({
   supplies: state.form?.data?.supplies,
   formData: state.form?.data,
-  selectedProducts: state.form?.data?.selectedProducts,
+  order: state.form?.data?.order,
   eligibility: state.form?.data?.eligibility,
 });
 

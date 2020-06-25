@@ -7,27 +7,10 @@ describe('ConfirmationPage', () => {
   const fakeStore = {
     getState: () => ({
       form: {
-        submission: {
-          submittedAt: 'May 8, 2020',
-          response: {
-            attributes: {
-              confirmationNumber: '123456',
-            },
-            shippingAddress: {
-              'view:livesOnMilitaryBaseInfo': {},
-              country: 'USA',
-              street: '101 Example Street',
-              street2: 'Apt 2',
-              city: 'Kansas City',
-              state: 'MO',
-              postalCode: '64117',
-            },
-          },
-        },
         data: {
           permanentAddress: {
             'view:livesOnMilitaryBaseInfo': {},
-            country: 'USA',
+            country: 'United States',
             street: '101 Example Street',
             street2: 'Apt 2',
             city: 'Kansas City',
@@ -36,30 +19,30 @@ describe('ConfirmationPage', () => {
           },
           temporaryAddress: {
             'view:livesOnMilitaryBaseInfo': {},
-            country: 'USA',
+            country: 'United States',
             street: '201 Example Street',
             city: 'Galveston',
             state: 'TX',
             postalCode: '77550',
           },
-          email: 'test2@test1.net',
-          currentAddress: 'temporaryAddress',
+          vetEmail: 'vet@vet.com',
+          'view:currentAddress': 'permanentAddress',
           supplies: [
             {
               deviceName: 'OMEGAX d3241',
               productName: 'ZA1239',
-              productGroup: 'hearing aid batteries',
-              productId: '1',
+              productGroup: 'BATTERIES',
+              productId: 1,
               availableForReorder: true,
-              lastOrderDate: '2020-01-01',
-              nextAvailabilityDate: '2020-09-01',
+              lastOrderDate: '2019-12-25',
+              nextAvailabilityDate: '2020-01-01',
               quantity: 60,
-              prescribedDate: '2020-12-20',
+              prescribedDate: '2019-12-20',
             },
             {
               productName: 'DOME',
-              productGroup: 'hearing aid accessories',
-              productId: '3',
+              productGroup: 'ACCESSORIES',
+              productId: 3,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
@@ -68,8 +51,8 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'hearing aid accessories',
-              productId: '4',
+              productGroup: 'ACCESSORIES',
+              productId: 4,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
@@ -78,8 +61,8 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'WaxBuster Single Unit',
-              productGroup: 'hearing aid accessories',
-              productId: '5',
+              productGroup: 'ACCESSORIES',
+              productId: 5,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
@@ -90,7 +73,8 @@ describe('ConfirmationPage', () => {
           ssnLastFour: '1200',
           gender: 'M',
           dateOfBirth: '1933-04-05',
-          selectedProducts: [{ productId: '4' }, { productId: '5' }],
+          eligibility: { batteries: true, accessories: true },
+          order: [{ productId: 3 }],
         },
       },
     }),
@@ -124,7 +108,7 @@ describe('ConfirmationPage', () => {
         .first()
         .find('p')
         .text(),
-    ).to.include('test2@test1.net');
+    ).to.include('vet@vet.com');
     confirmationPage.unmount();
   });
 
@@ -132,7 +116,7 @@ describe('ConfirmationPage', () => {
     const confirmationPage = mount(<ConfirmationPage store={fakeStore} />);
     const alertBox = confirmationPage.find('AlertBox').last();
     expect(alertBox.find('h4').text()).to.equal(
-      'Request for Batteries and Accessories (Form 2346)',
+      'Request for Batteries and Accessories (Form 2346A)',
     );
     expect(
       alertBox
@@ -140,15 +124,7 @@ describe('ConfirmationPage', () => {
         .at(0)
         .text(),
     ).to.equal('DOME (Quantity: 10)');
-    expect(
-      alertBox
-        .find('li')
-        .at(1)
-        .text(),
-    ).to.equal('WaxBuster Single Unit (Quantity: 10)');
-    expect(alertBox.text()).to.include('May 8, 2020');
-    expect(alertBox.text()).to.include('123456');
-    expect(alertBox.text()).to.include('Shipping Address');
+    expect(alertBox.text()).to.include('Shipping address');
     expect(alertBox.text()).to.include('101 Example Street Apt 2');
     expect(alertBox.text()).to.include('Kansas City');
     expect(alertBox.text()).to.include('MO');

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const fields = [
   {
     label: 'Date',
@@ -24,3 +26,10 @@ export const fields = [
     value: 'account',
   },
 ];
+
+export const clientServerErrorContent = receivedOrReturned => (
+  <>
+    <h3>No {receivedOrReturned} payments</h3>
+    <p>We were unable to get {receivedOrReturned} payments for your account.</p>
+  </>
+);

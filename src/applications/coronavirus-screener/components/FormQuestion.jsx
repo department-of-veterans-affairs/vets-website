@@ -34,8 +34,10 @@ export default function FormQuestion({
       type="button"
       className={classnames(
         'usa-button-big',
-        (question.value === option.optionValue ? 'usa-button' : null) ??
+        (question.value === option.optionValue ? 'usa-button' : null) ?? [
           'usa-button-secondary',
+          'vads-u-background-color--white', // TODO: resolve upstream design system bug https://github.com/department-of-veterans-affairs/va.gov-team/issues/9610
+        ],
       )}
       onClick={handleClick}
       value={option.optionValue}

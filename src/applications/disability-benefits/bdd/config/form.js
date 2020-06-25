@@ -16,7 +16,6 @@ import FormSavedPage from '../../all-claims/containers/FormSavedPage';
 
 import {
   hasGuardOrReservePeriod,
-  hasVAEvidence,
   hasPrivateEvidence,
   capitalizeEachWord,
   hasOtherEvidence,
@@ -29,7 +28,6 @@ import {
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
   isDisabilityPtsd,
-  directToCorrectForm,
 } from '../../all-claims/utils';
 
 import captureEvents from '../../all-claims/analytics-functions';
@@ -39,7 +37,7 @@ import prefillTransformer from '../../all-claims/prefill-transformer';
 import { transform } from '../../all-claims/submit-transformer';
 
 import { veteranInfoDescription } from '../../all-claims/content/veteranDetails';
-import { supportingEvidenceOrientation } from '../../all-claims/content/supportingEvidenceOrientation';
+import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import {
   adaptiveBenefits,
   addDisabilities,
@@ -52,7 +50,6 @@ import {
   choosePtsdType,
   claimExamsInfo,
   contactInformation,
-  evidenceTypes,
   federalOrders,
   finalIncident,
   individualUnemployability,
@@ -73,11 +70,15 @@ import {
   summaryOfEvidence,
   uploadPersonalPtsdDocuments,
   uploadPtsdDocuments,
-  vaMedicalRecords,
+  vaEmployee,
   workBehaviorChanges,
 } from '../../all-claims/pages';
 
-import { militaryHistory } from '../pages';
+import {
+  evidenceTypes,
+  militaryHistory,
+  serviceTreatmentRecords,
+} from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../../all-claims/content/ancillaryFormsWizardIntro';
 
@@ -110,7 +111,6 @@ const formConfig = {
     dependencies: [services.evss, services.emis, services.mvi, services.vet360],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ_BDD,
-  onFormLoaded: directToCorrectForm,
   version: migrations.length,
   migrations,
   prefillTransformer,
@@ -420,18 +420,17 @@ const formConfig = {
           uiSchema: { 'ui:description': supportingEvidenceOrientation },
           schema: { type: 'object', properties: {} },
         },
+        serviceTreatmentRecords: {
+          title: 'Service treatment records',
+          path: 'supporting-evidence/service-treatment-records',
+          uiSchema: serviceTreatmentRecords.uiSchema,
+          schema: serviceTreatmentRecords.schema,
+        },
         evidenceTypes: {
           title: 'Supporting evidence types',
           path: 'supporting-evidence/evidence-types',
           uiSchema: evidenceTypes.uiSchema,
           schema: evidenceTypes.schema,
-        },
-        vaMedicalRecords: {
-          title: 'VA medical records',
-          path: 'supporting-evidence/va-medical-records',
-          depends: hasVAEvidence,
-          uiSchema: vaMedicalRecords.uiSchema,
-          schema: vaMedicalRecords.schema,
         },
         privateMedicalRecords: {
           title: 'Private medical records',
@@ -479,6 +478,12 @@ const formConfig = {
           uiSchema: paymentInformation.uiSchema,
           schema: paymentInformation.schema,
           onContinue: captureEvents.paymentInformation,
+        },
+        vaEmployee: {
+          title: 'VA employee',
+          path: 'va-employee',
+          uiSchema: vaEmployee.uiSchema,
+          schema: vaEmployee.schema,
         },
       },
     },
