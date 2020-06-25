@@ -30,7 +30,9 @@ export default function OnState() {
                 href={caregiverFormUrl}
               >
                 Apply for{' '}
-                <span className="sr_only">the program of comprehensive</span>{' '}
+                <span className="vads-u-visibility--screen-reader">
+                  the program of comprehensive
+                </span>{' '}
                 caregiver assistance
               </a>
             </p>

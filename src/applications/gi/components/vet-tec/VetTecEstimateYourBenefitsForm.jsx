@@ -54,6 +54,15 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     }
   };
 
+  recordInputChange = event => {
+    const { name: field, value } = event.target;
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': field,
+      'gibct-form-value': value,
+    });
+  };
+
   handleApprovedProgramsChange = event => {
     const vetTecProgramName = event.target.value;
     const program = this.getProgramByName(vetTecProgramName);
@@ -62,23 +71,21 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       programName: vetTecProgramName,
       tuitionFees: program.tuitionAmount,
     });
-    this.trackChange('Approved Programs Field', event);
-  };
-
-  trackChange = (fieldName, event) => {
-    const value = +event.target.value.replace(/[^0-9.]+/g, '');
-
-    recordEvent({
-      event: 'gibct-form-change',
-      'gibct-form-field': fieldName,
-      'gibct-form-value': value,
-    });
   };
 
   updateBenefitsOnClick = event => {
     event.preventDefault();
     this.setState({ inputUpdated: false });
     this.setProgramFields(this.state.programName);
+    // the undefined is intentional see https://github.com/department-of-veterans-affairs/va.gov-team/issues/10353
+    recordEvent({
+      event: 'cta-default-button-click',
+      'gibct-parent-accordion-section': 'Estimate your benefits',
+      'gibct-child-accordion-section': undefined,
+    });
+  };
+
+  handleEYBSkipLinkOnClick = () => {
     focusElement('.estimated-benefits-header');
   };
 
@@ -111,18 +118,18 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         pattern="(\d*\d+)(?=\,)"
         name="vetTecScholarships"
         value={formatDollarAmount(this.state.scholarships)}
-        onChange={e =>
+        onChange={e => {
           this.setState({
             inputUpdated: true,
             scholarships: removeNonNumberCharacters(e.target.value),
-          })
-        }
+          });
+          this.recordInputChange(e);
+        }}
         onFocus={
           // prod flag for bah-8821
           !environment.isProduction() &&
           handleScrollOnInputFocus.bind(this, 'scholarships-field')
         }
-        onBlur={event => this.trackChange('Scholarships Text Field', event)}
       />
     </div>
   );
@@ -147,17 +154,17 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         type="text"
         inputMode="decimal"
         value={formatDollarAmount(this.state.tuitionFees)}
-        onChange={e =>
+        onChange={e => {
           this.setState({
             inputUpdated: true,
             tuitionFees: removeNonNumberCharacters(e.target.value),
-          })
-        }
+          });
+          this.recordInputChange(e);
+        }}
         onFocus={
           !environment.isProduction() &&
           handleScrollOnInputFocus.bind(this, 'tuition-field')
         }
-        onBlur={event => this.trackChange('Tuition & Fees Text Field', event)}
       />
     </div>
   );
@@ -176,6 +183,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         onChange={e => {
           this.setState({ inputUpdated: true });
           this.handleApprovedProgramsChange(e);
+          this.recordInputChange(e);
         }}
       />
     ) : (
@@ -188,6 +196,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         onChange={e => {
           this.setState({ inputUpdated: true });
           this.handleApprovedProgramsChange(e);
+          this.recordInputChange(e);
         }}
         visible
       />
@@ -203,12 +212,23 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         {this.renderScholarships()}
         <button
           type="button"
+          id="calculate-button"
           className="vads-u-margin-top--2p5"
           onClick={this.updateBenefitsOnClick}
           disabled={!this.state.inputUpdated}
         >
           Update benefits
         </button>
+        <div className="vads-u-padding-bottom--2p5">
+          <button
+            type="button"
+            className="va-button-link learn-more-button eyb-skip-link"
+            aria-label="Skip to your estimated benefits"
+            onClick={this.handleEYBSkipLinkOnClick}
+          >
+            Skip to your estimated benefits
+          </button>
+        </div>
       </div>
     );
   }
