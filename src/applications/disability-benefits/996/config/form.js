@@ -6,7 +6,7 @@ import FormFooter from 'platform/forms/components/FormFooter';
 
 import migrations from '../migrations';
 import prefillTransformer from './prefill-transformer';
-// import { transform } from './submit-transformer';
+import { transform } from './submit-transformer';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -43,7 +43,7 @@ const formConfig = {
   prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
-  // transformForSubmit: transform,
+  transformForSubmit: transform,
 
   // beforeLoad: props => { console.log('form config before load', props); },
   // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {

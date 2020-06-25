@@ -1,0 +1,67 @@
+{
+  "data": {
+    "veteran": {
+      "phoneNumber": "5033333333",
+      "emailAddress": "mike.wazowski@gmail.com",
+      "ssnLastFour": "7821",
+      "vaFileNumber": "8765",
+      "addressLine1": "1200 Park Ave",
+      "addressLine2": "",
+      "addressLine3": "",
+      "city": "Emeryville",
+      "countryCode": "USA",
+      "stateOrProvinceCode": "CA",
+      "zipPostalCode": "94608"
+    },
+    "sameOffice": true,
+    "privacyAgreementAccepted": true,
+    "informalConference": "rep",
+    "informalConferenceRep": {
+      "name": "James P. Sullivan",
+      "phone": "8005551212"
+    },
+    "informalConferenceTimes": {
+      "time0800to1000": true,
+      "time1000to1200": true
+    },
+    "contestedIssues": [
+      {
+        "type": "ContestableIssue",
+        "attributes": {
+          "issue": "Headaches",
+          "subjectText": "Acute chronic head pain",
+          "percentNumber": 20,
+          "decisionDate": "2011-01-02",
+          "decisionIssueId": 44,
+          "ratingIssueId": "66",
+          "ratingDecisionIssueId": ""
+        },
+        "view:selected": true
+      },
+      {
+        "type": "ContestableIssue",
+        "attributes": {
+          "issue": "Being Green",
+          "subjectText": "Chronic greenness",
+          "percentNumber": 50,
+          "decisionDate": "2011-01-01",
+          "decisionIssueId": 42,
+          "ratingIssueId": "52",
+          "ratingDecisionIssueId": ""
+        },
+        "view:selected": true
+      },
+      {
+        "type": "ContestableIssue",
+        "attributes": {
+          "issue": "Monocular Vision",
+          "percentNumber": 5,
+          "decisionDate": "2010-01-01",
+          "decisionIssueId": 1,
+          "ratingIssueId": "2",
+          "ratingDecisionIssueId": ""
+        }
+      }
+    ]
+  }
+}

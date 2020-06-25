@@ -1,0 +1,47 @@
+{
+  "data": {
+    "type": "HigherLevelReview",
+    "attributes": {
+      "benefitType": "compensation",
+      "receiptDate": "2020-06-30",
+      "informalConference": true,
+      "informalConferenceTimes": ["800-1000 ET", "1000-1200 ET"],
+      "informalConferenceRep": {
+        "name": "James P. Sullivan",
+        "phone": {
+          "countryCode": "1",
+          "areaCode": "800",
+          "phoneNumber": "5551212",
+          "phoneNumberExt": ""
+        }
+      },
+      "sameOffice": true,
+      "veteran": {
+        "address": {
+          "zipCode5": "94608"
+        }
+      },
+      "timezone": "America/Los_Angeles"
+    }
+  },
+  "included": [
+    {
+      "type": "ContestableIssue",
+      "attributes": {
+        "issue": "Acute chronic head pain - 20",
+        "decisionDate": "2011-01-02",
+        "decisionIssueId": 44,
+        "ratingIssueId": "66"
+      }
+    },
+    {
+      "type": "ContestableIssue",
+      "attributes": {
+        "issue": "Chronic greenness - 50",
+        "decisionDate": "2011-01-01",
+        "decisionIssueId": 42,
+        "ratingIssueId": "52"
+      }
+    }
+  ]
+}
