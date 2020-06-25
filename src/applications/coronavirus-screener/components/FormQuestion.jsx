@@ -22,25 +22,30 @@ export default function FormQuestion({
   // console.log('question', question);
 
   const options = optionsConfig.map((option, index) => (
-    <button
-      key={index}
-      type="button"
-      className={classnames(
-        'usa-button-big',
-        (question.value === option.optionValue ? 'usa-button' : null) ??
-          'usa-button-secondary',
-      )}
-      onClick={handleClick}
-      value={option.optionValue}
-    >
+    <label for="">
+      <input id={index}
+        key={index}
+        type="radio"
+        className={classnames(
+          'usa-button-big',
+          (question.value === option.optionValue ? 'usa-button' : null) ??
+            'usa-button-secondary',
+        )}
+        onClick={handleClick}
+        name={option.optionValue}
+        value={option.optionValue}
+      >
+      </input>
       {option.optionText}
-    </button>
+    </label>
   ));
 
   return (
     <div className="feature">
-      <h2>{question.text}</h2>
-      {options}
+      <fieldset class="feature">
+        <legend id="{question.id}">{question.text}</legend>
+        {options}
+      </fieldset>
     </div>
   );
 }

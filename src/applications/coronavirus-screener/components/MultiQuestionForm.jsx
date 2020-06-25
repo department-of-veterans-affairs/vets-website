@@ -129,12 +129,14 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
 
   return (
     <div>
-      {formQuestions}
-      <FormResult
-        formState={formState}
-        setFormState={setFormState}
-        scrollIndex={enabledQuestions.length}
-      />
+      <form>
+        {formQuestions}
+        <FormResult
+          formState={formState}
+          setFormState={setFormState}
+          scrollIndex={enabledQuestions.length}
+        />
+      </form>
     </div>
   );
 }
