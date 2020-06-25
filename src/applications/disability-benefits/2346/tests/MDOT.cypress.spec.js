@@ -6,14 +6,29 @@ import manifest from '../manifest.json';
 import gregUserData from './data/users/gregUserData.json';
 import happyPathData from './data/happyPath.json';
 
+const dataSetToUserMap = {
+  happyPath: 'fx:users/gregUserData',
+  noTempAddress: 'fx:users/markUserData',
+  noBatteries: 'fx:users/jerryUserData',
+  noAccessories: 'fx:users/eddieUserData',
+  noItemsEligible: 'fx:users/paulineUserData',
+};
+
 const testConfig = createTestConfig(
   {
     dataPrefix: 'formData',
 
-    dataSets: ['happyPath'],
+    dataSets: [
+      'happyPath',
+      'noTempAddress',
+      'noBatteries',
+      'noAccessories',
+      'noItemsEligible',
+    ],
 
     fixtures: {
       data: path.join(__dirname, 'data'),
+      users: path.join(__dirname, 'data/users'),
     },
 
     pageHooks: {
@@ -52,9 +67,12 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.login();
-      cy.route('GET', '/v0/user', gregUserData);
-      cy.route('GET', '/v0/in_progress_forms/MDOT', happyPathData);
+      cy.get('@testKey').then(testKey => {
+        cy.login();
+        cy.route('GET', 'v0/user', dataSetToUserMap[testKey]);
+        cy.route('GET', 'v0/in_progress_forms/MDOT', happyPathData);
+      });
+      // cy.route('GET', '/v0/user', gregUserData);
       cy.route('POST', '/v0/mdot/supplies', 200);
     },
   },
