@@ -288,7 +288,7 @@
     "metalsmith": "^2.1.0",
     "metalsmith-collections": "^0.9.0",
     "metalsmith-filenames": "^1.0.0",
-    "metalsmith-in-place": "^1.4.4",
+    "metalsmith-in-place": "^4.4.1",
     "metalsmith-layouts": "^1.6.5",
     "metalsmith-markdownit": "^0.4.0",
     "metalsmith-navigation": "^0.2.9",
