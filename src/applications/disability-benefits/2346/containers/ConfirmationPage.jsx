@@ -37,12 +37,12 @@ const ConfirmationPage = ({
         {moment(submittedAt).format('MMM D, YYYY')}
       </p>
       <h4>Items ordered</h4>
-      {selectedProductArray.map(product => (
-        <div key={product.productId}>
+      {selectedProductArray?.map(product => (
+        <div key={product?.productId}>
           <p>
-            <strong>{product.productName}</strong>
+            <strong>{product?.productName}</strong>
           </p>
-          <p>Qty: {product.quantity}</p>
+          <p>Qty: {product?.quantity}</p>
         </div>
       ))}
       <section className="print-order-timeframe-section">
@@ -75,7 +75,7 @@ const ConfirmationPage = ({
   );
   return (
     <div className="confirmation-page">
-      {selectedProductArray.length > 0 && (
+      {selectedProductArray?.length > 0 && (
         <>
           <p className="vads-u-font-weight--bold print-copy">
             Please print this page for your records.
@@ -102,15 +102,15 @@ const ConfirmationPage = ({
                   </span>
                 </h4>
                 <p className="vads-u-margin--0">
-                  for {fullName.first} {fullName.last}
+                  for {fullName?.first} {fullName?.last}
                 </p>
                 <p className="vads-u-margin-bottom--0">
                   <strong>Items ordered</strong>
                 </p>
                 <ul className="vads-u-margin-bottom--1">
-                  {selectedProductArray.map(product => (
-                    <li key={product.productId}>
-                      {product.productName} (Quantity: {product.quantity})
+                  {selectedProductArray?.map(product => (
+                    <li key={product?.productId}>
+                      {product?.productName} (Quantity: {product?.quantity})
                     </li>
                   ))}
                 </ul>
@@ -119,13 +119,13 @@ const ConfirmationPage = ({
                 </p>
                 <div className="shippingAddress">
                   <p className="vads-u-margin-y--0">
-                    {shippingAddress.street} {shippingAddress.street2 || ''}
+                    {shippingAddress?.street} {shippingAddress?.street2 || ''}
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {`${shippingAddress.city},
-              ${shippingAddress.state || shippingAddress.province} ${' '}
-              ${shippingAddress.postalCode ||
-                shippingAddress.internationalPostalCode}
+                    {`${shippingAddress?.city},
+              ${shippingAddress?.state || shippingAddress?.province} ${' '}
+              ${shippingAddress?.postalCode ||
+                shippingAddress?.internationalPostalCode}
               `}
                   </p>
                 </div>
@@ -169,7 +169,7 @@ const ConfirmationPage = ({
           <PrintDetails />
         </>
       )}
-      {selectedProductArray.length <= 0 && (
+      {selectedProductArray?.length === 0 && (
         <AlertBox
           headline="We're sorry. Your order wasn't submitted."
           className="vads-u-margin-bottom--4"
