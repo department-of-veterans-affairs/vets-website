@@ -16,7 +16,7 @@ import initialData from './schema/initialData.js';
 
 import { SERVICE_CONNECTION_TYPES } from '../../all-claims/constants';
 
-describe('526 helpers', () => {
+describe.skip('526 helpers', () => {
   const prefilledData = _.cloneDeep(initialData);
   const invalidDisability = prefilledData.disabilities[1];
   const validDisability = Object.assign(
