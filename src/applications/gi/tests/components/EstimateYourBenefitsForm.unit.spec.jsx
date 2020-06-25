@@ -35,6 +35,7 @@ const state = {
   learningFormatAndScheduleExpanded: false,
   scholarshipsAndOtherFundingExpanded: false,
 };
+
 describe('<EstimateYourBenefitsForm>', () => {
   it('should render', () => {
     const tree = mount(
@@ -299,5 +300,49 @@ describe('<EstimateYourBenefitsForm>', () => {
     );
     expect(wrapper.html()).to.contain('Learning format and schedule');
     wrapper.unmount();
+  });
+
+  it('should track cta-default-button-click on "Update benefits" click, with valid data', () => {
+    const validInput = {
+      beneficiaryLocationQuestion: 'other',
+      beneficiaryZIP: '60641',
+    };
+    const updateEstimatedBenefits = sinon.spy();
+    const tree = mount(
+      <EstimateYourBenefitsForm
+        profile={props.profile}
+        eligibility={props.eligibility}
+        eligibilityChange={() => {}}
+        inputs={validInput}
+        displayedInputs={{}}
+        showModal={() => {}}
+        calculatorInputChange={() => {}}
+        onBeneficiaryZIPCodeChanged={() => {}}
+        estimatedBenefits={{}}
+        isLoggedIn={false}
+        updateEstimatedBenefits={updateEstimatedBenefits}
+      />,
+    );
+
+    tree
+      .find('#militaryStatus')
+      .at(0)
+      .simulate('change', { target: 'active duty' });
+
+    tree
+      .find('.calculate-button')
+      .at(0)
+      .simulate('click');
+
+    const recordedEvent = global.window.dataLayer[0];
+    expect(recordedEvent.event).to.eq('cta-default-button-click');
+    expect(recordedEvent['gibct-parent-accordion-section']).to.eq(
+      'Estimate your benefits',
+    );
+    expect(recordedEvent['gibct-child-accordion-section']).to.eq(
+      'Your military details',
+    );
+
+    tree.unmount();
   });
 });

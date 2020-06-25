@@ -13,6 +13,7 @@ export class AdditionalInformation extends React.Component {
     <div className="section-103-message">
       <strong>
         <button
+          id="section103-button"
           type="button"
           className="va-button-link learn-more-button"
           onClick={() => {
@@ -51,6 +52,7 @@ export class AdditionalInformation extends React.Component {
         <div>
           <strong>
             <button
+              id="typeAccredited-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'typeAccredited')}
@@ -83,6 +85,7 @@ export class AdditionalInformation extends React.Component {
         <div>
           <strong>
             <button
+              id="accredited-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'accredited')}
@@ -132,6 +135,7 @@ export class AdditionalInformation extends React.Component {
         <div>
           <strong>
             <button
+              id="creditTraining-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'creditTraining')}
@@ -145,6 +149,7 @@ export class AdditionalInformation extends React.Component {
         <div>
           <strong>
             <button
+              id="iStudy-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'iStudy')}
@@ -158,6 +163,7 @@ export class AdditionalInformation extends React.Component {
         <div>
           <strong>
             <button
+              id="stemIndicator-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'stemIndicator')}
@@ -172,6 +178,7 @@ export class AdditionalInformation extends React.Component {
           <div>
             <strong>
               <button
+                id="singleContact-button"
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={this.props.onShowModal.bind(this, 'singleContact')}
@@ -257,6 +264,7 @@ export class AdditionalInformation extends React.Component {
             <div>
               <strong>
                 <button
+                  id="facilityCode-button"
                   type="button"
                   className="va-button-link learn-more-button"
                   onClick={this.props.onShowModal.bind(this, 'facilityCode')}
@@ -270,6 +278,7 @@ export class AdditionalInformation extends React.Component {
             <div>
               <strong>
                 <button
+                  id="ipedsCode-button"
                   type="button"
                   className="va-button-link learn-more-button"
                   onClick={this.props.onShowModal.bind(this, 'ipedsCode')}
@@ -283,6 +292,7 @@ export class AdditionalInformation extends React.Component {
             <div>
               <strong>
                 <button
+                  id="opeCode-button"
                   type="button"
                   className="va-button-link learn-more-button"
                   onClick={this.props.onShowModal.bind(this, 'opeCode')}

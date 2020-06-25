@@ -50,6 +50,9 @@ describe('coronavirus-screener', () => {
         />,
       );
       expect(wrapper.find('.usa-button-secondary')).to.have.lengthOf(2);
+      expect(wrapper.find('.vads-u-background-color--white')).to.have.lengthOf(
+        2,
+      );
       expect(wrapper.find('.usa-button')).to.have.lengthOf(0);
       wrapper.unmount();
     });
@@ -66,6 +69,9 @@ describe('coronavirus-screener', () => {
       );
       expect(wrapper.find('.usa-button')).to.have.lengthOf(1);
       expect(wrapper.find('.usa-button-secondary')).to.have.lengthOf(1);
+      expect(wrapper.find('.vads-u-background-color--white')).to.have.lengthOf(
+        1,
+      );
       wrapper.unmount();
     });
 

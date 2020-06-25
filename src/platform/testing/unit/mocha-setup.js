@@ -6,6 +6,7 @@
 
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
+import chaiDOM from 'chai-dom';
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
@@ -17,6 +18,7 @@ global.__API__ = null;
 global.__MEGAMENU_CONFIG__ = null;
 
 chai.use(chaiAsPromised);
+chai.use(chaiDOM);
 
 /**
  * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
