@@ -48,7 +48,7 @@ const formConfig = {
     date,
     dateRange,
   },
-  title: 'Apply for the Rogers STEM scholarship',
+  title: 'Update your education benefits',
   subTitle: 'Form 22-10203',
   preSubmitInfo,
   footerContent: FormFooter,
