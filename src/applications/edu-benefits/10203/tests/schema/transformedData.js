@@ -1,4 +1,10 @@
 const transformedMinimalDataActual = {
+  isActiveDuty: true,
+  bankAccount: {
+    accountType: 'checking',
+    routingNumber: '021000021',
+    accountNumber: '12345',
+  },
   veteranAddress: {
     street: 'MILITARY ADDY 3',
     city: 'Test',
@@ -7,17 +13,21 @@ const transformedMinimalDataActual = {
     postalCode: '22312',
   },
   email: 'test2@test1.net',
-  educationType: 'correspondence',
+  mobilePhone: '4445551213',
+  benefit: 'chapter33',
   veteranFullName: {
-    first: 'asdf',
+    first: 'Min',
     last: 'asdf',
   },
   veteranSocialSecurityNumber: '123333333',
-  oldSchool: {},
   privacyAgreementAccepted: true,
-  newSchool: {
-    name: 'Test',
-  },
+  isEnrolledStem: true,
+  isPursuingTeachingCert: true,
+  benefitLeft: 'none',
+  degreeName: '0',
+  schoolName: '0',
+  schoolCity: '0',
+  schoolState: 'MA',
 };
 
 export const transformedMinimalData = JSON.stringify({
@@ -27,13 +37,13 @@ export const transformedMinimalData = JSON.stringify({
 });
 
 const transformedMaximalDataActual = {
-  bankAccountChange: 'startUpdate',
+  isActiveDuty: true,
   bankAccount: {
     accountType: 'checking',
     routingNumber: '021000021',
     accountNumber: '12345',
   },
-  preferredContactMethod: 'mail',
+  preferredContactMethod: 'mobilePhone',
   veteranAddress: {
     street: 'MILITARY ADDY 3',
     city: 'Test',
@@ -44,43 +54,22 @@ const transformedMaximalDataActual = {
   email: 'test2@test1.net',
   homePhone: '4445551212',
   mobilePhone: '4445551213',
-  educationType: 'correspondence',
-  educationObjective: 'Education or career goal',
-  nonVaAssistance: true,
-  civilianBenefitsAssistance: true,
-  oldSchool: {
-    name: 'Old Test School',
-    address: {
-      street: '321 Test St',
-      street2: 'On the second floor',
-      city: 'Terst',
-      country: 'USA',
-      state: 'TN',
-      postalCode: '54321',
-    },
-  },
-  trainingEndDate: '2018-03-02',
-  reasonForChange: 'Stop reason',
   benefit: 'chapter33',
   veteranFullName: {
-    first: 'Greg',
+    first: 'Max',
     middle: 'A',
     last: 'Anderson',
     suffix: 'IV',
   },
   veteranSocialSecurityNumber: '123333333',
   privacyAgreementAccepted: true,
-  newSchool: {
-    name: 'Test',
-    address: {
-      street: '123 Test St',
-      street2: 'Below ground',
-      city: 'Test',
-      country: 'USA',
-      state: 'TN',
-      postalCode: '12345',
-    },
-  },
+  isEnrolledStem: true,
+  isPursuingTeachingCert: true,
+  benefitLeft: 'none',
+  degreeName: '0',
+  schoolName: '0',
+  schoolCity: '0',
+  schoolState: 'MA',
 };
 
 export const transformedMaximalData = JSON.stringify({

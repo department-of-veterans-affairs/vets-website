@@ -1,6 +1,11 @@
 {
   "data": {
     "isActiveDuty": true,
+    "bankAccount": {
+      "accountType": "checking",
+      "routingNumber": "021000021",
+      "accountNumber": "12345"
+    },
     "veteranAddress": {
       "street": "MILITARY ADDY 3",
       "city": "Test",
@@ -13,6 +18,7 @@
       "view:confirmEmail": "test2@test1.net",
       "mobilePhone": "4445551213"
     },
+    "benefit": "chapter33",
     "veteranFullName": {
       "first": "Min",
       "last": "asdf"
@@ -20,18 +26,12 @@
     "veteranSocialSecurityNumber": "123333333",
     "privacyAgreementAccepted": true,
     "view:determineEligibility": {},
-    "bankAccount": {
-      "accountType": "checking",
-      "routingNumber": "021000021",
-      "accountNumber": "12345"
-    },
     "isEnrolledStem": true,
     "isPursuingTeachingCert": true,
     "benefitLeft": "none",
     "degreeName": "0",
     "schoolName": "0",
     "schoolCity": "0",
-    "schoolState": "MA",
-    "benefit": "chapter33"
+    "schoolState": "MA"
   }
 }
