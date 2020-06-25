@@ -49,6 +49,23 @@ const getInputKey = outputKey =>
 const isEntityReferenceArray = prop =>
   Array.isArray(prop) && prop[0] && prop[0].target_type && prop[0].target_uuid;
 
+/**
+ * Expands an array of entity references.
+ *
+ * If the output schema for the field says it should be an array, this will
+ * return an array. If the schema says it should be an object, it'll return an
+ * object.
+ * @param {object[]} args.entityReferences - The array of entity references to expand
+ * @param {object} args.outputFieldSchema - The output schema for the field
+ *                                          containing the entity references
+ * @param {string} args.inputKey - The key for the field in the input
+ * @param {string} args.outputKey - The key for the field in the output
+ * @param {string} args.contentModelType - The content model type of the parent
+ *                                         entity (not the children this
+ *                                         function is expanding)
+ * @return {object|array} - The expanded entity or entities (depending on the
+ *                          output schema type)
+ */
 function expandEntityReferenceArray({
   entityReferences,
   outputFieldSchema,
@@ -87,6 +104,13 @@ function expandEntityReferenceArray({
   return result;
 }
 
+/**
+ * Transform a single entity of type 'object'.
+ * @param {object} entity - The entity to transform
+ * @param {object} inputSchema - The schema of the input JSON file
+ * @param {object} outputSchema - The schema of the output
+ * @return {object}
+ */
 function transformObject(entity, inputSchema, outputSchema) {
   // TODO: Be more descriptive of the problem
   if (!outputSchema.properties) {
