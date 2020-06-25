@@ -43,14 +43,6 @@ class MilitaryInformationContent extends React.Component {
                   Find your nearest VA regional office
                 </a>
                 .
-                <p>
-                  You can also request to be added to DEERS through our online
-                  customer help center.
-                </p>
-                <a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/3036/~/not-registered-in-deers%2C-or-received-and-error-message-while-trying-to">
-                  Get instructions from our help center
-                </a>
-                .
               </div>
             }
           />

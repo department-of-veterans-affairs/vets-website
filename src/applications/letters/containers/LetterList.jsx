@@ -7,7 +7,7 @@ import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
 import { focusElement } from 'platform/utilities/ui';
-import { letterContent, bslHelpInstructions } from '../utils/helpers';
+import { letterContent } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
 export class LetterList extends React.Component {
@@ -20,11 +20,9 @@ export class LetterList extends React.Component {
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
       let letterTitle;
-      let helpText;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
         letterTitle = 'Benefit Summary and Service Verification Letter';
         content = <VeteranBenefitSummaryLetter />;
-        helpText = bslHelpInstructions;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
         content = letterContent[letter.letterType] || '';
@@ -55,7 +53,6 @@ export class LetterList extends React.Component {
         >
           <div>{content}</div>
           {conditionalDownloadButton}
-          {helpText}
         </CollapsiblePanel>
       );
     });

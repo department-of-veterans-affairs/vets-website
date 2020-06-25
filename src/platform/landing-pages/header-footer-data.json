@@ -189,14 +189,6 @@
     },
     {
       "column": 4,
-      "href": "https://iris.custhelp.va.gov/app/ask",
-      "order": 2,
-      "target": null,
-      "title": "Ask a question",
-      "rel": "noopener noreferrer"
-    },
-    {
-      "column": 4,
       "label": "Call VA311:",
       "href": "tel:18446982311",
       "order": 3,

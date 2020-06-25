@@ -52,39 +52,6 @@ const VerificationFailed = () => {
             </li>
           </ul>
         </CollapsiblePanel>
-
-        <CollapsiblePanel panelName="Ask us a question online" borderless>
-          <p>
-            Ask us a question online through our online help center, known as
-            the Inquiry Routing &amp; Information System (or IRIS).
-          </p>
-          <p>
-            <strong>Fill in the form fields as below:</strong>
-          </p>
-          <ul>
-            <li>
-              <strong>Question:</strong> Type in “Not in DEERS.”
-            </li>
-            <li>
-              <strong>Topic:</strong> Select “Veteran not in DEERS (Add)”
-            </li>
-            <li>
-              <strong>Inquiry type:</strong> Select “Question”
-            </li>
-          </ul>
-          <p>
-            Then, complete the rest of the form and click{' '}
-            <strong>Submit</strong>
-          </p>
-          <p>We’ll contact you within 2 to 3 days.</p>
-          <a
-            href="https://iris.custhelp.va.gov/app/ask"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Go to the IRIS website question form
-          </a>
-        </CollapsiblePanel>
       </>
     ),
   };

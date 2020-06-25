@@ -40,40 +40,6 @@ const NotFound = () => {
             (EFT)
           </li>
         </ul>
-        <h5>Or ask us a question online</h5>
-        <p>
-          Ask us a question through our online help center, known as the Inquiry
-          Routing & Information System (IRIS).
-        </p>
-        <p>
-          <strong>Fill in the form fields as below:</strong>
-        </p>
-        <ul>
-          <li>
-            <strong>Question: </strong>
-            Type in <strong>Not in DEERS</strong>.
-          </li>
-          <li>
-            <strong>Topic: </strong>
-            Select <strong>Veteran not in DEERS (Add)</strong>.
-          </li>
-          <li>
-            <strong>Inquiry type: </strong> Select <strong>Question</strong>.
-          </li>
-        </ul>
-        <p>
-          Then, complete the rest of the form and click <strong>Submit</strong>.
-        </p>
-        <p>We’ll contact you within 2 to 3 days.</p>
-        <p>
-          <a
-            href="https://iris.custhelp.va.gov/app/ask"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Go to the IRIS website question form
-          </a>
-        </p>
       </div>
     ),
     status: 'error',
