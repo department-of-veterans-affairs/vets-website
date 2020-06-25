@@ -16,12 +16,13 @@ export function ConnectedAppDeleteModal({
       cssClass="va-modal"
       id="disconnect-alert"
       onClose={closeModal}
-      title="Do you want to disconnect this app?"
+      title={`Please confirm that you want to disconnect ${title}`}
       visible={modalOpen}
+      status="warning"
     >
       <p>
-        {title} won’t have access to new information about you from VA once you
-        disconnect. This may impact the usefulness of the app.
+        Once you disconnect this app, it won’t have access to new information
+        from your VA.gov profile. This may affect how useful the app is to you.
       </p>
 
       {!deleting && (
