@@ -73,7 +73,7 @@ const ReviewPageSupplies = ({
         </p>
       )}
       {eligibility?.accessories &&
-        selectedAccessoryProductInfo?.length <= 0 && (
+        selectedAccessoryProductInfo?.length === 0 && (
           <div className="empty-state-eligible-accessory-text">
             <p className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-right--0p5">
               No accessories added.
