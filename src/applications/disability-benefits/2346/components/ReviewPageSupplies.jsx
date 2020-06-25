@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 const ReviewPageSupplies = ({
   batterySupplies,
@@ -15,8 +16,8 @@ const ReviewPageSupplies = ({
         You have requested to receive supplies for the following hearing aids:
       </span>
       <span>
-        ({selectedBatteryProductInfo?.length} out of{' '}
-        {eligibility?.batteries ? batterySupplies?.length : 0} selected)
+        ({selectedBatteryProductInfo?.length} out of {batterySupplies?.length}{' '}
+        selected)
       </span>
       {!eligibility?.batteries && (
         <p className="vads-u-font-style--italic empty-state-ineligible-battery-text">
@@ -63,7 +64,7 @@ const ReviewPageSupplies = ({
       </span>
       <span>
         ({selectedAccessoryProductInfo?.length} out of{' '}
-        {eligibility?.accessories ? accessorySupplies?.length : 0} selected)
+        {accessorySupplies?.length} selected)
       </span>
       {!eligibility?.accessories && (
         <p className="vads-u-font-style--italic empty-state-ineligible-accessory-text">
@@ -108,12 +109,13 @@ const ReviewPageSupplies = ({
 
 const mapStateToProps = (state, ownProps) => {
   const supplies = state.form?.data?.supplies;
-  const batterySupplies = supplies?.filter(supply =>
-    supply.productGroup?.includes('BATTERIES'),
-  );
-  const accessorySupplies = supplies?.filter(supply =>
-    supply.productGroup?.includes('ACCESSORIES'),
-  );
+  const batterySupplies = supplies
+    ?.filter(battery => battery.productGroup?.includes('BATTERIES'))
+    .filter(battery => moment().diff(battery.nextAvailabilityDate) >= 0);
+  const accessorySupplies = supplies
+    ?.filter(accessory => accessory.productGroup?.includes('ACCESSORIES'))
+    .filter(accessory => moment().diff(accessory.nextAvailabilityDate) >= 0);
+
   const order = state.form?.data?.order;
   const productIdArray = order?.map(product => product.productId);
   const selectedBatteryProductInfo = batterySupplies?.filter(supply =>
