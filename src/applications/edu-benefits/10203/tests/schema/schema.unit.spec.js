@@ -3,10 +3,10 @@ import fs from 'fs';
 import path from 'path';
 import { Validator } from 'jsonschema';
 
-import formConfig from '../../../1995/config/form';
-import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
+import formConfig from '../../../10203/config/form';
+import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 
-describe('1995 schema tests', () => {
+describe('10203 schema tests', () => {
   const v = new Validator();
   const files = fs.readdirSync(__dirname);
   files.filter(file => file.endsWith('json')).forEach(file => {
@@ -17,7 +17,7 @@ describe('1995 schema tests', () => {
       const submitData = JSON.parse(
         formConfig.transformForSubmit(formConfig, contents),
       ).educationBenefitsClaim.form;
-      const result = v.validate(JSON.parse(submitData), fullSchema1995);
+      const result = v.validate(JSON.parse(submitData), fullSchema10203);
 
       if (!result.valid) {
         console.log(result.errors); // eslint-disable-line no-console
