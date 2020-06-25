@@ -1,6 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/22-1995-schema.json';
-
-import { benefitsLabels } from '../../utils/labels';
+import { benefitsLabels } from './../content/benefitSelection';
 
 const { benefit } = fullSchema.properties;
 
@@ -10,21 +9,38 @@ const displayBenefit = {
 };
 
 displayBenefit.enum.splice(1, 0, 'fryScholarship');
+const uiSchemaCheckboxes = () => {
+  const uiSchemaCheckbox = {};
+  Object.keys(benefitsLabels).forEach(key => {
+    uiSchemaCheckbox[key] = { 'ui:title': benefitsLabels[key] };
+  });
+  return uiSchemaCheckbox;
+};
+const schemaCheckboxes = () => {
+  const schemaCheckbox = {};
+  Object.keys(benefitsLabels).forEach(key => {
+    schemaCheckbox[key] = { type: 'boolean' };
+  });
+  return schemaCheckbox;
+};
 
 export const uiSchema = {
-  benefit: {
-    'ui:widget': 'radio',
+  'view:benefit': {
     'ui:title':
       'Which benefit are you currently using or have you used most recently?',
-    'ui:options': {
-      labels: benefitsLabels,
-    },
+    ...uiSchemaCheckboxes(),
   },
 };
 
 export const schema = {
   type: 'object',
+  required: ['view:benefit'],
   properties: {
-    benefit: displayBenefit,
+    'view:benefit': {
+      type: 'object',
+      properties: {
+        ...schemaCheckboxes(),
+      },
+    },
   },
 };
