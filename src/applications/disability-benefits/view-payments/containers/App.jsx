@@ -16,7 +16,7 @@ export default function App() {
     <div>
       <div className="vads-l-grid-container vads-u-padding--2">
         <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--12 large-screen:vads-l-col--8">
             <ViewPaymentsHeader />
             <ViewPaymentsLists />
             <p className="vads-u-font-size--lg vads-u-font-weight--bold">
@@ -31,7 +31,7 @@ export default function App() {
               collection.
             </p>
           </div>
-          <div className="vads-l-col--12 medium-screen:vads-l-col--4">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--12 large-screen:vads-l-col--4">
             <ViewPaymentsSidebar>
               <ViewPaymentsSidebarBlock
                 heading={firstSidebarBlock.heading}
