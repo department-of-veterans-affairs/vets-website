@@ -57,7 +57,6 @@ export const chapters = {
       activeDuty: {
         title: 'Active Duty',
         path: 'active-duty',
-        depends: display10203StemFlow,
         uiSchema: activeDuty.uiSchema,
         schema: activeDuty.schema,
       },

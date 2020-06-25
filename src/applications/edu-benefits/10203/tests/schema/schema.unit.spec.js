@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { Validator } from 'jsonschema';
 
-import formConfig from '../../../10203/config/form';
+import formConfig from '../../config/form';
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 
 describe('10203 schema tests', () => {
