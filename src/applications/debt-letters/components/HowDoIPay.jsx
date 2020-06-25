@@ -2,7 +2,7 @@ import React from 'react';
 
 const HowDoIPay = () => (
   <>
-    <h2 className="right-heading">How do I pay my debt?</h2>
+    <h3 className="right-heading">How do I pay my debt?</h3>
     <p>
       You can pay your debt online, by phone, or by mail. If you can't pay the
       entirety of your debt or currently receive monthly benefits, call the Debt

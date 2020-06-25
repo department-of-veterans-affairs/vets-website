@@ -27,6 +27,17 @@ const DebtLettersList = ({ debts }) => (
             debts.map((debt, index) => (
               <DebtLetterCard key={`${index}-${debt.fileNumber}`} debt={debt} />
             ))}
+          <h2 className="vads-u-font-size--h3">What if I don't see a debt?</h2>
+          <p className="vads-u-margin-bottom--0">
+            If you have been notified of a debt that you do not see on this page
+            or would like to get information about your debts that have been
+            resolved, call the Debt Management Center at
+            <p className="vads-u-margin-top--0">
+              <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
+                800-827-0648.
+              </a>
+            </p>
+          </p>
         </div>
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
           <HowDoIPay />

@@ -19,7 +19,7 @@ class DebtLetterCard extends React.Component {
     const { debt } = this.props;
     const mostRecentHistory = last(debt.debtHistory);
     return (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--1">
+      <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--1">
         <h4 className="vads-u-margin--0">
           {deductionCodes[debt.deductionCode]}
         </h4>
