@@ -1,18 +1,22 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { mount } from 'enzyme';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import {
   DefinitionTester,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
+  submitForm,
+} from 'platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../../10203/config/form';
 
-import formConfig from '../../../10203/config/form.js';
-
-describe('Personal Information page', () => {
-  const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.stem;
-
-  it('renders the Edith Nourse Rogers STEM education page', () => {
+describe('Edu 10203 personalInformation', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.personalInformation.pages.contactInformation;
+  it('renders the correct amount of options for the benefit selection radio button', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -20,132 +24,28 @@ describe('Personal Information page', () => {
         uiSchema={uiSchema}
       />,
     );
-
-    expect(form.find('input').length).to.equal(2);
-
+    expect(form.find('input').length).to.equal(12);
     form.unmount();
   });
 
-  it('renders no additional questions when no is selected', () => {
-    const form = mount(
+  it('should have no required inputs', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
         schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
         uiSchema={uiSchema}
       />,
     );
+    const formDOM = findDOMNode(form);
+    submitForm(form);
+    expect(
+      Array.from(formDOM.querySelectorAll('.usa-input-error')).length,
+    ).to.equal(6);
 
-    selectRadio(form, 'root_isEdithNourseRogersScholarship', 'N');
-    expect(form.find('input').length).to.equal(2);
+    submitForm(form);
 
-    form.unmount();
-  });
-
-  it('renders the enrolled in STEM question when yes is selected', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    selectRadio(form, 'root_isEdithNourseRogersScholarship', 'Y');
-    expect(form.find('input').length).to.equal(4);
-    form.unmount();
-  });
-
-  it('renders view:exhaustionOfBenefits when enrolled in STEM', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    selectRadio(form, 'root_isEdithNourseRogersScholarship', 'Y');
-    selectRadio(form, 'root_isEnrolledStem', 'Y');
-    expect(form.find('input').length).to.equal(6);
-    form.unmount();
-  });
-
-  it('renders nothing additional when view:exhaustionOfBenefits is yes', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    selectRadio(form, 'root_isEdithNourseRogersScholarship', 'Y');
-    selectRadio(form, 'root_isEnrolledStem', 'Y');
-    selectRadio(form, 'root_view:exhaustionOfBenefits', 'Y');
-    expect(form.find('input').length).to.equal(6);
-    form.unmount();
-  });
-
-  it('renders nothing additional when view:exhaustionOfBenefits is no', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    selectRadio(form, 'root_isEdithNourseRogersScholarship', 'Y');
-    selectRadio(form, 'root_isEnrolledStem', 'Y');
-    selectRadio(form, 'root_view:exhaustionOfBenefits', 'N');
-    expect(form.find('input').length).to.equal(6);
-    form.unmount();
-  });
-
-  it('renders teaching certification when isEnrolledStem is no', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    selectRadio(form, 'root_isEdithNourseRogersScholarship', 'Y');
-    selectRadio(form, 'root_isEnrolledStem', 'N');
-    expect(form.find('input').length).to.equal(6);
-    form.unmount();
-  });
-
-  it('renders view:exhaustionOfBenefitsAfterPursuingTeachingCert when isPursuingTeachingCert is yes', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    selectRadio(form, 'root_isEdithNourseRogersScholarship', 'Y');
-    selectRadio(form, 'root_isEnrolledStem', 'N');
-    selectRadio(form, 'root_isPursuingTeachingCert', 'Y');
-    expect(form.find('input').length).to.equal(8);
-    form.unmount();
-  });
-
-  it('renders view:exhaustionOfBenefitsAfterPursuingTeachingCert when isPursuingTeachingCert is no', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    selectRadio(form, 'root_isEdithNourseRogersScholarship', 'Y');
-    selectRadio(form, 'root_isEnrolledStem', 'N');
-    selectRadio(form, 'root_isPursuingTeachingCert', 'N');
-    expect(form.find('input').length).to.equal(8);
-    form.unmount();
+    expect(onSubmit.called).to.be.false;
   });
 });

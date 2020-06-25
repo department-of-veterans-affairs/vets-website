@@ -11,11 +11,11 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../10203/config/form';
 
-describe('Edu 10203 personalInformation', () => {
+describe('Edu 10203 benefitSelection', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.personalInformation.pages.contactInformation;
+  } = formConfig.chapters.benefitSelection.pages.benefitSelection;
   it('renders the correct amount of options for the benefit selection radio button', () => {
     const form = mount(
       <DefinitionTester
@@ -24,7 +24,7 @@ describe('Edu 10203 personalInformation', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(14);
+    expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 
@@ -40,9 +40,8 @@ describe('Edu 10203 personalInformation', () => {
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
-    expect(
-      Array.from(formDOM.querySelectorAll('.usa-input-error')).length,
-    ).to.equal(7);
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
+      .empty;
 
     submitForm(form);
 
