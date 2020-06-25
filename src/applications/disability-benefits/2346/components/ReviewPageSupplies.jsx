@@ -20,22 +20,24 @@ const ReviewPageSupplies = ({
         {eligibility?.batteries ? batterySupplies?.length : 0} selected)
       </span>
       {!eligibility?.batteries && (
-        <p className="vads-u-font-style--italic">
+        <p className="vads-u-font-style--italic empty-state-ineligible-battery-text">
           You can't add batteries to your order at this time due to
           ineligibility.
         </p>
       )}
       {eligibility?.batteries &&
         selectedBatteryProductInfo?.length <= 0 && (
-          <p className="vads-u-font-style--italic">
-            No batteries added.{' '}
+          <div className="empty-state-eligible-battery-text">
+            <p className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-right--0p5">
+              No batteries added.
+            </p>
             <button
-              className="va-button-link"
+              className="va-button-link eligible"
               onClick={() => formContext.onEdit()}
             >
               Add batteries to your order
             </button>
-          </p>
+          </div>
         )}
     </dt>
     {eligibility?.batteries && (
@@ -65,22 +67,24 @@ const ReviewPageSupplies = ({
         {eligibility?.accessories ? accessorySupplies?.length : 0} selected)
       </span>
       {!eligibility?.accessories && (
-        <p className="vads-u-font-style--italic">
+        <p className="vads-u-font-style--italic empty-state-ineligible-accessory-text">
           You can't add accessories to your order at this time due to
           ineligibility.
         </p>
       )}
       {eligibility?.accessories &&
         selectedAccessoryProductInfo?.length <= 0 && (
-          <p className="vads-u-font-style--italic">
-            No accessories added.{' '}
+          <div className="empty-state-eligible-accessory-text">
+            <p className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-right--0p5">
+              No accessories added.
+            </p>
             <button
               className="va-button-link"
               onClick={() => formContext.onEdit()}
             >
               Add accessories to your order
             </button>
-          </p>
+          </div>
         )}
     </dd>
     {eligibility?.accessories &&

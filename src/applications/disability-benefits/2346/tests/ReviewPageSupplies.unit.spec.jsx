@@ -57,6 +57,43 @@ describe('ReviewPageSupplies', () => {
     subscribe: () => {},
     dispatch: () => {},
   };
+
+  const fakeStoreEmptyStates = {
+    getState: () => ({
+      form: {
+        data: {
+          supplies: [
+            {
+              deviceName: 'OMEGAX d3241',
+              productName: 'ZA1239',
+              productGroup: 'BATTERIES',
+              productId: 1,
+              lastOrderDate: '2020-01-01',
+              nextAvailabilityDate: '2020-09-01',
+              quantity: 60,
+              prescribedDate: '2020-12-20',
+            },
+            {
+              productName: 'DOME',
+              productGroup: 'ACCESSORIES',
+              productId: 3,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+              size: '6mm',
+            },
+          ],
+          order: [],
+          eligibility: {
+            batteries: false,
+            accessories: true,
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
   it('should render reviewPageSupplies', () => {
     const reviewPageSupplies = mount(<ReviewPageSupplies store={fakeStore} />);
     expect(reviewPageSupplies).not.to.be.undefined;
@@ -93,6 +130,18 @@ describe('ReviewPageSupplies', () => {
         .at(2)
         .text(),
     ).to.equal('ZA1239 batteries (Quantity: 60)');
+    reviewPageSupplies.unmount();
+  });
+  it('should display empty state content', () => {
+    const reviewPageSupplies = mount(
+      <ReviewPageSupplies store={fakeStoreEmptyStates} />,
+    );
+    expect(
+      reviewPageSupplies.find('.empty-state-ineligible-battery-text'),
+    ).length.to.be(1);
+    expect(
+      reviewPageSupplies.find('.empty-state-eligible-accessory-text'),
+    ).length.to.be(1);
     reviewPageSupplies.unmount();
   });
 });
