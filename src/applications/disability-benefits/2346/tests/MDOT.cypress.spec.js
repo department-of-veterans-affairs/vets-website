@@ -13,8 +13,6 @@ const dataSetToUserMap = {
 };
 
 const happyPathPageHooks = {
-  // Due to automatic path resolution, this URL expands to:
-  // '/some-form-app-url/introduction'. Either format can be used.
   introduction: () => {
     cy.findAllByText(/order/i, { selector: 'button' })
       .first()
@@ -78,8 +76,6 @@ const noTempAddressPageHooks = {
 };
 
 const noBatteriesPageHooks = {
-  // Due to automatic path resolution, this URL expands to:
-  // '/some-form-app-url/introduction'. Either format can be used.
   introduction: () => {
     cy.findAllByText(/order/i, { selector: 'button' })
       .first()
@@ -111,8 +107,6 @@ const noBatteriesPageHooks = {
 };
 
 const noAccessoriesPageHooks = {
-  // Due to automatic path resolution, this URL expands to:
-  // '/some-form-app-url/introduction'. Either format can be used.
   introduction: () => {
     cy.findAllByText(/order/i, { selector: 'button' })
       .first()
@@ -143,8 +137,6 @@ const noAccessoriesPageHooks = {
 };
 
 const noItemsEligiblePageHooks = {
-  // Due to automatic path resolution, this URL expands to:
-  // '/some-form-app-url/introduction'. Either format can be used.
   introduction: () => {
     cy.findAllByText(/order/i, { selector: 'button' })
       .first()
@@ -173,36 +165,32 @@ const noItemsEligiblePageHooks = {
   },
 };
 
-let pageHooksData = {};
+// let pageHooksData = {};
 
-const getPageHookData = () => {
-  cy.get('@testKey').then(testKey => {
-    switch (testKey) {
-      case 'happyPath':
-        pageHooksData = happyPathPageHooks;
-        break;
-      case 'noTempAddress':
-        pageHooksData = noTempAddressPageHooks;
-        break;
-      case 'noBatteries':
-        pageHooksData = noBatteriesPageHooks;
-        break;
-      case 'noAccessories':
-        pageHooksData = noAccessoriesPageHooks;
-        break;
-      case 'noItemsEligible':
-        pageHooksData = noItemsEligiblePageHooks;
-        break;
-      default:
-        break;
-    }
-    /* eslint-disable no-debugger */
-    debugger;
-    return pageHooksData;
-  });
-  /* eslint-disable no-debugger */
-  debugger;
-};
+// const getPageHookData = () => {
+//   cy.get('@testKey').then(testKey => {
+//     switch (testKey) {
+//       case 'happyPath':
+//         pageHooksData = happyPathPageHooks;
+//         break;
+//       case 'noTempAddress':
+//         pageHooksData = noTempAddressPageHooks;
+//         break;
+//       case 'noBatteries':
+//         pageHooksData = noBatteriesPageHooks;
+//         break;
+//       case 'noAccessories':
+//         pageHooksData = noAccessoriesPageHooks;
+//         break;
+//       case 'noItemsEligible':
+//         pageHooksData = noItemsEligiblePageHooks;
+//         break;
+//       default:
+//         break;
+//     }
+//     return pageHooksData;
+//   });
+// };
 
 const testConfig = createTestConfig(
   {
@@ -221,7 +209,33 @@ const testConfig = createTestConfig(
       users: path.join(__dirname, 'data/users'),
     },
 
-    pageHooks: () => {},
+    pageHooks: () => {
+      let pageHooksData;
+      cy.wrap(
+        cy.get('@testKey').then(testKey => {
+          switch (testKey) {
+            case 'happyPath':
+              pageHooksData = happyPathPageHooks;
+              break;
+            case 'noTempAddress':
+              pageHooksData = noTempAddressPageHooks;
+              break;
+            case 'noBatteries':
+              pageHooksData = noBatteriesPageHooks;
+              break;
+            case 'noAccessories':
+              pageHooksData = noAccessoriesPageHooks;
+              break;
+            case 'noItemsEligible':
+              pageHooksData = noItemsEligiblePageHooks;
+              break;
+            default:
+              break;
+          }
+          return pageHooksData;
+        }),
+      );
+    },
 
     setup: () => {
       cy.log('Logging something before starting tests.');
