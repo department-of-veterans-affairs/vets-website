@@ -232,7 +232,11 @@ export class VAFacilityPage extends React.Component {
             continueLabel=""
             disabled={disableSubmitButton}
             pageChangeInProgress={loadingEligibility || pageChangeInProgress}
-            loadingText="Page change in progress"
+            loadingText={
+              loadingEligibility
+                ? 'Checking eligibility requirements'
+                : 'Page change in progress'
+            }
           />
           {(loadingEligibility || pageChangeInProgress) && (
             <div aria-atomic="true" aria-live="assertive">

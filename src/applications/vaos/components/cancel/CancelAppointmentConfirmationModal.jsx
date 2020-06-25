@@ -22,7 +22,7 @@ export default function CancelAppointmentConfirmationModal({
       <p className="vads-u-margin-top--2">
         <LoadingButton
           isLoading={status === FETCH_STATUS.loading}
-          loadingText="Page change in progress"
+          loadingText="Canceling appointment"
           onClick={onConfirm}
         >
           Yes, cancel this appointment
