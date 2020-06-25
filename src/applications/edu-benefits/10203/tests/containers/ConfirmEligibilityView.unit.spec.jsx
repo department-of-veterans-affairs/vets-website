@@ -10,7 +10,7 @@ const createStore = (data = {}) =>
   createCommonStore({
     form: () => ({
       data: {
-        benefit: 'chapter33',
+        'view:benefit': { chapter33: true },
         isEnrolledStem: true,
         isPursuingTeachingCert: false,
         benefitLeft: 'none',
@@ -58,11 +58,15 @@ describe('<ConfirmEligibilityView>', () => {
 
   it('should display X for incorrect benefit', () => {
     const store = createStore({
-      benefit: 'other',
+      'view:benefit': { chapter30: true },
     });
+    const props = {
+      ...defaultProps,
+      ...store.getState(),
+    };
     const tree = mount(
       <Provider store={store}>
-        <ConfirmEligibilityView {...defaultProps} />
+        <ConfirmEligibilityView {...props} />
       </Provider>,
     );
     const icon = tree

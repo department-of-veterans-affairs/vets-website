@@ -40,8 +40,7 @@ export class ConfirmEligibilityView extends React.Component {
   );
 
   renderBenefitCheck = () => {
-    const check = isChapter33(this.props);
-
+    const check = isChapter33(this.props.form.data);
     const text =
       'Are using or recently used Post-9/11 GI Bill or Fry Scholarship benefits';
     const title = this.iconText(check);
@@ -53,7 +52,6 @@ export class ConfirmEligibilityView extends React.Component {
   renderBenefitLeftCheck = () => {
     const { benefitLeft } = this.props;
     const check = benefitLeft !== 'moreThanSixMonths';
-
     const text =
       'Have used all of your education benefits or are within 6 months of doing so when you submit your application';
     const title = this.iconText(check);
@@ -65,7 +63,6 @@ export class ConfirmEligibilityView extends React.Component {
   renderEnrolledCheck = () => {
     const { isEnrolledStem, isPursuingTeachingCert } = this.props;
     const check = isEnrolledStem || isPursuingTeachingCert;
-
     const text =
       'Are enrolled in an undergraduate degree for science, technology, engineering, or math (STEM) requiring at least 120 semester (or 180 quarter) credit hours for completion, or have already earned an undergraduate STEM degree and are pursuing a teaching certification';
     const title = this.iconText(check);
@@ -219,7 +216,6 @@ const mapStateToProps = (state, ownProps) => {
     ownProps?.errorSchema['view:confirmEligibility']?.__errors || [];
 
   return {
-    benefit: state?.form?.data?.benefit,
     benefitLeft: state?.form?.data.benefitLeft,
     isEnrolledStem: state?.form?.data.isEnrolledStem,
     isPursuingTeachingCert: state?.form?.data?.isPursuingTeachingCert || false,

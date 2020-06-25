@@ -5,13 +5,19 @@ import { isChapter33, displayConfirmEligibility } from '../helpers';
 describe('helpers', () => {
   describe('isChapter33', () => {
     it('returns true for chapter33', () => {
-      expect(isChapter33({ benefit: 'chapter33' })).to.equal(true);
+      expect(isChapter33({ 'view:benefit': { chapter33: true } })).to.equal(
+        true,
+      );
     });
     it('returns true for fryScholarship', () => {
-      expect(isChapter33({ benefit: 'fryScholarship' })).to.equal(true);
+      expect(
+        isChapter33({ 'view:benefit': { fryScholarship: true } }),
+      ).to.equal(true);
     });
     it('returns false for any other value', () => {
-      expect(isChapter33({ benefit: 'chapter30' })).to.equal(false);
+      expect(isChapter33({ 'view:benefit': { chapter30: true } })).to.equal(
+        false,
+      );
     });
   });
 
@@ -21,7 +27,7 @@ describe('helpers', () => {
         displayConfirmEligibility({
           isEnrolledStem: true,
           benefitLeft: 'none',
-          benefit: 'chapter33',
+          'view:benefit': { chapter33: true },
         }),
       ).to.equal(false);
     });
@@ -36,9 +42,9 @@ describe('helpers', () => {
       );
     });
     it('invalid benefit', () => {
-      expect(displayConfirmEligibility({ benefit: 'chapter30' })).to.equal(
-        true,
-      );
+      expect(
+        displayConfirmEligibility({ 'view:benefit': { chapter30: true } }),
+      ).to.equal(true);
     });
   });
 });

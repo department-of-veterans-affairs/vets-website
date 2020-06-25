@@ -1,5 +1,5 @@
 export const isChapter33 = form =>
-  form.benefit === 'chapter33' || form.benefit === 'fryScholarship';
+  !!form['view:benefit']?.chapter33 || !!form['view:benefit']?.fryScholarship;
 
 export const displayConfirmEligibility = form =>
   !isChapter33(form) ||
