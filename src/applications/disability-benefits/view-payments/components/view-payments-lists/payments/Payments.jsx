@@ -12,18 +12,16 @@ class PaymentsReceived extends Component {
   state = {
     page: 1,
     maxRows: 5,
-    paginationStartIndex: 0,
-    paginationEndIndex: 5,
     numberOfPages: null,
-    allTableData: null,
     currentlyShowingData: [],
     paginatedData: null,
-    fromDisplay: null,
-    toDisplay: null,
+    fromNumber: null,
+    toNumber: null,
   };
 
   componentDidMount() {
     this.handleLoadData();
+    this.handleDisplayNumbers(1);
   }
 
   // when the page loads, load the initial data set from props into the table
@@ -43,6 +41,21 @@ class PaymentsReceived extends Component {
       currentlyShowingData: this.state.paginatedData[page - 1],
       page,
     });
+    this.handleDisplayNumbers(page);
+  };
+
+  handleDisplayNumbers = page => {
+    let fromDisplayNumber = 1;
+    let toDisplayNumber = this.state.maxRows;
+    if (page > 1) {
+      fromDisplayNumber = (page - 1) * this.state.maxRows + 1;
+      if (page * this.state.maxRows > this.props.data.length) {
+        toDisplayNumber = this.props.data.length;
+      } else {
+        toDisplayNumber = page * this.state.maxRows;
+      }
+    }
+    this.setState({ fromNumber: fromDisplayNumber, toNumber: toDisplayNumber });
   };
 
   render() {
@@ -51,6 +64,10 @@ class PaymentsReceived extends Component {
       tableContent = (
         <>
           {this.props.textContent}
+          <p>
+            Displaying {this.state.fromNumber} - {this.state.toNumber} of{' '}
+            {this.props.data.length}
+          </p>
           <ResponsiveTable
             className="va-table"
             currentSort={{
