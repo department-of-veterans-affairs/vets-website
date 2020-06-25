@@ -27,8 +27,7 @@ const schemaCheckboxes = () => {
 
 export const uiSchema = {
   'view:benefit': {
-    'ui:title':
-      'Which benefit are you currently using or have you used most recently?',
+    'ui:title': 'Which benefit have you used or are currently using?',
     'ui:validations': [validateBooleanGroup],
     'ui:errorMessages': {
       atLeastOne: 'Please select at least one',
