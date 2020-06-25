@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import PaymentView from '../../components/PaymentView';
 
-describe('Disability benefits 526EZ payment view', () => {
+describe.skip('Disability benefits 526EZ payment view', () => {
   const defaultProps = {
     accountType: 'Checking',
     accountNumber: '123456789',

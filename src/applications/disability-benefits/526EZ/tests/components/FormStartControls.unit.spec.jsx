@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 
 import FormStartControls from '../../components/FormStartControls';
 
-describe('526 <FormStartControls>', () => {
+describe.skip('526 <FormStartControls>', () => {
   it('should render unauthenticated view', () => {
     const authenticate = sinon.spy();
     const tree = shallow(

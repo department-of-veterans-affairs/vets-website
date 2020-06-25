@@ -133,12 +133,13 @@ function getRequestDateOptions(appt) {
 }
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
+  const startOfToday = today.startOf('day');
   // Past 3 months
   const options = [
     {
       value: 0,
       label: 'Past 3 months',
-      startDate: today
+      startDate: startOfToday
         .clone()
         .subtract(3, 'months')
         .format(),
@@ -151,11 +152,11 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
   let monthsToSubtract = 3;
 
   while (index < 4) {
-    const start = today
+    const start = startOfToday
       .clone()
       .subtract(index === 1 ? 5 : monthsToSubtract + 2, 'months')
       .startOf('month');
-    const end = today
+    const end = startOfToday
       .clone()
       .subtract(index === 1 ? 3 : monthsToSubtract, 'months')
       .endOf('month');
@@ -174,16 +175,16 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
   // All of current year
   options.push({
     value: 4,
-    label: `All of ${today.format('YYYY')}`,
-    startDate: today
+    label: `All of ${startOfToday.format('YYYY')}`,
+    startDate: startOfToday
       .clone()
       .startOf('year')
       .format(),
-    endDate: today.format(),
+    endDate: startOfToday.format(),
   });
 
   // All of last year
-  const lastYear = today.clone().subtract(1, 'years');
+  const lastYear = startOfToday.clone().subtract(1, 'years');
 
   options.push({
     value: 5,

@@ -6,6 +6,7 @@ import { display10203StemFlow, displayConfirmEligibility } from '../helpers';
 
 import {
   activeDuty,
+  applicantInformation,
   benefitSelection,
   stemEligibility,
   confirmEligibility,
@@ -16,11 +17,14 @@ export const chapters = {
   applicantInformation: {
     title: 'Applicant Information',
     pages: {
-      applicantInformation: createApplicantInformationPage(fullSchema10203, {
-        isVeteran: true,
-        fields: ['veteranFullName', 'veteranSocialSecurityNumber'],
-        required: ['veteranFullName'],
-      }),
+      applicantInformation: {
+        ...createApplicantInformationPage(fullSchema10203, {
+          isVeteran: true,
+          fields: ['veteranFullName', 'veteranSocialSecurityNumber'],
+          required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+        }),
+        uiSchema: applicantInformation.uiSchema,
+      },
     },
   },
   benefitSelection: {
@@ -60,7 +64,7 @@ export const chapters = {
     },
   },
   militaryService: {
-    title: 'Military History',
+    title: 'Military Details',
     pages: {
       activeDuty: {
         title: 'Active Duty',

@@ -105,7 +105,7 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
     <h3 id="estimated-benefits" tabIndex="-1">
       Your estimated benefits
     </h3>
-    <div className="out-of-pocket-tuition">
+    <div aria-live="polite" role="status" className="out-of-pocket-tuition">
       <CalculatorResultRow
         label="GI Bill pays to school"
         value={outputs.giBillPaysToSchool.value}

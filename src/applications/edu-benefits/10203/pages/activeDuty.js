@@ -6,7 +6,7 @@ const { isActiveDuty } = fullSchema10203.properties;
 export const uiSchema = {
   isActiveDuty: {
     'ui:title':
-      'Are you currently on active duty or do you anticipate you will be going on active duty?',
+      'Are you currently on active duty or will you be going on active duty while receiving the Rogers STEM Scholarship?',
     'ui:widget': 'yesNo',
   },
   'view:housingPaymentInfo': {
