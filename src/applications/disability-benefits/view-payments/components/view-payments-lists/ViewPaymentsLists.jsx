@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import PaymentsReceived from './payments-received/PaymentsReceived.jsx';
-import PaymentsReturned from './payments-returned/PaymentsReturned.jsx';
-import { fields } from './helpers';
+import Payments from './payments/Payments.jsx';
+import {
+  fields,
+  paymentsRecievedContent,
+  paymentsReturnedContent,
+} from './helpers';
 import { getAllPayments } from '../../actions';
 
 class ViewPaymentsLists extends Component {
@@ -24,15 +27,17 @@ class ViewPaymentsLists extends Component {
       );
     } else if (!this.props.isLoading) {
       paymentsReceivedTableContent = (
-        <PaymentsReceived
+        <Payments
           fields={fields}
           data={this.props.hasPaymentsReceived}
+          textContent={paymentsRecievedContent}
         />
       );
       paymentsReturnedTableContent = (
-        <PaymentsReturned
+        <Payments
           fields={fields}
           data={this.props.hasPaymentsReturned}
+          textContent={paymentsReturnedContent}
         />
       );
     }
