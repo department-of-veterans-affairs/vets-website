@@ -99,6 +99,13 @@ class Profile2Router extends Component {
 
             <Redirect
               exact
+              from="/profile#contact-information"
+              key="/profile/personal-information"
+              to="/profile/personal-information"
+            />
+
+            <Redirect
+              exact
               from="/profile"
               key="/profile/personal-information"
               to="/profile/personal-information"
