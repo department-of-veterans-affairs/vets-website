@@ -53,7 +53,10 @@ export function isEmptyAddress(address) {
  * @param {string} abbreviation
  * @returns {string}
  */
-export function getStateName(abbreviation = '') {
+export function getStateName(abbreviation) {
+  if (!abbreviation) {
+    return abbreviation;
+  }
   return STATE_NAMES[abbreviation.toUpperCase()];
 }
 
@@ -98,10 +101,12 @@ export function formatAddress(address) {
       .filter(item => item)
       .join(', ') || '';
 
-  const stateName =
-    addressType === ADDRESS_TYPES.domestic
-      ? stateCode
-      : getStateName(stateCode);
+  // only use the full state name for military addresses, otherwise just show
+  // the two-letter state code
+  let stateName = stateCode;
+  if (addressType === ADDRESS_TYPES.military) {
+    stateName = getStateName(stateCode);
+  }
 
   switch (addressType) {
     case ADDRESS_TYPES.domestic:
