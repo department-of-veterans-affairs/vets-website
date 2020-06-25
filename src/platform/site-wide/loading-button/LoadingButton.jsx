@@ -25,7 +25,11 @@ export default function LoadingButton({
       children
     );
   } else {
-    contents = isLoading ? <i className="fa fa-spinner fa-spin" /> : children;
+    contents = isLoading ? (
+      <i className="fa fa-spinner fa-spin" aria-hidden="true" />
+    ) : (
+      children
+    );
   }
 
   return (
