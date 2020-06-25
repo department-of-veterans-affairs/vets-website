@@ -63,7 +63,7 @@ export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
 
 export default connect(state => {
   const profile = selectProfile(state);
-  const veteran = state.form?.loadedData?.formData;
+  const veteran = state.form?.loadedData?.formData?.veteran;
   return {
     profile,
     veteran,
