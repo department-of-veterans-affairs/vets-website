@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -24,9 +25,8 @@ import { errorMessages } from '../constants';
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: `${environment.API_URL}/v0/higher_level_review/submit`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/appeals/higher_level_reviews`,
+  // submit: () => Promise.resolve({attributes: {confirmationNumber: '123'}}),
   trackingPrefix: 'hlr-0996-',
   downtime: {
     requiredForPrefill: true,
