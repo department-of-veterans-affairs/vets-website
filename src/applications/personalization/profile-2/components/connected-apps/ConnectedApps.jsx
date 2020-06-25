@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ConnectedApp } from './ConnectedApp';
-import recordEvent from 'platform/monitoring/record-event';
+import { isEmpty } from 'lodash';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { AppDeletedAlert } from './AppDeletedAlert';
 import {
   deleteConnectedApp,
   dismissDeletedAppAlert,
   loadConnectedApps,
 } from 'applications/personalization/profile-2/components/connected-apps/actions';
+import recordEvent from 'platform/monitoring/record-event';
 import { AdditionalInfoSections } from './AdditionalInfoSections';
+import { AppDeletedAlert } from './AppDeletedAlert';
 import availableConnectedApps from './availableConnectedApps';
-import { isEmpty } from 'lodash';
+import { ConnectedApp } from './ConnectedApp';
 
 export class ConnectedApps extends Component {
   componentDidMount() {
@@ -33,6 +33,8 @@ export class ConnectedApps extends Component {
     const activeApps = apps ? apps.filter(app => !app.deleted) : [];
 
     const allAppsDeleted = deletedApps?.length === apps?.length;
+    const showHasNoConnectedApps = !apps || (allAppsDeleted && !loading);
+    const showHasConnectedApps = apps && !allAppsDeleted;
 
     return (
       <div className="va-connected-apps">
@@ -44,50 +46,46 @@ export class ConnectedApps extends Component {
           Connected apps
         </h2>
 
-        {apps &&
-          !allAppsDeleted && (
+        {showHasConnectedApps && (
+          <p className="va-introtext vads-u-font-size--md">
+            Your VA.gov profile is connected to the third-party (non-VA) apps
+            listed below. If you want to stop sharing information with an app,
+            you can disconnect it from your profile at any time.
+          </p>
+        )}
+
+        {showHasNoConnectedApps && (
+          <div className="connected-apps-intro">
             <p className="va-introtext vads-u-font-size--md">
-              Your VA.gov profile is connected to the third-party (non-VA) apps
-              listed below. If you want to stop sharing information with an app,
-              you can disconnect it from your profile at any time.
+              Connected apps are third-party (non-VA) applications or websites
+              that can share certain information from your VA.gov profile, with
+              your permission. For example, you can connect information from
+              your VA health record to an app that helps you track your health.
             </p>
-          )}
 
-        {!apps ||
-          (allAppsDeleted &&
-            !loading && (
-              <div className="connected-apps-intro">
-                <p className="va-introtext vads-u-font-size--md">
-                  Connected apps are third-party (non-VA) applications or
-                  websites that can share certain information from your VA.gov
-                  profile, with your permission. For example, you can connect
-                  information from your VA health record to an app that helps
-                  you track your health.
-                </p>
-
-                <p className="va-introtext vads-u-font-size--md">
-                  We offer this feature for your convenience. It’s always your
-                  choice whether to connect, or stay connected, to a third-party
-                  app.
-                </p>
-                <h3>Third-party apps you can connect to your profile</h3>
-                <ul className="vads-u-padding-left--0 vads-u-margin-bottom--2">
-                  {availableConnectedApps?.map(app => {
-                    return (
-                      <li key={app.name} className="vads-u-padding-left--3">
-                        <a
-                          href={app.appURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {app.name}
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ))}
+            <p className="va-introtext vads-u-font-size--md">
+              We offer this feature for your convenience. It’s always your
+              choice whether to connect, or stay connected, to a third-party
+              app.
+            </p>
+            <h3>Third-party apps you can connect to your profile</h3>
+            <ul className="vads-u-padding-left--0 vads-u-margin-bottom--2">
+              {availableConnectedApps?.map(app => {
+                return (
+                  <li key={app.name} className="vads-u-padding-left--3">
+                    <a
+                      href={app.appURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {app.name}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
 
         {loading && (
           <LoadingIndicator setFocus message="Loading your connected apps..." />
