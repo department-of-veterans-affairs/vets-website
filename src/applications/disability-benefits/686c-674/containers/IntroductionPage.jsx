@@ -63,7 +63,8 @@ class IntroductionPage extends React.Component {
       );
     } else if (
       user?.login?.currentlyLoggedIn &&
-      !hasVaFileNumber?.validVaFileNumber
+      !hasVaFileNumber?.validVaFileNumber &&
+      !isLoading
     ) {
       content = (
         <div className="schemaform-intro">
