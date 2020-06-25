@@ -36,6 +36,12 @@ export async function checkAutoSession(application = null, to = null) {
     // case we don't want to logout the user because we don't know
     logout('v1', 'sso-automatic-logout');
   } else if (!hasSession() && hasSessionSSO() && !getForceAuth() && authn) {
+    // only attempt an auto login if the user is
+    // a) does not have a VA.gov session
+    // b) has an SSOe session
+    // c) is not required for forceAuth (meaning their environment has SSOe
+    //    enabled and they have not previously tried to login)
+    // d) we have a non empty type value from the keepalive call to login with
     const params = { inbound: 'true', authn };
     login('custom', 'v1', application, to, params, 'sso-automatic-login');
   }

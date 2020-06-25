@@ -269,7 +269,7 @@
     "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
     "express": "^4.17.1",
-    "express-http-proxy": "^1.5.1",
+    "express-http-proxy": "^1.6.0",
     "fast-levenshtein": "^2.0.6",
     "fine-uploader": "^5.16.2",
     "foundation-sites": "^5.5.3",
