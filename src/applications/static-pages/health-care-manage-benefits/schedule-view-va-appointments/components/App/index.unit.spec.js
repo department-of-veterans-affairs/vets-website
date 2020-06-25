@@ -30,7 +30,6 @@ describe('Schedule View VA Appointments Page <App>', () => {
     expect(text).to.include(
       'Will my personal health information be protected?',
     );
-    expect(text).to.include('What if I have more questions?');
 
     wrapper.unmount();
   });

@@ -1,10 +1,15 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 // Relative imports.
 import './styles.scss';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
+import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
+import WhatIfIHaveMoreQuestions from '../../../components/WhatIfIHaveMoreQuestions';
+import { selectIsCernerPatient } from 'platform/user/selectors';
 
-export const App = () => (
+export const App = ({ isCernerPatient }) => (
   <>
     <div className="usa-alert usa-alert-info" role="alert">
       <div className="usa-alert-body">
@@ -184,36 +189,41 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h2 itemProp="name" id="what-types-of-medical-appointm">
-          What types of medical appointments can I schedule online?
-        </h2>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                It depends on the VA health facility where you’re receiving
-                care. You can typically schedule an appointment online for the
-                types of care that don’t require a referral.
-              </p>
-              <p>
-                Once you’re signed in to the appointments tool, you’ll be able
-                to see what types of appointments you can schedule online at
-                your registered health facility.&nbsp;&nbsp;You can also check
-                with the facility where you receive care about scheduling
-                appointments online.&nbsp;
-              </p>
-              <p>
-                <a href="/find-locations/">Find a VA health facility</a>
-              </p>
+
+      {/* ONLY UNAUTH */}
+      {!isCernerPatient && (
+        <div itemScope itemType="http://schema.org/Question">
+          <h2 itemProp="name" id="what-types-of-medical-appointm">
+            What types of medical appointments can I schedule online?
+          </h2>
+          <div
+            itemProp="acceptedAnswer"
+            itemScope
+            itemType="http://schema.org/Answer"
+          >
+            <div itemProp="text">
+              <div className="processed-content">
+                <p>
+                  It depends on the VA health facility where you’re receiving
+                  care. You can typically schedule an appointment online for the
+                  types of care that don’t require a referral.
+                </p>
+                <p>
+                  Once you’re signed in to the appointments tool, you’ll be able
+                  to see what types of appointments you can schedule online at
+                  your registered health facility.&nbsp;&nbsp;You can also check
+                  with the facility where you receive care about scheduling
+                  appointments online.&nbsp;
+                </p>
+                <p>
+                  <a href="/find-locations/">Find a VA health facility</a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
+
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="can-i-use-this-tool-to-schedul">
           Can I use this tool to schedule non-VA appointments?
@@ -300,54 +310,38 @@ export const App = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h2 itemProp="name" id="what-if-i-have-more-questions">
-          What if I have more questions?
-        </h2>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                <strong>
-                  If you have questions about scheduling an appointment
-                </strong>
-                , please go to the{' '}
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/faqs#Appointments"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  VA Appointments FAQs
-                </a>{' '}
-                on the My HealtheVet web portal.
-              </p>
-              <p>
-                Or contact the My HealtheVet help desk at{' '}
-                <a href="tel:+18773270022">877-327-0022</a> (TTY:{' '}
-                <a href="tel:+18008778339">800-877-8339</a>. We&apos;re here
-                Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
-              </p>
-              <p>
-                You can also{' '}
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  contact us online
-                </a>
-                .
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+
+      <WhatIfIHaveMoreQuestions isCernerPatient={isCernerPatient}>
+        <p>
+          <strong>If you have questions about scheduling an appointment</strong>
+          , please go to the{' '}
+          <a
+            href="https://www.myhealth.va.gov/mhv-portal-web/faqs#Appointments"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            VA Appointments FAQs
+          </a>{' '}
+          on the My HealtheVet web portal.
+        </p>
+      </WhatIfIHaveMoreQuestions>
+
+      {/* ONLY CERNER PATIENTS */}
+      {isCernerPatient && <MoreInfoAboutBenefits />}
     </div>
   </>
 );
 
-export default App;
+App.propTypes = {
+  // From mapStateToProps.
+  isCernerPatient: PropTypes.bool,
+};
+
+const mapStateToProps = state => ({
+  isCernerPatient: selectIsCernerPatient(state),
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(App);
