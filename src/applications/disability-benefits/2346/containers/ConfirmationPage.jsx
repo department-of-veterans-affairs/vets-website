@@ -179,8 +179,10 @@ const ConfirmationPage = ({
                 Your order for hearing aid supplies wasn’t submitted because you
                 didn’t select any items.
               </p>
-              <p className="vads-u-font-weight--bold">What you can do</p>
-              <p>
+              <p className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-font-family--serif">
+                What you can do
+              </p>
+              <p className="vads-u-margin-top--0">
                 If you want to{' '}
                 <a
                   href={`${
