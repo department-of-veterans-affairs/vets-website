@@ -70,8 +70,6 @@ export class EstimateYourBenefits extends React.Component {
 
   updateEstimatedBenefits = () => {
     this.props.updateEstimatedBenefits(this.props.calculated.outputs);
-    scroller.scrollTo('estimated-benefits', getScrollOptions());
-    focusElement('#estimated-benefits');
   };
 
   toggleEybExpansion() {

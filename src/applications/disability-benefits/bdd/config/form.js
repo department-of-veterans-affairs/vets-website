@@ -50,7 +50,6 @@ import {
   choosePtsdType,
   claimExamsInfo,
   contactInformation,
-  evidenceTypes,
   federalOrders,
   finalIncident,
   individualUnemployability,
@@ -71,10 +70,15 @@ import {
   summaryOfEvidence,
   uploadPersonalPtsdDocuments,
   uploadPtsdDocuments,
+  vaEmployee,
   workBehaviorChanges,
 } from '../../all-claims/pages';
 
-import { militaryHistory, serviceTreatmentRecords } from '../pages';
+import {
+  evidenceTypes,
+  militaryHistory,
+  serviceTreatmentRecords,
+} from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../../all-claims/content/ancillaryFormsWizardIntro';
 
@@ -474,6 +478,12 @@ const formConfig = {
           uiSchema: paymentInformation.uiSchema,
           schema: paymentInformation.schema,
           onContinue: captureEvents.paymentInformation,
+        },
+        vaEmployee: {
+          title: 'VA employee',
+          path: 'va-employee',
+          uiSchema: vaEmployee.uiSchema,
+          schema: vaEmployee.schema,
         },
       },
     },
