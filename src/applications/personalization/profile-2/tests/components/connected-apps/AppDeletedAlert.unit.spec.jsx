@@ -9,7 +9,9 @@ describe('<AppDeletedAlert>', () => {
     const wrapper = mount(<AppDeletedAlert />);
     const text = wrapper.text();
 
-    expect(text).to.include("We've disconnected ");
+    expect(text).to.include(
+      'This app can’t access any new information from your VA.gov profile',
+    );
 
     wrapper.unmount();
   });
