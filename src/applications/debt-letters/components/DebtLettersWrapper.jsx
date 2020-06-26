@@ -19,7 +19,7 @@ class DebtLettersWrapper extends Component {
     const { isPending, children, isError } = this.props;
     return (
       <>
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--4 vads-u-margin-top--2">
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--4 vads-u-margin-top--2 vads-u-font-family--serif">
           <div>
             <CallToActionWidget appId="debt-letters">
               {isPending && <LoadingIndicator />}
