@@ -21,7 +21,6 @@ class PaymentsReceived extends Component {
 
   componentDidMount() {
     this.handleLoadData();
-    this.handleDisplayNumbers(1);
   }
 
   // when the page loads, load the initial data set from props into the table
@@ -34,6 +33,7 @@ class PaymentsReceived extends Component {
       paginatedData: chunkedData,
       numberOfPages: chunkedData.length,
     });
+    this.handleDisplayNumbers(1);
   }
 
   handleDataPagination = page => {
@@ -46,17 +46,21 @@ class PaymentsReceived extends Component {
 
   handleDisplayNumbers = page => {
     let fromDisplayNumber = 1;
-    let toDisplayNumber = this.state.maxRows;
-    if (page > 1) {
-      fromDisplayNumber = (page - 1) * this.state.maxRows + 1;
-      if (page * this.state.maxRows > this.props.data.length) {
-        toDisplayNumber = this.props.data.length;
-      } else {
-        toDisplayNumber = page * this.state.maxRows;
+    let toDisplayNumber = 1;
+    if (this.props.data.length > this.state.maxRows) {
+      toDisplayNumber = this.state.maxRows;
+      if (page > 1) {
+        fromDisplayNumber = (page - 1) * this.state.maxRows + 1;
+        if (this.props.data.length < page * this.state.maxRows) {
+          toDisplayNumber = this.props.data.length;
+        } else {
+          toDisplayNumber = page * this.state.maxRows;
+        }
       }
     } else {
       toDisplayNumber = this.props.data.length;
     }
+
     this.setState({ fromNumber: fromDisplayNumber, toNumber: toDisplayNumber });
   };
 
