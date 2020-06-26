@@ -164,7 +164,7 @@
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
     "decompress": "^4.2.0",
-    "enhanced-resolve": "^0.7.6",
+    "enhanced-resolve": "^4.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^7.3.1",
