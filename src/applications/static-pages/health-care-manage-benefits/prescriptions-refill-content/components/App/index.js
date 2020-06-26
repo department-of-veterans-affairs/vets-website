@@ -1,10 +1,14 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 // Relative imports.
 import './styles.scss';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
+import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
+import { selectIsCernerPatient } from 'platform/user/selectors';
 
-export const App = () => (
+export const App = ({ isCernerPatient }) => (
   <>
     <CallToActionWidget appId="rx" setFocus={false} />
     <div>
@@ -319,4 +323,16 @@ export const App = () => (
   </>
 );
 
-export default App;
+App.propTypes = {
+  // From mapStateToProps.
+  isCernerPatient: PropTypes.bool,
+};
+
+const mapStateToProps = state => ({
+  isCernerPatient: selectIsCernerPatient(state),
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(App);
