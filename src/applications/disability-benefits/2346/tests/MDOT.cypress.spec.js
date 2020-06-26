@@ -15,7 +15,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'testData',
 
-    dataSets: ['happyPath', 'noTempAddress', 'noBatteries', 'noAccessories'],
+    // dataSets: ['happyPath', 'noTempAddress', 'noBatteries', 'noAccessories'],
 
     fixtures: {
       data: path.join(__dirname, 'data'),
@@ -72,10 +72,6 @@ const testConfig = createTestConfig(
       },
     },
 
-    setup: () => {
-      cy.log('Logging something before starting tests.');
-    },
-
     setupPerTest: () => {
       cy.get('@testKey').then(testKey => {
         cy.login();
@@ -84,7 +80,7 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(testData => {
         cy.route('GET', 'v0/in_progress_forms/MDOT', testData);
       });
-      cy.route('POST', '/v0/mdot/supplies', 200);
+      cy.route('POST', '/v0/mdot/supplies', null);
     },
   },
   manifest,
