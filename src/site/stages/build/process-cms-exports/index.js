@@ -163,30 +163,20 @@ const entityAssemblerFactory = contentDir => {
    *                    with the body of the referenced entities.
    */
   const assembleEntityTree = (entity, ancestors = [], parentFieldName = '') => {
-    // Handle circular references
+    // If readEntity returns undefined because there there was an error
+    if (!entity) return undefined;
+
     const a = findCircularReference(entity, ancestors);
     if (a) return a;
 
-    validateInput(entity);
+    try {
+      validateInput(entity);
+    } catch (e) {
+      // Ignore it; we've already logged the output but want to continue on for
+      // the sake of this experiment
+    }
 
-    const expandedEntity = expandEntityReferences(
-      entity,
-      ancestors,
-      assembleEntityTree,
-    );
-
-    // Post-transformation JSON schema validation
-    const transformedEntity = transformEntity(expandedEntity, {
-      uuid: entity.uuid[0].value,
-      ancestors,
-      parentFieldName,
-      contentDir,
-      assembleEntityTree,
-    });
-
-    validateOutput(entity, transformedEntity);
-
-    return transformedEntity;
+    return expandEntityReferences(entity, ancestors, assembleEntityTree);
   };
 
   return assembleEntityTree;
