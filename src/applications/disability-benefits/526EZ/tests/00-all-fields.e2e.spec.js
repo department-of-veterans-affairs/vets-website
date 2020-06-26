@@ -177,4 +177,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   }
 });
 
-module.exports = runTest;
+module.exports = {
+  // 526 v1 form is no longer being used
+  '@disabled': true,
+};
