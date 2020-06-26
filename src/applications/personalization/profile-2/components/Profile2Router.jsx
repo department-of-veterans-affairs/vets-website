@@ -79,11 +79,7 @@ class Profile2Router extends Component {
                 (route.requiresMVI && !this.props.isInMVI)
               ) {
                 return (
-                  <Redirect
-                    from={route.path}
-                    key="/profile/account-security"
-                    to="/profile/account-security"
-                  />
+                  <Redirect from={route.path} to="/profile/account-security" />
                 );
               }
 
@@ -99,8 +95,13 @@ class Profile2Router extends Component {
 
             <Redirect
               exact
+              from="/profile#contact-information"
+              to="/profile/personal-information"
+            />
+
+            <Redirect
+              exact
               from="/profile"
-              key="/profile/personal-information"
               to="/profile/personal-information"
             />
 
