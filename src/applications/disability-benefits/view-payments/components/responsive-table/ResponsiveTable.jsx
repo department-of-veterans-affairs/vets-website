@@ -47,18 +47,28 @@ class ResponsiveTable extends Component {
 
   renderRow = item => {
     const { fields } = this.props;
-
+    let extraClass = '';
     return (
       <tr key={item.id} className={borderClasses}>
-        {fields.map(field => (
-          <td
-            className={borderClasses}
-            data-label={field.value}
-            key={`${item.id}-${field.value}`}
-          >
-            {item[field.value]}
-          </td>
-        ))}
+        {fields.map((field, index) => {
+          // This is to right align the amount field and account number fields
+          // since they are numeric
+          if (index === 1 || index === 5) {
+            extraClass = 'vads-u-text-align--right';
+          } else {
+            extraClass = '';
+          }
+          return (
+            <td
+              data-index={index}
+              className={`${borderClasses} ${extraClass}`}
+              data-label={field.value}
+              key={`${item.id}-${field.value}`}
+            >
+              {item[field.value]}
+            </td>
+          );
+        })}
       </tr>
     );
   };
