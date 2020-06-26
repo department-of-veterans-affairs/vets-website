@@ -11,39 +11,37 @@ export default function FormQuestion({
   clearQuestionValues,
 }) {
   function handleClick(event) {
+    console.log(event);
     recordStart(question.id);
     setQuestionValue({ event, questionId: question.id });
     if (question.clearValues ?? false) {
       clearQuestionValues(question.id);
     }
+    console.log("hurray");
     scrollNext();
   }
 
   // console.log('question', question);
 
   const options = optionsConfig.map((option, index) => (
-    <label for="">
-      <input id={index}
-        key={index}
-        type="radio"
-        className={classnames(
-          'usa-button-big',
-          (question.value === option.optionValue ? 'usa-button' : null) ??
-            'usa-button-secondary',
-        )}
+    <>
+      <input id={'option_'+option.optionValue}
+        key={'option_'+option.optionValue}
+        type='radio'
         onClick={handleClick}
         name={option.optionValue}
-        value={option.optionValue}
-      >
-      </input>
-      {option.optionText}
-    </label>
+        value={option.optionText}
+      />
+      <label for={'option_'+option.optionValue}>
+        {option.optionText}
+      </label>
+    </>
   ));
 
   return (
     <div className="feature">
       <fieldset class="feature">
-        <legend id="{question.id}">{question.text}</legend>
+        <legend id={question.id}>{question.text}</legend>
         {options}
       </fieldset>
     </div>
