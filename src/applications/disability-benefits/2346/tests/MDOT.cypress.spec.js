@@ -14,8 +14,10 @@ const dataSetToUserMap = {
 const testConfig = createTestConfig(
   {
     dataPrefix: 'testData',
-    // Commenting out dataSets until MDOT is in production
-    // dataSets: ['happyPath', 'noTempAddress', 'noBatteries', 'noAccessories'],
+    // Commenting out dataSets entries until MDOT is in production
+    dataSets: [
+      /* 'happyPath', 'noTempAddress', 'noBatteries', 'noAccessories' */
+    ],
 
     fixtures: {
       data: path.join(__dirname, 'data'),
