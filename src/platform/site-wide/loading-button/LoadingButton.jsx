@@ -8,33 +8,22 @@ export default function LoadingButton({
   disabled,
   ...props
 }) {
-  let contents;
-  if (loadingText) {
-    contents = isLoading ? (
-      <>
-        <i
-          className="fa fa-spinner fa-spin"
-          aria-hidden="true"
-          role="presentation"
-        />
-        <span className="sr-only" role="status">
-          {loadingText}
-        </span>
-      </>
-    ) : (
-      children
-    );
-  } else {
-    contents = isLoading ? (
+  const contents = loadingText ? (
+    <>
       <i
         className="fa fa-spinner fa-spin"
         aria-hidden="true"
         role="presentation"
       />
-    ) : (
-      children
-    );
-  }
+      {loadingText && (
+        <span className="sr-only" role="status">
+          {loadingText}
+        </span>
+      )}
+    </>
+  ) : (
+    children
+  );
 
   return (
     <button
