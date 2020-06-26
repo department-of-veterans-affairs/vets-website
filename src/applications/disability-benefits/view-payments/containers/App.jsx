@@ -14,9 +14,6 @@ import {
 export default function App() {
   return (
     <div>
-      <div className="medium-screen:vads-u-padding-left--1p5 large-screen:vads-u-padding-left--6">
-        <Breadcrumbs>{breadcrumbLinks}</Breadcrumbs>
-      </div>
       <div className="vads-l-grid-container vads-u-padding--2">
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">

@@ -12,6 +12,7 @@ export const VetTecAdditionalInformation = ({
         <div>
           <strong>
             <button
+              id="facilityCode-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={() => showModal('facilityCode')}

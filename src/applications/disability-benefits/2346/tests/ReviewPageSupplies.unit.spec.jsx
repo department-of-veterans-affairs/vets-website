@@ -14,9 +14,8 @@ describe('ReviewPageSupplies', () => {
               productName: 'ZA1239',
               productGroup: 'BATTERIES',
               productId: 1,
-              availableForReorder: true,
-              lastOrderDate: '2020-01-01',
-              nextAvailabilityDate: '2020-09-01',
+              lastOrderDate: '2019-01-01',
+              nextAvailabilityDate: '2019-09-01',
               quantity: 60,
               prescribedDate: '2020-12-20',
             },
@@ -24,7 +23,6 @@ describe('ReviewPageSupplies', () => {
               productName: 'DOME',
               productGroup: 'ACCESSORIES',
               productId: 3,
-              availableForReorder: true,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
               quantity: 10,
@@ -34,7 +32,6 @@ describe('ReviewPageSupplies', () => {
               productName: 'DOME',
               productGroup: 'ACCESSORIES',
               productId: 4,
-              availableForReorder: true,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
               quantity: 10,
@@ -44,13 +41,53 @@ describe('ReviewPageSupplies', () => {
               productName: 'WaxBuster Single Unit',
               productGroup: 'ACCESSORIES',
               productId: 5,
-              availableForReorder: true,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
               quantity: 10,
             },
           ],
           order: [{ productId: 1 }, { productId: 3 }],
+          eligibility: {
+            batteries: true,
+            accessories: true,
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+
+  const fakeStoreEmptyStates = {
+    getState: () => ({
+      form: {
+        data: {
+          supplies: [
+            {
+              deviceName: 'OMEGAX d3241',
+              productName: 'ZA1239',
+              productGroup: 'BATTERIES',
+              productId: 1,
+              lastOrderDate: '2020-01-01',
+              nextAvailabilityDate: '2020-09-01',
+              quantity: 60,
+              prescribedDate: '2020-12-20',
+            },
+            {
+              productName: 'DOME',
+              productGroup: 'ACCESSORIES',
+              productId: 3,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+              size: '6mm',
+            },
+          ],
+          order: [],
+          eligibility: {
+            batteries: false,
+            accessories: true,
+          },
         },
       },
     }),
@@ -93,6 +130,18 @@ describe('ReviewPageSupplies', () => {
         .at(2)
         .text(),
     ).to.equal('ZA1239 batteries (Quantity: 60)');
+    reviewPageSupplies.unmount();
+  });
+  it('should display empty state content', () => {
+    const reviewPageSupplies = mount(
+      <ReviewPageSupplies store={fakeStoreEmptyStates} />,
+    );
+    expect(
+      reviewPageSupplies.find('.empty-state-ineligible-battery-text'),
+    ).length.to.be(1);
+    expect(
+      reviewPageSupplies.find('.empty-state-eligible-accessory-text'),
+    ).length.to.be(1);
     reviewPageSupplies.unmount();
   });
 });

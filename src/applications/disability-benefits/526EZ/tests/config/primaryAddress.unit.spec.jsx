@@ -12,7 +12,7 @@ import {
   MILITARY_STATE_VALUES,
 } from '../../../all-claims/constants';
 
-describe('Disability benefits 526EZ primary address', () => {
+describe.skip('Disability benefits 526EZ primary address', () => {
   const {
     schema,
     uiSchema,

@@ -8,7 +8,7 @@ import initialData from '../schema/initialData.js';
 
 import { submissionStatuses } from '../../constants';
 
-describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
+describe.skip('Disability Benefits 526EZ <ConfirmationPage>', () => {
   const defaultProps = {
     fullName: {
       first: 'Sally',
