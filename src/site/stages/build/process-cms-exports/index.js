@@ -166,8 +166,11 @@ const entityAssemblerFactory = contentDir => {
     // If readEntity returns undefined because there there was an error
     if (!entity) return undefined;
 
+    // If we found a circular reference, return undefined for now. This isn't
+    // liable to be the way we handle this later, but it's causing problems for
+    // this prototype.
     const a = findCircularReference(entity, ancestors);
-    if (a) return a;
+    if (a) return undefined;
 
     try {
       validateInput(entity);
