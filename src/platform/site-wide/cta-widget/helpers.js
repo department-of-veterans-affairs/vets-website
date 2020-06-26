@@ -1,5 +1,6 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import { rootUrl as hearingAidSuppliesFormUrl } from 'applications/disability-benefits/2346/manifest.json';
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when
@@ -12,6 +13,7 @@ export const widgetTypes = {
   DISABILITY_RATINGS: 'disability-ratings',
   GI_BILL_BENEFITS: 'gi-bill-benefits',
   HEALTH_RECORDS: 'health-records',
+  HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
   LAB_AND_TEST_RESULTS: 'lab-and-test-results',
   LETTERS: 'letters',
   MESSAGING: 'messaging',
@@ -158,6 +160,12 @@ export const toolUrl = (appId, useSSOe = false) => {
         redirect: false,
       };
 
+    case widgetTypes.HEARING_AID_SUPPLIES:
+      return {
+        url: hearingAidSuppliesFormUrl,
+        redirect: false,
+      };
+
     default:
       return {};
   }
@@ -246,6 +254,9 @@ export const serviceDescription = appId => {
 
     case widgetTypes.DISABILITY_RATINGS:
       return 'view your VA disability rating';
+
+    case widgetTypes.HEARING_AID_SUPPLIES:
+      return 'order hearing aid supplies';
 
     default:
       return 'use this service';
