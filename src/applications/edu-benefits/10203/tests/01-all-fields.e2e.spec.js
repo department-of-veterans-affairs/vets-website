@@ -51,6 +51,11 @@ module.exports = E2eHelpers.createE2eTest(client => {
   Edu10203Helpers.completeContactInformation(client, testData.data);
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
 
+  // Direct deposit page.
+  E2eHelpers.expectLocation(client, '/personal-information/direct-deposit');
+  Edu10203Helpers.completeDirectDeposit(client, testData.data);
+  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
+
   // Review and submit page.
   client
     .waitForElementVisible(

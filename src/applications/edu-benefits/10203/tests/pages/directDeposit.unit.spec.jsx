@@ -11,11 +11,11 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../10203/config/form';
 
-describe('Edu 10203 personalInformation', () => {
+describe('Edu 10203 directDeposit', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.personalInformation.pages.contactInformation;
+  } = formConfig.chapters.personalInformation.pages.directDeposit;
   it('renders the correct amount of options', () => {
     const form = mount(
       <DefinitionTester
@@ -24,7 +24,7 @@ describe('Edu 10203 personalInformation', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(12);
+    expect(form.find('input').length).to.equal(5);
     form.unmount();
   });
 
@@ -42,7 +42,7 @@ describe('Edu 10203 personalInformation', () => {
     submitForm(form);
     expect(
       Array.from(formDOM.querySelectorAll('.usa-input-error')).length,
-    ).to.equal(6);
+    ).to.equal(3);
 
     submitForm(form);
 

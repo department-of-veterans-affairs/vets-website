@@ -53,8 +53,27 @@ function completeContactInformation(client, data, isRelative = false) {
       data['view:otherContactInfo'].mobilePhone,
     );
 }
+
+const completeDirectDeposit = (client, data) => {
+  client.waitForElementVisible(
+    'img[src="/img/direct-deposit-check-guide.png"]',
+    Timeouts.slow,
+  );
+  client
+    .click('input#root_bankAccount_accountType_1')
+    .setValue(
+      'input[name="root_bankAccount_accountNumber"]',
+      data.bankAccount.accountNumber,
+    )
+    .setValue(
+      'input[name="root_bankAccount_routingNumber"]',
+      data.bankAccount.routingNumber,
+    );
+};
+
 module.exports = {
   completeStemSelection,
   completeActiveDuty,
   completeContactInformation,
+  completeDirectDeposit,
 };

@@ -18,7 +18,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { chapters } from './chapters';
 
 const {
-  preferredContactMethod,
+  bankAccount,
   date,
   dateRange,
   serviceBefore1977,
@@ -43,10 +43,10 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
-    preferredContactMethod,
-    serviceBefore1977,
+    bankAccount,
     date,
     dateRange,
+    serviceBefore1977,
   },
   title: 'Update your education benefits',
   subTitle: 'Form 22-10203',
