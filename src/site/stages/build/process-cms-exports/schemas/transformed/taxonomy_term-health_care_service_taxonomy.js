@@ -4,7 +4,6 @@ module.exports = {
     contentModelType: { enum: ['taxonomy_term-health_care_service_taxonomy'] },
     entity: {
       type: 'object',
-      $expand: true,
       properties: {
         entityType: { enum: ['taxonomy_term'] },
         entityBundle: { enum: ['health_care_service_taxonomy'] },
@@ -17,7 +16,6 @@ module.exports = {
             properties: {
               entity: {
                 type: 'object',
-                $expand: true,
                 properties: {
                   name: { type: 'string' },
                 },

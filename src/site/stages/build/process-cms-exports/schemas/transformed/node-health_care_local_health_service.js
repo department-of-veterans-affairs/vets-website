@@ -6,7 +6,6 @@ module.exports = {
     contentModelType: { enum: ['node-health_care_local_health_service'] },
     entity: {
       type: 'object',
-      $expand: true,
       properties: {
         entityType: { enum: ['node'] },
         entityBundle: { enum: ['health_care_local_health_service'] },

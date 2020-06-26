@@ -162,11 +162,14 @@ function transformObject(entity, inputSchema, outputSchema) {
     /* eslint-disable no-param-reassign */
     /* eslint-disable no-console */
     (result, [outputKey, outputFieldSchema]) => {
-      // Find the snake_case key for use in the input schema and entity data
       const inputKey = getInputKey(outputKey);
 
-      // Sometimes the output schema nests fields in a new object. Check for this.
-      if (outputFieldSchema.$expand) {
+      // Sometimes the output schema nests fields in a new object. Check for
+      // this in $expand. Assume if the property name is 'entity', it should
+      // be expanded because all current uses of an 'entity' property are
+      // child entities. This originates from the structure of the legacy
+      // GraphQL query.
+      if (outputFieldSchema.$expand || outputKey === 'entity') {
         // Disabling this rule because we can rely on function hoisting here
         // eslint-disable-next-line no-use-before-define
         result[outputKey] = transformFields(entity, outputFieldSchema);
