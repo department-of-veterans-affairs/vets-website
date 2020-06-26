@@ -1,7 +1,8 @@
 /* eslint-disable import/no-dynamic-require */
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const get = require('lodash/get');
+const chalk = require('chalk');
 
 /**
  * The path to the CMS export content.
@@ -96,7 +97,13 @@ module.exports = {
    *                          filename even if it's not used. This _does_ mean
    *                          it won't log files that may be used.
    *
-   * @return {Object} - The contents of the file.
+   * @throws {TypeError} - If the contents of the JSON file is invalid JSON
+   * @throws {Error} - If the file is not found
+   *
+   * @return {Object|undefined} - The contents of the file. If there was an
+   *                              error, the contents of the error will be
+   *                              logged to stderr and readEntity will return
+   *                              undefined.
    */
   readEntity(dir, baseType, uuid, { noLog } = {}) {
     // Used only in script/remove-unnecessary-raw-entity-files.sh to get the
@@ -106,17 +113,23 @@ module.exports = {
       console.log(`${baseType}.${uuid}.json`);
     }
 
-    const entity = JSON.parse(
-      fs
-        .readFileSync(path.join(dir, `${baseType}.${uuid}.json`))
-        .toString('utf8'),
-    );
-    // Add what we already know about the entity
-    entity.baseType = baseType;
-    // Overrides the UUID property in the contents of the entity
-    entity.uuid = uuid;
-    entity.contentModelType = getContentModelType(entity);
-    return entity;
+    const entityPath = path.join(dir, `${baseType}.${uuid}.json`);
+
+    try {
+      const entity = fs.readJSONSync(entityPath);
+      // Add what we already know about the entity
+      entity.baseType = baseType;
+      // Overrides the UUID property in the contents of the entity
+      entity.uuid = uuid;
+      entity.contentModelType = getContentModelType(entity);
+      return entity;
+    } catch (e) {
+      /* eslint-disable no-console */
+      console.error(chalk.red(`Could not read entity at ${entityPath}`));
+      console.error(e);
+      /* eslint-enable no-console */
+      return undefined;
+    }
   },
 
   /**
