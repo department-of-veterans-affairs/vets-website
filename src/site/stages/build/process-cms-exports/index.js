@@ -124,8 +124,7 @@ const entityAssemblerFactory = contentDir => {
 
     // Recursively expand entity references
     for (const [key, prop] of Object.entries(filteredEntity)) {
-      // Properties with target_uuids are always arrays from tome-sync
-      if (Array.isArray(prop)) {
+      if (key.startsWith('field_') && Array.isArray(prop)) {
         prop.forEach((item, index) => {
           const { target_uuid: targetUuid, target_type: targetType } = item;
 
