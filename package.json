@@ -122,7 +122,7 @@
     "@babel/polyfill": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-react": "^7.10.1",
-    "@babel/register": "^7.10.1",
+    "@babel/register": "^7.10.3",
     "@cypress/webpack-preprocessor": "^5.4.1",
     "@department-of-veterans-affairs/generator-vets-website": "^3.3.5",
     "@octokit/rest": "^18.0.0",
