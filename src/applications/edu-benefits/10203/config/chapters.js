@@ -36,20 +36,6 @@ export const chapters = {
         uiSchema: benefitSelection.uiSchema,
         schema: benefitSelection.schema,
       },
-      stem: {
-        title: 'Rogers STEM Scholarship',
-        path: 'benefits/stem',
-        uiSchema: stem.uiSchema,
-        schema: stem.schema,
-      },
-      stemEligibility: {
-        title: 'Rogers STEM Scholarship eligibility',
-        path: 'benefits/stem-eligibility',
-        pageClass: 'vads-u-max-width--100 vads-u-vads-u-width--full',
-        depends: form => displayStemEligibility(form),
-        uiSchema: stemEligibility.uiSchema,
-        schema: stemEligibility.schema,
-      },
     },
   },
   militaryService: {
