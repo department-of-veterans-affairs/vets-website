@@ -69,10 +69,8 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       continue;
     }
 
-    const {
-      entityUrl: { path: drupalUrl },
-      entityBundle,
-    } = page;
+    const { entityBundle } = page;
+    const drupalUrl = page.path[0].alias;
 
     const pageCompiled = compilePage(page, contentData);
     const drupalPageDir = path.join('.', drupalUrl);
