@@ -133,7 +133,7 @@ const entityAssemblerFactory = contentDir => {
           // We found a reference! Override it with the expanded entity.
           if (targetUuid && targetType) {
             filteredEntity[key][index] = assembleTree(
-              readEntity(contentDir, targetType, targetUuid),
+              readEntity(contentDir, targetType, targetUuid, { noLog: true }),
               ancestors.concat([{ id: toId(entity), entity }]),
               key,
             );
