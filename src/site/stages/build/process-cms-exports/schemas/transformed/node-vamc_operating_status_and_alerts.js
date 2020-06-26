@@ -1,5 +1,7 @@
 const { usePartialSchema } = require('../../transformers/helpers');
 const localFacilitySchema = require('./node-health_care_local_facility');
+const bannerAlert = require('./node-full_width_banner_alert');
+const hcRegionpage = require('./node-health_care_region_page');
 
 module.exports = {
   type: 'object',
@@ -13,7 +15,7 @@ module.exports = {
     entityUrl: { $ref: 'EntityUrl' },
     fieldBannerAlert: {
       type: 'array',
-      items: { $ref: 'transformed/node-full_width_banner_alert' },
+      items: bannerAlert,
       // maxItems: 1 // Presumably? The template expects an array, though...
     },
     fieldFacilityOperatingStatus: {
@@ -41,10 +43,7 @@ module.exports = {
       },
     },
     fieldOffice: {
-      oneOf: [
-        { $ref: 'transformed/node-health_care_region_page' },
-        { type: 'null' },
-      ],
+      oneOf: [hcRegionpage, { type: 'null' }],
     },
     fieldOperatingStatusEmergInf: {
       // Literally everywhere else, this would be a straight-up string

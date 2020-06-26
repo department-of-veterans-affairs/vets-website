@@ -1,4 +1,6 @@
 const healthCareLocalHealthService = require('./node-health_care_local_health_service');
+const paragraphLocalFacilityService = require('./paragraph-health_care_local_facility_servi');
+const hcRegionPage = require('./node-health_care_region_page');
 
 module.exports = {
   type: 'object',
@@ -44,9 +46,7 @@ module.exports = {
     },
     fieldLocationServices: {
       type: ['array', 'null'],
-      items: {
-        $ref: 'transformed/paragraph-health_care_local_facility_servi',
-      },
+      items: paragraphLocalFacilityService,
     },
     fieldMainLocation: { type: 'boolean' },
     fieldMedia: { $ref: 'Media' },
@@ -58,10 +58,7 @@ module.exports = {
     fieldOperatingStatusMoreInfo: { type: 'null' },
     fieldPhoneNumber: { type: ['string', 'null'] },
     fieldRegionPage: {
-      oneOf: [
-        { $ref: 'transformed/node-health_care_region_page' },
-        { type: 'null' },
-      ],
+      oneOf: [hcRegionPage, { type: 'null' }],
     },
     fieldTwitter: { type: ['string', 'null'] },
   },

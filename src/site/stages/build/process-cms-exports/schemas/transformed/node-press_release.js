@@ -1,3 +1,7 @@
+const hcRegionPage = require('./node-health_care_region_page');
+const { media } = require('../helpers');
+const personProfile = require('./node-person_profile');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -20,15 +24,15 @@ module.exports = {
     entityUrl: { $ref: 'EntityUrl' },
     fieldAddress: { $ref: 'Address' },
     fieldIntroText: { type: 'string' },
-    fieldOffice: { $ref: 'transformed/node-health_care_region_page' },
-    fieldPdfVersion: { $ref: 'Media' },
+    fieldOffice: hcRegionPage,
+    fieldPdfVersion: media(),
     fieldPressReleaseContact: {
       type: 'array',
       maxItems: 1,
       items: {
         type: 'object',
         properties: {
-          entity: { $ref: 'transformed/node-person_profile' },
+          entity: personProfile,
         },
         required: ['entity'],
       },

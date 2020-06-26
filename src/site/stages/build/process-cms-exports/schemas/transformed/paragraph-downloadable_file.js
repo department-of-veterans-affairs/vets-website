@@ -1,3 +1,5 @@
+const { media } = require('../helpers');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -8,7 +10,7 @@ module.exports = {
         entityType: { enum: ['paragraph'] },
         entityBundle: { enum: ['downloadable_file'] },
         fieldMarkup: { type: ['string', 'null'] },
-        fieldMedia: { $ref: 'Media' },
+        fieldMedia: media(),
         fieldTitle: { type: 'string' },
       },
       required: ['fieldMarkup', 'fieldMedia', 'fieldTitle'],

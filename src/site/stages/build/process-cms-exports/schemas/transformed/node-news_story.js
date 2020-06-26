@@ -1,3 +1,7 @@
+const { media } = require('../helpers');
+const personProfile = require('./node-person_profile');
+const hcRegionPage = require('./node-health_care_region_page');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -11,17 +15,14 @@ module.exports = {
     entityMetatags: { $ref: 'MetaTags' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldAuthor: {
-      oneOf: [{ $ref: 'transformed/node-person_profile' }, { type: 'null' }],
+      oneOf: [personProfile, { type: 'null' }],
     },
     fieldFullStory: { $ref: 'ProcessedString' },
     fieldImageCaption: { type: ['string', 'null'] },
     fieldIntroText: { type: 'string' },
-    fieldMedia: { oneOf: [{ $ref: 'Media' }, { type: 'null' }] },
+    fieldMedia: { oneOf: [media(), { type: 'null' }] },
     fieldOffice: {
-      oneOf: [
-        { $ref: 'transformed/node-health_care_region_page' },
-        { type: 'null' },
-      ],
+      oneOf: [hcRegionPage, { type: 'null' }],
     },
   },
   required: [

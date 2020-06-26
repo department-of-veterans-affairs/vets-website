@@ -1,3 +1,5 @@
+const linkTeasers = require('./paragraph-list_of_link_teasers');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -22,9 +24,7 @@ module.exports = {
           },
           required: ['url'],
         },
-        fieldRelatedLinks: {
-          $ref: 'transformed/paragraph-list_of_link_teasers',
-        },
+        fieldRelatedLinks: linkTeasers,
         fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
         entityMetaTags: { $ref: 'MetaTags' },
       },

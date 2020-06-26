@@ -1,3 +1,5 @@
+const { media } = require('../helpers');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -10,7 +12,7 @@ module.exports = {
     fieldDescription: { type: ['string', 'null'] },
     fieldEmailAddress: { type: ['string', 'null'] },
     fieldLastName: { type: 'string' },
-    fieldMedia: { $ref: 'Media' },
+    fieldMedia: media(),
     fieldNameFirst: { type: 'string' },
     // This isn't a node-office $ref because we only want
     // some of the properties in the entity

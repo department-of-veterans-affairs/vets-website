@@ -1,3 +1,5 @@
+const { paragraph, media } = require('../helpers');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -7,8 +9,8 @@ module.exports = {
       properties: {
         entityType: { enum: ['block_content'] },
         entityBundle: { enum: ['promo'] },
-        fieldImage: { $ref: 'Media' },
-        fieldPromoLink: { $ref: 'Paragraph' },
+        fieldImage: media(),
+        fieldPromoLink: paragraph(),
       },
       required: ['fieldImage', 'fieldPromoLink'],
     },

@@ -1,3 +1,5 @@
+const { paragraph } = require('../helpers');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -11,7 +13,7 @@ module.exports = {
         entityBundle: { enum: ['q_a'] },
         fieldAnswer: {
           type: 'array',
-          items: { $ref: 'Paragraph' },
+          items: paragraph(),
         },
         fieldQuestion: { type: 'string' },
       },

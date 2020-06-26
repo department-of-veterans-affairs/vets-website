@@ -1,4 +1,6 @@
-// const { getFilter } = require('../../filters');
+const { paragraph } = require('../helpers');
+const listOfLinkTeasersSchema = require('./paragraph-list_of_link_teasers');
+const adminSchema = require('./taxonomy_term-administration');
 
 module.exports = {
   type: 'object',
@@ -14,28 +16,20 @@ module.exports = {
     },
     fieldFeaturedContent: {
       type: 'array',
-      items: {
-        $ref: 'Paragraph',
-      },
+      items: paragraph(),
     },
     fieldContentBlock: {
       type: 'array',
-      items: {
-        $ref: 'Paragraph',
-      },
+      items: paragraph(),
     },
     fieldAlert: {
       type: ['object', 'null'],
     },
     fieldRelatedLinks: {
       type: 'array',
-      items: {
-        $ref: 'transformed/paragraph-list_of_link_teasers',
-      },
+      items: listOfLinkTeasersSchema,
     },
-    fieldAdministration: {
-      $ref: 'transformed/taxonomy_term-administration',
-    },
+    fieldAdministration: adminSchema,
     fieldPageLastBuilt: {
       type: 'object',
       properties: {
@@ -47,5 +41,16 @@ module.exports = {
       $ref: 'MetaTags',
     },
   },
-  // required: getFilter('node-page'),
+  required: [
+    'title',
+    'fieldIntroText',
+    'fieldDescription',
+    'fieldFeaturedContent',
+    'fieldContentBlock',
+    'fieldAlert',
+    'fieldRelatedLinks',
+    'fieldAdministration',
+    'fieldPageLastBuilt',
+    'entityMetaTags',
+  ],
 };

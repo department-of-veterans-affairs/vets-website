@@ -1,3 +1,7 @@
+const { paragraph } = require('../helpers');
+const hcRegionPage = require('./node-health_care_region_page');
+const linkTeasers = require('./paragraph-list_of_link_teasers');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -10,20 +14,17 @@ module.exports = {
     fieldAlert: { type: ['string', 'null'] },
     fieldContentBlock: {
       type: 'array',
-      items: { $ref: 'Paragraph' },
+      items: paragraph(),
     },
     fieldFeaturedContent: {
       type: 'array',
       maxItems: 1,
-      items: { $ref: 'Paragraph' },
+      items: paragraph(),
     },
     fieldIntroText: { type: 'string' },
-    fieldOffice: { $ref: 'transformed/node-health_care_region_page' },
+    fieldOffice: hcRegionPage,
     fieldRelatedLinks: {
-      oneOf: [
-        { $ref: 'transformed/paragraph-list_of_link_teasers' },
-        { type: 'null' },
-      ],
+      oneOf: [linkTeasers, { type: 'null' }],
     },
     fieldTableOfContentsBoolean: { type: 'boolean' },
   },

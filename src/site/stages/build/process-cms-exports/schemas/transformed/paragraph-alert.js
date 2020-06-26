@@ -1,3 +1,5 @@
+const { paragraph, blockContent } = require('../helpers');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -11,13 +13,11 @@ module.exports = {
         fieldAlertHeading: { type: ['string', 'null'] },
         fieldVaParagraphs: {
           type: ['array', 'null'],
-          items: { $ref: 'Paragraph' },
+          items: paragraph(),
         },
         fieldAlertBlockReference: {
           type: ['array', 'null'],
-          items: {
-            $ref: 'BlockContent',
-          },
+          items: blockContent(),
         },
       },
       required: [

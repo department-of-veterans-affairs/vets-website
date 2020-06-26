@@ -1,3 +1,5 @@
+const { media } = require('../helpers');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -65,7 +67,7 @@ module.exports = {
       },
     },
     fieldLocationHumanreadable: { type: ['string', 'null'] },
-    fieldMedia: { $ref: 'Media' },
+    fieldMedia: media(),
   },
   required: [
     'title',

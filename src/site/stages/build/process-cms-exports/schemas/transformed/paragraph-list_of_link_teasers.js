@@ -1,3 +1,5 @@
+const linkTeaser = require('./paragraph-link_teaser');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -10,7 +12,7 @@ module.exports = {
         fieldTitle: { type: ['string', 'null'] },
         fieldVaParagraphs: {
           type: 'array',
-          items: { $ref: 'transformed/paragraph-link_teaser' },
+          items: linkTeaser,
         },
       },
       required: ['fieldTitle', 'fieldVaParagraphs'],

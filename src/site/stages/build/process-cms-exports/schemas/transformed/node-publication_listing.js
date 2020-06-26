@@ -1,3 +1,5 @@
+const office = require('./node-office');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -10,7 +12,7 @@ module.exports = {
     entityMetatags: { $ref: 'MetaTags' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldIntroText: { type: 'string' },
-    fieldOffice: { $ref: 'transformed/node-office' },
+    fieldOffice: office,
   },
   required: [
     'title',

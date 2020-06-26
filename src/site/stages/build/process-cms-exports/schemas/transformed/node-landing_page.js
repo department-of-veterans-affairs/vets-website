@@ -1,3 +1,9 @@
+const termAdmin = require('./taxonomy_term-administration');
+const alert = require('./block_content-alert');
+const promo = require('./block_content-promo');
+const linkTeasers = require('./paragraph-list_of_link_teasers');
+const supportService = require('./node-support_service');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -9,11 +15,9 @@ module.exports = {
     title: { type: 'string' },
     changed: { type: 'number' },
     entityUrl: { $ref: 'EntityUrl' },
-    fieldAdministration: {
-      $ref: 'transformed/taxonomy_term-administration',
-    },
+    fieldAdministration: termAdmin,
     fieldAlert: {
-      oneOf: [{ $ref: 'transformed/block_content-alert' }, { type: 'null' }],
+      oneOf: [alert, { type: 'null' }],
     },
     fieldIntroText: { type: 'string' },
     fieldLinks: {
@@ -42,24 +46,17 @@ module.exports = {
       required: ['date'],
     },
     fieldPlainlanguageDate: { type: ['string', 'null'] },
-    fieldPromo: { $ref: 'transformed/block_content-promo' },
+    fieldPromo: promo,
     fieldRelatedLinks: {
-      oneOf: [
-        {
-          $ref: 'transformed/paragraph-list_of_link_teasers',
-        },
-        { type: 'null' },
-      ],
+      oneOf: [linkTeasers, { type: 'null' }],
     },
     fieldSpokes: {
       type: 'array',
-      items: {
-        $ref: 'transformed/paragraph-list_of_link_teasers',
-      },
+      items: linkTeasers,
     },
     fieldSupportServices: {
       type: 'array',
-      items: { $ref: 'transformed/node-support_service' },
+      items: supportService,
     },
     fieldTitleIcon: { type: 'string' },
   },

@@ -1,3 +1,5 @@
+const { paragraph } = require('../helpers');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -10,7 +12,7 @@ module.exports = {
         fieldTitle: { type: 'string' },
         fieldVaParagraphs: {
           type: 'array',
-          items: { $ref: 'Paragraph' },
+          items: paragraph(),
         },
         fieldWysiwyg: { $ref: 'ProcessedString' },
       },

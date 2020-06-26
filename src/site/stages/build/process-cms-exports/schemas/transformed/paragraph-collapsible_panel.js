@@ -1,3 +1,5 @@
+const { paragraph } = require('../helpers');
+
 const baseType = 'paragraph';
 const subType = 'collapsible_panel';
 module.exports = {
@@ -14,7 +16,7 @@ module.exports = {
         fieldCollapsiblePanelMulti: { type: 'boolean' },
         fieldVaParagraphs: {
           type: 'array',
-          items: { $ref: 'Paragraph' },
+          items: paragraph(),
         },
       },
       required: [

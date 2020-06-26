@@ -1,3 +1,5 @@
+const personProfile = require('./node-person_profile');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -13,7 +15,7 @@ module.exports = {
             entities: {
               type: 'array',
               maxItems: 1,
-              items: { $ref: 'transformed/node-person_profile' },
+              items: personProfile,
             },
           },
           required: ['entities'],

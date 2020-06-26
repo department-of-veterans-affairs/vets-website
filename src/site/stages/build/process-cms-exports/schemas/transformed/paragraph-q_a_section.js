@@ -1,3 +1,5 @@
+const { paragraph } = require('../helpers');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -10,7 +12,7 @@ module.exports = {
         fieldAccordionDisplay: { type: 'boolean' },
         fieldQuestions: {
           type: 'array',
-          items: { $ref: 'Paragraph' },
+          items: paragraph(),
         },
         fieldSectionHeader: { type: ['string', 'null'] },
         fieldSectionIntro: { type: ['string', 'null'] },

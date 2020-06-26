@@ -1,3 +1,5 @@
+const { paragraph } = require('../helpers');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -7,7 +9,7 @@ module.exports = {
       properties: {
         entityType: { enum: ['block_content'] },
         entityBundle: { enum: ['alert'] },
-        fieldAlertContent: { $ref: 'Paragraph' },
+        fieldAlertContent: paragraph(),
         fieldAlertDismissable: { type: ['boolean', 'null'] },
         fieldAlertTitle: { type: 'string' },
         fieldAlertType: { type: 'string' },
