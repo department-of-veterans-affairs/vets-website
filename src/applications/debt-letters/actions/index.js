@@ -1,7 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { isVet360Configured } from 'platform/user/profile/vet360/util/local-vet360.js';
-import { debtLettersSuccess } from '../utils/mockResponses';
+import { debtLettersSuccess, debtHistorySuccess } from '../utils/mockResponses';
 
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
 export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';
@@ -37,7 +37,15 @@ export const fetchDebtLetters = () => async dispatch => {
     const response = isVet360Configured()
       ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
       : await debtLettersSuccess();
-    return dispatch(fetchDebtLettersSuccess(response.data));
+
+    const responseWithHistory = response.data.map(async debt => {
+      const debtHistory = await debtHistorySuccess(debt.adamKey);
+      return { ...debt, debtHistory };
+    });
+
+    return Promise.all(responseWithHistory).then(res =>
+      dispatch(fetchDebtLettersSuccess(res)),
+    );
   } catch (error) {
     return dispatch(fetchDebtLettersFailure());
   }

@@ -156,6 +156,9 @@ export const debtLettersSuccess = () =>
     data,
   });
 
+export const debtHistorySuccess = adamNumber =>
+  asyncReturn(debtTransform[adamNumber]);
+
 export const debtLettersFailure = () =>
   asyncReturn(
     {
