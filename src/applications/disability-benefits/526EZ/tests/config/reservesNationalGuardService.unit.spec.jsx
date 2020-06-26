@@ -7,7 +7,7 @@ import _ from 'lodash/fp';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
-describe('Disability benefits 526EZ reservesNationalGuardService', () => {
+describe.skip('Disability benefits 526EZ reservesNationalGuardService', () => {
   const {
     schema,
     uiSchema,

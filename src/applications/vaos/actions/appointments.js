@@ -10,7 +10,6 @@ import {
   getRequestMessages,
   updateAppointment,
   updateRequest,
-  getClinicInstitutions,
 } from '../api';
 import { getLocations } from '../services/location';
 
@@ -20,12 +19,6 @@ import {
   getVARFacilityId,
   getVAAppointmentLocationId,
 } from '../services/appointment';
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id.replace('var', '');
-}
 
 import { captureError, getErrorCodes } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
