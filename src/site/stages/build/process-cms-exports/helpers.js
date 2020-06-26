@@ -4,6 +4,8 @@ const path = require('path');
 const get = require('lodash/get');
 const chalk = require('chalk');
 
+let missingFiles = 0;
+
 /**
  * The path to the CMS export content.
  *
@@ -122,12 +124,17 @@ module.exports = {
       // Overrides the UUID property in the contents of the entity
       entity.uuid = uuid;
       entity.contentModelType = getContentModelType(entity);
+      entity.entityBundle = entity.contentModelType.split('-')[1];
       return entity;
     } catch (e) {
-      /* eslint-disable no-console */
-      console.error(chalk.red(`Could not read entity at ${entityPath}`));
-      console.error(e);
-      /* eslint-enable no-console */
+      missingFiles++;
+      if (!noLog) {
+        /* eslint-disable no-console */
+        console.error(chalk.red(`Could not read entity at ${entityPath}`));
+        console.error(`(Missing file #${missingFiles})`);
+        console.error(e);
+        /* eslint-enable no-console */
+      }
       return undefined;
     }
   },
