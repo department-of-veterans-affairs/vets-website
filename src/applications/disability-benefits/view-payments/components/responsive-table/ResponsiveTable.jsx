@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import './ResponsiveTable.scss';
 
-const borderClasses = 'vads-u-border-top--0 vads-u-border-right--0 vads-u-border-left--0';
+const borderClasses =
+  'vads-u-border-top--0 vads-u-border-right--0 vads-u-border-left--0 vads-u-font-family--sans vads-u-padding--1';
+const paddingClasses = '';
 
 class ResponsiveTable extends Component {
   renderHeader = field => {
@@ -49,7 +51,11 @@ class ResponsiveTable extends Component {
     return (
       <tr key={item.id} className={borderClasses}>
         {fields.map(field => (
-          <td className={borderClasses} data-label={field.value} key={`${item.id}-${field.value}`}>
+          <td
+            className={borderClasses}
+            data-label={field.value}
+            key={`${item.id}-${field.value}`}
+          >
             {item[field.value]}
           </td>
         ))}
