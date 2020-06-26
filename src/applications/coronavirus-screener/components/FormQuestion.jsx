@@ -11,13 +11,11 @@ export default function FormQuestion({
   clearQuestionValues,
 }) {
   function handleClick(event) {
-    console.log(event);
     recordStart(question.id);
     setQuestionValue({ event, questionId: question.id });
     if (question.clearValues ?? false) {
       clearQuestionValues(question.id);
     }
-    console.log("hurray");
     scrollNext();
   }
 
