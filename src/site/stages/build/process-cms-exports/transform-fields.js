@@ -22,7 +22,43 @@ const outputSchemas = getAllImportsFrom(
 
 // These will change if we can replace the manual JSON schema creation process
 const getInputSchema = entity => inputSchemas[getContentModelType(entity)];
-const getOutputSchema = entity => outputSchemas[getContentModelType(entity)];
+const getOutputSchema = (entity, outputSchemaFromParent) => {
+  const schema =
+    outputSchemaFromParent || outputSchemas[getContentModelType(entity)];
+
+  // The data may match multiple schemas; find the right one
+  const schemaOptions = schema.anyOf || schema.oneOf;
+  if (schemaOptions) {
+    // This should only happen when an entity's field is an entity reference
+    // which may be multiple types of entities. For example, a node-page's
+    // fieldFeaturedContent which may be any type of paragraph. If this is the
+    // case, use the contentModelType on the entity to find the schema option.
+    // Each schema option must have a title matching its content model type.
+    const match = schemaOptions.find(
+      option => option.$contentModelType === getContentModelType(entity),
+    );
+    if (!match) {
+      /* eslint-disable no-console */
+      console.error(
+        chalk.red(
+          `No match found for ${getContentModelType(
+            entity,
+          )} in the possible schemas.`,
+        ),
+      );
+      console.error(chalk.yellow('Data:'), entity);
+      console.error(chalk.yellow('Schema:'), schema);
+      /* eslint-enable no-console */
+      throw new Error(
+        `No match found for ${getContentModelType(
+          entity,
+        )} in the possible schemas.`,
+      );
+    }
+    return match;
+  }
+  return schema;
+};
 
 // An alternative to this approach would be to map the output field to the input
 // field in the output schema with a $comment or something
@@ -223,7 +259,7 @@ function transformFields(entity, outputSchemaFromParent) {
     );
   }
 
-  const outputSchema = outputSchemaFromParent || getOutputSchema(entity);
+  const outputSchema = getOutputSchema(entity, outputSchemaFromParent);
   if (!outputSchema) {
     // eslint-disable-next-line no-console
     console.log(
