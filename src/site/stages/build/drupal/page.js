@@ -300,6 +300,8 @@ function compilePage(page, contentData) {
   const pageIdRaw = parseInt(page.entityId, 10);
   const pageId = { pid: pageIdRaw };
 
+  // This is breaking because entityUrl doesn't exist. Unclear if I can use
+  // entity.path[0], or if this is different.
   if (!('breadcrumb' in entityUrl)) {
     page.entityUrl = generateBreadCrumbs(entityUrl.path);
   }
