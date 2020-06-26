@@ -16,6 +16,38 @@ const year = (
   </React.Fragment>
 );
 
+const termLabel = label => {
+  if (label === 'Months 1-6') {
+    return (
+      <React.Fragment key="m16">
+        <span className="sr-only">Months 1 through 6</span>
+        <span aria-hidden="true">Months 1-6</span>
+      </React.Fragment>
+    );
+  } else if (label === 'Months 7-12') {
+    return (
+      <React.Fragment key="m712">
+        <span className="sr-only">Months 7 through 12</span>
+        <span aria-hidden="true">Months 7-12</span>
+      </React.Fragment>
+    );
+  } else if (label === 'Months 13-18') {
+    return (
+      <React.Fragment key="m1318">
+        <span className="sr-only">Months 13 through 18</span>
+        <span aria-hidden="true">Months 13-18</span>
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <React.Fragment key="m1924">
+        <span className="sr-only">Months 19 through 24</span>
+        <span aria-hidden="true">Months 19-24</span>
+      </React.Fragment>
+    );
+  }
+};
+
 const CalculatorResultRow = ({
   id,
   label,
@@ -44,7 +76,10 @@ const CalculatorResultRow = ({
             </h5>
           </div>
         ) : (
-          <div>{value}</div>
+          <div>
+            {value}
+            {screenReaderSpan}
+          </div>
         )}
       </div>
     </div>
@@ -80,9 +115,10 @@ const perTermSections = (outputs, calculator) => {
           <CalculatorResultRow
             key={`${section}${term.label}`}
             id={`${section}${term.label}`}
-            label={term.label}
+            label={termLabel(term.label)}
             value={term.value}
             bold={term.label === 'Total per year'}
+            screenReaderSpan={month}
             visible={term.visible}
           />
         ))}
