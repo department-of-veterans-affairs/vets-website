@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 // Relative imports.
 import './styles.scss';
 import AuthContent from '../AuthContent';
-import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import UnauthContent from '../UnauthContent';
 import { selectIsCernerPatient } from 'platform/user/selectors';
 
