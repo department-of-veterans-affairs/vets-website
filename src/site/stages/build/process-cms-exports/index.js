@@ -53,27 +53,29 @@ const findCircularReference = (entity, ancestors) => {
  * @param {Object} entity - The entity we're validating
  * @throws {Error} If the entity is invalid
  */
-const validateInput = entity => {
+const validateInput = (entity, { noLog }) => {
   // Pre-transformation JSON schema validation
   const rawErrors = validateRawEntity(entity);
   if (rawErrors.length) {
-    /* eslint-disable no-console */
-    console.warn(
-      chalk.yellow(
-        `${toId(entity)} (${getContentModelType(
-          entity,
-        )}) is invalid before transformation:`,
-      ),
-    );
-    console.warn(`${rawErrors.map(e => JSON.stringify(e, null, 2))}`);
-    rawErrors.forEach(e => {
+    if (!noLog) {
+      /* eslint-disable no-console */
       console.warn(
-        chalk.yellow(`Data found at ${e.dataPath}:`),
-        JSON.stringify(get(entity, e.dataPath.slice(1))),
+        chalk.yellow(
+          `${toId(entity)} (${getContentModelType(
+            entity,
+          )}) is invalid before transformation:`,
+        ),
       );
-    });
-    console.warn(`-------------------`);
-    /* eslint-enable no-console */
+      console.warn(`${rawErrors.map(e => JSON.stringify(e, null, 2))}`);
+      rawErrors.forEach(e => {
+        console.warn(
+          chalk.yellow(`Data found at ${e.dataPath}:`),
+          JSON.stringify(get(entity, e.dataPath.slice(1))),
+        );
+      });
+      console.warn(`-------------------`);
+      /* eslint-enable no-console */
+    }
 
     // Abort! (We may want to change this later)
     throw new Error(`${toId(entity)} is invalid before transformation`);
@@ -173,7 +175,7 @@ const entityAssemblerFactory = contentDir => {
     if (a) return undefined;
 
     try {
-      validateInput(entity);
+      validateInput(entity, { noLog: true });
     } catch (e) {
       // Ignore it; we've already logged the output but want to continue on for
       // the sake of this experiment
