@@ -22,6 +22,7 @@
     "ssnLastFour": "8937",
     "gender": "M",
     "dateOfBirth": "1947-09-25",
+    "vetEmail": "vet@vet.com",
     "eligibility": {
       "batteries": false,
       "accessories": true

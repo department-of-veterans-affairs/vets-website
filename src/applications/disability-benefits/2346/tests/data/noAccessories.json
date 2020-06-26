@@ -21,6 +21,7 @@
     },
     "ssnLastFour": "1086",
     "gender": "M",
+    "vetEmail": "vet@vet.com",
     "dateOfBirth": "1933-10-27",
     "eligibility": {
       "batteries": true,
