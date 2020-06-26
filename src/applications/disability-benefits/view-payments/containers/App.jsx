@@ -14,7 +14,7 @@ import {
 export default function App() {
   return (
     <div>
-      <div className="vads-l-grid-container vads-u-padding--2">
+      <div className="vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--12 large-screen:vads-l-col--8">
             <ViewPaymentsHeader />
