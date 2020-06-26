@@ -31,7 +31,6 @@ class IntroductionPage extends React.Component {
       vaFileNumber: { hasVaFileNumber, isLoading },
       user,
     } = this.props;
-
     let ctaState;
     let content;
     // Base case: user is logged out.
@@ -63,7 +62,7 @@ class IntroductionPage extends React.Component {
       );
     } else if (
       user?.login?.currentlyLoggedIn &&
-      !hasVaFileNumber?.validVaFileNumber &&
+      !hasVaFileNumber?.validVAFileNumber &&
       !isLoading
     ) {
       content = (
