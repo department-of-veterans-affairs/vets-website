@@ -1,4 +1,5 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
@@ -99,6 +100,11 @@ describe('DirectDepositContent', () => {
   });
 
   let initialState;
+  const ui = (
+    <MemoryRouter>
+      <DirectDepositContent />
+    </MemoryRouter>
+  );
   it('should render nothing if the user is LOA1', () => {
     initialState = createBasicInitialState();
     initialState.user.profile = {
@@ -108,7 +114,7 @@ describe('DirectDepositContent', () => {
       },
     };
 
-    const { container } = renderWithProfileReducers(<DirectDepositContent />, {
+    const { container } = renderWithProfileReducers(ui, {
       initialState,
     });
     expect(container).to.be.empty;
@@ -117,7 +123,7 @@ describe('DirectDepositContent', () => {
     initialState = createBasicInitialState();
     initialState.user.profile.multifactor = false;
 
-    const { container } = renderWithProfileReducers(<DirectDepositContent />, {
+    const { container } = renderWithProfileReducers(ui, {
       initialState,
     });
     expect(container).to.be.empty;
@@ -130,7 +136,7 @@ describe('DirectDepositContent', () => {
       // Using queries on RTL `screen` does not work for some reason. So I'm just
       // storing the entire response from `render` as `view` so I can treat `view`
       // like I would `screen`
-      view = renderWithProfileReducers(<DirectDepositContent />, {
+      view = renderWithProfileReducers(ui, {
         initialState,
       });
     });
@@ -186,7 +192,7 @@ describe('DirectDepositContent', () => {
       // Using queries on RTL `screen` does not work for some reason. So I'm just
       // storing the entire response from `render` as `view` so I can treat `view`
       // like I would `screen`
-      view = renderWithProfileReducers(<DirectDepositContent />, {
+      view = renderWithProfileReducers(ui, {
         initialState,
       });
     });
