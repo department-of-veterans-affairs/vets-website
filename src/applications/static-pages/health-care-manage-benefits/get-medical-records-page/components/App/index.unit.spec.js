@@ -1,37 +1,24 @@
 // Dependencies.
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 // Relative imports.
-import { App } from './index';
+import AuthContent from '../AuthContent';
+import UnauthContent from '../UnauthContent';
+import App from './index';
 
 describe('Get Medical Records Page <App>', () => {
-  it('renders what we expect', () => {
-    const wrapper = shallow(<App />);
+  it('renders what we expect when not a Cerner patient', () => {
+    const wrapper = mount(<App isCernerPatient={false} />);
+    expect(wrapper.find(UnauthContent)).toHaveLength(1);
+    expect(wrapper.find(AuthContent)).toHaveLength(0);
+    wrapper.unmount();
+  });
 
-    const text = wrapper.text();
-    expect(text).to.include(
-      "What's VA Blue Button, and how can it help me manage my health care?",
-    );
-    expect(text).to.include(
-      'Am I eligible to use all the features of VA Blue Button?',
-    );
-    expect(text).to.include(
-      'Once I’m signed in, how do I get to my medical records?',
-    );
-    expect(text).to.include(
-      'Will my personal health information be protected?',
-    );
-    expect(text).to.include('What if I have more questions?');
-    expect(text).to.include(
-      'What is the Veterans Health Information Exchange (VHIE), and how can',
-    );
-    expect(text).to.include('Can I opt out of sharing my information?');
-    expect(text).to.include(
-      'Can I change my mind if I want to share my information later?',
-    );
-    expect(text).to.include('What if I have more questions?');
-
+  it('renders what we expect when a Cerner patient', () => {
+    const wrapper = mount(<App isCernerPatient />);
+    expect(wrapper.find(UnauthContent)).toHaveLength(0);
+    expect(wrapper.find(AuthContent)).toHaveLength(1);
     wrapper.unmount();
   });
 });
