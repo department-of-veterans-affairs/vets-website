@@ -84,6 +84,7 @@ function fillDate(formDOM, partialId, dateString) {
   );
 }
 
+let oldFetch;
 /**
  * A function to mock the global fetch function and return
  * the value provided in returnVal.
@@ -92,6 +93,7 @@ function fillDate(formDOM, partialId, dateString) {
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
  */
 export function mockFetch(returnVal, shouldResolve = true) {
+  oldFetch = global.fetch;
   global.fetch = sinon
     .stub()
     .returns(
@@ -137,6 +139,7 @@ export function setFetchBlobFailure(stub, error) {
  */
 export function resetFetch() {
   global.fetch.reset();
+  global.fetch = oldFetch;
 }
 
 const getApiRequestObject = returnVal => ({

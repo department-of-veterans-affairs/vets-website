@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
   mockFetch,
+  resetFetch,
   setFetchJSONResponse,
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
@@ -33,6 +34,7 @@ describe('VAOS Location service', () => {
         'vaos/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
       );
       expect(data[0].identifier[1].value).to.equal('urn:va:division:983:983');
+      resetFetch();
     });
 
     it('should sort by name', async () => {
@@ -49,6 +51,7 @@ describe('VAOS Location service', () => {
       expect(data[2].name).to.equal('CHYSHR-Loveland VA Clinic');
       expect(data[3].name).to.equal('CHYSHR-Sidney VA Clinic');
       expect(data[4].name).to.equal('CHYSHR-Wheatland VA Mobile Clinic');
+      resetFetch();
     });
 
     it('should return OperationOutcome error', async () => {
@@ -72,6 +75,7 @@ describe('VAOS Location service', () => {
         '/vaos/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+      resetFetch();
     });
   });
 
@@ -89,6 +93,7 @@ describe('VAOS Location service', () => {
         '/facilities/va?ids=vha_442A6',
       );
       expect(data[0].identifier[0].value).to.equal('urn:va:division:442:442');
+      resetFetch();
     });
     it('should return OperationOutcome error', async () => {
       mockFetch();
@@ -109,6 +114,7 @@ describe('VAOS Location service', () => {
         '/facilities/va?ids=vha_442',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+      resetFetch();
     });
   });
 
@@ -126,6 +132,7 @@ describe('VAOS Location service', () => {
         '/facilities/va/vha_442A6',
       );
       expect(data.identifier[0].value).to.equal('urn:va:division:442:442');
+      resetFetch();
     });
 
     it('should return OperationOutcome error', async () => {
@@ -147,6 +154,7 @@ describe('VAOS Location service', () => {
         '/facilities/va/vha_442',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+      resetFetch();
     });
   });
 

@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
   mockFetch,
+  resetFetch,
   setFetchJSONResponse,
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
@@ -33,6 +34,7 @@ describe('VAOS Organization service', () => {
         '/vaos/v0/facilities?facility_codes[]=983&facility_codes[]=984',
       );
       expect(data[0].identifier[0].value).to.equal(facilitiesParsed[0].id);
+      resetFetch();
     });
 
     it('should sort by name', async () => {
@@ -42,6 +44,7 @@ describe('VAOS Organization service', () => {
       expect(data[0].name).to.equal('CHYSHR-Cheyenne VA Medical Center');
       expect(data[1].name).to.equal('DAYTSHR -Dayton VA Medical Center');
       expect(data[2].name).to.equal('Five Digit Station ID Medical Center');
+      resetFetch();
     });
 
     it('should return OperationOutcome error', async () => {
@@ -61,6 +64,7 @@ describe('VAOS Organization service', () => {
         '/vaos/v0/facilities?facility_codes[]=983&facility_codes[]=984',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+      resetFetch();
     });
 
     it('should make successful request to VSP api', async () => {
@@ -73,6 +77,7 @@ describe('VAOS Organization service', () => {
       );
       expect(data.length).to.equal(2);
       expect(data[0].resourceType).to.equal('Organization');
+      resetFetch();
     });
 
     it('should sort by name', async () => {
@@ -82,6 +87,7 @@ describe('VAOS Organization service', () => {
 
       expect(data[0].name).to.equal('Cheyenne VA Medical Center');
       expect(data[1].name).to.equal('Dayton VA Medical Center');
+      resetFetch();
     });
   });
   describe('getSiteIdFromOrganization', () => {

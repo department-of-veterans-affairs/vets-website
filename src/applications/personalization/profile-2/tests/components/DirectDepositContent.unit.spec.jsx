@@ -83,9 +83,7 @@ function findCancelEditButton(view) {
 
 describe('DirectDepositContent', () => {
   const server = setupServer(...mocks.updateDirectDepositSuccess);
-  before(() => {
-    server.listen();
-  });
+  server.listen();
   afterEach(() => {
     server.resetHandlers();
   });

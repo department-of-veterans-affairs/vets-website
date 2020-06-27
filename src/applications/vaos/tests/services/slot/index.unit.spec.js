@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
   mockFetch,
+  resetFetch,
   setFetchJSONResponse,
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
@@ -28,6 +29,7 @@ describe('VAOS Slot service', () => {
         '/vaos/v0/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=308&start_date=2020-05-01&end_date=2020-06-30',
       );
       expect(data[0].start).to.equal('2020-02-06T14:00:00.000');
+      resetFetch();
     });
 
     it('should return OperationOutcome error', async () => {
@@ -53,6 +55,7 @@ describe('VAOS Slot service', () => {
         '/vaos/v0/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=308&start_date=2020-05-01&end_date=2020-06-30',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+      resetFetch();
     });
   });
 });

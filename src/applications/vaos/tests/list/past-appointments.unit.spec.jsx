@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import reducers from '../../reducers';
 import { getVideoAppointmentMock } from '../mocks/v0';
 import { mockPastAppointmentInfo } from '../mocks/helpers';
@@ -34,6 +35,7 @@ describe('VAOS integration: past appointments', () => {
       bookingNotes: 'Some random note',
       status: { description: 'C', code: 'CHECKED OUT' },
     };
+    mockFetch();
     mockPastAppointmentInfo({ va: [appointment] });
 
     const { findByText, baseElement, queryByText } = renderInReduxProvider(
@@ -61,5 +63,6 @@ describe('VAOS integration: past appointments', () => {
     expect(queryByText(/video conference/i)).to.exist;
     expect(queryByText(/add to calendar/i)).to.not.exist;
     expect(queryByText(/cancel appointment/i)).to.not.exist;
+    resetFetch();
   });
 });

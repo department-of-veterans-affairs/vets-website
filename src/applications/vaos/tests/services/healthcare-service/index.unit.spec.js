@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
   mockFetch,
+  resetFetch,
   setFetchJSONResponse,
   setFetchJSONFailure,
   mockMultipleApiRequests,
@@ -12,12 +13,14 @@ import facilities983 from '../../../api/facilities_983.json';
 import clinicList983 from '../../../api/clinicList983.json';
 
 describe('VAOS Healthcare service', () => {
-  beforeEach(() => {
-    mockFetch();
-    setFetchJSONResponse(global.fetch, clinicList983);
-  });
-
   describe('getAvailableHealthcareServices', () => {
+    beforeEach(() => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, clinicList983);
+    });
+    afterEach(() => {
+      resetFetch();
+    });
     it('should make successful request', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: 'var983',
@@ -106,7 +109,6 @@ describe('VAOS Healthcare service', () => {
     });
 
     it('should return OperationOutcome error', async () => {
-      mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],
       });

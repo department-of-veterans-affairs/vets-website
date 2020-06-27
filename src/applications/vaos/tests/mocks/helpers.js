@@ -1,9 +1,8 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 export function mockAppointmentInfo({ va = [], cc = [], requests = [] }) {
-  mockFetch();
   setFetchJSONResponse(global.fetch, { data: [] });
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -37,7 +36,6 @@ export function mockAppointmentInfo({ va = [], cc = [], requests = [] }) {
 }
 
 export function mockPastAppointmentInfo({ va = [], cc = [] }) {
-  mockFetch();
   setFetchJSONResponse(global.fetch, { data: [] });
   setFetchJSONResponse(
     global.fetch.withArgs(

@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import reducers from '../../reducers';
 import { mockAppointmentInfo } from '../mocks/helpers';
 import { getVideoAppointmentMock } from '../mocks/v0';
@@ -35,6 +36,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
     };
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
 
     const {
@@ -98,6 +100,7 @@ describe('VAOS integration: upcoming video appointments', () => {
         },
       ],
     };
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, getByText, queryByText } = renderInReduxProvider(
@@ -128,6 +131,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       'href',
       'http://videourl.va.gov',
     );
+    resetFetch();
   });
 
   it('should show active link if less than 4 hours in the past', async () => {
@@ -156,6 +160,7 @@ describe('VAOS integration: upcoming video appointments', () => {
         },
       ],
     };
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, getByText, queryByText } = renderInReduxProvider(
@@ -186,6 +191,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       'href',
       'http://videourl.va.gov',
     );
+    resetFetch();
   });
   it('should show message about when to join if mobile gfe', async () => {
     const appointment = getVideoAppointmentMock();
@@ -205,6 +211,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       appointmentKind: 'MOBILE_GFE',
       status: { description: 'F', code: 'FUTURE' },
     };
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, baseElement, queryByText } = renderInReduxProvider(
@@ -230,6 +237,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(baseElement).to.contain.text(
       'Join the video session from the device provided by the VA',
     );
+    resetFetch();
   });
   it('should reveal medication review instructions', async () => {
     const appointment = getVideoAppointmentMock();
@@ -249,6 +257,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       instructionsTitle: 'Medication Review',
       status: { description: 'F', code: 'FUTURE' },
     };
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, getByText, queryByText } = renderInReduxProvider(
@@ -273,7 +282,9 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(queryByText(/medication review/i)).to.not.exist;
     fireEvent.click(getByText(/prepare for video visit/i));
 
-    return expect(findByText(/medication review/i)).to.eventually.exist;
+    expect(findByText(/medication review/i)).to.eventually.exist;
+
+    resetFetch();
   });
 
   it('should reveal video visit instructions', async () => {
@@ -294,6 +305,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       instructionsTitle: 'Video Visit Preparation',
       status: { description: 'F', code: 'FUTURE' },
     };
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, getByText, queryByText } = renderInReduxProvider(
@@ -317,6 +329,8 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(queryByText(/before your appointment/i)).to.not.exist;
     fireEvent.click(getByText(/prepare for video visit/i));
 
-    return expect(findByText('Before your appointment:')).to.eventually.exist;
+    expect(findByText('Before your appointment:')).to.eventually.exist;
+
+    resetFetch();
   });
 });

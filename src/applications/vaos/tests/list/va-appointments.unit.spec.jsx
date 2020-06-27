@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import reducers from '../../reducers';
 import { getVAAppointmentMock, getVAFacilityMock } from '../mocks/v0';
 import { mockAppointmentInfo, mockFacilitesFetch } from '../mocks/helpers';
@@ -27,6 +28,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
     const {
       findByText,
@@ -55,6 +57,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(baseElement).not.to.contain.text('Some random note');
     expect(getByText(/add to calendar/i)).to.have.tagName('a');
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+    resetFetch();
   });
 
   it('should show information with facility details', async () => {
@@ -67,6 +70,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
       sta6aid: '983GC',
     };
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
 
     const facility = {
@@ -109,6 +113,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
     expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
     expect(baseElement).to.contain.text('307-778-7550');
+    resetFetch();
   });
 
   it('should show comment for self-scheduled appointments', async () => {
@@ -117,6 +122,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
     appointment.attributes.vdsAppointments[0].bookingNote =
       'Follow-up/Routine: Instructions';
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, baseElement } = renderInReduxProvider(
@@ -131,6 +137,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
 
     expect(baseElement).to.contain.text('Follow-up/Routine');
     expect(baseElement).to.contain.text('Instructions');
+    resetFetch();
   });
 
   it('should have correct status when previously cancelled', async () => {
@@ -138,6 +145,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     appointment.attributes.startDate = moment().format();
     appointment.attributes.vdsAppointments[0].currentStatus =
       'CANCELLED BY CLINIC';
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, baseElement } = renderInReduxProvider(
@@ -154,6 +162,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(baseElement).to.contain('.fa-exclamation-circle');
     expect(baseElement).not.to.contain.text('Add to calendar');
     expect(baseElement).not.to.contain.text('Cancel appointment');
+    resetFetch();
   });
 
   it('should not display when they have hidden statuses', () => {
@@ -161,14 +170,15 @@ describe('VAOS integration: upcoming VA appointments', () => {
     appointment.attributes.startDate = moment().format();
     appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
 
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
     const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
       initialState,
       reducers,
     });
 
-    return expect(findByText(/You don’t have any appointments/i)).to.eventually
-      .be.ok;
+    expect(findByText(/You don’t have any appointments/i)).to.eventually.be.ok;
+    resetFetch();
   });
 
   it('should not display when over 13 months away', () => {
@@ -178,13 +188,14 @@ describe('VAOS integration: upcoming VA appointments', () => {
       .format();
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
 
+    mockFetch();
     mockAppointmentInfo({ va: [appointment] });
     const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
       initialState,
       reducers,
     });
 
-    return expect(findByText(/You don’t have any appointments/i)).to.eventually
-      .be.ok;
+    expect(findByText(/You don’t have any appointments/i)).to.eventually.be.ok;
+    resetFetch();
   });
 });

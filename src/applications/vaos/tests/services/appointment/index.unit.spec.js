@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import {
   mockFetch,
+  resetFetch,
   setFetchJSONResponse,
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
@@ -36,6 +37,7 @@ describe('VAOS Appointment service', () => {
         '/vaos/v0/appointments?start_date=2020-05-01&end_date=2020-06-30&type=cc',
       );
       expect(data[0].status).to.equal('booked');
+      resetFetch();
     });
 
     it('should return OperationOutcome error', async () => {
@@ -65,6 +67,7 @@ describe('VAOS Appointment service', () => {
         '/vaos/v0/appointments?start_date=2020-05-01&end_date=2020-06-30&type=cc',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+      resetFetch();
     });
   });
 
@@ -85,6 +88,7 @@ describe('VAOS Appointment service', () => {
         '/vaos/v0/appointment_requests?start_date=2020-05-01&end_date=2020-06-30',
       );
       expect(data[0].status).to.equal('pending');
+      resetFetch();
     });
 
     it('should return OperationOutcome error', async () => {
@@ -109,6 +113,7 @@ describe('VAOS Appointment service', () => {
         '/vaos/v0/appointment_requests?start_date=2020-05-01&end_date=2020-06-30',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+      resetFetch();
     });
   });
 });

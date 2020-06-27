@@ -223,6 +223,7 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(
         FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
       );
+      resetFetch();
     });
   });
 
