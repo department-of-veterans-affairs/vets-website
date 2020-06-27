@@ -15,9 +15,10 @@ export default {
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
   FORM_686_CONTENT_REVEAL: '686UnauthContentBlock',
   CAREGIVER_CONTENT_TOGGLE: 'caregiver-content-toggle',
-  SECURE_MESSAGING_PAGE: 'secure-messaging',
-  SCHEDULE_VIEW_VA_APPOINTMENTS: 'schedule-view-va-appointments',
+  // Health Care | Manage Benefits widgets.
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
-  VIEW_TEST_LAB_RESULTS_PAGE: 'view-test-lab-results-page',
   REFILL_TRACK_PRESCRIPTIONS_PAGE: 'refill-track-prescriptions-page',
+  SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE: 'schedule-view-va-appointments-page',
+  SECURE_MESSAGING_PAGE: 'secure-messaging-page',
+  VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
 };

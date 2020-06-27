@@ -35,9 +35,9 @@ import createCaregiverContentToggle from './caregiver-content-toggle/createCareg
 // Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
 import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
-import createScheduleViewVAAppointments from './health-care-manage-benefits/schedule-view-va-appointments';
-import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging';
-import createViewTestLabResultsPage from './health-care-manage-benefits/view-test-lab-results-page';
+import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
+import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging-page';
+import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-test-and-lab-results-page';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -151,12 +151,15 @@ createRefillTrackPrescriptionsPage(
   store,
   widgetTypes.REFILL_TRACK_PRESCRIPTIONS_PAGE,
 );
-createScheduleViewVAAppointments(
+createScheduleViewVAAppointmentsPage(
   store,
-  widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS,
+  widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
 );
 createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
-createViewTestLabResultsPage(store, widgetTypes.VIEW_TEST_LAB_RESULTS_PAGE);
+createViewTestAndLabResultsPage(
+  store,
+  widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
+);
 
 // homepage widgets
 if (location.pathname === '/') {
