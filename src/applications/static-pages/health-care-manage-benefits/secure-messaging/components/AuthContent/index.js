@@ -270,10 +270,12 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                If you have more questions about Secure Messaging on
-                MyHealtheVet, please got to the{' '}
+                <strong>
+                  If you have questions about Secure Messaging on MyHealtheVet
+                </strong>
+                , please go to the{' '}
                 <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#smGeneralFAQ"
+                  href="https://www.myhealth.va.gov/mhv-portal-web/faqs#Appointments"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -295,6 +297,25 @@ export const AuthContent = () => (
                   rel="noopener noreferrer"
                 >
                   contact us online
+                </a>
+                .
+              </p>
+              <p>
+                <strong>
+                  If you have questions about Secure Messaging on My VA Health
+                </strong>
+                , you can call the My VA Health help desk at{' '}
+                <a aria-label="1 8 0 0 9 6 2 1 0 2 4" href="tel:18009621024">
+                  1-800-962-1024
+                </a>
+                . You can also{' '}
+                <a
+                  className="vads-u-color--secondary vads-u-text-decoration--none"
+                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  [contact us online]
                 </a>
                 .
               </p>
