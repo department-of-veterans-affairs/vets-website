@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
+import { resetFetch } from 'platform/testing/unit/helpers';
+
 import * as mocks from '../../msw-mocks';
 import { renderWithProfileReducers } from '../unit-test-helpers';
 
@@ -82,8 +84,13 @@ function findCancelEditButton(view) {
 }
 
 describe('DirectDepositContent', () => {
-  const server = setupServer(...mocks.updateDirectDepositSuccess);
-  server.listen();
+  let server;
+  before(() => {
+    // just to make sure that global.fetch is back to normal and not a sinon stub
+    resetFetch();
+    server = setupServer(...mocks.updateDirectDepositSuccess);
+    server.listen();
+  });
   afterEach(() => {
     server.resetHandlers();
   });

@@ -93,7 +93,12 @@ let oldFetch;
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
  */
 export function mockFetch(returnVal, shouldResolve = true) {
-  oldFetch = global.fetch;
+  // Only save global.fetch in oldFetch if global.fetch is _not_ a sinon stub.
+  // Sinon stubs are objects with many properties; global.fetch has no
+  // properties
+  if (Object.keys(global.fetch).length === 0) {
+    oldFetch = global.fetch;
+  }
   global.fetch = sinon
     .stub()
     .returns(
@@ -138,8 +143,10 @@ export function setFetchBlobFailure(stub, error) {
  * Resets the fetch mock set with mockFetch
  */
 export function resetFetch() {
-  global.fetch.reset();
-  global.fetch = oldFetch;
+  global.fetch.reset?.();
+  if (oldFetch) {
+    global.fetch = oldFetch;
+  }
 }
 
 const getApiRequestObject = returnVal => ({

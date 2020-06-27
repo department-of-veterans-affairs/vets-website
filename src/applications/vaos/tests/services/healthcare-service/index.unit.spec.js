@@ -109,6 +109,7 @@ describe('VAOS Healthcare service', () => {
     });
 
     it('should return OperationOutcome error', async () => {
+      mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],
       });
@@ -128,6 +129,7 @@ describe('VAOS Healthcare service', () => {
         `/vaos/v0/facilities/983/clinics?type_of_care_id=123&system_id=456`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+      resetFetch();
     });
   });
 });
