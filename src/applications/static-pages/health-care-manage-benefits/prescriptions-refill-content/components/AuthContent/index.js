@@ -317,8 +317,11 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                If you have questions about VA Presecription Refill and Tracking
-                on MyHealtheVet, please go to the{' '}
+                <strong>
+                  If you have questions about VA Presecription Refill and
+                  Tracking on MyHealtheVet
+                </strong>
+                , please go to the{' '}
                 <a
                   href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#PrescriptionRefill"
                   target="_blank"
