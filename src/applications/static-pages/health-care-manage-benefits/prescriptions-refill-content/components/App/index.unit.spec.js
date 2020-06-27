@@ -3,30 +3,22 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 // Relative imports.
+import AuthContent from '../AuthContent';
+import UnauthContent from '../UnauthContent';
 import { App } from './index';
 
-describe('Prescriptions Refill Page <App>', () => {
-  it('renders what we expect', () => {
-    const wrapper = shallow(<App />);
+describe('Get Medical Records Page <App>', () => {
+  it('renders what we expect when not a Cerner patient', () => {
+    const wrapper = shallow(<App isCernerPatient={false} />);
+    expect(wrapper.find(UnauthContent)).to.have.lengthOf(1);
+    expect(wrapper.find(AuthContent)).to.have.lengthOf(0);
+    wrapper.unmount();
+  });
 
-    const text = wrapper.text();
-    expect(text).to.include(
-      'How can the VA Prescription Refill and Tracking tool help me manage my',
-    );
-    expect(text).to.include('Am I eligible to use this tool?');
-    expect(text).to.include('Once I’m signed in, how do I get started?');
-    expect(text).to.include(
-      'Can I use this tool to refill and track all my VA prescriptions?',
-    );
-    expect(text).to.include('Where will VA send my prescriptions?');
-    expect(text).to.include(
-      'How long will my prescriptions take to arrive, and when should I',
-    );
-    expect(text).to.include(
-      'Will my personal health information be protected?',
-    );
-    expect(text).to.include('What if I have more questions?');
-
+  it('renders what we expect when a Cerner patient', () => {
+    const wrapper = shallow(<App isCernerPatient />);
+    expect(wrapper.find(UnauthContent)).to.have.lengthOf(0);
+    expect(wrapper.find(AuthContent)).to.have.lengthOf(1);
     wrapper.unmount();
   });
 });

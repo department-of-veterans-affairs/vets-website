@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
-import './styles.scss';
 import AuthContent from '../AuthContent';
 import UnauthContent from '../UnauthContent';
 import { selectIsCernerPatient } from 'platform/user/selectors';
