@@ -170,7 +170,7 @@ jobs:
     working_directory: ~/vets-website
     docker:
       - image: cypress/base:10.15.3
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
@@ -204,7 +204,7 @@ jobs:
     working_directory: ~/vets-website
     docker:
       - image: cypress/base:10.15.3
-    resource_class: large
+    resource_class: xlarge
     parallelism: 2
     steps:
       - checkout
