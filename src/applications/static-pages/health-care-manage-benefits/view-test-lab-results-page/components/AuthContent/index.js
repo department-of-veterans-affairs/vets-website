@@ -9,8 +9,11 @@ export const AuthContent = () => (
     <CallToActionWidget appId="lab-and-test-results" setFocus={false} />
     <div>
       <div itemScope itemType="http://schema.org/Question">
-        <h2 itemProp="name" id="how-can-this-tool-help-me-mana">
-          How can this tool help me manage my health care?
+        <h2
+          itemProp="name"
+          id="how-are-my-va-health-and-my-healthe-vet-different"
+        >
+          How are My VA Health and My HealtheVet different?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -20,15 +23,37 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                With this tool, you&apos;ll be able to view and keep a record of
-                your VA lab and test results.
+                Where you receive care and the types of results you want to
+                access will determine whether you&apos;ll view your lab and test
+                results on My VA Health or My HealtheVet. If you receive care at
+                both Mann-Grandstaff VA medical center and another VA facility,
+                you may need to use both web portals.
               </p>
               <p>
-                <strong>You can use the tool to:</strong>
+                <strong>
+                  If you receive care at Mann-Grandstaff VA medical center,
+                  you&apos;ll use My VA Health Labs and Vitals tool to:
+                </strong>
               </p>
               <ul>
                 <li>
-                  View some of your VA lab and test results (like blood tests)
+                  View some of your VA lab and test results (like blood tests,
+                  microbiology reports, pathology reports, radiology reports,
+                  and cardiology reports) from providers at Mann-Grandstaff VA
+                  medical center
+                </li>
+              </ul>
+              <p>
+                <strong>
+                  If you receive care at another VA medical center, you&apos;ll
+                  use My HealtheVet Labs + Tests tool to:
+                </strong>
+              </p>
+              <ul>
+                <li>
+                  View your VA chemistry/hematology lab and test results (like
+                  blood tests, blood sugar, liver function, and blood cell
+                  count) from all other VA medical centers
                 </li>
                 <li>Add results from non-VA health care providers and labs</li>
               </ul>
@@ -37,8 +62,8 @@ export const AuthContent = () => (
         </div>
       </div>
       <div itemScope itemType="http://schema.org/Question">
-        <h2 itemProp="name" id="am-i-eligible-to-use-this-tool">
-          Am I eligible to use this tool?
+        <h2 itemProp="name" id="am-i-eligible-to-use-these-tools">
+          Am I eligible to use these tools?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -48,11 +73,11 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                You can use this tool to view and track your VA lab and test
-                results if you meet all of the requirements listed below.
+                You can use these tools if you meet all of the requirements
+                below.
               </p>
               <p>
-                <strong>Both of these must be true. You’re:</strong>
+                <strong>Both of these must be true. You&apos;re:</strong>
               </p>
               <ul>
                 <li>
@@ -105,8 +130,8 @@ export const AuthContent = () => (
         </div>
       </div>
       <div itemScope itemType="http://schema.org/Question">
-        <h2 itemProp="name" id="can-i-view-all-my-va-lab-and-t">
-          Can I view all my VA lab and test information using this tool?
+        <h2 itemProp="name" id="can-i-view-lab-results-from-non-va-providers">
+          Can I view lab results from non-VA providers?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -116,17 +141,17 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                At this time, you can view only your VA chemistry/hematology
-                results. These include tests for blood sugar, liver function, or
-                blood cell counts.
+                No. Labs results from non-VA providers aren&apos;t listed in the
+                tools. However, you can enter your own lab results from non-VA
+                providers into MyHealtheVet.
               </p>
             </div>
           </div>
         </div>
       </div>
       <div itemScope itemType="http://schema.org/Question">
-        <h2 itemProp="name" id="can-i-view-results-from-non-va">
-          Can I view results from non-VA providers or labs?
+        <h2 itemProp="name" id="once-im-signed-in-how-do-i">
+          Once I’m signed in, how do I view my results?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -136,44 +161,52 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                No. But you can enter this information yourself to keep all your
-                results in one place.
+                <strong>If you&apos;re viewing results on My VA Health</strong>
               </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h2 itemProp="name" id="once-im-signed-in-within-my-he">
-          Once I’m signed in within My HealtheVet, how do I view my results?
-        </h2>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
               <p>
-                On your Welcome page dashboard, you’ll see a module for “Health
-                Records.” Within that module, click on “Labs and Tests.”
+                In the navigation panel, click &quot;Health Record.&quot; Then
+                choose &quot;Labs and Vitals&quot; to see a full list of
+                available reports. This will take you to a new page with links
+                to view test results.
+              </p>
+              <p>
+                If you&apos;re signed in with a Premium account, you&apos;ll
+                see:
+              </p>
+              <ul>
+                <li>
+                  VA test results listed by date and specimen. A specimen is the
+                  sample studied by the test (like blood, urine, a tissue
+                  biopsy, or a throat swab). You can click on each result to
+                  view details from your VA medical record.
+                </li>
+              </ul>
+              <p>
+                <strong>If you&apos;re viewing results on My HealtheVet</strong>
+              </p>
+              <p>
+                On your Welcome page dashboard, you&apos;ll see a module for
+                &quot;Health Records.&qout; Within that module, click on
+                &quot;Labs and Tests.&quot;
               </p>
               <p>
                 This will take you to a new page with links to view test
                 results.
               </p>
-              <p>If you’re signed in with a Premium account, you’ll see:</p>
+              <p>
+                If you&apos;re signed in with a Premium account, you&apos;ll
+                see:
+              </p>
               <ul>
                 <li>
-                  <strong>VA chemistry/hematology results:</strong> Your tests
-                  will be listed by date and specimen. A specimen is the sample
-                  studied by the test (like blood, urine, a tissue biopsy, or a
-                  throat swab). You can click on each to view details from your
-                  VA medical record.
+                  VA chemistry/hematology results listed by a date and specimen.
+                  A specimen is the sample studied by the test (like blood,
+                  urine, a tissue biopsy, or a throat swab). You can click on
+                  each to view details from your VA medical record.
                 </li>
                 <li>
-                  <strong>Test results you’ve entered yourself:</strong> You can
-                  add and view results from non-VA providers and labs.
+                  Test results from non-VA providers that you&apos;ve entered
+                  yourself
                 </li>
               </ul>
               <p>
@@ -238,14 +271,17 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                If you have questions about lab and test results on
-                MyHealtheVet, please got to the{' '}
+                <strong>
+                  If you have questions about lab and test results on My
+                  HealtheVet
+                </strong>
+                , please go to the{' '}
                 <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#smGeneralFAQ"
+                  href="https://www.myhealth.va.gov/mhv-portal-web/faqs#Appointments"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Lab + Tests Results FAQs
+                  Lab + Test Results FAQs
                 </a>{' '}
                 on the My HealtheVet web portal.
               </p>
@@ -263,6 +299,26 @@ export const AuthContent = () => (
                   rel="noopener noreferrer"
                 >
                   contact us online
+                </a>
+                .
+              </p>
+              <p>
+                <strong>
+                  If you have questions about lab and test results on My VA
+                  Health
+                </strong>
+                , you can call the My VA Health help desk at{' '}
+                <a aria-label="1 8 0 0 9 6 2 1 0 2 4" href="tel:18009621024">
+                  1-800-962-1024
+                </a>
+                . You can also{' '}
+                <a
+                  className="vads-u-color--secondary vads-u-text-decoration--none"
+                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  [contact us online]
                 </a>
                 .
               </p>
