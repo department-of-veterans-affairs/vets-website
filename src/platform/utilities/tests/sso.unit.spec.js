@@ -117,6 +117,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(profUtils, 'hasSession').returns(false);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
     sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    mockFetch();
     setKeepAliveResponse(global.fetch.onFirstCall(), 900, '33');
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();

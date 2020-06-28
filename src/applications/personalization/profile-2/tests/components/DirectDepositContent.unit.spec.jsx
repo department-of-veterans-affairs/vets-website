@@ -1,8 +1,11 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
+
+import { resetFetch } from 'platform/testing/unit/helpers';
 
 import * as mocks from '../../msw-mocks';
 import { renderWithProfileReducers } from '../unit-test-helpers';
@@ -82,8 +85,12 @@ function findCancelEditButton(view) {
 }
 
 describe('DirectDepositContent', () => {
-  const server = setupServer(...mocks.updateDirectDepositSuccess);
+  let server;
   before(() => {
+    // before we can use msw, we need to make sure that global.fetch has been
+    // restored and is not longer a sinon stub.
+    resetFetch();
+    server = setupServer(...mocks.updateDirectDepositSuccess);
     server.listen();
   });
   afterEach(() => {
@@ -92,6 +99,12 @@ describe('DirectDepositContent', () => {
   after(() => {
     server.close();
   });
+
+  const ui = (
+    <MemoryRouter>
+      <DirectDepositContent />
+    </MemoryRouter>
+  );
 
   let initialState;
   it('should render nothing if the user is LOA1', () => {
@@ -103,7 +116,7 @@ describe('DirectDepositContent', () => {
       },
     };
 
-    const { container } = renderWithProfileReducers(<DirectDepositContent />, {
+    const { container } = renderWithProfileReducers(ui, {
       initialState,
     });
     expect(container).to.be.empty;
@@ -112,7 +125,7 @@ describe('DirectDepositContent', () => {
     initialState = createBasicInitialState();
     initialState.user.profile.multifactor = false;
 
-    const { container } = renderWithProfileReducers(<DirectDepositContent />, {
+    const { container } = renderWithProfileReducers(ui, {
       initialState,
     });
     expect(container).to.be.empty;
@@ -125,7 +138,7 @@ describe('DirectDepositContent', () => {
       // Using queries on RTL `screen` does not work for some reason. So I'm just
       // storing the entire response from `render` as `view` so I can treat `view`
       // like I would `screen`
-      view = renderWithProfileReducers(<DirectDepositContent />, {
+      view = renderWithProfileReducers(ui, {
         initialState,
       });
     });
@@ -181,7 +194,7 @@ describe('DirectDepositContent', () => {
       // Using queries on RTL `screen` does not work for some reason. So I'm just
       // storing the entire response from `render` as `view` so I can treat `view`
       // like I would `screen`
-      view = renderWithProfileReducers(<DirectDepositContent />, {
+      view = renderWithProfileReducers(ui, {
         initialState,
       });
     });
