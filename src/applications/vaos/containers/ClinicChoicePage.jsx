@@ -157,6 +157,7 @@ export class ClinicChoicePage extends React.Component {
             onBack={this.goBack}
             disabled={usingUnsupportedRequestFlow}
             pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
           />
         </SchemaForm>
       </div>

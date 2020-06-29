@@ -191,7 +191,7 @@ class Batteries extends Component {
                 <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
                   <div className="usa-alert-body">
                     <h3 className="usa-alert-heading vads-u-font-family--sans">
-                      You can't reorder batteries for this device until $
+                      You can't reorder batteries for this device until{' '}
                       {moment(batterySupply.nextAvailabilityDate).format(
                         'MMMM D, YYYY',
                       )}

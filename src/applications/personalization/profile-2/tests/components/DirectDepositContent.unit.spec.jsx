@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { mount } from 'enzyme';
@@ -71,7 +72,9 @@ function setUpWithInitialState(initialState = createBasicInitialState()) {
   );
   return mount(
     <Provider store={store}>
-      <DirectDepositContent />
+      <MemoryRouter>
+        <DirectDepositContent />
+      </MemoryRouter>
     </Provider>,
   );
 }

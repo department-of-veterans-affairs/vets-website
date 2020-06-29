@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
@@ -48,6 +49,9 @@ export const DirectDepositContent = ({
   const isSavingBankInfo = directDepositUiState.isSaving;
   const saveError = directDepositUiState.responseError;
 
+  const { accountNumber, accountType, routingNumber } = formData;
+  const isEmptyForm = !accountNumber && !accountType && !routingNumber;
+
   // when we enter and exit edit mode...
   useEffect(
     () => {
@@ -60,6 +64,19 @@ export const DirectDepositContent = ({
       }
     },
     [isEditingBankInfo, wasEditingBankInfo],
+  );
+
+  useEffect(
+    () => {
+      // Show alert when navigating away
+      if (!isEmptyForm) {
+        window.onbeforeunload = () => true;
+        return;
+      }
+
+      window.onbeforeunload = undefined;
+    },
+    [isEmptyForm],
   );
 
   // show the user a success alert after their bank info has saved
@@ -259,6 +276,10 @@ export const DirectDepositContent = ({
 
   return (
     <>
+      <Prompt
+        message="Are you sure you want to leave? If you leave, your in-progress work won't be saved."
+        when={!isEmptyForm}
+      />
       <div id="success" role="alert" aria-atomic="true">
         <ReactCSSTransitionGroup
           transitionName="form-expanding-group-inner"
