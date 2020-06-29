@@ -69,7 +69,7 @@ const uiSchema = {
   hasCommunityCareProvider: {
     'ui:widget': 'yesNo',
     'ui:title':
-      'Do you have a referral or preferred Community Care provider for this appointment?',
+      'Do you have a community care referral or a preferred VA-approved community care provider?',
     'ui:options': {
       labels: {
         N: "No/I don't know",
@@ -81,6 +81,20 @@ const uiSchema = {
     'ui:options': {
       expandUnder: 'hasCommunityCareProvider',
     },
+    'ui:title': (
+      <p className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--neg2">
+        Use the{' '}
+        <a
+          href="/find-locations/?facilityType=cc_provider"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          facility locator
+        </a>{' '}
+        to find your preferred community care provider. Copy and paste their
+        name and address below.
+      </p>
+    ),
     practiceName: {
       'ui:title': 'Practice name',
     },
