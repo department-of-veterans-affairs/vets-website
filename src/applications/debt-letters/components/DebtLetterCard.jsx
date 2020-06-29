@@ -21,30 +21,28 @@ const DebtLetterCard = props => {
         {deductionCodes[debt.deductionCode]} updated{' '}
         {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
       </h4>
-      <div className="vads-u-font-family--sans">
-        <p className="vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-weight--bold">
-          Amount owed:
-        </p>
-        <p className="vads-u-margin-top--0 vads-u-font-size--md">
-          {formatter.format(parseFloat(debt.currentAR))}
-        </p>
-        <p className="vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-weight--bold">
-          Status:
-        </p>
-        <p className="vads-u-margin-top--0 vads-u-font-size--md">
-          {mostRecentHistory.status}
-        </p>
-        <p className="vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-weight--bold">
-          Next step:
-        </p>
-        <p className="vads-u-margin-top--0 vads-u-font-size--md">
-          {/* ToDo: figure out how to derive next steps from data */}
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium,
-          aliquam delectus error est eveniet exercitationem facere fugiat ipsa
-          laboriosam libero modi, odit quia ratione. Assumenda consectetur iusto
-          perferendis repellat suscipit?
-        </p>
-      </div>
+      <p className="vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--sans">
+        Amount owed:
+      </p>
+      <p className="vads-u-margin-top--0 vads-u-font-size--md vads-u-font-family--sans">
+        {formatter.format(parseFloat(debt.currentAR))}
+      </p>
+      <p className="vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--sans">
+        Status:
+      </p>
+      <p className="vads-u-margin-top--0 vads-u-font-size--md vads-u-font-family--sans">
+        {mostRecentHistory.status}
+      </p>
+      <p className="vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--sans">
+        Next step:
+      </p>
+      <p className="vads-u-margin-top--0 vads-u-font-size--md vads-u-font-family--sans">
+        {/* ToDo: figure out how to derive next steps from data */}
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium,
+        aliquam delectus error est eveniet exercitationem facere fugiat ipsa
+        laboriosam libero modi, odit quia ratione. Assumenda consectetur iusto
+        perferendis repellat suscipit?
+      </p>
       <Link
         className="usa-button vads-u-padding-x--1"
         onClick={() => props.setActiveDebt(debt)}

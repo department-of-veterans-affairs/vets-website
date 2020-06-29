@@ -38,14 +38,7 @@ export const fetchDebtLetters = () => async dispatch => {
       ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
       : await debtLettersSuccess();
 
-    const responseWithHistory = response.data.map(async debt => {
-      const debtHistory = await debtHistorySuccess(debt.adamKey);
-      return { ...debt, debtHistory };
-    });
-
-    return Promise.all(responseWithHistory).then(res =>
-      dispatch(fetchDebtLettersSuccess(res)),
-    );
+    return dispatch(fetchDebtLettersSuccess(response.data));
   } catch (error) {
     return dispatch(fetchDebtLettersFailure());
   }
