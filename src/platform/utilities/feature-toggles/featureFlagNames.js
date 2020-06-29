@@ -29,5 +29,5 @@ export default Object.freeze({
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
-  routeStLouisRPOtoBuffaloRPO: 'route_st_louis_rpo_to_buffalo_rpo',
+  routeStLouisRPOtoBuffaloRPO: 'routeStLouisRPOtoBuffaloRPO',
 });
