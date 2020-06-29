@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
@@ -60,14 +61,17 @@ describe('DirectDeposit', () => {
     fakeStore = makeFakeStore();
     wrapper = mount(
       <Provider store={fakeStore}>
-        <DirectDeposit />
+        <MemoryRouter>
+          <DirectDeposit />
+        </MemoryRouter>
       </Provider>,
     );
-    directDeposit = wrapper.childAt(0);
+    directDeposit = wrapper.find('DirectDeposit');
   });
   afterEach(() => {
     wrapper.unmount();
   });
+
   it('renders an h2 tag as its first child', () => {
     const firstChild = directDeposit.childAt(0);
     expect(firstChild.type()).to.equal('h2');
