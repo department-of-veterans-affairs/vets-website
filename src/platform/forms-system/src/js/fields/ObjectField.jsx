@@ -38,6 +38,29 @@ function setFirstFields(id) {
   }
 }
 
+// This runs a series of steps that order properties and then group them into
+// expandable groups. If there are no expandable groups, then the end result of this
+// will be an array of single item arrays
+function orderAndFilterProperties(schema, uiSchema) {
+  const properties = Object.keys(schema.properties);
+  const orderedProperties = orderProperties(
+    properties,
+    _.get('ui:order', uiSchema),
+  );
+  const filteredProperties = orderedProperties.filter(
+    prop => !schema.properties[prop]['ui:hidden'],
+  );
+  const groupedProperties = _.groupBy(item => {
+    const expandUnderField = _.get(
+      [item, 'ui:options', 'expandUnder'],
+      uiSchema,
+    );
+    return expandUnderField || item;
+  }, filteredProperties);
+
+  return _.values(groupedProperties);
+}
+
 class ObjectField extends React.Component {
   static defaultProps = {
     uiSchema: {},
@@ -56,7 +79,7 @@ class ObjectField extends React.Component {
     this.SchemaField = pureWithDeepEquals(
       this.props.registry.fields.SchemaField,
     );
-    this.orderedProperties = this.orderAndFilterProperties(
+    this.orderedProperties = orderAndFilterProperties(
       props.schema,
       props.uiSchema,
     );
@@ -71,7 +94,7 @@ class ObjectField extends React.Component {
       this.props.schema !== nextProps.schema ||
       this.props.uiSchema !== nextProps.uiSchema
     ) {
-      this.orderedProperties = this.orderAndFilterProperties(
+      this.orderedProperties = orderAndFilterProperties(
         nextProps.schema,
         nextProps.uiSchema,
       );
@@ -93,29 +116,6 @@ class ObjectField extends React.Component {
           );
       this.props.onChange(_.set(name, value, formData));
     };
-  }
-
-  // This runs a series of steps that order properties and then group them into
-  // expandable groups. If there are no expandable groups, then the end result of this
-  // will be an array of single item arrays
-  orderAndFilterProperties(schema, uiSchema) {
-    const properties = Object.keys(schema.properties);
-    const orderedProperties = orderProperties(
-      properties,
-      _.get('ui:order', uiSchema),
-    );
-    const filteredProperties = orderedProperties.filter(
-      prop => !schema.properties[prop]['ui:hidden'],
-    );
-    const groupedProperties = _.groupBy(item => {
-      const expandUnderField = _.get(
-        [item, 'ui:options', 'expandUnder'],
-        uiSchema,
-      );
-      return expandUnderField || item;
-    }, filteredProperties);
-
-    return _.values(groupedProperties);
   }
 
   isRequired(name) {
