@@ -80,16 +80,6 @@ class ObjectField extends React.Component {
     }
   }
 
-  /*
-   * This is a performance optimization to avoid extra renders. Because we mirror
-   * formData in local state, each form data change will trigger two renders: one when
-   * local state is updated and another when that change is reflected in formData. This check
-   * skips the second render if no other props or state has changed
-   */
-  shouldComponentUpdate(nextProps) {
-    return !deepEquals(this.props, nextProps);
-  }
-
   componentDidUpdate() {
     setFirstFields(this.props.idSchema.$id);
   }
