@@ -112,11 +112,10 @@ class VAPProfileField extends React.Component {
 
     if (!this.props.hasUnsavedEdits) {
       this.closeModal();
+      return;
     }
 
-    if (this.props.hasUnsavedEdits) {
-      this.setState({ showConfirmCancelModal: true });
-    }
+    this.setState({ showConfirmCancelModal: true });
   };
 
   onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
