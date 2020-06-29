@@ -1,5 +1,3 @@
-import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ConfirmationPage from 'applications/caregivers/containers/ConfirmationPage';
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
@@ -26,16 +24,6 @@ import definitions, {
   addressWithoutCountryUI,
   confirmationEmailUI,
 } from '../definitions/caregiverUI';
-
-const customErrorMessage = () => {
-  return (
-    <AlertBox
-      headline="Custom ErrorMessage"
-      content="Look at this fresh custom ErrorMessage!"
-      status="error"
-    />
-  );
-};
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 
