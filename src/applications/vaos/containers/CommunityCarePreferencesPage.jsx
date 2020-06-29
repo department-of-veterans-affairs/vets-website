@@ -81,8 +81,8 @@ const uiSchema = {
     'ui:options': {
       expandUnder: 'hasCommunityCareProvider',
     },
-    'ui:title': (
-      <p className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--neg2">
+    'ui:description': (
+      <p className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1">
         Use the{' '}
         <a
           href="/find-locations/?facilityType=cc_provider"
