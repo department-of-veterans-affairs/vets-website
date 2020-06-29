@@ -70,6 +70,7 @@ describe('DebtLettersWrapper', () => {
       dispatch: () => {},
     };
     const wrapper = mount(<DebtLettersWrapper store={fakeStore} />);
+    console.log(wrapper.debug())
     wrapper.unmount();
   });
 });
