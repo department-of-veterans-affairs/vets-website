@@ -40,7 +40,7 @@ export class ConfirmEligibilityView extends React.Component {
   );
 
   renderBenefitCheck = () => {
-    const check = isChapter33(this.props.form.data);
+    const check = this.props.isChapter33;
     const text =
       'Are using or recently used Post-9/11 GI Bill or Fry Scholarship benefits';
     const title = this.iconText(check);
@@ -216,6 +216,7 @@ const mapStateToProps = (state, ownProps) => {
     ownProps?.errorSchema['view:confirmEligibility']?.__errors || [];
 
   return {
+    isChapter33: isChapter33(state.form.data),
     benefitLeft: state?.form?.data.benefitLeft,
     isEnrolledStem: state?.form?.data.isEnrolledStem,
     isPursuingTeachingCert: state?.form?.data?.isPursuingTeachingCert || false,
