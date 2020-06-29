@@ -108,7 +108,6 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
 export const formDescriptions = Object.keys(formBenefits).reduce(
   (descriptions, key) => {
     let formNumber;
-    let formDescription = `${formBenefits[key]} application ${formNumber}`;
     if (key === VA_FORM_IDS.FORM_40_10007) {
       formNumber = '';
     } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
@@ -116,6 +115,7 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
     } else {
       formNumber = `(${key})`;
     }
+    let formDescription = `${formBenefits[key]} application ${formNumber}`;
     if (key === VA_FORM_IDS.FORM_VA_2346A) {
       formDescription = `${formBenefits[key]} ${formNumber}`;
     }
