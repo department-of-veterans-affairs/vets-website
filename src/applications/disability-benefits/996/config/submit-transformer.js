@@ -41,6 +41,8 @@ export function transform(formConfig, form) {
 
   const getToday = () => new Date().toISOString().split('T')[0];
 
+  const capitalize = text => `${text[0].toUpperCase()}${text.slice(1)}`;
+
   /* submitted contested issue format
   [{
     "type": "ContestableIssue",
@@ -55,11 +57,16 @@ export function transform(formConfig, form) {
   */
   const getContestedIssues = ({ contestedIssues }) => {
     const issueTransform = {
-      issue: issue => `${issue.subjectText} - ${issue.percentNumber}`,
-      decisionDate: issue => issue.decisionDate,
+      issue: issue => {
+        const hasPercentage = issue?.ratingIssuePercentNumber
+          ? ` - ${issue.ratingIssuePercentNumber}%`
+          : '';
+        return `${issue.ratingIssueSubjectText}${hasPercentage}`;
+      },
+      decisionDate: issue => issue.approxDecisionDate,
       decisionIssueId: issue => issue.decisionIssueId,
-      ratingIssueId: issue => issue.ratingIssueId,
-      ratingDecisionIssueId: issue => issue.ratingDecisionIssueId,
+      ratingIssueId: issue => issue.ratingIssueReferenceId,
+      ratingDecisionIssueId: issue => issue.ratingDecisionReferenceId,
     };
     const getAttributes = (issue = {}) =>
       Object.keys(issueTransform).reduce((acc, key) => {
@@ -73,7 +80,8 @@ export function transform(formConfig, form) {
     return contestedIssues
       .filter(issue => issue['view:selected'])
       .map(issue => ({
-        type: issue.type,
+        // type: "ContestableIssues" needs a capital "C"
+        type: capitalize(issue.type),
         attributes: getAttributes(issue.attributes),
       }));
   };

@@ -26,40 +26,40 @@
     },
     "contestedIssues": [
       {
-        "type": "ContestableIssue",
+        "type": "contestableIssue",
         "attributes": {
-          "issue": "Headaches",
-          "subjectText": "Acute chronic head pain",
-          "percentNumber": 20,
-          "decisionDate": "2011-01-02",
+          "ratingIssueSubjectText": "Headaches",
+          "description": "Acute chronic head pain",
+          "ratingIssuePercentNumber": 20,
+          "approxDecisionDate": "2011-01-02",
           "decisionIssueId": 44,
-          "ratingIssueId": "66",
-          "ratingDecisionIssueId": ""
+          "ratingIssueReferenceId": "66",
+          "ratingDecisionReferenceId": ""
         },
         "view:selected": true
       },
       {
-        "type": "ContestableIssue",
+        "type": "contestableIssue",
         "attributes": {
-          "issue": "Being Green",
-          "subjectText": "Chronic greenness",
-          "percentNumber": 50,
-          "decisionDate": "2011-01-01",
+          "ratingIssueSubjectText": "Being green",
+          "description": "Chronic greenness",
+          "ratingIssuePercentNumber": 50,
+          "approxDecisionDate": "2011-01-01",
           "decisionIssueId": 42,
-          "ratingIssueId": "52",
-          "ratingDecisionIssueId": ""
+          "ratingIssueReferenceId": "52",
+          "ratingDecisionReferenceId": ""
         },
         "view:selected": true
       },
       {
-        "type": "ContestableIssue",
+        "type": "contestableIssue",
         "attributes": {
-          "issue": "Monocular Vision",
-          "percentNumber": 5,
-          "decisionDate": "2010-01-01",
+          "ratingIssueSubjectText": "Monocular vision",
+          "ratingIssuePercentNumber": 5,
+          "approxDecisionDate": "2010-01-01",
           "decisionIssueId": 1,
-          "ratingIssueId": "2",
-          "ratingDecisionIssueId": ""
+          "ratingIssueReferenceId": "2",
+          "ratingDecisionReferenceId": ""
         }
       }
     ]

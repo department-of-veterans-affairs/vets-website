@@ -28,7 +28,7 @@
     {
       "type": "ContestableIssue",
       "attributes": {
-        "issue": "Acute chronic head pain - 20",
+        "issue": "Headaches - 20%",
         "decisionDate": "2011-01-02",
         "decisionIssueId": 44,
         "ratingIssueId": "66"
@@ -37,7 +37,7 @@
     {
       "type": "ContestableIssue",
       "attributes": {
-        "issue": "Chronic greenness - 50",
+        "issue": "Being green - 50%",
         "decisionDate": "2011-01-01",
         "decisionIssueId": 42,
         "ratingIssueId": "52"

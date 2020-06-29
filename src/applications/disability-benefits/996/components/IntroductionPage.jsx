@@ -57,7 +57,7 @@ export class IntroductionPage extends React.Component {
     if (contestableIssues?.error) {
       return showContestableIssueError(contestableIssues.error.errors);
     }
-    return contestableIssues?.issues.length > 0 ? (
+    return contestableIssues?.issues?.length > 0 ? (
       <SaveInProgressIntro
         formId={formConfig.formId}
         prefillEnabled={formConfig.prefillEnabled}
