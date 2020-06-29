@@ -17,7 +17,7 @@ const DebtLetterCard = props => {
   const mostRecentHistory = last(debt.debtHistory);
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2p5">
-      <h4 className="vads-u-margin--0">
+      <h4 className="vads-u-margin--0 vads-u-font-size--h3">
         {deductionCodes[debt.deductionCode]} updated{' '}
         {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
       </h4>
