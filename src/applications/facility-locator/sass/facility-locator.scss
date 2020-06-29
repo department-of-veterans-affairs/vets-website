@@ -322,6 +322,10 @@ $facility-locator-color-gray: #ccc;
       display: flex;
       flex-direction: column;
 
+      select:disabled {
+        background: $color-gray-lightest;
+      }
+
       @include media($small-screen) {
         flex-direction: row;
 
@@ -344,16 +348,30 @@ $facility-locator-color-gray: #ccc;
 
       }
 
-      select:disabled {
-        background: $color-gray-lightest;
+      @include media($medium-screen) {
+        input[type=submit] {
+          padding: 0 1rem;
+          margin-top: 2.5rem;
+          // The "columns:last-child" selector from Foundation adds a "float: right" to the submit button,
+          // which pushes it too far to the right on tablets.
+          // The following is added as a workaround.
+          float: none;
+          position: absolute;
+          right: 10px;
+          width: auto;
+        }
       }
 
-      input[type=submit] {
-        padding: 0 1rem;
-        margin-top: 2.5rem;
+      @include media($large-screen) {
+        // Our media queries apply cumulatively as screen widths increase, so we have to undo the changes
+        // for the smaller sizes. We may want to change this.
+        input[type=submit] {
+          position: relative;
+          width: 100%;
+          right: 0;
+        }
       }
     }
-
   }
 
   .mb2 {

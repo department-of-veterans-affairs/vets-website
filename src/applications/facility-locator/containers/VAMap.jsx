@@ -231,7 +231,7 @@ class VAMap extends Component {
       !updatedQuery.error;
 
     if (shouldZoomOut) {
-      if (isMobile.any) {
+      if (isMobile(window.navigator).any) {
         // manual zoom-out for mobile
         this.props.updateSearchQuery({
           bounds: [
@@ -800,7 +800,9 @@ class VAMap extends Component {
             community providers as the service type.
           </p>
         </div>
-        {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
+        {isMobile(window.navigator).any
+          ? this.renderMobileView()
+          : this.renderDesktopView()}
       </div>
     );
   }
