@@ -120,7 +120,7 @@ export class PastAppointmentsList extends React.Component {
 
     return (
       <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
-        <h2 tabIndex="-1" id="pastAppts">
+        <h2 tabIndex="-1" id="pastAppts" className="vads-u-font-size--h3">
           Past appointments
         </h2>
         <PastAppointmentsDateDropdown
