@@ -359,13 +359,13 @@
   }
 
   .eyb-button {
-    &.usa-accordion-button[aria-expanded="false"] {
-      background-image: url("/img/arrow-up.png");
-      background-image: url("/img/arrow-up.svg");
+    &.usa-accordion-button[aria-expanded='false'] {
+      background-image: url('/img/arrow-up.png');
+      background-image: url('/img/arrow-up.svg');
     }
-    &.usa-accordion-button[aria-expanded="true"] {
-      background-image: url("/img/arrow-down.png");
-      background-image: url("/img/arrow-down.svg");
+    &.usa-accordion-button[aria-expanded='true'] {
+      background-image: url('/img/arrow-down.png');
+      background-image: url('/img/arrow-down.svg');
     }
   }
 
