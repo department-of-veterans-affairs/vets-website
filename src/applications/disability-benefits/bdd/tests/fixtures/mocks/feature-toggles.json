@@ -1,131 +1,96 @@
 {
   "data": {
     "type": "feature_toggles",
-    "features": [
-      {
-        "name": "preEntryCovid19Screener",
-        "value": false
-      },
-      {
-        "name": "dashboardShowCovid19Alert",
-        "value": true
-      },
-      {
-        "name": "facilityLocatorShowCommunityCares",
-        "value": true
-      },
-      {
-        "name": "facilitiesPpmsSuppressPharmacies",
-        "value": true
-      },
-      {
-        "name": "facilityLocatorFeUseV1",
-        "value": true
-      },
-      {
-        "name": "profile_show_profile_2.0",
-        "value": false
-      },
-      {
-        "name": "profileShowReceiveTextNotifications",
-        "value": true
-      },
-      {
-        "name": "vaOnlineScheduling",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingCancel",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingRequests",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingCommunityCare",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingDirect",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingPast",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingVspAppointmentList",
-        "value": false
-      },
-      {
-        "name": "vaOnlineSchedulingVspAppointmentNew",
-        "value": false
-      },
-      {
-        "name": "vaOnlineSchedulingCcspAppointmentList",
-        "value": false
-      },
-      {
-        "name": "vaOnlineSchedulingCcspRequestNew",
-        "value": false
-      },
-      {
-        "name": "vaOnlineSchedulingVspRequestList",
-        "value": false
-      },
-      {
-        "name": "vaOnlineSchedulingVspRequestNew",
-        "value": false
-      },
-      {
-        "name": "vaGlobalDowntimeNotification",
-        "value": false
-      },
-      {
-        "name": "ssoe",
-        "value": true
-      },
-      {
-        "name": "ssoeInbound",
-        "value": false
-      },
-      {
-        "name": "ssoeEbenefitsLinks",
-        "value": true
-      },
-      {
-        "name": "eduBenefitsStemScholarship",
-        "value": true
-      },
-      {
-        "name": "edu_section_103",
-        "value": true
-      },
-      {
-        "name": "gibctEstimateYourBenefits",
-        "value": true
-      },
-      {
-        "name": "form526OriginalClaims",
-        "value": false
-      },
-      {
-        "name": "vaViewDependentsAccess",
-        "value": false
-      },
-      {
-        "name": "allow_online_10_10cg_submissions",
-        "value": true
-      },
-      {
-        "name": "gibctEybBottomSheet",
-        "value": false
-      },
-      {
-        "name": "routeStLouisRPOtoBuffaloRPO",
-        "value": true
-      }
-    ]
+    "features": [{
+      "name": "preEntryCovid19Screener",
+      "value": false
+    }, {
+      "name": "dashboardShowCovid19Alert",
+      "value": true
+    }, {
+      "name": "facilityLocatorShowCommunityCares",
+      "value": true
+    }, {
+      "name": "facilitiesPpmsSuppressPharmacies",
+      "value": true
+    }, {
+      "name": "facilityLocatorFeUseV1",
+      "value": true
+    }, {
+      "name": "profile_show_profile_2.0",
+      "value": false
+    }, {
+      "name": "profileShowReceiveTextNotifications",
+      "value": true
+    }, {
+      "name": "vaOnlineScheduling",
+      "value": true
+    }, {
+      "name": "vaOnlineSchedulingCancel",
+      "value": true
+    }, {
+      "name": "vaOnlineSchedulingRequests",
+      "value": true
+    }, {
+      "name": "vaOnlineSchedulingCommunityCare",
+      "value": true
+    }, {
+      "name": "vaOnlineSchedulingDirect",
+      "value": true
+    }, {
+      "name": "vaOnlineSchedulingPast",
+      "value": true
+    }, {
+      "name": "vaOnlineSchedulingVspAppointmentList",
+      "value": false
+    }, {
+      "name": "vaOnlineSchedulingVspAppointmentNew",
+      "value": false
+    }, {
+      "name": "vaOnlineSchedulingCcspAppointmentList",
+      "value": false
+    }, {
+      "name": "vaOnlineSchedulingCcspRequestNew",
+      "value": false
+    }, {
+      "name": "vaOnlineSchedulingVspRequestList",
+      "value": false
+    }, {
+      "name": "vaOnlineSchedulingVspRequestNew",
+      "value": false
+    }, {
+      "name": "vaGlobalDowntimeNotification",
+      "value": false
+    }, {
+      "name": "ssoe",
+      "value": true
+    }, {
+      "name": "ssoeInbound",
+      "value": false
+    }, {
+      "name": "ssoeEbenefitsLinks",
+      "value": true
+    }, {
+      "name": "eduBenefitsStemScholarship",
+      "value": true
+    }, {
+      "name": "edu_section_103",
+      "value": true
+    }, {
+      "name": "gibctEstimateYourBenefits",
+      "value": true
+    }, {
+      "name": "form526OriginalClaims",
+      "value": false
+    }, {
+      "name": "vaViewDependentsAccess",
+      "value": false
+    }, {
+      "name": "allow_online_10_10cg_submissions",
+      "value": true
+    }, {
+      "name": "gibctEybBottomSheet",
+      "value": false
+    }]
   }
 }
