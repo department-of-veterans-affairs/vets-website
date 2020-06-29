@@ -150,7 +150,7 @@ export class FutureAppointmentsList extends React.Component {
     }
 
     const header = (
-      <h3 className="vads-u-margin-y--4">Upcoming appointments</h3>
+      <h2 className="vads-u-margin-y--4">Upcoming appointments</h2>
     );
 
     if (!showPastAppointments) {
