@@ -4,12 +4,15 @@ import { apiRequest } from 'platform/utilities/api';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
 import { login, logout } from 'platform/user/authentication/utilities';
-import mockKeepAlive from './mockKeepAliveSSO';
-import liveKeepAlive from './keepAliveSSO';
+import { keepAlive as mockKeepAlive } from './mockKeepAliveSSO';
+import { keepAlive as liveKeepAlive } from './keepAliveSSO';
 import { getLoginAttempted } from './loginAttempted';
 
-const keepAlive = environment.isLocalhost() ? mockKeepAlive : liveKeepAlive;
 const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
+
+function keepAlive() {
+  return environment.isLocalhost() ? mockKeepAlive() : liveKeepAlive();
+}
 
 async function hasVAGovSession() {
   try {
@@ -39,11 +42,11 @@ export async function ssoKeepAliveSession() {
 }
 
 export async function checkAutoSession(application = null, to = null) {
-  const [{ ttl, authn }, hasSession] = await Promise.all(
+  const [{ ttl, authn }, hasSession] = await Promise.all([
     ssoKeepAliveSession(),
     hasVAGovSession(),
-  );
-  if (hasSession() && ttl === 0) {
+  ]);
+  if (hasSession && ttl === 0) {
     // explicitly check to see if the TTL for the SSO3 session is 0, as it
     // could also be null if we failed to get a response from the SSOe server,
     // in which case we don't want to logout the user because we don't know
