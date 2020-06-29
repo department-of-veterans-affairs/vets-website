@@ -53,7 +53,6 @@ class ObjectField extends React.Component {
     super(props);
     this.state = this.getStateFromProps(props);
     this.onPropertyChange = this.onPropertyChange.bind(this);
-    this.onPropertyBlur = this.onPropertyBlur.bind(this);
     this.isRequired = this.isRequired.bind(this);
     this.SchemaField = pureWithDeepEquals(
       this.props.registry.fields.SchemaField,
@@ -94,12 +93,6 @@ class ObjectField extends React.Component {
             this.props.registry.definitions,
           );
       this.props.onChange(_.set(name, value, formData));
-    };
-  }
-
-  onPropertyBlur(name) {
-    return (path = []) => {
-      this.props.onBlur([name].concat(path));
     };
   }
 
