@@ -13,7 +13,6 @@ export default class App extends React.Component {
         </MetaTags>
         <div className="vads-l-grid-container">
           <h1>COVID-19 screening tool</h1>
-          <h2>Site ID: {this.props.params.id}</h2>
           <div className="va-introtext">
             <p>
               Please answer the questions listed below. Share your results with
@@ -24,6 +23,7 @@ export default class App extends React.Component {
           <MultiQuestionForm
             questions={questions}
             defaultOptions={defaultOptions}
+            visn={this.props.params.id}
           />
         </div>
       </div>
