@@ -113,7 +113,11 @@ class CernerCallToAction extends Component {
           <h3 className="usa-alert-heading">
             View {type} from {joinedFacilityNames}
           </h3>
-          <a className="usa-button" href="" rel="noopener noreferrer">
+          <a
+            className="usa-button"
+            href="https://ehrm-va-test.patientportal.us.healtheintent.com/pages/health_record/results/labs"
+            rel="noopener noreferrer"
+          >
             View results on My VA Health
           </a>
           <h3 className="usa-alert-heading vads-u-margin-top--2">
@@ -121,7 +125,7 @@ class CernerCallToAction extends Component {
           </h3>
           <a
             className="usa-button usa-button-secondary"
-            href=""
+            href="https://www.myhealth.va.gov/mhv-portal-web/home"
             rel="noopener noreferrer"
           >
             View results on My HealtheVet
