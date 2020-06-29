@@ -4,7 +4,6 @@ import URLSearchParams from 'url-search-params';
 import { isLoggedIn } from 'platform/user/selectors';
 import { checkKeepAlive } from 'platform/user/authentication/actions';
 import {
-  ssoe,
   ssoeInbound,
   hasCheckedKeepAlive,
 } from 'platform/user/authentication/selectors';
@@ -16,14 +15,12 @@ import {
 
 function AutoSSO(props) {
   const {
-    useSSOe,
     useInboundSSOe,
     hasCalledKeepAlive,
     userLoggedIn,
     application = null,
     to = null,
   } = props;
-  const params = new URLSearchParams(window.location.search);
 
   if (userLoggedIn) {
     removeForceAuth();
@@ -33,7 +30,7 @@ function AutoSSO(props) {
     setForceAuth();
   }
 
-  if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
+  if (useInboundSSOe && !hasCalledKeepAlive) {
     checkAutoSession(application, to).then(() => {
       props.checkKeepAlive();
     });
@@ -43,7 +40,6 @@ function AutoSSO(props) {
 }
 
 const mapStateToProps = state => ({
-  useSSOe: ssoe(state),
   useInboundSSOe: ssoeInbound(state),
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
   userLoggedIn: isLoggedIn(state),

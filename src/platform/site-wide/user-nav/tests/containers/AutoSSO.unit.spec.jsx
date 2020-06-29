@@ -12,7 +12,6 @@ describe('<AutoSSO>', () => {
 
   beforeEach(() => {
     props = {
-      useSSOe: false,
       useInboundSSOe: false,
       hasCalledKeepAlive: false,
       userLoggedIn: false,
@@ -76,7 +75,6 @@ describe('<AutoSSO>', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
       hasCalledKeepAlive: true,
-      useSSOe: true,
       useInboundSSOe: true,
     });
     const wrapper = shallow(<AutoSSO {...props} />);
@@ -89,7 +87,6 @@ describe('<AutoSSO>', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
       hasCalledKeepAlive: false,
-      useSSOe: true,
       useInboundSSOe: true,
     });
     const wrapper = shallow(<AutoSSO {...props} />);
