@@ -13,6 +13,9 @@ export const directDepositAccountInformation = state =>
 export const directDepositIsSetUp = state =>
   !!directDepositAccountInformation(state)?.accountNumber;
 
+export const directDepositLoadError = state =>
+  directDepositInformation(state)?.error;
+
 export const directDepositAddressInformation = state =>
   directDepositInformation(state)?.responses?.[0]?.paymentAddress;
 
