@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
+import { toRenderProps } from 'recompose';
 
 const month = (
   <React.Fragment key="months">
@@ -115,7 +116,9 @@ const perTermSections = (outputs, calculator) => {
           <CalculatorResultRow
             key={`${section}${term.label}`}
             id={`${section}${term.label}`}
-            label={termLabel(term.label)}
+            label={
+              calculator.type === 'OJT' ? termLabel(term.label) : term.label
+            }
             value={term.value}
             bold={term.label === 'Total per year'}
             screenReaderSpan={month}
