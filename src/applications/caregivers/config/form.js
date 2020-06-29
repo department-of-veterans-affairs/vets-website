@@ -1,3 +1,4 @@
+import React from 'react';
 import ConfirmationPage from 'applications/caregivers/containers/ConfirmationPage';
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
@@ -24,6 +25,7 @@ import definitions, {
   addressWithoutCountryUI,
   confirmationEmailUI,
 } from '../definitions/caregiverUI';
+import SubmitError from '../components/SubmitError/SubmitError';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 
@@ -87,6 +89,7 @@ const formConfig = {
   footerContent: NeedHelpFooter,
   preSubmitInfo: PreSubmitInfo,
   confirmation: ConfirmationPage,
+  submissionError: SubmitError,
   formId: '10-10CG',
   version: 0,
   prefillEnabled: false,
