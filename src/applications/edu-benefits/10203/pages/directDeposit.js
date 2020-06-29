@@ -17,12 +17,14 @@ export const uiSchema = {
       ...bankAccountUI.accountType,
       'ui:required': useDirectDeposit,
     },
-    accountNumber: {
-      ...bankAccountUI.accountNumber,
-      'ui:required': useDirectDeposit,
-    },
     routingNumber: {
       ...bankAccountUI.routingNumber,
+      'ui:title': 'Bank routing number',
+      'ui:required': useDirectDeposit,
+    },
+    accountNumber: {
+      ...bankAccountUI.accountNumber,
+      'ui:title': 'Bank account number',
       'ui:required': useDirectDeposit,
     },
     'ui:options': {
