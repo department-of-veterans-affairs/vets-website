@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
 import { RoutedSavableReviewPage } from '../../save-in-progress/RoutedSavableReviewPage';
@@ -227,7 +227,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
 
     let tree;
     beforeEach(() => {
-      tree = shallow(
+      tree = mount(
         <RoutedSavableReviewPage
           router={router}
           setData={setData}
