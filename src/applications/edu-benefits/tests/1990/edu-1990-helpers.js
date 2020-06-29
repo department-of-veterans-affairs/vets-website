@@ -1,15 +1,14 @@
 import _ from 'lodash/fp';
 
 function completeBenefitRelinquishment(client, data) {
-  client
-    .selectRadio(
-      'root_view:benefitsRelinquishedContainer_benefitsRelinquished',
-      data['view:benefitsRelinquishedContainer'].benefitsRelinquished,
-    )
-    .fillDate(
-      'root_view:benefitsRelinquishedContainer_benefitsRelinquishedDate',
-      data['view:benefitsRelinquishedContainer'].benefitsRelinquishedDate,
-    );
+  client.selectRadio(
+    'root_view:benefitsRelinquishedContainer_benefitsRelinquished',
+    data['view:benefitsRelinquishedContainer'].benefitsRelinquished,
+    // )
+    // .fillDate(
+    //   'root_view:benefitsRelinquishedContainer_benefitsRelinquishedDate',
+    //   data['view:benefitsRelinquishedContainer'].benefitsRelinquishedDate,
+  );
 }
 
 function completeBenefitsSelection(client, data) {
