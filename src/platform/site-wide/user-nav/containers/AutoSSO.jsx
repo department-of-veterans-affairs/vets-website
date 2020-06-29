@@ -8,10 +8,7 @@ import {
   hasCheckedKeepAlive,
 } from 'platform/user/authentication/selectors';
 import { checkAutoSession } from 'platform/utilities/sso';
-import {
-  setForceAuth,
-  removeForceAuth,
-} from 'platform/utilities/sso/forceAuth';
+import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
 function AutoSSO(props) {
   const {
@@ -23,11 +20,7 @@ function AutoSSO(props) {
   } = props;
 
   if (userLoggedIn) {
-    removeForceAuth();
-  } else if (useInboundSSOe === false) {
-    // if inbound ssoe is disabled, always force the user to re enter their
-    // credentials when they attempt to authenticate
-    setForceAuth();
+    removeLoginAttempted();
   }
 
   if (useInboundSSOe && !hasCalledKeepAlive) {

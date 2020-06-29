@@ -7,7 +7,7 @@ import * as authUtils from 'platform/user/authentication/utilities';
 import * as profUtils from 'platform/user/profile/utilities';
 
 import { checkAutoSession, checkAndUpdateSSOeSession } from '../sso';
-import * as forceAuth from '../sso/forceAuth';
+import * as loginAttempted from '../sso/loginAttempted';
 
 function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
   const response = new Response();
@@ -38,7 +38,7 @@ describe('checkAutoSession', () => {
     const sandbox = sinon.createSandbox();
     sandbox.stub(profUtils, 'hasSession').returns('true');
     sandbox.stub(profUtils, 'hasSessionSSO').returns(false);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(null);
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(null);
     const auto = sandbox.stub(authUtils, 'logout');
     await checkAutoSession();
     sandbox.restore();
@@ -50,7 +50,7 @@ describe('checkAutoSession', () => {
     const sandbox = sinon.createSandbox();
     sandbox.stub(profUtils, 'hasSession').returns(true);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     const auto = sandbox.stub(authUtils, 'logout');
     await checkAutoSession();
     sandbox.restore();
@@ -61,7 +61,7 @@ describe('checkAutoSession', () => {
     const sandbox = sinon.createSandbox();
     sandbox.stub(profUtils, 'hasSession').returns(true);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(null);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     const auto = sandbox.stub(authUtils, 'logout');
     await checkAutoSession();
     sandbox.restore();
@@ -72,7 +72,7 @@ describe('checkAutoSession', () => {
     const sandbox = sinon.createSandbox();
     sandbox.stub(profUtils, 'hasSession').returns(false);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     mockFetch();
     setKeepAliveResponse(global.fetch.onFirstCall(), 900, 'idme');
     const auto = sandbox.stub(authUtils, 'login');
@@ -94,7 +94,7 @@ describe('checkAutoSession', () => {
     const sandbox = sinon.createSandbox();
     sandbox.stub(profUtils, 'hasSession').returns(false);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     mockFetch();
     setKeepAliveResponse(global.fetch.onFirstCall(), 900, 'mhv');
     const auto = sandbox.stub(authUtils, 'login');
@@ -116,7 +116,7 @@ describe('checkAutoSession', () => {
     const sandbox = sinon.createSandbox();
     sandbox.stub(profUtils, 'hasSession').returns(false);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     setKeepAliveResponse(global.fetch.onFirstCall(), 900, '33');
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
@@ -128,7 +128,7 @@ describe('checkAutoSession', () => {
     const sandbox = sinon.createSandbox();
     sandbox.stub(profUtils, 'hasSession').returns(false);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(false);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
     sandbox.restore();
@@ -139,7 +139,7 @@ describe('checkAutoSession', () => {
     const sandbox = sinon.createSandbox();
     sandbox.stub(profUtils, 'hasSession').returns(false);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(true);
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(true);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
     sandbox.restore();
