@@ -34,7 +34,7 @@ export const updateDirectDepositSuccess = [
 
 export const updateDirectDepositFailure = [
   rest.put(`${prefix}/v0/ppiu/payment_information`, (req, res, ctx) => {
-    return res.once(
+    return res(
       ctx.status(402),
       ctx.json({
         errors: [
