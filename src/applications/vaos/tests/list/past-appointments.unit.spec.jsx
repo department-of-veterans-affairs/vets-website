@@ -47,6 +47,7 @@ describe('VAOS integration: past appointments', () => {
     const dateHeader = await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(-3, 'days')
           .format('dddd, MMMM D, YYYY'),
         'i',
