@@ -133,14 +133,9 @@ class ObjectField extends React.Component {
 
   isRequired(name) {
     const { schema } = this.props;
-    const schemaRequired =
-      Array.isArray(schema.required) && schema.required.indexOf(name) !== -1;
-
-    if (schemaRequired) {
-      return schemaRequired;
-    }
-
-    return false;
+    return (
+      Array.isArray(schema.required) && schema.required.indexOf(name) !== -1
+    );
   }
 
   render() {
