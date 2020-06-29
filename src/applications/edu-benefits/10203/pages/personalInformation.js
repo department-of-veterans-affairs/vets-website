@@ -4,6 +4,7 @@ import { preferredContactMethodTitle } from '../content/personalInformation';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms/definitions/address';
 
+const addressUiSchema = address.uiSchema('Your address');
 const contactInformation = createContactInformationPage(fullSchema10203);
 
 const preferredContactMethodLabels = {
@@ -34,7 +35,13 @@ const preferredContactMethodSchema = () => {
 export const title = contactInformation.title;
 export const path = contactInformation.path;
 export const uiSchema = {
-  veteranAddress: address.uiSchema('Your address'),
+  veteranAddress: {
+    ...addressUiSchema,
+    street: {
+      ...addressUiSchema.street,
+      'ui:title': 'Street address',
+    },
+  },
   'view:otherContactInfo': {
     ...ciUiSchema['view:otherContactInfo'],
     homePhone: {
