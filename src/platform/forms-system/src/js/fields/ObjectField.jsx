@@ -51,7 +51,6 @@ class ObjectField extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = this.getStateFromProps(props);
     this.onPropertyChange = this.onPropertyChange.bind(this);
     this.isRequired = this.isRequired.bind(this);
     this.SchemaField = pureWithDeepEquals(
@@ -94,11 +93,6 @@ class ObjectField extends React.Component {
           );
       this.props.onChange(_.set(name, value, formData));
     };
-  }
-
-  getStateFromProps(props) {
-    const { schema, formData, registry } = props;
-    return getDefaultFormState(schema, formData, registry.definitions) || {};
   }
 
   // This runs a series of steps that order properties and then group them into
