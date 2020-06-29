@@ -9,7 +9,7 @@ const {
 } = fullSchema10203.properties;
 
 export const uiSchema = {
-  'ui:title': 'STEM Scholarship eligibility',
+  'ui:title': 'Rogers STEM Scholarship eligibility',
   isEnrolledStem: {
     'ui:title':
       'Are you enrolled in a science, technology, engineering, or math (STEM) undergraduate degree?',
