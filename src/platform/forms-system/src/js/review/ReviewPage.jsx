@@ -14,7 +14,7 @@ const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
     'topScrollElement',
-    window.Forms.scroll || {
+    window.Forms?.scroll || {
       duration: 500,
       delay: 0,
       smooth: true,

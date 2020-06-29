@@ -73,6 +73,7 @@ const responses = {
         { name: 'form526OriginalClaims', value: false },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },
+        { name: 'routeStLouisRPOtoBuffaloRPO', value: true },
       ],
     },
   },

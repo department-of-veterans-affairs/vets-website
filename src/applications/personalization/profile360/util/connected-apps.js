@@ -3,7 +3,7 @@ export const mockConnectedApps = [
     id: '0oa3s6dlvxgsZr62p2p7',
     type: 'okta_redis_apps',
     attributes: {
-      title: 'Test App',
+      title: 'Apple Health',
       logo: 'https://ok6static.oktacdn.com/fs/bco/4/fs06uplrfh5ML4ubr2p7',
       grants: [
         {
