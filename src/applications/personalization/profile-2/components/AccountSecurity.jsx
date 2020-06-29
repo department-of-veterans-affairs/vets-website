@@ -4,6 +4,8 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
+import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
+
 import AccountSecurityContent from './AccountSecurityContent';
 
 // using a class instead of functional component + useEffect hook since we would
@@ -27,7 +29,7 @@ class AccountSecurity extends Component {
           Account security
         </h2>
         <DowntimeNotification
-          appTitle="Account Security"
+          render={handleDowntimeForSection('account security')}
           dependencies={[externalServices.emis, externalServices.mvi]}
         >
           <AccountSecurityContent />
