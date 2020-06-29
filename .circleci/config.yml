@@ -205,7 +205,6 @@ jobs:
     docker:
       - image: cypress/base:10.15.3
     resource_class: xlarge
-    parallelism: 2
     steps:
       - checkout
       - attach_workspace:

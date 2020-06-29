@@ -12,5 +12,5 @@ else
 
   # Start the web server & run Cypress tests.
   # Wait for http://localhost:3001/generated/style.css to finish bundling so Cypress doesn't start too soon.
-  yarn start-server-and-test "node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 > /dev/null 2>&1" :3001 "yarn cy:run $reporterArgs $specArgs"
+  yarn start-server-and-test "node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 > /dev/null 2>&1" :3001 "yarn cy:run $reporterArgs"
 fi
