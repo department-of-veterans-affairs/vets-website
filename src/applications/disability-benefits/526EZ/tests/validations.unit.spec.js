@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { isInPast } from '../validations';
 import sinon from 'sinon';
 
-describe('526 Increase validations', () => {
+describe.skip('526 Increase validations', () => {
   describe('isInPast', () => {
     it('should not add error when no date present', () => {
       const addError = sinon.spy();

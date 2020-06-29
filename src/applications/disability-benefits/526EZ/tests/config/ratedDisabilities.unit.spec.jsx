@@ -6,7 +6,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
-describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
+describe.skip('Disability benefits 526EZ -- Rated disabilities selection', () => {
   const {
     schema,
     uiSchema,

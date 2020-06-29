@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
+import { focusElement } from 'platform/utilities/ui';
 
 const ESCAPE_KEY = 27;
 const TAB_KEY = 9;
@@ -43,7 +44,11 @@ class Modal extends React.Component {
   async teardownModal() {
     if (this.state.lastFocus) {
       // Ensure last focus is set before completing modal teardown
-      await this.state.lastFocus.focus();
+      if (this.props.elementToFocusOnClose) {
+        await focusElement(`#${this.props.elementToFocusOnClose}`);
+      } else {
+        await focusElement(this.state.lastFocus);
+      }
     }
     document.body.classList.remove('modal-open');
     document.removeEventListener('keydown', this.handleDocumentKeyDown, false);
@@ -92,10 +97,10 @@ class Modal extends React.Component {
       this.props.focusSelector,
     );
     if (this.state.lastFocus) {
-      this.state.lastFocus.focus();
+      focusElement(this.state.lastFocus);
     }
     if (focusableElement) {
-      focusableElement.focus();
+      focusElement(focusableElement);
     }
   }
 
@@ -107,10 +112,10 @@ class Modal extends React.Component {
       this.element.contains(el),
     );
     if (this.state.lastFocus) {
-      this.state.lastFocus.focus();
+      focusElement(this.state.lastFocus);
     }
     if (focusableModalElements.length) {
-      focusableModalElements[focusableModalElements.length - 1].focus();
+      focusElement(focusableModalElements[focusableModalElements.length - 1]);
     }
   }
 
@@ -254,6 +259,12 @@ Modal.propTypes = {
    * modal is opened
    */
   focusSelector: PropTypes.string,
+  /**
+   * The id of the element that called the modal to be opened. Necessary so
+   * focus can be placed back to this element when modal is closed.
+   * Specifically when using IE11 and navigating with JAWS 2019 virtual keyboard.
+   */
+  elementToFocusOnClose: PropTypes.string,
 };
 
 Modal.defaultProps = {

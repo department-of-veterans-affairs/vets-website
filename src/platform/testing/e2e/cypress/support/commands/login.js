@@ -47,6 +47,16 @@ const mockUser = {
         gender: 'M',
         given_names: ['Julio', 'E'],
         active_status: 'active',
+        facilities: [
+          {
+            facility_id: '983',
+            isCerner: false,
+          },
+          {
+            facility_id: '984',
+            isCerner: false,
+          },
+        ],
       },
     },
   },
