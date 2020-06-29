@@ -39,7 +39,7 @@ export const chapters = {
     },
   },
   programDetails: {
-    title: 'Program Details',
+    title: 'Program details',
     pages: {
       stemEligibility: {
         title: 'STEM Scholarship eligibility',
