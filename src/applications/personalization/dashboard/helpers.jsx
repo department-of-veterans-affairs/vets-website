@@ -24,6 +24,7 @@ import pensionManifest from 'applications/pensions/manifest.json';
 import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
 import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
 import hlrManifest from 'applications/disability-benefits/996/manifest.json';
+import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 
 import hcaConfig from 'applications/hca/config/form.js';
 import dependentStatusConfig from 'applications/disability-benefits/686/config/form';
@@ -43,7 +44,6 @@ import disability526Config from 'applications/disability-benefits/526EZ/config/f
 import bddConfig from 'applications/disability-benefits/bdd/config/form.js';
 import hlrConfig from 'applications/disability-benefits/996/config/form';
 import mdotConfig from 'applications/disability-benefits/2346/config/form';
-import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 
 export const formConfigs = {
   [VA_FORM_IDS.FORM_10_10EZ]: hcaConfig,
@@ -108,6 +108,7 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
 export const formDescriptions = Object.keys(formBenefits).reduce(
   (descriptions, key) => {
     let formNumber;
+    let formDescription = `${formBenefits[key]} application ${formNumber}`;
     if (key === VA_FORM_IDS.FORM_40_10007) {
       formNumber = '';
     } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
@@ -115,12 +116,10 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
     } else {
       formNumber = `(${key})`;
     }
-    const formDescription =
-      key === VA_FORM_IDS.FORM_VA_2346A
-        ? `${formBenefits[key]} ${formNumber}`
-        : `${formBenefits[key]} application ${formNumber}`;
-    descriptions[key] = formDescription; // eslint-disable-line no-param-reassign
-    return descriptions;
+    if (key === VA_FORM_IDS.FORM_VA_2346A) {
+      formDescription = `${formBenefits[key]} ${formNumber}`;
+    }
+    return { ...descriptions, [key]: formDescription };
   },
   {},
 );
