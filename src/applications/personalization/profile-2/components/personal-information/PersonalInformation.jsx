@@ -14,10 +14,13 @@ import PersonalInformationContent from './PersonalInformationContent';
 const MyAlert = () => (
   <AlertBox
     status="warning"
-    headline="We can’t access all sections of your profile"
+    headline="We can’t access your direct deposit information right now"
     className="vads-u-margin-bottom--4"
   >
-    <p>We’re sorry. Something went wrong on our end. Please try again later.</p>
+    <p>
+      We’re sorry. Something went wrong on our end. Please refresh this page or
+      try again later.
+    </p>
   </AlertBox>
 );
 
