@@ -1,8 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/22-10203-schema.json';
-import { benefitsLabels } from './../content/benefitSelection';
+import { benefitsLabels, ineligibleAlert } from './../content/benefitSelection';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { MGIBAlert } from '../helpers';
-import _ from 'platform/utilities/data';
+import { displayIneligibleAlert } from '../helpers';
 
 const { benefit } = fullSchema.properties;
 
@@ -39,14 +38,11 @@ export const uiSchema = {
     },
     ...uiSchemaCheckboxes(),
   },
-  'view:MGIBAlert': {
-    'ui:description': MGIBAlert,
+  'view:ineligibleAlert': {
+    'ui:description': ineligibleAlert,
     'ui:options': {
-      hideIf: data =>
-        data['view:benefit'].chapter30 === undefined ||
-        data['view:benefit'].chapter30 === false,
+      hideIf: displayIneligibleAlert,
     },
-    ...uiSchemaCheckboxes(),
   },
 };
 
@@ -60,7 +56,7 @@ export const schema = {
         ...schemaCheckboxes(),
       },
     },
-    'view:MGIBAlert': {
+    'view:ineligibleAlert': {
       type: 'object',
       properties: {},
     },
