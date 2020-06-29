@@ -10,7 +10,7 @@ const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
     'saveFormLinkTop',
-    window.VetsGov.scroll || {
+    window.VetsGov?.scroll || {
       duration: 500,
       delay: 0,
       smooth: true,

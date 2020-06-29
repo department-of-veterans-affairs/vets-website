@@ -50,6 +50,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     const dateHeader = await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(3, 'days')
           .format('dddd, MMMM D, YYYY'),
         'i',
@@ -111,6 +112,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(30, 'minutes')
           .format('dddd, MMMM D, YYYY'),
         'i',
@@ -169,6 +171,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(-239, 'minutes')
           .format('dddd, MMMM D, YYYY'),
         'i',
@@ -218,6 +221,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(30, 'minutes')
           .format('dddd, MMMM D, YYYY'),
         'i',
@@ -262,6 +266,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(30, 'minutes')
           .format('dddd, MMMM D, YYYY'),
         'i',
@@ -307,6 +312,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(30, 'minutes')
           .format('dddd, MMMM D, YYYY'),
         'i',
