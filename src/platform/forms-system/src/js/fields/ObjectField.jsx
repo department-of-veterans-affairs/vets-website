@@ -198,9 +198,9 @@ class ObjectField extends React.Component {
         : idSchema.$id;
 
     const fieldContent = (
-      <div className={containerClassNames}>
+      <>
         {hasTitleOrDescription && (
-          <div className="schemaform-block-header">
+          <>
             {CustomTitleField && !showFieldLabel ? (
               <CustomTitleField
                 id={`${id}__title`}
@@ -226,7 +226,7 @@ class ObjectField extends React.Component {
               />
             )}
             {!textDescription && !DescriptionField && description}
-          </div>
+          </>
         )}
         {this.orderedProperties.map((objectFields, index) => {
           if (objectFields.length > 1) {
@@ -259,7 +259,7 @@ class ObjectField extends React.Component {
               renderProp(objectFields[0], index)
             : undefined;
         })}
-      </div>
+      </>
     );
 
     if (title) {
