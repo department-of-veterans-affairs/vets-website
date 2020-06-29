@@ -239,6 +239,8 @@ class VAPProfileField extends React.Component {
       ValidationView,
     } = this.props;
 
+    const activeSection = VET360.FIELD_TITLES[activeEditView]?.toLowerCase();
+
     const childProps = {
       ...this.props,
       clearErrors: this.clearErrors,
@@ -303,9 +305,7 @@ class VAPProfileField extends React.Component {
             this.setState({ showConfirmCancelModal: false });
           }}
         >
-          <p>{`You haven’t finished editing your ${VET360.FIELD_TITLES[
-            activeEditView
-          ]?.toLowerCase()}. If you cancel, your in-progress work won't be saved.`}</p>
+          <p>{`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won't be saved.`}</p>
           <button
             className="usa-button-secondary"
             onClick={() => {
@@ -325,9 +325,7 @@ class VAPProfileField extends React.Component {
         </Modal>
 
         <Modal
-          title={`You’re currently editing your ${VET360.FIELD_TITLES[
-            activeEditView
-          ]?.toLowerCase()}`}
+          title={`You’re currently editing your ${activeSection}`}
           status="warning"
           visible={this.state.showCannotEditModal}
           onClose={() => {
