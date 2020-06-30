@@ -54,6 +54,19 @@ export const benefitsLabels = {
       </a>
     </p>
   ),
+  transferOfEntitlement: (
+    <p>
+      Transfer of Entitlement Program (TOE)
+      <br />
+      <a
+        aria-label="Learn more about Transfer of Entitlement Program benefits"
+        href="/education/transfer-post-9-11-gi-bill-benefits/"
+        target="_blank"
+      >
+        Learn more
+      </a>
+    </p>
+  ),
   chapter32: (
     <p>
       Post-Vietnam Era Veterans’ Educational Assistance Program
@@ -63,19 +76,6 @@ export const benefitsLabels = {
       <a
         aria-label="Learn more about Post-Vietnam Era Veterans’ Educational Assistance Program benefits"
         href="/education/other-va-education-benefits/veap/"
-        target="_blank"
-      >
-        Learn more
-      </a>
-    </p>
-  ),
-  transferOfEntitlement: (
-    <p>
-      Transfer of Entitlement Program (TOE)
-      <br />
-      <a
-        aria-label="Learn more about Transfer of Entitlement Program benefits"
-        href="/education/transfer-post-9-11-gi-bill-benefits/"
         target="_blank"
       >
         Learn more
