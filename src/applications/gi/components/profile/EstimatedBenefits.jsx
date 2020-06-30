@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
-import { toRenderProps } from 'recompose';
 
 const month = (
   <React.Fragment key="months">
