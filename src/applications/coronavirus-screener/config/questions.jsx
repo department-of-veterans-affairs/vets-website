@@ -28,9 +28,8 @@ export const questions = [
           <li>Muscle or body aches</li>
           <li>Headache</li>
           <li>New loss of smell or taste</li>
-          <li>Sore throat</li>          
+          <li>Sore throat</li>
           <li>Nausea, vomiting, or diarrhea</li>
-          
         </ul>
       </div>
     ),
