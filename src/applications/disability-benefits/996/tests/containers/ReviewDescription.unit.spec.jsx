@@ -10,7 +10,7 @@ const formData = {
     emailAddress: 'foo@bar.com',
     countryCode: 'USA',
     addressLine1: '123 MAIN Street',
-    city: 'TownsVILLE',
+    city: 'Townsville',
     stateOrProvinceCode: 'AB',
     zipPostalCode: '98765',
   },
@@ -26,7 +26,7 @@ describe('Review description', () => {
     expect(rows.length).to.equal(6);
     expect(rows.at(0).text()).to.contain('Phone number123-456-7890');
     expect(rows.at(1).text()).to.contain('Email addressfoo@bar.com');
-    expect(rows.at(2).text()).to.contain('Street address123 Main Street');
+    expect(rows.at(2).text()).to.contain('Street address123 MAIN Street');
     expect(rows.at(3).text()).to.contain('CityTownsville');
     expect(rows.at(4).text()).to.contain('StateAB');
     expect(rows.at(5).text()).to.contain('Postal code98765');
@@ -49,9 +49,9 @@ describe('Review description', () => {
     expect(rows.at(0).text()).to.contain('Phone number123-456-7890');
     expect(rows.at(1).text()).to.contain('Email addressfoo@bar.com');
     expect(rows.at(2).text()).to.contain('CountryAustralia');
-    expect(rows.at(3).text()).to.contain('Street address123 Main Street');
-    expect(rows.at(4).text()).to.contain('Line 2Section 5');
-    expect(rows.at(5).text()).to.contain('Line 3Unit A33');
+    expect(rows.at(3).text()).to.contain('Street address123 MAIN Street');
+    expect(rows.at(4).text()).to.contain('Line 2SECTION 5');
+    expect(rows.at(5).text()).to.contain('Line 3UNIT A33');
     expect(rows.at(6).text()).to.contain('CityTownsville');
     expect(rows.at(7).text()).to.contain('StateAB');
     expect(rows.at(8).text()).to.contain('Postal code98765');
