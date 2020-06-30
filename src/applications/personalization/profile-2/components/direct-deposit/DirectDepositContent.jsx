@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
@@ -44,7 +43,7 @@ export const DirectDepositContent = ({
   const editBankInfoButton = useRef();
   const [formData, setFormData] = useState({});
   const [showSaveSucceededAlert, setShowSaveSucceededAlert] = useState(false);
-  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false)
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
   const wasSavingBankInfo = usePrevious(directDepositUiState.isSaving);
 
@@ -133,12 +132,12 @@ export const DirectDepositContent = ({
 
   const closeDDForm = () => {
     if (!isEmptyForm) {
-      setShowConfirmCancelModal(true)
+      setShowConfirmCancelModal(true);
       return;
     }
 
-    toggleEditState()
-  }
+    toggleEditState();
+  };
 
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
@@ -296,7 +295,10 @@ export const DirectDepositContent = ({
           setShowConfirmCancelModal(false);
         }}
       >
-        <p>{`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won't be saved.`}</p>
+        <p>
+          {' '}
+          {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won't be saved.`}
+        </p>
         <button
           className="usa-button-secondary"
           onClick={() => {
