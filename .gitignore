@@ -2,6 +2,7 @@
 node_modules/
 /build/
 logs/
+tmp/
 
 # Files to ignore
 ._*
