@@ -6,8 +6,6 @@ import Scroll from 'react-scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
 
-import { makeTitle } from '../helpers';
-
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -34,9 +32,7 @@ export class ConfirmationPage extends React.Component {
           {issue.attributes.issue}
         </li>
       ));
-    const fullName = makeTitle(
-      `${name.first} ${name.middle || ''} ${name.last}`,
-    );
+    const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
 
     return (
       <div>

@@ -1,10 +1,6 @@
 import React from 'react';
 
-import {
-  changeCase,
-  formatPhone,
-  getCountryName,
-} from '../content/contactInformation';
+import { formatPhone, getCountryName } from '../content/contactInformation';
 
 const ReviewDescription = ({ formData }) => {
   const veteran = formData?.veteran;
@@ -16,10 +12,10 @@ const ReviewDescription = ({ formData }) => {
     'Phone number': () => formatPhone(veteran?.phoneNumber),
     'Email address': () => veteran?.emailAddress,
     Country: () => getCountryName(veteran?.countryCode),
-    'Street address': () => changeCase(veteran?.addressLine1),
-    'Line 2': () => changeCase(veteran?.addressLine2),
-    'Line 3': () => changeCase(veteran?.addressLine3),
-    City: () => changeCase(veteran?.city),
+    'Street address': () => veteran?.addressLine1 || '',
+    'Line 2': () => veteran?.addressLine2 || '',
+    'Line 3': () => veteran?.addressLine3 || '',
+    City: () => veteran?.city || '',
     State: () => veteran?.stateOrProvinceCode,
     'Postal code': () => veteran?.zipPostalCode,
   };

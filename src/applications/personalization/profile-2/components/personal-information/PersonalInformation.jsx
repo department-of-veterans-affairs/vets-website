@@ -5,8 +5,12 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
+import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
 import { directDepositLoadError } from 'applications/personalization/profile360/selectors';
 
 import PersonalInformationContent from './PersonalInformationContent';
@@ -58,8 +62,13 @@ const PersonalInformation = ({
       >
         Personal and contact information
       </h2>
-      {showNotAllDataAvailableError && <MyAlert />}
-      <PersonalInformationContent />
+      <DowntimeNotification
+        render={handleDowntimeForSection('personal and contact')}
+        dependencies={[externalServices.mvi, externalServices.vet360]}
+      >
+        {showNotAllDataAvailableError && <MyAlert />}
+        <PersonalInformationContent />
+      </DowntimeNotification>
     </>
   );
 };

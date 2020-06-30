@@ -20,20 +20,26 @@ export const contestedIssuesTitle = (
  * @param {Disability} disability
  */
 export const disabilityOption = ({ attributes }) => {
-  const { issue, subjectText, percentNumber } = attributes;
+  const {
+    ratingIssueSubjectText,
+    description,
+    ratingIssuePercentNumber,
+  } = attributes;
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
-  const showPercentNumber = Number.isInteger(percentNumber);
+  const showPercentNumber = Number.isInteger(ratingIssuePercentNumber);
 
   return (
     <div className="widget-content">
       <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-        {typeof issue === 'string' ? issue : NULL_CONDITION_STRING}
+        {typeof ratingIssueSubjectText === 'string'
+          ? ratingIssueSubjectText
+          : NULL_CONDITION_STRING}
       </h3>
-      <span>{subjectText}</span>
+      <span>{description || ''}</span>
       {showPercentNumber && (
         <p>
-          Current rating: <strong>{percentNumber}%</strong>
+          Current rating: <strong>{ratingIssuePercentNumber}%</strong>
         </p>
       )}
     </div>

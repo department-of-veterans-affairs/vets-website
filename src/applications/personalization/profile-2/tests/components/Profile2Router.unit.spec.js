@@ -205,6 +205,7 @@ describe('mapStateToProps', () => {
       'showLoader',
       'shouldFetchDirectDepositInformation',
       'shouldShowDirectDeposit',
+      'isDowntimeWarningDismissed',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });
