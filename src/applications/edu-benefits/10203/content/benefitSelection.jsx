@@ -83,35 +83,3 @@ export const benefitsLabels = {
     </p>
   ),
 };
-
-// The links and labels are different from the above
-export const survivorBenefitsLabels = {
-  chapter35: (
-    <p>
-      Survivors’ and Dependents’ Educational Assistance
-      <br />
-      (DEA, Chapter 35)
-      <br />
-      <a
-        aria-label="Learn more about Survivors’ and Dependents’ Educational Assistance benefits"
-        href="/education/survivor-dependent-benefits/dependents-education-assistance/"
-        target="_blank"
-      >
-        Learn more
-      </a>
-    </p>
-  ),
-  chapter33: (
-    <p>
-      The Fry Scholarship (Chapter 33)
-      <br />
-      <a
-        aria-label="Learn more about Fry Scholarship benefits"
-        href="/education/survivor-dependent-benefits/fry-scholarship/"
-        target="_blank"
-      >
-        Learn more
-      </a>
-    </p>
-  ),
-};
