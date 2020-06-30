@@ -1,7 +1,9 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
-import { directDepositDescription } from '../content/directDeposit';
-import { bankInfoHelpText } from '../../0994/content/bankInformation';
+import {
+  directDepositDescription,
+  bankInfoHelpText,
+} from '../content/directDeposit';
 
 const { declineDirectDeposit } = fullSchema10203.properties;
 const { bankAccount } = fullSchema10203.definitions;
@@ -12,7 +14,7 @@ export const uiSchema = {
   'ui:title': 'Direct deposit',
   'ui:description': directDepositDescription,
   bankAccount: {
-    ...bankAccountUI,
+    'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
     accountType: {
       ...bankAccountUI.accountType,
       'ui:required': useDirectDeposit,
