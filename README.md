@@ -115,7 +115,13 @@ yarn test:unit src/applications/path/to/tests/**/*.unit.spec.js*
 ```
 
 ### Browser tests
-To **run all browser tests**, you first need two things:
+To **run all browser tests**, you first need three things:
+1. Install the Java JDK on MacOS:
+    ```
+    brew update
+    brew tap adoptopenjdk/openjdk
+    brew cask install adoptopenjdk8
+    ```
 1. `vets-website` served locally on port 3001
     - You can do this with `yarn watch`
 1. `vets-api` to **NOT** be running
