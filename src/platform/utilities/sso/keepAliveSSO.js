@@ -40,3 +40,5 @@ export default async function keepAlive() {
     return {};
   }
 }
+
+export { keepAlive };
