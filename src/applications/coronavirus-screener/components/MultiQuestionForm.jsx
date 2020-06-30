@@ -25,7 +25,7 @@ export default function MultiQuestionForm({
   useEffect(
     () => {
       let completed = formState.completed;
-      const newStatus = checkFormStatus(questionState);
+      const newStatus = checkFormStatus({ questionState, customId });
       if (formState.status !== newStatus) {
         // record first completion of form
         if (completed === false) {

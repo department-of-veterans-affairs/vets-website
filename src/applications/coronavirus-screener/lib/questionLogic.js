@@ -9,8 +9,8 @@ export function getEnabledQuestions({ questionState, customId }) {
 }
 
 // check result of answers
-export function checkFormResult(questionState) {
-  return getEnabledQuestions(questionState)
+export function checkFormResult({ questionState, customId }) {
+  return getEnabledQuestions({ questionState, customId })
     .map(question => {
       const passValues = question.passValues ?? ['no'];
       return passValues.includes(question.value);
@@ -21,16 +21,17 @@ export function checkFormResult(questionState) {
 }
 
 // check if all enabled questions have been answered
-export function checkFormComplete(questionState) {
-  const completedQuestions = getEnabledQuestions(questionState).map(question =>
-    Object.prototype.hasOwnProperty.call(question, 'value'),
-  );
+export function checkFormComplete({ questionState, customId }) {
+  const completedQuestions = getEnabledQuestions({
+    questionState,
+    customId,
+  }).map(question => Object.prototype.hasOwnProperty.call(question, 'value'));
   return !completedQuestions.includes(false);
 }
 
 // check the overall status of the form
-export function checkFormStatus(questionState) {
-  return !checkFormComplete(questionState)
+export function checkFormStatus({ questionState, customId }) {
+  return !checkFormComplete({ questionState, customId })
     ? 'incomplete'
-    : checkFormResult(questionState);
+    : checkFormResult({ questionState, customId });
 }
