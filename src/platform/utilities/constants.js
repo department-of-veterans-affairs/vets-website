@@ -9,10 +9,10 @@ export const requestStates = {
   failed: 'failed',
 };
 
-export const getCernerUrl = path => {
+export const getCernerURL = path => {
   const root = environment.isProduction()
-    ? 'https://patientportal.myhealth.va.gov/'
-    : 'https://ehrm-va-test.patientportal.us.healtheintent.com/';
+    ? 'https://patientportal.myhealth.va.gov'
+    : 'https://ehrm-va-test.patientportal.us.healtheintent.com';
 
   return `${root}${path}`;
 };

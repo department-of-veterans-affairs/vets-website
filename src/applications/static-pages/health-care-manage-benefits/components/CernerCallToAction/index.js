@@ -126,7 +126,7 @@ class CernerCallToAction extends Component {
           </h3>
           <a
             className="usa-button usa-button-secondary"
-            href={getCernerURL('/pages/health_record/results/labs')}
+            href="https://www.myhealth.va.gov/mhv-portal-web/home"
             rel="noopener noreferrer"
           >
             View results on My HealtheVet
