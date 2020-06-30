@@ -36,6 +36,7 @@ describe('<VAPProfileField/>', () => {
       fieldName: FIELD_NAMES.HOME_PHONE,
       showEditView: false,
       showValidationView: false,
+      showConfirmCancelModal: false,
       isEmpty: false,
       onAdd() {},
       onEdit() {},
