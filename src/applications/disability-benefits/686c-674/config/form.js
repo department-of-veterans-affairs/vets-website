@@ -67,7 +67,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   preSubmitInfo,
   formId: VA_FORM_IDS.FORM_21_686C,
-  version: 0,
+  version: 1,
   migrations,
   prefillEnabled: true,
   footerContent: FormFooter,
