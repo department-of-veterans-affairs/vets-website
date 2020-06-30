@@ -7,7 +7,11 @@ import moment from 'moment';
 import _ from 'lodash/fp';
 import { getEnabledQuestions, checkFormStatus } from '../lib';
 
-export default function MultiQuestionForm({ questions, defaultOptions }) {
+export default function MultiQuestionForm({
+  questions,
+  defaultOptions,
+  customId,
+}) {
   const [formState, setFormState] = useState({
     status: 'incomplete',
     startTime: null,
@@ -81,7 +85,7 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
     }
   }
 
-  const enabledQuestions = getEnabledQuestions(questionState);
+  const enabledQuestions = getEnabledQuestions({ questionState, customId });
 
   function setQuestionValue({ event, questionId }) {
     // sets the question value in question state

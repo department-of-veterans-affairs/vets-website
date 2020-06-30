@@ -59,7 +59,7 @@ export const questions = [
     id: 'recent-travel',
     text:
       'In the last 14 days, have you traveled out of the state or US Territory that you are currently in?',
-    option: [459],
+    customId: [459],
   },
 ];
 

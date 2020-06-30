@@ -23,7 +23,7 @@ export default class App extends React.Component {
           <MultiQuestionForm
             questions={questions}
             defaultOptions={defaultOptions}
-            option={this.props.params.id}
+            customId={this.props.params.id}
           />
         </div>
       </div>

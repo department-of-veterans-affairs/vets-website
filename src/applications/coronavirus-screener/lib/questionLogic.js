@@ -1,6 +1,19 @@
 // return only enabled questions
-export function getEnabledQuestions(questionState) {
-  return questionState.filter(question => question.enabled ?? true);
+export function getEnabledQuestions({ questionState, customId }) {
+  return questionState.filter(question => {
+    let customEnabled;
+    if (Object.prototype.hasOwnProperty.call(question, 'customId')) {
+      if (question.customId === customId) {
+        customEnabled = true;
+      } else {
+        customEnabled = false;
+      }
+    } else {
+      customEnabled = true;
+    }
+    const questionEnabled = question.enabled ?? true;
+    return customEnabled && questionEnabled;
+  });
 }
 
 // check result of answers
