@@ -14,7 +14,8 @@ export const questions = [
   },
   {
     id: 'cough',
-    text: "In the past 7 days, have you had a cough, shortness of breath, or difficulty breathing that's new or getting worse?",
+    text: 
+        "In the past 7 days, have you had a cough, shortness of breath, or difficulty breathing that's new or getting worse?",
   },
   {
     id: 'flu',
@@ -35,8 +36,7 @@ export const questions = [
   },
   {
     id: 'congestion',
-    text:
-      'Do you currently have a runny nose or nasal congestion?',
+    text: 'Do you currently have a runny nose or nasal congestion?',
   },
   {
     id: 'exposure',
