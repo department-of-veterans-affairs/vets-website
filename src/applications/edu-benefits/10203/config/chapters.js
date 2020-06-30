@@ -1,17 +1,16 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
-import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import createContactInformationPage from '../../pages/contactInformation';
-import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
-import { display10203StemFlow, displayStemEligibility } from '../helpers';
+import { display10203StemFlow, displayConfirmEligibility } from '../helpers';
 
 import {
-  applicantInformation,
   activeDuty,
+  applicantInformation,
   benefitSelection,
-  stem,
   stemEligibility,
+  confirmEligibility,
+  programDetails,
 } from '../pages';
 
 export const chapters = {
@@ -36,6 +35,31 @@ export const chapters = {
         path: 'benefits/eligibility',
         uiSchema: benefitSelection.uiSchema,
         schema: benefitSelection.schema,
+      },
+    },
+  },
+  programDetails: {
+    title: 'Program details',
+    pages: {
+      stemEligibility: {
+        title: 'STEM Scholarship eligibility',
+        path: 'benefits/stem-eligibility',
+        uiSchema: stemEligibility.uiSchema,
+        schema: stemEligibility.schema,
+      },
+      confirmEligibility: {
+        title: '',
+        path: 'benefits/confirm-eligibility',
+        depends: form => displayConfirmEligibility(form),
+        pageClass: 'vads-u-max-width--100 vads-u-vads-u-width--full',
+        uiSchema: confirmEligibility.uiSchema,
+        schema: confirmEligibility.schema,
+      },
+      programDetails: {
+        title: 'Your STEM degree',
+        path: 'benefits/program-details',
+        uiSchema: programDetails.uiSchema,
+        schema: programDetails.schema,
       },
     },
   },
