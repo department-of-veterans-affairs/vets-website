@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
+import reverse from 'lodash/reverse';
 
 const DebtLettersList = ({ debts }) => (
   <>
@@ -24,16 +25,16 @@ const DebtLettersList = ({ debts }) => (
             Current debts
           </p>
           {debts.length > 0 &&
-            debts.map((debt, index) => (
+            reverse(debts).map((debt, index) => (
               <DebtLetterCard key={`${index}-${debt.fileNumber}`} debt={debt} />
             ))}
           <h2 className="vads-u-font-size--h3">What if I don't see a debt?</h2>
-          <p className="vads-u-margin-bottom--0">
+          <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
             If you have been notified of a debt that you do not see on this page
             or would like to get information about your debts that have been
             resolved, call the Debt Management Center at
           </p>
-          <p className="vads-u-margin-top--0">
+          <p className="vads-u-margin-top--0 vads-u-font-family--sans">
             <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
               800-827-0648
             </a>
