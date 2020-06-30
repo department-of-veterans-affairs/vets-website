@@ -12,9 +12,9 @@ const data = {
   user: {
     profile: {
       userFullName: {
-        first: 'FOO',
+        first: 'Foo',
         middle: 'Man',
-        last: 'CHOO',
+        last: 'Choo',
       },
     },
   },
