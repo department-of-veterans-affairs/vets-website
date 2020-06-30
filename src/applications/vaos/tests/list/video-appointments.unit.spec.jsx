@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import moment from '../../utils/moment-tz';
+import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import reducers from '../../reducers';
