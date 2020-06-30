@@ -344,7 +344,6 @@ const formConfig = {
               primaryCaregiverFields.tricareEnrolled,
               primaryCaregiverFields.champvaEnrolled,
               primaryCaregiverFields.otherHealthInsurance,
-              primaryCaregiverFields.otherHealthInsuranceName,
             ],
             properties: {
               [primaryCaregiverFields.medicaidEnrolled]:

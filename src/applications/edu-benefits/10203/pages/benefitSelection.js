@@ -1,15 +1,6 @@
-import fullSchema from 'vets-json-schema/dist/22-10203-schema.json';
-import { benefitsLabels } from './../content/benefitSelection';
+import { benefitsLabels } from '../content/benefitSelection';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
-const { benefit } = fullSchema.properties;
-
-const displayBenefit = {
-  ...benefit,
-  enum: [...benefit.enum],
-};
-
-displayBenefit.enum.splice(1, 0, 'fryScholarship');
 const uiSchemaCheckboxes = () => {
   const uiSchemaCheckbox = {};
   Object.keys(benefitsLabels).forEach(key => {
@@ -27,7 +18,7 @@ const schemaCheckboxes = () => {
 
 export const uiSchema = {
   'view:benefit': {
-    'ui:title': 'Which benefit have you used or are currently using?',
+    'ui:title': 'Which benefits have you used or are you currently using?',
     'ui:validations': [validateBooleanGroup],
     'ui:errorMessages': {
       atLeastOne: 'Please select at least one',

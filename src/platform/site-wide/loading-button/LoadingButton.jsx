@@ -8,7 +8,7 @@ export default function LoadingButton({
   disabled,
   ...props
 }) {
-  const contents = loadingText ? (
+  const contents = isLoading ? (
     <>
       <i
         className="fa fa-spinner fa-spin"
