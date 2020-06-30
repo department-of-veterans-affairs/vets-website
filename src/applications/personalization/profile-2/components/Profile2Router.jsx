@@ -81,6 +81,8 @@ class Profile2Router extends Component {
               </h3>
             ),
           }}
+          // default for className prop is `row-padded` and we do not want that
+          // class applied to the wrapper div DowntimeApproaching renders
           className=""
           content={children}
         />
