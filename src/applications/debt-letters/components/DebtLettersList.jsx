@@ -35,8 +35,9 @@ const DebtLettersList = ({ debts }) => (
           </p>
           <p className="vads-u-margin-top--0">
             <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-              800-827-0648.
+              800-827-0648
             </a>
+            {'.'}
           </p>
         </div>
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
