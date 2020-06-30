@@ -26,7 +26,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       facilityName: 'Some location',
       status: APPOINTMENT_STATUS.pending,
       bestTimetoCall: ['Morning'],
-      purposeOfVisit: 'Follow-up/Routine',
+      reason: 'Follow-up/Routine',
       facility: {
         city: 'Northampton',
         state: 'MA',
@@ -67,7 +67,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     );
 
     const toggleExpand = tree
-      .find('AdditionalInfo')
+      .find('AdditionalInfoRow')
       .find('.additional-info-button');
     toggleExpand.simulate('click');
 
@@ -142,7 +142,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       facilityName: 'Some location',
       status: APPOINTMENT_STATUS.pending,
       bestTimetoCall: ['Morning'],
-      purposeOfVisit: 'Routine Follow-up',
+      reason: 'Routine Follow-up',
       facility: {
         city: 'Northampton',
         state: 'MA',
@@ -191,7 +191,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       'Cancel appointment',
     );
 
-    const toggleExpand = tree.find('AdditionalInfo');
+    const toggleExpand = tree.find('AdditionalInfoRow');
     toggleExpand.props().onClick();
     const preferredDates = tree
       .find('ul')

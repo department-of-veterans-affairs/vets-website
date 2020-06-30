@@ -10,7 +10,6 @@ import {
   getRequestMessages,
   updateAppointment,
   updateRequest,
-  getClinicInstitutions,
 } from '../api';
 import { getLocations } from '../services/location';
 
@@ -18,15 +17,10 @@ import {
   getBookedAppointments,
   getVARClinicId,
   getVARFacilityId,
+  getVAAppointmentLocationId,
 } from '../services/appointment';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id.replace('var', '');
-}
-
-import { captureError } from '../utils/error';
+import { captureError, getErrorCodes } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
@@ -79,90 +73,33 @@ export function fetchRequestMessages(requestId) {
   };
 }
 
-function aggregateClinicsBySystem(appointments) {
-  const facilityClinicListMap = new Map();
-
-  appointments.forEach(appt => {
-    const facilityId = parseFakeFHIRId(getVARFacilityId(appt));
-    const clinicId = getVARClinicId(appt);
-
-    const facility = facilityClinicListMap.get(facilityId);
-    if (facility) {
-      facility.add(clinicId);
-    } else {
-      facilityClinicListMap.set(facilityId, new Set([clinicId]));
-    }
-  });
-
-  return facilityClinicListMap;
-}
-
-async function getClinicDataBySystem(facilityClinicListMap) {
-  // Don't overload the backend with requests until we better understand
-  // the impact
-  if (facilityClinicListMap.size > 3) {
-    Sentry.withScope(scope => {
-      scope.setExtra('size', facilityClinicListMap.size);
-      Sentry.captureMessage('Too many clinic requests required');
-    });
-    return [];
-  }
-
-  const facilityEntries = Array.from(facilityClinicListMap.entries());
-
-  const clinicData = await Promise.all(
-    facilityEntries
-      .filter(entry => entry[1]?.size > 0)
-      .map(([facilityId, clinicSet]) =>
-        getClinicInstitutions(facilityId, Array.from(clinicSet)),
-      ),
-  );
-
-  // We get an array of arrays of clinic data, which we can flatten
-  return [].concat(...clinicData);
-}
-
 /*
  * The facility data we get back from the various endpoints for
  * requests and appointments does not have basics like address or phone.
- * Additionally, for VA appointments, the facilityId returned is not
- * the real facility id, it's the system id.
  *
  * We want to show that basic info on the list page, so this goes and fetches
  * it separately, but doesn't block the list page from displaying
- *
- * 1. Break the appt list into VA appts and everything else
- * 2. For everything but VA appts, collect the facility ids
- * 3. For VA appts, collect the facility (i.e. system) ids and the clinic ids
- *    associated with each appt
- * 4. Fetch the full clinic data for each system and specified clinics
- * 5. Collect the real facility ids from the clinic data
- * 6. De-dupe the facility ids for both non-VA and VA appointments
- * 7. Fetch the full facility data for all the unique facility ids we've collected
  */
 async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
-  const requestsOrNonVAFacilityAppointments = futureAppointments.filter(
-    appt => appt.vaos?.videoType || appt.vaos?.isCommunityCare || !appt.vaos,
-  );
-  let facilityIds = requestsOrNonVAFacilityAppointments
-    .map(appt => appt.facilityId || appt.facility?.facilityCode)
-    .filter(id => !!id);
+  const nonVaFacilityAppointmentIds = futureAppointments
+    .filter(
+      appt => appt.vaos?.videoType || appt.vaos?.isCommunityCare || !appt.vaos,
+    )
+    .map(appt => appt.facilityId || appt.facility?.facilityCode);
 
   // Get facility ids from VA appointments
-  const vaFacilityAppointments = futureAppointments.filter(
-    appt => appt.vaos && !appt.vaos.videoType && !appt.vaos.isCommunityCare,
-  );
-  let clinicInstitutionList = null;
-  const facilityClinicListMap = aggregateClinicsBySystem(
-    vaFacilityAppointments,
-  );
-  clinicInstitutionList = await getClinicDataBySystem(facilityClinicListMap);
-  facilityIds = facilityIds.concat(
-    clinicInstitutionList.map(clinic => clinic.institutionCode),
-  );
+  const vaFacilityAppointmentIds = futureAppointments
+    .filter(
+      appt => appt.vaos && !appt.vaos.videoType && !appt.vaos.isCommunityCare,
+    )
+    .map(getVAAppointmentLocationId);
 
-  const uniqueFacilityIds = new Set(facilityIds);
+  const uniqueFacilityIds = new Set(
+    [...nonVaFacilityAppointmentIds, ...vaFacilityAppointmentIds].filter(
+      id => !!id,
+    ),
+  );
   let facilityData = null;
   if (uniqueFacilityIds.size > 0) {
     facilityData = await getLocations({
@@ -170,10 +107,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
     });
   }
 
-  return {
-    facilityData,
-    clinicInstitutionList,
-  };
+  return facilityData;
 }
 
 export function fetchFutureAppointments() {
@@ -206,15 +140,13 @@ export function fetchFutureAppointments() {
         });
 
         try {
-          const {
-            clinicInstitutionList,
-            facilityData,
-          } = await getAdditionalFacilityInfo(getState().appointments.future);
+          const facilityData = await getAdditionalFacilityInfo(
+            getState().appointments.future,
+          );
 
           if (facilityData) {
             dispatch({
               type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-              clinicInstitutionList,
               facilityData,
             });
           }
@@ -253,15 +185,13 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       });
 
       try {
-        const {
-          clinicInstitutionList,
-          facilityData,
-        } = await getAdditionalFacilityInfo(getState().appointments.past);
+        const facilityData = await getAdditionalFacilityInfo(
+          getState().appointments.past,
+        );
 
         if (facilityData) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-            clinicInstitutionList,
             facilityData,
           });
         }
@@ -375,7 +305,8 @@ export function confirmCancelAppointment() {
       });
       resetDataLayer();
     } catch (e) {
-      if (e?.errors?.[0]?.code === 'VAOS_400') {
+      const isVaos400Error = getErrorCodes(e).includes('VAOS_400');
+      if (isVaos400Error) {
         Sentry.withScope(scope => {
           scope.setExtra('error', e);
           scope.setExtra('cancelReasons', cancelReasons);
@@ -387,6 +318,7 @@ export function confirmCancelAppointment() {
       }
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+        isVaos400Error,
       });
 
       recordEvent({

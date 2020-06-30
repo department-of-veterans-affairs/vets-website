@@ -69,7 +69,7 @@ class ArrayField extends React.Component {
         `topOfTable_${this.props.path[this.props.path.length - 1]}${
           this.isLocked() ? '_locked' : ''
         }`,
-        window.Forms.scroll || {
+        window.Forms?.scroll || {
           duration: 500,
           delay: 0,
           smooth: true,
@@ -83,7 +83,7 @@ class ArrayField extends React.Component {
     setTimeout(() => {
       scroller.scrollTo(
         `table_${id}`,
-        window.Forms.scroll || {
+        window.Forms?.scroll || {
           duration: 500,
           delay: 0,
           smooth: true,

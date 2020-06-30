@@ -20,13 +20,12 @@ class SideNav extends Component {
     };
   }
 
-  toggleItemExpanded = id => () => {
+  trackEvents = id => {
     const { navItemsLookup } = this.state;
 
     // Derive the nav item and its properties.
     const navItem = get(navItemsLookup, `[${id}]`);
     const hasChildren = get(navItem, 'hasChildren');
-    const expanded = get(navItem, 'expanded');
     const depth = get(navItem, 'depth');
     const parentID = get(navItem, 'parentID');
 
@@ -44,16 +43,6 @@ class SideNav extends Component {
 
     // Escape early if the item has children.
     if (hasChildren) {
-      // Flip the item's expanded property.
-      this.setState({
-        navItemsLookup: {
-          ...navItemsLookup,
-          [id]: {
-            ...navItemsLookup[id],
-            expanded: !expanded,
-          },
-        },
-      });
       recordEvent({ event: 'nav-sidenav' });
       return;
     }
@@ -95,7 +84,7 @@ class SideNav extends Component {
         key={get(item, 'id')}
         renderChildItems={this.renderChildItems}
         sortedNavItems={sortedNavItems}
-        toggleItemExpanded={this.toggleItemExpanded}
+        trackEvents={this.trackEvents}
       />
     ));
   };
@@ -149,13 +138,6 @@ class SideNav extends Component {
             'vads-u-padding--0',
           )}
         >
-          <div
-            className={classNames(
-              'line',
-              'medium-screen:vads-u-display--none',
-              'va-sidenav-display-onclick-line',
-            )}
-          />
           {/* Render all the items recursively. */}
           {renderChildItems(parentMostID, 1)}
         </ul>

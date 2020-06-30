@@ -193,6 +193,10 @@ for doing very specific things.
 | load the analyzer tool on a stats file                                                                      | `yarn analyze`                                                                                                                                                                                                               |
 | add a new React app                                                                                         | `yarn new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) sibling to `vets-website`)                                                                            |
 
+
+
+
+
 ## Supported Browsers
 
 | Browser                   | Minimum version | Note                                   |
@@ -202,3 +206,9 @@ for doing very specific things.
 | Safari / iOS Safari       | 9               |                                        |
 | Chrome / Android Web view | 44              | _Latest version with >0.5% of traffic_ |
 | Firefox                   | 52              | _Latest version with >0.5% of traffic_ |
+
+## Additional Resources
+
+1. [VA.gov Knowledge Hub](https://department-of-veterans-affairs.github.io/va.gov-team/)
+1. [Docs Directory](./docs)
+1. [Manual](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-manual-testing.md) and [Automated](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-automated-testing.md) 508 Testing

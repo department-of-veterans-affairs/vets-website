@@ -3,7 +3,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const FacilityHelpers = require('./facility-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  client.url(`${E2eHelpers.baseUrl}/find-locations/`);
+  client.openUrl(`${E2eHelpers.baseUrl}/find-locations/`);
 
   E2eHelpers.overrideSmoothScrolling(client);
   FacilityHelpers.initApplicationMock();

@@ -3,8 +3,8 @@ export default Object.freeze({
   dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
+  facilityLocatorFeUseV1: 'facilityLocatorFeUseV1',
   profileShowProfile2: 'profile_show_profile_2.0',
-  profileShowReceiveTextNotifications: 'profileShowReceiveTextNotifications',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
@@ -29,4 +29,5 @@ export default Object.freeze({
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
+  routeStLouisRPOtoBuffaloRPO: 'routeStLouisRPOtoBuffaloRPO',
 });

@@ -566,18 +566,19 @@ describe('VAOS reducer: newAppointment', () => {
           {
             clinicId: '455',
             facilityId: '983',
+            startDate: '',
           },
         ],
         clinics: {
           // eslint-disable-next-line camelcase
           var983_323: [
             {
-              clinicId: '455',
-              facilityId: '983',
+              id: 'var983_455',
+              resourceType: 'HealthcareService',
             },
             {
-              clinicId: '456',
-              facilityId: '983',
+              id: 'var983_456',
+              resourceType: 'HealthcareService',
             },
           ],
         },
@@ -605,7 +606,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       expect(
         newState.pages.clinicChoice.properties.clinicId.enum,
-      ).to.deep.equal(['455', 'NONE']);
+      ).to.deep.equal(['var983_455', 'NONE']);
       expect(
         newState.pages.clinicChoice.properties.clinicId.enumNames,
       ).to.deep.equal([
@@ -620,24 +621,26 @@ describe('VAOS reducer: newAppointment', () => {
           {
             clinicId: '455',
             facilityId: '983',
+            startDate: '',
           },
           {
             clinicId: '456',
             facilityId: '983',
+            startDate: '',
           },
         ],
         clinics: {
           // eslint-disable-next-line camelcase
           var983_323: [
             {
-              clinicId: '455',
-              facilityId: '983',
-              clinicFriendlyLocationName: 'Testing',
+              id: 'var983_455',
+              resourceType: 'HealthcareService',
+              serviceName: 'Testing',
             },
             {
-              clinicId: '456',
-              facilityId: '983',
-              clinicName: 'Testing real name',
+              id: 'var983_456',
+              resourceType: 'HealthcareService',
+              serviceName: 'Testing real name',
             },
           ],
         },
@@ -665,7 +668,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       expect(
         newState.pages.clinicChoice.properties.clinicId.enum,
-      ).to.deep.equal(['455', '456', 'NONE']);
+      ).to.deep.equal(['var983_455', 'var983_456', 'NONE']);
       expect(
         newState.pages.clinicChoice.properties.clinicId.enumNames,
       ).to.deep.equal([
@@ -959,6 +962,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer({}, action);
       expect(newState.submitStatus).to.equal(FETCH_STATUS.succeeded);
+      expect(newState.submitStatusVaos400).to.equal(false);
     });
     it('should set error', () => {
       const action = {
@@ -967,8 +971,21 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer({}, action);
       expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.submitStatusVaos400).to.equal(undefined);
+    });
+
+    it('should set vaos 400 error', () => {
+      const action = {
+        type: FORM_SUBMIT_FAILED,
+        isVaos400Error: true,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.submitStatusVaos400).to.equal(true);
     });
   });
+
   it('should open the type of care page and prefill contact info', () => {
     const currentState = {
       data: {},
@@ -1069,6 +1086,8 @@ describe('VAOS reducer: newAppointment', () => {
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.data).to.deep.equal({});
+    expect(newState.eligibility).to.deep.equal({});
+    expect(newState.clinics).to.deep.equal({});
     expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.notStarted);
     expect(newState.eligibilityStatus).to.equal(FETCH_STATUS.notStarted);
   });

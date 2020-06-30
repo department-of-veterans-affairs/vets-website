@@ -627,7 +627,7 @@ describe('Schemaform helpers:', () => {
     it('should return undefined if array', () => {
       const result = getNonArraySchema({ type: 'array' });
 
-      expect(result).to.be.undefined;
+      expect(result.schema).to.be.undefined;
     });
     it('should skip array fields using option', () => {
       const result = getNonArraySchema(
@@ -635,7 +635,7 @@ describe('Schemaform helpers:', () => {
         { 'ui:option': { keepInPageOnReview: true } },
       );
 
-      expect(result).to.be.undefined;
+      expect(result.schema).to.be.undefined;
     });
     it('should return undefined if nested array', () => {
       const result = getNonArraySchema({
@@ -647,7 +647,7 @@ describe('Schemaform helpers:', () => {
         },
       });
 
-      expect(result).to.be.undefined;
+      expect(result.schema).to.be.undefined;
     });
     it('should return fields without array', () => {
       const result = getNonArraySchema({
@@ -663,13 +663,50 @@ describe('Schemaform helpers:', () => {
         },
       });
 
-      expect(result).to.eql({
+      expect(result.schema).to.eql({
         type: 'object',
         required: ['field'],
         properties: {
           field: {
             type: 'string',
           },
+        },
+      });
+    });
+    it('should return fields without array', () => {
+      const result = getNonArraySchema(
+        {
+          type: 'object',
+          required: ['field1', 'field2'],
+          properties: {
+            field1: {
+              type: 'string',
+              properties: {},
+            },
+            field2: {
+              type: 'object',
+              properties: {},
+            },
+          },
+        },
+        {
+          'ui:order': ['field1', 'field2'],
+          field1: {
+            'ui:description': 'My field1 text',
+          },
+          field2: {
+            'ui:description': 'My field2 text',
+          },
+        },
+      );
+
+      expect(result.uiSchema).to.eql({
+        'ui:order': ['field1'],
+        field1: {
+          'ui:description': 'My field1 text',
+        },
+        field2: {
+          'ui:description': 'My field2 text',
         },
       });
     });

@@ -177,6 +177,8 @@ class SchemaForm extends React.Component {
       onSubmit,
       onChange,
       safeRenderCompletion,
+      name,
+      addNameAttribute,
     } = this.props;
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
@@ -200,6 +202,7 @@ class SchemaForm extends React.Component {
         widgets={useReviewMode ? reviewWidgets : widgets}
         fields={useReviewMode ? this.reviewFields : this.fields}
         transformErrors={this.transformErrors}
+        name={addNameAttribute ? name : null}
       >
         {children}
       </Form>
@@ -219,12 +222,19 @@ SchemaForm.propTypes = {
   onSubmit: PropTypes.func,
   onChange: PropTypes.func,
   hideTitle: PropTypes.bool,
+  addNameAttribute: PropTypes.bool,
 };
 
 SchemaForm.defaultProps = {
   // This is required when running tests, but we'd prefer not to force
   // everyone to be aware of it when writing tests that use SchemaForm
   safeRenderCompletion: navigator.userAgent === 'node.js',
+  // When `true` the rendered `Form` is passed a `name` prop so that the `form`
+  // that's rendered to the DOM will have a `name` attribute. A `form` without a
+  // `name` attribute will have its implicit `role="form"` disabled. More info
+  // re: the implicit role:
+  // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form
+  addNameAttribute: false,
 };
 
 export default SchemaForm;

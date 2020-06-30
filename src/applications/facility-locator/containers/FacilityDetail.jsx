@@ -15,11 +15,14 @@ import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
 import { OperatingStatus, FacilityType } from '../constants';
+import { facilityLocatorFeUseV1 } from '../utils/selectors';
 
 class FacilityDetail extends Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
-    this.props.fetchVAFacility(this.props.params.id);
+    const { useAPIv1 } = this.props;
+    const apiVersion = useAPIv1 ? 1 : 0;
+    this.props.fetchVAFacility(this.props.params.id, null, apiVersion);
     window.scrollTo(0, 0);
   }
 
@@ -192,6 +195,7 @@ function mapStateToProps(state) {
   return {
     facility: state.searchResult.selectedResult,
     currentQuery: state.searchQuery,
+    useAPIv1: facilityLocatorFeUseV1(state),
   };
 }
 

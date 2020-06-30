@@ -1,70 +1,88 @@
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
-import React from 'react';
+import { apiRequest } from 'platform/utilities/api';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
-import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import frontEndSchema from '../schemas/2346-schema.json';
-import { buildAddressSchema } from '../schemas/address-schema';
-import UIDefinitions from '../schemas/definitions/2346UI';
-
-const { email, supplies, date } = fullSchema.definitions;
-const { currentAddress } = frontEndSchema.definitions;
+import UIDefinitions from '../schemas/2346UI';
 
 const {
-  emailField,
-  confirmationEmailField,
+  email,
+  date,
+  supplies,
+  addressWithIsMilitaryBase,
+} = fullSchema.definitions;
+
+const {
+  vetEmailField,
+  viewConfirmationEmailField,
   suppliesField,
-  permAddressField,
-  tempAddressField,
-  currentAddressField,
+  permanentAddressField,
+  temporaryAddressField,
+  viewCurrentAddressField,
+  viewVeteranInfoField,
 } = schemaFields;
 
 const {
   emailUI,
   confirmationEmailUI,
-  batteriesUI,
-  accessoriesUI,
+  suppliesUI,
   permanentAddressUI,
   temporaryAddressUI,
   currentAddressUI,
+  veteranInfoUI,
 } = UIDefinitions.sharedUISchemas;
 
 const formChapterTitles = {
-  veteranInformation: 'Veteran Information',
-  orderSupplies: 'Order your supplies',
+  veteranInformation: 'Veteran information',
+  selectSupplies: 'Select your supplies',
 };
 
 const formPageTitlesLookup = {
-  personalDetails: 'Personal Details',
+  veteranInfo: 'Veteran information',
   address: 'Shipping address',
-  addAccessoriesPage: 'Add accessories to your order',
-  addBatteriesPage: 'Add batteries to your order',
+  addSuppliesPage: 'Add supplies to your order',
 };
 
-const addressSchema = buildAddressSchema(true);
+// We need to add this property so we can display the component within our address schema, underneath the checkbox for military bases.
+addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {
+  type: 'string',
+};
 
-const asyncReturn = (returnValue, error, delay = 300) =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const randomNumber = Math.round(Math.random() * 10);
-      const isNumberEven = randomNumber % 2 === 0;
-      if (isNumberEven) {
-        return resolve(returnValue);
-      }
-      return reject(error);
-    }, delay);
-  });
+// the following two properties have to be added to our MDOT-schema.json.  Remove these props once they are added.
+addressWithIsMilitaryBase.properties.country = {
+  type: 'string',
+};
+
+addressWithIsMilitaryBase.properties.state = {
+  type: 'string',
+};
 
 const submit = form => {
-  const submissionData = JSON.stringify(form.data);
+  const currentAddress = form.data['view:currentAddress'];
   const itemQuantities = form.data?.selectedProducts?.length;
+  const { order, permanentAddress, temporaryAddress, vetEmail } = form.data;
+  const useVeteranAddress = currentAddress === 'permanentAddress';
+  const useTemporaryAddress = currentAddress === 'temporaryAddress';
+  const payload = {
+    permanentAddress,
+    temporaryAddress,
+    vetEmail,
+    order,
+    useVeteranAddress,
+    useTemporaryAddress,
+  };
 
+  const options = {
+    body: JSON.stringify(payload),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   recordEvent({
     event: 'bam-2346a-submission',
     'bam-quantityOrdered': itemQuantities,
@@ -88,13 +106,7 @@ const submit = form => {
       return reject(error);
     });
 
-  return asyncReturn(
-    {
-      attributes: { confirmationNumber: '123123123' },
-      submissionData,
-    },
-    'this is an error message',
-  )
+  return apiRequest('/mdot/supplies', options)
     .then(onSuccess)
     .catch(onFailure);
 };
@@ -126,57 +138,61 @@ const formConfig = {
     email,
     supplies,
     date,
-    addressSchema,
-    currentAddress,
+    addressWithIsMilitaryBase,
   },
   chapters: {
     veteranInformationChapter: {
       title: formChapterTitles.veteranInformation,
       pages: {
-        [formPageTitlesLookup.personalDetails]: {
+        [formPageTitlesLookup.veteranInfo]: {
           path: 'veteran-information',
-          title: formPageTitlesLookup.personalDetails,
+          title: formPageTitlesLookup.veteranInfo,
           uiSchema: {
-            'ui:description': ({ formData }) => (
-              <PersonalInfoBox formData={formData} />
-            ),
-            [schemaFields.fullName]: fullNameUI,
-          },
-          schema: {
-            required: [],
-            type: 'object',
-            properties: {},
-          },
-        },
-        [formPageTitlesLookup.address]: {
-          path: 'veteran-information/addresses',
-          title: formPageTitlesLookup.address,
-          uiSchema: {
-            [permAddressField]: permanentAddressUI,
-            [tempAddressField]: temporaryAddressUI,
-            [emailField]: emailUI,
-            [confirmationEmailField]: confirmationEmailUI,
-            [currentAddressField]: currentAddressUI,
+            [viewVeteranInfoField]: veteranInfoUI,
           },
           schema: {
             type: 'object',
             properties: {
-              [permAddressField]: addressSchema,
-              [tempAddressField]: addressSchema,
-              [emailField]: email,
-              [confirmationEmailField]: email,
-              [currentAddressField]: currentAddress,
+              [viewVeteranInfoField]: {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+        [formPageTitlesLookup.address]: {
+          path: 'address',
+          title: formPageTitlesLookup.address,
+          uiSchema: {
+            [permanentAddressField]: permanentAddressUI,
+            [temporaryAddressField]: temporaryAddressUI,
+            [vetEmailField]: emailUI,
+            [viewConfirmationEmailField]: confirmationEmailUI,
+            [viewCurrentAddressField]: currentAddressUI,
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              [permanentAddressField]: addressWithIsMilitaryBase,
+              [temporaryAddressField]: addressWithIsMilitaryBase,
+              [vetEmailField]: email,
+              [viewConfirmationEmailField]: email,
+              [viewCurrentAddressField]: {
+                type: 'string',
+                enum: ['permanentAddress', 'temporaryAddress'],
+                default: 'permanentAddress',
+              },
             },
           },
         },
       },
     },
-    orderSuppliesChapter: {
-      title: formChapterTitles.orderSupplies,
+    selectSuppliesChapter: {
+      title: formChapterTitles.selectSupplies,
       pages: {
-        [formPageTitlesLookup.addBatteriesPage]: {
-          path: 'batteries',
-          title: formPageTitlesLookup.addBatteriesPage,
+        [formPageTitlesLookup.addSuppliesPage]: {
+          path: 'supplies',
+          title: formPageTitlesLookup.addSuppliesPage,
           schema: {
             type: 'object',
             properties: {
@@ -184,20 +200,7 @@ const formConfig = {
             },
           },
           uiSchema: {
-            [suppliesField]: batteriesUI,
-          },
-        },
-        [formPageTitlesLookup.addAccessoriesPage]: {
-          path: 'accessories',
-          title: formPageTitlesLookup.addAccessoriesPage,
-          schema: {
-            type: 'object',
-            properties: {
-              [suppliesField]: supplies,
-            },
-          },
-          uiSchema: {
-            [suppliesField]: accessoriesUI,
+            [suppliesField]: suppliesUI,
           },
         },
       },

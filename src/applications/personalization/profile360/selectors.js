@@ -1,9 +1,6 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
-export const profileShowReceiveTextNotifications = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.profileShowReceiveTextNotifications];
-
 export const directDepositInformation = state =>
   state.vaProfile?.paymentInformation;
 
@@ -15,6 +12,9 @@ export const directDepositAccountInformation = state =>
 
 export const directDepositIsSetUp = state =>
   !!directDepositAccountInformation(state)?.accountNumber;
+
+export const directDepositLoadError = state =>
+  directDepositInformation(state)?.error;
 
 export const directDepositAddressInformation = state =>
   directDepositInformation(state)?.responses?.[0]?.paymentAddress;

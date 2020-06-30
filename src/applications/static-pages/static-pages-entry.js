@@ -17,7 +17,6 @@ import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
-import createHomepageBanner from './homepage-banner/createHomepageBanner';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
@@ -32,6 +31,13 @@ import createPost911GiBillStatusWidget, {
 
 import create686ContentReveal from './view-modify-dependent/686-cta/create686CcontentReveal.js';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
+
+// Health Care | Manage Benefits widgets.
+import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
+import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
+import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
+import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging-page';
+import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-test-and-lab-results-page';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -134,12 +140,26 @@ createPost911GiBillStatusWidget(
 
 createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
 
-createHomepageBanner(store, widgetTypes.HOMEPAGE_BANNER);
-
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 create686ContentReveal(store, widgetTypes.FORM_686_CONTENT_REVEAL);
 
 createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
+
+// Create Health Care | Manage Benefits widgets.
+createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
+createRefillTrackPrescriptionsPage(
+  store,
+  widgetTypes.REFILL_TRACK_PRESCRIPTIONS_PAGE,
+);
+createScheduleViewVAAppointmentsPage(
+  store,
+  widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
+);
+createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
+createViewTestAndLabResultsPage(
+  store,
+  widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
+);
 
 // homepage widgets
 if (location.pathname === '/') {

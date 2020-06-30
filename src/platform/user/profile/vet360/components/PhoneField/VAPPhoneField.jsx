@@ -8,6 +8,7 @@ import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from 'vet360/constants';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
 import VAPProfileField from 'vet360/containers/VAPProfileField';
+import ReceiveTextMessages from 'vet360/containers/ReceiveTextMessages';
 
 import PhoneEditView from './PhoneEditView';
 import PhoneView from './PhoneView';
@@ -37,7 +38,11 @@ const formSchema = {
 const uiSchema = {
   'view:noInternationalNumbers': {
     'ui:description': () => (
-      <AlertBox isVisible status="info" className="vads-u-margin-bottom--3">
+      <AlertBox
+        isVisible
+        status="info"
+        className="vads-u-margin-bottom--3 vads-u-margin-top--1 medium-screen:vads-u-margin-top--0"
+      >
         <p>
           We can only support U.S. phone numbers right now. If you have an
           international number, please check back later.
@@ -132,10 +137,21 @@ export default class PhoneField extends React.Component {
   };
 
   render() {
+    const ContentView =
+      this.props.fieldName === FIELD_NAMES.MOBILE_PHONE
+        ? ({ data }) => {
+            return (
+              <div>
+                <PhoneView data={data} />
+                <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
+              </div>
+            );
+          }
+        : PhoneView;
     return (
       <VAPProfileField
         apiRoute={API_ROUTES.TELEPHONES}
-        ContentView={PhoneView}
+        ContentView={ContentView}
         convertCleanDataToPayload={this.convertCleanDataToPayload}
         EditView={PhoneEditView}
         fieldName={this.props.fieldName}

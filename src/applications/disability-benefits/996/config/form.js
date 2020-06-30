@@ -1,10 +1,4 @@
-import fullSchema from '../20-0996-schema.json';
-
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-// import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
-// import environment from 'platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -13,11 +7,12 @@ import FormFooter from 'platform/forms/components/FormFooter';
 
 import migrations from '../migrations';
 import prefillTransformer from './prefill-transformer';
-// import { transform } from './submit-transformer';
+import { transform } from './submit-transformer';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
+import ReviewDescription from '../containers/ReviewDescription';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -28,13 +23,10 @@ import informalConference from '../pages/informalConference';
 import { errorMessages } from '../constants';
 // import initialData from '../tests/schema/initialData';
 
-const { email } = fullSchema.properties;
-
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: `${environment.API_URL}/v0/higher_level_review/submit`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/appeals/higher_level_reviews`,
+  // submit: () => Promise.resolve({ attributes: { status: 'processed' } }),
   trackingPrefix: 'hlr-0996-',
   downtime: {
     requiredForPrefill: true,
@@ -51,7 +43,7 @@ const formConfig = {
   prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
-  // transformForSubmit: transform,
+  transformForSubmit: transform,
 
   // beforeLoad: props => { console.log('form config before load', props); },
   // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {
@@ -65,13 +57,12 @@ const formConfig = {
 
   title: 'Request a Higher-Level Review',
   subTitle: 'Equal to VA Form 20-0996',
-  defaultDefinitions: {
-    email,
-  },
+  defaultDefinitions: {},
   preSubmitInfo,
   chapters: {
     infoPages: {
       title: 'Veteran information',
+      reviewDescription: ReviewDescription,
       pages: {
         veteranInformation: {
           title: 'Veteran information',

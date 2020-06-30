@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { createId } from '../utils/helpers';
@@ -22,7 +21,7 @@ class AccordionItem extends React.Component {
     this.state = {
       expanded: props.expanded,
     };
-    this.id = _.uniqueId('accordion-item-');
+    this.id = `${createId(props.button)}-accordion`;
   }
 
   expanded = () => {
@@ -34,16 +33,24 @@ class AccordionItem extends React.Component {
 
   toggle = () => {
     const expanded = !this.expanded();
+    const { section, onClick } = this.props;
+
     this.setState({ expanded });
 
-    if (this.props.onClick) {
-      this.props.onClick(expanded);
+    if (onClick) {
+      onClick(expanded);
     }
 
-    const type = this.props.section ? 'section' : 'accordion';
-    recordEvent({
-      event: expanded ? `nav-${type}-collapse` : `nav-${type}-expand`,
-    });
+    const event = expanded ? 'expand' : 'collapse';
+
+    if (section) {
+      recordEvent({
+        event: `nav-accordion-${event}`,
+        'accordion-size': 'small',
+      });
+    } else {
+      recordEvent({ event: `nav-accordion-${event}` });
+    }
   };
 
   renderHeader = () => {
@@ -84,16 +91,21 @@ class AccordionItem extends React.Component {
 
   render() {
     const expanded = this.expanded();
-    const { button, section, children } = this.props;
+    const { section, children } = this.props;
 
     const liClassName = section ? 'section-item' : 'accordion-item';
     const contentClassName = section
       ? 'section-content'
       : 'usa-accordion-content';
     return (
-      <li className={liClassName} id={`${createId(button)}-accordion`}>
+      <li className={liClassName} id={this.id}>
         {this.renderHeader()}
-        <div id={this.id} className={contentClassName} aria-hidden={!expanded}>
+        <div
+          id={`${this.id}-content`}
+          className={contentClassName}
+          aria-hidden={!expanded}
+          hidden={!expanded}
+        >
           {expanded ? children : null}
         </div>
       </li>

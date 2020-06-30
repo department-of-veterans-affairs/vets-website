@@ -10,8 +10,8 @@ const fakeStore = {
         supplies: [
           {
             productName: 'DOME',
-            productGroup: 'hearing aid accessories',
-            productId: '3',
+            productGroup: 'ACCESSORIES',
+            productId: 3,
             availableForReorder: true,
             lastOrderDate: '2020-03-30',
             nextAvailabilityDate: '2020-12-15',
@@ -20,8 +20,8 @@ const fakeStore = {
           },
           {
             productName: 'fake name 1',
-            productGroup: 'hearing aid accessories',
-            productId: '4',
+            productGroup: 'ACCESSORIES',
+            productId: 4,
             availableForReorder: true,
             lastOrderDate: '2020-01-18',
             nextAvailabilityDate: '2019-12-15',
@@ -30,15 +30,15 @@ const fakeStore = {
           },
           {
             productName: 'fake name 2',
-            productGroup: 'hearing aid accessories',
-            productId: '9',
+            productGroup: 'ACCESSORIES',
+            productId: 9,
             availableForReorder: false,
             lastOrderDate: '2020-03-02',
             nextAvailabilityDate: '2999-12-15',
             quantity: 2,
           },
         ],
-        selectedProducts: [{ productId: '3' }],
+        selectedProducts: [{ productId: 3 }],
         eligibility: {
           accessories: true,
         },
@@ -56,8 +56,8 @@ const fakeStoreNoEligibility5Months = {
         supplies: [
           {
             productName: 'DOME',
-            productGroup: 'hearing aid accessories',
-            productId: '3',
+            productGroup: 'ACCESSORIES',
+            productId: 3,
             availableForReorder: true,
             lastOrderDate: '2019-12-30',
             nextAvailabilityDate: '2099-09-15',
@@ -66,8 +66,8 @@ const fakeStoreNoEligibility5Months = {
           },
           {
             productName: 'fake name 1',
-            productGroup: 'hearing aid accessories',
-            productId: '4',
+            productGroup: 'ACCESSORIES',
+            productId: 4,
             availableForReorder: true,
             lastOrderDate: '2019-10-18',
             nextAvailabilityDate: '2099-07-10',
@@ -76,15 +76,15 @@ const fakeStoreNoEligibility5Months = {
           },
           {
             productName: 'fake name 2',
-            productGroup: 'hearing aid accessories',
-            productId: '9',
+            productGroup: 'ACCESSORIES',
+            productId: 9,
             availableForReorder: false,
             lastOrderDate: '2099-03-02',
             nextAvailabilityDate: '2099-05-25',
             quantity: 2,
           },
         ],
-        selectedProducts: [{ productId: '3' }],
+        selectedProducts: [{ productId: 3 }],
         eligibility: {
           accessories: false,
         },
@@ -102,8 +102,8 @@ const fakeStoreNoEligibility2Years = {
         supplies: [
           {
             productName: 'DOME',
-            productGroup: 'hearing aid accessories',
-            productId: '3',
+            productGroup: 'ACCESSORIES',
+            productId: 3,
             availableForReorder: true,
             lastOrderDate: '2015-06-30',
             nextAvailabilityDate: '2099-12-15',
@@ -112,8 +112,8 @@ const fakeStoreNoEligibility2Years = {
           },
           {
             productName: 'fake name 1',
-            productGroup: 'hearing aid accessories',
-            productId: '4',
+            productGroup: 'ACCESSORIES',
+            productId: 4,
             availableForReorder: true,
             lastOrderDate: '2014-01-18',
             nextAvailabilityDate: '2099-10-19',
@@ -122,15 +122,15 @@ const fakeStoreNoEligibility2Years = {
           },
           {
             productName: 'fake name 2',
-            productGroup: 'hearing aid accessories',
-            productId: '9',
+            productGroup: 'ACCESSORIES',
+            productId: 9,
             availableForReorder: false,
             lastOrderDate: '2016-03-02',
             nextAvailabilityDate: '2999-08-03',
             quantity: 2,
           },
         ],
-        selectedProducts: [{ productId: '3' }],
+        selectedProducts: [{ productId: 3 }],
         eligibility: {
           accessories: false,
         },
@@ -187,7 +187,7 @@ describe('Accessories', () => {
     const wrapper = mount(
       <Accessories store={fakeStoreNoEligibility5Months} />,
     );
-    expect(wrapper.find('AlertBox').length).to.equal(4);
+    expect(wrapper.find('.usa-alert-heading').length).to.equal(3);
     wrapper.unmount();
   });
   it('should display an alert box if the Veteran is not eligible to order accessories and has not ordered in the last 2 years', () => {

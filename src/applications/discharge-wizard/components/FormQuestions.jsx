@@ -36,7 +36,7 @@ class FormQuestions extends React.Component {
       const el = this.props.formValues.questions.slice(-1)[0];
       scroller.scrollTo(
         el,
-        window.VetsGov.scroll || {
+        window.VetsGov?.scroll || {
           duration: 1000,
           smooth: true,
         },
@@ -80,7 +80,7 @@ class FormQuestions extends React.Component {
 
     scroller.scrollTo(
       e.target.name,
-      window.VetsGov.scroll || {
+      window.VetsGov?.scroll || {
         duration: 1000,
         smooth: true,
         offset: -150,

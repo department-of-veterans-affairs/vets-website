@@ -36,7 +36,7 @@ export const fetchFormStatus = () => async dispatch => {
     // always result in that error so we can go ahead and return
     return dispatch(resetError());
   }
-  fetch(`${environment.API_URL}/v0/in_progress_forms/MDOT`, {
+  fetch(`${environment.API_URL}/v0/in_progress_forms/mdot`, {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
@@ -50,13 +50,16 @@ export const fetchFormStatus = () => async dispatch => {
         // In the event there are multiple errors - but I don't think that is possible
         const firstError = head(body.errors);
         if (firstError.code === '500') {
-          return dispatch(resetError());
+          return dispatch(handleError('MDOT_SERVER_ERROR'));
         }
         return dispatch(handleError(firstError.code.toUpperCase()));
       }
       const eligibility = body.formData.eligibility;
 
-      if (eligibility && !eligibility.accessories && !eligibility.batteries) {
+      if (
+        !eligibility ||
+        (eligibility && !eligibility.accessories && !eligibility.batteries)
+      ) {
         const sortedSuppliesByAvailability = sortBy(
           body.formData.supplies,
           'nextAvailabilityDate',

@@ -46,7 +46,7 @@ const failureResponse = {
   },
 };
 
-describe('ConfirmationPoll', () => {
+describe.skip('ConfirmationPoll', () => {
   const defaultProps = {
     jobId: '12345',
     fullName: { first: 'asdf', last: 'fdsa' },

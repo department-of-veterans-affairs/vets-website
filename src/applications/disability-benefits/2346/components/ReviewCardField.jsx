@@ -3,12 +3,14 @@ import {
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import * as Sentry from '@sentry/browser';
+import classnames from 'classnames';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import recordEvent from 'platform/monitoring/record-event';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import set from 'platform/utilities/data/set';
+import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -45,7 +47,6 @@ class ReviewCardField extends React.Component {
 
   constructor(props) {
     super(props);
-
     // Throw an error if there’s no viewComponent (should be React component)
     if (
       typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function'
@@ -85,8 +86,42 @@ class ReviewCardField extends React.Component {
       editing,
       canCancel: !editing, // If we start in the edit state, we can't cancel
       oldData: props.formData,
+      permAddressShouldBeFocused: false,
+      tempAddressShouldBeFocused: false,
     };
   }
+
+  componentDidUpdate() {
+    if (this.state.permAddressShouldBeFocused && !this.state.editing) {
+      focusElement('#permanentAddress');
+      this.resetAddressFocus();
+    } else if (this.state.tempAddressShouldBeFocused && !this.state.editing) {
+      focusElement('#temporaryAddress');
+      this.resetAddressFocus();
+    }
+    if (
+      this.state.permAddressShouldBeFocused &&
+      this.state.editing &&
+      this.props.name === 'permanentAddress'
+    ) {
+      focusElement('#permanentAddress.review-card--edit-title');
+      this.resetAddressFocus();
+    } else if (
+      this.state.tempAddressShouldBeFocused &&
+      this.state.editing &&
+      this.props.name === 'temporaryAddress'
+    ) {
+      focusElement('#temporaryAddress.review-card--edit-title');
+      this.resetAddressFocus();
+    }
+  }
+
+  resetAddressFocus = () => {
+    this.setState({
+      permAddressShouldBeFocused: false,
+      tempAddressShouldBeFocused: false,
+    });
+  };
 
   onChange = (field, data) => {
     const newData = set(field, data, this.props.data);
@@ -166,7 +201,7 @@ class ReviewCardField extends React.Component {
     const title = editTitle || this.getTitle();
     const subtitle = this.getSubtitle();
     const titleClasses = [
-      'review-card--title',
+      'review-card--edit-title',
       'vads-u-margin-top--1',
       'vads-u-margin-bottom--2p5',
       'vads-u-margin-x--0',
@@ -214,10 +249,13 @@ class ReviewCardField extends React.Component {
       formContext.reviewMode &&
       // volatileData is for arrays, which displays separate blocks
       uiSchema['ui:options']?.volatileData;
+
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
-          <h4 className={titleClasses}>Edit {title.toLowerCase()}</h4>
+          <h4 className={titleClasses} id={this.props.name}>
+            Edit {title.toLowerCase()}
+          </h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
           {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
@@ -249,7 +287,7 @@ class ReviewCardField extends React.Component {
       if (dataType === 'object') {
         const { ObjectField } = this.props.registry.fields;
         return (
-          this.props.name === this.props.currentAddress && (
+          this.props.name === this.props['view:currentAddress'] && (
             <ObjectField {...this.props} />
           )
         );
@@ -276,13 +314,10 @@ class ReviewCardField extends React.Component {
 
     const headerClasses = [
       'review-card--header',
-      'vads-u-background-color--gray-lightest',
-      'vads-u-padding-top--0',
-      'vads-u-padding-x--1',
       'vads-u-display--flex',
       'vads-u-justify-content--space-between',
       'vads-u-align-items--center',
-      'vads-u-padding--2',
+      'vads-u-padding-bottom--2',
     ].join(' ');
     const titleClasses = [
       'review-card--title',
@@ -292,14 +327,7 @@ class ReviewCardField extends React.Component {
     const bodyClasses = [
       'review-card--body',
       'vads-u-border-color--gray-lightest',
-      'vads-u-background-color--gray-lightest',
       'vads-u-border--2px',
-      /* Remove the top border because it looks like it just extends the header */
-      'vads-u-border-top--0',
-      'vads-u-padding-x--2',
-      'vads-u-padding-bottom--2',
-      'vads-u-padding-top--0',
-      'vads-u-margin-bottom--1',
     ].join(' ');
     const editLink = [
       'vads-c-link',
@@ -320,79 +348,93 @@ class ReviewCardField extends React.Component {
       ...temporaryAddress
     } = data.temporaryAddress;
     /* eslint-enable no-unused-vars */
-    const isTempAddressMissing = Object.values(temporaryAddress).every(
-      prop => !prop,
-    );
+    let isTempAddressValid = true;
+    if (this.props.name === 'temporaryAddress') {
+      isTempAddressValid = Boolean(street && city && country);
+    }
+    const addressTypeWithSpace = this.props.name.replace('Address', ' address');
+
     return (
-      <div className="review-card">
-        <div className={headerClasses} style={{ minHeight: '5rem' }}>
+      <div
+        className={classnames({
+          'review-card vads-u-margin-bottom--2 vads-u-background-color--gray-lightest': true,
+          'vads-u-border-color--primary vads-u-border--3px':
+            this.props.name === this.props['view:currentAddress'],
+        })}
+      >
+        <div
+          className={classnames({
+            [`${headerClasses}`]: true,
+            'vads-u-padding-top--21 vads-u-padding-x--21':
+              this.props.name === this.props['view:currentAddress'],
+            'vads-u-padding-top--3 vads-u-padding-x--3':
+              this.props.name !== this.props['view:currentAddress'],
+          })}
+          style={{ minHeight: '5rem' }}
+        >
           <h4 className={titleClasses}>{title}</h4>
         </div>
-        <div className={bodyClasses}>
+        <div
+          className={classnames({
+            [`${bodyClasses}`]: true,
+            'vads-u-padding-x--21 vads-u-padding-bottom--21':
+              this.props.name === this.props['view:currentAddress'],
+            'vads-u-padding-x--3 vads-u-padding-bottom--3':
+              this.props.name !== this.props['view:currentAddress'],
+          })}
+        >
           <ViewComponent formData={this.props.formData} />
           {!volatileData &&
-            street &&
-            city &&
-            country && (
-              <a
-                className={editLink}
+            isTempAddressValid && (
+              <button
+                className={`${editLink} va-button-link vads-u-display--block vads-u-margin-top--2`}
+                aria-label={`Edit ${title.toLowerCase()}`}
                 style={{ minWidth: '8rem' }}
-                onClick={this.startEditing}
+                onClick={() => this.startEditing(this.props.name)}
+                type="button"
               >
                 Edit {title.toLowerCase()}
-              </a>
+              </button>
             )}
+
           {!volatileData &&
-            !street &&
-            !city &&
-            !country && (
-              <a
-                className={editLink}
+            !isTempAddressValid && (
+              <button
+                className={`${editLink} va-button-link`}
+                aria-label={`Add a ${title.toLowerCase()}`}
                 style={{ minWidth: '8rem' }}
-                onClick={this.startEditing}
+                onClick={() => this.startEditing(this.props.name)}
+                type="button"
               >
                 Add a {title.toLowerCase()}
-              </a>
+              </button>
             )}
-          {isTempAddressMissing &&
-            street &&
-            city &&
-            country && (
-              <div>
-                <button
-                  id={this.props.name}
-                  className="usa-button vads-u-font-weight--bold"
-                  onChange={() =>
-                    this.onChange('currentAddress', this.props.name)
-                  }
-                  type="button"
-                >
-                  Send my order to this address
-                </button>
-              </div>
-            )}
-          {!isTempAddressMissing &&
-            street &&
+          {street &&
             city &&
             country && (
               <div className="vads-u-margin-top--2">
                 <input
                   id={this.props.name}
                   type="radio"
-                  checked={this.props.currentAddress === this.props.name}
+                  className=" vads-u-width--auto"
+                  checked={
+                    this.props['view:currentAddress'] === this.props.name
+                  }
                   onChange={() =>
-                    this.onChange('currentAddress', this.props.name)
+                    this.onChange('view:currentAddress', this.props.name)
                   }
                 />
                 <label
-                  className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
-                    this.props.name === this.props.currentAddress
-                      ? 'vads-u-color--white'
-                      : 'vads-u-background-color--white vads-u-color--primary'
-                  }`}
+                  className={classnames({
+                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto': true,
+                    'vads-u-color--white':
+                      this.props.name === this.props['view:currentAddress'],
+                    'vads-u-background-color--white vads-u-color--primary':
+                      this.props.name !== this.props['view:currentAddress'],
+                  })}
                   htmlFor={this.props.name}
                 >
-                  Send my order to this address
+                  Send to {addressTypeWithSpace}
                 </label>
               </div>
             )}
@@ -401,7 +443,7 @@ class ReviewCardField extends React.Component {
           <button
             className={`usa-button-primary ${editButton}`}
             style={{ minWidth: '8rem' }}
-            onClick={this.startEditing}
+            onClick={() => this.startEditing(this.props.name)}
           >
             {itemNameAction || 'New'} {itemName || title}
           </button>
@@ -410,8 +452,13 @@ class ReviewCardField extends React.Component {
     );
   };
 
-  startEditing = () => {
+  startEditing = addressType => {
     const newState = { editing: true };
+    if (addressType === 'permanentAddress') {
+      newState.permAddressShouldBeFocused = true;
+    } else if (addressType === 'temporaryAddress') {
+      newState.tempAddressShouldBeFocused = true;
+    }
 
     // If the data is volatile, cache the original data before clearing it out so we
     //  have the option to cancel later
@@ -431,6 +478,23 @@ class ReviewCardField extends React.Component {
     }
     this.props.onChange(this.state.oldData);
     this.setState({ editing: false });
+    if (this.props.name === 'temporaryAddress') {
+      const { street, city, country } = this.state.oldData;
+      const isTempAddressValid = street && city && country;
+      if (isTempAddressValid) {
+        this.setState({
+          tempAddressShouldBeFocused: true,
+        });
+      } else {
+        this.setState({
+          permAddressShouldBeFocused: true,
+        });
+      }
+    } else if (this.props.name === 'permanentAddress') {
+      this.setState({
+        permAddressShouldBeFocused: true,
+      });
+    }
   };
 
   /**
@@ -472,11 +536,38 @@ class ReviewCardField extends React.Component {
       // Show validation errors
       this.props.formContext.onError();
     } else {
-      this.setState({
-        editing: false,
-        canCancel: true,
-        oldData: this.props.formData,
-      });
+      if (this.props.name === 'permanentAddress') {
+        this.onChange('view:currentAddress', 'permanentAddress');
+        this.setState({
+          editing: false,
+          canCancel: true,
+          oldData: this.props.formData,
+          permAddressShouldBeFocused: true,
+          tempAddressShouldBeFocused: false,
+        });
+      } else if (this.props.name === 'temporaryAddress') {
+        const { street, city, country } = this.props.formData;
+        const isTempAddressValid = Boolean(street && city && country);
+        if (isTempAddressValid) {
+          this.onChange('view:currentAddress', 'temporaryAddress');
+          this.setState({
+            editing: false,
+            canCancel: true,
+            oldData: this.props.formData,
+            permAddressShouldBeFocused: false,
+            tempAddressShouldBeFocused: true,
+          });
+        } else {
+          this.onChange('view:currentAddress', 'permanentAddress');
+          this.setState({
+            editing: false,
+            canCancel: true,
+            oldData: this.props.formData,
+            permAddressShouldBeFocused: true,
+            tempAddressShouldBeFocused: false,
+          });
+        }
+      }
       if (this.props.uiSchema.saveClickTrackEvent) {
         recordEvent(this.props.uiSchema.saveClickTrackEvent);
       }
@@ -486,12 +577,19 @@ class ReviewCardField extends React.Component {
   render() {
     const pageDescription = (
       <>
-        <dd className="vads-u-margin-top--2">
+        <h3 className="vads-u-font-size--h4">Shipping address</h3>
+        <div className="vads-u-margin-top--2">
           <p>
             We'll ship your order to the address below. Orders typically arrive
             within 7 to 10 business days.
           </p>
-        </dd>
+          <p className="vads-u-font-weight--bold">
+            Select the address where you'd like to send your order:{' '}
+            <span className="vads-u-font-weight--normal schemaform-required-span">
+              (*Required)
+            </span>
+          </p>
+        </div>
       </>
     );
     const description = this.getDescription();
@@ -537,7 +635,7 @@ ReviewCardField.propTypes = {
 
 const mapStateToProps = state => ({
   data: state.form?.data,
-  currentAddress: state.form?.data?.currentAddress,
+  'view:currentAddress': state.form?.data['view:currentAddress'],
 });
 
 const mapDispatchToProps = {

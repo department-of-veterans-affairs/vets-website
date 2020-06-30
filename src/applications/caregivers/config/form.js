@@ -329,6 +329,7 @@ const formConfig = {
               primaryCaregiverUI.champvaEnrolledUI,
             [primaryCaregiverFields.otherHealthInsurance]:
               primaryCaregiverUI.otherHealthInsuranceUI,
+            // optionally require
             [primaryCaregiverFields.otherHealthInsuranceName]:
               primaryCaregiverUI.otherHealthInsuranceNameUI,
           },
@@ -358,6 +359,12 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    secondaryCaregiversChapter: {
+      title: 'Secondary Family Caregiver information',
+      depends: formData => hasSecondaryCaregiverOne(formData),
+      pages: {
         secondaryCaregiverOneIntro: {
           path: 'secondary-one-1',
           title: 'Secondary Family Caregiver information',
@@ -377,12 +384,6 @@ const formConfig = {
             },
           },
         },
-      },
-    },
-    secondaryCaregiversChapter: {
-      title: 'Secondary Family Caregiver information',
-      depends: formData => hasSecondaryCaregiverOne(formData),
-      pages: {
         secondaryCaregiverOne: {
           path: 'secondary-one-2',
           title: 'Secondary Family Caregiver information',
@@ -544,7 +545,7 @@ const formConfig = {
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo({
-              pathTitle: contactInfoTitle,
+              pageTitle: contactInfoTitle,
             }),
             // secondaryTwo UI
             [secondaryCaregiverFields.secondaryTwo

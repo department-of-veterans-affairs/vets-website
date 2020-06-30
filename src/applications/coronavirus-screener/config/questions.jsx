@@ -4,20 +4,18 @@ export const questions = [
   {
     id: 'isStaff',
     text: 'Are you a VA employee or contractor?',
-    scope: 'both',
+    passValues: ['yes', 'no'],
+    clearValues: true,
+    startQuestion: true,
   },
   {
     id: 'fever',
     text: 'In the past 24 hours, have you had a fever?',
-    scope: 'both',
-    disqualifying: true,
   },
   {
     id: 'cough',
     text:
       "In the past 7 days, have you had a cough or shortness of breath that's new or getting worse?",
-    scope: 'both',
-    disqualifying: true,
   },
   {
     id: 'flu',
@@ -33,28 +31,33 @@ export const questions = [
         </ul>
       </div>
     ),
-    scope: 'both',
-    disqualifying: true,
   },
   {
     id: 'congestion',
     text:
       'Do you currently have a sore throat, runny nose, or nasal congestion?',
-    scope: 'both',
-    disqualifying: true,
   },
   {
     id: 'exposure',
     text:
       'In the past 14 days, have you had close contact with someone who you know was diagnosed with COVID-19?',
-    scope: 'veteran',
-    disqualifying: true,
+    dependsOn: {
+      id: 'isStaff',
+      value: 'no',
+    },
   },
   {
     id: 'exposure-staff',
     text:
       "In the past 14 days, have you had close contact with someone diagnosed with COVID-19 when you weren't wearing a face covering?",
-    scope: 'staff',
-    disqualifying: true,
+    dependsOn: {
+      id: 'isStaff',
+      value: 'yes',
+    },
   },
+];
+
+export const defaultOptions = [
+  { optionValue: 'yes', optionText: 'Yes' },
+  { optionValue: 'no', optionText: 'No' },
 ];

@@ -7,7 +7,7 @@ import AsyncDisplayWidget from '../../components/AsyncDisplayWidget';
 
 const viewComponent = () => <div id="view-component">View component</div>;
 
-describe('AsyncDisplayWidget', () => {
+describe.skip('AsyncDisplayWidget', () => {
   it('should throw an error if ui:options are not present', () => {
     // Not necessary if not componentWillUnmount
     // eslint-disable-next-line va/enzyme-unmount

@@ -1,30 +1,44 @@
-import fullSchema from 'vets-json-schema/dist/22-1995-schema.json';
+import { benefitsLabels } from '../content/benefitSelection';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
-import { benefitsLabels } from '../../utils/labels';
-
-const { benefit } = fullSchema.properties;
-
-const displayBenefit = {
-  ...benefit,
-  enum: [...benefit.enum],
+const uiSchemaCheckboxes = () => {
+  const uiSchemaCheckbox = {};
+  Object.keys(benefitsLabels).forEach(key => {
+    uiSchemaCheckbox[key] = { 'ui:title': benefitsLabels[key] };
+  });
+  return uiSchemaCheckbox;
+};
+const schemaCheckboxes = () => {
+  const schemaCheckbox = {};
+  Object.keys(benefitsLabels).forEach(key => {
+    schemaCheckbox[key] = { type: 'boolean' };
+  });
+  return schemaCheckbox;
 };
 
-displayBenefit.enum.splice(1, 0, 'fryScholarship');
-
 export const uiSchema = {
-  benefit: {
-    'ui:widget': 'radio',
-    'ui:title':
-      'Which benefit are you currently using or have you used most recently?',
-    'ui:options': {
-      labels: benefitsLabels,
+  'view:benefit': {
+    'ui:title': 'Which benefits have you used or are you currently using?',
+    'ui:validations': [validateBooleanGroup],
+    'ui:errorMessages': {
+      atLeastOne: 'Please select at least one',
     },
+    'ui:options': {
+      showFieldLabel: true,
+    },
+    ...uiSchemaCheckboxes(),
   },
 };
 
 export const schema = {
   type: 'object',
+  required: ['view:benefit'],
   properties: {
-    benefit: displayBenefit,
+    'view:benefit': {
+      type: 'object',
+      properties: {
+        ...schemaCheckboxes(),
+      },
+    },
   },
 };

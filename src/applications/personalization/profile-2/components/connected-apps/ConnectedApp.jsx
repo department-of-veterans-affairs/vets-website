@@ -25,7 +25,6 @@ export class ConnectedApp extends Component {
       'account-section': 'connected-accounts',
     });
     this.props.confirmDelete(this.props.id);
-    this.closeModal();
   };
 
   render() {
@@ -33,7 +32,7 @@ export class ConnectedApp extends Component {
 
     return (
       <div
-        className="border-box vads-u-display--flex vads-u-align-items--flex-start vads-u-padding--3 vads-u-border-color--gray-lighter vads-u-border--1px
+        className="connected-app border-box vads-u-display--flex vads-u-align-items--flex-start vads-u-padding--3 vads-u-border-color--gray-lighter vads-u-border--1px
         vads-u-margin-y--2"
       >
         <img
@@ -63,11 +62,12 @@ export class ConnectedApp extends Component {
 
           <ConnectedAppDeleteModal
             deleting={this.props.deleting}
-            appName={title}
+            title={title}
             modalOpen={this.state.modalOpen}
-            onCloseModal={this.closeModal}
-            onConfirmDelete={this.confirmDelete}
+            closeModal={this.closeModal}
+            confirmDelete={this.confirmDelete}
           />
+
           <AdditionalInfo triggerText={`Learn about ${title}`}>
             <p>
               <strong>{title}</strong>
@@ -86,7 +86,17 @@ export class ConnectedApp extends Component {
 ConnectedApp.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  attributes: PropTypes.object.isRequired,
+  deleting: PropTypes.bool,
+  attributes: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    logo: PropTypes.string.isRequired,
+    grants: PropTypes.arrayOf(
+      PropTypes.shape({
+        created: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+  }),
   confirmDelete: PropTypes.func.isRequired,
-  isLast: PropTypes.bool,
 };

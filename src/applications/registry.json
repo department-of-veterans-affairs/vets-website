@@ -6,6 +6,7 @@
     "template": {
       "title": "COVID-19 screening tool",
       "layout": "page-react.html",
+      "private": true,
       "vagovprod": true
     }
   },
@@ -856,6 +857,15 @@
     "template": {
       "vagovprod": false,
       "title": "Debt Letters",
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "28-1900 Vocational Rehabilitation",
+    "entryName": "28-1900-chapter-31",
+    "rootUrl": "/vre/28-1900",
+    "template": {
+      "vagovprod": false,
       "layout": "page-react.html"
     }
   }

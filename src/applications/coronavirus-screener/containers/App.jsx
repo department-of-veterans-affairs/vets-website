@@ -1,11 +1,11 @@
 import React from 'react';
 import MetaTags from 'react-meta-tags';
 import MultiQuestionForm from '../components/MultiQuestionForm';
-import { questions } from '../config/questions';
+import { questions, defaultOptions } from '../config/questions';
 
 export default function App() {
   return (
-    <div>
+    <div className="covid-screener">
       <MetaTags>
         <meta name="robots" content="noindex" />
       </MetaTags>
@@ -18,7 +18,10 @@ export default function App() {
           </p>
           <p>We won't store or share your data.</p>
         </div>
-        <MultiQuestionForm questions={questions} />
+        <MultiQuestionForm
+          questions={questions}
+          defaultOptions={defaultOptions}
+        />
       </div>
     </div>
   );
