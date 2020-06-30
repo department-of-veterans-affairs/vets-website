@@ -1,6 +1,5 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
 import { login, logout } from 'platform/user/authentication/utilities';
@@ -16,8 +15,11 @@ function keepAlive() {
 
 async function hasVAGovSession() {
   try {
-    await apiRequest('/user', { method: 'HEAD' });
-    return true;
+    const resp = await fetch(`${environment.API_URL}/v0/user`, {
+      method: 'HEAD',
+      credentials: 'include',
+    });
+    return resp.ok;
   } catch (err) {
     return false;
   }
