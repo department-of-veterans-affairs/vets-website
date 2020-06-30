@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isEmpty } from 'lodash';
+import { isEmpty, map } from 'lodash';
 // Relative imports.
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -12,6 +12,13 @@ import { getCernerURL } from 'platform/utilities/constants';
 
 class CernerCallToAction extends Component {
   static propTypes = {
+    callToActions: PropTypes.arrayOf(
+      PropTypes.shape({
+        deriveHeaderText: PropTypes.func.isRequired,
+        href: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+      }),
+    ),
     type: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     // From mapStateToProps.
@@ -50,7 +57,8 @@ class CernerCallToAction extends Component {
     }
 
     // Derive the list of facility IDs.
-    const cernerFacilityIDs = cernerFacilities.map(
+    const cernerFacilityIDs = map(
+      cernerFacilities,
       facility => `vha_${facility.facilityId}`,
     );
 
@@ -76,7 +84,7 @@ class CernerCallToAction extends Component {
   };
 
   render() {
-    const { text, type } = this.props;
+    const { callToActions, text, type } = this.props;
     const { error, fetching, facilities } = this.state;
 
     // Escape early if we are fetching.
@@ -96,11 +104,12 @@ class CernerCallToAction extends Component {
     }
 
     // Derive the Cerner facility names.
-    const facilityNames = facilities.map(
+    const facilityNames = map(
+      facilities,
       facility => facility?.attributes?.name || 'unknown facility name',
     );
     const joinedFacilityNames =
-      facilityNames.join(', ') || 'unknown cerner facility(s)';
+      facilityNames.join(', ') || 'cerner facility(s)';
 
     return (
       <div className="usa-alert usa-alert-warning">
@@ -110,27 +119,35 @@ class CernerCallToAction extends Component {
             {joinedFacilityNames}. VA providers at this facility and its clinics
             are using the new My VA Health portal.
           </h3>
-          <p className="usa-alert-text vads-u-margin-y--4">{text}</p>
-          <h3 className="usa-alert-heading">
-            View {type} from {joinedFacilityNames}
-          </h3>
-          <a
-            className="usa-button vads-u-color--white"
-            href={getCernerURL('/pages/health_record/results/labs')}
-            rel="noopener noreferrer"
-          >
-            View results on My VA Health
-          </a>
-          <h3 className="usa-alert-heading vads-u-margin-top--2">
-            View {type} from another VA medical center
-          </h3>
-          <a
-            className="usa-button usa-button-secondary"
-            href="https://www.myhealth.va.gov/mhv-portal-web/home"
-            rel="noopener noreferrer"
-          >
-            View results on My HealtheVet
-          </a>
+          <p className="usa-alert-text vads-u-margin-y--4">
+            You may need to sign in again to view your VA lab and test results.
+            If you do, please sign in with the same account you used to sign in
+            here on VA.gov. You also may need to disable your browser&apos;s
+            pop-up blocker so that {type} tools are able to open.
+          </p>
+          {map(callToActions, callToAction => {
+            // Derive callToAction properties.
+            const headerText = callToAction?.deriveHeaderText(
+              joinedFacilityNames,
+            );
+            const href = callToAction?.href;
+            const label = callToAction?.label;
+
+            return (
+              <>
+                {headerText && (
+                  <h3 className="usa-alert-heading">{headerText}</h3>
+                )}
+                <a
+                  className="usa-button vads-u-color--white"
+                  href={href}
+                  rel="noopener noreferrer"
+                >
+                  {label}
+                </a>
+              </>
+            );
+          })}
         </div>
       </div>
     );
