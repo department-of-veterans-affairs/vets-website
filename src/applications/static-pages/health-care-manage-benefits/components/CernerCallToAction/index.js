@@ -8,6 +8,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import { getCernerURL } from 'platform/utilities/constants';
 
 class CernerCallToAction extends Component {
   static propTypes = {
@@ -114,8 +115,8 @@ class CernerCallToAction extends Component {
             View {type} from {joinedFacilityNames}
           </h3>
           <a
-            className="usa-button"
-            href="https://ehrm-va-test.patientportal.us.healtheintent.com/pages/health_record/results/labs"
+            className="usa-button vads-u-color--white"
+            href={getCernerURL('/pages/health_record/results/labs')}
             rel="noopener noreferrer"
           >
             View results on My VA Health
@@ -125,7 +126,7 @@ class CernerCallToAction extends Component {
           </h3>
           <a
             className="usa-button usa-button-secondary"
-            href="https://www.myhealth.va.gov/mhv-portal-web/home"
+            href={getCernerURL('/pages/health_record/results/labs')}
             rel="noopener noreferrer"
           >
             View results on My HealtheVet
