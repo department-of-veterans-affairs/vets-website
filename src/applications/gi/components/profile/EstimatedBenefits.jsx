@@ -16,36 +16,24 @@ const year = (
     <span aria-hidden="true">/yr</span>
   </React.Fragment>
 );
-
+const fragment = (key, sr, label) => {
+  return (
+    <React.Fragment key={key}>
+      <span className="sr-only">{sr}</span>
+      <span aria-hidden="true">{label}</span>
+    </React.Fragment>
+  );
+};
 const termLabel = label => {
-  if (label === 'Months 1-6') {
-    return (
-      <React.Fragment key="m16">
-        <span className="sr-only">Months 1 through 6</span>
-        <span aria-hidden="true">Months 1-6</span>
-      </React.Fragment>
-    );
-  } else if (label === 'Months 7-12') {
-    return (
-      <React.Fragment key="m712">
-        <span className="sr-only">Months 7 through 12</span>
-        <span aria-hidden="true">Months 7-12</span>
-      </React.Fragment>
-    );
-  } else if (label === 'Months 13-18') {
-    return (
-      <React.Fragment key="m1318">
-        <span className="sr-only">Months 13 through 18</span>
-        <span aria-hidden="true">Months 13-18</span>
-      </React.Fragment>
-    );
-  } else {
-    return (
-      <React.Fragment key="m1924">
-        <span className="sr-only">Months 19 through 24</span>
-        <span aria-hidden="true">Months 19-24</span>
-      </React.Fragment>
-    );
+  switch (label) {
+    case 'Months 1-6':
+      return fragment('m16', 'Months 1 through 6', label);
+    case 'Months 7-12':
+      return fragment('m712', 'Months 7 through 12', label);
+    case 'Months 13-18':
+      return fragment('m16', 'Months 13 through 18', label);
+    default:
+      return fragment('m1924', 'Months 19 through 24', label);
   }
 };
 
