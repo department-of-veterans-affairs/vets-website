@@ -26,7 +26,7 @@ import { errorMessages } from '../constants';
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/appeals/higher_level_reviews`,
-  // submit: () => Promise.resolve({attributes: {confirmationNumber: '123'}}),
+  // submit: () => Promise.resolve({ attributes: { status: 'processed' } }),
   trackingPrefix: 'hlr-0996-',
   downtime: {
     requiredForPrefill: true,

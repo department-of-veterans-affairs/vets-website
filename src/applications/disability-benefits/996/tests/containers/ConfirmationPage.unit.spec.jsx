@@ -29,13 +29,13 @@ const data = {
         {
           'view:selected': true,
           attributes: {
-            issue: 'test 543',
+            ratingIssueSubjectText: 'test 543',
           },
         },
         {
           'view:selected': false,
           attributes: {
-            issue: 'test 987',
+            ratingIssueSubjectText: 'test 987',
           },
         },
       ],
