@@ -37,6 +37,7 @@ describe('<VAPProfileField/>', () => {
       showEditView: false,
       showValidationView: false,
       showConfirmCancelModal: false,
+      hasUnsavedEdits: false,
       isEmpty: false,
       onAdd() {},
       onEdit() {},
