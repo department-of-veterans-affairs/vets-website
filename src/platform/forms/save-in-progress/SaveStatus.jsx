@@ -32,7 +32,7 @@ function SaveStatus({
       {autoSavedStatus === SAVE_STATUSES.success && (
         <div className="panel saved-success-container">
           <i className="fa fa-check-circle saved-success-icon" />
-          {formConfig.savedFormMessages.appSavedSuccessfullyMessage ||
+          {formConfig.customText?.appSavedSuccessfullyMessage ||
             APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE}
           {savedAtMessage}
         </div>
@@ -74,7 +74,7 @@ SaveStatus.propTypes = {
   form: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   formConfig: PropTypes.shape({
-    savedFormMessages: PropTypes.shape({
+    customText: PropTypes.shape({
       appSavedSuccessfullyMessage: PropTypes.string,
     }),
   }).isRequired,

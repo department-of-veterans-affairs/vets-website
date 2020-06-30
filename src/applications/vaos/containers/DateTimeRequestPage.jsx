@@ -147,6 +147,7 @@ export class DateTimeRequestPage extends React.Component {
           onBack={this.goBack}
           onSubmit={this.goForward}
           pageChangeInProgress={pageChangeInProgress}
+          loadingText="Page change in progress"
         />
       </div>
     );

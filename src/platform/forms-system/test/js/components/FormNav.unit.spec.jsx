@@ -49,7 +49,7 @@ describe('Schemaform FormNav', () => {
         },
       },
     },
-    savedFormMessages: {
+    customText: {
       reviewPageTitle: 'Custom Review Page Title',
     },
   });

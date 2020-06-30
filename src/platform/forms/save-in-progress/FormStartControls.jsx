@@ -70,10 +70,10 @@ class FormStartControls extends React.Component {
     // get access to the formConfig object through this route
     const { formConfig } = this.props.routes[1];
     const startNewAppButtonText =
-      formConfig.savedFormMessages.startNewAppButtonText ||
+      formConfig.customText?.startNewAppButtonText ||
       START_NEW_APP_DEFAULT_MESSAGE;
     const continueAppButtonText =
-      formConfig.savedFormMessages.continueAppButtonText ||
+      formConfig.customText?.continueAppButtonText ||
       CONTINUE_APP_DEFAULT_MESSAGE;
     if (this.props.formSaved) {
       return (
@@ -147,7 +147,7 @@ FormStartControls.propTypes = {
   resumeOnly: PropTypes.bool,
   gaStartEventName: PropTypes.string,
   formConfig: PropTypes.shape({
-    savedFormMessages: PropTypes.shape({
+    customText: PropTypes.shape({
       startNewAppButtonText: PropTypes.string,
       continueAppButtonText: PropTypes.string,
     }),
@@ -157,7 +157,7 @@ FormStartControls.propTypes = {
 FormStartControls.defaultProps = {
   gaStartEventName: 'login-successful-start-form',
   formConfig: {
-    savedFormMessages: {
+    customText: {
       startNewAppButtonText: '',
       continueAppButtonText: '',
     },

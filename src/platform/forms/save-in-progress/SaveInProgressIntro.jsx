@@ -39,7 +39,7 @@ class SaveInProgressIntro extends React.Component {
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
     );
-    const appType = formConfig.savedFormMessages.appType || APP_TYPE_DEFAULT;
+    const appType = formConfig.customText?.appType || APP_TYPE_DEFAULT;
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const lastUpdated =
@@ -173,7 +173,7 @@ class SaveInProgressIntro extends React.Component {
                 </li>
               </ul>
               <p>
-                <strong>Note:</strong> If you sign in after you’ve started your
+                <strong>Note:</strong> If you sign in after you’ve started your{' '}
                 {appType}, you won’t be able to save the information you’ve
                 already filled in.
               </p>
@@ -251,7 +251,7 @@ class SaveInProgressIntro extends React.Component {
   render() {
     const { profile } = this.props.user;
     const { formConfig } = this.props;
-    const appType = formConfig.savedFormMessages.appType || APP_TYPE_DEFAULT;
+    const appType = formConfig.customText?.appType || APP_TYPE_DEFAULT;
     const startPage = this.getStartPage();
     const savedForm =
       profile && profile.savedForms.find(f => f.form === this.props.formId);
@@ -367,7 +367,7 @@ SaveInProgressIntro.propTypes = {
   hideUnauthedStartLink: PropTypes.bool,
   unauthStartText: PropTypes.string,
   formConfig: PropTypes.shape({
-    savedFormMessages: PropTypes.shape({
+    customText: PropTypes.shape({
       appType: PropTypes.string,
     }),
   }).isRequired,
@@ -377,7 +377,7 @@ SaveInProgressIntro.defaultProps = {
   retentionPeriod: '60 days',
   unauthStartText: '',
   formConfig: {
-    savedFormMessages: {
+    customText: {
       appType: '',
     },
   },

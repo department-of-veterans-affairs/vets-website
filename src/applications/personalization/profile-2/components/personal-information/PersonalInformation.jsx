@@ -3,11 +3,31 @@ import PropTypes from 'prop-types';
 import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
 import { focusElement } from 'platform/utilities/ui';
+
+import { directDepositLoadError } from 'applications/personalization/profile360/selectors';
 
 import PersonalInformationContent from './PersonalInformationContent';
 
-const PersonalInformation = ({ hasUnsavedEdits }) => {
+const MyAlert = () => (
+  <AlertBox
+    status="warning"
+    headline="We can’t access your direct deposit information right now"
+    className="vads-u-margin-bottom--4"
+  >
+    <p>
+      We’re sorry. Something went wrong on our end. Please refresh this page or
+      try again later.
+    </p>
+  </AlertBox>
+);
+
+const PersonalInformation = ({
+  showNotAllDataAvailableError,
+  hasUnsavedEdits,
+}) => {
   useEffect(() => {
     focusElement('[data-focus-target]');
   }, []);
@@ -28,7 +48,7 @@ const PersonalInformation = ({ hasUnsavedEdits }) => {
   return (
     <>
       <Prompt
-        message="Are you sure you want to leave? If you leave, your in-progress work won't be saved."
+        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
       <h2
@@ -38,16 +58,19 @@ const PersonalInformation = ({ hasUnsavedEdits }) => {
       >
         Personal and contact information
       </h2>
+      {showNotAllDataAvailableError && <MyAlert />}
       <PersonalInformationContent />
     </>
   );
 };
 
 PersonalInformation.propTypes = {
+  showNotAllDataAvailableError: PropTypes.bool.isRequired,
   hasUnsavedEdits: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
+  showNotAllDataAvailableError: !!directDepositLoadError(state),
   hasUnsavedEdits: state.vet360.hasUnsavedEdits,
 });
 

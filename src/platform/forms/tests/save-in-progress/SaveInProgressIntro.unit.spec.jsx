@@ -20,7 +20,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   const toggleLoginModal = () => {};
 
   const formConfig = {
-    savedFormMessages: {
+    customText: {
       appType: '',
     },
   };

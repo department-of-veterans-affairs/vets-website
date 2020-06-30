@@ -18,7 +18,7 @@ describe('Schemaform <FormStartControls>', () => {
       'dummyProp',
       {
         formConfig: {
-          savedFormMessages: {
+          customText: {
             startNewAppButtonText: '',
             continueAppButtonText: '',
           },
@@ -314,7 +314,7 @@ describe('Schemaform <FormStartControls>', () => {
       defaultRoutes[0],
       {
         formConfig: {
-          savedFormMessages: {
+          customText: {
             startNewAppButtonText: 'A custom starting new app message',
             continueAppButtonText: '',
           },
@@ -347,7 +347,7 @@ describe('Schemaform <FormStartControls>', () => {
       defaultRoutes[0],
       {
         formConfig: {
-          savedFormMessages: {
+          customText: {
             startNewAppButtonText: '',
             continueAppButtonText: 'A custom continue app message',
           },

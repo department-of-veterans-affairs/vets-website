@@ -18,7 +18,7 @@ describe('<SaveStatus>', () => {
       },
     },
     formConfig: {
-      savedFormMessages: {
+      customText: {
         appSavedSuccessfullyMessage: '',
       },
     },
@@ -69,7 +69,7 @@ describe('<SaveStatus>', () => {
         autoSavedStatus: 'success',
       },
       formConfig: {
-        savedFormMessages: {
+        customText: {
           appSavedSuccessfullyMessage:
             'Custom message saying your app has been saved.',
         },

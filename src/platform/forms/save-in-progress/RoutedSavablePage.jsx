@@ -60,7 +60,7 @@ class RoutedSavablePage extends React.Component {
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}
         >
-          {formConfig.savedFormMessages.finishAppLaterMessage ||
+          {formConfig.customText?.finishAppLaterMessage ||
             FINISH_APP_LATER_DEFAULT_MESSAGE}
         </SaveFormLink>
       </div>
@@ -113,7 +113,7 @@ RoutedSavablePage.propTypes = {
   }),
   setData: PropTypes.func,
   formConfig: PropTypes.shape({
-    savedFormMessages: PropTypes.shape({
+    customText: PropTypes.shape({
       finishAppLaterMessage: PropTypes.string,
     }),
   }).isRequired,

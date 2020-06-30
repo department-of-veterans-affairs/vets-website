@@ -14,7 +14,7 @@ describe('Schemaform <RoutedSavablePage>', () => {
 
   beforeEach(() => {
     formConfigDefaultData = {
-      savedFormMessages: {
+      customText: {
         finishAppLaterMessage: '',
       },
     };
@@ -107,7 +107,7 @@ describe('Schemaform <RoutedSavablePage>', () => {
 
     const finishLaterLinkFormConfigData = {
       ...formConfigDefaultData,
-      savedFormMessages: {
+      customText: {
         finishAppLaterMessage:
           'Custom finish this application another time message.',
       },

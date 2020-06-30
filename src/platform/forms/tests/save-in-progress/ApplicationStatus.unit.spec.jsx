@@ -11,7 +11,7 @@ describe('schemaform <ApplicationStatus>', () => {
   let formConfigDefaultData;
   beforeEach(() => {
     formConfigDefaultData = {
-      savedFormMessages: {
+      customText: {
         startNewAppButtonText: '',
         continueAppButtonText: '',
       },
@@ -192,7 +192,7 @@ describe('schemaform <ApplicationStatus>', () => {
   });
   it('should display a custom button message when passing in startNewAppButtonText', () => {
     const formConfigCustomMsgData = {
-      savedFormMessages: {
+      customText: {
         startNewAppButtonText: 'Custom start app message',
       },
     };
@@ -224,7 +224,7 @@ describe('schemaform <ApplicationStatus>', () => {
   });
   it('should display a custom button message when passing in continueAppButtonText', () => {
     const formConfigContinueAppMsgData = {
-      savedFormMessages: {
+      customText: {
         continueAppButtonText: 'Custom continue app message',
       },
     };

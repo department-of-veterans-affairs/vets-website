@@ -65,7 +65,7 @@ class SaveInProgressErrorPage extends React.Component {
     const { loadedStatus, formConfig } = this.props;
     const { forbidden, noAuth, notFound } = formConfig.savedFormMessages || {};
     const continueAppButtonText =
-      formConfig.savedFormMessages.continueAppButtonText ||
+      formConfig.customText?.continueAppButtonText ||
       CONTINUE_APP_DEFAULT_MESSAGE;
     let content;
 
@@ -184,6 +184,8 @@ SaveInProgressErrorPage.propTypes = {
     savedFormMessages: PropTypes.shape({
       notFound: PropTypes.string,
       noAuth: PropTypes.string,
+    }),
+    customText: PropTypes.shape({
       continueAppButtonText: PropTypes.string,
     }),
   }).isRequired,

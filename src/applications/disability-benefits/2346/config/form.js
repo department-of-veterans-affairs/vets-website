@@ -139,6 +139,14 @@ const formConfig = {
     finishAppLaterMessage: 'Finish this order later.',
     appType: 'order',
   },
+  customText: {
+    reviewPageTitle: 'Review order details',
+    appSavedSuccessfullyMessage: 'Order has been saved.',
+    startNewAppButtonText: 'Start a new order',
+    continueAppButtonText: 'Continue your order',
+    finishAppLaterMessage: 'Finish this order later.',
+    appType: 'order',
+  },
   defaultDefinitions: {
     email,
     supplies,

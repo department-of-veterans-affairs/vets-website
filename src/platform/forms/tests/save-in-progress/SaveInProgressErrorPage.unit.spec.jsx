@@ -23,7 +23,7 @@ describe('<SaveInProgressErrorPage>', () => {
   beforeEach(() => {
     setup();
     formConfigDefaultData = {
-      savedFormMessages: {
+      customText: {
         continueAppButtonText: '',
       },
     };
@@ -196,7 +196,7 @@ describe('<SaveInProgressErrorPage>', () => {
   });
   it('should display custom continueAppButtonText', () => {
     const continueAppButtonTextFormConfigData = {
-      savedFormMessages: {
+      customText: {
         continueAppButtonText: 'Custom message telling you to continue the app',
       },
     };
