@@ -82,10 +82,6 @@ function completeVeteranInformation(client, data, root = 'root') {
 }
 
 function completeApplicantInformation(client, data, prefix = 'relative') {
-  client.waitForElementVisible(
-    'input[name="root_veteranFullName_first"]',
-    Timeouts.slow,
-  );
   const fullName = data[`${prefix}FullName`];
   if (fullName) {
     client
@@ -153,7 +149,6 @@ function completeAdditionalBenefits(client, data) {
 }
 
 function completeBenefitsSelection(client, data) {
-  client.waitForElementVisible('label[for="root_benefit_0"]', Timeouts.slow);
   if (data.benefit) {
     client.click(`input[value="${data.benefit}"]`);
   } else if (typeof data.payHighestRateBenefit !== 'undefined') {
@@ -295,10 +290,6 @@ function completeRelativeAddress(client, data) {
 }
 
 function completeContactInformation(client, data, isRelative = false) {
-  client.waitForElementVisible(
-    'label[for="root_preferredContactMethod_0"]',
-    Timeouts.slow,
-  );
   if (isRelative) {
     completeRelativeAddress(client, data);
   } else {

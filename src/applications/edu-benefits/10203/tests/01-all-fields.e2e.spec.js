@@ -25,12 +25,16 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Veteran information page.
   E2eHelpers.expectLocation(client, '/applicant/information');
-  EduHelpers.completeApplicantInformation(client, testData.data, 'veteran');
+  Edu10203Helpers.completeApplicantInformation(
+    client,
+    testData.data,
+    'veteran',
+  );
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
 
   // Benefits eligibility page.
   E2eHelpers.expectLocation(client, '/benefits/eligibility');
-  EduHelpers.completeBenefitsSelection(client, testData.data);
+  Edu10203Helpers.completeBenefitsSelection(client, testData.data);
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
 
   // STEM page
