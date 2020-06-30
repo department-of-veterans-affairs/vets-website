@@ -3,6 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import environment from 'platform/utilities/environment';
 
 const ConfirmationPage = ({
   vetEmail,
@@ -36,12 +37,12 @@ const ConfirmationPage = ({
         {moment(submittedAt).format('MMM D, YYYY')}
       </p>
       <h4>Items ordered</h4>
-      {selectedProductArray.map(product => (
-        <div key={product.productId}>
+      {selectedProductArray?.map(product => (
+        <div key={product?.productId}>
           <p>
-            <strong>{product.productName}</strong>
+            <strong>{product?.productName}</strong>
           </p>
-          <p>Qty: {product.quantity}</p>
+          <p>Qty: {product?.quantity}</p>
         </div>
       ))}
       <section className="print-order-timeframe-section">
@@ -74,94 +75,135 @@ const ConfirmationPage = ({
   );
   return (
     <div className="confirmation-page">
-      <p className="vads-u-font-weight--bold print-copy">
-        Please print this page for your records.
-      </p>
-      <AlertBox
-        headline="Your order has been submitted"
-        className="order-submission-alert"
-        content={
-          <p>
-            We'll send you an email confirming your order to{' '}
-            <strong>{vetEmail}</strong>.
+      {selectedProductArray?.length > 0 && (
+        <>
+          <p className="vads-u-font-weight--bold print-copy">
+            Please print this page for your records.
           </p>
-        }
-        status="success"
-      />
-      <AlertBox
-        className="order-summary-alert"
-        content={
-          <section>
-            <h4 className="vads-u-margin-top--0">
-              Request for Batteries and Accessories{' '}
-              <span className="vads-u-font-weight--normal">(Form 2346A)</span>
-            </h4>
-            <p className="vads-u-margin--0">
-              for {fullName.first} {fullName.last}
+          <AlertBox
+            headline="Your order has been submitted"
+            className="order-submission-alert"
+            content={
+              <p>
+                We'll send you an email confirming your order to{' '}
+                <strong>{vetEmail}</strong>.
+              </p>
+            }
+            status="success"
+          />
+          <AlertBox
+            className="order-summary-alert"
+            content={
+              <section>
+                <h4 className="vads-u-margin-top--0">
+                  Request for Batteries and Accessories{' '}
+                  <span className="vads-u-font-weight--normal">
+                    (Form 2346A)
+                  </span>
+                </h4>
+                <p className="vads-u-margin--0">
+                  for {fullName?.first} {fullName?.last}
+                </p>
+                <p className="vads-u-margin-bottom--0">
+                  <strong>Items ordered</strong>
+                </p>
+                <ul className="vads-u-margin-bottom--1">
+                  {selectedProductArray?.map(product => (
+                    <li key={product?.productId}>
+                      {product?.productName} (Quantity: {product?.quantity})
+                    </li>
+                  ))}
+                </ul>
+                <p className="vads-u-margin-bottom--0">
+                  <strong>Shipping address</strong>
+                </p>
+                <div className="shippingAddress">
+                  <p className="vads-u-margin-y--0">
+                    {shippingAddress?.street} {shippingAddress?.street2 || ''}
+                  </p>
+                  <p className="vads-u-margin-top--0">
+                    {`${shippingAddress?.city},
+              ${shippingAddress?.state || shippingAddress?.province} ${' '}
+              ${shippingAddress?.postalCode ||
+                shippingAddress?.internationalPostalCode}
+              `}
+                  </p>
+                </div>
+                <p className="vads-u-margin-bottom--0">
+                  <strong>Date submitted</strong>
+                </p>
+                <p className="vads-u-margin-top--0">
+                  {' '}
+                  {moment(submittedAt).format('MMM D, YYYY')}
+                </p>
+                <button
+                  className="usa-button button"
+                  onClick={() => window.print()}
+                >
+                  Print this page
+                </button>
+              </section>
+            }
+            status="info"
+            backgroundOnly
+          />
+          <section className="order-timeframe-section">
+            <h4>How long will it take to receive my order?</h4>
+            <p>
+              You'll receive an email with your order tracking number within 1
+              to 2 days of your order. Orders typically arrive within 7 to 10
+              business days.
             </p>
-            <p className="vads-u-margin-bottom--0">
-              <strong>Items ordered</strong>
+          </section>
+          <section className="order-questions-section vads-u-margin-bottom--4">
+            <h4>What if I have questions about my order?</h4>
+            <p>
+              If you have any questions about your order, please call the DLC
+              Customer Service Section at{' '}
+              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+                303-273-6200
+              </a>{' '}
+              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
-            <ul className="vads-u-margin-bottom--1">
-              {selectedProductArray.map(product => (
-                <li key={product.productId}>
-                  {product.productName} (Quantity: {product.quantity})
-                </li>
-              ))}
-            </ul>
-            <p className="vads-u-margin-bottom--0">
-              <strong>Shipping address</strong>
-            </p>
-            <div className="shippingAddress">
-              <p className="vads-u-margin-y--0">
-                {shippingAddress.street} {shippingAddress.street2 || ''}
+          </section>
+          <PrintDetails />
+        </>
+      )}
+      {selectedProductArray?.length === 0 && (
+        <AlertBox
+          headline="We're sorry. Your order wasn't submitted."
+          className="vads-u-margin-bottom--4"
+          content={
+            <div className="empty-state-alert">
+              <p>
+                Your order for hearing aid supplies wasn’t submitted because you
+                didn’t select any items.
+              </p>
+              <p className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-font-family--serif">
+                What you can do
               </p>
               <p className="vads-u-margin-top--0">
-                {`${shippingAddress.city},
-            ${shippingAddress.state || shippingAddress.province} ${' '}
-            ${shippingAddress.postalCode ||
-              shippingAddress.internationalPostalCode}
-            `}
+                If you want to{' '}
+                <a
+                  href={`${
+                    environment.BASE_URL
+                  }/hearing-aid-batteries-and-accessories/introduction`}
+                >
+                  place an order online
+                </a>
+                , please select at least one item before submitting your order.
+                For help ordering hearing aid batteries and accessories, please
+                call the DLC Customer Service Section at{' '}
+                <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+                  303-273-6200
+                </a>{' '}
+                or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </div>
-            <p className="vads-u-margin-bottom--0">
-              <strong>Date submitted</strong>
-            </p>
-            <p className="vads-u-margin-top--0">
-              {' '}
-              {moment(submittedAt).format('MMM D, YYYY')}
-            </p>
-            <button
-              className="usa-button button"
-              onClick={() => window.print()}
-            >
-              Print this page
-            </button>
-          </section>
-        }
-        status="info"
-        backgroundOnly
-      />
-      <section className="order-timeframe-section">
-        <h4>How long will it take to receive my order?</h4>
-        <p>
-          You'll receive an email with your order tracking number within 1 to 2
-          days of your order. Orders typically arrive within 7 to 10 business
-          days.
-        </p>
-      </section>
-      <section className="order-questions-section vads-u-margin-bottom--4">
-        <h4>What if I have questions about my order?</h4>
-        <p>
-          If you have any questions about your order, please call the DLC
-          Customer Service Section at{' '}
-          <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-            303-273-6200
-          </a>{' '}
-          or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-        </p>
-      </section>
-      <PrintDetails />
+          }
+          status="error"
+        />
+      )}
     </div>
   );
 };

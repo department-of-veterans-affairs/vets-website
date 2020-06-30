@@ -12,6 +12,10 @@ const LOADING_SELECTOR = '.loading-indicator';
 // that are mainly there to support more specific operations.
 const COMMAND_OPTIONS = { log: false };
 
+// Cypress does not officially support typing without delay.
+// See the main support file for more details.
+const TYPE_OPTIONS = { delay: 0 };
+
 /**
  * Builds an object from a form field with attributes that are used
  * to look up test data and enter that data into the field.
@@ -259,7 +263,7 @@ Cypress.Commands.add('enterData', field => {
     case 'text': {
       cy.wrap(field.element)
         .clear()
-        .type(field.data)
+        .type(field.data, TYPE_OPTIONS)
         .then(element => {
           // Get the autocomplete menu out of the way.
           if (element.attr('role') === 'combobox') {
@@ -292,7 +296,7 @@ Cypress.Commands.add('enterData', field => {
 
       cy.get(`#${baseSelector}Year`)
         .clear()
-        .type(year);
+        .type(year, TYPE_OPTIONS);
 
       cy.get(`#${baseSelector}Month`).select(month);
 

@@ -141,7 +141,7 @@ const validDocumentData = {
   ],
 };
 
-describe('526EZ document upload', () => {
+describe.skip('526EZ document upload', () => {
   const page = formConfig.chapters.supportingEvidence.pages.documentUpload;
   const { schema, uiSchema, arrayPath } = page;
 

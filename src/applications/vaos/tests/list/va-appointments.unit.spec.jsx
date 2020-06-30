@@ -39,7 +39,12 @@ describe('VAOS integration: upcoming VA appointments', () => {
     });
 
     const dateHeader = await findByText(
-      new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
+      new RegExp(
+        moment()
+          .tz('America/Denver')
+          .format('dddd, MMMM D, YYYY'),
+        'i',
+      ),
     );
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -98,7 +103,14 @@ describe('VAOS integration: upcoming VA appointments', () => {
       },
     );
 
-    await findByText(new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'));
+    await findByText(
+      new RegExp(
+        moment()
+          .tz('America/Denver')
+          .format('dddd, MMMM D, YYYY'),
+        'i',
+      ),
+    );
 
     expect(getByText(/directions/i)).to.have.attribute(
       'href',

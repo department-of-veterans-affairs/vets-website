@@ -179,9 +179,12 @@ export default class ClaimPhase extends React.Component {
       ) : null;
 
     return (
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
       <li
-        onClick={() => this.expandCollapse()}
-        role="presentation"
+        onClick={e => {
+          e.preventDefault();
+          this.expandCollapse();
+        }}
         className={`${getClasses(phase, current)}`}
       >
         {expandCollapseIcon}

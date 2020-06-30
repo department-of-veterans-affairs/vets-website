@@ -1,14 +1,29 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
-import { hasSession, hasSessionSSO } from '../../user/profile/utilities';
+import { hasSessionSSO } from '../../user/profile/utilities';
 import { login, logout } from 'platform/user/authentication/utilities';
-import mockKeepAlive from './mockKeepAliveSSO';
-import liveKeepAlive from './keepAliveSSO';
-import { getForceAuth } from './forceAuth';
+import { keepAlive as mockKeepAlive } from './mockKeepAliveSSO';
+import { keepAlive as liveKeepAlive } from './keepAliveSSO';
+import { getLoginAttempted } from './loginAttempted';
 
-const keepAlive = environment.isLocalhost() ? mockKeepAlive : liveKeepAlive;
 const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
+
+function keepAlive() {
+  return environment.isLocalhost() ? mockKeepAlive() : liveKeepAlive();
+}
+
+async function hasVAGovSession() {
+  try {
+    const resp = await fetch(`${environment.API_URL}/v0/user`, {
+      method: 'HEAD',
+      credentials: 'include',
+    });
+    return resp.ok;
+  } catch (err) {
+    return false;
+  }
+}
 
 export async function ssoKeepAliveSession() {
   const { ttl, authn } = await keepAlive();
@@ -25,25 +40,27 @@ export async function ssoKeepAliveSession() {
     // ttl is null, we can't determine if the user has a session or not
     localStorage.removeItem('hasSessionSSO');
   }
-  return authn;
+  return { ttl, authn };
 }
 
 export async function checkAutoSession() {
-  const authn = await ssoKeepAliveSession();
-  if (hasSession() && hasSessionSSO() === false) {
-    // explicitly check to see if the SSOe session is false, as it could also
-    // be null if we failed to get a response from the SSOe server, in which
-    // case we don't want to logout the user because we don't know
+  const [{ ttl, authn }, hasSession] = await Promise.all([
+    ssoKeepAliveSession(),
+    hasVAGovSession(),
+  ]);
+  if (hasSession && ttl === 0) {
+    // explicitly check to see if the TTL for the SSO3 session is 0, as it
+    // could also be null if we failed to get a response from the SSOe server,
+    // in which case we don't want to logout the user because we don't know
     logout('v1', 'sso-automatic-logout');
-  } else if (!hasSession() && hasSessionSSO() && !getForceAuth() && authn) {
+  } else if (!hasSession && ttl > 0 && !getLoginAttempted() && authn) {
     // only attempt an auto login if the user is
     // a) does not have a VA.gov session
     // b) has an SSOe session
-    // c) is not required for forceAuth (meaning their environment has SSOe
-    //    enabled and they have not previously tried to login)
+    // c) has not previously tried to login (if the last attempt to login failed
+    //    don't keep retrying)
     // d) we have a non empty type value from the keepalive call to login with
-    const params = { inbound: 'true', authn };
-    login('custom', 'v1', params, 'sso-automatic-login');
+    login('custom', 'v1', { authn }, 'sso-automatic-login');
   }
 }
 
