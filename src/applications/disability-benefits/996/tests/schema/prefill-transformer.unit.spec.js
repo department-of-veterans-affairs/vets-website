@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import prefillTransformer from '../config/prefill-transformer';
+import prefillTransformer from '../../config/prefill-transformer';
 
 // This is the nesting of the prefill data; transformation flattens it
 const buildData = veteran => ({

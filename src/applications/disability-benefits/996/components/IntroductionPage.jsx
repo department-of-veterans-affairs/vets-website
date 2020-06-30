@@ -6,12 +6,37 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { focusElement } from 'platform/utilities/ui';
 
-class IntroductionPage extends React.Component {
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { getContestableIssues as getContestableIssuesAction } from '../actions';
+
+import {
+  noContestableIssuesFound,
+  showContestableIssueError,
+} from '../content/contestableIssueAlerts';
+
+export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
+    if (!this.props.contestableIssues?.status) {
+      this.props.getContestableIssues();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { contestableIssues = {} } = this.props;
+    if (
+      contestableIssues.status !== prevProps.contestableIssues.status &&
+      contestableIssues.issues?.length > 0
+    ) {
+      const { setFormData, form } = this.props;
+      setFormData({
+        ...form.data,
+        contestedIssues: contestableIssues.issues,
+      });
+    }
   }
 
   hasSavedForm = () => {
@@ -26,24 +51,37 @@ class IntroductionPage extends React.Component {
     this.props.toggleLoginModal(true);
   };
 
-  render() {
-    const { route } = this.props;
+  getCallToActionContent = () => {
+    const { route, contestableIssues } = this.props;
     const { formConfig } = route;
+    if (contestableIssues?.error) {
+      return showContestableIssueError(contestableIssues.error.errors);
+    }
+    return contestableIssues?.issues?.length > 0 ? (
+      <SaveInProgressIntro
+        formId={formConfig.formId}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        pageList={route.pageList}
+        startText="Start the Request for a Higher-Level Review"
+      >
+        Please complete the 20-0996 form to request a Higher-Level Review.
+      </SaveInProgressIntro>
+    ) : (
+      noContestableIssuesFound
+    );
+  };
+
+  render() {
+    const callToActionContent = this.getCallToActionContent();
+
     return (
       <article className="schemaform-intro">
         <FormTitle title="Request a Higher-Level Review" />
         <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
 
         <CallToActionWidget appId="higher-level-review">
-          <SaveInProgressIntro
-            formId={formConfig.formId}
-            prefillEnabled={formConfig.prefillEnabled}
-            messages={formConfig.savedFormMessages}
-            pageList={route.pageList}
-            startText="Start the Request for a Higher-Level Review"
-          >
-            Please complete the 20-0996 form to request a Higher-Level Review.
-          </SaveInProgressIntro>
+          {callToActionContent}
         </CallToActionWidget>
         <h2 className="vads-u-font-size--h3">What is a Higher-Level Review</h2>
         <p>
@@ -142,15 +180,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <CallToActionWidget appId="higher-level-review">
-          <SaveInProgressIntro
-            formId={formConfig.formId}
-            prefillEnabled={formConfig.prefillEnabled}
-            messages={formConfig.savedFormMessages}
-            pageList={route.pageList}
-            startText="Start the Request for a Higher-Level Review"
-          >
-            Please complete the 20-0996 form to request a Higher-Level Review.
-          </SaveInProgressIntro>
+          {callToActionContent}
         </CallToActionWidget>
         {/* TODO: Remove inline style after I figure out why
           .omb-info--container has a left padding */}
@@ -166,20 +196,21 @@ class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { form, user } = state;
+  const { form, user, contestableIssues } = state;
   return {
     form,
     user,
+    contestableIssues,
   };
 }
 
 const mapDispatchToProps = {
   toggleLoginModal,
+  setFormData: setData,
+  getContestableIssues: getContestableIssuesAction,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(IntroductionPage);
-
-export { IntroductionPage };
