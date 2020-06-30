@@ -53,6 +53,9 @@ import {
   studentNetworthInformation,
 } from './chapters/674';
 
+const emptyMigration = savedData => savedData;
+const migrations = [emptyMigration];
+
 const formConfig = {
   urlPrefix: '/',
   // NOTE: e2e tests will fail until the dependents_applications endpoint gets merged in to vets-api.
@@ -65,6 +68,7 @@ const formConfig = {
   preSubmitInfo,
   formId: VA_FORM_IDS.FORM_21_686C,
   version: 0,
+  migrations,
   prefillEnabled: true,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
