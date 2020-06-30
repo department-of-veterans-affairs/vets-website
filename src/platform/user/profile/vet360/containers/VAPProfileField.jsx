@@ -74,7 +74,7 @@ class VAPProfileField extends React.Component {
 
   static defaultProps = {
     fieldName: '',
-    showConfirmCancelModal: false,
+    hasUnsavedEdits: false,
   };
 
   state = {
