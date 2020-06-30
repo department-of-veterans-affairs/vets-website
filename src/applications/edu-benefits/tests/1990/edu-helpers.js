@@ -404,7 +404,6 @@ module.exports = {
   completeBenefitsSelection,
   completeServicePeriods,
   completeVeteranAddress,
-  completeRelativeAddress,
   completeContactInformation,
   completePaymentChange,
   completeDirectDeposit,

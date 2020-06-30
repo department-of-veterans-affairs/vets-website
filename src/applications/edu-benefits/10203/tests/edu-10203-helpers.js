@@ -1,7 +1,6 @@
 const Timeouts = require('platform/testing/e2e/timeouts.js');
-const EduHelpers = require('../../tests/1990/edu-helpers');
 
-function completeStemSelection(client) {
+const completeStemSelection = client => {
   client.waitForElementVisible(
     'label[for="root_isEdithNourseRogersScholarshipYes"',
     Timeouts.slow,
@@ -9,24 +8,77 @@ function completeStemSelection(client) {
   client.click('input[id="root_isEdithNourseRogersScholarshipYes"]');
   client.click('input[id="root_isEnrolledStemYes"]');
   client.click('input[id="root_view:exhaustionOfBenefitsYes"]');
-}
-function completeActiveDuty(client) {
+};
+
+const completeActiveDuty = client => {
   client.waitForElementVisible(
     'label[for="root_isActiveDutyYes"]',
     Timeouts.slow,
   );
   client.click('input[id="root_isActiveDutyYes"]');
-}
+};
 
-function completeContactInformation(client, data, isRelative = false) {
+const completeRelativeAddress = (client, data) => {
+  client
+    .clearValue('input[name="root_relativeAddress_street"]')
+    .setValue(
+      'input[name="root_relativeAddress_street"]',
+      data.relativeAddress.street,
+    )
+    .clearValue('input[name="root_relativeAddress_street2"]')
+    .setValue(
+      'input[name="root_relativeAddress_street2"]',
+      data.relativeAddress.street2,
+    )
+    .clearValue('input[name="root_relativeAddress_city"]')
+    .setValue(
+      'input[name="root_relativeAddress_city"]',
+      data.relativeAddress.city,
+    )
+    .clearValue('select[name="root_relativeAddress_state"]')
+    .selectDropdown('root_relativeAddress_state', data.relativeAddress.state)
+    .clearValue('input[name="root_relativeAddress_postalCode"]')
+    .setValue(
+      'input[name="root_relativeAddress_postalCode"]',
+      data.relativeAddress.postalCode,
+    );
+};
+
+const completeVeteranAddress = (client, data) => {
+  client
+    .clearValue('input[name="root_veteranAddress_street"]')
+    .setValue(
+      'input[name="root_veteranAddress_street"]',
+      data.veteranAddress.street,
+    )
+    .clearValue('input[name="root_veteranAddress_street2"]')
+    .setValue(
+      'input[name="root_veteranAddress_street2"]',
+      data.veteranAddress.street2,
+    )
+    .clearValue('input[name="root_veteranAddress_city"]')
+    .setValue(
+      'input[name="root_veteranAddress_city"]',
+      data.veteranAddress.city,
+    )
+    .clearValue('select[name="root_veteranAddress_state"]')
+    .selectDropdown('root_veteranAddress_state', data.veteranAddress.state)
+    .clearValue('input[name="root_veteranAddress_postalCode"]')
+    .setValue(
+      'input[name="root_veteranAddress_postalCode"]',
+      data.veteranAddress.postalCode,
+    );
+};
+
+const completeContactInformation = (client, data, isRelative = false) => {
   client.waitForElementVisible(
     'label[for="root_veteranAddress_country"]',
     Timeouts.slow,
   );
   if (isRelative) {
-    EduHelpers.completeRelativeAddress(client, data);
+    completeRelativeAddress(client, data);
   } else {
-    EduHelpers.completeVeteranAddress(client, data);
+    completeVeteranAddress(client, data);
   }
   client
     .clearValue('input[name="root_view:otherContactInfo_email"]')
@@ -52,7 +104,7 @@ function completeContactInformation(client, data, isRelative = false) {
       'input[name="root_view:otherContactInfo_mobilePhone"]',
       data['view:otherContactInfo'].mobilePhone,
     );
-}
+};
 
 const completeDirectDeposit = (client, data) => {
   client.waitForElementVisible(
