@@ -54,21 +54,6 @@ export const benefitsLabels = {
       </a>
     </p>
   ),
-  chapter32: (
-    <p>
-      Post-Vietnam Era Veterans’ Educational Assistance Program
-      <br />
-      (VEAP, Chapter 32)
-      <br />
-      <a
-        aria-label="Learn more about Post-Vietnam Era Veterans’ Educational Assistance Program benefits"
-        href="/education/other-va-education-benefits/veap/"
-        target="_blank"
-      >
-        Learn more
-      </a>
-    </p>
-  ),
   transferOfEntitlement: (
     <p>
       Transfer of Entitlement Program (TOE)
@@ -82,32 +67,15 @@ export const benefitsLabels = {
       </a>
     </p>
   ),
-};
-
-// The links and labels are different from the above
-export const survivorBenefitsLabels = {
-  chapter35: (
+  chapter32: (
     <p>
-      Survivors’ and Dependents’ Educational Assistance
+      Post-Vietnam Era Veterans’ Educational Assistance Program
       <br />
-      (DEA, Chapter 35)
+      (VEAP, Chapter 32)
       <br />
       <a
-        aria-label="Learn more about Survivors’ and Dependents’ Educational Assistance benefits"
-        href="/education/survivor-dependent-benefits/dependents-education-assistance/"
-        target="_blank"
-      >
-        Learn more
-      </a>
-    </p>
-  ),
-  chapter33: (
-    <p>
-      The Fry Scholarship (Chapter 33)
-      <br />
-      <a
-        aria-label="Learn more about Fry Scholarship benefits"
-        href="/education/survivor-dependent-benefits/fry-scholarship/"
+        aria-label="Learn more about Post-Vietnam Era Veterans’ Educational Assistance Program benefits"
+        href="/education/other-va-education-benefits/veap/"
         target="_blank"
       >
         Learn more

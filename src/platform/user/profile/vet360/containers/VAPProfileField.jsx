@@ -74,10 +74,12 @@ class VAPProfileField extends React.Component {
 
   static defaultProps = {
     fieldName: '',
+    hasUnsavedEdits: false,
   };
 
   state = {
     showCannotEditModal: false,
+    showConfirmCancelModal: false,
   };
 
   closeModalTimeoutID = null;
@@ -107,7 +109,13 @@ class VAPProfileField extends React.Component {
 
   onCancel = () => {
     this.captureEvent('cancel-button');
-    this.closeModal();
+
+    if (!this.props.hasUnsavedEdits) {
+      this.closeModal();
+      return;
+    }
+
+    this.setState({ showConfirmCancelModal: true });
   };
 
   onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
@@ -231,6 +239,8 @@ class VAPProfileField extends React.Component {
       ValidationView,
     } = this.props;
 
+    const activeSection = VET360.FIELD_TITLES[activeEditView]?.toLowerCase();
+
     const childProps = {
       ...this.props,
       clearErrors: this.clearErrors,
@@ -288,9 +298,37 @@ class VAPProfileField extends React.Component {
     return (
       <div className="vet360-profile-field" data-field-name={fieldName}>
         <Modal
-          title={`You’re currently editing your ${VET360.FIELD_TITLES[
-            activeEditView
-          ]?.toLowerCase()}`}
+          title={'Are you sure?'}
+          status="warning"
+          visible={this.state.showConfirmCancelModal}
+          onClose={() => {
+            this.setState({ showConfirmCancelModal: false });
+          }}
+        >
+          <p>
+            {' '}
+            {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won't be saved.`}
+          </p>
+          <button
+            className="usa-button-secondary"
+            onClick={() => {
+              this.setState({ showConfirmCancelModal: false });
+            }}
+          >
+            Continue Editing
+          </button>
+          <button
+            onClick={() => {
+              this.setState({ showConfirmCancelModal: false });
+              this.closeModal();
+            }}
+          >
+            Cancel
+          </button>
+        </Modal>
+
+        <Modal
+          title={`You’re currently editing your ${activeSection}`}
           status="warning"
           visible={this.state.showCannotEditModal}
           onClose={() => {
@@ -342,6 +380,7 @@ export const mapStateToProps = (state, ownProps) => {
     activeEditView === 'addressValidation';
 
   return {
+    hasUnsavedEdits: state.vet360.hasUnsavedEdits,
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     blockEditMode: !!activeEditView,
     /*
@@ -398,6 +437,7 @@ Vet360ProfileFieldContainer.propTypes = {
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
+  hasUnsavedEdits: PropTypes.bool.isRequired,
 };
 
 export default Vet360ProfileFieldContainer;
