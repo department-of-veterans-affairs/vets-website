@@ -184,7 +184,9 @@ describe('Form 526EZ Entry Page', () => {
     });
     expect(tree.find('main')).to.have.lengthOf(0);
     expect(tree.find('AlertBox')).to.have.lengthOf(1);
-    expect(tree.find('AlertBox').text()).to.contain('missing some information');
+    expect(tree.find('AlertBox p').text()).to.contain(
+      'We need more information',
+    );
     tree.unmount();
   });
 });
