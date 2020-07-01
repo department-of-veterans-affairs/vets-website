@@ -173,7 +173,7 @@ function SubmitController(props) {
           break;
       }
     },
-    [status, prevStatus],
+    [status, prevStatus, form, pageList],
   );
 
   return activeComponent;
