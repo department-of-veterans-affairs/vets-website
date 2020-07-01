@@ -90,7 +90,7 @@ describe('DebtLetterCard', () => {
         .dive()
         .find('h4')
         .text(),
-    ).to.equal('Deduction Code 44 updated December 19, 2014');
+    ).to.equal('Comp and Pen updated December 19, 2014');
     expect(
       wrapper
         .dive()
