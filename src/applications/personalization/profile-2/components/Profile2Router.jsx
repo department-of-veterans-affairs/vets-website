@@ -4,6 +4,16 @@ import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
+import DowntimeNotification, {
+  externalServices,
+  externalServiceStatus,
+} from 'platform/monitoring/DowntimeNotification';
+import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
+import {
+  initializeDowntimeWarnings,
+  dismissDowntimeWarning,
+} from 'platform/monitoring/DowntimeNotification/actions';
+
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
@@ -54,6 +64,32 @@ class Profile2Router extends Component {
       this.props.fetchPaymentInformation();
     }
   }
+
+  handleDowntimeApproaching = (downtime, children) => {
+    if (downtime.status === externalServiceStatus.downtimeApproaching) {
+      return (
+        <DowntimeApproaching
+          {...downtime}
+          appTitle="profile"
+          isDowntimeWarningDismissed={this.props.isDowntimeWarningDismissed}
+          dismissDowntimeWarning={this.props.dismissDowntimeWarning}
+          initializeDowntimeWarnings={this.props.initializeDowntimeWarnings}
+          messaging={{
+            title: (
+              <h3>
+                Some parts of the profile will be down for maintenance soon
+              </h3>
+            ),
+          }}
+          // default for className prop is `row-padded` and we do not want that
+          // class applied to the wrapper div DowntimeApproaching renders
+          className=""
+          content={children}
+        />
+      );
+    }
+    return children;
+  };
 
   // content to show if the component is waiting for data to load. This loader
   // matches the loader shown by the RequiredLoginView component, so when the
@@ -128,7 +164,19 @@ class Profile2Router extends Component {
         serviceRequired={backendServices.USER_PROFILE}
         user={this.props.user}
       >
-        {this.renderContent()}
+        <DowntimeNotification
+          appTitle="profile"
+          render={this.handleDowntimeApproaching}
+          loadingIndicator={this.loadingContent()}
+          dependencies={[
+            externalServices.emis,
+            externalServices.evss,
+            externalServices.mvi,
+            externalServices.vet360,
+          ]}
+        >
+          {this.renderContent()}
+        </DowntimeNotification>
       </RequiredLoginView>
     );
   }
@@ -194,6 +242,9 @@ const mapStateToProps = state => {
       shouldFetchDirectDepositInformation &&
       !isDirectDepositBlocked &&
       (isDirectDepositSetUp || isEligibleToSignUp),
+    isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
+      'profile',
+    ),
   };
 };
 
@@ -203,6 +254,8 @@ const mapDispatchToProps = {
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchPaymentInformation: fetchPaymentInformationAction,
+  initializeDowntimeWarnings,
+  dismissDowntimeWarning,
 };
 
 export { Profile2Router as Profile2, mapStateToProps };
