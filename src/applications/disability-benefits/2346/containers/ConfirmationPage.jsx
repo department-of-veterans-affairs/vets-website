@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
+import { BATTERIES } from '../constants';
 
 const ConfirmationPage = ({
   vetEmail,
@@ -224,11 +225,22 @@ const ConfirmationPage = ({
               <div className="partial-submit-alert">
                 <p>At least one of the following items couldn't be ordered:</p>
                 <ul className="vads-u-margin-bottom--1">
-                  {selectedProductArray?.map(product => (
-                    <li key={product?.productId}>
-                      {product?.productName} (Quantity: {product?.quantity})
-                    </li>
-                  ))}
+                  {selectedProductArray?.map(product => {
+                    if (product.productGroup === BATTERIES) {
+                      return (
+                        <li key={product?.productId}>
+                          {`${product?.productName} batteries (Quantity: ${
+                            product?.quantity
+                          })`}
+                        </li>
+                      );
+                    }
+                    return (
+                      <li key={product?.productId}>
+                        {product?.productName} (Quantity: {product?.quantity})
+                      </li>
+                    );
+                  })}
                 </ul>
                 <p className="vads-u-font-weight--bold vads-u-font-family--serif">
                   What you can do
