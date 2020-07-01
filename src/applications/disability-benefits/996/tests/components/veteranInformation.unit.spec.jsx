@@ -44,7 +44,7 @@ describe('Confirm Veteran Details', () => {
       />,
     );
     const fullName = tree.find('.name').text();
-    expect(fullName).to.equal('Mike M Wazowski, III');
+    expect(fullName).to.equal('MIKE M Wazowski, III');
 
     const ssn = tree.find('.ssn').text();
     expect(ssn).to.include(data.veteran.ssnLastFour);

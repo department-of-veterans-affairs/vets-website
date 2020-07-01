@@ -1,0 +1,44 @@
+{
+  "data": {
+    "isActiveDuty": true,
+    "privacyAgreementAccepted": true,
+    "veteranFullName": {
+      "first": "e2e-max",
+      "middle": "t",
+      "last": "asdf",
+      "suffix": "Jr."
+    },
+    "veteranSocialSecurityNumber": "123333333",
+    "view:noSSN": true,
+    "benefit": "chapter33",
+    "view:hasServiceBefore1978": true,
+    "preferredContactMethod": "mobilePhone",
+    "veteranAddress": {
+      "country": "USA",
+      "street": "123 one st",
+      "street2": "Apt 3",
+      "city": "Big city",
+      "state": "MA",
+      "postalCode": "01010"
+    },
+    "view:otherContactInfo": {
+      "email": "test@test.com",
+      "view:confirmEmail": "test@test.com",
+      "homePhone": "1233345454",
+      "mobilePhone": "3332213233"
+    },
+    "bankAccount": {
+      "accountType": "checking",
+      "accountNumber": "1234344",
+      "routingNumber": "114923756"
+    },
+    "view:determineEligibility": {},
+    "isEnrolledStem": true,
+    "isPursuingTeachingCert": true,
+    "benefitLeft": "none",
+    "degreeName": "0",
+    "schoolName": "0",
+    "schoolCity": "0",
+    "schoolState": "MA"
+  }
+}
