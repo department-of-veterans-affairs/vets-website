@@ -38,7 +38,7 @@ export const fetchDebtLetters = () => async dispatch => {
       ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
       : await debtLettersSuccess();
 
-    return dispatch(fetchDebtLettersSuccess(response.data));
+    return dispatch(fetchDebtLettersSuccess(response));
   } catch (error) {
     return dispatch(fetchDebtLettersFailure());
   }
