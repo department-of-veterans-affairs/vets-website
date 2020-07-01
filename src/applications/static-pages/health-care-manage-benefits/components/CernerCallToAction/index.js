@@ -10,7 +10,7 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { getCernerURL } from 'platform/utilities/constants';
 
-class CernerCallToAction extends Component {
+export class CernerCallToAction extends Component {
   static propTypes = {
     callToActions: PropTypes.arrayOf(
       PropTypes.shape({
@@ -94,6 +94,7 @@ class CernerCallToAction extends Component {
 
     // Escape early if there was an error fetching the Cerner facilities.
     if (error || isEmpty(facilities)) {
+      // WARNING: Add sentry logging here if there is an error fetching Cerner facilities.
       return (
         <AlertBox
           headline="Something went wrong"
