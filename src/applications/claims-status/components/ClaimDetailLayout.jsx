@@ -41,7 +41,9 @@ export default function ClaimDetailLayout(props) {
         <h1 className="claim-title">Your {getClaimType(claim)} claim</h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions">
-          <h6 className="claim-contentions-header">What you’ve claimed:</h6>
+          <h2 className="claim-contentions-header vads-u-font-size--h6">
+            What you’ve claimed:
+          </h2>
           <span>
             {claim.attributes.contentionList &&
             claim.attributes.contentionList.length
