@@ -1,7 +1,9 @@
+const fragments = require('./fragments.graphql');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const socialMediaFields = require('./facilities-fragments/healthCareSocialMedia.fields.graphql');
 
 module.exports = `
+  ${fragments.listOfLinkTeasers}
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
     ${entityElementsFromPages}
     changed

@@ -2,6 +2,8 @@
  * The 'Health Care Local Facility' bundle of the 'Content' entity type.
  */
 
+const moment = require('moment');
+
 const EVENTS_RESULTS = `
   entities {
     ... on NodeEvent {
@@ -49,7 +51,9 @@ function queryFilter(isAll) {
     ${
       isAll
         ? ''
-        : '{ field: "field_featured" value: "1"}, { field: "field_date", value: [$today], operator: GREATER_THAN}'
+        : `{ field: "field_featured" value: "1"}, { field: "field_date", value: ["${moment().format(
+            'YYYY-MM-DD',
+          )}"], operator: GREATER_THAN}`
     }
   ]} sort: [{field: "field_order", direction: ASC }, {field: "field_date", direction: ASC }] limit: ${
     isAll ? '500' : '2'

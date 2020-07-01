@@ -3,6 +3,7 @@
  * Example: /pittsburgh_health_care_system
  */
 
+const fragments = require('./fragments.graphql');
 const {
   FIELD_RELATED_LINKS,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
@@ -24,6 +25,20 @@ const MEDIA_PARAGRAPH = '... embeddedImage';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 module.exports = `
+  ${fragments.wysiwyg}
+  ${fragments.qa}
+  ${fragments.staffProfile}
+  ${fragments.collapsiblePanel}
+  ${fragments.process}
+  ${fragments.qaSection}
+  ${fragments.listOfLinkTeasers}
+  ${fragments.reactWidget}
+  ${fragments.numberCallout}
+  ${fragments.table}
+  ${fragments.alertParagraph}
+  ${fragments.downloadableFile}
+  ${fragments.embeddedImage}
+  ${fragments.alert}
   fragment healthCareRegionDetailPage on NodeHealthCareRegionDetailPage {
     title
     ${entityElementsFromPages}

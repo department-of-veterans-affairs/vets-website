@@ -1,9 +1,12 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
-const { FIELD_PROMO } = require('./block-fragments/promo.block.graphql');
+const { promo, FIELD_PROMO } = require('./block-fragments/promo.block.graphql');
 const {
+  listOfLinkTeasers,
   FIELD_RELATED_LINKS,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
-const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
+const { alert, FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
+
+const administration = require('./taxonomy-fragments/administration.taxonomy.graphql');
 
 /**
  * The top-level page for a section of the website.
@@ -12,6 +15,11 @@ const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 const ADMIN = '...administration';
 
 module.exports = `
+
+  ${promo}
+  ${listOfLinkTeasers}
+  ${alert}
+  ${administration}
 
   fragment landingPage on NodeLandingPage {
     ${entityElementsFromPages}

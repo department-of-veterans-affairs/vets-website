@@ -167,14 +167,43 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       }
     },
 
-    getAllPages(onlyPublishedContent = true) {
-      return this.query({
-        query: getQuery(queries.GET_ALL_PAGES),
-        variables: {
-          today: moment().format('YYYY-MM-DD'),
-          onlyPublishedContent,
+    async getAllPages(onlyPublishedContent = true) {
+      const query = getQuery(queries.GET_ALL_PAGES);
+      const { sitewideQuery, pageQueries } = query;
+
+      const doQuery = graphql => {
+        return this.query({
+          query: graphql,
+          variables: {
+            today: moment().format('YYYY-MM-DD'),
+            onlyPublishedContent,
+          },
+        });
+      };
+
+      const siteWideContent = await doQuery(sitewideQuery);
+      const pageQueryResults = {
+        data: {
+          nodeQuery: {
+            entities: [],
+          },
         },
-      });
+      };
+
+      for (const pageQuery of pageQueries) {
+        // eslint-disable-next-line no-await-in-loop
+        const nextPage = await doQuery(pageQuery);
+        pageQueryResults.data.nodeQuery.entities.concat(
+          nextPage.data.nodeQuery.entities,
+        );
+      }
+
+      return {
+        data: {
+          ...siteWideContent.data,
+          ...pageQueryResults.data,
+        },
+      };
     },
 
     getNonNodeContent(onlyPublishedContent = true) {

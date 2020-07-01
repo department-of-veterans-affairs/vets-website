@@ -19,23 +19,44 @@ const table = require('./paragraph-fragments/table.paragraph.graphql');
 const downloadableFile = require('./paragraph-fragments/downloadableFile.paragraph.graphql');
 const embeddedImage = require('./paragraph-fragments/media.paragraph.graphql');
 
-module.exports = `
-  ${alert}
-  ${collapsiblePanel}
-  ${staffProfile}
-  ${linkTeaser}
-  ${listOfLinkTeasers}
-  ${process}
-  ${promo}
-  ${qa}
-  ${qaSection}
-  ${wysiwyg}
-  ${administration}
-  ${reactWidget}
-  ${spanishSummary}
-  ${numberCallout}
-  ${alertParagraph}
-  ${table}
-  ${downloadableFile}
-  ${embeddedImage}
-`;
+// module.exports = `
+//   ${alert}
+//   ${collapsiblePanel}
+//   ${staffProfile}
+//   ${linkTeaser}
+//   ${listOfLinkTeasers}
+//   ${process}
+//   ${promo}
+//   ${qa}
+//   ${qaSection}
+//   ${wysiwyg}
+//   ${administration}
+//   ${reactWidget}
+//   ${spanishSummary}
+//   ${numberCallout}
+//   ${alertParagraph}
+//   ${table}
+//   ${downloadableFile}
+//   ${embeddedImage}
+// `;
+
+module.exports = {
+  alert,
+  collapsiblePanel,
+  staffProfile,
+  linkTeaser,
+  listOfLinkTeasers,
+  process,
+  promo,
+  qa,
+  qaSection,
+  wysiwyg,
+  administration,
+  reactWidget,
+  spanishSummary,
+  numberCallout,
+  alertParagraph,
+  table,
+  downloadableFile,
+  embeddedImage,
+};

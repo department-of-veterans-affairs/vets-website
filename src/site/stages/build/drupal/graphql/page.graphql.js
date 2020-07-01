@@ -1,3 +1,4 @@
+const fragments = require('./fragments.graphql');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 const {
@@ -25,7 +26,20 @@ const NUMBER_CALLOUT = '... numberCallout';
 const fieldAministrationKey = 'FieldNodePageFieldAdministration';
 
 module.exports = `
-
+  ${fragments.wysiwyg}
+  ${fragments.qa}
+  ${fragments.collapsiblePanel}
+  ${fragments.process}
+  ${fragments.qaSection}
+  ${fragments.listOfLinkTeasers}
+  ${fragments.reactWidget}
+  ${fragments.spanishSummary}
+  ${fragments.table}
+  ${fragments.alertParagraph}
+  ${fragments.alert}
+  ${fragments.downloadableFile}
+  ${fragments.numberCallout}
+  ${fragments.embeddedImage}
   fragment page on NodePage {
     ${entityElementsFromPages}
     fieldIntroText

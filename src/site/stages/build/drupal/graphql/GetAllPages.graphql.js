@@ -47,72 +47,56 @@ queryParamToBeChanged.forEach(param => {
 const regex = new RegExp(`${regString}`, 'g');
 
 const buildQuery = ({ useTomeSync }) => {
-  const nodeContentFragments = useTomeSync
-    ? ''
-    : `
-  ${fragments}
-  ${landingPage}
-  ${page}
-  ${healthCareRegionPage}
-  ${healthCareLocalFacilityPage}
-  ${healthCareRegionDetailPage}
-  ${pressReleasePage}
-  ${vamcOperatingStatusAndAlerts}
-  ${newsStoryPage}
-  ${eventPage}
-  ${officePage}
-  ${bioPage}
-  ${benefitListingPage}
-  ${eventListingPage}
-  ${storyListingPage}
-  ${leadershipListingPage}
-  ${healthServicesListingPage}
-  ${pressReleasesListingPage}
-  ${locationListingPage}
-`;
+  let pageQueries = '';
 
-  const todayQueryVar = useTomeSync ? '' : '$today: String!,';
+  if (!useTomeSync) {
+    pageQueries = Object.entries({
+      landingPage,
+      page,
+      healthCareRegionPage,
+      healthCareLocalFacilityPage,
+      healthCareRegionDetailPage,
+      pressReleasePage,
+      vamcOperatingStatusAndAlerts,
+      newsStoryPage,
+      eventPage,
+      officePage,
+      bioPage,
+      benefitListingPage,
+      eventListingPage,
+      storyListingPage,
+      leadershipListingPage,
+      pressReleasesListingPage,
+      healthServicesListingPage,
+      locationListingPage,
+    })
+      .map(([pageFragmentName, pageFragment]) => {
+        return `
 
-  const nodeQuery = useTomeSync
-    ? ''
-    : `
-    nodeQuery(limit: 2000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent }
-      ]
-    }) {
-      entities {
-        ... landingPage
-        ... page
-        ... healthCareRegionPage
-        ... healthCareLocalFacilityPage
-        ... healthCareRegionDetailPage
-        ... pressReleasePage
-        ... vamcOperatingStatusAndAlerts
-        ... newsStoryPage
-        ... eventPage
-        ... officePage
-        ... bioPage
-        ... benefitListingPage
-        ... eventListingPage
-        ... storyListingPage
-        ... leadershipListingPage
-        ... pressReleasesListingPage
-        ... healthServicesListingPage
-        ... locationListingPage
+      ${pageFragment}
+
+      query GetAllPages($onlyPublishedContent: Boolean!) {
+        nodeQuery(limit: 2000, filter: {
+          conditions: [
+            { field: "status", value: ["1"], enabled: $onlyPublishedContent }
+          ]
+        }) {
+          entities {
+            ... ${pageFragmentName}
+          }
+        }
       }
-    }`;
+    `;
+      })
+      .map(query => query.replace(regex, updateQueryString));
+  }
 
   /**
    * Queries for all of the pages out of Drupal
    * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
    */
-  const query = `
-
-  ${nodeContentFragments}
-
-  query GetAllPages(${todayQueryVar} $onlyPublishedContent: Boolean!) {
-      ${nodeQuery}
+  const sitewideQuery = `
+  query GetAllPages($onlyPublishedContent: Boolean!) {
     ${icsFileQuery}
     ${sidebarQuery}
     ${facilitySidebarQuery}
@@ -128,9 +112,12 @@ const buildQuery = ({ useTomeSync }) => {
     }
     ${menuLinksQuery}
   }
-`;
+`.replace(regex, updateQueryString);
 
-  return query.replace(regex, updateQueryString);
+  return {
+    sitewideQuery,
+    pageQueries,
+  };
 };
 
 module.exports = buildQuery;
