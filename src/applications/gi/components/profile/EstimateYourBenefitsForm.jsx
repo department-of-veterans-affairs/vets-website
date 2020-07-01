@@ -952,21 +952,21 @@ class EstimateYourBenefitsForm extends React.Component {
         name="working"
         alt="Will be working"
         options={[
-          { value: '30', label: '30+ hrs / week' },
-          { value: '28', label: '28 hrs / week' },
-          { value: '26', label: '26 hrs / week' },
-          { value: '24', label: '24 hrs / week' },
-          { value: '22', label: '22 hrs / week' },
-          { value: '20', label: '20 hrs / week' },
-          { value: '18', label: '18 hrs / week' },
-          { value: '16', label: '16 hrs / week' },
-          { value: '14', label: '14 hrs / week' },
-          { value: '12', label: '12 hrs / week' },
-          { value: '10', label: '10 hrs / week' },
-          { value: '8', label: '8 hrs / week' },
-          { value: '6', label: '6 hrs / week' },
-          { value: '4', label: '4 hrs / week' },
-          { value: '2', label: '2 hrs / week' },
+          { value: '30', label: '30 plus hours per week' },
+          { value: '28', label: '28 hours per week' },
+          { value: '26', label: '26 hours per week' },
+          { value: '24', label: '24 hours per week' },
+          { value: '22', label: '22 hours per week' },
+          { value: '20', label: '20 hours per week' },
+          { value: '18', label: '18 hours per week' },
+          { value: '16', label: '16 hours per week' },
+          { value: '14', label: '14 hours per week' },
+          { value: '12', label: '12 hours per week' },
+          { value: '10', label: '10 hours per week' },
+          { value: '8', label: '8 hours per week' },
+          { value: '6', label: '6 hours per week' },
+          { value: '4', label: '4 hours per week' },
+          { value: '2', label: '2 hours per week' },
         ]}
         visible
         value={this.props.inputs.working}
