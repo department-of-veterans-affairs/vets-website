@@ -753,13 +753,11 @@ class VAMap extends Component {
         </div>
         {currentPage &&
           results.length > 0 && (
-            <div className="width-35">
-              <Pagination
-                onPageSelect={this.handlePageSelect}
-                page={currentPage}
-                pages={totalPages}
-              />
-            </div>
+            <Pagination
+              onPageSelect={this.handlePageSelect}
+              page={currentPage}
+              pages={totalPages}
+            />
           )}
       </div>
     );
