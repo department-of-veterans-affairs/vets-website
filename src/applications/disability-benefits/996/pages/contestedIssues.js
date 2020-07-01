@@ -1,4 +1,3 @@
-import fullSchema from 'vets-json-schema/dist/20-0996-schema.json';
 import SelectArrayItemsWidget from '../containers/SelectArrayItemsWidget';
 
 import {
@@ -15,8 +14,6 @@ import {
 
 import { requireRatedDisability } from '../validations';
 import SameOfficeReviewField from '../containers/SameOfficeReviewField';
-
-const { included } = fullSchema.properties;
 
 const contestedIssuesPage = {
   uiSchema: {
@@ -69,7 +66,16 @@ const contestedIssuesPage = {
   schema: {
     type: 'object',
     properties: {
-      contestedIssues: included,
+      contestedIssues: {
+        type: 'array',
+        minItems: 1,
+        maxItems: 100,
+        items: {
+          type: 'object',
+          properties: {},
+          'view:selected': 'boolean',
+        },
+      },
       'view:contestedIssuesAlert': {
         type: 'object',
         properties: {},

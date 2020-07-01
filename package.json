@@ -211,7 +211,7 @@
     "morgan": "^1.10.0",
     "msw": "^0.19.4",
     "nightwatch": "^0.9.21",
-    "node-fetch": "^2.1.1",
+    "node-fetch": "^2.6.0",
     "node-resemble-js": "^0.2.0",
     "node-sass": "^4.13.1",
     "null-loader": "^0.1.1",
@@ -246,7 +246,7 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-manifest-plugin": "^2.2.0",
-    "winston": "^3.3.2",
+    "winston": "^3.3.3",
     "yeoman-generator": "^4.2.0",
     "yo": "^3.1.1"
   },
@@ -278,7 +278,7 @@
     "foundation-sites": "^5.5.3",
     "history": "3",
     "ics-js": "^0.10.2",
-    "ismobilejs": "^1.1.1",
+    "ismobilejs": "^0.4.0",
     "js-cookie": "^2.2.1",
     "js-yaml": "^3.14.0",
     "jsonschema": "^1.1.1",
@@ -323,7 +323,7 @@
     "url-search-params": "^1.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5df59945d49c080180e1e348d71c584ca0911ace",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8179594f10b397de823edeb64d00a22816fe7014",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

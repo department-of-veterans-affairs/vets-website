@@ -1,4 +1,7 @@
-import { initAppointmentListMock } from './vaos-cypress-helpers';
+import {
+  initAppointmentListMock,
+  createPastVAAppointments,
+} from './vaos-cypress-helpers';
 
 describe('Appointment List', () => {
   beforeEach(() => {
@@ -29,5 +32,18 @@ describe('Appointment List', () => {
     ).click();
     cy.get('[id="8a48912a6cab0202016cb4fcaa8b0038-vaos-info-content"]');
     cy.contains('Request 2 Message 1 Text');
+  });
+
+  it('should render past appointments', () => {
+    cy.route({
+      method: 'GET',
+      url: /.*\/v0\/appointments.*type=va$/,
+      response: createPastVAAppointments(),
+    });
+    cy.findByText(/Past appointments/i).click();
+    cy.findByText(/three day clinic name/i).should('exist');
+    cy.findByLabelText(/select a date range/i).select('1');
+    cy.findByText('Update').click();
+    cy.findByText(/four month clinic name/i).should('exist');
   });
 });
