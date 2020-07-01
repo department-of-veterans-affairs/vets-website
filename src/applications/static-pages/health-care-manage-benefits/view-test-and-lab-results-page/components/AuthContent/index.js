@@ -5,14 +5,25 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 
+const callToActions = [
+  {
+    deriveHeaderText: facilityNames =>
+      `View lab and test results from ${facilityNames}`,
+    href: '',
+    label: 'View results on My VA Health',
+  },
+  {
+    deriveHeaderText: () =>
+      `View lab and test results from another VA Medical Center`,
+    href: '',
+    label: 'View results on My HealtheVet',
+  },
+];
+
 export const AuthContent = () => (
   <>
     <CernerCallToAction
-      text="You may need to sign in again to view your VA lab and test
-      results. If you do, please sign in with the same account you used
-      to sign in here on VA.gov. You also may need to disable your
-      browser's pop-up blocker so that lab and test results tools
-      are able to open."
+      callToActions={callToActions}
       type="lab and test results"
     />
     <div>

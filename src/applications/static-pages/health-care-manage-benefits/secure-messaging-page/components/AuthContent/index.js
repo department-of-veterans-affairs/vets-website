@@ -5,16 +5,23 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 
+const callToActions = [
+  {
+    deriveHeaderText: facilityNames => `Secure Message ${facilityNames}`,
+    href: '',
+    label: 'Secure Message on My VA Health',
+  },
+  {
+    deriveHeaderText: () =>
+      `Secure Message a provider at another VA Medical Center`,
+    href: '',
+    label: 'Secure Message on My HealtheVet',
+  },
+];
+
 export const AuthContent = () => (
   <>
-    <CernerCallToAction
-      text="You may need to sign in again to view your VA lab and test
-      results. If you do, please sign in with the same account you used
-      to sign in here on VA.gov. You also may need to disable your
-      browser's pop-up blocker so that lab and test results tools
-      are able to open."
-      type="lab and test results"
-    />
+    <CernerCallToAction callToActions={callToActions} type="Secure Messaging" />
     <div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-can-va-secure-messaging-he">
