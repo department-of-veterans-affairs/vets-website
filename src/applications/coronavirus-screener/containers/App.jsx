@@ -2,15 +2,8 @@ import React from 'react';
 import MetaTags from 'react-meta-tags';
 import MultiQuestionForm from '../components/MultiQuestionForm';
 import { questions, defaultOptions } from '../config/questions';
-import { useParams } from 'react-router-dom';
 
-// produces error "Uncaught TypeError: Cannot read property 'match' of undefined"
-// https://stackoverflow.com/a/59153982
-
-export default function App() {
-  const { id } = useParams();
-  console.log(id);
-
+export default function App({ params }) {
   return (
     <div className="covid-screener">
       <MetaTags>
@@ -28,7 +21,7 @@ export default function App() {
         <MultiQuestionForm
           questions={questions}
           defaultOptions={defaultOptions}
-          customId={id}
+          customId={params.id}
         />
       </div>
     </div>
