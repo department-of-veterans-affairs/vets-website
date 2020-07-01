@@ -193,8 +193,8 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       for (const pageQuery of pageQueries) {
         // eslint-disable-next-line no-await-in-loop
         const nextPage = await doQuery(pageQuery);
-        pageQueryResults.data.nodeQuery.entities.concat(
-          nextPage.data.nodeQuery.entities,
+        pageQueryResults.data.nodeQuery.entities.push(
+          ...nextPage.data.nodeQuery.entities,
         );
       }
 
