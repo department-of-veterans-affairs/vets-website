@@ -26,7 +26,7 @@ describe('VAOS <FutureAppointmentsList>', () => {
     };
 
     const tree = mount(<FutureAppointmentsList {...defaultProps} />);
-    expect(tree.find('h3').text()).to.equal('Upcoming appointments');
+    expect(tree.find('h2').text()).to.equal('Upcoming appointments');
     expect(tree.find('LoadingIndicator').length).to.equal(1);
     tree.unmount();
   });

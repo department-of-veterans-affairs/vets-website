@@ -441,7 +441,7 @@ class EstimateYourBenefitsForm extends React.Component {
     yellowRibbonDegreeLevelOptions = yellowRibbonDegreeLevelOptions.map(
       value => ({ value, label: value }),
     );
-    yellowRibbonDegreeLevelOptions.unshift({
+    yellowRibbonDegreeLevelOptions.push({
       value: 'customAmount',
       label: 'Enter an amount',
     });
@@ -470,6 +470,7 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleInputChange}
           onFocus={this.handleEYBInputFocus}
         />
+
         <div>
           <Dropdown
             label="Degree Level"
@@ -486,6 +487,7 @@ class EstimateYourBenefitsForm extends React.Component {
             label="Division or school"
             name={'yellowRibbonDivision'}
             alt="Division or school"
+            disabled={yellowRibbonDivisionOptions.length <= 1}
             hideArrows={yellowRibbonDivisionOptions.length <= 1}
             options={yellowRibbonDivisionOptions}
             visible={showYellowRibbonDetails}

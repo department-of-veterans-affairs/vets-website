@@ -2,6 +2,23 @@
 import React from 'react';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CernerCallToAction from '../../../components/CernerCallToAction';
+
+const callToActions = [
+  {
+    deriveHeaderText: facilityNames =>
+      `Get your medical record from ${facilityNames}`,
+    href: '',
+    label: 'Get record on My VA Health',
+  },
+  {
+    deriveHeaderText: () =>
+      `Get your medical record from another VA Medical Center`,
+    href:
+      'https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data',
+    label: 'Get record on My HealtheVet',
+  },
+];
 
 const AuthContent = () => (
   <>
@@ -10,7 +27,7 @@ const AuthContent = () => (
         Get your VA medical records online
       </h2>
     </div>
-    <CallToActionWidget appId="health-records" setFocus={false} />
+    <CernerCallToAction callToActions={callToActions} type="medical records" />
     <div>
       <h2 id="how-are-my-va-health-and-va-blue">
         How are My VA Health and VA Blue Button different?
