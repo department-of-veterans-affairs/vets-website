@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
-import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
   getVideoAppointmentMock,
@@ -29,7 +29,7 @@ const initialState = {
   },
 };
 
-describe.only('VAOS integration appointment cancellation:', () => {
+describe('VAOS integration appointment cancellation:', () => {
   it('video appointments should display modal with facility information', async () => {
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
@@ -122,6 +122,7 @@ describe.only('VAOS integration appointment cancellation:', () => {
       getByRole,
       findAllByText,
       findByText,
+      queryByRole,
     } = renderInReduxProvider(
       <AppointmentsPage>
         <FutureAppointmentsList />
@@ -143,6 +144,10 @@ describe.only('VAOS integration appointment cancellation:', () => {
     expect(modal).to.contain.text('Big sky medical');
     expect(modal).to.contain.text('Jane Doctor');
     expect(modal).to.contain.text('4065555555');
+
+    fireEvent.click(getByText(/OK/i));
+
+    expect(queryByRole('alertdialog')).to.not.be.ok;
   });
 
   it('va appointments should be cancelled', async () => {
@@ -155,12 +160,13 @@ describe.only('VAOS integration appointment cancellation:', () => {
       clinicFriendlyName: 'C&P BEV AUDIO FTC1',
       facilityId: '983',
       sta6aid: '983GC',
-      clinic: {
-        ...appointment.attributes.clinic,
-        name: 'clinic name',
-      },
     };
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].clinic = {
+      ...appointment.attributes.vdsAppointments[0].clinic,
+      name: 'clinic name',
+    };
+
     mockAppointmentInfo({ va: [appointment] });
     const cancelReason = getCancelReasonMock();
     cancelReason.attributes = {
@@ -186,6 +192,7 @@ describe.only('VAOS integration appointment cancellation:', () => {
     );
 
     await findByText(/cancel appointment/i);
+    expect(baseElement).not.to.contain.text('Canceled');
 
     fireEvent.click(getByText(/cancel appointment/i));
 
@@ -203,7 +210,9 @@ describe.only('VAOS integration appointment cancellation:', () => {
     );
 
     expect(cancelData).to.deep.equal({
-      appointmentTime: appointmentTime.format('MM/DD/YYYY HH:mm:ss'),
+      appointmentTime: appointmentTime
+        .tz('America/Denver')
+        .format('MM/DD/YYYY HH:mm:ss'),
       cancelReason: '5',
       cancelCode: 'PC',
       clinicName: 'clinic name',
@@ -217,5 +226,84 @@ describe.only('VAOS integration appointment cancellation:', () => {
     expect(queryByRole('alertdialog')).to.not.be.ok;
     expect(baseElement).to.contain.text('Canceled');
   });
-  it('pending appointments should be cancelled', async () => {});
+
+  it('pending appointments should be cancelled', async () => {
+    const appointment = getVARequestMock();
+    appointment.id = 'test_id';
+    appointment.attributes = {
+      ...appointment.attributes,
+      status: 'Submitted',
+      appointmentType: 'Primary care',
+      optionDate1: moment()
+        .add(3, 'days')
+        .format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+      facility: {
+        ...appointment.facility,
+        facilityCode: '983GC',
+      },
+      friendlyLocationName: 'Some facility name',
+    };
+    mockAppointmentInfo({ requests: [appointment] });
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointment_requests/test_id`,
+      ),
+      {
+        data: {
+          ...appointment,
+          attributes: {
+            ...appointment.attributes,
+            status: 'Cancelled',
+          },
+        },
+      },
+    );
+
+    const {
+      getByText,
+      findByRole,
+      baseElement,
+      findByText,
+      queryByRole,
+    } = renderInReduxProvider(
+      <AppointmentsPage>
+        <FutureAppointmentsList />
+      </AppointmentsPage>,
+      {
+        initialState,
+        reducers,
+      },
+    );
+
+    await findByText(/cancel appointment/i);
+    expect(baseElement).not.to.contain.text('Canceled');
+
+    fireEvent.click(getByText(/cancel appointment/i));
+
+    await findByRole('alertdialog');
+
+    fireEvent.click(getByText(/yes, cancel this appointment/i));
+
+    await findByText(/your appointment has been canceled/i);
+
+    const cancelData = JSON.parse(
+      global.fetch
+        .getCalls()
+        .find(call => call.args[0].includes('appointment_requests/test_id'))
+        .args[1].body,
+    );
+
+    expect(cancelData).to.deep.equal({
+      ...appointment.attributes,
+      id: 'test_id',
+      appointmentRequestDetailCode: ['DETCODE8'],
+      status: 'Cancelled',
+    });
+
+    fireEvent.click(getByText(/continue/i));
+
+    expect(queryByRole('alertdialog')).to.not.be.ok;
+    expect(baseElement).to.contain.text('Canceled');
+  });
 });

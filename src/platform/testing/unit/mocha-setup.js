@@ -30,7 +30,7 @@ export default function setupJSDom() {
 
   // Prevent warnings from displaying
   /* eslint-disable no-console */
-  // console.error = () => {};
+  console.error = () => {};
   console.warn = () => {};
   /* eslint-enable no-console */
 
