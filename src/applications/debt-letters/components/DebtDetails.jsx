@@ -25,12 +25,12 @@ const DebtDetails = ({ selectedDebt }) => {
         <a href="/debt-letters">Manage your VA debt</a>
         <a href="/debt-letters/debt-list">Your VA debt</a>
       </Breadcrumbs>
-      <h1 className="vads-u-font-family--serif">
+      <h1 className="vads-u-font-family--serif vads-u-margin-bottom--2">
         Your {deductionCodes[selectedDebt.deductionCode]} debt
       </h1>
       <div className="vads-l-row">
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-right--2p5 vads-l-col--12 medium-screen:vads-l-col--8 vads-u-font-family--sans">
-          <p className="vads-u-font-size--h3 vads-u-font-family--serif">
+          <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-margin-top--0">
             Updated on{' '}
             {moment(last(selectedDebt.debtHistory).date).format('MMMM D, YYYY')}
           </p>
@@ -65,16 +65,20 @@ const DebtDetails = ({ selectedDebt }) => {
           </AdditionalInfo>
 
           <AlertBox
-            className="vads-u-margin-y--2"
+            className="vads-u-margin-y--4"
             headline="Informational backgroundOnly alert"
             content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id felis pulvinar ligula ultricies sollicitudin eget nec dui. Cras augue velit, pellentesque sit amet nisl ut, tristique suscipit sem. Cras sollicitudin auctor mattis."
             status="info"
             backgroundOnly
           />
 
-          <h2 className="vads-u-font-size--h3">Debt history</h2>
-          <p>You can view the status or download the letters for this debt.</p>
-          <p>
+          <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
+            Debt history
+          </h2>
+          <p className="vads-u-margin-y--2">
+            You can view the status or download the letters for this debt.
+          </p>
+          <p className="vads-u-margin-top--0">
             <strong>Note:</strong> The content of the debt letters below may not
             include recent updates to your debt reflected above. If you have any
             questions about your debt history, please contact the Debt
@@ -95,9 +99,9 @@ const DebtDetails = ({ selectedDebt }) => {
               <p className="vads-u-font-weight--bold vads-u-margin-y--0">
                 {debtEntry.status}
               </p>
-              <p>{debtEntry.description}</p>
+              <p className="vads-u-margin-y--1">{debtEntry.description}</p>
               {/* ToDo: Add link to actual debt letter download in VBMS */}
-              <a className="vads-u-margin-bottom--2p5" href="#">
+              <a className="vads-u-margin-bottom--3" href="#">
                 Download and print the letter
               </a>
             </div>
