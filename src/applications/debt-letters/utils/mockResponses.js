@@ -145,10 +145,7 @@ function asyncReturn(returnValue, delay = 300) {
   });
 }
 
-export const debtLettersSuccess = () =>
-  asyncReturn({
-    data,
-  });
+export const debtLettersSuccess = () => asyncReturn(data);
 
 export const debtLettersFailure = () =>
   asyncReturn(
