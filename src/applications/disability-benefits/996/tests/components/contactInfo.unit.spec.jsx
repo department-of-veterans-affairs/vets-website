@@ -1,116 +1,82 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import formConfig from '../../config/form';
 import contactInfo from '../../pages/contactInformation';
 
 describe('Higher-Level Review 0996 contact information', () => {
-  it('should render contact information form', () => {
+  it('should render an empty contact information block', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={{}}
         schema={contactInfo.schema}
-        data={{
-          mailingAddress: {},
-          phoneEmailCard: {},
-        }}
+        data={{}}
         formData={{}}
         uiSchema={contactInfo.uiSchema}
       />,
     );
-
-    // country
-    expect(form.find('select').length).to.equal(1);
-    // phone, email, street, street2, street3, city, state, postalCode
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('.blue-bar-block').length).to.equal(1);
     form.unmount();
   });
-
-  it('does not submit without required info', () => {
-    const onSubmit = sinon.spy();
+  it('should render a U.S. contact information block', () => {
+    const data = {
+      phoneNumber: '8005551212',
+      emailAddress: 'foo@bar.com',
+      addressLine1: '123 Main St',
+      city: 'FOOBURG',
+      stateOrProvinceCode: 'Confusion',
+      zipPostalCode: '123456',
+      countryCode: '',
+    };
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={{}}
         schema={contactInfo.schema}
-        data={{
-          phoneEmailCard: {
-            phone: '',
-            emailAddress: '',
-          },
-          mailingAddress: {
-            country: '',
-            street: '',
-            city: '',
-            state: '',
-            postalCode: '',
-          },
-          // 'view:hasForwardingAddress': true,
-          // forwardingAddress: {
-          //   effectiveDates: {
-          //     from: '',
-          //   },
-          //   country: '',
-          //   street: '',
-          //   city: '',
-          // },
-        }}
+        data={{ veteran: data }}
         formData={{}}
-        onSubmit={onSubmit}
         uiSchema={contactInfo.uiSchema}
       />,
     );
-
-    form.find('form').simulate('submit');
-    // phone, email, street, country, city
-    // state & postalCode are required if once the country is set
-    expect(form.find('.usa-input-error-message').length).to.equal(5);
-    expect(onSubmit.called).to.be.false;
+    const blocks = form.find('.blue-bar-block p');
+    expect(blocks).to.have.lengthOf(3);
+    expect(blocks.at(0).text()).to.contain('800-555-1212');
+    expect(blocks.at(1).text()).to.contain('foo@bar.com');
+    expect(blocks.at(2).text()).to.contain('123 Main St');
+    expect(blocks.at(2).text()).to.contain('FOOBURG, Confusion 123456');
     form.unmount();
   });
-
-  it('does submit with required info', () => {
-    const onSubmit = sinon.spy();
+  it('should render the country in a non-U.S. address', () => {
+    const data = {
+      phoneNumber: '8005551212',
+      emailAddress: 'foo@bar.com',
+      addressLine1: '123 Main St',
+      addressLine2: 'Sector A',
+      addressLine3: 'UNIT 1',
+      city: 'FOOBURG',
+      stateOrProvinceCode: 'Confusion',
+      zipPostalCode: '123456',
+      countryCode: 'FRA',
+    };
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={{}}
         schema={contactInfo.schema}
-        data={{
-          phoneEmailCard: {
-            phone: '1231231231',
-            emailAddress: 'a@b.co',
-          },
-          mailingAddress: {
-            country: 'USA',
-            street: '123 Any Street',
-            city: 'Anytown',
-            state: 'MI',
-            postalCode: '12345',
-          },
-          // 'view:hasForwardingAddress': true,
-          // forwardingAddress: {
-          //   effectiveDates: {
-          //     from: NEXT_YEAR,
-          //   },
-          //   country: 'USA',
-          //   street: '234 Maple St.',
-          //   city: 'Detroit',
-          //   state: 'MI',
-          //   postalCode: '234563453',
-          // },
-        }}
+        data={{ veteran: data }}
         formData={{}}
-        onSubmit={onSubmit}
         uiSchema={contactInfo.uiSchema}
       />,
     );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    const blocks = form.find('.blue-bar-block p');
+    expect(blocks).to.have.lengthOf(3);
+    expect(blocks.at(0).text()).to.contain('800-555-1212');
+    expect(blocks.at(1).text()).to.contain('foo@bar.com');
+    expect(blocks.at(2).text()).to.contain('123 Main St');
+    expect(blocks.at(2).text()).to.contain('Sector A');
+    expect(blocks.at(2).text()).to.contain('UNIT 1');
+    expect(blocks.at(2).text()).to.contain('FOOBURG, Confusion 123456');
+    expect(blocks.at(2).text()).to.contain('France');
     form.unmount();
   });
 });

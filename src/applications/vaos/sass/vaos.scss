@@ -11,7 +11,7 @@
   width: 50%;
   display: flex;
 
-  @include media($medium-screen) { 
+  @include media($medium-screen) {
     width: 200px;
   }
 }
@@ -311,4 +311,9 @@ h1:focus {
 
 .vaos-u-word-break--break-word {
   word-break: break-word;
+}
+
+.vaos-flex-break {
+  flex-basis: 100%;
+  height: 0;
 }

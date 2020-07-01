@@ -5,13 +5,14 @@ export const MDOT_RESET_ERRORS = 'MDOT_RESET_ERRORS';
 export const MDOT_API_CALL_INITIATED = 'MDOT_API_CALL_INITIATED';
 
 export const schemaFields = {
-  fullName: 'vetFullName',
-  permAddressField: 'permanentAddress',
-  tempAddressField: 'temporaryAddress',
-  emailField: 'email',
-  confirmationEmailField: 'view:confirmationEmail',
+  fullNameField: 'fullName',
+  permanentAddressField: 'permanentAddress',
+  temporaryAddressField: 'temporaryAddress',
+  vetEmailField: 'vetEmail',
+  viewConfirmationEmailField: 'view:confirmationEmail',
   suppliesField: 'supplies',
-  currentAddressField: 'currentAddress',
+  viewCurrentAddressField: 'view:currentAddress',
+  viewVeteranInfoField: 'view:veteranInfo',
 };
 
 export const militaryStates = states.USA.filter(
@@ -80,9 +81,5 @@ export const states50AndDC = [
   { label: 'Wyoming', value: 'WY' },
 ];
 
-export const HEARING_AID_ACCESSORIES = 'hearing aid accessories';
-export const HEARING_AID_BATTERIES = 'hearing aid batteries';
-export const BLUE_BACKGROUND =
-  'radio-button vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px';
-export const WHITE_BACKGROUND =
-  'radio-button vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px';
+export const ACCESSORIES = 'ACCESSORIES';
+export const BATTERIES = 'BATTERIES';

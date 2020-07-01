@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { selectProfile } from 'platform/user/selectors';
+import {
+  selectProfile,
+  selectVet360MobilePhone,
+} from 'platform/user/selectors';
 
 import * as VET360 from '../constants';
 import { createTransaction, clearTransactionStatus } from '../actions';
 import { selectVet360Transaction } from 'platform/user/profile/vet360/selectors';
-import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
 
 import {
   isPendingTransaction,
@@ -31,7 +33,8 @@ class ReceiveTextMessages extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  /* eslint-disable camelcase */
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.transaction) {
       this.setState({ lastTransaction: nextProps.transaction });
       if (!this.props.transaction) {
@@ -121,22 +124,12 @@ export function mapStateToProps(state, ownProps) {
   const { transaction } = selectVet360Transaction(state, fieldName);
   const hasError = !!isFailedTransaction(transaction);
   const isPending = !!isPendingTransaction(transaction);
-  const showReceiveTextNotifications = profileShowReceiveTextNotifications(
-    state,
-  );
   const profileState = selectProfile(state);
-  const isEmpty = !profileState.vet360.mobilePhone;
-  const isTextable =
-    !isEmpty &&
-    profileState.vet360.mobilePhone.phoneType === VET360.PHONE_TYPE.mobilePhone;
-  const isVerified = showReceiveTextNotifications && profileState.verified;
+  const mobilePhone = selectVet360MobilePhone(state);
+  const isTextable = mobilePhone?.phoneType === VET360.PHONE_TYPE.mobilePhone;
+  const isVerified = profileState.verified;
   const hideCheckbox =
-    !showReceiveTextNotifications ||
-    isEmpty ||
-    !isTextable ||
-    !isEnrolledInVAHealthCare(state) ||
-    hasError ||
-    isPending;
+    !isTextable || !isEnrolledInVAHealthCare(state) || hasError || isPending;
   const transactionSuccess =
     state.vet360.transactionStatus ===
     VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS;

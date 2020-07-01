@@ -23,19 +23,19 @@ import environment from 'platform/utilities/environment';
  * `required` - boolean. Render marker indicating field is required.
  */
 class Checkbox extends React.Component {
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
+  constructor(props) {
+    super(props);
     this.inputId = _.uniqueId('errorable-checkbox-');
   }
 
-  handleChange(domEvent) {
-    this.props.onChange(domEvent);
-  }
-
   handleFocus = e => {
-    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      e.target.scrollIntoView();
+    // prod flag for bah-8821
+    if (environment.isProduction()) {
+      if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
+        e.target.scrollIntoView();
+      }
+    } else {
+      this.props.onFocus(e);
     }
   };
 
@@ -80,16 +80,11 @@ class Checkbox extends React.Component {
         <input
           aria-describedby={errorSpanId}
           checked={this.props.checked}
-          id={this.inputId}
+          id={this.props.id || this.inputId}
           name={this.props.name}
           type="checkbox"
-          onFocus={
-            // prod flag for bah-8821
-            environment.isProduction()
-              ? this.handleFocus
-              : this.props.onFocus.bind(this, this.inputId)
-          }
-          onChange={this.handleChange}
+          onChange={this.props.onChange}
+          onFocus={this.handleFocus}
         />
         <label
           className={classNames('gi-checkbox-label', {

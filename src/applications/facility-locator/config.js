@@ -5,8 +5,10 @@ import manifest from './manifest.json';
 
 // Base URL to be used in API requests.
 export const api = {
-  baseUrl: `${environment.API_URL}/v0/facilities`,
-  url: `${environment.API_URL}/v0/facilities/va`,
+  baseUrlV0: `${environment.API_URL}/v0/facilities`,
+  urlV0: `${environment.API_URL}/v0/facilities/va`,
+  baseUrl: `${environment.API_URL}/v1/facilities`,
+  url: `${environment.API_URL}/v1/facilities/va`,
   ccUrl: `${environment.API_URL}/v0/facilities/ccp`,
   settings: {
     credentials: 'include',
@@ -40,6 +42,7 @@ export const resolveParamsWithUrl = (
   serviceType,
   page,
   bounds,
+  apiVersion,
 ) => {
   const filterableLocations = ['health', 'benefits', 'cc_provider'];
   let facility;
@@ -50,7 +53,7 @@ export const resolveParamsWithUrl = (
       if (!serviceType || serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
-        url = api.url;
+        url = apiVersion === 1 ? api.url : api.urlV0;
       }
       if (serviceType === 'NonVAUrgentCare') {
         facility = 'cc_urgent_care';
@@ -66,7 +69,7 @@ export const resolveParamsWithUrl = (
     default:
       facility = locationType;
       service = serviceType;
-      url = api.url;
+      url = apiVersion === 1 ? api.url : api.urlV0;
   }
 
   return {
@@ -166,6 +169,8 @@ export const facilityTypesOptions = {
   [LocationType.HEALTH]: 'VA health',
   [LocationType.URGENT_CARE]: 'Urgent care',
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
+  [LocationType.URGENT_CARE_FARMACIES]:
+    'Urgent care pharmacies (in VA’s network)',
   [LocationType.BENEFITS]: 'VA benefits',
   [LocationType.CEMETARY]: 'VA cemeteries',
   [LocationType.VET_CENTER]: 'Vet centers',

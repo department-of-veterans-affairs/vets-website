@@ -16,7 +16,7 @@ import {
 
 const originalFetch = global.fetch;
 
-describe('ITF actions', () => {
+describe.skip('ITF actions', () => {
   describe('fetchITF', () => {
     afterEach(() => {
       global.fetch = originalFetch;

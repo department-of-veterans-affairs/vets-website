@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const EmailAddressNotification = ({ signInServiceName }) => {
   let link;
@@ -33,6 +34,10 @@ const EmailAddressNotification = ({ signInServiceName }) => {
       </p>
     </>
   );
+};
+
+EmailAddressNotification.propTypes = {
+  signInServiceName: PropTypes.string.isRequired,
 };
 
 export default EmailAddressNotification;

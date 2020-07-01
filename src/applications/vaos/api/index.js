@@ -22,6 +22,10 @@ function vaosApiRequest(url, ...options) {
   return apiRequest(`${environment.API_URL}/vaos${url}`, ...options);
 }
 
+function v1ApiRequest(url, ...options) {
+  return apiRequest(`${environment.API_URL}/v1${url}`, ...options);
+}
+
 export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
   if (USE_MOCK_DATA) {
@@ -261,24 +265,6 @@ export function getRequestLimits(facilityId, typeOfCareId) {
   return promise.then(resp => resp.data.attributes);
 }
 
-export function getClinicInstitutions(systemId, clinicIds) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    promise = import('./clinics.json').then(
-      module => (module.default ? module.default : module),
-    );
-  } else {
-    const clinicIdParams = clinicIds.map(id => `clinic_ids[]=${id}`).join('&');
-    promise = vaosApiRequest(
-      `/v0/systems/${systemId}/clinic_institutions?${clinicIdParams}`,
-    );
-  }
-
-  return promise.then(resp =>
-    resp.data.map(item => ({ ...item.attributes, id: item.id, systemId })),
-  );
-}
-
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   let promise;
   if (USE_MOCK_DATA) {
@@ -333,7 +319,7 @@ export function getFacilityInfo(facilityId) {
       );
     }
   } else {
-    promise = apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`);
+    promise = v1ApiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`);
   }
   return promise.then(resp => ({ id: resp.data.id, ...resp.data.attributes }));
 }
@@ -351,7 +337,7 @@ export function getFacilitiesInfo(facilityIds) {
       .map(id => `vha_${id}`)
       .join(',');
 
-    promise = apiRequest(`/facilities/va?ids=${idList}`);
+    promise = v1ApiRequest(`/facilities/va?ids=${idList}`);
   }
 
   return promise.then(resp => resp.data.map(item => item.attributes));

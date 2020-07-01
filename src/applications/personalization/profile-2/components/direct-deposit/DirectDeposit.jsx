@@ -21,10 +21,10 @@ const DirectDeposit = () => {
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
         data-focus-target
       >
-        Direct deposit information for disability compensation and pension
-        benefits
+        Direct deposit information
       </h2>
       <DowntimeNotification
+        appTitle="direct deposit"
         render={handleDowntimeForSection('direct deposit')}
         dependencies={[externalServices.evss]}
       >

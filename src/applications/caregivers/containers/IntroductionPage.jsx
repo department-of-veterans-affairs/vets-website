@@ -66,6 +66,7 @@ const IntroductionPage = ({ route, router }) => {
                   Call us at
                   <a
                     href={links.VAHelpLine.label}
+                    aria-label={links.VAHelpLine.phoneAriaLabel}
                     className="vads-u-margin-x--0p5"
                   >
                     877-222-8387
@@ -159,6 +160,7 @@ const IntroductionPage = ({ route, router }) => {
               more, contact VA’s Caregiver Support Line at
               <a
                 href={links.caregiverHelp.phoneLink}
+                aria-label={links.caregiverHelp.phoneAriaLabel}
                 className="vads-u-margin-left--0p5"
               >
                 {links.caregiverHelp.phoneLabel}
@@ -220,7 +222,7 @@ const IntroductionPage = ({ route, router }) => {
         Start your Application
       </button>
       <div className="omb-info--container vads-u-padding-left--0">
-        <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="04/30/2018" />
+        <OMBInfo resBurden={15} ombNumber="2900-0091" expDate="09/30/2021" />
       </div>
     </div>
   );

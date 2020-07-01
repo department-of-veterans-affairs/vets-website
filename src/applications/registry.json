@@ -2,10 +2,11 @@
   {
     "appName": "COVID-19 screener",
     "entryName": "covid19screen",
-    "rootUrl":"/covid19screen",
-    "template":{
+    "rootUrl": "/covid19screen",
+    "template": {
       "title": "COVID-19 screening tool",
       "layout": "page-react.html",
+      "private": true,
       "vagovprod": true
     }
   },
@@ -275,7 +276,7 @@
           "name": "View or change your dependents"
         },
         {
-          "name": "686c-674"
+          "name": "Add or remove dependents Form 21-686c"
         }
       ]
     }
@@ -350,8 +351,8 @@
   },
   {
     "appName": "Order hearing aid batteries and accessories",
-    "entryName": "hearing-aid-batteries-and-accessories",
-    "rootUrl": "/hearing-aid-batteries-and-accessories",
+    "entryName": "order-form-2346",
+    "rootUrl": "/health-care/order-hearing-aid-batteries-and-accessories",
     "template": {
       "vagovprod": false
     }
@@ -856,6 +857,15 @@
     "template": {
       "vagovprod": false,
       "title": "Debt Letters",
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "28-1900 Vocational Rehabilitation",
+    "entryName": "28-1900-chapter-31",
+    "rootUrl": "/vre/28-1900",
+    "template": {
+      "vagovprod": false,
       "layout": "page-react.html"
     }
   }

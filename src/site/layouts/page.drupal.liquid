@@ -10,10 +10,6 @@
 
     <div class="usa-width-three-fourths">
 
-        {% if sidebar.links != empty %}
-          {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
-        {% endif %}
-
         {% if !entityPublished %}
         <div class="usa-alert usa-alert-info" >
           <div class="usa-alert-body">
@@ -48,6 +44,13 @@
           {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
         {% endfor %}
         </div>
+        {% endif %}
+
+        {% if fieldTableOfContentsBoolean != empty and fieldTableOfContentsBoolean %}
+        <section id="table-of-contents">
+          <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+          <ul class="usa-unstyled-list"></ul>
+        </section>
         {% endif %}
 
         {% for block in fieldContentBlock %}

@@ -70,8 +70,6 @@ export class EstimateYourBenefits extends React.Component {
 
   updateEstimatedBenefits = () => {
     this.props.updateEstimatedBenefits(this.props.calculated.outputs);
-    scroller.scrollTo('estimated-benefits', getScrollOptions());
-    focusElement('#estimated-benefits');
   };
 
   toggleEybExpansion() {
@@ -92,6 +90,7 @@ export class EstimateYourBenefits extends React.Component {
     const outputs = this.props.estimatedBenefits;
     const {
       profile,
+      gibctEybBottomSheet,
       calculator: inputs,
       calculated: { inputs: displayed },
     } = this.props;
@@ -133,25 +132,30 @@ export class EstimateYourBenefits extends React.Component {
           profile={profile}
           calculator={inputs}
         />
-        {this.state.expandEybSheet && (
-          <div
-            onClick={() => this.toggleEybExpansion()}
-            className="va-modal overlay"
-          />
-        )}
-        {
-          <div id="eyb-summary-sheet" className={summarySheetClassNames}>
-            <EstimateYourBenefitsSummarySheet
-              outputs={outputs}
-              expandEybSheet={this.state.expandEybSheet}
-              toggleEybExpansion={() => this.toggleEybExpansion()}
-              type={this.props.calculator.type}
-              yellowRibbon={
-                this.props.calculator.yellowRibbonRecipient === 'yes'
-              }
-            />
+        {gibctEybBottomSheet && (
+          <div>
+            {this.state.expandEybSheet && (
+              <div
+                onClick={() => this.toggleEybExpansion()}
+                className="va-modal overlay"
+              />
+            )}
+            {
+              <div id="eyb-summary-sheet" className={summarySheetClassNames}>
+                <EstimateYourBenefitsSummarySheet
+                  outputs={outputs}
+                  expandEybSheet={this.state.expandEybSheet}
+                  showEybSheet={this.state.showEybSheet}
+                  toggleEybExpansion={() => this.toggleEybExpansion()}
+                  type={this.props.calculator.type}
+                  yellowRibbon={
+                    this.props.calculator.yellowRibbonRecipient === 'yes'
+                  }
+                />
+              </div>
+            }
           </div>
-        }
+        )}
       </div>
     );
   }

@@ -30,7 +30,7 @@ const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
     'topScrollElement',
-    window.VetsGov.scroll || {
+    window.VetsGov?.scroll || {
       duration: 500,
       delay: 0,
       smooth: true,
@@ -139,7 +139,6 @@ class RoutedSavableReviewPage extends React.Component {
     } = this.props;
 
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
-
     return (
       <div>
         <ReviewChapters
@@ -173,7 +172,9 @@ class RoutedSavableReviewPage extends React.Component {
           showLoginModal={this.props.showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}
-        />
+        >
+          {formConfig.finishLaterLinkText}
+        </SaveFormLink>
       </div>
     );
   }

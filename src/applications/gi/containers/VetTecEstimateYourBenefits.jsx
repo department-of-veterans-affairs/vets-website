@@ -3,11 +3,16 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { beneficiaryZIPCodeChanged, calculatorInputChange } from '../actions';
+import {
+  beneficiaryZIPCodeChanged,
+  calculatorInputChange,
+  showModal,
+} from '../actions';
 import { getCalculatedBenefits } from '../selectors/vetTecCalculator';
 import VetTecEstimateYourBenefitsForm from '../components/vet-tec/VetTecEstimateYourBenefitsForm';
 import PropTypes from 'prop-types';
 import { ariaLabels } from '../constants';
+import { renderLearnMoreLabel } from '../utils/render';
 
 export class VetTecEstimateYourBenefits extends React.Component {
   constructor(props) {
@@ -21,6 +26,14 @@ export class VetTecEstimateYourBenefits extends React.Component {
 
   housingAllowanceClassName =
     'small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7';
+  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
+    renderLearnMoreLabel({
+      text,
+      modal,
+      ariaLabel,
+      showModal: this.props.showModal,
+      component: this,
+    });
 
   renderCalculatorForm = () => {
     const {
@@ -34,7 +47,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
           <VetTecEstimateYourBenefitsForm
             inputs={inputs}
             displayedInputs={displayed}
-            onShowModal={this.props.showModal}
+            showModal={this.props.showModal}
             institution={this.props.institution}
             selectedProgram={this.props.selectedProgram}
             handleSelectedProgram={this.handleSelectedProgram}
@@ -59,7 +72,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
     );
   };
 
-  renderTuitionSection = (outputs, showModal) => (
+  renderTuitionSection = outputs => (
     <div className="tuition-section">
       <div className="row vads-u-margin-top--0p5">
         <div className="small-6 columns">
@@ -74,17 +87,11 @@ export class VetTecEstimateYourBenefits extends React.Component {
       {this.renderScholarshipBenefitSection(outputs)}
       <div className="row vads-u-margin-top--0p5">
         <div className="small-8 columns">
-          <div>
-            <span>VA pays to provider: </span>
-            <button
-              aria-label={ariaLabels.learnMore.paysToProvider}
-              type="button"
-              className="va-button-link learn-more-button"
-              onClick={() => showModal('payToProvider')}
-            >
-              (Learn more)
-            </button>
-          </div>
+          {this.renderLearnMoreLabel({
+            text: 'VA pays to provider:',
+            modal: 'payToProvider',
+            ariaLabel: ariaLabels.learnMore.paysToProvider,
+          })}
         </div>
         <div className="small-4 columns vads-u-text-align--right">
           <div className="estimated-benefit-values">
@@ -151,18 +158,14 @@ export class VetTecEstimateYourBenefits extends React.Component {
     </div>
   );
 
-  renderHousingSection = (outputs, showModal) => (
+  renderHousingSection = outputs => (
     <div className="housing-section">
       <div>
         <h4 className="vads-u-font-size--h5">Housing allowance</h4>{' '}
-        <button
-          aria-label={ariaLabels.learnMore.housingAllowance}
-          type="button"
-          className="va-button-link learn-more-button"
-          onClick={() => showModal('housingAllowance')}
-        >
-          (Learn more)
-        </button>
+        {this.renderLearnMoreLabel({
+          modal: 'housingAllowance',
+          ariaLabel: ariaLabels.learnMore.housingAllowance,
+        })}
       </div>
       <div>
         <div className="row calculator-result">
@@ -191,7 +194,6 @@ export class VetTecEstimateYourBenefits extends React.Component {
       return <LoadingIndicator message="Loading your estimated benefits..." />;
     }
     const { outputs } = this.props.calculated;
-    const { showModal } = this.props;
     return (
       <div className="vads-l-row calculate-your-benefits">
         <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
@@ -208,9 +210,9 @@ export class VetTecEstimateYourBenefits extends React.Component {
             <div className="program-name">
               {this.props.calculator.vetTecProgramName}
             </div>
-            {this.renderTuitionSection(outputs, showModal)}
-            <hr />
-            {this.renderHousingSection(outputs, showModal)}
+            {this.renderTuitionSection(outputs)}
+            <hr aria-hidden="true" />
+            {this.renderHousingSection(outputs)}
           </div>
           <div>
             <p>
@@ -232,10 +234,10 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = {
   beneficiaryZIPCodeChanged,
   calculatorInputChange,
+  showModal,
 };
 
 VetTecEstimateYourBenefits.propTypes = {
-  showModal: PropTypes.func,
   institution: PropTypes.object,
   selectedProgram: PropTypes.string,
 };

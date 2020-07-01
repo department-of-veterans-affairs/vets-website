@@ -8,7 +8,7 @@ import { scrollToTop } from 'applications/claims-status/utils/page';
 
 const ConfirmationPage = props => {
   useEffect(() => {
-    focusElement('.schemaform-title > h1');
+    focusElement('.schemaform-title > h2');
     scrollToTop();
   }, []);
 
@@ -18,7 +18,11 @@ const ConfirmationPage = props => {
 
   const PrintDetails = () => (
     <div className="print-details">
-      <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
+      <img
+        src="/img/design/logo/logo-black-and-white.png"
+        alt="VA logo"
+        width="300"
+      />
 
       <h1 className="vads-u-font-size--h3">
         Apply for the Program of Comprehensive Assistance for Family Caregivers
@@ -69,7 +73,7 @@ const ConfirmationPage = props => {
       <div className="inset vads-u-margin-top--4">
         <h4 className="insert-title">
           Application for the Program of Comprehensive Assistance for Family
-          Caregivers (VA From 10-10CG)
+          Caregivers (VA Form 10-10CG)
         </h4>
 
         <span>

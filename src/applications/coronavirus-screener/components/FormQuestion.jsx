@@ -1,51 +1,45 @@
-import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
+import React, { useEffect } from 'react';
 import _ from 'lodash/fp';
-import moment from 'moment';
+import classnames from 'classnames';
+import { Element } from 'react-scroll';
+import { scrollerTo } from '../lib';
 
 export default function FormQuestion({
   question,
-  formState,
-  setFormState,
-  resultSubmitted,
-  setResultSubmittedState,
-  scrollNext,
+  recordStart,
+  optionsConfig,
+  setQuestionValue,
+  clearQuestionValues,
 }) {
-  function handleChange(event) {
-    if (_.isEmpty(formState)) {
-      recordEvent({
-        event: 'covid-screening-tool-start',
-        'screening-tool-question': question.id,
-      });
-      // starts duration timer for GA
-      setResultSubmittedState({
-        ...resultSubmitted,
-        startTime: moment().unix(),
-      });
+  const scrollElementName = `multi-question-form-${question.id}-scroll-element`;
+
+  function handleClick(event) {
+    recordStart(question.id);
+    setQuestionValue({ event, questionId: question.id });
+    if (question.clearValues ?? false) {
+      clearQuestionValues(question.id);
     }
-    // sets the current question value in form state
-    setFormState({
-      ...formState,
-      [question.id]: event.target.value,
-    });
-    scrollNext();
   }
 
-  const optionsConfig = [
-    { optionValue: 'yes', optionText: 'Yes' },
-    { optionValue: 'no', optionText: 'No' },
-  ];
+  useEffect(() => {
+    // do not scroll for first question
+    if (question.startQuestion !== true) {
+      scrollerTo(scrollElementName);
+    }
+  });
 
   const options = optionsConfig.map((option, index) => (
     <button
       key={index}
       type="button"
-      className={`usa-button-big  ${
-        formState[question.id] === option.optionValue
-          ? 'usa-button'
-          : 'usa-button-secondary'
-      }`}
-      onClick={handleChange}
+      className={classnames(
+        'usa-button-big',
+        (question.value === option.optionValue ? 'usa-button' : null) ?? [
+          'usa-button-secondary',
+          'vads-u-background-color--white', // TODO: resolve upstream design system bug https://github.com/department-of-veterans-affairs/va.gov-team/issues/9610
+        ],
+      )}
+      onClick={handleClick}
       value={option.optionValue}
     >
       {option.optionText}
@@ -53,7 +47,8 @@ export default function FormQuestion({
   ));
 
   return (
-    <div className="feature">
+    <div className="feature" id={`question-${question.id}`}>
+      <Element name={scrollElementName} />
       <h2>{question.text}</h2>
       {options}
     </div>

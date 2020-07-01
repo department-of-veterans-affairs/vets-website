@@ -1,6 +1,9 @@
 import moment from 'moment';
-import { getConfirmedAppointments } from '../../api';
-import { transformConfirmedAppointments } from './transformers';
+import { getConfirmedAppointments, getPendingAppointments } from '../../api';
+import {
+  transformConfirmedAppointments,
+  transformPendingAppointments,
+} from './transformers';
 import { mapToFHIRErrors } from '../../utils/fhir';
 import { APPOINTMENT_TYPES } from '../../utils/constants';
 
@@ -10,7 +13,7 @@ import { APPOINTMENT_TYPES } from '../../utils/constants';
  * @export
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @returns {Object} A FHIR searchset of Appointment resources
+ * @returns {Object} A FHIR searchset of booked Appointment resources
  */
 export async function getBookedAppointments({ startDate, endDate }) {
   try {
@@ -27,6 +30,28 @@ export async function getBookedAppointments({ startDate, endDate }) {
       ...appointments[0],
       ...appointments[1],
     ]);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
+/**
+ * Fetch the logged in user's pending appointments that fall between a startDate and endDate
+ *
+ * @export
+ * @param {String} startDate Date in YYYY-MM-DD format
+ * @param {String} endDate Date in YYYY-MM-DD format
+ * @returns {Object} A FHIR searchset of pending Appointment resources
+ */
+export async function getAppointmentRequests({ startDate, endDate }) {
+  try {
+    const appointments = await getPendingAppointments(startDate, endDate);
+
+    return transformPendingAppointments(appointments);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -85,10 +110,29 @@ export function getVARClinicId(appointment) {
  *
  * @export
  * @param {Object} appointment A FHIR appointment resource
- * @returns The location id where the video appointment is located
+ * @returns {String} The location id where the video appointment is located
  */
 export function getVideoAppointmentLocation(appointment) {
   const locationReference = appointment.contained?.[0]?.location?.reference;
+
+  if (locationReference) {
+    return locationReference.split('/')[1];
+  }
+
+  return null;
+}
+
+/**
+ * Returns the lcoation of a VA appointment
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns The location id where the VA appointment is located
+ */
+export function getVAAppointmentLocationId(appointment) {
+  const locationReference = appointment.participant?.find(p =>
+    p.actor.reference?.startsWith('Location'),
+  )?.actor?.reference;
 
   if (locationReference) {
     return locationReference.split('/')[1];

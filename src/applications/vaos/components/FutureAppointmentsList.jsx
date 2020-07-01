@@ -20,16 +20,11 @@ import {
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
-import { getVARFacilityId, getVARClinicId } from '../services/appointment';
+import { getVAAppointmentLocationId } from '../services/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from './AppointmentRequestListItem';
 import NoAppointments from './NoAppointments';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
 export class FutureAppointmentsList extends React.Component {
   componentDidMount() {
     if (this.props.appointments.futureStatus === FETCH_STATUS.notStarted) {
@@ -51,7 +46,6 @@ export class FutureAppointmentsList extends React.Component {
       futureStatus,
       facilityData,
       requestMessages,
-      systemClinicToFacilityMap,
     } = appointments;
 
     let content;
@@ -96,10 +90,8 @@ export class FutureAppointmentsList extends React.Component {
                     index={index}
                     appointment={appt}
                     facility={
-                      systemClinicToFacilityMap[
-                        `${parseFakeFHIRId(
-                          getVARFacilityId(appt),
-                        )}_${getVARClinicId(appt)}`
+                      facilityData[
+                        getRealFacilityId(getVAAppointmentLocationId(appt))
                       ]
                     }
                     showCancelButton={showCancelButton}
@@ -158,7 +150,9 @@ export class FutureAppointmentsList extends React.Component {
     }
 
     const header = (
-      <h3 className="vads-u-margin-y--4">Upcoming appointments</h3>
+      <h2 className="vads-u-margin-bottom--4 vads-u-font-size--h3">
+        Upcoming appointments
+      </h2>
     );
 
     if (!showPastAppointments) {

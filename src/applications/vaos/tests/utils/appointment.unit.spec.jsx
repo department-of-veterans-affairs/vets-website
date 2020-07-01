@@ -353,13 +353,13 @@ describe('VAOS appointment helpers', () => {
         expect(appt.dateOptions.length).to.equal(3);
       });
     });
-    describe('purposeOfVisit', () => {
+    describe('reason', () => {
       it('should be set for community care appointment request', () => {
         const appt = transformRequest({
           ...ccData,
           purposeOfVisit: 'routine-follow-up',
         });
-        expect(appt.purposeOfVisit).to.equal('Follow-up/Routine');
+        expect(appt.reason).to.equal('Follow-up/Routine');
       });
 
       it('should be set for VA appointment request', () => {
@@ -367,7 +367,16 @@ describe('VAOS appointment helpers', () => {
           ...vaData,
           purposeOfVisit: 'Routine Follow-up',
         });
-        expect(appt.purposeOfVisit).to.equal('Follow-up/Routine');
+        expect(appt.reason).to.equal('Follow-up/Routine');
+      });
+      it('should be set from reasonForVisit for expresss care appointment request', () => {
+        const appt = transformRequest({
+          ...vaData,
+          typeOfCareId: 'CR1',
+          purposeOfVisit: 'Routine Follow-up',
+          reasonForVisit: 'Testing',
+        });
+        expect(appt.reason).to.equal('Testing');
       });
     });
   });
@@ -639,8 +648,8 @@ describe('VAOS appointment helpers', () => {
   describe('sortFutureConfirmedAppointments', () => {
     it('should sort future confirmed appointments', () => {
       const confirmed = [
-        { appointmentDate: moment('2099-04-30T05:35:00'), facilityId: '984' },
-        { appointmentDate: moment('2099-04-27T05:35:00'), facilityId: '983' },
+        { start: moment('2099-04-30T05:35:00'), facilityId: '984' },
+        { start: moment('2099-04-27T05:35:00'), facilityId: '983' },
       ];
 
       const sorted = confirmed.sort(sortFutureConfirmedAppointments);
@@ -657,6 +666,14 @@ describe('VAOS appointment helpers', () => {
           optionDate1: now
             .clone()
             .add(2, 'days')
+            .format('MM/DD/YYYY'),
+        },
+        {
+          status: 'Cancelled',
+          appointmentType: 'Primary Care',
+          optionDate1: now
+            .clone()
+            .subtract(2, 'days')
             .format('MM/DD/YYYY'),
         },
         {
@@ -704,7 +721,15 @@ describe('VAOS appointment helpers', () => {
       ];
 
       const filteredRequests = requests.filter(r => filterRequests(r, now));
-      expect(filteredRequests.length).to.equal(3);
+      expect(
+        filteredRequests.filter(req => req.status === 'Cancelled').length,
+      ).to.equal(1);
+      expect(
+        filteredRequests.filter(req => req.status === 'Submitted').length,
+      ).to.equal(4);
+      expect(
+        filteredRequests.filter(req => req.status === 'Booked').length,
+      ).to.equal(0);
     });
   });
 
@@ -912,6 +937,42 @@ describe('VAOS appointment helpers', () => {
       expect(ics).to.contain('UID:');
       expect(ics).to.contain('SUMMARY:Community Care');
       expect(ics).to.contain('DESCRIPTION:. ');
+      expect(ics).to.contain('LOCATION:Address 1 City, State Zip');
+      expect(ics).to.contain(`DTSTAMP:${dtStamp}`);
+      expect(ics).to.contain(`DTSTART:${dtStart}`);
+      expect(ics).to.contain(`DTEND:${dtEnd}`);
+      expect(ics).to.contain('END:VEVENT');
+      expect(ics).to.contain('END:VCALENDAR');
+    });
+    it('should properly chunk long descriptions', () => {
+      const momentDate = moment(now);
+      const dtStamp = momentDate.format('YYYYMMDDTHHmmss');
+      const dtStart = momentDate.format('YYYYMMDDTHHmmss');
+      const dtEnd = momentDate
+        .clone()
+        .add(60, 'minutes')
+        .format('YYYYMMDDTHHmmss');
+      const description = `Testing long line descriptions
+Testing long descriptions Testing long descriptions Testing long descriptions
+Testing long descriptions Testing long descriptions Testing long descriptions
+Testing long descriptions`;
+
+      const ics = generateICS(
+        'Community Care',
+        description,
+        'Address 1 City, State Zip',
+        dtStart,
+        dtEnd,
+      );
+      expect(ics).to.contain('BEGIN:VCALENDAR');
+      expect(ics).to.contain('VERSION:2.0');
+      expect(ics).to.contain('PRODID:VA');
+      expect(ics).to.contain('BEGIN:VEVENT');
+      expect(ics).to.contain('UID:');
+      expect(ics).to.contain('SUMMARY:Community Care');
+      expect(ics).to.contain(
+        'DESCRIPTION:Testing long line descriptions\\nTesting long descriptions Test\r\n\ting long descriptions Testing long descriptions\\nTesting long descriptions\r\n\t Testing long descriptions Testing long descriptions\\nTesting long descrip\r\n\ttions',
+      );
       expect(ics).to.contain('LOCATION:Address 1 City, State Zip');
       expect(ics).to.contain(`DTSTAMP:${dtStamp}`);
       expect(ics).to.contain(`DTSTART:${dtStart}`);

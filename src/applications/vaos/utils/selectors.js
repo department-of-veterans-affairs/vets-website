@@ -290,7 +290,7 @@ export function getChosenClinicInfo(state) {
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
     clinics[`${data.vaFacility}_${typeOfCareId}`]?.find(
-      clinic => clinic.clinicId === data.clinicId,
+      clinic => clinic.id === data.clinicId,
     ) || null
   );
 }
@@ -327,6 +327,7 @@ export function getCancelInfo(state) {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
+    cancelAppointmentStatusVaos400,
     facilityData,
     systemClinicToFacilityMap,
   } = state.appointments;
@@ -360,6 +361,7 @@ export function getCancelInfo(state) {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
+    cancelAppointmentStatusVaos400,
     cernerFacilities,
   };
 }
@@ -389,6 +391,8 @@ export const vaosDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
 export const vaosPastAppts = state =>
   toggleValues(state).vaOnlineSchedulingPast;
+export const vaosVSPAppointmentNew = state =>
+  toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 
 export const isWelcomeModalDismissed = state =>

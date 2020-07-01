@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
@@ -27,7 +29,6 @@ import PaymentInformationEditError from 'applications/personalization/profile360
 
 import ProfileInfoTable from '../ProfileInfoTable';
 import FraudVictimAlert from './FraudVictimAlert';
-import AdditionalInformation from './DirectDepositInformation';
 
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
@@ -42,44 +43,55 @@ export const DirectDepositContent = ({
   const editBankInfoButton = useRef();
   const [formData, setFormData] = useState({});
   const [showSaveSucceededAlert, setShowSaveSucceededAlert] = useState(false);
-  const previousUiState = usePrevious(directDepositUiState);
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
+  const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
+  const wasSavingBankInfo = usePrevious(directDepositUiState.isSaving);
 
   const isEditingBankInfo = directDepositUiState.isEditing;
+  const isSavingBankInfo = directDepositUiState.isSaving;
+  const saveError = directDepositUiState.responseError;
+
+  const { accountNumber, accountType, routingNumber } = formData;
+  const isEmptyForm = !accountNumber && !accountType && !routingNumber;
 
   // when we enter and exit edit mode...
   useEffect(
     () => {
-      // reset the bank info form when we enter edit mode
-      if (isEditingBankInfo) {
+      if (wasEditingBankInfo && !isEditingBankInfo) {
+        // clear the form data when exiting edit mode so it's blank when the
+        // edit form is shown again
         setFormData({});
-      }
-      // focus the edit button when we exit edit mode
-      if (isEditingBankInfo === false) {
+        // focus the edit button when we exit edit mode
         editBankInfoButton.current.focus();
       }
     },
-    [isEditingBankInfo],
+    [isEditingBankInfo, wasEditingBankInfo],
+  );
+
+  useEffect(
+    () => {
+      // Show alert when navigating away
+      if (!isEmptyForm) {
+        window.onbeforeunload = () => true;
+        return;
+      }
+
+      window.onbeforeunload = undefined;
+    },
+    [isEmptyForm],
   );
 
   // show the user a success alert after their bank info has saved
   useEffect(
     () => {
-      if (
-        previousUiState?.isSaving &&
-        !directDepositUiState.isSaving &&
-        !directDepositUiState.responseError
-      ) {
+      if (wasSavingBankInfo && !isSavingBankInfo && !saveError) {
         setShowSaveSucceededAlert(true);
         setTimeout(() => {
           setShowSaveSucceededAlert(false);
         }, 6000);
       }
     },
-    [
-      previousUiState?.isSaving,
-      directDepositUiState.isSaving,
-      directDepositUiState.responseError,
-    ],
+    [wasSavingBankInfo, isSavingBankInfo, saveError],
   );
 
   const saveBankInfo = () => {
@@ -118,6 +130,15 @@ export const DirectDepositContent = ({
     editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
   };
 
+  const closeDDForm = () => {
+    if (!isEmptyForm) {
+      setShowConfirmCancelModal(true);
+      return;
+    }
+
+    toggleEditState();
+  };
+
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div className={classes.bankInfo}>
@@ -144,15 +165,15 @@ export const DirectDepositContent = ({
 
   // When direct deposit is not set up, we will show
   const notSetUpContent = (
-    <>
-      <button
-        onClick={() => {
-          toggleEditState();
-        }}
-      >
-        Set up direct deposit
-      </button>
-    </>
+    <button
+      className="va-button-link"
+      ref={editBankInfoButton}
+      onClick={() => {
+        toggleEditState();
+      }}
+    >
+      Please add your bank information
+    </button>
   );
 
   // When editing/setting up direct deposit, we'll show a form that accepts bank
@@ -160,9 +181,9 @@ export const DirectDepositContent = ({
   const editingBankInfoContent = (
     <>
       <div id="errors" role="alert" aria-atomic="true">
-        {!!directDepositUiState.responseError && (
+        {!!saveError && (
           <PaymentInformationEditError
-            responseError={directDepositUiState.responseError}
+            responseError={saveError}
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
           />
         )}
@@ -184,7 +205,7 @@ export const DirectDepositContent = ({
         formData={formData}
         formSubmit={saveBankInfo}
         isSaving={directDepositUiState.isSaving}
-        onClose={toggleEditState}
+        onClose={closeDDForm}
         cancelButtonClasses={['va-button-link', 'vads-u-margin-left--1']}
       />
     </>
@@ -201,19 +222,58 @@ export const DirectDepositContent = ({
     return notSetUpContent;
   };
 
-  const getTableData = () => [
-    // top row of the table can show multiple states so we set its value with
-    // the getBankInfo() helper
+  const directDepositData = () => {
+    const data = [
+      // top row of the table can show multiple states so we set its value with
+      // the getBankInfo() helper
+      {
+        title: 'Account',
+        value: getBankInfo(),
+      },
+    ];
+    if (isDirectDepositSetUp) {
+      data.push({
+        title: 'Payment history',
+        value: (
+          <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
+            View your payment history
+          </EbenefitsLink>
+        ),
+      });
+    }
+    return data;
+  };
+
+  const educationBenefitsData = () => [
     {
-      title: 'Account',
-      value: getBankInfo(),
-    },
-    {
-      title: 'Payment history',
       value: (
-        <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
-          View your payment history
-        </EbenefitsLink>
+        <div className="vads-u-display--flex vads-u-flex-direction--column">
+          <p className="vads-u-margin-top--0">
+            You’ll need to sign in to the eBenefits website with your Premium DS
+            Logon account to change your direct deposit information for GI Bill
+            and other education benefits online.
+          </p>{' '}
+          <p>
+            If you don’t have a Premium DS Logon account, you can register for
+            one or upgrade your Basic account to Premium. Your MyHealtheVet or
+            ID.me credentials won’t work on eBenefits.
+          </p>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
+          >
+            Go to eBenefits to change your information
+          </a>
+          <a
+            className="vads-u-margin-top--2"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://va.gov/change-direct-deposit/"
+          >
+            Find out how to change your information by mail or phone
+          </a>
+        </div>
       ),
     },
   ];
@@ -227,6 +287,39 @@ export const DirectDepositContent = ({
 
   return (
     <>
+      <Modal
+        title={'Are you sure?'}
+        status="warning"
+        visible={showConfirmCancelModal}
+        onClose={() => {
+          setShowConfirmCancelModal(false);
+        }}
+      >
+        <p>
+          {' '}
+          {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won't be saved.`}
+        </p>
+        <button
+          className="usa-button-secondary"
+          onClick={() => {
+            setShowConfirmCancelModal(false);
+          }}
+        >
+          Continue Editing
+        </button>
+        <button
+          onClick={() => {
+            setShowConfirmCancelModal(false);
+            toggleEditState();
+          }}
+        >
+          Cancel
+        </button>
+      </Modal>
+      <Prompt
+        message="Are you sure you want to leave? If you leave, your in-progress work won't be saved."
+        when={!isEmptyForm}
+      />
       <div id="success" role="alert" aria-atomic="true">
         <ReactCSSTransitionGroup
           transitionName="form-expanding-group-inner"
@@ -246,22 +339,32 @@ export const DirectDepositContent = ({
           )}
         </ReactCSSTransitionGroup>
       </div>
-      <ProfileInfoTable
-        title="Bank information"
-        data={getTableData()}
-        fieldName="directDeposit"
-      />
+      <ProfileInfoTable title="Bank information" data={directDepositData()} />
       <FraudVictimAlert />
-      <AdditionalInformation />
+      <ProfileInfoTable
+        title="Education benefits"
+        data={educationBenefitsData()}
+      />
     </>
   );
 };
 
 DirectDepositContent.propTypes = {
-  directDepositAccount: PropTypes.object,
-  directDepositAccountInfo: PropTypes.object.isRequired,
+  isAuthorized: PropTypes.bool.isRequired,
+  directDepositAccountInfo: PropTypes.shape({
+    accountNumber: PropTypes.string.isRequired,
+    accountType: PropTypes.string.isRequired,
+    financialInstitutionName: PropTypes.string.isRequired,
+    financialInstitutionRoutingNumber: PropTypes.string.isRequired,
+  }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
-  directDepositUiState: PropTypes.object.isRequired,
+  directDepositUiState: PropTypes.shape({
+    isEditing: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    responseError: PropTypes.string,
+  }),
+  saveBankInformation: PropTypes.func.isRequired,
+  toggleEditState: PropTypes.func.isRequired,
 };
 
 export const mapStateToProps = state => ({

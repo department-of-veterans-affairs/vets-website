@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -124,15 +123,6 @@ export class VetTecSearchPage extends React.Component {
     }
   };
 
-  handleSearchLinkClick = (facilityCode, description) => {
-    const version = this.props.location.query.version;
-    const query = version ? { version } : {};
-    this.props.router.push({
-      pathname: `profile/${facilityCode}/${description}`,
-      query,
-    });
-  };
-
   handlePageSelect = page => {
     this.props.router.push({
       ...this.props.location,
@@ -234,7 +224,6 @@ export class VetTecSearchPage extends React.Component {
                 key={`${result.facilityCode}-${result.description}`}
                 result={result}
                 constants={this.props.constants}
-                handleLinkClick={this.handleSearchLinkClick}
               />
             ))}
           </div>
@@ -335,9 +324,7 @@ const mapDispatchToProps = {
   showModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(VetTecSearchPage),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VetTecSearchPage);

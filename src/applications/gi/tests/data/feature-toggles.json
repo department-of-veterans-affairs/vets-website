@@ -57,6 +57,10 @@
       {
         "name": "gibctEstimateYourBenefits",
         "value": true
+      },
+      {
+        "name": "gibctEybBottomSheet",
+        "value": true
       }
     ]
   }

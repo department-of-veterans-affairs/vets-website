@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
@@ -15,11 +16,15 @@ const ContactInformationSection = ({ className }) => (
     <AdditionalInfo triggerText="Which of my benefits will use this contact information?">
       We’ll use this information to contact you about certain benefits and
       services, including disability compensation, pension benefits, and claims
-      and appeals. If you’re enrolled in VA health care, We’ll send your
+      and appeals. If you’re enrolled in VA health care, we’ll send your
       prescriptions to the mailing address listed. Your health care team may
       also use this contact information to communicate with you.
     </AdditionalInfo>
   </div>
 );
+
+ContactInformationSection.propTypes = {
+  className: PropTypes.string,
+};
 
 export default ContactInformationSection;

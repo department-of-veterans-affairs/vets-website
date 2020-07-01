@@ -41,8 +41,9 @@ export const clearSearchResults = () => ({
  * @param {Object} location The actual location object if we already have it.
  *                 (This is a kinda hacky way to do a force update of the Redux
  *                  store to set the currently `selectedResult` but ¯\_(ツ)_/¯)
+ * @param {number} api version number
  */
-export const fetchVAFacility = (id, location = null) => {
+export const fetchVAFacility = (id, location = null, apiVersion) => {
   if (location) {
     return {
       type: FETCH_LOCATION_DETAIL,
@@ -59,7 +60,7 @@ export const fetchVAFacility = (id, location = null) => {
     });
 
     try {
-      const data = await LocatorApi.fetchVAFacility(id);
+      const data = await LocatorApi.fetchVAFacility(id, apiVersion);
       dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data });
     } catch (error) {
       dispatch({ type: SEARCH_FAILED, error });
@@ -98,6 +99,7 @@ export const fetchProviderDetail = id => async dispatch => {
  * @param {string} serviceType (see config.js for valid types)
  * @param {number} page What page of results to request
  * @param {Function} dispatch Redux's dispatch method
+ * @param {number} api version number
  */
 const fetchLocations = async (
   address = null,
@@ -106,6 +108,7 @@ const fetchLocations = async (
   serviceType,
   page,
   dispatch,
+  apiVersion,
 ) => {
   try {
     const data = await LocatorApi.searchWithBounds(
@@ -114,6 +117,7 @@ const fetchLocations = async (
       locationType,
       serviceType,
       page,
+      apiVersion,
     );
     // Record event as soon as API return results
     if (data.data && data.data.length > 0) {
@@ -134,13 +138,14 @@ const fetchLocations = async (
  *
  * Allows for filtering on location types and services provided.
  *
- * @param {{bounds: number[], facilityType: string, serviceType: string, page: number}}
+ * @param {{bounds: number[], facilityType: string, serviceType: string, page: number, apiVersion: number}}
  */
 export const searchWithBounds = ({
   bounds,
   facilityType,
   serviceType,
   page = 1,
+  apiVersion,
 }) => {
   const needsAddress = [
     LocationType.CC_PROVIDER,
@@ -176,10 +181,19 @@ export const searchWithBounds = ({
           serviceType,
           page,
           dispatch,
+          apiVersion,
         );
       });
     } else {
-      fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
+      fetchLocations(
+        null,
+        bounds,
+        facilityType,
+        serviceType,
+        page,
+        dispatch,
+        apiVersion,
+      );
     }
   };
 };

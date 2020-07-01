@@ -2,6 +2,7 @@
 node_modules/
 /build/
 logs/
+tmp/
 
 # Files to ignore
 ._*
@@ -19,6 +20,7 @@ jsconfig.json
 typings.json
 typings/
 coverage
+/cypress
 .nyc_output
 .yalc
 yalc.lock
@@ -35,3 +37,14 @@ temp
 all-links.csv
 .tern-port
 *.iml
+
+# Track shared IDE config
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# Ignore the hashed build files for comparison
+standaloneContentBuildHash.txt
+websiteContentBuildHash.txt
+
+
+

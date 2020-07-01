@@ -2,12 +2,14 @@ import {
   DEBTS_FETCH_INITIATED,
   DEBTS_FETCH_SUCCESS,
   DEBTS_FETCH_FAILURE,
+  DEBTS_SET_ACTIVE_DEBT,
 } from '../actions';
 
 const initialState = {
   isPending: false,
   isError: false,
   debts: [],
+  selectedDebt: {},
 };
 
 export const debtsReducer = (state = initialState, action) => {
@@ -31,9 +33,14 @@ export const debtsReducer = (state = initialState, action) => {
         isPending: false,
         isError: true,
       };
+    case DEBTS_SET_ACTIVE_DEBT:
+      return {
+        ...state,
+        selectedDebt: action.debt,
+      };
     default:
       return state;
   }
 };
 
-export default { debts: debtsReducer };
+export default { debtLetters: debtsReducer };

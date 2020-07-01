@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
@@ -92,6 +91,7 @@ export class ProfilePage extends React.Component {
             eligibility={this.props.eligibility}
             version={this.props.location.query.version}
             gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
+            gibctEybBottomSheet={this.props.gibctEybBottomSheet}
           />
         );
       }
@@ -123,6 +123,9 @@ const mapStateToProps = state => {
     gibctEstimateYourBenefits: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
     ],
+    gibctEybBottomSheet: toggleValues(state)[
+      FEATURE_FLAG_NAMES.gibctEybBottomSheet
+    ],
   };
 };
 
@@ -133,9 +136,7 @@ const mapDispatchToProps = {
   hideModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ProfilePage),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ProfilePage);

@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import EstimateYourBenefitsForm from '../../components/profile/EstimateYourBenefitsForm';
 import sinon from 'sinon';
+import EstimateYourBenefitsForm from '../../components/profile/EstimateYourBenefitsForm';
 
 const props = {
   eligibility: {
@@ -35,6 +35,7 @@ const state = {
   learningFormatAndScheduleExpanded: false,
   scholarshipsAndOtherFundingExpanded: false,
 };
+
 describe('<EstimateYourBenefitsForm>', () => {
   it('should render', () => {
     const tree = mount(
@@ -124,7 +125,7 @@ describe('<EstimateYourBenefitsForm>', () => {
     expect(errorMessage.length).to.equal(0);
   });
 
-  it('should invoke updateEstimatedBenefits on "Calculate benefits" click, with valid data', () => {
+  it('should invoke updateEstimatedBenefits on "Update benefits" click, with valid data', () => {
     const validInput = {
       beneficiaryLocationQuestion: 'other',
       beneficiaryZIP: '60641',
@@ -145,6 +146,12 @@ describe('<EstimateYourBenefitsForm>', () => {
         updateEstimatedBenefits={updateEstimatedBenefits}
       />,
     );
+
+    tree
+      .find('#militaryStatus')
+      .at(0)
+      .simulate('change', { target: 'active duty' });
+
     tree
       .find('.calculate-button')
       .at(0)
@@ -153,7 +160,7 @@ describe('<EstimateYourBenefitsForm>', () => {
     tree.unmount();
   });
 
-  it('should not invoke updateEstimatedBenefits on "Calculate benefits" click, with invalid data', () => {
+  it('should not invoke updateEstimatedBenefits on "Update benefits" click, with invalid data', () => {
     const validInput = {
       beneficiaryLocationQuestion: 'other',
       beneficiaryZIP: '#',
@@ -175,10 +182,167 @@ describe('<EstimateYourBenefitsForm>', () => {
       />,
     );
     tree
+      .find('#militaryStatus')
+      .at(0)
+      .simulate('change', { target: 'active duty' });
+    tree
       .find('.calculate-button')
       .at(0)
       .simulate('click');
     expect(updateEstimatedBenefits.called).to.be.false;
+    tree.unmount();
+  });
+
+  it('"Update benefits" is disabled without input change', () => {
+    const validInput = {
+      beneficiaryLocationQuestion: 'other',
+      beneficiaryZIP: '60641',
+    };
+    const tree = mount(
+      <EstimateYourBenefitsForm
+        profile={props.profile}
+        eligibility={props.eligibility}
+        eligibilityChange={() => {}}
+        inputs={validInput}
+        displayedInputs={{}}
+        showModal={() => {}}
+        calculatorInputChange={() => {}}
+        onBeneficiaryZIPCodeChanged={() => {}}
+        estimatedBenefits={{}}
+        isLoggedIn={false}
+        updateEstimatedBenefits={() => {}}
+      />,
+    );
+
+    expect(
+      tree
+        .find('.calculate-button')
+        .at(0)
+        .prop('disabled'),
+    ).to.be.true;
+    tree.unmount();
+  });
+
+  it('"Update benefits" is enabled after input change', () => {
+    const validInput = {
+      beneficiaryLocationQuestion: 'other',
+      beneficiaryZIP: '60641',
+    };
+    const tree = mount(
+      <EstimateYourBenefitsForm
+        profile={props.profile}
+        eligibility={props.eligibility}
+        eligibilityChange={() => {}}
+        inputs={validInput}
+        displayedInputs={{}}
+        showModal={() => {}}
+        calculatorInputChange={() => {}}
+        onBeneficiaryZIPCodeChanged={() => {}}
+        estimatedBenefits={{}}
+        isLoggedIn={false}
+        updateEstimatedBenefits={() => {}}
+      />,
+    );
+    tree
+      .find('#militaryStatus')
+      .at(0)
+      .simulate('change', { target: 'active duty' });
+
+    expect(
+      tree
+        .find('.calculate-button')
+        .at(0)
+        .prop('disabled'),
+    ).to.be.false;
+    tree.unmount();
+  });
+
+  it('displays non-OJT learning format section name', () => {
+    const wrapper = mount(
+      <EstimateYourBenefitsForm
+        profile={props.profile}
+        eligibility={props.eligibility}
+        eligibilityChange={() => {}}
+        inputs={{}}
+        displayedInputs={{}}
+        showModal={() => {}}
+        calculatorInputChange={() => {}}
+        onBeneficiaryZIPCodeChanged={() => {}}
+        estimatedBenefits={{}}
+        isLoggedIn={false}
+      />,
+    );
+    expect(wrapper.html()).to.contain('Learning format and location');
+    wrapper.unmount();
+  });
+
+  it('displays OJT learning format section name', () => {
+    const ojtProfile = {
+      ...props.profile,
+      attributes: {
+        ...props.profile.attributes,
+        type: 'OJT',
+      },
+    };
+    const wrapper = mount(
+      <EstimateYourBenefitsForm
+        profile={ojtProfile}
+        eligibility={props.eligibility}
+        eligibilityChange={() => {}}
+        inputs={{}}
+        displayedInputs={{}}
+        showModal={() => {}}
+        calculatorInputChange={() => {}}
+        onBeneficiaryZIPCodeChanged={() => {}}
+        estimatedBenefits={{}}
+        isLoggedIn={false}
+      />,
+    );
+    expect(wrapper.html()).to.contain('Learning format and schedule');
+    wrapper.unmount();
+  });
+
+  it('should track cta-default-button-click on "Update benefits" click, with valid data', () => {
+    const validInput = {
+      beneficiaryLocationQuestion: 'other',
+      beneficiaryZIP: '60641',
+    };
+    const updateEstimatedBenefits = sinon.spy();
+    const tree = mount(
+      <EstimateYourBenefitsForm
+        profile={props.profile}
+        eligibility={props.eligibility}
+        eligibilityChange={() => {}}
+        inputs={validInput}
+        displayedInputs={{}}
+        showModal={() => {}}
+        calculatorInputChange={() => {}}
+        onBeneficiaryZIPCodeChanged={() => {}}
+        estimatedBenefits={{}}
+        isLoggedIn={false}
+        updateEstimatedBenefits={updateEstimatedBenefits}
+      />,
+    );
+
+    tree
+      .find('#militaryStatus')
+      .at(0)
+      .simulate('change', { target: 'active duty' });
+
+    tree
+      .find('.calculate-button')
+      .at(0)
+      .simulate('click');
+
+    const recordedEvent = global.window.dataLayer[0];
+    expect(recordedEvent.event).to.eq('cta-default-button-click');
+    expect(recordedEvent['gibct-parent-accordion-section']).to.eq(
+      'Estimate your benefits',
+    );
+    expect(recordedEvent['gibct-child-accordion-section']).to.eq(
+      'Your military details',
+    );
+
     tree.unmount();
   });
 });

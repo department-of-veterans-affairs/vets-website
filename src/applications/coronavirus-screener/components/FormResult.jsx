@@ -1,26 +1,20 @@
-import React from 'react';
-import { questions } from '../config/questions';
+import React, { useEffect } from 'react';
 import { Element } from 'react-scroll';
 import moment from 'moment';
-import recordEvent from 'platform/monitoring/record-event';
+import classnames from 'classnames';
+import { scrollerTo } from '../lib';
 
-export default function FormResult({
-  formState,
-  resultSubmitted,
-  setResultSubmittedState,
-}) {
-  let result;
-  let resultClass = '';
+const Incomplete = () => <div>Please answer all the questions above.</div>;
 
-  const incomplete = <div>Please answer all the questions above.</div>;
-  const dateText = moment().format('dddd, MMMM D, h:mm a');
-
-  const pass = (
+function Complete({ children }) {
+  return (
     <div>
-      <i aria-hidden="true" role="presentation" className="fas fa-check" />
-      <h2 className="vads-u-font-size--h1">OK to proceed</h2>
-      <h3>Valid for:</h3>
-      <h3>{dateText}</h3>
+      {children}
+      <div className="covid-screener-date">
+        <h2 className="vads-u-font-size--h4">Valid for</h2>
+        <h3>{moment().format('dddd')}</h3>
+        <h4>{moment().format('MMM D, h:mm a')}</h4>
+      </div>
       <div className="vads-u-font-size--h3">
         <p>
           Please show this screen to the staff member at the facility entrance.
@@ -29,54 +23,58 @@ export default function FormResult({
       </div>
     </div>
   );
+}
 
-  const fail = (
-    <div>
-      <h2 className="vads-u-font-size--h1">More screening needed</h2>
-      <h3>Valid for:</h3>
-      <h3>{dateText}</h3>
-      <div className="vads-u-font-size--h3">
-        <p>
-          Please show this screen to the staff member at the facility entrance.
-        </p>
-        <p>Thank you for helping us protect you and others during this time.</p>
-      </div>
-    </div>
-  );
+const Pass = () => (
+  <Complete>
+    <i aria-hidden="true" role="presentation" className="fas fa-check" />
+    <h2 className="vads-u-font-size--h1">OK to proceed</h2>
+  </Complete>
+);
 
-  function recordScreeningToolEvent(screeningToolResult) {
-    if (!resultSubmitted.isSubmitted) {
-      const timeToComplete = moment().unix() - resultSubmitted.startTime;
-      recordEvent({
-        event: 'covid-screening-tool-result-displayed',
-        'screening-tool-result': screeningToolResult,
-        'time-to-complete': timeToComplete,
-      });
-      setResultSubmittedState({ ...resultSubmitted, isSubmitted: true });
+const MoreScreening = () => (
+  <Complete>
+    <h2 className="vads-u-font-size--h1">More screening needed</h2>
+  </Complete>
+);
+
+export default function FormResult({ formState }) {
+  const scrollElementName = 'multi-question-form-result-scroll-element';
+
+  useEffect(() => {
+    // only scroll when form is complete
+    if (formState.status !== 'incomplete') {
+      scrollerTo(scrollElementName);
     }
-  }
+  });
 
-  if (Object.values(formState).length < questions.length) {
-    result = incomplete;
-    resultClass = 'incomplete';
-  } else if (Object.values(formState).includes('yes')) {
-    result = fail;
-    resultClass = 'fail';
-    recordScreeningToolEvent('More screening needed');
-  } else {
-    result = pass;
-    resultClass = 'pass';
-    recordScreeningToolEvent('Pass');
-  }
+  const resultList = {
+    pass: {
+      content: <Pass />,
+      class: 'pass',
+    },
+    'more-screening': {
+      content: <MoreScreening />,
+      class: 'more-screening',
+    },
+    incomplete: {
+      content: <Incomplete />,
+      class: 'incomplete',
+    },
+  };
+
+  const resultContent = resultList[formState.status].content;
 
   return (
     <div
-      className={`feature covid-screener-results covid-screener-results-${resultClass}`}
+      className={classnames(
+        'feature',
+        'covid-screener-results',
+        `covid-screener-results-${resultList[formState.status].class}`,
+      )}
     >
-      <Element
-        name={`multi-question-form-${questions.length}-scroll-element`}
-      />
-      <div>{result}</div>
+      <Element name={scrollElementName} />
+      <div>{resultContent}</div>
     </div>
   );
 }

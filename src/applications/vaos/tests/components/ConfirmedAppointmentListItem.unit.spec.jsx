@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import moment from 'moment';
 
@@ -28,32 +29,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
       },
     ],
     contained: null,
-    legacyVAR: {
-      id: '17dd714287e151195b99164cc1a8e49a',
-      apiData: {
-        startDate: '2020-11-07T17:00:00Z',
-        clinicId: '455',
-        clinicFriendlyName: null,
-        facilityId: '983',
-        communityCare: false,
-        vdsAppointments: [
-          {
-            bookingNote: null,
-            appointmentLength: '60',
-            appointmentTime: '2020-11-07T17:00:00Z',
-            clinic: {
-              name: 'CHY OPT VAR1',
-              askForCheckIn: false,
-              facilityCode: '983',
-            },
-            type: 'REGULAR',
-            currentStatus: 'NO ACTION TAKEN/TODAY',
-          },
-        ],
-        vvsAppointments: [],
-        id: '17dd714287e151195b99164cc1a8e49a',
-      },
-    },
+    id: '17dd714287e151195b99164cc1a8e49a',
     vaos: {
       isPastAppointment: false,
       appointmentType: APPOINTMENT_TYPES.vaAppointment,
@@ -82,10 +58,8 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
 
   const cancelAppointment = sinon.spy();
 
-  let tree;
-
-  beforeEach(() => {
-    tree = mount(
+  it('should render all expected information', () => {
+    const { getByText, baseElement } = render(
       <ConfirmedAppointmentListItem
         showCancelButton
         cancelAppointment={cancelAppointment}
@@ -93,53 +67,38 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
         facility={facility}
       />,
     );
-  });
 
-  afterEach(() => {
-    tree.unmount();
-  });
+    expect(baseElement).to.contain.text('Confirmed');
+    expect(baseElement).to.contain('.fa-check-circle');
 
-  it('should have a status of "confirmed"', () => {
-    expect(
-      tree
-        .find('span')
-        .at(2)
-        .text(),
-    ).to.contain('Confirmed');
-  });
+    expect(getByText(/Wednesday, December 11, 2019/)).to.have.tagName('h3');
+    expect(baseElement).to.contain.text('C&P BEV AUDIO FTC1');
+    expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
+    expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
+    expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(baseElement).to.contain.text('Follow-up/Routine');
+    expect(baseElement).to.contain.text('Instructions');
 
-  it('should have an h3 with date', () => {
-    expect(
-      tree
-        .find('h3')
-        .text()
-        .trim(),
-    ).to.contain('December 11, 2019');
-  });
-
-  it('should display clinic name', () => {
-    expect(tree.text()).to.contain('C&P BEV AUDIO FTC1');
-  });
-
-  it('should show facility address', () => {
-    expect(tree.find('FacilityAddress').exists()).to.be.true;
-  });
-
-  it('should show instructions', () => {
-    expect(tree.text()).to.contain('Follow-up/Routine');
-    expect(tree.text()).to.contain('Instructions');
-  });
-
-  it('should show cancel link', () => {
-    expect(tree.text()).to.contain('Cancel appointment');
-  });
-
-  it('should cancel appointment', () => {
-    tree
-      .find('button')
-      .props()
-      .onClick();
+    fireEvent.click(getByText('Cancel appointment'));
     expect(cancelAppointment.called).to.be.true;
+  });
+
+  it('should not show instructions if comment does not start with preset purpose text', () => {
+    const appt = {
+      ...appointment,
+      comment: 'some comment',
+    };
+
+    const { baseElement } = render(
+      <ConfirmedAppointmentListItem
+        showCancelButton
+        cancelAppointment={cancelAppointment}
+        appointment={appt}
+        facility={facility}
+      />,
+    );
+
+    expect(baseElement).not.to.contain.text('some comment');
   });
 });
 
@@ -178,9 +137,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
         },
       },
     ],
-    legacyVAR: {
-      id: '8a4885896a22f88f016a2cb7f5de0062',
-    },
+    id: '8a4885896a22f88f016a2cb7f5de0062',
     vaos: {
       isPastAppointment: false,
       appointmentType: APPOINTMENT_TYPES.ccAppointment,
@@ -252,7 +209,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
 
 describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
   const apptTime = moment()
-    .add(20, 'minutes')
+    .add(50, 'minutes')
     .format();
   const appointment = {
     resourceType: 'Appointment',
@@ -260,7 +217,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
     description: 'FUTURE',
     start: apptTime,
     minutesDuration: 20,
-    comment: 'T+90 Testing',
+    comment: '',
     participant: null,
     contained: [
       {
@@ -284,88 +241,11 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
       },
     ],
     legacyVAR: {
-      id: '05760f00c80ae60ce49879cf37a05fc8',
       apiData: {
-        startDate: '2020-11-25T15:17:00Z',
-        clinicId: null,
-        clinicFriendlyName: null,
         facilityId: '983',
-        communityCare: false,
-        vdsAppointments: [],
-        vvsAppointments: [
-          {
-            id: '8a74bdfa-0e66-4848-87f5-0d9bb413ae6d',
-            appointmentKind: 'ADHOC',
-            sourceSystem: 'SM',
-            dateTime: '2020-11-25T15:17:00Z',
-            duration: 20,
-            status: {
-              description: 'F',
-              code: 'FUTURE',
-            },
-            schedulingRequestType: 'NEXT_AVAILABLE_APPT',
-            type: 'REGULAR',
-            bookingNotes: 'T+90 Testing',
-            instructionsOther: false,
-            patients: [
-              {
-                name: {
-                  firstName: 'JUDY',
-                  lastName: 'MORRISON',
-                },
-                contactInformation: {
-                  mobile: '7036520000',
-                  preferredEmail: 'marcy.nadeau@va.gov',
-                },
-                location: {
-                  type: 'NonVA',
-                  facility: {
-                    name: 'CHEYENNE VAMC',
-                    siteCode: '983',
-                    timeZone: '10',
-                  },
-                },
-                patientAppointment: true,
-                virtualMeetingRoom: {
-                  conference: 'VVC8275247',
-                  pin: '3242949390#',
-                  url:
-                    'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
-                },
-              },
-            ],
-            providers: [
-              {
-                name: {
-                  firstName: 'Test T+90',
-                  lastName: 'Test',
-                },
-                contactInformation: {
-                  mobile: '8888888888',
-                  preferredEmail: 'marcy.nadeau@va.gov',
-                  timeZone: '10',
-                },
-                location: {
-                  type: 'VA',
-                  facility: {
-                    name: 'CHEYENNE VAMC',
-                    siteCode: '983',
-                    timeZone: '10',
-                  },
-                },
-                virtualMeetingRoom: {
-                  conference: 'VVC8275247',
-                  pin: '7172705#',
-                  url:
-                    'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
-                },
-              },
-            ],
-          },
-        ],
-        id: '05760f00c80ae60ce49879cf37a05fc8',
       },
     },
+    id: '05760f00c80ae60ce49879cf37a05fc8',
     vaos: {
       isPastAppointment: false,
       appointmentType: APPOINTMENT_TYPES.vaAppointment,
@@ -375,17 +255,66 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
     },
   };
 
-  const tree = mount(
-    <ConfirmedAppointmentListItem appointment={appointment} />,
-  );
+  it('should render expected video information', () => {
+    const { getByText, queryByText } = render(
+      <ConfirmedAppointmentListItem appointment={appointment} />,
+    );
 
-  it('should contain link to video conference', () => {
-    expect(tree.find('VideoVisitSection').length).to.equal(1);
+    expect(getByText(/join session/i)).to.have.attribute(
+      'aria-disabled',
+      'true',
+    );
+    expect(queryByText(/prepare for video visit/i)).not.to.exist;
   });
 
-  it('should not show booking note', () => {
-    expect(tree.text()).not.to.contain('Booking note');
-    expect(tree.text()).not.to.contain('My reason isn’t listed');
+  it('should render active video link', () => {
+    const { getByText } = render(
+      <ConfirmedAppointmentListItem
+        appointment={{
+          ...appointment,
+          start: moment()
+            .add(20, 'minutes')
+            .format(),
+        }}
+      />,
+    );
+
+    expect(getByText(/join session/i)).to.have.attribute(
+      'aria-disabled',
+      'false',
+    );
+  });
+
+  it('should reveal medication review instructions', () => {
+    const { getByText, queryByText, findByText } = render(
+      <ConfirmedAppointmentListItem
+        appointment={{
+          ...appointment,
+          comment: 'Medication Review',
+        }}
+      />,
+    );
+
+    expect(queryByText(/medication review/i)).to.not.exist;
+    fireEvent.click(getByText(/prepare for video visit/i));
+
+    return expect(findByText(/medication review/i)).to.eventually.be.ok;
+  });
+
+  it('should reveal video visit instructions', () => {
+    const { getByText, queryByText, findByText } = render(
+      <ConfirmedAppointmentListItem
+        appointment={{
+          ...appointment,
+          comment: 'Video Visit Preparation',
+        }}
+      />,
+    );
+
+    expect(queryByText(/before your appointment/i)).to.not.exist;
+    fireEvent.click(getByText(/prepare for video visit/i));
+
+    return expect(findByText('Before your appointment:')).to.eventually.be.ok;
   });
 });
 

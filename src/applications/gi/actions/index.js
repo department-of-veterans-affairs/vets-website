@@ -41,7 +41,7 @@ export function updateRoute(location) {
 }
 
 export function showModal(modal) {
-  if (modal) {
+  if (modal && modal !== 'section103') {
     recordEvent({
       event: 'gibct-learn-more',
       'gibct-modal-displayed': modal,
@@ -202,8 +202,11 @@ export function institutionFilterChange(filter) {
   return { type: INSTITUTION_FILTER_CHANGED, filter };
 }
 
-export function fetchInstitutionSearchResults(query = {}) {
-  const url = appendQuery(`${api.url}/institutions/search`, rubyifyKeys(query));
+export function fetchInstitutionSearchResults(query = {}, fuzzySearch) {
+  const url = appendQuery(
+    `${api.url}/institutions/search`,
+    rubyifyKeys({ ...query, fuzzySearch }),
+  );
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, query });
@@ -298,6 +301,11 @@ export function fetchProfile(facilityCode, version) {
 }
 
 export function calculatorInputChange({ field, value }) {
+  recordEvent({
+    event: 'gibct-form-change',
+    'gibct-form-field': field,
+    'gibct-form-value': value,
+  });
   return {
     type: CALCULATOR_INPUTS_CHANGED,
     field,

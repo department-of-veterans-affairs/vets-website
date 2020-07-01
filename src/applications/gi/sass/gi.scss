@@ -72,6 +72,11 @@
     background-image: none;
   }
 
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
   .search-result {
     i.fa {
       background: initial;
@@ -83,108 +88,80 @@
     padding-top: 1em;
   }
 
-  h1:focus {
+  h1:focus,
+  h2:focus,
+  h3:focus {
     outline: none;
   }
-}
-@media (max-width: 481px) {
-  .about-this-tool-mobile {
-    padding-left: 20px;
+
+  nav {
+    margin-left: 0.5rem;
   }
-}
 
-.gibct-legend {
-  margin-top: 1rem;
-  display: block;
-  font-weight: inherit;
-  font-size: inherit;
-  color: inherit;
-  line-height: inherit;
-  max-width: 46rem;
-  padding-bottom: 0;
-}
-
-/*
- * These styles override our overly broad accordion styles
- */
-.learn-more-button {
-  background-image: none !important;
-  font-weight: inherit !important;
-}
-
-.gids-radio-buttons {
-  position: relative;
-  @include media($small-screen) {
-    display: flex;
-  }
-  padding-left: .50rem;
-}
-
-.program-description {
-  margin-top: 1.0rem;
-  margin-bottom: 1.0rem;
-  label {
-    margin-left: 1.7rem;
-  }
-}
-
-.form-expanding-group-open {
-  border-left: none;
-}
-
-.gids-radio-buttons-input {
-  width: 40px;
-}
-
-.vet-tec-programs-table {
-  .name-col {
-    width: 70%;
-  }
-  .hours-col {
-    width: 15%;
-  }
-  .tuition-col {
-    width: 15%;
-  }
-  thead {
-    tr {
-      th {
-        border-top: 0;
-        border-right: 0;
-        border-left: 0;
-      }
+  @media (max-width: 481px) {
+    .about-this-tool-mobile {
+      padding-left: 20px;
     }
   }
-  tr {
-    th {
-      border-right: 0;
-      border-left: 0;
+
+  .gibct-legend {
+    margin-top: 1rem;
+    display: block;
+    font-weight: inherit;
+    font-size: inherit;
+    color: inherit;
+    line-height: inherit;
+    max-width: 46rem;
+    padding-bottom: 0;
+  }
+
+  /*
+   * These styles override our overly broad accordion styles
+   */
+  .learn-more-button {
+    background-image: none !important;
+    font-weight: inherit !important;
+  }
+
+  .gids-radio-buttons {
+    position: relative;
+    @include media($small-screen) {
+      display: flex;
     }
-    td {
-      border-right: 0;
-      border-left: 0;
+    padding-left: 0.5rem;
+  }
+
+  .program-description {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    label {
+      margin-left: 1.7rem;
     }
   }
-}
 
-.section-item {
-  padding-bottom: 0.188em;
-  padding-top: 0.188em;
-
-  .section-button {
-    border: 2px solid #AEB0B5 !important;
-    margin: 0px;
+  .gids-radio-buttons-input {
+    width: 40px;
   }
 
-  .section-button-span {
-    padding-right: 2rem;
-  }
+  .section-item {
+    padding-bottom: 0.188em;
+    padding-top: 0.188em;
 
-  .section-content {
-    max-width: 25em;
-  }
+    .section-button {
+      border: 2px solid #aeb0b5 !important;
+      margin: 0px;
+    }
 
-  .section-content[aria-hidden="false"] {
-    margin-bottom: 0.625em;
+    .section-button-span {
+      padding-right: 2rem;
+    }
+
+    .section-content {
+      max-width: 25em;
+    }
+
+    .section-content[aria-hidden="false"] {
+      margin-bottom: 0.625em;
+    }
   }
 }

@@ -5,6 +5,7 @@ import URLSearchParams from 'url-search-params';
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
 import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
+import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
@@ -15,29 +16,32 @@ export const ssoKeepAliveEndpoint = () => {
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
-function sessionTypeUrl(type = '', version = 'v0', application = null) {
+function sessionTypeUrl(
+  type = '',
+  version = 'v0',
+  application = null,
+  to = null,
+  queryParams = {},
+) {
   const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
-  const params = new URLSearchParams();
 
-  if (application) params.append('application', application);
-  if (version === 'v1') params.append('force', 'true');
+  const searchParams = new URLSearchParams(queryParams);
+  if (application) {
+    searchParams.append('application', application);
 
-  return `${base}/${type}/new?${params.toString()}`;
-}
-
-const loginUrl = (policy, version, application) => {
-  switch (policy) {
-    case 'mhv':
-      return sessionTypeUrl('mhv', version, application);
-    case 'dslogon':
-      return sessionTypeUrl('dslogon', version, application);
-    default:
-      return sessionTypeUrl('idme', version, application);
+    if (to) {
+      searchParams.append('to', to);
+    }
   }
-};
+
+  const queryString =
+    searchParams.toString() === '' ? '' : `?${searchParams.toString()}`;
+
+  return `${base}/${type}/new${queryString}`;
+}
 
 export function setSentryLoginType(loginType) {
   Sentry.setTag('loginType', loginType);
@@ -88,15 +92,17 @@ function redirect(redirectUrl, clickedEvent) {
   }
 }
 
-export function login(policy, version = 'v0', application = null) {
-  return redirect(
-    loginUrl(policy, version, application),
-    'login-link-clicked-modal',
-  );
-}
-
-export function autoLogin() {
-  return redirect(sessionTypeUrl('idme', 'v1'), 'sso-automatic-login');
+export function login(
+  policy,
+  version = 'v0',
+  application = null,
+  to = null,
+  queryParams = {},
+  clickedEvent = 'login-link-clicked-modal',
+) {
+  const url = sessionTypeUrl(policy, version, application, to, queryParams);
+  setLoginAttempted();
+  return redirect(url, clickedEvent);
 }
 
 export function mfa(version = 'v0') {
@@ -107,18 +113,14 @@ export function verify(version = 'v0') {
   return redirect(sessionTypeUrl('verify', version), 'verify-link-clicked');
 }
 
-export function logout(version = 'v0') {
+export function logout(version = 'v0', clickedEvent = 'logout-link-clicked') {
   clearSentryLoginType();
-  return redirect(sessionTypeUrl('slo', version), 'logout-link-clicked');
+  return redirect(sessionTypeUrl('slo', version), clickedEvent);
 }
 
-export function autoLogout() {
-  return redirect(sessionTypeUrl('slo', 'v1'), 'sso-automatic-logout');
-}
-
-export function signup(version = 'v0', application = null) {
+export function signup(version = 'v0', application = null, to = null) {
   return redirect(
-    sessionTypeUrl('signup', version, application),
+    sessionTypeUrl('signup', version, application, to),
     'register-link-clicked',
   );
 }

@@ -22,6 +22,7 @@ function parseId(id) {
  * @param {string} slotsRequest.clinicId clinic id
  * @param {string} slotsRequest.startDate start date to search for appointments lots formatted as YYYY-MM-DD
  * @param {string} slotsRequest.endDate end date to search for appointments lots formatted as YYYY-MM-DD
+ * @returns {Array} A FHIR searchset of Slot resources
  */
 export async function getSlots({
   siteId,
@@ -34,7 +35,7 @@ export async function getSlots({
     const data = await getAvailableSlots(
       parseId(siteId),
       typeOfCareId,
-      clinicId,
+      clinicId.split('_')[1],
       startDate,
       endDate,
     );

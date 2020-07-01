@@ -1,10 +1,14 @@
-import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { states } from 'platform/forms/address';
-import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
 import ConfirmationPage from 'applications/caregivers/containers/ConfirmationPage';
+import environment from 'platform/utilities/environment';
+import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
 import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
-import { medicalCentersByState } from 'applications/caregivers/helpers';
+import {
+  medicalCentersByState,
+  submitTransform,
+} from 'applications/caregivers/helpers';
+import { states } from 'platform/forms/address';
 import {
   PrimaryCaregiverInfo,
   PrimaryHealthCoverage,
@@ -76,9 +80,8 @@ const hasSecondaryCaregiverTwo = formData =>
  */
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
+  transformForSubmit: submitTransform,
   trackingPrefix: 'caregiver-1010cg',
   introduction: IntroductionPage,
   footerContent: NeedHelpFooter,
@@ -107,7 +110,7 @@ const formConfig = {
       pages: {
         veteranInfoOne: {
           path: 'vet-1',
-          title: ' ',
+          title: 'Veteran information',
           uiSchema: {
             'ui:description': VetInfo({ headerInfo: true }),
             [vetFields.fullName]: fullNameUI(vetUI.vetInputLabel),
@@ -229,7 +232,7 @@ const formConfig = {
       pages: {
         primaryCaregiverInfoOne: {
           path: 'primary-1',
-          title: ' ',
+          title: 'Primary Family Caregiver information',
           uiSchema: {
             'ui:description': () =>
               PrimaryCaregiverInfo({ additionalInfo: true }),
@@ -326,6 +329,7 @@ const formConfig = {
               primaryCaregiverUI.champvaEnrolledUI,
             [primaryCaregiverFields.otherHealthInsurance]:
               primaryCaregiverUI.otherHealthInsuranceUI,
+            // optionally require
             [primaryCaregiverFields.otherHealthInsuranceName]:
               primaryCaregiverUI.otherHealthInsuranceNameUI,
           },
@@ -363,7 +367,7 @@ const formConfig = {
       pages: {
         secondaryCaregiverOneIntro: {
           path: 'secondary-one-1',
-          title: ' ',
+          title: 'Secondary Family Caregiver information',
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo({
               additionalInfo: true,
@@ -492,7 +496,7 @@ const formConfig = {
       pages: {
         secondaryCaregiverTwo: {
           path: 'secondary-two-1',
-          title: ' ',
+          title: 'Secondary Family Caregiver (2) information',
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
@@ -541,7 +545,7 @@ const formConfig = {
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo({
-              pathTitle: contactInfoTitle,
+              pageTitle: contactInfoTitle,
             }),
             // secondaryTwo UI
             [secondaryCaregiverFields.secondaryTwo

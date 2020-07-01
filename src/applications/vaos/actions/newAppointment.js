@@ -18,6 +18,7 @@ import {
   getEligibilityStatus,
   getRootIdForChosenFacility,
   getSiteIdForChosenFacility,
+  vaosVSPAppointmentNew,
 } from '../utils/selectors';
 import {
   getPreferences,
@@ -55,7 +56,7 @@ import {
 
 import { recordEligibilityFailure, resetDataLayer } from '../utils/events';
 
-import { captureError } from '../utils/error';
+import { captureError, getErrorCodes } from '../utils/error';
 
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -268,7 +269,8 @@ export function openFacilityPage(page, uiSchema, schema) {
     const newAppointment = initialState.newAppointment;
     const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
-    const userSystemIds = selectSystemIds(initialState);
+    const userSiteIds = selectSystemIds(initialState);
+    const useVSP = vaosVSPAppointmentNew(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let facilities = null;
     let eligibilityData = null;
@@ -280,7 +282,10 @@ export function openFacilityPage(page, uiSchema, schema) {
       // If we have the VA parent in our state, we don't need to
       // fetch them again
       if (!parentFacilities) {
-        parentFacilities = await getOrganizations(userSystemIds);
+        parentFacilities = await getOrganizations({
+          siteIds: userSiteIds,
+          useVSP,
+        });
       }
 
       const canShowFacilities = !!parentId || parentFacilities?.length === 1;
@@ -600,8 +605,9 @@ export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
 
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
+    const useVSP = vaosVSPAppointmentNew(getState());
     const newAppointment = getState().newAppointment;
-    const systemIds = newAppointment.ccEnabledSystems;
+    const siteIds = newAppointment.ccEnabledSystems;
     let parentFacilities = newAppointment.parentFacilities;
 
     dispatch({
@@ -610,7 +616,10 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
 
     try {
       if (!newAppointment.parentFacilities) {
-        parentFacilities = await getOrganizations(systemIds);
+        parentFacilities = await getOrganizations({
+          siteIds,
+          useVSP,
+        });
       }
 
       dispatch({
@@ -696,6 +705,7 @@ export function submitAppointmentOrRequest(router) {
         captureError(error, true);
         dispatch({
           type: FORM_SUBMIT_FAILED,
+          isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
         });
 
         // Remove parse function when converting this call to FHIR service
@@ -779,6 +789,7 @@ export function submitAppointmentOrRequest(router) {
         captureError(error, true, 'Request submission failure', extraData);
         dispatch({
           type: FORM_SUBMIT_FAILED,
+          isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
         });
 
         // Remove parse function when converting this call to FHIR service

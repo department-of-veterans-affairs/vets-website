@@ -35,6 +35,7 @@ const mockStore = {
           state: 'TX',
           postalCode: '77550',
         },
+        'view:currentAddress': 'permanentAddress',
         formData: {
           'view:livesOnMilitaryBaseInfo': {},
           country: 'USA',
@@ -85,7 +86,11 @@ describe("the ReviewCardField's", () => {
   describe('review mode', () => {
     it('should render', () => {
       const wrapper = shallow(
-        <ReviewCardField store={mockStore} {...mockData} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...mockData}
+        />,
       );
       expect(wrapper.html()).to.contain('Thing');
       wrapper.unmount();
@@ -95,7 +100,12 @@ describe("the ReviewCardField's", () => {
         // Not necessary if not componentWillUnmount
         // eslint-disable-next-line va/enzyme-unmount
         shallow(
-          <ReviewCardField store={mockStore} {...mockData} uiSchema={{}} />,
+          <ReviewCardField
+            name="permanentAddress"
+            store={mockStore}
+            {...mockData}
+            uiSchema={{}}
+          />,
         ).dive();
       }).to.throw('viewComponent');
     });
@@ -105,6 +115,7 @@ describe("the ReviewCardField's", () => {
         // eslint-disable-next-line va/enzyme-unmount
         shallow(
           <ReviewCardField
+            name="permanentAddress"
             store={mockStore}
             {...mockData}
             schema={{ type: 'string' }}
@@ -115,7 +126,11 @@ describe("the ReviewCardField's", () => {
     // Also tests that it renders a custom component
     it('should start in view mode', () => {
       const wrapper = shallow(
-        <ReviewCardField store={mockStore} {...mockData} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...mockData}
+        />,
       ).dive();
       expect(wrapper.find('viewComponent').length).to.equal(1);
       expect(wrapper.find('.input-section').length).to.equal(0);
@@ -123,7 +138,11 @@ describe("the ReviewCardField's", () => {
     });
     it('should transition to edit mode', () => {
       const wrapper = shallow(
-        <ReviewCardField store={mockStore} {...mockData} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...mockData}
+        />,
       ).dive();
       expect(wrapper.find('viewComponent').length).to.equal(1);
 
@@ -135,7 +154,11 @@ describe("the ReviewCardField's", () => {
     });
     it('should pass formData to the custom view component', () => {
       const wrapper = shallow(
-        <ReviewCardField store={mockStore} {...mockData} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...mockData}
+        />,
       ).dive();
 
       expect(wrapper.find('viewComponent').props().formData).to.equal(
@@ -146,7 +169,11 @@ describe("the ReviewCardField's", () => {
     it('should render the appropriate field in reviewMode according to the data type', () => {
       const props = set('formContext.onReviewPage', true, mockData);
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...props} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...props}
+        />,
       ).dive();
       expect(tree.find('ObjectField').length).to.equal(1);
       tree.unmount();
@@ -155,7 +182,11 @@ describe("the ReviewCardField's", () => {
     it('should handle a custom reviewTitle', () => {
       const props = set('uiSchema.ui:options.reviewTitle', 'Thingy', mockData);
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...props} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...props}
+        />,
       ).dive();
       expect(tree.find('.review-card--title').text()).to.equal('Thingy');
       tree.unmount();
@@ -168,7 +199,11 @@ describe("the ReviewCardField's", () => {
       )(mockData);
 
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...props} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...props}
+        />,
       ).dive();
       expect(tree.find('.review-card--subtitle').text()).to.equal(
         'Subtitle text',
@@ -183,6 +218,7 @@ describe("the ReviewCardField's", () => {
       };
       const wrapper = shallow(
         <ReviewCardField
+          name="permanentAddress"
           store={mockStore}
           {...mockData}
           errorSchema={errorSchema}
@@ -196,7 +232,11 @@ describe("the ReviewCardField's", () => {
     it('should transition to view mode', () => {
       // Not sure how to be not duplicate an existing test here
       const wrapper = shallow(
-        <ReviewCardField store={mockStore} {...mockData} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...mockData}
+        />,
       ).dive();
       expect(wrapper.find('viewComponent').length).to.equal(1);
 
@@ -220,6 +260,7 @@ describe("the ReviewCardField's", () => {
       };
       const wrapper = shallow(
         <ReviewCardField
+          name="permanentAddress"
           store={mockStore}
           {...mockData}
           errorSchema={errorSchema}
@@ -243,7 +284,11 @@ describe("the ReviewCardField's", () => {
     it('should handle truthy values', () => {
       const props = set('uiSchema.ui:options.startInEdit', true, mockData);
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...props} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...props}
+        />,
       ).dive();
       expect(tree.find('.input-section').length).to.equal(1);
       tree.unmount();
@@ -251,7 +296,13 @@ describe("the ReviewCardField's", () => {
 
     it('should handle falsey values', () => {
       const props = set('uiSchema.ui:options.startInEdit', false, mockData);
-      const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
+      const tree = shallow(
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...props}
+        />,
+      );
       expect(tree.find('.input-section').length).to.equal(0);
       tree.unmount();
     });
@@ -263,7 +314,11 @@ describe("the ReviewCardField's", () => {
         mockData,
       );
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...props} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...props}
+        />,
       ).dive();
       expect(tree.find('.input-section').length).to.equal(1);
       tree.unmount();
@@ -280,9 +335,15 @@ describe("the ReviewCardField's", () => {
         editModeProps,
       );
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...props} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...props}
+        />,
       ).dive();
-      expect(tree.find('.review-card--title').text()).to.equal('Edit thingy');
+      expect(tree.find('.review-card--edit-title').text()).to.equal(
+        'Edit thingy',
+      );
       tree.unmount();
     });
   });
@@ -296,7 +357,11 @@ describe("the ReviewCardField's", () => {
 
     it('should remove the edit button from the header in review mode', () => {
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...defaultVDProps} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...defaultVDProps}
+        />,
       );
       expect(tree.find('.review-card--header .edit-button').length).to.equal(0);
       tree.unmount();
@@ -304,7 +369,11 @@ describe("the ReviewCardField's", () => {
 
     it('should remove the save button in review mode', () => {
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...defaultVDProps} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...defaultVDProps}
+        />,
       );
       expect(tree.find('.update-button').length).to.equal(0);
       tree.unmount();
@@ -318,12 +387,13 @@ describe("the ReviewCardField's", () => {
       );
       const tree = mount(
         <ReviewCardField
+          name="permanentAddress"
           store={mockStore}
           {...props}
           formContext={{ onReviewPage: true, reviewMode: true }}
         />,
       );
-      expect(tree.find('div.review').length).to.equal(1);
+      expect(tree.find('.review').length).to.equal(1);
       tree.unmount();
     });
 
@@ -335,6 +405,7 @@ describe("the ReviewCardField's", () => {
       );
       const tree = mount(
         <ReviewCardField
+          name="permanentAddress"
           store={mockStore}
           {...props}
           formContext={{ onReviewPage: true, reviewMode: false }}
@@ -346,7 +417,11 @@ describe("the ReviewCardField's", () => {
 
     it('should add a "New X" button in review mode', () => {
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...defaultVDProps} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...defaultVDProps}
+        />,
       ).dive();
       const editButtons = tree.find('.edit-button');
       expect(editButtons.length).to.equal(1);
@@ -361,7 +436,11 @@ describe("the ReviewCardField's", () => {
         defaultVDProps,
       );
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...props} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...props}
+        />,
       ).dive();
       expect(tree.find('.edit-button').text()).to.equal('New Doodad');
       tree.unmount();
@@ -373,14 +452,24 @@ describe("the ReviewCardField's", () => {
         true,
         defaultVDProps,
       );
-      const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
+      const tree = shallow(
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...props}
+        />,
+      );
       expect(tree.find('.cancel-button').length).to.equal(0);
       tree.unmount();
     });
 
     it('should add a save & cancel button in edit mode', () => {
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...defaultVDProps} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...defaultVDProps}
+        />,
       ).dive();
       // Start editing
       tree.find('.usa-button-primary').simulate('click');
@@ -393,7 +482,11 @@ describe("the ReviewCardField's", () => {
       defaultVDProps.onChange.reset();
       // Start in review mode with some data
       const tree = shallow(
-        <ReviewCardField store={mockStore} {...defaultVDProps} />,
+        <ReviewCardField
+          name="permanentAddress"
+          store={mockStore}
+          {...defaultVDProps}
+        />,
       ).dive();
       // Start editing
       tree.find('.usa-button-primary').simulate('click');

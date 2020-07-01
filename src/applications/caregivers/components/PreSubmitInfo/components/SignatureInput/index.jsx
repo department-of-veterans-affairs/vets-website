@@ -1,50 +1,64 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 
-const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
+const SignatureInput = ({
+  fullName,
+  required,
+  label,
+  setIsSigned,
+  showError,
+}) => {
   const inputRef = useRef(null);
+  const firstName = fullName.first?.toLowerCase();
+  const lastName = fullName.last?.toLowerCase();
+  const middleName = fullName.middle?.toLowerCase();
+  const firstLetterOfMiddleName = middleName ? middleName.charAt(0) : '';
+  const signatureRegEx = new RegExp(
+    `${firstName}(\\s{1,4}|\\s{0,4}${firstLetterOfMiddleName}\\s{0,4}|\\s{0,4}${middleName}\\s{0,4})${lastName}`,
+  );
   const [signature, setSignature] = useState({
     value: '',
     dirty: false,
   });
   const [hasError, setError] = useState(false);
-  const firstAndLast =
-    signature.value.startsWith(fullName.first) &&
-    signature.value.endsWith(fullName.last);
+  const hasSignatureMatched = signatureRegEx.test(
+    signature.value?.toLowerCase(),
+  );
 
   useEffect(
     () => {
       const isDirty = signature.dirty;
       const activeElementId = document.activeElement.id;
       const inputId = inputRef.current.inputId;
-      setIsSigned(firstAndLast);
+      setIsSigned(hasSignatureMatched);
 
-      if (isDirty && activeElementId !== inputId && !firstAndLast) {
+      if (
+        (isDirty && activeElementId !== inputId && !hasSignatureMatched) ||
+        showError
+      ) {
         setError(true);
       }
 
-      if (firstAndLast) {
+      if (hasSignatureMatched) {
         setError(false);
       }
     },
-    [setIsSigned, signature, firstAndLast],
+    [setIsSigned, signature, hasSignatureMatched, showError],
   );
 
   return (
-    <>
-      <label htmlFor="vet-signature-input">{label}</label>
-      <ErrorableTextInput
-        ref={inputRef}
-        id="vet-signature-input"
-        required={required}
-        onValueChange={value => setSignature(value)}
-        field={{ value: signature.value, dirty: signature.dirty }}
-        errorMessage={
-          hasError &&
-          'Your signature must match your first and last name as previously entered.'
-        }
-      />
-    </>
+    <ErrorableTextInput
+      additionalClass="signature-input"
+      ref={inputRef}
+      label={label}
+      required={required}
+      onValueChange={value => setSignature(value)}
+      field={{ value: signature.value, dirty: signature.dirty }}
+      errorMessage={
+        hasError &&
+        'Your signature must match your first and last name as previously entered.'
+      }
+    />
   );
 };
 

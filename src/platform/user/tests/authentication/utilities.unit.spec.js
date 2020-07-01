@@ -1,16 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import * as forceAuth from 'platform/utilities/sso/forceAuth';
-
 import {
   login,
   mfa,
   verify,
   logout,
   signup,
-  autoLogin,
-  autoLogout,
 } from '../../authentication/utilities';
 
 let oldSessionStorage;
@@ -63,6 +59,13 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
+  it('should add query params for "to" if "application" is present', () => {
+    login('idme', 'v1', 'someApplication', '/path/to/app');
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme/new?application=someApplication&to=%2Fpath%2Fto%2Fapp',
+    );
+  });
+
   it('should redirect for login v1 with application', () => {
     login('idme', 'v1', 'my-app');
     expect(global.window.location).to.include(
@@ -70,22 +73,10 @@ describe('authentication URL helpers', () => {
     );
   });
 
-  it('should redirect for login v1 with force auth', () => {
-    const stub = sinon.stub(forceAuth, 'getForceAuth').callsFake(() => true);
-    login('idme', 'v1');
-    stub.restore();
-    expect(global.window.location).to.include(
-      '/v1/sessions/idme/new?force=true',
-    );
-  });
-
-  it('should redirect for login v1 with application and force auth', () => {
-    const stub = sinon.stub(forceAuth, 'getForceAuth').callsFake(() => true);
-    login('idme', 'v1', 'my-app');
-    stub.restore();
-    expect(global.window.location).to.include(
-      '/v1/sessions/idme/new?application=my-app&force=true',
-    );
+  it('should redirect for login with custom event', () => {
+    login('idme', 'v1', null, null, {}, 'custom-event');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+    expect(global.window.dataLayer[0].event).to.eq('custom-event');
   });
 
   it('should redirect for logout', () => {
@@ -96,6 +87,12 @@ describe('authentication URL helpers', () => {
   it('should redirect for logout v1', () => {
     logout('v1');
     expect(global.window.location).to.include('/v1/sessions/slo/new');
+  });
+
+  it('should redirect for logout with custom event', () => {
+    logout('v1', 'custom-event');
+    expect(global.window.location).to.include('/v1/sessions/slo/new');
+    expect(global.window.dataLayer[0].event).to.eq('custom-event');
   });
 
   it('should redirect for MFA', () => {
@@ -116,15 +113,5 @@ describe('authentication URL helpers', () => {
   it('should redirect for verify v1', () => {
     verify('v1');
     expect(global.window.location).to.include('/v1/sessions/verify/new');
-  });
-
-  it.skip('should redirect for SSO auto-login', () => {
-    autoLogin();
-    expect(global.window.location).to.include('/v1/sessions/idme/new');
-  });
-
-  it.skip('should redirect for SSO auto-logout', () => {
-    autoLogout();
-    expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 });

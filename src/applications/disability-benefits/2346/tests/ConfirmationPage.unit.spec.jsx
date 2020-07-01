@@ -1,24 +1,16 @@
-import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import React from 'react';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 describe('ConfirmationPage', () => {
   const fakeStore = {
     getState: () => ({
       form: {
-        submission: {
-          submittedAt: 'May 8, 2020',
-          response: {
-            attributes: {
-              confirmationNumber: '123456',
-            },
-          },
-        },
         data: {
           permanentAddress: {
             'view:livesOnMilitaryBaseInfo': {},
-            country: 'USA',
+            country: 'United States',
             street: '101 Example Street',
             street2: 'Apt 2',
             city: 'Kansas City',
@@ -27,30 +19,30 @@ describe('ConfirmationPage', () => {
           },
           temporaryAddress: {
             'view:livesOnMilitaryBaseInfo': {},
-            country: 'USA',
+            country: 'United States',
             street: '201 Example Street',
             city: 'Galveston',
             state: 'TX',
             postalCode: '77550',
           },
-          email: 'test2@test1.net',
-          currentAddress: 'temporaryAddress',
+          vetEmail: 'vet@vet.com',
+          'view:currentAddress': 'permanentAddress',
           supplies: [
             {
               deviceName: 'OMEGAX d3241',
               productName: 'ZA1239',
-              productGroup: 'hearing aid batteries',
-              productId: '1',
+              productGroup: 'BATTERIES',
+              productId: 1,
               availableForReorder: true,
-              lastOrderDate: '2020-01-01',
-              nextAvailabilityDate: '2020-09-01',
+              lastOrderDate: '2019-12-25',
+              nextAvailabilityDate: '2020-01-01',
               quantity: 60,
-              prescribedDate: '2020-12-20',
+              prescribedDate: '2019-12-20',
             },
             {
               productName: 'DOME',
-              productGroup: 'hearing aid accessories',
-              productId: '3',
+              productGroup: 'ACCESSORIES',
+              productId: 3,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
@@ -59,8 +51,8 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'hearing aid accessories',
-              productId: '4',
+              productGroup: 'ACCESSORIES',
+              productId: 4,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
@@ -69,8 +61,8 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'WaxBuster Single Unit',
-              productGroup: 'hearing aid accessories',
-              productId: '5',
+              productGroup: 'ACCESSORIES',
+              productId: 5,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
@@ -81,7 +73,85 @@ describe('ConfirmationPage', () => {
           ssnLastFour: '1200',
           gender: 'M',
           dateOfBirth: '1933-04-05',
-          selectedProducts: [{ productId: '4' }, { productId: '5' }],
+          eligibility: { batteries: true, accessories: true },
+          order: [{ productId: 3 }],
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+  const fakeStoreNoSelections = {
+    getState: () => ({
+      form: {
+        data: {
+          permanentAddress: {
+            'view:livesOnMilitaryBaseInfo': {},
+            country: 'United States',
+            street: '101 Example Street',
+            street2: 'Apt 2',
+            city: 'Kansas City',
+            state: 'MO',
+            postalCode: '64117',
+          },
+          temporaryAddress: {
+            'view:livesOnMilitaryBaseInfo': {},
+            country: 'United States',
+            street: '201 Example Street',
+            city: 'Galveston',
+            state: 'TX',
+            postalCode: '77550',
+          },
+          vetEmail: 'vet@vet.com',
+          'view:currentAddress': 'permanentAddress',
+          supplies: [
+            {
+              deviceName: 'OMEGAX d3241',
+              productName: 'ZA1239',
+              productGroup: 'BATTERIES',
+              productId: 1,
+              availableForReorder: true,
+              lastOrderDate: '2019-12-25',
+              nextAvailabilityDate: '2020-01-01',
+              quantity: 60,
+              prescribedDate: '2019-12-20',
+            },
+            {
+              productName: 'DOME',
+              productGroup: 'ACCESSORIES',
+              productId: 3,
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+              size: '6mm',
+            },
+            {
+              productName: 'DOME',
+              productGroup: 'ACCESSORIES',
+              productId: 4,
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+              size: '7mm',
+            },
+            {
+              productName: 'WaxBuster Single Unit',
+              productGroup: 'ACCESSORIES',
+              productId: 5,
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+            },
+          ],
+          fullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
+          ssnLastFour: '1200',
+          gender: 'M',
+          dateOfBirth: '1933-04-05',
+          eligibility: { batteries: true, accessories: true },
+          order: [],
         },
       },
     }),
@@ -115,15 +185,15 @@ describe('ConfirmationPage', () => {
         .first()
         .find('p')
         .text(),
-    ).to.include('test2@test1.net');
+    ).to.include('vet@vet.com');
     confirmationPage.unmount();
   });
 
   it('verify second alertbox content', () => {
     const confirmationPage = mount(<ConfirmationPage store={fakeStore} />);
-    const alertBox = confirmationPage.find('AlertBox');
+    const alertBox = confirmationPage.find('AlertBox').last();
     expect(alertBox.find('h4').text()).to.equal(
-      'Request for Batteries and Accessories (Form 2346)',
+      'Request for Batteries and Accessories (Form 2346A)',
     );
     expect(
       alertBox
@@ -131,24 +201,17 @@ describe('ConfirmationPage', () => {
         .at(0)
         .text(),
     ).to.equal('DOME (Quantity: 10)');
-    expect(
-      alertBox
-        .find('li')
-        .at(1)
-        .text(),
-    ).to.equal('WaxBuster Single Unit (Quantity: 10)');
-    expect(
-      alertBox
-        .find('p')
-        .at(4)
-        .text(),
-    ).to.equal(' May 8, 2020');
-    expect(
-      alertBox
-        .find('p')
-        .at(6)
-        .text(),
-    ).to.equal('123456');
+    expect(alertBox.text()).to.include('Shipping address');
+    expect(alertBox.text()).to.include('101 Example Street Apt 2');
+    expect(alertBox.text()).to.include('Kansas City');
+    expect(alertBox.text()).to.include('MO');
+    confirmationPage.unmount();
+  });
+  it('should render the empty state alert if no products were selected', () => {
+    const confirmationPage = mount(
+      <ConfirmationPage store={fakeStoreNoSelections} />,
+    );
+    expect(confirmationPage.find('.empty-state-alert')).length.to.be(1);
     confirmationPage.unmount();
   });
 });

@@ -178,6 +178,7 @@ export const ATTACHMENT_KEYS = [
   'form781aUpload',
   'form8940Upload',
   'form4192Upload',
+  'serviceTreatmentRecordsAttachments',
   'privateMedicalRecordAttachments',
   'additionalDocuments',
   'unemployabilitySupportingDocuments',
@@ -246,3 +247,6 @@ export const ANALYTICS_EVENTS = {
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
+
+// Moment date format
+export const DATE_FORMAT = 'LL';

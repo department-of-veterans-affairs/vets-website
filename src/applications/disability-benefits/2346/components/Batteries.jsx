@@ -1,44 +1,38 @@
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import classnames from 'classnames';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  BLUE_BACKGROUND,
-  HEARING_AID_BATTERIES,
-  WHITE_BACKGROUND,
-} from '../constants';
+import { BATTERIES } from '../constants';
 
 class Batteries extends Component {
   handleChecked = (checked, batterySupply) => {
-    const { selectedProducts, formData } = this.props;
-    let updatedSelectedProducts;
+    const { order, formData } = this.props;
+    let updatedorder;
     if (checked) {
-      updatedSelectedProducts = [
-        ...selectedProducts,
-        { productId: batterySupply.productId },
-      ];
+      updatedorder = [...order, { productId: batterySupply.productId }];
     } else {
-      updatedSelectedProducts = selectedProducts.filter(
+      updatedorder = order.filter(
         selectedProduct =>
           selectedProduct.productId !== batterySupply.productId,
       );
     }
     const updatedFormData = {
       ...formData,
-      selectedProducts: updatedSelectedProducts,
+      order: updatedorder,
     };
     return this.props.setData(updatedFormData);
   };
 
   render() {
-    const { supplies, selectedProducts, eligibility } = this.props;
+    const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
     const batterySupplies = supplies.filter(
-      batterySupply => batterySupply.productGroup === HEARING_AID_BATTERIES,
+      batterySupply => batterySupply.productGroup === BATTERIES,
     );
     const areBatterySuppliesEligible = eligibility.batteries;
     const haveBatteriesBeenOrderedInLastFiveMonths =
@@ -46,6 +40,18 @@ class Batteries extends Component {
       batterySupplies.every(
         battery => currentDate.diff(battery.lastOrderDate, 'months') <= 5,
       );
+    const haveBatteriesBeenOrderedInLastTwoYears =
+      batterySupplies.length > 0 &&
+      batterySupplies.every(
+        battery => currentDate.diff(battery.lastOrderDate, 'years') <= 2,
+      );
+    const isBatterySelected = batteryProductId => {
+      const selectedProductIds = order.map(
+        selectedProduct => selectedProduct.productId,
+      );
+      return selectedProductIds.includes(batteryProductId);
+    };
+
     if (!areBatterySuppliesEligible) {
       recordEvent({
         event: 'bam-error',
@@ -54,29 +60,15 @@ class Batteries extends Component {
     }
 
     return (
-      <>
-        {areBatterySuppliesEligible && (
-          <>
-            <h3 className="vads-u-font-size--h4">
-              Select the hearing aids that need batteries
-            </h3>
-            <p>
-              You&apos;ll be sent a 6-month supply of batteries for each device
-              you choose below. You can only order batteries for each device
-              once every 5 months.
-            </p>
-            <p>
-              If you need unavailable batteries sooner, call the DLC Customer
-              Service Station at{' '}
-              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                303-273-6200
-              </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-            </p>
-          </>
+      <div className="battery-page">
+        {batterySupplies.length > 0 && (
+          <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--2p5">
+            Select the hearing aids that need batteries
+          </h3>
         )}
         {haveBatteriesBeenOrderedInLastFiveMonths &&
-          !areBatterySuppliesEligible && (
+          !areBatterySuppliesEligible &&
+          batterySupplies.length === 0 && (
             <>
               <AlertBox
                 headline="You can't add batteries to your order at this time"
@@ -98,7 +90,7 @@ class Batteries extends Component {
                     </ul>
                     <p>
                       If you need unavailable batteries sooner, call the DLC
-                      Customer Service Station at{' '}
+                      Customer Service Section at{' '}
                       <a
                         aria-label="3 0 3. 2 7 3. 6 2 0 0."
                         href="tel:303-273-6200"
@@ -119,6 +111,7 @@ class Batteries extends Component {
             </>
           )}
         {!haveBatteriesBeenOrderedInLastFiveMonths &&
+          !haveBatteriesBeenOrderedInLastTwoYears &&
           !areBatterySuppliesEligible && (
             <AlertBox
               headline="Your batteries aren't available for online ordering"
@@ -137,7 +130,7 @@ class Batteries extends Component {
                   </ul>
                   <p>
                     If you need unavailable batteries sooner, call the DLC
-                    Customer Service Station at{' '}
+                    Customer Service Section at{' '}
                     <a
                       aria-label="3 0 3. 2 7 3. 6 2 0 0."
                       href="tel:303-273-6200"
@@ -154,23 +147,32 @@ class Batteries extends Component {
             />
           )}
         {batterySupplies.length > 0 &&
+          haveBatteriesBeenOrderedInLastTwoYears &&
           batterySupplies.map(batterySupply => (
             <div
               key={batterySupply.productId}
-              className="vads-u-background-color--gray-lightest vads-u-padding-left--4 vads-u-padding-top--1 vads-u-padding-bottom--4 battery-page vads-u-margin-y--3"
+              className={classnames({
+                'vads-u-background-color--gray-lightest vads-u-margin-bottom--2 vads-u-margin-top--3': true,
+                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isBatterySelected(
+                  batterySupply.productId,
+                ),
+                'vads-u-padding--3': !isBatterySelected(
+                  batterySupply.productId,
+                ),
+              })}
             >
-              <h4 className="vads-u-font-size--md vads-u-font-weight--bold">
+              <h4 className="vads-u-margin-top--0">
                 {batterySupply.deviceName}
               </h4>
               <p>
                 Prescribed{' '}
                 {moment(batterySupply.prescribedDate).format('MMMM DD, YYYY')}
               </p>
-              <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
+              <div className="vads-u-border-left--10px vads-u-border-color--primary-alt vads-u-margin-bottom--2">
                 <div className="usa-alert-body vads-u-padding-left--1">
                   <p className="vads-u-margin--1px vads-u-margin-y--1">
                     <span className="vads-u-font-weight--bold">Battery: </span>
-                    {batterySupply.productId}
+                    {batterySupply.productName}
                   </p>
                   <p className="vads-u-margin--1px vads-u-margin-y--1">
                     <span className="vads-u-font-weight--bold">Quantity: </span>
@@ -186,38 +188,39 @@ class Batteries extends Component {
               </div>
               {currentDate.diff(batterySupply.nextAvailabilityDate, 'days') <
               0 ? (
-                <AlertBox
-                  className="vads-u-color--black vads-u-background-color--white"
-                  headline={`You can't reorder batteries for this device until ${moment(
-                    batterySupply.nextAvailabilityDate,
-                  ).format('MMMM D, YYYY')}`}
-                  status="warning"
-                />
+                <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
+                  <div className="usa-alert-body">
+                    <h3 className="usa-alert-heading vads-u-font-family--sans">
+                      You can't reorder batteries for this device until{' '}
+                      {moment(batterySupply.nextAvailabilityDate).format(
+                        'MMMM D, YYYY',
+                      )}
+                    </h3>
+                  </div>
+                </div>
               ) : (
-                <div
-                  className={
-                    selectedProducts.find(
-                      selectedProduct =>
-                        selectedProduct.productId === batterySupply.productId,
-                    )
-                      ? BLUE_BACKGROUND
-                      : WHITE_BACKGROUND
-                  }
-                >
+                <div className="vads-u-max-width--293">
                   <input
-                    name={batterySupply.productId}
+                    id={batterySupply.productId}
+                    className="vads-u-margin-left--0 vads-u-max-width--293"
                     type="checkbox"
                     onChange={e =>
                       this.handleChecked(e.target.checked, batterySupply)
                     }
-                    checked={
-                      !!selectedProducts.find(
-                        selectedProduct =>
-                          selectedProduct.productId === batterySupply.productId,
-                      )
-                    }
+                    checked={isBatterySelected(batterySupply.productId)}
                   />
-                  <label htmlFor={batterySupply.productId} className="main">
+                  <label
+                    className={classnames({
+                      'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary': true,
+                      'vads-u-color--white': isBatterySelected(
+                        batterySupply.productId,
+                      ),
+                      'vads-u-background-color--white vads-u-color--primary': !isBatterySelected(
+                        batterySupply.productId,
+                      ),
+                    })}
+                    htmlFor={batterySupply.productId}
+                  >
                     Order batteries for this device
                   </label>
                 </div>
@@ -225,21 +228,30 @@ class Batteries extends Component {
             </div>
           ))}
         {batterySupplies.length > 0 && (
-          <AdditionalInfo triggerText="What if I don't see my hearing aid?">
+          <AdditionalInfo triggerText="What if I don't see my device?">
             <p>
-              You'll need to call your audiologist to update your record with
-              all your hearing devices.
+              You may not see your hearing aid device if you haven’t placed an
+              order for resupply items within the last 2 years. If you need to
+              order batteries, call the DLC Customer Service Section at{' '}
+              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+                303-273-6200
+              </a>{' '}
+              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+            </p>
+            <p>
+              If you need a new hearing aid device, you'll need to call your
+              audiologist.
             </p>
             <a
               href="https://www.va.gov/find-locations/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Find contact information for your local VA medical center
+              Find contact information for your local VA medical center.
             </a>
           </AdditionalInfo>
         )}
-      </>
+      </div>
     );
   }
 }
@@ -247,7 +259,7 @@ class Batteries extends Component {
 Batteries.defaultProps = {
   formData: {},
   supplies: [],
-  selectedProducts: [],
+  order: [],
   eligibility: {},
 };
 
@@ -257,7 +269,7 @@ Batteries.propTypes = {
       deviceName: PropTypes.string,
       productName: PropTypes.string,
       productGroup: PropTypes.string.isRequired,
-      productId: PropTypes.string.isRequired,
+      productId: PropTypes.number.isRequired,
       availableForReorder: PropTypes.bool,
       lastOrderDate: PropTypes.string.isRequired,
       nextAvailabilityDate: PropTypes.string.isRequired,
@@ -266,9 +278,9 @@ Batteries.propTypes = {
       prescribedDate: PropTypes.string,
     }),
   ),
-  selectedProducts: PropTypes.arrayOf(
+  order: PropTypes.arrayOf(
     PropTypes.shape({
-      productId: PropTypes.string,
+      productId: PropTypes.number,
     }),
   ),
   formData: PropTypes.object,
@@ -278,7 +290,7 @@ Batteries.propTypes = {
 const mapStateToProps = state => ({
   supplies: state.form?.data?.supplies,
   formData: state.form?.data,
-  selectedProducts: state.form?.data?.selectedProducts,
+  order: state.form?.data?.order,
   eligibility: state.form?.data?.eligibility,
 });
 

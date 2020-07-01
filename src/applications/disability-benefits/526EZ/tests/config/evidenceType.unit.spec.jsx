@@ -10,7 +10,7 @@ import {
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
-describe('Disability benefits 526EZ evidence type', () => {
+describe.skip('Disability benefits 526EZ evidence type', () => {
   const {
     schema,
     uiSchema,

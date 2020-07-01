@@ -29,11 +29,16 @@ import {
   MARKER_LETTERS,
 } from '../constants';
 import { areGeocodeEqual, setFocus } from '../utils/helpers';
-import { facilityLocatorShowCommunityCares } from '../utils/selectors';
+import {
+  facilityLocatorShowCommunityCares,
+  facilitiesPpmsSuppressPharmacies,
+  facilityLocatorFeUseV1,
+} from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import recordEvent from 'platform/monitoring/record-event';
+import { distBetween } from '../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -134,6 +139,7 @@ class VAMap extends Component {
         facilityType: currentQuery.facilityType,
         serviceType: currentQuery.serviceType,
         page: currentQuery.currentPage,
+        apiVersion: this.props.useAPIv1 ? 1 : 0,
       });
     }
   }
@@ -203,6 +209,7 @@ class VAMap extends Component {
         facilityType: newQuery.facilityType,
         serviceType: newQuery.serviceType,
         page: resultsPage,
+        apiVersion: this.props.useAPIv1 ? 1 : 0,
       });
     }
 
@@ -403,12 +410,12 @@ class VAMap extends Component {
 
   handlePageSelect = page => {
     const { currentQuery } = this.props;
-
     this.props.searchWithBounds({
       bounds: currentQuery.bounds,
       facilityType: currentQuery.facilityType,
       serviceType: currentQuery.serviceType,
       page,
+      apiVersion: this.props.useAPIv1 ? 1 : 0,
     });
     setFocus(this.searchResultTitle.current);
   };
@@ -438,8 +445,25 @@ class VAMap extends Component {
       }
     };
 
+    const currentLocation = this.props.currentQuery.position;
     const markers = MARKER_LETTERS.values();
-    const mapMarkers = results.map(r => {
+    const sortedResults = results
+      .map(r => {
+        const distance = currentLocation
+          ? distBetween(
+              currentLocation.latitude,
+              currentLocation.longitude,
+              r.attributes.lat,
+              r.attributes.long,
+            )
+          : null;
+        return {
+          ...r,
+          distance,
+        };
+      })
+      .sort((resultA, resultB) => resultA.distance - resultB.distance);
+    const mapMarkers = sortedResults.map(r => {
       const iconProps = {
         key: r.id,
         position: [r.attributes.lat, r.attributes.long],
@@ -639,6 +663,7 @@ class VAMap extends Component {
     const {
       currentQuery,
       showCommunityCares,
+      suppressPharmacies,
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
@@ -660,6 +685,7 @@ class VAMap extends Component {
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
             showCommunityCares={showCommunityCares}
+            suppressPharmacies={suppressPharmacies}
           />
         </div>
         <div>{showDialogUrgCare}</div>
@@ -789,6 +815,8 @@ function mapStateToProps(state) {
     currentQuery: state.searchQuery,
     showCommunityCares:
       isProduction(state) || facilityLocatorShowCommunityCares(state),
+    suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
+    useAPIv1: facilityLocatorFeUseV1(state),
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,
