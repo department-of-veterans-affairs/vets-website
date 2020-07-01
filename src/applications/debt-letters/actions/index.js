@@ -1,7 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { isVet360Configured } from 'platform/user/profile/vet360/util/local-vet360.js';
-import { debtLettersSuccess, debtHistorySuccess } from '../utils/mockResponses';
+import { debtLettersSuccess } from '../utils/mockResponses';
 
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
 export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';

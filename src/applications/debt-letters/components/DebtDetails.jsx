@@ -89,13 +89,15 @@ const DebtDetails = ({ selectedDebt }) => {
               className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-y--1p5 vads-u-border-bottom--3px vads-u-border-color--gray-lightest"
               key={`${debtEntry.letterCode}-${index}`}
             >
-              <h3>{moment(debtEntry.date).format('MMMM D, YYYY')}</h3>
+              <h3 className="vads-u-margin-top--1">
+                {moment(debtEntry.date).format('MMMM D, YYYY')}
+              </h3>
               <p className="vads-u-font-weight--bold vads-u-margin-y--0">
                 {debtEntry.status}
               </p>
               <p>{debtEntry.description}</p>
               {/* ToDo: Add link to actual debt letter download in VBMS */}
-              <a className="vads-u-margin-bottom--1" href="#">
+              <a className="vads-u-margin-bottom--2p5" href="#">
                 Download and print the letter
               </a>
             </div>
