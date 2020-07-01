@@ -1,9 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
+import { fireEvent } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
-import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import {
+  setFetchJSONResponse,
+  setFetchJSONFailure,
+} from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
   getVideoAppointmentMock,
@@ -15,13 +19,12 @@ import {
 import {
   mockAppointmentInfo,
   mockFacilitesFetch,
-  mockCancelReasonsFetch,
+  mockVACancelFetches,
 } from '../mocks/helpers';
 
 import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 import AppointmentsPage from '../../containers/AppointmentsPage';
-import { fireEvent } from '@testing-library/react';
 
 const initialState = {
   featureToggles: {
@@ -173,7 +176,7 @@ describe('VAOS integration appointment cancellation:', () => {
       ...cancelReason.attributes,
       number: '5',
     };
-    mockCancelReasonsFetch('983', [cancelReason]);
+    mockVACancelFetches('983', [cancelReason]);
 
     const {
       getByText,
@@ -225,6 +228,189 @@ describe('VAOS integration appointment cancellation:', () => {
 
     expect(queryByRole('alertdialog')).to.not.be.ok;
     expect(baseElement).to.contain.text('Canceled');
+  });
+
+  it('should display error when cancel fails', async () => {
+    const appointment = getVAAppointmentMock();
+    const appointmentTime = moment();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: appointmentTime.format(),
+      clinicId: '308',
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '983',
+      sta6aid: '983',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].clinic = {
+      ...appointment.attributes.vdsAppointments[0].clinic,
+      name: 'clinic name',
+    };
+
+    mockAppointmentInfo({ va: [appointment] });
+    const facility = {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    };
+    mockFacilitesFetch('vha_442', [facility]);
+    const cancelReason = getCancelReasonMock();
+    cancelReason.attributes = {
+      ...cancelReason.attributes,
+      number: '5',
+    };
+    mockVACancelFetches('983', [cancelReason]);
+    setFetchJSONFailure(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointments/cancel`,
+      ),
+      { data: { errors: [] } },
+    );
+
+    const {
+      getByText,
+      findByRole,
+      baseElement,
+      findByText,
+      queryByRole,
+      getByRole,
+    } = renderInReduxProvider(
+      <AppointmentsPage>
+        <FutureAppointmentsList />
+      </AppointmentsPage>,
+      {
+        initialState,
+        reducers,
+      },
+    );
+
+    await findByText(/cancel appointment/i);
+    expect(baseElement).not.to.contain.text('Canceled');
+
+    fireEvent.click(getByText(/cancel appointment/i));
+
+    await findByRole('alertdialog');
+
+    fireEvent.click(getByText(/yes, cancel this appointment/i));
+
+    await findByText(/We couldn’t cancel your appointment/i);
+
+    const modal = getByRole('alertdialog');
+    expect(modal).to.contain.text('Something went wrong');
+    expect(modal).to.contain.text('Cheyenne VA Medical Center');
+    expect(modal).to.contain.text('2360 East Pershing Boulevard');
+    expect(modal).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(modal).to.contain.text('307-778-7550');
+
+    fireEvent.click(modal.querySelector('button'));
+
+    expect(queryByRole('alertdialog')).to.not.be.ok;
+    expect(baseElement).to.not.contain.text('Canceled');
+  });
+
+  it("should show couldn't cancel message", async () => {
+    const appointment = getVAAppointmentMock();
+    const appointmentTime = moment();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: appointmentTime.format(),
+      clinicId: '308',
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '983',
+      sta6aid: '983',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].clinic = {
+      ...appointment.attributes.vdsAppointments[0].clinic,
+      name: 'clinic name',
+    };
+
+    mockAppointmentInfo({ va: [appointment] });
+    const facility = {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    };
+    mockFacilitesFetch('vha_442', [facility]);
+    const cancelReason = getCancelReasonMock();
+    cancelReason.attributes = {
+      ...cancelReason.attributes,
+      number: '5',
+    };
+    mockVACancelFetches('983', [cancelReason]);
+    setFetchJSONFailure(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointments/cancel`,
+      ),
+      {
+        errors: [
+          {
+            code: 'VAOS_400',
+          },
+        ],
+      },
+    );
+
+    const {
+      getByText,
+      findByRole,
+      baseElement,
+      findByText,
+      queryByRole,
+      getByRole,
+    } = renderInReduxProvider(
+      <AppointmentsPage>
+        <FutureAppointmentsList />
+      </AppointmentsPage>,
+      {
+        initialState,
+        reducers,
+      },
+    );
+
+    await findByText(/cancel appointment/i);
+    expect(baseElement).not.to.contain.text('Canceled');
+
+    fireEvent.click(getByText(/cancel appointment/i));
+
+    await findByRole('alertdialog');
+
+    fireEvent.click(getByText(/yes, cancel this appointment/i));
+
+    await findByText(/We couldn’t cancel your appointment/i);
+
+    const modal = getByRole('alertdialog');
+    expect(modal).to.contain.text(
+      'You can’t cancel your appointment on the VA appointments tool',
+    );
   });
 
   it('pending appointments should be cancelled', async () => {
