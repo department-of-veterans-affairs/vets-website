@@ -1,19 +1,23 @@
-import { normal } from 'platform/testing/e2e/timeouts';
+import { normal, slow } from 'platform/testing/e2e/timeouts';
 import { createE2eTest, baseUrl } from 'platform/testing/e2e/helpers';
 import {
   testQuestionScenario,
-  visitorPass,
+  visitorPassTravel,
+  visitorScreeningTravel,
 } from './screener-test-question-scenarios';
 
+// custom travel question
 export default createE2eTest(client => {
-  // example custom URL loads default questions
   client
-    .url(`${baseUrl}/covid19screen/123`)
+    .url(`${baseUrl}/covid19screen/459`)
     .waitForElementVisible('body', normal)
     .assert.visible('div[id=question-isStaff]')
     .assert.visible('div[class*=covid-screener-results-incomplete]')
     .axeCheck('.main');
 
-  // visitor passing answers
-  testQuestionScenario({ scenario: visitorPass, client });
+  // visitor travel passing answers
+  testQuestionScenario({ scenario: visitorPassTravel, client });
+
+  // visitor travel needs more screening
+  testQuestionScenario({ scenario: visitorScreeningTravel, client });
 });
