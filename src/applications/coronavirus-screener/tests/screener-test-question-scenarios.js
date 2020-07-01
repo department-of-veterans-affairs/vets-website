@@ -77,35 +77,3 @@ export const staffScreening = {
     class: 'covid-screener-results-more-screening',
   },
 };
-
-export const visitorPassTravel = {
-  title: 'Visitor pass',
-  questions: [
-    { id: 'question-isStaff', value: 'no' },
-    { id: 'question-fever', value: 'no' },
-    { id: 'question-cough', value: 'no' },
-    { id: 'question-flu', value: 'no' },
-    { id: 'question-congestion', value: 'no' },
-    { id: 'question-exposure', value: 'no' },
-    { id: 'question-travel', value: 'no' },
-  ],
-  result: {
-    class: 'covid-screener-results-pass',
-  },
-};
-
-export const visitorScreeningTravel = {
-  title: 'Visitor needs more screening',
-  questions: [
-    { id: 'question-isStaff', value: 'no' },
-    { id: 'question-fever', value: 'no' },
-    { id: 'question-cough', value: 'yes' },
-    { id: 'question-flu', value: 'no' },
-    { id: 'question-congestion', value: 'no' },
-    { id: 'question-exposure', value: 'no' },
-    { id: 'question-travel', value: 'yes' },
-  ],
-  result: {
-    class: 'covid-screener-results-more-screening',
-  },
-};

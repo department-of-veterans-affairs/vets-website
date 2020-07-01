@@ -56,10 +56,26 @@ export const questions = [
     },
   },
   {
-    id: 'travel',
-    text:
-      'In the last 14 days, have you traveled out of the state or US Territory that you are currently in?',
+    id: 'travel-459',
+    text: 'In the past 14 days, have you traveled outside of Hawaii?',
     customId: ['459'],
+  },
+  {
+    id: 'travel-459GE',
+    text: 'In the past 14 days, have you traveled outside of Guam?',
+    customId: ['459GE'],
+  },
+  {
+    id: 'travel-459GF',
+    text:
+      'In the past 14 days, have you traveled outside of American Samoa (Faleomavaega Eni Faíauaía Hunkin)?',
+    customId: ['459GF'],
+  },
+  {
+    id: 'travel-459GH',
+    text:
+      'In the past 14 days, have you traveled outside of the Northern Mariana Islands?',
+    customId: ['459GH'],
   },
 ];
 
