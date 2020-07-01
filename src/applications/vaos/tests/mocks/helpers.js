@@ -62,7 +62,7 @@ export function mockPastAppointmentInfo({ va = [], cc = [] }) {
   );
 }
 
-export function mockFacilitesFetch(ids, facilities) {
+export function mockFacilitiesFetch(ids, facilities) {
   setFetchJSONResponse(
     global.fetch.withArgs(`${environment.API_URL}/v1/facilities/va?ids=${ids}`),
     { data: facilities },
