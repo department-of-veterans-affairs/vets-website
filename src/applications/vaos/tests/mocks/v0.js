@@ -164,3 +164,26 @@ export function getMessageMock() {
     },
   };
 }
+
+export function getCCAppointmentMock() {
+  return {
+    id: 'fake',
+    type: 'cc_appointments',
+    attributes: {
+      appointmentRequestId: 'fake',
+      distanceEligibleConfirmed: true,
+      name: { firstName: 'fake', lastName: 'fake' },
+      providerPractice: 'fake',
+      providerPhone: 'fake',
+      address: {
+        street: 'fake',
+        city: 'fake',
+        state: 'FK',
+        zipCode: 'fake',
+      },
+      instructionsToVeteran: 'fake',
+      appointmentTime: 'fake',
+      timeZone: 'fake',
+    },
+  };
+}
