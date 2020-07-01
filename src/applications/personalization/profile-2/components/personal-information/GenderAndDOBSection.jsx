@@ -21,6 +21,7 @@ const renderDOB = dob => (dob ? moment(dob).format('LL') : notSetText);
 const GenderAndDOBSection = ({ gender, dob, className }) => (
   <div className={className}>
     <ProfileInfoTable
+      title="Personal information"
       data={[
         { title: 'Date of birth', value: renderDOB(dob) },
         { title: 'Gender', value: renderGender(gender) },

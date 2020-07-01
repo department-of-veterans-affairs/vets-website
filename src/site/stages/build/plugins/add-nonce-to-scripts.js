@@ -45,7 +45,7 @@ module.exports = (files, metalsmith, done) => {
       const onclick = o.attr('onclick');
 
       clickHandlers.push(
-        `document.getElementById('${id}').addEventListener('click', function(ev) { ${onclick} });`,
+        `document.getElementById('${id}').addEventListener('click', function(event) { ${onclick} });`,
       );
       o.attr('onclick', null);
     });

@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -6,7 +7,7 @@ import FormFooter from 'platform/forms/components/FormFooter';
 
 import migrations from '../migrations';
 import prefillTransformer from './prefill-transformer';
-// import { transform } from './submit-transformer';
+import { transform } from './submit-transformer';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -24,9 +25,8 @@ import { errorMessages } from '../constants';
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: `${environment.API_URL}/v0/higher_level_review/submit`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/appeals/higher_level_reviews`,
+  // submit: () => Promise.resolve({ attributes: { status: 'processed' } }),
   trackingPrefix: 'hlr-0996-',
   downtime: {
     requiredForPrefill: true,
@@ -43,7 +43,7 @@ const formConfig = {
   prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
-  // transformForSubmit: transform,
+  transformForSubmit: transform,
 
   // beforeLoad: props => { console.log('form config before load', props); },
   // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {
