@@ -5,7 +5,7 @@ import URLSearchParams from 'url-search-params';
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
 import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
-import { setForceAuth, getForceAuth } from 'platform/utilities/sso/forceAuth';
+import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
@@ -35,10 +35,6 @@ function sessionTypeUrl(
     if (to) {
       searchParams.append('to', to);
     }
-  }
-
-  if (version === 'v1' && getForceAuth()) {
-    searchParams.append('force', 'true');
   }
 
   const queryString =
@@ -105,7 +101,7 @@ export function login(
   clickedEvent = 'login-link-clicked-modal',
 ) {
   const url = sessionTypeUrl(policy, version, application, to, queryParams);
-  setForceAuth();
+  setLoginAttempted();
   return redirect(url, clickedEvent);
 }
 

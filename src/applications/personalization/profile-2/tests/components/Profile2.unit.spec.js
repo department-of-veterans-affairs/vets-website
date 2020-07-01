@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import Profile2 from '../../components/Profile2Wrapper';
 import getRoutes from '../../routes';
 
-import { renderWithProfileReducers as render } from '../unit-test-helpers.spec';
+import { renderWithProfileReducers as render } from '../unit-test-helpers';
 
 describe('Profile2', () => {
   it('should render the correct breadcrumb (Personal and contact Information)', () => {

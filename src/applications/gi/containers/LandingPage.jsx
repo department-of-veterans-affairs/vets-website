@@ -127,6 +127,14 @@ export class LandingPage extends React.Component {
   };
 
   render() {
+    const buttonLabel = this.props.gibctSearchEnhancements
+      ? 'Search'
+      : 'Search Schools';
+
+    const searchLabel = this.props.gibctSearchEnhancements
+      ? 'Enter a school, location, or employer name'
+      : 'Enter a city, school or employer name';
+
     return (
       <span className="landing-page">
         <div className="row vads-u-margin--0">
@@ -165,6 +173,7 @@ export class LandingPage extends React.Component {
               )}
               {!isVetTecSelected(this.props.filters) && (
                 <KeywordSearch
+                  label={searchLabel}
                   autocomplete={this.props.autocomplete}
                   location={this.props.location}
                   onClearAutocompleteSuggestions={
@@ -184,7 +193,7 @@ export class LandingPage extends React.Component {
                 type="submit"
                 id="search-button"
               >
-                <span>Search Schools</span>
+                <span>{buttonLabel}</span>
               </button>
             </form>
           </div>
@@ -205,6 +214,9 @@ const mapStateToProps = state => ({
   eligibility: state.eligibility,
   gibctEstimateYourBenefits: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
+  ],
+  gibctSearchEnhancements: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSearchEnhancements
   ],
 });
 

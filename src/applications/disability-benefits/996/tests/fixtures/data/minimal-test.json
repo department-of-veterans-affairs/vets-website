@@ -1,0 +1,33 @@
+{
+  "data": {
+    "veteran": {
+      "phoneNumber": "5033333333",
+      "emailAddress": "mike.wazowski@gmail.com",
+      "ssnLastFour": "7821",
+      "vaFileNumber": "8765",
+      "addressLine1": "1200 Park Ave",
+      "city": "Emeryville",
+      "countryCode": "USA",
+      "stateOrProvinceCode": "CA",
+      "zipPostalCode": "94608"
+    },
+    "sameOffice": false,
+    "privacyAgreementAccepted": true,
+    "informalConference": "no",
+    "contestedIssues": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Headaches",
+          "description": "Acute chronic head pain",
+          "ratingIssuePercentNumber": 20,
+          "approxDecisionDate": "2011-01-02",
+          "decisionIssueId": 44,
+          "ratingIssueReferenceId": "66",
+          "ratingDecisionReferenceId": ""
+        },
+        "view:selected": true
+      }
+    ]
+  }
+}
