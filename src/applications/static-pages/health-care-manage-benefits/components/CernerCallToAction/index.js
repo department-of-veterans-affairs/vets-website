@@ -110,7 +110,7 @@ export class CernerCallToAction extends Component {
       facility => facility?.attributes?.name || 'unknown facility name',
     );
     const joinedFacilityNames =
-      facilityNames.join(', ') || 'cerner facility(s)';
+      facilityNames.join(', ') || 'Cerner facility(s)';
 
     return (
       <div className="usa-alert usa-alert-warning">
