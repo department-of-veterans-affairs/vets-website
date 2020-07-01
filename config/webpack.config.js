@@ -303,11 +303,18 @@ module.exports = env => {
         }, [])
         .join('');
 
+    const appRegistryPath = 'src/applications/registry.json';
+    let appRegistry;
+
+    if (fs.existsSync(appRegistryPath)) {
+      appRegistry = JSON.parse(fs.readFileSync(appRegistryPath));
+    }
+
     const generateLandingPage = ({
       appName,
       entryName = 'static-pages',
-      loadingMessage = 'Please wait while we load the application for you.',
       rootUrl,
+      template = {},
     }) =>
       new HtmlPlugin({
         chunks: ['polyfills', 'vendor', 'style', entryName],
@@ -317,17 +324,25 @@ module.exports = env => {
         template: 'src/platform/landing-pages/dev-template.ejs',
         templateParameters: {
           entryName,
-          headerFooterData, // TODO: Get this placeholder data from another file
+          headerFooterData,
           inlineScripts,
-          loadingMessage,
           modifyScriptTags,
           modifyStyleTags,
+
+          // Default template metadata.
+          breadcrumbs_override: [], // eslint-disable-line camelcase
+          includeBreadcrumbs: false,
+          loadingMessage: 'Please wait while we load the application for you.',
+          ...template, // Unpack any template metadata from the registry entry.
         },
-        title: appName ? `${appName} | VA.gov` : 'VA.gov',
+        title: template.title || appName ? `${appName} | VA.gov` : 'VA.gov',
       });
 
     baseConfig.plugins = baseConfig.plugins.concat(
-      getAppManifests()
+      // Fall back to using app manifests if app registry no longer exists.
+      // The app registry is used primarily to get the template metadata
+      // so the landing pages can resemble real content more closely.
+      (appRegistry || getAppManifests())
         .filter(({ rootUrl }) => rootUrl)
         .map(generateLandingPage),
     );

@@ -127,10 +127,23 @@
     </script>
 
     <!-- TODO: Add breadcrumbs -->
-    <!--
+    <% if (includeBreadcrumbs) { %>
     <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
+      <ul id="va-breadcrumbs-list" class="row va-nav-breadcrumbs-list columns" tabindex="-1">
+      <% breadcrumbs_override.forEach(({ name, path }, index) => { %>
+        <li>
+          <a 
+            <% if (index === breadcrumbs_override.length - 1) { %>
+            aria-current="page"
+            <% } %>
+            href="<%= path %>">
+            <%= name %>
+          </a>
+        </li>
+      <% }) %>
+      </ul>
     </nav>
-    -->
+    <% } %>
 
     <!-- React root -->
     <div id="content">
@@ -139,7 +152,7 @@
           <div id="react-root">
             <div class="vads-u-margin-y--5">
               <div class="loading-indicator-container">
-                <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" tabIndex="0">
+                <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" tabindex="0">
                 </div>
                 <%= loadingMessage %>
               </div>
