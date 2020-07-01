@@ -11,6 +11,7 @@ const ConfirmationPage = ({
   selectedProductArray,
   fullName,
   shippingAddress,
+  orderId,
 }) => {
   const PrintDetails = () => (
     <div className="print-details">
@@ -136,6 +137,10 @@ const ConfirmationPage = ({
                   {' '}
                   {moment(submittedAt).format('MMM D, YYYY')}
                 </p>
+                <p className="vads-u-margin-bottom--0">
+                  <strong>Confirmation number</strong>
+                </p>
+                <p className="vads-u-margin-y--0">{orderId}</p>
                 <button
                   className="usa-button button"
                   onClick={() => window.print()}
@@ -209,30 +214,28 @@ const ConfirmationPage = ({
 };
 
 ConfirmationPage.propTypes = {
-  confirmationPageData: PropTypes.shape({
-    fullName: PropTypes.shape({
-      first: PropTypes.string.isRequired,
-      middle: PropTypes.string,
-      last: PropTypes.string.isRequired,
-    }),
-    vetEmail: PropTypes.string.isRequired,
-    order: PropTypes.array.isRequired,
-    shippingAddress: PropTypes.object.isRequired,
-    supplies: PropTypes.array.isRequired,
+  fullName: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
   }),
+  vetEmail: PropTypes.string,
+  shippingAddress: PropTypes.object,
+  submittedAt: PropTypes.string,
+  selectedProductsArray: PropTypes.array,
+  orderId: PropTypes.string,
 };
 
 ConfirmationPage.defaultProps = {
-  confirmationPageData: {
-    fullName: {
-      first: '',
-      last: '',
-    },
-    vetEmail: '',
-    order: [],
-    shippingAddress: {},
-    supplies: [],
+  fullName: {
+    first: '',
+    last: '',
   },
+  vetEmail: '',
+  shippingAddress: {},
+  submittedAt: '',
+  selectedProductsArray: [],
+  orderId: '',
 };
 
 const mapStateToProps = state => {
@@ -243,9 +246,10 @@ const mapStateToProps = state => {
   const selectedProductArray = supplies?.filter(supply =>
     productIdArray?.includes(supply.productId),
   );
+  const { submission } = state.form;
 
   // Temporary fallback until this is added to the API response
-  const submittedAt = state.form?.submission?.submittedAt || moment();
+  const submittedAt = submission?.submittedAt || moment();
 
   return {
     submittedAt,
@@ -253,6 +257,7 @@ const mapStateToProps = state => {
     vetEmail,
     selectedProductArray,
     shippingAddress,
+    orderId: submission?.response?.orderId,
   };
 };
 
