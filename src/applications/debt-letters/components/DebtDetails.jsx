@@ -48,14 +48,14 @@ const DebtDetails = ({ selectedDebt }) => {
           </p>
           <p className="vads-u-margin-top--0">
             {' '}
-            {formatter.format(parseFloat(selectedDebt.originalAR))}
+            {formatter.format(parseFloat(selectedDebt.originalAr))}
           </p>
           <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
             Current balance:
           </p>
           <p className="vads-u-margin-top--0">
             {' '}
-            {formatter.format(parseFloat(selectedDebt.currentAR))}
+            {formatter.format(parseFloat(selectedDebt.currentAr))}
           </p>
           <AdditionalInfo triggerText="Why might I have this debt?">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
