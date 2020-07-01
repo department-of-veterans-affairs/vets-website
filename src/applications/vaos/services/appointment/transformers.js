@@ -233,9 +233,21 @@ function getPurposeOfVisit(appt) {
 function getRequestedPeriods(appt) {
   const requestedPeriods = [];
   const format = 'MM/DD/YYYY';
+
   for (let x = 1; x <= 3; x += 1) {
     const optionTime = appt[`optionTime${x}`];
-    if (optionTime) {
+
+    if (!moment(appt[`optionDate${x}`]).isValid()) {
+      // Since 'No Date Selected' and 'No Time Selected' are invalid dates and times,
+      // don't add the start and end attributes.
+      //
+      // NOTE: FHIR Spec says...
+      // If the start element is missing, the start of the period is not known.
+      // If the end element is missing, it means that the period is ongoing,
+      // or the start may be in the past, and the end date in the future,
+      // which means that period is expected / planned to end at the specified time.
+      requestedPeriods.push({});
+    } else if (optionTime) {
       const isAM = optionTime === 'AM';
       requestedPeriods.push({
         start: `${moment(appt[`optionDate${x}`], format).format(
@@ -301,6 +313,7 @@ function setParticipant(appt) {
       }
       return null;
     }
+    case APPOINTMENT_TYPES.ccRequest:
     case APPOINTMENT_TYPES.request: {
       const hasName =
         appt.patient?.displayName ||
@@ -380,6 +393,21 @@ function setContained(appt) {
       }
 
       return null;
+    }
+    case APPOINTMENT_TYPES.ccRequest: {
+      return appt.ccAppointmentRequest.preferredProviders.map(provider => {
+        return {
+          actor: {
+            name: provider.practiceName,
+            address: {
+              line: provider.address?.street,
+              city: provider.address?.city,
+              state: provider.address?.state,
+              postalCode: provider.address?.zipCode,
+            },
+          },
+        };
+      });
     }
     case APPOINTMENT_TYPES.ccAppointment: {
       const address = appt.address;
@@ -467,6 +495,45 @@ export function transformConfirmedAppointments(appointments) {
   });
 }
 
+function transformPendingCCAppointment(appt) {
+  const isCC = isCommunityCare(appt);
+  // const start = getMomentConfirmedDate(appt).format();
+  const minutesDuration = getAppointmentDuration(appt);
+
+  return {
+    resourceType: 'Appointment',
+    id: `var${appt.id}`,
+    // Required
+    status: getStatus(appt, isCC),
+    requestedPeriod: getRequestedPeriods(appt),
+    type: {
+      coding: [
+        {
+          // Why not typeOfCareId?
+          code: appt.appointmentType,
+          // Why not appointmentType since it is more descriptive?
+          display: 'Community Care',
+        },
+      ],
+    },
+    reason: getPurposeOfVisit(appt),
+    description: appt.appointmentType,
+    // start,
+    minutesDuration,
+    participant: setParticipant(appt),
+
+    // NOTE: VA Custom attributes
+    contained: setContained(appt),
+    legacyVAR: setLegacyVAR(appt),
+    vaos: {
+      appointmentType: getAppointmentType(appt),
+      isCommunityCare: isCC,
+      isExpressCare: appt.typeOfCareId === EXPRESS_CARE,
+      isPastAppointment: false,
+    },
+  };
+}
+
 /**
  * Transforms VAR appointment request to FHIR appointment resource
  *
@@ -480,7 +547,7 @@ export function transformPendingAppointments(requests) {
 
     if (isCC) {
       // CC requests to be handled in separate PR
-      return appt;
+      return transformPendingCCAppointment(appt);
     }
 
     return {
