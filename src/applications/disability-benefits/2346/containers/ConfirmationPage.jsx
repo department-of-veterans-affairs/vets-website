@@ -359,7 +359,7 @@ const mapStateToProps = state => {
   const submittedAt = submission?.submittedAt || moment();
 
   // confirm what the correct props for errors are with @camerontesterman
-  const errorMessage = submission.response.errorMessage || '';
+  const errorMessage = submission?.response?.errorMessage || '';
 
   return {
     submittedAt,
@@ -368,7 +368,7 @@ const mapStateToProps = state => {
     selectedProductArray,
     shippingAddress,
     orderId: submission?.response?.orderId,
-    isError: submission?.response?.errors || false,
+    isError: submission?.response?.errors,
     errorMessage,
   };
 };
