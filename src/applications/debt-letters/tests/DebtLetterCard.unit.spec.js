@@ -14,8 +14,8 @@ describe('DebtLetterCard', () => {
       benefitType: 'CH35 EDU',
       amountOverpaid: 16000.0,
       amountWithheld: 0.0,
-      originalAR: '13000',
-      currentAR: '10000',
+      originalAr: '13000',
+      currentAr: '10000',
       debtHistory: [
         {
           date: '09/18/2012',
