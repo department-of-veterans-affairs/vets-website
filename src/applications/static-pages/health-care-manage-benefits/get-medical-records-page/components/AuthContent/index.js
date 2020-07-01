@@ -14,7 +14,8 @@ const callToActions = [
   {
     deriveHeaderText: () =>
       `Get your medical record from another VA Medical Center`,
-    href: '',
+    href:
+      'https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data',
     label: 'Get record on My HealtheVet',
   },
 ];

@@ -4,18 +4,20 @@ import React from 'react';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
+import { getCernerURL } from 'platform/utilities/constants';
 
 const callToActions = [
   {
     deriveHeaderText: facilityNames =>
       `Manage appointments with ${facilityNames}`,
-    href: '',
+    href: getCernerURL('/pages/scheduling/upcoming'),
     label: 'Go to My VA Health',
   },
   {
     deriveHeaderText: () =>
       `Manage appointments at all other VA medical centers`,
-    href: '',
+    href:
+      'https://staging.va.gov/health-care/schedule-view-va-appointments/appointments',
     label: 'Go to My HealtheVet',
   },
 ];

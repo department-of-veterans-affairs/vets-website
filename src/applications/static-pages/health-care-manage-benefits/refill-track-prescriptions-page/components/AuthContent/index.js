@@ -3,18 +3,20 @@ import React from 'react';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
+import { getCernerURL } from 'platform/utilities/constants';
 
 const callToActions = [
   {
     deriveHeaderText: facilityNames =>
       `Refill prescriptions from ${facilityNames}`,
-    href: '',
+    href: getCernerURL('/pages/medications/current'),
     label: 'Refill prescriptions on My VA Health',
   },
   {
     deriveHeaderText: () =>
       `Refill prescriptions from another VA Medical Center`,
-    href: '',
+    href:
+      'https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=prescription_refill',
     label: 'Refill prescriptions on My HealtheVet',
   },
 ];

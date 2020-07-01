@@ -4,17 +4,19 @@ import React from 'react';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
+import { getCernerURL } from 'platform/utilities/constants';
 
 const callToActions = [
   {
     deriveHeaderText: facilityNames => `Secure Message ${facilityNames}`,
-    href: '',
+    href: getCernerURL('/pages/messaging/inbox'),
     label: 'Secure Message on My VA Health',
   },
   {
     deriveHeaderText: () =>
       `Secure Message a provider at another VA Medical Center`,
-    href: '',
+    href:
+      'https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging',
     label: 'Secure Message on My HealtheVet',
   },
 ];

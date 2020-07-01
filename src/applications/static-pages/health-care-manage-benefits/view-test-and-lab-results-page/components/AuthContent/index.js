@@ -4,18 +4,19 @@ import React from 'react';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import CernerCallToAction from '../../../components/CernerCallToAction';
+import { getCernerURL } from 'platform/utilities/constants';
 
 const callToActions = [
   {
     deriveHeaderText: facilityNames =>
       `View lab and test results from ${facilityNames}`,
-    href: '',
+    href: getCernerURL('/pages/health_record/results/labs'),
     label: 'View results on My VA Health',
   },
   {
     deriveHeaderText: () =>
       `View lab and test results from another VA Medical Center`,
-    href: '',
+    href: 'https://sqa.eauth.va.gov/mhv-portal-web/eauth',
     label: 'View results on My HealtheVet',
   },
 ];
