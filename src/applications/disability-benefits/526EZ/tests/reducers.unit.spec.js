@@ -22,7 +22,7 @@ const initialState = {
   previousITF: null,
 };
 
-describe('ITF reducer', () => {
+describe.skip('ITF reducer', () => {
   const { itf } = reducers;
 
   it('should handle ITF_FETCH_INITIATED', () => {

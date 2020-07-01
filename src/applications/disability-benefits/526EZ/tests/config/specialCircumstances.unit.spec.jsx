@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
-describe('Disability benefits 526EZ special circumstances', () => {
+describe.skip('Disability benefits 526EZ special circumstances', () => {
   const {
     schema,
     uiSchema,

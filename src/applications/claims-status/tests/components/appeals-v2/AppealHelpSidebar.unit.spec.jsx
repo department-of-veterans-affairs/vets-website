@@ -1,27 +1,24 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import AppealHelpSidebar from '../../../components/appeals-v2/AppealHelpSidebar';
 
 describe('<AppealHelpSidebar>', () => {
   it('should render', () => {
     const props = { aoj: 'vba' };
-    const wrapper = shallow(<AppealHelpSidebar {...props} />);
+    const wrapper = mount(<AppealHelpSidebar {...props} />);
 
-    expect(wrapper.type()).to.equal('div');
+    expect(wrapper.find('AskVAQuestions')).to.not.be.false;
     wrapper.unmount();
   });
 
   it('should render the vba version', () => {
     const props = { aoj: 'vba' };
-    const wrapper = shallow(<AppealHelpSidebar {...props} />);
+    const wrapper = mount(<AppealHelpSidebar {...props} />);
 
-    expect(
-      wrapper
-        .find('p')
-        .first()
-        .text(),
-    ).to.equal('Call Veterans Affairs Benefits and Services');
+    expect(wrapper.find('AskVAQuestions').text()).to.contain(
+      'Call Veterans Affairs Benefits and Services',
+    );
     wrapper.unmount();
   });
 

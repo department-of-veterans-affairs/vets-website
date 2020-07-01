@@ -220,6 +220,7 @@ export class DateTimeSelectPage extends React.Component {
           onSubmit={this.goForward}
           disabled={appointmentSlotsStatus === FETCH_STATUS.failed}
           pageChangeInProgress={pageChangeInProgress}
+          loadingText="Page change in progress"
         />
       </div>
     );

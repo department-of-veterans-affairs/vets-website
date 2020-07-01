@@ -351,8 +351,8 @@
   },
   {
     "appName": "Order hearing aid batteries and accessories",
-    "entryName": "hearing-aid-batteries-and-accessories",
-    "rootUrl": "/hearing-aid-batteries-and-accessories",
+    "entryName": "order-form-2346",
+    "rootUrl": "/health-care/order-hearing-aid-batteries-and-accessories",
     "template": {
       "vagovprod": false
     }
