@@ -6,8 +6,7 @@ import { withRouter } from 'react-router';
 
 import { focusElement } from '../utilities/ui';
 import ReviewChapters from '../review/ReviewChapters';
-// import SubmitController from '../review/SubmitController';
-import SubmitController from 'platform/forms/containers/review/SubmitController';
+import SubmitController from '../review/SubmitController';
 
 const scroller = Scroll.scroller;
 
