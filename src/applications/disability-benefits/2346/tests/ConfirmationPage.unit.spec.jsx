@@ -26,7 +26,6 @@ describe('ConfirmationPage', () => {
             postalCode: '77550',
           },
           vetEmail: 'vet@vet.com',
-          'view:currentAddress': 'permanentAddress',
           supplies: [
             {
               deviceName: 'OMEGAX d3241',
@@ -74,7 +73,14 @@ describe('ConfirmationPage', () => {
           gender: 'M',
           dateOfBirth: '1933-04-05',
           eligibility: { batteries: true, accessories: true },
+          'view:currentAddress': 'permanentAddress',
           order: [{ productId: 3 }],
+        },
+        submission: {
+          errorMessage: false,
+          response: {
+            orderId: 'TEST1234',
+          },
         },
       },
     }),
@@ -103,7 +109,6 @@ describe('ConfirmationPage', () => {
             postalCode: '77550',
           },
           vetEmail: 'vet@vet.com',
-          'view:currentAddress': 'permanentAddress',
           supplies: [
             {
               deviceName: 'OMEGAX d3241',
@@ -150,8 +155,95 @@ describe('ConfirmationPage', () => {
           ssnLastFour: '1200',
           gender: 'M',
           dateOfBirth: '1933-04-05',
+          'view:currentAddress': 'permanentAddress',
           eligibility: { batteries: true, accessories: true },
           order: [],
+        },
+        submission: {
+          errorMessage: false,
+          response: {
+            orderId: 'TEST1234',
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+  const fakeStoreWithErrorMessage = {
+    getState: () => ({
+      form: {
+        data: {
+          permanentAddress: {
+            'view:livesOnMilitaryBaseInfo': {},
+            country: 'United States',
+            street: '101 Example Street',
+            street2: 'Apt 2',
+            city: 'Kansas City',
+            state: 'MO',
+            postalCode: '64117',
+          },
+          temporaryAddress: {
+            'view:livesOnMilitaryBaseInfo': {},
+            country: 'United States',
+            street: '201 Example Street',
+            city: 'Galveston',
+            state: 'TX',
+            postalCode: '77550',
+          },
+          vetEmail: 'vet@vet.com',
+          supplies: [
+            {
+              deviceName: 'OMEGAX d3241',
+              productName: 'ZA1239',
+              productGroup: 'BATTERIES',
+              productId: 1,
+              availableForReorder: true,
+              lastOrderDate: '2019-12-25',
+              nextAvailabilityDate: '2020-01-01',
+              quantity: 60,
+              prescribedDate: '2019-12-20',
+            },
+            {
+              productName: 'DOME',
+              productGroup: 'ACCESSORIES',
+              productId: 3,
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+              size: '6mm',
+            },
+            {
+              productName: 'DOME',
+              productGroup: 'ACCESSORIES',
+              productId: 4,
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+              size: '7mm',
+            },
+            {
+              productName: 'WaxBuster Single Unit',
+              productGroup: 'ACCESSORIES',
+              productId: 5,
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+            },
+          ],
+          fullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
+          ssnLastFour: '1200',
+          gender: 'M',
+          dateOfBirth: '1933-04-05',
+          'view:currentAddress': 'permanentAddress',
+          eligibility: { batteries: true, accessories: true },
+          order: [{ productId: 3 }],
+        },
+        submission: {
+          errorMessage: true,
         },
       },
     }),
@@ -212,6 +304,13 @@ describe('ConfirmationPage', () => {
       <ConfirmationPage store={fakeStoreNoSelections} />,
     );
     expect(confirmationPage.find('.empty-state-alert')).length.to.be(1);
+    confirmationPage.unmount();
+  });
+  it('should render the partially submitted errors alert if there was an error submitted some of the products', () => {
+    const confirmationPage = mount(
+      <ConfirmationPage store={fakeStoreWithErrorMessage} />,
+    );
+    expect(confirmationPage.find('.partial-submit-alert')).length.to.be(1);
     confirmationPage.unmount();
   });
 });

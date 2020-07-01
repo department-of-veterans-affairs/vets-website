@@ -221,7 +221,7 @@ const ConfirmationPage = ({
             headline="We're sorry. Part of your order wasn't submitted."
             className="vads-u-margin-bottom--4"
             content={
-              <div className="empty-state-alert">
+              <div className="partial-submit-alert">
                 <p>At least one of the following items couldn't be ordered:</p>
                 <ul className="vads-u-margin-bottom--1">
                   {selectedProductArray?.map(product => (
@@ -260,7 +260,16 @@ ConfirmationPage.propTypes = {
     last: PropTypes.string,
   }),
   vetEmail: PropTypes.string,
-  shippingAddress: PropTypes.object,
+  shippingAddress: PropTypes.shape({
+    street: PropTypes.string.isRequired,
+    street2: PropTypes.string,
+    city: PropTypes.string.isRequired,
+    state: PropTypes.string,
+    province: PropTypes.string,
+    country: PropTypes.string.isRequired,
+    postalCode: PropTypes.string,
+    internationalPostalCode: PropTypes.string,
+  }),
   submittedAt: PropTypes.object,
   selectedProductsArray: PropTypes.array,
   orderId: PropTypes.string,
@@ -273,7 +282,16 @@ ConfirmationPage.defaultProps = {
     last: '',
   },
   vetEmail: '',
-  shippingAddress: {},
+  shippingAddress: {
+    street: '',
+    street2: '',
+    city: '',
+    state: '',
+    province: '',
+    country: '',
+    postalCode: '',
+    internationalPostalCode: '',
+  },
   submittedAt: {},
   selectedProductsArray: [],
   orderId: '',
@@ -294,7 +312,7 @@ const mapStateToProps = state => {
   const submittedAt = submission?.submittedAt || moment();
 
   // confirm that this is the correct prop for errors
-  const { errorMessage } = submission?.errorMessage;
+  const { errorMessage } = submission;
 
   return {
     submittedAt,
