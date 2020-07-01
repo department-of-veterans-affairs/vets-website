@@ -78,9 +78,9 @@ describe('ConfirmationPage', () => {
         },
         submission: {
           errorMessage: false,
-          serverErrorMessage: 'test message',
           response: {
             orderId: 'TEST1234',
+            errorMessage: '',
           },
         },
       },
@@ -161,9 +161,10 @@ describe('ConfirmationPage', () => {
           order: [],
         },
         submission: {
-          errorMessage: false,
+          errorMessage: true,
           response: {
-            orderId: 'TEST1234',
+            errorMessage: 'empty order',
+            errors: [],
           },
         },
       },
@@ -171,7 +172,7 @@ describe('ConfirmationPage', () => {
     subscribe: () => {},
     dispatch: () => {},
   };
-  const fakeStoreWithErrorMessage = {
+  const fakeStorePtSubmittedOrder = {
     getState: () => ({
       form: {
         data: {
@@ -245,13 +246,17 @@ describe('ConfirmationPage', () => {
         },
         submission: {
           errorMessage: true,
+          response: {
+            errorMessage: 'partially submitted order',
+            errors: [],
+          },
         },
       },
     }),
     subscribe: () => {},
     dispatch: () => {},
   };
-  const fakeStoreWithErrorMessageForSubmission = {
+  const fakeStoreServerError = {
     getState: () => ({
       form: {
         data: {
@@ -324,8 +329,11 @@ describe('ConfirmationPage', () => {
           order: [{ productId: 3 }],
         },
         submission: {
-          errorMessage: false,
-          errorMessageForSubmission: '500 error message',
+          errorMessage: true,
+          response: {
+            errorMessage: '500 error message',
+            errors: [],
+          },
         },
       },
     }),
@@ -335,13 +343,6 @@ describe('ConfirmationPage', () => {
   it('should render ConfirmationPage', () => {
     const confirmationPage = mount(<ConfirmationPage store={fakeStore} />);
     expect(confirmationPage).not.to.be.undefined;
-    confirmationPage.unmount();
-  });
-
-  it('should render AlertBox', () => {
-    const confirmationPage = mount(<ConfirmationPage store={fakeStore} />);
-    const alertBox = confirmationPage.find('AlertBox');
-    expect(alertBox).not.to.be.undefined;
     confirmationPage.unmount();
   });
 
@@ -361,7 +362,6 @@ describe('ConfirmationPage', () => {
 
   it('should render the order summary alert', () => {
     const confirmationPage = mount(<ConfirmationPage store={fakeStore} />);
-    // console.log(confirmationPage.debug());
     const alertBox = confirmationPage.find('AlertBox').last();
     expect(alertBox.find('h4').text()).to.equal(
       'Request for Batteries and Accessories (Form 2346A)',
@@ -388,14 +388,14 @@ describe('ConfirmationPage', () => {
   });
   it('should render the partially submitted errors alert if there was an error submitting some of the products', () => {
     const confirmationPage = mount(
-      <ConfirmationPage store={fakeStoreWithErrorMessage} />,
+      <ConfirmationPage store={fakeStorePtSubmittedOrder} />,
     );
     expect(confirmationPage.find('.partial-submit-alert')).length.to.be(1);
     confirmationPage.unmount();
   });
   it('should render the submission failed error alert if there was an error submitting the order', () => {
     const confirmationPage = mount(
-      <ConfirmationPage store={fakeStoreWithErrorMessageForSubmission} />,
+      <ConfirmationPage store={fakeStoreServerError} />,
     );
     expect(confirmationPage.find('.submission-error-alert')).length.to.be(1);
     confirmationPage.unmount();

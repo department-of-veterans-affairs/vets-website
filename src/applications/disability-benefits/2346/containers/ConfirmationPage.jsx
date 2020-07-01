@@ -13,8 +13,8 @@ const ConfirmationPage = ({
   fullName,
   shippingAddress,
   orderId,
+  isError,
   errorMessage,
-  errorMessageForSubmission,
 }) => {
   const PrintDetails = () => (
     <div className="print-details">
@@ -79,7 +79,7 @@ const ConfirmationPage = ({
   );
   return (
     <div className="confirmation-page">
-      {!errorMessage &&
+      {!isError &&
         selectedProductArray?.length > 0 && (
           <>
             <p className="vads-u-font-weight--bold print-copy">
@@ -178,7 +178,8 @@ const ConfirmationPage = ({
             <PrintDetails />
           </>
         )}
-      {!errorMessage &&
+      {isError &&
+        errorMessage === 'empty order' &&
         selectedProductArray?.length === 0 && (
           <AlertBox
             headline="We're sorry. Your order wasn't submitted."
@@ -217,7 +218,8 @@ const ConfirmationPage = ({
             status="error"
           />
         )}
-      {errorMessage &&
+      {isError &&
+        errorMessage === 'partially submitted order' &&
         selectedProductArray?.length > 0 && (
           <AlertBox
             headline="We're sorry. Part of your order wasn't submitted."
@@ -262,32 +264,36 @@ const ConfirmationPage = ({
             status="error"
           />
         )}
-      {errorMessageForSubmission === '500 error message' && (
-        <AlertBox
-          headline="We're sorry. Your order wasn't submitted."
-          className="vads-u-margin-bottom--4"
-          content={
-            <div className="submission-error-alert">
-              <p>
-                Your order for hearing aid supplies wasn't submitted because
-                something went wrong on our end.
-              </p>
-              <p className="vads-u-font-weight--bold vads-u-font-family--serif">
-                What you can do
-              </p>
-              <p className="vads-u-margin-top--0">
-                For help ordering hearing aid batteries and accessories, please
-                call the DLC Customer Service Section at{' '}
-                <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                  303-273-6200
-                </a>{' '}
-                or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-              </p>
-            </div>
-          }
-          status="error"
-        />
-      )}
+      {isError &&
+        errorMessage === '500 error message' && (
+          <AlertBox
+            headline="We're sorry. Your order wasn't submitted."
+            className="vads-u-margin-bottom--4"
+            content={
+              <div className="submission-error-alert">
+                <p>
+                  Your order for hearing aid supplies wasn't submitted because
+                  something went wrong on our end.
+                </p>
+                <p className="vads-u-font-weight--bold vads-u-font-family--serif">
+                  What you can do
+                </p>
+                <p className="vads-u-margin-top--0">
+                  For help ordering hearing aid batteries and accessories,
+                  please call the DLC Customer Service Section at{' '}
+                  <a
+                    aria-label="3 0 3. 2 7 3. 6 2 0 0."
+                    href="tel:303-273-6200"
+                  >
+                    303-273-6200
+                  </a>{' '}
+                  or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+                </p>
+              </div>
+            }
+            status="error"
+          />
+        )}
     </div>
   );
 };
@@ -312,8 +318,8 @@ ConfirmationPage.propTypes = {
   submittedAt: PropTypes.object,
   selectedProductsArray: PropTypes.array,
   orderId: PropTypes.string,
-  errorMessage: PropTypes.bool,
-  errorMessageForSubmission: PropTypes.string,
+  isError: PropTypes.bool,
+  errorMessage: PropTypes.string,
 };
 
 ConfirmationPage.defaultProps = {
@@ -335,8 +341,8 @@ ConfirmationPage.defaultProps = {
   submittedAt: {},
   selectedProductsArray: [],
   orderId: '',
-  errorMessage: false,
-  errorMessageForSubmission: '',
+  isError: false,
+  errorMessage: '',
 };
 
 const mapStateToProps = state => {
@@ -352,12 +358,8 @@ const mapStateToProps = state => {
   // Temporary fallback until this is added to the API response
   const submittedAt = submission?.submittedAt || moment();
 
-  // confirm that this is the correct prop for errors
-  const { errorMessage } = submission;
-
-  // using a temporary prop until correct prop is identified
-  const errorMessageForSubmission =
-    submission?.serverErrorMessage || '500 error message';
+  // confirm what the correct props for errors are with @camerontesterman
+  const errorMessage = submission.response.errorMessage || '';
 
   return {
     submittedAt,
@@ -366,8 +368,8 @@ const mapStateToProps = state => {
     selectedProductArray,
     shippingAddress,
     orderId: submission?.response?.orderId,
+    isError: submission?.response?.errors || false,
     errorMessage,
-    errorMessageForSubmission,
   };
 };
 
