@@ -270,7 +270,8 @@ module.exports = env => {
       {},
     );
 
-    // Modifies the style tags output from HTML Webpack Plugin.
+    // Modifies the style tags output from HTML Webpack Plugin
+    // to match the order and attributes of style tags from real content.
     const modifyStyleTags = pluginStyleTags =>
       pluginStyleTags
         .reduce(
@@ -283,7 +284,8 @@ module.exports = env => {
         )
         .join('');
 
-    // Modifies the script tags output from HTML Webpack Plugin.
+    // Modifies the script tags output from HTML Webpack Plugin
+    // to match the order and attributes of script tags from real content.
     const modifyScriptTags = pluginScriptTags =>
       pluginScriptTags
         .reduce((tags, tag) => {
