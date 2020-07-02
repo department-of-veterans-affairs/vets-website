@@ -267,7 +267,7 @@ export const serviceDescription = appId => {
       return 'order hearing aid supplies';
 
     case widgetTypes.VIEW_DEPENDENTS:
-      return 'view dependents currently added to your VA disability benefits';
+      return 'view current dependents';
 
     default:
       return 'use this service';
