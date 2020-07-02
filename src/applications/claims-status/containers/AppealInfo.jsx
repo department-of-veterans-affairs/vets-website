@@ -12,6 +12,7 @@ import { getAppealsV2 } from '../actions/index.jsx';
 import AppealHeader from '../components/appeals-v2/AppealHeader';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
 import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
+import CopyOfExam from '../components/CopyOfExam';
 import { setUpPage, scrollToTop } from '../utils/page';
 
 import {
@@ -187,6 +188,7 @@ export class AppealInfo extends React.Component {
                   aoj={appeal.attributes.aoj}
                 />
               )}
+              <CopyOfExam />
             </div>
           </div>
         </div>

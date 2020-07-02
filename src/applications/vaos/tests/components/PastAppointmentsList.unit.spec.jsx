@@ -177,7 +177,7 @@ describe('VAOS <PastAppointmentsList>', () => {
     tree.unmount();
   });
 
-  it('should render focus on H3 tag', () => {
+  it('should render focus on H2 tag', () => {
     // For some reason, testing for document.activeElement doesn't work
     // unless the component is first attached to a div
     const div = document.createElement('div');
@@ -202,10 +202,10 @@ describe('VAOS <PastAppointmentsList>', () => {
       },
     });
 
-    expect(tree.find('h3[tabIndex="-1"]').exists()).to.be.true;
-    expect(tree.find('h3[tabIndex="-1"]').text()).to.equal('Past appointments');
+    expect(tree.find('h2[tabIndex="-1"]').exists()).to.be.true;
+    expect(tree.find('h2[tabIndex="-1"]').text()).to.equal('Past appointments');
     expect(document.activeElement.id).to.equal('pastAppts');
-    expect(document.activeElement.nodeName).to.equal('H3');
+    expect(document.activeElement.nodeName).to.equal('H2');
 
     tree.unmount();
   });

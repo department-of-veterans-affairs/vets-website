@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import { merge } from 'lodash';
 import { AppealInfo } from '../../../containers/AppealInfo';
@@ -65,6 +65,14 @@ describe('<AppealInfo/>', () => {
     const props = merge({}, { children }, defaultProps);
     const wrapper = shallow(<AppealInfo {...props} />);
     expect(wrapper.find('span.test').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should render CopyOfExam block', () => {
+    const children = <span className="test">Child Goes Here</span>;
+    const props = merge({}, { children }, defaultProps);
+    const wrapper = mount(<AppealInfo {...props} />);
+    expect(wrapper.find('CopyOfExam').length).to.equal(1);
     wrapper.unmount();
   });
 

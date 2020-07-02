@@ -1,5 +1,6 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import { states } from 'vets-json-schema/dist/constants.json';
 
 import { schoolStudentIdTitle } from '../content/programDetails';
 
@@ -7,7 +8,6 @@ const {
   degreeName,
   schoolName,
   schoolCity,
-  schoolState,
   schoolStudentId,
   schoolEmailAddress,
 } = fullSchema10203.properties;
@@ -29,7 +29,6 @@ export const uiSchema = {
   },
   schoolStudentId: {
     'ui:title': schoolStudentIdTitle,
-    'ui:description': 'Your school student ID number',
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
@@ -48,7 +47,11 @@ export const schema = {
     degreeName,
     schoolName,
     schoolCity,
-    schoolState,
+    schoolState: {
+      type: 'string',
+      enum: states.USA.map(state => state.value),
+      enumNames: states.USA.map(state => state.label),
+    },
     schoolStudentId,
     schoolEmailAddress,
   },
