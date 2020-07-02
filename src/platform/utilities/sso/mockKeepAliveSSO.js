@@ -1,5 +1,5 @@
 export default function keepAlive() {
-  return Promise.resolve({ ttl: 0 });
+  return Promise.resolve({ });
 }
 
 export { keepAlive };
