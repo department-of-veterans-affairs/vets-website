@@ -23,11 +23,11 @@ describe('Get Medical Records Page <LegacyContent>', () => {
       'Will my personal health information be protected?',
     );
     expect(text).to.include('What if I have more questions?');
-    expect(text).to.include(
+    expect(text).to.not.include(
       'What is the Veterans Health Information Exchange (VHIE), and how can',
     );
-    expect(text).to.include('Can I opt out of sharing my information?');
-    expect(text).to.include(
+    expect(text).to.not.include('Can I opt out of sharing my information?');
+    expect(text).to.not.include(
       'Can I change my mind if I want to share my information later?',
     );
     expect(text).to.include('What if I have more questions?');
