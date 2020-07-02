@@ -1,5 +1,3 @@
 export default function keepAlive() {
-  return Promise.resolve({ });
+  return Promise.resolve({});
 }
-
-export { keepAlive };
