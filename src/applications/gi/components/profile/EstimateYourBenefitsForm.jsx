@@ -300,7 +300,6 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   handleEYBSkipLinkOnClick = () => {
-    scroller.scrollTo('estimated-benefits', getScrollOptions());
     focusElement('#estimated-benefits');
   };
 
