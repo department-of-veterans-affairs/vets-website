@@ -2,6 +2,8 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
+
 import { login, logout } from 'platform/user/authentication/utilities';
 import mockKeepAlive from './mockKeepAliveSSO';
 import { keepAlive as liveKeepAlive } from './keepAliveSSO';
@@ -19,9 +21,14 @@ async function vaGovProfile() {
       method: 'GET',
       credentials: 'include',
     });
-    return resp.ok ? await resp.json().data.attributes.profile : {};
+    if (resp.ok) {
+      const json = resp.json();
+      return camelCaseKeysRecursive(json.data.attributes.profile);
+    } else {
+      return null;
+    }
   } catch (err) {
-    return {};
+    return null;
   }
 }
 
@@ -49,7 +56,7 @@ export async function checkAutoSession(application = null, to = null) {
     vaGovProfile(),
   ]);
   // FIXME: will a 3rd party lib auto convert the "sign_in" snake case to camel?
-  if (userProfile?.sign_in?.ssoe && ttl === 0) {
+  if (userProfile?.signIn?.ssoe && ttl === 0) {
     // explicitly check to see if the TTL for the SSO3 session is 0, as it
     // could also be null if we failed to get a response from the SSOe server,
     // in which case we don't want to logout the user because we don't know
