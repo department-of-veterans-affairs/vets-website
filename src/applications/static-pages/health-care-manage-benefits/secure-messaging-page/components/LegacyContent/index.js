@@ -7,18 +7,30 @@ import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 export const LegacyContent = () => (
   <>
     <CallToActionWidget appId="messaging" setFocus={false} />
-    <div>
-      <div itemScope itemType="http://schema.org/Question">
+    <div data-template="paragraphs/q_a_section" data-entity-id={3480}>
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3479}
+        data-analytics-faq-section
+        data-analytics-faq-text="How can VA Secure Messaging help me manage my health care?"
+      >
         <h2 itemProp="name" id="how-can-va-secure-messaging-he">
           How can VA Secure Messaging help me manage my health care?
         </h2>
         <div
+          data-entity-id={3479}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3481}
+              className="processed-content"
+            >
               <p>
                 Secure Messaging is a web-based service that protects your
                 sensitive information so you can safely and easily communicate
@@ -47,17 +59,29 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3482}
+        data-analytics-faq-section
+        data-analytics-faq-text="Am I eligible to use Secure Messaging?"
+      >
         <h2 itemProp="name" id="am-i-eligible-to-use-secure-me">
           Am I eligible to use Secure Messaging?
         </h2>
         <div
+          data-entity-id={3482}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3483}
+              className="processed-content"
+            >
               <p>
                 You can use this tool if you meet all of the requirements listed
                 below.
@@ -113,21 +137,34 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3484}
+        data-analytics-faq-section
+        data-analytics-faq-text="How does Secure Messaging work within My HealtheVet?"
+      >
         <h2 itemProp="name" id="how-does-secure-messaging-work">
           How does Secure Messaging work within My HealtheVet?
         </h2>
         <div
+          data-entity-id={3484}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3485}
+              className="processed-content"
+            >
               <p>
-                With Secure Messaging, you can write messages, save drafts,
-                review your sent messages, and keep a record of your
-                conversations.
+                You’ll sign in to your account and access your Secure Messaging
+                folder through your account Welcome page dashboard. There, you
+                can write messages, save drafts, review your sent messages, and
+                keep a record of your conversations.
               </p>
               <p>
                 You can use Secure Messaging to communicate with any VA health
@@ -145,17 +182,29 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3486}
+        data-analytics-faq-section
+        data-analytics-faq-text="Can I use Secure Messaging for medical emergencies or urgent needs?"
+      >
         <h2 itemProp="name" id="can-i-use-secure-messaging-for">
           Can I use Secure Messaging for medical emergencies or urgent needs?
         </h2>
         <div
+          data-entity-id={3486}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3487}
+              className="processed-content"
+            >
               <p>
                 No. You shouldn’t use Secure Messaging when you have an urgent
                 need, because it may take a few days for you to get a reply.
@@ -188,8 +237,11 @@ export const LegacyContent = () => (
               </p>
               <ul>
                 <li>
-                  Call <a href="tel:+18002738255">800-273-8255</a>, then select
-                  1.
+                  Call{' '}
+                  <a aria-label="8 0 0. 2 7 3. 8 2 5 5." href="tel:18002738255">
+                    800-273-8255
+                  </a>
+                  , then select 1.
                 </li>
                 <li>
                   Start a{' '}
@@ -206,17 +258,29 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3488}
+        data-analytics-faq-section
+        data-analytics-faq-text="Can I use Secure Messaging to communicate with non-VA providers?"
+      >
         <h2 itemProp="name" id="can-i-use-secure-messaging-to-">
           Can I use Secure Messaging to communicate with non-VA providers?
         </h2>
         <div
+          data-entity-id={3488}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3489}
+              className="processed-content"
+            >
               <p>
                 No. You can communicate only with your VA providers who’ve
                 agreed to participate in Secure Messaging.
@@ -225,17 +289,29 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3490}
+        data-analytics-faq-section
+        data-analytics-faq-text="Will my personal health information be protected?"
+      >
         <h2 itemProp="name" id="will-my-personal-health-inform">
           Will my personal health information be protected?
         </h2>
         <div
+          data-entity-id={3490}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3491}
+              className="processed-content"
+            >
               <p>
                 Yes. This is a secure website. We follow strict security
                 policies and practices to protect your personal health
@@ -258,45 +334,61 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3492}
+        data-analytics-faq-section
+        data-analytics-faq-text="What if I have more questions?"
+      >
         <h2 itemProp="name" id="what-if-i-have-more-questions">
           What if I have more questions?
         </h2>
         <div
+          data-entity-id={3492}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3493}
+              className="processed-content"
+            >
               <p>
-                If you have more questions about Secure Messaging on
-                MyHealtheVet, please got to the{' '}
+                You can get answers to your questions about this tool within our
+                My HealtheVet web portal.
+                <br />
                 <a
                   href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#smGeneralFAQ"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Secure Messaging FAQs
-                </a>{' '}
-                on the My HealtheVet web portal.
+                  Read Secure Messaging FAQs
+                </a>
               </p>
               <p>
-                Or contact the My HealtheVet help desk at{' '}
-                <a href="tel:+18773270022">877-327-0022</a> (TTY:{' '}
-                <a href="tel:+18008778339">800-877-8339</a>. We&apos;re here
-                Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
-              </p>
-              <p>
-                You can also{' '}
+                You can also contact the My HealtheVet help desk.
+                <br />
                 <a
                   href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  contact us online
+                  Find out how to contact us online
                 </a>
-                .
+                <br />
+                Or call us at{' '}
+                <a aria-label="8 7 7. 3 2 7. 0 0 2 2." href="tel:18773270022">
+                  877-327-0022
+                </a>{' '}
+                (TTY:{' '}
+                <a aria-label="8 0 0. 8 7 7. 8 3 3 9." href="tel:18008778339">
+                  800-877-8339
+                </a>
+                ). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
               </p>
             </div>
           </div>

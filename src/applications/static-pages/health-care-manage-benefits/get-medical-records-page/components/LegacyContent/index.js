@@ -5,23 +5,39 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 const LegacyContent = () => (
   <>
-    <div className="processed-content">
+    <div
+      data-template="paragraphs/wysiwyg"
+      data-entity-id={3369}
+      className="processed-content"
+    >
       <h2 id="va-blue-button">VA Blue Button</h2>
     </div>
     <CallToActionWidget appId="health-records" setFocus={false} />
-    <div>
+    <div data-template="paragraphs/q_a_section" data-entity-id={3372}>
       <h2 id="more-about-va-blue-button">More about VA Blue Button</h2>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3373}
+        data-analytics-faq-section="More about VA Blue Button"
+        data-analytics-faq-text="What's VA Blue Button, and how can it help me manage my health care?"
+      >
         <h3 itemProp="name" id="whats-va-blue-button-and-how-c">
           What's VA Blue Button, and how can it help me manage my health care?
         </h3>
         <div
+          data-entity-id={3373}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3374}
+              className="processed-content"
+            >
               <p>
                 VA Blue Button is a feature of the health management portal
                 within My HealtheVet. It lets you view, print, save, download,
@@ -62,17 +78,29 @@ const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3375}
+        data-analytics-faq-section="More about VA Blue Button"
+        data-analytics-faq-text="Am I eligible to use all the features of VA Blue Button?"
+      >
         <h3 itemProp="name" id="am-i-eligible-to-use-all-the-f">
           Am I eligible to use all the features of VA Blue Button?
         </h3>
         <div
+          data-entity-id={3375}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3376}
+              className="processed-content"
+            >
               <p>
                 You can use all the features of this tool if you meet all of the
                 requirements listed below.
@@ -82,9 +110,9 @@ const LegacyContent = () => (
               </p>
               <ul>
                 <li>
-                  Are enrolled in VA health care, <strong>and</strong>
+                  Enrolled in VA health care, <strong>and</strong>
                 </li>
-                <li>Are registered as a patient in a VA health facility</li>
+                <li>Registered as a patient in a VA health facility</li>
               </ul>
               <p>
                 <a href="/health-care/how-to-apply/">
@@ -96,11 +124,8 @@ const LegacyContent = () => (
               </p>
               <ul>
                 <li>
-                  A{' '}
-                  <a href="">
-                    Premium <strong>My HealtheVet account</strong>
-                  </a>
-                  , <strong>or</strong>
+                  An Advanced or Premium <strong>My HealtheVet</strong> account,{' '}
+                  <strong>or</strong>
                 </li>
                 <li>
                   A Premium <strong>DS Logon</strong> account (used for
@@ -112,10 +137,6 @@ const LegacyContent = () => (
                 </li>
               </ul>
               <p>
-                <strong>Note:</strong> If you sign in with a Basic or Advanced
-                account, you&apos;ll see only the results you&apos;ve entered
-                yourself.
-                <br />
                 <a
                   href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
                   target="_blank"
@@ -128,17 +149,29 @@ const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3377}
+        data-analytics-faq-section="More about VA Blue Button"
+        data-analytics-faq-text="Once I’m signed in, how do I get to my medical records?"
+      >
         <h3 itemProp="name" id="once-im-signed-in-how-do-i-get">
           Once I’m signed in, how do I get to my medical records?
         </h3>
         <div
+          data-entity-id={3377}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3378}
+              className="processed-content"
+            >
               <p>
                 Go to your Welcome page dashboard, and click on “Health
                 Records.” You’ll go to a new page.
@@ -158,17 +191,29 @@ const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3379}
+        data-analytics-faq-section="More about VA Blue Button"
+        data-analytics-faq-text="Will my personal health information be protected?"
+      >
         <h3 itemProp="name" id="will-my-personal-health-inform">
           Will my personal health information be protected?
         </h3>
         <div
+          data-entity-id={3379}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3380}
+              className="processed-content"
+            >
               <p>
                 Yes. This is a secure website. We follow strict security
                 policies and practices to protect your personal health
@@ -190,22 +235,33 @@ const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3381}
+        data-analytics-faq-section="More about VA Blue Button"
+        data-analytics-faq-text="What if I have more questions?"
+      >
         <h3 itemProp="name" id="what-if-i-have-more-questions">
           What if I have more questions?
         </h3>
         <div
+          data-entity-id={3381}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3382}
+              className="processed-content"
+            >
               <p>
                 You can get answers to frequently asked questions about VA Blue
                 Button and related tools within My HealtheVet.
-              </p>
-              <p>
+                <br />
                 <a
                   href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#bbtop"
                   target="_blank"
@@ -240,10 +296,18 @@ const LegacyContent = () => (
                 >
                   Find out how to contact us online
                 </a>
-              </p>
-              <p>
-                Or call us at <a href="tel:+18773270022">877-327-0022</a> (TTY:{' '}
-                <a href="tel:+18008778339">800-877-8339</a>
+                <br />
+                Or call us at{' '}
+                <a aria-label="8 7 7. 3 2 7. 0 0 2 2." href="tel:18773270022">
+                  877-327-0022
+                </a>{' '}
+                (TTY:{' '}
+                <a
+                  aria-label="TTY. 8 0 0. 8 7 7. 8 3 3 9."
+                  href="tel:18008778339"
+                >
+                  800-877-8339
+                </a>
                 ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
               </p>
             </div>
@@ -251,177 +315,244 @@ const LegacyContent = () => (
         </div>
       </div>
     </div>
-    <div>
+    <div data-template="paragraphs/q_a_section" data-entity-id={3383}>
       <h2 id="the-veterans-health-informatio">
         The Veterans Health Information Exchange
       </h2>
-      <div itemScope itemType="http://schema.org/Question">
+      <p>
+        The Veterans Health Information Exchange (VHIE) program lets us
+        automatically and securely share your health information with
+        participating community care providers as well as the Department of
+        Defense.{' '}
+      </p>
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={9811}
+        data-analytics-faq-section="The Veterans Health Information Exchange"
+        data-analytics-faq-text="What's the Veterans Health Information Exchange (VHIE), and how can it help me manage my health care?"
+      >
         <h3 itemProp="name" id="whats-the-veterans-health-info">
-          What is the Veterans Health Information Exchange (VHIE), and how can
-          it help me manage my health care?
+          What's the Veterans Health Information Exchange (VHIE), and how can it
+          help me manage my health care?
         </h3>
         <div
+          data-entity-id={9811}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={9810}
+              className="processed-content"
+            >
               <p>
-                The Veterans Health Information Exchange (VHIE) program lets us
-                share your health information with participating community care
-                providers and the Department of Defense. For example, when you
-                leave activey-duty service, retire, or leave the Reserves and
-                then get health care at VA or a VA-approved community care
-                provider, your health record would electronically follow you.
+                VHIE gives your health care providers a more complete view of
+                your health record to help them make more informed treatment
+                decisions. Through VHIE, community providers who are a part of
+                your care team can safely and securely receive your VA health
+                information electronically.&nbsp;
+                <br />
+                <br />
+                VHIE helps improve continuity of your care, reduce test
+                duplication, and avoid clinical error. That's because you can
+                see all your&nbsp;health care providers from different practices
+                or networks in one place. Our&nbsp;secure system also eliminates
+                the need to send paper medical records by mail, and to carry
+                your records to appointments with community providers.
+                <br />
+                <br />
+                We only&nbsp;share&nbsp;your health information with
+                participating community providers via VHIE when they're treating
+                you. Visit the <a href="https://www.va.gov/VHIE/">
+                  VHIE page
+                </a>{' '}
+                to learn more about how the&nbsp;program helps your providers
+                better understand your health history and develop safer, more
+                effective treatment plans.&nbsp;
               </p>
-              <p>
-                This program is voluntary, and you can choose not to share your
-                information. If you choose not to share your information but
-                change your mind later, you can opt back in to sharing your
-                information at any time.
-              </p>
-              <p>
-                <strong>The sharing of health information:</strong>
-              </p>
-              <ul>
-                <li>
-                  Helps your VA and non-VA providers better coordinate your
-                  care.
-                </li>
-                <li>Keeps your personal health information more secure.</li>
-                <li>
-                  Improves your care by helping your providers make mroe
-                  informed decisions.
-                </li>
-                <li>
-                  Ensures your providers have up-to-date information, like your
-                  current medications and allergies.
-                </li>
-                <li>Saves you time and money.</li>
-              </ul>
             </div>
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={9809}
+        data-analytics-faq-section="The Veterans Health Information Exchange"
+        data-analytics-faq-text="VHIE sharing options"
+      >
         <h3 itemProp="name" id="vhie-sharing-options">
-          Can I opt out of sharing my information?
+          VHIE sharing options
         </h3>
         <div
+          data-entity-id={9809}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
-              <p>Yes. You can opt out of sharing by mail or in person.</p>
-              <h4>To opt out by mail</h4>
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={9808}
+              className="processed-content"
+            >
               <p>
-                Fill out, sign, and date VA Form 10-10164 (Opt Out of Sharing
-                Protected Health Information).
-              </p>
-              <p>
-                <a href="https://va.gov/vaforms/medical/pdf/10-10164-fill.pdf">
-                  Download VA Form 10-10164 (PDF)
-                </a>
-              </p>
-              <br />
-              <p>
-                Mail the completed form to the Release of Information (ROI)
-                office at your nearest VA medical center.
-              </p>
-              <p>
-                <a href="">
-                  Find the address for your nearest VA medical center
-                </a>
-              </p>
-              <h4>To opt out in person</h4>
-              <p>Visit your VA medical center&apos;s ROI office.</p>
-              <p>
-                Bring a completed VA Form 10-10164 with you, or ask for a copy
-                to fill out in the office. Give your completed, signed form to
-                an office staff member.
+                If you don't want your community providers to receive your
+                information via VHIE, you may opt out of electronic sharing at
+                any time. And if&nbsp;you previously opted out but want to
+                resume secure, seamless sharing, you may opt back in. Visit the{' '}
+                <a href="https://www.va.gov/VHIE/VHIE_Sharing_Options.asp">
+                  VHIE Sharing Options page
+                </a>{' '}
+                to learn more.
               </p>
             </div>
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="can-i-change-my-mind-share-information-later">
-          Can I change my mind if I want to share my information later?
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={9889}
+        data-analytics-faq-section="The Veterans Health Information Exchange"
+        data-analytics-faq-text="How do I opt out?"
+      >
+        <h3 itemProp="name" id="how-do-i-opt-out">
+          How do I opt out?
         </h3>
         <div
+          data-entity-id={9889}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={9888}
+              className="processed-content"
+            >
               <p>
-                Yes. If you change your mind and want to share your health
-                information, complete and submit VA Form 10-10163 (Request for
-                and Permission to Participate in Sharing Protected Health
-                Information).
-              </p>
-              <p>
-                <a href="https://va.gov/vaforms/medical/pdf/10-10163-fill.pdf">
-                  Download VA Form 10-10163 (PDF)
+                If you would prefer to opt out of sharing your health
+                information electronically, you can do so at any time. You must
+                complete and submit{' '}
+                <a href="https://www.va.gov/vaforms/medical/pdf/10-10164-fill.pdf">
+                  VA Form 10-10164
+                </a>{' '}
+                to your facility’s Release of Information Office (ROI). You may
+                also opt out via{' '}
+                <a
+                  href="https://www.myhealth.va.gov/mhv-portal-web/home"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  My HealtheVet
                 </a>
-              </p>
-              <p>
-                Mail or take this form in person to the Release of Information
-                (ROI) office at your nearest VA medical center.
-              </p>
-              <p>
-                <a href="">
-                  Find the address of your nearest VA medical center
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3
-          itemProp="name"
-          id="will-my-personal-health-information-be-protected"
-        >
-          Will my personal health information be protected?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                Yes. The Veterans Health Information Exchange uses secure
-                technology to share information between VA and participating
-                community health care providers who treat you. We share
-                information only with community care providers and organizations
-                that have partnership agreements with us and are part of our
-                approved, trusted network.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="what-if-i-have-more-questions">
-          What if I have more questions?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                Call us toll-free at <a href="tel:+18446982311">844-698-2311</a>
                 .
+              </p>
+              <p>
+                <strong>Note:</strong> If you haven't already done so, you'll
+                need to upgrade your My HealtheVet account to Premium
+                status&nbsp;to opt out. Visit{' '}
+                <a
+                  href="https://www.myhealth.va.gov/mhv-portal-web/home"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  My HealtheVet
+                </a>{' '}
+                to learn more.&nbsp;
+              </p>
+              <p>
+                Choosing to opt out will not affect your access to care from
+                community providers. However, if you opt out, your community
+                providers may not receive your medical records before you
+                receive treatment. This may put you at risk. Also, if you visit
+                any emergency room, your information may still be shared via
+                VHIE so that you can receive the care you need.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={9891}
+        data-analytics-faq-section="The Veterans Health Information Exchange"
+        data-analytics-faq-text="If I opt out, how can I opt back in?"
+      >
+        <h3 itemProp="name" id="if-i-opt-out-how-can-i-opt-bac">
+          If I opt out, how can I opt back in?
+        </h3>
+        <div
+          data-entity-id={9891}
+          itemProp="acceptedAnswer"
+          itemScope
+          itemType="http://schema.org/Answer"
+        >
+          <div itemProp="text">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={9890}
+              className="processed-content"
+            >
+              <p>
+                If you previously opted out, but want to resume secure, seamless
+                sharing, you may do so at any time. Simply complete&nbsp;
+                <a href="https://www.va.gov/vaforms/medical/pdf/10-10163-fill.pdf">
+                  VA Form 10-10163
+                </a>
+                &nbsp;and return it to your VA facility's ROI office, or submit
+                it online though{' '}
+                <a
+                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/home"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  My HealtheVet
+                </a>
+                .
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={10274}
+        data-analytics-faq-section="The Veterans Health Information Exchange"
+        data-analytics-faq-text="Can I check my sharing preference status?"
+      >
+        <h3 itemProp="name" id="can-i-check-my-sharing-prefere">
+          Can I check my sharing preference status?
+        </h3>
+        <div
+          data-entity-id={10274}
+          itemProp="acceptedAnswer"
+          itemScope
+          itemType="http://schema.org/Answer"
+        >
+          <div itemProp="text">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={10273}
+              className="processed-content"
+            >
+              <p>
+                Yes. Please contact your VA facility's&nbsp;ROI office.&nbsp;If
+                you've already&nbsp;submitted your form to opt out, or to opt
+                back in, to the electronic sharing program, your request may be
+                in process.
               </p>
             </div>
           </div>

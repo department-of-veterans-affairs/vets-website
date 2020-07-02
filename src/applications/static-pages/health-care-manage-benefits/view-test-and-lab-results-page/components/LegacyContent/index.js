@@ -7,24 +7,37 @@ import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 export const LegacyContent = () => (
   <>
     <CallToActionWidget appId="lab-and-test-results" setFocus={false} />
-    <div>
-      <div itemScope itemType="http://schema.org/Question">
+    <div data-template="paragraphs/q_a_section" data-entity-id={3507}>
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3506}
+        data-analytics-faq-section
+        data-analytics-faq-text="How can this tool help me manage my health care?"
+      >
         <h2 itemProp="name" id="how-can-this-tool-help-me-mana">
           How can this tool help me manage my health care?
         </h2>
         <div
+          data-entity-id={3506}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3508}
+              className="processed-content"
+            >
               <p>
-                With this tool, you&apos;ll be able to view and keep a record of
-                your VA lab and test results.
+                The Labs + Tests tool is part of the My HealtheVet personal
+                health record. It can help you view and keep a record of your
+                lab and test results.
               </p>
               <p>
-                <strong>You can use the tool to:</strong>
+                <strong>You can use the Labs + Tests tool to:</strong>
               </p>
               <ul>
                 <li>
@@ -36,20 +49,33 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3509}
+        data-analytics-faq-section
+        data-analytics-faq-text="Am I eligible to use this tool?"
+      >
         <h2 itemProp="name" id="am-i-eligible-to-use-this-tool">
           Am I eligible to use this tool?
         </h2>
         <div
+          data-entity-id={3509}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3510}
+              className="processed-content"
+            >
               <p>
-                You can use this tool to view and track your VA lab and test
-                results if you meet all of the requirements listed below.
+                You can use this tool to view your VA lab and test results and
+                information you enter yourself if you meet all of the
+                requirements listed below.
               </p>
               <p>
                 <strong>Both of these must be true. You’re:</strong>
@@ -70,14 +96,8 @@ export const LegacyContent = () => (
               </p>
               <ul>
                 <li>
-                  A{' '}
-                  <a
-                    href="https://www.myhealth.va.gov/mhv-portal-web/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication"
-                    rel="noreferrer noopener"
-                  >
-                    Premium <strong>My HealtheVet account</strong>
-                  </a>
-                  , <strong>or</strong>
+                  A Premium <strong>My HealtheVet</strong> account,{' '}
+                  <strong>or</strong>
                 </li>
                 <li>
                   A Premium <strong>DS Logon</strong> account (used for
@@ -104,17 +124,29 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3511}
+        data-analytics-faq-section
+        data-analytics-faq-text="Can I view all my VA lab and test information using this tool?"
+      >
         <h2 itemProp="name" id="can-i-view-all-my-va-lab-and-t">
           Can I view all my VA lab and test information using this tool?
         </h2>
         <div
+          data-entity-id={3511}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3512}
+              className="processed-content"
+            >
               <p>
                 At this time, you can view only your VA chemistry/hematology
                 results. These include tests for blood sugar, liver function, or
@@ -124,17 +156,29 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3513}
+        data-analytics-faq-section
+        data-analytics-faq-text="Can I view results from non-VA providers or labs?"
+      >
         <h2 itemProp="name" id="can-i-view-results-from-non-va">
           Can I view results from non-VA providers or labs?
         </h2>
         <div
+          data-entity-id={3513}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3514}
+              className="processed-content"
+            >
               <p>
                 No. But you can enter this information yourself to keep all your
                 results in one place.
@@ -143,17 +187,29 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3515}
+        data-analytics-faq-section
+        data-analytics-faq-text="Once I’m signed in within My HealtheVet, how do I view my results?"
+      >
         <h2 itemProp="name" id="once-im-signed-in-within-my-he">
           Once I’m signed in within My HealtheVet, how do I view my results?
         </h2>
         <div
+          data-entity-id={3515}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3516}
+              className="processed-content"
+            >
               <p>
                 On your Welcome page dashboard, you’ll see a module for “Health
                 Records.” Within that module, click on “Labs and Tests.”
@@ -162,7 +218,11 @@ export const LegacyContent = () => (
                 This will take you to a new page with links to view test
                 results.
               </p>
-              <p>If you’re signed in with a Premium account, you’ll see:</p>
+              <p>
+                <strong>
+                  If you’re signed in with a Premium account, you’ll see:
+                </strong>
+              </p>
               <ul>
                 <li>
                   <strong>VA chemistry/hematology results:</strong> Your tests
@@ -193,17 +253,29 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3517}
+        data-analytics-faq-section
+        data-analytics-faq-text="Will my personal health information be protected?"
+      >
         <h2 itemProp="name" id="will-my-personal-health-inform">
           Will my personal health information be protected?
         </h2>
         <div
+          data-entity-id={3517}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3518}
+              className="processed-content"
+            >
               <p>
                 Yes. This is a secure website. We follow strict security
                 policies and practices to protect your personal health
@@ -226,45 +298,61 @@ export const LegacyContent = () => (
           </div>
         </div>
       </div>
-      <div itemScope itemType="http://schema.org/Question">
+      <div
+        itemScope
+        itemType="http://schema.org/Question"
+        data-template="paragraphs/q_a"
+        data-entity-id={3519}
+        data-analytics-faq-section
+        data-analytics-faq-text="What if I have more questions?"
+      >
         <h2 itemProp="name" id="what-if-i-have-more-questions">
           What if I have more questions?
         </h2>
         <div
+          data-entity-id={3519}
           itemProp="acceptedAnswer"
           itemScope
           itemType="http://schema.org/Answer"
         >
           <div itemProp="text">
-            <div className="processed-content">
+            <div
+              data-template="paragraphs/wysiwyg"
+              data-entity-id={3520}
+              className="processed-content"
+            >
               <p>
-                If you have questions about lab and test results on
-                MyHealtheVet, please got to the{' '}
+                You can get answers to your questions about this tool within our
+                My HealtheVet web portal.
+                <br />
                 <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#smGeneralFAQ"
+                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#LabsandTests"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Lab + Tests Results FAQs
-                </a>{' '}
-                on the My HealtheVet web portal.
+                  Read the Labs + Tests FAQs
+                </a>
               </p>
               <p>
-                Or contact the My HealtheVet help desk at{' '}
-                <a href="tel:+18773270022">877-327-0022</a> (TTY:{' '}
-                <a href="tel:+18008778339">800-877-8339</a>. We&apos;re here
-                Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
-              </p>
-              <p>
-                You can also{' '}
+                You can also contact the My HealtheVet help desk.
+                <br />
                 <a
                   href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  contact us online
+                  Find out how to contact us online
                 </a>
-                .
+                <br />
+                Or call us at{' '}
+                <a aria-label="8 7 7. 3 2 7. 0 0 2 2." href="tel:18773270022">
+                  877-327-0022
+                </a>{' '}
+                (TTY:{' '}
+                <a aria-label="8 0 0. 8 7 7. 8 3 3 9." href="tel:18008778339">
+                  800-877-8339
+                </a>
+                ). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
               </p>
             </div>
           </div>
