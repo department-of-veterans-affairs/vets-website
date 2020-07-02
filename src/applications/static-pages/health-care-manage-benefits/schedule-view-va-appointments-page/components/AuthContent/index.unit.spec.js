@@ -10,6 +10,7 @@ describe('Scheduling Page <AuthContent>', () => {
     const wrapper = shallow(<AuthContent />);
 
     const text = wrapper.text();
+    expect(text).to.include('CernerCallToAction');
     expect(text).to.include('View, schedule, or cancel a VA appointment');
     expect(text).to.include(
       'How can VA appointment tools help me manage my health care?',
