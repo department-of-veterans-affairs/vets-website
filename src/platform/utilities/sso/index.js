@@ -22,7 +22,7 @@ async function vaGovProfile() {
       credentials: 'include',
     });
     if (resp.ok) {
-      const json = resp.json();
+      const json = await resp.json();
       return camelCaseKeysRecursive(json.data.attributes.profile);
     } else {
       return null;
