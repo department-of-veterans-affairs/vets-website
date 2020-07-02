@@ -116,7 +116,7 @@ yarn test:unit src/applications/path/to/tests/**/*.unit.spec.js*
 
 ### Browser tests
 To **run all browser tests**, you first need three things:
-1. Install the Java JDK on MacOS:
+1. Install the Java JDK on MacOS (if needed):
     ```
     brew update
     brew tap adoptopenjdk/openjdk
