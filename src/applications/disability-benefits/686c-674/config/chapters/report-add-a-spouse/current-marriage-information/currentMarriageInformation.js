@@ -1,5 +1,9 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  marriageStateTitle,
+  marriageCityTitle,
+} from '../../../helpers';
 import { addSpouse } from '../../../utilities';
 import { marriageTypeInformation } from './helpers';
 
@@ -26,12 +30,12 @@ export const uiSchema = {
       state: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
-        'ui:title': 'State (or Country if outside the U.S.)',
+        'ui:title': marriageStateTitle,
       },
       city: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
-        'ui:title': 'City or county',
+        'ui:title': marriageCityTitle,
       },
     },
     type: {
