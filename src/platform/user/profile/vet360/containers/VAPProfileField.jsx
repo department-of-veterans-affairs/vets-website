@@ -274,6 +274,7 @@ class VAPProfileField extends React.Component {
           type="button"
           onClick={this.onAdd}
           className="va-button-link va-profile-btn"
+          id={`${this.props.fieldName}-edit-link`}
         >
           Please add your {title.toLowerCase()}
         </button>
