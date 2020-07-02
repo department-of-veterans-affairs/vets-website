@@ -21,6 +21,7 @@ export default async function keepAlive() {
       },
     });
     return {
+      sessionAlive: resp.headers.get('session-alive') === 'true',
       ttl: Number(resp.headers.get('session-timeout')),
       // for DSLogon or mhv, use a mapped authn context value, however for
       // idme, we need to use the provided authncontextclassref as it could be

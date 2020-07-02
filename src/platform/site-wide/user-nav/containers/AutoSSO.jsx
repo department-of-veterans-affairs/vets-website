@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import URLSearchParams from 'url-search-params';
 
 import { checkKeepAlive } from 'platform/user/authentication/actions';
 import {
   ssoeInbound,
+  isAuthenticatedWithSSOe,
   hasCheckedKeepAlive,
 } from 'platform/user/authentication/selectors';
 import { hasSession } from 'platform/user/profile/utilities';
@@ -13,6 +13,7 @@ import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 function AutoSSO(props) {
   const {
     useInboundSSOe,
+    authenticatedWithSSOe,
     hasCalledKeepAlive,
     application = null,
     to = null,
@@ -23,7 +24,7 @@ function AutoSSO(props) {
   }
 
   if (useInboundSSOe && !hasCalledKeepAlive) {
-    checkAutoSession(application, to).then(() => {
+    checkAutoSession(authenticatedWithSSOe, application, to).then(() => {
       props.checkKeepAlive();
     });
   }
@@ -33,6 +34,7 @@ function AutoSSO(props) {
 
 const mapStateToProps = state => ({
   useInboundSSOe: ssoeInbound(state),
+  authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
 });
 
