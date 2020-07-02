@@ -21,7 +21,6 @@ import {
 } from 'platform/user/profile/actions';
 
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
-import titleCase from 'platform/utilities/data/titleCase';
 
 import {
   widgetTypes,
@@ -461,9 +460,14 @@ export class CallToActionWidget extends React.Component {
       : '';
     const target = isInternalLink ? '_self' : '_blank';
 
+    const toolTextTitleized = [
+      this._serviceDescription[0].toUpperCase(),
+      this._serviceDescription.slice(1),
+    ].join('');
+
     return (
       <a className={buttonClass} href={this._toolUrl} target={target}>
-        {titleCase(this._serviceDescription)}
+        {toolTextTitleized}
       </a>
     );
   }
