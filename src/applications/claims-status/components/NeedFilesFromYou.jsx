@@ -7,9 +7,9 @@ function NeedFilesFromYou({ files, claimId }) {
     <div className="usa-alert usa-alert-warning claims-alert claims-alert-status need-files-alert">
       <div className="usa-alert-body alert-with-details">
         <div className="item-container">
-          <h4 className="usa-alert-heading">
+          <h2 className="usa-alert-heading">
             {files} {files === 1 ? 'item needs' : 'items need'} your attention
-          </h4>
+          </h2>
         </div>
         <div className="button-container">
           <Link
