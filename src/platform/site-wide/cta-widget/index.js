@@ -460,14 +460,14 @@ export class CallToActionWidget extends React.Component {
       : '';
     const target = isInternalLink ? '_self' : '_blank';
 
-    const toolTextTitleized = [
+    const buttonText = [
       this._serviceDescription[0].toUpperCase(),
       this._serviceDescription.slice(1),
     ].join('');
 
     return (
       <a className={buttonClass} href={this._toolUrl} target={target}>
-        {toolTextTitleized}
+        {buttonText}
       </a>
     );
   }
