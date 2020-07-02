@@ -13,49 +13,48 @@ function keepAlive() {
   return environment.isLocalhost() ? mockKeepAlive() : liveKeepAlive();
 }
 
-async function hasVAGovSession() {
+async function vaGovProfile() {
   try {
     const resp = await fetch(`${environment.API_URL}/v0/user`, {
-      method: 'HEAD',
+      method: 'GET',
       credentials: 'include',
     });
-    return resp.ok;
+    return resp.ok ? await resp.json().data.attributes.profile : {};
   } catch (err) {
-    return false;
+    return {};
   }
 }
 
 export async function ssoKeepAliveSession() {
-  const { ttl, authn, sessionAlive } = await keepAlive();
-  if (!sessionAlive) {
-    localStorage.setItem('hasSessionSSO', false);
-  } else if (sessionAlive && ttl > 0) {
+  const { ttl, authn } = await keepAlive();
+  if (ttl > 0) {
+    // ttl is positive, user has an active session
     // ttl is in seconds, add from now
     const expirationTime = moment().add(ttl, 's');
     localStorage.setItem('sessionExpirationSSO', expirationTime);
     localStorage.setItem('hasSessionSSO', true);
+  } else if (ttl === 0) {
+    // ttl is 0, user has an inactive session
+    localStorage.setItem('hasSessionSSO', false);
   } else {
-    // ttl is null or 0, we can't determine if the user has a session or not
+    // ttl is null, we can't determine if the user has a session or not
     localStorage.removeItem('hasSessionSSO');
   }
   return { ttl, authn };
 }
 
-export async function checkAutoSession(
-  authenticatedWithSSOe,
-  application = null,
-  to = null,
-) {
-  const [
-    { ttl, authn, sessionAlive: sessionAliveSSO },
-    hasSession,
-  ] = await Promise.all([ssoKeepAliveSession(), hasVAGovSession()]);
-  if (hasSession && authenticatedWithSSOe && !sessionAliveSSO) {
+export async function checkAutoSession(application = null, to = null) {
+  const [{ ttl, authn }, userProfile] = await Promise.all([
+    ssoKeepAliveSession(),
+    vaGovProfile(),
+  ]);
+  // FIXME: will a 3rd party lib auto convert the "sign_in" snake case to camel?
+  if (userProfile?.sign_in?.ssoe && ttl === 0) {
     // explicitly check to see if the TTL for the SSO3 session is 0, as it
     // could also be null if we failed to get a response from the SSOe server,
     // in which case we don't want to logout the user because we don't know
     logout('v1', 'sso-automatic-logout');
-  } else if (!hasSession && !sessionAliveSSO && !getLoginAttempted() && authn) {
+  } else if (!userProfile && ttl > 0 && !getLoginAttempted() && authn) {
     // only attempt an auto login if the user is
     // a) does not have a VA.gov session
     // b) has an SSOe session

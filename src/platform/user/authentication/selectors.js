@@ -12,12 +12,6 @@ export const ssoeInbound = state =>
 export const ssoeEbenefitsLinks = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.ssoeEbenefitsLinks];
 
-// While SSOe isn't 100% enabled, this helps differentiate in session types
-// and whether or not to trigger inbound SSO logouts
-export const isAuthenticatedWithSSOe = state =>
-  // ssoe is only included if it's true, coerce to false for the rest
-  Boolean(selectProfile(state).signIn?.ssoe);
-
 export const hasCheckedKeepAlive = state =>
   state.user.login.hasCheckedKeepAlive;
 
