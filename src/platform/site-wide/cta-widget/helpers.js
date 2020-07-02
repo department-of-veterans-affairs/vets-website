@@ -1,7 +1,7 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { rootUrl as hearingAidSuppliesFormUrl } from 'applications/disability-benefits/2346/manifest.json';
-import { rootUrl as viewDependentsFormUrl } from 'applications/disability-benefits/686c-674/manifest.json';
+import { rootUrl as viewDependentsAppUrl } from 'applications/personalization/view-dependents/manifest.json';
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when
@@ -170,7 +170,7 @@ export const toolUrl = (appId, useSSOe = false) => {
 
     case widgetTypes.VIEW_DEPENDENTS:
       return {
-        url: viewDependentsFormUrl,
+        url: viewDependentsAppUrl,
         redirect: false,
       };
 
