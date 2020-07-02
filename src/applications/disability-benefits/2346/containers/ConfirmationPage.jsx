@@ -266,33 +266,36 @@ const ConfirmationPage = ({
         )}
       {isError &&
         errorMessage === '500 error message' && (
-          <AlertBox
-            headline="We're sorry. Your order wasn't submitted."
-            className="vads-u-margin-bottom--4"
-            content={
-              <div className="submission-error-alert">
-                <p>
-                  Your order for hearing aid supplies wasn't submitted because
-                  something went wrong on our end.
-                </p>
-                <p className="vads-u-font-weight--bold vads-u-font-family--serif">
-                  What you can do
-                </p>
-                <p className="vads-u-margin-top--0">
-                  For help ordering hearing aid batteries and accessories,
-                  please call the DLC Customer Service Section at{' '}
-                  <a
-                    aria-label="3 0 3. 2 7 3. 6 2 0 0."
-                    href="tel:303-273-6200"
-                  >
-                    303-273-6200
-                  </a>{' '}
-                  or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-                </p>
-              </div>
-            }
-            status="error"
-          />
+          <div className="submission-error-alert">
+            <AlertBox
+              headline="We're sorry. Your order wasn't submitted."
+              className="vads-u-margin-bottom--4"
+              content={
+                <>
+                  <p>
+                    Your order for hearing aid supplies wasn't submitted because
+                    something went wrong on our end.
+                  </p>
+                  <p className="vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin-bottom--1">
+                    What you can do
+                  </p>
+                  <p className="vads-u-margin-top--0">
+                    For help ordering hearing aid batteries and accessories,
+                    please call the DLC Customer Service Section at{' '}
+                    <a
+                      aria-label="3 0 3. 2 7 3. 6 2 0 0."
+                      href="tel:303-273-6200"
+                    >
+                      303-273-6200
+                    </a>{' '}
+                    or email{' '}
+                    <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+                  </p>
+                </>
+              }
+              status="error"
+            />
+          </div>
         )}
     </div>
   );

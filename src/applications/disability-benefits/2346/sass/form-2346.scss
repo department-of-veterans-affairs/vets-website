@@ -63,6 +63,15 @@
   .usa-alert-success::before {
     color: $color-black;
   }
+  .submission-error-alert {
+    .usa-alert {
+      padding-top: 24px;
+      padding-bottom: 24px;
+      .usa-alert-text {
+        margin-top: 16px;
+      }
+    }
+  }
 }
 
 .usa-accordion > ul button, .usa-accordion-bordered > ul button {
