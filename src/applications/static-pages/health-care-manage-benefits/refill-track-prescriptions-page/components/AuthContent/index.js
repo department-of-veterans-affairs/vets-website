@@ -2,10 +2,31 @@
 import React from 'react';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CernerCallToAction from '../../../components/CernerCallToAction';
+import { getCernerURL } from 'platform/utilities/constants';
+
+const callToActions = [
+  {
+    deriveHeaderText: facilityNames =>
+      `Refill prescriptions from ${facilityNames}`,
+    href: getCernerURL('/pages/medications/current'),
+    label: 'Refill prescriptions on My VA Health',
+  },
+  {
+    deriveHeaderText: () =>
+      `Refill prescriptions from another VA Medical Center`,
+    href:
+      'https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=prescription_refill',
+    label: 'Refill prescriptions on My HealtheVet',
+  },
+];
 
 export const AuthContent = () => (
   <>
-    <CallToActionWidget appId="rx" setFocus={false} />
+    <CernerCallToAction
+      callToActions={callToActions}
+      type="VA Prescription Refill and Tracking"
+    />
     <div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-can-the-va-prescription-re">

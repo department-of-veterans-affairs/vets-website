@@ -9,6 +9,7 @@ const schoolStudentIdTitle = (
       These details will help us review your application faster, but aren't
       required.
     </p>
+    <div>Your school student ID number</div>
   </div>
 );
 

@@ -117,7 +117,10 @@ export class SearchPage extends React.Component {
     });
 
     this.props.institutionFilterChange(institutionFilter);
-    this.props.fetchInstitutionSearchResults(query);
+    this.props.fetchInstitutionSearchResults(
+      query,
+      this.props.gibctSearchEnhancements,
+    );
   };
 
   autocomplete = (value, version) => {
@@ -310,6 +313,9 @@ const mapStateToProps = state => ({
   eligibility: state.eligibility,
   gibctEstimateYourBenefits: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
+  ],
+  gibctSearchEnhancements: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSearchEnhancements
   ],
 });
 

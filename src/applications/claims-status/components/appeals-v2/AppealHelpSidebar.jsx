@@ -1,31 +1,20 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { AOJS } from '../../utils/appeals-v2-helpers';
-
-const vbaVersion = (
-  <div>
-    <h2 className="help-heading">Need help?</h2>
-    <p>Call Veterans Affairs Benefits and Services</p>
-    <p className="help-phone-number">
-      <a className="help-phone-number-link" href="tel:1-800-827-1000">
-        800-827-1000
-      </a>
-    </p>
-    <p>Monday - Friday, 8:00am - 9:00pm ET</p>
-  </div>
-);
+import AskVAQuestions from '../AskVAQuestions';
 
 const vhaVersion = (
   <div>
     <h2 className="help-heading">Need help?</h2>
     <p>Call Health Care Benefits</p>
     <p className="help-phone-number">
-      <a className="help-phone-number-link" href="tel:1-877-222-8387">
-        877-222-VETS (8387)
-      </a>
+      <Telephone contact={CONTACTS['222_VETS']} pattern="###-###-VETS (####)" />
     </p>
-    <p>Monday - Friday, 8:00am - 8:00pm ET</p>
+    <p>Monday through Friday, 8:00 a.m. to 8:00 p.m. ET</p>
   </div>
 );
 
@@ -40,7 +29,7 @@ const vhaVersion = (
 export default function AppealHelpSidebar({ aoj }) {
   switch (aoj) {
     case AOJS.vba:
-      return vbaVersion;
+      return <AskVAQuestions />;
     case AOJS.vha:
       return vhaVersion;
     case AOJS.nca:
