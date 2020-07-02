@@ -71,3 +71,8 @@ export const OperatingStatus = {
   CLOSED: 'CLOSED',
   NOTICE: 'NOTICE',
 };
+
+/**
+ * Service type "Clinic/Center - Urgent Care" code
+ */
+export const CLINIC_URGENTCARE_SERVICE = '261QU0200X';

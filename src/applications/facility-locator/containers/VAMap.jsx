@@ -27,6 +27,7 @@ import {
   FacilityType,
   LocationType,
   MARKER_LETTERS,
+  CLINIC_URGENTCARE_SERVICE,
 } from '../constants';
 import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import {
@@ -92,6 +93,30 @@ const urgentCareDialogLink = (
     </div>
   </div>
 );
+
+/**
+ * Helper method to display an urgent care alert dialog
+ *
+ * @param {object} state currentQuery
+ */
+const showDialogUrgCare = currentQuery => {
+  if (
+    (currentQuery.facilityType === LocationType.URGENT_CARE &&
+      currentQuery.serviceType === 'NonVAUrgentCare') ||
+    currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
+  ) {
+    return urgentCareDialogLink;
+  }
+
+  if (
+    currentQuery.facilityType === LocationType.CC_PROVIDER &&
+    currentQuery.serviceType === CLINIC_URGENTCARE_SERVICE
+  ) {
+    return urgentCareDialogLink;
+  }
+
+  return null;
+};
 
 class VAMap extends Component {
   constructor(props) {
@@ -563,12 +588,6 @@ class VAMap extends Component {
       pagination: { currentPage, totalPages },
     } = this.props;
     const facilityLocatorMarkers = this.renderMapMarkers();
-    const showDialogUrgCare =
-      (currentQuery.facilityType === LocationType.URGENT_CARE &&
-        currentQuery.serviceType === 'NonVAUrgentCare') ||
-      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
-        ? urgentCareDialogLink
-        : null;
     return (
       <div>
         <div className="columns small-12">
@@ -579,7 +598,7 @@ class VAMap extends Component {
             showCommunityCares={showCommunityCares}
             isMobile
           />
-          <div>{showDialogUrgCare}</div>
+          <div>{showDialogUrgCare(currentQuery)}</div>
           {/* <div ref={this.searchResultTitle}>
             {results.length > 0 ? (
               <p className="search-result-title">
@@ -670,13 +689,6 @@ class VAMap extends Component {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderMapMarkers();
-    const showDialogUrgCare =
-      (currentQuery.facilityType === LocationType.URGENT_CARE &&
-        currentQuery.serviceType === 'NonVAUrgentCare') ||
-      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
-        ? urgentCareDialogLink
-        : null;
-
     return (
       <div className="desktop-container">
         <div>
@@ -688,7 +700,7 @@ class VAMap extends Component {
             suppressPharmacies={suppressPharmacies}
           />
         </div>
-        <div>{showDialogUrgCare}</div>
+        <div>{showDialogUrgCare(currentQuery)}</div>
         {/* <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
           {results.length > 0 ? (
             <p className="search-result-title">
