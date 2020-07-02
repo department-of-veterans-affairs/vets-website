@@ -1,7 +1,11 @@
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  stateTitle,
+  cityTitle,
+} from '../../../helpers';
 import { addChild } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
 import { ChildNameHeader } from '../helpers';
@@ -20,12 +24,12 @@ export const uiSchema = {
       placeOfBirth: {
         'ui:title': "Child's place of birth",
         state: {
-          'ui:title': 'State (or country if outside the USA)',
+          'ui:title': stateTitle,
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addChild),
         },
         city: {
-          'ui:title': 'City or county',
+          'ui:title': cityTitle,
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addChild),
         },

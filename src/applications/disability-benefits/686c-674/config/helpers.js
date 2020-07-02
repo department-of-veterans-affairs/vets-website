@@ -56,13 +56,13 @@ export const ServerErrorAlert = (
   </>
 );
 
-export const marriageStateTitle = (
+export const stateTitle = (
   <>
     State (<strong>or</strong> Country if outside the U.S.)
   </>
 );
 
-export const marriageCityTitle = (
+export const cityTitle = (
   <>
     City <strong>or</strong> county
   </>
