@@ -185,16 +185,8 @@ jobs:
             - ~/.cache/yarn
             - ~/.cache/Cypress
       - run:
-          name: Install Sibling Repositories
-          command: yarn install-repos
-      - run:
           name: Build apps
-          command: NODE_ENV=production yarn build:webpack --env.buildtype vagovprod
-      - run:
-          name: Build content
-          command: |
-            yarn fetch-drupal-cache --buildtype=vagovprod
-            NODE_ENV=production yarn build:content --buildtype vagovprod
+          command: NODE_ENV=production yarn build:webpack --env.buildtype vagovprod --env.scaffold
       - persist_to_workspace:
           root: ~/
           paths:
