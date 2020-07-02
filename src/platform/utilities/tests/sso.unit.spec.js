@@ -39,7 +39,22 @@ describe('checkAutoSession', () => {
   });
 
   it('should auto logout if user has logged in via SSOe and they do not have a SSOe session anymore', async () => {
-    mockFetch({ ok: true });
+    mockFetch({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          data: {
+            attributes: {
+              profile: {
+                // eslint-disable-next-line camelcase
+                sign_in: {
+                  ssoe: true,
+                },
+              },
+            },
+          },
+        }),
+    });
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: false, ttl: 0, authn: undefined });
@@ -64,7 +79,17 @@ describe('checkAutoSession', () => {
   });
 
   it('should not auto logout if user is logged in and they have a SSOe session', async () => {
-    mockFetch({ ok: true });
+    mockFetch({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          data: {
+            attributes: {
+              profile: {},
+            },
+          },
+        }),
+    });
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
@@ -77,6 +102,17 @@ describe('checkAutoSession', () => {
   it('should not auto logout if user is logged in and we dont know if they have a SSOe session', async () => {
     mockFetch({ ok: true });
     sandbox.stub(keepAliveMod, 'keepAlive').returns({});
+    const auto = sandbox.stub(authUtils, 'logout');
+    await checkAutoSession();
+
+    sinon.assert.notCalled(auto);
+  });
+
+  it('should not auto logout if user is logged in without SSOe and they dont have a SSOe session', async () => {
+    mockFetch({ ok: true });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: true, ttl: 0, authn: undefined });
     const auto = sandbox.stub(authUtils, 'logout');
     await checkAutoSession();
 
