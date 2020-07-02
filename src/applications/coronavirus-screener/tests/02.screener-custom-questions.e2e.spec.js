@@ -34,6 +34,38 @@ const visitorScreeningTravel459 = {
   },
 };
 
+const staffPassTravel459 = {
+  title: 'Staff pass',
+  questions: [
+    { id: 'question-isStaff', value: 'yes' },
+    { id: 'question-fever', value: 'no' },
+    { id: 'question-cough', value: 'no' },
+    { id: 'question-flu', value: 'no' },
+    { id: 'question-congestion', value: 'no' },
+    { id: 'question-exposure-staff', value: 'no' },
+    { id: 'question-travel-459', value: 'no' },
+  ],
+  result: {
+    class: 'covid-screener-results-pass',
+  },
+};
+
+const staffScreeningTravel459 = {
+  title: 'Staff needs more screening',
+  questions: [
+    { id: 'question-isStaff', value: 'yes' },
+    { id: 'question-fever', value: 'no' },
+    { id: 'question-cough', value: 'no' },
+    { id: 'question-flu', value: 'no' },
+    { id: 'question-congestion', value: 'no' },
+    { id: 'question-exposure-staff', value: 'no' },
+    { id: 'question-travel-459', value: 'yes' },
+  ],
+  result: {
+    class: 'covid-screener-results-more-screening',
+  },
+};
+
 // custom travel question
 export default createE2eTest(client => {
   client
@@ -48,4 +80,10 @@ export default createE2eTest(client => {
 
   // visitor travel needs more screening
   testQuestionScenario({ scenario: visitorScreeningTravel459, client });
+
+  // staff travel passing
+  testQuestionScenario({ scenario: staffPassTravel459, client });
+
+  // staff travel more screening
+  testQuestionScenario({ scenario: staffScreeningTravel459, client });
 });
