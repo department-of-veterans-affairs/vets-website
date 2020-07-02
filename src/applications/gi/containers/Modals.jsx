@@ -434,6 +434,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('accredited')}
+        elementToFocusOnClose="accredited-button"
       >
         <h3>Is your school accredited</h3>
         <p>
@@ -472,6 +473,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('typeAccredited')}
+        elementToFocusOnClose="typeAccredited-button"
       >
         <h3>Accreditation types (regional vs. national vs. hybrid)</h3>
         <p>
@@ -505,6 +507,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('singleContact')}
+        elementToFocusOnClose="singleContact-button"
       >
         <h3>Single point of contact for Veterans</h3>
         <p>
@@ -516,6 +519,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('creditTraining')}
+        elementToFocusOnClose="creditTraining-button"
       >
         <h3>Credit for military training</h3>
         <p>
@@ -526,6 +530,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('stemIndicator')}
+        elementToFocusOnClose="stemIndicator-button"
       >
         <h3>The Rogers STEM Scholarship</h3>
         <div>
@@ -556,6 +561,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('iStudy')}
+        elementToFocusOnClose="iStudy-button"
       >
         <h3>Independent study</h3>
         <p>
@@ -572,6 +578,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('section103')}
+        elementToFocusOnClose="section103-button"
       >
         <div className="align-left">
           <h3>Protection against late VA payments</h3>
@@ -630,6 +637,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('facilityCode')}
+        elementToFocusOnClose="facilityCode-button"
       >
         <h3>VA facility code</h3>
         <p>Unique identifier for VA-approved facilities.</p>
@@ -638,6 +646,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('ipedsCode')}
+        elementToFocusOnClose="ipedsCode-button"
       >
         <h3>ED IPEDS code</h3>
         <p>
@@ -650,6 +659,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('opeCode')}
+        elementToFocusOnClose="opeCode-button"
       >
         <h3>ED OPE code</h3>
         <p>
@@ -898,7 +908,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('calcScholarships')}
         >
-          <h3>Scholarships (excluding Pell)</h3>
+          <h3>Scholarships (excluding Pell Grants)</h3>
           <p>
             Are you receiving any scholarships or grants that go directly to pay
             tution/fees this year? If so, add that number here.

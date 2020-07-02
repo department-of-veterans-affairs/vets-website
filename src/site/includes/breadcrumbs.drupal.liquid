@@ -5,7 +5,7 @@
         <li><a aria-current="page" href="/{{ path }}">{{ crumb.text }}</a></li>
       {% elsif crumb.url.path %}
         {% if crumb.url.path == '/' %}
-          {% if hideHomeBreadcrumb != true or buildtype == 'vagovprod' %}
+          {% if hideHomeBreadcrumb != true or buildtype == 'vagovprod'%}
             <li>
               <a href="{{ crumb.url.path }}" onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ crumb.text }}</a>
             </li>

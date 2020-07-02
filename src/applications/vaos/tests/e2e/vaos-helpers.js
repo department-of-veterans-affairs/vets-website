@@ -86,7 +86,9 @@ function newAppointmentTest(client, nextElement = '.rjsf [type="submit"]') {
 
 function appointmentDateTimeTest(client, nextElement) {
   client
+    .pause(Timeouts.normal)
     .click('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
+    .waitForElementVisible('.vaos-calendar__option-cell', Timeouts.normal)
     .click(
       '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     )
@@ -122,9 +124,7 @@ function howToBeSeenTest(client, nextElement) {
 
 function contactInformationTest(client, nextElement) {
   client
-    .fill('input#root_phoneNumber', '5035551234')
     .click('input#root_bestTimeToCall_morning')
-    .fill('input#root_email', 'mail@gmail.com')
     .axeCheck('.main')
     .click('.rjsf [type="submit"]')
     .waitForElementPresent(nextElement, Timeouts.normal);
@@ -146,33 +146,6 @@ function appointmentSubmittedTest(client) {
     .axeCheck('.main')
     .click('.usa-button[href$="appointments/"]')
     .assert.containsText('h1', 'VA appointments');
-
-  return client;
-}
-
-function showMoreTest(client) {
-  client
-    .click(
-      'li[data-request-id="8a48912a6cab0202016cb4fcaa8b0038"] .additional-info-button.va-button-link',
-    )
-    .waitForElementVisible('.additional-info-content', Timeouts.slow)
-    .pause(Timeouts.normal)
-    .axeCheck('.main')
-    .assert.containsText('.vaos_appts__message dd', 'Request 2 Message 1 Text');
-
-  return client;
-}
-
-function cancelAppointmentTest(client) {
-  client
-    .click('li[data-is-cancelable="true"] button.vaos-appts__cancel-btn')
-    .waitForElementVisible('#cancelAppt', Timeouts.slow)
-    .axeCheck('.main')
-    .click('#cancelAppt .usa-button')
-    .waitForElementVisible('.usa-alert-success', Timeouts.slow)
-    .axeCheck('.main')
-    .click('#cancelAppt button')
-    .waitForElementNotPresent('#cancelAppt', Timeouts.normal);
 
   return client;
 }
@@ -494,6 +467,4 @@ module.exports = {
   getUserDataWithSingleSystem,
   mockSingleFacility,
   mockSingleSystem,
-  showMoreTest,
-  cancelAppointmentTest,
 };

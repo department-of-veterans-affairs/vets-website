@@ -1,5 +1,7 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import { rootUrl as hearingAidSuppliesFormUrl } from 'applications/disability-benefits/2346/manifest.json';
+import { rootUrl as viewDependentsAppUrl } from 'applications/personalization/view-dependents/manifest.json';
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when
@@ -12,6 +14,7 @@ export const widgetTypes = {
   DISABILITY_RATINGS: 'disability-ratings',
   GI_BILL_BENEFITS: 'gi-bill-benefits',
   HEALTH_RECORDS: 'health-records',
+  HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
   LAB_AND_TEST_RESULTS: 'lab-and-test-results',
   LETTERS: 'letters',
   MESSAGING: 'messaging',
@@ -20,6 +23,7 @@ export const widgetTypes = {
   VET_TEC: 'vet-tec',
   VETERAN_ID_CARD: 'vic',
   VIEW_APPOINTMENTS: 'view-appointments',
+  VIEW_DEPENDENTS: 'view-dependents',
 };
 
 const HEALTH_TOOLS = [
@@ -158,6 +162,18 @@ export const toolUrl = (appId, useSSOe = false) => {
         redirect: false,
       };
 
+    case widgetTypes.HEARING_AID_SUPPLIES:
+      return {
+        url: hearingAidSuppliesFormUrl,
+        redirect: false,
+      };
+
+    case widgetTypes.VIEW_DEPENDENTS:
+      return {
+        url: viewDependentsAppUrl,
+        redirect: false,
+      };
+
     default:
       return {};
   }
@@ -246,6 +262,12 @@ export const serviceDescription = appId => {
 
     case widgetTypes.DISABILITY_RATINGS:
       return 'view your VA disability rating';
+
+    case widgetTypes.HEARING_AID_SUPPLIES:
+      return 'order hearing aid supplies';
+
+    case widgetTypes.VIEW_DEPENDENTS:
+      return 'view current dependents';
 
     default:
       return 'use this service';

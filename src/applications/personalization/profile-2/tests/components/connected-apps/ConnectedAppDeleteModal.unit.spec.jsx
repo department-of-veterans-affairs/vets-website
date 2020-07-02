@@ -17,9 +17,9 @@ describe('<ConnectedAppDeleteModal>', () => {
     const wrapper = mount(<ConnectedAppDeleteModal {...defaultProps} />);
 
     const text = wrapper.text();
-    expect(text).to.include('Do you want to disconnect this app?');
+    expect(text).to.include('Please confirm that you want to disconnect hello');
     expect(text).to.include(
-      'hello won’t have access to new information about you from VA once you disconnect. This may impact the usefulness of the app.',
+      'Once you disconnect this app, it won’t have access to new information from your VA.gov profile. This may affect how useful the app is to you.',
     );
     expect(
       wrapper
@@ -51,9 +51,9 @@ describe('<ConnectedAppDeleteModal>', () => {
     const wrapper = mount(<ConnectedAppDeleteModal {...defaultProps} />);
 
     const text = wrapper.text();
-    expect(text).to.include('Do you want to disconnect this app?');
+    expect(text).to.include('Please confirm that you want to disconnect hello');
     expect(text).to.include(
-      'hello won’t have access to new information about you from VA once you disconnect. This may impact the usefulness of the app.',
+      'Once you disconnect this app, it won’t have access to new information from your VA.gov profile. This may affect how useful the app is to you.',
     );
     expect(text).to.not.include('Cancel');
     expect(text).to.not.include('Disconnect');

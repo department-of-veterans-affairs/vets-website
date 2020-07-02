@@ -15,6 +15,26 @@ const year = (
     <span aria-hidden="true">/yr</span>
   </React.Fragment>
 );
+const fragment = (key, sr, label) => {
+  return (
+    <React.Fragment key={key}>
+      <span className="sr-only">{sr}</span>
+      <span aria-hidden="true">{label}</span>
+    </React.Fragment>
+  );
+};
+const termLabel = label => {
+  switch (label) {
+    case 'Months 1-6':
+      return fragment('m16', 'Months 1 through 6', label);
+    case 'Months 7-12':
+      return fragment('m712', 'Months 7 through 12', label);
+    case 'Months 13-18':
+      return fragment('m16', 'Months 13 through 18', label);
+    default:
+      return fragment('m1924', 'Months 19 through 24', label);
+  }
+};
 
 const CalculatorResultRow = ({
   id,
@@ -44,7 +64,10 @@ const CalculatorResultRow = ({
             </h5>
           </div>
         ) : (
-          <div>{value}</div>
+          <div>
+            {value}
+            {screenReaderSpan}
+          </div>
         )}
       </div>
     </div>
@@ -80,9 +103,12 @@ const perTermSections = (outputs, calculator) => {
           <CalculatorResultRow
             key={`${section}${term.label}`}
             id={`${section}${term.label}`}
-            label={term.label}
+            label={
+              calculator.type === 'OJT' ? termLabel(term.label) : term.label
+            }
             value={term.value}
             bold={term.label === 'Total per year'}
+            screenReaderSpan={month}
             visible={term.visible}
           />
         ))}
@@ -105,7 +131,7 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
     <h3 id="estimated-benefits" tabIndex="-1">
       Your estimated benefits
     </h3>
-    <div className="out-of-pocket-tuition">
+    <div aria-live="polite" role="status" className="out-of-pocket-tuition">
       <CalculatorResultRow
         label="GI Bill pays to school"
         value={outputs.giBillPaysToSchool.value}

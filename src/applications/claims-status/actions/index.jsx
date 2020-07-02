@@ -403,7 +403,10 @@ export function submitFiles(claimId, trackedItem, files) {
                         {trackedItem
                           ? trackedItem.displayName
                           : 'additional evidence'}
-                        . We’ll let you know when we’ve reviewed it.
+                        . We will associate it with your record in a matter of
+                        days. If the submitted evidence impacts the status of
+                        your claim, then you will see that change within 30 days
+                        of submission.
                         <br />
                         Note: It may take a few minutes for your uploaded file
                         to show here. If you don’t see your file, please try

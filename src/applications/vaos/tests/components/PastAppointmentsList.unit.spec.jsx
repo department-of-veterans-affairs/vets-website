@@ -177,7 +177,7 @@ describe('VAOS <PastAppointmentsList>', () => {
     tree.unmount();
   });
 
-  it('should render focus on H3 tag', () => {
+  it('should render focus on H2 tag', () => {
     // For some reason, testing for document.activeElement doesn't work
     // unless the component is first attached to a div
     const div = document.createElement('div');
@@ -202,10 +202,10 @@ describe('VAOS <PastAppointmentsList>', () => {
       },
     });
 
-    expect(tree.find('h3[tabIndex="-1"]').exists()).to.be.true;
-    expect(tree.find('h3[tabIndex="-1"]').text()).to.equal('Past appointments');
+    expect(tree.find('h2[tabIndex="-1"]').exists()).to.be.true;
+    expect(tree.find('h2[tabIndex="-1"]').text()).to.equal('Past appointments');
     expect(document.activeElement.id).to.equal('pastAppts');
-    expect(document.activeElement.nodeName).to.equal('H3');
+    expect(document.activeElement.nodeName).to.equal('H2');
 
     tree.unmount();
   });
@@ -281,6 +281,23 @@ describe('VAOS <PastAppointmentsList>', () => {
     expect(defaultProps.router.push.called).to.be.true;
     expect(defaultProps.router.push.firstCall.args[0]).to.equal('/');
     expect(fetchPastAppointments.called).to.be.false;
+    tree.unmount();
+  });
+
+  it('should render the text that describes which months is being displayed', () => {
+    const tree = shallow(
+      <PastAppointmentsList
+        appointments={appointments}
+        showPastAppointments
+        pastSelectedIndex={0}
+      />,
+    );
+
+    const display = tree.find(
+      'span.vads-u-font-size--sm.vads-u-display--block.vads-u-margin-bottom--1',
+    );
+    expect(display.text()).to.contains('Past 3 months');
+
     tree.unmount();
   });
 });

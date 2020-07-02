@@ -6,7 +6,7 @@ export const SeparationLocationTitle = 'Place of anticipated separation';
 export const SeparationLocationDescription = (
   <>
     <br />
-    <AdditionalInfo triggerText="What's this">
+    <AdditionalInfo triggerText="What's this?">
       <>
         <p>
           Your place of anticipated separation is the location where you expect

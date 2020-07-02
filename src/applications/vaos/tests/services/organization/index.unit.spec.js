@@ -35,6 +35,15 @@ describe('VAOS Organization service', () => {
       expect(data[0].identifier[0].value).to.equal(facilitiesParsed[0].id);
     });
 
+    it('should sort by name', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, facilities);
+      data = await getOrganizations({ siteIds: ['983', '984'] });
+      expect(data[0].name).to.equal('CHYSHR-Cheyenne VA Medical Center');
+      expect(data[1].name).to.equal('DAYTSHR -Dayton VA Medical Center');
+      expect(data[2].name).to.equal('Five Digit Station ID Medical Center');
+    });
+
     it('should return OperationOutcome error', async () => {
       mockFetch();
       setFetchJSONFailure(global.fetch, {
@@ -64,6 +73,15 @@ describe('VAOS Organization service', () => {
       );
       expect(data.length).to.equal(2);
       expect(data[0].resourceType).to.equal('Organization');
+    });
+
+    it('should sort by name', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, mockOrganizations);
+      data = await getOrganizations({ siteIds: ['983', '984'], useVSP: true });
+
+      expect(data[0].name).to.equal('Cheyenne VA Medical Center');
+      expect(data[1].name).to.equal('Dayton VA Medical Center');
     });
   });
   describe('getSiteIdFromOrganization', () => {

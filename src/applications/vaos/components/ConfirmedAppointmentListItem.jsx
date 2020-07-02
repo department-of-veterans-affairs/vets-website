@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from '../utils/moment-tz';
 import { formatFacilityAddress } from '../utils/formatters';
@@ -15,6 +15,11 @@ import {
   getVARFacilityId,
   getVAAppointmentLocationId,
 } from '../services/appointment';
+import AdditionalInfoRow from './AdditionalInfoRow';
+import {
+  getVideoInstructionText,
+  VideoVisitInstructions,
+} from './VideoInstructions';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -37,6 +42,7 @@ export default function ConfirmedAppointmentListItem({
   showCancelButton,
   facility,
 }) {
+  const [showMoreOpen, setShowMoreOpen] = useState(false);
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
   const isCommunityCare = appointment.vaos.isCommunityCare;
@@ -50,6 +56,13 @@ export default function ConfirmedAppointmentListItem({
       PURPOSE_TEXT.some(purpose =>
         appointment?.comment?.startsWith(purpose.short),
       ));
+
+  let instructionText;
+  if (showInstructions) {
+    instructionText = appointment.comment;
+  } else if (isVideoAppointment && appointment.comment) {
+    instructionText = getVideoInstructionText(appointment.comment);
+  }
 
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -137,10 +150,23 @@ export default function ConfirmedAppointmentListItem({
 
       {!cancelled &&
         !isPastAppointment && (
-          <div className="vads-u-margin-top--2">
+          <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
+            {isVideoAppointment &&
+              appointment.comment && (
+                <AdditionalInfoRow
+                  id={appointment.id}
+                  open={showMoreOpen}
+                  triggerText="Prepare for video visit"
+                  onClick={() => setShowMoreOpen(!showMoreOpen)}
+                >
+                  <VideoVisitInstructions
+                    instructionsType={appointment.comment}
+                  />
+                </AdditionalInfoRow>
+              )}
             <AddToCalendar
               summary={header}
-              description={showInstructions ? appointment.comment : ''}
+              description={instructionText}
               location={location}
               duration={appointment.minutesDuration}
               startDateTime={appointment.start}
@@ -159,6 +185,7 @@ export default function ConfirmedAppointmentListItem({
                 </span>
               </button>
             )}
+            <div className="vaos-flex-break" />
           </div>
         )}
     </li>

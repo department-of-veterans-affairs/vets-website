@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
@@ -27,7 +29,6 @@ import PaymentInformationEditError from 'applications/personalization/profile360
 
 import ProfileInfoTable from '../ProfileInfoTable';
 import FraudVictimAlert from './FraudVictimAlert';
-import AdditionalInformation from './DirectDepositInformation';
 
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
@@ -42,12 +43,16 @@ export const DirectDepositContent = ({
   const editBankInfoButton = useRef();
   const [formData, setFormData] = useState({});
   const [showSaveSucceededAlert, setShowSaveSucceededAlert] = useState(false);
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
   const wasSavingBankInfo = usePrevious(directDepositUiState.isSaving);
 
   const isEditingBankInfo = directDepositUiState.isEditing;
   const isSavingBankInfo = directDepositUiState.isSaving;
   const saveError = directDepositUiState.responseError;
+
+  const { accountNumber, accountType, routingNumber } = formData;
+  const isEmptyForm = !accountNumber && !accountType && !routingNumber;
 
   // when we enter and exit edit mode...
   useEffect(
@@ -61,6 +66,19 @@ export const DirectDepositContent = ({
       }
     },
     [isEditingBankInfo, wasEditingBankInfo],
+  );
+
+  useEffect(
+    () => {
+      // Show alert when navigating away
+      if (!isEmptyForm) {
+        window.onbeforeunload = () => true;
+        return;
+      }
+
+      window.onbeforeunload = undefined;
+    },
+    [isEmptyForm],
   );
 
   // show the user a success alert after their bank info has saved
@@ -112,6 +130,15 @@ export const DirectDepositContent = ({
     editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
   };
 
+  const closeDDForm = () => {
+    if (!isEmptyForm) {
+      setShowConfirmCancelModal(true);
+      return;
+    }
+
+    toggleEditState();
+  };
+
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div className={classes.bankInfo}>
@@ -138,15 +165,15 @@ export const DirectDepositContent = ({
 
   // When direct deposit is not set up, we will show
   const notSetUpContent = (
-    <>
-      <button
-        onClick={() => {
-          toggleEditState();
-        }}
-      >
-        Set up direct deposit
-      </button>
-    </>
+    <button
+      className="va-button-link"
+      ref={editBankInfoButton}
+      onClick={() => {
+        toggleEditState();
+      }}
+    >
+      Please add your bank information
+    </button>
   );
 
   // When editing/setting up direct deposit, we'll show a form that accepts bank
@@ -178,7 +205,7 @@ export const DirectDepositContent = ({
         formData={formData}
         formSubmit={saveBankInfo}
         isSaving={directDepositUiState.isSaving}
-        onClose={toggleEditState}
+        onClose={closeDDForm}
         cancelButtonClasses={['va-button-link', 'vads-u-margin-left--1']}
       />
     </>
@@ -195,22 +222,27 @@ export const DirectDepositContent = ({
     return notSetUpContent;
   };
 
-  const directDepositData = () => [
-    // top row of the table can show multiple states so we set its value with
-    // the getBankInfo() helper
-    {
-      title: 'Account',
-      value: getBankInfo(),
-    },
-    {
-      title: 'Payment history',
-      value: (
-        <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
-          View your payment history
-        </EbenefitsLink>
-      ),
-    },
-  ];
+  const directDepositData = () => {
+    const data = [
+      // top row of the table can show multiple states so we set its value with
+      // the getBankInfo() helper
+      {
+        title: 'Account',
+        value: getBankInfo(),
+      },
+    ];
+    if (isDirectDepositSetUp) {
+      data.push({
+        title: 'Payment history',
+        value: (
+          <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
+            View your payment history
+          </EbenefitsLink>
+        ),
+      });
+    }
+    return data;
+  };
 
   const educationBenefitsData = () => [
     {
@@ -255,6 +287,39 @@ export const DirectDepositContent = ({
 
   return (
     <>
+      <Modal
+        title={'Are you sure?'}
+        status="warning"
+        visible={showConfirmCancelModal}
+        onClose={() => {
+          setShowConfirmCancelModal(false);
+        }}
+      >
+        <p>
+          {' '}
+          {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won't be saved.`}
+        </p>
+        <button
+          className="usa-button-secondary"
+          onClick={() => {
+            setShowConfirmCancelModal(false);
+          }}
+        >
+          Continue Editing
+        </button>
+        <button
+          onClick={() => {
+            setShowConfirmCancelModal(false);
+            toggleEditState();
+          }}
+        >
+          Cancel
+        </button>
+      </Modal>
+      <Prompt
+        message="Are you sure you want to leave? If you leave, your in-progress work won't be saved."
+        when={!isEmptyForm}
+      />
       <div id="success" role="alert" aria-atomic="true">
         <ReactCSSTransitionGroup
           transitionName="form-expanding-group-inner"
@@ -276,7 +341,6 @@ export const DirectDepositContent = ({
       </div>
       <ProfileInfoTable title="Bank information" data={directDepositData()} />
       <FraudVictimAlert />
-      <AdditionalInformation />
       <ProfileInfoTable
         title="Education benefits"
         data={educationBenefitsData()}

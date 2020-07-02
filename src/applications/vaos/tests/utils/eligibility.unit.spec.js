@@ -20,11 +20,8 @@ import { VHA_FHIR_ID } from '../../utils/constants';
 
 describe('VAOS scheduling eligibility logic', () => {
   describe('getEligibilityData', () => {
-    before(() => {
-      mockFetch();
-    });
-
     beforeEach(() => {
+      mockFetch();
       setFetchJSONResponse(global.fetch, clinics);
       setFetchJSONResponse(global.fetch.onCall(4), confirmed);
       setFetchJSONResponse(global.fetch.onCall(5), confirmed);
@@ -105,7 +102,6 @@ describe('VAOS scheduling eligibility logic', () => {
         'hasMatchingClinics',
         'pastAppointments',
       );
-
       expect(eligibilityData.hasMatchingClinics).to.be.true;
       expect('startDate' in eligibilityData.pastAppointments[0]).to.be.true;
       expect(eligibilityData.pastAppointments.length).to.be.greaterThan(0);

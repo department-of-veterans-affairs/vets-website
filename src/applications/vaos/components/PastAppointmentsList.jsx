@@ -72,6 +72,10 @@ export class PastAppointmentsList extends React.Component {
     } else if (pastStatus === FETCH_STATUS.succeeded && past?.length > 0) {
       content = (
         <>
+          <span className="vads-u-font-size--sm vads-u-display--block vads-u-margin-bottom--1">
+            Showing appointments for:{' '}
+            {this.dateRangeOptions[appointments.pastSelectedIndex].label}
+          </span>
           <ul className="usa-unstyled-list" id="appointments-list">
             {past.map((appt, index) => {
               switch (appt.vaos?.appointmentType) {
@@ -116,9 +120,9 @@ export class PastAppointmentsList extends React.Component {
 
     return (
       <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
-        <h3 tabIndex="-1" id="pastAppts">
+        <h2 tabIndex="-1" id="pastAppts" className="vads-u-font-size--h3">
           Past appointments
-        </h3>
+        </h2>
         <PastAppointmentsDateDropdown
           currentRange={appointments.pastSelectedIndex}
           onChange={this.onDateRangeChange}

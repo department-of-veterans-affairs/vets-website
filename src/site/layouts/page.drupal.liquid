@@ -10,10 +10,6 @@
 
     <div class="usa-width-three-fourths">
 
-        {% if sidebar.links != empty %}
-          {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
-        {% endif %}
-
         {% if !entityPublished %}
         <div class="usa-alert usa-alert-info" >
           <div class="usa-alert-body">

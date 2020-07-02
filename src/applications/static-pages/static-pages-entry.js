@@ -32,6 +32,13 @@ import createPost911GiBillStatusWidget, {
 import create686ContentReveal from './view-modify-dependent/686-cta/create686CcontentReveal.js';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
 
+// Health Care | Manage Benefits widgets.
+import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
+import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
+import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
+import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging-page';
+import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-test-and-lab-results-page';
+
 // No-react styles.
 import './sass/static-pages.scss';
 
@@ -137,6 +144,22 @@ createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 create686ContentReveal(store, widgetTypes.FORM_686_CONTENT_REVEAL);
 
 createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
+
+// Create Health Care | Manage Benefits widgets.
+createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
+createRefillTrackPrescriptionsPage(
+  store,
+  widgetTypes.REFILL_TRACK_PRESCRIPTIONS_PAGE,
+);
+createScheduleViewVAAppointmentsPage(
+  store,
+  widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
+);
+createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
+createViewTestAndLabResultsPage(
+  store,
+  widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
+);
 
 // homepage widgets
 if (location.pathname === '/') {

@@ -18,7 +18,6 @@ const {
 
 const {
   vetEmailField,
-  fullNameField,
   viewConfirmationEmailField,
   suppliesField,
   permanentAddressField,
@@ -47,18 +46,6 @@ const formPageTitlesLookup = {
   address: 'Shipping address',
   addSuppliesPage: 'Add supplies to your order',
 };
-
-const asyncReturn = (returnValue, error, delay = 300) =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const shouldIReturnTrue = true;
-      if (shouldIReturnTrue) {
-        return resolve(returnValue);
-      } else {
-        return reject(error);
-      }
-    }, delay);
-  });
 
 // We need to add this property so we can display the component within our address schema, underneath the checkbox for military bases.
 addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {

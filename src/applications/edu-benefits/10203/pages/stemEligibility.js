@@ -1,29 +1,50 @@
-import StemEligibilityView from '../containers/StemEligibilityView';
+import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 
-const determineEligibilityIsNotChecked = formData =>
-  formData['view:determineEligibility']['view:determineEligibility'] ===
-  undefined;
+import { benefitLeftDescription } from '../content/stemEligibility';
+
+const {
+  isEnrolledStem,
+  isPursuingTeachingCert,
+  benefitLeft,
+} = fullSchema10203.properties;
 
 export const uiSchema = {
   'ui:title': 'Rogers STEM Scholarship eligibility',
-  'view:determineEligibility': {
-    'view:determineEligibility': {
-      'ui:required': determineEligibilityIsNotChecked,
+  isEnrolledStem: {
+    'ui:title':
+      'Are you enrolled in a science, technology, engineering, or math (STEM) undergraduate degree?',
+    'ui:widget': 'yesNo',
+  },
+  isPursuingTeachingCert: {
+    'ui:title':
+      'Do you have a STEM undergraduate degree and are now pursuing a teaching certification?',
+    'ui:widget': 'yesNo',
+    'ui:required': formData => !formData.isEnrolledStem,
+    'ui:options': {
+      expandUnder: 'isEnrolledStem',
+      expandUnderCondition: false,
     },
-    'ui:field': StemEligibilityView,
+  },
+  benefitLeft: {
+    'ui:title': 'About how much of your education benefit do you have left?',
+    'ui:description': benefitLeftDescription,
+    'ui:options': {
+      labels: {
+        moreThanSixMonths: 'More than 6 months',
+        sixMonthsOrLess: 'Less than 6 months',
+        none: "None. I've used all of my education benefit",
+      },
+    },
+    'ui:widget': 'radio',
   },
 };
 
 export const schema = {
   type: 'object',
+  required: ['isEnrolledStem', 'benefitLeft'],
   properties: {
-    'view:determineEligibility': {
-      type: 'object',
-      properties: {
-        'view:determineEligibility': {
-          type: 'boolean',
-        },
-      },
-    },
+    isEnrolledStem,
+    isPursuingTeachingCert,
+    benefitLeft,
   },
 };
