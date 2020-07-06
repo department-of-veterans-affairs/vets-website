@@ -8,6 +8,8 @@ const getDrupalValue = require('./get-drupal-value');
 const epochTime = require('./epoch-time');
 const getWysiwygString = require('./get-wysiwyg-string');
 const table = require('./table');
+const link = require('./link');
+const socialMediaLinks = require('./social-media-links');
 
 class FieldTransformer {
   constructor(transformers) {
@@ -47,24 +49,33 @@ class FieldTransformer {
    * Find and use the transformer on the field data. Return the result.
    * @param {object[]} fieldData - The data for the field
    * @param {object} fieldSchema - The schema for the field
+   * @param {string} contentModelType - The name of the entity bundle; used for
+   *                                    debugging
+   * @param {string} inputFieldName - The name of the field to transform; used
+   *                                  for debugging
    * @returns {any} - The result of the transformation
    * @throws {Error} - If no transformer is found for the field
    */
-  transform(fieldData, fieldSchema) {
+  transform(fieldData, fieldSchema, contentModelType, inputFieldName) {
     const transformer = this.transformers.find(tr =>
       tr.predicate(fieldSchema, fieldData),
     );
     if (!transformer) {
-      console.error(chalk.red('Could not find transformer.'));
-      console.error(
+      console.log(
+        chalk.red(
+          `Could not find transformer for ${contentModelType}.${inputFieldName}.`,
+        ),
+      );
+      console.log(
         chalk.yellow('Field data:'),
         JSON.stringify(fieldData, null, 2),
       );
-      console.error(
+      console.log(
         chalk.yellow('Field schema:'),
         JSON.stringify(fieldSchema, null, 2),
       );
-      throw new Error('Could not find transformer.');
+      // throw new Error('Could not find transformer.');
+      return undefined;
     }
 
     return transformer.transform(fieldData, fieldSchema);
@@ -77,6 +88,8 @@ const fieldTransformer = new FieldTransformer([
   epochTime,
   getWysiwygString,
   table,
+  link,
+  socialMediaLinks,
 ]);
 
 module.exports = fieldTransformer;

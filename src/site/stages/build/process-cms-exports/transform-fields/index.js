@@ -97,7 +97,8 @@ function transformFields(entity, schemas, contentDir) {
   return fieldSchemas.reduce(
     (result, currentFieldSchema) => {
       const inputFieldName = currentFieldSchema['Machine name'];
-      console.log(inputFieldName);
+      // console.log('------------------------');
+      // console.log(inputFieldName);
 
       const outputFieldName =
         fieldNameOverrides[inputFieldName] || camelCase(inputFieldName);
@@ -113,13 +114,15 @@ function transformFields(entity, schemas, contentDir) {
       // For each field, either expand the entity reference, or transform the data
       const transformedData = isEntityReference(fieldData, currentFieldSchema)
         ? expandEntityReference(fieldData, schemas, contentDir)
-        : fieldTransformer.transform(fieldData, currentFieldSchema);
-      const r = Object.assign({}, result, {
+        : fieldTransformer.transform(
+            fieldData,
+            currentFieldSchema,
+            entity.contentModelType,
+            inputFieldName,
+          );
+      return Object.assign({}, result, {
         [outputFieldName]: transformedData,
       });
-      console.log('------------------------');
-      console.log(r);
-      return r;
     },
     {
       // Add other properties that should be on all entities here
