@@ -90,14 +90,14 @@ export const uiSchema = {
           currentOrPastDateUI('When did the marriage end'),
           {
             'ui:required': (formData, index) =>
-              formData.childrenToAdd[`${index}`].previouslyMarried === 'Yes',
+              formData?.childrenToAdd[`${index}`]?.previouslyMarried === 'Yes',
           },
         ),
         reasonMarriageEnded: {
           'ui:widget': 'radio',
           'ui:title': 'Reason marriage ended',
           'ui:required': (formData, index) =>
-            formData.childrenToAdd[`${index}`].previouslyMarried === 'Yes',
+            formData?.childrenToAdd[`${index}`]?.previouslyMarried === 'Yes',
         },
         otherReasonMarriageEnded: {
           'ui:title': 'Reason marriage ended',

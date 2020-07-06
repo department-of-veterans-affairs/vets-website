@@ -6,6 +6,7 @@ import { changeDropdown } from '../helpers/index.js';
 import {
   DefinitionTester,
   fillData,
+  selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
@@ -72,7 +73,7 @@ describe('686 stepchild information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -97,7 +98,7 @@ describe('686 stepchild information', () => {
     fillData(form, 'input#root_address_city', 'The City');
     fillData(form, 'input#root_address_zipCode', '12345');
     changeDropdown(form, 'select#root_address_stateCode', 'AL');
-
+    selectRadio(form, 'root_supportingStepchild', 'N');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

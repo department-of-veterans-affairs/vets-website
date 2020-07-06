@@ -541,7 +541,7 @@ class EstimateYourBenefitsForm extends React.Component {
       <div id={scholarshipsFieldId}>
         <label htmlFor={scholarshipsId}>
           {this.renderLearnMoreLabel({
-            text: 'Scholarships (excluding Pell)',
+            text: 'Scholarships (excluding Pell Grants)',
             modal: 'calcScholarships',
             ariaLabel: ariaLabels.learnMore.calcScholarships,
           })}
