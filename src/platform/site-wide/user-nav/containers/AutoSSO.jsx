@@ -12,7 +12,6 @@ import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 function AutoSSO(props) {
   const {
     useInboundSSOe,
-    authenticatedWithSSOe,
     hasCalledKeepAlive,
     application = null,
     to = null,

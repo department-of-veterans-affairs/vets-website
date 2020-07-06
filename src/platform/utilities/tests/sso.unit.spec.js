@@ -59,8 +59,7 @@ describe('checkAutoSession', () => {
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: false, ttl: 0, authn: undefined });
     const auto = sandbox.stub(authUtils, 'logout');
-    const authenticatedWithSSOe = true;
-    await checkAutoSession(authenticatedWithSSOe);
+    await checkAutoSession();
 
     sinon.assert.calledOnce(auto);
     sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout');
@@ -72,8 +71,7 @@ describe('checkAutoSession', () => {
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: false, ttl: 0, authn: undefined });
     const auto = sandbox.stub(authUtils, 'logout');
-    const authenticatedWithSSOe = false;
-    await checkAutoSession(authenticatedWithSSOe);
+    await checkAutoSession();
 
     sinon.assert.notCalled(auto);
   });
