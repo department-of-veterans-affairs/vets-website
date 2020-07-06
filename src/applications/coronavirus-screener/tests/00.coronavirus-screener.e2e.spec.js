@@ -6,7 +6,7 @@ import {
   visitorScreening,
   staffPass,
   staffScreening,
-} from './screener-test-question-scenarios';
+} from './question-scenario-helper';
 
 // test scenarios for visitors and staff
 export default createE2eTest(client => {

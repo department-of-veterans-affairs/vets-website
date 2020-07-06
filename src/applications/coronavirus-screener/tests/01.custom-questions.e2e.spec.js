@@ -3,7 +3,7 @@ import { createE2eTest, baseUrl } from 'platform/testing/e2e/helpers';
 import { testQuestionScenario } from './screener-test-question-scenarios';
 
 const visitorPassTravel459 = {
-  title: 'Visitor pass',
+  title: 'Visitor pass travel 459',
   questions: [
     { id: 'question-isStaff', value: 'no' },
     { id: 'question-fever', value: 'no' },
@@ -19,7 +19,7 @@ const visitorPassTravel459 = {
 };
 
 const visitorScreeningTravel459 = {
-  title: 'Visitor needs more screening',
+  title: 'Visitor needs more screening travel 459',
   questions: [
     { id: 'question-isStaff', value: 'no' },
     { id: 'question-fever', value: 'no' },
@@ -35,7 +35,7 @@ const visitorScreeningTravel459 = {
 };
 
 const staffPassTravel459 = {
-  title: 'Staff pass',
+  title: 'Staff pass travel 459',
   questions: [
     { id: 'question-isStaff', value: 'yes' },
     { id: 'question-fever', value: 'no' },
@@ -51,7 +51,7 @@ const staffPassTravel459 = {
 };
 
 const staffScreeningTravel459 = {
-  title: 'Staff needs more screening',
+  title: 'Staff needs more screening travel 459',
   questions: [
     { id: 'question-isStaff', value: 'yes' },
     { id: 'question-fever', value: 'no' },
