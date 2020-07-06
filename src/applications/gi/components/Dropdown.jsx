@@ -37,6 +37,7 @@ class Dropdown extends React.Component {
           alt={this.props.alt}
           value={this.props.value}
           onChange={this.props.onChange}
+          disabled={this.props.disabled}
           onFocus={
             // prod flag for bah-8821
             environment.isProduction()

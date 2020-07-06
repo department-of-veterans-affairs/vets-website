@@ -3,7 +3,7 @@ import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
 import { login, logout } from 'platform/user/authentication/utilities';
-import { keepAlive as mockKeepAlive } from './mockKeepAliveSSO';
+import mockKeepAlive from './mockKeepAliveSSO';
 import { keepAlive as liveKeepAlive } from './keepAliveSSO';
 import { getLoginAttempted } from './loginAttempted';
 

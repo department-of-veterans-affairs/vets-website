@@ -205,7 +205,7 @@ export function institutionFilterChange(filter) {
 export function fetchInstitutionSearchResults(query = {}, fuzzySearch) {
   const url = appendQuery(
     `${api.url}/institutions/search`,
-    rubyifyKeys({ ...query, fuzzySearch }),
+    fuzzySearch ? rubyifyKeys({ ...query, fuzzySearch }) : rubyifyKeys(query),
   );
 
   return dispatch => {
