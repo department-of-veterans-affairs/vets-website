@@ -1,6 +1,7 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { addSpouse } from '../../../utilities';
 import { SpouseTitle } from '../../../../components/ArrayPageItemSpouseTitle';
+import { stateTitle, cityTitle } from '../../../helpers';
 
 export const schema = addSpouse.properties.spouseMarriageHistoryDetails;
 
@@ -18,11 +19,11 @@ export const uiSchema = {
         'ui:title': 'Place of marriage to former spouse',
         state: {
           'ui:required': formData => formData.spouseWasMarriedBefore,
-          'ui:title': 'State (or country if outside the U.S.)',
+          'ui:title': stateTitle,
         },
         city: {
           'ui:required': formData => formData.spouseWasMarriedBefore,
-          'ui:title': 'City or county',
+          'ui:title': cityTitle,
         },
       },
       reasonMarriageEnded: {
@@ -57,11 +58,11 @@ export const uiSchema = {
         'ui:title': 'Place marriage with former spouse ended',
         state: {
           'ui:required': formData => formData.spouseWasMarriedBefore,
-          'ui:title': 'State (or country if outside the U.S.)',
+          'ui:title': stateTitle,
         },
         city: {
           'ui:required': formData => formData.spouseWasMarriedBefore,
-          'ui:title': 'City or county',
+          'ui:title': cityTitle,
         },
       },
     },
