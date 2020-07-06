@@ -54,7 +54,6 @@ export async function checkAutoSession(application = null, to = null) {
     ssoKeepAliveSession(),
     vaGovProfile(),
   ]);
-  // FIXME: will a 3rd party lib auto convert the "sign_in" snake case to camel?
   if (userProfile?.signIn?.ssoe && ttl === 0) {
     // having a user session is not enough, we also need to make sure when
     // the user authenticated they used SSOe, otherwise we can't auto logout
