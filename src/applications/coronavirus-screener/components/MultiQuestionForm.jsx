@@ -110,7 +110,7 @@ export default function MultiQuestionForm({
   const formQuestions = enabledQuestions.map(
     (question, index) =>
       (index === 0 ||
-        Object.hasOwnProperty.call(questionState[index - 1], 'value')) && (
+        Object.hasOwnProperty.call(enabledQuestions[index - 1], 'value')) && (
         <FormQuestion
           question={question}
           recordStart={recordStart}
