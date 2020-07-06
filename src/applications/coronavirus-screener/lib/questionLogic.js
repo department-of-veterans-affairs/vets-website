@@ -5,16 +5,18 @@ export function getEnabledQuestions({ questionState }) {
   });
 }
 
-export function updateQuestionState({ questionState, customId }) {
+// sets enabled value based on question state
+export function updateEnabledQuestions({ questionState, customId }) {
   return questionState.map(question => {
+    // check if enabled by customId
+    const customIdEnabled = question.customId?.includes(customId) ?? true;
+
     // check if enabled by dependsOn
     const dependsOnEnabled =
       questionState.find(el => el.id === question.dependsOn?.id)?.value ===
       question.dependsOn?.value;
 
-    // const customIdEnabled = question.customId?.includes(customId) ?? true;
-
-    return { ...question, enabled: dependsOnEnabled };
+    return { ...question, enabled: customIdEnabled && dependsOnEnabled };
   });
 }
 

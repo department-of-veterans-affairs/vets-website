@@ -2,5 +2,5 @@ export { scrollerTo } from './scrollerTo';
 export {
   getEnabledQuestions,
   checkFormStatus,
-  updateQuestionState,
+  updateEnabledQuestions,
 } from './questionLogic';

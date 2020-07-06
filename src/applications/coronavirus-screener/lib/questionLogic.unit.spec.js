@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import {
   getEnabledQuestions,
-  updateQuestionState,
+  updateEnabledQuestions,
   checkFormResult,
   checkFormComplete,
   checkFormStatus,
@@ -63,7 +63,7 @@ describe('coronavirus-screener', () => {
         },
       ];
 
-      const newQuestionState = updateQuestionState({ questionState });
+      const newQuestionState = updateEnabledQuestions({ questionState });
       expect(newQuestionState.length).to.equal(4);
       expect(newQuestionState[0].id).to.equal('sample1');
       expect(newQuestionState[1].id).to.equal('sampleDependencyQuestion');
@@ -71,35 +71,33 @@ describe('coronavirus-screener', () => {
       expect(newQuestionState[3].enabled).to.equal(false);
     });
 
-    // it('updates question status using customId', () => {
-    //   const questionState = [
-    //     {
-    //       id: 'sample1',
-    //       text: 'this is question sample1 text',
-    //     },
-    //     {
-    //       id: 'sampleCustom123',
-    //       text: 'this is a sample custom question for id 123',
-    //       customId: [123],
-    //     },
-    //     {
-    //       id: 'sampleCustom555',
-    //       text: 'this is a sample custom question for id 555',
-    //       customId: [555],
-    //       enabled: false,
-    //     },
-    //   ];
+    it('updates question status using customId', () => {
+      const questionState = [
+        {
+          id: 'sample1',
+          text: 'this is question sample1 text',
+        },
+        {
+          id: 'sampleCustom123',
+          text: 'this is a sample custom question for id 123',
+          customId: ['123'],
+        },
+        {
+          id: 'sampleCustom555',
+          text: 'this is a sample custom question for id 555',
+          customId: ['555'],
+        },
+      ];
 
-    //   const newQuestionState = updateQuestionState({
-    //     questionState,
-    //     customId: '555',
-    //   });
-    //   console.log(newQuestionState);
-    //   expect(newQuestionState.length).to.equal(5);
-    //   expect(newQuestionState[0].id).to.equal('sample1');
-    //   expect(newQuestionState[1].id).to.equal('sample2');
-    //   expect(newQuestionState[3].enabled).to.equal(true);
-    //   expect(newQuestionState[4].enabled).to.equal(false);
-    // });
+      const newQuestionState = updateEnabledQuestions({
+        questionState,
+        customId: '123',
+      });
+      expect(newQuestionState.length).to.equal(3);
+      expect(newQuestionState[0].id).to.equal('sample1');
+      expect(newQuestionState[1].id).to.equal('sampleCustom123');
+      expect(newQuestionState[1].enabled).to.equal(true);
+      expect(newQuestionState[2].enabled).to.equal(false);
+    });
   });
 });

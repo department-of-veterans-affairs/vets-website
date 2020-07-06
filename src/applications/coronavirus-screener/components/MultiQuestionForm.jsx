@@ -8,7 +8,7 @@ import _ from 'lodash/fp';
 import {
   getEnabledQuestions,
   checkFormStatus,
-  updateQuestionState,
+  updateEnabledQuestions,
 } from '../lib';
 
 export default function MultiQuestionForm({
@@ -54,7 +54,7 @@ export default function MultiQuestionForm({
   // note: investigate https://reactjs.org/docs/hooks-reference.html#usereducer
   useEffect(
     () => {
-      const newQuestionState = updateQuestionState({
+      const newQuestionState = updateEnabledQuestions({
         questionState,
         customId,
       });
