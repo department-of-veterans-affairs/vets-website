@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
+import localStorage from 'platform/utilities/storage/localStorage';
 import * as ssoUtils from 'platform/utilities/sso';
 import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
 
@@ -14,9 +15,12 @@ describe('<AutoSSO>', () => {
     props = {
       useInboundSSOe: false,
       hasCalledKeepAlive: false,
-      userLoggedIn: false,
       checkKeepAlive: sinon.spy(),
     };
+  });
+
+  afterEach(() => {
+    localStorage.clear();
   });
 
   it('should not call removeLoginAttempted if user is logged out', () => {
@@ -29,9 +33,7 @@ describe('<AutoSSO>', () => {
 
   it('should call removeLoginAttempted if user is logged in', () => {
     const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
-    Object.assign(props, {
-      userLoggedIn: true,
-    });
+    localStorage.setItem('hasSession', 'true');
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.calledOnce(stub);
