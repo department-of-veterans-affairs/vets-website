@@ -49,7 +49,7 @@ export class CernerCallToAction extends Component {
 
     // Derive the cerner facilities.
     const cernerFacilities = facilities.filter(facility =>
-      CERNER_FACILITY_IDS.includes(facility?.id),
+      CERNER_FACILITY_IDS.includes(facility?.facilityId),
     );
 
     // Escape early if there are no cerner facilities.
