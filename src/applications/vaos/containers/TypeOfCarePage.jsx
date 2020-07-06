@@ -114,7 +114,6 @@ export class TypeOfCarePage extends React.Component {
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        <p>{this.props.addressLine1}</p>
         <UpdateAddress address={this.props.addressLine1} />
         <SchemaForm
           name="Type of care"
