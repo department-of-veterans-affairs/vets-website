@@ -302,7 +302,7 @@ export function makeAuthRequest(
 }
 
 export function getCompletedDate(claim) {
-  if (claim?.attributes && claim.attributes.eventsTimeline) {
+  if (claim?.attributes?.eventsTimeline) {
     const completedEvents = claim.attributes.eventsTimeline.filter(
       event => event.type === 'completed',
     );
@@ -316,7 +316,7 @@ export function getCompletedDate(claim) {
 
 export function getClaimType(claim) {
   return (
-    claim?.attributes.claimType || 'disability compensation'
+    claim?.attributes?.claimType || 'disability compensation'
   ).toLowerCase();
 }
 
