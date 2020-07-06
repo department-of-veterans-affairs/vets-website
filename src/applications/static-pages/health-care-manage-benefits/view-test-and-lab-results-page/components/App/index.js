@@ -7,7 +7,7 @@ import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
 import environment from 'platform/utilities/environment';
-import { CERNER_FACILITY_IDS } from '../../../constants';
+import { CERNER_FACILITY_IDS } from 'platform/utilities/cerner';
 
 export const App = ({ isCernerPatient }) => {
   if (environment.isProduction()) {
