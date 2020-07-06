@@ -30,18 +30,18 @@ const disableButtons = event => {
 };
 
 const disableCheckboxes = () => {
-  const checkboxes = document.querySelectorAll(
-    '#webchat input[type="checkbox"]',
-  );
+  const checkboxes = [
+    ...document.querySelectorAll('#webchat input[type="checkbox"]'),
+  ];
   checkboxes.forEach((_input, index) => {
     checkboxes[index].disabled = true;
   });
 };
 
 const scrollToNewMessage = () => {
-  const messages = document.getElementsByClassName(
-    'webchat__stackedLayout--fromUser',
-  );
+  const messages = [
+    ...document.getElementsByClassName('webchat__stackedLayout--fromUser'),
+  ];
   const lastMessageFromUser = messages[messages.length - 1];
   lastMessageFromUser.scrollIntoView({ behavior: 'smooth' });
 };
@@ -61,7 +61,7 @@ const handleDisableAndScroll = event => {
 
 export const handleButtonsPostRender = () => {
   setInterval(() => {
-    const buttons = document.getElementsByClassName('ac-pushButton');
+    const buttons = [...document.getElementsByClassName('ac-pushButton')];
     buttons.forEach(button => {
       button.addEventListener('click', handleDisableAndScroll);
     });

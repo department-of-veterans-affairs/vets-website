@@ -8,8 +8,8 @@ const data = [
     benefitType: 'Loan Guaranty (Principal + Interest)',
     amountOverpaid: 0.0,
     amountWithheld: 0.0,
-    originalAR: '11599',
-    currentAR: '0',
+    originalAr: '11599',
+    currentAr: '0',
     debtHistory: [
       {
         date: '03/05/2004',
@@ -28,8 +28,8 @@ const data = [
     benefitType: 'Comp & Pen',
     amountOverpaid: 0.0,
     amountWithheld: 0.0,
-    originalAR: '13000',
-    currentAR: '0',
+    originalAr: '13000',
+    currentAr: '0',
     debtHistory: [
       {
         date: '12/03/2008',
@@ -61,8 +61,8 @@ const data = [
     benefitType: 'Comp & Pen',
     amountOverpaid: 0.0,
     amountWithheld: 0.0,
-    originalAR: '12000',
-    currentAR: '0',
+    originalAr: '12000',
+    currentAr: '0',
     debtHistory: [
       {
         date: '09/11/1997',
@@ -81,8 +81,8 @@ const data = [
     benefitType: 'CH35 EDU',
     amountOverpaid: 16000.0,
     amountWithheld: 0.0,
-    originalAR: '13000',
-    currentAR: '10000',
+    originalAr: '13000',
+    currentAr: '10000',
     debtHistory: [
       {
         date: '09/18/2012',
@@ -145,10 +145,7 @@ function asyncReturn(returnValue, delay = 300) {
   });
 }
 
-export const debtLettersSuccess = () =>
-  asyncReturn({
-    data,
-  });
+export const debtLettersSuccess = () => asyncReturn(data);
 
 export const debtLettersFailure = () =>
   asyncReturn(

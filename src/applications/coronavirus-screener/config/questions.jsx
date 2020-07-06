@@ -15,7 +15,7 @@ export const questions = [
   {
     id: 'cough',
     text:
-      "In the past 7 days, have you had a cough or shortness of breath that's new or getting worse?",
+      "In the past 7 days, have you had a cough, shortness of breath, or difficulty breathing that's new or getting worse?",
   },
   {
     id: 'flu',
@@ -24,18 +24,19 @@ export const questions = [
         In the past 3 days, have you had any of these symptoms?
         <ul>
           <li>Fever or feeling feverish (chills, sweating)</li>
+          <li>Fatigue (feeling tired all the time)</li>
+          <li>Muscle or body aches</li>
+          <li>Headache</li>
+          <li>New loss of smell or taste</li>
           <li>Sore throat</li>
-          <li>Muscle pain or body aches</li>
-          <li>Vomiting or diarrhea</li>
-          <li>Change in smell or taste</li>
+          <li>Nausea, vomiting, or diarrhea</li>
         </ul>
       </div>
     ),
   },
   {
     id: 'congestion',
-    text:
-      'Do you currently have a sore throat, runny nose, or nasal congestion?',
+    text: 'Do you currently have a runny nose or nasal congestion?',
   },
   {
     id: 'exposure',

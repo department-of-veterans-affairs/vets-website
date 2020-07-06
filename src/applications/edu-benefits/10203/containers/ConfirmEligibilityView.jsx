@@ -118,7 +118,7 @@ export class ConfirmEligibilityView extends React.Component {
       showErrors ? 'usa-input-error-label' : '',
     );
     const questionText =
-      'Would you still like apply and let us determine your eligibility?';
+      'Would you still like to apply and let us determine your eligibility?';
 
     if (this.inReviewEditMode()) {
       let value;

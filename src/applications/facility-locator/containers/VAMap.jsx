@@ -6,7 +6,6 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { FeatureGroup, Map, TileLayer } from 'react-leaflet';
 import mapboxClient from '../components/MapboxClient';
 import { mapboxToken } from '../utils/mapboxToken';
-import isMobile from 'ismobilejs';
 import { debounce, isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import {
@@ -62,6 +61,9 @@ const ddStyle = {
   margin: '2rem 0 .5rem 0',
   lineHeight: '1.5',
 };
+
+// See https://design.va.gov/design/breakpoints
+const isMobile = window.innerWidth <= 481;
 
 // Link to urgent care benefit web page
 const urgentCareDialogLink = (
@@ -231,7 +233,7 @@ class VAMap extends Component {
       !updatedQuery.error;
 
     if (shouldZoomOut) {
-      if (isMobile.any) {
+      if (isMobile) {
         // manual zoom-out for mobile
         this.props.updateSearchQuery({
           bounds: [
@@ -751,13 +753,11 @@ class VAMap extends Component {
         </div>
         {currentPage &&
           results.length > 0 && (
-            <div className="width-35">
-              <Pagination
-                onPageSelect={this.handlePageSelect}
-                page={currentPage}
-                pages={totalPages}
-              />
-            </div>
+            <Pagination
+              onPageSelect={this.handlePageSelect}
+              page={currentPage}
+              pages={totalPages}
+            />
           )}
       </div>
     );
@@ -800,7 +800,7 @@ class VAMap extends Component {
             community providers as the service type.
           </p>
         </div>
-        {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
+        {isMobile ? this.renderMobileView() : this.renderDesktopView()}
       </div>
     );
   }
