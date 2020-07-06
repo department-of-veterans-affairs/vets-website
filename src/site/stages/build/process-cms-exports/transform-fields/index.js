@@ -110,18 +110,6 @@ function expandEntityReference(fieldData, schemas, contentDir) {
 }
 
 /**
- * A map of input field name to output field name overrides.
- */
-/* eslint-disable camelcase */
-const fieldNameOverrides = {
-  // Caution: Trouble ahead!
-  // This is sometimes entityMetatags (lowercase t) in the GraphQL query / result
-  // and sometimes entityMetaTags (capital T)
-  field_meta_tags: 'entityMetatags',
-};
-/* eslint-enable camelcase */
-
-/**
  * @param {object} entity - The entity as it's read from readEntity()
  * @param {object} schemas - The schema for the input JSON files
  * @param {string} contentDir - The path to the CMS export files; used for
@@ -137,8 +125,7 @@ function transformFields(entity, schemas, contentDir) {
     // console.log('------------------------');
     // console.log(inputFieldName);
 
-    const outputFieldName =
-      fieldNameOverrides[inputFieldName] || camelCase(inputFieldName);
+    const outputFieldName = camelCase(inputFieldName);
 
     const fieldData = getFieldData(entity, currentFieldSchema);
 
