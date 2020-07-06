@@ -394,7 +394,7 @@ function setContained(appt) {
     }
     case APPOINTMENT_TYPES.ccRequest: {
       return appt.ccAppointmentRequest.preferredProviders.map(provider => {
-        let obj = {
+        const participant = {
           actor: {
             name: provider.practiceName,
             // TODO: Map to participant.actor.Practitioner field.
@@ -410,15 +410,10 @@ function setContained(appt) {
             state: provider.address?.state,
             postalCode: provider.address?.zipCode,
           };
-          obj = {
-            actor: {
-              ...obj.actor,
-              address,
-            },
-          };
+          participant.actor.address = address;
         }
 
-        return obj;
+        return participant;
       });
     }
     case APPOINTMENT_TYPES.ccAppointment: {
