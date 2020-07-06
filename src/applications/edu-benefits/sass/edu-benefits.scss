@@ -129,3 +129,24 @@
   list-style-type: none !important;
 }
 
+.print-only {
+  display: none;
+}
+
+@media print {
+  .usa-width-two-thirds {
+    width: 100%;
+  }
+  .schemaform-title,
+  .schemaform-subtitle,
+  .screen-only {
+    display: none;
+  }
+  .print-only {
+    display: block;
+  }
+  /* Include href when printing */
+  a:not([href^="tel"]):after {
+    content: " (https://va.gov" attr(href) ")";
+  }
+}
