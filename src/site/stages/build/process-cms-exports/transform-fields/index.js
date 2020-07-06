@@ -105,7 +105,7 @@ function expandEntityReference(fieldData, schemas, contentDir) {
   return fieldData.map(fd => {
     const entity = readEntity(contentDir, fd.target_type, fd.target_uuid);
     // eslint-disable-next-line no-use-before-define
-    return transformFields(entity, schemas, contentDir);
+    return { entity: transformFields(entity, schemas, contentDir) };
   });
 }
 
