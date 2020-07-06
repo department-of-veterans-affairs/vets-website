@@ -79,6 +79,9 @@ function getExtraProperties(entity) {
     // TODO: Some metatags have a different type name than the default __typename
     props.entityMetatags = createMetaTagArray(entity.metatag.value);
   }
+  if (entity.name) {
+    props.name = entity.name[0].value;
+  }
   return props;
 }
 
