@@ -4,7 +4,6 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 export function mockAppointmentInfo({ va = [], cc = [], requests = [] }) {
   mockFetch();
-  setFetchJSONResponse(global.fetch, { data: [] });
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
@@ -66,5 +65,18 @@ export function mockFacilitesFetch(ids, facilities) {
   setFetchJSONResponse(
     global.fetch.withArgs(`${environment.API_URL}/v1/facilities/va?ids=${ids}`),
     { data: facilities },
+  );
+}
+
+export function mockVACancelFetches(id, reasons) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/facilities/${id}/cancel_reasons`,
+    ),
+    { data: reasons },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments/cancel`),
+    { data: {} },
   );
 }
