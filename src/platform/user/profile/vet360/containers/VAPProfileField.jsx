@@ -438,7 +438,7 @@ Vet360ProfileFieldContainer.propTypes = {
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
-  hasUnsavedEdits: PropTypes.bool.isRequired,
+  hasUnsavedEdits: PropTypes.bool,
 };
 
 export default Vet360ProfileFieldContainer;
