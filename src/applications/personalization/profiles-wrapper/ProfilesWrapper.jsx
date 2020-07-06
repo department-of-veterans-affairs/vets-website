@@ -9,6 +9,7 @@ import {
   isInMVI as isInMVISelector,
   isLOA1 as isLOA1Selector,
   isLOA3 as isLOA3Selector,
+  isLoggedIn,
 } from 'platform/user/selectors';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { selectShowProfile2 } from 'applications/personalization/profile-2/selectors';
@@ -19,11 +20,18 @@ const LoadingPage = () => (
   </div>
 );
 
-const ProfilesWrapper = ({ showProfile1, isLOA1, isLOA3, isInMVI }) => {
+const ProfilesWrapper = ({
+  showProfile1,
+  isLOA1,
+  isLOA3,
+  isInMVI,
+  currentlyLoggedIn,
+}) => {
   // On initial render, both isLOA props are false.
   // We need to make sure the proper redirect is hit,
   // so we show a loading state till one value is true.
-  if (!isLOA1 && !isLOA3) {
+
+  if (!isLOA1 && !isLOA3 && currentlyLoggedIn) {
     return <LoadingPage />;
   }
 
@@ -40,6 +48,7 @@ const mapStateToProps = state => {
   const localStorageProfile2 = profileVersion === '2';
   const FFProfile2 = selectShowProfile2(state);
   return {
+    currentlyLoggedIn: isLoggedIn(state),
     isLOA1: isLOA1Selector(state),
     isLOA3: isLOA3Selector(state),
     isInMVI: isInMVISelector(state),

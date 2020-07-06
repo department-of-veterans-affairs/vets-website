@@ -159,6 +159,7 @@
     "command-line-args": "^3.0.1",
     "command-line-usage": "^6.1.0",
     "concurrently": "^5.2.0",
+    "copy-webpack-plugin": "^6.0.2",
     "cors": "^2.7.1",
     "css-loader": "^0.28.10",
     "cypress": "^4.8.0",
@@ -278,7 +279,6 @@
     "foundation-sites": "^5.5.3",
     "history": "3",
     "ics-js": "^0.10.2",
-    "ismobilejs": "^0.4.0",
     "js-cookie": "^2.2.1",
     "js-yaml": "^3.14.0",
     "jsonschema": "^1.1.1",
@@ -323,7 +323,7 @@
     "url-search-params": "^1.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8179594f10b397de823edeb64d00a22816fe7014",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7b07b971a01a5050ce97e59259f050bc9d2cf78c",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
