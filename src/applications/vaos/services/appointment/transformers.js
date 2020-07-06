@@ -237,17 +237,15 @@ function getRequestedPeriods(appt) {
   for (let x = 1; x <= 3; x += 1) {
     const optionTime = appt[`optionTime${x}`];
 
-    if (!moment(appt[`optionDate${x}`]).isValid()) {
-      // Since 'No Date Selected' and 'No Time Selected' are invalid dates and times,
-      // don't add the start and end attributes.
-      //
-      // NOTE: FHIR Spec says...
-      // If the start element is missing, the start of the period is not known.
-      // If the end element is missing, it means that the period is ongoing,
-      // or the start may be in the past, and the end date in the future,
-      // which means that period is expected / planned to end at the specified time.
-      requestedPeriods.push({});
-    } else if (optionTime) {
+    // Since 'No Date Selected' and 'No Time Selected' are possible values but
+    // invalid dates and times, don't add the start and end attributes.
+    //
+    // NOTE: FHIR Spec says...
+    // If the start element is missing, the start of the period is not known.
+    // If the end element is missing, it means that the period is ongoing,
+    // or the start may be in the past, and the end date in the future,
+    // which means that period is expected / planned to end at the specified time.
+    if (moment(appt[`optionDate${x}`]).isValid() && optionTime) {
       const isAM = optionTime === 'AM';
       requestedPeriods.push({
         start: `${moment(appt[`optionDate${x}`], format).format(
@@ -396,17 +394,31 @@ function setContained(appt) {
     }
     case APPOINTMENT_TYPES.ccRequest: {
       return appt.ccAppointmentRequest.preferredProviders.map(provider => {
-        return {
+        let obj = {
           actor: {
             name: provider.practiceName,
-            address: {
-              line: provider.address?.street,
-              city: provider.address?.city,
-              state: provider.address?.state,
-              postalCode: provider.address?.zipCode,
-            },
+            // TODO: Map to participant.actor.Practitioner field.
+            firstName: provider.firstName,
+            lastName: provider.lastName,
           },
         };
+
+        if (provider.address) {
+          const address = {
+            line: [provider.address?.street],
+            city: provider.address?.city,
+            state: provider.address?.state,
+            postalCode: provider.address?.zipCode,
+          };
+          obj = {
+            actor: {
+              ...obj.actor,
+              address,
+            },
+          };
+        }
+
+        return obj;
       });
     }
     case APPOINTMENT_TYPES.ccAppointment: {
@@ -545,19 +557,19 @@ export function transformPendingAppointments(requests) {
   return requests.map(appt => {
     const isCC = isCommunityCare(appt);
 
-    if (isCC) {
-      // CC requests to be handled in separate PR
-      return transformPendingCCAppointment(appt);
-    }
-
     return {
       resourceType: 'Appointment',
       id: `var${appt.id}`,
-      status: getStatus(appt),
+      status: getStatus(appt, isCC),
       requestedPeriod: getRequestedPeriods(appt),
       minutesDuration: 60,
       type: {
-        coding: [{ code: appt.appointmentType }],
+        coding: [
+          {
+            code: appt.typeOfCareId,
+            display: appt.appointmentType,
+          },
+        ],
       },
       reason: getPurposeOfVisit(appt),
       participant: setParticipant(appt),

@@ -799,29 +799,29 @@ describe('VAOS Appointment transformer', () => {
       expect(data.status).to.equal(APPOINTMENT_STATUS.pending);
     });
 
-    it('should set requestedPeriods', () => {
-      expect(data.requestedPeriod.length).to.equal(3);
-
-      // NOTE: The array is sorted.
-      expect(data.requestedPeriod[0].start).to.be.undefined;
-      expect(data.requestedPeriod[0].end).to.be.undefined;
-
-      expect(data.requestedPeriod[1].start).to.equal(
-        `${now.format('YYYY-MM-DD')}T00:00:00.000Z`,
-      );
-      expect(data.requestedPeriod[1].end).to.equal(
-        `${now.format('YYYY-MM-DD')}T11:59:99.999Z`,
-      );
-      expect(data.requestedPeriod[2].start).to.equal(
-        `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000Z`,
-      );
-      expect(data.requestedPeriod[2].end).to.equal(
-        `${tomorrow.format('YYYY-MM-DD')}T11:59:99.999Z`,
+    it('should set appointment type', () => {
+      expect(data.type.coding[0].code).to.equal('CCAUDHEAR');
+      expect(data.type.coding[0].display).to.equal(
+        'Audiology (hearing aid support)',
       );
     });
 
-    it('should have original status in description', () => {
-      expect(data.description).to.equal('Audiology (hearing aid support)');
+    it('should set requestedPeriods (FHIR 4.0.1)', () => {
+      expect(data.requestedPeriod.length).to.equal(2);
+
+      // NOTE: The array is sorted.
+      expect(data.requestedPeriod[0].start).to.equal(
+        `${now.format('YYYY-MM-DD')}T00:00:00.000Z`,
+      );
+      expect(data.requestedPeriod[0].end).to.equal(
+        `${now.format('YYYY-MM-DD')}T11:59:99.999Z`,
+      );
+      expect(data.requestedPeriod[1].start).to.equal(
+        `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000Z`,
+      );
+      expect(data.requestedPeriod[1].end).to.equal(
+        `${tomorrow.format('YYYY-MM-DD')}T11:59:99.999Z`,
+      );
     });
 
     // TODO: Verify no start date for appointment request
@@ -833,7 +833,7 @@ describe('VAOS Appointment transformer', () => {
       expect(data.minutesDuration).to.equal(60);
     });
 
-    it('should set reason', () => {
+    it('should set reasonCode (FHIR 4.0.1)', () => {
       expect(data.reason).to.equal('Follow-up/Routine');
     });
 
@@ -884,10 +884,12 @@ describe('VAOS Appointment transformer', () => {
           expect(data.contained[0].actor.name).to.equal(
             'Some practiceSome practiceSome practiceSome practice',
           );
+          expect(data.contained[0].actor.firstName).to.equal('Test');
+          expect(data.contained[0].actor.lastName).to.equal('User');
         });
 
         it('should set provider address', () => {
-          expect(data.contained[0].actor.address.line).to.equal('street');
+          expect(data.contained[0].actor.address.line[0]).to.equal('street');
           expect(data.contained[0].actor.address.city).to.equal('city');
           expect(data.contained[0].actor.address.state).to.equal('state');
           expect(data.contained[0].actor.address.postalCode).to.equal('01060');
