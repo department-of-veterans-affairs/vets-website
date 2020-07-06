@@ -2,7 +2,9 @@
 
 const { camelCase } = require('lodash');
 const { readEntity } = require('../helpers');
+const { createMetaTagArray } = require('../transformers/helpers');
 const fieldTransformer = require('./transformer');
+const { transform: epochTime } = require('./epoch-time');
 
 /**
  * Find the schema for the entity.
@@ -42,6 +44,42 @@ function getFieldSchemas(bundleSchema) {
  */
 function getFieldData(entity, fieldSchema) {
   return entity[fieldSchema['Machine name']];
+}
+
+/**
+ * Get the data for properties not specified in the input schema.
+ * @param {object} entity - The entity as it's read from readEntity()
+ * @returns {object} - The data for properties not specified in the input schema
+ */
+function getExtraProperties(entity) {
+  // changed
+  // entityId
+  // entityMetatags / entityMetaTags (one is more popular)
+  // entityPublished
+  // entityUrl
+  // title
+  const props = {
+    // Add other properties that should be on all entities here
+    entityBundle: entity.contentModelType.split('-')[1],
+    entityPublished: entity.status[0].value,
+  };
+  if (entity.changed) {
+    props.changed = epochTime(entity.changed);
+  }
+  if (entity.title) {
+    props.title = entity.title[0].value;
+  }
+  if (entity.nid) {
+    props.entityId = entity.nid[0].value.toString();
+  }
+  if (entity.entityUrl) {
+    props.entityUrl = entity.entityUrl;
+  }
+  if (entity.metatag) {
+    // TODO: Some metatags have a different type name than the default __typename
+    props.entityMetatags = createMetaTagArray(entity.metatag.value);
+  }
+  return props;
 }
 
 /**
@@ -94,41 +132,35 @@ function transformFields(entity, schemas, contentDir) {
   const bundleSchema = findBundleSchema(entity, schemas);
   const fieldSchemas = getFieldSchemas(bundleSchema);
 
-  return fieldSchemas.reduce(
-    (result, currentFieldSchema) => {
-      const inputFieldName = currentFieldSchema['Machine name'];
-      // console.log('------------------------');
-      // console.log(inputFieldName);
+  return fieldSchemas.reduce((result, currentFieldSchema) => {
+    const inputFieldName = currentFieldSchema['Machine name'];
+    // console.log('------------------------');
+    // console.log(inputFieldName);
 
-      const outputFieldName =
-        fieldNameOverrides[inputFieldName] || camelCase(inputFieldName);
+    const outputFieldName =
+      fieldNameOverrides[inputFieldName] || camelCase(inputFieldName);
 
-      const fieldData = getFieldData(entity, currentFieldSchema);
+    const fieldData = getFieldData(entity, currentFieldSchema);
 
-      // !fieldData happens when the schema contains fields that aren't in the data
-      // !fieldData.length happens with the field is empty in Drupal
-      if (!fieldData || !fieldData.length) {
-        return result;
-      }
+    // !fieldData happens when the schema contains fields that aren't in the data
+    // !fieldData.length happens with the field is empty in Drupal
+    if (!fieldData || !fieldData.length) {
+      return result;
+    }
 
-      // For each field, either expand the entity reference, or transform the data
-      const transformedData = isEntityReference(fieldData, currentFieldSchema)
-        ? expandEntityReference(fieldData, schemas, contentDir)
-        : fieldTransformer.transform(
-            fieldData,
-            currentFieldSchema,
-            entity.contentModelType,
-            inputFieldName,
-          );
-      return Object.assign({}, result, {
-        [outputFieldName]: transformedData,
-      });
-    },
-    {
-      // Add other properties that should be on all entities here
-      entityBundle: entity.contentModelType.split('-')[1],
-    },
-  );
+    // For each field, either expand the entity reference, or transform the data
+    const transformedData = isEntityReference(fieldData, currentFieldSchema)
+      ? expandEntityReference(fieldData, schemas, contentDir)
+      : fieldTransformer.transform(
+          fieldData,
+          currentFieldSchema,
+          entity.contentModelType,
+          inputFieldName,
+        );
+    return Object.assign({}, result, {
+      [outputFieldName]: transformedData,
+    });
+  }, getExtraProperties(entity));
 }
 
 module.exports = transformFields;
