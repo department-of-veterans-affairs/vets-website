@@ -132,7 +132,7 @@ function transformFields(entity, schemas, contentDir) {
     // !fieldData happens when the schema contains fields that aren't in the data
     // !fieldData.length happens with the field is empty in Drupal
     if (!fieldData || !fieldData.length) {
-      return result;
+      return Object.assign({}, result, { [outputFieldName]: null });
     }
 
     // For each field, either expand the entity reference, or transform the data
