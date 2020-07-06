@@ -1,6 +1,6 @@
 import { normal } from 'platform/testing/e2e/timeouts';
 import { createE2eTest, baseUrl } from 'platform/testing/e2e/helpers';
-import { testQuestionScenario } from './screener-test-question-scenarios';
+import { testQuestionScenario } from './question-scenario-helper';
 
 const visitorPassTravel459 = {
   title: 'Visitor pass travel 459',
