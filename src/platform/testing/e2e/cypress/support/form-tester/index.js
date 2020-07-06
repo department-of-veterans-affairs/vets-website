@@ -8,10 +8,6 @@ const ARRAY_ITEM_SELECTOR =
 const FIELD_SELECTOR = 'input, select, textarea';
 const LOADING_SELECTOR = '.loading-indicator';
 
-// Suppress logs for most commands, particularly calls to wrap and get
-// that are mainly there to support more specific operations.
-const COMMAND_OPTIONS = { log: false };
-
 // Force interactions on elements, skipping the default checks for the
 // "user interactive" state of an element, potentially saving some time.
 // More importantly, this ensures the interaction will target the actual
@@ -22,7 +18,11 @@ const FORCE_OPTION = { force: true };
 
 // Cypress does not officially support typing without delay.
 // See the main support file for more details.
-const TYPE_OPTIONS = { delay: 0 };
+const NO_DELAY_OPTION = { delay: 0 };
+
+// Suppress logs for most commands, particularly calls to wrap and get
+// that are mainly there to support more specific operations.
+const NO_LOG_OPTION = { log: false };
 
 /**
  * Builds an object from a form field with attributes that are used
@@ -69,7 +69,7 @@ const createFieldObject = element => {
  * @param {string} pathname - The pathname of the current page.
  */
 const getArrayItemPath = pathname => {
-  cy.get('@arrayPages', COMMAND_OPTIONS).then(arrayPages => {
+  cy.get('@arrayPages', NO_LOG_OPTION).then(arrayPages => {
     let index;
 
     const { arrayPath } =
@@ -155,12 +155,12 @@ const processPage = () => {
   // Run aXe check before doing anything on the page.
   cy.axeCheck();
 
-  cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
+  cy.location('pathname', NO_LOG_OPTION).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
       performPageActions(pathname, false);
 
       // Check the privacy agreement box if it exists.
-      cy.get(APP_SELECTOR, COMMAND_OPTIONS).then($form => {
+      cy.get(APP_SELECTOR, NO_LOG_OPTION).then($form => {
         const privacyAgreement = $form.find('input[name^="privacyAgreement"]');
         if (privacyAgreement.length) {
           cy.wrap(privacyAgreement)
@@ -179,7 +179,7 @@ const processPage = () => {
       });
     } else {
       performPageActions(pathname);
-      cy.location('pathname', COMMAND_OPTIONS)
+      cy.location('pathname', NO_LOG_OPTION)
         .should(newPathname => {
           if (pathname === newPathname) {
             throw new Error(`Expected to navigate away from ${pathname}`);
@@ -196,7 +196,7 @@ const processPage = () => {
  * @returns {boolean} Resolves true if a hook ran and false otherwise.
  */
 Cypress.Commands.add('execHook', pathname => {
-  cy.get('@pageHooks', COMMAND_OPTIONS).then(pageHooks => {
+  cy.get('@pageHooks', NO_LOG_OPTION).then(pageHooks => {
     const hook = pageHooks?.[pathname];
     if (hook) {
       if (typeof hook !== 'function') {
@@ -208,10 +208,10 @@ Cypress.Commands.add('execHook', pathname => {
           hook();
           resolve(true);
         }),
-        COMMAND_OPTIONS,
+        NO_LOG_OPTION,
       );
     } else {
-      cy.wrap(false, COMMAND_OPTIONS);
+      cy.wrap(false, NO_LOG_OPTION);
     }
   });
 });
@@ -224,7 +224,7 @@ Cypress.Commands.add('execHook', pathname => {
 Cypress.Commands.add('findData', field => {
   let resolvedDataPath;
 
-  cy.get('@testData', COMMAND_OPTIONS).then(testData => {
+  cy.get('@testData', NO_LOG_OPTION).then(testData => {
     const relativeDataPath = field.key
       .replace(/^root_/, '')
       .replace(/_/g, '.')
@@ -235,7 +235,7 @@ Cypress.Commands.add('findData', field => {
       ? `${field.arrayItemPath}.${relativeDataPath}`
       : relativeDataPath;
 
-    cy.wrap(get(resolvedDataPath, testData), COMMAND_OPTIONS);
+    cy.wrap(get(resolvedDataPath, testData), NO_LOG_OPTION);
   });
 
   Cypress.log({
@@ -268,7 +268,7 @@ Cypress.Commands.add('enterData', field => {
     case 'text': {
       cy.wrap(field.element)
         .clear(FORCE_OPTION)
-        .type(field.data, { ...TYPE_OPTIONS, ...FORCE_OPTION })
+        .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .then(element => {
           // Get the autocomplete menu out of the way.
           if (element.attr('role') === 'combobox') {
@@ -302,7 +302,7 @@ Cypress.Commands.add('enterData', field => {
 
       cy.get(`#${baseSelector}Year`)
         .clear()
-        .type(year, { ...TYPE_OPTIONS, ...FORCE_OPTION });
+        .type(year, { ...FORCE_OPTION, ...NO_DELAY_OPTION });
 
       cy.get(`#${baseSelector}Month`).select(month, FORCE_OPTION);
 
@@ -333,7 +333,7 @@ Cypress.Commands.add('enterData', field => {
  * Fills all of the fields on a page, looping until no more fields appear.
  */
 Cypress.Commands.add('fillPage', () => {
-  cy.location('pathname', COMMAND_OPTIONS)
+  cy.location('pathname', NO_LOG_OPTION)
     .then(getArrayItemPath)
     .then(arrayItemPath => {
       const touchedFields = new Set();
@@ -370,7 +370,7 @@ Cypress.Commands.add('fillPage', () => {
       };
 
       const fillAvailableFields = () => {
-        cy.get(APP_SELECTOR, COMMAND_OPTIONS)
+        cy.get(APP_SELECTOR, NO_LOG_OPTION)
           .then($form => {
             // Get the starting number of array items and fields to compare
             // after filling out all currently visible fields, as new fields
@@ -378,12 +378,12 @@ Cypress.Commands.add('fillPage', () => {
             snapshot.arrayItemCount = $form.find(ARRAY_ITEM_SELECTOR).length;
             snapshot.fieldCount = $form.find(FIELD_SELECTOR).length;
           })
-          .within(COMMAND_OPTIONS, $form => {
+          .within(NO_LOG_OPTION, $form => {
             // Fill out every field that's currently on the page.
             const fields = $form.find(FIELD_SELECTOR);
             if (!fields.length) return;
             cy.wrap(fields).each(element => {
-              cy.wrap(createFieldObject(element), COMMAND_OPTIONS).then(
+              cy.wrap(createFieldObject(element), NO_LOG_OPTION).then(
                 processFieldObject,
               );
             });
@@ -394,7 +394,7 @@ Cypress.Commands.add('fillPage', () => {
               addNewArrayItem($form);
             }
 
-            cy.wrap($form, COMMAND_OPTIONS);
+            cy.wrap($form, NO_LOG_OPTION);
           })
           .then($form => {
             // If there are new array items or fields to be filled,
