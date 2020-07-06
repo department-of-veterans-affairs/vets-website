@@ -8,6 +8,17 @@ export function getEnabledQuestions({ questionState, customId }) {
   });
 }
 
+export function checkEnabled({ question, questionState }) {
+  // check if question dependency is met
+  if (Object.hasOwnProperty.call(question, 'dependsOn')) {
+    const dependsOnQuestion = questionState.find(
+      el => el.id === question.dependsOn.id,
+    );
+    const match = dependsOnQuestion.value === question.dependsOn.value;
+    return { ...question, enabled: match };
+  } else return question;
+}
+
 // check result of answers
 export function checkFormResult({ questionState, customId }) {
   return getEnabledQuestions({ questionState, customId })

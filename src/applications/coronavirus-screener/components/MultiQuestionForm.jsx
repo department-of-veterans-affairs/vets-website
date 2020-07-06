@@ -5,7 +5,7 @@ import FormResult from './FormResult';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import _ from 'lodash/fp';
-import { getEnabledQuestions, checkFormStatus } from '../lib';
+import { getEnabledQuestions, checkFormStatus, checkEnabled } from '../lib';
 
 export default function MultiQuestionForm({
   questions,
@@ -46,22 +46,12 @@ export default function MultiQuestionForm({
     [questionState, formState],
   );
 
-  function checkEnabled(question) {
-    if (Object.hasOwnProperty.call(question, 'dependsOn')) {
-      const dependsOnQuestion = questionState.find(
-        el => el.id === question.dependsOn.id,
-      );
-      const match = dependsOnQuestion.value === question.dependsOn.value;
-      return { ...question, enabled: match };
-    } else return question;
-  }
-
   // sets enabled status of questions in state
   // note: investigate https://reactjs.org/docs/hooks-reference.html#usereducer
   useEffect(
     () => {
       const newQuestionState = questionState.map(question =>
-        checkEnabled(question),
+        checkEnabled({ question, questionState }),
       );
       if (!_.isEqual(newQuestionState, questionState)) {
         setQuestionState(newQuestionState);
