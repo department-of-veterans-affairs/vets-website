@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LocationType } from '../../constants';
+import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../../constants';
 
 const renderPhoneNumber = (
   title,
@@ -41,7 +41,10 @@ const renderPhoneNumber = (
 
 const LocationPhoneLink = ({ location, from, query }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
-  const isCCProvider = query && query.facilityType === LocationType.CC_PROVIDER;
+  const isCCProvider =
+    query &&
+    query.facilityType === LocationType.CC_PROVIDER &&
+    query.serviceType !== CLINIC_URGENTCARE_SERVICE;
   if (isProvider) {
     const { caresitePhone: phone } = location.attributes;
     return (
