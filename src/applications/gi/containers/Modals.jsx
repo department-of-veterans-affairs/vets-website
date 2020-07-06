@@ -908,7 +908,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('calcScholarships')}
         >
-          <h3>Scholarships (excluding Pell)</h3>
+          <h3>Scholarships (excluding Pell Grants)</h3>
           <p>
             Are you receiving any scholarships or grants that go directly to pay
             tution/fees this year? If so, add that number here.
