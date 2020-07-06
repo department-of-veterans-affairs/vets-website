@@ -5,7 +5,11 @@ import FormResult from './FormResult';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import _ from 'lodash/fp';
-import { getEnabledQuestions, checkFormStatus, checkEnabled } from '../lib';
+import {
+  getEnabledQuestions,
+  checkFormStatus,
+  updateQuestionState,
+} from '../lib';
 
 export default function MultiQuestionForm({
   questions,
@@ -50,9 +54,10 @@ export default function MultiQuestionForm({
   // note: investigate https://reactjs.org/docs/hooks-reference.html#usereducer
   useEffect(
     () => {
-      const newQuestionState = questionState.map(question =>
-        checkEnabled({ question, questionState }),
-      );
+      const newQuestionState = updateQuestionState({
+        questionState,
+        customId,
+      });
       if (!_.isEqual(newQuestionState, questionState)) {
         setQuestionState(newQuestionState);
       }
@@ -74,8 +79,6 @@ export default function MultiQuestionForm({
       });
     }
   }
-
-  const enabledQuestions = getEnabledQuestions({ questionState, customId });
 
   function setQuestionValue({ event, questionId }) {
     // sets the question value in question state
@@ -101,6 +104,8 @@ export default function MultiQuestionForm({
     });
     setQuestionState([...newQuestionState]);
   }
+
+  const enabledQuestions = getEnabledQuestions({ questionState, customId });
 
   const formQuestions = enabledQuestions.map(
     (question, index) =>

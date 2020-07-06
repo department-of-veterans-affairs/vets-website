@@ -1,22 +1,21 @@
-// return only enabled questions
-export function getEnabledQuestions({ questionState, customId }) {
+// return all questions that are not disabled
+export function getEnabledQuestions({ questionState }) {
   return questionState.filter(question => {
-    // remove question if customId exists and does not match
-    const customEnabled = question.customId?.includes(customId) ?? true;
-    const questionEnabled = question.enabled ?? true;
-    return customEnabled && questionEnabled;
+    return question.enabled ?? true;
   });
 }
 
-export function checkEnabled({ question, questionState }) {
-  // check if question dependency is met
-  if (Object.hasOwnProperty.call(question, 'dependsOn')) {
-    const dependsOnQuestion = questionState.find(
-      el => el.id === question.dependsOn.id,
-    );
-    const match = dependsOnQuestion.value === question.dependsOn.value;
-    return { ...question, enabled: match };
-  } else return question;
+export function updateQuestionState({ questionState, customId }) {
+  return questionState.map(question => {
+    // check if enabled by dependsOn
+    const dependsOnEnabled =
+      questionState.find(el => el.id === question.dependsOn?.id)?.value ===
+      question.dependsOn?.value;
+
+    // const customIdEnabled = question.customId?.includes(customId) ?? true;
+
+    return { ...question, enabled: dependsOnEnabled };
+  });
 }
 
 // check result of answers
