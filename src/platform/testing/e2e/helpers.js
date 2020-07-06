@@ -118,10 +118,6 @@ function expectNavigateAwayFrom(client, urlSubstring) {
     .before(Timeouts.slow);
 }
 
-function expectElementNotPresent(client, elementSelector) {
-  client.expect.element(elementSelector).to.not.be.present;
-}
-
 // Expects navigation lands at a path with the given `urlSubstring`.
 function expectNavigateAwayFromExact(client, urlSubstring) {
   client.expect
