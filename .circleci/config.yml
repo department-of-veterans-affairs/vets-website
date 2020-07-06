@@ -186,7 +186,7 @@ jobs:
             - ~/.cache/Cypress
       - run:
           name: Build apps
-          command: NODE_ENV=production yarn build:webpack --env.buildtype vagovprod --env.scaffold
+          command: yarn build:webpack --env.buildtype vagovprod --env.scaffold
       - persist_to_workspace:
           root: ~/
           paths:
@@ -213,6 +213,7 @@ jobs:
       - run:
           name: Run Cypress Tests
           command: yarn cy:test:circle
+          no_output_timeout: 20m
       - store_test_results:
           path: ./test-results
       - store_artifacts:
