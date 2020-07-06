@@ -81,10 +81,10 @@ export class ApplicationStatus extends React.Component {
     const { formConfig } = this.props;
     let multipleForms = false;
     const startNewAppButtonText =
-      formConfig.customText?.startNewAppButtonText ||
+      formConfig?.customText?.startNewAppButtonText ||
       START_NEW_APP_DEFAULT_MESSAGE;
     const continueAppButtonText =
-      formConfig.customText?.continueAppButtonText ||
+      formConfig?.customText?.continueAppButtonText ||
       CONTINUE_APP_DEFAULT_MESSAGE;
     if (formIds) {
       const matchingForms = profile.savedForms.filter(({ form }) =>
@@ -280,7 +280,7 @@ ApplicationStatus.propTypes = {
       continueAppButtonText: PropTypes.string,
       startNewAppButtonText: PropTypes.string,
     }),
-  }).isRequired,
+  }),
 };
 
 ApplicationStatus.defaultProps = {

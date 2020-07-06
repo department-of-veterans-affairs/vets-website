@@ -39,7 +39,7 @@ class SaveInProgressIntro extends React.Component {
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
     );
-    const appType = formConfig.customText?.appType || APP_TYPE_DEFAULT;
+    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const lastUpdated =
@@ -370,7 +370,7 @@ SaveInProgressIntro.propTypes = {
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),
-  }).isRequired,
+  }),
 };
 
 SaveInProgressIntro.defaultProps = {

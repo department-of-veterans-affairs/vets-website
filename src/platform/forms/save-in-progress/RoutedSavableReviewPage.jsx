@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
-
+import { FINISH_APP_LATER_DEFAULT_MESSAGE } from './constants';
 import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
@@ -173,7 +173,8 @@ class RoutedSavableReviewPage extends React.Component {
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}
         >
-          {formConfig.finishAppLaterMessage}
+          {formConfig?.customText?.finishAppLaterMessage ||
+            FINISH_APP_LATER_DEFAULT_MESSAGE}
         </SaveFormLink>
       </div>
     );
@@ -215,12 +216,26 @@ RoutedSavableReviewPage.propTypes = {
   autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
-    formConfig: PropTypes.object.isRequired,
+    formConfig: PropTypes.shape({
+      customText: PropTypes.shape({
+        finishAppLaterMessage: PropTypes.string,
+      }),
+    }),
   }).isRequired,
   formContext: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
+};
+
+RoutedSavableReviewPage.defaultProps = {
+  route: {
+    formConfig: {
+      customText: {
+        finishAppLaterMessage: '',
+      },
+    },
+  },
 };
 
 export default withRouter(

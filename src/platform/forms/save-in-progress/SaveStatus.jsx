@@ -32,7 +32,7 @@ function SaveStatus({
       {autoSavedStatus === SAVE_STATUSES.success && (
         <div className="panel saved-success-container">
           <i className="fa fa-check-circle saved-success-icon" />
-          {formConfig.customText?.appSavedSuccessfullyMessage ||
+          {formConfig?.customText?.appSavedSuccessfullyMessage ||
             APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE}
           {savedAtMessage}
         </div>
@@ -77,7 +77,7 @@ SaveStatus.propTypes = {
     customText: PropTypes.shape({
       appSavedSuccessfullyMessage: PropTypes.string,
     }),
-  }).isRequired,
+  }),
 };
 
 export default SaveStatus;

@@ -49,7 +49,8 @@ export default class FormNav extends React.Component {
       // The review page is always part of our forms, but isn’t listed in chapter list
       chapterName =
         page.chapterKey === 'review'
-          ? formConfig.customText.reviewPageTitle || REVIEW_APP_DEFAULT_MESSAGE
+          ? formConfig?.customText?.reviewPageTitle ||
+            REVIEW_APP_DEFAULT_MESSAGE
           : formConfig.chapters[page.chapterKey].title;
       if (typeof chapterName === 'function') {
         chapterName = chapterName();
