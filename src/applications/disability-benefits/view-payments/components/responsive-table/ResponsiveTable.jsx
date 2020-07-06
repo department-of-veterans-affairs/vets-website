@@ -36,6 +36,7 @@ class ResponsiveTable extends Component {
       <th key={field.value} className={borderClasses}>
         <button
           className="va-button-link vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none"
+          onClick={this.onHeaderClick(field.value, nextSortOrder)}
           tabIndex="0"
         >
           {field.label}
@@ -73,13 +74,19 @@ class ResponsiveTable extends Component {
     );
   };
 
+  onHeaderClick = (value, order) => () => {
+    // This replaces `this.props.onSort`.
+    this.props.onHeaderClick(value, order);
+  };
+
   render() {
     const { className, data, fields } = this.props;
     const headers = fields.map(this.renderHeader);
     const rows = data.map(this.renderRow);
+    const tableClass = classNames('va-sortable-table responsive', className);
 
     return (
-      <table className="responsive">
+      <table className={tableClass}>
         <thead>
           <tr>{headers}</tr>
         </thead>

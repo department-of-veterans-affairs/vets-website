@@ -23,11 +23,46 @@ class PaymentsReceived extends Component {
     this.handleLoadData();
   }
 
+  dynamicSort = (property, sort) => {
+    let sortOrder = 1;
+    if (property[0] === '-') {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+    if (sort == 'ASC') {
+      return function(a, b) {
+        const result =
+          a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+        return result * sortOrder;
+      };
+    } else {
+      return function(a, b) {
+        const result =
+          a[property] > b[property] ? -1 : a[property] < b[property] ? 1 : 0;
+        return result * sortOrder;
+      };
+    }
+  };
+
+  handleSort = (value, sort) => {
+    console.log(value);
+    console.log(sort);
+    const sortedData = this.props.data.sort(this.dynamicSort(value, sort));
+    this.handleLoadData(sortedData);
+  };
+
   // when the page loads, load the initial data set from props into the table
-  handleLoadData() {
-    // Creates an array of arrays of the data passed in as props
-    // in this shape [[{}, {}, {}], [{}, {}, {}], [{}, {}, {}]]
-    const chunkedData = chunk(this.props.data, this.state.maxRows);
+  handleLoadData(sortedData) {
+    let chunkedData = [];
+    if (sortedData) {
+      // Creates an array of arrays of the data passed is as param
+      // in this shape [[{}, {}, {}], [{}, {}, {}], [{}, {}, {}]]
+      chunkedData = chunk(sortedData, this.state.maxRows);
+    } else {
+      // Creates an array of arrays of the data passed in as props
+      // in this shape [[{}, {}, {}], [{}, {}, {}], [{}, {}, {}]]
+      chunkedData = chunk(this.props.data, this.state.maxRows);
+    }
     this.setState({
       currentlyShowingData: chunkedData[0],
       paginatedData: chunkedData,
@@ -77,12 +112,13 @@ class PaymentsReceived extends Component {
           <ResponsiveTable
             className="va-table"
             currentSort={{
-              value: 'String',
+              value: 'date',
               order: 'ASC',
             }}
             fields={this.props.fields}
             data={this.state.currentlyShowingData}
             maxRows={10}
+            onHeaderClick={(value, order) => this.handleSort(value, order)}
           />
           <Pagination
             className="vads-u-border-top--0"
