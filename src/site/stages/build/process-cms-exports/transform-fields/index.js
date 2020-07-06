@@ -99,7 +99,7 @@ function isEntityReference(fieldData, fieldSchema) {
  *
  * TODO: Determine whether the result should be an array or an object.
  * @param {object[]} fieldData - The data in the field
- * @returns {object} - The expanded and transformed child entity
+ * @returns {object[]} - The expanded and transformed child entity
  */
 function expandEntityReference(fieldData, schemas, contentDir) {
   return fieldData.map(fd => {
