@@ -12,6 +12,14 @@ const LOADING_SELECTOR = '.loading-indicator';
 // that are mainly there to support more specific operations.
 const COMMAND_OPTIONS = { log: false };
 
+// Force interactions on elements, skipping the default checks for the
+// "user interactive" state of an element, potentially saving some time.
+// More importantly, this ensures the interaction will target the actual
+// selected element, which overrides the default behavior that simulates
+// how a real user might try to interact with a target element that has moved.
+// https://github.com/cypress-io/cypress/issues/6165
+const FORCE_OPTION = { force: true };
+
 // Cypress does not officially support typing without delay.
 // See the main support file for more details.
 const TYPE_OPTIONS = { delay: 0 };
@@ -108,7 +116,7 @@ const addNewArrayItem = $form => {
                 cy.wrap(arrayTypeRoot)
                   .siblings('button.va-growable-add-btn')
                   .first()
-                  .click();
+                  .click(FORCE_OPTION);
               }
             }
           });
@@ -134,7 +142,7 @@ const performPageActions = (pathname, autofill = true) => {
     cy.axeCheck();
 
     if (!hookExecuted && autofill) {
-      cy.findByText(/continue/i, { selector: 'button' }).click();
+      cy.findByText(/continue/i, { selector: 'button' }).click(FORCE_OPTION);
     }
   });
 };
@@ -157,11 +165,11 @@ const processPage = () => {
         if (privacyAgreement.length) {
           cy.wrap(privacyAgreement)
             .first()
-            .click();
+            .check(FORCE_OPTION);
         }
       });
 
-      cy.findByText(/submit/i, { selector: 'button' }).click();
+      cy.findByText(/submit/i, { selector: 'button' }).click(FORCE_OPTION);
 
       // The form should end up at the confirmation page after submitting.
       cy.location('pathname').then(endPathname => {
@@ -244,15 +252,12 @@ Cypress.Commands.add('enterData', field => {
   switch (field.type) {
     // Select fields register as having type 'select-one'.
     case 'select-one':
-      cy.wrap(field.element).select(field.data);
+      cy.wrap(field.element).select(field.data, FORCE_OPTION);
       break;
 
     case 'checkbox': {
-      // Only click the checkbox if we need to.
-      const checked = field.element.prop('checked');
-      if ((checked && !field.data) || (!checked && field.data)) {
-        cy.wrap(field.element).click();
-      }
+      if (field.data) cy.wrap(field.element).check(FORCE_OPTION);
+      else cy.wrap(field.element).uncheck(FORCE_OPTION);
       break;
     }
 
@@ -262,8 +267,8 @@ Cypress.Commands.add('enterData', field => {
     case 'number':
     case 'text': {
       cy.wrap(field.element)
-        .clear()
-        .type(field.data, TYPE_OPTIONS)
+        .clear(FORCE_OPTION)
+        .type(field.data, { ...TYPE_OPTIONS, ...FORCE_OPTION })
         .then(element => {
           // Get the autocomplete menu out of the way.
           if (element.attr('role') === 'combobox') {
@@ -276,8 +281,9 @@ Cypress.Commands.add('enterData', field => {
     case 'radio': {
       let value = field.data;
       // Use 'Y' / 'N' because of the yesNo widget.
-      if (typeof field.data === 'boolean') value = field.data ? 'Y' : 'N';
-      cy.get(`input[name="${field.key}"][value="${value}"]`).click();
+      if (typeof value === 'boolean') value = value ? 'Y' : 'N';
+      const selector = `input[name="${field.key}"][value="${value}"]`;
+      cy.get(selector).check(FORCE_OPTION);
       break;
     }
 
@@ -296,11 +302,11 @@ Cypress.Commands.add('enterData', field => {
 
       cy.get(`#${baseSelector}Year`)
         .clear()
-        .type(year, TYPE_OPTIONS);
+        .type(year, { ...TYPE_OPTIONS, ...FORCE_OPTION });
 
-      cy.get(`#${baseSelector}Month`).select(month);
+      cy.get(`#${baseSelector}Month`).select(month, FORCE_OPTION);
 
-      if (day !== 'XX') cy.get(`#${baseSelector}Day`).select(day);
+      if (day !== 'XX') cy.get(`#${baseSelector}Day`).select(day, FORCE_OPTION);
 
       break;
     }
