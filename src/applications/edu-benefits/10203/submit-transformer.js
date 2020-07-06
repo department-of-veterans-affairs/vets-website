@@ -14,6 +14,8 @@ export function transform(formConfig, form) {
         .toString();
     }
 
+    delete clonedData['view:benefit'];
+
     return clonedData;
   };
 
