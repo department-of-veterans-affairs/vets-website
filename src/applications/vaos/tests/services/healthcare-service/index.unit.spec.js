@@ -179,7 +179,7 @@ describe('VAOS Healthcare service', () => {
           '&characteristic=PATIENTDS_ENABLED&_include=HealthcareService:location',
       );
       expect(data.locations.length).to.equal(3);
-      expect(data.healthcareServices.length).to.equal(20);
+      expect(data.healthcareServices.length).to.equal(7);
       expect(data.locations[0].resourceType).to.equal('Location');
       expect(data.healthcareServices[0].resourceType).to.equal(
         'HealthcareService',
