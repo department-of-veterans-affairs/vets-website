@@ -8,7 +8,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import { getCernerURL } from 'platform/utilities/constants';
+import { CERNER_FACILITY_IDS, getCernerURL } from 'platform/utilities/cerner';
 
 export class CernerCallToAction extends Component {
   static propTypes = {
@@ -48,7 +48,9 @@ export class CernerCallToAction extends Component {
     }
 
     // Derive the cerner facilities.
-    const cernerFacilities = facilities.filter(facility => facility.isCerner);
+    const cernerFacilities = facilities.filter(facility =>
+      CERNER_FACILITY_IDS.includes(facility?.id),
+    );
 
     // Escape early if there are no cerner facilities.
     if (isEmpty(cernerFacilities)) {
