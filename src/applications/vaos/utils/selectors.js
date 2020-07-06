@@ -381,6 +381,11 @@ export function getChosenVACityState(state) {
   return null;
 }
 
+export function getResidentialAddress(state) {
+  const residentialAddress = state.user.profile.vet360.residentialAddress;
+  return residentialAddress;
+}
+
 export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
 export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
 export const vaosRequests = state =>

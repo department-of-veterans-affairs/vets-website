@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
@@ -18,6 +18,7 @@ import {
   getFormPageInfo,
   getNewAppointment,
   vaosDirectScheduling,
+  getResidentialAddress,
 } from '../utils/selectors';
 
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
@@ -41,6 +42,34 @@ const uiSchema = {
 
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
+
+function UpdateAddress({ address }) {
+  let regexp = /^PO Box/;
+  if (!address || address.match(regexp)) {
+    return (
+      <AlertBox
+        status="warning"
+        headline="Some of the features of this tool require you to have a residential address on file in your VA profile"
+        className="vads-u-margin-y--3"
+        content={
+          <p>
+            Updates to your address may take you to 24 hours to reach all of
+            VA's record systems <br />
+            <a
+              className="usa-button usa-button-primary vads-u-margin-top--4"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="/profiles"
+            >
+              Update your address
+            </a>
+          </p>
+        }
+      />
+    );
+  }
+  return null;
+}
 
 export class TypeOfCarePage extends React.Component {
   componentDidMount() {
@@ -75,6 +104,7 @@ export class TypeOfCarePage extends React.Component {
       data,
       pageChangeInProgress,
       showToCUnavailableModal,
+      address,
     } = this.props;
 
     if (!schema) {
@@ -84,6 +114,8 @@ export class TypeOfCarePage extends React.Component {
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+        <p>{this.props.addressLine1}</p>
+        <UpdateAddress address={this.props.addressLine1} />
         <SchemaForm
           name="Type of care"
           title="Type of care"
@@ -112,8 +144,10 @@ export class TypeOfCarePage extends React.Component {
 function mapStateToProps(state) {
   const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
+  const address = getResidentialAddress(state);
   return {
     ...formInfo,
+    ...address,
     showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showDirectScheduling: vaosDirectScheduling(state),
