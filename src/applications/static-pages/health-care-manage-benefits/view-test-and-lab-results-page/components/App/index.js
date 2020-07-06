@@ -28,7 +28,7 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   isCernerPatient: state?.user?.profile?.facilities?.some(facility =>
-    CERNER_FACILITY_IDS.includes(facility?.id),
+    CERNER_FACILITY_IDS.includes(facility?.facilityId),
   ),
 });
 
