@@ -4,7 +4,7 @@ import FormQuestion from './FormQuestion';
 import FormResult from './FormResult';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
-import _ from 'lodash/fp';
+import { isEqual } from 'lodash/fp';
 import { getEnabledQuestions, checkFormStatus } from '../lib';
 
 export default function MultiQuestionForm({ questions, defaultOptions }) {
@@ -59,7 +59,7 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
       const newQuestionState = questionState.map(question =>
         checkEnabled(question),
       );
-      if (!_.isEqual(newQuestionState, questionState)) {
+      if (!isEqual(newQuestionState, questionState)) {
         setQuestionState(newQuestionState);
       }
     },
