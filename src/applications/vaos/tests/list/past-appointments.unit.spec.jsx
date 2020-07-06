@@ -1,14 +1,20 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
+import { resetFetch } from 'platform/testing/unit/helpers';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import reducers from '../../reducers';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
   getVideoAppointmentMock,
 } from '../mocks/v0';
-import { mockPastAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
+import {
+  mockPastAppointmentInfo,
+  mockPastAppointmentInfoOption1,
+  mockFacilitiesFetch,
+} from '../mocks/helpers';
 
 import PastAppointmentsList from '../../components/PastAppointmentsList';
 
@@ -34,6 +40,53 @@ describe('VAOS integration: past appointments', () => {
     );
 
     expect(queryByText(/Past 3 months/i)).to.exist;
+  });
+
+  it('should update range on dropdown change', async () => {
+    const olderAppt = getVAAppointmentMock();
+    olderAppt.attributes = {
+      ...olderAppt.attributes,
+      startDate: moment()
+        .subtract(3, 'months')
+        .format(),
+      clinicFriendlyName: 'Some clinic',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
+
+    mockPastAppointmentInfo({ va: [] });
+
+    const { findByText, baseElement, queryByText } = renderInReduxProvider(
+      <PastAppointmentsList />,
+      {
+        initialState,
+        reducers,
+      },
+    );
+
+    expect(queryByText(/Loading your appointments/i)).to.exist;
+    expect(await findByText(/You don’t have any appointments/i)).to.exist;
+
+    mockPastAppointmentInfoOption1({ va: [olderAppt] });
+
+    const dropdown = queryByText('Past 3 months').closest('select');
+    fireEvent.change(dropdown, {
+      target: { value: 1 },
+    });
+
+    fireEvent.click(queryByText('Update'));
+    expect(queryByText(/Loading your appointments/i)).to.exist;
+    const rangeLabel = `${moment()
+      .subtract(5, 'months')
+      .startOf('month')
+      .format('MMM YYYY')} – ${moment()
+      .subtract(3, 'months')
+      .endOf('month')
+      .format('MMM YYYY')}`;
+    expect(await findByText(`Showing appointments for: ${rangeLabel}`)).to
+      .exist;
+    expect(baseElement).to.contain.text('VA Appointment');
+    expect(baseElement).to.contain.text('Completed');
   });
 
   it('should show appointment without facility details', async () => {
