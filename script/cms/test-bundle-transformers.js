@@ -3,6 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
+const chalk = require('chalk');
 const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 const { map } = require('lodash');
@@ -133,7 +134,7 @@ if (entityNames) {
   if (printIndex !== undefined) {
     // eslint-disable-next-line no-console
     console.log(
-      `Entity at index ${printIndex}:`,
+      chalk.green(`Entity at index ${printIndex}:`),
       JSON.stringify(modifiedEntities[printIndex], null, 2),
     );
   }
