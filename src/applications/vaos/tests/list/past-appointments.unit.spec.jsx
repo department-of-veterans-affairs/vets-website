@@ -56,21 +56,22 @@ describe('VAOS integration: past appointments', () => {
 
     mockPastAppointmentInfo({ va: [] });
 
-    const { findByText, baseElement, queryByText } = renderInReduxProvider(
-      <PastAppointmentsList />,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    const {
+      findByText,
+      baseElement,
+      queryByText,
+      getByLabelText,
+    } = renderInReduxProvider(<PastAppointmentsList />, {
+      initialState,
+      reducers,
+    });
 
     expect(baseElement).to.contain.text('Loading your appointments');
     await findByText(/You don’t have any appointments/i);
 
     mockPastAppointmentInfoOption1({ va: [olderAppt] });
 
-    const dropdown = queryByText('Past 3 months').closest('select');
-    fireEvent.change(dropdown, {
+    fireEvent.change(getByLabelText(/select a date range/i), {
       target: { value: 1 },
     });
 
