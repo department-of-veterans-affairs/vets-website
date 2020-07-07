@@ -162,7 +162,7 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_40_10007]: 'preneed-',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
   [VA_FORM_IDS.FORM_21_686C]: '686-',
-  [VA_FORM_IDS.FORM_20_0996]: 'hlr-0996-',
+  [VA_FORM_IDS.FORM_20_0996]: `${hlrConfig.trackingPrefix}-`,
   [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
 };
 
