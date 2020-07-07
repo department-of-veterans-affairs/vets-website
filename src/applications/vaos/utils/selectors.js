@@ -20,9 +20,8 @@ import {
 } from '../services/organization';
 import { getParentOfLocation } from '../services/location';
 import {
-  getVARFacilityId,
-  getVARClinicId,
   getVideoAppointmentLocation,
+  getVAAppointmentLocationId,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -329,7 +328,6 @@ export function getCancelInfo(state) {
     cancelAppointmentStatus,
     cancelAppointmentStatusVaos400,
     facilityData,
-    systemClinicToFacilityMap,
   } = state.appointments;
 
   let facility = null;
@@ -338,12 +336,8 @@ export function getCancelInfo(state) {
     !appointmentToCancel?.vaos?.videoType
   ) {
     // Confirmed in person VA appts
-    facility =
-      systemClinicToFacilityMap[
-        `${parseFakeFHIRId(
-          getVARFacilityId(appointmentToCancel),
-        )}_${getVARClinicId(appointmentToCancel)}`
-      ];
+    const locationId = getVAAppointmentLocationId(appointmentToCancel);
+    facility = facilityData[getRealFacilityId(locationId)];
   } else if (appointmentToCancel?.facility) {
     // Requests
     facility =

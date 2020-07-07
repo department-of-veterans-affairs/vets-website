@@ -2,11 +2,28 @@
 import React from 'react';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
+import { getCernerURL } from 'platform/utilities/cerner';
+
+const callToActions = [
+  {
+    deriveHeaderText: facilityNames => `Secure Message ${facilityNames}`,
+    href: getCernerURL('/pages/messaging/inbox'),
+    label: 'Secure Message on My VA Health',
+  },
+  {
+    deriveHeaderText: () =>
+      `Secure Message a provider at another VA Medical Center`,
+    href:
+      'https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging',
+    label: 'Secure Message on My HealtheVet',
+  },
+];
 
 export const AuthContent = () => (
   <>
-    <CallToActionWidget appId="messaging" setFocus={false} />
+    <CernerCallToAction callToActions={callToActions} type="Secure Messaging" />
     <div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-can-va-secure-messaging-he">

@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchFormStatus } from '../actions';
+import formConfig from '../config/form';
 import ErrorMessage from './ErrorMessage';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 
@@ -44,6 +45,8 @@ class IntroductionPage extends Component {
               }
               unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
               startText="Order hearing aid batteries and accessories"
+              unauthStartText="Sign in to start your order"
+              formConfig={formConfig}
             >
               Please complete the 2346 form to apply for ordering hearing aid
               batteries and accessories.
@@ -140,9 +143,12 @@ class IntroductionPage extends Component {
             <SaveInProgressIntro
               buttonOnly
               hideUnauthedStartLink
+              prefillEnabled={this.props.route.formConfig.prefillEnabled}
               messages={this.props.route.formConfig.savedFormMessages}
               pageList={this.props.route.pageList}
               startText="Order hearing aid batteries and accessories"
+              unauthStartText="Sign in to start your order"
+              formConfig={formConfig}
             />
           </div>
         )}

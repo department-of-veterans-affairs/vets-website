@@ -163,8 +163,8 @@
   },
   {
     "appName": "10-10CG",
-    "entryName": "caregivers",
-    "rootUrl": "/caregivers",
+    "entryName": "1010cg-application-caregiver-assistance",
+    "rootUrl": "/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg",
     "template": {
       "title": "Caregiver Application for Benefits",
       "vagovprod": false,
@@ -351,8 +351,8 @@
   },
   {
     "appName": "Order hearing aid batteries and accessories",
-    "entryName": "hearing-aid-batteries-and-accessories",
-    "rootUrl": "/hearing-aid-batteries-and-accessories",
+    "entryName": "order-form-2346",
+    "rootUrl": "/health-care/order-hearing-aid-batteries-and-accessories",
     "template": {
       "vagovprod": false
     }

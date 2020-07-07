@@ -18,19 +18,16 @@ const initialState = {
 describe('VAOS integration: upcoming video appointments', () => {
   it('should show info and disabled link when ad hoc', async () => {
     const appointment = getVideoAppointmentMock();
+    const startDate = moment.utc().add(3, 'days');
     appointment.attributes = {
       ...appointment.attributes,
       facilityId: '983',
       clinicId: null,
-      startDate: moment()
-        .add(3, 'days')
-        .format(),
+      startDate: startDate.format(),
     };
     appointment.attributes.vvsAppointments[0] = {
       ...appointment.attributes.vvsAppointments[0],
-      dateTime: moment()
-        .add(3, 'days')
-        .format(),
+      dateTime: startDate.format(),
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
@@ -49,9 +46,7 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     const dateHeader = await findByText(
       new RegExp(
-        moment()
-          .add(3, 'days')
-          .format('dddd, MMMM D, YYYY'),
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm'),
         'i',
       ),
     );
@@ -67,6 +62,8 @@ describe('VAOS integration: upcoming video appointments', () => {
     );
 
     expect(dateHeader).to.have.tagName('h3');
+    expect(dateHeader).to.contain.text('MT');
+    expect(dateHeader).to.contain.text('Mountain time');
     expect(baseElement).not.to.contain.text('Some random note');
     expect(getByText(/add to calendar/i)).to.have.tagName('a');
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
@@ -111,6 +108,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(30, 'minutes')
           .format('dddd, MMMM D, YYYY'),
         'i',
@@ -169,6 +167,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(-239, 'minutes')
           .format('dddd, MMMM D, YYYY'),
         'i',
@@ -218,6 +217,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(30, 'minutes')
           .format('dddd, MMMM D, YYYY'),
         'i',
@@ -262,6 +262,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(30, 'minutes')
           .format('dddd, MMMM D, YYYY'),
         'i',
@@ -273,7 +274,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(queryByText(/medication review/i)).to.not.exist;
     fireEvent.click(getByText(/prepare for video visit/i));
 
-    return expect(findByText(/medication review/i)).to.eventually.exist;
+    return expect(findByText(/medication review/i)).to.eventually.be.ok;
   });
 
   it('should reveal video visit instructions', async () => {
@@ -307,6 +308,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     await findByText(
       new RegExp(
         moment()
+          .tz('America/Denver')
           .add(30, 'minutes')
           .format('dddd, MMMM D, YYYY'),
         'i',
@@ -317,6 +319,6 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(queryByText(/before your appointment/i)).to.not.exist;
     fireEvent.click(getByText(/prepare for video visit/i));
 
-    return expect(findByText('Before your appointment:')).to.eventually.exist;
+    return expect(findByText('Before your appointment:')).to.eventually.be.ok;
   });
 });

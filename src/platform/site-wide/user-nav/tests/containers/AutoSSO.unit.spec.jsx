@@ -2,8 +2,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
+import localStorage from 'platform/utilities/storage/localStorage';
 import * as ssoUtils from 'platform/utilities/sso';
-import * as forceAuth from 'platform/utilities/sso/forceAuth';
+import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
 
 import { AutoSSO } from '../../containers/AutoSSO';
 
@@ -12,63 +13,30 @@ describe('<AutoSSO>', () => {
 
   beforeEach(() => {
     props = {
-      useSSOe: false,
       useInboundSSOe: false,
       hasCalledKeepAlive: false,
-      userLoggedIn: false,
       checkKeepAlive: sinon.spy(),
     };
   });
 
-  it('should not call removeForceAuth if user is logged out', () => {
-    const stub = sinon.stub(forceAuth, 'removeForceAuth');
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+  it('should not call removeLoginAttempted if user is logged out', () => {
+    const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.notCalled(stub);
     wrapper.unmount();
   });
 
-  it('should call removeForceAuth if user is logged in', () => {
-    const stub = sinon.stub(forceAuth, 'removeForceAuth');
-    Object.assign(props, {
-      userLoggedIn: true,
-    });
+  it('should call removeLoginAttempted if user is logged in', () => {
+    const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
+    localStorage.setItem('hasSession', 'true');
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.calledOnce(stub);
-    wrapper.unmount();
-  });
-
-  it('should call setForceAuth if inbound ssoe is disabled', () => {
-    const stub = sinon.stub(forceAuth, 'setForceAuth');
-    Object.assign(props, {
-      useInboundSSOe: false,
-    });
-    const wrapper = shallow(<AutoSSO {...props} />);
-    stub.restore();
-    sinon.assert.calledOnce(stub);
-    wrapper.unmount();
-  });
-
-  it('should not call setForceAuth if the inbound ssoe flag is undefined', () => {
-    const stub = sinon.stub(forceAuth, 'setForceAuth');
-    Object.assign(props, {
-      useInboundSSOe: undefined,
-    });
-    const wrapper = shallow(<AutoSSO {...props} />);
-    stub.restore();
-    sinon.assert.notCalled(stub);
-    wrapper.unmount();
-  });
-
-  it('should not call setForceAuth if inbound ssoe is enabled', () => {
-    const stub = sinon.stub(forceAuth, 'setForceAuth');
-    Object.assign(props, {
-      useInboundSSOe: true,
-    });
-    const wrapper = shallow(<AutoSSO {...props} />);
-    stub.restore();
-    sinon.assert.notCalled(stub);
     wrapper.unmount();
   });
 
@@ -76,7 +44,6 @@ describe('<AutoSSO>', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
       hasCalledKeepAlive: true,
-      useSSOe: true,
       useInboundSSOe: true,
     });
     const wrapper = shallow(<AutoSSO {...props} />);
@@ -89,7 +56,6 @@ describe('<AutoSSO>', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
       hasCalledKeepAlive: false,
-      useSSOe: true,
       useInboundSSOe: true,
     });
     const wrapper = shallow(<AutoSSO {...props} />);
