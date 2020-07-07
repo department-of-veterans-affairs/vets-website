@@ -10,7 +10,6 @@ import {
   standaloneRedirect,
   externalRedirects,
 } from '../../authentication/utilities';
-import { executablePath } from 'puppeteer';
 
 let oldSessionStorage;
 let oldLocalStorage;
@@ -114,12 +113,12 @@ describe('standaloneRedirect', () => {
 
   it('should return null when an application param is not provided', () => {
     global.window.location.search = '';
-    expect(standaloneRedirect()).to.equal(null);
+    expect(standaloneRedirect()).to.be.null;
   });
 
   it('should return null when an application redirect is not found', () => {
     global.window.location.search = '?application=unmappedapplication';
-    expect(standaloneRedirect()).to.equal(null);
+    expect(standaloneRedirect()).to.be.null;
   });
 
   it('should return an plain url when no "to" search query is provided', () => {
