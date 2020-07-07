@@ -21,8 +21,8 @@ const {
 
 const optionDefinitions = [
   {
-    name: 'node',
-    alias: 'n',
+    name: 'entity',
+    alias: 'e',
     type: String,
     multiple: true,
     description: 'Specify specific entities (usually nodes) to transform.',
@@ -49,7 +49,7 @@ const optionDefinitions = [
   },
 ];
 
-const { count, node: nodeNames, print: printIndex, help } = commandLineArgs(
+const { count, entity: entityNames, print: printIndex, help } = commandLineArgs(
   optionDefinitions,
 );
 
@@ -70,9 +70,9 @@ if (help) {
   process.exit(0);
 }
 
-if (nodeNames) {
-  const result = nodeNames.map(nodeName => {
-    const nodeNamePieces = nodeName.split('.').slice(0, 2);
+if (entityNames) {
+  const result = entityNames.map(entityName => {
+    const nodeNamePieces = entityName.split('.').slice(0, 2);
     assert(
       nodeNamePieces.length === 2,
       'Node needs to be the filename of an entity. E.g. node.<uuid>.json',
