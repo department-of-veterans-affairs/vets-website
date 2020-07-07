@@ -41,7 +41,7 @@ class ConfirmationPage extends React.Component {
       <div>
         <div className="print-only">
           <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
-          <h1 className="vads-u-font-size--h3">
+          <h1 className="vads-u-font-size--h3 vads-u-margin-top--3">
             Apply for the Rogers STEM Scholarship
           </h1>
           <span>Form 22-10203</span>
@@ -100,14 +100,19 @@ class ConfirmationPage extends React.Component {
             What happens after I apply?
           </h4>
           <p className="confirmation-guidance-message">
-            <a href="/education/after-you-apply/">
+            <a href="/education/after-you-apply/" className="screen-only">
               Find out what happens after you apply
             </a>
+            <span className="print-only">
+              You’ll get a Certificate of Eligibility (COE), or award letter, in
+              the mail if we’ve approved your application. Bring this to the VA
+              certifying official at your school.
+            </span>
           </p>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <p className="confirmation-guidance-message">
-            If you have questions, call 888-GI-BILL-1 (
-            <a href="tel:+18884424551">888-442-4551</a>
+            If you have questions, call 1-888-GI-BILL-1 (
+            <a href="tel:+18884424551">1-888-442-4551</a>
             ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
           </p>
         </div>
