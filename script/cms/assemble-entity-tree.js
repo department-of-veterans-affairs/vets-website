@@ -133,7 +133,7 @@ if (entityNames) {
   if (printIndex !== undefined) {
     // eslint-disable-next-line no-console
     console.log(
-      `Node ${printIndex}:`,
+      `Entity at index ${printIndex}:`,
       JSON.stringify(modifiedEntities[printIndex], null, 2),
     );
   }
