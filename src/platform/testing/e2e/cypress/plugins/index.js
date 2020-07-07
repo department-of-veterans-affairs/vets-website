@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 
@@ -45,8 +45,8 @@ module.exports = on => {
 
       if (!initialized) {
         // Wipe existing fixtures and recreate tmp dir for a clean state.
-        fs.rmdirSync(TMP_FIXTURES_PATH, { recursive: true });
-        fs.mkdirSync(TMP_FIXTURES_PATH, { recursive: true });
+        fs.removeSync(TMP_FIXTURES_PATH);
+        fs.ensureDirSync(TMP_FIXTURES_PATH);
       }
 
       for (const [key, target] of Object.entries(fixtures)) {
@@ -74,7 +74,7 @@ module.exports = on => {
               );
             }
           } else if (idx < src.length - 1) {
-            fs.mkdirSync(p);
+            fs.ensureDirSync(p);
           }
 
           return p;
