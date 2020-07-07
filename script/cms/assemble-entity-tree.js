@@ -18,24 +18,28 @@ const {
 
 const optionDefinitions = [
   { name: 'count', alias: 'c', type: Number },
-  { name: 'node', alias: 'n', type: String },
+  { name: 'node', alias: 'n', type: String, multiple: true },
   { name: 'print', alias: 'p', type: Number },
 ];
 
-const { count, node: nodeName, print: printIndex } = commandLineArgs(
+const { count, node: nodeNames, print: printIndex } = commandLineArgs(
   optionDefinitions,
 );
 
-if (nodeName) {
-  const nodeNamePieces = nodeName.split('.').slice(0, 2);
-  assert(
-    nodeNamePieces.length === 2,
-    'Node needs to be the filename of an entity. E.g. node.<uuid>.json',
-  );
+if (nodeNames) {
+  const result = nodeNames.map(nodeName => {
+    const nodeNamePieces = nodeName.split('.').slice(0, 2);
+    assert(
+      nodeNamePieces.length === 2,
+      'Node needs to be the filename of an entity. E.g. node.<uuid>.json',
+    );
 
-  const node = assembleEntityTree(readEntity(contentDir, ...nodeNamePieces));
+    return assembleEntityTree(readEntity(contentDir, ...nodeNamePieces));
+  });
   // eslint-disable-next-line no-console
-  console.log(JSON.stringify(node, null, 2));
+  console.log(
+    JSON.stringify(result.length === 1 ? result[0] : result, null, 2),
+  );
 } else {
   // Make sure the printIndex is valid if passed
   if (printIndex) {
