@@ -53,8 +53,8 @@ function UpdateAddress({ address }) {
         className="vads-u-margin-y--3"
         content={
           <p>
-            Updates to your address may take you to 24 hours to reach all of
-            VA's record systems <br />
+            Updates to your address may take up to 24 hours to reach all of VA's
+            record systems <br />
             <a
               className="usa-button usa-button-primary vads-u-margin-top--4"
               target="_blank"
