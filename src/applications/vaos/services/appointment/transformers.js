@@ -502,45 +502,6 @@ export function transformConfirmedAppointments(appointments) {
   });
 }
 
-function transformPendingCCAppointment(appt) {
-  const isCC = isCommunityCare(appt);
-  // const start = getMomentConfirmedDate(appt).format();
-  const minutesDuration = getAppointmentDuration(appt);
-
-  return {
-    resourceType: 'Appointment',
-    id: `var${appt.id}`,
-    // Required
-    status: getStatus(appt, isCC),
-    requestedPeriod: getRequestedPeriods(appt),
-    type: {
-      coding: [
-        {
-          // Why not typeOfCareId?
-          code: appt.appointmentType,
-          // Why not appointmentType since it is more descriptive?
-          display: 'Community Care',
-        },
-      ],
-    },
-    reason: getPurposeOfVisit(appt),
-    description: appt.appointmentType,
-    // start,
-    minutesDuration,
-    participant: setParticipant(appt),
-
-    // NOTE: VA Custom attributes
-    contained: setContained(appt),
-    legacyVAR: setLegacyVAR(appt),
-    vaos: {
-      appointmentType: getAppointmentType(appt),
-      isCommunityCare: isCC,
-      isExpressCare: appt.typeOfCareId === EXPRESS_CARE,
-      isPastAppointment: false,
-    },
-  };
-}
-
 /**
  * Transforms VAR appointment request to FHIR appointment resource
  *
