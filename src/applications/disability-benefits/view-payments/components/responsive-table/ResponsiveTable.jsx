@@ -50,7 +50,7 @@ class ResponsiveTable extends Component {
     const { fields } = this.props;
     let extraClass = '';
     return (
-      <tr key={item.id} className={borderClasses}>
+      <tr role="row" key={item.id} className={borderClasses}>
         {fields.map((field, index) => {
           // This is to right align the amount field and account number fields
           // since they are numeric
@@ -61,6 +61,7 @@ class ResponsiveTable extends Component {
           }
           return (
             <td
+              role="cell"
               data-index={index}
               className={`${borderClasses} ${extraClass}`}
               data-label={field.value}
@@ -86,9 +87,9 @@ class ResponsiveTable extends Component {
     const tableClass = classNames('va-sortable-table responsive', className);
 
     return (
-      <table className={tableClass}>
+      <table role="table" className={tableClass}>
         <thead>
-          <tr>{headers}</tr>
+          <tr role="row">{headers}</tr>
         </thead>
         <tbody>{rows}</tbody>
       </table>
