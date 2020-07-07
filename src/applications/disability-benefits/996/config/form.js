@@ -28,7 +28,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/appeals/higher_level_reviews`,
   submit: submitForm,
-  trackingPrefix: 'decision-reviews-va20-0996',
+  trackingPrefix: 'decision-reviews-va20-0996-',
   downtime: {
     requiredForPrefill: true,
     // double check these required services
