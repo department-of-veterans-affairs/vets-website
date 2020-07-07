@@ -3,12 +3,13 @@ import React from 'react';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
+import { getCernerURL } from 'platform/utilities/cerner';
 
 const callToActions = [
   {
     deriveHeaderText: facilityNames =>
       `Get your medical record from ${facilityNames}`,
-    href: '/pages/health_record/clinical_documents/sharing',
+    href: getCernerURL('/pages/health_record/clinical_documents/sharing'),
     label: 'Get record on My VA Health',
   },
   {
