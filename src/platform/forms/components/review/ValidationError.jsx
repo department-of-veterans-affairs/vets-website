@@ -12,7 +12,8 @@ import PreSubmitSection from 'platform/forms/containers/review/PreSubmitSection'
 // platform - forms-system components
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 
-function ValidationError(props) {
+function FormValidationError(props) {
+
   const { formConfig, goBack, onSubmit } = props;
 
   return (
