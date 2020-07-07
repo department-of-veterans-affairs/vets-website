@@ -59,7 +59,7 @@ function UpdateAddress({ address, showAlert, onHide }) {
               className="usa-button usa-button-primary vads-u-margin-top--4"
               target="_blank"
               rel="noopener noreferrer"
-              href="/change-address/"
+              href="/change-address/#how-do-i-change-my-address-in-"
               onClick={onHide}
             >
               Update your address
