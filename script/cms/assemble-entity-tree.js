@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 const path = require('path');
+const fs = require('fs');
 const assert = require('assert');
 const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
@@ -15,7 +16,6 @@ const assembleEntityTree = require('../../src/site/stages/build/process-cms-expo
   contentDir,
 );
 const {
-  readAllNodeNames,
   readEntity,
 } = require('../../src/site/stages/build/process-cms-exports/helpers');
 
@@ -45,11 +45,21 @@ const optionDefinitions = [
     type: Boolean,
     description: 'Show this help.',
   },
+  {
+    name: 'bundle',
+    type: String,
+    description:
+      'Transform all entities of the bundle type specified. For example, "page" or "block_content-alert"',
+  },
 ];
 
-const { count, entity: entityNames, print: printIndex, help } = commandLineArgs(
-  optionDefinitions,
-);
+const {
+  count,
+  entity: entityNames,
+  print: printIndex,
+  bundle,
+  help,
+} = commandLineArgs(optionDefinitions);
 
 if (help) {
   console.log(
@@ -93,11 +103,28 @@ if (entityNames) {
     assert(printIndex >= 0, `Print index (${printIndex}) must be >= 0`);
   }
 
-  const fileNames = readAllNodeNames(contentDir);
-  const entities = map(
+  let fileNames = fs
+    .readdirSync(contentDir)
+    .filter(fn => fn !== 'meta')
+    .map(name => name.split('.').slice(0, 2));
+
+  if (!bundle) {
+    fileNames = fileNames.filter(([baseType]) => baseType === 'node');
+  }
+
+  let entities = map(
     fileNames.slice(0, count || fileNames.length),
     entityDetails => readEntity(contentDir, ...entityDetails),
   );
+
+  if (bundle) {
+    // Find only the entities that match the bundle type
+    entities = entities.filter(
+      bundle.includes('-')
+        ? e => e.contentModelType === bundle
+        : e => e.contentModelType.split('-')[1] === bundle,
+    );
+  }
 
   const modifiedEntities = map(entities, entity => assembleEntityTree(entity));
 
