@@ -130,11 +130,14 @@ if (entityNames) {
   const modifiedEntities = map(entities, entity => assembleEntityTree(entity));
 
   // eslint-disable-next-line no-console
-  console.log('Number of entities transformed:', modifiedEntities.length);
+  console.log(
+    chalk.bold('Number of entities transformed:'),
+    chalk.green(modifiedEntities.length),
+  );
   if (printIndex !== undefined) {
     // eslint-disable-next-line no-console
     console.log(
-      chalk.green(`Entity at index ${printIndex}:`),
+      chalk.bold(`Entity at index ${printIndex}:`),
       JSON.stringify(modifiedEntities[printIndex], null, 2),
     );
   }
