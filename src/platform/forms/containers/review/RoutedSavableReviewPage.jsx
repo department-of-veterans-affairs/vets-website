@@ -34,7 +34,6 @@ import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/u
 import SaveStatus from 'platform/forms/save-in-progress/SaveStatus';
 import { getFormContext } from 'platform/forms/save-in-progress/selectors';
 import DowntimeMessage from 'platform/forms/save-in-progress/DowntimeMessage';
-// import FailureAlert from '../../components/common/alerts/FailureAlert';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {

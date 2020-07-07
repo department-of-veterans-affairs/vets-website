@@ -51,7 +51,6 @@ export default connect(
   (state, ownProps) => {
     const { form } = state;
 
-    // TODO: find config example for this.
     const preSubmit = preSubmitSelector(ownProps?.formConfig);
 
     return {

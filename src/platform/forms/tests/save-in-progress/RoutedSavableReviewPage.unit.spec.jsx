@@ -6,6 +6,15 @@ import sinon from 'sinon';
 // import { RoutedSavableReviewPage } from '../../save-in-progress/RoutedSavableReviewPage';
 import { RoutedSavableReviewPage } from 'platform/forms/containers/review/RoutedSavableReviewPage';
 
+// TODO: should probably be a common const somewhere..
+const SUBMISSION_STATUSES = {
+  applicationSubmitted: 'applicationSubmitted',
+  clientError: 'clientError',
+  submitPending: 'submitPending',
+  throttledError: 'throttledError',
+  validationError: 'validationError',
+};
+
 describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
   const location = {
     pathname: '/testing/0',
@@ -190,7 +199,167 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     tree.unmount();
   });
 
-  it.skip('should render error messages', () => {});
+  it('should render application submitted state', () => {
+    const { router, setData, form, user, onSubmit, route } = getProps();
+
+    const formData = Object.assign({}, form, {
+      submission: {
+        hasAttemptedSubmit: true,
+        status: SUBMISSION_STATUSES.applicationSubmitted,
+      }
+    });
+
+    const tree = shallow(
+      <RoutedSavableReviewPage
+        router={router}
+        setData={setData}
+        openChapters={[]}
+        form={formData}
+        user={user}
+        onSubmit={onSubmit}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        formConfig={route.formConfig}
+        pageList={route.pageList}
+        path={route.path}
+        location={location}
+      />,
+    );
+
+    expect(tree.find('ApplicationSubmitted').exists()).to.be
+      .false;
+    tree.unmount();
+  });
+
+  it('should render client error state', () => {
+    const { router, setData, form, user, onSubmit, route } = getProps();
+
+    const formData = Object.assign({}, form, {
+      submission: {
+        hasAttemptedSubmit: true,
+        status: SUBMISSION_STATUSES.clientError,
+      }
+    });
+
+    const tree = shallow(
+      <RoutedSavableReviewPage
+        router={router}
+        setData={setData}
+        openChapters={[]}
+        form={formData}
+        user={user}
+        onSubmit={onSubmit}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        formConfig={route.formConfig}
+        pageList={route.pageList}
+        path={route.path}
+        location={location}
+      />,
+    );
+
+    expect(tree.find('ClientError').exists()).to.be
+      .false;
+    tree.unmount();
+  });
+
+  it('should render submit pending state', () => {
+    const { router, setData, form, user, onSubmit, route } = getProps();
+
+    const formData = Object.assign({}, form, {
+      submission: {
+        hasAttemptedSubmit: true,
+        status: SUBMISSION_STATUSES.submitPending,
+      }
+    });
+
+    const tree = shallow(
+      <RoutedSavableReviewPage
+        router={router}
+        setData={setData}
+        openChapters={[]}
+        form={formData}
+        user={user}
+        onSubmit={onSubmit}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        formConfig={route.formConfig}
+        pageList={route.pageList}
+        path={route.path}
+        location={location}
+      />,
+    );
+
+    expect(tree.find('SubmitPending').exists()).to.be
+      .false;
+    tree.unmount();
+  });
+
+
+
+  it('should render throttled error state', () => {
+    const { router, setData, form, user, onSubmit, route } = getProps();
+
+    const formData = Object.assign({}, form, {
+      submission: {
+        hasAttemptedSubmit: true,
+        status: SUBMISSION_STATUSES.throttledError,
+      }
+    });
+
+    const tree = shallow(
+      <RoutedSavableReviewPage
+        router={router}
+        setData={setData}
+        openChapters={[]}
+        form={formData}
+        user={user}
+        onSubmit={onSubmit}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        formConfig={route.formConfig}
+        pageList={route.pageList}
+        path={route.path}
+        location={location}
+      />,
+    );
+
+    expect(tree.find('ThrottledError').exists()).to.be
+      .false;
+    tree.unmount();
+  });
+
+  it('should render validation error state', () => {
+    const { router, setData, form, user, onSubmit, route } = getProps();
+
+    const formData = Object.assign({}, form, {
+      submission: {
+        hasAttemptedSubmit: true,
+        status: SUBMISSION_STATUSES.validationError,
+      }
+    });
+
+    const tree = shallow(
+      <RoutedSavableReviewPage
+        router={router}
+        setData={setData}
+        openChapters={[]}
+        form={formData}
+        user={user}
+        onSubmit={onSubmit}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        formConfig={route.formConfig}
+        pageList={route.pageList}
+        path={route.path}
+        location={location}
+      />,
+    );
+
+    expect(tree.find('ValidationError').exists()).to.be
+      .false;
+    tree.unmount();
+  });
 
   describe('downtime banner', () => {
     let tree;

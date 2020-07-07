@@ -60,38 +60,36 @@ function GenericError(props) {
   const isLoggedIn = user?.login?.currentlyLoggedIn;
 
   return (
-    <>
-      <Row>
-        <Column>
-          <ErrorMessage
-            active
-            title="We’re sorry. We can't submit your form right now."
-          >
+    <Row>
+      <Column>
+        <ErrorMessage
+          active
+          title="We’re sorry. We can't submit your form right now."
+        >
+          <p>
+            We’re working to fix the problem. Please make sure you’re
+            connected to the Internet, and then try saving your form again.
+            <SaveFormLink
+              locationPathname={location.pathname}
+              form={form}
+              user={user}
+              showLoginModal={showLoginModal}
+              saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
+              toggleLoginModal={toggleLoginModal}
+            >
+              Save your form
+            </SaveFormLink>
+          </p>
+          {!isLoggedIn && (
             <p>
-              We’re working to fix the problem. Please make sure you’re
-              connected to the Internet, and then try saving your form again.
-              <SaveFormLink
-                locationPathname={location.pathname}
-                form={form}
-                user={user}
-                showLoginModal={showLoginModal}
-                saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-                toggleLoginModal={toggleLoginModal}
-              >
-                Save your form
-              </SaveFormLink>
+              If you don’t have an account, you’ll have to start over. Try
+              submitting your form again tomorrow.
             </p>
-            {!isLoggedIn && (
-              <p>
-                If you don’t have an account, you’ll have to start over. Try
-                submitting your form again tomorrow.
-              </p>
-            )}
-          </ErrorMessage>
-          <InlineErrorComponent errorText={errorText} />
-        </Column>
-      </Row>
-    </>
+          )}
+        </ErrorMessage>
+        <InlineErrorComponent errorText={errorText} />
+      </Column>
+    </Row>
   );
 }
 
