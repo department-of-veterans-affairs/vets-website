@@ -1,13 +1,14 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
-import createContactInformationPage from '../../pages/contactInformation';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
-import { display10203StemFlow, displayConfirmEligibility } from '../helpers';
+import { displayConfirmEligibility } from '../helpers';
 
 import {
   activeDuty,
   applicantInformation,
   benefitSelection,
+  directDeposit,
+  personalInformation,
   stemEligibility,
   confirmEligibility,
   programDetails,
@@ -69,7 +70,6 @@ export const chapters = {
       activeDuty: {
         title: 'Active Duty',
         path: 'active-duty',
-        depends: display10203StemFlow,
         uiSchema: activeDuty.uiSchema,
         schema: activeDuty.schema,
       },
@@ -78,7 +78,18 @@ export const chapters = {
   personalInformation: {
     title: 'Personal Information',
     pages: {
-      contactInformation: createContactInformationPage(fullSchema10203),
+      contactInformation: {
+        title: personalInformation.title,
+        path: personalInformation.path,
+        uiSchema: personalInformation.uiSchema,
+        schema: personalInformation.schema,
+      },
+      directDeposit: {
+        title: 'Direct deposit',
+        path: 'personal-information/direct-deposit',
+        uiSchema: directDeposit.uiSchema,
+        schema: directDeposit.schema,
+      },
     },
   },
 };

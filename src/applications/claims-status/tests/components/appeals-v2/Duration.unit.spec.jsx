@@ -7,6 +7,7 @@ describe('<DurationCard/>', () => {
   const defaultProps = {
     durationText: '1-2 Months',
     cardDescription: 'Hey There, this is some text',
+    isDisabled: false,
   };
 
   it('should render', () => {

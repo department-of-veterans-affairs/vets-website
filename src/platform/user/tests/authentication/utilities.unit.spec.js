@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import * as forceAuth from 'platform/utilities/sso/forceAuth';
-
 import {
   login,
   mfa,
@@ -72,24 +70,6 @@ describe('authentication URL helpers', () => {
     login('idme', 'v1', 'my-app');
     expect(global.window.location).to.include(
       '/v1/sessions/idme/new?application=my-app',
-    );
-  });
-
-  it('should redirect for login v1 with force auth', () => {
-    const stub = sinon.stub(forceAuth, 'getForceAuth').callsFake(() => true);
-    login('idme', 'v1');
-    stub.restore();
-    expect(global.window.location).to.include(
-      '/v1/sessions/idme/new?force=true',
-    );
-  });
-
-  it('should redirect for login v1 with application and force auth', () => {
-    const stub = sinon.stub(forceAuth, 'getForceAuth').callsFake(() => true);
-    login('idme', 'v1', 'my-app');
-    stub.restore();
-    expect(global.window.location).to.include(
-      '/v1/sessions/idme/new?application=my-app&force=true',
     );
   });
 

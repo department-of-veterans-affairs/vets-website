@@ -29,7 +29,7 @@ export class ConfirmationPage extends React.Component {
       .filter(el => el['view:selected'])
       .map((issue, index) => (
         <li key={index} className="vads-u-margin-bottom--0">
-          {issue.attributes.issue}
+          {issue.attributes.ratingIssueSubjectText}
         </li>
       ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;

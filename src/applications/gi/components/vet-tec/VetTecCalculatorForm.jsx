@@ -37,7 +37,7 @@ class VetTecCalculatorForm extends React.Component {
         className="vads-u-display--inline-block"
         id="scholarships-label"
       >
-        Scholarships (excluding Pell)
+        Scholarships (excluding Pell Grants)
       </label>{' '}
       <button
         aria-label={ariaLabels.learnMore.scholarships}
