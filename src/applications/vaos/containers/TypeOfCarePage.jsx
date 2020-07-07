@@ -43,9 +43,9 @@ const uiSchema = {
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
 
-function UpdateAddress({ address }) {
+function UpdateAddress({ address, showAlert, onHide }) {
   let regexp = /^PO Box/;
-  if (!address || address.match(regexp)) {
+  if (showAlert && (!address || address.match(regexp))) {
     return (
       <AlertBox
         status="warning"
@@ -59,7 +59,8 @@ function UpdateAddress({ address }) {
               className="usa-button usa-button-primary vads-u-margin-top--4"
               target="_blank"
               rel="noopener noreferrer"
-              href="/profiles"
+              href="/change-address/"
+              onClick={onHide}
             >
               Update your address
             </a>
@@ -77,6 +78,18 @@ export class TypeOfCarePage extends React.Component {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showAlert: true,
+    };
+  }
+
+  hideAlert = () => {
+    const showAlert = !this.state.showAlert;
+    this.setState({ showAlert });
+  };
 
   onChange = newData => {
     // When someone chooses a type of care that can be direct scheduled,
@@ -114,7 +127,12 @@ export class TypeOfCarePage extends React.Component {
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        <UpdateAddress address={this.props.addressLine1} />
+        <UpdateAddress
+          address={this.props.addressLine1}
+          showAlert={this.state.showAlert}
+          onHide={this.hideAlert}
+        />
+
         <SchemaForm
           name="Type of care"
           title="Type of care"
