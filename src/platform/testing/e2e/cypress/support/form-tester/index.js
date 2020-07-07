@@ -472,20 +472,18 @@ const testForm = testConfig => {
 
       // Save a couple of seconds by definitively responding with
       // no maintenance windows instead of letting the request time out.
-      cy.server().route('GET', 'v0/maintenance_windows', []);
+      cy.server().route('GET', '/v0/maintenance_windows', []);
 
       // Resolve relative page hook paths as relative to the form's root URL.
-      cy.wrap(
-        Object.keys(pageHooks).reduce(
-          (hooks, path) => ({
-            ...hooks,
-            [path.startsWith(sep) ? path : join(rootUrl, path)]: pageHooks[
-              path
-            ],
-          }),
-          {},
-        ),
-      ).as('pageHooks');
+      const resolvedPageHooks = Object.entries(pageHooks).reduce(
+        (hooks, [path, hook]) => ({
+          ...hooks,
+          [path.startsWith(sep) ? path : join(rootUrl, path)]: hook,
+        }),
+        {},
+      );
+
+      cy.wrap(resolvedPageHooks).as('pageHooks');
     });
 
     dataSets.forEach(testKey => {
