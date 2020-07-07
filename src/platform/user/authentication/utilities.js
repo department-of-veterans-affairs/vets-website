@@ -75,8 +75,9 @@ export function standaloneRedirect() {
   let url = externalRedirects[application] || null;
 
   if (url && to) {
-    url = url.replace(new RegExp('/$'), '');
-    url += `/${to.replace(new RegExp('^/'), '').replace('\r\n', '')}`;
+    const pathname = to.startsWith('/') ? to : `/${to}`;
+    url = url.endsWith('/') ? url.slice(0, -1) : url;
+    url = `${url}${pathname}`.replace('\r\n', ''); // Prevent CRLF injection.
   }
   return url;
 }
