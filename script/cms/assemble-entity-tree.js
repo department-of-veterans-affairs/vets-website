@@ -1,6 +1,9 @@
+/* eslint-disable no-console */
+
 const path = require('path');
 const assert = require('assert');
 const commandLineArgs = require('command-line-args');
+const commandLineUsage = require('command-line-usage');
 const { map } = require('lodash');
 
 const contentDir = path.resolve(
@@ -17,14 +20,55 @@ const {
 } = require('../../src/site/stages/build/process-cms-exports/helpers');
 
 const optionDefinitions = [
-  { name: 'count', alias: 'c', type: Number },
-  { name: 'node', alias: 'n', type: String, multiple: true },
-  { name: 'print', alias: 'p', type: Number },
+  {
+    name: 'node',
+    alias: 'n',
+    type: String,
+    multiple: true,
+    description: 'Specify specific entities (usually nodes) to transform.',
+  },
+  {
+    name: 'count',
+    alias: 'c',
+    type: Number,
+    description:
+      'Load only this many nodes. Only used when no specific entities are specified with --node.',
+  },
+  {
+    name: 'print',
+    alias: 'p',
+    type: Number,
+    description:
+      'Only print the node at this index. Used for debugging. Not needed when specific entiteis are specified with --node.',
+  },
+  {
+    name: 'help',
+    alias: 'h',
+    type: Boolean,
+    description: 'Show this help.',
+  },
 ];
 
-const { count, node: nodeNames, print: printIndex } = commandLineArgs(
+const { count, node: nodeNames, print: printIndex, help } = commandLineArgs(
   optionDefinitions,
 );
+
+if (help) {
+  console.log(
+    commandLineUsage([
+      {
+        header: 'Assemble entity tree',
+        content:
+          'Test the CMS export transformers. When no arguments are present, the script reads in all node.*.json files and assembles entity trees for each node present in the CMS export.',
+      },
+      {
+        header: 'Options',
+        optionList: optionDefinitions,
+      },
+    ]),
+  );
+  process.exit(0);
+}
 
 if (nodeNames) {
   const result = nodeNames.map(nodeName => {
