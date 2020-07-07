@@ -3,7 +3,7 @@ import MetaTags from 'react-meta-tags';
 import MultiQuestionForm from '../components/MultiQuestionForm';
 import { questions, defaultOptions } from '../config/questions';
 
-export default function App() {
+export default function App({ params }) {
   return (
     <div className="covid-screener">
       <MetaTags>
@@ -21,6 +21,7 @@ export default function App() {
         <MultiQuestionForm
           questions={questions}
           defaultOptions={defaultOptions}
+          customId={params.id}
         />
       </div>
     </div>
