@@ -198,21 +198,18 @@ const processPage = () => {
 Cypress.Commands.add('execHook', pathname => {
   cy.get('@pageHooks', NO_LOG_OPTION).then(pageHooks => {
     const hook = pageHooks?.[pathname];
-    if (hook) {
-      if (typeof hook !== 'function') {
-        throw new Error(`Page hook for ${pathname} is not a function`);
-      }
+    if (!hook) return cy.wrap(false, NO_LOG_OPTION);
 
-      cy.wrap(
-        new Promise(resolve => {
-          hook();
-          resolve(true);
-        }),
-        NO_LOG_OPTION,
-      );
-    } else {
-      cy.wrap(false, NO_LOG_OPTION);
+    if (typeof hook !== 'function') {
+      throw new Error(`Page hook for ${pathname} is not a function`);
     }
+
+    const hookPromise = new Promise(resolve => {
+      hook();
+      resolve(true);
+    });
+
+    return cy.wrap(hookPromise, NO_LOG_OPTION);
   });
 });
 
