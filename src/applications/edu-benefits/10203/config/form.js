@@ -38,7 +38,7 @@ const formConfig = {
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
-  title: 'Update your education benefits',
+  title: 'Apply for the Rogers STEM Scholarship',
   subTitle: 'Form 22-10203',
   preSubmitInfo,
   footerContent: FormFooter,
