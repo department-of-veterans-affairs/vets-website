@@ -21,7 +21,6 @@ export class InstitutionProfile extends React.Component {
     constants: PropTypes.object,
     calculator: PropTypes.object,
     eligibility: PropTypes.object,
-    eduSection103: PropTypes.bool,
     gibctEybBottemSheet: PropTypes.bool,
   };
 
@@ -40,7 +39,6 @@ export class InstitutionProfile extends React.Component {
       isOJT,
       constants,
       showModal,
-      eduSection103,
       gibctEstimateYourBenefits,
       gibctEybBottomSheet,
     } = this.props;
@@ -102,7 +100,6 @@ export class InstitutionProfile extends React.Component {
                 institution={profile.attributes}
                 onShowModal={showModal}
                 constants={constants}
-                eduSection103={eduSection103}
               />
             </AccordionItem>
           </ul>

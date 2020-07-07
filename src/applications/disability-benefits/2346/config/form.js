@@ -125,7 +125,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   title: 'Order hearing aid batteries and accessories',
-  finishLaterLinkText: 'Finish this order later.',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound:
@@ -133,6 +132,14 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
     forbidden:
       'We can’t fulfill an order for this Veteran because they are deceased in our records. If this information is incorrect, please call Veterans Benefits Assistance at 800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
+  },
+  customText: {
+    reviewPageTitle: 'Review order details',
+    appSavedSuccessfullyMessage: 'Order has been saved.',
+    startNewAppButtonText: 'Start a new order',
+    continueAppButtonText: 'Continue your order',
+    finishAppLaterMessage: 'Finish this order later.',
+    appType: 'order',
   },
   defaultDefinitions: {
     email,

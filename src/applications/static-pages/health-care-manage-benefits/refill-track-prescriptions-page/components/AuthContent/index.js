@@ -3,7 +3,7 @@ import React from 'react';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
-import { getCernerURL } from 'platform/utilities/constants';
+import { getCernerURL } from 'platform/utilities/cerner';
 
 const callToActions = [
   {

@@ -1,7 +1,7 @@
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { addSpouse } from '../../../utilities';
-import { doesLiveTogether } from './helpers';
+import { doesLiveTogether, liveWithYouTitle } from './helpers';
 
 const livingStatusSchema = cloneDeep(addSpouse.properties.doesLiveWithSpouse);
 livingStatusSchema.properties.address = buildAddressSchema(true);
@@ -17,7 +17,7 @@ export const uiSchema = {
   doesLiveWithSpouse: {
     spouseDoesLiveWithVeteran: {
       'ui:required': () => true,
-      'ui:title': 'Does your spouse live with you?',
+      'ui:title': liveWithYouTitle,
       'ui:widget': 'yesNo',
       'ui:errorMessages': { required: 'Please select an option' },
     },
