@@ -6,14 +6,8 @@ import sinon from 'sinon';
 // import { RoutedSavableReviewPage } from '../../save-in-progress/RoutedSavableReviewPage';
 import { RoutedSavableReviewPage } from 'platform/forms/containers/review/RoutedSavableReviewPage';
 
-// TODO: should probably be a common const somewhere..
-const SUBMISSION_STATUSES = {
-  applicationSubmitted: 'applicationSubmitted',
-  clientError: 'clientError',
-  submitPending: 'submitPending',
-  throttledError: 'throttledError',
-  validationError: 'validationError',
-};
+// platform - utls
+import { SUBMISSION_STATUSES } from 'platform/forms/constants';
 
 describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
   const location = {

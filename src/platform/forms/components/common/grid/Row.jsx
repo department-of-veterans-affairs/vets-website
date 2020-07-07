@@ -7,4 +7,4 @@ function Row(props) {
   return <div className={`row ${classNames}`}>{children}</div>;
 }
 
-export default React.memo(Row);
+export default Row;

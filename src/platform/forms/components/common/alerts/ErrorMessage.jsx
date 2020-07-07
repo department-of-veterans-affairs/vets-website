@@ -1,6 +1,7 @@
 // libs
 import React from 'react';
 
+// TODO: for JSDocs
 function ErrorMessage(props) {
   const { active, children, message, title } = props;
 

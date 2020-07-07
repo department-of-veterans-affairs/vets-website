@@ -171,9 +171,15 @@ RoutedSavableReviewPage.propTypes = {
   autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
-    formConfig: PropTypes.object.isRequired,
+    formConfig: PropTypes.shape({
+      downtime: PropTypes.shape({
+        dependencies: PropTypes.arrayOf(PropTypes.string),
+        message: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+      }),
+    }).isRequired,
   }).isRequired,
   formContext: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,

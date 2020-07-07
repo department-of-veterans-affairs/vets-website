@@ -1,5 +1,6 @@
 // libs
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // platform - forms - selectors
@@ -43,6 +44,19 @@ function PreSubmitSectionController(props) {
     </>
   );
 }
+
+PreSubmitSectionController.propTypes = {
+  form: PropTypes.shape({
+    submission: PropTypes.shape({
+      hasAttemptedSubmit: PropTypes.bool,
+    }),
+  }).isRequired,
+  formConfig: PropTypes.shape({
+    preSubmitInfo: PropTypes.object,
+  }).isRequired,
+  showPreSubmitError: PropTypes.bool,
+  setPreSubmit: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,

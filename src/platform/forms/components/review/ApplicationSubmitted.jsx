@@ -17,7 +17,7 @@ function ApplicationSubmitted(props) {
   return (
     <>
       <Row>
-        <Column className="columns" />
+        <Column />
       </Row>
       <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons">

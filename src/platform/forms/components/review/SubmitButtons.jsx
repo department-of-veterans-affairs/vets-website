@@ -1,5 +1,6 @@
 // libs
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // platform - forms-system components
 import Column from 'platform/forms/components/common/grid/Column';
@@ -41,5 +42,11 @@ function SubmitButtons(props) {
     </>
   );
 }
+
+SubmitButtons.propTypes = {
+  goBack: PropTypes.func.isRequired,
+  formConfig: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default SubmitButtons;

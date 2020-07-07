@@ -33,16 +33,8 @@ import {
 } from 'platform/forms/selectors/review';
 
 // platform - utls
+import { SUBMISSION_STATUSES } from 'platform/forms/constants';
 import { usePrevious } from 'platform/utilities/react-hooks';
-
-// TODO: should probably be a common const somewhere..
-const SUBMISSION_STATUSES = {
-  applicationSubmitted: 'applicationSubmitted',
-  clientError: 'clientError',
-  submitPending: 'submitPending',
-  throttledError: 'throttledError',
-  validationError: 'validationError',
-};
 
 function SubmitController(props) {
   const {
@@ -108,7 +100,7 @@ function SubmitController(props) {
   useEffect(
     () => {
       switch (status) {
-        case false:
+        case SUBMISSION_STATUSES.false:
           setActiveComponent(
             <SubmitButtons
               formConfig={formConfig}
@@ -119,7 +111,9 @@ function SubmitController(props) {
           break;
         case SUBMISSION_STATUSES.applicationSubmitted:
           {
+            // TODO: routing
             const newRoute = `${formConfig.urlPrefix}confirmation`;
+
             setActiveComponent(
               <ApplicationSubmitted
                 formConfig={formConfig}
@@ -128,6 +122,8 @@ function SubmitController(props) {
                 onSubmit={onSubmit}
               />,
             );
+
+            // TODO: routing
             if (status !== prevStatus) router.push(newRoute);
           }
           break;
@@ -210,7 +206,9 @@ const mapDispatchToProps = {
 
 SubmitController.propTypes = {
   form: PropTypes.object.isRequired,
-  formConfig: PropTypes.object.isRequired,
+  formConfig: PropTypes.shape({
+    urlPrefix: PropTypes.string.isRequired,
+  }).isRequired,
   pageList: PropTypes.array.isRequired,
   renderErrorMessage: PropTypes.func,
   router: PropTypes.object.isRequired,
