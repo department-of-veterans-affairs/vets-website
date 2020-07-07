@@ -57,8 +57,6 @@ import {
   aidAndAttendance,
   alternateNames,
   ancillaryFormsWizardSummary,
-  bddGoBack,
-  bddRedirect,
   choosePtsdType,
   claimExamsInfo,
   claimType,
@@ -99,7 +97,7 @@ import {
   uploadPtsdDocuments,
   vaEmployee,
   vaMedicalRecords,
-  verifyBdd,
+  // verifyBdd,
   workBehaviorChanges,
 } from '../pages';
 
@@ -188,27 +186,13 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({ dob: state.user.profile.dob }),
         },
-        verifyBdd: {
-          title: 'Verify active duty status',
-          path: 'review-veteran-details/verify-bdd',
-          depends: verifyBdd.depends,
-          uiSchema: verifyBdd.uiSchema,
-          schema: verifyBdd.schema,
-        },
-        bddGoBack: {
-          title: '',
-          path: 'review-veteran-details/update-service-history-warning',
-          depends: bddGoBack.depends,
-          uiSchema: bddGoBack.uiSchema,
-          schema: bddGoBack.schema,
-        },
-        bddRedirect: {
-          title: '',
-          path: 'review-veteran-details/bdd-redirect',
-          depends: bddRedirect.depends,
-          uiSchema: bddRedirect.uiSchema,
-          schema: bddRedirect.schema,
-        },
+        // verifyBdd: { // Commenting out until design decisions are made about alerts for BDD
+        //   title: 'Verify active duty status',
+        //   path: 'review-veteran-details/verify-bdd',
+        //   depends: verifyBdd.depends,
+        //   uiSchema: verifyBdd.uiSchema,
+        //   schema: verifyBdd.schema,
+        // },
         servedInCombatZone: {
           title: 'Combat status',
           path: 'review-veteran-details/combat-status',

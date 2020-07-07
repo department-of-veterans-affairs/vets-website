@@ -24,7 +24,20 @@ const validateAge = (
   }
 };
 
+const validateSeparationDate = (errors, dateString) => {
+  const ninetyDaysFromToday = moment().add(90, 'days');
+
+  if (moment(dateString).isAfter(ninetyDaysFromToday)) {
+    errors.addError(
+      `Your separation date must be before 90 days from today (${ninetyDaysFromToday.format(
+        'MMM D, YYYY',
+      )})`,
+    );
+  }
+};
+
 dateRangeUISchema.from['ui:validations'].push(validateAge);
+dateRangeUISchema.to['ui:validations'].push(validateSeparationDate);
 
 export const uiSchema = {
   serviceInformation: {
