@@ -129,7 +129,7 @@ if (entityNames) {
   const modifiedEntities = map(entities, entity => assembleEntityTree(entity));
 
   // eslint-disable-next-line no-console
-  console.log('Number of files:', modifiedEntities.length);
+  console.log('Number of entities transformed:', modifiedEntities.length);
   if (printIndex !== undefined) {
     // eslint-disable-next-line no-console
     console.log(
