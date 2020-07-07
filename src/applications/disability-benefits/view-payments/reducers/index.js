@@ -22,7 +22,7 @@ const mockData = {
       id: 2,
       date: 'June 3, 2020',
       amount: '$4,321',
-      type: 'Componsation & Pension Recurring',
+      type: 'Burt',
       method: 'Direct Deposit',
       bank: 'USAA FEDERAL SAVINGS BANK',
       account: '1234567890999',

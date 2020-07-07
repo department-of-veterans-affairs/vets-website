@@ -17,6 +17,8 @@ class PaymentsReceived extends Component {
     paginatedData: null,
     fromNumber: null,
     toNumber: null,
+    currentSortOrder: 'ASC',
+    nextSortOrder: 'DESC',
   };
 
   componentDidMount() {
@@ -27,17 +29,20 @@ class PaymentsReceived extends Component {
     let sortOrder = 1;
     if (property[0] === '-') {
       sortOrder = -1;
+      // eslint-disable-next-line no-param-reassign
       property = property.substr(1);
     }
-    if (sort == 'ASC') {
+    if (sort === 'ASC') {
       return function(a, b) {
         const result =
+          // eslint-disable-next-line no-nested-ternary
           a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
         return result * sortOrder;
       };
     } else {
       return function(a, b) {
         const result =
+          // eslint-disable-next-line no-nested-ternary
           a[property] > b[property] ? -1 : a[property] < b[property] ? 1 : 0;
         return result * sortOrder;
       };
@@ -45,9 +50,16 @@ class PaymentsReceived extends Component {
   };
 
   handleSort = (value, sort) => {
-    console.log(value);
-    console.log(sort);
-    const sortedData = this.props.data.sort(this.dynamicSort(value, sort));
+    this.handleDataPagination(1); // we need to send them back to the first page of the pagination
+    if (this.state.nextSortOrder === 'ASC') {
+      this.setState({ currentSortOrder: 'ASC', nextSortOrder: 'DESC' });
+    } else {
+      this.setState({ currentSortOrder: 'DESC', nextSortOrder: 'ASC' });
+    }
+    const sortedData = this.props.data.sort(
+      this.dynamicSort(value, this.state.nextSortOrder),
+    );
+
     this.handleLoadData(sortedData);
   };
 
@@ -111,14 +123,14 @@ class PaymentsReceived extends Component {
           </p>
           <ResponsiveTable
             className="va-table"
-            currentSort={{
-              value: 'date',
-              order: 'ASC',
-            }}
             fields={this.props.fields}
             data={this.state.currentlyShowingData}
             maxRows={10}
             onHeaderClick={(value, order) => this.handleSort(value, order)}
+            currentSort={{
+              value: 'bank',
+              order: 'ASC',
+            }}
           />
           <Pagination
             className="vads-u-border-top--0"
