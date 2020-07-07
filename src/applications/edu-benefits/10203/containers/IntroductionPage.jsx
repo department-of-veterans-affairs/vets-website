@@ -117,7 +117,7 @@ export class IntroductionPage extends React.Component {
                   </strong>{' '}
                   A School Certifying Official (SCO) at your school or an
                   accredited representative, like a Veterans Service Officer
-                  (VSO), can help you fill out your claim{' '}
+                  (VSO), can help you fill out your claim.{' '}
                   <a href="/disability/get-help-filing-claim/">
                     Get help filing your claim
                   </a>
