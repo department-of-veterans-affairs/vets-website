@@ -2,8 +2,10 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
+
 import { login, logout } from 'platform/user/authentication/utilities';
-import { keepAlive as mockKeepAlive } from './mockKeepAliveSSO';
+import mockKeepAlive from './mockKeepAliveSSO';
 import { keepAlive as liveKeepAlive } from './keepAliveSSO';
 import { getLoginAttempted } from './loginAttempted';
 
@@ -13,16 +15,20 @@ function keepAlive() {
   return environment.isLocalhost() ? mockKeepAlive() : liveKeepAlive();
 }
 
-async function hasVAGovSession() {
+async function vaGovProfile() {
   try {
     const resp = await fetch(`${environment.API_URL}/v0/user`, {
-      method: 'HEAD',
+      method: 'GET',
       credentials: 'include',
     });
-    return resp.ok;
+    if (resp.ok) {
+      const json = await resp.json();
+      return camelCaseKeysRecursive(json.data.attributes.profile);
+    }
   } catch (err) {
-    return false;
+    // just in case of a network error, silently ignore
   }
+  return null;
 }
 
 export async function ssoKeepAliveSession() {
@@ -44,16 +50,18 @@ export async function ssoKeepAliveSession() {
 }
 
 export async function checkAutoSession(application = null, to = null) {
-  const [{ ttl, authn }, hasSession] = await Promise.all([
+  const [{ ttl, authn }, userProfile] = await Promise.all([
     ssoKeepAliveSession(),
-    hasVAGovSession(),
+    vaGovProfile(),
   ]);
-  if (hasSession && ttl === 0) {
+  if (userProfile?.signIn?.ssoe && ttl === 0) {
+    // having a user session is not enough, we also need to make sure when
+    // the user authenticated they used SSOe, otherwise we can't auto logout
     // explicitly check to see if the TTL for the SSO3 session is 0, as it
     // could also be null if we failed to get a response from the SSOe server,
     // in which case we don't want to logout the user because we don't know
     logout('v1', 'sso-automatic-logout');
-  } else if (!hasSession && ttl > 0 && !getLoginAttempted() && authn) {
+  } else if (!userProfile && ttl > 0 && !getLoginAttempted() && authn) {
     // only attempt an auto login if the user is
     // a) does not have a VA.gov session
     // b) has an SSOe session

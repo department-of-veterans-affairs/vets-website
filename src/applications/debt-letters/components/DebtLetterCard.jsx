@@ -25,7 +25,7 @@ const DebtLetterCard = props => {
         Amount owed:
       </p>
       <p className="vads-u-margin-top--0 vads-u-font-size--md vads-u-font-family--sans">
-        {formatter.format(parseFloat(debt.currentAR))}
+        {formatter.format(parseFloat(debt.currentAr))}
       </p>
       <p className="vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--sans">
         Status:

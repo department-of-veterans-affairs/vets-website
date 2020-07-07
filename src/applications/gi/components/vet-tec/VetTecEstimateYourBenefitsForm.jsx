@@ -106,7 +106,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         id="scholarships-label"
       >
         {this.renderLearnMoreLabel({
-          text: 'Scholarships (excluding Pell)',
+          text: 'Scholarships (excluding Pell Grants)',
           modal: 'scholarships',
           ariaLabel: ariaLabels.learnMore.scholarships,
         })}

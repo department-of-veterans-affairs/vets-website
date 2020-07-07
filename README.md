@@ -115,7 +115,13 @@ yarn test:unit src/applications/path/to/tests/**/*.unit.spec.js*
 ```
 
 ### Browser tests
-To **run all browser tests**, you first need two things:
+To **run all browser tests**, you first need three things:
+1. Install the Java JDK on MacOS (if needed):
+    ```
+    brew update
+    brew tap adoptopenjdk/openjdk
+    brew cask install adoptopenjdk8
+    ```
 1. `vets-website` served locally on port 3001
     - You can do this with `yarn watch`
 1. `vets-api` to **NOT** be running
@@ -171,6 +177,7 @@ for doing very specific things.
 | build the production site (dev features disabled).                                                          | `NODE_ENV=production yarn build --buildtype vagovprod`                                                                                                                                                                       |
 | fetch the latest content cache from S3                                                                      | `yarn fetch-drupal-cache` (does not require SOCKS proxy access)                                                                                                                                                              |
 | reset local environment (clean out node modules and runs npm install)                                       | `yarn reset:env`                                                                                                                                                                                                             |
+| run only the app pages on the site for local development without building content.                          | `yarn watch --env.scaffold`                                                                                                                                                                                                  |
 | run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps | `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env.buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow.                                |
 | run the site for local development with automatic rebuilding of code and styles for specific **apps**       | `yarn watch --env.entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName`                                                                                       |
 | run the site for local development with automatic rebuilding of code and styles for static **content**      | `yarn watch:static`                                                                                                                                                                                                          |

@@ -1,4 +1,3 @@
-import reverse from 'lodash/reverse';
 import {
   DEBTS_FETCH_INITIATED,
   DEBTS_FETCH_SUCCESS,
@@ -26,7 +25,7 @@ export const debtsReducer = (state = initialState, action) => {
         ...state,
         isPending: false,
         isError: false,
-        debts: reverse(action.debts),
+        debts: action.debts,
       };
     case DEBTS_FETCH_FAILURE:
       return {
