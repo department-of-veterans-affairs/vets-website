@@ -36,7 +36,6 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.veteranFullName;
-
     return (
       <div>
         <div className="print-only">
@@ -70,7 +69,10 @@ class ConfirmationPage extends React.Component {
             </span>
           </h4>
           <span>
-            for {name.first} {name.middle} {name.last} {name.suffix}
+            for {name.first}
+            {name.middle && ` ${name.middle}`}
+            {name.last && ` ${name.last}`}
+            {name.suffix && ` ${name.suffix}`}
           </span>
 
           <ul className="claim-list">
