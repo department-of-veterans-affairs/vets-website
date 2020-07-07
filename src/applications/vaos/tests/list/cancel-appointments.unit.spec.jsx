@@ -18,7 +18,7 @@ import {
 } from '../mocks/v0';
 import {
   mockAppointmentInfo,
-  mockFacilitesFetch,
+  mockFacilitiesFetch,
   mockVACancelFetches,
 } from '../mocks/helpers';
 
@@ -72,7 +72,7 @@ describe('VAOS integration appointment cancellation:', () => {
         },
       },
     };
-    mockFacilitesFetch('vha_442', [facility]);
+    mockFacilitiesFetch('vha_442', [facility]);
 
     const {
       getByRole,
@@ -267,7 +267,7 @@ describe('VAOS integration appointment cancellation:', () => {
         },
       },
     };
-    mockFacilitesFetch('vha_442', [facility]);
+    mockFacilitiesFetch('vha_442', [facility]);
     const cancelReason = getCancelReasonMock();
     cancelReason.attributes = {
       ...cancelReason.attributes,
@@ -359,7 +359,7 @@ describe('VAOS integration appointment cancellation:', () => {
         },
       },
     };
-    mockFacilitesFetch('vha_442', [facility]);
+    mockFacilitiesFetch('vha_442', [facility]);
     const cancelReason = getCancelReasonMock();
     cancelReason.attributes = {
       ...cancelReason.attributes,
