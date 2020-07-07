@@ -67,8 +67,8 @@ function GenericError(props) {
           title="We’re sorry. We can't submit your form right now."
         >
           <p>
-            We’re working to fix the problem. Please make sure you’re
-            connected to the Internet, and then try saving your form again.
+            We’re working to fix the problem. Please make sure you’re connected
+            to the Internet, and then try saving your form again.
             <SaveFormLink
               locationPathname={location.pathname}
               form={form}

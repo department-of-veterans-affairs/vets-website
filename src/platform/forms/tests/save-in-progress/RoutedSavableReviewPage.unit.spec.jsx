@@ -206,7 +206,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       submission: {
         hasAttemptedSubmit: true,
         status: SUBMISSION_STATUSES.applicationSubmitted,
-      }
+      },
     });
 
     const tree = shallow(
@@ -226,8 +226,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       />,
     );
 
-    expect(tree.find('ApplicationSubmitted').exists()).to.be
-      .false;
+    expect(tree.find('ApplicationSubmitted').exists()).to.be.false;
     tree.unmount();
   });
 
@@ -238,7 +237,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       submission: {
         hasAttemptedSubmit: true,
         status: SUBMISSION_STATUSES.clientError,
-      }
+      },
     });
 
     const tree = shallow(
@@ -258,8 +257,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       />,
     );
 
-    expect(tree.find('ClientError').exists()).to.be
-      .false;
+    expect(tree.find('ClientError').exists()).to.be.false;
     tree.unmount();
   });
 
@@ -270,7 +268,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       submission: {
         hasAttemptedSubmit: true,
         status: SUBMISSION_STATUSES.submitPending,
-      }
+      },
     });
 
     const tree = shallow(
@@ -290,12 +288,9 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       />,
     );
 
-    expect(tree.find('SubmitPending').exists()).to.be
-      .false;
+    expect(tree.find('SubmitPending').exists()).to.be.false;
     tree.unmount();
   });
-
-
 
   it('should render throttled error state', () => {
     const { router, setData, form, user, onSubmit, route } = getProps();
@@ -304,7 +299,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       submission: {
         hasAttemptedSubmit: true,
         status: SUBMISSION_STATUSES.throttledError,
-      }
+      },
     });
 
     const tree = shallow(
@@ -324,8 +319,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       />,
     );
 
-    expect(tree.find('ThrottledError').exists()).to.be
-      .false;
+    expect(tree.find('ThrottledError').exists()).to.be.false;
     tree.unmount();
   });
 
@@ -336,7 +330,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       submission: {
         hasAttemptedSubmit: true,
         status: SUBMISSION_STATUSES.validationError,
-      }
+      },
     });
 
     const tree = shallow(
@@ -356,8 +350,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       />,
     );
 
-    expect(tree.find('ValidationError').exists()).to.be
-      .false;
+    expect(tree.find('ValidationError').exists()).to.be.false;
     tree.unmount();
   });
 
