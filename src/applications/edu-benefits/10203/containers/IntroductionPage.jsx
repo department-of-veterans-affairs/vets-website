@@ -3,11 +3,32 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '../content/SaveInProgressIntro';
+import { connect } from 'react-redux';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
+  loggedIn() {
+    return this.props.isLoggedIn ? (
+      <SaveInProgressIntro
+        prefillEnabled={this.props.route.formConfig.prefillEnabled}
+        messages={this.props.route.formConfig.savedFormMessages}
+        pageList={this.props.route.pageList}
+        startText="Start the education application"
+      />
+    ) : (
+      <SaveInProgressIntro
+        buttonOnly
+        prefillEnabled={this.props.route.formConfig.prefillEnabled}
+        messages={this.props.route.formConfig.savedFormMessages}
+        pageList={this.props.route.pageList}
+        startText="Start the education application"
+      />
+    );
+  }
+
   render() {
     return (
       <div
@@ -21,7 +42,6 @@ export class IntroductionPage extends React.Component {
           Scholarship).
         </p>
         <SaveInProgressIntro
-          buttonOnly
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
@@ -155,12 +175,7 @@ export class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the education application"
-        />
+        {this.loggedIn()}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={5} ombNumber="2900-0878" expDate="06/30/2023" />
         </div>
@@ -169,4 +184,10 @@ export class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.user.login.currentlyLoggedIn,
+  };
+};
+
+export default connect(mapStateToProps)(IntroductionPage);
