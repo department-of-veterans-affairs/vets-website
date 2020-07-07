@@ -23,7 +23,6 @@ export default Object.freeze({
   ssoeInbound: 'ssoeInbound',
   ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',
   eduBenefitsStemScholarship: 'eduBenefitsStemScholarship',
-  eduSection103: 'edu_section_103',
   gibctEstimateYourBenefits: 'gibctEstimateYourBenefits',
   form526OriginalClaims: 'form526OriginalClaims',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
