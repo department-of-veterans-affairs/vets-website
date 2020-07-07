@@ -19,6 +19,7 @@ class PaymentsReceived extends Component {
     toNumber: null,
     currentSortOrder: 'ASC',
     nextSortOrder: 'DESC',
+    sortingOn: null,
   };
 
   componentDidMount() {
@@ -52,9 +53,17 @@ class PaymentsReceived extends Component {
   handleSort = (value, sort) => {
     this.handleDataPagination(1); // we need to send them back to the first page of the pagination
     if (this.state.nextSortOrder === 'ASC') {
-      this.setState({ currentSortOrder: 'ASC', nextSortOrder: 'DESC' });
+      this.setState({
+        currentSortOrder: 'ASC',
+        nextSortOrder: 'DESC',
+        sortingOn: value,
+      });
     } else {
-      this.setState({ currentSortOrder: 'DESC', nextSortOrder: 'ASC' });
+      this.setState({
+        currentSortOrder: 'DESC',
+        nextSortOrder: 'ASC',
+        sortingOn: value,
+      });
     }
     const sortedData = this.props.data.sort(
       this.dynamicSort(value, this.state.nextSortOrder),
@@ -128,8 +137,8 @@ class PaymentsReceived extends Component {
             maxRows={10}
             onHeaderClick={(value, order) => this.handleSort(value, order)}
             currentSort={{
-              value: 'bank',
-              order: 'ASC',
+              value: this.state.sortingOn,
+              order: this.state.currentSortOrder,
             }}
           />
           <Pagination
