@@ -44,7 +44,7 @@ const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
 
 function UpdateAddress({ address, showAlert, onHide }) {
-  let regexp = /^PO Box/;
+  const regexp = /^PO Box/;
   if (showAlert && (!address || address.match(regexp))) {
     return (
       <AlertBox
