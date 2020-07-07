@@ -96,14 +96,12 @@ if (nodeNames) {
   }
 
   const fileNames = readAllNodeNames(contentDir);
-  const entities = map(fileNames, entityDetails =>
-    readEntity(contentDir, ...entityDetails),
+  const entities = map(
+    fileNames.slice(0, count || fileNames.length),
+    entityDetails => readEntity(contentDir, ...entityDetails),
   );
 
-  const modifiedEntities = map(
-    entities.slice(0, count || entities.length),
-    entity => assembleEntityTree(entity),
-  );
+  const modifiedEntities = map(entities, entity => assembleEntityTree(entity));
 
   // eslint-disable-next-line no-console
   console.log('Number of files:', modifiedEntities.length);
