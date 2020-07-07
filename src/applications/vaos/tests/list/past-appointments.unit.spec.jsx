@@ -64,8 +64,8 @@ describe('VAOS integration: past appointments', () => {
       },
     );
 
-    expect(queryByText(/Loading your appointments/i)).to.exist;
-    expect(await findByText(/You don’t have any appointments/i)).to.exist;
+    expect(baseElement).to.contain.text('Loading your appointments');
+    await findByText(/You don’t have any appointments/i);
 
     mockPastAppointmentInfoOption1({ va: [olderAppt] });
 
@@ -75,7 +75,7 @@ describe('VAOS integration: past appointments', () => {
     });
 
     fireEvent.click(queryByText('Update'));
-    expect(queryByText(/Loading your appointments/i)).to.exist;
+    expect(baseElement).to.contain.text('Loading your appointments');
     const rangeLabel = `${moment()
       .subtract(5, 'months')
       .startOf('month')
@@ -83,8 +83,7 @@ describe('VAOS integration: past appointments', () => {
       .subtract(3, 'months')
       .endOf('month')
       .format('MMM YYYY')}`;
-    expect(await findByText(`Showing appointments for: ${rangeLabel}`)).to
-      .exist;
+    await findByText(`Showing appointments for: ${rangeLabel}`);
     expect(baseElement).to.contain.text('VA Appointment');
     expect(baseElement).to.contain.text('Completed');
   });
