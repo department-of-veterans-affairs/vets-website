@@ -85,7 +85,7 @@ export class EligibilityForm extends React.Component {
             { value: '1606', label: 'Select Reserve GI Bill (Ch 1606)' },
             {
               value: '31',
-              label: 'Vocational Rehabilitation & Employment (VR & E)',
+              label: 'Veteran Readiness and Employment',
             },
             {
               value: '35',
