@@ -16,7 +16,8 @@ import ProgressButton from 'platform/forms-system/src/js/components/ProgressButt
 // utils
 import { timeFromNow } from 'platform/utilities/date';
 
-function ThrottledError(props) {
+function FormSubmitThrottledError(props) {
+
   const { formConfig, formSubmission, goBack, onSubmit } = props;
 
   return (
