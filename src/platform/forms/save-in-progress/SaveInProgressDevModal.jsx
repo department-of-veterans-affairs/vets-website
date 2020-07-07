@@ -120,4 +120,4 @@ SipsDevModal.propTypes = {
   saveAndRedirectToReturnUrl: PropTypes.func.isRequired,
 };
 
-export default (environment.isProduction() ? null : SipsDevModal);
+export default (environment.isProduction() ? () => null : SipsDevModal);
