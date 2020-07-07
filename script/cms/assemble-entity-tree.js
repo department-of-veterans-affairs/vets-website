@@ -36,14 +36,12 @@ const optionDefinitions = [
   },
   {
     name: 'print',
-    alias: 'p',
     type: Number,
     description:
       'Only print the node at this index. Used for debugging. Not needed when specific entiteis are specified with --node.',
   },
   {
     name: 'help',
-    alias: 'h',
     type: Boolean,
     description: 'Show this help.',
   },
@@ -75,7 +73,7 @@ if (entityNames) {
     const nodeNamePieces = entityName.split('.').slice(0, 2);
     assert(
       nodeNamePieces.length === 2,
-      'Node needs to be the filename of an entity. E.g. node.<uuid>.json',
+      '--entity (or -e) needs to be the filename of an entity. E.g. node.<uuid>.json',
     );
 
     return assembleEntityTree(readEntity(contentDir, ...nodeNamePieces));
@@ -90,7 +88,7 @@ if (entityNames) {
     if (count)
       assert(
         printIndex < count,
-        `Print index (${printIndex}) must be less than node count (${count}) to point to a valid node.`,
+        `--print index (${printIndex}) must be less than node count (${count}) to point to a valid node.`,
       );
     assert(printIndex >= 0, `Print index (${printIndex}) must be >= 0`);
   }
