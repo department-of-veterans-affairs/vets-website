@@ -1,6 +1,6 @@
 {
   "name": "vets-website",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Frontend build for vets.gov website static assets.",
   "scripts": {
     "apps": "./script/app-list.sh",
