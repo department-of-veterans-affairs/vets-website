@@ -12,10 +12,11 @@ import { PreSubmitSection } from 'platform/forms-system/src/js/components/PreSub
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
 /*
-*  RenderPreSubmitSection - Component that conditionally renders PreSubmitSection, which is default, or a custom override
-*  PreSubmitSection - Default component that renders if no CustomComponent is provided
+*  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent 
+*  PreSubmitSection - ~Default component that renders if no CustomComponent is provided~ (this describes a decision in RenderPreSubmitSection- describe what PreSubmitSection is, remove this since it's not a prop, or add it as a prop with a default value)
 *  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
 */
+
 function PreSubmitSectionController(props) {
   const { form, preSubmit = {}, setPreSubmit, showPreSubmitError } = props;
 
