@@ -3,15 +3,18 @@ const assert = require('assert');
 const commandLineArgs = require('command-line-args');
 const { map } = require('lodash');
 
-const contentDir = path.resolve(__dirname, '../../cms-export/content');
+const contentDir = path.resolve(
+  __dirname,
+  '../../.cache/localhost/cms-export-content',
+);
 
-const assembleEntityTree = require('../src/site/stages/build/process-cms-exports')(
+const assembleEntityTree = require('../../src/site/stages/build/process-cms-exports')(
   contentDir,
 );
 const {
   readAllNodeNames,
   readEntity,
-} = require('../src/site/stages/build/process-cms-exports/helpers');
+} = require('../../src/site/stages/build/process-cms-exports/helpers');
 
 const optionDefinitions = [
   { name: 'count', alias: 'c', type: Number },
