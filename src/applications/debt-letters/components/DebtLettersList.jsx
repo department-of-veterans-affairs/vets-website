@@ -21,11 +21,11 @@ const DebtLettersList = ({ debts }) => (
             Check the details of your VA debts and find out the next stops to
             resolving your debt.
           </p>
-          <p className="vads-u-font-size--h2 vads-u-font-weight--bold">
-            Current debts
-          </p>
           {debts.length > 0 && (
             <>
+              <p className="vads-u-font-size--h2 vads-u-font-weight--bold">
+                Current debts
+              </p>
               {reverse(debts).map((debt, index) => (
                 <DebtLetterCard
                   key={`${index}-${debt.fileNumber}`}
