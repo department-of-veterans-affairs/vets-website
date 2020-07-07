@@ -8,7 +8,7 @@ const callToActions = [
   {
     deriveHeaderText: facilityNames =>
       `Get your medical record from ${facilityNames}`,
-    href: '',
+    href: '/pages/health_record/clinical_documents/sharing',
     label: 'Get record on My VA Health',
   },
   {
