@@ -28,14 +28,93 @@ function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
   stub.resolves(response);
 }
 
+let oldWindow;
+
+const fakeWindow = () => {
+  oldWindow = global.window;
+  global.window = {
+    dataLayer: [],
+    location: {
+      get: () => global.window.location,
+      set: value => {
+        global.window.location = value;
+      },
+      pathname: '',
+      search: '',
+    },
+  };
+};
+
 describe('checkAutoSession', () => {
   let sandbox;
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    fakeWindow();
   });
 
   afterEach(() => {
     sandbox.restore();
+    global.window = oldWindow;
+  });
+
+  it('should redirect user to cerner if logged in via SSOe and on the standalone sign in page', async () => {
+    mockFetch({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          data: {
+            attributes: {
+              profile: {
+                // eslint-disable-next-line camelcase
+                sign_in: {
+                  ssoe: true,
+                },
+              },
+            },
+          },
+        }),
+    });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
+    global.window.location.origin = 'http://localhost';
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=myvahealth';
+
+    await checkAutoSession();
+
+    expect(global.window.location).to.eq(
+      'https://ehrm-va-test.patientportal.us.healtheintent.com/',
+    );
+  });
+
+  it('should redirect user to home page if logged in via SSOe and on the standalone sign in page', async () => {
+    mockFetch({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          data: {
+            attributes: {
+              profile: {
+                // eslint-disable-next-line camelcase
+                sign_in: {
+                  ssoe: true,
+                },
+              },
+            },
+          },
+        }),
+    });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
+    global.window.location.origin = 'http://localhost';
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '';
+
+    await checkAutoSession();
+
+    expect(global.window.location).to.eq('http://localhost');
   });
 
   it('should auto logout if user has logged in via SSOe and they do not have a SSOe session anymore', async () => {
@@ -131,8 +210,6 @@ describe('checkAutoSession', () => {
       auto,
       'custom',
       'v1',
-      null,
-      null,
       { authn: 'dslogon' },
       'sso-automatic-login',
     );
@@ -152,8 +229,6 @@ describe('checkAutoSession', () => {
       auto,
       'custom',
       'v1',
-      null,
-      null,
       { authn: 'myhealthevet' },
       'sso-automatic-login',
     );
