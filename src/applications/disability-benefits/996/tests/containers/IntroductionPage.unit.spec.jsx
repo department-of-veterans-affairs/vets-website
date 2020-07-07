@@ -130,7 +130,7 @@ describe('IntroductionPage', () => {
 
     const Intro = tree.find('Connect(CallToActionWidget)').first();
     expect(Intro.props().children.props.gaStartEventName).to.equal(
-      `${formConfig.trackingPrefix}-start-form`,
+      `${formConfig.trackingPrefix}start-form`,
     );
     tree.unmount();
   });
