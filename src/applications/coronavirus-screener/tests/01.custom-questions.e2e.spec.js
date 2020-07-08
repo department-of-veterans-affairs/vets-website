@@ -70,18 +70,6 @@ const staffScreeningTravel459 = {
   },
 };
 
-const visitorPassTravel459GH = visitorPassTravel459;
-visitorPassTravel459GH.questions[6].id = 'question-travel-459GH';
-
-const visitorScreeningTravel459GH = visitorScreeningTravel459;
-visitorScreeningTravel459GH.questions[6].id = 'question-travel-459GH';
-
-const staffPassTravel459GH = staffPassTravel459;
-staffPassTravel459GH.questions[6].id = 'question-travel-459GH';
-
-const staffScreeningTravel459GH = staffScreeningTravel459;
-staffScreeningTravel459GH.questions[6].id = 'question-travel-459GH';
-
 export default createE2eTest(client => {
   // custom travel question /459
   client
@@ -97,6 +85,10 @@ export default createE2eTest(client => {
   testQuestionScenario({ scenario: staffScreeningTravel459, client });
 
   // custom travel question /459GH
+  visitorPassTravel459.questions[6].id = 'question-travel-459GH';
+  visitorScreeningTravel459.questions[6].id = 'question-travel-459GH';
+  staffPassTravel459.questions[6].id = 'question-travel-459GH';
+  staffScreeningTravel459.questions[6].id = 'question-travel-459GH';
   client
     .url(`${baseUrl}/covid19screen/459GH`)
     .waitForElementVisible('body', normal)
@@ -104,10 +96,10 @@ export default createE2eTest(client => {
     .assert.visible('div[class*=covid-screener-results-incomplete]')
     .axeCheck('.main');
 
-  testQuestionScenario({ scenario: visitorPassTravel459GH, client });
-  testQuestionScenario({ scenario: visitorScreeningTravel459GH, client });
-  testQuestionScenario({ scenario: staffPassTravel459GH, client });
-  testQuestionScenario({ scenario: staffScreeningTravel459GH, client });
+  testQuestionScenario({ scenario: visitorPassTravel459, client });
+  testQuestionScenario({ scenario: visitorScreeningTravel459, client });
+  testQuestionScenario({ scenario: staffPassTravel459, client });
+  testQuestionScenario({ scenario: staffScreeningTravel459, client });
 
   // custom travel question case insensitive /459gh
   client
@@ -117,8 +109,8 @@ export default createE2eTest(client => {
     .assert.visible('div[class*=covid-screener-results-incomplete]')
     .axeCheck('.main');
 
-  testQuestionScenario({ scenario: visitorPassTravel459GH, client });
-  testQuestionScenario({ scenario: visitorScreeningTravel459GH, client });
-  testQuestionScenario({ scenario: staffPassTravel459GH, client });
-  testQuestionScenario({ scenario: staffScreeningTravel459GH, client });
+  testQuestionScenario({ scenario: visitorPassTravel459, client });
+  testQuestionScenario({ scenario: visitorScreeningTravel459, client });
+  testQuestionScenario({ scenario: staffPassTravel459, client });
+  testQuestionScenario({ scenario: staffScreeningTravel459, client });
 });
