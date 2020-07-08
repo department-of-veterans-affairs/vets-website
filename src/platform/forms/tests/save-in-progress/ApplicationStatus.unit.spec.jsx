@@ -8,6 +8,16 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { ApplicationStatus } from '../../save-in-progress/ApplicationStatus';
 
 describe('schemaform <ApplicationStatus>', () => {
+  let formConfigDefaultData;
+  beforeEach(() => {
+    formConfigDefaultData = {
+      customText: {
+        startNewAppButtonText: '',
+        continueAppButtonText: '',
+      },
+    };
+  });
+
   it('should render loading', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
@@ -16,6 +26,7 @@ describe('schemaform <ApplicationStatus>', () => {
         profile={{
           loading: true,
         }}
+        formConfig={formConfigDefaultData}
       />,
     );
 
@@ -34,6 +45,7 @@ describe('schemaform <ApplicationStatus>', () => {
           loading: false,
           savedForms: [],
         }}
+        formConfig={formConfigDefaultData}
       />,
     );
 
@@ -63,6 +75,7 @@ describe('schemaform <ApplicationStatus>', () => {
             },
           ],
         }}
+        formConfig={formConfigDefaultData}
       />,
     );
 
@@ -96,6 +109,7 @@ describe('schemaform <ApplicationStatus>', () => {
             },
           ],
         }}
+        formConfig={formConfigDefaultData}
       />,
     );
     expect(tree.subTree('.usa-alert-warning')).to.not.be.false;
@@ -125,6 +139,7 @@ describe('schemaform <ApplicationStatus>', () => {
             },
           ],
         }}
+        formConfig={formConfigDefaultData}
       />,
     );
 
@@ -166,6 +181,7 @@ describe('schemaform <ApplicationStatus>', () => {
             },
           ],
         }}
+        formConfig={formConfigDefaultData}
       />,
     );
 
@@ -173,5 +189,70 @@ describe('schemaform <ApplicationStatus>', () => {
     expect(tree.subTree('.usa-alert-info').text()).to.contain(
       'more than one in-progress form',
     );
+  });
+  it('should display a custom button message when passing in startNewAppButtonText', () => {
+    const formConfigCustomMsgData = {
+      customText: {
+        startNewAppButtonText: 'Custom start app message',
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ApplicationStatus
+        formId="21P-527EZ"
+        login={{
+          currentlyLoggedIn: true,
+        }}
+        showApplyButton
+        applyText="Apply for benefit"
+        profile={{
+          loading: false,
+          savedForms: [
+            {
+              form: VA_FORM_IDS.FORM_21P_527EZ,
+              metadata: {
+                expiresAt: moment()
+                  .subtract(1, 'day')
+                  .unix(),
+              },
+            },
+          ],
+        }}
+        formConfig={formConfigCustomMsgData}
+      />,
+    );
+    expect(tree.text()).to.include('Custom start app message');
+  });
+  it('should display a custom button message when passing in continueAppButtonText', () => {
+    const formConfigContinueAppMsgData = {
+      customText: {
+        continueAppButtonText: 'Custom continue app message',
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ApplicationStatus
+        formId="21P-527EZ"
+        login={{
+          currentlyLoggedIn: true,
+        }}
+        showApplyButton
+        applyText="Apply for benefit"
+        profile={{
+          loading: false,
+          savedForms: [
+            {
+              form: VA_FORM_IDS.FORM_21P_527EZ,
+              metadata: {
+                expiresAt: moment()
+                  .add(+1, 'day')
+                  .unix(),
+                lastUpdated: moment().subtract(1, 'hour'),
+              },
+            },
+          ],
+        }}
+        formConfig={formConfigContinueAppMsgData}
+      />,
+    );
+    expect(tree.text()).to.include('Custom continue app message');
   });
 });

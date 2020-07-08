@@ -1,6 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import environment from 'platform/utilities/environment';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
@@ -8,6 +7,7 @@ import { customTransformForSubmit } from './utilities';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormFooter from 'platform/forms/components/FormFooter';
+import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
 import GetFormHelp from '../components/GetFormHelp.jsx';
 
 // Chapter imports
@@ -65,7 +65,7 @@ const formConfig = {
   trackingPrefix: 'disability-21-686c',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  preSubmitInfo,
+  preSubmitInfo: CustomPreSubmitInfo,
   formId: VA_FORM_IDS.FORM_21_686C,
   version: 1,
   migrations,

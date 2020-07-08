@@ -64,9 +64,8 @@ export class IntroductionPage extends React.Component {
         messages={formConfig.savedFormMessages}
         pageList={route.pageList}
         startText="Start the Request for a Higher-Level Review"
-      >
-        Please complete the 20-0996 form to request a Higher-Level Review.
-      </SaveInProgressIntro>
+        gaStartEventName="decision-reviews-va20-0996-start-form"
+      />
     ) : (
       noContestableIssuesFound
     );
