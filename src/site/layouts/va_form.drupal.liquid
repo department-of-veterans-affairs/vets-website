@@ -34,16 +34,12 @@
         </dt>
 
         <h3>When to use this form</h3>
-
         {{ fieldVaFormUsage.processed }}
-
         <a href="{{ fieldVaFormUrl.uri }}">Download VA Form {{ fieldVaFormNumber }} (PDF)</a>
 
         {% if fieldVaFormToolUrl %}
           <h3>Or use the online tool</h3>
-
           <p>{{ fieldVaFormToolIntro }}</p>
-
           <a href="{{ fieldVaFormToolUrl.uri }}" class="usa-button-primary va-button-primary">
             Go to the online tool <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
           </a>
@@ -57,10 +53,10 @@
             <li>
               <h4>VA Form {{ vaForm.entity.fieldVaFormNumber }}</h4>
               <h5 class="vads-u-margin-top--0">{{ vaForm.entity.fieldVaFormName }}</h5>
-
               {{ vaForm.entity.fieldVaFormUsage.processed }}
-
-              <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}">Download VA Form {{ vaForm.entity.fieldVaFormNumber }} (PDF)</a>
+              <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}">
+                Download VA Form {{ vaForm.entity.fieldVaFormNumber }} (PDF)
+              </a>
             </li>
           {% endfor %}
         </ul>
