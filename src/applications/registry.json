@@ -304,29 +304,6 @@
     }
   },
   {
-    "appName": "21-526EZ disability compensation claim form",
-    "entryName": "526EZ-claims-increase",
-    "rootUrl": "/disability-benefits/apply/form-526-disability-claim",
-    "template": {
-      "title": "Apply For Increased Disability Benefits",
-      "heading": "Apply for increased disability benefits",
-      "display_title": "File for increased disability",
-      "layout": "page-react.html",
-      "description": "Learn how to apply online for increased disability compensation.",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "name": "Disability benefits",
-          "path": "disability/"
-        },
-        {
-          "name": "File for a disability increase",
-          "path": "disability-benefits/apply/form-526-disability-claim"
-        }
-      ]
-    }
-  },
-  {
     "appName": "21-526EZ Benefits Delivery at Discharge",
     "entryName": "bdd",
     "rootUrl": "/disability/file-benefits-delivery-at-discharge-form-21-526ez",

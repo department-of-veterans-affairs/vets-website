@@ -74,7 +74,7 @@ const excludedForms = new Set([
   '24-0296',
   '10-10CG-example',
   '686C-674', // Until we import the schema
-  VA_FORM_IDS.FORM_21_526EZ, // old
+  VA_FORM_IDS.FORM_21_526EZ, // old (v1 removed)
   VA_FORM_IDS.FORM_22_1995S,
   'definitions',
   'constants',
