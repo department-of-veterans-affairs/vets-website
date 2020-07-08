@@ -97,7 +97,6 @@ import {
   uploadPtsdDocuments,
   vaEmployee,
   vaMedicalRecords,
-  // verifyBdd,
   workBehaviorChanges,
 } from '../pages';
 
@@ -186,13 +185,6 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({ dob: state.user.profile.dob }),
         },
-        // verifyBdd: { // Commenting out until design decisions are made about alerts for BDD
-        //   title: 'Verify active duty status',
-        //   path: 'review-veteran-details/verify-bdd',
-        //   depends: verifyBdd.depends,
-        //   uiSchema: verifyBdd.uiSchema,
-        //   schema: verifyBdd.schema,
-        // },
         servedInCombatZone: {
           title: 'Combat status',
           path: 'review-veteran-details/combat-status',
