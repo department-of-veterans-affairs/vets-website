@@ -24,6 +24,7 @@ const leadershipListingPage = require('./leadershipListingPage.graphql');
 const pressReleasesListingPage = require('./pressReleasesListingPage.graphql');
 const healthServicesListingPage = require('./healthServicesListingPage.graphql');
 const locationListingPage = require('./locationsListingPage.graphql');
+const vaFormsPage = require('./vaForms.graphql');
 const homePageQuery = require('./homePage.graphql');
 const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
 const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
@@ -69,6 +70,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${healthServicesListingPage}
   ${pressReleasesListingPage}
   ${locationListingPage}
+  ${vaFormsPage}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -100,6 +102,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... pressReleasesListingPage
         ... healthServicesListingPage
         ... locationListingPage
+        ... vaFormPage
       }
     }`;
 
