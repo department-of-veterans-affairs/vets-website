@@ -30,4 +30,5 @@ export default Object.freeze({
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   routeStLouisRPOtoBuffaloRPO: 'routeStLouisRPOtoBuffaloRPO',
   gibctSearchEnhancements: 'gibctSearchEnhancements',
+  form996HigherLevelReview: 'form996HigherLevelReview',
 });

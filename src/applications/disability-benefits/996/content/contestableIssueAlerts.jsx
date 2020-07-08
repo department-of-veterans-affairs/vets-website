@@ -43,3 +43,12 @@ export const showContestableIssueError = errors => (
     content={networkError(errors)}
   />
 );
+
+export const showWorkInProgress = (
+  <AlertBox
+    status="info"
+    headline="We’re still working on this feature"
+    content={`We’re rolling out the Higher-Level Review form in stages. It’s
+      not quite ready yet, so please check back again soon.`}
+  />
+);
