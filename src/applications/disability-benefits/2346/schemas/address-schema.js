@@ -364,7 +364,10 @@ export const addressUISchema = (
         updateSchema: (formData, schema, uiSchema) => {
           const countryFormData = get(path, formData);
           const countryNameNormalized = countryFormData.toUpperCase();
-          if (countryNameNormalized.includes('ARMED FORCES')) {
+          if (
+            countryNameNormalized.includes('ARMED FORCES') ||
+            countryNameNormalized.includes('AF,EU,ME,CA')
+          ) {
             return {
               default: true,
             };
@@ -393,7 +396,8 @@ export const addressUISchema = (
           const countryNameNormalized = countryFormData.toUpperCase();
           if (
             (isMilitaryBaseAddress && livesOnMilitaryBase) ||
-            countryNameNormalized.includes('ARMED FORCES')
+            countryNameNormalized.includes('ARMED FORCES') ||
+            countryNameNormalized.includes('AF,EU,ME,CA')
           ) {
             countryUI['ui:disabled'] = true;
             countryFormData.country = USA.label;
