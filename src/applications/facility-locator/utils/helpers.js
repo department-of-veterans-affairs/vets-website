@@ -1,6 +1,9 @@
 // Dependencies
 import moment from 'moment';
 import { first, includes, last, split, toLower } from 'lodash';
+import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
+import UrgentCareAlert from '../containers/UrgentCareAlert';
+import React from 'react';
 
 export const setFocus = selector => {
   const el =
@@ -215,4 +218,40 @@ export const formatOperatingHours = operatingHours => {
 export const isVADomain = website => {
   const regExp1 = /https?:\/\/(?:www\.|staging\.)?va\.gov(\/*)/;
   return regExp1.test(website);
+};
+
+const headingStyle = {
+  fontWeight: '700',
+  fontFamily: 'Bitter, Georgia, Cambria, Times New Roman, Times, serif',
+  lineHeight: '1.3',
+  clear: 'both',
+};
+
+const ddStyle = {
+  margin: '2rem 0 .5rem 0',
+  lineHeight: '1.5',
+};
+
+/**
+ * Helper method to display an urgent care alert dialog
+ *
+ * @param {object} state currentQuery
+ */
+export const showDialogUrgCare = currentQuery => {
+  if (
+    (currentQuery.facilityType === LocationType.URGENT_CARE &&
+      currentQuery.serviceType === 'NonVAUrgentCare') ||
+    currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
+  ) {
+    return <UrgentCareAlert ddStyle={ddStyle} headingStyle={headingStyle} />;
+  }
+
+  if (
+    currentQuery.facilityType === LocationType.CC_PROVIDER &&
+    currentQuery.serviceType === CLINIC_URGENTCARE_SERVICE
+  ) {
+    return <UrgentCareAlert ddStyle={ddStyle} headingStyle={headingStyle} />;
+  }
+
+  return null;
 };

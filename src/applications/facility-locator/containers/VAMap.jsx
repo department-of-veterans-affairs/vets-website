@@ -26,9 +26,8 @@ import {
   FacilityType,
   LocationType,
   MARKER_LETTERS,
-  CLINIC_URGENTCARE_SERVICE,
 } from '../constants';
-import { areGeocodeEqual, setFocus } from '../utils/helpers';
+import { areGeocodeEqual, setFocus, showDialogUrgCare } from '../utils/helpers';
 import {
   facilityLocatorShowCommunityCares,
   facilitiesPpmsSuppressPharmacies,
@@ -37,9 +36,7 @@ import {
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import recordEvent from 'platform/monitoring/record-event';
 import { distBetween } from '../utils/facilityDistance';
-import UrgentCareAlert from './UrgentCareAlert';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -52,74 +49,8 @@ const otherToolsLink = (
   </p>
 );
 
-const headingStyle = {
-  fontWeight: '700',
-  fontFamily: 'Bitter, Georgia, Cambria, Times New Roman, Times, serif',
-  lineHeight: '1.3',
-  clear: 'both',
-};
-
-const ddStyle = {
-  margin: '2rem 0 .5rem 0',
-  lineHeight: '1.5',
-};
-
 // See https://design.va.gov/design/breakpoints
 const isMobile = window.innerWidth <= 481;
-
-// Link to urgent care benefit web page
-const urgentCareDialogLink = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <dl className="usa-alert-text">
-        <dt className="usa-alert-heading" style={headingStyle} tabIndex="-1">
-          Important information about your Community Care appointment
-        </dt>
-        <dd style={ddStyle}>
-          Click below to learn how to prepare for your urgent care appointment
-          with a Community Care provider.
-        </dd>
-        <button
-          className="usa-button-primary vads-u-margin-y--0"
-          onClick={() => {
-            // Record event
-            recordEvent({ event: 'cta-primary-button-click' });
-            window.open(
-              'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp',
-              '_blank',
-            );
-          }}
-        >
-          Learn about VA urgent care benefit
-        </button>
-      </dl>
-    </div>
-  </div>
-);
-
-/**
- * Helper method to display an urgent care alert dialog
- *
- * @param {object} state currentQuery
- */
-const showDialogUrgCare = currentQuery => {
-  if (
-    (currentQuery.facilityType === LocationType.URGENT_CARE &&
-      currentQuery.serviceType === 'NonVAUrgentCare') ||
-    currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
-  ) {
-    return <UrgentCareAlert ddStyle={ddStyle} headingStyle={headingStyle} />;
-  }
-
-  if (
-    currentQuery.facilityType === LocationType.CC_PROVIDER &&
-    currentQuery.serviceType === CLINIC_URGENTCARE_SERVICE
-  ) {
-    return <UrgentCareAlert ddStyle={ddStyle} headingStyle={headingStyle} />;
-  }
-
-  return null;
-};
 
 class VAMap extends Component {
   constructor(props) {

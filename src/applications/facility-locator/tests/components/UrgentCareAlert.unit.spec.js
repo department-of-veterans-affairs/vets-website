@@ -2,6 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import UrgentCareAlert from '../../containers/UrgentCareAlert';
+import { showDialogUrgCare } from '../../utils/helpers';
+import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../../constants';
 
 describe('<UrgentCareAlert>', () => {
   it('Should always render when used.', () => {
@@ -19,6 +21,7 @@ describe('<UrgentCareAlert>', () => {
     expect(button.length).to.equal(1);
     wrapper.unmount();
   });
+
   it('should render with style props', () => {
     const headingStyle = {
       fontWeight: '700',
@@ -42,7 +45,6 @@ describe('<UrgentCareAlert>', () => {
       'lineHeight',
       ddStyle.lineHeight,
     );
-
     expect(wrapper.find('dt').prop('style')).to.have.property(
       'fontWeight',
       headingStyle.fontWeight,
@@ -55,7 +57,26 @@ describe('<UrgentCareAlert>', () => {
       'lineHeight',
       headingStyle.lineHeight,
     );
+    wrapper.unmount();
+  });
 
+  it('should render alert dialog calling showDialogUrgCare -  cc_provider facility type & urgentcare service type ', () => {
+    const dialogUrgentCare = showDialogUrgCare({
+      facilityType: LocationType.CC_PROVIDER,
+      serviceType: CLINIC_URGENTCARE_SERVICE,
+    });
+    const wrapper = shallow(dialogUrgentCare);
+    expect(wrapper.type()).to.not.equal(null);
+    wrapper.unmount();
+  });
+
+  it('should render alert dialog calling showDialogUrgCare -  urgent_care facility type & NonVAUrgentCare service type ', () => {
+    const dialogUrgentCare = showDialogUrgCare({
+      facilityType: LocationType.URGENT_CARE,
+      serviceType: 'NonVAUrgentCare',
+    });
+    const wrapper = shallow(dialogUrgentCare);
+    expect(wrapper.type()).to.not.equal(null);
     wrapper.unmount();
   });
 });
