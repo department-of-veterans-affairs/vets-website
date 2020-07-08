@@ -33,6 +33,7 @@ describe('Profile2Router', () => {
       fetchPaymentInformation: fetchPaymentInfoSpy,
       fetchPersonalInformation: fetchPersonalInfoSpy,
       shouldFetchDirectDepositInformation: true,
+      shouldShowMilitaryInformation: true,
       showLoader: false,
       user: {},
       location: {
