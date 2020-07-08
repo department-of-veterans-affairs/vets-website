@@ -47,3 +47,22 @@ export function checkFormStatus({ questionState, customId }) {
     ? 'incomplete'
     : checkFormResult({ questionState, customId });
 }
+
+// removes value from every question after given questionId
+export function clearValuesAfter({
+  afterQuestionId,
+  questionState,
+  setQuestionState,
+}) {
+  const afterQuestionIndex = questionState.findIndex(
+    question => question.id === afterQuestionId,
+  );
+  const newQuestionState = questionState.map((question, index) => {
+    const returnQuestion = question;
+    if (index > afterQuestionIndex) {
+      delete returnQuestion.value;
+    }
+    return returnQuestion;
+  });
+  setQuestionState([...newQuestionState]);
+}

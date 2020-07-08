@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-
 import FormQuestion from './FormQuestion';
 import FormResult from './FormResult';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import _ from 'lodash/fp';
 import {
-  getEnabledQuestions,
   checkFormStatus,
+  clearValuesAfter,
+  getEnabledQuestions,
   updateEnabledQuestions,
 } from '../lib';
 
@@ -90,22 +90,15 @@ export default function MultiQuestionForm({
     setQuestionState([...newQuestionState]);
   }
 
-  // removes value from every question after given questionId
-  function clearQuestionValues(afterQuestionId) {
-    const afterQuestionIndex = questionState.findIndex(
-      question => question.id === afterQuestionId,
-    );
-    const newQuestionState = questionState.map((question, index) => {
-      const returnQuestion = question;
-      if (index > afterQuestionIndex) {
-        delete returnQuestion.value;
-      }
-      return returnQuestion;
-    });
-    setQuestionState([...newQuestionState]);
-  }
-
   const enabledQuestions = getEnabledQuestions({ questionState, customId });
+
+  function handleClearValues(afterQuestionId) {
+    clearValuesAfter({
+      afterQuestionId,
+      questionState,
+      setQuestionState,
+    });
+  }
 
   const formQuestions = enabledQuestions.map(
     (question, index) =>
@@ -115,7 +108,7 @@ export default function MultiQuestionForm({
           recordStart={recordStart}
           optionsConfig={defaultOptions}
           setQuestionValue={setQuestionValue}
-          clearQuestionValues={clearQuestionValues}
+          handleClearValues={handleClearValues}
           key={`question-${question.id}`}
         />
       ),
