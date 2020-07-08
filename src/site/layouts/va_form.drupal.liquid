@@ -1,1 +1,73 @@
-<h1>{{ title }}</h1>
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+
+    {% include 'src/site/navigation/sidebar_nav.drupal.liquid' with sidebar %}
+
+    <div class="usa-width-three-fourths">
+
+        {% if !entityPublished %}
+        <div class="usa-alert usa-alert-info vads-u-margin-bottom--4">
+          <div class="usa-alert-body">
+            <p class="usa-alert-text">You are viewing a draft.</p>
+          </div>
+        </div>
+      {% endif %}
+
+      <article class="usa-content">
+        <h1>{{ title }}</h1>
+        <h2>{{ fieldVaFormName }}</h2>
+
+        <dt>
+          <dd class="vads-u-margin-y--1">
+            <dfn class="vads-u-font-weight--bold">Related to:</dfn>
+            {{ fieldBenefitCategories | map: "entity" | map: "entityLabel" | join: '; ' }}
+          </dd>
+          <dd>
+            <dfn class="vads-u-font-weight--bold">Form last updated:</dfn>
+            {{ fieldVaFormRevisionDate.value }}
+          </dd>
+        </dt>
+
+        <h3>When to use this form</h3>
+
+        {{ fieldVaFormUsage.processed }}
+
+        <a href="{{ fieldVaFormUrl.uri }}">Download VA Form {{ fieldVaFormNumber }} (PDF)</a>
+
+        {% if fieldVaFormToolUrl %}
+          <h3>Or use the online tool</h3>
+          {{ fieldVaFormToolIntro }}
+
+          <a href="{{ fieldVaFormToolUrl }}" class="usa-button-primary va-button-primary">
+            Go to the online tool <i role="presentation" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
+          </a>
+        {% endif %}
+
+        <h3>Related forms and instructions</h3>
+
+        {% if fieldVaFormRelatedForms.length > 0 %}
+        <ul class="usa-unstyled-list">
+         {% for vaForm in fieldVaFormRelatedForms %}
+            <li>
+              <h4>VA Form {{ vaForm.entity.fieldVaFormNumber }}</h4>
+              <h5 class="vads-u-margin-top--0">{{ vaForm.entity.fieldVaFormName }}</h5>
+
+              {{ vaForm.entity.fieldVaFormUsage.processed }}
+
+              <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}">Download VA Form {{ vaForm.entity.fieldVaFormNumber }} (PDF)</a>
+            </li>
+          {% endfor %}
+        </ul>
+
+      </article>
+    </div>
+  </div>
+
+</main>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

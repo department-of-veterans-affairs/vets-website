@@ -28,6 +28,9 @@ fragment vaFormPage on NodeVaForm {
   }
   fieldBenefitCategories {
     targetId
+    entity {
+      entityLabel
+    }
   }
   fieldVaFormRevisionDate {
     value
@@ -38,6 +41,25 @@ fragment vaFormPage on NodeVaForm {
     date
   }
   fieldVaFormNumPages
+  fieldVaFormRelatedForms {
+    targetId
+    entity {
+      ... on NodeVaForm {
+        fieldVaFormNumber
+        fieldVaFormName
+        fieldVaFormUsage {
+          value
+          format
+          processed
+        }
+        fieldVaFormToolUrl {
+          uri
+          title
+          options
+        }
+      }
+    }
+  }
   status
 }
 `;
