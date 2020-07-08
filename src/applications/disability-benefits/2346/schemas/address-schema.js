@@ -361,6 +361,15 @@ export const addressUISchema = (
         hideIf: () => !isMilitaryBaseAddress,
         hideOnReviewIfFalse: true,
         useDlWrap: true,
+        updateSchema: (formData, schema, uiSchema) => {
+          const countryFormData = get(path, formData);
+          if (countryFormData.country === 'ARMED FORCES AF,EU,ME,CA') {
+            return {
+              default: true,
+            };
+          }
+          return { default: false };
+        },
       },
     },
     'view:livesOnMilitaryBaseInfo': {
@@ -380,7 +389,10 @@ export const addressUISchema = (
           const countryUI = uiSchema;
           const countryFormData = get(path, formData);
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
-          if (isMilitaryBaseAddress && livesOnMilitaryBase) {
+          if (
+            (isMilitaryBaseAddress && livesOnMilitaryBase) ||
+            countryFormData.country === 'ARMED FORCES AF,EU,ME,CA'
+          ) {
             countryUI['ui:disabled'] = true;
             countryFormData.country = USA.label;
             return {
