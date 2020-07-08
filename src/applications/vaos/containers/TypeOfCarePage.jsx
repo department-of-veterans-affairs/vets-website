@@ -49,12 +49,12 @@ function UpdateAddress({ address, showAlert, onHide }) {
     return (
       <AlertBox
         status="warning"
-        headline="Some of the features of this tool require you to have a residential address on file in your VA profile"
+        headline="You need to have a home address on file to use some of the tool's features"
         className="vads-u-margin-y--3"
         content={
           <p>
-            Updates to your address may take up to 24 hours to reach all of VA's
-            record systems <br />
+            You can update your address in your VA profile. Please allow some
+            time for your address update to process through our system. <br />
             <a
               className="usa-button usa-button-primary vads-u-margin-top--4"
               target="_blank"

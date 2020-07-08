@@ -174,4 +174,23 @@ describe('VAOS <TypeOfCarePage>', () => {
     expect(form.find('.usa-alert').exists()).to.be.false;
     form.unmount();
   });
+
+  it('should NOT display alert message once user clicks the update button', () => {
+    const openTypeOfCarePage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const form = mount(
+      <TypeOfCarePage
+        addressLine1="123 Sesame St"
+        openTypeOfCarePage={openTypeOfCarePage}
+        schema={initialSchema}
+        updateFormData={updateFormData}
+        data={{}}
+        showAlert={false}
+      />,
+    );
+
+    expect(form.find('.usa-alert').exists()).to.be.false;
+    form.unmount();
+  });
 });
