@@ -871,7 +871,7 @@
   },
   {
     "appName": "View Payments",
-    "entryName": "view-payments-entry",
+    "entryName": "view-payments",
     "rootUrl": "/disability-benefits/view-payments",
     "template": {
       "vagovprod": false,
