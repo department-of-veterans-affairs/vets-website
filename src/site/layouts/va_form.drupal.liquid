@@ -41,10 +41,11 @@
 
         {% if fieldVaFormToolUrl %}
           <h3>Or use the online tool</h3>
-          {{ fieldVaFormToolIntro }}
 
-          <a href="{{ fieldVaFormToolUrl }}" class="usa-button-primary va-button-primary">
-            Go to the online tool <i role="presentation" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
+          <p>{{ fieldVaFormToolIntro }}</p>
+
+          <a href="{{ fieldVaFormToolUrl.uri }}" class="usa-button-primary va-button-primary">
+            Go to the online tool <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
           </a>
         {% endif %}
 
