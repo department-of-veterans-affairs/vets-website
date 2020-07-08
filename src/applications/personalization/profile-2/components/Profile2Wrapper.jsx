@@ -8,7 +8,7 @@ import ProfileHeader from './ProfileHeader';
 import ProfileSideNav from './ProfileSideNav';
 import MobileMenuTrigger from './MobileMenuTrigger';
 
-const Profile2 = ({ children, routes }) => {
+const Profile2 = ({ children, routes, isLOA3, isInMVI }) => {
   const location = useLocation();
   const createBreadCrumbAttributes = () => {
     const activeLocation = location?.pathname;
@@ -23,14 +23,27 @@ const Profile2 = ({ children, routes }) => {
   const onPersonalInformationMobile =
     activeLocation === '/profile/personal-information' && !isWideScreen();
 
+  // Without a verified identity, we want to show 'Home - Account Security'
+  const showLOA1BreadCrumb =
+    !isLOA3 && !isInMVI && activeLocation === '/profile/account-security';
+
   return (
     <>
       {/* Breadcrumbs */}
       <div data-testid="breadcrumbs">
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
           <a href="/">Home</a>
-          {!onPersonalInformationMobile && <Link to="/">Your profile</Link>}
-          <a href={activeLocation}>{activeRouteName}</a>
+
+          {showLOA1BreadCrumb && (
+            <Link to="/">Your profile - Account Security</Link>
+          )}
+
+          {!showLOA1BreadCrumb &&
+            !onPersonalInformationMobile && <Link to="/">Your profile</Link>}
+
+          {!showLOA1BreadCrumb && (
+            <a href={activeLocation}>{activeRouteName}</a>
+          )}
         </Breadcrumbs>
       </div>
 
