@@ -25,14 +25,8 @@ const validateAge = (
 };
 
 const validateSeparationDate = (errors, dateString) => {
-  const ninetyDaysFromToday = moment().add(90, 'days');
-
-  if (moment(dateString).isAfter(ninetyDaysFromToday)) {
-    errors.addError(
-      `Your separation date must be before 90 days from today (${ninetyDaysFromToday.format(
-        'MMM D, YYYY',
-      )})`,
-    );
+  if (moment(dateString).isAfter(moment())) {
+    errors.addError('Your separation date must be in the past');
   }
 };
 
