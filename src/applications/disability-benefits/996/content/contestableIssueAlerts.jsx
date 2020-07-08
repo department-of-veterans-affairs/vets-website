@@ -14,7 +14,7 @@ const networkError = errors => {
       </ul>
     ) : (
       <p>
-        <strong>{errors[0].title}</strong>
+        <strong>{errors?.[0].title}</strong>
       </p>
     );
   return (
