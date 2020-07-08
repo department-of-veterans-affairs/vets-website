@@ -143,7 +143,6 @@ export class ConfirmEligibilityView extends React.Component {
       'va-button-primary',
     );
 
-    const test = true;
     return (
       <div className={divClassName}>
         <div className={'vads-u-padding-bottom--2'}>
