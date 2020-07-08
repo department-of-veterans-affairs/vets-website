@@ -261,7 +261,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     const formData = Object.assign({}, form, {
       submission: {
         hasAttemptedSubmit: true,
-        status: SUBMISSION_STATUSES.submitPending,
+        status: SUBMISSION_STATUSES.formSubmitPending,
       },
     });
 
@@ -282,7 +282,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       />,
     );
 
-    expect(tree.find('SubmitPending').exists()).to.be.false;
+    expect(tree.find('FormSubmitPending').exists()).to.be.false;
     tree.unmount();
   });
 
@@ -292,7 +292,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     const formData = Object.assign({}, form, {
       submission: {
         hasAttemptedSubmit: true,
-        status: SUBMISSION_STATUSES.throttledError,
+        status: SUBMISSION_STATUSES.formSubmitThrottledError,
       },
     });
 
@@ -313,7 +313,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       />,
     );
 
-    expect(tree.find('ThrottledError').exists()).to.be.false;
+    expect(tree.find('FormSubmittedThrottledError').exists()).to.be.false;
     tree.unmount();
   });
 
@@ -323,7 +323,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     const formData = Object.assign({}, form, {
       submission: {
         hasAttemptedSubmit: true,
-        status: SUBMISSION_STATUSES.validationError,
+        status: SUBMISSION_STATUSES.formValidationError,
       },
     });
 
@@ -344,7 +344,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       />,
     );
 
-    expect(tree.find('ValidationError').exists()).to.be.false;
+    expect(tree.find('FormValidationError').exists()).to.be.false;
     tree.unmount();
   });
 

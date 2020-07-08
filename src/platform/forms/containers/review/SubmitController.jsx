@@ -10,9 +10,9 @@ import ApplicationSubmitted from 'platform/forms/components/review/ApplicationSu
 import ClientError from 'platform/forms/components/review/ClientError';
 import GenericError from 'platform/forms/components/review/GenericError';
 import SubmitButtons from 'platform/forms/components/review/SubmitButtons';
-import SubmitPending from 'platform/forms/components/review/SubmitPending';
-import ThrottledError from 'platform/forms/components/review/ThrottledError';
-import ValidationError from 'platform/forms/components/review/ValidationError';
+import FormSubmitPending from 'platform/forms/components/review/FormSubmitPending';
+import FormSubmitThrottledError from 'platform/forms/components/review/FormSubmitThrottledError';
+import FormValidationError from 'platform/forms/components/review/FormValidationError';
 
 // platform - forms-system components
 import { isValidForm } from 'platform/forms-system/src/js/validation';
@@ -136,18 +136,18 @@ function SubmitController(props) {
             />,
           );
           break;
-        case SUBMISSION_STATUSES.submitPending:
+        case SUBMISSION_STATUSES.formSubmitPending:
           setActiveComponent(
-            <SubmitPending
+            <FormSubmitPending
               formConfig={formConfig}
               goBack={goBack}
               onSubmit={onSubmit}
             />,
           );
           break;
-        case SUBMISSION_STATUSES.throttledError:
+        case SUBMISSION_STATUSES.formSubmitThrottledError:
           setActiveComponent(
-            <ThrottledError
+            <FormSubmitThrottledError
               formConfig={formConfig}
               formSubmission={submission}
               goBack={goBack}
@@ -155,9 +155,9 @@ function SubmitController(props) {
             />,
           );
           break;
-        case SUBMISSION_STATUSES.validationError:
+        case SUBMISSION_STATUSES.formValidationError:
           setActiveComponent(
-            <ValidationError
+            <FormValidationError
               formConfig={formConfig}
               goBack={goBack}
               onSubmit={onSubmit}

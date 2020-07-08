@@ -13,7 +13,6 @@ import PreSubmitSection from 'platform/forms/containers/review/PreSubmitSection'
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 
 function FormValidationError(props) {
-
   const { formConfig, goBack, onSubmit } = props;
 
   return (
@@ -54,4 +53,4 @@ function FormValidationError(props) {
   );
 }
 
-export default ValidationError;
+export default FormValidationError;

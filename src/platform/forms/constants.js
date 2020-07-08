@@ -1,10 +1,10 @@
 export const SUBMISSION_STATUSES = Object.freeze({
   applicationSubmitted: 'applicationSubmitted',
   clientError: 'clientError',
-  'false': false,
-  submitPending: 'submitPending',
-  throttledError: 'throttledError',
-  validationError: 'validationError',
+  false: false,
+  formSubmitPending: 'formSubmitPending',
+  formSubmitThrottledError: 'formSubmitThrottledError',
+  formValidationError: 'formValidationError',
 });
 
 export const VA_FORM_IDS = Object.freeze({

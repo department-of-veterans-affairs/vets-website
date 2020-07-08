@@ -17,7 +17,6 @@ import ProgressButton from 'platform/forms-system/src/js/components/ProgressButt
 import { timeFromNow } from 'platform/utilities/date';
 
 function FormSubmitThrottledError(props) {
-
   const { formConfig, formSubmission, goBack, onSubmit } = props;
 
   return (
@@ -60,4 +59,4 @@ function FormSubmitThrottledError(props) {
   );
 }
 
-export default ThrottledError;
+export default FormSubmitThrottledError;
