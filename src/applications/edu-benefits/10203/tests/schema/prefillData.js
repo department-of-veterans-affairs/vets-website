@@ -18,6 +18,9 @@ export const minTransformedPrefillData = {
     email: undefined,
     homePhone: undefined,
   },
+  'view:remainingEntitlement': {
+    totalDays: 0,
+  },
 };
 
 export const maxPrefillData = {
@@ -35,6 +38,13 @@ export const maxPrefillData = {
     country: 'USA',
     state: 'MI',
     postalCode: '22312',
+  },
+  schoolName: 'PURDUE UNIVERSITY-MAIN CAMPUS',
+  schoolCity: 'WEST LAFAYETTE',
+  schoolState: 'IN',
+  remainingEntitlement: {
+    months: 6,
+    days: 4,
   },
 };
 
@@ -55,5 +65,13 @@ export const transformedMaxPrefillData = {
     country: 'USA',
     state: 'MI',
     postalCode: '22312',
+  },
+  schoolName: 'PURDUE UNIVERSITY-MAIN CAMPUS',
+  schoolCity: 'WEST LAFAYETTE',
+  schoolState: 'IN',
+  'view:remainingEntitlement': {
+    days: 4,
+    months: 6,
+    totalDays: 184,
   },
 };
