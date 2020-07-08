@@ -1,6 +1,6 @@
 {
   "appName": "View Payments",
-  "entryFile": "./app-entry.jsx",
+  "entryFile": "./view-payments-entry.jsx",
   "entryName": "view-payments",
   "rootUrl": "/disability-benefits/view-payments",
   "production": false
