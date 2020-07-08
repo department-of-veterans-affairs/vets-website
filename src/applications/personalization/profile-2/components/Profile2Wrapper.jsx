@@ -25,7 +25,7 @@ const Profile2 = ({ children, routes, isLOA3, isInMVI }) => {
 
   // Without a verified identity, we want to show 'Home - Account Security'
   const showLOA1BreadCrumb =
-    !isLOA3 && !isInMVI && activeLocation === '/profile/account-security';
+    (!isLOA3 || !isInMVI) && activeLocation === '/profile/account-security';
 
   return (
     <>
