@@ -103,7 +103,12 @@ class Profile2Router extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const routes = getRoutes(this.props.shouldShowDirectDeposit);
+    const shouldShowMilitaryInformation = this.props.user?.profile
+      ?.veteranStatus?.servedInMilitary;
+    const routes = getRoutes(
+      this.props.shouldShowDirectDeposit,
+      shouldShowMilitaryInformation,
+    );
     return (
       <BrowserRouter>
         <Profile2Wrapper routes={routes}>
@@ -113,6 +118,15 @@ class Profile2Router extends Component {
               if (
                 (route.requiresLOA3 && !this.props.isLOA3) ||
                 (route.requiresMVI && !this.props.isInMVI)
+              ) {
+                return (
+                  <Redirect from={route.path} to="/profile/account-security" />
+                );
+              }
+
+              if (
+                route.path === '/profile/military-information' &&
+                !shouldShowMilitaryInformation
               ) {
                 return (
                   <Redirect from={route.path} to="/profile/account-security" />
@@ -159,6 +173,7 @@ class Profile2Router extends Component {
   };
 
   render() {
+    console.log('This is user', this.props.user);
     return (
       <RequiredLoginView
         serviceRequired={backendServices.USER_PROFILE}

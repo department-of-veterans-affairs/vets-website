@@ -4,7 +4,7 @@ import MilitaryInformation from './components/MilitaryInformation';
 import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 
-const getRoutes = showDirectDeposit => {
+const getRoutes = (showDirectDeposit, showMilitaryInformation) => {
   const routes = [
     {
       component: PersonalInformation,
@@ -45,6 +45,11 @@ const getRoutes = showDirectDeposit => {
   if (!showDirectDeposit) {
     return routes.filter(route => {
       return route.component !== DirectDeposit;
+    });
+  }
+  if (!showMilitaryInformation) {
+    return routes.filter(route => {
+      return route.component !== MilitaryInformation;
     });
   }
   return routes;
