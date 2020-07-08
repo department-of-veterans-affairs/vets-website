@@ -3,8 +3,9 @@ import classNames from 'classnames';
 import './ResponsiveTable.scss';
 
 const borderClasses =
-  'vads-u-border-top--0 vads-u-border-right--0 vads-u-border-left--0 vads-u-font-family--sans vads-u-padding--1';
+  'vads-u-border-top--0 vads-u-border-right--0 vads-u-border-left--0 vads-u-font-family--sans vads-u-padding--0 medium-screen:vads-u-padding--1';
 const paddingClasses = '';
+const rowPaddingClass = 'vads-u-padding-y--2';
 
 class ResponsiveTable extends Component {
   renderHeader = field => {
@@ -45,16 +46,21 @@ class ResponsiveTable extends Component {
     );
   };
 
+  capitalizeFirstLetter = string => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   renderRow = item => {
     const { fields } = this.props;
     let extraClass = '';
     return (
-      <tr key={item.id} className={borderClasses}>
+      <tr key={item.id} className={`${borderClasses} ${rowPaddingClass}`}>
         {fields.map((field, index) => {
           // This is to right align the amount field and account number fields
           // since they are numeric
           if (index === 1 || index === 5) {
-            extraClass = 'vads-u-text-align--right';
+            extraClass =
+              'vads-u-text-align--left medium-screen:vads-u-text-align--right';
           } else {
             extraClass = '';
           }
@@ -62,7 +68,7 @@ class ResponsiveTable extends Component {
             <td
               data-index={index}
               className={`${borderClasses} ${extraClass}`}
-              data-label={field.value}
+              data-label={`${this.capitalizeFirstLetter(field.value)}:`}
               key={`${item.id}-${field.value}`}
             >
               {item[field.value]}
