@@ -103,8 +103,14 @@ export function mockFacilitiesFetch(ids, facilities) {
 
 export function mockVACancelFetches(id, reasons) {
   setFetchJSONResponse(
-    global.fetch.withArgs(`${environment.API_URL}/v1/facilities/va/${id}`),
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/facilities/${id}/cancel_reasons`,
+    ),
     { data: reasons },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments/cancel`),
+    { data: {} },
   );
 }
 
