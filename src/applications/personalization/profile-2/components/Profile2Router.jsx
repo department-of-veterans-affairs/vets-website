@@ -46,13 +46,17 @@ class Profile2Router extends Component {
       fetchPersonalInformation,
       fetchPaymentInformation,
       shouldFetchDirectDepositInformation,
+      shouldShowMilitaryInformation,
     } = this.props;
     fetchMHVAccount();
-    fetchMilitaryInformation();
     fetchFullName();
     fetchPersonalInformation();
     if (shouldFetchDirectDepositInformation) {
       fetchPaymentInformation();
+    }
+
+    if (shouldShowMilitaryInformation) {
+      fetchMilitaryInformation();
     }
   }
 
@@ -62,6 +66,13 @@ class Profile2Router extends Component {
       !prevProps.shouldFetchDirectDepositInformation
     ) {
       this.props.fetchPaymentInformation();
+    }
+
+    if (
+      this.props.shouldShowMilitaryInformation &&
+      !prevProps.shouldShowMilitaryInformation
+    ) {
+      this.props.fetchMilitaryInformation();
     }
   }
 
@@ -103,11 +114,9 @@ class Profile2Router extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const shouldShowMilitaryInformation = this.props.user?.profile
-      ?.veteranStatus?.servedInMilitary;
     const routes = getRoutes(
       this.props.shouldShowDirectDeposit,
-      shouldShowMilitaryInformation,
+      this.props.shouldShowMilitaryInformation,
     );
     return (
       <BrowserRouter>
@@ -120,16 +129,20 @@ class Profile2Router extends Component {
                 (route.requiresMVI && !this.props.isInMVI)
               ) {
                 return (
-                  <Redirect from={route.path} to="/profile/account-security" />
+                  <Redirect
+                    from={route.path}
+                    to="/profile/account-security"
+                    key={route.path}
+                  />
                 );
               }
 
               if (
                 route.path === '/profile/military-information' &&
-                !shouldShowMilitaryInformation
+                !this.props.shouldShowMilitaryInformation
               ) {
                 return (
-                  <Redirect from={route.path} to="/profile/account-security" />
+                  <Redirect to="/profile/account-security" key={route.path} />
                 );
               }
 
@@ -173,7 +186,6 @@ class Profile2Router extends Component {
   };
 
   render() {
-    console.log('This is user', this.props.user);
     return (
       <RequiredLoginView
         serviceRequired={backendServices.USER_PROFILE}
@@ -202,6 +214,7 @@ Profile2Router.propTypes = {
   showLoader: PropTypes.bool.isRequired,
   shouldFetchDirectDepositInformation: PropTypes.bool.isRequired,
   shouldShowDirectDeposit: PropTypes.bool.isRequired,
+  shouldShowMilitaryInformation: PropTypes.bool.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMHVAccount: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
@@ -219,6 +232,8 @@ const mapStateToProps = state => {
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
   const shouldFetchDirectDepositInformation = isEvssAvailable && is2faEnabled;
+  const shouldShowMilitaryInformation =
+    selectProfile(state)?.veteranStatus?.servedInMilitary || false;
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
@@ -245,8 +260,8 @@ const mapStateToProps = state => {
   const hasLoadedAllData =
     hasLoadedFullName &&
     hasLoadedMHVInformation &&
-    hasLoadedMilitaryInformation &&
     hasLoadedPersonalInformation &&
+    (shouldShowMilitaryInformation ? hasLoadedMilitaryInformation : true) &&
     (shouldFetchDirectDepositInformation ? hasLoadedPaymentInformation : true);
 
   return {
@@ -257,6 +272,7 @@ const mapStateToProps = state => {
       shouldFetchDirectDepositInformation &&
       !isDirectDepositBlocked &&
       (isDirectDepositSetUp || isEligibleToSignUp),
+    shouldShowMilitaryInformation,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),
