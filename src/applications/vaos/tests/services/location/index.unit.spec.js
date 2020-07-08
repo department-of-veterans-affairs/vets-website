@@ -24,7 +24,7 @@ describe('VAOS Location service', () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, facilities983);
       data = await getSupportedLocationsByTypeOfCare({
-        rootOrgId: 'var983',
+        siteId: '983',
         parentId: 'var983A6',
         typeOfCareId: '123',
       });
@@ -39,7 +39,7 @@ describe('VAOS Location service', () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, facilities983);
       data = await getSupportedLocationsByTypeOfCare({
-        rootOrgId: 'var983',
+        siteId: '983',
         parentId: 'var983A6',
         typeOfCareId: '123',
       });
@@ -60,7 +60,7 @@ describe('VAOS Location service', () => {
       let error;
       try {
         data = await getSupportedLocationsByTypeOfCare({
-          rootOrgId: 'var983',
+          siteId: '983',
           parentId: 'var983A6',
           typeOfCareId: '123',
         });

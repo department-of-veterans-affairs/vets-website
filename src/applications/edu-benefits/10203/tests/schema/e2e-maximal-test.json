@@ -10,7 +10,6 @@
     },
     "veteranSocialSecurityNumber": "123333333",
     "view:noSSN": true,
-    "benefit": "chapter33",
     "view:hasServiceBefore1978": true,
     "preferredContactMethod": "mobilePhone",
     "veteranAddress": {
@@ -39,6 +38,9 @@
     "degreeName": "0",
     "schoolName": "0",
     "schoolCity": "0",
-    "schoolState": "MA"
+    "schoolState": "MA",
+    "view:benefit": {
+      "chapter33": true
+    }
   }
 }
