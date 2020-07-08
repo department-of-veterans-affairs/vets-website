@@ -170,20 +170,40 @@ const entityAssemblerFactory = contentDir => {
 
     validateInput(entity);
 
-    const expandedEntity = expandEntityReferences(
-      entity,
-      ancestors,
-      assembleEntityTree,
-    );
+    let expandedEntity;
+    try {
+      expandedEntity = expandEntityReferences(
+        entity,
+        ancestors,
+        assembleEntityTree,
+      );
+    } catch (e) {
+      console.log(
+        chalk.red(
+          `Error encountered while expanding entity references for ${toId(
+            entity,
+          )}`,
+        ),
+      );
+      throw e;
+    }
 
-    // Post-transformation JSON schema validation
-    const transformedEntity = transformEntity(expandedEntity, {
-      uuid: entity.uuid[0].value,
-      ancestors,
-      parentFieldName,
-      contentDir,
-      assembleEntityTree,
-    });
+    let transformedEntity;
+    try {
+      // Post-transformation JSON schema validation
+      transformedEntity = transformEntity(expandedEntity, {
+        uuid: entity.uuid[0].value,
+        ancestors,
+        parentFieldName,
+        contentDir,
+        assembleEntityTree,
+      });
+    } catch (e) {
+      console.log(
+        chalk.red(`Error encountered while transforming ${toId(entity)}`),
+      );
+      throw e;
+    }
 
     validateOutput(entity, transformedEntity);
 
