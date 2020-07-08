@@ -4,7 +4,7 @@ import React from 'react';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
-import { getCernerURL } from 'platform/utilities/constants';
+import { getCernerURL } from 'platform/utilities/cerner';
 
 const callToActions = [
   {

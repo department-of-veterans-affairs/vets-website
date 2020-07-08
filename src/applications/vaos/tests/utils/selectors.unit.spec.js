@@ -484,13 +484,16 @@ describe('VAOS selectors', () => {
                   display: 'Test',
                 },
               },
+              {
+                actor: {
+                  reference: 'Location/var123',
+                  display: 'Facility name',
+                },
+              },
             ],
           },
           facilityData: {
             var123: {},
-          },
-          systemClinicToFacilityMap: {
-            '123_456': {},
           },
         },
       };
@@ -498,7 +501,7 @@ describe('VAOS selectors', () => {
       const cancelInfo = getCancelInfo(state);
 
       expect(cancelInfo.facility).to.equal(
-        state.appointments.systemClinicToFacilityMap['123_456'],
+        state.appointments.facilityData.var123,
       );
     });
     it('should fetch facility from video appointment', () => {

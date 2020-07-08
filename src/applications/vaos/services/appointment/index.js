@@ -106,7 +106,7 @@ export function getVARClinicId(appointment) {
 }
 
 /**
- * Returns the lcoation of a video appointment
+ * Returns the location of a video appointment
  *
  * @export
  * @param {Object} appointment A FHIR appointment resource
@@ -123,7 +123,7 @@ export function getVideoAppointmentLocation(appointment) {
 }
 
 /**
- * Returns the lcoation of a VA appointment
+ * Returns the location of a VA appointment
  *
  * @export
  * @param {Object} appointment A FHIR appointment resource

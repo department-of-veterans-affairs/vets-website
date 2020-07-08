@@ -15,7 +15,7 @@ export function renderWithProfileReducers(
   { initialState = {}, reducers = {}, ...renderOptions } = {},
 ) {
   return renderInReduxProvider(ui, {
-    reducers: { profile, profileUi, connectedApps, ...reducers },
+    reducers: { ...profile, profileUi, connectedApps, ...reducers },
     initialState,
     ...renderOptions,
   });
