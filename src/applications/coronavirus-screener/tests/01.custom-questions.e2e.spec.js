@@ -71,16 +71,16 @@ const staffScreeningTravel459 = {
 };
 
 const visitorPassTravel459GH = visitorPassTravel459;
-visitorPassTravel459GH.question[6].id = 'question-travel-459GH';
+visitorPassTravel459GH.questions[6].id = 'question-travel-459GH';
 
 const visitorScreeningTravel459GH = visitorScreeningTravel459;
-visitorScreeningTravel459GH.question[6].id = 'question-travel-459GH';
+visitorScreeningTravel459GH.questions[6].id = 'question-travel-459GH';
 
 const staffPassTravel459GH = staffPassTravel459;
-staffPassTravel459GH.question[6].id = 'question-travel-459GH';
+staffPassTravel459GH.questions[6].id = 'question-travel-459GH';
 
 const staffScreeningTravel459GH = staffScreeningTravel459;
-staffScreeningTravel459GH.question[6].id = 'question-travel-459GH';
+staffScreeningTravel459GH.questions[6].id = 'question-travel-459GH';
 
 export default createE2eTest(client => {
   // custom travel question /459
