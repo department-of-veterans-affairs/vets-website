@@ -39,6 +39,7 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import recordEvent from 'platform/monitoring/record-event';
 import { distBetween } from '../utils/facilityDistance';
+import UrgentCareAlert from './UrgentCareAlert';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -107,14 +108,14 @@ const showDialogUrgCare = currentQuery => {
       currentQuery.serviceType === 'NonVAUrgentCare') ||
     currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
   ) {
-    return urgentCareDialogLink;
+    return <UrgentCareAlert ddStyle={ddStyle} headingStyle={headingStyle} />;
   }
 
   if (
     currentQuery.facilityType === LocationType.CC_PROVIDER &&
     currentQuery.serviceType === CLINIC_URGENTCARE_SERVICE
   ) {
-    return urgentCareDialogLink;
+    return <UrgentCareAlert ddStyle={ddStyle} headingStyle={headingStyle} />;
   }
 
   return null;
