@@ -143,9 +143,35 @@ export class ConfirmEligibilityView extends React.Component {
       'va-button-primary',
     );
 
+    const test = true;
     return (
       <div className={divClassName}>
         <div className={'vads-u-padding-bottom--2'}>
+          {this.props.remainingEntitlement &&
+            this.props.remainingEntitlement.totalDays > 180 && (
+              <div>
+                <div className="usa-alert usa-alert-warning vads-u-background-color--white">
+                  <div className="usa-alert-body">
+                    <strong>Your remaining education benefits</strong>
+                    <div className="usa-alert-text">
+                      <p>
+                        Our entitlement system shows that you have more than 6
+                        months of education benefits remaining. You can apply
+                        when you have less than 6 months of entitlement left.
+                      </p>
+                      <p>
+                        Months you have left to use:{' '}
+                        <strong>
+                          {this.props.remainingEntitlement.months} months,{' '}
+                          {this.props.remainingEntitlement.days} days{' '}
+                        </strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <br />
+              </div>
+            )}
           <span>
             If your situation changes in the future and you meet all of the
             criteria, you may return to apply for the Rogers STEM Scholarship.
@@ -216,6 +242,7 @@ const mapStateToProps = (state, ownProps) => {
     ownProps?.errorSchema['view:confirmEligibility']?.__errors || [];
 
   return {
+    remainingEntitlement: state.form.data['view:remainingEntitlement'],
     isChapter33: isChapter33(state.form.data),
     benefitLeft: state?.form?.data.benefitLeft,
     isEnrolledStem: state?.form?.data.isEnrolledStem,
