@@ -3,28 +3,28 @@ import PropTypes from 'prop-types';
 import LocationInfoBlock from './search-results/LocationInfoBlock';
 import LocationPhoneLink from './search-results/LocationPhoneLink';
 import LocationDirectionsLink from './search-results/LocationDirectionsLink';
-import { CLINIC_URGENTCARE_SERVICE } from '../constants';
-
-const callText = () => (
-  <p>
-    {' '}
-    Before going to a clinic for urgent care, please call the facility to
-    confirm that it's open and able to provide the care you need.{' '}
-  </p>
-);
+import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 
 const urgentCareCall = query => {
+  const content = () => (
+    <p>
+      {' '}
+      Before going to a clinic for urgent care, please call the facility to
+      confirm that it's open and able to provide the care you need.{' '}
+    </p>
+  );
+
   if (
-    query.facilityType === 'urgent_care' &&
+    query.facilityType === LocationType.URGENT_CARE &&
     query.serviceType === 'NonVAUrgentCare'
   ) {
-    return callText();
+    return content();
   }
   if (
-    query.facilityType === 'cc_provider' &&
+    query.facilityType === LocationType.CC_PROVIDER &&
     query.serviceType === CLINIC_URGENTCARE_SERVICE
   ) {
-    return callText();
+    return content();
   }
 
   return null;
