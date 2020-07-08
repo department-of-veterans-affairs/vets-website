@@ -1,6 +1,8 @@
-module.exports = `
+const entityElementsFromPages = require('./entityElementsForPages.graphql');
+
+const fragment = `
 fragment vaFormPage on NodeVaForm {
-  title
+  ${entityElementsFromPages}
   fieldVaFormName
   fieldVaFormTitle
   fieldVaFormType
@@ -15,9 +17,6 @@ fragment vaFormPage on NodeVaForm {
     processed
   }
   fieldVaFormNumber
-  fieldAdministration {
-    targetId
-  }
   fieldVaFormAdministration {
     targetId
   }
@@ -40,6 +39,7 @@ fragment vaFormPage on NodeVaForm {
   }
   fieldVaFormNumPages
   status
-  moderationState
 }
 `;
+
+module.exports = fragment;
