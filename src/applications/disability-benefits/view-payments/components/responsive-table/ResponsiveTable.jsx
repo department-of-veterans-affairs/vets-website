@@ -17,6 +17,7 @@ class ResponsiveTable extends Component {
     // If it’s already ascending, next click will sort it in descending order.
     let nextSortOrder = 'ASC';
     let sortIcon;
+    let ariaSort = 'none';
 
     if (this.props.currentSort.value === field.value) {
       const iconClass = classNames({
@@ -30,10 +31,16 @@ class ResponsiveTable extends Component {
       if (this.props.currentSort.order === 'ASC') {
         nextSortOrder = 'DESC';
       }
+
+      if (this.props.currentSort.order === 'ASC') {
+        ariaSort = 'ascending';
+      } else if (this.props.currentSort.order === 'DESC') {
+        ariaSort = 'descending';
+      }
     }
 
     return (
-      <th key={field.value} className={borderClasses}>
+      <th key={field.value} className={borderClasses} aria-sort={ariaSort}>
         <button
           className="va-button-link vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none"
           onClick={this.onHeaderClick(field.value, nextSortOrder)}
