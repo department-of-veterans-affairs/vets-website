@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import URLSearchParams from 'url-search-params';
+import 'url-search-params-polyfill';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';

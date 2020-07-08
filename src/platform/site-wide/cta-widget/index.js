@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
-import URLSearchParams from 'url-search-params';
+import 'url-search-params-polyfill';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';

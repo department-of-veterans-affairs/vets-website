@@ -1,5 +1,5 @@
 // Dependencies.
-import URLSearchParams from 'url-search-params';
+import 'url-search-params-polyfill';
 // Relative imports.
 import { fetchFormsApi } from '../api';
 import {

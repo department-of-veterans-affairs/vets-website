@@ -320,7 +320,7 @@
     "syswide-cas": "^5.3.0",
     "tar-fs": "^2.0.1",
     "tinyliquid": "^0.2.33",
-    "url-search-params": "^1.1.0",
+    "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7b07b971a01a5050ce97e59259f050bc9d2cf78c",

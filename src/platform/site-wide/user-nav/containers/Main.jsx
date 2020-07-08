@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
-import URLSearchParams from 'url-search-params';
+import 'url-search-params-polyfill';
 
 import { isInProgressPath } from 'platform/forms/helpers';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';

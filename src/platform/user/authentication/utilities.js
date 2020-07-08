@@ -1,6 +1,6 @@
 import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
-import URLSearchParams from 'url-search-params';
+import 'url-search-params-polyfill';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';

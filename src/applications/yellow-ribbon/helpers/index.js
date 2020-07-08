@@ -1,5 +1,5 @@
 // Node modules.
-import URLSearchParams from 'url-search-params';
+import 'url-search-params-polyfill';
 import map from 'lodash/map';
 import startCase from 'lodash/startCase';
 import toLower from 'lodash/toLower';
