@@ -16,7 +16,7 @@ import {
 
 export const chapters = {
   applicantInformation: {
-    title: 'Applicant Information',
+    title: 'Applicant information',
     pages: {
       applicantInformation: {
         ...createApplicantInformationPage(fullSchema10203, {
@@ -29,7 +29,7 @@ export const chapters = {
     },
   },
   benefitSelection: {
-    title: 'Education Benefit',
+    title: 'Education benefit',
     pages: {
       benefitSelection: {
         title: 'Education benefit selection',
@@ -65,7 +65,7 @@ export const chapters = {
     },
   },
   militaryService: {
-    title: 'Military Details',
+    title: 'Military details',
     pages: {
       activeDuty: {
         title: 'Active Duty',
@@ -76,7 +76,7 @@ export const chapters = {
     },
   },
   personalInformation: {
-    title: 'Personal Information',
+    title: 'Personal information',
     pages: {
       contactInformation: {
         title: personalInformation.title,

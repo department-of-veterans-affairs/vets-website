@@ -93,10 +93,10 @@ const EmptyStateLinks = () => (
         >
           <h4 className="va-nav-linkslist-title">Careers and employment</h4>
           <p className="va-nav-linkslist-description">
-            Find out if you're eligible for Vocational Rehabilitation and
-            Employment (VR&E) services, get support for your Veteran-owned small
-            business, and access other resources to help build your career
-            skills and find a job.
+            Find out if you're eligible for Veteran Readiness and Employment
+            (VR&E) services, get support for your Veteran-owned small business,
+            and access other resources to help build your career skills and find
+            a job.
           </p>
         </a>
       </li>

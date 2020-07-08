@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DurationCard = ({ durationText, cardDescription }) => {
+// Disabling duration card view (for now) per
+// https://github.com/department-of-veterans-affairs/va.gov-team/issues/10293
+const DurationCard = ({ durationText, cardDescription, isDisabled = true }) => {
   // Card's not very helpful without any actual duration information
-  if (!durationText) {
+  if (!durationText || isDisabled) {
     return null;
   }
 
