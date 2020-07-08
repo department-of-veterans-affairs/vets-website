@@ -200,3 +200,39 @@ export function getCancelReasonMock() {
     },
   };
 }
+
+export function getParentSiteMock() {
+  return {
+    id: 'fake',
+    type: 'facility',
+    attributes: {
+      institutionCode: 'fake',
+      city: 'fake',
+      stateAbbrev: 'FK',
+      authoritativeName: 'fake',
+      rootStationCode: 'fake',
+      adminParent: true,
+      parentStationCode: 'fake',
+    },
+  };
+}
+
+export function getFacilityMock() {
+  return {
+    id: 'fake',
+    type: 'direct_scheduling_facility',
+    attributes: {
+      institutionCode: 'fake',
+      city: 'fake',
+      stateAbbrev: 'FK',
+      authoritativeName: 'fake',
+      rootStationCode: 'fake',
+      adminParent: true,
+      parentStationCode: 'fake',
+      requestSupported: false,
+      directSchedulingSupported: false,
+      expressTimes: null,
+      institutionTimezone: 'fake',
+    },
+  };
+}
