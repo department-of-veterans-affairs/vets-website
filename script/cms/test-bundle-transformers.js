@@ -66,7 +66,7 @@ if (help) {
   console.log(
     commandLineUsage([
       {
-        header: 'Assemble entity tree',
+        header: 'Test bundle transformers',
         content:
           'Test the CMS export transformers. When no arguments are present, the script reads in all node.*.json files and assembles entity trees for each node present in the CMS export.',
       },
