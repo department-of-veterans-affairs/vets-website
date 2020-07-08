@@ -3,7 +3,7 @@ import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
 
-import recordEvent from 'platform/monitoring/record-event';
+// import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { scrollToTop } from 'applications/claims-status/utils/page';
 
@@ -11,7 +11,7 @@ const ConfirmationPage = props => {
   useEffect(() => {
     focusElement('.schemaform-title > h2');
     scrollToTop();
-    recordEvent({ event: 'caregivers-10-10cg--submission-successful' });
+    // recordEvent({ event: 'caregivers-10-10cg--submission-successful' });
   }, []);
 
   const { submission, data } = props.form;
