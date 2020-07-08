@@ -5,7 +5,7 @@ import LocationPhoneLink from './search-results/LocationPhoneLink';
 import LocationDirectionsLink from './search-results/LocationDirectionsLink';
 import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 
-const urgentCareCall = query => {
+export const urgentCareCall = query => {
   const content = () => (
     <p>
       {' '}
