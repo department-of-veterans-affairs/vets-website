@@ -38,7 +38,7 @@ const parentSite983 = {
   },
 };
 
-describe('VAOS integration: VA facility page, single-site users', () => {
+describe('VAOS integration: VA facility page with a single-site user', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 

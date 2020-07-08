@@ -51,11 +51,11 @@ const parentSite984 = {
   },
 };
 
-describe('VAOS integration: VA facility page', () => {
+describe('VAOS integration: VA facility page with a multi-site user', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
-  it('should show both site and facility questions for multi-site users', async () => {
+  it('should show both site and facility questions', async () => {
     mockParentSites(['983', '984'], [parentSite983, parentSite984]);
     const facility = {
       id: '984',
