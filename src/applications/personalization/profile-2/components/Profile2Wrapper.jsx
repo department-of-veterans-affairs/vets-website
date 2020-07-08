@@ -35,7 +35,7 @@ const Profile2 = ({ children, routes, isLOA3, isInMVI }) => {
           <a href="/">Home</a>
 
           {showLOA1BreadCrumb && (
-            <Link to="/">Your profile - Account Security</Link>
+            <Link to="/">Your profile - Account security</Link>
           )}
 
           {!showLOA1BreadCrumb &&
