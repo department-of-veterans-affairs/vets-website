@@ -55,3 +55,15 @@ export const ServerErrorAlert = (
     </p>
   </>
 );
+
+export const stateTitle = (
+  <>
+    State (<strong>or</strong> Country if outside the U.S.)
+  </>
+);
+
+export const cityTitle = (
+  <>
+    City <strong>or</strong> county
+  </>
+);

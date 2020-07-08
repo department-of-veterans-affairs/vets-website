@@ -4,7 +4,7 @@ import moment from 'moment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import reducers from '../../reducers';
 import { getVAAppointmentMock, getVAFacilityMock } from '../mocks/v0';
-import { mockAppointmentInfo, mockFacilitesFetch } from '../mocks/helpers';
+import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
 
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 
@@ -94,7 +94,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
         },
       },
     };
-    mockFacilitesFetch('vha_442GC', [facility]);
+    mockFacilitiesFetch('vha_442GC', [facility]);
 
     const { findByText, baseElement, getByText } = renderInReduxProvider(
       <FutureAppointmentsList />,

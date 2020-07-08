@@ -183,6 +183,50 @@
         "stateCode": "AL",
         "zipCode": "12345"
       }
+    },
+    "for674": {
+      "studentInformation": {
+        "firstName": "James",
+        "lastName": "Doe",
+        "ssn": "370-94-1234",
+        "dob": {
+          "month": "1",
+          "day": "1",
+          "year": "1980"
+        }
+      },
+      "studentAddress": {
+        "country": "USA",
+        "line1": "101 Sompleace Ln",
+        "city": "Somewhere",
+        "state": "CA",
+        "postal": "12345"
+      },
+      "schoolAddress": {
+        "name": "Some School",
+        "country": "USA",
+        "line1": "101 Someplace Ln",
+        "city": "Somewhere",
+        "state": "CA",
+        "postal": "12345"
+      },
+      "studentTermDates": {
+        "schoolStart": {
+          "month": "1",
+          "day": "1",
+          "year": "2019"
+        },
+        "studentStart": {
+          "month": "1",
+          "day": "1",
+          "year": "2019"
+        },
+        "graduation": {
+          "month": "1",
+          "day": "1",
+          "year": "2024"
+        }
+      }
     }
   }
 }
