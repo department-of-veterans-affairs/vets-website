@@ -5,6 +5,7 @@ import { shallow } from 'enzyme';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { IntroductionPage } from '../../components/IntroductionPage';
+import formConfig from '../../config/form';
 
 const defaultProps = {
   getContestableIssues: () => {},
@@ -43,10 +44,16 @@ const globalWin = {
 };
 
 describe('IntroductionPage', () => {
-  it('should render CallToActionWidget', () => {
-    const oldWindow = global.window;
+  let oldWindow;
+  beforeEach(() => {
+    oldWindow = global.window;
     global.window = globalWin;
+  });
+  afterEach(() => {
+    global.window = oldWindow;
+  });
 
+  it('should render CallToActionWidget', () => {
     const tree = shallow(<IntroductionPage {...defaultProps} />);
 
     const callToActionWidget = tree.find('Connect(CallToActionWidget)');
@@ -55,14 +62,9 @@ describe('IntroductionPage', () => {
       'higher-level-review',
     );
     tree.unmount();
-
-    global.window = oldWindow;
   });
 
   it('should render alert showing a server error', () => {
-    const oldWindow = global.window;
-    global.window = globalWin;
-
     const props = {
       ...defaultProps,
       contestableIssues: {
@@ -79,13 +81,8 @@ describe('IntroductionPage', () => {
     const AlertBox = tree.find('AlertBox').first();
     expect(AlertBox.render().text()).to.include('some server error');
     tree.unmount();
-
-    global.window = oldWindow;
   });
   it('should render alert showing no contestable issues', () => {
-    const oldWindow = global.window;
-    global.window = globalWin;
-
     const props = {
       ...defaultProps,
       contestableIssues: {
@@ -100,13 +97,8 @@ describe('IntroductionPage', () => {
     const AlertBox = tree.find('AlertBox').first();
     expect(AlertBox.render().text()).to.include('No Contestable Issues');
     tree.unmount();
-
-    global.window = oldWindow;
   });
   it('should render start button', () => {
-    const oldWindow = global.window;
-    global.window = globalWin;
-
     const props = {
       ...defaultProps,
       contestableIssues: {
@@ -123,7 +115,23 @@ describe('IntroductionPage', () => {
       'Start the Request for a Higher-Level Review',
     );
     tree.unmount();
+  });
+  it('should include start button with form event', () => {
+    const props = {
+      ...defaultProps,
+      contestableIssues: {
+        issues: [{}],
+        status: '',
+        error: '',
+      },
+    };
 
-    global.window = oldWindow;
+    const tree = shallow(<IntroductionPage {...props} />);
+
+    const Intro = tree.find('Connect(CallToActionWidget)').first();
+    expect(Intro.props().children.props.gaStartEventName).to.equal(
+      `${formConfig.trackingPrefix}start-form`,
+    );
+    tree.unmount();
   });
 });

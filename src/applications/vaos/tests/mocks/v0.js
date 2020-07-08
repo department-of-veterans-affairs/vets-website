@@ -187,3 +187,16 @@ export function getCCAppointmentMock() {
     },
   };
 }
+
+export function getCancelReasonMock() {
+  return {
+    id: 'fake',
+    type: 'cancel_reason',
+    attributes: {
+      number: 'fake',
+      text: 'fake',
+      type: 'B',
+      inactive: false,
+    },
+  };
+}

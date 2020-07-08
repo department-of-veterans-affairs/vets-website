@@ -79,7 +79,7 @@ const disabilityQuestions = [
   [
     {
       href: '/careers-employment/vocational-rehabilitation/',
-      title: 'Vocational Rehabilitation and Employment',
+      title: 'Veteran Readiness and Employment (VR&E)',
     },
     {
       href: '/housing-assistance/disability-housing-grants/',
