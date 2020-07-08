@@ -89,7 +89,6 @@ if (entityNames) {
 
     return assembleEntityTree(readEntity(contentDir, ...nodeNamePieces));
   });
-  // eslint-disable-next-line no-console
   console.log(
     JSON.stringify(result.length === 1 ? result[0] : result, null, 2),
   );
@@ -129,13 +128,11 @@ if (entityNames) {
 
   const modifiedEntities = map(entities, entity => assembleEntityTree(entity));
 
-  // eslint-disable-next-line no-console
   console.log(
     chalk.bold('Number of entities transformed:'),
     chalk.green(modifiedEntities.length),
   );
   if (printIndex !== undefined) {
-    // eslint-disable-next-line no-console
     console.log(
       chalk.bold(`Entity at index ${printIndex}:`),
       JSON.stringify(modifiedEntities[printIndex], null, 2),
