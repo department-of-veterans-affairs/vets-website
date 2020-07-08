@@ -10,7 +10,7 @@ import {
   getVAFacilityMock,
   getMessageMock,
 } from '../mocks/v0';
-import { mockAppointmentInfo, mockFacilitesFetch } from '../mocks/helpers';
+import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
 
 import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
@@ -124,7 +124,7 @@ describe('VAOS integration: pending appointments', () => {
           },
         },
       };
-      mockFacilitesFetch('vha_442GC', [facility]);
+      mockFacilitiesFetch('vha_442GC', [facility]);
 
       const { findByText, baseElement, queryByText } = renderInReduxProvider(
         <FutureAppointmentsList />,

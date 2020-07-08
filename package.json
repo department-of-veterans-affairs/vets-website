@@ -1,6 +1,6 @@
 {
   "name": "vets-website",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Frontend build for vets.gov website static assets.",
   "scripts": {
     "apps": "./script/app-list.sh",
@@ -11,8 +11,8 @@
     "build:content": "node --max-old-space-size=4096 script/build-content.js",
     "build:content:test": "node script/test-cms-export.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js --progress",
-    "cy:open": "cypress open --config-file=config/cypress.json",
-    "cy:run": "cypress run --config-file=config/cypress.json",
+    "cy:open": "cypress open --config-file config/cypress.json",
+    "cy:run": "cypress run --config-file config/cypress.json",
     "cy:test:circle": "./script/run-cypress-tests-circle.sh",
     "cy:test:docker": "./script/run-cypress-tests-docker.sh",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
@@ -323,7 +323,7 @@
     "url-search-params": "^1.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7b07b971a01a5050ce97e59259f050bc9d2cf78c",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a8176c1d1837b389e9dd367f3a87aa47bbd3bc59",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
