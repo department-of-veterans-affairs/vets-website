@@ -54,9 +54,9 @@ export class IntroductionPage extends React.Component {
   };
 
   getCallToActionContent = () => {
-    const { route, contestableIssues, allowHlr } = this.props;
+    const { route, contestableIssues, allowHlr, testHlr } = this.props;
     // check feature flag
-    if (!allowHlr) {
+    if (!(allowHlr || testHlr)) {
       return showWorkInProgress;
     }
     const { formConfig } = route;
