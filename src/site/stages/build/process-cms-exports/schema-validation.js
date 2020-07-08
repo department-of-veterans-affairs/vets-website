@@ -10,7 +10,7 @@ const { getContentModelType, getAllImportsFrom } = require('./helpers');
 const rawSchemasDir = path.join(__dirname, 'schemas', 'raw');
 const transformedSchemasDir = path.join(__dirname, 'schemas', 'transformed');
 
-const validateEntityFactory = schemasDir => {
+const validateEntityFactory = (schemasDir, schemaType) => {
   /**
    * { page: { <schema> }, ... }
    */
@@ -36,7 +36,7 @@ const validateEntityFactory = schemasDir => {
       if (!missingSchemas.has(contentModelType)) {
         missingSchemas.add(contentModelType);
         // eslint-disable-next-line no-console
-        console.warn(`Missing schema for ${contentModelType}`);
+        console.warn(`Missing ${schemaType} schema for ${contentModelType}`);
       }
       // Assume it's valid
       return [];
@@ -47,6 +47,9 @@ const validateEntityFactory = schemasDir => {
 };
 
 module.exports = {
-  validateRawEntity: validateEntityFactory(rawSchemasDir),
-  validateTransformedEntity: validateEntityFactory(transformedSchemasDir),
+  validateRawEntity: validateEntityFactory(rawSchemasDir, 'input'),
+  validateTransformedEntity: validateEntityFactory(
+    transformedSchemasDir,
+    'output',
+  ),
 };
