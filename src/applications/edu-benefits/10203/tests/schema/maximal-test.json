@@ -21,7 +21,6 @@
       "mobilePhone": "4445551213"
     },
     "view:housingPaymentInfo": {},
-    "benefit": "chapter33",
     "veteranFullName": {
       "first": "Max",
       "middle": "A",
@@ -37,6 +36,9 @@
     "degreeName": "0",
     "schoolName": "0",
     "schoolCity": "0",
-    "schoolState": "MA"
+    "schoolState": "MA",
+    "view:benefit": {
+      "chapter33": true
+    }
   }
 }
