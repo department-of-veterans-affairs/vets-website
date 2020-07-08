@@ -1,10 +1,8 @@
 import { expect } from 'chai';
 import {
+  clearValuesAfter,
   getEnabledQuestions,
   updateEnabledQuestions,
-  checkFormResult,
-  checkFormComplete,
-  checkFormStatus,
 } from './questionLogic';
 
 describe('coronavirus-screener', () => {
@@ -99,6 +97,42 @@ describe('coronavirus-screener', () => {
         expect(newQuestionState[1].id).to.equal('sampleCustom123');
         expect(newQuestionState[1].enabled).to.equal(true);
         expect(newQuestionState[2].enabled).to.equal(false);
+      });
+    });
+
+    describe('clearValuesAfter', () => {
+      it('clears values after a given id', () => {
+        const questionState = [
+          {
+            id: 'sample1',
+            text: 'this is question sample1 text',
+            value: 'yes',
+          },
+          {
+            id: 'sample2',
+            text: 'this is question sample2 text',
+            value: 'no',
+          },
+          {
+            id: 'sample3',
+            text: 'this is question sample3 text',
+            value: 'yes',
+          },
+          {
+            id: 'sample4',
+            text: 'this is question sample4 text',
+          },
+        ];
+        const questionId = 'sample2';
+        const newQuestionState = clearValuesAfter({
+          questionId,
+          questionState,
+        });
+        expect(newQuestionState.length).to.equal(4);
+        expect(newQuestionState[0].value).to.equal('yes');
+        expect(newQuestionState[1].value).to.equal('no');
+        expect(newQuestionState[2].value).to.be.undefined;
+        expect(newQuestionState[3].value).to.be.undefined;
       });
     });
   });

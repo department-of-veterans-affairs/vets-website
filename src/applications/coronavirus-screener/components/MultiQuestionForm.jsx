@@ -92,12 +92,12 @@ export default function MultiQuestionForm({
 
   const enabledQuestions = getEnabledQuestions({ questionState, customId });
 
-  function handleClearValues(afterQuestionId) {
-    clearValuesAfter({
-      afterQuestionId,
+  function handleClearValuesAfter(questionId) {
+    const newQuestionState = clearValuesAfter({
+      questionId,
       questionState,
-      setQuestionState,
     });
+    setQuestionState([...newQuestionState]);
   }
 
   const formQuestions = enabledQuestions.map(
@@ -108,7 +108,7 @@ export default function MultiQuestionForm({
           recordStart={recordStart}
           optionsConfig={defaultOptions}
           setQuestionValue={setQuestionValue}
-          handleClearValues={handleClearValues}
+          handleClearValuesAfter={handleClearValuesAfter}
           key={`question-${question.id}`}
         />
       ),

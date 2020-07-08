@@ -48,21 +48,15 @@ export function checkFormStatus({ questionState, customId }) {
     : checkFormResult({ questionState, customId });
 }
 
-// removes value from every question after given questionId
-export function clearValuesAfter({
-  afterQuestionId,
-  questionState,
-  setQuestionState,
-}) {
-  const afterQuestionIndex = questionState.findIndex(
-    question => question.id === afterQuestionId,
+// sets value to undefined for every question after given questionId
+export function clearValuesAfter({ questionId, questionState }) {
+  const questionIndex = questionState.findIndex(
+    question => question.id === questionId,
   );
-  const newQuestionState = questionState.map((question, index) => {
-    const returnQuestion = question;
-    if (index > afterQuestionIndex) {
-      delete returnQuestion.value;
-    }
-    return returnQuestion;
+  return questionState.map((question, index) => {
+    return {
+      ...question,
+      value: index > questionIndex ? undefined : question.value,
+    };
   });
-  setQuestionState([...newQuestionState]);
 }
