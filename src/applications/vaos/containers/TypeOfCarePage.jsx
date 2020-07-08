@@ -18,10 +18,12 @@ import {
   getFormPageInfo,
   getNewAppointment,
   vaosDirectScheduling,
-  getResidentialAddress,
 } from '../utils/selectors';
 
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
+import {
+  selectIsCernerOnlyPatient,
+  selectVet360ResidentialAddress,
+} from 'platform/user/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -117,7 +119,7 @@ export class TypeOfCarePage extends React.Component {
       data,
       pageChangeInProgress,
       showToCUnavailableModal,
-      address,
+      addressLine1,
     } = this.props;
 
     if (!schema) {
@@ -128,7 +130,7 @@ export class TypeOfCarePage extends React.Component {
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <UpdateAddress
-          address={this.props.addressLine1}
+          address={addressLine1}
           showAlert={this.state.showAlert}
           onHide={this.hideAlert}
         />
@@ -161,7 +163,7 @@ export class TypeOfCarePage extends React.Component {
 function mapStateToProps(state) {
   const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
-  const address = getResidentialAddress(state);
+  const address = selectVet360ResidentialAddress(state);
   return {
     ...formInfo,
     ...address,

@@ -138,6 +138,10 @@ describe('VAOS <TypeOfCarePage>', () => {
       />,
     );
     expect(form.find('.usa-alert').exists()).to.be.true;
+
+    form.find('a.usa-button.usa-button-primary').simulate('click');
+
+    expect(form.find('.usa-alert').exists()).to.be.false;
     form.unmount();
   });
 
@@ -181,14 +185,14 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     const form = mount(
       <TypeOfCarePage
-        addressLine1="123 Sesame St"
+        addressLine1="PO Box 123"
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
         updateFormData={updateFormData}
         data={{}}
-        showAlert={false}
       />,
     );
+    form.find('a.usa-button.usa-button-primary').simulate('click');
 
     expect(form.find('.usa-alert').exists()).to.be.false;
     form.unmount();
