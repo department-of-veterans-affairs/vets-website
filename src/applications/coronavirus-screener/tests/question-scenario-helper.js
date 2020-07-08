@@ -1,4 +1,4 @@
-import { normal, slow } from 'platform/testing/e2e/timeouts';
+import { normal, slow, verySlow } from 'platform/testing/e2e/timeouts';
 
 // wait time before clicking
 const pause = 500;
@@ -7,7 +7,7 @@ export function testQuestionScenario({ scenario, client }) {
   client.refresh().waitForElementVisible('body', normal);
   scenario.questions.forEach(question => {
     client
-      .waitForElementVisible(`div[id=${question.id}]`, slow)
+      .waitForElementVisible(`div[id=${question.id}]`, verySlow)
       .assert.visible(`div[id=${question.id}]`)
       // extra workaround for https://github.com/nightwatchjs/nightwatch/issues/1221
       .pause(pause)
