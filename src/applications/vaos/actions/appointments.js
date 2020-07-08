@@ -18,6 +18,7 @@ import {
   getVARClinicId,
   getVARFacilityId,
   getVAAppointmentLocationId,
+  getVideoAppointmentLocation,
 } from '../services/appointment';
 
 import { captureError, getErrorCodes } from '../utils/error';
@@ -84,9 +85,14 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
   const nonVaFacilityAppointmentIds = futureAppointments
     .filter(
-      appt => appt.vaos?.videoType || appt.vaos?.isCommunityCare || !appt.vaos,
+      appt =>
+        !appt.vaos?.videoType && (appt.vaos?.isCommunityCare || !appt.vaos),
     )
     .map(appt => appt.facilityId || appt.facility?.facilityCode);
+
+  const videoAppointmentIds = futureAppointments
+    .filter(appt => appt.vaos?.videoType)
+    .map(getVideoAppointmentLocation);
 
   // Get facility ids from VA appointments
   const vaFacilityAppointmentIds = futureAppointments
@@ -96,9 +102,11 @@ async function getAdditionalFacilityInfo(futureAppointments) {
     .map(getVAAppointmentLocationId);
 
   const uniqueFacilityIds = new Set(
-    [...nonVaFacilityAppointmentIds, ...vaFacilityAppointmentIds].filter(
-      id => !!id,
-    ),
+    [
+      ...nonVaFacilityAppointmentIds,
+      ...videoAppointmentIds,
+      ...vaFacilityAppointmentIds,
+    ].filter(id => !!id),
   );
   let facilityData = null;
   if (uniqueFacilityIds.size > 0) {
