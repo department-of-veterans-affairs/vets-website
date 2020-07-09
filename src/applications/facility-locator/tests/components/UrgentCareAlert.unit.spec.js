@@ -21,6 +21,7 @@ describe('<UrgentCareAlert>', () => {
     expect(button.length).to.equal(1);
     wrapper.unmount();
   });
+
   it('should render alert dialog calling showDialogUrgCare -  cc_provider facility type & urgentcare service type ', () => {
     const dialogUrgentCare = showDialogUrgCare({
       facilityType: LocationType.CC_PROVIDER,

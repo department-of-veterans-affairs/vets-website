@@ -1,8 +1,7 @@
 import React from 'react';
 import { facilityTypes, ccUrgentCareLabels } from '../config';
-import { CLINIC_URGENTCARE_SERVICE } from '../constants';
 
-const urgentCareProviderNames = (query, posCodes) => {
+export const urgentCareProviderNames = posCodes => {
   if (posCodes && parseInt(posCodes, 10) === 17) {
     return ccUrgentCareLabels.WalkIn;
   } else if (posCodes && parseInt(posCodes, 10) === 20) {
@@ -19,10 +18,10 @@ const providerName = (query, posCodes) => {
       name = facilityTypes.cc_pharmacy.toUpperCase();
       break;
     case 'urgent_care':
-      name = urgentCareProviderNames(query, posCodes);
+      name = urgentCareProviderNames(posCodes);
       break;
     default:
-      name = urgentCareProviderNames(query, posCodes);
+      name = urgentCareProviderNames(posCodes);
   }
   return name;
 };

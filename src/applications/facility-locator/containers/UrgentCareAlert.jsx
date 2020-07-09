@@ -1,6 +1,5 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import PropTypes from 'prop-types';
 
 export default function UrgentCareAlert() {
   return (
@@ -35,8 +34,3 @@ export default function UrgentCareAlert() {
     </div>
   );
 }
-
-UrgentCareAlert.propTypes = {
-  headingStyle: PropTypes.object,
-  ddStyle: PropTypes.element,
-};
