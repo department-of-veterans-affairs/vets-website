@@ -21,45 +21,6 @@ describe('<UrgentCareAlert>', () => {
     expect(button.length).to.equal(1);
     wrapper.unmount();
   });
-
-  it('should render with style props', () => {
-    const headingStyle = {
-      fontWeight: '700',
-      fontFamily: 'Bitter, Georgia, Cambria, Times New Roman, Times, serif',
-      lineHeight: '1.3',
-      clear: 'both',
-    };
-    const ddStyle = {
-      margin: '2rem 0 .5rem 0',
-      lineHeight: '1.5',
-    };
-    const wrapper = shallow(
-      <UrgentCareAlert ddStyle={ddStyle} headingStyle={headingStyle} />,
-    );
-    expect(wrapper.type()).to.not.equal(null);
-    expect(wrapper.find('dd').prop('style')).to.have.property(
-      'margin',
-      ddStyle.margin,
-    );
-    expect(wrapper.find('dd').prop('style')).to.have.property(
-      'lineHeight',
-      ddStyle.lineHeight,
-    );
-    expect(wrapper.find('dt').prop('style')).to.have.property(
-      'fontWeight',
-      headingStyle.fontWeight,
-    );
-    expect(wrapper.find('dt').prop('style')).to.have.property(
-      'fontFamily',
-      headingStyle.fontFamily,
-    );
-    expect(wrapper.find('dt').prop('style')).to.have.property(
-      'lineHeight',
-      headingStyle.lineHeight,
-    );
-    wrapper.unmount();
-  });
-
   it('should render alert dialog calling showDialogUrgCare -  cc_provider facility type & urgentcare service type ', () => {
     const dialogUrgentCare = showDialogUrgCare({
       facilityType: LocationType.CC_PROVIDER,
