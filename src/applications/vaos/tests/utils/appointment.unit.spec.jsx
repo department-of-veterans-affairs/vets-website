@@ -31,6 +31,8 @@ import {
 import confirmedCC from '../../api/confirmed_cc.json';
 import confirmedVA from '../../api/confirmed_va.json';
 import requestData from '../../api/requests.json';
+import { getVARequestMock } from '../mocks/v0';
+import { setRequestedPeriod } from '../mocks/helpers';
 
 describe('VAOS appointment helpers', () => {
   const now = moment();
@@ -660,73 +662,79 @@ describe('VAOS appointment helpers', () => {
   describe('filterRequests', () => {
     it('should filter future requests', () => {
       const requests = [
+        // canceled past - should filter out
         {
-          status: 'Booked',
-          appointmentType: 'Primary Care',
-          optionDate1: now
-            .clone()
-            .add(2, 'days')
-            .format('MM/DD/YYYY'),
+          status: APPOINTMENT_STATUS.cancelled,
+          requestedPeriod: [
+            setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
+          ],
+          vaos: { isPastAppointment: true },
         },
+        // pending past - should filter out
         {
-          status: 'Cancelled',
-          appointmentType: 'Primary Care',
-          optionDate1: now
-            .clone()
-            .subtract(2, 'days')
-            .format('MM/DD/YYYY'),
+          status: APPOINTMENT_STATUS.pending,
+          requestedPeriod: [
+            setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
+          ],
+          vaos: { isPastAppointment: true },
         },
+        // future within 13 - should not filter out
         {
-          status: 'Submitted',
-          appointmentType: 'Primary Care',
-          optionDate1: now
-            .clone()
-            .subtract(2, 'days')
-            .format('MM/DD/YYYY'),
+          status: APPOINTMENT_STATUS.pending,
+          requestedPeriod: [
+            setRequestedPeriod(
+              now
+                .clone()
+                .add(13, 'months')
+                .add(-1, 'days'),
+              'AM',
+            ),
+          ],
+          vaos: { isPastAppointment: false },
         },
+        // future past 13 - should filter out
         {
-          status: 'Submitted',
-          appointmentType: 'Primary Care',
-          optionDate1: now
-            .clone()
-            .add(13, 'months')
-            .subtract(1, 'days')
-            .format('MM/DD/YYYY'),
+          status: APPOINTMENT_STATUS.pending,
+          requestedPeriod: [
+            setRequestedPeriod(
+              now
+                .clone()
+                .add(13, 'months')
+                .add(1, 'days'),
+              'AM',
+            ),
+          ],
+          vaos: { isPastAppointment: false },
         },
+        // future - should not filter out
         {
-          status: 'Submitted',
-          appointmentType: 'Primary Care',
-          optionDate1: now
-            .clone()
-            .add(13, 'months')
-            .add(1, 'days')
-            .format('MM/DD/YYYY'),
+          status: APPOINTMENT_STATUS.pending,
+          requestedPeriod: [
+            setRequestedPeriod(now.clone().add(2, 'days'), 'AM'),
+          ],
+          vaos: { isPastAppointment: false },
         },
+        // future canceled - should not filter out
         {
-          status: 'Submitted',
-          appointmentType: 'Primary Care',
-          optionDate1: now
-            .clone()
-            .add(2, 'days')
-            .format('MM/DD/YYYY'),
-        },
-        {
-          status: 'Cancelled',
-          appointmentType: 'Primary Care',
-          optionDate1: now
-            .clone()
-            .add(3, 'days')
-            .format('MM/DD/YYYY'),
+          status: APPOINTMENT_STATUS.cancelled,
+          requestedPeriod: [
+            setRequestedPeriod(now.clone().add(3, 'days'), 'AM'),
+          ],
+          vaos: { isPastAppointment: false },
         },
       ];
 
       const filteredRequests = requests.filter(r => filterRequests(r, now));
       expect(
-        filteredRequests.filter(req => req.status === 'Cancelled').length,
+        filteredRequests.filter(
+          req => req.status === APPOINTMENT_STATUS.cancelled,
+        ).length,
       ).to.equal(1);
       expect(
-        filteredRequests.filter(req => req.status === 'Submitted').length,
-      ).to.equal(4);
+        filteredRequests.filter(
+          req => req.status === APPOINTMENT_STATUS.pending,
+        ).length,
+      ).to.equal(3);
       expect(
         filteredRequests.filter(req => req.status === 'Booked').length,
       ).to.equal(0);
@@ -738,18 +746,57 @@ describe('VAOS appointment helpers', () => {
       const requests = [
         {
           id: 'third',
-          typeOfCare: 'Primary Care',
-          dateOptions: [{ date: moment('12/13/2019', 'MM/DD/YYYY') }],
+          type: {
+            coding: [{ display: 'Primary Care' }],
+          },
+          requestedPeriod: [
+            {
+              start: `${now
+                .clone()
+                .add(4, 'days')
+                .format('YYYY-MM-DD')}T00:00:00.000Z`,
+              end: `${now
+                .clone()
+                .add(4, 'days')
+                .format('YYYY-MM-DD')}T11:59:59.999Z`,
+            },
+          ],
         },
         {
           id: 'first',
-          typeOfCare: 'Audiology (hearing aid support)',
-          dateOptions: [{ date: moment('12/12/2019', 'MM/DD/YYYY') }],
+          type: {
+            coding: [{ display: 'Audiology (hearing aid support)' }],
+          },
+          requestedPeriod: [
+            {
+              start: `${now
+                .clone()
+                .add(3, 'days')
+                .format('YYYY-MM-DD')}T00:00:00.000Z`,
+              end: `${now
+                .clone()
+                .add(3, 'days')
+                .format('YYYY-MM-DD')}T11:59:59.999Z`,
+            },
+          ],
         },
         {
           id: 'second',
-          typeOfCare: 'Primary Care',
-          dateOptions: [{ date: moment('12/12/2019', 'MM/DD/YYYY') }],
+          type: {
+            coding: [{ display: 'Primary Care' }],
+          },
+          requestedPeriod: [
+            {
+              start: `${now
+                .clone()
+                .add(3, 'days')
+                .format('YYYY-MM-DD')}T00:00:00.000Z`,
+              end: `${now
+                .clone()
+                .add(3, 'days')
+                .format('YYYY-MM-DD')}T11:59:59.999Z`,
+            },
+          ],
         },
       ];
 

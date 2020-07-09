@@ -264,7 +264,7 @@ const vaRequest = {
   optionTime3: 'AM',
   status: 'Booked',
   appointmentType: 'Primary Care',
-  visitType: 'Office Visit',
+  visitType: 'Video Conference',
   reasonForVisit: null,
   email: 'aarathi.poldass@va.gov',
   textMessagingAllowed: false,
@@ -555,8 +555,8 @@ describe('VAOS Appointment transformer', () => {
         expect(data.vaos.appointmentType).to.equal(APPOINTMENT_TYPES.request);
       });
 
-      it('should not return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(undefined);
+      it('should return vaos.videoType', () => {
+        expect(data.vaos.videoType).to.equal('videoConnect');
       });
 
       it('should set requestedPeriods', () => {
@@ -565,19 +565,19 @@ describe('VAOS Appointment transformer', () => {
           `${now.format('YYYY-MM-DD')}T00:00:00.000Z`,
         );
         expect(data.requestedPeriod[0].end).to.equal(
-          `${now.format('YYYY-MM-DD')}T11:59:99.999Z`,
+          `${now.format('YYYY-MM-DD')}T11:59:59.999Z`,
         );
         expect(data.requestedPeriod[1].start).to.equal(
           `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000Z`,
         );
         expect(data.requestedPeriod[1].end).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T11:59:99.999Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T11:59:59.999Z`,
         );
         expect(data.requestedPeriod[2].start).to.equal(
           `${tomorrow.format('YYYY-MM-DD')}T12:00:00.000Z`,
         );
         expect(data.requestedPeriod[2].end).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T23:59:99.999Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T23:59:59.999Z`,
         );
       });
 
@@ -814,13 +814,13 @@ describe('VAOS Appointment transformer', () => {
         `${now.format('YYYY-MM-DD')}T00:00:00.000Z`,
       );
       expect(data.requestedPeriod[0].end).to.equal(
-        `${now.format('YYYY-MM-DD')}T11:59:99.999Z`,
+        `${now.format('YYYY-MM-DD')}T11:59:59.999Z`,
       );
       expect(data.requestedPeriod[1].start).to.equal(
         `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000Z`,
       );
       expect(data.requestedPeriod[1].end).to.equal(
-        `${tomorrow.format('YYYY-MM-DD')}T11:59:99.999Z`,
+        `${tomorrow.format('YYYY-MM-DD')}T11:59:59.999Z`,
       );
     });
 

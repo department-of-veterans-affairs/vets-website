@@ -25,6 +25,8 @@ import {
   APPOINTMENT_TYPES,
 } from '../../utils/constants';
 
+import { setRequestedPeriod } from '../mocks/helpers';
+
 const initialState = {};
 
 describe('VAOS reducer: appointments', () => {
@@ -63,11 +65,11 @@ describe('VAOS reducer: appointments', () => {
         // pending appointments will show
         [
           {
-            status: 'Submitted',
-            appointmentType: 'Primary Care',
-            optionDate1: moment()
-              .add(2, 'days')
-              .format('MM/DD/YYYY'),
+            status: APPOINTMENT_STATUS.pending,
+            requestedPeriod: [
+              setRequestedPeriod(moment().add(2, 'days'), 'AM'),
+            ],
+            vaos: {},
           },
         ],
       ],
