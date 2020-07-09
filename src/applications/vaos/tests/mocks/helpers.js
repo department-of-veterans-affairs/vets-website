@@ -112,3 +112,15 @@ export function mockVACancelFetches(id, reasons) {
     { data: {} },
   );
 }
+
+export function setRequestedPeriod(date, amOrPm) {
+  const isAM = amOrPm === 'AM';
+  return {
+    start: `${date.format('YYYY-MM-DD')}T${
+      isAM ? '00:00:00.000Z' : `12:00:00.000Z`
+    }`,
+    end: `${date.format('YYYY-MM-DD')}T${
+      isAM ? '11:59:59.999Z' : `23:59:59.999Z`
+    }`,
+  };
+}
