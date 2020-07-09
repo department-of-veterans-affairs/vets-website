@@ -750,16 +750,13 @@ describe('VAOS appointment helpers', () => {
             coding: [{ display: 'Primary Care' }],
           },
           requestedPeriod: [
-            {
-              start: `${now
+            setRequestedPeriod(
+              now
                 .clone()
                 .add(4, 'days')
-                .format('YYYY-MM-DD')}T00:00:00.000Z`,
-              end: `${now
-                .clone()
-                .add(4, 'days')
-                .format('YYYY-MM-DD')}T11:59:59.999Z`,
-            },
+                .format('YYYY-MM-DD'),
+              'AM',
+            ),
           ],
         },
         {
@@ -768,16 +765,7 @@ describe('VAOS appointment helpers', () => {
             coding: [{ display: 'Audiology (hearing aid support)' }],
           },
           requestedPeriod: [
-            {
-              start: `${now
-                .clone()
-                .add(3, 'days')
-                .format('YYYY-MM-DD')}T00:00:00.000Z`,
-              end: `${now
-                .clone()
-                .add(3, 'days')
-                .format('YYYY-MM-DD')}T11:59:59.999Z`,
-            },
+            setRequestedPeriod(now.clone().add(3, 'days'), 'AM'),
           ],
         },
         {
@@ -786,16 +774,7 @@ describe('VAOS appointment helpers', () => {
             coding: [{ display: 'Primary Care' }],
           },
           requestedPeriod: [
-            {
-              start: `${now
-                .clone()
-                .add(3, 'days')
-                .format('YYYY-MM-DD')}T00:00:00.000Z`,
-              end: `${now
-                .clone()
-                .add(3, 'days')
-                .format('YYYY-MM-DD')}T11:59:59.999Z`,
-            },
+            setRequestedPeriod(now.clone().add(3, 'days'), 'AM'),
           ],
         },
       ];

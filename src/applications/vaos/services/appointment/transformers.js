@@ -246,15 +246,13 @@ function getRequestedPeriods(appt) {
     // or the start may be in the past, and the end date in the future,
     // which means that period is expected / planned to end at the specified time.
     if (moment(appt[`optionDate${x}`]).isValid() && optionTime) {
-      const momentDate = moment(appt[`optionDate${x}`], format);
+      const momentDate = moment(appt[`optionDate${x}`], format).format(
+        'YYYY-MM-DD',
+      );
       const isAM = optionTime === 'AM';
       requestedPeriods.push({
-        start: `${momentDate.format('YYYY-MM-DD')}T${
-          isAM ? '00:00:00.000Z' : `12:00:00.000Z`
-        }`,
-        end: `${momentDate.format('YYYY-MM-DD')}T${
-          isAM ? '11:59:59.999Z' : `23:59:59.999Z`
-        }`,
+        start: `${momentDate}T${isAM ? '00:00:00.000Z' : `12:00:00.000Z`}`,
+        end: `${momentDate}T${isAM ? '11:59:59.999Z' : `23:59:59.999Z`}`,
       });
     }
   }

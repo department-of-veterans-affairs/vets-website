@@ -114,7 +114,7 @@ export function mockVACancelFetches(id, reasons) {
 }
 
 export function setRequestedPeriod(date, amOrPm) {
-  const isAM = amOrPm === 'AM';
+  const isAM = amOrPm.toUpperCase() === 'AM';
   return {
     start: `${date.format('YYYY-MM-DD')}T${
       isAM ? '00:00:00.000Z' : `12:00:00.000Z`
