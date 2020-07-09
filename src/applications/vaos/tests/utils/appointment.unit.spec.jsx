@@ -750,13 +750,7 @@ describe('VAOS appointment helpers', () => {
             coding: [{ display: 'Primary Care' }],
           },
           requestedPeriod: [
-            setRequestedPeriod(
-              now
-                .clone()
-                .add(4, 'days')
-                .format('YYYY-MM-DD'),
-              'AM',
-            ),
+            setRequestedPeriod(now.clone().add(4, 'days'), 'AM'),
           ],
         },
         {
