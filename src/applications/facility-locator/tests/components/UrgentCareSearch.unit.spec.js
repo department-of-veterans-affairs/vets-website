@@ -50,6 +50,6 @@ describe('UrgentCareSearch', () => {
     expect(walkIn).to.equal('RETAIL/WALK-IN CARE');
     expect(urgentCare1).to.equal('URGENT CARE');
     const urgentCare2 = urgentCareProviderNames(undefined);
-    expect(urgentCare2).to.equal('URGENT CARE');
+    expect(urgentCare2).to.equal('COMMUNITY PROVIDERS (IN VA’S NETWORK)');
   });
 });

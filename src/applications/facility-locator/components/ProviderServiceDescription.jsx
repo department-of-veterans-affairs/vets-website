@@ -7,7 +7,7 @@ export const urgentCareProviderNames = posCodes => {
   } else if (posCodes && parseInt(posCodes, 10) === 20) {
     return ccUrgentCareLabels.UrgentCare;
   } else {
-    return facilityTypes.urgent_care.toUpperCase();
+    return facilityTypes.cc_provider.toUpperCase();
   }
 };
 
