@@ -103,7 +103,9 @@ export class IntroductionPage extends React.Component {
                 <h5>Prepare</h5>
               </div>
               <div itemProp="itemListElement">
-                <div>To fill out this application, you’ll need your:</div>
+                <div>
+                  <b>To fill out this application, you’ll need your:</b>
+                </div>
                 <ul>
                   <li>Social Security number</li>
                   <li>Information about your school and STEM degree</li>
