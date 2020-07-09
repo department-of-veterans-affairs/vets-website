@@ -246,13 +246,14 @@ function getRequestedPeriods(appt) {
     // or the start may be in the past, and the end date in the future,
     // which means that period is expected / planned to end at the specified time.
     if (moment(appt[`optionDate${x}`]).isValid() && optionTime) {
+      const momentDate = moment(appt[`optionDate${x}`], format);
       const isAM = optionTime === 'AM';
       requestedPeriods.push({
-        start: `${moment(appt[`optionDate${x}`], format).format(
-          'YYYY-MM-DD',
-        )}T${isAM ? '00:00:00.000Z' : `12:00:00.000Z`}`,
-        end: `${moment(appt[`optionDate${x}`], format).format('YYYY-MM-DD')}T${
-          isAM ? '11:59:99.999Z' : `23:59:99.999Z`
+        start: `${momentDate.format('YYYY-MM-DD')}T${
+          isAM ? '00:00:00.000Z' : `12:00:00.000Z`
+        }`,
+        end: `${momentDate.format('YYYY-MM-DD')}T${
+          isAM ? '11:59:59.999Z' : `23:59:59.999Z`
         }`,
       });
     }
@@ -451,15 +452,20 @@ function setContained(appt) {
  * @returns {Object}
  */
 function setLegacyVAR(appt) {
-  const legacyVar = {
+  const type = getAppointmentType(appt);
+
+  const legacyVAR = {
     apiData: appt,
   };
 
-  if (getAppointmentType(appt) === APPOINTMENT_TYPES.request) {
-    legacyVar.bestTimeToCall = appt.bestTimetoCall;
+  if (
+    type === APPOINTMENT_TYPES.request ||
+    type === APPOINTMENT_TYPES.ccRequest
+  ) {
+    legacyVAR.bestTimeToCall = appt.bestTimetoCall;
   }
 
-  return legacyVar;
+  return legacyVAR;
 }
 
 /**
@@ -512,12 +518,13 @@ export function transformConfirmedAppointments(appointments) {
 export function transformPendingAppointments(requests) {
   return requests.map(appt => {
     const isCC = isCommunityCare(appt);
+    const requestedPeriod = getRequestedPeriods(appt);
 
     return {
       resourceType: 'Appointment',
       id: `var${appt.id}`,
       status: getStatus(appt, isCC),
-      requestedPeriod: getRequestedPeriods(appt),
+      requestedPeriod,
       minutesDuration: 60,
       type: {
         coding: [
@@ -535,7 +542,10 @@ export function transformPendingAppointments(requests) {
         appointmentType: getAppointmentType(appt),
         isCommunityCare: isCC,
         isExpressCare: appt.typeOfCareId === EXPRESS_CARE,
-        isPastAppointment: false,
+        isPastAppointment: !requestedPeriod.some(p =>
+          moment(p.start).isAfter(moment()),
+        ),
+        videoType: getVideoType(appt),
       },
     };
   });

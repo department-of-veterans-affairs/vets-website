@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function ListBestTimeToCall({ timesToCall }) {
-  const times = timesToCall.map(t => t.toLowerCase());
+  const times = timesToCall?.map(t => t.toLowerCase());
   if (times.length === 1) {
     return <>Call {times[0]}</>;
   } else if (times.length === 2) {

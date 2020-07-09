@@ -49,7 +49,10 @@ export async function getBookedAppointments({ startDate, endDate }) {
  */
 export async function getAppointmentRequests({ startDate, endDate }) {
   try {
-    const appointments = await getPendingAppointments(startDate, endDate);
+    const appointments = (await getPendingAppointments(
+      startDate,
+      endDate,
+    )).filter(appt => ['Submitted', 'Cancelled'].includes(appt.status));
 
     return transformPendingAppointments(appointments);
   } catch (e) {

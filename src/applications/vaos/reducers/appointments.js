@@ -60,13 +60,12 @@ export default function appointmentsReducer(state = initialState, action) {
       const [bookedAppointments, requests] = action.data;
 
       const confirmedFilteredAndSorted = [...bookedAppointments]
-        .filter(appt => filterFutureConfirmedAppointments(appt))
+        .filter(filterFutureConfirmedAppointments)
         .sort(sortFutureConfirmedAppointments);
-      const requestsFilteredAndSorted = [
-        ...requests.filter(req => filterRequests(req, action.today)),
-      ]
-        .map(transformRequest)
+      const requestsFilteredAndSorted = [...requests]
+        .filter(filterRequests)
         .sort(sortFutureRequests);
+
       return {
         ...state,
         future: [...confirmedFilteredAndSorted, ...requestsFilteredAndSorted],

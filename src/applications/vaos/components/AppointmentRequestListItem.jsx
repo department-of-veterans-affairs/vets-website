@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import moment from 'moment';
 
 import ListBestTimeToCall from './ListBestTimeToCall';
 import { sentenceCase } from '../utils/formatters';
@@ -10,6 +11,12 @@ import AppointmentStatus from './AppointmentStatus';
 import VAFacilityLocation from './VAFacilityLocation';
 import AppointmentRequestCommunityCareLocation from './AppointmentRequestCommunityCareLocation';
 import AdditionalInfoRow from './AdditionalInfoRow';
+
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id ? id.replace('var', '') : id;
+}
 
 export default class AppointmentRequestListItem extends React.Component {
   static propTypes = {
@@ -25,10 +32,10 @@ export default class AppointmentRequestListItem extends React.Component {
 
   toggleShowMore = () => {
     const { appointment, messages, fetchMessages } = this.props;
-    const id = appointment.id;
+    const id = parseFakeFHIRId(appointment.id);
     const showMore = !this.state.showMore;
 
-    if (showMore && !messages[id] && !appointment.isExpressCare) {
+    if (showMore && !messages[id] && !appointment.vaos.isExpressCare) {
       fetchMessages(id);
     }
 
@@ -43,11 +50,30 @@ export default class AppointmentRequestListItem extends React.Component {
       cancelAppointment,
       showCancelButton,
       facility,
+      facilityId,
     } = this.props;
+
     const { showMore } = this.state;
+    const isCC = appointment.vaos.isCommunityCare;
+    const isExpressCare = appointment.vaos.isExpressCare;
+    const videoType = appointment.vaos.videoType;
     const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
     const firstMessage =
-      messages?.[appointment.id]?.[0]?.attributes?.messageText;
+      messages?.[parseFakeFHIRId(appointment.id)]?.[0]?.attributes?.messageText;
+
+    const patientInfo = appointment.participant.find(p =>
+      p?.actor?.reference.includes('Patient'),
+    )?.actor;
+
+    const patientPhone = patientInfo?.telecom?.find(t => t?.system === 'phone')
+      ?.value;
+
+    const patientEmail = patientInfo?.telecom?.find(t => t?.system === 'email')
+      ?.value;
+
+    const facilityName = appointment.participant?.find(p =>
+      p.actor.reference?.startsWith('Location'),
+    )?.actor?.display;
 
     const itemClasses = classNames(
       'vaos-appts__list-item vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -63,44 +89,36 @@ export default class AppointmentRequestListItem extends React.Component {
         aria-labelledby={`card-${index} card-${index}-status`}
         data-request-id={appointment.id}
         className={itemClasses}
-        data-is-cancelable={
-          !appointment.isCommunityCare && !appointment.videoType
-            ? 'true'
-            : 'false'
-        }
+        data-is-cancelable={!isCC && !videoType ? 'true' : 'false'}
       >
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
-          {appointment.isCommunityCare && 'Community Care'}
-          {!appointment.isCommunityCare &&
-            !!appointment.videoType &&
-            'VA Video Connect'}
-          {!appointment.isCommunityCare &&
-            !appointment.videoType &&
-            'VA Appointment'}
+          {isCC && 'Community Care'}
+          {!isCC && !!videoType && 'VA Video Connect'}
+          {!isCC && !videoType && 'VA Appointment'}
         </div>
         <h3
           id={`card-${index}`}
           className="vads-u-font-size--h3 vads-u-margin-y--0"
         >
-          {sentenceCase(appointment.typeOfCare)} appointment
+          {sentenceCase(appointment.type?.coding?.[0]?.display)} appointment
         </h3>
         <AppointmentStatus status={appointment.status} index={index} />
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            {appointment.isCommunityCare && (
+            {isCC && (
               <AppointmentRequestCommunityCareLocation
                 appointment={appointment}
               />
             )}
-            {!appointment.isCommunityCare && (
+            {!isCC && (
               <VAFacilityLocation
                 facility={facility}
-                facilityName={appointment.facilityName}
-                facilityId={appointment.facility.facilityCode}
+                facilityName={facilityName}
+                facilityId={parseFakeFHIRId(facilityId)}
               />
             )}
           </div>
-          {!appointment.isExpressCare && (
+          {!isExpressCare && (
             <div className="vads-u-flex--1 vaos-u-word-break--break-word">
               <dl className="vads-u-margin--0">
                 <dt className="vads-u-font-weight--bold">
@@ -108,10 +126,12 @@ export default class AppointmentRequestListItem extends React.Component {
                 </dt>
                 <dd>
                   <ul className="usa-unstyled-list">
-                    {appointment.dateOptions.map((option, optionIndex) => (
+                    {appointment.requestedPeriod.map((option, optionIndex) => (
                       <li key={`${appointment.id}-option-${optionIndex}`}>
-                        {option.date.format('ddd, MMMM D, YYYY')}{' '}
-                        {TIME_TEXT[option.optionTime]}
+                        {moment.utc(option.start).format('ddd, MMMM D, YYYY')}{' '}
+                        {option.start.includes('00:00:00')
+                          ? TIME_TEXT.AM
+                          : TIME_TEXT.PM}
                       </li>
                     ))}
                   </ul>
@@ -129,7 +149,7 @@ export default class AppointmentRequestListItem extends React.Component {
           >
             <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
               <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
-                {appointment.isExpressCare && (
+                {isExpressCare && (
                   <dl className="vads-u-margin--0">
                     <dt className="vads-u-font-weight--bold">
                       Reason for appointment
@@ -137,7 +157,7 @@ export default class AppointmentRequestListItem extends React.Component {
                     <dd>{appointment.reason}</dd>
                   </dl>
                 )}
-                {!appointment.isExpressCare && (
+                {!isExpressCare && (
                   <dl className="vads-u-margin--0">
                     <dt className="vads-u-font-weight--bold">
                       {appointment.reason}
@@ -152,13 +172,13 @@ export default class AppointmentRequestListItem extends React.Component {
                     Your contact details
                   </dt>
                   <dd>
-                    {appointment.email}
+                    {patientEmail}
                     <br />
-                    {appointment.phoneNumber}
+                    {patientPhone}
                     <br />
                     <span className="vads-u-font-style--italic">
                       <ListBestTimeToCall
-                        timesToCall={appointment.bestTimetoCall}
+                        timesToCall={appointment.legacyVAR?.bestTimeToCall}
                       />
                     </span>
                   </dd>

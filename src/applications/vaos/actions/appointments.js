@@ -5,7 +5,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../utils/events';
 
 import {
-  getPendingAppointments,
   getCancelReasons,
   getRequestMessages,
   updateAppointment,
@@ -15,6 +14,7 @@ import { getLocations } from '../services/location';
 
 import {
   getBookedAppointments,
+  getAppointmentRequests,
   getVARClinicId,
   getVARFacilityId,
   getVAAppointmentLocationId,
@@ -133,18 +133,17 @@ export function fetchFutureAppointments() {
               .add(13, 'months')
               .format('YYYY-MM-DD'),
           }),
-          getPendingAppointments(
-            moment()
+          getAppointmentRequests({
+            startDate: moment()
               .subtract(30, 'days')
               .format('YYYY-MM-DD'),
-            moment().format('YYYY-MM-DD'),
-          ),
+            endDate: moment().format('YYYY-MM-DD'),
+          }),
         ]);
 
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
           data,
-          today: moment(),
         });
 
         try {
@@ -256,7 +255,7 @@ export function confirmCancelAppointment() {
 
       if (!isConfirmedAppointment) {
         apiData = await updateRequest({
-          ...appointment.apiData,
+          ...appointment.legacyVAR.apiData,
           status: CANCELLED_REQUEST,
           appointmentRequestDetailCode: ['DETCODE8'],
         });

@@ -231,25 +231,22 @@ export function filterPastAppointments(appt, startDate, endDate) {
   );
 }
 
-export function filterRequests(request, today) {
-  const status = request?.status;
-  const thirteenMonths = today.clone().add(13, 'months');
-  const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
-  const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
-  const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
+export function filterRequests(request) {
+  const hasValidDate = request.requestedPeriod.some(period => {
+    const momentStart = moment(period.start);
+    const momentEnd = moment(period.end);
+    return (
+      momentStart.isValid() &&
+      momentEnd.isValid() &&
+      momentStart.isBefore(moment().add(13, 'months'))
+    );
+  });
 
-  const hasValidDate =
-    (optionDate1.isValid() &&
-      optionDate1.isAfter(today) &&
-      optionDate1.isBefore(thirteenMonths)) ||
-    (optionDate2.isValid() &&
-      optionDate2.isAfter(today) &&
-      optionDate2.isBefore(thirteenMonths)) ||
-    (optionDate3.isValid() &&
-      optionDate3.isAfter(today) &&
-      optionDate3.isBefore(thirteenMonths));
-
-  return status === 'Submitted' || (status === 'Cancelled' && hasValidDate);
+  return (
+    !request.vaos.isPastAppointment &&
+    (request.status === APPOINTMENT_STATUS.pending ||
+      (request.status === APPOINTMENT_STATUS.cancelled && hasValidDate))
+  );
 }
 
 export function sortFutureConfirmedAppointments(a, b) {
@@ -261,13 +258,20 @@ export function sortPastAppointments(a, b) {
 }
 
 export function sortFutureRequests(a, b) {
-  // If appointmentType is the same, return the one with the sooner date
-  if (a.typeOfCare === b.typeOfCare) {
-    return a.dateOptions[0].date.isBefore(b.dateOptions[0].date) ? -1 : 1;
+  const typeOfCareA = a.type?.coding?.[0]?.display;
+  const typeOfCareB = b.type?.coding?.[0]?.display;
+
+  // If type of care is the same, return the one with the sooner date
+  if (typeOfCareA === typeOfCareB) {
+    return moment(a.requestedPeriod[0].start).isBefore(
+      moment(b.requestedPeriod[0].start),
+    )
+      ? -1
+      : 1;
   }
 
   // Otherwise, return sorted alphabetically by appointmentType
-  return a.typeOfCare.toLowerCase() < b.typeOfCare.toLowerCase() ? -1 : 1;
+  return typeOfCareA.toLowerCase() < typeOfCareB.toLowerCase() ? -1 : 1;
 }
 
 export function sortMessages(a, b) {
