@@ -10,9 +10,15 @@ import { connect } from 'react-redux';
 import { BATTERIES } from '../constants';
 
 class Batteries extends Component {
-  state = {
-    hasIneligibilityEventFired: false,
-  };
+  componentDidMount(props) {
+    const areBatterySuppliesEligible = this.props.eligibility?.batteries;
+    if (!areBatterySuppliesEligible) {
+      recordEvent({
+        event: 'bam-error',
+        'error-key': 'batteries_bam-ineligibility-no-prescription',
+      });
+    }
+  }
 
   handleChecked = (checked, batterySupply) => {
     const { order, formData } = this.props;
@@ -64,16 +70,6 @@ class Batteries extends Component {
       );
       return selectedProductIds.includes(batteryProductId);
     };
-
-    if (!areBatterySuppliesEligible && !this.state.hasIneligibilityEventFired) {
-      recordEvent({
-        event: 'bam-error',
-        'error-key': 'batteries_bam-ineligibility-no-prescription',
-      });
-      this.setState({
-        hasIneligibilityEventFired: true,
-      });
-    }
 
     return (
       <div className="battery-page">
