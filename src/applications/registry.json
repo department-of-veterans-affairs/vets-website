@@ -564,8 +564,8 @@
     "rootUrl": "/education/apply-for-education-benefits/application/10203",
     "template": {
       "vagovprod": false,
-      "title": "Veteran Request For Change",
-      "heading": "Veteran request for change",
+      "title": "Apply for the Rogers STEM Scholarship",
+      "heading": "Apply for the Rogers STEM Scholarship",
       "layout": "page-react.html",
       "description": "Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.",
       "order": 1,
