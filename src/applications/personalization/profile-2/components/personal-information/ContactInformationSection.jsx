@@ -13,12 +13,12 @@ const ContactInformationSection = ({ className }) => (
     <PhoneNumbersTable className="vads-u-margin-bottom--3" />
 
     {/* more info component for contact info */}
-    <AdditionalInfo triggerText="Which of my benefits will use this contact information?">
+    <AdditionalInfo triggerText="How will you use my contact information?">
       We’ll use this information to contact you about certain benefits and
-      services, including disability compensation, pension benefits, and claims
-      and appeals. If you’re enrolled in VA health care, we’ll send your
-      prescriptions to the mailing address listed. Your health care team may
-      also use this contact information to communicate with you.
+      services, like disability compensation, pension benefits, and claims and
+      appeals. If you’re enrolled in VA health care, we’ll send your
+      prescriptions to your mailing address. Your health care team may also use
+      this information to contact you.
     </AdditionalInfo>
   </div>
 );
