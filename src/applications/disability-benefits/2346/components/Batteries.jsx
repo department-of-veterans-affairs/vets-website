@@ -10,20 +10,39 @@ import { connect } from 'react-redux';
 import { BATTERIES } from '../constants';
 
 class Batteries extends Component {
+  componentDidMount(props) {
+    const areBatterySuppliesEligible = this.props.eligibility?.batteries;
+    if (!areBatterySuppliesEligible) {
+      recordEvent({
+        event: 'bam-error',
+        'error-key': 'batteries_bam-ineligibility-no-prescription',
+      });
+    }
+  }
+
   handleChecked = (checked, batterySupply) => {
     const { order, formData } = this.props;
-    let updatedorder;
+    let updatedOrder;
+    const isSupplyChecked = checked ? 'yes' : 'no';
+    recordEvent({
+      event: 'bam-form-change',
+      'bam-form-field': 'batteries-for-this-device',
+      'bam-product-selected': isSupplyChecked,
+      'device-name': batterySupply.deviceName,
+      'product-name': batterySupply.productName,
+      'product-id': batterySupply.productId,
+    });
     if (checked) {
-      updatedorder = [...order, { productId: batterySupply.productId }];
+      updatedOrder = [...order, { productId: batterySupply.productId }];
     } else {
-      updatedorder = order.filter(
+      updatedOrder = order.filter(
         selectedProduct =>
           selectedProduct.productId !== batterySupply.productId,
       );
     }
     const updatedFormData = {
       ...formData,
-      order: updatedorder,
+      order: updatedOrder,
     };
     return this.props.setData(updatedFormData);
   };
@@ -51,13 +70,6 @@ class Batteries extends Component {
       );
       return selectedProductIds.includes(batteryProductId);
     };
-
-    if (!areBatterySuppliesEligible) {
-      recordEvent({
-        event: 'bam-error',
-        'error-key': 'batteries_bam-ineligibility-no-prescription',
-      });
-    }
 
     return (
       <div className="battery-page">

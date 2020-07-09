@@ -84,14 +84,14 @@ const submit = form => {
     },
   };
   recordEvent({
-    event: 'bam-2346a-submission',
+    event: 'bam-2346a--submission',
     'bam-quantityOrdered': itemQuantities,
   });
 
   const onSuccess = resp =>
     new Promise(resolve => {
       recordEvent({
-        event: 'bam-2346a-submission-successful',
+        event: 'bam-2346a--submission-successful',
         'bam-quantityOrdered': itemQuantities,
       });
       return resolve(resp);
@@ -100,7 +100,7 @@ const submit = form => {
   const onFailure = error =>
     new Promise(reject => {
       recordEvent({
-        event: 'bam-2346a-submission-failure',
+        event: 'bam-2346a--submission-failed',
         'bam-quantityOrdered': itemQuantities,
       });
       return reject(error);
