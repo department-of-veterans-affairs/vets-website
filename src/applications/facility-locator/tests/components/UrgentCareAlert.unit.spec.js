@@ -17,7 +17,7 @@ describe('<UrgentCareAlert>', () => {
     expect(dt.length).to.equal(1);
     const dd = wrapper.find('dd');
     expect(dd.length).to.equal(1);
-    const button = wrapper.find('button');
+    const button = wrapper.find('a');
     expect(button.length).to.equal(1);
     wrapper.unmount();
   });
@@ -40,5 +40,13 @@ describe('<UrgentCareAlert>', () => {
     const wrapper = shallow(dialogUrgentCare);
     expect(wrapper.type()).to.not.equal(null);
     wrapper.unmount();
+  });
+
+  it('should not render alert dialog calling showDialogUrgCare when null ', () => {
+    const dialogUrgentCareNull = showDialogUrgCare({
+      facilityType: null,
+      serviceType: null,
+    });
+    expect(dialogUrgentCareNull).to.equal(null);
   });
 });
