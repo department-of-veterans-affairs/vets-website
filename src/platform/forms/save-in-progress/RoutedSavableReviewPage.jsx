@@ -67,12 +67,12 @@ class RoutedSavableReviewPage extends React.Component {
     const { route, user, form, location, showLoginModal } = this.props;
     const errorText = route.formConfig.errorText;
     const savedStatus = form.savedStatus;
-    const { appType } = route.formConfig.customText || APP_TYPE_DEFAULT;
+    const { appType } = route?.formConfig?.customText || APP_TYPE_DEFAULT;
     const saveLink = (
       <SaveFormLink
         locationPathname={location.pathname}
         form={form}
-        formConfig={route.formConfig}
+        formConfig={route?.formConfig}
         user={user}
         showLoginModal={showLoginModal}
         saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
@@ -144,6 +144,9 @@ class RoutedSavableReviewPage extends React.Component {
       path,
       user,
     } = this.props;
+    const finishAppLaterMessage =
+      formConfig?.customText?.finishAppLaterMessage ||
+      FINISH_APP_LATER_DEFAULT_MESSAGE;
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
     return (
       <div>
@@ -181,8 +184,7 @@ class RoutedSavableReviewPage extends React.Component {
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}
         >
-          {formConfig?.customText?.finishAppLaterMessage ||
-            FINISH_APP_LATER_DEFAULT_MESSAGE}
+          {finishAppLaterMessage}
         </SaveFormLink>
       </div>
     );
@@ -227,6 +229,7 @@ RoutedSavableReviewPage.propTypes = {
     formConfig: PropTypes.shape({
       customText: PropTypes.shape({
         finishAppLaterMessage: PropTypes.string,
+        appType: PropTypes.string,
       }),
     }),
   }).isRequired,
@@ -241,6 +244,7 @@ RoutedSavableReviewPage.defaultProps = {
     formConfig: {
       customText: {
         finishAppLaterMessage: '',
+        appType: '',
       },
     },
   },
