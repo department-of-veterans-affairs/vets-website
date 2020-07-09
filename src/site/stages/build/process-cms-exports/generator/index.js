@@ -2,10 +2,11 @@ const path = require('path');
 const fs = require('fs');
 const Generator = require('yeoman-generator');
 const fuzzy = require('fuzzy');
+const _ = require('lodash');
 
 const transformersDir = path.resolve(__dirname, '../transformers');
 
-const customRefs = [
+const inputSchemas = [
   `{ $ref: 'GenericNestedString' }`,
   `{ $ref: 'GenericNestedBoolean' }`,
   `{ $ref: 'GenericNestedNumber' }`,
@@ -14,7 +15,7 @@ const customRefs = [
   `{ $ref: 'MetaTag' }`, // Used in the output schema
 ];
 
-const schemaTypes = [
+const outputSchemas = [
   `{ type: 'string' }`,
   `{ type: 'object', properties: {} }`,
   `{ type: 'array' }`,
@@ -22,9 +23,7 @@ const schemaTypes = [
   `{ type: 'boolean' }`,
 ];
 
-const schemaOptions = customRefs.concat(schemaTypes);
-
-const getFieldType = async (answers, input = '') =>
+const getFieldSchema = schemaOptions => async (answers, input = '') =>
   fuzzy.filter(input, schemaOptions).map(el => el.original);
 
 module.exports = class extends Generator {
@@ -52,22 +51,35 @@ module.exports = class extends Generator {
     this.bundleName = bundleName;
   }
 
-  async generateInputSchema() {
+  async gatherFieldData() {
     let addAnother;
     do {
       // eslint-disable-next-line no-await-in-loop
       const fieldData = await this.prompt([
         {
           type: 'input',
-          name: 'fieldName',
+          name: 'inputFieldName',
           message: "What's the name of the field in the input?",
+        },
+        {
+          type: 'input',
+          name: 'outputFieldName',
+          message: "What's the name of the field in the output?",
+          default: answers => _.camelCase(answers.inputFieldName),
         },
         {
           type: 'autocomplete',
           name: 'inputSchema',
           suggestOnly: true,
           message: 'What does the input schema look like?',
-          source: getFieldType,
+          source: getFieldSchema(inputSchemas),
+        },
+        {
+          type: 'autocomplete',
+          name: 'outputSchema',
+          suggestOnly: true,
+          message: 'What does the output schema look like?',
+          source: getFieldSchema(outputSchemas),
         },
       ]);
       // eslint-disable-next-line no-await-in-loop
@@ -81,10 +93,6 @@ module.exports = class extends Generator {
       this.inputFields.push(fieldData);
     } while (addAnother);
   }
-
-  generateOutputSchema() {}
-
-  generateTransformer() {}
 
   writeFiles() {}
 };
