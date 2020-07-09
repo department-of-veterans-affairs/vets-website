@@ -87,7 +87,7 @@ const formConfig = {
   footerContent: NeedHelpFooter,
   preSubmitInfo: PreSubmitInfo,
   confirmation: ConfirmationPage,
-  formId: '10-10cg',
+  formId: '10-10CG',
   version: 0,
   prefillEnabled: false,
   title:
