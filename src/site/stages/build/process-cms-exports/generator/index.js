@@ -53,10 +53,10 @@ module.exports = class extends Generator {
   }
 
   async generateInputSchema() {
-    let answers = {};
+    let addAnother;
     do {
       // eslint-disable-next-line no-await-in-loop
-      answers = await this.prompt([
+      const fieldData = await this.prompt([
         {
           type: 'input',
           name: 'fieldName',
@@ -69,17 +69,17 @@ module.exports = class extends Generator {
           message: 'What does the input schema look like?',
           source: getFieldType,
         },
+      ]);
+      // eslint-disable-next-line no-await-in-loop
+      addAnother = await this.prompt([
         {
           type: 'confirm',
-          name: 'another',
+          name: 'addAnother',
           message: 'Add another field?',
         },
-      ]);
-      this.inputFields.push({
-        fieldName: answers.fieldName,
-        inputSchema: answers.inputSchema,
-      });
-    } while (answers.another);
+      ]).addAnother;
+      this.inputFields.push(fieldData);
+    } while (addAnother);
   }
 
   generateOutputSchema() {}
