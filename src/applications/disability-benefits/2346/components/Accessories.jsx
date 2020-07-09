@@ -10,15 +10,20 @@ import { connect } from 'react-redux';
 import { ACCESSORIES } from '../constants';
 
 class Accessories extends Component {
+  state = {
+    hasIneligibilityEventFired: false,
+  };
+
   handleChecked = (checked, accessorySupply) => {
     const { order, formData } = this.props;
     let updatedOrder;
+    const isSupplyChecked = checked ? 'yes' : 'no';
     recordEvent({
       event: 'bam-form-change',
       'bam-form-field': 'accessories-for-this-device',
-      'bam-product-selected': checked,
+      'bam-product-selected': isSupplyChecked,
       'product-name': accessorySupply.productName,
-      'device-quantity': accessorySupply.quantity,
+      'product-id': accessorySupply.productId,
     });
     if (checked) {
       updatedOrder = [...order, { productId: accessorySupply.productId }];
@@ -63,10 +68,16 @@ class Accessories extends Component {
       return selectedProductIds.includes(accessoryProductId);
     };
 
-    if (!areAccessorySuppliesEligible) {
+    if (
+      !areAccessorySuppliesEligible &&
+      !this.state.hasIneligibilityEventFired
+    ) {
       recordEvent({
         event: 'bam-error',
         'error-key': 'accessories_bam-ineligibility-no-prescription',
+      });
+      this.setState({
+        hasIneligibilityEventFired: true,
       });
     }
     return (

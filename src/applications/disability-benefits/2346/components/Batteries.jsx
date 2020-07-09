@@ -10,15 +10,21 @@ import { connect } from 'react-redux';
 import { BATTERIES } from '../constants';
 
 class Batteries extends Component {
+  state = {
+    hasIneligibilityEventFired: false,
+  };
+
   handleChecked = (checked, batterySupply) => {
     const { order, formData } = this.props;
     let updatedOrder;
+    const isSupplyChecked = checked ? 'yes' : 'no';
     recordEvent({
       event: 'bam-form-change',
       'bam-form-field': 'batteries-for-this-device',
-      'bam-product-selected': checked,
+      'bam-product-selected': isSupplyChecked,
       'device-name': batterySupply.deviceName,
-      'device-quantity': batterySupply.quantity,
+      'product-name': batterySupply.productName,
+      'product-id': batterySupply.productId,
     });
     if (checked) {
       updatedOrder = [...order, { productId: batterySupply.productId }];
@@ -59,10 +65,13 @@ class Batteries extends Component {
       return selectedProductIds.includes(batteryProductId);
     };
 
-    if (!areBatterySuppliesEligible) {
+    if (!areBatterySuppliesEligible && !this.state.hasIneligibilityEventFired) {
       recordEvent({
         event: 'bam-error',
         'error-key': 'batteries_bam-ineligibility-no-prescription',
+      });
+      this.setState({
+        hasIneligibilityEventFired: true,
       });
     }
 
