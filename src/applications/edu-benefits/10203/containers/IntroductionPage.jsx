@@ -39,7 +39,7 @@ export class IntroductionPage extends React.Component {
         <FormTitle title="Apply for the Rogers STEM Scholarship" />
         <p itemProp="description">
           Equal to VA Form 22-10203 (Application for Edith Nourse Rogers STEM
-          Scholarship).
+          Scholarship)
         </p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -47,7 +47,7 @@ export class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Sign in or create an account"
         />
-        <h4>Follow the steps below to apply for education benefits.</h4>
+        <h4>Follow the steps below to apply for this scholarship</h4>
         <div className="process schemaform-process">
           <ol>
             <li
@@ -76,9 +76,9 @@ export class IntroductionPage extends React.Component {
                   </li>
                   <li>
                     Are enrolled in a bachelor’s degree program for science,
-                    technology, engineering, or math (STEM), or have already
-                    earned a STEM bachelor’s degree and are pursuing a teaching
-                    certification.{' '}
+                    technology, engineering, or math (STEM), <b>or</b> have
+                    already earned a STEM bachelor’s degree and are pursuing a
+                    teaching certification.{' '}
                     <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
                       See approved STEM programs
                     </a>
@@ -103,9 +103,7 @@ export class IntroductionPage extends React.Component {
                 <h5>Prepare</h5>
               </div>
               <div itemProp="itemListElement">
-                <div>
-                  <h6>To fill out this application, you’ll need your:</h6>
-                </div>
+                <div>To fill out this application, you’ll need your:</div>
                 <ul>
                   <li>Social Security number</li>
                   <li>Information about your school and STEM degree</li>
