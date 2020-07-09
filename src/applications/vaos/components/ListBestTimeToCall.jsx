@@ -17,4 +17,6 @@ export default function ListBestTimeToCall({ timesToCall }) {
       </>
     );
   }
+
+  return null;
 }
