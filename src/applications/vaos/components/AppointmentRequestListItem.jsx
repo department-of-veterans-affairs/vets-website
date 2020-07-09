@@ -5,7 +5,11 @@ import moment from 'moment';
 
 import ListBestTimeToCall from './ListBestTimeToCall';
 import { sentenceCase } from '../utils/formatters';
-
+import {
+  getVAAppointmentLocationName,
+  getPatientPhone,
+  getPatientEmail,
+} from '../services/appointment';
 import { APPOINTMENT_STATUS, TIME_TEXT } from '../utils/constants';
 import AppointmentStatus from './AppointmentStatus';
 import VAFacilityLocation from './VAFacilityLocation';
@@ -61,20 +65,6 @@ export default class AppointmentRequestListItem extends React.Component {
     const firstMessage =
       messages?.[parseFakeFHIRId(appointment.id)]?.[0]?.attributes?.messageText;
 
-    const patientInfo = appointment.participant.find(p =>
-      p?.actor?.reference.includes('Patient'),
-    )?.actor;
-
-    const patientPhone = patientInfo?.telecom?.find(t => t?.system === 'phone')
-      ?.value;
-
-    const patientEmail = patientInfo?.telecom?.find(t => t?.system === 'email')
-      ?.value;
-
-    const facilityName = appointment.participant?.find(p =>
-      p.actor.reference?.startsWith('Location'),
-    )?.actor?.display;
-
     const itemClasses = classNames(
       'vaos-appts__list-item vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
       {
@@ -113,7 +103,7 @@ export default class AppointmentRequestListItem extends React.Component {
             {!isCC && (
               <VAFacilityLocation
                 facility={facility}
-                facilityName={facilityName}
+                facilityName={getVAAppointmentLocationName(appointment)}
                 facilityId={parseFakeFHIRId(facilityId)}
               />
             )}
@@ -172,9 +162,9 @@ export default class AppointmentRequestListItem extends React.Component {
                     Your contact details
                   </dt>
                   <dd>
-                    {patientEmail}
+                    {getPatientEmail(appointment)}
                     <br />
-                    {patientPhone}
+                    {getPatientPhone(appointment)}
                     <br />
                     <span className="vads-u-font-style--italic">
                       <ListBestTimeToCall

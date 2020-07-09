@@ -126,7 +126,7 @@ export function getVideoAppointmentLocation(appointment) {
 }
 
 /**
- * Returns the location of a VA appointment
+ * Returns the location ID of a VA appointment
  *
  * @export
  * @param {Object} appointment A FHIR appointment resource
@@ -142,4 +142,43 @@ export function getVAAppointmentLocationId(appointment) {
   }
 
   return null;
+}
+
+/**
+ * Returns the location name of a VA appointment
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns The location name where the VA appointment is located
+ */
+export function getVAAppointmentLocationName(appointment) {
+  return appointment.participant?.find(p =>
+    p.actor.reference?.startsWith('Location'),
+  )?.actor?.display;
+}
+
+/**
+ * Returns the patient phone number of a VA appointment
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns The patient phone number where the VA appointment is located
+ */
+export function getPatientPhone(appointment) {
+  return appointment.participant
+    .find(p => p?.actor?.reference.includes('Patient'))
+    ?.actor?.telecom?.find(t => t?.system === 'phone')?.value;
+}
+
+/**
+ * Returns the patient email of a VA appointment
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns The patient email where the VA appointment is located
+ */
+export function getPatientEmail(appointment) {
+  return appointment.participant
+    .find(p => p?.actor?.reference.includes('Patient'))
+    ?.actor?.telecom?.find(t => t?.system === 'email')?.value;
 }
