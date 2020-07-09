@@ -19,22 +19,34 @@
       {% endif %}
 
       <article class="usa-content">
-        <h1>{{ title }}</h1>
-        <h2>{{ fieldVaFormName }}</h2>
+        <hgroup>
+          <h1>{{ title }}</h1>
+          <h2 class="vads-u-margin-top--0 vads-u-margin-bottom--4">{{ fieldVaFormName }}</h2>
+        </hgroup>
 
-        <dt>
-          <dd class="vads-u-margin-y--1">
-            <dfn class="vads-u-font-weight--bold">Related to:</dfn>
-            {{ fieldBenefitCategories | map: "entity" | map: "entityLabel" | join: '; ' }}
-          </dd>
-          <dd>
-            <dfn class="vads-u-font-weight--bold">Form last updated:</dfn>
-            {{ fieldVaFormRevisionDate.value }}
-          </dd>
-        </dt>
+        {% if fieldBenefitCategories.length > 0 or fieldVaFormRevisionDate %}
+          <dt>
+            {% if fieldBenefitCategories.length > 0 %}
+              <dd class="vads-u-margin-y--1">
+                <dfn class="vads-u-font-weight--bold">Related to:</dfn>
+                {{ fieldBenefitCategories | map: "entity" | map: "entityLabel" | join: '; ' }}
+              </dd>
+            {% endif %}
 
-        <h3>When to use this form</h3>
-        {{ fieldVaFormUsage.processed }}
+            {% if fieldVaFormRevisionDate %}
+              <dd>
+                <dfn class="vads-u-font-weight--bold">Form last updated:</dfn>
+                {{ fieldVaFormRevisionDate.value | humanizeDate }}
+              </dd>
+            {% endif %}
+          </dt>
+        {% endif %}
+
+        {% if fieldVaFormUsage %}
+          <h3>When to use this form</h3>
+          {{ fieldVaFormUsage.processed }}
+        {% endif %}
+
         <a href="{{ fieldVaFormUrl.uri }}">Download VA Form {{ fieldVaFormNumber }} (PDF)</a>
 
         {% if fieldVaFormToolUrl %}
@@ -45,22 +57,86 @@
           </a>
         {% endif %}
 
-        <h3>Related forms and instructions</h3>
 
         {% if fieldVaFormRelatedForms.length > 0 %}
-        <ul class="usa-unstyled-list">
-         {% for vaForm in fieldVaFormRelatedForms %}
-            <li>
-              <h4>VA Form {{ vaForm.entity.fieldVaFormNumber }}</h4>
-              <h5 class="vads-u-margin-top--0">{{ vaForm.entity.fieldVaFormName }}</h5>
-              {{ vaForm.entity.fieldVaFormUsage.processed }}
-              <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}">
-                Download VA Form {{ vaForm.entity.fieldVaFormNumber }} (PDF)
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
+          <section>
+            <h3>Related forms and instructions</h3>
+            <ul class="usa-unstyled-list">
+            {% for vaForm in fieldVaFormRelatedForms %}
+                <li>
+                  <h4>
+                    VA Form {{ vaForm.entity.fieldVaFormNumber }}
+                    <span class="vads-u-display--block">{{ vaForm.entity.fieldVaFormName }}</span>
+                  </h4>
+                  {{ vaForm.entity.fieldVaFormUsage.processed }}
+                  <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}">
+                    Download VA Form {{ vaForm.entity.fieldVaFormNumber }} (PDF)
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </section>
+        {% endif %}
 
+        <section>
+          <div class="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--4">
+            <h3 class="vads-u-margin-top--0 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+              {% if fieldVaFormLinkTeasers.length > 0 %}
+                Helpful links related to VA Form {{ fieldVaFormNumber }}
+              {% else %}
+                Helpful links
+              {% endif %}
+            </h3>
+            <ul class="usa-unstyled-list">
+              {% if fieldVaFormLinkTeasers.length > 0 %}
+                {% for vaFormLinkTeaser in fieldVaFormLinkTeasers %}
+                  <li>
+                    <h4>
+                      <a class="vads-u-text-decoration--none" href="{{ vaFormLinkTeaser.entity.fieldLink.url.path }}">
+                        {{ vaFormLinkTeaser.entity.fieldLink.title }}
+                      </a>
+                    </h4>
+                    <p>{{ vaFormLinkTeaser.entity.fieldLinkSummary }}</p>
+                  </li>
+                {% endfor %}
+              {% else %}
+                {% comment %} The default related links if custom links aren't defined {% endcomment %}
+                <li>
+                  <h4>
+                    <a class="vads-u-text-decoration--none" href="/change-direct-deposit">
+                      Change your direct deposit information
+                    </a>
+                  </h4>
+                  <p>Find out how to update your direct deposit information online for disability compensation, pension, or education benefits. </p>
+                </li>
+                <li>
+                  <h4>
+                    <a class="vads-u-text-decoration--none" href="/change-address">
+                      Change your address
+                    </a>
+                  </h4>
+                  <p>Find out how to change your address and other information in your VA.gov profile for disability compensation, claims and appeals, VA health care, and other benefits.</p>
+                </li>
+                <li>
+                  <h4>
+                    <a class="vads-u-text-decoration--none" href="/records/get-military-service-records/">
+                      Request your military records, including DD214
+                    </a>
+                  </h4>
+                  <p>Submit an online request to get your DD214 or other military service records through the milConnect website.</p>
+                </li>
+                <li>
+                  <h4>
+                    <a class="vads-u-text-decoration--none" href="/records/">
+                      Get your VA records and documents online
+                    </a>
+                  </h4>
+                  <p>Learn how to access your VA records, benefit letters, and documents online.</p>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        </section>
       </article>
     </div>
   </div>

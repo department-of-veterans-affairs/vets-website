@@ -60,6 +60,13 @@ fragment vaFormPage on NodeVaForm {
       }
     }
   }
+  fieldVaFormLinkTeasers {
+    entity {
+      entityLabel
+      parentFieldName
+      ... linkTeaser
+    }
+  }
   status
 }
 `;
