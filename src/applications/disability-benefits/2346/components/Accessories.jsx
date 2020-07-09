@@ -10,14 +10,22 @@ import { connect } from 'react-redux';
 import { ACCESSORIES } from '../constants';
 
 class Accessories extends Component {
-  handleChecked = (checked, supply) => {
+  handleChecked = (checked, accessorySupply) => {
     const { order, formData } = this.props;
     let updatedOrder;
+    recordEvent({
+      event: 'bam-form-change',
+      'bam-form-field': 'accessories-for-this-device',
+      'bam-product-selected': checked,
+      'product-name': accessorySupply.productName,
+      'device-quantity': accessorySupply.quantity,
+    });
     if (checked) {
-      updatedOrder = [...order, { productId: supply.productId }];
+      updatedOrder = [...order, { productId: accessorySupply.productId }];
     } else {
       updatedOrder = order.filter(
-        selectedProduct => selectedProduct.productId !== supply.productId,
+        selectedProduct =>
+          selectedProduct.productId !== accessorySupply.productId,
       );
     }
     const updatedFormData = {

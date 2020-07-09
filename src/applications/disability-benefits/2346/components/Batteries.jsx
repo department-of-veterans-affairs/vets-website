@@ -12,18 +12,25 @@ import { BATTERIES } from '../constants';
 class Batteries extends Component {
   handleChecked = (checked, batterySupply) => {
     const { order, formData } = this.props;
-    let updatedorder;
+    let updatedOrder;
+    recordEvent({
+      event: 'bam-form-change',
+      'bam-form-field': 'batteries-for-this-device',
+      'bam-product-selected': checked,
+      'device-name': batterySupply.deviceName,
+      'device-quantity': batterySupply.quantity,
+    });
     if (checked) {
-      updatedorder = [...order, { productId: batterySupply.productId }];
+      updatedOrder = [...order, { productId: batterySupply.productId }];
     } else {
-      updatedorder = order.filter(
+      updatedOrder = order.filter(
         selectedProduct =>
           selectedProduct.productId !== batterySupply.productId,
       );
     }
     const updatedFormData = {
       ...formData,
-      order: updatedorder,
+      order: updatedOrder,
     };
     return this.props.setData(updatedFormData);
   };
