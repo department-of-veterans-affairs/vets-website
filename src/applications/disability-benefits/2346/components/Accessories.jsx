@@ -10,14 +10,33 @@ import { connect } from 'react-redux';
 import { ACCESSORIES } from '../constants';
 
 class Accessories extends Component {
-  handleChecked = (checked, supply) => {
+  componentDidMount(props) {
+    const areAccessorySuppliesEligible = this.props.eligibility?.accessories;
+    if (!areAccessorySuppliesEligible) {
+      recordEvent({
+        event: 'bam-error',
+        'error-key': 'accessories_bam-ineligibility-no-prescription',
+      });
+    }
+  }
+
+  handleChecked = (checked, accessorySupply) => {
     const { order, formData } = this.props;
     let updatedOrder;
+    const isSupplyChecked = checked ? 'yes' : 'no';
+    recordEvent({
+      event: 'bam-form-change',
+      'bam-form-field': 'accessories-for-this-device',
+      'bam-product-selected': isSupplyChecked,
+      'product-name': accessorySupply.productName,
+      'product-id': accessorySupply.productId,
+    });
     if (checked) {
-      updatedOrder = [...order, { productId: supply.productId }];
+      updatedOrder = [...order, { productId: accessorySupply.productId }];
     } else {
       updatedOrder = order.filter(
-        selectedProduct => selectedProduct.productId !== supply.productId,
+        selectedProduct =>
+          selectedProduct.productId !== accessorySupply.productId,
       );
     }
     const updatedFormData = {
@@ -54,13 +73,6 @@ class Accessories extends Component {
       );
       return selectedProductIds.includes(accessoryProductId);
     };
-
-    if (!areAccessorySuppliesEligible) {
-      recordEvent({
-        event: 'bam-error',
-        'error-key': 'accessories_bam-ineligibility-no-prescription',
-      });
-    }
     return (
       <div className="accessory-page">
         {accessorySupplies.length > 0 && (

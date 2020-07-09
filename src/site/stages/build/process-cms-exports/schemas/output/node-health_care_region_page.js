@@ -23,7 +23,7 @@ module.exports = {
           required: ['url'],
         },
         fieldRelatedLinks: {
-          $ref: 'transformed/paragraph-list_of_link_teasers',
+          $ref: 'output/paragraph-list_of_link_teasers',
         },
         fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
         entityMetaTags: { $ref: 'MetaTags' },

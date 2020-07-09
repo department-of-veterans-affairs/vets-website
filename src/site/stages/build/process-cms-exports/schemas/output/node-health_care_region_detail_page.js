@@ -18,10 +18,10 @@ module.exports = {
       items: { $ref: 'Paragraph' },
     },
     fieldIntroText: { type: 'string' },
-    fieldOffice: { $ref: 'transformed/node-health_care_region_page' },
+    fieldOffice: { $ref: 'output/node-health_care_region_page' },
     fieldRelatedLinks: {
       oneOf: [
-        { $ref: 'transformed/paragraph-list_of_link_teasers' },
+        { $ref: 'output/paragraph-list_of_link_teasers' },
         { type: 'null' },
       ],
     },

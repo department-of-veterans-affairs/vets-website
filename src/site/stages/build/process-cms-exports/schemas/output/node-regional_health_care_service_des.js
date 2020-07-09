@@ -9,7 +9,7 @@ module.exports = {
         entityBundle: { enum: ['regional_health_care_service_des'] },
         fieldBody: { $ref: 'ProcessedString' },
         fieldServiceNameAndDescripti: {
-          $ref: 'transformed/taxonomy_term-health_care_service_taxonomy',
+          $ref: 'output/taxonomy_term-health_care_service_taxonomy',
         },
       },
       required: ['fieldBody', 'fieldServiceNameAndDescripti'],
