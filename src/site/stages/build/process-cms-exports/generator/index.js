@@ -1,5 +1,9 @@
+const path = require('path');
+const fs = require('fs');
 const Generator = require('yeoman-generator');
 const fuzzy = require('fuzzy');
+
+const transformersDir = path.resolve(__dirname, '../transformers');
 
 const customRefs = [
   `{ $ref: 'GenericNestedString' }`,
@@ -30,12 +34,25 @@ module.exports = class extends Generator {
       'autocomplete',
       require('inquirer-autocomplete-prompt'),
     );
+    this.bundleName = '';
+    this.inputFields = [];
   }
 
   async getBundleData() {
-    // this.prompt([
-    // ]);
-    const inputFields = [];
+    const { bundleName } = await this.prompt([
+      {
+        type: 'input',
+        name: 'bundleName',
+        message: "What's the full name of the bundle? (e.g. paragraph-q_a)",
+        validate: input =>
+          !fs.existsSync(path.join(transformersDir, `${input}.js`)) ||
+          `${input} transformer already exists.`,
+      },
+    ]);
+    this.bundleName = bundleName;
+  }
+
+  async generateInputSchema() {
     let answers = {};
     do {
       // eslint-disable-next-line no-await-in-loop
@@ -58,15 +75,12 @@ module.exports = class extends Generator {
           message: 'Add another field?',
         },
       ]);
-      inputFields.push({
+      this.inputFields.push({
         fieldName: answers.fieldName,
         inputSchema: answers.inputSchema,
       });
     } while (answers.another);
-    this.log(inputFields);
   }
-
-  generateInputSchema() {}
 
   generateOutputSchema() {}
 
