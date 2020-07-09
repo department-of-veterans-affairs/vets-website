@@ -34,6 +34,8 @@ module.exports = class extends Generator {
       require('inquirer-autocomplete-prompt'),
     );
     this.bundleName = '';
+    this.entityType = '';
+    this.entityBundle = '';
     this.fieldData = [];
   }
 
@@ -49,6 +51,13 @@ module.exports = class extends Generator {
       },
     ]);
     this.bundleName = bundleName;
+    if (bundleName.includes('-')) {
+      const [entityType, entityBundle] = bundleName.split('-');
+      this.entityType = entityType;
+      this.entityBundle = entityBundle;
+    } else {
+      this.entityType = bundleName;
+    }
   }
 
   async gatherFieldData() {
@@ -96,10 +105,25 @@ module.exports = class extends Generator {
   }
 
   async writeFiles() {
-    await this.fs.copyTpl(
+    const dataForTemplates = {
+      fieldData: this.fieldData,
+      entityBundle: this.entityBundle,
+      entityType: this.entityType,
+    };
+    this.fs.copyTpl(
       path.resolve(__dirname, 'templates/inputSchema'),
       path.resolve(__dirname, `../schemas/input/${this.bundleName}.js`),
-      { fieldData: this.fieldData },
+      dataForTemplates,
+    );
+    this.fs.copyTpl(
+      path.resolve(__dirname, 'templates/outputSchema'),
+      path.resolve(__dirname, `../schemas/output/${this.bundleName}.js`),
+      dataForTemplates,
+    );
+    this.fs.copyTpl(
+      path.resolve(__dirname, 'templates/transformer'),
+      path.resolve(__dirname, `../transformers/${this.bundleName}.js`),
+      dataForTemplates,
     );
   }
 };
