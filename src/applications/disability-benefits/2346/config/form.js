@@ -140,6 +140,7 @@ const formConfig = {
     continueAppButtonText: 'Continue your order',
     finishAppLaterMessage: 'Finish this order later.',
     appType: 'order',
+    appAction: 'placing your order',
   },
   defaultDefinitions: {
     email,

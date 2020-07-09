@@ -4,6 +4,7 @@ import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 import recordEvent from '../../monitoring/record-event';
+import { APP_TYPE_DEFAULT } from './constants';
 
 class FormSignInModal extends React.Component {
   handleClose = () => {
@@ -27,6 +28,8 @@ class FormSignInModal extends React.Component {
       action: this.handleSignIn,
       text: 'Sign in and start over',
     };
+    const { formConfig } = this.props;
+    const { appType } = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
     return (
       <Modal
@@ -42,7 +45,7 @@ class FormSignInModal extends React.Component {
       >
         <p>
           Since you didn’t sign in before you started, we can’t save your
-          in-progress application.
+          in-progress {appType}.
         </p>
         <p>If you sign in now, you’ll need to start over.</p>
       </Modal>

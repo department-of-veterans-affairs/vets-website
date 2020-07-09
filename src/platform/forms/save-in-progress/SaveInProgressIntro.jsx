@@ -21,7 +21,11 @@ import DowntimeNotification, {
   externalServiceStatus,
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeMessage from './DowntimeMessage';
-import { APP_TYPE_DEFAULT, UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from './constants';
+import {
+  APP_TYPE_DEFAULT,
+  UNAUTH_SIGN_IN_DEFAULT_MESSAGE,
+  APP_ACTION_DEFAULT,
+} from './constants';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {
@@ -40,6 +44,7 @@ class SaveInProgressIntro extends React.Component {
       profile && profile.prefillsAvailable.includes(formId)
     );
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+    const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const lastUpdated =
@@ -58,7 +63,7 @@ class SaveInProgressIntro extends React.Component {
             <div>
               <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
-                  <strong>Your form is in progress</strong>
+                  <strong>Your {appType} is in progress</strong>
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-item-metadata">
@@ -69,8 +74,8 @@ class SaveInProgressIntro extends React.Component {
                     Your {appType} was last saved on {lastSavedDateTime}
                   </span>
                   <div className="expires-container">
-                    You can continue applying now, or come back later to finish
-                    your {appType}. Your {appType}{' '}
+                    You can continue {appAction} now, or come back later to
+                    finish your {appType}. Your {appType}{' '}
                     <span className="expires">
                       will expire on {expirationDate}.
                     </span>

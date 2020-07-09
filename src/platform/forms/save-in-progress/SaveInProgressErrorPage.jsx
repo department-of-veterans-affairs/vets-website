@@ -15,7 +15,7 @@ import SignInLink from '../components/SignInLink';
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
-import { CONTINUE_APP_DEFAULT_MESSAGE } from './constants';
+import { CONTINUE_APP_DEFAULT_MESSAGE, APP_TYPE_DEFAULT } from './constants';
 
 const DEFAULT_FORBIDDEN_MESSAGE = `
   We're sorry. We can't give you access to this information. For help, please call the VA.gov help desk at 855-574-7286 (TTY: 711). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
@@ -67,6 +67,7 @@ class SaveInProgressErrorPage extends React.Component {
     const continueAppButtonText =
       formConfig?.customText?.continueAppButtonText ||
       CONTINUE_APP_DEFAULT_MESSAGE;
+    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     let content;
 
     switch (loadedStatus) {
@@ -141,8 +142,8 @@ class SaveInProgressErrorPage extends React.Component {
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
               We’re sorry. Something went wrong when we tried to access your
-              application. We’re working to fix this. You can try applying again
-              in a few moments or start your application over.
+              {appType}. We’re working to fix this. You can try applying again
+              in a few moments or start your {appType} over.
             </div>
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
@@ -157,8 +158,8 @@ class SaveInProgressErrorPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
-              We’re sorry. Something went wrong when we tried to find your
-              application. {notFound}
+              We’re sorry. Something went wrong when we tried to find your{' '}
+              {appType}. {notFound}
             </div>
             <div style={{ marginTop: '30px' }}>{this.getBackButton(true)}</div>
           </div>

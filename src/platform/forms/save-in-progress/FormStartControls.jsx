@@ -7,6 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
+  APP_TYPE_DEFAULT,
 } from './constants';
 
 class FormStartControls extends React.Component {
@@ -75,6 +76,7 @@ class FormStartControls extends React.Component {
     const continueAppButtonText =
       formConfig?.customText?.continueAppButtonText ||
       CONTINUE_APP_DEFAULT_MESSAGE;
+    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     if (this.props.formSaved) {
       return (
         <div>
@@ -102,7 +104,7 @@ class FormStartControls extends React.Component {
             onClose={this.toggleModal}
             visible={this.state.modalOpen}
           >
-            <h4>Starting over will delete your in-progress form.</h4>
+            <h4>Starting over will delete your in-progress {appType}.</h4>
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}

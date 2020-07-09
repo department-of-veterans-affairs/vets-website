@@ -47,10 +47,7 @@ class IntroductionPage extends Component {
               startText="Order hearing aid batteries and accessories"
               unauthStartText="Sign in to start your order"
               formConfig={formConfig}
-            >
-              Please complete the 2346 form to apply for ordering hearing aid
-              batteries and accessories.
-            </SaveInProgressIntro>
+            />
             <h2
               className="vads-u-font-size--h3"
               itemProp="name"

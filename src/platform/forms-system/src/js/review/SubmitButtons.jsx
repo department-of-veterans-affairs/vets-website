@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import ProgressButton from '../components/ProgressButton';
 import { timeFromNow } from '../utilities/date';
+import { APP_TYPE_DEFAULT } from '../constants';
 
 export default function SubmitButtons(props) {
   const {
@@ -12,14 +13,16 @@ export default function SubmitButtons(props) {
     preSubmitSection,
     renderErrorMessage,
     submission,
+    formConfig,
   } = props;
+  const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   let submitButton;
   let submitMessage;
   if (submission.status === false) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit application"
+        buttonText={`Submit ${appType}`}
         buttonClass="usa-button-primary"
       />
     );
@@ -46,7 +49,7 @@ export default function SubmitButtons(props) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit application"
+        buttonText={`Submit ${appType}`}
         buttonClass="usa-button-primary"
       />
     );
@@ -66,7 +69,7 @@ export default function SubmitButtons(props) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit application"
+        buttonText={`Submit ${appType}`}
         buttonClass="usa-button-primary"
       />
     );
@@ -89,7 +92,7 @@ export default function SubmitButtons(props) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit application"
+        buttonText={`Submit ${appType}`}
         buttonClass="usa-button-primary"
       />
     );
@@ -98,12 +101,12 @@ export default function SubmitButtons(props) {
         <div className="usa-alert-body">
           <p className="schemaform-warning-header">
             <strong>
-              We’re sorry. Some information in your application is missing or
-              not valid.
+              We’re sorry. Some information in your {appType} is missing or not
+              valid.
             </strong>
           </p>
           <p>
-            Please check each section of your application to make sure you’ve
+            Please check each section of your {appType} to make sure you’ve
             filled out all the information that is required.
           </p>
         </div>
@@ -117,7 +120,7 @@ export default function SubmitButtons(props) {
         <div className="usa-alert usa-alert-error schemaform-failure-alert">
           <div className="usa-alert-body">
             <p className="schemaform-warning-header">
-              <strong>We’re sorry, the application didn’t go through.</strong>
+              <strong>We’re sorry, the {appType} didn’t go through.</strong>
             </p>
             <p>
               You’ll have to start over. We suggest you wait 1 day while we fix

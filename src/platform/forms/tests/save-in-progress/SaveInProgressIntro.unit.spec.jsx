@@ -68,7 +68,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     ).to.include(moment.unix(946684800).format('M/D/YYYY [at] h:mm a'));
 
     expect(tree.find('.usa-alert').text()).to.contain(
-      'Your form is in progress',
+      'Your application is in progress',
     );
     expect(tree.find('.usa-alert').text()).to.contain('will expire on');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;

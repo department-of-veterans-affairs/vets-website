@@ -9,6 +9,7 @@ import { focusElement } from '../../utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import { formTitles } from 'applications/personalization/dashboard/helpers';
 import FormStartControls from './FormStartControls';
+import { APP_TYPE_DEFAULT } from './constants';
 
 class FormSaved extends React.Component {
   constructor(props) {
@@ -49,13 +50,15 @@ class FormSaved extends React.Component {
     const expirationDate = moment
       .unix(this.props.expirationDate)
       .format('M/D/YYYY');
+    const appType =
+      this.props.route.formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
     return (
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <strong>
-              Your {formTitles[formId]} application has been saved.
+              Your {formTitles[formId]} {appType} has been saved.
             </strong>
             <br />
             {!!lastSavedDate &&
@@ -67,7 +70,7 @@ class FormSaved extends React.Component {
                   </span>
                   {expirationMessage || (
                     <p className="expires-container">
-                      Your saved application{' '}
+                      Your saved {appType}{' '}
                       <span className="expires">
                         will expire on {expirationDate}.
                       </span>

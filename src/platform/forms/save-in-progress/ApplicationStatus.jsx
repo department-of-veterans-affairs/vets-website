@@ -16,6 +16,8 @@ import { removeSavedForm } from '../../user/profile/actions';
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
+  APP_TYPE_DEFAULT,
+  APP_ACTION_DEFAULT,
 } from './constants';
 
 export class ApplicationStatus extends React.Component {
@@ -63,11 +65,23 @@ export class ApplicationStatus extends React.Component {
       applyRender,
       formType,
       applyLink,
+      formConfig,
     } = this.props;
+    let savedForm;
+    let { formId } = this.props;
+    let multipleForms = false;
+    const startNewAppButtonText =
+      formConfig?.customText?.startNewAppButtonText ||
+      START_NEW_APP_DEFAULT_MESSAGE;
+    const continueAppButtonText =
+      formConfig?.customText?.continueAppButtonText ||
+      CONTINUE_APP_DEFAULT_MESSAGE;
+    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+    const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
     if (profile.loading || this.state.loading) {
       const message = profile.loading
-        ? 'Checking your application status.'
-        : 'Deleting your form.';
+        ? `Checking your ${appType} status.`
+        : `Deleting your ${appType}.`;
 
       return (
         <div className="sip-application-status">
@@ -76,16 +90,6 @@ export class ApplicationStatus extends React.Component {
       );
     }
 
-    let savedForm;
-    let { formId } = this.props;
-    const { formConfig } = this.props;
-    let multipleForms = false;
-    const startNewAppButtonText =
-      formConfig?.customText?.startNewAppButtonText ||
-      START_NEW_APP_DEFAULT_MESSAGE;
-    const continueAppButtonText =
-      formConfig?.customText?.continueAppButtonText ||
-      CONTINUE_APP_DEFAULT_MESSAGE;
     if (formIds) {
       const matchingForms = profile.savedForms.filter(({ form }) =>
         formIds.has(form),
@@ -118,18 +122,19 @@ export class ApplicationStatus extends React.Component {
 
         return (
           <div className="usa-alert usa-alert-info background-color-only sip-application-status">
-            <h5 className="form-title saved">Your form is in progress</h5>
+            <h5 className="form-title saved">Your {appType} is in progress</h5>
             <span className="saved-form-item-metadata">
               Your {formDescriptions[formId]} is in progress.
             </span>
             <br />
             <span className="saved-form-item-metadata">
-              Your application was last saved on {lastSavedDateTime}
+              Your {appType} was last saved on {lastSavedDateTime}
             </span>
             <br />
             <div className="expires-container">
-              You can continue applying now, or come back later to finish your
-              application. Your application{' '}
+              You can continue {appAction} now, or come back later to finish
+              your
+              {appType}. Your {appType}{' '}
               <span className="expires">
                 will expire on {expirationDate.format('M/D/YYYY')}.
               </span>
@@ -150,7 +155,7 @@ export class ApplicationStatus extends React.Component {
             </p>
             {multipleForms && (
               <p className="no-bottom-margin">
-                You have more than one in-progress {formType} form.{' '}
+                You have more than one in-progress {formType} {appType}.{' '}
                 <a href="/my-va">
                   View and manage your forms on your Account page
                 </a>
@@ -161,7 +166,7 @@ export class ApplicationStatus extends React.Component {
               cssClass="va-modal-large"
               id="start-over-modal"
               onClose={this.toggleModal}
-              title="Starting over will delete your in-progress form."
+              title={`Starting over will delete your in-progress ${appType}.`}
               visible={this.state.modalOpen}
             >
               <p>Are you sure you want to start over?</p>
@@ -181,7 +186,7 @@ export class ApplicationStatus extends React.Component {
       }
       return (
         <div className="usa-alert usa-alert-warning background-color-only sip-application-status">
-          <h5 className="form-title saved">Your form has expired</h5>
+          <h5 className="form-title saved">Your {appType} has expired</h5>
           <span className="saved-form-item-metadata">
             Your saved {formDescriptions[formId]} has expired. If you want to
             apply for {formBenefits[formId]}, please start a new application.
@@ -194,7 +199,7 @@ export class ApplicationStatus extends React.Component {
           </p>
           {multipleForms && (
             <p className="no-bottom-margin">
-              You have more than one in-progress {formType} form.{' '}
+              You have more than one in-progress {formType} {appType}.{' '}
               <a href="/my-va">
                 View and manage your forms on your Account page
               </a>
@@ -205,7 +210,7 @@ export class ApplicationStatus extends React.Component {
             cssClass="va-modal-large"
             id="start-over-modal"
             onClose={this.toggleModal}
-            title="Starting over will delete your in-progress form."
+            title={`Starting over will delete your in-progress ${appType}.`}
             visible={this.state.modalOpen}
           >
             <p>Are you sure you want to start over?</p>
