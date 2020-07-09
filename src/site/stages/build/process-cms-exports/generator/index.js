@@ -34,7 +34,7 @@ module.exports = class extends Generator {
       require('inquirer-autocomplete-prompt'),
     );
     this.bundleName = '';
-    this.inputFields = [];
+    this.fieldData = [];
   }
 
   async getBundleData() {
@@ -86,13 +86,20 @@ module.exports = class extends Generator {
       addAnother = await this.prompt([
         {
           type: 'confirm',
-          name: 'addAnother',
+          name: 'answer',
           message: 'Add another field?',
         },
-      ]).addAnother;
-      this.inputFields.push(fieldData);
-    } while (addAnother);
+      ]);
+      this.fieldData.push(fieldData);
+    } while (addAnother.answer);
+    this.log(this.fieldData);
   }
 
-  writeFiles() {}
+  async writeFiles() {
+    await this.fs.copyTpl(
+      path.resolve(__dirname, 'templates/inputSchema'),
+      path.resolve(__dirname, `../schemas/input/${this.bundleName}.js`),
+      { fieldData: this.fieldData },
+    );
+  }
 };
