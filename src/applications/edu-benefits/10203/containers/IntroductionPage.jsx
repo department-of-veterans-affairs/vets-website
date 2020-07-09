@@ -65,7 +65,7 @@ export class IntroductionPage extends React.Component {
                     To be eligible for the{' '}
                     <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
                       Edith Nourse Rogers STEM Scholarship
-                    </a>{' '}
+                    </a>
                     , you must meet all the requirements below. You:
                   </p>
                 </div>
@@ -110,16 +110,13 @@ export class IntroductionPage extends React.Component {
                   <li>Bank account direct deposit information</li>
                 </ul>
                 <p>
-                  <strong>
-                    What if I need help filling out my application?
-                  </strong>{' '}
-                  A School Certifying Official (SCO) at your school or an
+                  <b>What if I need help filling out my application?</b> A
+                  School Certifying Official (SCO) at your school or an
                   accredited representative, like a Veterans Service Officer
                   (VSO), can help you fill out your claim.{' '}
                   <a href="/disability/get-help-filing-claim/">
                     Get help filing your claim
                   </a>
-                  .
                 </p>
               </div>
             </li>
@@ -130,7 +127,7 @@ export class IntroductionPage extends React.Component {
               <p>Complete this education benefits form.</p>
               <p>
                 After submitting the form, you’ll get a confirmation message.
-                You can print this for your records.
+                You can print this page for your records.
               </p>
             </li>
             <li
