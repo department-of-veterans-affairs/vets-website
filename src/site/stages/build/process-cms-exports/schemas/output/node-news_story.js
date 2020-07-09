@@ -11,7 +11,7 @@ module.exports = {
     entityMetatags: { $ref: 'MetaTags' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldAuthor: {
-      oneOf: [{ $ref: 'transformed/node-person_profile' }, { type: 'null' }],
+      oneOf: [{ $ref: 'output/node-person_profile' }, { type: 'null' }],
     },
     fieldFullStory: { $ref: 'ProcessedString' },
     fieldImageCaption: { type: ['string', 'null'] },
@@ -19,7 +19,7 @@ module.exports = {
     fieldMedia: { oneOf: [{ $ref: 'Media' }, { type: 'null' }] },
     fieldOffice: {
       oneOf: [
-        { $ref: 'transformed/node-health_care_region_page' },
+        { $ref: 'output/node-health_care_region_page' },
         { type: 'null' },
       ],
     },

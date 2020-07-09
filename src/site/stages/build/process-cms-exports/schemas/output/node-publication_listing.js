@@ -10,7 +10,7 @@ module.exports = {
     entityMetatags: { $ref: 'MetaTags' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldIntroText: { type: 'string' },
-    fieldOffice: { $ref: 'transformed/node-office' },
+    fieldOffice: { $ref: 'output/node-office' },
   },
   required: [
     'title',

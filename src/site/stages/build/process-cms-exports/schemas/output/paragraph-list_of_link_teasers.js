@@ -10,7 +10,7 @@ module.exports = {
         fieldTitle: { type: ['string', 'null'] },
         fieldVaParagraphs: {
           type: 'array',
-          items: { $ref: 'transformed/paragraph-link_teaser' },
+          items: { $ref: 'output/paragraph-link_teaser' },
         },
       },
       required: ['fieldTitle', 'fieldVaParagraphs'],

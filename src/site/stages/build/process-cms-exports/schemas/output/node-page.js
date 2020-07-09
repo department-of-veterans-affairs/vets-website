@@ -30,11 +30,11 @@ module.exports = {
     fieldRelatedLinks: {
       type: 'array',
       items: {
-        $ref: 'transformed/paragraph-list_of_link_teasers',
+        $ref: 'output/paragraph-list_of_link_teasers',
       },
     },
     fieldAdministration: {
-      $ref: 'transformed/taxonomy_term-administration',
+      $ref: 'output/taxonomy_term-administration',
     },
     fieldPageLastBuilt: {
       type: 'object',

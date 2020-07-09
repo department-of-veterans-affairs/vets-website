@@ -20,7 +20,7 @@ module.exports = {
     entityUrl: { $ref: 'EntityUrl' },
     fieldAddress: { $ref: 'Address' },
     fieldIntroText: { type: 'string' },
-    fieldOffice: { $ref: 'transformed/node-health_care_region_page' },
+    fieldOffice: { $ref: 'output/node-health_care_region_page' },
     fieldPdfVersion: { $ref: 'Media' },
     fieldPressReleaseContact: {
       type: 'array',
@@ -28,7 +28,7 @@ module.exports = {
       items: {
         type: 'object',
         properties: {
-          entity: { $ref: 'transformed/node-person_profile' },
+          entity: { $ref: 'output/node-person_profile' },
         },
         required: ['entity'],
       },

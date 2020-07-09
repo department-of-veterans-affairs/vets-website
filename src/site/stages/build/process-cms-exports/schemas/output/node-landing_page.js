@@ -10,10 +10,10 @@ module.exports = {
     changed: { type: 'number' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldAdministration: {
-      $ref: 'transformed/taxonomy_term-administration',
+      $ref: 'output/taxonomy_term-administration',
     },
     fieldAlert: {
-      oneOf: [{ $ref: 'transformed/block_content-alert' }, { type: 'null' }],
+      oneOf: [{ $ref: 'output/block_content-alert' }, { type: 'null' }],
     },
     fieldIntroText: { type: 'string' },
     fieldLinks: {
@@ -42,11 +42,11 @@ module.exports = {
       required: ['date'],
     },
     fieldPlainlanguageDate: { type: ['string', 'null'] },
-    fieldPromo: { $ref: 'transformed/block_content-promo' },
+    fieldPromo: { $ref: 'output/block_content-promo' },
     fieldRelatedLinks: {
       oneOf: [
         {
-          $ref: 'transformed/paragraph-list_of_link_teasers',
+          $ref: 'output/paragraph-list_of_link_teasers',
         },
         { type: 'null' },
       ],
@@ -54,12 +54,12 @@ module.exports = {
     fieldSpokes: {
       type: 'array',
       items: {
-        $ref: 'transformed/paragraph-list_of_link_teasers',
+        $ref: 'output/paragraph-list_of_link_teasers',
       },
     },
     fieldSupportServices: {
       type: 'array',
-      items: { $ref: 'transformed/node-support_service' },
+      items: { $ref: 'output/node-support_service' },
     },
     fieldTitleIcon: { type: 'string' },
   },
