@@ -13,7 +13,7 @@ module.exports = {
     entityUrl: { $ref: 'EntityUrl' },
     fieldBannerAlert: {
       type: 'array',
-      items: { $ref: 'transformed/node-full_width_banner_alert' },
+      items: { $ref: 'output/node-full_width_banner_alert' },
       // maxItems: 1 // Presumably? The template expects an array, though...
     },
     fieldFacilityOperatingStatus: {
@@ -42,7 +42,7 @@ module.exports = {
     },
     fieldOffice: {
       oneOf: [
-        { $ref: 'transformed/node-health_care_region_page' },
+        { $ref: 'output/node-health_care_region_page' },
         { type: 'null' },
       ],
     },
