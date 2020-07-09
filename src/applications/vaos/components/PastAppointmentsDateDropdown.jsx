@@ -37,8 +37,9 @@ export default function PastAppointmentsDateDropdown({
         onClick={() => {
           if (currentRange !== dateRangeIndex) {
             onChange(dateRangeIndex);
+          } else {
+            focusElement('#queryResultLabel');
           }
-          focusElement('#queryResultLabel');
         }}
       >
         Update

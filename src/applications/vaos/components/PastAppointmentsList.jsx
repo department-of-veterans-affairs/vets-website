@@ -74,7 +74,6 @@ export class PastAppointmentsList extends React.Component {
         <>
           <span
             id="queryResultLabel"
-            tabIndex="-1"
             className="vads-u-font-size--sm vads-u-display--block vads-u-margin-bottom--1"
             style={{ outline: 'none' }}
           >
