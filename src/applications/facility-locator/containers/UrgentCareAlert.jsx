@@ -16,19 +16,19 @@ export default function UrgentCareAlert() {
             Click below to learn how to prepare for your urgent care appointment
             with a Community Care provider.
           </dd>
-          <button
+          <a
             className="usa-button-primary vads-u-margin-y--0"
+            href={
+              'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp'
+            }
+            target={'_/blank'}
             onClick={() => {
               // Record event
               recordEvent({ event: 'cta-primary-button-click' });
-              window.open(
-                'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp',
-                '_blank',
-              );
             }}
           >
             Learn about VA urgent care benefit
-          </button>
+          </a>
         </dl>
       </div>
     </div>
