@@ -36,6 +36,10 @@ import { militaryCities, states50AndDC } from '../constants';
  * 4. addressSchema - data model for address schema.
  */
 
+const normalizedCountryLabels = countries.map(country =>
+  country.label.toUpperCase(),
+);
+
 const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
   (militaryStates, [stateCode, stateName]) => {
     if (ADDRESS_DATA.militaryStates.includes(stateCode)) {
@@ -363,16 +367,16 @@ export const addressUISchema = (
         useDlWrap: true,
         updateSchema: (formData, schema, uiSchema) => {
           const countryFormData = get(path, formData);
-          const countryNameNormalized = countryFormData.toUpperCase();
-          if (
-            countryNameNormalized.includes('ARMED FORCES') ||
-            countryNameNormalized.includes('AF,EU,ME,CA')
-          ) {
+          const countryNameNormalized = countryFormData?.country?.toUpperCase();
+          const isCountryIncluded = normalizedCountryLabels?.includes(
+            countryNameNormalized,
+          );
+          if (isCountryIncluded) {
             return {
-              default: true,
+              default: false,
             };
           }
-          return { default: false };
+          return { default: true };
         },
       },
     },
@@ -393,11 +397,13 @@ export const addressUISchema = (
           const countryUI = uiSchema;
           const countryFormData = get(path, formData);
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
-          const countryNameNormalized = countryFormData.toUpperCase();
+          const countryNameNormalized = countryFormData?.country?.toUpperCase();
+          const isCountryIncluded = normalizedCountryLabels?.includes(
+            countryNameNormalized,
+          );
           if (
             (isMilitaryBaseAddress && livesOnMilitaryBase) ||
-            countryNameNormalized.includes('ARMED FORCES') ||
-            countryNameNormalized.includes('AF,EU,ME,CA')
+            (countryNameNormalized && !isCountryIncluded)
           ) {
             countryUI['ui:disabled'] = true;
             countryFormData.country = USA.label;
