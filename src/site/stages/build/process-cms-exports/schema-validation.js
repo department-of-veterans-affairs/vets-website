@@ -7,8 +7,8 @@ const validate = require('./validator');
 const { getContentModelType, getAllImportsFrom } = require('./helpers');
 
 // Read all the schemas
-const rawSchemasDir = path.join(__dirname, 'schemas', 'raw');
-const transformedSchemasDir = path.join(__dirname, 'schemas', 'transformed');
+const rawSchemasDir = path.join(__dirname, 'schemas', 'input');
+const transformedSchemasDir = path.join(__dirname, 'schemas', 'output');
 
 const validateEntityFactory = schemasDir => {
   /**
