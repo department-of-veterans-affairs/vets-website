@@ -52,10 +52,8 @@ fragment vaFormPage on NodeVaForm {
           format
           processed
         }
-        fieldVaFormToolUrl {
+        fieldVaFormUrl {
           uri
-          title
-          options
         }
       }
     }
