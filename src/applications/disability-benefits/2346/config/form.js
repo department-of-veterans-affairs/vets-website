@@ -52,15 +52,6 @@ addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {
   type: 'string',
 };
 
-// the following two properties have to be added to our MDOT-schema.json.  Remove these props once they are added.
-addressWithIsMilitaryBase.properties.country = {
-  type: 'string',
-};
-
-addressWithIsMilitaryBase.properties.state = {
-  type: 'string',
-};
-
 const submit = form => {
   const currentAddress = form.data['view:currentAddress'];
   const itemQuantities = form.data?.selectedProducts?.length;
