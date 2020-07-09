@@ -5,8 +5,6 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import { benefitsLabels } from '../../utils/labels';
-
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -38,54 +36,46 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.veteranFullName;
-    const benefit = form.data.benefit;
-
-    const docExplanation = this.state.isExpanded ? (
-      <div className="usa-accordion-content" aria-hidden="false">
-        <p>In the future, you might need:</p>
-        <ul>
-          <li>Your reserve kicker</li>
-          <li>
-            Documentation of additional contributions that would increase your
-            monthly benefits.
-          </li>
-        </ul>
-        <p>
-          Documents can be uploaded using the{' '}
-          <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252">
-            GI Bill site
-          </a>
-          .
-        </p>
-      </div>
-    ) : null;
-
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <div className="print-only">
+          <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
+          <h1 className="vads-u-font-size--h3 vads-u-margin-top--3">
+            Apply for the Rogers STEM Scholarship
+          </h1>
+          <span>Form 22-10203</span>
+        </div>
+        <h3 className="confirmation-page-title screen-only">
+          We've received your application.
+        </h3>
+        <h4 className="print-only">We've received your application.</h4>
         <p>
-          We usually process claims within <strong>30 days</strong>.
+          We usually process claims within <strong>30 days</strong>.<br />
+          We may contact you for more information or documents.
         </p>
         <p>
-          We may contact you for more information or documents.
-          <br />
-          <i>Please print this page for your records.</i>
+          <button
+            className="usa-button-primary screen-only"
+            onClick={() => window.print()}
+          >
+            Print this page
+          </button>
         </p>
         <div className="inset">
-          <h4>
-            Education Benefit Claim{' '}
-            <span className="additional">(Form 22-10203)</span>
+          <h4 className="vads-u-margin-top--0">
+            Rogers STEM Scholarship{' '}
+            <span className="vads-u-margin--0 vads-u-display--inline-block">
+              (Form 22-10203)
+            </span>
           </h4>
           <span>
-            for {name.first} {name.middle} {name.last} {name.suffix}
+            for {name.first}
+            {name.middle && ` ${name.middle}`}
+            {name.last && ` ${name.last}`}
+            {name.suffix && ` ${name.suffix}`}
           </span>
 
           <ul className="claim-list">
-            <li>
-              <strong>Benefit to be transferred</strong>
-              <br />
-              {benefitsLabels[benefit]}
-            </li>
             <li>
               <strong>Confirmation number</strong>
               <br />
@@ -107,36 +97,24 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        <div id="collapsiblePanel" className="usa-accordion-bordered">
-          <ul className="usa-unstyled-list">
-            <li>
-              <div className="accordion-header clearfix">
-                <button
-                  className="usa-button-unstyled"
-                  aria-expanded={this.state.isExpanded ? 'true' : 'false'}
-                  aria-controls="collapsible-document-explanation"
-                  onClick={this.toggleExpanded}
-                >
-                  No documents required at this time
-                </button>
-              </div>
-              <div id="collapsible-document-explanation">{docExplanation}</div>
-            </li>
-          </ul>
-        </div>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">
             What happens after I apply?
           </h4>
           <p className="confirmation-guidance-message">
-            <a href="/education/after-you-apply/">
+            <a href="/education/after-you-apply/" className="screen-only">
               Find out what happens after you apply
             </a>
+            <span className="print-only">
+              You’ll get a Certificate of Eligibility (COE), or award letter, in
+              the mail if we’ve approved your application. Bring this to the VA
+              certifying official at your school.
+            </span>
           </p>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <p className="confirmation-guidance-message">
-            If you have questions, call 888-GI-BILL-1 (
-            <a href="tel:+18884424551">888-442-4551</a>
+            If you have questions, call 1-888-GI-BILL-1 (
+            <a href="tel:+18884424551">1-888-442-4551</a>
             ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
           </p>
         </div>

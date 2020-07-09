@@ -258,7 +258,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "6.9.2",
+    "@department-of-veterans-affairs/formation": "6.9.3",
     "@department-of-veterans-affairs/formation-react": "5.3.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",

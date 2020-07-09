@@ -14,10 +14,8 @@ const dataSetToUserMap = {
 const testConfig = createTestConfig(
   {
     dataPrefix: 'testData',
-    // Commenting out dataSets entries until MDOT is in production
-    dataSets: [
-      /* 'happyPath', 'noTempAddress', 'noBatteries', 'noAccessories' */
-    ],
+
+    dataSets: ['happyPath', 'noTempAddress', 'noBatteries', 'noAccessories'],
 
     fixtures: {
       data: path.join(__dirname, 'data'),
@@ -77,13 +75,16 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.get('@testKey').then(testKey => {
         cy.login();
-        cy.route('GET', 'v0/user', dataSetToUserMap[testKey]);
+        cy.route('GET', '/v0/user', dataSetToUserMap[testKey]);
       });
       cy.get('@testData').then(testData => {
-        cy.route('GET', 'v0/in_progress_forms/MDOT', testData);
+        cy.route('GET', '/v0/in_progress_forms/MDOT', testData);
       });
       cy.route('POST', '/v0/mdot/supplies', null);
     },
+
+    // Skip tests until MDOT is in production
+    skip: true,
   },
   manifest,
   formConfig,

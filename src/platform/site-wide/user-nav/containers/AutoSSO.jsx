@@ -10,19 +10,14 @@ import { checkAutoSession } from 'platform/utilities/sso';
 import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
 function AutoSSO(props) {
-  const {
-    useInboundSSOe,
-    hasCalledKeepAlive,
-    application = null,
-    to = null,
-  } = props;
+  const { useInboundSSOe, hasCalledKeepAlive } = props;
 
   if (hasSession()) {
     removeLoginAttempted();
   }
 
   if (useInboundSSOe && !hasCalledKeepAlive) {
-    checkAutoSession(application, to).then(() => {
+    checkAutoSession().then(() => {
       props.checkKeepAlive();
     });
   }

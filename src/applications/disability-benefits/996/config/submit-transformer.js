@@ -3,7 +3,7 @@ import _ from 'platform/utilities/data';
 export function transform(formConfig, form) {
   // We require the user to input a 10-digit number; assuming we get a 3-digit
   // area code + 7 digit number. We're not yet supporting international numbers
-  const getPhoneNumber = phone => ({
+  const getPhoneNumber = (phone = '') => ({
     countryCode: '1',
     areaCode: phone.substring(0, 3),
     phoneNumber: phone.substring(3),
@@ -13,12 +13,12 @@ export function transform(formConfig, form) {
   const getRep = formData =>
     formData.informalConference === 'rep'
       ? {
-          name: formData.informalConferenceRep.name,
-          phone: getPhoneNumber(formData.informalConferenceRep.phone),
+          name: formData?.informalConferenceRep?.name,
+          phone: getPhoneNumber(formData?.informalConferenceRep?.phone),
         }
       : null;
 
-  const getConferenceTimes = ({ informalConferenceTimes }) => {
+  const getConferenceTimes = ({ informalConferenceTimes = [] }) => {
     const xRef = {
       // formData name: api value
       time0800to1000: '800-1000 ET',
@@ -55,7 +55,7 @@ export function transform(formConfig, form) {
     }
   }]
   */
-  const getContestedIssues = ({ contestedIssues }) => {
+  const getContestedIssues = ({ contestedIssues = [] }) => {
     const issueTransform = {
       issue: issue => {
         const hasPercentage = issue?.ratingIssuePercentNumber
