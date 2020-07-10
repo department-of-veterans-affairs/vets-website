@@ -48,7 +48,7 @@ module.exports = {
         endValue: { type: 'string' }, //  2019-06-12T23:00:00
       },
     },
-    fieldDescription: { type: 'string' },
+    fieldDescription: { type: ['string', 'null'] },
     fieldEventCost: { type: ['string', 'null'] },
     fieldEventCta: { type: ['string', 'null'] },
     fieldEventRegistrationrequired: { type: 'boolean' },
