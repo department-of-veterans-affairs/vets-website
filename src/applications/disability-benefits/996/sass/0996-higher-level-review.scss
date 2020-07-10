@@ -68,7 +68,7 @@
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
 .widget-outline {
-  padding: 1em;
+  padding: 0;
   border: solid 4px $color-primary-alt-light;
   border-radius: 7px;
   margin-top: 0.5em;
@@ -81,14 +81,11 @@
     margin-bottom: 1em;
   }
 
-  label {
-    display: inline-block;
-  }
-
   /* long descriptions cause the content to shift down, using flex to fix it */
   .widget-content {
     display: flex;
     flex-direction: column;
+    padding: 1em;
   }
 
   h4 {
@@ -101,10 +98,15 @@
     // the outside of the border.
     margin-top: 0em;
     margin-bottom: 0em;
+    padding: 1em;
 
     // Eliminate unnecessary margin inside the label component
     > div *:last-child {
       margin-bottom: 0em;
+    }
+
+    .widget-content {
+      padding: 0;
     }
   }
 }
