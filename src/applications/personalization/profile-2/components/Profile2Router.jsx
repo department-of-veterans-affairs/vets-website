@@ -34,6 +34,7 @@ import {
 } from 'applications/personalization/profile360/selectors';
 import { fetchPaymentInformation as fetchPaymentInformationAction } from 'applications/personalization/profile360/actions/paymentInformation';
 import getRoutes from '../routes';
+import { PROFILE_PATHS } from '../constants';
 
 import Profile2Wrapper from './Profile2Wrapper';
 
@@ -114,10 +115,13 @@ class Profile2Router extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const routes = getRoutes(
-      this.props.shouldShowDirectDeposit,
-      this.props.shouldShowMilitaryInformation,
-    );
+    const routesConfig = {
+      showDirectDeposit: this.props.shouldShowDirectDeposit,
+      showMilitaryInformation: this.props.shouldShowMilitaryInformation,
+    };
+
+    const routes = getRoutes(routesConfig);
+
     return (
       <BrowserRouter>
         <Profile2Wrapper routes={routes}>
@@ -131,18 +135,21 @@ class Profile2Router extends Component {
                 return (
                   <Redirect
                     from={route.path}
-                    to="/profile/account-security"
+                    to={PROFILE_PATHS.ACCOUNT_SECURITY}
                     key={route.path}
                   />
                 );
               }
 
               if (
-                route.path === '/profile/military-information' &&
+                route.path === PROFILE_PATHS.MILITARY_INFORMATION &&
                 !this.props.shouldShowMilitaryInformation
               ) {
                 return (
-                  <Redirect to="/profile/account-security" key={route.path} />
+                  <Redirect
+                    to={PROFILE_PATHS.ACCOUNT_SECURITY}
+                    key={route.path}
+                  />
                 );
               }
 
@@ -159,18 +166,18 @@ class Profile2Router extends Component {
             <Redirect
               exact
               from="/profile#contact-information"
-              to="/profile/personal-information"
+              to={PROFILE_PATHS.PERSONAL_INFORMATION}
             />
 
             <Redirect
               exact
-              from="/profile"
-              to="/profile/personal-information"
+              from={PROFILE_PATHS.PROFILE_ROOT}
+              to={PROFILE_PATHS.PERSONAL_INFORMATION}
             />
 
             {/* fallback handling: redirect to root route */}
             <Route path="*">
-              <Redirect to="/profile" />
+              <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
             </Route>
           </Switch>
         </Profile2Wrapper>
