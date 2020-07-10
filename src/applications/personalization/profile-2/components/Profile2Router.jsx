@@ -146,10 +146,7 @@ class Profile2Router extends Component {
                 !this.props.shouldShowMilitaryInformation
               ) {
                 return (
-                  <Redirect
-                    to={PROFILE_PATHS.ACCOUNT_SECURITY}
-                    key={route.path}
-                  />
+                  <Redirect to={PROFILE_PATHS.PROFILE_ROOT} key={route.path} />
                 );
               }
 
