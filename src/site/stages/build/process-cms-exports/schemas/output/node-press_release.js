@@ -38,7 +38,7 @@ module.exports = {
         required: ['entity'],
       },
     },
-    fieldPressReleaseDownloads: { type: 'array', maxItems: 0 },
+    fieldPressReleaseDownloads: { type: 'array', items: { $ref: 'Media' } },
     fieldPressReleaseFulltext: { $ref: 'ProcessedString' },
     fieldReleaseDate: {
       type: 'object',
