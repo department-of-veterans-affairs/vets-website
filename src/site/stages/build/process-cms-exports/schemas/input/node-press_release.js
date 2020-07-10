@@ -32,7 +32,8 @@ module.exports = {
     'path',
     'field_address',
     'field_intro_text',
-    'field_office',
+    // Apparently this isn't always here...or maybe never is anymore?
+    // 'field_office',
     'field_pdf_version',
     'field_press_release_contact',
     'field_press_release_downloads',

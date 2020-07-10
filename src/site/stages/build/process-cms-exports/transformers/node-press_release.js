@@ -21,7 +21,7 @@ const transform = entity => ({
     : null,
 
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldOffice: entity.fieldOffice[0],
+  fieldOffice: (entity.fieldOffice && entity.fieldOffice[0]) || null,
   fieldPdfVersion: entity.fieldPdfVersion[0] || null,
   fieldPressReleaseContact: entity.fieldPressReleaseContact[0]
     ? [{ entity: entity.fieldPressReleaseContact[0] }]

@@ -20,7 +20,12 @@ module.exports = {
     entityUrl: { $ref: 'EntityUrl' },
     fieldAddress: { $ref: 'Address' },
     fieldIntroText: { type: 'string' },
-    fieldOffice: { $ref: 'output/node-health_care_region_page' },
+    fieldOffice: {
+      oneOf: [
+        { type: 'null' },
+        { $ref: 'output/node-health_care_region_page' },
+      ],
+    },
     fieldPdfVersion: { $ref: 'Media' },
     fieldPressReleaseContact: {
       type: 'array',
