@@ -7,6 +7,18 @@ const tupleSchema = {
   maxItems: 2,
 };
 
+const socialMediaLinkSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      uri: { type: 'string' },
+      title: { type: 'string' },
+    },
+    required: ['uri', 'title'],
+  },
+};
+
 module.exports = {
   type: 'object',
   properties: {
@@ -77,10 +89,10 @@ module.exports = {
     // Not sure what any of the following should be; all entities had only empty arrays for these
     // jq --slurp 'map(select(.type[0].target_id == "health_care_local_facility")) | map(.field_email_subscription) | map(select(. != []))' node.*.json
     field_email_subscription: { $ref: 'GenericNestedString' },
-    field_facebook: { $ref: 'GenericNestedString' },
-    field_twitter: { $ref: 'GenericNestedString' },
-    field_instagram: { $ref: 'GenericNestedString' },
-    field_flickr: { $ref: 'GenericNestedString' },
+    field_facebook: socialMediaLinkSchema,
+    field_twitter: socialMediaLinkSchema,
+    field_instagram: socialMediaLinkSchema,
+    field_flickr: socialMediaLinkSchema,
   },
   required: [
     'title',
