@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import {
   deleteConnectedApp,
@@ -28,13 +29,18 @@ export class ConnectedApps extends Component {
   };
 
   render() {
-    const { apps, loading } = this.props;
+    const { apps, loading, errors } = this.props;
     const deletedApps = apps ? apps.filter(app => app.deleted) : [];
     const activeApps = apps ? apps.filter(app => !app.deleted) : [];
 
     const allAppsDeleted = deletedApps?.length === apps?.length;
     const showHasNoConnectedApps = !apps || (allAppsDeleted && !loading);
     const showHasConnectedApps = apps && !allAppsDeleted;
+
+    // Check if any of the active apps have errors
+    const disconnectErrorApps = activeApps.filter(
+      activeApp => !isEmpty(activeApp.errors),
+    );
 
     return (
       <div className="va-connected-apps">
@@ -45,7 +51,6 @@ export class ConnectedApps extends Component {
         >
           Connected apps
         </h2>
-
         {showHasConnectedApps && (
           <p className="va-introtext vads-u-font-size--md">
             Your VA.gov profile is connected to the third-party (non-VA) apps
@@ -53,7 +58,6 @@ export class ConnectedApps extends Component {
             you can disconnect it from your profile at any time.
           </p>
         )}
-
         {showHasNoConnectedApps && (
           <div className="connected-apps-intro">
             <p className="va-introtext vads-u-font-size--md">
@@ -86,11 +90,28 @@ export class ConnectedApps extends Component {
             </ul>
           </div>
         )}
-
         {loading && (
           <LoadingIndicator setFocus message="Loading your connected apps..." />
         )}
+        {!isEmpty(disconnectErrorApps) &&
+          disconnectErrorApps.map(app => (
+            <AlertBox
+              key={`${app.attributes.title}`}
+              headline={`We are unable to disconnect ${app.attributes.title}`}
+              status="warning"
+              content={`We’re sorry. Something went wrong on our end and we couldn’t disconnect ${
+                app.attributes.title
+              }. Please try again later.`}
+            />
+          ))}
 
+        {!isEmpty(errors) && (
+          <AlertBox
+            headline="We are unable to retrieve your connected apps"
+            status="warning"
+            content="We’re sorry. Something went wrong on our end and we couldn’t access your connected apps. Please try again later."
+          />
+        )}
         {deletedApps.map(app => (
           <AppDeletedAlert
             id={app.id}
@@ -99,7 +120,6 @@ export class ConnectedApps extends Component {
             dismissAlert={this.dismissAlert}
           />
         ))}
-
         {activeApps.map((app, idx) => (
           <ConnectedApp
             key={app.id}
@@ -107,9 +127,7 @@ export class ConnectedApps extends Component {
             {...app}
           />
         ))}
-
         <AdditionalInfoSections activeApps={activeApps} />
-
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--primary-alt-lightest vads-u-padding--2p5 vads-u-margin-top--2">
           <h3 className="vads-u-margin--0 vads-u-font-size--lg">
             Have more questions about connected apps?
@@ -152,6 +170,8 @@ ConnectedApps.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
+      errors: PropTypes.array,
+      deleting: PropTypes.bool,
       attributes: PropTypes.shape({
         title: PropTypes.string.isRequired,
         logo: PropTypes.string.isRequired,
@@ -169,6 +189,7 @@ ConnectedApps.propTypes = {
   deleteConnectedApp: PropTypes.func.isRequired,
   dismissDeletedAppAlert: PropTypes.func.isRequired,
   loading: PropTypes.bool,
+  errors: PropTypes.array,
 };
 
 export default connect(
