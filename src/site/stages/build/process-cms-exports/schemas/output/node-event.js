@@ -21,19 +21,19 @@ module.exports = {
     },
     entityPublished: { type: 'boolean' },
     changed: { type: 'number' },
-    uid: {
-      type: 'object',
-      properties: {
-        targetId: { type: 'number' },
-        entity: {
-          type: 'object',
-          properties: {
-            name: { type: 'string' },
-            timezone: { type: ['null'] }, // All the exmaples are null
-          },
-        },
-      },
-    },
+    // uid: {
+    //   type: 'object',
+    //   properties: {
+    //     targetId: { type: 'number' },
+    //     entity: {
+    //       type: 'object',
+    //       properties: {
+    //         name: { type: 'string' },
+    //         timezone: { type: ['null'] }, // All the exmaples are null
+    //       },
+    //     },
+    //   },
+    // },
     fieldAdditionalInformationAbo: {
       oneOf: [{ $ref: 'ProcessedString' }, { type: 'null' }],
     },
@@ -69,7 +69,7 @@ module.exports = {
   },
   required: [
     'title',
-    'uid',
+    // 'uid',
     'changed',
     'entityUrl',
     'entityMetatags',
