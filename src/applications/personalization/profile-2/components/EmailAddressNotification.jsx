@@ -29,7 +29,7 @@ const EmailAddressNotification = ({ signInServiceName }) => {
       </p>
       <p className="vads-u-margin-bottom--0">
         <a href={link} target="_blank" rel="noopener noreferrer">
-          Update sign-in email address on {buttonText}
+          Update sign in email address on {buttonText}
         </a>
       </p>
     </>
