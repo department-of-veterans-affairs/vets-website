@@ -113,9 +113,16 @@ const entityAssemblerFactory = contentDir => {
    * @param {function} assembleTree - The assembleEntityTree closure; defined as
    *                                  a parameter here because eslint didn't
    *                                  like using it before it was defined
+   * @param {bool} transformUnpublished - Whether or not to transform
+   *                                  unpublished entities.
    * @return {Object} The entity with the references filled in
    */
-  const expandEntityReferences = (entity, ancestors, assembleTree) => {
+  const expandEntityReferences = (
+    entity,
+    ancestors,
+    assembleTree,
+    transformUnpublished,
+  ) => {
     const filteredEntity = getFilteredEntity(entity);
 
     // Recursively expand entity references
@@ -129,6 +136,7 @@ const entityAssemblerFactory = contentDir => {
           if (targetUuid && targetType) {
             filteredEntity[key][index] = assembleTree(
               readEntity(contentDir, targetType, targetUuid),
+              transformUnpublished,
               ancestors.concat([{ id: toId(entity), entity }]),
               key,
             );
@@ -155,14 +163,21 @@ const entityAssemblerFactory = contentDir => {
    * @param {string} parentFieldName - The name of the property of the
    *                          parent in which the current entity can
    *                          be found.
+   * @param {bool} transformUnpublished - Whether or not to transform
+   *                          unpublished entities.
    *
    * @return {Object|null} - The entity with all the references filled in with
    *                         the body of the referenced entities. If the entity
    *                         is unpublished, return null.
    */
-  const assembleEntityTree = (entity, ancestors = [], parentFieldName = '') => {
+  const assembleEntityTree = (
+    entity,
+    transformUnpublished,
+    ancestors = [],
+    parentFieldName = '',
+  ) => {
     // If the entity is unpublished
-    if (!entity.status[0].value) {
+    if (!entity.status[0].value && !transformUnpublished) {
       return null;
     }
 
@@ -178,6 +193,7 @@ const entityAssemblerFactory = contentDir => {
         entity,
         ancestors,
         assembleEntityTree,
+        transformUnpublished,
       );
     } catch (e) {
       console.log(
@@ -199,6 +215,7 @@ const entityAssemblerFactory = contentDir => {
         parentFieldName,
         contentDir,
         assembleEntityTree,
+        transformUnpublished,
       });
     } catch (e) {
       console.log(
