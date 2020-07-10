@@ -227,7 +227,6 @@ export function filterPastAppointments(appt, startDate, endDate) {
  * @param {Object} request A FHIR appointment resource
  */
 export function filterRequests(request) {
-  const isExpressCare = request.typeOfCareId === EXPRESS_CARE;
   const hasValidDate = request.requestedPeriod.some(period => {
     const momentStart = moment(period.start);
     const momentEnd = moment(period.end);
@@ -243,7 +242,7 @@ export function filterRequests(request) {
     (request.status === APPOINTMENT_STATUS.pending ||
       request.status === APPOINTMENT_STATUS.proposed ||
       (request.status === APPOINTMENT_STATUS.cancelled &&
-        (hasValidDate || isExpressCare)))
+        (hasValidDate || request.vaos.isExpressCare)))
   );
 }
 

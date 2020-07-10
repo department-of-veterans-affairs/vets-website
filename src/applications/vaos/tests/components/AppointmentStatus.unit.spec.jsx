@@ -44,6 +44,19 @@ describe('VAOS <AppointmentStatus>', () => {
     tree.unmount();
   });
 
+  it('should render proposed', () => {
+    const tree = shallow(
+      <AppointmentStatus status={APPOINTMENT_STATUS.proposed} />,
+    );
+
+    expect(tree.find('i').props().className).to.contain(
+      'fa-exclamation-triangle',
+    );
+    expect(tree.text()).to.contain('Pending');
+
+    tree.unmount();
+  });
+
   it('should render cancelled', () => {
     const tree = shallow(
       <AppointmentStatus status={APPOINTMENT_STATUS.cancelled} />,

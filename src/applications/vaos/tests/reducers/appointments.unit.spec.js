@@ -65,7 +65,7 @@ describe('VAOS reducer: appointments', () => {
         // pending appointments will show
         [
           {
-            status: APPOINTMENT_STATUS.pending,
+            status: APPOINTMENT_STATUS.proposed,
             requestedPeriod: [
               setRequestedPeriod(moment().add(2, 'days'), 'AM'),
             ],

@@ -101,7 +101,7 @@ describe('VAOS Appointment service', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/v0/appointment_requests?start_date=2020-05-01&end_date=2020-06-30',
       );
-      expect(data[0].status).to.equal('pending');
+      expect(data[0].status).to.equal('proposed');
     });
 
     it('should return OperationOutcome error', async () => {
@@ -320,7 +320,7 @@ describe('VAOS Appointment service', () => {
         },
         // future - should not filter out
         {
-          status: APPOINTMENT_STATUS.pending,
+          status: APPOINTMENT_STATUS.proposed,
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(2, 'days'), 'AM'),
           ],
