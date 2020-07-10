@@ -23,9 +23,9 @@ const transform = entity => ({
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldOffice: (entity.fieldOffice && entity.fieldOffice[0]) || null,
   fieldPdfVersion: entity.fieldPdfVersion[0] || null,
-  fieldPressReleaseContact: entity.fieldPressReleaseContact[0]
-    ? [{ entity: entity.fieldPressReleaseContact[0] }]
-    : [],
+  fieldPressReleaseContact: entity.fieldPressReleaseContact.map(i => ({
+    entity: i,
+  })),
   fieldPressReleaseDownloads: entity.fieldPressReleaseDownloads,
   fieldPressReleaseFulltext: {
     processed: getWysiwygString(

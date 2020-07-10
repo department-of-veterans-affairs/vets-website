@@ -29,7 +29,6 @@ module.exports = {
     fieldPdfVersion: { $ref: 'Media' },
     fieldPressReleaseContact: {
       type: 'array',
-      maxItems: 1,
       items: {
         type: 'object',
         properties: {
