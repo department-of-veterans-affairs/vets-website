@@ -21,10 +21,10 @@ describe('Edu 10203 <IntroductionPage>', () => {
         }}
       />,
     );
-    expect(tree.find('FormTitle').props().title).to.contain('Manage');
+    expect(tree.find('FormTitle').props().title).to.contain('Apply');
     expect(tree.find('withRouter(Connect(SaveInProgressIntro))').exists()).to.be
       .true;
-    expect(tree.find('.process-step').length).to.equal(4);
+    expect(tree.find('.process-step').length).to.equal(5);
     tree.unmount();
   });
 });
