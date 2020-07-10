@@ -7,5 +7,5 @@ module.exports = {
   <%- fd.outputFieldName %>: <%- fd.outputSchema %>,
   <%_ }); _%>
   },
-  required: [<%- fieldData.map(fd => `'${fd.inputFieldName}'`).join(', ') %>],
+  required: [<%- fieldData.map(fd => `'${fd.outputFieldName}'`).join(', ') %>],
 };
