@@ -1,6 +1,5 @@
 import moment from '../../utils/moment-tz';
 
-import titleCase from 'platform/utilities/data/titleCase';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -115,9 +114,14 @@ function getStatus(appointment, isPast) {
       return APPOINTMENT_STATUS.booked;
     case APPOINTMENT_TYPES.ccRequest:
     case APPOINTMENT_TYPES.request: {
-      return appointment.status === 'Cancelled'
-        ? APPOINTMENT_STATUS.cancelled
-        : APPOINTMENT_STATUS.pending;
+      if (appointment.status === 'Cancelled') {
+        return APPOINTMENT_STATUS.cancelled;
+      } else if (appointment.status.startsWith('Escalated')) {
+        return APPOINTMENT_STATUS.pending;
+      } else if (appointment.status.startsWith('Resolved')) {
+        return APPOINTMENT_STATUS.fulfilled;
+      }
+      return APPOINTMENT_STATUS.proposed;
     }
     case APPOINTMENT_TYPES.vaAppointment: {
       const currentStatus = getVistaStatus(appointment);
@@ -530,9 +534,7 @@ export function transformPendingAppointments(requests) {
         appointmentType: getAppointmentType(appt),
         isCommunityCare: isCC,
         isExpressCare: appt.typeOfCareId === EXPRESS_CARE,
-        isPastAppointment: !requestedPeriod.some(p =>
-          moment(p.start).isAfter(moment()),
-        ),
+        isPastAppointment: false,
         videoType: getVideoType(appt),
       },
     };

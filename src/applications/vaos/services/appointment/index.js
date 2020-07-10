@@ -9,9 +9,8 @@ import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
   PAST_APPOINTMENTS_HIDDEN_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
-  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
+  EXPRESS_CARE,
 } from '../../utils/constants';
 
 /**
@@ -56,10 +55,7 @@ export async function getBookedAppointments({ startDate, endDate }) {
  */
 export async function getAppointmentRequests({ startDate, endDate }) {
   try {
-    const appointments = (await getPendingAppointments(
-      startDate,
-      endDate,
-    )).filter(appt => ['Submitted', 'Cancelled'].includes(appt.status));
+    const appointments = await getPendingAppointments(startDate, endDate);
 
     return transformPendingAppointments(appointments);
   } catch (e) {
@@ -231,6 +227,7 @@ export function filterPastAppointments(appt, startDate, endDate) {
  * @param {Object} request A FHIR appointment resource
  */
 export function filterRequests(request) {
+  const isExpressCare = request.typeOfCareId === EXPRESS_CARE;
   const hasValidDate = request.requestedPeriod.some(period => {
     const momentStart = moment(period.start);
     const momentEnd = moment(period.end);
@@ -244,7 +241,9 @@ export function filterRequests(request) {
   return (
     !request.vaos.isPastAppointment &&
     (request.status === APPOINTMENT_STATUS.pending ||
-      (request.status === APPOINTMENT_STATUS.cancelled && hasValidDate))
+      request.status === APPOINTMENT_STATUS.proposed ||
+      (request.status === APPOINTMENT_STATUS.cancelled &&
+        (hasValidDate || isExpressCare)))
   );
 }
 
