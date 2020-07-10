@@ -321,9 +321,10 @@
     "tar-fs": "^2.0.1",
     "tinyliquid": "^0.2.33",
     "url-search-params": "^1.1.0",
+    "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a8176c1d1837b389e9dd367f3a87aa47bbd3bc59",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0f7d93fdcff0139345998d95a80c2cfd1cb65f7a",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
