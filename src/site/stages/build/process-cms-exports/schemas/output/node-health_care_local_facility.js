@@ -53,7 +53,7 @@ module.exports = {
     // Could probably be an enum, but it's not clear what all the possible values are
     fieldOperatingStatusFacility: { type: 'string' },
     // Only found null as an example; not sure what else it's supposed to be
-    fieldOperatingStatusMoreInfo: { type: 'null' },
+    fieldOperatingStatusMoreInfo: { type: ['string', 'null'] },
     fieldPhoneNumber: { type: ['string', 'null'] },
     fieldRegionPage: {
       oneOf: [

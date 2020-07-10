@@ -66,7 +66,7 @@ module.exports = {
     field_nickname_for_this_facility: { $ref: 'GenericNestedString' },
     field_operating_status_facility: { $ref: 'GenericNestedString' },
     // maxItems: 0 until we have an example of what this should be
-    field_operating_status_more_info: { type: 'array', maxItems: 0 },
+    field_operating_status_more_info: { $ref: 'GenericNestedString' },
     field_phone_number: { $ref: 'GenericNestedString' },
     field_region_page: {
       type: 'array',
