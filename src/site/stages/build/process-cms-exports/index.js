@@ -156,10 +156,16 @@ const entityAssemblerFactory = contentDir => {
    *                          parent in which the current entity can
    *                          be found.
    *
-   * @return {Object} - The entity with all the references filled in
-   *                    with the body of the referenced entities.
+   * @return {Object|null} - The entity with all the references filled in with
+   *                         the body of the referenced entities. If the entity
+   *                         is unpublished, return null.
    */
   const assembleEntityTree = (entity, ancestors = [], parentFieldName = '') => {
+    // If the entity is unpublished
+    if (!entity.status[0].value) {
+      return null;
+    }
+
     // Handle circular references
     const a = findCircularReference(entity, ancestors);
     if (a) return a;
