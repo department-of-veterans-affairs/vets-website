@@ -250,14 +250,14 @@ export const DirectDepositContent = ({
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           <p className="vads-u-margin-top--0">
             You’ll need to sign in to the eBenefits website with your{' '}
-            <b>Premium DS Logon</b> account to change your direct deposit
-            information for GI Bill and other education benefits online.
+            <strong>Premium DS Logon</strong> account to change your direct
+            deposit information for GI Bill and other education benefits online.
           </p>{' '}
           <p>
-            If you don’t have a <b>Premium DS Logon</b> account, you can
-            register for one or upgrade your Basic account to Premium. Your{' '}
-            <b>MyHealtheVet</b> or <b>ID.me</b> credentials won’t work on
-            eBenefits.
+            If you don’t have a <strong>Premium DS Logon</strong> account, you
+            can register for one or upgrade your Basic account to Premium. Your{' '}
+            <strong>MyHealtheVet</strong> or <strong>ID.me</strong> credentials
+            won’t work on eBenefits.
           </p>
           <a
             target="_blank"

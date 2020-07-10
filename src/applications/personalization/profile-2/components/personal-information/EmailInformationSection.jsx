@@ -43,7 +43,7 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
                 </p>
                 <p>
                   To update the email you use to sign in, go to the website
-                  where you manage your sign in information.
+                  where you manage your sign-in information.
                 </p>
                 <a href={link} target="_blank" rel="noopener noreferrer">
                   Update sign-in email address on {buttonText}
