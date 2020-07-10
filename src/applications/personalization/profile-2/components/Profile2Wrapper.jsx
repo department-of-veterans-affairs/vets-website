@@ -7,6 +7,7 @@ import { isWideScreen } from 'platform/utilities/accessibility/index';
 import ProfileHeader from './ProfileHeader';
 import ProfileSideNav from './ProfileSideNav';
 import MobileMenuTrigger from './MobileMenuTrigger';
+import { PROFILE_PATHS } from '../constants';
 
 const Profile2 = ({ children, routes }) => {
   const location = useLocation();
@@ -21,7 +22,7 @@ const Profile2 = ({ children, routes }) => {
 
   // We do not want to display 'Profile' on the mobile personal-information route
   const onPersonalInformationMobile =
-    activeLocation === '/profile/personal-information' && !isWideScreen();
+    activeLocation === PROFILE_PATHS.PERSONAL_INFORMATION && !isWideScreen();
 
   return (
     <>
