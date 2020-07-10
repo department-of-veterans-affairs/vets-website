@@ -25,21 +25,29 @@
         </hgroup>
 
         {% if fieldBenefitCategories.length > 0 or fieldVaFormRevisionDate %}
-          <dt>
+          <dl>
             {% if fieldBenefitCategories.length > 0 %}
-              <dd class="vads-u-margin-y--1">
-                <dfn class="vads-u-font-weight--bold">Related to:</dfn>
-                {{ fieldBenefitCategories | map: "entity" | map: "entityLabel" | join: '; ' }}
-              </dd>
+              <div>
+                <dt class="vads-u-font-weight--bold vads-u-display--inline">
+                  Related to:
+                </dd>
+                <dd class="vads-u-display--inline">
+                  {{ fieldBenefitCategories | map: "entity" | map: "entityLabel" | join: '; ' }}
+                </dd>
+              </div>
             {% endif %}
 
             {% if fieldVaFormRevisionDate %}
-              <dd>
-                <dfn class="vads-u-font-weight--bold">Form last updated:</dfn>
-                {{ fieldVaFormRevisionDate.value | humanizeDate }}
-              </dd>
+              <div>
+                <dt class="vads-u-font-weight--bold vads-u-display--inline">
+                  Form last updated:
+                </dt>
+                <dd class="vads-u-display--inline">
+                  {{ fieldVaFormRevisionDate.value | humanizeDate }}
+                </dd>
+              </div>
             {% endif %}
-          </dt>
+          </dl>
         {% endif %}
 
         {% if fieldVaFormUsage %}
