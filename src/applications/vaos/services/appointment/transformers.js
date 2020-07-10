@@ -450,20 +450,10 @@ function setContained(appt) {
  * @returns {Object}
  */
 function setLegacyVAR(appt) {
-  const type = getAppointmentType(appt);
-
-  const legacyVAR = {
+  return {
     apiData: appt,
+    bestTimeToCall: appt.bestTimetoCall,
   };
-
-  if (
-    type === APPOINTMENT_TYPES.request ||
-    type === APPOINTMENT_TYPES.ccRequest
-  ) {
-    legacyVAR.bestTimeToCall = appt.bestTimetoCall;
-  }
-
-  return legacyVAR;
 }
 
 /**

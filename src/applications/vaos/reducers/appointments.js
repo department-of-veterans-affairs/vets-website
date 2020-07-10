@@ -18,17 +18,16 @@ import {
 
 import { FORM_SUBMIT_SUCCEEDED } from '../actions/sitewide';
 
+import { getRealFacilityId } from '../utils/appointment';
 import {
+  sortPastAppointments,
   filterFutureConfirmedAppointments,
   filterPastAppointments,
   filterRequests,
   sortFutureConfirmedAppointments,
   sortFutureRequests,
   sortMessages,
-  getRealFacilityId,
-  sortPastAppointments,
-  transformRequest,
-} from '../utils/appointment';
+} from '../services/appointment';
 import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,

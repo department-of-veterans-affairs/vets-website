@@ -5,7 +5,14 @@ import {
   transformPendingAppointments,
 } from './transformers';
 import { mapToFHIRErrors } from '../../utils/fhir';
-import { APPOINTMENT_TYPES } from '../../utils/constants';
+import {
+  APPOINTMENT_TYPES,
+  APPOINTMENT_STATUS,
+  PAST_APPOINTMENTS_HIDDEN_SET,
+  PAST_APPOINTMENTS_HIDE_STATUS_SET,
+  FUTURE_APPOINTMENTS_HIDDEN_SET,
+  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
+} from '../../utils/constants';
 
 /**
  * Fetch the logged in user's confirmed appointments that fall between a startDate and endDate
@@ -181,4 +188,111 @@ export function getPatientEmail(appointment) {
   return appointment.participant
     .find(p => p?.actor?.reference.includes('Patient'))
     ?.actor?.telecom?.find(t => t?.system === 'email')?.value;
+}
+
+/**
+ * Filter method for future confirmed appointments
+ * @param {Object} appt A FHIR appointment resource
+ */
+export function filterFutureConfirmedAppointments(appt) {
+  const apptDateTime = moment(appt.start);
+
+  return (
+    !appt.vaos.isPastAppointment &&
+    !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+    apptDateTime.isValid() &&
+    apptDateTime.isBefore(moment().add(13, 'months'))
+  );
+}
+
+/**
+ * Filter method for past appointments
+ * @param {Object} appt A FHIR appointment resource
+ */
+export function filterPastAppointments(appt, startDate, endDate) {
+  const apptDateTime = moment(appt.start);
+
+  if (
+    appt.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
+    PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)
+  ) {
+    return false;
+  }
+
+  return (
+    apptDateTime.isValid() &&
+    apptDateTime.isAfter(startDate) &&
+    apptDateTime.isBefore(endDate)
+  );
+}
+
+/**
+ * Filter method for past appointment requests
+ * @param {Object} request A FHIR appointment resource
+ */
+export function filterRequests(request) {
+  const hasValidDate = request.requestedPeriod.some(period => {
+    const momentStart = moment(period.start);
+    const momentEnd = moment(period.end);
+    return (
+      momentStart.isValid() &&
+      momentEnd.isValid() &&
+      momentStart.isBefore(moment().add(13, 'months'))
+    );
+  });
+
+  return (
+    !request.vaos.isPastAppointment &&
+    (request.status === APPOINTMENT_STATUS.pending ||
+      (request.status === APPOINTMENT_STATUS.cancelled && hasValidDate))
+  );
+}
+
+/**
+ * Sort method for future confirmed appointments
+ * @param {Object} a A FHIR appointment resource
+ * @param {Object} b A FHIR appointment resource
+ */
+export function sortFutureConfirmedAppointments(a, b) {
+  return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
+}
+
+/**
+ * Sort method for past appointments
+ * @param {Object} a A FHIR appointment resource
+ * @param {Object} b A FHIR appointment resource
+ */
+export function sortPastAppointments(a, b) {
+  return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
+}
+
+/**
+ * Sort method for future appointment requests
+ * @param {Object} a A FHIR appointment resource
+ * @param {Object} b A FHIR appointment resource
+ */
+export function sortFutureRequests(a, b) {
+  const typeOfCareA = a.type?.coding?.[0]?.display;
+  const typeOfCareB = b.type?.coding?.[0]?.display;
+
+  // If type of care is the same, return the one with the sooner date
+  if (typeOfCareA === typeOfCareB) {
+    return moment(a.requestedPeriod[0].start).isBefore(
+      moment(b.requestedPeriod[0].start),
+    )
+      ? -1
+      : 1;
+  }
+
+  // Otherwise, return sorted alphabetically by appointmentType
+  return typeOfCareA.toLowerCase() < typeOfCareB.toLowerCase() ? -1 : 1;
+}
+
+/**
+ * Sort method for appointment messages
+ * @param {Object} a A FHIR appointment resource
+ * @param {Object} b A FHIR appointment resource
+ */
+export function sortMessages(a, b) {
+  return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
 }
