@@ -36,11 +36,8 @@ export class ConnectedApps extends Component {
     const allAppsDeleted = deletedApps?.length === apps?.length;
     const showHasNoConnectedApps = !apps || (allAppsDeleted && !loading);
     const showHasConnectedApps = apps && !allAppsDeleted;
-
     // Check if any of the active apps have errors
-    const disconnectErrorApps = activeApps.filter(
-      activeApp => !isEmpty(activeApp.errors),
-    );
+    const disconnectErrorApps = activeApps.filter(app => !isEmpty(app.errors));
 
     return (
       <div className="va-connected-apps">
@@ -96,17 +93,18 @@ export class ConnectedApps extends Component {
         {!isEmpty(disconnectErrorApps) &&
           disconnectErrorApps.map(app => (
             <AlertBox
-              key={`${app.attributes.title}`}
-              headline={`We are unable to disconnect ${app.attributes.title}`}
+              key={`${app.attributes?.title}`}
+              className="vads-u-margin-bottom--2"
+              headline={`We are unable to disconnect ${app.attributes?.title}`}
               status="warning"
               content={`We’re sorry. Something went wrong on our end and we couldn’t disconnect ${
-                app.attributes.title
+                app.attributes?.title
               }. Please try again later.`}
             />
           ))}
-
-        {!isEmpty(errors) && (
+        {isEmpty(errors) && (
           <AlertBox
+            className="vads-u-margin-bottom--2"
             headline="We are unable to retrieve your connected apps"
             status="warning"
             content="We’re sorry. Something went wrong on our end and we couldn’t access your connected apps. Please try again later."
