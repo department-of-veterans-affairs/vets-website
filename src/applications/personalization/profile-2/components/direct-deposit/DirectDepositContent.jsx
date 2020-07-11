@@ -318,7 +318,7 @@ export const DirectDepositContent = ({
         </button>
       </Modal>
       <Prompt
-        message="Are you sure you want to leave? If you leave, your in-progress work won't be saved."
+        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={!isEmptyForm}
       />
       <div id="success" role="alert" aria-atomic="true">
