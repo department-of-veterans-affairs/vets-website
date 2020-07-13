@@ -127,12 +127,14 @@ const entityAssemblerFactory = contentDir => {
 
     // Recursively expand entity references
     for (const [key, prop] of Object.entries(filteredEntity)) {
-      // Properties with target_uuids are always arrays from tome-sync
-      if (Array.isArray(prop)) {
+      const isEntityArray =
+        Array.isArray(prop) && prop.some(e => e.target_uuid && e.target_type);
+      if (isEntityArray) {
         prop.forEach((item, index) => {
           const { target_uuid: targetUuid, target_type: targetType } = item;
 
-          // We found a reference! Override it with the expanded entity.
+          // We need to double-check every item in the "entity reference array"
+          // since sometimes items in the array are empty arrays themselves.
           if (targetUuid && targetType) {
             filteredEntity[key][index] = assembleTree(
               readEntity(contentDir, targetType, targetUuid),
@@ -142,6 +144,9 @@ const entityAssemblerFactory = contentDir => {
             );
           }
         });
+
+        // Filter out all unpublished entities from the array
+        filteredEntity[key] = filteredEntity[key].filter(e => e);
       }
     }
 
