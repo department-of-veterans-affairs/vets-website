@@ -42,34 +42,6 @@ const fakeStore = {
   dispatch: () => {},
 };
 
-const fakeStoreNoEligibility5Months = {
-  getState: () => ({
-    form: {
-      data: {
-        supplies: [
-          {
-            deviceName: 'OMEGAX d3241',
-            productName: 'ZA1239',
-            productGroup: 'BATTERIES',
-            productId: 1,
-            availableForReorder: true,
-            lastOrderDate: '2020-01-01',
-            nextAvailabilityDate: '2020-01-01',
-            quantity: 60,
-            prescribedDate: '2020-12-20',
-          },
-        ],
-        selectedProducts: [],
-        eligibility: {
-          batteries: false,
-        },
-      },
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-};
-
 const fakeStoreNoEligibility2Years = {
   getState: () => ({
     form: {
@@ -136,7 +108,7 @@ describe('Batteries', () => {
   });
   it('should display an alert box if the Veteran does not have eligible battery orders within the last 2 years', () => {
     const wrapper = mount(<Batteries store={fakeStoreNoEligibility2Years} />);
-    const twoYearAlert = wrapper.find('AlertBox');
+    const twoYearAlert = wrapper.find('.batteries-two-year-alert-content');
     expect(twoYearAlert.length).to.equal(1);
     expect(twoYearAlert.text()).to.include(
       "You haven't placed an order for hearing aid batteries within the past 2 years.",

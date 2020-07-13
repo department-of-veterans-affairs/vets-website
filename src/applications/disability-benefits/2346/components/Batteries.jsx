@@ -54,11 +54,6 @@ class Batteries extends Component {
       batterySupply => batterySupply.productGroup === BATTERIES,
     );
     const areBatterySuppliesEligible = eligibility.batteries;
-    const haveBatteriesBeenOrderedInLastFiveMonths =
-      batterySupplies.length > 0 &&
-      batterySupplies.every(
-        battery => currentDate.diff(battery.lastOrderDate, 'months') <= 5,
-      );
     const haveBatteriesBeenOrderedInLastTwoYears =
       batterySupplies.length > 0 &&
       batterySupplies.every(
@@ -78,57 +73,12 @@ class Batteries extends Component {
             Select the hearing aids that need batteries
           </h3>
         )}
-        {haveBatteriesBeenOrderedInLastFiveMonths &&
-          !areBatterySuppliesEligible &&
-          batterySupplies.length === 0 && (
-            <>
-              <AlertBox
-                headline="You can't add batteries to your order at this time"
-                content={
-                  <>
-                    <p>
-                      You can't add batteries for your hearing aids because:
-                    </p>
-                    <ul>
-                      <li>
-                        They don't require batteries,{' '}
-                        <span className="vads-u-font-weight--bold">or</span>
-                      </li>
-                      <li>
-                        You recently reordered batteries for this device. You
-                        can only reorder batteries for each device once every 5
-                        months.
-                      </li>
-                    </ul>
-                    <p>
-                      If you need unavailable batteries sooner, call the DLC
-                      Customer Service Section at{' '}
-                      <a
-                        aria-label="3 0 3. 2 7 3. 6 2 0 0."
-                        href="tel:303-273-6200"
-                      >
-                        303-273-6200
-                      </a>{' '}
-                      or email{' '}
-                      <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-                    </p>
-                  </>
-                }
-                status="info"
-                isVisible
-              />
-              <p className="vads-u-font-weight--bold">
-                These are the hearing aids we have on file fo you:
-              </p>
-            </>
-          )}
-        {!haveBatteriesBeenOrderedInLastFiveMonths &&
-          !haveBatteriesBeenOrderedInLastTwoYears &&
+        {!haveBatteriesBeenOrderedInLastTwoYears &&
           !areBatterySuppliesEligible && (
             <AlertBox
               headline="Your batteries aren't available for online ordering"
               content={
-                <>
+                <div className="batteries-two-year-alert-content">
                   <p>You can't add batteries for your hearing aids because:</p>
                   <ul>
                     <li>
@@ -152,7 +102,7 @@ class Batteries extends Component {
                     or email{' '}
                     <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                   </p>
-                </>
+                </div>
               }
               status="info"
               isVisible

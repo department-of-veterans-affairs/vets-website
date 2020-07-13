@@ -195,7 +195,13 @@ describe('VAOS integration: past appointments', () => {
 
   it('should show comment for self-scheduled appointments', async () => {
     const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = pastDate.format();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: pastDate.format(),
+      clinicFriendlyName: 'Some clinic',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
     appointment.attributes.vdsAppointments[0].currentStatus = 'CHECKED OUT';
     appointment.attributes.vdsAppointments[0].bookingNote =
       'Follow-up/Routine: Do not eat for 24 hours';
@@ -209,14 +215,25 @@ describe('VAOS integration: past appointments', () => {
       },
     );
 
-    await findByText(new RegExp(pastDate.format('dddd, MMMM D, YYYY'), 'i'));
+    await findByText(
+      new RegExp(
+        pastDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+        'i',
+      ),
+    );
     expect(baseElement).to.contain.text('Follow-up/Routine');
     expect(baseElement).to.contain.text('Do not eat for 24 hours');
   });
 
   it('should have correct status when previously cancelled', async () => {
     const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = pastDate.format();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: pastDate.format(),
+      clinicFriendlyName: 'Some clinic',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
     appointment.attributes.vdsAppointments[0].currentStatus =
       'CANCELLED BY CLINIC';
     mockPastAppointmentInfo({ va: [appointment] });
@@ -229,7 +246,12 @@ describe('VAOS integration: past appointments', () => {
       },
     );
 
-    await findByText(new RegExp(pastDate.format('dddd, MMMM D, YYYY'), 'i'));
+    await findByText(
+      new RegExp(
+        pastDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+        'i',
+      ),
+    );
 
     expect(baseElement).to.contain.text('Canceled');
     expect(baseElement).to.contain('.fa-exclamation-circle');
