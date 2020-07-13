@@ -44,7 +44,6 @@ const CalculatorResultRow = ({
   bold,
   visible,
   screenReaderSpan,
-  calculator,
 }) =>
   visible ? (
     <div
