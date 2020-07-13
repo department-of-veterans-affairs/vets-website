@@ -118,7 +118,7 @@ export default class AppointmentRequestListItem extends React.Component {
                   <ul className="usa-unstyled-list">
                     {appointment.requestedPeriod.map((option, optionIndex) => (
                       <li key={`${appointment.id}-option-${optionIndex}`}>
-                        {moment.utc(option.start).format('ddd, MMMM D, YYYY')}{' '}
+                        {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
                         {option.start.includes('00:00:00')
                           ? TIME_TEXT.AM
                           : TIME_TEXT.PM}

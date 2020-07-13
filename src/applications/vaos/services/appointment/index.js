@@ -56,10 +56,7 @@ export async function getBookedAppointments({ startDate, endDate }) {
  */
 export async function getAppointmentRequests({ startDate, endDate }) {
   try {
-    const appointments = (await getPendingAppointments(
-      startDate,
-      endDate,
-    )).filter(appt => ['Submitted', 'Cancelled'].includes(appt.status));
+    const appointments = await getPendingAppointments(startDate, endDate);
 
     return transformPendingAppointments(appointments);
   } catch (e) {
@@ -172,9 +169,9 @@ export function getVAAppointmentLocationName(appointment) {
  * @returns The patient phone number where the VA appointment is located
  */
 export function getPatientPhone(appointment) {
-  return appointment.participant
+  return appointment?.participant
     .find(p => p?.actor?.reference.includes('Patient'))
-    ?.actor?.telecom?.find(t => t?.system === 'phone')?.value;
+    ?.actor?.telecom?.find(t => t.system === 'phone')?.value;
 }
 
 /**
@@ -231,13 +228,12 @@ export function filterPastAppointments(appt, startDate, endDate) {
  * @param {Object} request A FHIR appointment resource
  */
 export function filterRequests(request) {
+  const now = moment();
   const hasValidDate = request.requestedPeriod.some(period => {
     const momentStart = moment(period.start);
     const momentEnd = moment(period.end);
     return (
-      momentStart.isValid() &&
-      momentEnd.isValid() &&
-      momentStart.isBefore(moment().add(13, 'months'))
+      momentStart.isValid() && momentStart.isAfter(now) && momentEnd.isValid()
     );
   });
 

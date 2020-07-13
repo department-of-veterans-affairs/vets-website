@@ -115,9 +115,16 @@ function getStatus(appointment, isPast) {
       return APPOINTMENT_STATUS.booked;
     case APPOINTMENT_TYPES.ccRequest:
     case APPOINTMENT_TYPES.request: {
-      return appointment.status === 'Cancelled'
-        ? APPOINTMENT_STATUS.cancelled
-        : APPOINTMENT_STATUS.pending;
+      if (
+        appointment.status === 'Booked' ||
+        appointment.status === 'Resolved'
+      ) {
+        return APPOINTMENT_STATUS.booked;
+      } else if (appointment.status === 'Cancelled') {
+        return APPOINTMENT_STATUS.cancelled;
+      } else {
+        return APPOINTMENT_STATUS.pending;
+      }
     }
     case APPOINTMENT_TYPES.vaAppointment: {
       const currentStatus = getVistaStatus(appointment);
@@ -251,8 +258,8 @@ function getRequestedPeriods(appt) {
       );
       const isAM = optionTime === 'AM';
       requestedPeriods.push({
-        start: `${momentDate}T${isAM ? '00:00:00.000Z' : `12:00:00.000Z`}`,
-        end: `${momentDate}T${isAM ? '11:59:59.999Z' : `23:59:59.999Z`}`,
+        start: `${momentDate}T${isAM ? '00:00:00.000' : `12:00:00.000`}`,
+        end: `${momentDate}T${isAM ? '11:59:59.999' : `23:59:59.999`}`,
       });
     }
   }
@@ -376,6 +383,7 @@ function setContained(appt) {
             location: {
               reference: `Location/var${appt.facilityId}`,
             },
+            comment: getVideoType(appt),
             telecom: [
               {
                 system: 'url',
@@ -530,9 +538,6 @@ export function transformPendingAppointments(requests) {
         appointmentType: getAppointmentType(appt),
         isCommunityCare: isCC,
         isExpressCare: appt.typeOfCareId === EXPRESS_CARE,
-        isPastAppointment: !requestedPeriod.some(p =>
-          moment(p.start).isAfter(moment()),
-        ),
         videoType: getVideoType(appt),
       },
     };

@@ -262,7 +262,7 @@ const vaRequest = {
   optionTime2: 'AM',
   optionDate3: now,
   optionTime3: 'AM',
-  status: 'Booked',
+  status: 'Submitted',
   appointmentType: 'Primary Care',
   visitType: 'Video Conference',
   reasonForVisit: null,
@@ -543,10 +543,6 @@ describe('VAOS Appointment transformer', () => {
         expect(telecomEmail.value).to.equal('aarathi.poldass@va.gov');
       });
 
-      it('should return vaos.isPastAppointment', () => {
-        expect(data.vaos.isPastAppointment).to.equal(false);
-      });
-
       it('should return vaos.isCommunityCare', () => {
         expect(data.vaos.isCommunityCare).to.equal(false);
       });
@@ -562,22 +558,22 @@ describe('VAOS Appointment transformer', () => {
       it('should set requestedPeriods', () => {
         expect(data.requestedPeriod.length).to.equal(3);
         expect(data.requestedPeriod[0].start).to.equal(
-          `${now.format('YYYY-MM-DD')}T00:00:00.000Z`,
+          `${now.format('YYYY-MM-DD')}T00:00:00.000`,
         );
         expect(data.requestedPeriod[0].end).to.equal(
-          `${now.format('YYYY-MM-DD')}T11:59:59.999Z`,
+          `${now.format('YYYY-MM-DD')}T11:59:59.999`,
         );
         expect(data.requestedPeriod[1].start).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000`,
         );
         expect(data.requestedPeriod[1].end).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T11:59:59.999Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T11:59:59.999`,
         );
         expect(data.requestedPeriod[2].start).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T12:00:00.000Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T12:00:00.000`,
         );
         expect(data.requestedPeriod[2].end).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T23:59:59.999Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T23:59:59.999`,
         );
       });
 
@@ -811,16 +807,16 @@ describe('VAOS Appointment transformer', () => {
 
       // NOTE: The array is sorted.
       expect(data.requestedPeriod[0].start).to.equal(
-        `${now.format('YYYY-MM-DD')}T00:00:00.000Z`,
+        `${now.format('YYYY-MM-DD')}T00:00:00.000`,
       );
       expect(data.requestedPeriod[0].end).to.equal(
-        `${now.format('YYYY-MM-DD')}T11:59:59.999Z`,
+        `${now.format('YYYY-MM-DD')}T11:59:59.999`,
       );
       expect(data.requestedPeriod[1].start).to.equal(
-        `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000Z`,
+        `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000`,
       );
       expect(data.requestedPeriod[1].end).to.equal(
-        `${tomorrow.format('YYYY-MM-DD')}T11:59:59.999Z`,
+        `${tomorrow.format('YYYY-MM-DD')}T11:59:59.999`,
       );
     });
 
@@ -918,10 +914,6 @@ describe('VAOS Appointment transformer', () => {
 
       it('should set isExpressCare to false', () => {
         expect(data.vaos.isExpressCare).to.be.false;
-      });
-
-      it('should set isPastAppointment to false', () => {
-        expect(data.vaos.isPastAppointment).to.be.false;
       });
     });
   });
