@@ -161,20 +161,15 @@ export function submitForm(formConfig, form, eventData) {
       ...eventData,
     });
 
-    let promise;
-    if (formConfig.submit) {
-      promise = formConfig.submit(form, formConfig);
-    } else {
-      const body = formConfig.transformForSubmit
-        ? formConfig.transformForSubmit(formConfig, form)
-        : transformForSubmit(formConfig, form);
+    const body = formConfig.transformForSubmit
+      ? formConfig.transformForSubmit(formConfig, form)
+      : transformForSubmit(formConfig, form);
 
-      promise = submitToUrl(
-        body,
-        formConfig.submitUrl,
-        formConfig.trackingPrefix,
-      );
-    }
+    const promise = submitToUrl(
+      body,
+      formConfig.submitUrl,
+      formConfig.trackingPrefix,
+    );
 
     return promise
       .then(resp => dispatch(setSubmitted(resp)))
