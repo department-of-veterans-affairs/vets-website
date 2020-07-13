@@ -80,7 +80,7 @@ class Accessories extends Component {
             <AlertBox
               headline="You can't add accessories to your order at this time"
               content={
-                <>
+                <div className="accessories-two-year-alert-content">
                   <p>
                     You can only order accessories that you've received in the
                     past 2 years.
@@ -98,7 +98,7 @@ class Accessories extends Component {
                     or email{' '}
                     <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                   </p>
-                </>
+                </div>
               }
               status="info"
               isVisible

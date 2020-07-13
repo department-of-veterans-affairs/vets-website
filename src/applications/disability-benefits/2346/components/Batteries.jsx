@@ -78,7 +78,7 @@ class Batteries extends Component {
             <AlertBox
               headline="Your batteries aren't available for online ordering"
               content={
-                <>
+                <div className="batteries-two-year-alert-content">
                   <p>You can't add batteries for your hearing aids because:</p>
                   <ul>
                     <li>
@@ -102,7 +102,7 @@ class Batteries extends Component {
                     or email{' '}
                     <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                   </p>
-                </>
+                </div>
               }
               status="info"
               isVisible
