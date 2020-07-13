@@ -12,6 +12,7 @@ import {
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
+  VIDEO_TYPES,
 } from '../../utils/constants';
 
 /**
@@ -110,6 +111,24 @@ export function getVARClinicId(appointment) {
   }
 
   return null;
+}
+
+/**
+ * Returns whether or not the appointment/request is video
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns {Boolean} Whether or not the appointment/request is video
+ */
+export function isVideoAppointment(appointment) {
+  return appointment.contained?.some(
+    contained =>
+      contained.resourceType === 'HealthcareService' &&
+      contained.characteristic?.some(
+        c =>
+          c.coding === VIDEO_TYPES.gfe || c.coding === VIDEO_TYPES.videoConnect,
+      ),
+  );
 }
 
 /**

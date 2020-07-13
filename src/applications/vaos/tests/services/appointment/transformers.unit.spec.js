@@ -326,10 +326,6 @@ describe('VAOS Appointment transformer', () => {
         expect(data.participant[0].actor.display).to.equal('CHY OPT VAR1');
       });
 
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(null);
-      });
-
       it('should return vaos.isCommunityCare', () => {
         expect(data.vaos.isCommunityCare).to.equal(false);
       });
@@ -385,10 +381,6 @@ describe('VAOS Appointment transformer', () => {
           '(703) 345-2400',
         );
         expect(data.participant[0].actor.display).to.equal('Bob Belcher');
-      });
-
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(null);
       });
 
       it('should return vaos.isPastAppointment', () => {
@@ -453,10 +445,10 @@ describe('VAOS Appointment transformer', () => {
           'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
         );
         expect(data.contained[0].telecom[0].period.start).to.equal(data.start);
-      });
-
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(VIDEO_TYPES.videoConnect);
+        expect(data.contained[0].resourceType).to.equal('HealthcareService');
+        expect(data.contained[0].characteristic[0].coding).to.equal(
+          VIDEO_TYPES.videoConnect,
+        );
       });
 
       it('should return vaos.isPastAppointment', () => {
@@ -475,10 +467,6 @@ describe('VAOS Appointment transformer', () => {
         );
       });
 
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(VIDEO_TYPES.videoConnect);
-      });
-
       it('should return gfe videoType', () => {
         const gfeData = transformConfirmedAppointments([
           {
@@ -491,7 +479,11 @@ describe('VAOS Appointment transformer', () => {
             ],
           },
         ])[0];
-        expect(gfeData.vaos.videoType).to.equal(VIDEO_TYPES.gfe);
+
+        expect(gfeData.contained[0].resourceType).to.equal('HealthcareService');
+        expect(gfeData.contained[0].characteristic[0].coding).to.equal(
+          VIDEO_TYPES.gfe,
+        );
       });
     });
 
@@ -551,8 +543,11 @@ describe('VAOS Appointment transformer', () => {
         expect(data.vaos.appointmentType).to.equal(APPOINTMENT_TYPES.request);
       });
 
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal('videoConnect');
+      it('should return video type in HealthcareService coding', () => {
+        expect(data.contained[0].resourceType).to.equal('HealthcareService');
+        expect(data.contained[0].characteristic[0].coding).to.equal(
+          VIDEO_TYPES.videoConnect,
+        );
       });
 
       it('should set requestedPeriods', () => {

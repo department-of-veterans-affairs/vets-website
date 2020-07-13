@@ -12,9 +12,19 @@ import {
   filterRequests,
   getBookedAppointments,
   getAppointmentRequests,
+  isVideoAppointment,
   sortFutureConfirmedAppointments,
   sortFutureRequests,
 } from '../../../services/appointment';
+import {
+  transformConfirmedAppointments,
+  transformPendingAppointments,
+} from '../../../services/appointment/transformers';
+import {
+  getVAAppointmentMock,
+  getVideoAppointmentMock,
+  getVARequestMock,
+} from '../../mocks/v0';
 import confirmed from '../../../api/confirmed_va.json';
 import requests from '../../../api/requests.json';
 import { setRequestedPeriod } from '../../mocks/helpers';
@@ -82,6 +92,41 @@ describe('VAOS Appointment service', () => {
         '/vaos/v0/appointments?start_date=2020-05-01&end_date=2020-06-30&type=cc',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+    });
+  });
+
+  describe('isVideoAppointment', () => {
+    it('should return false if confirmed non video', () => {
+      const confirmedVA = transformConfirmedAppointments({
+        ...getVAAppointmentMock.attributes,
+      })[0];
+
+      expect(isVideoAppointment(confirmedVA)).to.equal(false);
+    });
+
+    it('should return false if confirmed non video', () => {
+      const confirmedVideo = transformConfirmedAppointments({
+        ...getVideoAppointmentMock.attributes,
+      })[0];
+
+      expect(isVideoAppointment(confirmedVideo)).to.equal(true);
+    });
+
+    it('should return false if non video request', () => {
+      const request = transformPendingAppointments({
+        ...getVARequestMock.attributes,
+      })[0];
+
+      expect(isVideoAppointment(request)).to.equal(false);
+    });
+
+    it('should return false if non video request', () => {
+      const request = transformPendingAppointments({
+        ...getVARequestMock.attributes,
+        visitType: 'Video Conference',
+      })[0];
+
+      expect(isVideoAppointment(request)).to.equal(true);
     });
   });
 
