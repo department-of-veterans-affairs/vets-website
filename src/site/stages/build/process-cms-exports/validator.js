@@ -24,8 +24,8 @@ const loadSchemas = dir => {
 };
 
 loadSchemas(path.join(__dirname, 'schemas', 'common'));
-loadSchemas(path.join(__dirname, 'schemas', 'raw'));
-loadSchemas(path.join(__dirname, 'schemas', 'transformed'));
+loadSchemas(path.join(__dirname, 'schemas', 'input'));
+loadSchemas(path.join(__dirname, 'schemas', 'output'));
 
 module.exports = (entity, schema) => {
   const validate = ajv.compile(schema);

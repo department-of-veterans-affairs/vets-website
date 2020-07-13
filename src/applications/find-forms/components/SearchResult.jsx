@@ -73,7 +73,7 @@ const SearchResult = ({ form }) => {
       </dt>
 
       <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
-        <dfn className="vads-u-font-weight--bold">Revision date:</dfn>{' '}
+        <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
         {lastRevisionOn}
       </dd>
 

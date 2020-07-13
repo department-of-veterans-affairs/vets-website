@@ -106,7 +106,11 @@ class Profile2Router extends Component {
     const routes = getRoutes(this.props.shouldShowDirectDeposit);
     return (
       <BrowserRouter>
-        <Profile2Wrapper routes={routes}>
+        <Profile2Wrapper
+          routes={routes}
+          isLOA3={this.props.isLOA3}
+          isInMVI={this.props.isInMVI}
+        >
           <Switch>
             {/* Redirect users to Account Security to upgrade their account if they need to */}
             {routes.map(route => {

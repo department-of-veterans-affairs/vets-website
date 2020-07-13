@@ -129,3 +129,13 @@
   list-style-type: none !important;
 }
 
+@media print {
+  .usa-width-two-thirds {
+    width: 100%;
+  }
+  
+  .schemaform-title,
+  .schemaform-subtitle {
+    display: none;
+  }
+}
