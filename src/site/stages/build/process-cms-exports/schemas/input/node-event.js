@@ -38,7 +38,7 @@ module.exports = {
       type: 'array',
       items: {
         properties: {
-          // These are actually timestamps like: 2019-05-30T21:00:00
+          // These are actually timestamps like: 2019-05-30T21:00:00-04:00
           value: { type: 'string' },
           end_value: { type: 'string' },
         },

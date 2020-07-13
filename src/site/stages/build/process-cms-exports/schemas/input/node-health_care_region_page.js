@@ -27,6 +27,8 @@ module.exports = {
     'moderation_state',
     'path',
     'metatag',
+    // Turns out this sometimes just isn't there
+    // 'field_link_facility_emerg_list',
     'field_nickname_for_this_facility',
   ],
 };

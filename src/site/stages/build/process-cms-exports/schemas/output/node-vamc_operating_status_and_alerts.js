@@ -14,7 +14,6 @@ module.exports = {
     fieldBannerAlert: {
       type: 'array',
       items: { $ref: 'output/node-full_width_banner_alert' },
-      // maxItems: 1 // Presumably? The template expects an array, though...
     },
     fieldFacilityOperatingStatus: {
       type: 'array',
