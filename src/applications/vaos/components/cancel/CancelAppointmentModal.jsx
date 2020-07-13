@@ -11,7 +11,11 @@ import {
   getVARFacilityId,
   isVideoAppointment,
 } from '../../services/appointment';
-import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
+import {
+  FETCH_STATUS,
+  APPOINTMENT_TYPES,
+  APPOINTMENT_STATUS,
+} from '../../utils/constants';
 
 export default function CancelAppointmentModal(props) {
   const {
@@ -29,7 +33,10 @@ export default function CancelAppointmentModal(props) {
     return null;
   }
 
-  if (isVideoAppointment(appointmentToCancel)) {
+  if (
+    isVideoAppointment(appointmentToCancel) &&
+    appointmentToCancel.status === APPOINTMENT_STATUS.booked
+  ) {
     return (
       <CancelVideoAppointmentModal onClose={onClose} facility={facility} />
     );
