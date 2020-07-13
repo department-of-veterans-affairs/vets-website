@@ -20,11 +20,15 @@ module.exports = {
     entityUrl: { $ref: 'EntityUrl' },
     fieldAddress: { $ref: 'Address' },
     fieldIntroText: { type: 'string' },
-    fieldOffice: { $ref: 'output/node-health_care_region_page' },
+    fieldOffice: {
+      oneOf: [
+        { type: 'null' },
+        { $ref: 'output/node-health_care_region_page' },
+      ],
+    },
     fieldPdfVersion: { $ref: 'Media' },
     fieldPressReleaseContact: {
       type: 'array',
-      maxItems: 1,
       items: {
         type: 'object',
         properties: {
@@ -33,7 +37,7 @@ module.exports = {
         required: ['entity'],
       },
     },
-    fieldPressReleaseDownloads: { type: 'array', maxItems: 0 },
+    fieldPressReleaseDownloads: { type: 'array', items: { $ref: 'Media' } },
     fieldPressReleaseFulltext: { $ref: 'ProcessedString' },
     fieldReleaseDate: {
       type: 'object',
