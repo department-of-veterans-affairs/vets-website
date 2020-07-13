@@ -30,19 +30,21 @@
               Related to:
             </dd>
             <dd class="vads-u-display--inline">
-              {% if fieldBenefitCategories.length > 0 %}
-
-                {% if fieldBenefitCategories.first == 'Non-VA' %}
-                  A non-VA form. For other government agency forms, go to the <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>.
-                {% elsif fieldBenefitCategories.first == 'Employment/job' %}
+              {% case fieldVaFormType %}
+                {% when 'employment' %}
                   Employment or jobs at VA
+                {% when 'Non-VA' %}
+                  A non-VA form. For other government agency forms, go to the <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>.
                 {% else %}
-                  {{ fieldBenefitCategories | map: "entity" | map: "fieldHomePageHubLabel" | join: ', ' }}
-                {% endif %}
-
-              {% else %}
-                {{ fieldVaFormAdministration.entity.entityLabel }}
-              {% endif %}
+                  {% comment %}
+                    {% when 'benefit' %}
+                  {% endcomment %}
+                  {% if fieldBenefitCategories.length > 0 %}
+                    {{ fieldBenefitCategories | map: "entity" | map: "fieldHomePageHubLabel" | join: ', ' }}
+                  {% else %}
+                    {{ fieldVaFormAdministration.entity.entityLabel }}
+                  {% endif %}
+              {% endcase %}
             </dd>
           </div>
 
