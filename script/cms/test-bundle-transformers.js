@@ -136,10 +136,8 @@ if (entityNames) {
     );
   }
 
-  const modifiedEntities = map(
-    entities,
-    entity => assembleEntityTree(entity),
-    transformUnpublished,
+  const modifiedEntities = map(entities, entity =>
+    assembleEntityTree(entity, transformUnpublished),
   );
 
   console.log(
