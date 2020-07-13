@@ -52,6 +52,7 @@ describe('VAOS integration: express care requests', () => {
 
       await findByText(/Some VA medical center/i);
       expect(baseElement).to.contain.text('Express care appointment');
+      expect(baseElement).not.to.contain.text('Preferred date and time');
       expect(baseElement).not.to.contain.text('in the morning');
       expect(baseElement).not.to.contain.text('Back pain');
       expect(getByText(/cancel appointment/i)).to.have.tagName('button');

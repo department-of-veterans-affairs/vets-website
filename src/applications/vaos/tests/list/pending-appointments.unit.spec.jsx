@@ -72,6 +72,7 @@ describe('VAOS integration: pending appointments', () => {
         'href',
         '/find-locations/facility/vha_442GC',
       );
+      expect(baseElement).to.contain.text('Preferred date and time');
       expect(baseElement).to.contain.text(
         `${moment()
           .add(3, 'days')
