@@ -54,9 +54,14 @@ describe('VAOS <CancelAppointmentModal>', () => {
       <CancelAppointmentModal
         showCancelModal
         appointmentToCancel={{
+          contained: [
+            {
+              resourceType: 'HealthcareService',
+              characteristic: [{ coding: VIDEO_TYPES.videoConnect }],
+            },
+          ],
           vaos: {
             appointmentType: APPOINTMENT_TYPES.vaAppointment,
-            videoType: VIDEO_TYPES.videoConnect,
           },
         }}
         cancelAppointmentStatus={FETCH_STATUS.succeeded}

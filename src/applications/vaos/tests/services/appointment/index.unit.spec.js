@@ -13,6 +13,7 @@ import {
   getBookedAppointments,
   getAppointmentRequests,
   isVideoAppointment,
+  isVideoGFE,
   sortFutureConfirmedAppointments,
   sortFutureRequests,
 } from '../../../services/appointment';
@@ -97,36 +98,81 @@ describe('VAOS Appointment service', () => {
 
   describe('isVideoAppointment', () => {
     it('should return false if confirmed non video', () => {
-      const confirmedVA = transformConfirmedAppointments({
-        ...getVAAppointmentMock.attributes,
-      })[0];
-
+      const confirmedVA = transformConfirmedAppointments([
+        {
+          ...getVAAppointmentMock().attributes,
+        },
+      ])[0];
       expect(isVideoAppointment(confirmedVA)).to.equal(false);
     });
 
     it('should return false if confirmed non video', () => {
-      const confirmedVideo = transformConfirmedAppointments({
-        ...getVideoAppointmentMock.attributes,
-      })[0];
+      const confirmedVideo = transformConfirmedAppointments([
+        {
+          ...getVideoAppointmentMock().attributes,
+        },
+      ])[0];
 
       expect(isVideoAppointment(confirmedVideo)).to.equal(true);
     });
 
     it('should return false if non video request', () => {
-      const request = transformPendingAppointments({
-        ...getVARequestMock.attributes,
-      })[0];
+      const request = transformPendingAppointments([
+        {
+          ...getVARequestMock().attributes,
+        },
+      ])[0];
 
       expect(isVideoAppointment(request)).to.equal(false);
     });
 
     it('should return false if non video request', () => {
-      const request = transformPendingAppointments({
-        ...getVARequestMock.attributes,
-        visitType: 'Video Conference',
-      })[0];
+      const request = transformPendingAppointments([
+        {
+          ...getVARequestMock().attributes,
+          visitType: 'Video Conference',
+        },
+      ])[0];
 
       expect(isVideoAppointment(request)).to.equal(true);
+    });
+  });
+
+  describe('isVideoGFE', () => {
+    it('should return false if confirmed non gfe', () => {
+      const confirmedVA = transformConfirmedAppointments([
+        {
+          ...getVAAppointmentMock().attributes,
+        },
+      ])[0];
+
+      expect(isVideoGFE(confirmedVA)).to.equal(false);
+    });
+
+    it('should return false if video but non gfe', () => {
+      const confirmedVideo = transformConfirmedAppointments([
+        {
+          ...getVideoAppointmentMock().attributes,
+        },
+      ])[0];
+      expect(isVideoGFE(confirmedVideo)).to.equal(false);
+    });
+
+    it('should return true if confirmed gfe', () => {
+      const mock = getVideoAppointmentMock();
+      const gfe = transformConfirmedAppointments([
+        {
+          ...mock.attributes,
+          vvsAppointments: [
+            {
+              ...mock.attributes.vvsAppointments[0],
+              appointmentKind: 'MOBILE_GFE',
+            },
+          ],
+        },
+      ])[0];
+
+      expect(isVideoGFE(gfe)).to.equal(true);
     });
   });
 

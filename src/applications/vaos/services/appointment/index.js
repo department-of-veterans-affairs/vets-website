@@ -70,6 +70,44 @@ export async function getAppointmentRequests({ startDate, endDate }) {
 }
 
 /**
+ * Returns whether or not the appointment/request is video
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns {Boolean} Whether or not the appointment/request is video
+ */
+export function isVideoAppointment(appointment) {
+  return (
+    appointment.contained?.some(
+      contained =>
+        contained.resourceType === 'HealthcareService' &&
+        contained.characteristic?.some(
+          c =>
+            c.coding === VIDEO_TYPES.gfe ||
+            c.coding === VIDEO_TYPES.videoConnect,
+        ),
+    ) || false
+  );
+}
+
+/**
+ * Returns whether or not the appointment/request is a GFE video appointment
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns {Boolean} Whether or not the appointment is a GFE video appointment
+ */
+export function isVideoGFE(appointment) {
+  return (
+    appointment.contained?.some(
+      contained =>
+        contained.resourceType === 'HealthcareService' &&
+        contained.characteristic?.some(c => c.coding === VIDEO_TYPES.gfe),
+    ) || false
+  );
+}
+
+/**
  * Gets legacy VAR facility id from HealthcareService reference
  *
  * @param {Object} appointment VAR Appointment in FHIR schema
@@ -77,7 +115,7 @@ export async function getAppointmentRequests({ startDate, endDate }) {
  */
 export function getVARFacilityId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    if (appointment.vaos.videoType) {
+    if (isVideoAppointment(appointment)) {
       return appointment.legacyVAR.apiData.facilityId;
     }
 
@@ -111,24 +149,6 @@ export function getVARClinicId(appointment) {
   }
 
   return null;
-}
-
-/**
- * Returns whether or not the appointment/request is video
- *
- * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns {Boolean} Whether or not the appointment/request is video
- */
-export function isVideoAppointment(appointment) {
-  return appointment.contained?.some(
-    contained =>
-      contained.resourceType === 'HealthcareService' &&
-      contained.characteristic?.some(
-        c =>
-          c.coding === VIDEO_TYPES.gfe || c.coding === VIDEO_TYPES.videoConnect,
-      ),
-  );
 }
 
 /**

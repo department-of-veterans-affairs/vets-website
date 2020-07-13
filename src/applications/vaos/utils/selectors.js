@@ -22,6 +22,7 @@ import { getParentOfLocation } from '../services/location';
 import {
   getVideoAppointmentLocation,
   getVAAppointmentLocationId,
+  isVideoAppointment,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -330,11 +331,10 @@ export function getCancelInfo(state) {
     facilityData,
   } = state.appointments;
 
+  const isVideo = isVideoAppointment(appointmentToCancel);
+
   let facility = null;
-  if (
-    appointmentToCancel?.status === APPOINTMENT_STATUS.booked &&
-    !appointmentToCancel?.vaos?.videoType
-  ) {
+  if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
     // Confirmed in person VA appts
     const locationId = getVAAppointmentLocationId(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];
@@ -344,7 +344,7 @@ export function getCancelInfo(state) {
       facilityData[
         `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
       ];
-  } else if (appointmentToCancel?.vaos?.videoType) {
+  } else if (isVideo) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];

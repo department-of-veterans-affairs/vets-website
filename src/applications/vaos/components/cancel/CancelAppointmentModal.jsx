@@ -7,7 +7,10 @@ import CancelAppointmentSucceededModal from './CancelAppointmentSucceededModal';
 import CancelAppointmentConfirmationModal from './CancelAppointmentConfirmationModal';
 import CancelCernerAppointmentModal from './CancelCernerAppointmentModal';
 
-import { getVARFacilityId } from '../../services/appointment';
+import {
+  getVARFacilityId,
+  isVideoAppointment,
+} from '../../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
 
 export default function CancelAppointmentModal(props) {
@@ -26,7 +29,7 @@ export default function CancelAppointmentModal(props) {
     return null;
   }
 
-  if (appointmentToCancel.vaos?.videoType) {
+  if (isVideoAppointment(appointmentToCancel)) {
     return (
       <CancelVideoAppointmentModal onClose={onClose} facility={facility} />
     );
