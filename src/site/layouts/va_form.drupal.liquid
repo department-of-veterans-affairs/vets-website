@@ -31,7 +31,15 @@
             </dd>
             <dd class="vads-u-display--inline">
               {% if fieldBenefitCategories.length > 0 %}
-                {{ fieldBenefitCategories | map: "entity" | map: "entityLabel" | join: '; ' }}
+
+                {% if fieldBenefitCategories.first == 'Non-VA' %}
+                  A non-VA form. For other government agency forms, go to the <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>.
+                {% elsif fieldBenefitCategories.first == 'Employment/job' %}
+                  Employment or jobs at VA
+                {% else %}
+                  {{ fieldBenefitCategories | map: "entity" | map: "entityLabel" | join: '; ' }}
+                {% endif %}
+
               {% else %}
                 {{ fieldVaFormAdministration.entity.entityLabel }}
               {% endif %}
