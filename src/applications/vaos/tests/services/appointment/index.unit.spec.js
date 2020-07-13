@@ -371,7 +371,13 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
           ],
-          vaos: { isPastAppointment: true },
+        },
+        // cancelled past - should filter out
+        {
+          status: APPOINTMENT_STATUS.cancelled,
+          requestedPeriod: [
+            setRequestedPeriod(now.clone().subtract(22, 'days'), 'AM'),
+          ],
         },
         // pending past - should filter out
         {
@@ -379,7 +385,6 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
           ],
-          vaos: { isPastAppointment: true },
         },
         // future within 13 - should not filter out
         {
@@ -393,21 +398,6 @@ describe('VAOS Appointment service', () => {
               'AM',
             ),
           ],
-          vaos: { isPastAppointment: false },
-        },
-        // future past 13 - should filter out
-        {
-          status: APPOINTMENT_STATUS.pending,
-          requestedPeriod: [
-            setRequestedPeriod(
-              now
-                .clone()
-                .add(13, 'months')
-                .add(1, 'days'),
-              'AM',
-            ),
-          ],
-          vaos: { isPastAppointment: false },
         },
         // future - should not filter out
         {
@@ -415,7 +405,6 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(2, 'days'), 'AM'),
           ],
-          vaos: { isPastAppointment: false },
         },
         // future canceled - should not filter out
         {
@@ -423,7 +412,6 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(3, 'days'), 'AM'),
           ],
-          vaos: { isPastAppointment: false },
         },
       ];
 
