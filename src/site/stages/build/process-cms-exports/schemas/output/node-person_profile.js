@@ -15,7 +15,7 @@ module.exports = {
     // This isn't a node-office $ref because we only want
     // some of the properties in the entity
     fieldOffice: {
-      type: 'object',
+      type: ['object', 'null'],
       properties: {
         entity: {
           type: 'object',
