@@ -331,7 +331,9 @@ export function getCancelInfo(state) {
     facilityData,
   } = state.appointments;
 
-  const isVideo = isVideoAppointment(appointmentToCancel);
+  const isVideo = appointmentToCancel
+    ? isVideoAppointment(appointmentToCancel)
+    : false;
 
   let facility = null;
   if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
