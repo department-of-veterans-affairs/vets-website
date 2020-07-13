@@ -17,7 +17,7 @@ describe('VAOS integration: express care requests', () => {
       },
     };
 
-    it('should show appropriate information', async () => {
+    it('should show appropriate information for a submitted request', async () => {
       const appointment = getVARequestMock();
       appointment.attributes = {
         ...appointment.attributes,
@@ -33,6 +33,7 @@ describe('VAOS integration: express care requests', () => {
         typeOfCareId: 'CR1',
         reasonForVisit: 'Back pain',
         friendlyLocationName: 'Some VA medical center',
+        appointmentType: 'Express Care',
         facility: {
           ...appointment.attributes.facility,
           facilityCode: '983GC',
@@ -50,8 +51,10 @@ describe('VAOS integration: express care requests', () => {
       );
 
       await findByText(/Some VA medical center/i);
+      expect(baseElement).to.contain.text('Express care appointment');
       expect(baseElement).not.to.contain.text('in the morning');
       expect(baseElement).not.to.contain.text('Back pain');
+      expect(getByText(/cancel appointment/i)).to.have.tagName('button');
 
       fireEvent.click(getByText('Show more'));
       await findByText(/Reason for appointment/i);
@@ -61,6 +64,42 @@ describe('VAOS integration: express care requests', () => {
       expect(baseElement).to.contain.text('Your contact details');
       expect(baseElement).to.contain.text('patient.test@va.gov');
       expect(baseElement).to.contain.text('5555555566');
+    });
+
+    it('should show appropriate information for an escalated request', async () => {
+      const appointment = getVARequestMock();
+      appointment.attributes = {
+        ...appointment.attributes,
+        status: 'Escalated to Tele/Urgent Care - Phone',
+        typeOfCareId: 'CR1',
+        reasonForVisit: 'Back pain',
+        friendlyLocationName: 'Some VA medical center',
+        facility: {
+          ...appointment.attributes.facility,
+          facilityCode: '983GC',
+        },
+      };
+      appointment.id = '1234';
+      mockAppointmentInfo({ requests: [appointment] });
+
+      const {
+        baseElement,
+        findByText,
+        getByText,
+        queryByText,
+      } = renderInReduxProvider(<FutureAppointmentsList />, {
+        initialState,
+        reducers,
+      });
+
+      await findByText(/Some VA medical center/i);
+      expect(baseElement).not.to.contain.text('Back pain');
+      expect(queryByText(/cancel appointment/i)).to.not.be.ok;
+
+      fireEvent.click(getByText('Show more'));
+      await findByText(/Reason for appointment/i);
+
+      expect(baseElement).to.contain.text('Back pain');
     });
   });
 });
