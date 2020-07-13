@@ -11,15 +11,17 @@ export default function ReviewFieldTemplate(props) {
   const DescriptionField =
     typeof description === 'function' ? uiSchema['ui:description'] : null;
 
+  // `hideEmptyValueInReview` option is ignored if a 'ui:reviewField' is defined
+  // give priority to defined `ui:reviewField components`
+  if (uiSchema?.['ui:reviewField']) {
+    return uiSchema['ui:reviewField'](props);
+  }
+
   if (schema.type === 'object' || schema.type === 'array') {
     return children;
   }
 
-  // `hideEmptyValueInReview` option is ignored if a 'ui:reviewField' is defined
   // The custom reviewField should handle empty values
-  if (uiSchema?.['ui:reviewField']) {
-    return uiSchema['ui:reviewField'](props);
-  }
 
   if (uiSchema?.['ui:options']?.hideEmptyValueInReview) {
     let value = children;
