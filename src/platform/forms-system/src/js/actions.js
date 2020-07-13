@@ -173,6 +173,7 @@ export function submitForm(formConfig, form, eventData) {
         body,
         formConfig.submitUrl,
         formConfig.trackingPrefix,
+        eventData,
       );
     }
 
