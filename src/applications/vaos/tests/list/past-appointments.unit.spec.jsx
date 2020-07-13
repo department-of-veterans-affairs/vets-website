@@ -195,7 +195,13 @@ describe('VAOS integration: past appointments', () => {
 
   it('should show comment for self-scheduled appointments', async () => {
     const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = pastDate.format();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: pastDate.format(),
+      clinicFriendlyName: 'Some clinic',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
     appointment.attributes.vdsAppointments[0].currentStatus = 'CHECKED OUT';
     appointment.attributes.vdsAppointments[0].bookingNote =
       'Follow-up/Routine: Do not eat for 24 hours';
@@ -221,7 +227,13 @@ describe('VAOS integration: past appointments', () => {
 
   it('should have correct status when previously cancelled', async () => {
     const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = pastDate.format();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: pastDate.format(),
+      clinicFriendlyName: 'Some clinic',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
     appointment.attributes.vdsAppointments[0].currentStatus =
       'CANCELLED BY CLINIC';
     mockPastAppointmentInfo({ va: [appointment] });
