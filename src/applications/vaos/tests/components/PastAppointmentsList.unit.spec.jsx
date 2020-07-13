@@ -204,8 +204,8 @@ describe('VAOS <PastAppointmentsList>', () => {
 
     expect(tree.find('h2[tabIndex="-1"]').exists()).to.be.true;
     expect(tree.find('h2[tabIndex="-1"]').text()).to.equal('Past appointments');
-    expect(document.activeElement.id).to.equal('queryResultLabel');
-    expect(document.activeElement.nodeName).to.equal('SPAN');
+    expect(document.activeElement.id).to.equal('pastAppts');
+    expect(document.activeElement.nodeName).to.equal('H2');
 
     tree.unmount();
   });
