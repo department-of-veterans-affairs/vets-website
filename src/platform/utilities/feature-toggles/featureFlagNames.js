@@ -18,6 +18,8 @@ export default Object.freeze({
   vaOnlineSchedulingCCSPRequestNew: 'vaOnlineSchedulingCcspRequestNew',
   vaOnlineSchedulingVSPRequestList: 'vaOnlineSchedulingVspRequestList',
   vaOnlineSchedulingVSPRequestNew: 'vaOnlineSchedulingVspRequestNew',
+  vaOnlineSchedulingExpressCare: 'vaOnlineSchedulingExpressCare',
+  vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',
@@ -30,4 +32,5 @@ export default Object.freeze({
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   routeStLouisRPOtoBuffaloRPO: 'routeStLouisRPOtoBuffaloRPO',
   gibctSearchEnhancements: 'gibctSearchEnhancements',
+  form996HigherLevelReview: 'form996HigherLevelReview',
 });

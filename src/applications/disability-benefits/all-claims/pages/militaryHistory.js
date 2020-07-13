@@ -24,7 +24,14 @@ const validateAge = (
   }
 };
 
+const validateSeparationDate = (errors, dateString) => {
+  if (moment(dateString).isAfter(moment())) {
+    errors.addError('Your separation date must be in the past');
+  }
+};
+
 dateRangeUISchema.from['ui:validations'].push(validateAge);
+dateRangeUISchema.to['ui:validations'].push(validateSeparationDate);
 
 export const uiSchema = {
   serviceInformation: {

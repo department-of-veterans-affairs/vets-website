@@ -18,7 +18,6 @@
       "view:confirmEmail": "test2@test1.net",
       "mobilePhone": "4445551213"
     },
-    "benefit": "chapter33",
     "veteranFullName": {
       "first": "Min",
       "last": "asdf"
@@ -32,6 +31,9 @@
     "degreeName": "0",
     "schoolName": "0",
     "schoolCity": "0",
-    "schoolState": "MA"
+    "schoolState": "MA",
+    "view:benefit": {
+      "chapter33": true
+    }
   }
 }
