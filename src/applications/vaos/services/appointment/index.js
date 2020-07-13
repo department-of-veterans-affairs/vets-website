@@ -233,7 +233,7 @@ export function filterRequests(request) {
     return (
       momentStart.isValid() &&
       momentEnd.isValid() &&
-      momentStart.isBefore(moment().add(13, 'months'))
+      momentStart.startOf('day').isAfter(moment().startOf('day'))
     );
   });
 

@@ -346,7 +346,12 @@ describe('VAOS Appointment service', () => {
         filteredRequests.filter(
           req => req.status === APPOINTMENT_STATUS.pending,
         ).length,
-      ).to.equal(3);
+      ).to.equal(2);
+      expect(
+        filteredRequests.filter(
+          req => req.status === APPOINTMENT_STATUS.proposed,
+        ).length,
+      ).to.equal(1);
       expect(
         filteredRequests.filter(req => req.status === 'Booked').length,
       ).to.equal(0);
