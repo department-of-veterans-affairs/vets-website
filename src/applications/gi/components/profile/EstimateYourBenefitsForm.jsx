@@ -1196,12 +1196,14 @@ class EstimateYourBenefitsForm extends React.Component {
     );
 
     return (
-      <div className={className}>
-        <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
-          The {sectionCount} sections below include questions that will refine
-          your benefits estimate. Use the fields in each section to make your
-          updates.
-        </p>
+      <div aria-live="off" className={className}>
+        <div>
+          <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+            The {sectionCount} sections below include questions that will refine
+            your benefits estimate. Use the fields in each section to make your
+            updates.
+          </p>
+        </div>
         <ul className="vads-u-padding--0">
           {this.renderMilitaryDetails()}
           {this.renderSchoolCostsAndCalendar()}
