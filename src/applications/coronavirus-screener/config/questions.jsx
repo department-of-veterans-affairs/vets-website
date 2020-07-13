@@ -50,7 +50,7 @@ export const questions = [
   {
     id: 'exposure-staff',
     text:
-      "In the past 14 days, have you had close contact with someone diagnosed with COVID-19 when you weren't wearing a face covering?",
+      "Have you had contact with someone diagnosed with COVID-19 that you haven't already reported to VA occupational health?",
     dependsOn: {
       id: 'isStaff',
       value: 'yes',
