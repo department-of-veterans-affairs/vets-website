@@ -115,12 +115,13 @@ class Profile2Router extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const routesConfig = {
-      showDirectDeposit: this.props.shouldShowDirectDeposit,
-      showMilitaryInformation: this.props.shouldShowMilitaryInformation,
+    const routesOptions = {
+      removeDirectDeposit: !this.props.shouldShowDirectDeposit,
+      removeMilitaryInformation: !this.props.shouldShowMilitaryInformation,
     };
 
-    const routes = getRoutes(routesConfig);
+    // We need to pass in a config to hide forbidden routes
+    const routes = getRoutes(routesOptions);
 
     return (
       <BrowserRouter>

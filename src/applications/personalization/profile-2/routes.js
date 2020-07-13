@@ -5,7 +5,7 @@ import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 
-const getRoutes = config => {
+const getRoutes = options => {
   let routes = [
     {
       component: PersonalInformation,
@@ -44,11 +44,11 @@ const getRoutes = config => {
     },
   ];
 
-  if (!config.showDirectDeposit) {
+  if (options.removeDirectDeposit) {
     routes = routes.filter(route => route.component !== DirectDeposit);
   }
 
-  if (!config.showMilitaryInformation) {
+  if (options.removeMilitaryInformation) {
     routes = routes.filter(route => route.component !== MilitaryInformation);
   }
 
