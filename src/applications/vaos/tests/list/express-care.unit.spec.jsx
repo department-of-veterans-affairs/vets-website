@@ -9,14 +9,14 @@ import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
 import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS integration: express care requests', () => {
-  describe('when shown in Upcoming appointments tab', () => {
+  describe('when shown in upcoming appointments tab', () => {
+    const initialState = {
+      featureToggles: {
+        vaOnlineSchedulingCancel: true,
+      },
+    };
+
     it('should show appropriate information', async () => {
       const appointment = getVARequestMock();
       appointment.attributes = {
@@ -32,6 +32,7 @@ describe('VAOS integration: express care requests', () => {
         phoneNumber: '5555555566',
         typeOfCareId: 'CR1',
         reasonForVisit: 'Back pain',
+        friendlyLocationName: 'Some VA medical center',
         facility: {
           ...appointment.attributes.facility,
           facilityCode: '983GC',
@@ -39,28 +40,8 @@ describe('VAOS integration: express care requests', () => {
       };
       appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
-      const facility = {
-        id: 'vha_442GC',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '442GC',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            physical: {
-              zip: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              address1: '2360 East Pershing Boulevard',
-            },
-          },
-          phone: {
-            main: '307-778-7550',
-          },
-        },
-      };
-      mockFacilitiesFetch('vha_442GC', [facility]);
 
-      const { baseElement, findByText } = renderInReduxProvider(
+      const { baseElement, findByText, getByText } = renderInReduxProvider(
         <FutureAppointmentsList />,
         {
           initialState,
@@ -68,13 +49,11 @@ describe('VAOS integration: express care requests', () => {
         },
       );
 
-      const showMoreButton = await findByText(/Cheyenne VA Medical Center/i);
+      await findByText(/Some VA medical center/i);
       expect(baseElement).not.to.contain.text('in the morning');
       expect(baseElement).not.to.contain.text('Back pain');
-      expect(baseElement).not.to.contain.text('Cheyenne, WY');
-      expect(baseElement).not.to.contain.text('2360 East Pershing Boulevard');
 
-      fireEvent.click(showMoreButton);
+      fireEvent.click(getByText('Show more'));
       await findByText(/Reason for appointment/i);
 
       expect(baseElement).to.contain.text('Call morning');
