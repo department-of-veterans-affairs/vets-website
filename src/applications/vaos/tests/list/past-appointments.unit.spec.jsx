@@ -209,7 +209,12 @@ describe('VAOS integration: past appointments', () => {
       },
     );
 
-    await findByText(new RegExp(pastDate.format('dddd, MMMM D, YYYY'), 'i'));
+    await findByText(
+      new RegExp(
+        pastDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+        'i',
+      ),
+    );
     expect(baseElement).to.contain.text('Follow-up/Routine');
     expect(baseElement).to.contain.text('Do not eat for 24 hours');
   });
@@ -229,7 +234,12 @@ describe('VAOS integration: past appointments', () => {
       },
     );
 
-    await findByText(new RegExp(pastDate.format('dddd, MMMM D, YYYY'), 'i'));
+    await findByText(
+      new RegExp(
+        pastDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+        'i',
+      ),
+    );
 
     expect(baseElement).to.contain.text('Canceled');
     expect(baseElement).to.contain('.fa-exclamation-circle');
