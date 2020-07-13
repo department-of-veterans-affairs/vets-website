@@ -7,6 +7,7 @@ import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
+  APPOINTMENT_STATUS,
 } from '../../../utils/constants';
 
 describe('VAOS <CancelAppointmentModal>', () => {
@@ -54,6 +55,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
       <CancelAppointmentModal
         showCancelModal
         appointmentToCancel={{
+          status: APPOINTMENT_STATUS.booked,
           contained: [
             {
               resourceType: 'HealthcareService',
