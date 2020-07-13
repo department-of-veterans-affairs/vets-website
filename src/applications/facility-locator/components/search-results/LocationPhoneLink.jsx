@@ -2,22 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 import { LocationType } from '../../constants';
+import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const renderPhoneNumber = (title, subTitle = null, phone, from) => {
   if (!phone) {
     return null;
   }
 
-  // TODO: write a unit test for this parsing logic!
-  const re = /^(\d{3})[ -]?(\d{3})[ -]?(\d{4})\s?(x|ext)[ ]?(\d*)/i;
-  const formattedPhoneNumber = phone
-    .replace(re, '$1-$2-$3 x$5')
-    .replace(/x$/, '');
-  const extension = phone.replace(re, '$5').replace(/\D/g, '');
-  const contact = phone.replace(re, '$1$2$3');
+  const { formattedPhoneNumber, extension, contact } = parsePhoneNumber(phone);
+
+  // The Telephone component will throw an error if passed an invalid phone number.
+  // Since we can't use try/catch or componentDidCatch here, we'll just do this:
+  if (contact.length !== 10) {
+    return null;
+  }
 
   return (
-    <div>
+    <>
       {from === 'FacilityDetail' && (
         <i aria-hidden="true" role="presentation" className="fa fa-phone" />
       )}
@@ -30,7 +31,7 @@ const renderPhoneNumber = (title, subTitle = null, phone, from) => {
       >
         {formattedPhoneNumber}
       </Telephone>
-    </div>
+    </>
   );
 };
 
