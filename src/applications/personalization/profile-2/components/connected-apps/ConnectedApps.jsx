@@ -95,7 +95,7 @@ export class ConnectedApps extends Component {
             <AlertBox
               key={`${app.attributes?.title}`}
               className="vads-u-margin-bottom--2"
-              headline={`We couldn't disconnect ${app.attributes?.title}`}
+              headline={`We couldn’t disconnect ${app.attributes?.title}`}
               status="error"
               content={`We’re sorry. Something went wrong on our end and we couldn’t disconnect ${
                 app.attributes?.title
@@ -105,7 +105,7 @@ export class ConnectedApps extends Component {
         {!isEmpty(errors) && (
           <AlertBox
             className="vads-u-margin-bottom--2"
-            headline="We couldn't retrieve your connected apps"
+            headline="We couldn’t retrieve your connected apps"
             status="warning"
             content="We’re sorry. Something went wrong on our end and we couldn’t access your connected apps. Please try again later."
           />
