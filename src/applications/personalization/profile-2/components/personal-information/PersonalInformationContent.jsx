@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import GenderAndDOBSection from './GenderAndDOBSection';
 import ContactInformationSection from './ContactInformationSection';
@@ -14,4 +14,4 @@ const ContactInformationContent = () => (
   </>
 );
 
-export default ContactInformationContent;
+export default memo(ContactInformationContent);
