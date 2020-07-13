@@ -267,19 +267,18 @@ export function filterPastAppointments(appt, startDate, endDate) {
  * @param {Object} request A FHIR appointment resource
  */
 export function filterRequests(request) {
-  const now = moment();
+  const today = moment().startOf('day');
   const hasValidDate = request.requestedPeriod.some(period => {
     const momentStart = moment(period.start);
     const momentEnd = moment(period.end);
     return (
-      momentStart.isValid() && momentStart.isAfter(now) && momentEnd.isValid()
+      momentStart.isValid() && momentStart.isAfter(today) && momentEnd.isValid()
     );
   });
 
   return (
-    !request.vaos.isPastAppointment &&
-    (request.status === APPOINTMENT_STATUS.pending ||
-      (request.status === APPOINTMENT_STATUS.cancelled && hasValidDate))
+    request.status === APPOINTMENT_STATUS.pending ||
+    (request.status === APPOINTMENT_STATUS.cancelled && hasValidDate)
   );
 }
 
