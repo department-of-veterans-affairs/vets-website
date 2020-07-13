@@ -375,16 +375,20 @@ export const addressUISchema = (
         useDlWrap: true,
         updateSchema: (formData, schema, uiSchema) => {
           const countryFormData = get(path, formData);
-          const countryNameNormalized = countryFormData?.country?.toUpperCase();
+          const countryNameNormalized =
+            'TACO' || countryFormData?.country?.toUpperCase();
+          // Assuming that the DLC will send a military base country not recognized by our schema until confirmed
           const isCountryIncluded = normalizedCountryLabels?.includes(
             countryNameNormalized,
           );
           if (isCountryIncluded) {
             return {
+              ...schema,
               default: false,
             };
           }
-          return { default: true };
+          countryFormData.isMilitaryBase = true;
+          return { ...schema, default: true };
         },
       },
     },
@@ -405,14 +409,7 @@ export const addressUISchema = (
           const countryUI = uiSchema;
           const countryFormData = get(path, formData);
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
-          const countryNameNormalized = countryFormData?.country?.toUpperCase();
-          const isCountryIncluded = normalizedCountryLabels?.includes(
-            countryNameNormalized,
-          );
-          if (
-            (isMilitaryBaseAddress && livesOnMilitaryBase) ||
-            (countryNameNormalized && !isCountryIncluded)
-          ) {
+          if (isMilitaryBaseAddress && livesOnMilitaryBase) {
             countryUI['ui:disabled'] = true;
             countryFormData.country = USA.label;
             return {
@@ -460,6 +457,7 @@ export const addressUISchema = (
         replaceSchema: formData => {
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
           if (isMilitaryBaseAddress && livesOnMilitaryBase) {
+            // TODO: Confirm what military base cities look like with DLC -@mr0sari0 at 7/10/2020
             return {
               type: 'string',
               title: 'APO/FPO/DPO',
@@ -512,6 +510,8 @@ export const addressUISchema = (
         useDlWrap: true,
         hideOnReviewIfFalse: true,
         updateSchema: formData => {
+          // TODO: Confirm what military base states look like with DLC -@mr0sari0 at 7/10/2020
+
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
           if (isMilitaryBaseAddress && livesOnMilitaryBase) {
             return {
