@@ -72,10 +72,13 @@
             <ul class="usa-unstyled-list">
             {% for vaForm in fieldVaFormRelatedForms %}
                 <li>
-                  <h4>
-                    VA Form {{ vaForm.entity.fieldVaFormNumber }}
-                    <span class="vads-u-display--block">{{ vaForm.entity.fieldVaFormName }}</span>
-                  </h4>
+                  <hgroup>
+                    <h4>VA Form {{ vaForm.entity.fieldVaFormNumber }}</h4>
+                    <h5 class="vads-u-font-size--base vads-u-margin-top--0">
+                      <span class="vads-u-visibility--screen-reader">Form name:</span> {{ vaForm.entity.fieldVaFormName }}
+                    </h5>
+                  </hgroup>
+
                   {{ vaForm.entity.fieldVaFormUsage.processed }}
                   <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}" download>
                     Download VA Form {{ vaForm.entity.fieldVaFormNumber }} (PDF)
