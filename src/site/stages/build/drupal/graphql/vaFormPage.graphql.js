@@ -19,6 +19,9 @@ fragment vaFormPage on NodeVaForm {
   fieldVaFormNumber
   fieldVaFormAdministration {
     targetId
+    entity {
+      entityLabel
+    }
   }
   fieldVaFormToolIntro
   fieldVaFormToolUrl {
