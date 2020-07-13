@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BATTERIES } from '../constants';
+import { BATTERY } from '../constants';
 
 class Batteries extends Component {
   componentDidMount(props) {
@@ -51,7 +51,7 @@ class Batteries extends Component {
     const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
     const batterySupplies = supplies.filter(
-      batterySupply => batterySupply.productGroup === BATTERIES,
+      batterySupply => batterySupply.productGroup === BATTERY,
     );
     const areBatterySuppliesEligible = eligibility.batteries;
     const haveBatteriesBeenOrderedInLastTwoYears =
