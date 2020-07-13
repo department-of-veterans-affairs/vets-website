@@ -23,13 +23,13 @@ const EmailAddressNotification = ({ signInServiceName }) => {
   return (
     <>
       <p className="vads-u-margin--0">
-        To update the email address you use to sign in, go to the account where
+        To update the email address you use to sign in, go to the website where
         you manage your settings and identity information. Any email updates you
         make there will automatically update on VA.gov.
       </p>
       <p className="vads-u-margin-bottom--0">
         <a href={link} target="_blank" rel="noopener noreferrer">
-          Update email address on {buttonText}
+          Update sign in email address on {buttonText}
         </a>
       </p>
     </>

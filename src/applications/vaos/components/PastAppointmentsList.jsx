@@ -44,7 +44,7 @@ export class PastAppointmentsList extends React.Component {
       prevProps.appointments.pastStatus === FETCH_STATUS.loading &&
       this.props.appointments.pastStatus === FETCH_STATUS.succeeded
     ) {
-      focusElement('#pastAppts');
+      focusElement('#queryResultLabel');
     }
   }
 
@@ -72,7 +72,11 @@ export class PastAppointmentsList extends React.Component {
     } else if (pastStatus === FETCH_STATUS.succeeded && past?.length > 0) {
       content = (
         <>
-          <span className="vads-u-font-size--sm vads-u-display--block vads-u-margin-bottom--1">
+          <span
+            id="queryResultLabel"
+            className="vads-u-font-size--sm vads-u-display--block vads-u-margin-bottom--1"
+            style={{ outline: 'none' }}
+          >
             Showing appointments for:{' '}
             {this.dateRangeOptions[appointments.pastSelectedIndex].label}
           </span>

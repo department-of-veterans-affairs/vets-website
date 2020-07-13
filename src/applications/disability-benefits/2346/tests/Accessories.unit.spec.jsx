@@ -49,52 +49,6 @@ const fakeStore = {
   dispatch: () => {},
 };
 
-const fakeStoreNoEligibility5Months = {
-  getState: () => ({
-    form: {
-      data: {
-        supplies: [
-          {
-            productName: 'DOME',
-            productGroup: 'ACCESSORIES',
-            productId: 3,
-            availableForReorder: true,
-            lastOrderDate: '2019-12-30',
-            nextAvailabilityDate: '2099-09-15',
-            quantity: 10,
-            size: '6mm',
-          },
-          {
-            productName: 'fake name 1',
-            productGroup: 'ACCESSORIES',
-            productId: 4,
-            availableForReorder: true,
-            lastOrderDate: '2019-10-18',
-            nextAvailabilityDate: '2099-07-10',
-            quantity: 5,
-            size: '3mm',
-          },
-          {
-            productName: 'fake name 2',
-            productGroup: 'ACCESSORIES',
-            productId: 9,
-            availableForReorder: false,
-            lastOrderDate: '2099-03-02',
-            nextAvailabilityDate: '2099-05-25',
-            quantity: 2,
-          },
-        ],
-        selectedProducts: [{ productId: 3 }],
-        eligibility: {
-          accessories: false,
-        },
-      },
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-};
-
 const fakeStoreNoEligibility2Years = {
   getState: () => ({
     form: {
@@ -183,16 +137,11 @@ describe('Accessories', () => {
     ).to.equal(3);
     wrapper.unmount();
   });
-  it('should display alert boxes if the Veteran is not eligible to order accessories but has ordered in the last 5 months', () => {
-    const wrapper = mount(
-      <Accessories store={fakeStoreNoEligibility5Months} />,
-    );
-    expect(wrapper.find('.usa-alert-heading').length).to.equal(3);
-    wrapper.unmount();
-  });
   it('should display an alert box if the Veteran is not eligible to order accessories and has not ordered in the last 2 years', () => {
     const wrapper = mount(<Accessories store={fakeStoreNoEligibility2Years} />);
-    expect(wrapper.find('AlertBox').length).to.equal(1);
+    expect(wrapper.find('.accessories-two-year-alert-content').length).to.equal(
+      1,
+    );
     wrapper.unmount();
   });
 });

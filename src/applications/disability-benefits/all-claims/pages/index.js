@@ -6,8 +6,6 @@ import * as additionalRemarks781 from './additionalRemarks781';
 import * as aidAndAttendance from './aidAndAttendance';
 import * as alternateNames from './alternateNames';
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
-import * as bddGoBack from './bddGoBack';
-import * as bddRedirect from './bddRedirect';
 import * as choosePtsdType from './choosePtsdType';
 import * as claimExamsInfo from './claimExamsInfo';
 import * as claimType from './claimType';
@@ -93,7 +91,6 @@ import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemplo
 import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
 import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
-import * as verifyBdd from './verifyBdd';
 import * as workBehaviorChanges from './workBehaviorChanges';
 
 export {
@@ -105,8 +102,6 @@ export {
   aidAndAttendance,
   alternateNames,
   ancillaryFormsWizardSummary,
-  bddGoBack,
-  bddRedirect,
   choosePtsdType,
   claimExamsInfo,
   claimType,
@@ -192,6 +187,5 @@ export {
   uploadUnemployabilitySupportingDocumentsChoice,
   vaEmployee,
   vaMedicalRecords,
-  verifyBdd,
   workBehaviorChanges,
 };

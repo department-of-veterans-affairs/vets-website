@@ -117,6 +117,12 @@ export class SchoolLocations extends React.Component {
   };
 
   renderRow = (institution, type, name = institution.institution) => {
+    const month = (
+      <React.Fragment key="months">
+        <span className="sr-only">per month</span>
+        <span aria-hidden="true">/mo</span>
+      </React.Fragment>
+    );
     const {
       facilityCode,
       physicalCity,
@@ -142,7 +148,10 @@ export class SchoolLocations extends React.Component {
             physicalZip,
           )}
         </td>
-        <td>{this.estimatedHousingRow(institution)}</td>
+        <td>
+          {this.estimatedHousingRow(institution)}
+          {month}
+        </td>
       </tr>
     );
   };

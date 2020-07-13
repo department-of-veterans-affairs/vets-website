@@ -52,15 +52,6 @@ addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {
   type: 'string',
 };
 
-// the following two properties have to be added to our MDOT-schema.json.  Remove these props once they are added.
-addressWithIsMilitaryBase.properties.country = {
-  type: 'string',
-};
-
-addressWithIsMilitaryBase.properties.state = {
-  type: 'string',
-};
-
 const submit = form => {
   const currentAddress = form.data['view:currentAddress'];
   const itemQuantities = form.data?.selectedProducts?.length;
@@ -84,14 +75,14 @@ const submit = form => {
     },
   };
   recordEvent({
-    event: 'bam-2346a-submission',
+    event: 'bam-2346a--submission',
     'bam-quantityOrdered': itemQuantities,
   });
 
   const onSuccess = resp =>
     new Promise(resolve => {
       recordEvent({
-        event: 'bam-2346a-submission-successful',
+        event: 'bam-2346a--submission-successful',
         'bam-quantityOrdered': itemQuantities,
       });
       return resolve(resp);
@@ -100,7 +91,7 @@ const submit = form => {
   const onFailure = error =>
     new Promise(reject => {
       recordEvent({
-        event: 'bam-2346a-submission-failure',
+        event: 'bam-2346a--submission-failed',
         'bam-quantityOrdered': itemQuantities,
       });
       return reject(error);
@@ -125,7 +116,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   title: 'Order hearing aid batteries and accessories',
-  finishLaterLinkText: 'Finish this order later.',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound:
@@ -133,6 +123,14 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
     forbidden:
       'We can’t fulfill an order for this Veteran because they are deceased in our records. If this information is incorrect, please call Veterans Benefits Assistance at 800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
+  },
+  customText: {
+    reviewPageTitle: 'Review order details',
+    appSavedSuccessfullyMessage: 'Order has been saved.',
+    startNewAppButtonText: 'Start a new order',
+    continueAppButtonText: 'Continue your order',
+    finishAppLaterMessage: 'Finish this order later.',
+    appType: 'order',
   },
   defaultDefinitions: {
     email,
