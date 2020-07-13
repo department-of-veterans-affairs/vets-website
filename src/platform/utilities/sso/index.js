@@ -1,8 +1,7 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
-import { hasSessionSSO } from '../../user/profile/utilities';
-import camelCaseKeysRecursive from 'camelcase-keys-recursive';
+import { hasSession, hasSessionSSO } from '../../user/profile/utilities';
 
 import {
   standaloneRedirect,
@@ -17,22 +16,6 @@ const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
 
 function keepAlive() {
   return environment.isLocalhost() ? mockKeepAlive() : liveKeepAlive();
-}
-
-async function vaGovProfile() {
-  try {
-    const resp = await fetch(`${environment.API_URL}/v0/user`, {
-      method: 'GET',
-      credentials: 'include',
-    });
-    if (resp.ok) {
-      const json = await resp.json();
-      return camelCaseKeysRecursive(json.data.attributes.profile);
-    }
-  } catch (err) {
-    // just in case of a network error, silently ignore
-  }
-  return null;
 }
 
 export async function ssoKeepAliveSession() {
@@ -54,15 +37,11 @@ export async function ssoKeepAliveSession() {
 }
 
 export async function checkAutoSession() {
-  const [{ ttl, authn }, userProfile] = await Promise.all([
-    ssoKeepAliveSession(),
-    vaGovProfile(),
-  ]);
-  if (userProfile?.signIn?.ssoe) {
+  const { ttl, authn } = await ssoKeepAliveSession();
+  if (hasSession()) {
     if (window.location.pathname === '/sign-in/' && ttl > 0) {
       // the user is on the standalone signin page, but already logged in with SSOe
       // redirect them back to their return url
-      // TODO: is there a possibility for the user to get stuck in a loop?
       window.location = standaloneRedirect() || window.location.origin;
     } else if (ttl === 0) {
       // having a user session is not enough, we also need to make sure when
@@ -72,7 +51,7 @@ export async function checkAutoSession() {
       // in which case we don't want to logout the user because we don't know
       logout('v1', 'sso-automatic-logout');
     }
-  } else if (!userProfile && ttl > 0 && !getLoginAttempted() && authn) {
+  } else if (!hasSession() && ttl > 0 && !getLoginAttempted() && authn) {
     // only attempt an auto login if the user is
     // a) does not have a VA.gov session
     // b) has an SSOe session

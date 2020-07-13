@@ -16,7 +16,12 @@ function AutoSSO(props) {
     removeLoginAttempted();
   }
 
-  if (useInboundSSOe && !hasCalledKeepAlive) {
+  if (
+    useInboundSSOe &&
+    // avoid race condition where hasSession hasn't been set
+    window.location.pathname !== '/auth/login/callback' &&
+    !hasCalledKeepAlive
+  ) {
     checkAutoSession().then(() => {
       props.checkKeepAlive();
     });
