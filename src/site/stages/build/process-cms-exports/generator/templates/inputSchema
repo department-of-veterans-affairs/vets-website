@@ -1,0 +1,10 @@
+/* eslint-disable camelcase */
+
+module.exports = {
+  type: 'object',
+  properties: {
+  <% fieldData.forEach(fd => { %>    <%- fd.inputFieldName %>: <%- fd.inputSchema %>,
+  <% }) %>
+  },
+  required: [<%- fieldData.map(fd => `'${fd.inputFieldName}'`).join(', ') %>],
+};

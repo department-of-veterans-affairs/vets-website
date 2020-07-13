@@ -21,7 +21,7 @@ export default function App({ params }) {
         <MultiQuestionForm
           questions={questions}
           defaultOptions={defaultOptions}
-          customId={params.id}
+          customId={params.id?.toUpperCase()}
         />
       </div>
     </div>
