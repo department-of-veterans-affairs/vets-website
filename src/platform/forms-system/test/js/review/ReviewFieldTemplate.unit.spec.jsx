@@ -98,13 +98,9 @@ describe('Schemaform ReviewFieldTemplate', () => {
       ),
     };
     const tree = SkinDeep.shallowRender(
-      <ReviewFieldTemplate schema={{ type: 'object' }} uiSchema={uiSchema}>
-        <div className="test-child" />
-      </ReviewFieldTemplate>,
+      <ReviewFieldTemplate schema={{ type: 'object' }} uiSchema={uiSchema} />,
     );
-
-    expect(tree.everySubTree('.review-row')).to.be.empty;
-    expect(tree.everySubTree('.test-child').length).to.equal(1);
+    expect(tree.subTree('.review-row').text()).to.equal('Test');
   });
 
   const hideEmptyUiSchema = {
