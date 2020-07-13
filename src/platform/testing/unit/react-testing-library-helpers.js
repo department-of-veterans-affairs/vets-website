@@ -18,15 +18,21 @@ import { commonReducer } from 'platform/startup/store';
  */
 export function renderInReduxProvider(
   ui,
-  { initialState = {}, reducers = {}, ...renderOptions } = {},
+  { initialState = {}, reducers = {}, store = null, ...renderOptions } = {},
 ) {
-  const store = createStore(
-    combineReducers({ ...commonReducer, ...reducers }),
-    initialState,
-    applyMiddleware(thunk),
-  );
+  const testStore =
+    store ||
+    createStore(
+      combineReducers({ ...commonReducer, ...reducers }),
+      initialState,
+      applyMiddleware(thunk),
+    );
   const Wrapper = ({ children }) => {
-    return <Provider store={store}>{children}</Provider>;
+    return <Provider store={testStore}>{children}</Provider>;
   };
-  return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
+  return rtlRender(ui, {
+    wrapper: Wrapper,
+    store: testStore,
+    ...renderOptions,
+  });
 }

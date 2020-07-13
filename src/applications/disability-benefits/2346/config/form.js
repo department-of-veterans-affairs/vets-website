@@ -52,15 +52,6 @@ addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {
   type: 'string',
 };
 
-// the following two properties have to be added to our MDOT-schema.json.  Remove these props once they are added.
-addressWithIsMilitaryBase.properties.country = {
-  type: 'string',
-};
-
-addressWithIsMilitaryBase.properties.state = {
-  type: 'string',
-};
-
 const submit = form => {
   const currentAddress = form.data['view:currentAddress'];
   const itemQuantities = form.data?.selectedProducts?.length;
@@ -84,14 +75,14 @@ const submit = form => {
     },
   };
   recordEvent({
-    event: 'bam-2346a-submission',
+    event: 'bam-2346a--submission',
     'bam-quantityOrdered': itemQuantities,
   });
 
   const onSuccess = resp =>
     new Promise(resolve => {
       recordEvent({
-        event: 'bam-2346a-submission-successful',
+        event: 'bam-2346a--submission-successful',
         'bam-quantityOrdered': itemQuantities,
       });
       return resolve(resp);
@@ -100,7 +91,7 @@ const submit = form => {
   const onFailure = error =>
     new Promise(reject => {
       recordEvent({
-        event: 'bam-2346a-submission-failure',
+        event: 'bam-2346a--submission-failed',
         'bam-quantityOrdered': itemQuantities,
       });
       return reject(error);

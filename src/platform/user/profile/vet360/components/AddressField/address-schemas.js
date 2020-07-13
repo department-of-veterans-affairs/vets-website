@@ -80,7 +80,7 @@ const formSchema = {
 const uiSchema = {
   'view:livesOnMilitaryBase': {
     'ui:title':
-      'I live on a United States military base outside of the United States',
+      'I live on a United States military base outside of the United States.',
   },
   'view:livesOnMilitaryBaseInfo': {
     'ui:description': () => (
@@ -191,7 +191,7 @@ const uiSchema = {
     },
   },
   zipCode: {
-    'ui:title': 'Zip Code',
+    'ui:title': 'Zip code',
     'ui:errorMessages': {
       required: 'Zip code is required',
       pattern: 'Zip code must be 5 digits',

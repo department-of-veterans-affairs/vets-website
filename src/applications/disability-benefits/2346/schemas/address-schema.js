@@ -247,6 +247,14 @@ const addressSchema = {
         },
       },
     },
+    {
+      properties: {
+        isMilitaryBase: {
+          type: 'boolean',
+          default: false,
+        },
+      },
+    },
   ],
   properties: {
     isMilitaryBase: {
