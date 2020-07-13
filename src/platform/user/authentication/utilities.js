@@ -1,6 +1,6 @@
 import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
-import URLSearchParams from 'url-search-params';
+import 'url-search-params-polyfill';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
@@ -11,31 +11,24 @@ export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
 };
 
+export const externalRedirects = {
+  myvahealth: environment.isProduction()
+    ? 'https://patientportal.myhealth.va.gov/'
+    : 'https://ehrm-va-test.patientportal.us.healtheintent.com/',
+};
+
 export const ssoKeepAliveEndpoint = () => {
   const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
-function sessionTypeUrl(
-  type = '',
-  version = 'v0',
-  application = null,
-  to = null,
-  queryParams = {},
-) {
+function sessionTypeUrl(type = '', version = 'v0', queryParams = {}) {
   const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
 
   const searchParams = new URLSearchParams(queryParams);
-  if (application) {
-    searchParams.append('application', application);
-
-    if (to) {
-      searchParams.append('to', to);
-    }
-  }
 
   const queryString =
     searchParams.toString() === '' ? '' : `?${searchParams.toString()}`;
@@ -75,12 +68,26 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
+export function standaloneRedirect() {
+  const searchParams = new URLSearchParams(window.location.search);
+  const application = searchParams.get('application');
+  const to = searchParams.get('to');
+  let url = externalRedirects[application] || null;
+
+  if (url && to) {
+    const pathname = to.startsWith('/') ? to : `/${to}`;
+    url = url.endsWith('/') ? url.slice(0, -1) : url;
+    url = `${url}${pathname}`.replace('\r\n', ''); // Prevent CRLF injection.
+  }
+  return url;
+}
+
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
   const returnUrl =
     window.location.pathname === '/sign-in/'
-      ? window.location.origin
+      ? standaloneRedirect() || window.location.origin
       : window.location;
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
@@ -95,12 +102,10 @@ function redirect(redirectUrl, clickedEvent) {
 export function login(
   policy,
   version = 'v0',
-  application = null,
-  to = null,
   queryParams = {},
   clickedEvent = 'login-link-clicked-modal',
 ) {
-  const url = sessionTypeUrl(policy, version, application, to, queryParams);
+  const url = sessionTypeUrl(policy, version, queryParams);
   setLoginAttempted();
   return redirect(url, clickedEvent);
 }
@@ -118,9 +123,6 @@ export function logout(version = 'v0', clickedEvent = 'logout-link-clicked') {
   return redirect(sessionTypeUrl('slo', version), clickedEvent);
 }
 
-export function signup(version = 'v0', application = null, to = null) {
-  return redirect(
-    sessionTypeUrl('signup', version, application, to),
-    'register-link-clicked',
-  );
+export function signup(version = 'v0') {
+  return redirect(sessionTypeUrl('signup', version), 'register-link-clicked');
 }

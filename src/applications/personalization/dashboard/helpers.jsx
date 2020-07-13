@@ -1,5 +1,4 @@
 import React from 'react';
-
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 
@@ -25,6 +24,7 @@ import pensionManifest from 'applications/pensions/manifest.json';
 import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
 import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
 import hlrManifest from 'applications/disability-benefits/996/manifest.json';
+import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 
 import hcaConfig from 'applications/hca/config/form.js';
 import dependentStatusConfig from 'applications/disability-benefits/686/config/form';
@@ -40,9 +40,10 @@ import edu0993Config from 'applications/edu-benefits/0993/config/form.js';
 import edu0994Config from 'applications/edu-benefits/0994/config/form.js';
 import preneedConfig from 'applications/pre-need/config/form.jsx';
 import pensionConfig from 'applications/pensions/config/form.js';
-import disability526Config from 'applications/disability-benefits/526EZ/config/form.js';
+import disability526Config from 'applications/disability-benefits/all-claims/config/form.js';
 import bddConfig from 'applications/disability-benefits/bdd/config/form.js';
 import hlrConfig from 'applications/disability-benefits/996/config/form';
+import mdotConfig from 'applications/disability-benefits/2346/config/form';
 
 export const formConfigs = {
   [VA_FORM_IDS.FORM_10_10EZ]: hcaConfig,
@@ -62,6 +63,7 @@ export const formConfigs = {
   [VA_FORM_IDS.FORM_40_10007]: preneedConfig,
   [VA_FORM_IDS.FEEDBACK_TOOL]: feedbackConfig,
   [VA_FORM_IDS.FORM_20_0996]: hlrConfig,
+  [VA_FORM_IDS.FORM_VA_2346A]: mdotConfig,
 };
 
 export const formBenefits = {
@@ -83,6 +85,8 @@ export const formBenefits = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
+  [VA_FORM_IDS.FORM_VA_2346A]:
+    'order for hearing aid batteries and accessories',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
@@ -111,9 +115,11 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
     } else {
       formNumber = `(${key})`;
     }
-    const formDescription = `${formBenefits[key]} application ${formNumber}`;
-    descriptions[key] = formDescription; // eslint-disable-line no-param-reassign
-    return descriptions;
+    let formDescription = `${formBenefits[key]} application ${formNumber}`;
+    if (key === VA_FORM_IDS.FORM_VA_2346A) {
+      formDescription = `${formBenefits[key]} ${formNumber}`;
+    }
+    return { ...descriptions, [key]: formDescription };
   },
   {},
 );
@@ -136,6 +142,7 @@ export const formLinks = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${feedbackManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21_686C]: `${dependentStatusManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_20_0996]: `${hlrManifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_VA_2346A]: `${mdotManifest.rootUrl}/`,
 };
 
 export const trackingPrefixes = {
@@ -155,7 +162,8 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_40_10007]: 'preneed-',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
   [VA_FORM_IDS.FORM_21_686C]: '686-',
-  [VA_FORM_IDS.FORM_20_0996]: 'hlr-0996-',
+  [VA_FORM_IDS.FORM_20_0996]: 'decision-reviews-va20-0996-',
+  [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
 };
 
 export const sipEnabledForms = new Set([
@@ -176,6 +184,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.FORM_20_0996,
+  VA_FORM_IDS.FORM_VA_2346A,
 ]);
 
 // A dict of presentable form IDs. Generally this is just the form ID itself

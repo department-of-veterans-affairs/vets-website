@@ -31,12 +31,6 @@ export default function CancelAppointmentFailedModal({
         </p>
       )}
       <p>
-        {appointment.clinicName ? (
-          <>
-            {appointment.clinicName}
-            <br />
-          </>
-        ) : null}
         {facility ? (
           <>
             <strong>{facility.name}</strong>

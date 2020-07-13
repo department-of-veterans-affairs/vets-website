@@ -138,7 +138,7 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
   });
 }
 
-export function submitForm(formConfig, form) {
+export function submitForm(formConfig, form, eventData) {
   const captureError = (error, errorType) => {
     Sentry.withScope(scope => {
       scope.setFingerprint([formConfig.trackingPrefix]);
@@ -150,6 +150,7 @@ export function submitForm(formConfig, form) {
       event: `${formConfig.trackingPrefix}-submission-failed${
         errorType.startsWith('client') ? '-client' : ''
       }`,
+      ...eventData,
     });
   };
 
@@ -157,6 +158,7 @@ export function submitForm(formConfig, form) {
     dispatch(setSubmission('status', 'submitPending'));
     recordEvent({
       event: `${formConfig.trackingPrefix}-submission`,
+      ...eventData,
     });
 
     let promise;

@@ -1,0 +1,592 @@
+{
+  "resourceType": "Bundle",
+  "id": "794f44ca-579c-4c25-a25f-5aefbbb98f6a",
+  "meta": {
+    "lastUpdated": "2020-07-01T20:58:24.249+00:00"
+  },
+  "type": "searchset",
+  "total": 20,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService?_include=HealthcareService%3Alocation&characteristic=PATIENTDS_ENABLED&organization%3AOrganization.identifier=983"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A393939",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A393939",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:999</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:999"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "Friendly Name Optometry",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "408"
+              }
+            ],
+            "text": "OPTOMETRY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": ["wed", "fri", "sat", "tue", "mon", "thu", "sun"],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A31303134",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A31303134",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:1014</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:1014"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "Friendly Name Audiology",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "203"
+              }
+            ],
+            "text": "AUDIOLOGY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": ["wed", "fri", "sat", "tue", "mon", "thu", "sun"],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A31303230",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A31303230",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:1020</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:1020"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "WHEATLAND AUDIOLOGY",
+        "comment": "Physical location: WHEATLAND",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "203"
+              }
+            ],
+            "text": "AUDIOLOGY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": ["wed", "fri", "sat", "tue", "mon", "thu", "sun"],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A39383367623A31303533",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A39383367623A31303533",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983gb:1053</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983gb:1053"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/3938336762"
+        },
+        "serviceName": "SID NURSE",
+        "comment": "Physical location: SIDNEY CLINIC",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "323"
+              }
+            ],
+            "text": "PRIMARY CARE/MEDICINE"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/secondary",
+                "code": "179"
+              }
+            ],
+            "text": "RT CLIN VID CARE HOME"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": ["wed", "fri", "sat", "tue", "mon", "thu", "sun"],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A39383367633A31303831",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A39383367633A31303831",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983gc:1081</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983gc:1081"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/3938336763"
+        },
+        "serviceName": "Friendly Name FTC Amputation",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "211"
+              }
+            ],
+            "text": "PM&RS AMP CLINIC"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": ["wed", "fri", "sat", "tue", "mon", "thu", "sun"],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A39383367633A31313038",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A39383367633A31313038",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983gc:1108</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983gc:1108"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/3938336763"
+        },
+        "serviceName": "FTC PC VAR5",
+        "comment": "Physical location: FT COLLINS CBOC",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "323"
+              }
+            ],
+            "text": "PRIMARY CARE/MEDICINE"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/secondary",
+                "code": "179"
+              }
+            ],
+            "text": "RT CLIN VID CARE HOME"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": ["wed", "fri", "sat", "tue", "mon", "thu", "sun"],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A31313131",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A31313131",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:1111</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:1111"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "Cheyenne Move & Nutrition",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "372"
+              }
+            ],
+            "text": "MOVE! PGM INDIV"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/secondary",
+                "code": "123"
+              }
+            ],
+            "text": "NUTRITION/DIETETICS-INDIVIDUAL"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": ["wed", "fri", "sat", "tue", "mon", "thu", "sun"],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/Location/393833",
+      "resource": {
+        "resourceType": "Location",
+        "id": "393833",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">generated</div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.6.233",
+            "value": "983"
+          },
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:facility:983"
+          }
+        ],
+        "name": "Cheyenne VA Medical Center",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "307-778-7550"
+          },
+          {
+            "system": "other",
+            "value": "https://www.cheyenne.va.gov/locations/directions.asp"
+          }
+        ],
+        "address": {
+          "line": ["2360 East Pershing Boulevard"],
+          "city": "Cheyenne",
+          "state": "WY",
+          "postalCode": "82001-5356"
+        },
+        "managingOrganization": {
+          "reference": "Organization/393833"
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/Location/3938336763",
+      "resource": {
+        "resourceType": "Location",
+        "id": "3938336763",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">generated</div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.6.233",
+            "value": "983gc"
+          },
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:facility:983gc"
+          }
+        ],
+        "name": "Fort Collins VA Clinic",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "970-224-1550"
+          },
+          {
+            "system": "other",
+            "value": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp"
+          }
+        ],
+        "address": {
+          "line": ["2509 Research Boulevard"],
+          "city": "Fort Collins",
+          "state": "CO",
+          "postalCode": "80526-8108"
+        },
+        "managingOrganization": {
+          "reference": "Organization/393833"
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/Location/3938336762",
+      "resource": {
+        "resourceType": "Location",
+        "id": "3938336762",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">generated</div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.6.233",
+            "value": "983gb"
+          },
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:facility:983gb"
+          }
+        ],
+        "name": "Sidney VA Clinic",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "308-254-6085"
+          },
+          {
+            "system": "other",
+            "value": "https://www.cheyenne.va.gov/locations/Sidney_VA_MSOC.asp"
+          }
+        ],
+        "address": {
+          "line": ["1116 10th Avenue"],
+          "city": "Sidney",
+          "state": "NE",
+          "postalCode": "69162-2001"
+        },
+        "managingOrganization": {
+          "reference": "Organization/393833"
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    }
+  ]
+}

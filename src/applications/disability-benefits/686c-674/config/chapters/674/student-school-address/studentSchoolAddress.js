@@ -3,6 +3,7 @@ import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { report674 } from '../../../utilities';
+import { kindOfTraining } from './helpers';
 
 const addressSchema = buildAddressSchema(false);
 
@@ -22,7 +23,7 @@ export const uiSchema = {
       'ui:errorMessages': { required: 'Please enter a school name' },
     },
     trainingProgram: {
-      'ui:title': 'Kind of training or educational program',
+      'ui:title': kindOfTraining,
     },
     address: {
       ...{ 'ui:title': 'School’s address' },

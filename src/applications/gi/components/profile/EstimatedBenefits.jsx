@@ -58,10 +58,14 @@ const CalculatorResultRow = ({
       <div className="small-6 columns vads-u-text-align--right">
         {header ? (
           <div>
-            <h5>
+            <p
+              className="vads-u-font-size--h5 vads-u-font-family--serif
+              vads-u-font-weight--bold eyb-value-header"
+              aria-label={value}
+            >
               {value}
               {screenReaderSpan}
-            </h5>
+            </p>
           </div>
         ) : (
           <div>
@@ -99,6 +103,7 @@ const perTermSections = (outputs, calculator) => {
           </a>
           )
         </div>
+
         {terms.map(term => (
           <CalculatorResultRow
             key={`${section}${term.label}`}
@@ -108,7 +113,7 @@ const perTermSections = (outputs, calculator) => {
             }
             value={term.value}
             bold={term.label === 'Total per year'}
-            screenReaderSpan={month}
+            screenReaderSpan={calculator.type === 'OJT' ? month : ''}
             visible={term.visible}
           />
         ))}
