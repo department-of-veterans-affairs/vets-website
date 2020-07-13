@@ -5,61 +5,12 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '../content/SaveInProgressIntro';
 import { connect } from 'react-redux';
 
-import { getEnrollmentData } from '../../../post-911-gib-status/actions/post-911-gib-status';
+import { getEnrollmentData } from '../actions/post-911-gib-status';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-    this.props.getEnrollmentData().then(response =>
-      this.setState({
-        remainingEntitlement: response?.data?.remainingEntitlement,
-      }),
-    );
-  }
-
-  moreThanSixMonths = remaining => {
-    const totalDays = remaining?.months * 30 + remaining?.days;
-    if (totalDays > 180) {
-      return true;
-    }
-    return false;
-  };
-
-  entitlementRemainingAlert() {
-    return this.props.isLoggedIn ? (
-      this.moreThanSixMonths(this.state?.remainingEntitlement) && (
-        <div className="usa-alert usa-alert-warning schemaform-sip-alert">
-          <div className="usa-alert-body">
-            <h3 className="usa-alert-heading">You may not be eligible</h3>
-            <div className="usa-alert-text">
-              <p>
-                Our entitlement system shows that you have more than 6 months of
-                education benefits remaining.
-              </p>
-              <p>
-                To be eligible for the Rogers STEM Scholarship, you must have
-                less than 6 months of Post-9/11 GI Bill benefits left when you
-                submit your application.
-              </p>
-              <p>
-                Months you have left to use:{' '}
-                <strong>
-                  {this.state?.remainingEntitlement.months} months,{' '}
-                  {this.state?.remainingEntitlement.days} days
-                </strong>
-              </p>
-            </div>
-          </div>
-        </div>
-      )
-    ) : (
-      <SaveInProgressIntro
-        prefillEnabled={this.props.route.formConfig.prefillEnabled}
-        messages={this.props.route.formConfig.savedFormMessages}
-        pageList={this.props.route.pageList}
-        startText="Sign in or create an account"
-      />
-    );
+    this.props.getEnrollmentData();
   }
 
   loggedIn() {
@@ -77,6 +28,54 @@ export class IntroductionPage extends React.Component {
         messages={this.props.route.formConfig.savedFormMessages}
         pageList={this.props.route.pageList}
         startText="Start the education application"
+      />
+    );
+  }
+
+  moreThanSixMonths = remaining => {
+    const totalDays = remaining?.months * 30 + remaining?.days;
+    if (totalDays > 180) {
+      return true;
+    }
+    return false;
+  };
+
+  entitlementRemainingAlert() {
+    return this.props.isLoggedIn ? (
+      this.moreThanSixMonths(
+        this.props?.enrollmentData?.remainingEntitlement,
+      ) && (
+        <div className="usa-alert usa-alert-warning schemaform-sip-alert">
+          <div className="usa-alert-body">
+            <h3 className="usa-alert-heading">You may not be eligible</h3>
+            <div className="usa-alert-text">
+              <p>
+                Our entitlement system shows that you have more than 6 months of
+                education benefits remaining.
+              </p>
+              <p>
+                To be eligible for the Rogers STEM Scholarship, you must have
+                less than 6 mo nths of Post-9/11 GI Bill benefits left when you
+                submit your application.
+              </p>
+              <p>
+                Months you have left to use:{' '}
+                <strong>
+                  {this.props?.enrollmentData?.remainingEntitlement.months}{' '}
+                  months,{' '}
+                  {this.props?.enrollmentData?.remainingEntitlement.days} days
+                </strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      )
+    ) : (
+      <SaveInProgressIntro
+        prefillEnabled={this.props.route.formConfig.prefillEnabled}
+        messages={this.props.route.formConfig.savedFormMessages}
+        pageList={this.props.route.pageList}
+        startText="Sign in or create an account"
       />
     );
   }
@@ -231,6 +230,7 @@ export class IntroductionPage extends React.Component {
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
+    enrollmentData: state.post911GIBStatus.enrollmentData,
   };
 };
 
