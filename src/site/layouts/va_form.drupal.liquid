@@ -55,7 +55,7 @@
           {{ fieldVaFormUsage.processed }}
         {% endif %}
 
-        <a href="{{ fieldVaFormUrl.uri }}">Download VA Form {{ fieldVaFormNumber }} (PDF)</a>
+        <a href="{{ fieldVaFormUrl.uri }}" download>Download VA Form {{ fieldVaFormNumber }} (PDF)</a>
 
         {% if fieldVaFormToolUrl %}
           <h3>Or use the online tool</h3>
@@ -77,7 +77,7 @@
                     <span class="vads-u-display--block">{{ vaForm.entity.fieldVaFormName }}</span>
                   </h4>
                   {{ vaForm.entity.fieldVaFormUsage.processed }}
-                  <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}">
+                  <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}" download>
                     Download VA Form {{ vaForm.entity.fieldVaFormNumber }} (PDF)
                   </a>
                 </li>
