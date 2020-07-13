@@ -44,6 +44,7 @@ const CalculatorResultRow = ({
   bold,
   visible,
   screenReaderSpan,
+  calculator,
 }) =>
   visible ? (
     <div
@@ -103,6 +104,7 @@ const perTermSections = (outputs, calculator) => {
           </a>
           )
         </div>
+
         {terms.map(term => (
           <CalculatorResultRow
             key={`${section}${term.label}`}
@@ -112,7 +114,7 @@ const perTermSections = (outputs, calculator) => {
             }
             value={term.value}
             bold={term.label === 'Total per year'}
-            screenReaderSpan={month}
+            screenReaderSpan={calculator.type === 'OJT' ? month : ''}
             visible={term.visible}
           />
         ))}
