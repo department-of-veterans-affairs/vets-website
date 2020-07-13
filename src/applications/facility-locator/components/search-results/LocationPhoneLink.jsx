@@ -18,20 +18,22 @@ const renderPhoneNumber = (title, subTitle = null, phone, from) => {
   }
 
   return (
-    <>
+    <div>
       {from === 'FacilityDetail' && (
         <i aria-hidden="true" role="presentation" className="fa fa-phone" />
       )}
       {title && <strong>{title}: </strong>}
       {subTitle}
       <Telephone
-        className="vads-u-margin-left--0p25"
+        className={
+          subTitle ? 'vads-u-margin-left--0p5' : 'vads-u-margin-left--0p25'
+        }
         contact={contact}
         extension={extension}
       >
         {formattedPhoneNumber}
       </Telephone>
-    </>
+    </div>
   );
 };
 
@@ -61,7 +63,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
     attributes: { phone },
   } = location;
   return (
-    <div>
+    <div className="facility-phone-group">
       {renderPhoneNumber('Main Number', null, phone.main, from)}
       {renderPhoneNumber('Mental Health', null, phone.mentalHealthClinic, from)}
     </div>

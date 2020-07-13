@@ -12,7 +12,7 @@ describe('LocationPhoneLink', () => {
     const wrapper = shallow(
       <LocationPhoneLink location={locationWithBadPhone} />,
     );
-    expect(wrapper.html()).to.equal('<div></div>');
+    expect(wrapper.html()).to.equal('<div class="facility-phone-group"></div>');
     wrapper.unmount();
   });
 
