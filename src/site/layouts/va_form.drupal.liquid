@@ -37,7 +37,7 @@
                 {% elsif fieldBenefitCategories.first == 'Employment/job' %}
                   Employment or jobs at VA
                 {% else %}
-                  {{ fieldBenefitCategories | map: "entity" | map: "entityLabel" | join: '; ' }}
+                  {{ fieldBenefitCategories | map: "entity" | map: "fieldHomePageHubLabel" | join: ', ' }}
                 {% endif %}
 
               {% else %}
@@ -82,7 +82,7 @@
                 <li>
                   <hgroup>
                     <h4>VA Form {{ vaForm.entity.fieldVaFormNumber }}</h4>
-                    <h5 class="vads-u-font-size--base vads-u-margin-top--0">
+                    <h5 class="vads-u-margin-top--0">
                       <span class="vads-u-visibility--screen-reader">Form name:</span> {{ vaForm.entity.fieldVaFormName }}
                     </h5>
                   </hgroup>

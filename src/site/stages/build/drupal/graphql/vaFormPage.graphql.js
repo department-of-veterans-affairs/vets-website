@@ -32,7 +32,9 @@ fragment vaFormPage on NodeVaForm {
   fieldBenefitCategories {
     targetId
     entity {
-      entityLabel
+      ... on NodeLandingPage {
+        fieldHomePageHubLabel
+      }
     }
   }
   fieldVaFormRevisionDate {
