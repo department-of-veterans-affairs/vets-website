@@ -4,6 +4,7 @@
  */
 
 import '@babel/polyfill';
+import 'dwnld-attr-polyfill';
 
 import './canvas-toBlob';
 

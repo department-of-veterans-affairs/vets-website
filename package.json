@@ -272,6 +272,7 @@
     "core-js": "^2.5.7",
     "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
+    "dwnld-attr-polyfill": "^1.1.6",
     "express": "^4.17.1",
     "express-http-proxy": "^1.6.0",
     "fast-levenshtein": "^2.0.6",
