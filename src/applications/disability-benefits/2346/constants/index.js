@@ -81,5 +81,5 @@ export const states50AndDC = [
   { label: 'Wyoming', value: 'WY' },
 ];
 
-export const ACCESSORIES = 'ACCESSORIES';
-export const BATTERIES = 'BATTERIES';
+export const ACCESSORY = 'Accessory';
+export const BATTERY = 'Battery';

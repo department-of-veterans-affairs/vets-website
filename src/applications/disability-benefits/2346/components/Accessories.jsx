@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ACCESSORIES } from '../constants';
+import { ACCESSORY } from '../constants';
 
 class Accessories extends Component {
   componentDidMount(props) {
@@ -49,7 +49,7 @@ class Accessories extends Component {
     const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
     const accessorySupplies = supplies.filter(
-      supply => supply.productGroup === ACCESSORIES,
+      supply => supply.productGroup === ACCESSORY,
     );
     const areAccessorySuppliesEligible = eligibility.accessories;
     const haveAccessoriesBeenOrderedInLastTwoYears =

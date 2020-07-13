@@ -10,7 +10,7 @@ const fakeStore = {
         supplies: [
           {
             productName: 'DOME',
-            productGroup: 'ACCESSORIES',
+            productGroup: 'Accessory',
             productId: 3,
             availableForReorder: true,
             lastOrderDate: '2020-03-30',
@@ -20,7 +20,7 @@ const fakeStore = {
           },
           {
             productName: 'fake name 1',
-            productGroup: 'ACCESSORIES',
+            productGroup: 'Accessory',
             productId: 4,
             availableForReorder: true,
             lastOrderDate: '2020-01-18',
@@ -30,7 +30,7 @@ const fakeStore = {
           },
           {
             productName: 'fake name 2',
-            productGroup: 'ACCESSORIES',
+            productGroup: 'Accessory',
             productId: 9,
             availableForReorder: false,
             lastOrderDate: '2020-03-02',
@@ -56,7 +56,7 @@ const fakeStoreNoEligibility2Years = {
         supplies: [
           {
             productName: 'DOME',
-            productGroup: 'ACCESSORIES',
+            productGroup: 'Accessory',
             productId: 3,
             availableForReorder: true,
             lastOrderDate: '2015-06-30',
@@ -66,7 +66,7 @@ const fakeStoreNoEligibility2Years = {
           },
           {
             productName: 'fake name 1',
-            productGroup: 'ACCESSORIES',
+            productGroup: 'Accessory',
             productId: 4,
             availableForReorder: true,
             lastOrderDate: '2014-01-18',
@@ -76,7 +76,7 @@ const fakeStoreNoEligibility2Years = {
           },
           {
             productName: 'fake name 2',
-            productGroup: 'ACCESSORIES',
+            productGroup: 'Accessory',
             productId: 9,
             availableForReorder: false,
             lastOrderDate: '2016-03-02',
