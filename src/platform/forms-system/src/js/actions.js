@@ -146,9 +146,9 @@ export function submitToUrl(
 export function submitForm(
   formConfig,
   form,
-  submisisonEventData = {},
-  submissionSuccessEventData = {},
-  submissionFailedEventData = {},
+  submisisonEventData,
+  submissionSuccessEventData,
+  submissionFailedEventData,
 ) {
   const captureError = (error, errorType) => {
     Sentry.withScope(scope => {
