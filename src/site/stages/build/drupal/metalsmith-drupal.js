@@ -44,31 +44,11 @@ const shouldPullDrupal = buildOptions =>
   !fs.existsSync(getDrupalCachePath(buildOptions));
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
-  const {
-    data: {
-      nodeQuery: { entities: pages },
-    },
-  } = contentData;
-
-  const skippedContent = {
-    nullEntities: 0,
-    emptyEntities: 0,
-  };
+  const pages = contentData.data.nodeQuery.entities.filter(
+    e => e && Object.keys(e).length,
+  );
 
   for (const page of pages) {
-    // At this time, null values are returned for pages that are not yet published.
-    // Once the Content-Preview server is up and running, then unpublished pages should
-    // reliably return like any other page and we can delete this.
-    if (!page) {
-      skippedContent.nullEntities++;
-      continue;
-    }
-
-    if (!Object.keys(page).length) {
-      skippedContent.emptyEntities++;
-      continue;
-    }
-
     const {
       entityUrl: { path: drupalUrl },
       entityBundle,
@@ -148,13 +128,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     if (page.entityBundle === 'event_listing') {
       createPastEventListPages(pageCompiled, drupalPageDir, files);
     }
-  }
-
-  if (skippedContent.nullEntities) {
-    log(`Skipped ${skippedContent.nullEntities} null entities`);
-  }
-  if (skippedContent.emptyEntities) {
-    log(`Skipped ${skippedContent.emptyEntities} empty entities`);
   }
 }
 
