@@ -36,7 +36,7 @@ export class AdditionalInformation extends React.Component {
     const { institution } = this.props;
     const isOJT = institution.type.toLowerCase() === 'ojt';
 
-    if (this.props.eduSection103 && isOJT && institution.section103Message) {
+    if (isOJT && institution.section103Message) {
       return (
         <div className="institution-summary">
           <h3>Institution summary</h3>
@@ -114,24 +114,8 @@ export class AdditionalInformation extends React.Component {
         </div>
         {typeOfAccreditation}
         {vetTuitionPolicy}
-        {this.props.eduSection103 &&
-          institution.section103Message &&
+        {institution.section103Message &&
           this.renderSection103Info(institution.section103Message)}
-        {!this.props.eduSection103 && (
-          <div>
-            <strong>
-              <button
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={this.props.onShowModal.bind(this, 'singleContact')}
-              >
-                Single point of contact for veterans:
-              </button>
-            </strong>
-            &nbsp;
-            {institution.vetPoc ? 'Yes' : 'No'}
-          </div>
-        )}
         <div>
           <strong>
             <button
@@ -174,22 +158,19 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.stemIndicator ? 'Yes' : 'No'}
         </div>
-        {this.props.eduSection103 && (
-          <div>
-            <strong>
-              <button
-                id="singleContact-button"
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={this.props.onShowModal.bind(this, 'singleContact')}
-              >
-                Single point of contact for veterans:
-              </button>
-            </strong>
-            &nbsp;
-            {institution.vetPoc ? 'Yes' : 'No'}
-          </div>
-        )}
+        <div>
+          <strong>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'singleContact')}
+            >
+              Single point of contact for veterans:
+            </button>
+          </strong>
+          &nbsp;
+          {institution.vetPoc ? 'Yes' : 'No'}
+        </div>
       </div>
     );
   }
@@ -340,7 +321,6 @@ AdditionalInformation.propTypes = {
   constants: PropTypes.object,
   institution: PropTypes.object,
   onShowModal: PropTypes.func,
-  eduSection103: PropTypes.bool,
 };
 
 export default AdditionalInformation;

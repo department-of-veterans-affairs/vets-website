@@ -594,8 +594,8 @@ h1:focus {
     }
   }
 
-  > .section-current:not(.last),
-  > .section-complete:not(.last) {
+  > .section-current,
+  > .section-complete {
     cursor: pointer;
   }
 }

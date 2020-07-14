@@ -170,4 +170,41 @@ describe('DebtLettersList', () => {
     expect(wrapper.dive().find(`Connect(DebtLetterCard)`).length).to.equal(4);
     wrapper.unmount();
   });
+  it('renders correct empty state', () => {
+    const fakeStoreEmptyState = {
+      getState: () => ({
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+        debtLetters: {
+          isFetching: false,
+          debts: [],
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const wrapper = shallow(<DebtLettersList store={fakeStoreEmptyState} />);
+    expect(wrapper.dive().find(`Connect(DebtLetterCard)`).length).to.equal(0);
+    expect(
+      wrapper
+        .dive()
+        .find('h4')
+        .text(),
+    ).to.equal(
+      "You don't have any current Education or Compensation & Pension Debts",
+    );
+    expect(
+      wrapper
+        .dive()
+        .find('p')
+        .at(1)
+        .text(),
+    ).to.equal(
+      'If you believe that you have a debt with the VA or would like to get information about your debts that have been resolved, call the Debt Management Center at 800-827-0648',
+    );
+    wrapper.unmount();
+  });
 });

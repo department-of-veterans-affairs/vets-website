@@ -59,7 +59,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('.main');
 
   // files needed
-  client.expect.element('.usa-alert-body h4').text.to.contain('your attention');
+  client.expect.element('.usa-alert-body h2').text.to.contain('your attention');
 
   client.end();
 });

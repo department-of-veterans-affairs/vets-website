@@ -10,7 +10,7 @@ import {
   getVAFacilityMock,
   getMessageMock,
 } from '../mocks/v0';
-import { mockAppointmentInfo, mockFacilitesFetch } from '../mocks/helpers';
+import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
 
 import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
@@ -98,6 +98,10 @@ describe('VAOS integration: pending appointments', () => {
         ...appointment.attributes,
         status: 'Submitted',
         appointmentType: 'Primary care',
+        optionDate1: moment()
+          .add(3, 'days')
+          .format('MM/DD/YYYY'),
+        optionTime1: 'AM',
         facility: {
           ...appointment.facility,
           facilityCode: '983GC',
@@ -124,7 +128,7 @@ describe('VAOS integration: pending appointments', () => {
           },
         },
       };
-      mockFacilitesFetch('vha_442GC', [facility]);
+      mockFacilitiesFetch('vha_442GC', [facility]);
 
       const { findByText, baseElement, queryByText } = renderInReduxProvider(
         <FutureAppointmentsList />,
@@ -339,6 +343,9 @@ describe('VAOS integration: pending appointments', () => {
           .format('MM/DD/YYYY'),
         optionTime1: 'AM',
         typeOfCareId: 'CCAUDHEAR',
+        bestTimetoCall: ['Morning'],
+        email: 'patient.test@va.gov',
+        phoneNumber: '5555555566',
         ccAppointmentRequest: {
           preferredProviders: [
             {
@@ -353,7 +360,19 @@ describe('VAOS integration: pending appointments', () => {
           ],
         },
       };
+      appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
+      const message = getMessageMock();
+      message.attributes = {
+        ...message.attributes,
+        messageText: 'A message from the patient',
+      };
+      setFetchJSONResponse(
+        global.fetch.withArgs(
+          `${environment.API_URL}/vaos/v0/appointment_requests/1234/messages`,
+        ),
+        { data: [message] },
+      );
 
       const {
         findByText,
@@ -381,8 +400,13 @@ describe('VAOS integration: pending appointments', () => {
           .add(3, 'days')
           .format('ddd, MMMM D, YYYY')} in the morning`,
       );
-
       expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+      fireEvent.click(await findByText(/show more/i));
+      await findByText(/a message from the patient/i);
+      expect(baseElement).to.contain.text('Call morning');
+      expect(baseElement).to.contain.text('Your contact details');
+      expect(baseElement).to.contain.text('patient.test@va.gov');
+      expect(baseElement).to.contain.text('5555555566');
     });
   });
 });

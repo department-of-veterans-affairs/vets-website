@@ -2,12 +2,13 @@ import React from 'react';
 import SpouseViewField from '../../../../components/SpouseViewField';
 import { isChapterFieldRequired } from '../../../helpers';
 import { validateName, addSpouse } from '../../../utilities';
+import { youMarriedBeforeTitle } from './helpers';
 
 export const schema = addSpouse.properties.veteranMarriageHistory;
 
 export const uiSchema = {
   veteranWasMarriedBefore: {
-    'ui:title': 'Were you married before?',
+    'ui:title': youMarriedBeforeTitle,
     'ui:widget': 'yesNo',
     'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
   },

@@ -13,6 +13,9 @@ import {
   transformPendingAppointments,
 } from '../../../services/appointment/transformers';
 
+const now = moment();
+const tomorrow = moment().add(1, 'days');
+
 const appt = {
   id: '22cdc6741c00ac67b6cbf6b972d084c0',
   startDate: '2020-12-07T16:00:00Z',
@@ -54,6 +57,109 @@ const ccAppt = {
     'Please arrive 20 minutes before the start of your appointment',
   appointmentTime: '02/05/2020 19:30:00',
   timeZone: '-09:00 AKST',
+};
+
+const ccPendingAppt = {
+  id: '8a4886886e4c8e22016e6613216d001f',
+  dataIdentifier: {
+    uniqueId: '8a4886886e4c8e22016e6613216d001f',
+    systemId: 'var',
+  },
+  patientIdentifier: {
+    uniqueId: '1012845331V153043',
+    assigningAuthority: 'ICN',
+  },
+  surrogateIdentifier: {},
+  lastUpdatedDate: '11/13/2019 11:42:40',
+  optionDate1: now,
+  optionTime1: 'AM',
+  optionDate2: tomorrow,
+  optionTime2: 'AM',
+  optionDate3: 'No Time Selected',
+  optionTime3: 'No Time Selected',
+  status: 'Submitted',
+  appointmentType: 'Audiology (hearing aid support)',
+  visitType: 'Office Visit',
+  facility: {
+    name: 'CHYSHR-CHEYENNE VAMC',
+    type: 'M&ROC',
+    facilityCode: '983',
+    state: 'WY',
+    city: 'CHEYENNE',
+    address: '2360 EAST PERSHING BLVD',
+    parentSiteCode: '983',
+    objectType: 'Facility',
+    link: [],
+  },
+  email: 'Vilasini.reddy@va.gov',
+  textMessagingAllowed: false,
+  phoneNumber: '(555) 555-5555',
+  purposeOfVisit: 'routine-follow-up',
+  providerId: '0',
+  secondRequest: false,
+  secondRequestSubmitted: false,
+  patient: {
+    displayName: 'MORRISON, JUDY',
+    firstName: 'JUDY',
+    lastName: 'MORRISON',
+    dateOfBirth: 'Apr 01, 1953',
+    patientIdentifier: {
+      uniqueId: '1259897978',
+    },
+    ssn: '796061976',
+    inpatient: false,
+    textMessagingAllowed: false,
+    id: '1259897978',
+    objectType: 'Patient',
+    link: [],
+  },
+  bestTimetoCall: ['Afternoon', 'Evening', 'Morning'],
+  appointmentRequestDetailCode: [],
+  hasVeteranNewMessage: false,
+  hasProviderNewMessage: false,
+  providerSeenAppointmentRequest: false,
+  requestedPhoneCall: false,
+  typeOfCareId: 'CCAUDHEAR',
+  friendlyLocationName: 'CHYSHR-Cheyenne VA Medical Center- RR',
+  ccAppointmentRequest: {
+    dataIdentifier: {},
+    patientIdentifier: {},
+    surrogateIdentifier: {},
+    hasVeteranNewMessage: false,
+    preferredState: 'AK',
+    preferredCity: 'sadfasdf',
+    preferredLanguage: 'English',
+    distanceWillingToTravel: 10,
+    distanceEligible: false,
+    officeHours: ['Weekdays'],
+    preferredProviders: [
+      {
+        firstName: 'Test',
+        lastName: 'User',
+        practiceName: 'Some practiceSome practiceSome practiceSome practice',
+        address: {
+          street: 'street',
+          city: 'city',
+          state: 'state',
+          zipCode: '01060',
+        },
+        preferredOrder: 0,
+        providerZipCode: '01060',
+        objectType: 'Provider',
+        link: [],
+      },
+    ],
+    objectType: 'CCAppointmentRequest',
+    link: [],
+  },
+  patientId: '1259897978',
+  date: '2019-11-13T11:42:40.033+0000',
+  assigningAuthority: 'ICN',
+  systemId: 'var',
+  createdDate: '11/13/2019 11:42:40',
+  // NOTE: Not sure about this!!!
+  // appointmentTime: '02/05/2020 19:30:00',
+  // timeZone: '-09:00 AKST',
 };
 
 const videoAppt = {
@@ -129,9 +235,6 @@ const videoAppt = {
   ],
 };
 
-const now = moment();
-const tomorrow = moment().add(1, 'days');
-
 const vaRequest = {
   id: '8a4829dc7281184e017285000ab700cf',
   type: 'appointment_requests',
@@ -159,9 +262,9 @@ const vaRequest = {
   optionTime2: 'AM',
   optionDate3: now,
   optionTime3: 'AM',
-  status: 'Booked',
+  status: 'Submitted',
   appointmentType: 'Primary Care',
-  visitType: 'Office Visit',
+  visitType: 'Video Conference',
   reasonForVisit: null,
   email: 'aarathi.poldass@va.gov',
   textMessagingAllowed: false,
@@ -223,10 +326,6 @@ describe('VAOS Appointment transformer', () => {
         expect(data.participant[0].actor.display).to.equal('CHY OPT VAR1');
       });
 
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(null);
-      });
-
       it('should return vaos.isCommunityCare', () => {
         expect(data.vaos.isCommunityCare).to.equal(false);
       });
@@ -282,10 +381,6 @@ describe('VAOS Appointment transformer', () => {
           '(703) 345-2400',
         );
         expect(data.participant[0].actor.display).to.equal('Bob Belcher');
-      });
-
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(null);
       });
 
       it('should return vaos.isPastAppointment', () => {
@@ -350,10 +445,10 @@ describe('VAOS Appointment transformer', () => {
           'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
         );
         expect(data.contained[0].telecom[0].period.start).to.equal(data.start);
-      });
-
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(VIDEO_TYPES.videoConnect);
+        expect(data.contained[0].resourceType).to.equal('HealthcareService');
+        expect(data.contained[0].characteristic[0].coding).to.equal(
+          VIDEO_TYPES.videoConnect,
+        );
       });
 
       it('should return vaos.isPastAppointment', () => {
@@ -372,10 +467,6 @@ describe('VAOS Appointment transformer', () => {
         );
       });
 
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(VIDEO_TYPES.videoConnect);
-      });
-
       it('should return gfe videoType', () => {
         const gfeData = transformConfirmedAppointments([
           {
@@ -388,7 +479,11 @@ describe('VAOS Appointment transformer', () => {
             ],
           },
         ])[0];
-        expect(gfeData.vaos.videoType).to.equal(VIDEO_TYPES.gfe);
+
+        expect(gfeData.contained[0].resourceType).to.equal('HealthcareService');
+        expect(gfeData.contained[0].characteristic[0].coding).to.equal(
+          VIDEO_TYPES.gfe,
+        );
       });
     });
 
@@ -440,10 +535,6 @@ describe('VAOS Appointment transformer', () => {
         expect(telecomEmail.value).to.equal('aarathi.poldass@va.gov');
       });
 
-      it('should return vaos.isPastAppointment', () => {
-        expect(data.vaos.isPastAppointment).to.equal(false);
-      });
-
       it('should return vaos.isCommunityCare', () => {
         expect(data.vaos.isCommunityCare).to.equal(false);
       });
@@ -452,29 +543,32 @@ describe('VAOS Appointment transformer', () => {
         expect(data.vaos.appointmentType).to.equal(APPOINTMENT_TYPES.request);
       });
 
-      it('should not return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(undefined);
+      it('should return video type in HealthcareService coding', () => {
+        expect(data.contained[0].resourceType).to.equal('HealthcareService');
+        expect(data.contained[0].characteristic[0].coding).to.equal(
+          VIDEO_TYPES.videoConnect,
+        );
       });
 
       it('should set requestedPeriods', () => {
         expect(data.requestedPeriod.length).to.equal(3);
         expect(data.requestedPeriod[0].start).to.equal(
-          `${now.format('YYYY-MM-DD')}T00:00:00.000Z`,
+          `${now.format('YYYY-MM-DD')}T00:00:00.000`,
         );
         expect(data.requestedPeriod[0].end).to.equal(
-          `${now.format('YYYY-MM-DD')}T11:59:99.999Z`,
+          `${now.format('YYYY-MM-DD')}T11:59:59.999`,
         );
         expect(data.requestedPeriod[1].start).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000`,
         );
         expect(data.requestedPeriod[1].end).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T11:59:99.999Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T11:59:59.999`,
         );
         expect(data.requestedPeriod[2].start).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T12:00:00.000Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T12:00:00.000`,
         );
         expect(data.requestedPeriod[2].end).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T23:59:99.999Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T23:59:59.999`,
         );
       });
 
@@ -677,6 +771,144 @@ describe('VAOS Appointment transformer', () => {
             nullAppts.length,
           );
         });
+      });
+    });
+  });
+
+  describe('transformPendingAppointments', () => {
+    const data = transformPendingAppointments([ccPendingAppt])[0];
+
+    it('should set resourceType', () => {
+      expect(data.resourceType).to.equal('Appointment');
+    });
+
+    it('should set id', () => {
+      expect(data.id).to.equal('var8a4886886e4c8e22016e6613216d001f');
+    });
+
+    it('should set status to "pending"', () => {
+      expect(data.status).to.equal(APPOINTMENT_STATUS.pending);
+    });
+
+    it('should set appointment type', () => {
+      expect(data.type.coding[0].code).to.equal('CCAUDHEAR');
+      expect(data.type.coding[0].display).to.equal(
+        'Audiology (hearing aid support)',
+      );
+    });
+
+    it('should set requestedPeriods (FHIR 4.0.1)', () => {
+      expect(data.requestedPeriod.length).to.equal(2);
+
+      // NOTE: The array is sorted.
+      expect(data.requestedPeriod[0].start).to.equal(
+        `${now.format('YYYY-MM-DD')}T00:00:00.000`,
+      );
+      expect(data.requestedPeriod[0].end).to.equal(
+        `${now.format('YYYY-MM-DD')}T11:59:59.999`,
+      );
+      expect(data.requestedPeriod[1].start).to.equal(
+        `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000`,
+      );
+      expect(data.requestedPeriod[1].end).to.equal(
+        `${tomorrow.format('YYYY-MM-DD')}T11:59:59.999`,
+      );
+    });
+
+    // TODO: Verify no start date for appointment request
+    xit('should set start date', () => {
+      expect(data.start).to.equal('2020-02-05T10:30:00-09:00');
+    });
+
+    it('should set minutesDuration', () => {
+      expect(data.minutesDuration).to.equal(60);
+    });
+
+    it('should set reasonCode (FHIR 4.0.1)', () => {
+      expect(data.reason).to.equal('Follow-up/Routine');
+    });
+
+    describe('Appointment participants', () => {
+      const locationActor = data.participant.filter(p =>
+        p.actor.reference.includes('Location'),
+      )[0];
+      const patientActor = data.participant.filter(p =>
+        p.actor.reference.includes('Patient'),
+      )[0];
+
+      describe('should set facility as Location in participants', () => {
+        it('should set location reference', () => {
+          expect(locationActor.actor.reference).to.equal('Location/var983');
+        });
+
+        it('should set the display', () => {
+          expect(locationActor.actor.display).to.equal(
+            'CHYSHR-Cheyenne VA Medical Center- RR',
+          );
+        });
+      });
+
+      describe('should set patient info in participants', () => {
+        it('should set name', () => {
+          expect(patientActor.actor.display).to.equal('MORRISON, JUDY');
+        });
+
+        it('should set phone', () => {
+          const telecomPhone = patientActor.actor.telecom.filter(
+            t => t.system === 'phone',
+          )[0];
+          expect(telecomPhone.value).to.equal('(555) 555-5555');
+        });
+
+        it('should set email', () => {
+          const telecomEmail = patientActor.actor.telecom.filter(
+            t => t.system === 'email',
+          )[0];
+          expect(telecomEmail.value).to.equal('Vilasini.reddy@va.gov');
+        });
+      });
+    });
+
+    describe('VA custom attributes', () => {
+      describe('Contained attributes', () => {
+        it('should set provider contact info', () => {
+          expect(data.contained[0].actor.name).to.equal(
+            'Some practiceSome practiceSome practiceSome practice',
+          );
+          expect(data.contained[0].actor.firstName).to.equal('Test');
+          expect(data.contained[0].actor.lastName).to.equal('User');
+        });
+
+        it('should set provider address', () => {
+          expect(data.contained[0].actor.address.line[0]).to.equal('street');
+          expect(data.contained[0].actor.address.city).to.equal('city');
+          expect(data.contained[0].actor.address.state).to.equal('state');
+          expect(data.contained[0].actor.address.postalCode).to.equal('01060');
+        });
+      });
+    });
+
+    describe('Legacy VAR attributes', () => {
+      it('should set bestTimeToCall', () => {
+        expect(data.legacyVAR.apiData.bestTimetoCall).to.deep.equal([
+          'Afternoon',
+          'Evening',
+          'Morning',
+        ]);
+      });
+    });
+
+    describe('VAOS attributes', () => {
+      it('should set appointmentType', () => {
+        expect(data.vaos.appointmentType).to.equal('ccRequest');
+      });
+
+      it('should set isCommunityCare to true', () => {
+        expect(data.vaos.isCommunityCare).to.be.true;
+      });
+
+      it('should set isExpressCare to false', () => {
+        expect(data.vaos.isExpressCare).to.be.false;
       });
     });
   });

@@ -12,9 +12,11 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
+import { higherLevelReviewFeature } from '../helpers';
 import {
   noContestableIssuesFound,
   showContestableIssueError,
+  showWorkInProgress,
 } from '../content/contestableIssueAlerts';
 
 export class IntroductionPage extends React.Component {
@@ -52,7 +54,11 @@ export class IntroductionPage extends React.Component {
   };
 
   getCallToActionContent = () => {
-    const { route, contestableIssues } = this.props;
+    const { route, contestableIssues, allowHlr, testHlr } = this.props;
+    // check feature flag
+    if (!(allowHlr || testHlr)) {
+      return showWorkInProgress;
+    }
     const { formConfig } = route;
     if (contestableIssues?.error) {
       return showContestableIssueError(contestableIssues.error.errors);
@@ -64,9 +70,8 @@ export class IntroductionPage extends React.Component {
         messages={formConfig.savedFormMessages}
         pageList={route.pageList}
         startText="Start the Request for a Higher-Level Review"
-      >
-        Please complete the 20-0996 form to request a Higher-Level Review.
-      </SaveInProgressIntro>
+        gaStartEventName="decision-reviews-va20-0996-start-form"
+      />
     ) : (
       noContestableIssuesFound
     );
@@ -201,6 +206,7 @@ function mapStateToProps(state) {
     form,
     user,
     contestableIssues,
+    allowHlr: higherLevelReviewFeature(state),
   };
 }
 

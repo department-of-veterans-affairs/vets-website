@@ -14,7 +14,6 @@ import titleCase from 'platform/utilities/data/titleCase';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import disability526Manifest from 'applications/disability-benefits/526EZ/manifest.json';
 import {
   validateMilitaryCity,
   validateMilitaryState,
@@ -739,7 +738,6 @@ export const hasNewDisabilities = formData =>
  * @enum {String}
  */
 export const urls = {
-  v1: disability526Manifest.rootUrl,
   v2: DISABILITY_526_V2_ROOT_URL,
 };
 

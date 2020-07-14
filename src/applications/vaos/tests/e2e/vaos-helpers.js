@@ -150,36 +150,6 @@ function appointmentSubmittedTest(client) {
   return client;
 }
 
-function showMoreTest(client) {
-  client
-    .click(
-      'li[data-request-id="8a48912a6cab0202016cb4fcaa8b0038"] .additional-info-button.va-button-link',
-    )
-    .waitForElementVisible(
-      '[id="8a48912a6cab0202016cb4fcaa8b0038-vaos-info-content"]',
-      Timeouts.slow,
-    )
-    .pause(Timeouts.normal)
-    .axeCheck('.main')
-    .assert.containsText('.vaos_appts__message dd', 'Request 2 Message 1 Text');
-
-  return client;
-}
-
-function cancelAppointmentTest(client) {
-  client
-    .click('li[data-is-cancelable="true"] button.vaos-appts__cancel-btn')
-    .waitForElementVisible('#cancelAppt', Timeouts.slow)
-    .axeCheck('.main')
-    .click('#cancelAppt .usa-button')
-    .waitForElementVisible('.usa-alert-success', Timeouts.slow)
-    .axeCheck('.main')
-    .click('#cancelAppt button')
-    .waitForElementNotPresent('#cancelAppt', Timeouts.normal);
-
-  return client;
-}
-
 function mockSingleSystem(token, id) {
   mock(token, {
     path: '/vaos/v0/facilities',
@@ -497,6 +467,4 @@ module.exports = {
   getUserDataWithSingleSystem,
   mockSingleFacility,
   mockSingleSystem,
-  showMoreTest,
-  cancelAppointmentTest,
 };

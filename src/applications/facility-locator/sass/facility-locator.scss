@@ -318,6 +318,10 @@ $facility-locator-color-gray: #ccc;
     border: solid thin $color-gray-lightest;
     background: $color-gray-lightest;
 
+    select:disabled {
+      background: $color-gray-lightest;
+    }
+
     #facility-search-controls {
       display: flex;
       flex-direction: column;
@@ -341,11 +345,26 @@ $facility-locator-color-gray: #ccc;
         .large-1-2 {
           width: 396px !important;
         }
-
       }
 
-      select:disabled {
-        background: $color-gray-lightest;
+      @include media($medium-screen) {
+        input[type=submit] {
+          // The "columns:last-child" selector from Foundation adds
+          // a "float: right" to the submit button container,
+          // which pushes it too far to the right on tablets.
+          // The following is added as a workaround.
+          position: absolute;
+          right: 30px;
+          width: auto;
+        }
+      }
+
+      @include media($small-desktop-screen) {
+        input[type=submit] {
+          position: relative;
+          width: 100%;
+          right: 0;
+        }
       }
 
       input[type=submit] {
@@ -800,4 +819,9 @@ $facility-locator-color-gray: #ccc;
 }
 .icon-base {
   color: $color-base !important;
+}
+
+.facility-phone-group {
+  display: flex;
+  flex-direction: column;
 }

@@ -163,8 +163,8 @@
   },
   {
     "appName": "10-10CG",
-    "entryName": "caregivers",
-    "rootUrl": "/caregivers",
+    "entryName": "1010cg-application-caregiver-assistance",
+    "rootUrl": "/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg",
     "template": {
       "title": "Caregiver Application for Benefits",
       "vagovprod": false,
@@ -299,29 +299,6 @@
         {
           "name": "File for Disability Compensation",
           "path": "disability/file-disability-claim-form-21-526ez"
-        }
-      ]
-    }
-  },
-  {
-    "appName": "21-526EZ disability compensation claim form",
-    "entryName": "526EZ-claims-increase",
-    "rootUrl": "/disability-benefits/apply/form-526-disability-claim",
-    "template": {
-      "title": "Apply For Increased Disability Benefits",
-      "heading": "Apply for increased disability benefits",
-      "display_title": "File for increased disability",
-      "layout": "page-react.html",
-      "description": "Learn how to apply online for increased disability compensation.",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "name": "Disability benefits",
-          "path": "disability/"
-        },
-        {
-          "name": "File for a disability increase",
-          "path": "disability-benefits/apply/form-526-disability-claim"
         }
       ]
     }
@@ -564,8 +541,8 @@
     "rootUrl": "/education/apply-for-education-benefits/application/10203",
     "template": {
       "vagovprod": false,
-      "title": "Veteran Request For Change",
-      "heading": "Veteran request for change",
+      "title": "Apply for the Rogers STEM Scholarship",
+      "heading": "Apply for the Rogers STEM Scholarship",
       "layout": "page-react.html",
       "description": "Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.",
       "order": 1,
@@ -864,6 +841,15 @@
     "appName": "28-1900 Vocational Rehabilitation",
     "entryName": "28-1900-chapter-31",
     "rootUrl": "/vre/28-1900",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "28-8832-planning-and-guidance",
+    "entryName": "28-8832-planning-and-career-guidance",
+    "rootUrl": "/vre/28-8832",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"

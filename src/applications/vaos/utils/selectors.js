@@ -20,9 +20,9 @@ import {
 } from '../services/organization';
 import { getParentOfLocation } from '../services/location';
 import {
-  getVARFacilityId,
-  getVARClinicId,
   getVideoAppointmentLocation,
+  getVAAppointmentLocationId,
+  isVideoAppointment,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -329,28 +329,24 @@ export function getCancelInfo(state) {
     cancelAppointmentStatus,
     cancelAppointmentStatusVaos400,
     facilityData,
-    systemClinicToFacilityMap,
   } = state.appointments;
 
+  const isVideo = appointmentToCancel
+    ? isVideoAppointment(appointmentToCancel)
+    : false;
+
   let facility = null;
-  if (
-    appointmentToCancel?.status === APPOINTMENT_STATUS.booked &&
-    !appointmentToCancel?.vaos?.videoType
-  ) {
+  if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
     // Confirmed in person VA appts
-    facility =
-      systemClinicToFacilityMap[
-        `${parseFakeFHIRId(
-          getVARFacilityId(appointmentToCancel),
-        )}_${getVARClinicId(appointmentToCancel)}`
-      ];
+    const locationId = getVAAppointmentLocationId(appointmentToCancel);
+    facility = facilityData[getRealFacilityId(locationId)];
   } else if (appointmentToCancel?.facility) {
     // Requests
     facility =
       facilityData[
         `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
       ];
-  } else if (appointmentToCancel?.vaos?.videoType) {
+  } else if (isVideo) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];
@@ -393,6 +389,10 @@ export const vaosPastAppts = state =>
   toggleValues(state).vaOnlineSchedulingPast;
 export const vaosVSPAppointmentNew = state =>
   toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
+export const vaosExpressCare = state =>
+  toggleValues(state).vaOnlineSchedulingExpressCare;
+export const vaosExpressCareNew = state =>
+  toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 
 export const isWelcomeModalDismissed = state =>

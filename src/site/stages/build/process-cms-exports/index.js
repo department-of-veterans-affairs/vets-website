@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const chalk = require('chalk');
 const get = require('lodash/get');
 
@@ -27,12 +29,10 @@ const findCircularReference = (entity, ancestors) => {
   const ancestorIds = ancestors.map(a => a.id);
   const a = ancestors.find(r => r.id === toId(entity));
   if (a) {
-    /* eslint-disable no-console */
     // This logging is to help debug if AJV fails on an unexpected circular
     // reference
     console.log(`I'm my own grandpa! (${toId(entity)})`);
     console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
-    /* eslint-enable no-console */
 
     // NOTE: If we find a circular reference, it needs to be addressed in the
     // transformer and accounted for in the transformed schema.
@@ -57,7 +57,6 @@ const validateInput = entity => {
   // Pre-transformation JSON schema validation
   const rawErrors = validateRawEntity(entity);
   if (rawErrors.length) {
-    /* eslint-disable no-console */
     console.warn(
       chalk.yellow(
         `${toId(entity)} (${getContentModelType(
@@ -73,7 +72,6 @@ const validateInput = entity => {
       );
     });
     console.warn(`-------------------`);
-    /* eslint-enable no-console */
 
     // Abort! (We may want to change this later)
     throw new Error(`${toId(entity)} is invalid before transformation`);
@@ -87,7 +85,6 @@ const validateInput = entity => {
 const validateOutput = (entity, transformedEntity) => {
   const transformedErrors = validateTransformedEntity(transformedEntity);
   if (transformedErrors.length) {
-    /* eslint-disable no-console */
     console.warn(
       chalk.yellow(
         `${toId(entity)} (${getContentModelType(
@@ -103,7 +100,6 @@ const validateOutput = (entity, transformedEntity) => {
       );
     });
     console.warn(`-------------------`);
-    /* eslint-enable no-console */
 
     // Abort! (We may want to change this later)
     throw new Error(`${toId(entity)} is invalid after transformation`);
@@ -170,20 +166,40 @@ const entityAssemblerFactory = contentDir => {
 
     validateInput(entity);
 
-    const expandedEntity = expandEntityReferences(
-      entity,
-      ancestors,
-      assembleEntityTree,
-    );
+    let expandedEntity;
+    try {
+      expandedEntity = expandEntityReferences(
+        entity,
+        ancestors,
+        assembleEntityTree,
+      );
+    } catch (e) {
+      console.log(
+        chalk.red(
+          `Error encountered while expanding entity references for ${toId(
+            entity,
+          )}`,
+        ),
+      );
+      throw e;
+    }
 
-    // Post-transformation JSON schema validation
-    const transformedEntity = transformEntity(expandedEntity, {
-      uuid: entity.uuid[0].value,
-      ancestors,
-      parentFieldName,
-      contentDir,
-      assembleEntityTree,
-    });
+    let transformedEntity;
+    try {
+      // Post-transformation JSON schema validation
+      transformedEntity = transformEntity(expandedEntity, {
+        uuid: entity.uuid[0].value,
+        ancestors,
+        parentFieldName,
+        contentDir,
+        assembleEntityTree,
+      });
+    } catch (e) {
+      console.log(
+        chalk.red(`Error encountered while transforming ${toId(entity)}`),
+      );
+      throw e;
+    }
 
     validateOutput(entity, transformedEntity);
 
