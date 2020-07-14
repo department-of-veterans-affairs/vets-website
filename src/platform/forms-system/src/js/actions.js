@@ -143,13 +143,12 @@ export function submitToUrl(
   });
 }
 
-export function submitForm(
-  formConfig,
-  form,
-  submisisonEventData,
-  submissionSuccessEventData,
-  submissionFailedEventData,
-) {
+export function submitForm(formConfig, form, eventDataContainer) {
+  const {
+    submisisonEventData,
+    submissionSuccessEventData,
+    submissionFailedEventData,
+  } = eventDataContainer;
   const captureError = (error, errorType) => {
     Sentry.withScope(scope => {
       scope.setFingerprint([formConfig.trackingPrefix]);
