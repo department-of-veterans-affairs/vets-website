@@ -413,13 +413,13 @@ Cypress.Commands.add('fillPage', () => {
  *
  * @typedef {Object} TestConfig
  * @property {string} appName - Name of the app (form) to describe the test.
- * @property {Array} [arrayPages] - Objects that represent array pages
+ * @property {Object[]} [arrayPages] - Objects that represent array pages
  *     in the form. For matching array pages to their corresponding test data.
  * @property {string} [dataPrefix] - The path prefix for accessing nested
  *     test data. For example, if the test data looks like
  *     { data: { field1: 'value' } }, dataPrefix should be set to 'data'.
- * @property {Array} dataSets - Array of fixture file paths to test data, which
- *     are relative to the "data" path loaded into fixtures. For example,
+ * @property {string[]} dataSets - Array of fixture file paths to test data
+ *     relative to the "data" path loaded into fixtures. For example,
  *     if the fixtures object maps the "data" path to "some/folder/path",
  *     which contains a "test.json" file, dataSets can be set to ['test']
  *     to use that file as a data set. A test is generated for each data set
@@ -434,6 +434,9 @@ Cypress.Commands.add('fillPage', () => {
  * @property {function} [setup] - Function that's called once before starting any
  *     tests in the spec module. Corresponds to the before (all) hook.
  * @property {function} [setupPerTest] - Function that's called before each test.
+ * @property {(boolean|string[])} [skip] - Skips specific tests if it's an array
+ *     that contains the test names as strings. Skips the whole suite
+ *     if it's otherwise truthy.
  * ---
  * @param {TestConfig} testConfig
  */
@@ -448,11 +451,17 @@ const testForm = testConfig => {
     rootUrl,
     setup = () => {},
     setupPerTest = () => {},
+    skip,
   } = testConfig;
 
-  const extractTestData = testData => get(dataPrefix, testData, testData);
+  const skippedTests = Array.isArray(skip) && new Set(skip);
+  const testSuite = skip && !skippedTests ? describe.skip : describe;
+  const testCase = (testKey, callback) =>
+    skippedTests.has?.(testKey)
+      ? context.skip(testKey, callback)
+      : context(testKey, callback);
 
-  describe(appName, () => {
+  testSuite(appName, () => {
     before(() => {
       if (!fixtures.data) {
         throw new Error('Required data fixture is undefined.');
@@ -475,24 +484,24 @@ const testForm = testConfig => {
 
       // Save a couple of seconds by definitively responding with
       // no maintenance windows instead of letting the request time out.
-      cy.server().route('GET', 'v0/maintenance_windows', []);
+      cy.server().route('GET', '/v0/maintenance_windows', []);
 
       // Resolve relative page hook paths as relative to the form's root URL.
-      cy.wrap(
-        Object.keys(pageHooks).reduce(
-          (hooks, path) => ({
-            ...hooks,
-            [path.startsWith(sep) ? path : join(rootUrl, path)]: pageHooks[
-              path
-            ],
-          }),
-          {},
-        ),
-      ).as('pageHooks');
+      const resolvedPageHooks = Object.entries(pageHooks).reduce(
+        (hooks, [path, hook]) => ({
+          ...hooks,
+          [path.startsWith(sep) ? path : join(rootUrl, path)]: hook,
+        }),
+        {},
+      );
+
+      cy.wrap(resolvedPageHooks).as('pageHooks');
     });
 
-    dataSets.forEach(testKey => {
-      context(testKey, () => {
+    const extractTestData = testData => get(dataPrefix, testData, testData);
+
+    const createTestCase = testKey =>
+      testCase(testKey, () => {
         beforeEach(() => {
           cy.wrap(testKey).as('testKey');
           cy.fixture(`data/${testKey}`)
@@ -509,7 +518,8 @@ const testForm = testConfig => {
             .then(processPage);
         });
       });
-    });
+
+    dataSets.forEach(createTestCase);
   });
 };
 

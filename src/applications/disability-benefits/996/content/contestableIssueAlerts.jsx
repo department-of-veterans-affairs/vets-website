@@ -14,7 +14,7 @@ const networkError = errors => {
       </ul>
     ) : (
       <p>
-        <strong>{errors[0].title}</strong>
+        <strong>{errors?.[0].title}</strong>
       </p>
     );
   return (
@@ -41,5 +41,14 @@ export const showContestableIssueError = errors => (
     status="error"
     headline="We’re having some connection problems"
     content={networkError(errors)}
+  />
+);
+
+export const showWorkInProgress = (
+  <AlertBox
+    status="info"
+    headline="We’re still working on this feature"
+    content={`We’re rolling out the Higher-Level Review form in stages. It’s
+      not quite ready yet, so please check back again soon.`}
   />
 );
