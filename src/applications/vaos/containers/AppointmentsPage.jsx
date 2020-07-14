@@ -25,6 +25,7 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
 import TabNav from '../components/TabNav';
 import TabNavNoExpress from '../components/TabNavNoExpress';
+import RequestExpressCare from '../components/RequestExpressCare';
 
 const pageTitle = 'VA appointments';
 
@@ -59,8 +60,8 @@ export class AppointmentsPage extends Component {
       children,
       showScheduleButton,
       showCommunityCare,
-      showDirectScheduling,
       showExpressCare,
+      showDirectScheduling,
       isCernerOnlyPatient,
       showPastAppointments,
     } = this.props;
@@ -79,6 +80,7 @@ export class AppointmentsPage extends Component {
                 startNewAppointmentFlow={this.startNewAppointmentFlow}
               />
             )}
+            {showExpressCare && <RequestExpressCare />}
             {showPastAppointments && !showExpressCare && <TabNavNoExpress />}
             {showPastAppointments && showExpressCare && <TabNav />}
             {children}

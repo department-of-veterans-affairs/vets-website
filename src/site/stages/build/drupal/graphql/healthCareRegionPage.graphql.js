@@ -117,10 +117,51 @@ module.exports = `
     fieldPressReleaseBlurb {
       processed
     }
+    eventTeasersAll: reverseFieldOfficeNode(limit: 1000, filter: {conditions: [{field: "type", value: "event_listing"}]}) {
+      entities {
+        ... on NodeEventListing {
+          reverseFieldListingNode(sort: {field: "field_date", direction: ASC }, limit: 1, filter: {conditions: [{field: "type", value: "event"}, {field: "status", value: "1"}, { field: "field_date", value: [$today], operator: GREATER_THAN}]}) {
+            entities {
+              ... on NodeEvent {
+                title
+                uid {
+                  targetId
+                  ... on FieldNodeUid {
+                    entity {
+                      name
+                      timezone
+                    }
+                  }
+                }
+                fieldDate {
+                  startDate
+                  value
+                  endDate
+                  endValue
+                }
+                fieldDescription
+                fieldLocationHumanreadable
+                fieldFacilityLocation {
+                  entity {
+                    title
+                    entityUrl {
+                      path
+                    }
+                  }
+                }
+              }
+              entityUrl {
+                path
+              }
+            }
+          }
+        }
+      }
+    }
     eventTeasersFeatured: reverseFieldOfficeNode(limit: 1000, filter: {conditions: [{field: "type", value: "event_listing"}]}) {
       entities {
         ... on NodeEventListing {
-          reverseFieldListingNode(limit: 1000, filter: {conditions: [{field: "type", value: "event"}, {field: "status", value: "1"}, {field: "field_featured", value: "1"}]}) {
+          reverseFieldListingNode(limit: 1000, filter: {conditions: [{field: "type", value: "event"}, {field: "status", value: "1"}, {field: "field_featured", value: "1"}, { field: "field_date", value: [$today], operator: GREATER_THAN}]}) {
             entities {
               ... on NodeEvent {
                 title
