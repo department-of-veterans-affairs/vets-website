@@ -22,7 +22,7 @@ import { getParentOfLocation } from '../services/location';
 import {
   getVideoAppointmentLocation,
   getVAAppointmentLocationId,
-  filterRequests,
+  isUpcomingAppointmentOrRequest,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -415,9 +415,6 @@ export function selectUpcoming(state) {
     ...state.appointments,
     future: state.appointments.future
       ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
-      ?.filter(
-        appt =>
-          appt.status === APPOINTMENT_STATUS.booked || filterRequests(appt),
-      ),
+      ?.filter(isUpcomingAppointmentOrRequest),
   };
 }

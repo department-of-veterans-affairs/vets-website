@@ -62,6 +62,7 @@ export class ExpressCareList extends React.Component {
                   index={index}
                   appointment={appt}
                   facilityId={facilityId}
+                  messages={{}}
                   showCancelButton={showCancelButton}
                   cancelAppointment={this.props.cancelAppointment}
                 />

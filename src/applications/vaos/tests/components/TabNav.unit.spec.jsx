@@ -6,14 +6,14 @@ import { expect } from 'chai';
 import { TabNav } from '../../components/TabNav';
 
 describe('<TabNav>', () => {
-  it('should render two tabs', () => {
+  it('should render three tabs', () => {
     const location = {
       pathname: '/',
     };
 
     const tree = shallow(<TabNav location={location} id={1} />);
 
-    expect(tree.find('.vaos-appts__tabs').props().children.length).to.equal(2);
+    expect(tree.find('.vaos-appts__tabs').props().children.length).to.equal(3);
     expect(
       tree
         .find('TabItem')

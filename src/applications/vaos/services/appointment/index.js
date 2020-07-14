@@ -284,6 +284,18 @@ export function filterRequests(request) {
   );
 }
 
+export function isUpcomingAppointmentOrRequest(appt) {
+  if (
+    [APPOINTMENT_TYPES.ccAppointment, APPOINTMENT_TYPES.vaAppointment].includes(
+      appt.vaos.appointmentType,
+    )
+  ) {
+    return appt;
+  }
+
+  return filterRequests(appt);
+}
+
 /**
  * Sort method for future confirmed appointments
  * @param {Object} a A FHIR appointment resource

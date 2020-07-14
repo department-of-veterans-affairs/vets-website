@@ -101,9 +101,7 @@ export default class AppointmentRequestListItem extends React.Component {
                 appointment={appointment}
               />
             )}
-            {isExpressCare && (
-              <p>{getVAAppointmentLocationName(appointment)}</p>
-            )}
+            {isExpressCare && getVAAppointmentLocationName(appointment)}
             {!isCC &&
               !isExpressCare && (
                 <VAFacilityLocation
