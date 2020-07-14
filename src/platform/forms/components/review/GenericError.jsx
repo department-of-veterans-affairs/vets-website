@@ -10,9 +10,11 @@ import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/u
 // platform - forms components
 import Column from 'platform/forms/components/common/grid/Column';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
+import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import Row from 'platform/forms/components/common/grid/Row';
 
 // platform - forms containers
+import PreSubmitSection from 'platform/forms/containers/review/PreSubmitSection';
 import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
 
 // platform
@@ -39,7 +41,7 @@ function InlineErrorComponent(props) {
   const { errorText } = props;
 
   return (
-    (errorText === 'function' && errorText) || (
+    (typeof errorText === 'function' && errorText) || (
       <p>{errorText || <DefaultError />}</p>
     )
   );
@@ -49,7 +51,10 @@ function GenericError(props) {
   const {
     form,
     formConfig,
+    goBack,
+    hasSaveError,
     location,
+    onSubmit,
     saveAndRedirectToReturnUrl,
     showLoginModal,
     toggleLoginModal,
@@ -58,39 +63,75 @@ function GenericError(props) {
 
   const { errorText } = formConfig;
   const isLoggedIn = user?.login?.currentlyLoggedIn;
+  let submitButton;
 
-  return (
-    <Row>
-      <Column>
-        <ErrorMessage
-          active
-          title="We’re sorry. We can't submit your form right now."
-        >
-          <p>
-            We’re working to fix the problem. Please make sure you’re connected
-            to the Internet, and then try saving your form again.
-            <SaveFormLink
-              locationPathname={location.pathname}
-              form={form}
-              user={user}
-              showLoginModal={showLoginModal}
-              saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-              toggleLoginModal={toggleLoginModal}
-            >
-              Save your form
-            </SaveFormLink>
-          </p>
-          {!isLoggedIn && (
-            <p>
-              If you don’t have an account, you’ll have to start over. Try
-              submitting your form again tomorrow.
-            </p>
-          )}
-        </ErrorMessage>
-        <InlineErrorComponent errorText={errorText} />
-      </Column>
-    </Row>
+  const saveLink = (
+    <SaveFormLink
+      locationPathname={location.pathname}
+      form={form}
+      user={user}
+      showLoginModal={showLoginModal}
+      saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
+      toggleLoginModal={toggleLoginModal}
+    >
+      Save your form
+    </SaveFormLink>
   );
+
+  if (process.env.NODE_ENV !== 'production') {
+    submitButton = (
+      <Column className="small-6 usa-width-one-half medium-6">
+        <a onClick={onSubmit}>Submit again</a>
+      </Column>
+    );
+  }
+
+  if (hasSaveError) {
+    return saveLink;
+  }
+  else {
+    return (
+      <>
+        <Row>
+          <Column>
+            <ErrorMessage
+              active
+              title="We’re sorry. We can't submit your form right now."
+            >
+              <p>
+                We’re working to fix the problem. Please make sure you’re connected
+                to the Internet, and then try saving your form again. {saveLink}.
+              </p>
+              {!isLoggedIn && (
+                <p>
+                  If you don’t have an account, you’ll have to start over. Try
+                  submitting your form again tomorrow.
+                </p>
+              )}
+            </ErrorMessage>
+            <InlineErrorComponent errorText={errorText} />
+          </Column>
+        </Row>
+        <PreSubmitSection formConfig={formConfig} />
+        <Row classNames="form-progress-buttons">
+          <Column classNames="small-6 medium-5">
+            <ProgressButton
+              onButtonClick={goBack}
+              buttonText="Back"
+              buttonClass="usa-button-secondary"
+              beforeText="«"
+            />
+          </Column>
+          <Column classNames="small-6 medium-5">
+            {submitButton}
+          </Column>
+          <Column classNames="small-1 medium-1 end">
+            <div className="hidden">&nbsp;</div>
+          </Column>
+        </Row>
+      </>
+    );
+  }
 }
 
 const mapDispatchToProps = {

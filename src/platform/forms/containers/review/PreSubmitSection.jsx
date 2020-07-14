@@ -22,7 +22,7 @@ function PreSubmitSectionController(props) {
   const { form, preSubmit = {}, setPreSubmit, showPreSubmitError } = props;
 
   const { CustomComponent } = preSubmit;
-
+  
   return (
     <>
       {CustomComponent ? (
@@ -67,10 +67,12 @@ export default connect(
     const { form } = state;
 
     const preSubmit = preSubmitSelector(ownProps?.formConfig);
+    const showPreSubmitError = form?.submission?.hasAttemptedSubmit;
 
     return {
       form,
       preSubmit,
+      showPreSubmitError,
     };
   },
   mapDispatchToProps,

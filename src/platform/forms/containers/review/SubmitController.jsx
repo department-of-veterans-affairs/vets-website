@@ -17,6 +17,9 @@ import FormValidationError from 'platform/forms/components/review/FormValidation
 // platform - forms-system components
 import { isValidForm } from 'platform/forms-system/src/js/validation';
 import { getActiveExpandedPages } from 'platform/forms-system/src/js/helpers';
+
+// actions
+import { saveErrors } from 'platform/forms/save-in-progress/actions';
 import {
   setPreSubmit,
   setSubmission,
@@ -41,7 +44,6 @@ function SubmitController(props) {
     form,
     formConfig,
     pageList,
-    preSubmit,
     router,
     trackingPrefix,
   } = props;
@@ -49,9 +51,9 @@ function SubmitController(props) {
   const { status } = submission;
 
   const prevStatus = usePrevious(status);
-  // const submissionStatus = form.submission?.savedStatus || false;
+  const hasSaveError = saveErrors.has(form?.savedStatus);
 
-  function goBack() {
+  const goBack = () => {
     const expandedPageList = getActiveExpandedPages(pageList, form.data);
 
     // TODO: Fix this bug that assumes there is a confirmation page.
@@ -60,7 +62,9 @@ function SubmitController(props) {
     return router.push(expandedPageList[expandedPageList.length - 2].path);
   }
 
-  function onSubmit() {
+  const onSubmit = () => {
+    const preSubmit = preSubmitSelector(formConfig);
+
     // If a pre-submit agreement is required, make sure it was accepted
     if (preSubmit.required && !form.data[preSubmit.field]) {
       props.setSubmission('hasAttemptedSubmit', true);
@@ -124,7 +128,7 @@ function SubmitController(props) {
             );
 
             // TODO: routing
-            if (status !== prevStatus) router.push(newRoute);
+            if (status !== prevStatus) props?.router?.push(newRoute);
           }
           break;
         case SUBMISSION_STATUSES.clienError:
@@ -165,7 +169,14 @@ function SubmitController(props) {
           );
           break;
         default:
-          setActiveComponent(<GenericError formConfig={formConfig} />);
+          setActiveComponent(
+            <GenericError
+              formConfig={formConfig}
+              goBack={goBack}
+              hasSaveError={hasSaveError}
+              onSubmit={onSubmit}
+            />
+          );
           break;
       }
     },
@@ -178,9 +189,7 @@ function SubmitController(props) {
 function mapStateToProps(state, ownProps) {
   const { formConfig, pageList, renderErrorMessage } = ownProps;
   const router = ownProps.router;
-
   const form = formSelector(state);
-  const preSubmit = preSubmitSelector(ownProps?.formConfig);
   const trackingPrefix = formConfig.trackingPrefix;
   const submission = form.submission;
   const showPreSubmitError = submission.hasAttemptedSubmit;
@@ -189,10 +198,8 @@ function mapStateToProps(state, ownProps) {
     form,
     formConfig,
     pageList,
-    preSubmit,
     renderErrorMessage,
     router,
-    submission,
     showPreSubmitError,
     trackingPrefix,
   };
@@ -215,7 +222,6 @@ SubmitController.propTypes = {
   setPreSubmit: PropTypes.func.isRequired,
   setSubmission: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
-  submission: PropTypes.object.isRequired,
   trackingPrefix: PropTypes.string.isRequired,
 };
 
