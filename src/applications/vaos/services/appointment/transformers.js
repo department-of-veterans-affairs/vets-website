@@ -1,6 +1,5 @@
 import moment from '../../utils/moment-tz';
 
-import titleCase from 'platform/utilities/data/titleCase';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -122,9 +121,11 @@ function getStatus(appointment, isPast) {
         return APPOINTMENT_STATUS.booked;
       } else if (appointment.status === 'Cancelled') {
         return APPOINTMENT_STATUS.cancelled;
-      } else {
+      } else if (appointment.status.startsWith('Escalated')) {
         return APPOINTMENT_STATUS.pending;
       }
+
+      return APPOINTMENT_STATUS.proposed;
     }
     case APPOINTMENT_TYPES.vaAppointment: {
       const currentStatus = getVistaStatus(appointment);

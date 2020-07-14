@@ -192,7 +192,7 @@ describe('VAOS Appointment service', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/v0/appointment_requests?start_date=2020-05-01&end_date=2020-06-30',
       );
-      expect(data[0].status).to.equal('pending');
+      expect(data[0].status).to.equal('proposed');
     });
 
     it('should return OperationOutcome error', async () => {
@@ -371,6 +371,7 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
           ],
+          vaos: { isExpressCare: false },
         },
         // cancelled past - should filter out
         {
@@ -378,6 +379,7 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().subtract(22, 'days'), 'AM'),
           ],
+          vaos: { isExpressCare: false },
         },
         // pending past - should filter out
         {
@@ -385,6 +387,7 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
           ],
+          vaos: { isExpressCare: false },
         },
         // future within 13 - should not filter out
         {
@@ -398,6 +401,7 @@ describe('VAOS Appointment service', () => {
               'AM',
             ),
           ],
+          vaos: { isExpressCare: false },
         },
         // future - should not filter out
         {
@@ -405,6 +409,7 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(2, 'days'), 'AM'),
           ],
+          vaos: { isExpressCare: false },
         },
         // future canceled - should not filter out
         {
@@ -412,6 +417,7 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(3, 'days'), 'AM'),
           ],
+          vaos: { isExpressCare: false },
         },
       ];
 
@@ -612,6 +618,7 @@ describe('VAOS Appointment service', () => {
     const filtered = appointments.filter(appt =>
       filterPastAppointments(appt, threeMonthsAgo, today),
     );
+
     expect(filtered.length).to.equal(3);
   });
 });

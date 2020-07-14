@@ -498,8 +498,8 @@ describe('VAOS Appointment transformer', () => {
         expect(data.id).to.equal('var8a4829dc7281184e017285000ab700cf');
       });
 
-      it('should set status to "pending"', () => {
-        expect(data.status).to.equal(APPOINTMENT_STATUS.pending);
+      it('should set status to "proposed"', () => {
+        expect(data.status).to.equal(APPOINTMENT_STATUS.proposed);
       });
 
       it('should set minutesDuration', () => {
@@ -786,8 +786,8 @@ describe('VAOS Appointment transformer', () => {
       expect(data.id).to.equal('var8a4886886e4c8e22016e6613216d001f');
     });
 
-    it('should set status to "pending"', () => {
-      expect(data.status).to.equal(APPOINTMENT_STATUS.pending);
+    it('should set status to "proposed"', () => {
+      expect(data.status).to.equal(APPOINTMENT_STATUS.proposed);
     });
 
     it('should set appointment type', () => {
