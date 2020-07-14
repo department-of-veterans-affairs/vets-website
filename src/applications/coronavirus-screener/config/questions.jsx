@@ -56,6 +56,38 @@ export const questions = [
       value: 'yes',
     },
   },
+  {
+    id: 'travel-459',
+    text: 'In the past 14 days, have you traveled outside of Hawaii?',
+    customId: ['459'],
+  },
+  {
+    id: 'travel-459GE',
+    text: 'In the past 14 days, have you traveled outside of Guam?',
+    customId: ['459GE'],
+  },
+  {
+    id: 'travel-459GF',
+    text: 'In the past 14 days, have you traveled outside of American Samoa?',
+    customId: ['459GF'],
+  },
+  {
+    id: 'travel-459GH',
+    text:
+      'In the past 14 days, have you traveled outside of the Northern Mariana Islands?',
+    customId: ['459GH'],
+  },
+  {
+    id: 'travel-new-england-ma-ct-ri',
+    text: 'In the past 14 days, have you traveled outside of New England?',
+    customId: ['523', '650', '689', '402', '405', '631', '518', '608', '478'],
+  },
+  {
+    id: 'travel-ny',
+    text:
+      'In the past 14 days, have you traveled outside of New York and its surrounding states?',
+    customId: ['526', '528', '620', '630', '632'],
+  },
 ];
 
 export const defaultOptions = [

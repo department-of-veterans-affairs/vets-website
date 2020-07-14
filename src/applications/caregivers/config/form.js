@@ -82,7 +82,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
   transformForSubmit: submitTransform,
-  trackingPrefix: 'caregiver-1010cg',
+  trackingPrefix: 'caregivers-10-10cg-',
   introduction: IntroductionPage,
   footerContent: NeedHelpFooter,
   preSubmitInfo: PreSubmitInfo,

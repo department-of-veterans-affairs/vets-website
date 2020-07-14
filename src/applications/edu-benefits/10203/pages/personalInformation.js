@@ -6,31 +6,8 @@ import * as address from 'platform/forms/definitions/address';
 
 const addressUiSchema = address.uiSchema('');
 const contactInformation = createContactInformationPage(fullSchema10203);
-
-const preferredContactMethodLabels = {
-  mail: 'Mail',
-  email: 'Email',
-  homePhone: 'Home phone',
-  mobilePhone: 'Mobile phone',
-};
-
 const ciUiSchema = contactInformation.uiSchema;
 const ciSchemaProperties = contactInformation.schema.properties;
-
-const preferredContactMethodUiSchema = () => {
-  const uiSchemaCheckbox = {};
-  Object.keys(preferredContactMethodLabels).forEach(key => {
-    uiSchemaCheckbox[key] = { 'ui:title': preferredContactMethodLabels[key] };
-  });
-  return uiSchemaCheckbox;
-};
-const preferredContactMethodSchema = () => {
-  const schemaCheckbox = {};
-  Object.keys(preferredContactMethodLabels).forEach(key => {
-    schemaCheckbox[key] = { type: 'boolean' };
-  });
-  return schemaCheckbox;
-};
 
 export const title = contactInformation.title;
 export const path = contactInformation.path;
@@ -56,7 +33,18 @@ export const uiSchema = {
   },
   preferredContactMethod: {
     'ui:title': preferredContactMethodTitle,
-    ...preferredContactMethodUiSchema(),
+    mail: {
+      'ui:title': 'Mail',
+    },
+    email: {
+      'ui:title': 'Email',
+    },
+    homePhone: {
+      'ui:title': 'Home phone',
+    },
+    mobilePhone: {
+      'ui:title': 'Mobile phone',
+    },
   },
 };
 
@@ -68,7 +56,18 @@ export const schema = {
     preferredContactMethod: {
       type: 'object',
       properties: {
-        ...preferredContactMethodSchema(),
+        mail: {
+          type: 'boolean',
+        },
+        email: {
+          type: 'boolean',
+        },
+        homePhone: {
+          type: 'boolean',
+        },
+        mobilePhone: {
+          type: 'boolean',
+        },
       },
     },
   },
