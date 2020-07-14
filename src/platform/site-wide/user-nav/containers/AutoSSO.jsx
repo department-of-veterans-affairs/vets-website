@@ -26,7 +26,7 @@ function AutoSSO(props) {
 
   if (
     // avoid race condition where hasSession hasn't been set
-    window.location.pathname.includes('auth/login/callback') &&
+    !window.location.pathname.includes('auth/login/callback') &&
     useInboundSSOe &&
     !profileLoading &&
     !hasCalledKeepAlive

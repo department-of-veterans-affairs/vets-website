@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
 import * as authUtils from 'platform/user/authentication/utilities';
-import * as apiUtils from 'platform/utilities/api';
 import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
 
 import { checkAutoSession, checkAndUpdateSSOeSession } from '../sso';
@@ -58,30 +57,15 @@ describe('checkAutoSession', () => {
   });
 
   it('should redirect user to cerner if logged in via SSOe and on the standalone sign in page', async () => {
-    mockFetch({
-      ok: true,
-      json: () =>
-        Promise.resolve({
-          data: {
-            attributes: {
-              profile: {
-                // eslint-disable-next-line camelcase
-                sign_in: {
-                  ssoe: true,
-                },
-              },
-            },
-          },
-        }),
-    });
+    localStorage.setItem('hasSession', true);
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
     global.window.location.origin = 'http://localhost';
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=myvahealth';
-
-    await checkAutoSession();
+    const authenticatedWithSSOe = true;
+    await checkAutoSession(authenticatedWithSSOe);
 
     expect(global.window.location).to.eq(
       'https://ehrm-va-test.patientportal.us.healtheintent.com/',
@@ -89,22 +73,7 @@ describe('checkAutoSession', () => {
   });
 
   it('should redirect user to home page if logged in via SSOe and on the standalone sign in page', async () => {
-    mockFetch({
-      ok: true,
-      json: () =>
-        Promise.resolve({
-          data: {
-            attributes: {
-              profile: {
-                // eslint-disable-next-line camelcase
-                sign_in: {
-                  ssoe: true,
-                },
-              },
-            },
-          },
-        }),
-    });
+    localStorage.setItem('hasSession', true);
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
@@ -112,40 +81,28 @@ describe('checkAutoSession', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '';
 
-    await checkAutoSession();
+    const authenticatedWithSSOe = true;
+    await checkAutoSession(authenticatedWithSSOe);
 
     expect(global.window.location).to.eq('http://localhost');
   });
 
   it('should auto logout if user has logged in via SSOe and they do not have a SSOe session anymore', async () => {
-    mockFetch({
-      ok: true,
-      json: () =>
-        Promise.resolve({
-          data: {
-            attributes: {
-              profile: {
-                // eslint-disable-next-line camelcase
-                sign_in: {
-                  ssoe: true,
-                },
-              },
-            },
-          },
-        }),
-    });
+    localStorage.setItem('hasSession', true);
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: false, ttl: 0, authn: undefined });
     const auto = sandbox.stub(authUtils, 'logout');
-    await checkAutoSession();
+
+    const authenticatedWithSSOe = true;
+    await checkAutoSession(authenticatedWithSSOe);
 
     sinon.assert.calledOnce(auto);
     sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout');
   });
 
   it('should not auto logout if user is logged without SSOe and they do not have a SSOe session', async () => {
-    mockFetch({ ok: true });
+    localStorage.setItem('hasSession', true);
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: false, ttl: 0, authn: undefined });
@@ -156,28 +113,18 @@ describe('checkAutoSession', () => {
   });
 
   it('should not auto logout if user is logged in and they have a SSOe session', async () => {
-    mockFetch({
-      ok: true,
-      json: () =>
-        Promise.resolve({
-          data: {
-            attributes: {
-              profile: {},
-            },
-          },
-        }),
-    });
+    localStorage.setItem('hasSession', true);
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
     const auto = sandbox.stub(authUtils, 'logout');
-    await checkAutoSession();
+    const authenticatedWithSSOe = true;
+    await checkAutoSession(authenticatedWithSSOe);
 
     sinon.assert.notCalled(auto);
   });
 
   it('should not auto logout if user is logged in and we dont know if they have a SSOe session', async () => {
-    mockFetch({ ok: true });
     sandbox.stub(keepAliveMod, 'keepAlive').returns({});
     const auto = sandbox.stub(authUtils, 'logout');
     await checkAutoSession();
@@ -186,7 +133,6 @@ describe('checkAutoSession', () => {
   });
 
   it('should not auto logout if user is logged in without SSOe and they dont have a SSOe session', async () => {
-    mockFetch({ ok: true });
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 0, authn: undefined });
@@ -197,7 +143,6 @@ describe('checkAutoSession', () => {
   });
 
   it('should auto login if user is logged out, they have an idme SSOe session, have not previously tried to login', async () => {
-    mockFetch({ ok: false });
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
@@ -216,7 +161,6 @@ describe('checkAutoSession', () => {
   });
 
   it('should auto login if user is logged out, they have an mhv SSOe session, dont need to force auth', async () => {
-    mockFetch({ ok: false });
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 900, authn: 'myhealthevet' });
@@ -235,7 +179,6 @@ describe('checkAutoSession', () => {
   });
 
   it('should not auto login if user is logged out, they have a PIV SSOe session and dont need to force auth', async () => {
-    mockFetch({ ok: false });
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 900, authn: null });
@@ -247,7 +190,6 @@ describe('checkAutoSession', () => {
   });
 
   it('should not auto login if user is logged out, they dont have a SSOe session and dont need to force auth', async () => {
-    mockFetch({ ok: false });
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: false, ttl: 0, authn: undefined });
@@ -259,7 +201,6 @@ describe('checkAutoSession', () => {
   });
 
   it('should not auto login if user is logged out, they have a SSOe session and need to force auth', async () => {
-    mockFetch({ ok: false });
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
@@ -287,7 +228,6 @@ describe('checkAndUpdateSSOeSession', () => {
     checkAndUpdateSSOeSession();
 
     expect(localStorage.getItem('sessionExpirationSSO')).to.equal('some value');
-
     resetFetch();
   });
 

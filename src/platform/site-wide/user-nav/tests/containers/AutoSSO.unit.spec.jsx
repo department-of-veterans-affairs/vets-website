@@ -15,6 +15,8 @@ describe('<AutoSSO>', () => {
     props = {
       useInboundSSOe: false,
       hasCalledKeepAlive: false,
+      authenticatedWithSSOe: false,
+      profileLoading: false,
       checkKeepAlive: sinon.spy(),
     };
   });
