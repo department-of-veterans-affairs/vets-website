@@ -1,13 +1,14 @@
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest } from 'platform/utilities/api';
+import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import UIDefinitions from '../schemas/2346UI';
+import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 
 const {
   email,
@@ -52,9 +53,10 @@ addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {
   type: 'string',
 };
 
-const submit = form => {
+const submit = (form, formConfig) => {
   const currentAddress = form.data['view:currentAddress'];
   const itemQuantities = form.data?.order?.length;
+  const { trackingPrefix } = formConfig;
   const { order, permanentAddress, temporaryAddress, vetEmail } = form.data;
   const useVeteranAddress = currentAddress === 'permanentAddress';
   const useTemporaryAddress = currentAddress === 'temporaryAddress';
@@ -67,40 +69,31 @@ const submit = form => {
     useTemporaryAddress,
   };
 
-  const options = {
-    body: JSON.stringify(payload),
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  const eventData = {
+    'bam-quantityOrdered': itemQuantities,
   };
 
-  const onSuccess = resp =>
-    new Promise(resolve => {
-      recordEvent({
-        event: 'bam-2346a--submission-successful',
-        'bam-quantityOrdered': itemQuantities,
-      });
-      return resolve(resp);
+  recordEvent({
+    event: `${trackingPrefix}-submission`,
+    ...eventData,
+  });
+  const body = JSON.stringify(payload);
+  return submitToUrl(
+    body,
+    formConfig.submitUrl,
+    trackingPrefix,
+    eventData,
+  ).catch(() => {
+    recordEvent({
+      event: `${trackingPrefix}-submission-failure`,
+      ...eventData,
     });
-
-  const onFailure = error =>
-    new Promise(reject => {
-      recordEvent({
-        event: 'bam-2346a--submission-failed',
-        'bam-quantityOrdered': itemQuantities,
-      });
-      return reject(error);
-    });
-
-  return apiRequest('/mdot/supplies', options)
-    .then(onSuccess)
-    .catch(onFailure);
+  });
 };
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/posts',
+  submitUrl: `${environment.API_URL}/v0/mdot/supplies`,
   submit,
   trackingPrefix: 'bam-2346a-',
   verifyRequiredPrefill: true,
