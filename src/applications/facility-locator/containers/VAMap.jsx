@@ -42,7 +42,7 @@ const mbxClient = mbxGeo(mapboxClient);
 
 const otherToolsLink = (
   <p>
-    Can’t find what you’re looking for?
+    Can’t find what you’re looking for?&nbsp;&nbsp;
     <a href="https://www.va.gov/directory/guide/home.asp">
       Try using our other tools to search.
     </a>
