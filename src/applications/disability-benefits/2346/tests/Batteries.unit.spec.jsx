@@ -11,7 +11,7 @@ const fakeStore = {
           {
             deviceName: 'OMEGAX d3241',
             productName: 'ZA1239',
-            productGroup: 'BATTERIES',
+            productGroup: 'Battery',
             productId: 1,
             availableForReorder: true,
             lastOrderDate: '2020-05-30',
@@ -21,7 +21,7 @@ const fakeStore = {
           },
           {
             productName: 'fake name 1',
-            productGroup: 'BATTERIES',
+            productGroup: 'Battery',
             productId: 4,
             availableForReorder: true,
             lastOrderDate: '2020-04-18',
@@ -50,7 +50,7 @@ const fakeStoreNoEligibility2Years = {
           {
             deviceName: 'OMEGAX d3241',
             productName: 'ZA1239',
-            productGroup: 'BATTERIES',
+            productGroup: 'Battery',
             productId: 1,
             availableForReorder: false,
             lastOrderDate: '2016-01-01',
