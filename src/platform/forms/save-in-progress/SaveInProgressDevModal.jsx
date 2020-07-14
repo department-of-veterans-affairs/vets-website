@@ -8,6 +8,9 @@ import environment from 'platform/utilities/environment';
 import { getActivePages } from 'platform/forms-system/src/js/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
 
+const docsPage =
+  'https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/forms/save-in-progress-menu';
+
 const checkHash = () => {
   const hash = (window?.location?.hash || '').toLowerCase();
   if (hash.includes('#dev-')) {
@@ -94,6 +97,11 @@ const SipsDevModal = props => {
             onValueChange={value => setSipsUrl(value.value)}
             additionalClass="additional-class"
           />
+          <p />
+          <a href={docsPage}>
+            <i aria-hidden="true" className="fas fa-info-circle" role="img" />{' '}
+            How to use this menu
+          </a>
           <p />
           <div className="row">
             <div className="small-6 columns">
