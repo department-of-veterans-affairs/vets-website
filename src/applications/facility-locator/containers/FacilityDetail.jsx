@@ -34,6 +34,7 @@ class FacilityDetail extends Component {
   componentDidUpdate(prevProps) {
     const justLoaded =
       prevProps.currentQuery.inProgress && !this.props.currentQuery.inProgress;
+
     if (justLoaded) {
       this.__previousDocTitle = document.title;
       document.title = `${
