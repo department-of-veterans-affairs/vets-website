@@ -40,7 +40,7 @@ import edu0993Config from 'applications/edu-benefits/0993/config/form.js';
 import edu0994Config from 'applications/edu-benefits/0994/config/form.js';
 import preneedConfig from 'applications/pre-need/config/form.jsx';
 import pensionConfig from 'applications/pensions/config/form.js';
-import disability526Config from 'applications/disability-benefits/526EZ/config/form.js';
+import disability526Config from 'applications/disability-benefits/all-claims/config/form.js';
 import bddConfig from 'applications/disability-benefits/bdd/config/form.js';
 import hlrConfig from 'applications/disability-benefits/996/config/form';
 import mdotConfig from 'applications/disability-benefits/2346/config/form';
@@ -85,8 +85,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
-  [VA_FORM_IDS.FORM_VA_2346A]:
-    'order for hearing aid batteries and accessories',
+  [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {

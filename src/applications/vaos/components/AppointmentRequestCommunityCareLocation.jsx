@@ -3,7 +3,7 @@ import React from 'react';
 export default function AppointmentRequestCommunityCareLocation({
   appointment,
 }) {
-  const hasProviders = !!appointment.preferredProviders?.length;
+  const hasProviders = !!appointment.contained?.length;
 
   return (
     <dl className="vads-u-margin--0">
@@ -12,11 +12,13 @@ export default function AppointmentRequestCommunityCareLocation({
         {!hasProviders && 'Not specified'}
         {hasProviders && (
           <ul className="usa-unstyled-list">
-            {appointment.preferredProviders.map(provider => (
-              <li key={`${provider.firstName} ${provider.lastName}`}>
-                {provider.practiceName}
+            {appointment.contained.map(provider => (
+              <li
+                key={`${provider.actor.firstName} ${provider.actor.lastName}`}
+              >
+                {provider.actor.name}
                 <br />
-                {provider.firstName} {provider.lastName}
+                {provider.actor.firstName} {provider.actor.lastName}
               </li>
             ))}
           </ul>

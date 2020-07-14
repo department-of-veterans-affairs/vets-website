@@ -262,9 +262,9 @@ const vaRequest = {
   optionTime2: 'AM',
   optionDate3: now,
   optionTime3: 'AM',
-  status: 'Booked',
+  status: 'Submitted',
   appointmentType: 'Primary Care',
-  visitType: 'Office Visit',
+  visitType: 'Video Conference',
   reasonForVisit: null,
   email: 'aarathi.poldass@va.gov',
   textMessagingAllowed: false,
@@ -326,10 +326,6 @@ describe('VAOS Appointment transformer', () => {
         expect(data.participant[0].actor.display).to.equal('CHY OPT VAR1');
       });
 
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(null);
-      });
-
       it('should return vaos.isCommunityCare', () => {
         expect(data.vaos.isCommunityCare).to.equal(false);
       });
@@ -385,10 +381,6 @@ describe('VAOS Appointment transformer', () => {
           '(703) 345-2400',
         );
         expect(data.participant[0].actor.display).to.equal('Bob Belcher');
-      });
-
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(null);
       });
 
       it('should return vaos.isPastAppointment', () => {
@@ -453,10 +445,10 @@ describe('VAOS Appointment transformer', () => {
           'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
         );
         expect(data.contained[0].telecom[0].period.start).to.equal(data.start);
-      });
-
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(VIDEO_TYPES.videoConnect);
+        expect(data.contained[0].resourceType).to.equal('HealthcareService');
+        expect(data.contained[0].characteristic[0].coding).to.equal(
+          VIDEO_TYPES.videoConnect,
+        );
       });
 
       it('should return vaos.isPastAppointment', () => {
@@ -475,10 +467,6 @@ describe('VAOS Appointment transformer', () => {
         );
       });
 
-      it('should return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(VIDEO_TYPES.videoConnect);
-      });
-
       it('should return gfe videoType', () => {
         const gfeData = transformConfirmedAppointments([
           {
@@ -491,7 +479,11 @@ describe('VAOS Appointment transformer', () => {
             ],
           },
         ])[0];
-        expect(gfeData.vaos.videoType).to.equal(VIDEO_TYPES.gfe);
+
+        expect(gfeData.contained[0].resourceType).to.equal('HealthcareService');
+        expect(gfeData.contained[0].characteristic[0].coding).to.equal(
+          VIDEO_TYPES.gfe,
+        );
       });
     });
 
@@ -543,10 +535,6 @@ describe('VAOS Appointment transformer', () => {
         expect(telecomEmail.value).to.equal('aarathi.poldass@va.gov');
       });
 
-      it('should return vaos.isPastAppointment', () => {
-        expect(data.vaos.isPastAppointment).to.equal(false);
-      });
-
       it('should return vaos.isCommunityCare', () => {
         expect(data.vaos.isCommunityCare).to.equal(false);
       });
@@ -555,29 +543,32 @@ describe('VAOS Appointment transformer', () => {
         expect(data.vaos.appointmentType).to.equal(APPOINTMENT_TYPES.request);
       });
 
-      it('should not return vaos.videoType', () => {
-        expect(data.vaos.videoType).to.equal(undefined);
+      it('should return video type in HealthcareService coding', () => {
+        expect(data.contained[0].resourceType).to.equal('HealthcareService');
+        expect(data.contained[0].characteristic[0].coding).to.equal(
+          VIDEO_TYPES.videoConnect,
+        );
       });
 
       it('should set requestedPeriods', () => {
         expect(data.requestedPeriod.length).to.equal(3);
         expect(data.requestedPeriod[0].start).to.equal(
-          `${now.format('YYYY-MM-DD')}T00:00:00.000Z`,
+          `${now.format('YYYY-MM-DD')}T00:00:00.000`,
         );
         expect(data.requestedPeriod[0].end).to.equal(
-          `${now.format('YYYY-MM-DD')}T11:59:99.999Z`,
+          `${now.format('YYYY-MM-DD')}T11:59:59.999`,
         );
         expect(data.requestedPeriod[1].start).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000`,
         );
         expect(data.requestedPeriod[1].end).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T11:59:99.999Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T11:59:59.999`,
         );
         expect(data.requestedPeriod[2].start).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T12:00:00.000Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T12:00:00.000`,
         );
         expect(data.requestedPeriod[2].end).to.equal(
-          `${tomorrow.format('YYYY-MM-DD')}T23:59:99.999Z`,
+          `${tomorrow.format('YYYY-MM-DD')}T23:59:59.999`,
         );
       });
 
@@ -811,16 +802,16 @@ describe('VAOS Appointment transformer', () => {
 
       // NOTE: The array is sorted.
       expect(data.requestedPeriod[0].start).to.equal(
-        `${now.format('YYYY-MM-DD')}T00:00:00.000Z`,
+        `${now.format('YYYY-MM-DD')}T00:00:00.000`,
       );
       expect(data.requestedPeriod[0].end).to.equal(
-        `${now.format('YYYY-MM-DD')}T11:59:99.999Z`,
+        `${now.format('YYYY-MM-DD')}T11:59:59.999`,
       );
       expect(data.requestedPeriod[1].start).to.equal(
-        `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000Z`,
+        `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000`,
       );
       expect(data.requestedPeriod[1].end).to.equal(
-        `${tomorrow.format('YYYY-MM-DD')}T11:59:99.999Z`,
+        `${tomorrow.format('YYYY-MM-DD')}T11:59:59.999`,
       );
     });
 
@@ -918,10 +909,6 @@ describe('VAOS Appointment transformer', () => {
 
       it('should set isExpressCare to false', () => {
         expect(data.vaos.isExpressCare).to.be.false;
-      });
-
-      it('should set isPastAppointment to false', () => {
-        expect(data.vaos.isPastAppointment).to.be.false;
       });
     });
   });

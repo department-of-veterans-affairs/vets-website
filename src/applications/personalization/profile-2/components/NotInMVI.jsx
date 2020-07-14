@@ -7,9 +7,8 @@ const NotInMVI = () => {
   const content = (
     <>
       <p>
-        We’re sorry. We can’t match the information you entered to our Veteran
-        records. We can’t give you access to health and benefit tools until we
-        can match the information and verify your identity.
+        We’re sorry. We can’t give you access to health and benefit tools until
+        we can match your information with our records and verify your identity.
       </p>
       <p>
         If you’d like to use these tools on VA.gov, please contact your nearest
