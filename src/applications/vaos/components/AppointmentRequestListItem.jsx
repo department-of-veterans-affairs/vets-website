@@ -9,6 +9,7 @@ import {
   getVAAppointmentLocationName,
   getPatientPhone,
   getPatientEmail,
+  isVideoAppointment,
 } from '../services/appointment';
 import { APPOINTMENT_STATUS, TIME_TEXT } from '../utils/constants';
 import AppointmentStatus from './AppointmentStatus';
@@ -60,7 +61,7 @@ export default class AppointmentRequestListItem extends React.Component {
     const { showMore } = this.state;
     const isCC = appointment.vaos.isCommunityCare;
     const isExpressCare = appointment.vaos.isExpressCare;
-    const videoType = appointment.vaos.videoType;
+    const isVideoRequest = isVideoAppointment(appointment);
     const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
     const firstMessage =
       messages?.[parseFakeFHIRId(appointment.id)]?.[0]?.attributes?.messageText;
@@ -79,12 +80,12 @@ export default class AppointmentRequestListItem extends React.Component {
         aria-labelledby={`card-${index} card-${index}-status`}
         data-request-id={appointment.id}
         className={itemClasses}
-        data-is-cancelable={!isCC && !videoType ? 'true' : 'false'}
+        data-is-cancelable={!isCC && !isVideoRequest ? 'true' : 'false'}
       >
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           {isCC && 'Community Care'}
-          {!isCC && !!videoType && 'VA Video Connect'}
-          {!isCC && !videoType && 'VA Appointment'}
+          {!isCC && !!isVideoRequest && 'VA Video Connect'}
+          {!isCC && !isVideoRequest && 'VA Appointment'}
         </div>
         <h3
           id={`card-${index}`}
@@ -122,7 +123,7 @@ export default class AppointmentRequestListItem extends React.Component {
                   <ul className="usa-unstyled-list">
                     {appointment.requestedPeriod.map((option, optionIndex) => (
                       <li key={`${appointment.id}-option-${optionIndex}`}>
-                        {moment.utc(option.start).format('ddd, MMMM D, YYYY')}{' '}
+                        {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
                         {option.start.includes('00:00:00')
                           ? TIME_TEXT.AM
                           : TIME_TEXT.PM}

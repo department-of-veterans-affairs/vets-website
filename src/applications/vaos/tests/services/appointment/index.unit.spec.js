@@ -12,9 +12,20 @@ import {
   filterRequests,
   getBookedAppointments,
   getAppointmentRequests,
+  isVideoAppointment,
+  isVideoGFE,
   sortFutureConfirmedAppointments,
   sortFutureRequests,
 } from '../../../services/appointment';
+import {
+  transformConfirmedAppointments,
+  transformPendingAppointments,
+} from '../../../services/appointment/transformers';
+import {
+  getVAAppointmentMock,
+  getVideoAppointmentMock,
+  getVARequestMock,
+} from '../../mocks/v0';
 import confirmed from '../../../api/confirmed_va.json';
 import requests from '../../../api/requests.json';
 import { setRequestedPeriod } from '../../mocks/helpers';
@@ -82,6 +93,86 @@ describe('VAOS Appointment service', () => {
         '/vaos/v0/appointments?start_date=2020-05-01&end_date=2020-06-30&type=cc',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+    });
+  });
+
+  describe('isVideoAppointment', () => {
+    it('should return false if confirmed non video', () => {
+      const confirmedVA = transformConfirmedAppointments([
+        {
+          ...getVAAppointmentMock().attributes,
+        },
+      ])[0];
+      expect(isVideoAppointment(confirmedVA)).to.equal(false);
+    });
+
+    it('should return false if confirmed non video', () => {
+      const confirmedVideo = transformConfirmedAppointments([
+        {
+          ...getVideoAppointmentMock().attributes,
+        },
+      ])[0];
+
+      expect(isVideoAppointment(confirmedVideo)).to.equal(true);
+    });
+
+    it('should return false if non video request', () => {
+      const request = transformPendingAppointments([
+        {
+          ...getVARequestMock().attributes,
+        },
+      ])[0];
+
+      expect(isVideoAppointment(request)).to.equal(false);
+    });
+
+    it('should return false if non video request', () => {
+      const request = transformPendingAppointments([
+        {
+          ...getVARequestMock().attributes,
+          visitType: 'Video Conference',
+        },
+      ])[0];
+
+      expect(isVideoAppointment(request)).to.equal(true);
+    });
+  });
+
+  describe('isVideoGFE', () => {
+    it('should return false if confirmed non gfe', () => {
+      const confirmedVA = transformConfirmedAppointments([
+        {
+          ...getVAAppointmentMock().attributes,
+        },
+      ])[0];
+
+      expect(isVideoGFE(confirmedVA)).to.equal(false);
+    });
+
+    it('should return false if video but non gfe', () => {
+      const confirmedVideo = transformConfirmedAppointments([
+        {
+          ...getVideoAppointmentMock().attributes,
+        },
+      ])[0];
+      expect(isVideoGFE(confirmedVideo)).to.equal(false);
+    });
+
+    it('should return true if confirmed gfe', () => {
+      const mock = getVideoAppointmentMock();
+      const gfe = transformConfirmedAppointments([
+        {
+          ...mock.attributes,
+          vvsAppointments: [
+            {
+              ...mock.attributes.vvsAppointments[0],
+              appointmentKind: 'MOBILE_GFE',
+            },
+          ],
+        },
+      ])[0];
+
+      expect(isVideoGFE(gfe)).to.equal(true);
     });
   });
 
@@ -280,7 +371,13 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
           ],
-          vaos: { isPastAppointment: true },
+        },
+        // cancelled past - should filter out
+        {
+          status: APPOINTMENT_STATUS.cancelled,
+          requestedPeriod: [
+            setRequestedPeriod(now.clone().subtract(22, 'days'), 'AM'),
+          ],
         },
         // pending past - should filter out
         {
@@ -288,7 +385,6 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
           ],
-          vaos: { isPastAppointment: true },
         },
         // future within 13 - should not filter out
         {
@@ -302,29 +398,13 @@ describe('VAOS Appointment service', () => {
               'AM',
             ),
           ],
-          vaos: { isPastAppointment: false },
-        },
-        // future past 13 - should filter out
-        {
-          status: APPOINTMENT_STATUS.pending,
-          requestedPeriod: [
-            setRequestedPeriod(
-              now
-                .clone()
-                .add(13, 'months')
-                .add(1, 'days'),
-              'AM',
-            ),
-          ],
-          vaos: { isPastAppointment: false },
         },
         // future - should not filter out
         {
-          status: APPOINTMENT_STATUS.proposed,
+          status: APPOINTMENT_STATUS.pending,
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(2, 'days'), 'AM'),
           ],
-          vaos: { isPastAppointment: false },
         },
         // future canceled - should not filter out
         {
@@ -332,7 +412,6 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(3, 'days'), 'AM'),
           ],
-          vaos: { isPastAppointment: false },
         },
       ];
 
@@ -346,12 +425,7 @@ describe('VAOS Appointment service', () => {
         filteredRequests.filter(
           req => req.status === APPOINTMENT_STATUS.pending,
         ).length,
-      ).to.equal(2);
-      expect(
-        filteredRequests.filter(
-          req => req.status === APPOINTMENT_STATUS.proposed,
-        ).length,
-      ).to.equal(1);
+      ).to.equal(3);
       expect(
         filteredRequests.filter(req => req.status === 'Booked').length,
       ).to.equal(0);
@@ -538,6 +612,7 @@ describe('VAOS Appointment service', () => {
     const filtered = appointments.filter(appt =>
       filterPastAppointments(appt, threeMonthsAgo, today),
     );
+
     expect(filtered.length).to.equal(3);
   });
 });

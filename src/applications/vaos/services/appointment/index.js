@@ -9,8 +9,10 @@ import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
   PAST_APPOINTMENTS_HIDDEN_SET,
+  PAST_APPOINTMENTS_HIDE_STATUS_SET,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
-  EXPRESS_CARE,
+  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
+  VIDEO_TYPES,
 } from '../../utils/constants';
 
 /**
@@ -68,6 +70,44 @@ export async function getAppointmentRequests({ startDate, endDate }) {
 }
 
 /**
+ * Returns whether or not the appointment/request is video
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns {Boolean} Whether or not the appointment/request is video
+ */
+export function isVideoAppointment(appointment) {
+  return (
+    appointment.contained?.some(
+      contained =>
+        contained.resourceType === 'HealthcareService' &&
+        contained.characteristic?.some(
+          c =>
+            c.coding === VIDEO_TYPES.gfe ||
+            c.coding === VIDEO_TYPES.videoConnect,
+        ),
+    ) || false
+  );
+}
+
+/**
+ * Returns whether or not the appointment/request is a GFE video appointment
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns {Boolean} Whether or not the appointment is a GFE video appointment
+ */
+export function isVideoGFE(appointment) {
+  return (
+    appointment.contained?.some(
+      contained =>
+        contained.resourceType === 'HealthcareService' &&
+        contained.characteristic?.some(c => c.coding === VIDEO_TYPES.gfe),
+    ) || false
+  );
+}
+
+/**
  * Gets legacy VAR facility id from HealthcareService reference
  *
  * @param {Object} appointment VAR Appointment in FHIR schema
@@ -75,7 +115,7 @@ export async function getAppointmentRequests({ startDate, endDate }) {
  */
 export function getVARFacilityId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    if (appointment.vaos.videoType) {
+    if (isVideoAppointment(appointment)) {
       return appointment.legacyVAR.apiData.facilityId;
     }
 
@@ -168,9 +208,9 @@ export function getVAAppointmentLocationName(appointment) {
  * @returns The patient phone number where the VA appointment is located
  */
 export function getPatientPhone(appointment) {
-  return appointment.participant
+  return appointment?.participant
     .find(p => p?.actor?.reference.includes('Patient'))
-    ?.actor?.telecom?.find(t => t?.system === 'phone')?.value;
+    ?.actor?.telecom?.find(t => t.system === 'phone')?.value;
 }
 
 /**
@@ -227,22 +267,20 @@ export function filterPastAppointments(appt, startDate, endDate) {
  * @param {Object} request A FHIR appointment resource
  */
 export function filterRequests(request) {
+  const today = moment().startOf('day');
   const hasValidDate = request.requestedPeriod.some(period => {
     const momentStart = moment(period.start);
     const momentEnd = moment(period.end);
     return (
-      momentStart.isValid() &&
-      momentEnd.isValid() &&
-      momentStart.startOf('day').isAfter(moment().startOf('day'))
+      momentStart.isValid() && momentStart.isAfter(today) && momentEnd.isValid()
     );
   });
 
   return (
-    !request.vaos.isPastAppointment &&
-    (request.status === APPOINTMENT_STATUS.pending ||
-      request.status === APPOINTMENT_STATUS.proposed ||
-      (request.status === APPOINTMENT_STATUS.cancelled &&
-        (hasValidDate || request.vaos.isExpressCare)))
+    request.status === APPOINTMENT_STATUS.proposed ||
+    request.status === APPOINTMENT_STATUS.pending ||
+    (request.status === APPOINTMENT_STATUS.cancelled &&
+      (hasValidDate || request.vaos.isExpressCare))
   );
 }
 

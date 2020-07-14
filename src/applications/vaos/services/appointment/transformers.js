@@ -171,8 +171,9 @@ function getMomentConfirmedDate(appt) {
  *  +60 min or +240 min in the case of video
  * @param {*} appt VAR appointment object
  */
-export function isPastAppointment(appt, videoType) {
-  const threshold = videoType ? 240 : 60;
+export function isPastAppointment(appt) {
+  const isVideo = isVideoVisit(appt);
+  const threshold = isVideo ? 240 : 60;
   const apptDateTime = moment(getMomentConfirmedDate(appt));
   return apptDateTime.add(threshold, 'minutes').isBefore(moment());
 }
@@ -255,8 +256,8 @@ function getRequestedPeriods(appt) {
       );
       const isAM = optionTime === 'AM';
       requestedPeriods.push({
-        start: `${momentDate}T${isAM ? '00:00:00.000Z' : `12:00:00.000Z`}`,
-        end: `${momentDate}T${isAM ? '11:59:59.999Z' : `23:59:59.999Z`}`,
+        start: `${momentDate}T${isAM ? '00:00:00.000' : `12:00:00.000`}`,
+        end: `${momentDate}T${isAM ? '11:59:59.999' : `23:59:59.999`}`,
       });
     }
   }
@@ -380,6 +381,11 @@ function setContained(appt) {
             location: {
               reference: `Location/var${appt.facilityId}`,
             },
+            characteristic: [
+              {
+                coding: getVideoType(appt),
+              },
+            ],
             telecom: [
               {
                 system: 'url',
@@ -393,6 +399,21 @@ function setContained(appt) {
         ];
       }
 
+      return null;
+    }
+    case APPOINTMENT_TYPES.request: {
+      if (appt.visitType === 'Video Conference') {
+        return [
+          {
+            resourceType: 'HealthcareService',
+            characteristic: [
+              {
+                coding: getVideoType(appt),
+              },
+            ],
+          },
+        ];
+      }
       return null;
     }
     case APPOINTMENT_TYPES.ccRequest: {
@@ -471,8 +492,7 @@ export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => {
     const minutesDuration = getAppointmentDuration(appt);
     const start = getMomentConfirmedDate(appt).format();
-    const videoType = getVideoType(appt);
-    const isPast = isPastAppointment(appt, videoType);
+    const isPast = isPastAppointment(appt);
     const isCC = isCommunityCare(appt);
 
     return {
@@ -492,9 +512,9 @@ export function transformConfirmedAppointments(appointments) {
       vaos: {
         isPastAppointment: isPast,
         appointmentType: getAppointmentType(appt),
-        videoType,
         isCommunityCare: isCC,
         timeZone: isCC ? appt.timeZone : null,
+        videoType: getVideoType(appt),
       },
     };
   });
@@ -534,7 +554,6 @@ export function transformPendingAppointments(requests) {
         appointmentType: getAppointmentType(appt),
         isCommunityCare: isCC,
         isExpressCare: appt.typeOfCareId === EXPRESS_CARE,
-        isPastAppointment: false,
         videoType: getVideoType(appt),
       },
     };

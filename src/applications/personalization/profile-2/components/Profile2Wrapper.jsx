@@ -7,8 +7,9 @@ import { isWideScreen } from 'platform/utilities/accessibility/index';
 import ProfileHeader from './ProfileHeader';
 import ProfileSideNav from './ProfileSideNav';
 import MobileMenuTrigger from './MobileMenuTrigger';
+import { PROFILE_PATHS } from '../constants';
 
-const Profile2 = ({ children, routes }) => {
+const Profile2 = ({ children, routes, isLOA3, isInMVI }) => {
   const location = useLocation();
   const createBreadCrumbAttributes = () => {
     const activeLocation = location?.pathname;
@@ -21,7 +22,11 @@ const Profile2 = ({ children, routes }) => {
 
   // We do not want to display 'Profile' on the mobile personal-information route
   const onPersonalInformationMobile =
-    activeLocation === '/profile/personal-information' && !isWideScreen();
+    activeLocation === PROFILE_PATHS.PERSONAL_INFORMATION && !isWideScreen();
+
+  // Without a verified identity, we want to show 'Home - Account Security'
+  const showLOA1BreadCrumb =
+    (!isLOA3 || !isInMVI) && activeLocation === '/profile/account-security';
 
   return (
     <>
@@ -29,8 +34,17 @@ const Profile2 = ({ children, routes }) => {
       <div data-testid="breadcrumbs">
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
           <a href="/">Home</a>
-          {!onPersonalInformationMobile && <Link to="/">Your profile</Link>}
-          <a href={activeLocation}>{activeRouteName}</a>
+
+          {showLOA1BreadCrumb && (
+            <Link to="/">Your profile - Account security</Link>
+          )}
+
+          {!showLOA1BreadCrumb &&
+            !onPersonalInformationMobile && <Link to="/">Your profile</Link>}
+
+          {!showLOA1BreadCrumb && (
+            <a href={activeLocation}>{activeRouteName}</a>
+          )}
         </Breadcrumbs>
       </div>
 

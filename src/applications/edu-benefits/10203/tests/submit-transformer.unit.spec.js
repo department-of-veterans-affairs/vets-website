@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import formConfig from '../../10203/config/form';
 
-import { transform } from '../../10203/submit-transformer';
+import { transform } from '../submit-transformer';
 
 import {
   transformedMinimalData,
