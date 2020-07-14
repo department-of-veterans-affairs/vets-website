@@ -368,28 +368,35 @@ const mapStateToProps = state => {
 
   // Temporary fallback until this is added to the API response
   const submittedAt = submission?.submittedAt || moment();
-  const responseStatuses = responses.map(response => response.status);
+  let responseStatuses;
+  let isCompleteOrderSubmitted;
+  let isPartiallySubmittedOrder;
+  let hasCompleteOrderFailed;
+  let isEmptyOrder;
+  let isError = false;
+  if (!errors) {
+    responseStatuses = responses.map(response => response.status);
 
-  const isCompleteOrderSubmitted = responseStatuses?.every(
-    responseStatus => responseStatus === 'Order Processed',
-  );
-
-  const isPartiallySubmittedOrder =
-    responseStatuses?.includes('Order Processed') &&
-    responseStatuses?.includes(
-      'Unable to place order.  Please call 303-273-6276.',
+    isCompleteOrderSubmitted = responseStatuses?.every(
+      responseStatus => responseStatus === 'Order Processed',
     );
 
-  const hasCompleteOrderFailed = responseStatuses?.every(
-    responseStatus =>
-      responseStatus === 'Unable to place order.  Please call 303-273-6276.',
-  );
+    isPartiallySubmittedOrder =
+      responseStatuses?.includes('Order Processed') &&
+      responseStatuses?.includes(
+        'Unable to place order.  Please call 303-273-6276.',
+      );
 
-  const isEmptyOrder =
-    errors.every(error => error.code === 'MDOT_supplies_not_selected') &&
-    selectedProductArray?.length === 0;
-
-  let isError = false;
+    hasCompleteOrderFailed = responseStatuses?.every(
+      responseStatus =>
+        responseStatus === 'Unable to place order.  Please call 303-273-6276.',
+    );
+  }
+  if (errors) {
+    isEmptyOrder =
+      errors?.every(error => error.code === 'MDOT_supplies_not_selected') &&
+      selectedProductArray?.length === 0;
+  }
 
   if (isPartiallySubmittedOrder || hasCompleteOrderFailed || isEmptyOrder) {
     isError = true;

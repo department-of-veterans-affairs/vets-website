@@ -30,7 +30,7 @@ describe('ConfirmationPage', () => {
             {
               deviceName: 'OMEGAX d3241',
               productName: 'ZA1239',
-              productGroup: 'BATTERIES',
+              productGroup: 'Battery',
               productId: 1,
               availableForReorder: true,
               lastOrderDate: '2019-12-25',
@@ -40,7 +40,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 3,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -50,7 +50,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 4,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -60,7 +60,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'WaxBuster Single Unit',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 5,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -77,11 +77,18 @@ describe('ConfirmationPage', () => {
           order: [{ productId: 3 }],
         },
         submission: {
-          errorMessage: false,
-          response: {
-            orderId: 'TEST1234',
-            errorMessage: '',
-          },
+          response: [
+            {
+              status: 'Order Processed',
+              orderId: 'TEST1234',
+              productId: 1234,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 'TEST6789',
+              productId: 6789,
+            },
+          ],
         },
       },
     }),
@@ -114,7 +121,7 @@ describe('ConfirmationPage', () => {
             {
               deviceName: 'OMEGAX d3241',
               productName: 'ZA1239',
-              productGroup: 'BATTERIES',
+              productGroup: 'Battery',
               productId: 1,
               availableForReorder: true,
               lastOrderDate: '2019-12-25',
@@ -124,7 +131,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 3,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -134,7 +141,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 4,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -144,7 +151,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'WaxBuster Single Unit',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 5,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -161,10 +168,15 @@ describe('ConfirmationPage', () => {
           order: [],
         },
         submission: {
-          errorMessage: true,
           response: {
-            errorMessage: 'empty order',
-            errors: [],
+            errors: [
+              {
+                title: 'Supplies Not Selected',
+                detail: 'No supplies were selected to order',
+                code: 'MDOT_supplies_not_selected',
+                status: '422',
+              },
+            ],
           },
         },
       },
@@ -198,7 +210,7 @@ describe('ConfirmationPage', () => {
             {
               deviceName: 'OMEGAX d3241',
               productName: 'ZA1239',
-              productGroup: 'BATTERIES',
+              productGroup: 'Battery',
               productId: 1,
               availableForReorder: true,
               lastOrderDate: '2019-12-25',
@@ -208,7 +220,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 3,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -218,7 +230,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 4,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -228,7 +240,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'WaxBuster Single Unit',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 5,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -245,11 +257,23 @@ describe('ConfirmationPage', () => {
           order: [{ productId: 3 }],
         },
         submission: {
-          errorMessage: true,
-          response: {
-            errorMessage: 'partially submitted order',
-            errors: [],
-          },
+          response: [
+            {
+              status: 'Order Processed',
+              orderId: 9443,
+              productId: 6584,
+            },
+            {
+              status: 'Unable to place order.  Please call 303-273-6276.',
+              orderId: 1,
+              productId: 6449,
+            },
+            {
+              status: 'Unable to place order.  Please call 303-273-6276.',
+              orderId: 3,
+              productId: 6447,
+            },
+          ],
         },
       },
     }),
@@ -282,7 +306,7 @@ describe('ConfirmationPage', () => {
             {
               deviceName: 'OMEGAX d3241',
               productName: 'ZA1239',
-              productGroup: 'BATTERIES',
+              productGroup: 'Battery',
               productId: 1,
               availableForReorder: true,
               lastOrderDate: '2019-12-25',
@@ -292,7 +316,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 3,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -302,7 +326,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 4,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -312,7 +336,7 @@ describe('ConfirmationPage', () => {
             },
             {
               productName: 'WaxBuster Single Unit',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 5,
               availableForReorder: true,
               lastOrderDate: '2019-06-30',
@@ -329,11 +353,13 @@ describe('ConfirmationPage', () => {
           order: [{ productId: 3 }],
         },
         submission: {
-          errorMessage: true,
-          response: {
-            errorMessage: '500 error message',
-            errors: [],
-          },
+          response: [
+            {
+              status: 'Unable to place order.  Please call 303-273-6276.',
+              orderId: 0,
+              productId: 6448,
+            },
+          ],
         },
       },
     }),
