@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { getRemainingEntitlement } from '../../actions/post-911-gib-status';
-import { GET_REMAINING_ENTITLEMENT_SUCCESS } from '../../utils/constants';
+
+const GET_REMAINING_ENTITLEMENT_SUCCESS = 'GET_REMAINING_ENTITLEMENT_SUCCESS';
 
 let oldFetch;
 let oldWindow;

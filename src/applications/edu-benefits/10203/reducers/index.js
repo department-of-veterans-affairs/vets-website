@@ -1,14 +1,14 @@
-import { GET_REMAINING_ENTITLEMENT_SUCCESS } from '../utils/constants';
+const GET_REMAINING_ENTITLEMENT_SUCCESS = 'GET_REMAINING_ENTITLEMENT_SUCCESS';
 
 const initialState = {
-  enrollmentData: null,
+  remainingEntitlement: null,
 };
 
 function post911GIBStatus(state = initialState, action) {
   if (action.type === GET_REMAINING_ENTITLEMENT_SUCCESS) {
     return {
       ...state,
-      enrollmentData: action.data,
+      remainingEntitlement: action.data.remainingEntitlement,
     };
   }
 

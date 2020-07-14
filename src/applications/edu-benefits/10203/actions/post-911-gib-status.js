@@ -1,6 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
 import { get } from 'lodash';
-import { GET_REMAINING_ENTITLEMENT_SUCCESS } from '../utils/constants';
+
+const GET_REMAINING_ENTITLEMENT_SUCCESS = 'GET_REMAINING_ENTITLEMENT_SUCCESS';
 
 export function getRemainingEntitlement() {
   return dispatch =>

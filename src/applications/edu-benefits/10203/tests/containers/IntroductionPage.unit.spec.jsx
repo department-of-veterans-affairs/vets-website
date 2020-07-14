@@ -32,14 +32,14 @@ describe('Edu 10203 <IntroductionPage>', () => {
   });
 
   it('should show entitlement remaining alert', () => {
-    const enrollmentDataGreaterThan180 = {
+    const remainingEntitlementGreaterThan180 = {
       remainingEntitlement: { months: 6, days: 3 },
     };
 
     const tree = shallow(
       <IntroductionPage
         isLoggedIn
-        enrollmentData={enrollmentDataGreaterThan180}
+        remainingEntitlement={remainingEntitlementGreaterThan180}
         getRemainingEntitlement={getRemainingEntitlement}
         route={{
           formConfig: {},
@@ -51,14 +51,14 @@ describe('Edu 10203 <IntroductionPage>', () => {
   });
 
   it('should not show entitlement remaining alert', () => {
-    const enrollmentDataLessThan180 = {
+    const remainingEntitlementLessThan180 = {
       remainingEntitlement: { months: 1, days: 3 },
     };
 
     const tree = shallow(
       <IntroductionPage
         isLoggedIn
-        enrollmentData={enrollmentDataLessThan180}
+        remainingEntitlement={remainingEntitlementLessThan180}
         getRemainingEntitlement={getRemainingEntitlement}
         route={{
           formConfig: {},

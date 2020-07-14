@@ -42,9 +42,7 @@ export class IntroductionPage extends React.Component {
 
   entitlementRemainingAlert() {
     return this.props.isLoggedIn ? (
-      this.moreThanSixMonths(
-        this.props?.enrollmentData?.remainingEntitlement,
-      ) && (
+      this.moreThanSixMonths(this.props?.remainingEntitlement) && (
         <div className="usa-alert usa-alert-warning schemaform-sip-alert">
           <div className="usa-alert-body">
             <h3 className="usa-alert-heading">You may not be eligible</h3>
@@ -61,9 +59,8 @@ export class IntroductionPage extends React.Component {
               <p>
                 Months you have left to use:{' '}
                 <strong>
-                  {this.props?.enrollmentData?.remainingEntitlement.months}{' '}
-                  months,{' '}
-                  {this.props?.enrollmentData?.remainingEntitlement.days} days
+                  {this.props?.remainingEntitlement.months} months,{' '}
+                  {this.props?.remainingEntitlement.days} days
                 </strong>
               </p>
             </div>
@@ -230,7 +227,7 @@ export class IntroductionPage extends React.Component {
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
-    enrollmentData: state.post911GIBStatus.enrollmentData,
+    remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
   };
 };
 
