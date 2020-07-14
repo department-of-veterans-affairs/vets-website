@@ -7,9 +7,9 @@ export const VetTecAdditionalInformation = ({
 }) => (
   <div className="additional-information row vads-u-margin-top--1">
     <div className="usa-width-one-half medium-6 columns">
-      <div className="institution-codes usa-width-one-whole">
+      <div aria-live="off" className="institution-codes usa-width-one-whole">
         <h3>Institution codes</h3>
-        <div>
+        <div aria-live="off">
           <strong>
             <button
               id="facilityCode-button"
