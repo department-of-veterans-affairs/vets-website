@@ -31,7 +31,21 @@ import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 
 class AddressValidationView extends React.Component {
+  componentDidUpdate(prevProps) {
+    // if the transaction just became pending, start calling the
+    // refreshTransaction() on an interval
+    if (
+      isPendingTransaction(this.props.transaction) &&
+      !isPendingTransaction(prevProps.transaction)
+    ) {
+      this.interval = window.setInterval(this.props.refreshTransaction, 1000);
+    }
+  }
+
   componentWillUnmount() {
+    if (this.interval) {
+      window.clearInterval(this.interval);
+    }
     focusElement(`#${this.props.addressValidationType}-edit-link`);
   }
 

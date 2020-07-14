@@ -18,7 +18,6 @@ module.exports = {
     fieldIntroText: { type: 'string' },
     fieldLinks: {
       type: 'array',
-      maxItems: 1,
       items: {
         type: 'object',
         properties: {
@@ -42,7 +41,9 @@ module.exports = {
       required: ['date'],
     },
     fieldPlainlanguageDate: { type: ['string', 'null'] },
-    fieldPromo: { $ref: 'output/block_content-promo' },
+    fieldPromo: {
+      oneOf: [{ type: 'null' }, { $ref: 'output/block_content-promo' }],
+    },
     fieldRelatedLinks: {
       oneOf: [
         {
@@ -61,7 +62,7 @@ module.exports = {
       type: 'array',
       items: { $ref: 'output/node-support_service' },
     },
-    fieldTitleIcon: { type: 'string' },
+    fieldTitleIcon: { type: ['string', 'null'] },
   },
   required: [
     'title',

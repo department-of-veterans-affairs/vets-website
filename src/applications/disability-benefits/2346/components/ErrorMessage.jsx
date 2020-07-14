@@ -94,6 +94,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
         </AlertBox>
       );
       break;
+    case 'MDOT_SERVICE_UNAVAILABLE':
     case 'MDOT_SERVER_ERROR':
       content = (
         <AlertBox

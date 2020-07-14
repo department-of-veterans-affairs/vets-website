@@ -33,7 +33,7 @@ class App extends Component {
         {isError &&
           !pending &&
           isLoggedIn && (
-            <div className="vads-u-margin-bottom--3">
+            <div className="row vads-u-margin-bottom--3">
               <ErrorMessage />
             </div>
           )}
