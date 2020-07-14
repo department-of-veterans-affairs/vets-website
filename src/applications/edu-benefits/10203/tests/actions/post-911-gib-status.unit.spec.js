@@ -59,7 +59,9 @@ describe('getRemainingEntitlement', () => {
       .then(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_REMAINING_ENTITLEMENT_SUCCESS);
-        expect(action.data).to.equal(successResponse.data.attributes);
+        expect(action.data.remainingEntitlement).to.equal(
+          successResponse.data.attributes.remainingEntitlement,
+        );
       })
       .then(done, done);
   });
