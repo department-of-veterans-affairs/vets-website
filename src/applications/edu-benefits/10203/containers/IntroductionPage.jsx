@@ -5,12 +5,12 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '../content/SaveInProgressIntro';
 import { connect } from 'react-redux';
 
-import { getEnrollmentData } from '../actions/post-911-gib-status';
+import { getRemainingEntitlement } from '../actions/post-911-gib-status';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-    this.props.getEnrollmentData();
+    this.props.getRemainingEntitlement();
   }
 
   loggedIn() {
@@ -235,7 +235,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getEnrollmentData,
+  getRemainingEntitlement,
 };
 
 export default connect(
