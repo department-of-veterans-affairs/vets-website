@@ -66,11 +66,7 @@ const ConfirmationPage = props => {
   return (
     <section className="caregiver-confirmation">
       <AlertBox
-        headline={
-          <h2 className="vads-u-font-size--h3">
-            You’ve successfully submitted your application.
-          </h2>
-        }
+        headline="You’ve successfully submitted your application."
         content="Once we’ve reviewed your application, a Caregiver Support Coordinator will contact you to discuss next steps."
         status="success"
       />
