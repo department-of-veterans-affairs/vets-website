@@ -557,7 +557,6 @@ export function transformPendingAppointments(requests) {
         appointmentType: getAppointmentType(appt),
         isCommunityCare: isCC,
         isExpressCare: appt.typeOfCareId === EXPRESS_CARE,
-        videoType: getVideoType(appt),
       },
     };
   });
