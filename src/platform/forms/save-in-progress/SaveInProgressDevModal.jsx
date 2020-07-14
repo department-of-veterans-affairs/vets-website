@@ -6,12 +6,27 @@ import ErrorableSelect from '@department-of-veterans-affairs/formation-react/Err
 
 import environment from 'platform/utilities/environment';
 import { getActivePages } from 'platform/forms-system/src/js/helpers';
+import localStorage from 'platform/utilities/storage/localStorage';
+
+const checkHash = () => {
+  const hash = (window?.location?.hash || '').toLowerCase();
+  if (hash.includes('#dev-')) {
+    localStorage.setItem('DEV_MODE', hash.includes('#dev-on'));
+  }
+};
 
 const SipsDevModal = props => {
   const [isModalVisible, toggleModal] = useState(false);
   const [sipsData, setSipsData] = useState(null);
   const [sipsUrl, setSipsUrl] = useState(null);
   const [errorMessage, setError] = useState('');
+
+  // Only show SipsDevModal when url hash includes "#dev-(on|off)"
+  checkHash();
+  const showLink = localStorage.getItem('DEV_MODE');
+  if (showLink !== 'true') {
+    return null;
+  }
 
   const availablePaths = getActivePages(
     props?.pageList || [],
@@ -97,7 +112,12 @@ const SipsDevModal = props => {
           </div>
         </>
       </Modal>{' '}
-      <button type="button" className="va-button-link" onClick={openSipsModal}>
+      <button
+        key={showLink}
+        type="button"
+        className="va-button-link"
+        onClick={openSipsModal}
+      >
         <i aria-hidden="true" className="fas fa-cog" role="img" /> Open
         save-in-progress menu
       </button>
