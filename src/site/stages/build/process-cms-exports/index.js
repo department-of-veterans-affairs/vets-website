@@ -106,6 +106,29 @@ const validateOutput = (entity, transformedEntity) => {
   }
 };
 
+/**
+ * Add common properties to the transformed entity. Mutates `transformedEntity`
+ * to save memory.
+ * @param {Object} transformedEntity - The entity after transformation
+ * @param {Object} originalEntity - The entity before transformation
+ * @returns {void}
+ */
+const addCommonProperties = (transformedEntity, originalEntity) => {
+  /* eslint-disable no-param-reassign */
+  transformedEntity.contentModelType =
+    transformedEntity.contentModelType || getContentModelType(originalEntity);
+  const [
+    entityType,
+    entityBundle,
+  ] = transformedEntity.contentModelType.includes('-')
+    ? transformedEntity.contentModelType.split('-')
+    : [transformedEntity.contentModelType, transformedEntity.contentModelType];
+  transformedEntity.entityType = entityType;
+  transformedEntity.entityBundle = entityBundle;
+  transformedEntity.entityUrl = originalEntity.entityUrl;
+  /* eslint-enable no-param-reassign */
+};
+
 const entityAssemblerFactory = contentDir => {
   /**
    * @param {Object} entity - The entity with entity references
@@ -228,6 +251,9 @@ const entityAssemblerFactory = contentDir => {
       );
       throw e;
     }
+
+    // Mutates transformedEntity
+    addCommonProperties(transformedEntity, entity);
 
     validateOutput(entity, transformedEntity);
 
