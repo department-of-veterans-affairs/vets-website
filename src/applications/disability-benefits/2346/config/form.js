@@ -54,7 +54,7 @@ addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {
 
 const submit = form => {
   const currentAddress = form.data['view:currentAddress'];
-  const itemQuantities = form.data?.selectedProducts?.length;
+  const itemQuantities = form.data?.order?.length;
   const { order, permanentAddress, temporaryAddress, vetEmail } = form.data;
   const useVeteranAddress = currentAddress === 'permanentAddress';
   const useTemporaryAddress = currentAddress === 'temporaryAddress';
@@ -74,10 +74,6 @@ const submit = form => {
       'Content-Type': 'application/json',
     },
   };
-  recordEvent({
-    event: 'bam-2346a--submission',
-    'bam-quantityOrdered': itemQuantities,
-  });
 
   const onSuccess = resp =>
     new Promise(resolve => {

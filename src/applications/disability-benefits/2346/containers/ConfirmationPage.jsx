@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
-import { BATTERIES } from '../constants';
+import { BATTERY } from '../constants';
 
 const ConfirmationPage = ({
   vetEmail,
@@ -226,7 +226,7 @@ const ConfirmationPage = ({
                 <p>At least one of the following items couldn't be ordered:</p>
                 <ul className="vads-u-margin-bottom--1">
                   {selectedProductArray?.map(product => {
-                    if (product.productGroup === BATTERIES) {
+                    if (product.productGroup === BATTERY) {
                       return (
                         <li key={product?.productId}>
                           {`${product?.productName} batteries (Quantity: ${
