@@ -77,6 +77,7 @@ class AccordionItem extends React.Component {
     return (
       <h2 className={headerClasses}>
         <button
+          id={`${this.id}-button`}
           onClick={this.toggle}
           className="usa-accordion-button"
           aria-expanded={expanded}
