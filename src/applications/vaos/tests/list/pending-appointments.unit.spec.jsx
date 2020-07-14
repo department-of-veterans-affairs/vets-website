@@ -72,6 +72,7 @@ describe('VAOS integration: pending appointments', () => {
         'href',
         '/find-locations/facility/vha_442GC',
       );
+      expect(baseElement).to.contain.text('Preferred date and time');
       expect(baseElement).to.contain.text(
         `${moment()
           .add(3, 'days')
@@ -289,48 +290,8 @@ describe('VAOS integration: pending appointments', () => {
       expect(baseElement).to.contain.text('patient.test@va.gov');
       expect(baseElement).to.contain.text('5555555566');
     });
-
-    it('should show express care reason for visit and hide times', async () => {
-      const appointment = getVARequestMock();
-      appointment.attributes = {
-        ...appointment.attributes,
-        status: 'Submitted',
-        optionDate1: moment()
-          .add(3, 'days')
-          .format('MM/DD/YYYY'),
-        optionTime1: 'AM',
-        purposeOfVisit: 'New Issue',
-        bestTimetoCall: ['Morning'],
-        email: 'patient.test@va.gov',
-        phoneNumber: '5555555566',
-        typeOfCareId: 'CR1',
-        reasonForVisit: 'Back pain',
-      };
-      appointment.id = '1234';
-      mockAppointmentInfo({ requests: [appointment] });
-
-      const { baseElement, findByText } = renderInReduxProvider(
-        <FutureAppointmentsList />,
-        {
-          initialState,
-          reducers,
-        },
-      );
-
-      const showMoreButton = await findByText(/show more/i);
-      expect(baseElement).not.to.contain.text('in the morning');
-      expect(baseElement).not.to.contain.text('Back pain');
-
-      fireEvent.click(showMoreButton);
-      await findByText(/Reason for appointment/i);
-
-      expect(baseElement).to.contain.text('Call morning');
-      expect(baseElement).to.contain.text('Back pain');
-      expect(baseElement).to.contain.text('Your contact details');
-      expect(baseElement).to.contain.text('patient.test@va.gov');
-      expect(baseElement).to.contain.text('5555555566');
-    });
   });
+
   describe('for community care', () => {
     it('should show provider info', async () => {
       const appointment = getVARequestMock();

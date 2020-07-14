@@ -277,8 +277,10 @@ export function filterRequests(request) {
   });
 
   return (
+    request.status === APPOINTMENT_STATUS.proposed ||
     request.status === APPOINTMENT_STATUS.pending ||
-    (request.status === APPOINTMENT_STATUS.cancelled && hasValidDate)
+    (request.status === APPOINTMENT_STATUS.cancelled &&
+      (hasValidDate || request.vaos.isExpressCare))
   );
 }
 

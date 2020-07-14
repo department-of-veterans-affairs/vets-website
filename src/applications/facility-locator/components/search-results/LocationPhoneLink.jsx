@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
-import { LocationType } from '../../constants';
+import { LocationType, CLINIC_URGENTCARE_SERVICE } from '../../constants';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const renderPhoneNumber = (title, subTitle = null, phone, from) => {
@@ -39,7 +39,10 @@ const renderPhoneNumber = (title, subTitle = null, phone, from) => {
 
 const LocationPhoneLink = ({ location, from, query }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
-  const isCCProvider = query && query.facilityType === LocationType.CC_PROVIDER;
+  const isCCProvider =
+    query &&
+    query.facilityType === LocationType.CC_PROVIDER &&
+    query.serviceType !== CLINIC_URGENTCARE_SERVICE;
   if (isProvider) {
     const { caresitePhone: phone } = location.attributes;
     return (
@@ -64,8 +67,8 @@ const LocationPhoneLink = ({ location, from, query }) => {
   } = location;
   return (
     <div className="facility-phone-group">
-      {renderPhoneNumber('Main Number', null, phone.main, from)}
-      {renderPhoneNumber('Mental Health', null, phone.mentalHealthClinic, from)}
+      {renderPhoneNumber('Main number', null, phone.main, from)}
+      {renderPhoneNumber('Mental health', null, phone.mentalHealthClinic, from)}
     </div>
   );
 };

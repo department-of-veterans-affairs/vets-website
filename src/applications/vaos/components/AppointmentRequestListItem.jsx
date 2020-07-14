@@ -101,13 +101,17 @@ export default class AppointmentRequestListItem extends React.Component {
                 appointment={appointment}
               />
             )}
-            {!isCC && (
-              <VAFacilityLocation
-                facility={facility}
-                facilityName={getVAAppointmentLocationName(appointment)}
-                facilityId={parseFakeFHIRId(facilityId)}
-              />
+            {isExpressCare && (
+              <p>{getVAAppointmentLocationName(appointment)}</p>
             )}
+            {!isCC &&
+              !isExpressCare && (
+                <VAFacilityLocation
+                  facility={facility}
+                  facilityName={getVAAppointmentLocationName(appointment)}
+                  facilityId={parseFakeFHIRId(facilityId)}
+                />
+              )}
           </div>
           {!isExpressCare && (
             <div className="vads-u-flex--1 vaos-u-word-break--break-word">
@@ -178,7 +182,7 @@ export default class AppointmentRequestListItem extends React.Component {
             </div>
           </AdditionalInfoRow>
           {showCancelButton &&
-            !cancelled && (
+            appointment.status === APPOINTMENT_STATUS.proposed && (
               <button
                 className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
                 onClick={() => cancelAppointment(appointment)}
