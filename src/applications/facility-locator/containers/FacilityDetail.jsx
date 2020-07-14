@@ -14,7 +14,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
-import { OperatingStatus, FacilityType } from '../constants';
+import { OperatingStatus, FacilityType, LocationType } from '../constants';
 import { facilityLocatorFeUseV1 } from '../utils/selectors';
 
 class FacilityDetail extends Component {
@@ -33,6 +33,9 @@ class FacilityDetail extends Component {
   componentDidUpdate(prevProps) {
     const justLoaded =
       prevProps.currentQuery.inProgress && !this.props.currentQuery.inProgress;
+    const isVBA =
+      this.props.query &&
+      this.props.query.facilityType === LocationType.BENEFITS;
 
     if (justLoaded) {
       this.__previousDocTitle = document.title;
