@@ -85,7 +85,7 @@ const submit = (form, formConfig) => {
     eventData,
   ).catch(() => {
     recordEvent({
-      event: `${trackingPrefix}-submission-failure`,
+      event: `${trackingPrefix}-submission-failed`,
       ...eventData,
     });
   });
