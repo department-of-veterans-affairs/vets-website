@@ -5674,11 +5674,6 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dwnld-attr-polyfill@^1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/dwnld-attr-polyfill/-/dwnld-attr-polyfill-1.1.6.tgz#f42948d1e1a90b479ba113346a2916c1d202f231"
-  integrity sha512-fM1Ycf8uFFNJ4SgHgewZ/qrzVETBksRwpHeBYcpA63R+5onqt5xn8jUBrdEiuf4pf3c8usWXUYBmHM7JV642Fw==
-
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
