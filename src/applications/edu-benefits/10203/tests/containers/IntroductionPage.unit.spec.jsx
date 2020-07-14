@@ -32,9 +32,7 @@ describe('Edu 10203 <IntroductionPage>', () => {
   });
 
   it('should show entitlement remaining alert', () => {
-    const remainingEntitlementGreaterThan180 = {
-      remainingEntitlement: { months: 6, days: 3 },
-    };
+    const remainingEntitlementGreaterThan180 = { months: 6, days: 3 };
 
     const tree = shallow(
       <IntroductionPage
@@ -49,11 +47,8 @@ describe('Edu 10203 <IntroductionPage>', () => {
     expect(tree.find('.usa-alert-warning').exists()).to.be.true;
     tree.unmount();
   });
-
   it('should not show entitlement remaining alert', () => {
-    const remainingEntitlementLessThan180 = {
-      remainingEntitlement: { months: 1, days: 3 },
-    };
+    const remainingEntitlementLessThan180 = { months: 1, days: 3 };
 
     const tree = shallow(
       <IntroductionPage
