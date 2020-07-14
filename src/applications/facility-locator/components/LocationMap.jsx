@@ -24,7 +24,7 @@ function LocationMap({ info }) {
 
   return (
     <div className="mb2">
-      <h3 className="highlight">View on Map</h3>
+      <h3 className="highlight">View on map</h3>
       <img src={mapUrl} alt="Static map" />
     </div>
   );

@@ -27,7 +27,7 @@ const LocationHours = ({ location }) => {
 
   return (
     <div>
-      <h3 className="highlight">Hours of Operation</h3>
+      <h3 className="highlight">Hours of operation</h3>
 
       {/* Sunday */}
       {sunday && (

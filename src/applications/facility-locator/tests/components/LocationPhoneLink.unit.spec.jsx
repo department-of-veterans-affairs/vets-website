@@ -25,7 +25,7 @@ describe('LocationPhoneLink', () => {
       <LocationPhoneLink location={locationWithGoodPhone} />,
     );
     expect(wrapper.find('Telephone').length).to.equal(1);
-    expect(wrapper.find('strong').text()).to.equal('Main Number: ');
+    expect(wrapper.find('strong').text()).to.equal('Main number: ');
     wrapper.unmount();
   });
 });
