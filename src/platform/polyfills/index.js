@@ -4,8 +4,8 @@
  */
 
 import '@babel/polyfill';
-import 'dwnld-attr-polyfill';
 
+import './download-attribute';
 import './canvas-toBlob';
 
 // Edge 14's fetch implementation throws TypeMismatchErrors seemingly without
