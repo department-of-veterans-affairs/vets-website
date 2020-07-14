@@ -23,7 +23,7 @@ const IdentityNotVerified = () => {
         onClick={() => recordEvent({ event: 'verify-link-clicked' })}
       >
         <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
-        <strong>Verify with ID.me</strong>
+        <strong>Verify my identity</strong>
       </a>
     </>
   );
@@ -31,7 +31,7 @@ const IdentityNotVerified = () => {
   return (
     <>
       <AlertBox
-        headline="Verify your identity to view your profile"
+        headline="Verify your identity to view your complete profile"
         content={content}
         status="warning"
       />

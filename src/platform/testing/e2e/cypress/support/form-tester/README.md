@@ -15,6 +15,7 @@
       7. [`rootUrl`](#rooturl-required)
       8. [`setup`](#setup-optional)
       9. [`setupPerTest`](#setuppertest-optional)
+      10. [`skip`](#skip-optional)
 3. [Aliases](#aliases)
   1. [`arrayPages`](#arraypages)
   2. [`pageHooks`](#pagehooks)
@@ -49,15 +50,15 @@ The test config has settings or properties that are summarized by this typedef:
 
 @property {string} appName - Name of the app (form) to describe the test.
 
-@property {Array} [arrayPages] - Objects that represent array pages
+@property {Object[]} [arrayPages] - Objects that represent array pages
     in the form. For matching array pages to their corresponding test data.
 
 @property {string} [dataPrefix] - The path prefix for accessing nested
     test data. For example, if the test data looks like
     { data: { field1: 'value' } }, dataPrefix should be set to 'data'.
 
-@property {Array} dataSets - Array of fixture file paths to test data, which
-    are relative to the "data" path loaded into fixtures. For example,
+@property {string[]} dataSets - Array of fixture file paths to test data
+    relative to the "data" path loaded into fixtures. For example,
     if the fixtures object maps the "data" path to "some/folder/path",
     which contains a "test.json" file, dataSets can be set to ['test']
     to use that file as a data set. A test is generated for each data set
@@ -77,6 +78,10 @@ The test config has settings or properties that are summarized by this typedef:
     tests in the spec module. Corresponds to the before (all) hook.
 
 @property {function} [setupPerTest] - Function that's called before each test.
+
+@property {(boolean|string[])} [skip] - Skips specific tests if it's an array
+    that contains the test names as strings. Skips the whole suite
+    if it's otherwise truthy.
 ```
 
 ### `createTestConfig`
@@ -325,6 +330,27 @@ If your test requires a specific `localStorage` or `sessionStorage` state or aut
 
 In particular, the `hasSession` flag to activate an authenticated session needs to be `true` when the page loads, so setting it to `true` after it has already loaded will not change the page to a logged in state.
 
+#### `skip` (optional)
+
+Boolean or array that determines whether tests should be skipped. By default, no tests are skipped.
+
+If it's an array of strings, including values that match the strings in `dataSets` will result in skipping the corresponding tests.
+
+If it's a truthy value that's not an array, the entire test suite will be skipped.
+
+```js
+dataSets: ['a-test', 'b-test', 'c-test'],
+
+// Skips 'b-test', but allows 'a-test' and 'c-test' to run.
+skip: ['b-test'],
+
+// Skips 'a-test' and 'b-test', but allows 'c-test' to run.
+skip: ['a-test', 'c-test'],
+
+// Skips everything.
+skip: true,
+```
+
 ## Aliases
 
 The following aliases are available to `pageHooks` and `setupPerTest`.
@@ -373,6 +399,48 @@ pageHooks: {
 setupPerTest: () => {
   cy.get('@testData').then(({ firstName, lastName, dateOfBirth }) => {
     ...
+  });
+},
+```
+
+### `testKey`
+
+The string key associated with the test data being used to fill the form.
+
+It will correspond to one of the strings in the `dataSet` array and is specific to the test that's currently running.
+
+This can be useful if you have to perform different actions in certain tests.
+
+This example shows how you might conditionally apply page hooks or setups depending on the test:
+
+```js
+// testConfig
+
+dataSets: ['a-test', 'b-test', 'c-test', 'd-test'],
+
+pageHooks: {
+  'veteran-information': () => {
+    cy.get('@testKey').then(testKey => {
+      switch (testKey) {
+        case 'a-test':
+          // Do things specific to 'a-test'.
+        case 'b-test':
+          // Do things specific to 'b-test'.
+        case 'c-test':
+          // Do things specific to 'c-test'.
+        default:
+          // Do other things for any other test.
+      }
+    });
+  },
+},
+
+setupPerTest: () => {
+  cy.get('@testKey').then(testKey) => {
+    if (testKey === 'd-test') {
+      // You may want to set up different routes for certain tests.
+      cy.route('GET', '/v0/user', specialTestUser);
+    }
   });
 },
 ```

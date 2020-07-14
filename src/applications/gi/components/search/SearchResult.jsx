@@ -51,7 +51,7 @@ export class SearchResult extends React.Component {
         <div className="outer">
           <div className="inner">
             <div className="row">
-              <div className="small-12 usa-width-seven-twelfths medium-7 columns">
+              <div className="small-12 medium-6 columns">
                 <h2>
                   <Link
                     to={linkTo}
