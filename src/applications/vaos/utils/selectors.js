@@ -22,7 +22,7 @@ import { getParentOfLocation } from '../services/location';
 import {
   getVideoAppointmentLocation,
   getVAAppointmentLocationId,
-  isVideoAppointment,
+  filterRequests,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -331,12 +331,11 @@ export function getCancelInfo(state) {
     facilityData,
   } = state.appointments;
 
-  const isVideo = appointmentToCancel
-    ? isVideoAppointment(appointmentToCancel)
-    : false;
-
   let facility = null;
-  if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
+  if (
+    appointmentToCancel?.status === APPOINTMENT_STATUS.booked &&
+    !appointmentToCancel?.vaos?.videoType
+  ) {
     // Confirmed in person VA appts
     const locationId = getVAAppointmentLocationId(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];
@@ -346,7 +345,7 @@ export function getCancelInfo(state) {
       facilityData[
         `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
       ];
-  } else if (isVideo) {
+  } else if (appointmentToCancel?.vaos?.videoType) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];
@@ -391,8 +390,6 @@ export const vaosVSPAppointmentNew = state =>
   toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
 export const vaosExpressCare = state =>
   toggleValues(state).vaOnlineSchedulingExpressCare;
-export const vaosExpressCareNew = state =>
-  toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 
 export const isWelcomeModalDismissed = state =>
@@ -402,3 +399,22 @@ export const isWelcomeModalDismissed = state =>
 
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
+
+export function selectExpressCare(state) {
+  return {
+    expressCareRequests: state.appointments.future?.filter(
+      appt => appt.vaos.isExpressCare,
+    ),
+    status: state.appointments.futureStatus,
+  };
+}
+
+export function selectRequests(state) {
+  const showExpressCare = vaosExpressCare(state);
+  return {
+    ...state.appointments,
+    future: state.appointments.future
+      ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
+      .filter(filterRequests),
+  };
+}

@@ -16,6 +16,7 @@ import {
   vaosPastAppts,
   vaosDirectScheduling,
   vaosCommunityCare,
+  vaosExpressCare,
   isWelcomeModalDismissed,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
@@ -23,6 +24,7 @@ import { GA_PREFIX } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
 import TabNav from '../components/TabNav';
+import TabNavNoExpress from '../components/TabNavNoExpress';
 
 const pageTitle = 'VA appointments';
 
@@ -58,6 +60,7 @@ export class AppointmentsPage extends Component {
       showScheduleButton,
       showCommunityCare,
       showDirectScheduling,
+      showExpressCare,
       isCernerOnlyPatient,
       showPastAppointments,
     } = this.props;
@@ -76,7 +79,8 @@ export class AppointmentsPage extends Component {
                 startNewAppointmentFlow={this.startNewAppointmentFlow}
               />
             )}
-            {showPastAppointments && <TabNav />}
+            {showPastAppointments && !showExpressCare && <TabNavNoExpress />}
+            {showPastAppointments && showExpressCare && <TabNav />}
             {children}
             <NeedHelp />
           </div>
@@ -110,6 +114,7 @@ function mapStateToProps(state) {
     showScheduleButton: vaosRequests(state),
     showCommunityCare: vaosCommunityCare(state),
     showDirectScheduling: vaosDirectScheduling(state),
+    showExpressCare: vaosExpressCare(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };

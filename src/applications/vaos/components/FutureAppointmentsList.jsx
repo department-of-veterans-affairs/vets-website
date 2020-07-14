@@ -17,6 +17,7 @@ import {
   vaosRequests,
   vaosPastAppts,
   isWelcomeModalDismissed,
+  selectRequests,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
@@ -27,26 +28,22 @@ import NoAppointments from './NoAppointments';
 
 export class FutureAppointmentsList extends React.Component {
   componentDidMount() {
-    if (this.props.appointments.futureStatus === FETCH_STATUS.notStarted) {
+    if (this.props.futureStatus === FETCH_STATUS.notStarted) {
       this.props.fetchFutureAppointments();
     }
   }
 
   render() {
     const {
-      appointments,
       showPastAppointments,
       showCancelButton,
       showScheduleButton,
       isCernerOnlyPatient,
-    } = this.props;
-
-    const {
       future,
       futureStatus,
       facilityData,
       requestMessages,
-    } = appointments;
+    } = this.props;
 
     let content;
 
@@ -175,7 +172,6 @@ export class FutureAppointmentsList extends React.Component {
 }
 
 FutureAppointmentsList.propTypes = {
-  appointments: PropTypes.object,
   cancelAppointment: PropTypes.func,
   isCernerOnlyPatient: PropTypes.bool,
   isWelcomeModalDismissed: PropTypes.bool,
@@ -189,7 +185,7 @@ FutureAppointmentsList.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    appointments: state.appointments,
+    ...selectRequests(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
     showCancelButton: vaosCancel(state),
