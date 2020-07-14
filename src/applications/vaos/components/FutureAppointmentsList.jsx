@@ -17,7 +17,7 @@ import {
   vaosRequests,
   vaosPastAppts,
   isWelcomeModalDismissed,
-  selectRequests,
+  selectUpcoming,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
@@ -185,7 +185,7 @@ FutureAppointmentsList.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    ...selectRequests(state),
+    ...selectUpcoming(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
     showCancelButton: vaosCancel(state),

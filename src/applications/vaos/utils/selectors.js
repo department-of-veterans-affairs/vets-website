@@ -409,12 +409,15 @@ export function selectExpressCare(state) {
   };
 }
 
-export function selectRequests(state) {
+export function selectUpcoming(state) {
   const showExpressCare = vaosExpressCare(state);
   return {
     ...state.appointments,
     future: state.appointments.future
       ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
-      .filter(filterRequests),
+      ?.filter(
+        appt =>
+          appt.status === APPOINTMENT_STATUS.booked || filterRequests(appt),
+      ),
   };
 }
