@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
-import { BATTERIES } from '../constants';
+import { BATTERY } from '../constants';
 
 const ConfirmationPage = ({
   vetEmail,
@@ -14,7 +14,10 @@ const ConfirmationPage = ({
   shippingAddress,
   orderId,
   isError,
-  errorMessage,
+  isEmptyOrder,
+  isCompleteOrderSubmitted,
+  isPartiallySubmittedOrder,
+  hasCompleteOrderFailed,
 }) => {
   const PrintDetails = () => (
     <div className="print-details">
@@ -80,7 +83,7 @@ const ConfirmationPage = ({
   return (
     <div className="confirmation-page">
       {!isError &&
-        selectedProductArray?.length > 0 && (
+        isCompleteOrderSubmitted && (
           <>
             <p className="vads-u-font-weight--bold print-copy">
               Please print this page for your records.
@@ -179,8 +182,7 @@ const ConfirmationPage = ({
           </>
         )}
       {isError &&
-        errorMessage === 'empty order' &&
-        selectedProductArray?.length === 0 && (
+        isEmptyOrder && (
           <AlertBox
             headline="We're sorry. Your order wasn't submitted."
             className="vads-u-margin-bottom--4"
@@ -219,8 +221,7 @@ const ConfirmationPage = ({
           />
         )}
       {isError &&
-        errorMessage === 'partially submitted order' &&
-        selectedProductArray?.length > 0 && (
+        isPartiallySubmittedOrder && (
           <AlertBox
             headline="We're sorry. Part of your order wasn't submitted."
             className="vads-u-margin-bottom--4"
@@ -229,7 +230,7 @@ const ConfirmationPage = ({
                 <p>At least one of the following items couldn't be ordered:</p>
                 <ul className="vads-u-margin-bottom--1">
                   {selectedProductArray?.map(product => {
-                    if (product.productGroup === BATTERIES) {
+                    if (product.productGroup === BATTERY) {
                       return (
                         <li key={product?.productId}>
                           {`${product?.productName} batteries (Quantity: ${
@@ -265,7 +266,7 @@ const ConfirmationPage = ({
           />
         )}
       {isError &&
-        errorMessage === '500 error message' && (
+        hasCompleteOrderFailed && (
           <div className="submission-error-alert">
             <AlertBox
               headline="We're sorry. Your order wasn't submitted."
@@ -322,7 +323,10 @@ ConfirmationPage.propTypes = {
   selectedProductsArray: PropTypes.array,
   orderId: PropTypes.string,
   isError: PropTypes.bool,
-  errorMessage: PropTypes.string,
+  isEmptyOrder: PropTypes.bool,
+  isCompleteOrderSubmitted: PropTypes.bool,
+  isPartiallySubmittedOrder: PropTypes.bool,
+  hasCompleteOrderFailed: PropTypes.bool,
 };
 
 ConfirmationPage.defaultProps = {
@@ -344,8 +348,6 @@ ConfirmationPage.defaultProps = {
   submittedAt: {},
   selectedProductsArray: [],
   orderId: '',
-  isError: false,
-  errorMessage: '',
 };
 
 const mapStateToProps = state => {
@@ -356,14 +358,42 @@ const mapStateToProps = state => {
   const selectedProductArray = supplies?.filter(supply =>
     productIdArray?.includes(supply.productId),
   );
-  const { submission } = state.form;
+  const {
+    submission,
+    submission: { response: responses },
+    submission: {
+      response: { errors },
+    },
+  } = state.form;
 
   // Temporary fallback until this is added to the API response
   const submittedAt = submission?.submittedAt || moment();
+  const responseStatuses = responses.map(response => response.status);
 
-  // confirm what the correct props for errors are with @camerontesterman
-  const errorMessage = submission?.response?.errorMessage || '';
+  const isCompleteOrderSubmitted = responseStatuses?.every(
+    responseStatus => responseStatus === 'Order Processed',
+  );
 
+  const isPartiallySubmittedOrder =
+    responseStatuses?.includes('Order Processed') &&
+    responseStatuses?.includes(
+      'Unable to place order.  Please call 303-273-6276.',
+    );
+
+  const hasCompleteOrderFailed = responseStatuses?.every(
+    responseStatus =>
+      responseStatus === 'Unable to place order.  Please call 303-273-6276.',
+  );
+
+  const isEmptyOrder =
+    errors.every(error => error.code === 'MDOT_supplies_not_selected') &&
+    selectedProductArray?.length === 0;
+
+  let isError = false;
+
+  if (isPartiallySubmittedOrder || hasCompleteOrderFailed || isEmptyOrder) {
+    isError = true;
+  }
   return {
     submittedAt,
     fullName,
@@ -371,8 +401,11 @@ const mapStateToProps = state => {
     selectedProductArray,
     shippingAddress,
     orderId: submission?.response?.orderId,
-    isError: submission?.response?.errors,
-    errorMessage,
+    isError,
+    isEmptyOrder,
+    isCompleteOrderSubmitted,
+    isPartiallySubmittedOrder,
+    hasCompleteOrderFailed,
   };
 };
 
