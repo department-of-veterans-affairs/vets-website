@@ -126,6 +126,11 @@ const addCommonProperties = (transformedEntity, originalEntity) => {
   transformedEntity.entityType = entityType;
   transformedEntity.entityBundle = entityBundle;
   transformedEntity.entityUrl = originalEntity.entityUrl;
+  transformedEntity.entityId = (originalEntity.nid ||
+    originalEntity.tid ||
+    originalEntity.id ||
+    originalEntity.mid ||
+    originalEntity.fid)[0].value.toString();
   /* eslint-enable no-param-reassign */
 };
 
