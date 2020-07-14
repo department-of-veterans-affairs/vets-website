@@ -114,13 +114,16 @@ function getStatus(appointment, isPast) {
       return APPOINTMENT_STATUS.booked;
     case APPOINTMENT_TYPES.ccRequest:
     case APPOINTMENT_TYPES.request: {
-      if (appointment.status === 'Cancelled') {
+      if (appointment.status === 'Booked') {
+        return APPOINTMENT_STATUS.booked;
+      } else if (appointment.status === 'Resolved') {
+        return APPOINTMENT_STATUS.fulfilled;
+      } else if (appointment.status === 'Cancelled') {
         return APPOINTMENT_STATUS.cancelled;
       } else if (appointment.status.startsWith('Escalated')) {
         return APPOINTMENT_STATUS.pending;
-      } else if (appointment.status.startsWith('Resolved')) {
-        return APPOINTMENT_STATUS.fulfilled;
       }
+
       return APPOINTMENT_STATUS.proposed;
     }
     case APPOINTMENT_TYPES.vaAppointment: {
