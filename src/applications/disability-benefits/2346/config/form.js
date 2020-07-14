@@ -73,10 +73,6 @@ const submit = (form, formConfig) => {
     'bam-quantityOrdered': itemQuantities,
   };
 
-  recordEvent({
-    event: `${trackingPrefix}-submission`,
-    ...eventData,
-  });
   const body = JSON.stringify(payload);
   return submitToUrl(
     body,
