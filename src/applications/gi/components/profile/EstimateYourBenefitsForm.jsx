@@ -117,7 +117,6 @@ class EstimateYourBenefitsForm extends React.Component {
       this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
       setTimeout(() => {
-        scroller.scrollTo(accordionButtonId, getScrollOptions());
         focusElement(`#${accordionButtonId}`);
       }, 50);
     }
