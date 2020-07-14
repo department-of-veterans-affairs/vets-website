@@ -36,9 +36,10 @@ export async function ssoKeepAliveSession() {
   return { ttl, authn };
 }
 
-export async function checkAutoSession() {
+export async function checkAutoSession(authenticatedWithSSOe) {
   const { ttl, authn } = await ssoKeepAliveSession();
-  if (hasSession()) {
+
+  if (hasSession() && authenticatedWithSSOe) {
     if (window.location.pathname === '/sign-in/' && ttl > 0) {
       // the user is on the standalone signin page, but already logged in with SSOe
       // redirect them back to their return url

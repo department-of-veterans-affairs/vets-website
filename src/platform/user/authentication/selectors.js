@@ -16,3 +16,7 @@ export const hasCheckedKeepAlive = state =>
 
 export const signInServiceName = state =>
   selectProfile(state).signIn?.serviceName;
+
+// ssoe is only included if it's true, coerce to false for the rest
+export const isAuthenticatedWithSSOe = state =>
+  selectProfile(state).signIn?.ssoe;
