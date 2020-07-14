@@ -70,7 +70,7 @@ export async function checkAutoSession() {
       // explicitly check to see if the TTL for the SSO3 session is 0, as it
       // could also be null if we failed to get a response from the SSOe server,
       // in which case we don't want to logout the user because we don't know
-      logout('v1', 'sso-automatic-logout');
+      logout('v1', 'sso-automatic-logout', { 'auto-logout': 'true' });
     }
   } else if (!userProfile && ttl > 0 && !getLoginAttempted() && authn) {
     // only attempt an auto login if the user is
