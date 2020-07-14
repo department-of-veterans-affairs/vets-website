@@ -391,8 +391,7 @@ const mapStateToProps = state => {
       responseStatus =>
         responseStatus === 'Unable to place order.  Please call 303-273-6276.',
     );
-  }
-  if (errors) {
+  } else {
     isEmptyOrder =
       errors?.every(error => error.code === 'MDOT_supplies_not_selected') &&
       selectedProductArray?.length === 0;
