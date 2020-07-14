@@ -78,7 +78,12 @@ export function setViewedPages(pageKeys) {
   };
 }
 
-export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
+export function submitToUrl(
+  body,
+  submitUrl,
+  trackingPrefix,
+  submissionSuccessEventData,
+) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
   return new Promise((resolve, reject) => {
@@ -88,7 +93,7 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
       if (req.status >= 200 && req.status < 300) {
         recordEvent({
           event: `${trackingPrefix}-submission-successful`,
-          ...eventData,
+          ...submissionSuccessEventData,
         });
         // got this from the fetch polyfill, keeping it to be safe
         const responseBody =
@@ -138,7 +143,13 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
   });
 }
 
-export function submitForm(formConfig, form, eventData) {
+export function submitForm(
+  formConfig,
+  form,
+  submisisonEventData = {},
+  submissionSuccessEventData = {},
+  submissionFailedEventData = {},
+) {
   const captureError = (error, errorType) => {
     Sentry.withScope(scope => {
       scope.setFingerprint([formConfig.trackingPrefix]);
@@ -150,7 +161,7 @@ export function submitForm(formConfig, form, eventData) {
       event: `${formConfig.trackingPrefix}-submission-failed${
         errorType.startsWith('client') ? '-client' : ''
       }`,
-      ...eventData,
+      ...submissionFailedEventData,
     });
   };
 
@@ -158,7 +169,7 @@ export function submitForm(formConfig, form, eventData) {
     dispatch(setSubmission('status', 'submitPending'));
     recordEvent({
       event: `${formConfig.trackingPrefix}-submission`,
-      ...eventData,
+      ...submisisonEventData,
     });
 
     let promise;
@@ -173,6 +184,7 @@ export function submitForm(formConfig, form, eventData) {
         body,
         formConfig.submitUrl,
         formConfig.trackingPrefix,
+        submissionSuccessEventData,
       );
     }
 
