@@ -298,6 +298,21 @@ Example data:
                 class="fa fa-chevron-right va-l-font-size--12px"></i>
             </a>
           </section>
+          {% elsif eventTeasersAll.entities.0.reverseFieldListingNode.entities.length %}
+          <section>
+            <h2
+              class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">
+              Events</h2>
+            {% for event in eventTeasersAll.entities.0.reverseFieldListingNode.entities %}
+            {% assign node = event %}
+            {% include "src/site/teasers/event.drupal.liquid" %}
+            {% endfor %}
+            <a onClick="recordEvent({ event: 'nav-secondary-button-click' });"
+              class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0"
+              href="{{ entityUrl.path }}/events">
+              See all events <i class="fa fa-chevron-right va-l-font-size--12px" aria-hidden="true"></i>
+            </a>
+          </section>
           {% endif %}
 
           <!-- Social Links -->
