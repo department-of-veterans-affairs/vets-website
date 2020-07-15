@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import GenderAndDOBSection from './GenderAndDOBSection';
 import ContactInformationSection from './ContactInformationSection';
 import EmailInformationSection from './EmailInformationSection';
 
-const ContactInformationContent = () => (
+const PersonalInformationContent = () => (
   <>
     <GenderAndDOBSection className="vads-u-margin-bottom--6" />
 
@@ -14,4 +14,4 @@ const ContactInformationContent = () => (
   </>
 );
 
-export default ContactInformationContent;
+export default memo(PersonalInformationContent);
