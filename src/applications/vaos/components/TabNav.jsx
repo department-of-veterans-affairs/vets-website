@@ -43,7 +43,7 @@ export function TabNav({ location, router, hasExpressCare }) {
             router.push('/');
             focusElement('#tabpast');
           }}
-          title="Express care"
+          title="Express Care"
         />
       )}
     </ul>
