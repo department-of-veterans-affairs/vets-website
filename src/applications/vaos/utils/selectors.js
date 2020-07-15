@@ -24,6 +24,8 @@ import {
   getVAAppointmentLocationId,
   isVideoAppointment,
   isUpcomingAppointmentOrRequest,
+  sortUpcoming,
+  sortByDateDescending,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -406,9 +408,9 @@ export const selectSystemIds = state =>
 
 export function selectExpressCare(state) {
   return {
-    expressCareRequests: state.appointments.future?.filter(
-      appt => appt.vaos.isExpressCare,
-    ),
+    expressCareRequests: state.appointments.future
+      ?.filter(appt => appt.vaos.isExpressCare)
+      .sort(sortByDateDescending),
     status: state.appointments.futureStatus,
   };
 }
@@ -419,6 +421,7 @@ export function selectUpcoming(state) {
     ...state.appointments,
     future: state.appointments.future
       ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
-      ?.filter(isUpcomingAppointmentOrRequest),
+      .filter(isUpcomingAppointmentOrRequest)
+      .sort(sortUpcoming),
   };
 }

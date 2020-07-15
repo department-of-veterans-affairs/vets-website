@@ -290,20 +290,11 @@ export function isUpcomingAppointmentOrRequest(appt) {
 }
 
 /**
- * Sort method for future confirmed appointments
- * @param {Object} a A FHIR appointment resource
- * @param {Object} b A FHIR appointment resource
- */
-export function sortFutureConfirmedAppointments(a, b) {
-  return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
-}
-
-/**
  * Sort method for past appointments
  * @param {Object} a A FHIR appointment resource
  * @param {Object} b A FHIR appointment resource
  */
-export function sortPastAppointments(a, b) {
+export function sortByDateDescending(a, b) {
   return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
 }
 
@@ -312,7 +303,18 @@ export function sortPastAppointments(a, b) {
  * @param {Object} a A FHIR appointment resource
  * @param {Object} b A FHIR appointment resource
  */
-export function sortFutureRequests(a, b) {
+export function sortUpcoming(a, b) {
+  if (
+    CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) !==
+    CONFIRMED_APPOINTMENT_TYPES.has(b.vaos.appointmentType)
+  ) {
+    return CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) ? -1 : 1;
+  }
+
+  if (CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType)) {
+    return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
+  }
+
   const typeOfCareA = a.type?.coding?.[0]?.display;
   const typeOfCareB = b.type?.coding?.[0]?.display;
 

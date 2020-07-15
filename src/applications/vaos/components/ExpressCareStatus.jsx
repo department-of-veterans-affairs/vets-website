@@ -12,8 +12,6 @@ export default function ExpressCareStatus({ appointment, index }) {
     appointment.cancelationReason?.text === UNABLE_TO_REACH_VETERAN_DETCODE;
 
   switch (status) {
-    case null:
-      return null;
     case APPOINTMENT_STATUS.proposed: {
       iconClass = 'fa-exclamation-triangle';
       content = (

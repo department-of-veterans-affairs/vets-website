@@ -19,11 +19,9 @@ import {
 import { FORM_SUBMIT_SUCCEEDED } from '../actions/sitewide';
 
 import {
-  sortPastAppointments,
-  sortFutureConfirmedAppointments,
-  sortFutureRequests,
   sortMessages,
   isValidPastAppointment,
+  sortByDateDescending,
 } from '../services/appointment';
 import {
   FETCH_STATUS,
@@ -55,14 +53,9 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
       const [bookedAppointments, requests] = action.data;
 
-      const confirmedFilteredAndSorted = [...bookedAppointments].sort(
-        sortFutureConfirmedAppointments,
-      );
-      const requestsFilteredAndSorted = [...requests].sort(sortFutureRequests);
-
       return {
         ...state,
-        future: [...confirmedFilteredAndSorted, ...requestsFilteredAndSorted],
+        future: [...bookedAppointments, ...requests],
         futureStatus: FETCH_STATUS.succeeded,
       };
     }
@@ -83,7 +76,7 @@ export default function appointmentsReducer(state = initialState, action) {
 
       const confirmedFilteredAndSorted = data
         .filter(appt => isValidPastAppointment(appt, startDate, endDate))
-        .sort(sortPastAppointments);
+        .sort(sortByDateDescending);
 
       return {
         ...state,

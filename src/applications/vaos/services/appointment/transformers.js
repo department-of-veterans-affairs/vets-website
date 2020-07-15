@@ -122,14 +122,10 @@ function getRequestStatus(request, isExpressCare) {
     return APPOINTMENT_STATUS.fulfilled;
   }
 
-  if (request.status === 'Booked') {
+  if (request.status === 'Booked' || request.status === 'Resolved') {
     return APPOINTMENT_STATUS.booked;
-  } else if (request.status === 'Resolved') {
-    return APPOINTMENT_STATUS.fulfilled;
   } else if (request.status === 'Cancelled') {
     return APPOINTMENT_STATUS.cancelled;
-  } else if (request.status.startsWith('Escalated')) {
-    return APPOINTMENT_STATUS.pending;
   }
 
   return APPOINTMENT_STATUS.proposed;
@@ -561,6 +557,7 @@ export function transformPendingAppointments(requests) {
         ? { text: UNABLE_TO_REACH_VETERAN_DETCODE }
         : null,
       requestedPeriod,
+      start: isExpressCare ? appt.date : undefined,
       minutesDuration: 60,
       type: {
         coding: [

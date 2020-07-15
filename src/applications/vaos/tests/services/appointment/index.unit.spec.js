@@ -14,7 +14,6 @@ import {
   isVideoAppointment,
   isVideoGFE,
   sortFutureConfirmedAppointments,
-  sortFutureRequests,
 } from '../../../services/appointment';
 import {
   transformConfirmedAppointments,
@@ -33,9 +32,6 @@ import {
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
-  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
-  PAST_APPOINTMENTS_HIDDEN_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
 } from '../../../utils/constants';
 
 const now = moment();
@@ -216,20 +212,6 @@ describe('VAOS Appointment service', () => {
         '/vaos/v0/appointment_requests?start_date=2020-05-01&end_date=2020-06-30',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-  });
-
-  describe('filterFutureCConfirmedAppointments', () => {});
-
-  describe('sortFutureConfirmedAppointments', () => {
-    it('should sort future confirmed appointments', () => {
-      const confirmedAppts = [
-        { start: moment('2099-04-30T05:35:00'), facilityId: '984' },
-        { start: moment('2099-04-27T05:35:00'), facilityId: '983' },
-      ];
-
-      const sorted = confirmedAppts.sort(sortFutureConfirmedAppointments);
-      expect(sorted[0].facilityId).to.equal('983');
     });
   });
 
@@ -432,45 +414,6 @@ describe('VAOS Appointment service', () => {
       const filtered = hiddenAppts.filter(isUpcomingAppointmentOrRequest);
       expect(hiddenAppts.length).to.equal(2);
       expect(filtered.length).to.equal(0);
-    });
-  });
-
-  describe('sortFutureRequests', () => {
-    it('should sort future requests', () => {
-      const apptRequests = [
-        {
-          id: 'third',
-          type: {
-            coding: [{ display: 'Primary Care' }],
-          },
-          requestedPeriod: [
-            setRequestedPeriod(now.clone().add(4, 'days'), 'AM'),
-          ],
-        },
-        {
-          id: 'first',
-          type: {
-            coding: [{ display: 'Audiology (hearing aid support)' }],
-          },
-          requestedPeriod: [
-            setRequestedPeriod(now.clone().add(3, 'days'), 'AM'),
-          ],
-        },
-        {
-          id: 'second',
-          type: {
-            coding: [{ display: 'Primary Care' }],
-          },
-          requestedPeriod: [
-            setRequestedPeriod(now.clone().add(3, 'days'), 'AM'),
-          ],
-        },
-      ];
-
-      const sortedRequests = apptRequests.sort(sortFutureRequests);
-      expect(sortedRequests[0].id).to.equal('first');
-      expect(sortedRequests[1].id).to.equal('second');
-      expect(sortedRequests[2].id).to.equal('third');
     });
   });
 

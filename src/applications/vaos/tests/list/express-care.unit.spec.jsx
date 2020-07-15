@@ -331,5 +331,64 @@ describe('VAOS integration: express care requests', () => {
 
       expect(await findByText(/You don’t have any appointments/i)).to.be.ok;
     });
+
+    it('should sort by date descending', async () => {
+      const request = {
+        id: 'test',
+        attributes: {
+          ...getVARequestMock().attributes,
+          typeOfCareId: 'CR1',
+        },
+      };
+      const requests = [
+        {
+          id: '12',
+          attributes: {
+            ...request.attributes,
+            status: 'Resolved',
+            reasonForVisit: 'Second',
+            date: moment()
+              .subtract(1, 'month')
+              .format(),
+          },
+        },
+        {
+          id: '123',
+          attributes: {
+            ...request.attributes,
+            status: 'Cancelled',
+            reasonForVisit: 'Third',
+            date: moment()
+              .subtract(2, 'month')
+              .format(),
+          },
+        },
+        {
+          id: '1234',
+          attributes: {
+            ...request.attributes,
+            status: 'Submitted',
+            reasonForVisit: 'First',
+            date: moment().format(),
+          },
+        },
+      ];
+      mockAppointmentInfo({ requests });
+
+      const { baseElement, findByText } = renderInReduxProvider(
+        <ExpressCareList />,
+        {
+          initialState,
+          reducers,
+        },
+      );
+
+      await findByText('First');
+      const dateHeadings = Array.from(
+        baseElement.querySelectorAll('#appointments-list h3'),
+      ).map(card => card.textContent.trim());
+
+      expect(dateHeadings).to.deep.equal(['First', 'Second', 'Third']);
+    });
   });
 });
