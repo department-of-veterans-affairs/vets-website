@@ -7,12 +7,12 @@ if (isInternetExplorer) {
     const { target } = event;
 
     if (target?.tagName === 'A' && target?.getAttribute('download')) {
-      event.preventDefault();
-
       const url = target.getAttribute('href');
       const isSameOrigin = url?.startsWith(window.location.origin);
 
-      if (!isSameOrigin) {
+      if (isSameOrigin) {
+        event.preventDefault();
+
         // Attempt to download the file.
         const request = download(url);
 
