@@ -101,7 +101,6 @@ $facility-locator-color-gray: #ccc;
 
     a {
       color: $color-link-default;
-      text-decoration: none;
 
       &:focus {
         h5 {
@@ -195,10 +194,6 @@ $facility-locator-color-gray: #ccc;
       p {
         color: $color-black;
       }
-    }
-
-    a {
-      text-decoration: none;
     }
   }
 
