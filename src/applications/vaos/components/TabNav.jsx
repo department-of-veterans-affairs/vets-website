@@ -40,7 +40,7 @@ export function TabNav({ location, router, hasExpressCare }) {
           tabpath="/express-care"
           isActive={location.pathname === '/express-care'}
           onPreviousTab={() => {
-            router.push('/');
+            router.push('/past');
             focusElement('#tabpast');
           }}
           title="Express Care"

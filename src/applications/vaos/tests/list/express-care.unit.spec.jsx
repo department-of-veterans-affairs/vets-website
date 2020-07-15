@@ -3,8 +3,10 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { getVARequestMock, getVAFacilityMock } from '../mocks/v0';
-import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
+import environment from 'platform/utilities/environment';
+import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import { getVARequestMock } from '../mocks/v0';
+import { mockAppointmentInfo } from '../mocks/helpers';
 
 import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
@@ -292,6 +294,42 @@ describe('VAOS integration: express care requests', () => {
 
       return expect(findByText(/You don’t have any appointments/i)).to
         .eventually.be.ok;
+    });
+
+    it('should show error message when request fails', async () => {
+      mockFetch();
+      setFetchJSONFailure(
+        global.fetch.withArgs(
+          `${
+            environment.API_URL
+          }/vaos/v0/appointment_requests?start_date=${moment()
+            .add(-30, 'days')
+            .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
+        ),
+        { errors: [] },
+      );
+
+      const { findByText } = renderInReduxProvider(<ExpressCareList />, {
+        initialState,
+        reducers,
+      });
+
+      expect(
+        await findByText(
+          /We’re having trouble getting your upcoming appointments/i,
+        ),
+      ).to.be.ok;
+    });
+
+    it('should show message when no requests exist', async () => {
+      mockAppointmentInfo({});
+
+      const { findByText } = renderInReduxProvider(<ExpressCareList />, {
+        initialState,
+        reducers,
+      });
+
+      expect(await findByText(/You don’t have any appointments/i)).to.be.ok;
     });
   });
 });
