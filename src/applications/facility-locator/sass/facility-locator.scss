@@ -820,3 +820,8 @@ $facility-locator-color-gray: #ccc;
 .icon-base {
   color: $color-base !important;
 }
+
+.facility-phone-group {
+  display: flex;
+  flex-direction: column;
+}

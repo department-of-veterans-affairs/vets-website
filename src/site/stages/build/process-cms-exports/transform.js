@@ -56,6 +56,8 @@ function getEntityTransformer(entityType, verbose = true) {
  * @property {function} rest.assembleEntityTree - The function to assemble the
  *                        entity tree. This is usually the caller of
  *                        transformEntity.
+ * @property {boolean} rest.transformUnpublished - Whether we should transform
+ *                        unpublished entities
  *
  * @return {Object} - The entity with modified properties based on
  *                    the specific content model type.
