@@ -9,4 +9,5 @@ startApp({
   url: manifest.rootUrl,
   reducer,
   routes,
+  analyticsEvents: [],
 });

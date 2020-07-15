@@ -200,7 +200,12 @@ export class VetTecEstimateYourBenefits extends React.Component {
           {this.renderCalculatorForm()}
         </div>
         <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
-          <div className=" your-estimated-benefits">
+          <div
+            aria-atomic="true"
+            aria-live="polite"
+            role="status"
+            className="your-estimated-benefits"
+          >
             <h3
               id="estimated-benefits-header"
               className="estimated-benefits-header"
