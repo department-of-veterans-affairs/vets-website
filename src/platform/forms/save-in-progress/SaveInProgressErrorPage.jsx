@@ -15,10 +15,7 @@ import SignInLink from '../components/SignInLink';
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
-import {
-  CONTINUE_APP_DEFAULT_MESSAGE,
-  APP_TYPE_DEFAULT,
-} from 'platform/globalContent';
+import { CONTINUE_APP_DEFAULT_MESSAGE, APP_TYPE_DEFAULT } from '../constants';
 
 const DEFAULT_FORBIDDEN_MESSAGE = `
   We're sorry. We can't give you access to this information. For help, please call the VA.gov help desk at 855-574-7286 (TTY: 711). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.

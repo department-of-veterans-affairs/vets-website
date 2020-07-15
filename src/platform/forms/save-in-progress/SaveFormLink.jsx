@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
 import { focusElement } from '../../utilities/ui';
-import { APP_TYPE_DEFAULT } from 'platform/globalContent';
+import { APP_TYPE_DEFAULT } from '../constants';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

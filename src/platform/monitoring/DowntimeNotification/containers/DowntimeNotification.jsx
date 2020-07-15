@@ -21,7 +21,7 @@ import DowntimeApproaching from '../components/DowntimeApproaching';
 import externalServices from '../config/externalServices';
 import externalServiceStatus from '../config/externalServiceStatus';
 import { getSoonestDowntime } from '../util/helpers';
-import { APP_TYPE_DEFAULT } from 'platform/globalContent';
+import { APP_TYPE_DEFAULT } from '../../constants';
 
 /**
  * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of VA.gov services.

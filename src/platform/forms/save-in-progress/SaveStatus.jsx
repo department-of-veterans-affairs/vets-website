@@ -6,7 +6,7 @@ import { SAVE_STATUSES, saveErrors } from './actions';
 import {
   APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
-} from 'platform/globalContent';
+} from '../constants';
 
 function SaveStatus({
   form: { lastSavedDate, autoSavedStatus },

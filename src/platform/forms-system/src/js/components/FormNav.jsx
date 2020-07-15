@@ -11,7 +11,7 @@ import {
 } from '../helpers';
 
 import PropTypes from 'prop-types';
-import { REVIEW_APP_DEFAULT_MESSAGE } from 'platform/globalContent';
+import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default class FormNav extends React.Component {
   // The formConfig transforming is a little heavy, so skip it if we can

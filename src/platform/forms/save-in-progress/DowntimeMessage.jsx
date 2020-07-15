@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import classNames from 'classnames';
-import { APP_TYPE_DEFAULT } from 'platform/globalContent';
+import { APP_TYPE_DEFAULT } from '../constants';
 
 export default function DowntimeMessage({
   downtime,

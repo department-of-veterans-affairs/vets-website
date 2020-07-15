@@ -18,7 +18,7 @@ import {
   START_NEW_APP_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
   APP_ACTION_DEFAULT,
-} from 'platform/globalContent';
+} from '../constants';
 
 export class ApplicationStatus extends React.Component {
   constructor(props) {

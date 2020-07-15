@@ -4,7 +4,7 @@ import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 import recordEvent from '../../monitoring/record-event';
-import { APP_TYPE_DEFAULT } from 'platform/globalContent';
+import { APP_TYPE_DEFAULT } from '../constants';
 
 class FormSignInModal extends React.Component {
   handleClose = () => {

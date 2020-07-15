@@ -25,7 +25,7 @@ import {
   APP_TYPE_DEFAULT,
   UNAUTH_SIGN_IN_DEFAULT_MESSAGE,
   APP_ACTION_DEFAULT,
-} from 'platform/globalContent';
+} from '../constants';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {

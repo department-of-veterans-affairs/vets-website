@@ -17,7 +17,7 @@ import {
 } from './actions';
 import { getFormContext } from './selectors';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
-import { FINISH_APP_LATER_DEFAULT_MESSAGE } from 'platform/globalContent';
+import { FINISH_APP_LATER_DEFAULT_MESSAGE } from '../constants';
 
 class RoutedSavablePage extends React.Component {
   constructor(props) {
