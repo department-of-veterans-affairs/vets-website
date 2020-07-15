@@ -46,6 +46,7 @@ import {
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
+  CLICKED_UPDATE_ADDRESS_BUTTON,
 } from '../actions/newAppointment';
 
 import {
@@ -89,6 +90,7 @@ const initialState = {
   fetchedAppointmentSlotMonths: [],
   submitStatus: FETCH_STATUS.notStarted,
   isCCEligible: false,
+  clickedUpdateAddressButton: false,
 };
 
 function getFacilities(state, typeOfCareId, vaParent) {
@@ -198,6 +200,7 @@ export default function formReducer(state = initialState, action) {
         facilities: state.facilities,
         pastAppointments: state.pastAppointments,
         submitStatus: FETCH_STATUS.notStarted,
+        clickedUpdateAddressButton: state.clickedUpdateAddressButton,
       };
     }
     case FORM_PAGE_CHANGE_STARTED: {
@@ -262,6 +265,12 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         showTypeOfCareUnavailableModal: false,
+      };
+    }
+    case CLICKED_UPDATE_ADDRESS_BUTTON: {
+      return {
+        ...state,
+        clickedUpdateAddressButton: true,
       };
     }
     case FORM_UPDATE_FACILITY_TYPE: {

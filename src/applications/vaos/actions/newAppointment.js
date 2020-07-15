@@ -134,6 +134,8 @@ export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 export const FORM_UPDATE_CC_ELIGIBILITY =
   'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
+export const CLICKED_UPDATE_ADDRESS_BUTTON =
+  'newAppointment/CLICKED_UPDATE_ADDRESS_BUTTON';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -147,6 +149,12 @@ export function openFormPage(page, uiSchema, schema) {
 export function startNewAppointmentFlow() {
   return {
     type: STARTED_NEW_APPOINTMENT_FLOW,
+  };
+}
+
+export function onClickedUpdateAddressButton() {
+  return {
+    type: CLICKED_UPDATE_ADDRESS_BUTTON,
   };
 }
 
