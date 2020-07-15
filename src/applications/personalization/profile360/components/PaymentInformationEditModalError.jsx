@@ -25,7 +25,10 @@ function FlaggedAccount() {
         <span className="no-wrap">
           <a href="tel:1-800-827-1000">800-827-1000</a>
         </span>{' '}
-        (TTY: <span className="no-wrap">711</span>
+        (
+        <a href="tel:711" aria-label="TTY. 7 1 1.">
+          TTY: <span className="no-wrap">711</span>
+        </a>
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
@@ -42,7 +45,11 @@ function FlaggedRoutingNumber() {
         <span className="no-wrap">
           <a href="tel:1-800-827-1000">800-827-1000</a>
         </span>{' '}
-        (<a href="tel:711" aria-label="TTY. 7 1 1.">TTY: 711</a>). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        (
+        <a href="tel:711" aria-label="TTY. 7 1 1.">
+          TTY: 711
+        </a>
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
       <p>
         You can also update this information by mail or in person at a VA

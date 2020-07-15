@@ -121,7 +121,7 @@ class MilitaryInformationContent extends React.Component {
           <p>
             To reach the DMDC, call 1-800-538-9552, Monday through Friday
             (except federal holidays), 8:00 a.m. to 8:00 p.m. ET. If you have
-            hearing loss, call TTY: 1-866-363-2883.
+            hearing loss, call TTY: <a href="tel:18663632883" aria-label="1. 8 6 6. 3 6 3. 2 8 8 3.">1-866-363-2883</a>.
           </p>
         </AdditionalInfo>
         <LoadingSection
