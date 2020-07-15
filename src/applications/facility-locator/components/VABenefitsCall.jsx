@@ -4,10 +4,6 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-const { formattedPhoneNumber, extension, contact } = parsePhoneNumber(
-  '800-827-1000',
-);
-
 export default function VABenefitsCall() {
   return (
     <div>
