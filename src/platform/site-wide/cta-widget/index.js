@@ -79,8 +79,8 @@ export class CallToActionWidget extends React.Component {
     }
 
     if (this.isAccessible()) {
-      const { appId, useSSOe } = this.props;
-      const { url, redirect } = toolUrl(appId, useSSOe);
+      const { appId, authenticatedWithSSOe } = this.props;
+      const { url, redirect } = toolUrl(appId, authenticatedWithSSOe);
       this._toolUrl = url;
       if (redirect && !this._popup) this.goToTool();
     } else if (this.isHealthTool()) {
@@ -170,13 +170,13 @@ export class CallToActionWidget extends React.Component {
   };
 
   getHealthToolContent = () => {
-    const { mhvAccount, useSSOe } = this.props;
+    const { mhvAccount, authenticatedWithSSOe } = this.props;
 
     if (this.hasMVIError()) {
       return this.getMviErrorContent();
     }
 
-    if (useSSOe) {
+    if (authenticatedWithSSOe) {
       const errorContent = this.getInaccessibleHealthToolContentSSOe();
       if (errorContent) return errorContent;
       return (
@@ -209,7 +209,7 @@ export class CallToActionWidget extends React.Component {
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
-        return <NotAuthorized useSSOe={this.props.useSSOe} />;
+        return <NotAuthorized useSSOe={this.props.authenticatedWithSSOe} />;
       case 'NOT_FOUND':
         return <NotFound />;
       default:
@@ -444,8 +444,8 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
-    const { appId, useSSOe } = this.props;
-    const { url } = toolUrl(appId, useSSOe);
+    const { appId, authenticatedWithSSOe } = this.props;
+    const { url } = toolUrl(appId, authenticatedWithSSOe);
     this._toolUrl = url;
 
     const content = this.getContent();
