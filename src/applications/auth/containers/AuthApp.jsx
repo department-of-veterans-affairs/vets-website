@@ -316,7 +316,7 @@ export class AuthApp extends React.Component {
                 <p>
                   Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re
                   here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
-                  have hearing loss, call TTY: 800-877-3399.
+                  have hearing loss, call TTY: <a href="tel:800-877-3399" aria-label="8 0 0. 8 7 7. 3 3 9 9.">800-877-3399</a>.
                 </p>
                 <p>
                   Tell the representative that you tried to sign in to VA.gov,

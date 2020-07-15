@@ -224,7 +224,7 @@ class PaymentInformation extends React.Component {
               <a href="tel:1-800-827-1000" className="no-wrap">
                 800-827-1000
               </a>{' '}
-              (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 9:00
+              (<a href="tel:711" aria-label="TTY. 7 1 1.">TTY: 711</a>). We’re here Monday through Friday, 8:00 a.m. to 9:00
               p.m. ET.
             </p>
           )}

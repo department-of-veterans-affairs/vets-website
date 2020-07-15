@@ -9,7 +9,7 @@ const GetFormHelp = () => (
     </a>
     .<br />
     <br />
-    If you have hearing loss, call TTY: 711.
+    If you have hearing loss, call <a href="tel:711" aria-label="TTY. 7 1 1.">TTY: 711</a>.
   </p>
 );
 

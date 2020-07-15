@@ -22,7 +22,7 @@ export const MissingServices = () => {
       <p>
         We need more information from you before you can file for disability
         compensation. Please call Veterans Benefits Assistance at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY: 711), Monday through
+        <Telephone contact={CONTACTS.VA_BENEFITS} /> (<a href="tel:711" aria-label="TTY. 7 1 1.">TTY: 711</a>), Monday through
         Friday, 8:00 a.m. to 9:00 p.m. ET to update your account.
       </p>
     </>
@@ -40,7 +40,7 @@ export const MissingId = ({ children }) => {
         We don’t have all of your ID information for your account. We need this
         information before you can file for disability compensation. To update
         your account, please call Veterans Benefits Assistance at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY: 711). We’re here
+        <Telephone contact={CONTACTS.VA_BENEFITS} /> (<a href="tel:711" aria-label="TTY. 7 1 1.">TTY: 711</a>). We’re here
         Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
       <p>

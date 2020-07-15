@@ -23,7 +23,7 @@ export default function PaymentInformationBlocked() {
         >
           855-574-7286
         </a>{' '}
-        (TTY: 711). We’re here Monday &#8211; Friday, 8 a.m. &#8211; 8 p.m. ET.
+        (<a href="tel:711" aria-label="TTY. 7 1 1.">TTY: 711</a>). We’re here Monday &#8211; Friday, 8 a.m. &#8211; 8 p.m. ET.
       </p>
     </AlertBox>
   );
