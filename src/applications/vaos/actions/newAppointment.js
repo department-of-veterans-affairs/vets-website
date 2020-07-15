@@ -836,10 +836,10 @@ export function routeToPageInFlow(flow, router, current, action) {
     }
 
     if (nextPage?.url) {
-      router.push(nextPage.url);
       dispatch({
         type: FORM_PAGE_CHANGE_COMPLETED,
       });
+      router.push(nextPage.url);
     } else if (nextPage) {
       throw new Error(`Tried to route to a page without a url: ${nextPage}`);
     } else {

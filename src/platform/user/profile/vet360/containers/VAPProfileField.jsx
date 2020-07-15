@@ -253,8 +253,23 @@ class VAPProfileField extends React.Component {
       refreshTransaction: this.refreshTransaction,
     };
 
+    const wrapInTransaction = children => {
+      return (
+        <Vet360Transaction
+          isModalOpen={showEditView || showValidationView}
+          id={`${fieldName}-transaction-status`}
+          title={title}
+          transaction={transaction}
+          transactionRequest={transactionRequest}
+          refreshTransaction={this.refreshTransaction}
+        >
+          {children}
+        </Vet360Transaction>
+      );
+    };
+
     // default the content to the read-view
-    let content = (
+    let content = wrapInTransaction(
       <div className={classes.wrapper}>
         <ContentView data={this.props.data} />
         {this.isEditLinkVisible() && (
@@ -265,11 +280,11 @@ class VAPProfileField extends React.Component {
             className={classes.editButton}
           />
         )}
-      </div>
+      </div>,
     );
 
     if (isEmpty) {
-      content = (
+      content = wrapInTransaction(
         <button
           type="button"
           onClick={this.onAdd}
@@ -277,17 +292,23 @@ class VAPProfileField extends React.Component {
           id={`${this.props.fieldName}-edit-link`}
         >
           Please add your {title.toLowerCase()}
-        </button>
+        </button>,
       );
     }
 
     if (showEditView) {
-      content = <EditView {...childProps} />;
+      content = (
+        <EditView
+          refreshTransaction={this.refreshTransaction}
+          {...childProps}
+        />
+      );
     }
 
     if (showValidationView) {
       content = (
         <ValidationView
+          refreshTransaction={this.refreshTransaction}
           transaction={transaction}
           transactionRequest={transactionRequest}
           title={title}
@@ -307,7 +328,6 @@ class VAPProfileField extends React.Component {
           }}
         >
           <p>
-            {' '}
             {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won't be saved.`}
           </p>
           <button
@@ -349,16 +369,8 @@ class VAPProfileField extends React.Component {
             OK
           </button>
         </Modal>
-        <Vet360Transaction
-          isModalOpen={showEditView || showValidationView}
-          id={`${fieldName}-transaction-status`}
-          title={title}
-          transaction={transaction}
-          transactionRequest={transactionRequest}
-          refreshTransaction={this.refreshTransaction}
-        >
-          {content}
-        </Vet360Transaction>
+
+        {content}
       </div>
     );
   }

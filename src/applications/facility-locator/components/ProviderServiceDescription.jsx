@@ -1,6 +1,16 @@
 import React from 'react';
 import { facilityTypes, ccUrgentCareLabels } from '../config';
 
+export const urgentCareProviderNames = posCodes => {
+  if (posCodes && parseInt(posCodes, 10) === 17) {
+    return ccUrgentCareLabels.WalkIn;
+  } else if (posCodes && parseInt(posCodes, 10) === 20) {
+    return ccUrgentCareLabels.UrgentCare;
+  } else {
+    return facilityTypes.cc_provider.toUpperCase();
+  }
+};
+
 const providerName = (query, posCodes) => {
   let name;
   switch (query.facilityType) {
@@ -8,16 +18,10 @@ const providerName = (query, posCodes) => {
       name = facilityTypes.cc_pharmacy.toUpperCase();
       break;
     case 'urgent_care':
-      if (posCodes && parseInt(posCodes, 10) === 17) {
-        name = ccUrgentCareLabels.WalkIn;
-      } else if (posCodes && parseInt(posCodes, 10) === 20) {
-        name = ccUrgentCareLabels.UrgentCare;
-      } else {
-        name = facilityTypes.urgent_care.toUpperCase();
-      }
+      name = urgentCareProviderNames(posCodes);
       break;
     default:
-      name = facilityTypes.cc_provider.toUpperCase();
+      name = urgentCareProviderNames(posCodes);
   }
   return name;
 };
