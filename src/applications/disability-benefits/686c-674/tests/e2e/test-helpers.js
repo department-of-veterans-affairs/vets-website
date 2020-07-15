@@ -784,3 +784,17 @@ export const initApplicationSubmitMock = token => {
     },
   });
 };
+
+export const initValidVaFileNumberMock = token => {
+  return mock(token, {
+    path: '/v0/profile/valid_va_file_number',
+    verb: 'get',
+    value: {
+      data: {
+        attributes: {
+          validVaFileNumber: true,
+        },
+      },
+    },
+  });
+};
