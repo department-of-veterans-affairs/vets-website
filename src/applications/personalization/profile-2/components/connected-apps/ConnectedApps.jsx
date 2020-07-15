@@ -55,8 +55,9 @@ export class ConnectedApps extends Component {
             you can disconnect it from your profile at any time.
           </p>
         )}
+
         {showHasNoConnectedApps && (
-          <div className="connected-apps-intro">
+          <>
             <p className="va-introtext vads-u-font-size--md">
               Connected apps are third-party (non-VA) applications or websites
               that can share certain information from your VA.gov profile, with
@@ -69,6 +70,20 @@ export class ConnectedApps extends Component {
               choice whether to connect, or stay connected, to a third-party
               app.
             </p>
+          </>
+        )}
+
+        {deletedApps.map(app => (
+          <AppDeletedAlert
+            id={app.id}
+            title={app?.attributes?.title}
+            key={app.id}
+            dismissAlert={this.dismissAlert}
+          />
+        ))}
+
+        {showHasNoConnectedApps && (
+          <div className="connected-apps-intro vads-u-margin-bottom--2">
             <h3>Third-party apps you can connect to your profile</h3>
             <ul className="vads-u-padding-left--0 vads-u-margin-bottom--2">
               {availableConnectedApps?.map(app => {
@@ -87,6 +102,7 @@ export class ConnectedApps extends Component {
             </ul>
           </div>
         )}
+
         {loading && (
           <LoadingIndicator setFocus message="Loading your connected apps..." />
         )}
@@ -110,14 +126,7 @@ export class ConnectedApps extends Component {
             content="We’re sorry. Something went wrong on our end and we couldn’t access your connected apps. Please try again later."
           />
         )}
-        {deletedApps.map(app => (
-          <AppDeletedAlert
-            id={app.id}
-            title={app?.attributes?.title}
-            key={app.id}
-            dismissAlert={this.dismissAlert}
-          />
-        ))}
+
         {activeApps.map((app, idx) => (
           <ConnectedApp
             key={app.id}
