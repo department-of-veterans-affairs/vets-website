@@ -5,9 +5,8 @@ const isInternetExplorer = !!navigator.msSaveBlob;
 if (isInternetExplorer) {
   document.addEventListener('click', event => {
     const { target } = event;
-    const { tagName } = target;
 
-    if (tagName === 'A' && target.hasAttribute('download')) {
+    if (target?.tagName === 'A' && target?.getAttribute('download')) {
       event.preventDefault();
 
       const url = target.getAttribute('href');
