@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 
 import { checkKeepAlive } from 'platform/user/authentication/actions';
@@ -24,9 +23,14 @@ function AutoSSO(props) {
     removeLoginAttempted();
   }
 
+  const badPaths = ['auth/login/callback', 'logout'];
+  const isValidPath = !badPaths.some(path =>
+    window.location.pathname.includes(path),
+  );
+
   if (
     // avoid race condition where hasSession hasn't been set
-    !window.location.pathname.includes('auth/login/callback') &&
+    isValidPath &&
     useInboundSSOe &&
     !profileLoading &&
     !hasCalledKeepAlive
