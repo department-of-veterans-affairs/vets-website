@@ -1,6 +1,8 @@
 import React from 'react';
 import { parsePhoneNumber } from '../utils/phoneNumbers';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const { formattedPhoneNumber, extension, contact } = parsePhoneNumber(
   '800-827-1000',
@@ -15,12 +17,9 @@ export default function VABenefitsCall() {
       </p>
       <p className="p1">
         <strong>To get help with benefits</strong>, call{' '}
-        <Telephone contact={contact} extension={extension}>
-          {' '}
-          {formattedPhoneNumber}
-        </Telephone>{' '}
-        toll-free. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-        If you have hearing loss, call TTY 711.
+        <Telephone contact={CONTACTS.VA_BENEFITS} /> toll-free. We’re here
+        Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have hearing
+        loss, call TTY 711.
       </p>
       <p className="p1">
         <strong>For other benefit questions</strong>, use our online customer
