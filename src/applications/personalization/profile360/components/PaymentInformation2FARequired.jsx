@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import { ssoe } from 'platform/user/authentication/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { mfa } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
-function mfaHandler(useSSOe) {
+function mfaHandler(authenticatedWithSSOe) {
   recordEvent({ event: 'multifactor-link-clicked' });
-  mfa(useSSOe ? 'v1' : 'v0');
+  mfa(authenticatedWithSSOe ? 'v1' : 'v0');
 }
 
-export function PaymentInformation2FARequired({ useSSOe }) {
+export function PaymentInformation2FARequired({ authenticatedWithSSOe }) {
   return (
     <AlertBox
       status="success"
@@ -33,7 +33,7 @@ export function PaymentInformation2FARequired({ useSSOe }) {
         </p>
         <button
           className="usa-button-primary va-button-primary"
-          onClick={() => mfaHandler(useSSOe)}
+          onClick={() => mfaHandler(authenticatedWithSSOe)}
         >
           Set up 2-factor authentication
         </button>
@@ -44,7 +44,7 @@ export function PaymentInformation2FARequired({ useSSOe }) {
 
 function mapStateToProps(state) {
   return {
-    useSSOe: ssoe(state),
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 }
 
