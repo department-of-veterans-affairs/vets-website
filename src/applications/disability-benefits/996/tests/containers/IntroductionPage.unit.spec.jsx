@@ -80,7 +80,9 @@ describe('IntroductionPage', () => {
     const tree = shallow(<IntroductionPage {...props} />);
 
     const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include('some server error');
+    expect(AlertBox.render().text()).to.include(
+      'can’t load your contestable issues',
+    );
     tree.unmount();
   });
   it('should render alert showing no contestable issues', () => {
@@ -96,7 +98,9 @@ describe('IntroductionPage', () => {
     const tree = shallow(<IntroductionPage {...props} />);
 
     const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include('No Contestable Issues');
+    expect(AlertBox.render().text()).to.include(
+      'don’t have any contestable issues',
+    );
     tree.unmount();
   });
   it('should render start button', () => {
