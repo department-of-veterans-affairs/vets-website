@@ -99,7 +99,9 @@ function GenericError(props) {
             >
               <p>
                 We’re working to fix the problem. Please make sure you’re
-                connected to the Internet, and then try saving your form again.{' '}{saveLink}{'.'}
+                connected to the Internet, and then try saving your form again.{' '}
+                {saveLink}
+                {'.'}
               </p>
               {!isLoggedIn && (
                 <p>
