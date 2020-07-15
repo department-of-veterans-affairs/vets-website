@@ -136,52 +136,54 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
     <h3 id="estimated-benefits" tabIndex="-1">
       Your estimated benefits
     </h3>
-    <div aria-live="polite" role="status" className="out-of-pocket-tuition">
-      <CalculatorResultRow
-        label="GI Bill pays to school"
-        value={outputs.giBillPaysToSchool.value}
-        visible={outputs.giBillPaysToSchool.visible}
-        screenReaderSpan={year}
-        header
-      />
-      <CalculatorResultRow
-        label="Tuition and fees charged"
-        value={outputs.tuitionAndFeesCharged.value}
-        visible={outputs.tuitionAndFeesCharged.visible}
-      />
-      <CalculatorResultRow
-        label="Your scholarships"
-        value={outputs.yourScholarships.value}
-        visible={outputs.yourScholarships.visible}
-      />
-      <CalculatorResultRow
-        label="Out of pocket tuition"
-        value={outputs.outOfPocketTuition.value}
-        bold
-        visible={outputs.outOfPocketTuition.visible}
-      />
-    </div>
-    <div className="total-paid-to-you">
-      <CalculatorResultRow
-        label="Housing allowance"
-        value={outputs.housingAllowance.value}
-        visible={outputs.housingAllowance.visible}
-        screenReaderSpan={month}
-        header
-      />
-      <CalculatorResultRow
-        label="Book stipend"
-        value={outputs.bookStipend.value}
-        visible={outputs.bookStipend.visible}
-        screenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
-        header
-      />
-      <CalculatorResultRow
-        label="Total paid to you"
-        value={outputs.totalPaidToYou.value}
-        bold
-        visible={outputs.totalPaidToYou.visible}
-      />
+    <div aria-atomic="true" aria-live="polite" role="status">
+      <div className="out-of-pocket-tuition">
+        <CalculatorResultRow
+          label="GI Bill pays to school"
+          value={outputs.giBillPaysToSchool.value}
+          visible={outputs.giBillPaysToSchool.visible}
+          screenReaderSpan={year}
+          header
+        />
+        <CalculatorResultRow
+          label="Tuition and fees charged"
+          value={outputs.tuitionAndFeesCharged.value}
+          visible={outputs.tuitionAndFeesCharged.visible}
+        />
+        <CalculatorResultRow
+          label="Your scholarships"
+          value={outputs.yourScholarships.value}
+          visible={outputs.yourScholarships.visible}
+        />
+        <CalculatorResultRow
+          label="Out of pocket tuition"
+          value={outputs.outOfPocketTuition.value}
+          bold
+          visible={outputs.outOfPocketTuition.visible}
+        />
+      </div>
+      <div className="total-paid-to-you">
+        <CalculatorResultRow
+          label="Housing allowance"
+          value={outputs.housingAllowance.value}
+          visible={outputs.housingAllowance.visible}
+          screenReaderSpan={month}
+          header
+        />
+        <CalculatorResultRow
+          label="Book stipend"
+          value={outputs.bookStipend.value}
+          visible={outputs.bookStipend.visible}
+          screenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
+          header
+        />
+        <CalculatorResultRow
+          label="Total paid to you"
+          value={outputs.totalPaidToYou.value}
+          bold
+          visible={outputs.totalPaidToYou.visible}
+        />
+      </div>
     </div>
     <hr aria-hidden="true" />
     {perTermSections(outputs, calculator)}
