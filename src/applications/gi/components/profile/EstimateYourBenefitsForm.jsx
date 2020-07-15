@@ -99,7 +99,7 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   handleCalculateBenefitsClick = childSection => {
-    const accordionId = `${createId(childSection)}-accordion`;
+    const accordionButtonId = `${createId(childSection)}-accordion-button`;
     const { beneficiaryZIPError, beneficiaryZIP } = this.props.inputs;
 
     if (
@@ -117,8 +117,7 @@ class EstimateYourBenefitsForm extends React.Component {
       this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
       setTimeout(() => {
-        scroller.scrollTo(accordionId, getScrollOptions());
-        focusElement(`#${accordionId}`);
+        focusElement(`#${accordionButtonId}`);
       }, 50);
     }
 
@@ -301,7 +300,9 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleEYBSkipLinkOnClick = () => {
     scroller.scrollTo('estimated-benefits', getScrollOptions());
-    focusElement('#estimated-benefits');
+    setTimeout(() => {
+      focusElement('#estimated-benefits');
+    }, 50);
   };
 
   /**

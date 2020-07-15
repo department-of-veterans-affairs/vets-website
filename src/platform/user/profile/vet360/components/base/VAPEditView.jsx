@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, memo } from 'react';
 import PropTypes from 'prop-types';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
@@ -9,7 +9,7 @@ import {
 import Vet360EditModalActionButtons from './Vet360EditModalActionButtons';
 import Vet360EditModalErrorMessage from './Vet360EditModalErrorMessage';
 
-export default class VAPEditView extends React.Component {
+class VAPEditView extends Component {
   static propTypes = {
     analyticsSectionName: PropTypes.string.isRequired,
     clearErrors: PropTypes.func.isRequired,
@@ -129,3 +129,5 @@ export default class VAPEditView extends React.Component {
     );
   }
 }
+
+export default memo(VAPEditView);
