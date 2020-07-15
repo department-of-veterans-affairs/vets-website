@@ -9,6 +9,7 @@ import {
   PURPOSE_TEXT,
   VIDEO_TYPES,
   EXPRESS_CARE,
+  UNABLE_TO_REACH_VETERAN_DETCODE,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
 
@@ -102,49 +103,62 @@ function getVistaStatus(appointment) {
 }
 
 /**
- *  Returns an appointment status
+ *  Maps FHIR appointment statuses to statuses from var-resources requests
  *
- * @param {Object} appointment A VAR appointment object
- * @param {Boolean} isPastAppointment Whether or not appointment's date is before now
+ * @param {Object} appointment A VAR request object
+ * @param {Boolean} isExpressCare Whether or not the request is for express care
  * @returns {String} Appointment status
  */
-function getStatus(appointment, isPast) {
-  switch (getAppointmentType(appointment)) {
-    case APPOINTMENT_TYPES.ccAppointment:
-      return APPOINTMENT_STATUS.booked;
-    case APPOINTMENT_TYPES.ccRequest:
-    case APPOINTMENT_TYPES.request: {
-      if (appointment.status === 'Booked') {
-        return APPOINTMENT_STATUS.booked;
-      } else if (appointment.status === 'Resolved') {
-        return APPOINTMENT_STATUS.fulfilled;
-      } else if (appointment.status === 'Cancelled') {
-        return APPOINTMENT_STATUS.cancelled;
-      } else if (appointment.status.startsWith('Escalated')) {
-        return APPOINTMENT_STATUS.pending;
-      }
-
+function getRequestStatus(request, isExpressCare) {
+  if (isExpressCare) {
+    if (request.status === 'Submitted') {
       return APPOINTMENT_STATUS.proposed;
+    } else if (request.status === 'Cancelled') {
+      return APPOINTMENT_STATUS.cancelled;
+    } else if (request.status.startsWith('Escalated')) {
+      return APPOINTMENT_STATUS.pending;
     }
-    case APPOINTMENT_TYPES.vaAppointment: {
-      const currentStatus = getVistaStatus(appointment);
 
-      if (
-        (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
-        (!isPast && FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
-      ) {
-        return null;
-      }
-
-      const cancelled = CANCELLED_APPOINTMENT_SET.has(currentStatus);
-
-      return cancelled
-        ? APPOINTMENT_STATUS.cancelled
-        : APPOINTMENT_STATUS.booked;
-    }
-    default:
-      return APPOINTMENT_STATUS.booked;
+    return APPOINTMENT_STATUS.fulfilled;
   }
+
+  if (request.status === 'Booked') {
+    return APPOINTMENT_STATUS.booked;
+  } else if (request.status === 'Resolved') {
+    return APPOINTMENT_STATUS.fulfilled;
+  } else if (request.status === 'Cancelled') {
+    return APPOINTMENT_STATUS.cancelled;
+  } else if (request.status.startsWith('Escalated')) {
+    return APPOINTMENT_STATUS.pending;
+  }
+
+  return APPOINTMENT_STATUS.proposed;
+}
+
+/**
+ *  Maps FHIR appointment statuses to statuses from var-resources requests
+ *
+ * @param {Object} appointment A MAS or CC appointment object
+ * @param {Boolean} isPast Whether or not the appointment is prior to today's date
+ * @returns {String} Appointment status
+ */
+function getConfirmedStatus(appointment, isPast) {
+  if (getAppointmentType(appointment) === APPOINTMENT_TYPES.ccAppointment) {
+    return APPOINTMENT_STATUS.booked;
+  }
+
+  const currentStatus = getVistaStatus(appointment);
+
+  if (
+    (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
+    (!isPast && FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
+  ) {
+    return null;
+  }
+
+  const cancelled = CANCELLED_APPOINTMENT_SET.has(currentStatus);
+
+  return cancelled ? APPOINTMENT_STATUS.cancelled : APPOINTMENT_STATUS.booked;
 }
 /**
  * Finds the datetime of the appointment depending on the appointment type
@@ -501,7 +515,7 @@ export function transformConfirmedAppointments(appointments) {
     return {
       resourceType: 'Appointment',
       id: `var${appt.id}`,
-      status: getStatus(appt, isPast),
+      status: getConfirmedStatus(appt, isPast),
       description: getVistaStatus(appt),
       start,
       minutesDuration,
@@ -533,12 +547,19 @@ export function transformConfirmedAppointments(appointments) {
 export function transformPendingAppointments(requests) {
   return requests.map(appt => {
     const isCC = isCommunityCare(appt);
+    const isExpressCare = appt.typeOfCareId === EXPRESS_CARE;
     const requestedPeriod = getRequestedPeriods(appt);
+    const unableToReachVeteran = appt.appointmentRequestDetailCode?.some(
+      detail => detail.detailCode?.code === UNABLE_TO_REACH_VETERAN_DETCODE,
+    );
 
     return {
       resourceType: 'Appointment',
       id: `var${appt.id}`,
-      status: getStatus(appt, isCC),
+      status: getRequestStatus(appt, isExpressCare),
+      cancelationReason: unableToReachVeteran
+        ? { text: UNABLE_TO_REACH_VETERAN_DETCODE }
+        : null,
       requestedPeriod,
       minutesDuration: 60,
       type: {
@@ -553,10 +574,11 @@ export function transformPendingAppointments(requests) {
       participant: setParticipant(appt),
       contained: setContained(appt),
       legacyVAR: setLegacyVAR(appt),
+      comment: appt.additionalInformation,
       vaos: {
         appointmentType: getAppointmentType(appt),
         isCommunityCare: isCC,
-        isExpressCare: appt.typeOfCareId === EXPRESS_CARE,
+        isExpressCare,
       },
     };
   });

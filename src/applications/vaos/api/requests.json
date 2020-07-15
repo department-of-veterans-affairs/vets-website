@@ -565,124 +565,6 @@
       }
     },
     {
-      "id": "8a48e79e6c8c2187016c9bbde3ee002d",
-      "attributes": {
-        "dataIdentifier": {
-          "uniqueId": "8a48e79e6c8c2187016c9bbde3ee002d",
-          "systemId": "var"
-        },
-        "patientIdentifier": {
-          "uniqueId": "1012845331V153043",
-          "assigningAuthority": "ICN"
-        },
-        "surrogateIdentifier": {},
-        "lastUpdatedDate": "12/16/2020 12:58:41",
-        "optionDate1": "12/16/2020",
-        "optionTime1": "PM",
-        "optionDate2": "No Date Selected",
-        "optionTime2": "No Time Selected",
-        "optionDate3": "No Date Selected",
-        "optionTime3": "No Time Selected",
-        "status": "Escalated to Tele/Urgent Care - Phone",
-        "appointmentType": "Express Care",
-        "visitType": "Express Care",
-        "facility": {
-          "name": "CHYSHR-Cheyenne VA Medical Center",
-          "facilityCode": "983",
-          "state": "WY",
-          "city": "Cheyenne",
-          "parentSiteCode": "983",
-          "objectType": "Facility",
-          "link": []
-        },
-        "email": "samatha.girla@va.gov",
-        "textMessagingAllowed": false,
-        "phoneNumber": "(321) 321-3211",
-        "purposeOfVisit": "Express Care Request",
-        "providerId": "0",
-        "secondRequest": false,
-        "secondRequestSubmitted": false,
-        "patient": {
-          "displayName": "MORRISON, JUDY",
-          "firstName": "JUDY",
-          "lastName": "MORRISON",
-          "dateOfBirth": "Apr 01, 1953",
-          "patientIdentifier": {
-            "uniqueId": "1259897978"
-          },
-          "ssn": "796061976",
-          "inpatient": false,
-          "textMessagingAllowed": false,
-          "id": "1259897978",
-          "objectType": "Patient",
-          "link": []
-        },
-        "bestTimetoCall": ["Morning"],
-        "appointmentRequestDetailCode": [
-          {
-            "appointmentRequestDetailCodeId": "8a48e78f6c8bfe02016c9bcbd2700049",
-            "createdDate": "12/16/2019 12:58:41",
-            "detailCode": {
-              "code": "DETCODE1",
-              "providerMessage": "Made on requested date",
-              "veteranMessage": "Your appointment was booked based upon your request for an appointment on %s %s.  Please use the Appointments feature on the previous screen to see more information on this and other appointments booked at VA healthcare facilities.",
-              "objectType": "VARDetailCode",
-              "link": []
-            },
-            "userId": "1013004612",
-            "objectType": "VARAppointmentRequestDetailCode",
-            "link": []
-          }
-        ],
-        "hasVeteranNewMessage": true,
-        "hasProviderNewMessage": false,
-        "providerSeenAppointmentRequest": true,
-        "requestedPhoneCall": false,
-        "bookedApptDateTime": "12/16/2019 18:57:00",
-        "typeOfCareId": "CR1",
-        "reasonForVisit": "Headache",
-        "additionalInformation": "test",
-        "friendlyLocationName": "CHYSHR-Cheyenne VA Medical Center",
-        "patientId": "1259897978",
-        "date": "2019-08-16T12:43:28.000+0000",
-        "assigningAuthority": "ICN",
-        "systemId": "var",
-        "objectType": "VARAppointmentRequest",
-        "selfUri": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48e79e6c8c2187016c9bbde3ee002d",
-        "selfLink": {
-          "rel": "self",
-          "href": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48e79e6c8c2187016c9bbde3ee002d",
-          "objectType": "AtomLink"
-        },
-        "link": [
-          {
-            "rel": "self",
-            "href": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48e79e6c8c2187016c9bbde3ee002d",
-            "objectType": "AtomLink"
-          },
-          {
-            "rel": "related",
-            "title": "appointment-request-messages",
-            "href": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48e79e6c8c2187016c9bbde3ee002d/messages",
-            "objectType": "AtomLink"
-          },
-          {
-            "rel": "related",
-            "title": "appointment-request-new-message-flag",
-            "href": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48e79e6c8c2187016c9bbde3ee002d/messages/read",
-            "objectType": "AtomLink"
-          },
-          {
-            "rel": "related",
-            "title": "appointment-request-provider-seen-flag",
-            "href": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48e79e6c8c2187016c9bbde3ee002d/appointment/provider-read",
-            "objectType": "AtomLink"
-          }
-        ],
-        "createdDate": "12/16/2019 12:43:28"
-      }
-    },
-    {
       "id": "8a48dea06c84a667016c867b1ac00011",
       "attributes": {
         "dataIdentifier": {
@@ -915,124 +797,6 @@
       }
     },
     {
-      "id": "8a48912a6c2409b9016c720da97c01c5",
-      "attributes": {
-        "dataIdentifier": {
-          "uniqueId": "8a48912a6c2409b9016c720da97c01c5",
-          "systemId": "var"
-        },
-        "patientIdentifier": {
-          "uniqueId": "1012845331V153043",
-          "assigningAuthority": "ICN"
-        },
-        "surrogateIdentifier": {},
-        "lastUpdatedDate": "12/12/2019 11:36:34",
-        "optionDate1": "12/12/2019",
-        "optionTime1": "PM",
-        "optionDate2": "No Date Selected",
-        "optionTime2": "No Time Selected",
-        "optionDate3": "No Date Selected",
-        "optionTime3": "No Time Selected",
-        "status": "Booked",
-        "appointmentType": "Express Care",
-        "visitType": "Express Care",
-        "facility": {
-          "name": "CHYSHR-Cheyenne VA Medical Center",
-          "facilityCode": "983",
-          "state": "WY",
-          "city": "Cheyenne",
-          "parentSiteCode": "983",
-          "objectType": "Facility",
-          "link": []
-        },
-        "email": "samatha.girla@va.gov",
-        "textMessagingAllowed": false,
-        "phoneNumber": "(703) 652-0000",
-        "purposeOfVisit": "Express Care Request",
-        "providerId": "0",
-        "secondRequest": false,
-        "secondRequestSubmitted": false,
-        "patient": {
-          "displayName": "MORRISON, JUDY",
-          "firstName": "JUDY",
-          "lastName": "MORRISON",
-          "dateOfBirth": "Apr 01, 1953",
-          "patientIdentifier": {
-            "uniqueId": "1259897978"
-          },
-          "ssn": "796061976",
-          "inpatient": false,
-          "textMessagingAllowed": false,
-          "id": "1259897978",
-          "objectType": "Patient",
-          "link": []
-        },
-        "bestTimetoCall": ["Morning"],
-        "appointmentRequestDetailCode": [
-          {
-            "appointmentRequestDetailCodeId": "8a4894d36c71e4b7016c724dc16b0042",
-            "createdDate": "12/12/2019 11:36:34",
-            "detailCode": {
-              "code": "DETCODE1",
-              "providerMessage": "Made on requested date",
-              "veteranMessage": "Your appointment was booked based upon your request for an appointment on %s %s.  Please use the Appointments feature on the previous screen to see more information on this and other appointments booked at VA healthcare facilities.",
-              "objectType": "VARDetailCode",
-              "link": []
-            },
-            "userId": "1013118126",
-            "objectType": "VARAppointmentRequestDetailCode",
-            "link": []
-          }
-        ],
-        "hasVeteranNewMessage": true,
-        "hasProviderNewMessage": false,
-        "providerSeenAppointmentRequest": false,
-        "requestedPhoneCall": false,
-        "bookedApptDateTime": "12/12/2019 12:35:00",
-        "typeOfCareId": "CR1",
-        "reasonForVisit": "Headache",
-        "additionalInformation": "test",
-        "friendlyLocationName": "CHYSHR-Cheyenne VA Medical Center",
-        "patientId": "1259897978",
-        "date": "2019-08-08T10:26:33.000+0000",
-        "assigningAuthority": "ICN",
-        "systemId": "var",
-        "objectType": "VARAppointmentRequest",
-        "selfUri": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48912a6c2409b9016c720da97c01c5",
-        "selfLink": {
-          "rel": "self",
-          "href": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48912a6c2409b9016c720da97c01c5",
-          "objectType": "AtomLink"
-        },
-        "link": [
-          {
-            "rel": "self",
-            "href": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48912a6c2409b9016c720da97c01c5",
-            "objectType": "AtomLink"
-          },
-          {
-            "rel": "related",
-            "title": "appointment-request-messages",
-            "href": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48912a6c2409b9016c720da97c01c5/messages",
-            "objectType": "AtomLink"
-          },
-          {
-            "rel": "related",
-            "title": "appointment-request-new-message-flag",
-            "href": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48912a6c2409b9016c720da97c01c5/messages/read",
-            "objectType": "AtomLink"
-          },
-          {
-            "rel": "related",
-            "title": "appointment-request-provider-seen-flag",
-            "href": "/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48912a6c2409b9016c720da97c01c5/appointment/provider-read",
-            "objectType": "AtomLink"
-          }
-        ],
-        "createdDate": "12/12/2019 10:26:33"
-      }
-    },
-    {
       "id": "8a48912a6c2409b9016c525a4d490190",
       "attributes": {
         "dataIdentifier": {
@@ -1175,6 +939,301 @@
           }
         ],
         "createdDate": "12/02/2019 06:42:25"
+      }
+    },
+    {
+      "id": "8a4808a9733c41e701734f39ea5000a3",
+      "type": "appointment_requests",
+      "attributes": {
+        "facility": {
+          "type": null,
+          "address": null,
+          "name": "CHYSHR-Sidney VA Clinic",
+          "facilityCode": "983GB",
+          "state": "NE",
+          "city": "Sidney",
+          "parentSiteCode": "983"
+        },
+        "patient": { "inpatient": false, "textMessagingAllowed": false },
+        "appointmentRequestDetailCode": [
+          {
+            "appointmentRequestDetailCodeId": "8a4808a9733c41e701734f3b8d5c00ab",
+            "createdDate": "07/14/2020 21:29:29",
+            "detailCode": {
+              "code": "DETCODE8",
+              "providerMessage": "Cancelled by Veteran - Pending",
+              "veteranMessage": "Your request to cancel this appointment request has been sent."
+            }
+          }
+        ],
+        "lastUpdatedAt": null,
+        "createdDate": "07/14/2020 15:27:42",
+        "appointmentDate": null,
+        "appointmentTime": null,
+        "optionDate1": "07/14/2020",
+        "optionTime1": "PM",
+        "optionDate2": "No Date Selected",
+        "optionTime2": "No Time Selected",
+        "optionDate3": "No Date Selected",
+        "optionTime3": "No Time Selected",
+        "status": "Cancelled",
+        "appointmentType": "Express Care",
+        "visitType": "Express Care",
+        "reasonForVisit": "Stomach and bowel problems such as diarrhea, constipation, nausea, vomiting, heartburn",
+        "email": "marcy.nadeau@va.gov",
+        "textMessagingAllowed": false,
+        "phoneNumber": "(888) 888-8888",
+        "purposeOfVisit": "Express Care Request",
+        "providerId": "0",
+        "secondRequest": false,
+        "secondRequestSubmitted": false,
+        "bestTimetoCall": ["Morning"],
+        "hasVeteranNewMessage": false,
+        "hasProviderNewMessage": true,
+        "providerSeenAppointmentRequest": false,
+        "requestedPhoneCall": true,
+        "bookedApptDateTime": null,
+        "typeOfCareId": "CR1",
+        "friendlyLocationName": "CHYSHR-Sidney VA Clinic TEST ",
+        "ccAppointmentRequest": null,
+        "date": "2020-07-14T15:27:42.000+0000",
+        "assigningAuthority": "ICN",
+        "additionalInformation": "Some additional comments about my condition"
+      }
+    },
+    {
+      "id": "8a4808a9733c41e7017349744fa1001a",
+      "type": "appointment_requests",
+      "attributes": {
+        "facility": {
+          "type": null,
+          "address": null,
+          "name": "CHYSHR-Wheatland VA Mobile Clinic",
+          "facilityCode": "983HK",
+          "state": "WY",
+          "city": "Cheyenne",
+          "parentSiteCode": "983"
+        },
+        "patient": { "inpatient": false, "textMessagingAllowed": false },
+        "appointmentRequestDetailCode": [],
+        "lastUpdatedAt": null,
+        "createdDate": "07/13/2020 12:33:46",
+        "appointmentDate": null,
+        "appointmentTime": null,
+        "optionDate1": "07/13/2020",
+        "optionTime1": "PM",
+        "optionDate2": "No Date Selected",
+        "optionTime2": "No Time Selected",
+        "optionDate3": "No Date Selected",
+        "optionTime3": "No Time Selected",
+        "status": "Submitted",
+        "appointmentType": "Express Care",
+        "visitType": "Express Care",
+        "reasonForVisit": "Joint/muscle pain such as knee, shoulder, hip, ankle or foot pain",
+        "email": "marcy.nadeau@va.gov",
+        "textMessagingAllowed": false,
+        "phoneNumber": "(333) 333-3333",
+        "purposeOfVisit": "Express Care Request",
+        "providerId": "0",
+        "secondRequest": false,
+        "secondRequestSubmitted": false,
+        "bestTimetoCall": ["Afternoon", "Evening", "Morning"],
+        "hasVeteranNewMessage": false,
+        "hasProviderNewMessage": true,
+        "providerSeenAppointmentRequest": true,
+        "requestedPhoneCall": true,
+        "bookedApptDateTime": null,
+        "typeOfCareId": "CR1",
+        "friendlyLocationName": "CHYSHR-Wheatland VA Mobile Clinic",
+        "ccAppointmentRequest": null,
+        "date": "2020-07-13T12:33:46.020+0000",
+        "assigningAuthority": "ICN"
+      }
+    },
+    {
+      "id": "8a48f6e9732fda0601733962188d005c",
+      "type": "appointment_requests",
+      "attributes": {
+        "facility": {
+          "type": null,
+          "address": null,
+          "name": "CHYSHR-Wheatland VA Mobile Clinic",
+          "facilityCode": "983HK",
+          "state": "WY",
+          "city": "Cheyenne",
+          "parentSiteCode": "983"
+        },
+        "patient": { "inpatient": false, "textMessagingAllowed": false },
+        "appointmentRequestDetailCode": [
+          {
+            "appointmentRequestDetailCodeId": "8a48f6e9732fda06017339ffcb510086",
+            "createdDate": "07/10/2020 18:32:11",
+            "detailCode": {
+              "code": "DETCODE31",
+              "providerMessage": "Resolved by LIP",
+              "veteranMessage": "Resolved by LIP"
+            }
+          },
+          {
+            "appointmentRequestDetailCodeId": "8a48f6e9732fda060173399c3c70007a",
+            "createdDate": "07/10/2020 16:43:27",
+            "detailCode": {
+              "code": "DETCODE35",
+              "providerMessage": "Escalated to Tele/Urgent Care - Phone",
+              "veteranMessage": "Escalated to Tele/Urgent Care - Phone"
+            }
+          }
+        ],
+        "lastUpdatedAt": null,
+        "createdDate": "07/10/2020 09:39:56",
+        "appointmentDate": null,
+        "appointmentTime": null,
+        "optionDate1": "07/10/2020",
+        "optionTime1": "AM",
+        "optionDate2": "No Date Selected",
+        "optionTime2": "No Time Selected",
+        "optionDate3": "No Date Selected",
+        "optionTime3": "No Time Selected",
+        "status": "Resolved",
+        "appointmentType": "Express Care",
+        "visitType": "Express Care",
+        "reasonForVisit": "Joint/muscle pain such as knee, shoulder, hip, ankle or foot pain",
+        "email": "marcy.nadeau@va.gov",
+        "textMessagingAllowed": false,
+        "phoneNumber": "(222) 222-2222",
+        "purposeOfVisit": "Express Care Request",
+        "providerId": "0",
+        "secondRequest": false,
+        "secondRequestSubmitted": false,
+        "bestTimetoCall": ["Morning"],
+        "hasVeteranNewMessage": false,
+        "hasProviderNewMessage": true,
+        "providerSeenAppointmentRequest": true,
+        "requestedPhoneCall": true,
+        "bookedApptDateTime": null,
+        "typeOfCareId": "CR1",
+        "friendlyLocationName": "CHYSHR-Wheatland VA Mobile Clinic",
+        "ccAppointmentRequest": null,
+        "date": "2020-07-10T09:39:56.000+0000",
+        "assigningAuthority": "ICN"
+      }
+    },
+    {
+      "id": "8a48f6e9732fda060173396273f70061",
+      "type": "appointment_requests",
+      "attributes": {
+        "facility": {
+          "type": null,
+          "address": null,
+          "name": "CHYSHR-Wheatland VA Mobile Clinic",
+          "facilityCode": "983HK",
+          "state": "WY",
+          "city": "Cheyenne",
+          "parentSiteCode": "983"
+        },
+        "patient": { "inpatient": false, "textMessagingAllowed": false },
+        "appointmentRequestDetailCode": [
+          {
+            "appointmentRequestDetailCodeId": "8a48f6e9732fda060173399c8d39007c",
+            "createdDate": "07/10/2020 16:43:47",
+            "detailCode": {
+              "code": "DETCODE23",
+              "providerMessage": "Cancelled - Unable to Reach Veteran",
+              "veteranMessage": "We were unable to contact you to discuss your appointment. We apologize for not being able to book this request for an appointment. You can call the facility to discuss scheduling options for your current need or you can start a new appointment request using this application."
+            }
+          }
+        ],
+        "lastUpdatedAt": null,
+        "createdDate": "07/10/2020 09:40:20",
+        "appointmentDate": null,
+        "appointmentTime": null,
+        "optionDate1": "07/10/2020",
+        "optionTime1": "AM",
+        "optionDate2": "No Date Selected",
+        "optionTime2": "No Time Selected",
+        "optionDate3": "No Date Selected",
+        "optionTime3": "No Time Selected",
+        "status": "Cancelled",
+        "appointmentType": "Express Care",
+        "visitType": "Express Care",
+        "reasonForVisit": "High or low blood sugar, blood pressure, heart rate",
+        "email": "marcy.nadeau@va.gov",
+        "textMessagingAllowed": false,
+        "phoneNumber": "(333) 333-3333",
+        "purposeOfVisit": "Express Care Request",
+        "providerId": "0",
+        "secondRequest": false,
+        "secondRequestSubmitted": false,
+        "bestTimetoCall": ["Afternoon"],
+        "hasVeteranNewMessage": false,
+        "hasProviderNewMessage": true,
+        "providerSeenAppointmentRequest": true,
+        "requestedPhoneCall": true,
+        "bookedApptDateTime": null,
+        "typeOfCareId": "CR1",
+        "friendlyLocationName": "CHYSHR-Wheatland VA Mobile Clinic",
+        "ccAppointmentRequest": null,
+        "date": "2020-07-10T09:40:20.000+0000",
+        "assigningAuthority": "ICN"
+      }
+    },
+    {
+      "id": "8a48a0cc715086e401715b0475ad0160",
+      "type": "appointment_requests",
+      "attributes": {
+        "facility": {
+          "type": null,
+          "address": null,
+          "name": "CHYSHR-Sidney VA Clinic",
+          "facilityCode": "983GB",
+          "state": "NE",
+          "city": "Sidney",
+          "parentSiteCode": "983"
+        },
+        "patient": { "inpatient": false, "textMessagingAllowed": false },
+        "appointmentRequestDetailCode": [
+          {
+            "appointmentRequestDetailCodeId": "8a48128571f0e2830172140a8063013b",
+            "createdDate": "05/14/2020 10:35:32",
+            "detailCode": {
+              "code": "DETCODE35",
+              "providerMessage": "Escalated to Tele/Urgent Care - Phone",
+              "veteranMessage": "Escalated to Tele/Urgent Care - Phone"
+            }
+          }
+        ],
+        "lastUpdatedAt": null,
+        "createdDate": "04/08/2020 18:19:11",
+        "appointmentDate": null,
+        "appointmentTime": null,
+        "optionDate1": "04/08/2020",
+        "optionTime1": "PM",
+        "optionDate2": "No Date Selected",
+        "optionTime2": "No Time Selected",
+        "optionDate3": "No Date Selected",
+        "optionTime3": "No Time Selected",
+        "status": "Escalated to Tele/Urgent Care - Phone",
+        "appointmentType": "Express Care",
+        "visitType": "Express Care",
+        "reasonForVisit": "Rash",
+        "email": "marcy.nadeau@va.gov",
+        "textMessagingAllowed": false,
+        "phoneNumber": "(333) 333-3333",
+        "purposeOfVisit": "Express Care Request",
+        "providerId": "0",
+        "secondRequest": false,
+        "secondRequestSubmitted": false,
+        "bestTimetoCall": ["Morning"],
+        "hasVeteranNewMessage": false,
+        "hasProviderNewMessage": false,
+        "providerSeenAppointmentRequest": true,
+        "requestedPhoneCall": true,
+        "bookedApptDateTime": null,
+        "typeOfCareId": "CR1",
+        "friendlyLocationName": "CHYSHR-Sidney VA Clinic TEST ",
+        "ccAppointmentRequest": null,
+        "date": "2020-04-08T18:19:11.000+0000",
+        "assigningAuthority": "ICN"
       }
     }
   ]

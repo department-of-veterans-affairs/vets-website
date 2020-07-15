@@ -16,8 +16,7 @@ import {
   selectExpressCare,
 } from '../utils/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
-import { getVAAppointmentLocationId } from '../services/appointment';
-import AppointmentRequestListItem from './AppointmentRequestListItem';
+import ExpressCareListItem from './ExpressCareListItem';
 import NoAppointments from './NoAppointments';
 
 export class ExpressCareList extends React.Component {
@@ -52,17 +51,11 @@ export class ExpressCareList extends React.Component {
         <>
           <ul className="usa-unstyled-list" id="appointments-list">
             {expressCareRequests.map((appt, index) => {
-              const facilityId = getRealFacilityId(
-                getVAAppointmentLocationId(appt),
-              );
-
               return (
-                <AppointmentRequestListItem
+                <ExpressCareListItem
                   key={index}
                   index={index}
                   appointment={appt}
-                  facilityId={facilityId}
-                  messages={{}}
                   showCancelButton={showCancelButton}
                   cancelAppointment={this.props.cancelAppointment}
                 />
@@ -100,7 +93,7 @@ export class ExpressCareList extends React.Component {
 
     const header = (
       <h2 className="vads-u-margin-bottom--4 vads-u-font-size--h3">
-        Express Care requests
+        Express Care
       </h2>
     );
 

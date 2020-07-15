@@ -349,3 +349,5 @@ export const FREE_BUSY_TYPES = {
   busyUnavailable: 'busy-unavailable',
   busyTentative: 'busy-tentative',
 };
+
+export const UNABLE_TO_REACH_VETERAN_DETCODE = 'DETCODE23';
