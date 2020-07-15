@@ -13,7 +13,11 @@ const ConfirmationPage = ({
   fullName,
   shippingAddress,
   orderId,
-  errorMessage,
+  isError,
+  isEmptyOrder,
+  isCompleteOrderSubmitted,
+  isPartiallySubmittedOrder,
+  hasCompleteOrderFailed,
 }) => {
   const PrintDetails = () => (
     <div className="print-details">
@@ -78,8 +82,8 @@ const ConfirmationPage = ({
   );
   return (
     <div className="confirmation-page">
-      {!errorMessage &&
-        selectedProductArray?.length > 0 && (
+      {!isError &&
+        isCompleteOrderSubmitted && (
           <>
             <p className="vads-u-font-weight--bold print-copy">
               Please print this page for your records.
@@ -177,8 +181,8 @@ const ConfirmationPage = ({
             <PrintDetails />
           </>
         )}
-      {!errorMessage &&
-        selectedProductArray?.length === 0 && (
+      {isError &&
+        isEmptyOrder && (
           <AlertBox
             headline="We're sorry. Your order wasn't submitted."
             className="vads-u-margin-bottom--4"
@@ -216,8 +220,8 @@ const ConfirmationPage = ({
             status="error"
           />
         )}
-      {errorMessage &&
-        selectedProductArray?.length > 0 && (
+      {isError &&
+        isPartiallySubmittedOrder && (
           <AlertBox
             headline="We're sorry. Part of your order wasn't submitted."
             className="vads-u-margin-bottom--4"
@@ -261,6 +265,39 @@ const ConfirmationPage = ({
             status="error"
           />
         )}
+      {isError &&
+        hasCompleteOrderFailed && (
+          <div className="submission-error-alert">
+            <AlertBox
+              headline="We're sorry. Your order wasn't submitted."
+              className="vads-u-margin-bottom--4"
+              content={
+                <>
+                  <p>
+                    Your order for hearing aid supplies wasn't submitted because
+                    something went wrong on our end.
+                  </p>
+                  <p className="vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin-bottom--1">
+                    What you can do
+                  </p>
+                  <p className="vads-u-margin-top--0">
+                    For help ordering hearing aid batteries and accessories,
+                    please call the DLC Customer Service Section at{' '}
+                    <a
+                      aria-label="3 0 3. 2 7 3. 6 2 0 0."
+                      href="tel:303-273-6200"
+                    >
+                      303-273-6200
+                    </a>{' '}
+                    or email{' '}
+                    <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+                  </p>
+                </>
+              }
+              status="error"
+            />
+          </div>
+        )}
     </div>
   );
 };
@@ -285,7 +322,11 @@ ConfirmationPage.propTypes = {
   submittedAt: PropTypes.object,
   selectedProductsArray: PropTypes.array,
   orderId: PropTypes.string,
-  errorMessage: PropTypes.bool,
+  isError: PropTypes.bool,
+  isEmptyOrder: PropTypes.bool,
+  isCompleteOrderSubmitted: PropTypes.bool,
+  isPartiallySubmittedOrder: PropTypes.bool,
+  hasCompleteOrderFailed: PropTypes.bool,
 };
 
 ConfirmationPage.defaultProps = {
@@ -307,7 +348,6 @@ ConfirmationPage.defaultProps = {
   submittedAt: {},
   selectedProductsArray: [],
   orderId: '',
-  errorMessage: false,
 };
 
 const mapStateToProps = state => {
@@ -318,14 +358,48 @@ const mapStateToProps = state => {
   const selectedProductArray = supplies?.filter(supply =>
     productIdArray?.includes(supply.productId),
   );
-  const { submission } = state.form;
+  const {
+    submission,
+    submission: { response: responses },
+    submission: {
+      response: { errors },
+    },
+  } = state.form;
 
   // Temporary fallback until this is added to the API response
   const submittedAt = submission?.submittedAt || moment();
+  let responseStatuses;
+  let isCompleteOrderSubmitted;
+  let isPartiallySubmittedOrder;
+  let hasCompleteOrderFailed;
+  let isEmptyOrder;
+  let isError = false;
+  if (!errors) {
+    responseStatuses = responses.map(response => response.status);
 
-  // confirm that this is the correct prop for errors
-  const { errorMessage } = submission;
+    isCompleteOrderSubmitted = responseStatuses?.every(
+      responseStatus => responseStatus === 'Order Processed',
+    );
 
+    isPartiallySubmittedOrder =
+      responseStatuses?.includes('Order Processed') &&
+      responseStatuses?.includes(
+        'Unable to place order.  Please call 303-273-6276.',
+      );
+
+    hasCompleteOrderFailed = responseStatuses?.every(
+      responseStatus =>
+        responseStatus === 'Unable to place order.  Please call 303-273-6276.',
+    );
+  } else {
+    isEmptyOrder =
+      errors?.every(error => error.code === 'MDOT_supplies_not_selected') &&
+      selectedProductArray?.length === 0;
+  }
+
+  if (isPartiallySubmittedOrder || hasCompleteOrderFailed || isEmptyOrder) {
+    isError = true;
+  }
   return {
     submittedAt,
     fullName,
@@ -333,7 +407,11 @@ const mapStateToProps = state => {
     selectedProductArray,
     shippingAddress,
     orderId: submission?.response?.orderId,
-    errorMessage,
+    isError,
+    isEmptyOrder,
+    isCompleteOrderSubmitted,
+    isPartiallySubmittedOrder,
+    hasCompleteOrderFailed,
   };
 };
 
