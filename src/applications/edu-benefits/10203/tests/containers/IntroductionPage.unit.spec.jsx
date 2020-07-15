@@ -3,13 +3,12 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { IntroductionPage } from '../../containers/IntroductionPage';
-import { getRemainingEntitlement } from '../../actions/post-911-gib-status';
 
 describe('Edu 10203 <IntroductionPage>', () => {
   it('should render', () => {
     const tree = shallow(
       <IntroductionPage
-        getRemainingEntitlement={getRemainingEntitlement}
+        getRemainingEntitlement={() => {}}
         route={{
           formConfig: {},
         }}
@@ -38,7 +37,7 @@ describe('Edu 10203 <IntroductionPage>', () => {
       <IntroductionPage
         isLoggedIn
         remainingEntitlement={remainingEntitlementGreaterThan180}
-        getRemainingEntitlement={getRemainingEntitlement}
+        getRemainingEntitlement={() => {}}
         route={{
           formConfig: {},
         }}
@@ -54,7 +53,7 @@ describe('Edu 10203 <IntroductionPage>', () => {
       <IntroductionPage
         isLoggedIn
         remainingEntitlement={remainingEntitlementLessThan180}
-        getRemainingEntitlement={getRemainingEntitlement}
+        getRemainingEntitlement={() => {}}
         route={{
           formConfig: {},
         }}
