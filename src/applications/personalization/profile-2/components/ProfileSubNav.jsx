@@ -26,11 +26,7 @@ export function ProfileMenuItems({ routes, clickHandler = null }) {
 
 const ProfileSubNav = ({ routes }) => {
   return (
-    <nav
-      className="va-sidebarnav"
-      id="va-profile-sidebar"
-      aria-label="Secondary"
-    >
+    <nav className="va-subnav" aria-label="Secondary">
       <div>
         <h1 className="vads-u-font-size--h4">Your profile</h1>
         <ProfileMenuItems routes={routes} />

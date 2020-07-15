@@ -95,6 +95,8 @@ const ProfileMobileSubNav = ({
 
       if (justSwitchedToMobile) {
         setIsMobile(true);
+        const menuButtonHeight = getElementHeight(theMenu.current);
+        placeholder.current.style.height = `${menuButtonHeight}px`;
       }
 
       if (justSwitchedToDesktop) {
@@ -178,7 +180,6 @@ const ProfileMobileSubNav = ({
               ref={openMenuButton}
               className="open-menu"
               type="button"
-              aria-controls="va-profile-sidebar"
               onClick={openMenu}
             >
               <strong>Your profile menu</strong>
@@ -193,7 +194,6 @@ const ProfileMobileSubNav = ({
                   ref={closeMenuButton}
                   className="close-menu vads-u-flex--auto"
                   type="button"
-                  aria-controls="va-profile-sidebar"
                   onClick={closeMenu}
                 >
                   <span>Close</span>
