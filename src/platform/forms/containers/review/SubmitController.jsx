@@ -40,13 +40,7 @@ import { SUBMISSION_STATUSES } from 'platform/forms/constants';
 import { usePrevious } from 'platform/utilities/react-hooks';
 
 function SubmitController(props) {
-  const {
-    form,
-    formConfig,
-    pageList,
-    router,
-    trackingPrefix,
-  } = props;
+  const { form, formConfig, pageList, router, trackingPrefix } = props;
   const { submission } = form;
   const { status } = submission;
 
@@ -60,7 +54,7 @@ function SubmitController(props) {
     // Actually, it assumes the app also doesn't add routes at the end!
     // A component at this level should not need to know these things!
     return router.push(expandedPageList[expandedPageList.length - 2].path);
-  }
+  };
 
   const onSubmit = () => {
     const preSubmit = preSubmitSelector(formConfig);
@@ -91,7 +85,7 @@ function SubmitController(props) {
 
     // User accepted if required, and no errors, so submit
     props.submitForm(formConfig, form);
-  }
+  };
 
   const [activeComponent, setActiveComponent] = useState(
     <SubmitButtons
@@ -128,7 +122,7 @@ function SubmitController(props) {
             );
 
             // TODO: routing
-            if (status !== prevStatus) props?.router?.push(newRoute);
+            if (status !== prevStatus) props.router.push(newRoute);
           }
           break;
         case SUBMISSION_STATUSES.clienError:
@@ -175,7 +169,7 @@ function SubmitController(props) {
               goBack={goBack}
               hasSaveError={hasSaveError}
               onSubmit={onSubmit}
-            />
+            />,
           );
           break;
       }

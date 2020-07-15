@@ -22,7 +22,7 @@ function PreSubmitSectionController(props) {
   const { form, preSubmit = {}, setPreSubmit, showPreSubmitError } = props;
 
   const { CustomComponent } = preSubmit;
-  
+
   return (
     <>
       {CustomComponent ? (

@@ -5,7 +5,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import createCommonStore from 'platform/startup/store';
-import DefaultSubmitController, { SubmitController } from 'platform/forms/containers/review/SubmitController';
+import DefaultSubmitController, { 
+  SubmitController
+} from 'platform/forms/containers/review/SubmitController';
 
 import createSchemaFormReducer from 'platform/forms-system/src/js/state';
 import reducers from 'platform/forms-system/src/js/state/reducers';
@@ -15,18 +17,11 @@ import {
   SET_SUBMITTED,
 } from 'platform/forms-system/src/js/actions';
 
-const createStore = (options = {}) => {
-  return createCommonStore({
-    form: createForm(options?.form || {}),
-    router: options?.router || {},
-  })
-}
-
 const createformReducer = (options = {}) => createSchemaFormReducer(
-  options?.formConfig || {}, 
-  options?.formConfig || {}, 
-  reducers
-);
+    options?.formConfig || {}, 
+    options?.formConfig || {}, 
+    reducers
+  );
 
 // Return fresh objects from templates for use with individual tests
 // Default setup: Valid (but empty) form, privacy agreement not set
@@ -97,6 +92,13 @@ const createPageList = () => [
   },
 ];
 
+const createStore = (options = {}) => {
+  return createCommonStore({
+    form: createForm(options?.form || {}),
+    router: options?.router || {},
+  })
+}
+
 describe('Schemaform review: SubmitController', () => {
   it('should route to confirmation page after submit', () => {
     const form = createForm();
@@ -109,7 +111,7 @@ describe('Schemaform review: SubmitController', () => {
 
     const formReducer = createformReducer({
       formConfig: form,
-    })
+    });
 
     const store = createStore();
     store.injectReducer('form', formReducer);
@@ -127,7 +129,7 @@ describe('Schemaform review: SubmitController', () => {
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider>
+      </Provider>,
     );
 
     store.dispatch({
@@ -148,7 +150,7 @@ describe('Schemaform review: SubmitController', () => {
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider>
+      </Provider>,
     );
 
     // // BUG: this assumes there is always a confirmation page with this route
@@ -167,7 +169,7 @@ describe('Schemaform review: SubmitController', () => {
     const store = createStore({
       form,
     });
-    
+
     const tree = render(
       <Provider store={store}>
         <SubmitController
@@ -180,7 +182,7 @@ describe('Schemaform review: SubmitController', () => {
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider>,
+      </Provider>
     );
 
     const submitButton = tree.getByText('Submit application');
@@ -234,7 +236,7 @@ describe('Schemaform review: SubmitController', () => {
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider>,
+      </Provider>
     );
 
     const submitButton = tree.getByText('Submit application');
@@ -271,7 +273,7 @@ describe('Schemaform review: SubmitController', () => {
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider>,
+      </Provider>
     );
 
     // tree.find('.usa-button-primary').simulate('click');
@@ -308,7 +310,7 @@ describe('Schemaform review: SubmitController', () => {
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider>,
+      </Provider>
     );
 
     const submitButton = tree.getByText('Submit application');
@@ -347,7 +349,7 @@ describe('Schemaform review: SubmitController', () => {
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider >,
+      </Provider>
     );
 
     const submitButton = tree.getByText('Submit application');
@@ -375,7 +377,7 @@ describe('Schemaform review: SubmitController', () => {
 
     const formReducer = createformReducer({
       formConfig: form,
-    })
+    });
 
     const store = createStore();
     store.injectReducer('form', formReducer);
@@ -386,13 +388,13 @@ describe('Schemaform review: SubmitController', () => {
           form={form}
           formConfig={formConfig}
           pageList={pageList}
-          route={{formConfig, pageList}}
+          route={{ formConfig, pageList }}
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider>
+      </Provider>,
     );
 
     store.dispatch(setPreSubmitAction('yep', true));
@@ -409,10 +411,10 @@ describe('Schemaform review: SubmitController', () => {
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider>
+      </Provider>,
     );
 
-    expect(store.getState().form.data['yep']).to.be.true;
+    expect(store.getState().form.data.yep).to.be.true;
     tree.unmount();
   });
 
@@ -455,11 +457,13 @@ describe('Schemaform review: SubmitController', () => {
           submission={submission}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider >,
+      </Provider>
     );
 
     const customComponent = tree.getByText('Hello from CustomComponent!');
-    const defaultComponent = tree.queryAllByText('I agree to the terms and conditions.');
+    const defaultComponent = tree.queryAllByText(
+      'I agree to the terms and conditions.'
+    );
 
     expect(customComponent).to.not.be.null;
     expect(defaultComponent).to.be.an('array').that.is.empty;
@@ -499,11 +503,13 @@ describe('Schemaform review: SubmitController', () => {
           submission={submission}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider >,
+      </Provider>
     );
 
     const customComponent = tree.queryAllByText("'Hello from CustomComponent!'");
-    const defaultComponent = tree.getByText('I agree to the terms and conditions.');
+    const defaultComponent = tree.getByText(
+      'I agree to the terms and conditions.'
+    );
 
     expect(customComponent).to.be.an('array').that.is.empty;
     expect(defaultComponent).to.not.be.null;
@@ -543,9 +549,9 @@ describe('Schemaform review: SubmitController', () => {
           submission={submission}
           trackingPrefix={formConfig.trackingPrefix}
         />
-      </Provider >,
+      </Provider>
     );
-    
+
     // SubmitButtons .usa-button-secondary is the back button
     const backButton = tree.getByText('Back');
     fireEvent.click(backButton);

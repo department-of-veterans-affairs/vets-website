@@ -88,8 +88,7 @@ function GenericError(props) {
 
   if (hasSaveError) {
     return saveLink;
-  }
-  else {
+  } else {
     return (
       <>
         <Row>
@@ -99,8 +98,8 @@ function GenericError(props) {
               title="We’re sorry. We can't submit your form right now."
             >
               <p>
-                We’re working to fix the problem. Please make sure you’re connected
-                to the Internet, and then try saving your form again. {saveLink}.
+                We’re working to fix the problem. Please make sure you’re 
+                connected to the Internet, and then try saving your form again. {saveLink}{'.'}
               </p>
               {!isLoggedIn && (
                 <p>
@@ -122,9 +121,7 @@ function GenericError(props) {
               beforeText="«"
             />
           </Column>
-          <Column classNames="small-6 medium-5">
-            {submitButton}
-          </Column>
+          <Column classNames="small-6 medium-5">{submitButton}</Column>
           <Column classNames="small-1 medium-1 end">
             <div className="hidden">&nbsp;</div>
           </Column>
