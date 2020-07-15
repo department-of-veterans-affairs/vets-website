@@ -332,7 +332,7 @@
     "rootUrl": "/health-care/order-hearing-aid-batteries-and-accessories/order-form-2346",
     "template": {
       "layout": "page-react.html",
-      "vagovprod": false
+      "vagovprod": true
     }
   },
   {
