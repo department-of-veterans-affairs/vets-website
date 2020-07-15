@@ -46,44 +46,52 @@ export const disabilityOption = ({ attributes }) => {
   );
 };
 
-export const disabilitiesExplanation = (
-  <>
-    <p className="vads-u-margin-top--2p5" />
-    <AdditionalInfo triggerText="Don’t see the issue you’re looking for?">
-      There are several reasons your issue or decision might not appear in the
-      list above:
-      <ul>
-        <li>
-          If we made the decision over a year ago, it’s not eligible for a
-          Higher-Level Review.
-        </li>
-        <li>
-          The decision might be for another benefit type, like health care,
-          insurance, or education. Decisions for these benefit types won’t
-          appear on this list. If you want to request Higher-Level Review for
-          benefit types other than compensation, you’ll need to fill out a{' '}
-          <a href={FORM_URL}>
-            Decision Review Request: Higher-Level Review (VA Form 20-0996)
-          </a>
-          .
-        </li>
-        <li>
-          The issue or decision might not be in our system. Please refer to your
-          decision letter about what form you’ll need to submit.
-        </li>
-        <li>
-          If you were unable to file a Higher-Level Review claim before the
-          deadline and need to request an extension based on good cause, you’ll
-          need to fill out a paper{' '}
-          <a href={FORM_URL}>
-            VA Form 20-0996, Decision Review Request: Higher-Level Review
-          </a>{' '}
-          with your request for an extension.
-        </li>
-      </ul>
-    </AdditionalInfo>
-  </>
-);
+export const disabilitiesExplanation = ({ introPageAlert = false } = {}) => {
+  const title = introPageAlert
+    ? 'Why don’t I see my issue?'
+    : 'Don’t see the issue you’re looking for?';
+  const firstSentenceEnding = introPageAlert
+    ? 'be available:'
+    : 'appear in the list above:';
+  return (
+    <>
+      <p className="vads-u-margin-top--2p5" />
+      <AdditionalInfo triggerText={title}>
+        There are several reasons your issue or decision might not{' '}
+        {firstSentenceEnding}
+        <ul>
+          <li>
+            If we made the decision over a year ago, it’s not eligible for a
+            Higher-Level Review.
+          </li>
+          <li>
+            The decision might be for another benefit type, like health care,
+            insurance, or education. Decisions for these benefit types won’t
+            appear on this list. If you want to request Higher-Level Review for
+            benefit types other than compensation, you’ll need to fill out a{' '}
+            <a href={FORM_URL}>
+              Decision Review Request: Higher-Level Review (VA Form 20-0996)
+            </a>
+            .
+          </li>
+          <li>
+            The issue or decision might not be in our system. Please refer to
+            your decision letter about what form you’ll need to submit.
+          </li>
+          <li>
+            If you were unable to file a Higher-Level Review claim before the
+            deadline and need to request an extension based on good cause,
+            you’ll need to fill out a paper{' '}
+            <a href={FORM_URL}>
+              VA Form 20-0996, Decision Review Request: Higher-Level Review
+            </a>{' '}
+            with your request for an extension.
+          </li>
+        </ul>
+      </AdditionalInfo>
+    </>
+  );
+};
 
 /**
  * Shows the alert box only if the form has been submitted

@@ -40,7 +40,7 @@ const contestedIssuesPage = {
       },
     },
     'view:disabilitiesExplanation': {
-      'ui:description': disabilitiesExplanation,
+      'ui:description': disabilitiesExplanation(),
     },
     sameOffice: {
       'ui:title': OfficeForReviewTitle,

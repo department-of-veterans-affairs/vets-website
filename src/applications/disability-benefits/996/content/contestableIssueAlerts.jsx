@@ -1,8 +1,19 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
-const noIssuesMessage = `We’re sorry. We were unable to locate any contestable
-  issues that are eligible to request a Higher-Level Review`;
+import { disabilitiesExplanation } from './contestedIssues';
+
+const noIssuesMessage = (
+  <>
+    Our records show that you don’t have any issues eligible for a Higher-Level
+    Review. If you think this is an error, please call{' '}
+    <Telephone contact={CONTACTS.VA_BENEFITS} />.
+    {disabilitiesExplanation({ introPageAlert: true })}
+  </>
+);
 
 const networkError = errors => {
   const messages =
@@ -19,11 +30,10 @@ const networkError = errors => {
     );
   return (
     <>
-      We’re sorry. We’re having some problems on our end when we try to get
-      information about your contestable issues:
+      We’re having some connection issues on our end.
       <p />
       {messages}
-      <p>Please try again later.</p>
+      <p>Please refresh this page to try again.</p>
     </>
   );
 };
@@ -31,7 +41,7 @@ const networkError = errors => {
 export const noContestableIssuesFound = (
   <AlertBox
     status="warning"
-    headline="No Contestable Issues"
+    headline="We don’t have any contestable issues for you"
     content={noIssuesMessage}
   />
 );
@@ -39,7 +49,7 @@ export const noContestableIssuesFound = (
 export const showContestableIssueError = errors => (
   <AlertBox
     status="error"
-    headline="We’re having some connection problems"
+    headline="We can’t load your contestable issues"
     content={networkError(errors)}
   />
 );
