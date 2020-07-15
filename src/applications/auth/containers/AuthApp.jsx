@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -135,7 +136,7 @@ export class AuthApp extends React.Component {
 
     const postAuthUrl =
       returnUrl.includes('?next=') && !environment.isProduction()
-        ? returnUrl.concat('&postLogin=true')
+        ? appendQuery(returnUrl, 'postLogin=true')
         : returnUrl;
 
     const redirectUrl =
