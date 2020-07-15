@@ -215,7 +215,7 @@ describe('VAOS integration: appointment list', () => {
       'href',
       'https://veteran.apps-staging.va.gov/var/v4/#new-express-request',
     );
-    expect(getAllByRole('tab')[2]).to.contain.text('Express care');
+    expect(getAllByRole('tab')[2]).to.contain.text('Express Care');
   });
 
   it('should not show express care action or tab when flag is off', async () => {
