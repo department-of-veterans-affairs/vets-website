@@ -73,4 +73,48 @@ describe('<TabNav>', () => {
     expect(router.push.firstCall.args[0]).to.equal('/');
     tree.unmount();
   });
+
+  it('should open EC tab', () => {
+    const location = {
+      pathname: '/past',
+    };
+    const router = {
+      push: sinon.spy(),
+    };
+
+    const tree = shallow(
+      <TabNav router={router} location={location} id={1} hasExpressCare />,
+    );
+
+    tree
+      .find('TabItem')
+      .at(1)
+      .props()
+      .onNextTab();
+
+    expect(router.push.firstCall.args[0]).to.equal('/express-care');
+    tree.unmount();
+  });
+
+  it('should go back to past appt tab', () => {
+    const location = {
+      pathname: '/express-care',
+    };
+    const router = {
+      push: sinon.spy(),
+    };
+
+    const tree = shallow(
+      <TabNav router={router} location={location} id={1} hasExpressCare />,
+    );
+
+    tree
+      .find('TabItem')
+      .at(2)
+      .props()
+      .onPreviousTab();
+
+    expect(router.push.firstCall.args[0]).to.equal('/past');
+    tree.unmount();
+  });
 });
