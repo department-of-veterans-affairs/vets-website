@@ -5,8 +5,8 @@ import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcr
 import { isWideScreen } from 'platform/utilities/accessibility/index';
 
 import ProfileHeader from './ProfileHeader';
-import ProfileSideNav from './ProfileSideNav';
-import MobileMenuTrigger from './MobileMenuTrigger';
+import ProfileSubNav from './ProfileSubNav';
+import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
 
 const Profile2 = ({ children, routes, isLOA3, isInMVI }) => {
@@ -26,7 +26,7 @@ const Profile2 = ({ children, routes, isLOA3, isInMVI }) => {
 
   // Without a verified identity, we want to show 'Home - Account Security'
   const showLOA1BreadCrumb =
-    (!isLOA3 || !isInMVI) && activeLocation === '/profile/account-security';
+    (!isLOA3 || !isInMVI) && activeLocation === PROFILE_PATHS.ACCOUNT_SECURITY;
 
   return (
     <>
@@ -48,14 +48,17 @@ const Profile2 = ({ children, routes, isLOA3, isInMVI }) => {
         </Breadcrumbs>
       </div>
 
-      <MobileMenuTrigger />
-
-      <div className="mobile-fixed-spacer" />
       <ProfileHeader />
+
+      <div className="medium-screen:vads-u-display--none">
+        <ProfileMobileSubNav routes={routes} />
+      </div>
 
       <div className="usa-grid usa-grid-full">
         <div className="usa-width-one-fourth">
-          <ProfileSideNav routes={routes} />
+          <div className="vads-u-display--none medium-screen:vads-u-display--block">
+            <ProfileSubNav routes={routes} />
+          </div>
         </div>
         <div className="usa-width-two-thirds vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-u-padding--0 medium-screen:vads-u-padding-bottom--6">
           {/* children will be passed in from React Router one level up */}
