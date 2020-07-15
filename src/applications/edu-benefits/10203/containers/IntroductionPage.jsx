@@ -34,10 +34,7 @@ export class IntroductionPage extends React.Component {
 
   moreThanSixMonths = remaining => {
     const totalDays = remaining?.months * 30 + remaining?.days;
-    if (totalDays > 180) {
-      return true;
-    }
-    return false;
+    return totalDays > 180;
   };
 
   entitlementRemainingAlert() {
