@@ -21,10 +21,10 @@ function LocationDirectionsLink({ location, from }) {
         }&daddr=${address}`}
         rel="noopener noreferrer"
         target="_blank"
-        style={{ textDecoration: 'underline' }}
       >
         {from === 'FacilityDetail' && <i className="fa fa-road" />}
         Directions
+        <span className="sr-only">to {location.attributes.name}</span>
       </a>
     </span>
   );
