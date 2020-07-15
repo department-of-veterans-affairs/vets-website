@@ -209,7 +209,11 @@ export class CallToActionWidget extends React.Component {
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
-        return <NotAuthorized useSSOe={this.props.authenticatedWithSSOe} />;
+        return (
+          <NotAuthorized
+            authenticatedWithSSOe={this.props.authenticatedWithSSOe}
+          />
+        );
       case 'NOT_FOUND':
         return <NotFound />;
       default:

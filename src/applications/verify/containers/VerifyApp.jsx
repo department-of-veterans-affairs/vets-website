@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { ssoe } from 'platform/user/authentication/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
@@ -50,7 +50,7 @@ export class VerifyApp extends React.Component {
 
   render() {
     const { profile } = this.props;
-    const authVersion = this.props.useSSOe ? 'v1' : 'v0';
+    const authVersion = this.props.authenticatedWithSSOe ? 'v1' : 'v0';
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
@@ -122,7 +122,7 @@ const mapStateToProps = state => {
   return {
     login: userState.login,
     profile: userState.profile,
-    useSSOe: ssoe(state),
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
 
