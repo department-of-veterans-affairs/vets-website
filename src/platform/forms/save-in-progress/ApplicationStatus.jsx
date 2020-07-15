@@ -18,7 +18,7 @@ import {
   START_NEW_APP_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
   APP_ACTION_DEFAULT,
-} from './constants';
+} from 'platform/globalContent';
 
 export class ApplicationStatus extends React.Component {
   constructor(props) {
@@ -157,7 +157,7 @@ export class ApplicationStatus extends React.Component {
               <p className="no-bottom-margin">
                 You have more than one in-progress {formType} {appType}.{' '}
                 <a href="/my-va">
-                  View and manage your forms on your Account page
+                  View and manage your {appType}s on your Account page
                 </a>
                 .
               </p>
@@ -201,7 +201,7 @@ export class ApplicationStatus extends React.Component {
             <p className="no-bottom-margin">
               You have more than one in-progress {formType} {appType}.{' '}
               <a href="/my-va">
-                View and manage your forms on your Account page
+                View and manage your {appType}s on your Account page
               </a>
               .
             </p>

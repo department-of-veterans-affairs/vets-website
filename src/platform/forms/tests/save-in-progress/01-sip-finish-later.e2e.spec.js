@@ -64,7 +64,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.expect
     .element('.usa-alert-error')
-    .text.to.contain('Something went wrong when saving your form');
+    .text.to.contain('Something went wrong when saving your application');
 
   /* eslint-disable camelcase */
   client

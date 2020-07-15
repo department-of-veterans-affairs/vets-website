@@ -21,6 +21,7 @@ import DowntimeApproaching from '../components/DowntimeApproaching';
 import externalServices from '../config/externalServices';
 import externalServiceStatus from '../config/externalServiceStatus';
 import { getSoonestDowntime } from '../util/helpers';
+import { APP_TYPE_DEFAULT } from 'platform/globalContent';
 
 /**
  * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of VA.gov services.
@@ -58,9 +59,9 @@ class DowntimeNotification extends React.Component {
     if (this.props.shouldSendRequest) this.props.getScheduledDowntime();
   }
 
-  renderGlobalDowntimeOverride = () => {
+  renderGlobalDowntimeOverride = appTypeContent => {
     const appType = Object.values(VA_FORM_IDS).includes(this.props.appTitle)
-      ? 'form'
+      ? appTypeContent
       : 'tool';
 
     const endTime = formatDowntime(this.props.globalDowntime.endTIme);
@@ -82,8 +83,10 @@ class DowntimeNotification extends React.Component {
   };
 
   render() {
+    const { appTypeContent } =
+      this.props.customText?.appType || APP_TYPE_DEFAULT;
     if (this.props.globalDowntime) {
-      return this.renderGlobalDowntimeOverride();
+      return this.renderGlobalDowntimeOverride(appTypeContent);
     }
 
     if (!this.props.isReady) {

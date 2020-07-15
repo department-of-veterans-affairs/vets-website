@@ -9,7 +9,7 @@ import { focusElement } from '../../utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import { formTitles } from 'applications/personalization/dashboard/helpers';
 import FormStartControls from './FormStartControls';
-import { APP_TYPE_DEFAULT } from './constants';
+import { APP_TYPE_DEFAULT } from 'platform/globalContent';
 
 class FormSaved extends React.Component {
   constructor(props) {

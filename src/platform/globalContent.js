@@ -8,3 +8,4 @@ export const UNAUTH_SIGN_IN_DEFAULT_MESSAGE =
   'Sign in to start your application';
 export const APP_TYPE_DEFAULT = 'application';
 export const APP_ACTION_DEFAULT = 'applying';
+export const REVIEW_APP_DEFAULT_MESSAGE = 'Review Application';

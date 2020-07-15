@@ -6,7 +6,7 @@ import Scroll from 'react-scroll';
 import {
   FINISH_APP_LATER_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
-} from './constants';
+} from 'platform/globalContent';
 import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
@@ -78,7 +78,7 @@ class RoutedSavableReviewPage extends React.Component {
         saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
         toggleLoginModal={this.props.toggleLoginModal}
       >
-        Save your form
+        Save your {appType}
       </SaveFormLink>
     );
 

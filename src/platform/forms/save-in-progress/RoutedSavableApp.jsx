@@ -18,7 +18,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { isInProgressPath } from '../helpers';
 import { getSaveInProgressState } from './selectors';
 import environment from 'platform/utilities/environment';
-import { APP_TYPE_DEFAULT } from './constants';
+import { APP_TYPE_DEFAULT } from 'platform/globalContent';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

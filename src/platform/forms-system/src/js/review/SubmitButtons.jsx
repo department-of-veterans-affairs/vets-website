@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import ProgressButton from '../components/ProgressButton';
 import { timeFromNow } from '../utilities/date';
-import { APP_TYPE_DEFAULT } from '../constants';
+import { APP_TYPE_DEFAULT } from 'platform/globalContent';
 
 export default function SubmitButtons(props) {
   const {

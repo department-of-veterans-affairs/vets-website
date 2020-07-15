@@ -25,7 +25,7 @@ import {
   APP_TYPE_DEFAULT,
   UNAUTH_SIGN_IN_DEFAULT_MESSAGE,
   APP_ACTION_DEFAULT,
-} from './constants';
+} from 'platform/globalContent';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {
@@ -91,7 +91,7 @@ class SaveInProgressIntro extends React.Component {
             <div>
               <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
-                  <strong>Your form has expired</strong>
+                  <strong>Your {appType} has expired</strong>
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
@@ -113,8 +113,8 @@ class SaveInProgressIntro extends React.Component {
               <div className="usa-alert-body">
                 <strong>Note:</strong> Since you’re signed in to your account,
                 we can prefill part of your {appType} based on your account
-                details. You can also save your form in progress and come back
-                later to finish filling it out.
+                details. You can also save your {appType} in progress and come
+                back later to finish filling it out.
               </div>
             </div>
             <br />
@@ -127,7 +127,7 @@ class SaveInProgressIntro extends React.Component {
           <div>
             <div className="usa-alert usa-alert-info schemaform-sip-alert">
               <div className="usa-alert-body">
-                You can save this form in progress, and come back later to
+                You can save this {appType} in progress, and come back later to
                 finish filling it out.
               </div>
             </div>
@@ -173,8 +173,8 @@ class SaveInProgressIntro extends React.Component {
                   You can save your {appType} in progress, and come back later
                   to finish filling it out. You’ll have {retentionPeriod} from
                   the date you start or update your {appType} to submit it.
-                  After {retentionPeriod}, we’ll delete the form and you’ll need
-                  to start over.
+                  After {retentionPeriod}, we’ll delete the {appType} and you’ll
+                  need to start over.
                 </li>
               </ul>
               <p>
@@ -209,8 +209,8 @@ class SaveInProgressIntro extends React.Component {
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
-              You can save this form in progress, and come back later to finish
-              filling it out.
+              You can save this {appType} in progress, and come back later to
+              finish filling it out.
               <br />
               <button className="va-button-link" onClick={this.openLoginModal}>
                 Sign in to your account.

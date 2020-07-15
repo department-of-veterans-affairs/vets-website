@@ -22,7 +22,7 @@ function testStatus(client, page, url) {
     .click('.usa-button-secondary')
     .waitForElementPresent('#start-over-modal-title', Timeouts.normal)
     .expect.element('#start-over-modal-title')
-    .text.equals('Starting over will delete your in-progress form.');
+    .text.equals('Starting over will delete your in-progress application.');
 
   client.axeCheck('.main');
 }
