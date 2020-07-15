@@ -54,20 +54,20 @@ export default function ExpressCareListItem({
             </dd>
           </dl>
         </div>
-        <div className="vads-u-flex--1 vaos-u-word-break--break-word">
-          {!!appointment.comment && (
+        {!!appointment.comment && (
+          <div className="vads-u-flex--1 vaos-u-word-break--break-word vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 You shared these details about your concern
               </dt>
               <dd>{appointment.comment}</dd>
             </dl>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-      <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
-        {showCancelButton &&
-          appointment.status === APPOINTMENT_STATUS.proposed && (
+      {showCancelButton &&
+        appointment.status === APPOINTMENT_STATUS.proposed && (
+          <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
             <button
               className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
               onClick={() => cancelAppointment(appointment)}
@@ -75,8 +75,8 @@ export default function ExpressCareListItem({
             >
               Cancel appointment
             </button>
-          )}
-      </div>
+          </div>
+        )}
     </li>
   );
 }
