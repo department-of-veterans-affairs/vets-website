@@ -40,14 +40,15 @@ export class PastAppointmentsList extends React.Component {
     }
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (
-  //     prevProps.appointments.pastStatus === FETCH_STATUS.loading &&
-  //     this.props.appointments.pastStatus === FETCH_STATUS.succeeded
-  //   ) {
-  //     focusElement('#queryResultLabel');
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.appointments.pastStatus === FETCH_STATUS.loading &&
+      this.props.appointments.pastStatus === FETCH_STATUS.succeeded &&
+      !this.state.isInitialMount
+    ) {
+      focusElement('#queryResultLabel');
+    }
+  }
 
   onDateRangeChange = index => {
     const selectedDateRange = this.dateRangeOptions[index];
