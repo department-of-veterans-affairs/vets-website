@@ -9,10 +9,9 @@ import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
   PAST_APPOINTMENTS_HIDDEN_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
-  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
   VIDEO_TYPES,
+  CONFIRMED_APPOINTMENT_TYPES,
 } from '../../utils/constants';
 
 /**
@@ -227,25 +226,15 @@ export function getPatientEmail(appointment) {
 }
 
 /**
- * Filter method for future confirmed appointments
+ * Checks to see if a past appointment has a valid status and is in
+ * the given date range
+ *
  * @param {Object} appt A FHIR appointment resource
+ * @param {Object} startDate A Moment date object containing the start date of the range
+ * @param {Object} endDate A Moment date object containing the end date of the range
+ * @returns Whether or not the appt should be shown
  */
-export function filterFutureConfirmedAppointments(appt) {
-  const apptDateTime = moment(appt.start);
-
-  return (
-    !appt.vaos.isPastAppointment &&
-    !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-    apptDateTime.isValid() &&
-    apptDateTime.isBefore(moment().add(13, 'months'))
-  );
-}
-
-/**
- * Filter method for past appointments
- * @param {Object} appt A FHIR appointment resource
- */
-export function filterPastAppointments(appt, startDate, endDate) {
+export function isValidPastAppointment(appt, startDate, endDate) {
   const apptDateTime = moment(appt.start);
 
   if (
@@ -263,12 +252,28 @@ export function filterPastAppointments(appt, startDate, endDate) {
 }
 
 /**
- * Filter method for past appointment requests
- * @param {Object} request A FHIR appointment resource
+ * Returns true if the given Appointment is a confirmed appointment
+ * or a request that still needs processing
+ *
+ * @export
+ * @param {Object} appt The FHIR Appointment to check
+ * @returns {Boolean} Whether or not the appointment is a valid upcoming
+ *  appointment or request
  */
-export function filterRequests(request) {
+export function isUpcomingAppointmentOrRequest(appt) {
+  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
+    const apptDateTime = moment(appt.start);
+
+    return (
+      !appt.vaos.isPastAppointment &&
+      !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+      apptDateTime.isValid() &&
+      apptDateTime.isBefore(moment().add(13, 'months'))
+    );
+  }
+
   const today = moment().startOf('day');
-  const hasValidDate = request.requestedPeriod.some(period => {
+  const hasValidDate = appt.requestedPeriod.some(period => {
     const momentStart = moment(period.start);
     const momentEnd = moment(period.end);
     return (
@@ -277,23 +282,11 @@ export function filterRequests(request) {
   });
 
   return (
-    request.status === APPOINTMENT_STATUS.proposed ||
-    request.status === APPOINTMENT_STATUS.pending ||
-    (request.status === APPOINTMENT_STATUS.cancelled &&
-      (hasValidDate || request.vaos.isExpressCare))
+    appt.status === APPOINTMENT_STATUS.proposed ||
+    appt.status === APPOINTMENT_STATUS.pending ||
+    (appt.status === APPOINTMENT_STATUS.cancelled &&
+      (hasValidDate || appt.vaos.isExpressCare))
   );
-}
-
-export function isUpcomingAppointmentOrRequest(appt) {
-  if (
-    [APPOINTMENT_TYPES.ccAppointment, APPOINTMENT_TYPES.vaAppointment].includes(
-      appt.vaos.appointmentType,
-    )
-  ) {
-    return appt;
-  }
-
-  return filterRequests(appt);
 }
 
 /**

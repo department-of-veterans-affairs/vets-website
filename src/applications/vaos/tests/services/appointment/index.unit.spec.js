@@ -7,9 +7,8 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import {
-  filterFutureConfirmedAppointments,
-  filterPastAppointments,
-  filterRequests,
+  isUpcomingAppointmentOrRequest,
+  isValidPastAppointment,
   getBookedAppointments,
   getAppointmentRequests,
   isVideoAppointment,
@@ -220,135 +219,7 @@ describe('VAOS Appointment service', () => {
     });
   });
 
-  describe('filterFutureCConfirmedAppointments', () => {
-    it('should filter future confirmed appointments', () => {
-      const confirmedAppts = [
-        // appointment more than 395 days should not show
-        { start: '2099-04-30T05:35:00', facilityId: '984', vaos: {} },
-        // appointment less than 395 days should show
-        {
-          start: now
-            .clone()
-            .add(394, 'days')
-            .format(),
-          facilityId: '984',
-          vaos: {},
-        },
-        // appointment 30 min ago should show
-        {
-          start: now
-            .clone()
-            .subtract(30, 'minutes')
-            .format(),
-          facilityId: '984',
-          vaos: {},
-        },
-        // appointment more than 1 hour ago should not show
-        {
-          start: now
-            .clone()
-            .subtract(65, 'minutes')
-            .format(),
-          facilityId: '984',
-          vaos: {
-            isPastAppointment: true,
-          },
-        },
-        // video appointment less than 4 hours ago should show
-        {
-          start: now
-            .clone()
-            .subtract(230, 'minutes')
-            .format(),
-          vaos: {
-            videoType: VIDEO_TYPES.videoConnect,
-          },
-        },
-        // video appointment more than 4 hours ago should not show
-        {
-          start: now
-            .clone()
-            .subtract(245, 'minutes')
-            .format(),
-          vaos: {
-            videoType: VIDEO_TYPES.videoConnect,
-            isPastAppointment: true,
-          },
-        },
-        // appointment with status 'NO-SHOW' should not show
-        {
-          description: 'NO-SHOW',
-          vaos: {},
-        },
-        // appointment with status 'DELETED' should not show
-        {
-          description: 'DELETED',
-          vaos: {},
-        },
-      ];
-
-      const filteredConfirmed = confirmedAppts.filter(a =>
-        filterFutureConfirmedAppointments(a, now),
-      );
-      expect(filteredConfirmed.length).to.equal(3);
-    });
-
-    it('should filter out appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
-      const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(
-        currentStatus => ({
-          description: currentStatus,
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-          facilityId: '984',
-        }),
-      );
-
-      const filtered = hiddenAppts.filter(a =>
-        filterFutureConfirmedAppointments(a, now),
-      );
-      expect(hiddenAppts.length).to.equal(2);
-      expect(filtered.length).to.equal(0);
-    });
-
-    it('should filter out video appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
-      const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(code => ({
-        description: code,
-        vaos: {
-          appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          videoType: VIDEO_TYPES.videoConnect,
-        },
-      }));
-
-      const filtered = hiddenAppts.filter(a =>
-        filterFutureConfirmedAppointments(a, now),
-      );
-      expect(hiddenAppts.length).to.equal(2);
-      expect(filtered.length).to.equal(0);
-    });
-
-    it('should filter out past appointments with status in PAST_APPOINTMENTS_HIDDEN_SET', () => {
-      const hiddenAppts = [...PAST_APPOINTMENTS_HIDDEN_SET].map(
-        currentStatus => ({
-          description: currentStatus,
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-        }),
-      );
-
-      const filtered = hiddenAppts.filter(a => filterPastAppointments(a, now));
-      expect(hiddenAppts.length).to.equal(5);
-      expect(filtered.length).to.equal(0);
-    });
-
-    it('should filter out past video appointments with status in PAST_APPOINTMENTS_HIDDEN_SET', () => {
-      const hiddenAppts = [...PAST_APPOINTMENTS_HIDDEN_SET].map(code => ({
-        description: code,
-        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-      }));
-
-      const filtered = hiddenAppts.filter(a => filterPastAppointments(a, now));
-      expect(hiddenAppts.length).to.equal(5);
-      expect(filtered.length).to.equal(0);
-    });
-  });
+  describe('filterFutureCConfirmedAppointments', () => {});
 
   describe('sortFutureConfirmedAppointments', () => {
     it('should sort future confirmed appointments', () => {
@@ -362,7 +233,7 @@ describe('VAOS Appointment service', () => {
     });
   });
 
-  describe('filterRequests', () => {
+  describe('isUpcomingAppointmentOrRequest', () => {
     it('should filter future requests', () => {
       const apptRequests = [
         // canceled past - should filter out
@@ -371,7 +242,10 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
           ],
-          vaos: { isExpressCare: false },
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
         },
         // cancelled past - should filter out
         {
@@ -379,7 +253,10 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().subtract(22, 'days'), 'AM'),
           ],
-          vaos: { isExpressCare: false },
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
         },
         // pending past - should filter out
         {
@@ -387,7 +264,10 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
           ],
-          vaos: { isExpressCare: false },
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
         },
         // future within 13 - should not filter out
         {
@@ -401,7 +281,10 @@ describe('VAOS Appointment service', () => {
               'AM',
             ),
           ],
-          vaos: { isExpressCare: false },
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
         },
         // future - should not filter out
         {
@@ -409,7 +292,10 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(2, 'days'), 'AM'),
           ],
-          vaos: { isExpressCare: false },
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
         },
         // future canceled - should not filter out
         {
@@ -417,11 +303,16 @@ describe('VAOS Appointment service', () => {
           requestedPeriod: [
             setRequestedPeriod(now.clone().add(3, 'days'), 'AM'),
           ],
-          vaos: { isExpressCare: false },
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
         },
       ];
 
-      const filteredRequests = apptRequests.filter(r => filterRequests(r, now));
+      const filteredRequests = apptRequests.filter(
+        isUpcomingAppointmentOrRequest,
+      );
       expect(
         filteredRequests.filter(
           req => req.status === APPOINTMENT_STATUS.cancelled,
@@ -435,6 +326,112 @@ describe('VAOS Appointment service', () => {
       expect(
         filteredRequests.filter(req => req.status === 'Booked').length,
       ).to.equal(0);
+    });
+    it('should filter future confirmed appointments', () => {
+      const confirmedAppts = [
+        // appointment more than 395 days should not show
+        {
+          start: '2099-04-30T05:35:00',
+          facilityId: '984',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
+        // appointment less than 395 days should show
+        {
+          start: now
+            .clone()
+            .add(394, 'days')
+            .format(),
+          facilityId: '984',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
+        // appointment 30 min ago should show
+        {
+          start: now
+            .clone()
+            .subtract(30, 'minutes')
+            .format(),
+          facilityId: '984',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
+        // appointment more than 1 hour ago should not show
+        {
+          start: now
+            .clone()
+            .subtract(65, 'minutes')
+            .format(),
+          facilityId: '984',
+          vaos: {
+            isPastAppointment: true,
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
+        },
+        // video appointment less than 4 hours ago should show
+        {
+          start: now
+            .clone()
+            .subtract(230, 'minutes')
+            .format(),
+          vaos: {
+            videoType: VIDEO_TYPES.videoConnect,
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
+        },
+        // video appointment more than 4 hours ago should not show
+        {
+          start: now
+            .clone()
+            .subtract(245, 'minutes')
+            .format(),
+          vaos: {
+            videoType: VIDEO_TYPES.videoConnect,
+            isPastAppointment: true,
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
+        },
+        // appointment with status 'NO-SHOW' should not show
+        {
+          description: 'NO-SHOW',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
+        // appointment with status 'DELETED' should not show
+        {
+          description: 'DELETED',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
+      ];
+
+      const filteredConfirmed = confirmedAppts.filter(
+        isUpcomingAppointmentOrRequest,
+      );
+      expect(filteredConfirmed.length).to.equal(3);
+    });
+
+    it('should filter out appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
+      const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(
+        currentStatus => ({
+          description: currentStatus,
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+          facilityId: '984',
+        }),
+      );
+
+      const filtered = hiddenAppts.filter(isUpcomingAppointmentOrRequest);
+      expect(hiddenAppts.length).to.equal(2);
+      expect(filtered.length).to.equal(0);
+    });
+
+    it('should filter out video appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
+      const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(code => ({
+        description: code,
+        vaos: {
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          videoType: VIDEO_TYPES.videoConnect,
+        },
+      }));
+
+      const filtered = hiddenAppts.filter(isUpcomingAppointmentOrRequest);
+      expect(hiddenAppts.length).to.equal(2);
+      expect(filtered.length).to.equal(0);
     });
   });
 
@@ -492,7 +489,7 @@ describe('VAOS Appointment service', () => {
             .clone()
             .add(1, 'day')
             .format(),
-          vaos: {},
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
         },
         // appointment before startDate should not show
         {
@@ -500,12 +497,12 @@ describe('VAOS Appointment service', () => {
             .clone()
             .subtract(100, 'day')
             .format(),
-          vaos: {},
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
         },
       ];
 
       const filtered = appointments.filter(appt =>
-        filterPastAppointments(appt, threeMonthsAgo, today),
+        isValidPastAppointment(appt, threeMonthsAgo, today),
       );
       expect(filtered.length).to.equal(0);
     });
@@ -524,57 +521,12 @@ describe('VAOS Appointment service', () => {
             .clone()
             .subtract(1, 'day')
             .format(),
-          vaos: {},
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
         },
       ];
 
       const filtered = appointments.filter(appt =>
-        filterPastAppointments(appt, threeMonthsAgo, today),
-      );
-      expect(filtered.length).to.equal(1);
-    });
-
-    it('should filter appointments that are in hidden status set', () => {
-      const today = moment().endOf('day');
-      const threeMonthsAgo = now
-        .clone()
-        .subtract(3, 'month')
-        .startOf('day');
-
-      const appointments = [
-        // appointment within range should show
-        {
-          start: now
-            .clone()
-            .subtract(1, 'day')
-            .format(),
-          vaos: {},
-        },
-        {
-          facilityId: '984',
-          start: now
-            .clone()
-            .subtract(1, 'day')
-            .format(),
-          description: 'FUTURE',
-          vaos: {
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          },
-        },
-        {
-          start: now
-            .clone()
-            .subtract(1, 'day')
-            .format(),
-          description: 'DELETED',
-          vaos: {
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          },
-        },
-      ];
-
-      const filtered = appointments.filter(appt =>
-        filterPastAppointments(appt, threeMonthsAgo, today),
+        isValidPastAppointment(appt, threeMonthsAgo, today),
       );
       expect(filtered.length).to.equal(1);
     });
@@ -616,7 +568,7 @@ describe('VAOS Appointment service', () => {
     ];
 
     const filtered = appointments.filter(appt =>
-      filterPastAppointments(appt, threeMonthsAgo, today),
+      isValidPastAppointment(appt, threeMonthsAgo, today),
     );
 
     expect(filtered.length).to.equal(3);

@@ -18,15 +18,12 @@ import {
 
 import { FORM_SUBMIT_SUCCEEDED } from '../actions/sitewide';
 
-import { getRealFacilityId } from '../utils/appointment';
 import {
   sortPastAppointments,
-  filterFutureConfirmedAppointments,
-  filterPastAppointments,
-  filterRequests,
   sortFutureConfirmedAppointments,
   sortFutureRequests,
   sortMessages,
+  isValidPastAppointment,
 } from '../services/appointment';
 import {
   FETCH_STATUS,
@@ -58,12 +55,10 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
       const [bookedAppointments, requests] = action.data;
 
-      const confirmedFilteredAndSorted = [...bookedAppointments]
-        .filter(filterFutureConfirmedAppointments)
-        .sort(sortFutureConfirmedAppointments);
-      const requestsFilteredAndSorted = [...requests]
-        .filter(filterRequests)
-        .sort(sortFutureRequests);
+      const confirmedFilteredAndSorted = [...bookedAppointments].sort(
+        sortFutureConfirmedAppointments,
+      );
+      const requestsFilteredAndSorted = [...requests].sort(sortFutureRequests);
 
       return {
         ...state,
@@ -87,7 +82,7 @@ export default function appointmentsReducer(state = initialState, action) {
       const { data, startDate, endDate } = action;
 
       const confirmedFilteredAndSorted = data
-        .filter(appt => filterPastAppointments(appt, startDate, endDate))
+        .filter(appt => isValidPastAppointment(appt, startDate, endDate))
         .sort(sortPastAppointments);
 
       return {
