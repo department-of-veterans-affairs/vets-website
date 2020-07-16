@@ -63,6 +63,8 @@ const ProfileInfoTable = ({
     'medium',
   );
 
+  const dataContainsVerified = data.some(row => row.verified === true)
+
   // an object where each value is a string of space-separated class names that
   // can be passed directly to a `className` attribute
   const classes = {
@@ -79,8 +81,6 @@ const ProfileInfoTable = ({
     tableRowDataNew: [...tableRowDataClasses, ...tableRowDataNewClassesMedium].join(' '),
   };
 
-
-  const dataContainsVerified = data.some(row => row.verified === true)
 
   return (
     <section className={classes.table}>
@@ -99,10 +99,10 @@ const ProfileInfoTable = ({
               )}
 
               {row?.verified && (
-                <>
+                <span className="vads-u-display--flex">
                   <i className="fa fa-check vads-u-color--green" />
                   <span className={classes.tableRowData}>{row.value}</span>
-                </>
+                </span>
               )}
 
               {!row?.verified && !dataContainsVerified && (
