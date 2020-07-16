@@ -129,11 +129,25 @@
   list-style-type: none !important;
 }
 
+.wizard-button::after {
+  background-image: url(/img/arrow-down-white.svg);
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 0.6em auto;
+  content: "";
+  display: inline-block;
+  height: 1em;
+  margin-left: 0.5em;
+  margin-right: -0.3em;
+  text-indent: -9999em;
+  width: 1em;
+}
+
 @media print {
   .usa-width-two-thirds {
     width: 100%;
   }
-  
+
   .schemaform-title,
   .schemaform-subtitle {
     display: none;
