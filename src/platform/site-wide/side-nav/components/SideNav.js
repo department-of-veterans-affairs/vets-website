@@ -15,7 +15,7 @@ class SideNav extends Component {
 
   constructor(props) {
     super(props);
-    this.debouncedResize = debounce(1000, this.updateIsDesktop);
+    this.debouncedResize = debounce(250, this.updateIsDesktop);
     this.state = {
       active: false,
       isDesktop: this.getDesktop(), // adding this to trigger re-render on window resize
@@ -28,14 +28,10 @@ class SideNav extends Component {
   };
 
   updateIsDesktop = () => {
-    // eslint-disable-next-line no-console
-    console.log(this.state.isDesktop);
     this.setState({ isDesktop: this.getDesktop() });
   };
 
   componentDidMount() {
-    // TODO: use debounce (lodash?) to reduce re-rendering
-    // https://dustinpfister.github.io/2017/12/03/lodash_debounce/
     window.addEventListener('resize', this.debouncedResize);
   }
 
