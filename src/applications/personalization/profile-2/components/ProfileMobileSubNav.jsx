@@ -10,6 +10,8 @@ import {
   isTab,
 } from 'platform/utilities/accessibility';
 
+import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
+
 import { ProfileMenuItems } from './ProfileSubNav';
 
 import {
@@ -39,6 +41,7 @@ const getElementHeight = el => {
 const ProfileMobileSubNav = ({
   openMenu,
   closeMenu,
+  isLOA3,
   isMenuPinned,
   isMenuOpen,
   pinMenu,
@@ -144,7 +147,7 @@ const ProfileMobileSubNav = ({
         document.addEventListener('keydown', closeOnEscape);
         closeMenuButton.current.focus();
         // trap the focus so that you can't tab the focus to an element behind the
-        // open mobile sidenav
+        // open mobile subnav
         closeMenuButton.current.addEventListener('keydown', overrideShiftTab);
         lastMenuItem.current = Array.from(
           getTabbableElements(document.querySelector('.menu-wrapper ul')),
@@ -201,6 +204,7 @@ const ProfileMobileSubNav = ({
                 </button>
               </div>
               <ProfileMenuItems
+                isLOA3={isLOA3}
                 routes={routes}
                 clickHandler={() => {
                   closeMenu();
@@ -222,6 +226,7 @@ export { ProfileMobileSubNav };
 
 ProfileMobileSubNav.propTypes = {
   closeMenu: PropTypes.func.isRequired,
+  isLOA3: PropTypes.bool.isRequired,
   isMenuPinned: PropTypes.bool.isRequired,
   openMenu: PropTypes.func.isRequired,
   pinMenu: PropTypes.func.isRequired,
@@ -229,6 +234,7 @@ ProfileMobileSubNav.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  isLOA3: isLOA3Selector(state),
   isMenuPinned: selectIsMenuTriggerPinned(state),
   isMenuOpen: selectIsSideNavOpen(state),
 });
