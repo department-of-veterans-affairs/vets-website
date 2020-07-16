@@ -3,9 +3,6 @@ const { getDrupalValue } = require('./helpers');
 const transform = entity => ({
   entityType: 'node',
   entityBundle: 'person_profile',
-  entityUrl: {
-    path: entity.path[0].alias,
-  },
   title: `${getDrupalValue(entity.fieldNameFirst)} ${getDrupalValue(
     entity.fieldLastName,
   )}`,
