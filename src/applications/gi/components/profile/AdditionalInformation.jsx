@@ -10,7 +10,7 @@ export class AdditionalInformation extends React.Component {
   }
 
   renderSection103Info = section103Message => (
-    <div className="section-103-message">
+    <div aria-live="off" className="section-103-message">
       <strong>
         <button
           id="section103-button"
@@ -49,7 +49,7 @@ export class AdditionalInformation extends React.Component {
 
     const typeOfAccreditation = institution.accredited &&
       institution.accreditationType && (
-        <div>
+        <div aria-live="off">
           <strong>
             <button
               id="typeAccredited-button"
@@ -80,9 +80,9 @@ export class AdditionalInformation extends React.Component {
     );
 
     return (
-      <div className="institution-summary">
+      <div aria-live="off" className="institution-summary">
         <h3>Institution summary</h3>
-        <div>
+        <div aria-live="off">
           <strong>
             <button
               id="accredited-button"
@@ -116,7 +116,7 @@ export class AdditionalInformation extends React.Component {
         {vetTuitionPolicy}
         {institution.section103Message &&
           this.renderSection103Info(institution.section103Message)}
-        <div>
+        <div aria-live="off">
           <strong>
             <button
               id="creditTraining-button"
@@ -130,7 +130,7 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.creditForMilTraining ? 'Yes' : 'No'}
         </div>
-        <div>
+        <div aria-live="off">
           <strong>
             <button
               id="iStudy-button"
@@ -144,7 +144,7 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.independentStudy ? 'Yes' : 'No'}
         </div>
-        <div>
+        <div aria-live="off">
           <strong>
             <button
               id="stemIndicator-button"
@@ -242,7 +242,7 @@ export class AdditionalInformation extends React.Component {
           </div>
           <div className="institution-codes">
             <h3>Institution codes</h3>
-            <div>
+            <div aria-live="off">
               <strong>
                 <button
                   id="facilityCode-button"
@@ -256,7 +256,7 @@ export class AdditionalInformation extends React.Component {
               </strong>
               {it.facilityCode || 'N/A'}
             </div>
-            <div>
+            <div aria-live="off">
               <strong>
                 <button
                   id="ipedsCode-button"
@@ -270,7 +270,7 @@ export class AdditionalInformation extends React.Component {
               </strong>
               {it.cross || 'N/A'}
             </div>
-            <div>
+            <div aria-live="off">
               <strong>
                 <button
                   id="opeCode-button"
