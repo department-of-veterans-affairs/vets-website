@@ -48,7 +48,7 @@ export const AccountSecurityContent = ({
     securitySections.unshift({
       title: 'Identity verification',
       verified: true,
-      value: <p className="vads-u-margin--0 vads-u-padding-left--3">We’ve verified your identity.</p>,
+      value: 'We’ve verified your identity.',
     });
   }
 

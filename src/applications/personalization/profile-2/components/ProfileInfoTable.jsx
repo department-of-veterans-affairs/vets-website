@@ -82,9 +82,7 @@ const ProfileInfoTable = ({
       ...tableRowTitleClasses,
       ...tableRowTitleClassesMedium,
     ].join(' '),
-    tableRowValue: computedTableRowValueClasses,
   };
-
 
   return (
     <section className={classes.table}>
@@ -106,12 +104,14 @@ const ProfileInfoTable = ({
               {row?.verified && (
                 <span className="vads-u-display--flex">
                   <i className="fa fa-check vads-u-color--green" />
-                  <span className={classes.tableRowValueClasses}>{row.value}</span>
+                  <p className="vads-u-margin--0 vads-u-padding-left--1 medium-screen:vads-u-padding-left--3">
+                    {row.value}
+                  </p>
                 </span>
               )}
 
               {!row?.verified && (
-                <span className={classes.tableRowValue}>{row.value}</span>
+                <span className={computedTableRowValueClasses}>{row.value}</span>
               )}
 
             </li>
