@@ -1266,10 +1266,10 @@
     react-focus-lock "^2.4.0"
     react-transition-group "1"
 
-"@department-of-veterans-affairs/formation@6.9.4":
-  version "6.9.4"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.9.4.tgz#44132aa673f4385dd974b351ce2ff3bfbde7b58f"
-  integrity sha512-OUu2ujWYDWGazciHphse4+1/vLsJYzpf1B+afvkjevZ5Liea/wO66lO3tZESmaWFjCGwv/ObPEwLP6DLkb5a5A==
+"@department-of-veterans-affairs/formation@6.9.5":
+  version "6.9.5"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.9.5.tgz#65b13afec4a3f6a5368670f6f63f93e2c6cb170c"
+  integrity sha512-IbaxZwETnyyHPOjsOXa+dvV8pJw5zJfVeGdjrl3tbTjyL7gAzuo8/ZCNNvFlRajI9gJ5pIewtgJsrr09dDs2lQ==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
