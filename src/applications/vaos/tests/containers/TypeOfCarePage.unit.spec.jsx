@@ -161,10 +161,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
     expect(form.find('.usa-alert').exists()).to.be.true;
 
-    // form.find('a.usa-button.usa-button-primary').simulate('click');
-
-    // expect(form.find('.usa-alert').exists()).to.be.false;
-    // form.unmount();
+    form.unmount();
   });
 
   it('should display alert message when residental address is a PO Box', () => {
