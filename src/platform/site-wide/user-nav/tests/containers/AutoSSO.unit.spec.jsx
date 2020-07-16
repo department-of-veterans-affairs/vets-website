@@ -1,60 +1,66 @@
 import React from 'react';
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
 import localStorage from 'platform/utilities/storage/localStorage';
-import * as authUtils from 'platform/user/authentication/utilities';
-import { AutoSSO, checkStatus } from '../../containers/AutoSSO';
+import * as ssoUtils from 'platform/utilities/sso';
+import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
+
+import { AutoSSO } from '../../containers/AutoSSO';
 
 describe('<AutoSSO>', () => {
-  const props = {
-    useSSOe: false,
-    useInboundSSOe: false,
-    checkKeepAlive: sinon.spy(),
-  };
+  let props = {};
 
-  beforeEach(() => localStorage.setItem('hasSessionSSO', true));
-  afterEach(() => {
-    localStorage.clear();
-    props.checkKeepAlive.reset();
+  beforeEach(() => {
+    props = {
+      useInboundSSOe: false,
+      hasCalledKeepAlive: false,
+      checkKeepAlive: sinon.spy(),
+    };
   });
 
-  describe('checkStatus', () => {
-    it('should not call keepalive if it already has', () => {
-      const wrapper = shallow(<AutoSSO {...props} />);
-      const spy = sinon.spy(checkStatus);
-      wrapper.setProps({
-        hasCalledKeepAlive: true,
-        useSSOe: true,
-        useInboundSSOe: true,
-      });
-      expect(spy.called).to.be.false;
-      wrapper.unmount();
-    });
+  afterEach(() => {
+    localStorage.clear();
+  });
 
-    it('should automatically initiate a session log in if a SSOe-flagged user has an active SSOe session but no vets-website session', done => {
-      authUtils.autoLogin = sinon.spy();
-      const wrapper = shallow(<AutoSSO {...props} />);
-      wrapper.setProps({
-        useSSOe: true,
-        useInboundSSOe: true,
-      });
-      done();
-      expect(authUtils.autoLogin.called).to.be.true;
-      wrapper.unmount();
-    });
+  it('should not call removeLoginAttempted if user is logged out', () => {
+    const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    sinon.assert.notCalled(stub);
+    wrapper.unmount();
+  });
 
-    it('should automatically log out if a SSOe-flagged user has an active vets-website session but no SSOe session', done => {
-      authUtils.autoLogout = sinon.spy();
-      const wrapper = shallow(<AutoSSO {...props} />);
-      wrapper.setProps({
-        useSSOe: true,
-        useInboundSSOe: true,
-      });
-      done();
-      expect(authUtils.autoLogout.called).to.be.true;
-      wrapper.unmount();
+  it('should call removeLoginAttempted if user is logged in', () => {
+    const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
+    localStorage.setItem('hasSession', 'true');
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    sinon.assert.calledOnce(stub);
+    wrapper.unmount();
+  });
+
+  it('should not call checkAutoSession if it already has', () => {
+    const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
+    Object.assign(props, {
+      hasCalledKeepAlive: true,
+      useInboundSSOe: true,
     });
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    sinon.assert.notCalled(stub);
+    wrapper.unmount();
+  });
+
+  it('should call keepalive if it has yet to', () => {
+    const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
+    Object.assign(props, {
+      hasCalledKeepAlive: false,
+      useInboundSSOe: true,
+    });
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    sinon.assert.calledOnce(stub);
+    wrapper.unmount();
   });
 });

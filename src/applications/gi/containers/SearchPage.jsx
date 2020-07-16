@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -29,6 +28,8 @@ import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
+import environment from 'platform/utilities/environment';
+import { isMobileView } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -54,7 +55,15 @@ export class SearchPage extends React.Component {
       this.updateSearchResults();
     }
 
-    if (currentlyInProgress !== prevProps.search.inProgress) {
+    // prod flag for bah-8821
+    if (environment.isProduction()) {
+      if (currentlyInProgress !== prevProps.search.inProgress) {
+        scroller.scrollTo('searchPage', getScrollOptions());
+      }
+    } else if (
+      !isMobileView() &&
+      currentlyInProgress !== prevProps.search.inProgress
+    ) {
       scroller.scrollTo('searchPage', getScrollOptions());
     }
 
@@ -108,7 +117,10 @@ export class SearchPage extends React.Component {
     });
 
     this.props.institutionFilterChange(institutionFilter);
-    this.props.fetchInstitutionSearchResults(query);
+    this.props.fetchInstitutionSearchResults(
+      query,
+      this.props.gibctSearchEnhancements,
+    );
   };
 
   autocomplete = (value, version) => {
@@ -119,12 +131,6 @@ export class SearchPage extends React.Component {
         version,
       );
     }
-  };
-
-  handleSearchLinkClick = facilityCode => {
-    const version = this.props.location.query.version;
-    const query = version ? { version } : {};
-    this.props.router.push({ pathname: `profile/${facilityCode}`, query });
   };
 
   handlePageSelect = page => {
@@ -229,7 +235,6 @@ export class SearchPage extends React.Component {
                 yr={result.yr}
                 poe={result.poe}
                 eightKeys={result.eightKeys}
-                handleLinkClick={this.handleSearchLinkClick}
               />
             ))}
           </div>
@@ -309,6 +314,9 @@ const mapStateToProps = state => ({
   gibctEstimateYourBenefits: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
   ],
+  gibctSearchEnhancements: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSearchEnhancements
+  ],
 });
 
 const mapDispatchToProps = {
@@ -326,9 +334,7 @@ const mapDispatchToProps = {
   hideModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SearchPage),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchPage);

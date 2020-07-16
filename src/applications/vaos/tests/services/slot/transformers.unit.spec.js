@@ -19,14 +19,14 @@ describe('VAOS Slot transformer', () => {
       expect(data[0].freeBusyType).to.equal(FREE_BUSY_TYPES.free);
     });
 
-    it('should map start time and convert to UTC which is +6 compared to Denver', () => {
+    it('should map start time and remove bad offset', () => {
       const data = transformSlots(slots, '983');
-      expect(data[0].start).to.equal('2020-04-06T20:00:00Z');
+      expect(data[0].start).to.equal('2020-04-06T14:00:00.000');
     });
 
-    it('should map end time and convert to UTC which is +6 compared to Denver', () => {
+    it('should map end time and remove bad offset', () => {
       const data = transformSlots(slots, '983');
-      expect(data[0].end).to.equal('2020-04-06T20:20:00Z');
+      expect(data[0].end).to.equal('2020-04-06T14:20:00.000');
     });
   });
 });

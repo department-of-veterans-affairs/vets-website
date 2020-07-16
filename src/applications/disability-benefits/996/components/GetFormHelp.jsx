@@ -4,7 +4,11 @@ const GetFormHelp = () => (
   <p className="help-talk">
     Need help filling out the form or have questions about eligibility? Please
     call VA Benefits and Services at{' '}
-    <a className="nowrap" href="tel:1-800-827-1000">
+    <a
+      href="tel:1-800-827-1000"
+      aria-label="8 0 0. 8 2 7. 1 0 0 0."
+      className="nowrap"
+    >
       800-827-1000
     </a>
     .<br />

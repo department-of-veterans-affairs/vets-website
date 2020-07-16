@@ -1,7 +1,11 @@
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  stateTitle,
+  cityTitle,
+} from '../../../helpers';
 import { addChild } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
 import { ChildNameHeader } from '../helpers';
@@ -13,7 +17,6 @@ export const schema = addChild.properties.addChildPlaceOfBirth;
 export const uiSchema = {
   childrenToAdd: {
     'ui:options': {
-      itemName: 'Child',
       viewField: childInfo,
     },
     items: {
@@ -21,12 +24,12 @@ export const uiSchema = {
       placeOfBirth: {
         'ui:title': "Child's place of birth",
         state: {
-          'ui:title': 'State (or country if outside the USA)',
+          'ui:title': stateTitle,
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addChild),
         },
         city: {
-          'ui:title': 'City or county',
+          'ui:title': cityTitle,
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addChild),
         },
@@ -58,7 +61,7 @@ export const uiSchema = {
           'ui:title': 'Stepchild',
         },
         dateBecameDependent: merge(
-          currentOrPastDateUI('Date stepchild became dependent'),
+          currentOrPastDateUI('Date stepchild became your dependent'),
           {
             'ui:options': {
               expandUnder: 'stepchild',
@@ -91,14 +94,14 @@ export const uiSchema = {
           currentOrPastDateUI('When did the marriage end'),
           {
             'ui:required': (formData, index) =>
-              formData.childrenToAdd[`${index}`].previouslyMarried === 'Yes',
+              formData?.childrenToAdd[`${index}`]?.previouslyMarried === 'Yes',
           },
         ),
         reasonMarriageEnded: {
           'ui:widget': 'radio',
           'ui:title': 'Reason marriage ended',
           'ui:required': (formData, index) =>
-            formData.childrenToAdd[`${index}`].previouslyMarried === 'Yes',
+            formData?.childrenToAdd[`${index}`]?.previouslyMarried === 'Yes',
         },
         otherReasonMarriageEnded: {
           'ui:title': 'Reason marriage ended',

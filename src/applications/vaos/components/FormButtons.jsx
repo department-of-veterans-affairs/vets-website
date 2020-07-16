@@ -7,6 +7,7 @@ export default function FormButtons({
   onBack,
   onSubmit,
   pageChangeInProgress,
+  loadingText,
   disabled,
 }) {
   return (
@@ -22,6 +23,7 @@ export default function FormButtons({
       <div className="vads-l-col--6">
         <LoadingButton
           isLoading={pageChangeInProgress}
+          loadingText={loadingText}
           type="submit"
           onClick={onSubmit}
           disabled={disabled}

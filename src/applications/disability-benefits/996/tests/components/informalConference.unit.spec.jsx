@@ -37,7 +37,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{ informalConferenceChoice: 'rep' }}
+        data={{ informalConference: 'rep' }}
         formData={{}}
         uiSchema={uiSchema}
       />,
@@ -56,10 +56,10 @@ describe('Higher-Level Review 0996 informal conference', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          informalConferenceChoice: 'rep',
-          representative: {
-            fullName: 'John Doe',
-            phone: '800 555-1212',
+          informalConference: 'rep',
+          informalConferenceRep: {
+            name: 'John Doe',
+            phone: '800-555-1212',
           },
         }}
         formData={{}}
@@ -69,7 +69,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
 
     const formDOM = getFormDOM(form);
     expect($('input[type="text"]', formDOM).value).to.equal('John Doe');
-    expect($('input[type="tel"]', formDOM).value).to.equal('800 555-1212');
+    expect($('input[type="tel"]', formDOM).value).to.equal('800-555-1212');
   });
 
   it('should show the time checkboxes', () => {
@@ -77,7 +77,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{ informalConferenceChoice: 'me' }}
+        data={{ informalConference: 'me' }}
         formData={{}}
         uiSchema={uiSchema}
       />,
@@ -95,7 +95,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         schema={schema}
-        data={{ informalConferenceChoice: 'no' }}
+        data={{ informalConference: 'no' }}
         formData={{}}
         uiSchema={uiSchema}
       />,
@@ -115,8 +115,8 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          informalConferenceChoice: 'me',
-          scheduleTimes: {
+          informalConference: 'me',
+          informalConferenceTimes: {
             time1000to1200: true,
           },
         }}
@@ -140,12 +140,12 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          informalConferenceChoice: 'rep',
-          representative: {
-            fullName: 'John Doe',
+          informalConference: 'rep',
+          informalConferenceRep: {
+            name: 'John Doe',
             phone: '8005551212',
           },
-          scheduleTimes: {
+          informalConferenceTimes: {
             time1000to1200: true,
           },
         }}
@@ -189,8 +189,8 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          informalConferenceChoice: 'me',
-          scheduleTimes: {},
+          informalConference: 'me',
+          informalConferenceTimes: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -212,8 +212,8 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          informalConferenceChoice: 'me',
-          scheduleTimes: {
+          informalConference: 'me',
+          informalConferenceTimes: {
             time0800to1000: true,
             time1000to1200: true,
             time1230to1400: true,

@@ -92,7 +92,7 @@ describe('Prisoner of war info', () => {
         .find('.va-growable-background')
         .first()
         .text(),
-    ).to.contain('05/05/2011');
+    ).to.contain('May 5, 2010');
     form.unmount();
   });
 

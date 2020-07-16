@@ -60,7 +60,7 @@ describe('<PersonalizationDropdown>', () => {
   });
 
   it('should report analytics when clicking Account', () => {
-    const wrapper = shallow(<PersonalizationDropdown />);
+    const wrapper = shallow(<PersonalizationDropdown showAccount />);
     wrapper
       .find('a')
       .at(3)
@@ -68,6 +68,20 @@ describe('<PersonalizationDropdown>', () => {
     const recordedEvent = global.window.dataLayer[0];
     expect(recordedEvent.event).to.equal('nav-user');
     expect(recordedEvent['nav-user-section']).to.equal('account');
+    wrapper.unmount();
+  });
+
+  it('should show the `Account` menu item if `showAccount` prop true', () => {
+    const wrapper = shallow(<PersonalizationDropdown showAccount />);
+    const accountLink = wrapper.find('li > a[href="/account"]');
+    expect(accountLink.length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should not show the `Account` menu item if `showAccount` prop is not true', () => {
+    const wrapper = shallow(<PersonalizationDropdown />);
+    const accountLink = wrapper.find('li > a[href="/account"]');
+    expect(accountLink.length).to.equal(0);
     wrapper.unmount();
   });
 });

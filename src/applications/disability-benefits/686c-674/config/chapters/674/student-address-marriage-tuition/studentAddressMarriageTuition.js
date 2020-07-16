@@ -54,7 +54,7 @@ export const uiSchema = {
     tuitionIsPaidByGovAgency: {
       'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
       'ui:title':
-        'Is student’s tuition or education allowance being paid by the Survivor’s and Dependents’ Educational Assisatnce (DEA), the Federal Compensation Act, or any U.S. government agency or program?',
+        'Is student’s tuition or education allowance being paid by the Survivors’ and Dependents’ Educational Assisatnce (DEA), the Federal Compensation Act, or any U.S. government agency or program?',
       'ui:widget': 'yesNo',
       'ui:errorMessages': { required: 'Please select an option' },
     },

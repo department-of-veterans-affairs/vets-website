@@ -2,7 +2,11 @@ import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
 
-function SearchResultTypeOfInstitutionFilter({ category, onChange }) {
+function SearchResultTypeOfInstitutionFilter({
+  category,
+  onChange,
+  handleInputFocus,
+}) {
   const options = [
     {
       value: 'ALL',
@@ -25,6 +29,7 @@ function SearchResultTypeOfInstitutionFilter({ category, onChange }) {
       options={options}
       value={category}
       onChange={onChange}
+      onFocus={handleInputFocus}
     />
   );
 }
@@ -32,6 +37,7 @@ function SearchResultTypeOfInstitutionFilter({ category, onChange }) {
 SearchResultTypeOfInstitutionFilter.propTypes = {
   category: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  handleInputFocus: PropTypes.func,
 };
 
 export default SearchResultTypeOfInstitutionFilter;

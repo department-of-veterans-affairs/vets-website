@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -24,6 +23,8 @@ import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearch
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import { renderVetTecLogo, renderSearchResultsHeader } from '../utils/render';
 import ServiceError from '../components/ServiceError';
+import { isMobileView } from '../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -49,7 +50,15 @@ export class VetTecSearchPage extends React.Component {
       this.updateSearchResults();
     }
 
-    if (currentlyInProgress !== prevProps.search.inProgress) {
+    // prod flag for bah-8821
+    if (environment.isProduction()) {
+      if (currentlyInProgress !== prevProps.search.inProgress) {
+        scroller.scrollTo('searchPage', getScrollOptions());
+      }
+    } else if (
+      !isMobileView() &&
+      currentlyInProgress !== prevProps.search.inProgress
+    ) {
       scroller.scrollTo('searchPage', getScrollOptions());
     }
 
@@ -112,15 +121,6 @@ export class VetTecSearchPage extends React.Component {
       this.props.institutionFilterChange(queryFilterFields.institutionFilter);
       this.props.fetchProgramSearchResults(queryFilterFields.query);
     }
-  };
-
-  handleSearchLinkClick = (facilityCode, description) => {
-    const version = this.props.location.query.version;
-    const query = version ? { version } : {};
-    this.props.router.push({
-      pathname: `profile/${facilityCode}/${description}`,
-      query,
-    });
   };
 
   handlePageSelect = page => {
@@ -224,7 +224,6 @@ export class VetTecSearchPage extends React.Component {
                 key={`${result.facilityCode}-${result.description}`}
                 result={result}
                 constants={this.props.constants}
-                handleLinkClick={this.handleSearchLinkClick}
               />
             ))}
           </div>
@@ -325,9 +324,7 @@ const mapDispatchToProps = {
   showModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(VetTecSearchPage),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VetTecSearchPage);

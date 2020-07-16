@@ -8,6 +8,8 @@ import backendServices from '../../../../user/profile/constants/backendServices'
 import { MHVApp } from '../../../authorization/containers/MHVApp';
 
 describe('<MHVApp>', () => {
+  let oldLocation;
+
   const props = {
     location: { pathname: '/health-care/prescriptions', query: {} },
     mhvAccount: {
@@ -28,7 +30,11 @@ describe('<MHVApp>', () => {
   };
 
   const setup = () => {
-    global.window.location.replace = sinon.spy();
+    oldLocation = global.window.location;
+    delete global.window.location;
+    global.window.location = {
+      replace: sinon.spy(),
+    };
     props.createMHVAccount.reset();
     props.fetchMHVAccount.reset();
     props.upgradeMHVAccount.reset();
@@ -51,6 +57,10 @@ describe('<MHVApp>', () => {
   };
 
   beforeEach(setup);
+
+  afterEach(() => {
+    global.window.location = oldLocation;
+  });
 
   it('should show a loading indicator when fetching an account', () => {
     const newProps = set('mhvAccount.loading', true, props);

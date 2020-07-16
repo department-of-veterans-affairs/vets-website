@@ -56,7 +56,7 @@ export function alertsBuildShow() {
     date = new Date();
     date.setTime(date.getTime() + 3650 * 24 * 60 * 60 * 1000);
     expires = `expires=${date.toUTCString()}`;
-    if (frequency === 'once') {
+    if (frequency === 'always') {
       expires = '';
     }
     document.getElementById(target).classList.add('dismissed');

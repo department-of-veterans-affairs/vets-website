@@ -7,6 +7,7 @@ import {
   FETCH_BAH_FAILED,
   FETCH_BAH_STARTED,
   FETCH_BAH_SUCCEEDED,
+  FETCH_PROFILE_STARTED,
   FETCH_PROFILE_SUCCEEDED,
   UPDATE_ESTIMATED_BENEFITS,
 } from '../actions';
@@ -292,6 +293,13 @@ export default function(state = INITIAL_STATE, action) {
       };
     }
 
+    case FETCH_PROFILE_STARTED: {
+      return {
+        ...state,
+        selectedProgram: INITIAL_STATE.selectedProgram,
+      };
+    }
+
     case FETCH_PROFILE_SUCCEEDED: {
       const camelPayload = camelCaseKeysRecursive(action.payload);
       const {
@@ -396,7 +404,6 @@ export default function(state = INITIAL_STATE, action) {
         yellowRibbonProgramIndex,
         vetTecProgramName,
         vetTecTuitionFees,
-        selectedProgram: vetTecProgramName || '',
       };
     }
 

@@ -1,5 +1,7 @@
-const MESSAGE = 'Use resolved path and remove unnecessary parent path';
+const MESSAGE =
+  'Import from ALIASES directly, relative to "src" instead of relative to current working directory.';
 const DEFAULTS = ['applications'];
+let ALIASPATH = '';
 
 function isIncluded(val, aliases) {
   const isString = str => typeof str === 'string';
@@ -11,7 +13,10 @@ function isIncluded(val, aliases) {
 
   for (alias of aliases) {
     const path = `../${alias}/`;
-    if (val.includes(path)) return true;
+    if (val.includes(path)) {
+      ALIASPATH = alias;
+      return true;
+    }
   }
   return false;
 }
@@ -44,9 +49,10 @@ module.exports = {
       ImportDeclaration(node) {
         const value = node.source.value;
         if (isIncluded(value, aliases)) {
+          const message = `Import from '${ALIASPATH}' directly, relative to 'src' instead of relative to current working directory.`;
           context.report({
             node,
-            message: MESSAGE,
+            message,
           });
         }
       },
@@ -55,9 +61,10 @@ module.exports = {
         if (callee === 'Import') {
           const value = node.arguments[0].value;
           if (isIncluded(value, aliases)) {
+            const message = `Import from '${ALIASPATH}' directly, relative to 'src' instead of relative to current working directory.`;
             context.report({
               node,
-              message: MESSAGE,
+              message,
             });
           }
         }

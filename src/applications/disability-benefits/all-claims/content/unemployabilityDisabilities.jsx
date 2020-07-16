@@ -1,5 +1,8 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
@@ -53,14 +56,7 @@ export const helpDescription = (
   <p>
     <strong>Please note:</strong> If you expect to see something that isn’t
     included in this list or if you have other questions about your claim,
-    contact:{' '}
-    <a
-      className="no-wrap"
-      href="tel:18772228387"
-      aria-label="8 7 7. 2 2 2. 8 3 8 7"
-    >
-      877-222-8387
-    </a>
-    , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+    contact: <Telephone contact={CONTACTS['222_VETS']} />, Monday through
+    Friday, 8:00 a.m. to 8:00 p.m. ET.
   </p>
 );

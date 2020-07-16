@@ -144,7 +144,7 @@ export const IntroductionPageFormProcess = () => (
             you if we have questions or need more information.
           </p>
         </li>
-        <li className="process-step list-four">
+        <li className="process-step list-four vads-u-padding-bottom--0p25">
           <h5>Decision</h5>
           <p>
             You’ll get a notice in the mail once we've processed your claim.

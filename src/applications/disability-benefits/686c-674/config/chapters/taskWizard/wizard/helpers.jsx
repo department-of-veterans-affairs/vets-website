@@ -28,7 +28,7 @@ export const AddChildTitle = (
 export const Student674Title = (
   <p>
     Claim benefits for your child <strong>18 to 23 years old</strong> who'll be
-    attending school (VA Form 21-674);
+    attending school (VA Form 21-674)
   </p>
 );
 

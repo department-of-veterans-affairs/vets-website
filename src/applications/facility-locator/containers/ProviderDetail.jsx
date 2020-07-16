@@ -54,7 +54,8 @@ class ProviderDetail extends Component {
         <div className="p1">
           <p>
             <span>
-              <strong>Facility type:</strong> Community Care (Non-VA Health)
+              <strong>Facility type:</strong> Community provider (in VA’s
+              network)
             </span>
           </p>
           <LocationAddress location={location} />

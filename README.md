@@ -115,7 +115,13 @@ yarn test:unit src/applications/path/to/tests/**/*.unit.spec.js*
 ```
 
 ### Browser tests
-To **run all browser tests**, you first need two things:
+To **run all browser tests**, you first need three things:
+1. Install the Java JDK on MacOS (if needed):
+    ```
+    brew update
+    brew tap adoptopenjdk/openjdk
+    brew cask install adoptopenjdk8
+    ```
 1. `vets-website` served locally on port 3001
     - You can do this with `yarn watch`
 1. `vets-api` to **NOT** be running
@@ -171,6 +177,7 @@ for doing very specific things.
 | build the production site (dev features disabled).                                                          | `NODE_ENV=production yarn build --buildtype vagovprod`                                                                                                                                                                       |
 | fetch the latest content cache from S3                                                                      | `yarn fetch-drupal-cache` (does not require SOCKS proxy access)                                                                                                                                                              |
 | reset local environment (clean out node modules and runs npm install)                                       | `yarn reset:env`                                                                                                                                                                                                             |
+| run only the app pages on the site for local development without building content.                          | `yarn watch --env.scaffold`                                                                                                                                                                                                  |
 | run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps | `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env.buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow.                                |
 | run the site for local development with automatic rebuilding of code and styles for specific **apps**       | `yarn watch --env.entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName`                                                                                       |
 | run the site for local development with automatic rebuilding of code and styles for static **content**      | `yarn watch:static`                                                                                                                                                                                                          |
@@ -193,6 +200,10 @@ for doing very specific things.
 | load the analyzer tool on a stats file                                                                      | `yarn analyze`                                                                                                                                                                                                               |
 | add a new React app                                                                                         | `yarn new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) sibling to `vets-website`)                                                                            |
 
+
+
+
+
 ## Supported Browsers
 
 | Browser                   | Minimum version | Note                                   |
@@ -202,3 +213,9 @@ for doing very specific things.
 | Safari / iOS Safari       | 9               |                                        |
 | Chrome / Android Web view | 44              | _Latest version with >0.5% of traffic_ |
 | Firefox                   | 52              | _Latest version with >0.5% of traffic_ |
+
+## Additional Resources
+
+1. [VA.gov Knowledge Hub](https://department-of-veterans-affairs.github.io/va.gov-team/)
+1. [Docs Directory](./docs)
+1. [Manual](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-manual-testing.md) and [Automated](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-automated-testing.md) 508 Testing

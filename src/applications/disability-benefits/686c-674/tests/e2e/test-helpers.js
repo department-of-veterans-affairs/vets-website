@@ -1,5 +1,12 @@
 const mock = require('platform/testing/e2e/mock-helpers');
 
+// Helper for filling a date
+const dateFiller = (client, selector, month, day, year) => {
+  client.selectDropdown(`${selector}Month`, month);
+  client.selectDropdown(`${selector}Day`, day);
+  client.fill(`input[name="${selector}Year"]`, year);
+};
+
 // loop through all options and click each one
 export const select686Options = (client, options, data) => {
   options.forEach(option => {
@@ -487,6 +494,289 @@ export const fillVeteranMarriageHistoryDetails = (client, data) => {
     );
 };
 
+export const fillReportDivorceSpouseInformation = (client, data) => {
+  client
+    .fill(
+      'input[name="root_reportDivorce_fullName_first"]',
+      data.spouseInformation.firstName,
+    )
+    .fill(
+      'input[name="root_reportDivorce_fullName_last"]',
+      data.spouseInformation.lastName,
+    )
+    .selectDropdown(
+      'root_reportDivorce_dateMonth',
+      data.veteranInformation.marriageHistory[0].marriageEndDateMonth,
+    )
+    .selectDropdown(
+      'root_reportDivorce_dateDay',
+      data.veteranInformation.marriageHistory[0].marriageEndDateDay,
+    )
+    .fill(
+      'input[name="root_reportDivorce_dateYear"]',
+      data.veteranInformation.marriageHistory[0].marriageEndDateYear,
+    );
+};
+
+export const fillReportDivorceLocationOfDivorce = (client, data) => {
+  client
+    .fill(
+      'input[name="root_reportDivorce_location_state"]',
+      data.veteranDomesticAddress.stateCode,
+    )
+    .fill(
+      'input[name="root_reportDivorce_location_city"]',
+      data.veteranDomesticAddress.city,
+    );
+};
+
+export const fillReportDivorceReasonMarriageEnded = (client, data) => {
+  client.selectRadio(
+    'root_reportDivorce_reasonMarriageEnded',
+    data.reportDivorce.reasonMarriageEnded,
+  );
+};
+
+export const fillDeceasedName = (client, data) => {
+  client
+    .fill(
+      'input[name="root_deaths_0_fullName_first"]',
+      data.deceasedDependent.firstName,
+    )
+    .fill(
+      'input[name="root_deaths_0_fullName_last"]',
+      data.deceasedDependent.lastName,
+    )
+    .selectRadio('root_deaths_0_dependentType', data.deceasedDependent.type)
+    .fillCheckbox(
+      'input[name="root_deaths_0_childStatus_childUnder18"]',
+      data.deceasedDependent.childTypes.under18,
+    )
+    .fillCheckbox(
+      'input[name="root_deaths_0_childStatus_stepChild"]',
+      data.deceasedDependent.childTypes.stepchild,
+    );
+};
+
+export const fillDeceasedDetails = (client, data) => {
+  client
+    .selectDropdown('root_dateMonth', data.deceasedDependent.date.month)
+    .selectDropdown('root_dateDay', data.deceasedDependent.date.day)
+    .fill('input[name="root_dateYear"]', data.deceasedDependent.date.year)
+    .fill(
+      'input[name="root_location_state"]',
+      data.deceasedDependent.location.state,
+    )
+    .fill(
+      'input[name="root_location_city"]',
+      data.deceasedDependent.location.city,
+    );
+};
+
+export const fillChildMarriageDetails = (client, data) => {
+  client
+    .fill(
+      'input[name="root_childMarriage_fullName_first"]',
+      data.marriedChild.firstName,
+    )
+    .fill(
+      'input[name="root_childMarriage_fullName_last"]',
+      data.marriedChild.lastName,
+    )
+    .selectDropdown(
+      'root_childMarriage_dateMarriedMonth',
+      data.marriedChild.date.month,
+    )
+    .selectDropdown(
+      'root_childMarriage_dateMarriedDay',
+      data.marriedChild.date.day,
+    )
+    .fill(
+      'input[name="root_childMarriage_dateMarriedYear"]',
+      data.marriedChild.date.year,
+    );
+};
+
+export const fillChildStoppedAttendingDetails = (client, data) => {
+  client
+    .fill(
+      'input[name="root_childStoppedAttendingSchool_fullName_first"]',
+      data.childStoppedAttending.firstName,
+    )
+    .fill(
+      'input[name="root_childStoppedAttendingSchool_fullName_last"]',
+      data.childStoppedAttending.lastName,
+    )
+    .selectDropdown(
+      'root_childStoppedAttendingSchool_dateChildLeftSchoolMonth',
+      data.childStoppedAttending.date.month,
+    )
+    .selectDropdown(
+      'root_childStoppedAttendingSchool_dateChildLeftSchoolDay',
+      data.childStoppedAttending.date.day,
+    )
+    .fill(
+      'input[name="root_childStoppedAttendingSchool_dateChildLeftSchoolYear"]',
+      data.childStoppedAttending.date.year,
+    );
+};
+
+export const fillStepchildName = (client, data) => {
+  client
+    .fill(
+      'input[name="root_stepChildren_0_fullName_first"]',
+      data.deceasedDependent.firstName,
+    )
+    .fill(
+      'input[name="root_stepChildren_0_fullName_last"]',
+      data.deceasedDependent.lastName,
+    );
+};
+
+export const fillStepchildDetails = (client, data) => {
+  client
+    .selectRadio('root_supportingStepchild', data.stepchild.supporting)
+    .selectRadio('root_livingExpensesPaid', data.stepchild.supportingValue)
+    .fill(
+      'input[name="root_whoDoesTheStepchildLiveWith_first"]',
+      data.stepchild.personChildLivesWith.first,
+    )
+    .fill(
+      'input[name="root_whoDoesTheStepchildLiveWith_last"]',
+      data.stepchild.personChildLivesWith.last,
+    )
+    .selectDropdown(
+      'root_address_countryName',
+      data.veteranDomesticAddress.countryName,
+    )
+    .fill(
+      'input[name="root_address_addressLine1"]',
+      data.veteranDomesticAddress.addressLine1,
+    )
+    .fill('input[name="root_address_city"]', data.veteranDomesticAddress.city)
+    .selectDropdown(
+      'root_address_stateCode',
+      data.veteranDomesticAddress.stateCode,
+    )
+    .fill(
+      'input[name="root_address_zipCode"]',
+      data.veteranDomesticAddress.zipCode,
+    );
+};
+
+export const fill674StudentInformation = (client, data) => {
+  client.fill(
+    'input[name="root_studentNameAndSSN_fullName_first"]',
+    data.for674.studentInformation.firstName,
+  );
+  client.fill(
+    'input[name="root_studentNameAndSSN_fullName_last"]',
+    data.for674.studentInformation.lastName,
+  );
+  client.fill(
+    'input[name="root_studentNameAndSSN_ssn"]',
+    data.for674.studentInformation.ssn,
+  );
+  client.selectDropdown(
+    'root_studentNameAndSSN_birthDateMonth',
+    data.for674.studentInformation.dob.month,
+  );
+  client.selectDropdown(
+    'root_studentNameAndSSN_birthDateDay',
+    data.for674.studentInformation.dob.day,
+  );
+  client.fill(
+    'input[name="root_studentNameAndSSN_birthDateYear"]',
+    data.for674.studentInformation.dob.year,
+  );
+};
+
+export const fill674StudentAddress = (client, data) => {
+  client.selectDropdown(
+    'root_studentAddressMarriageTuition_address_countryName',
+    data.for674.studentAddress.country,
+  );
+
+  client.fill(
+    'input[name="root_studentAddressMarriageTuition_address_addressLine1"]',
+    data.for674.studentAddress.line1,
+  );
+
+  client.fill(
+    'input[name="root_studentAddressMarriageTuition_address_city"]',
+    data.for674.studentAddress.city,
+  );
+
+  client.selectDropdown(
+    'root_studentAddressMarriageTuition_address_stateCode',
+    data.for674.studentAddress.state,
+  );
+
+  client.fill(
+    'input[name="root_studentAddressMarriageTuition_address_zipCode"]',
+    data.for674.studentAddress.postal,
+  );
+
+  client.selectRadio('root_studentAddressMarriageTuition_wasMarried', 'N');
+  client.selectRadio(
+    'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
+    'N',
+  );
+};
+
+export const fill674StudentSchoolAddress = (client, data) => {
+  client.fill(
+    'input[name="root_schoolInformation_name"]',
+    data.for674.schoolAddress.name,
+  );
+  client.selectDropdown(
+    'root_schoolInformation_address_countryName',
+    data.for674.schoolAddress.country,
+  );
+  client.fill(
+    'input[name="root_schoolInformation_address_addressLine1"]',
+    data.for674.schoolAddress.line1,
+  );
+  client.fill(
+    'input[name="root_schoolInformation_address_city"]',
+    data.for674.schoolAddress.city,
+  );
+  client.selectDropdown(
+    'root_schoolInformation_address_stateCode',
+    data.for674.schoolAddress.state,
+  );
+  client.fill(
+    'input[name="root_schoolInformation_address_zipCode"]',
+    data.for674.schoolAddress.postal,
+  );
+};
+
+export const fill674StudentTermDates = (client, data) => {
+  dateFiller(
+    client,
+    'root_currentTermDates_officialSchoolStartDate',
+    data.for674.studentTermDates.schoolStart.month,
+    data.for674.studentTermDates.schoolStart.day,
+    data.for674.studentTermDates.schoolStart.year,
+  );
+  dateFiller(
+    client,
+    'root_currentTermDates_expectedStudentStartDate',
+    data.for674.studentTermDates.studentStart.month,
+    data.for674.studentTermDates.studentStart.day,
+    data.for674.studentTermDates.studentStart.year,
+  );
+  dateFiller(
+    client,
+    'root_currentTermDates_expectedGraduationDate',
+    data.for674.studentTermDates.graduation.month,
+    data.for674.studentTermDates.graduation.day,
+    data.for674.studentTermDates.graduation.year,
+  );
+  // This will need to change to 'N' when the bug fix for ticket #9835 is merged
+  client.selectRadio('root_programInformation_studentIsEnrolledFullTime', 'Y');
+};
+
 export const initApplicationSubmitMock = token => {
   mock(token, {
     path: '/v0/21-686c',
@@ -496,6 +786,20 @@ export const initApplicationSubmitMock = token => {
         attributes: {
           formSubmissionId: '123fake-submission-id-567',
           timestamp: '2016-05-16',
+        },
+      },
+    },
+  });
+};
+
+export const initValidVaFileNumberMock = token => {
+  return mock(token, {
+    path: '/v0/profile/valid_va_file_number',
+    verb: 'get',
+    value: {
+      data: {
+        attributes: {
+          validVaFileNumber: true,
         },
       },
     },

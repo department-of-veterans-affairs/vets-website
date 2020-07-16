@@ -2,37 +2,30 @@ import { connect } from 'react-redux';
 
 import { checkKeepAlive } from 'platform/user/authentication/actions';
 import {
-  ssoe,
   ssoeInbound,
   hasCheckedKeepAlive,
 } from 'platform/user/authentication/selectors';
-import { autoLogin, autoLogout } from 'platform/user/authentication/utilities';
-import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
-import { ssoKeepAliveSession } from 'platform/utilities/sso';
-
-export async function checkStatus(toggleKeepAlive) {
-  await ssoKeepAliveSession();
-  if (hasSession() && !hasSessionSSO()) {
-    autoLogout();
-  } else if (!hasSession() && hasSessionSSO()) {
-    autoLogin();
-  }
-
-  toggleKeepAlive();
-}
+import { hasSession } from 'platform/user/profile/utilities';
+import { checkAutoSession } from 'platform/utilities/sso';
+import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
 function AutoSSO(props) {
-  const { useSSOe, useInboundSSOe, hasCalledKeepAlive } = props;
+  const { useInboundSSOe, hasCalledKeepAlive } = props;
 
-  if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
-    checkStatus(props.checkKeepAlive);
+  if (hasSession()) {
+    removeLoginAttempted();
+  }
+
+  if (useInboundSSOe && !hasCalledKeepAlive) {
+    checkAutoSession().then(() => {
+      props.checkKeepAlive();
+    });
   }
 
   return null;
 }
 
 const mapStateToProps = state => ({
-  useSSOe: ssoe(state),
   useInboundSSOe: ssoeInbound(state),
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
 });

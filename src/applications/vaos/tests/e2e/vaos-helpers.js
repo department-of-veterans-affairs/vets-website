@@ -57,12 +57,12 @@ function updateTimeslots(data) {
   const startDateTime = moment()
     .add(4, 'days')
     .day(9)
-    .format('YYYY-MM-DDTHH:mm:ss[+0:00]');
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
   const endDateTime = moment()
     .add(4, 'days')
     .day(9)
     .add(60, 'minutes')
-    .format('YYYY-MM-DDTHH:mm:ss[+0:00]');
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
 
   const newSlot = {
     bookingStatus: '1',
@@ -86,7 +86,9 @@ function newAppointmentTest(client, nextElement = '.rjsf [type="submit"]') {
 
 function appointmentDateTimeTest(client, nextElement) {
   client
+    .pause(Timeouts.normal)
     .click('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
+    .waitForElementVisible('.vaos-calendar__option-cell', Timeouts.normal)
     .click(
       '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     )
@@ -122,9 +124,7 @@ function howToBeSeenTest(client, nextElement) {
 
 function contactInformationTest(client, nextElement) {
   client
-    .fill('input#root_phoneNumber', '5035551234')
     .click('input#root_bestTimeToCall_morning')
-    .fill('input#root_email', 'mail@gmail.com')
     .axeCheck('.main')
     .click('.rjsf [type="submit"]')
     .waitForElementPresent(nextElement, Timeouts.normal);
@@ -293,11 +293,12 @@ function initAppointmentListMock(token) {
       },
     },
   });
-  mock(token, {
-    path: '/vaos/v0/appointment_requests',
-    verb: 'get',
-    value: facilities983,
-  });
+  // Duplicate path!!!
+  // mock(token, {
+  //   path: '/vaos/v0/appointment_requests',
+  //   verb: 'get',
+  //   value: facilities983,
+  // });
   mock(token, {
     path: '/vaos/v0/appointment_requests',
     verb: 'post',
@@ -392,6 +393,29 @@ function initAppointmentListMock(token) {
         type: 'cc_eligibility',
         attributes: { eligible: true },
       },
+    },
+  });
+  mock(token, {
+    path:
+      '/vaos/v0/appointment_requests/8a48912a6cab0202016cb4fcaa8b0038/messages',
+    verb: 'get',
+    value: {
+      data: [
+        {
+          id: '8a48912a6cab0202016cb4fcaa8b0038',
+          type: 'messages',
+          attributes: {
+            surrogateIdentifier: {},
+            messageText: 'Request 2 Message 1 Text',
+            messageDateTime: '11/11/2019 12:26:13',
+            senderId: '1012845331V153043',
+            appointmentRequestId: '8a48912a6cab0202016cb4fcaa8b0038',
+            date: '2019-11-11T12:26:13.931+0000',
+            assigningAuthority: 'ICN',
+            systemId: 'var',
+          },
+        },
+      ],
     },
   });
 }

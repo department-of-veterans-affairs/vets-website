@@ -66,7 +66,7 @@ class HeadingSummary extends React.Component {
             </p>
           </div>
           <div>
-            <div className="usa-width-one-half medium-6 small-12 column">
+            <div className="medium-6 small-12 column vads-u-margin-top--neg2">
               <IconWithInfo icon="map-marker" present={addressPresent}>
                 {'  '}
                 {formattedAddress}
@@ -88,8 +88,7 @@ class HeadingSummary extends React.Component {
                 program
               </IconWithInfo>
             </div>
-
-            <div className="usa-width-one-half medium-6 small-12 column">
+            <div className="medium-6 small-12 column vads-u-margin-top--neg2">
               <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
                 {'   '}
                 On-the-job training

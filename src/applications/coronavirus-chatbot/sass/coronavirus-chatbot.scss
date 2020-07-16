@@ -42,7 +42,7 @@ button.ac-pushButton:hover {
   min-height: 38px !important;
   background: $color-gray-lighter !important;
   color: $color-white !important;
-  border: 0 !important;
+  border: 2px solid transparent !important;
 }
 
 #webchat input[type=checkbox] {
@@ -149,6 +149,12 @@ div.ac-container.ac-adaptiveCard {
   background: $color-primary-darkest !important;
 }
 
+/* Connecting... text before chatbot shows */
+.webchat__connectivityStatus.css-nd6pw {
+  align-items: flex-start;
+}
+
 .css-1t62idy {
-  flex-direction: row;
+  flex-direction: row !important;
+  min-height: 900px;
 }

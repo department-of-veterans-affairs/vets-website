@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import appendQuery from 'append-query';
 import environment from 'platform/utilities/environment';
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency, locationInfo } from '../../utils/helpers';
@@ -32,35 +33,28 @@ export class SearchResult extends React.Component {
       country,
       studentCount,
       cautionFlags,
-      handleLinkClick,
     } = this.props;
 
     const tuition = this.estimate(estimated.tuition);
     const housing = this.estimate(estimated.housing);
     const books = this.estimate(estimated.books);
 
-    const linkTo = {
-      pathname: `/profile/${facilityCode}`,
-      query: version ? { version } : {},
-    };
-
-    const handleLinkClickEvent = event => {
-      event.preventDefault();
-      handleLinkClick(facilityCode);
-    };
+    const linkTo = environment.isProduction()
+      ? {
+          pathname: `/profile/${facilityCode}`,
+          query: version ? { version } : {},
+        }
+      : appendQuery(`/profile/${facilityCode}`, { version });
 
     return (
       <div id={`search-result-${facilityCode}`} className="search-result">
         <div className="outer">
           <div className="inner">
             <div className="row">
-              <div className="small-12 usa-width-seven-twelfths medium-7 columns">
+              <div className="small-12 medium-6 columns">
                 <h2>
                   <Link
                     to={linkTo}
-                    onClick={
-                      environment.isProduction ? () => {} : handleLinkClickEvent
-                    }
                     aria-label={`${name} ${locationInfo(city, state, country)}`}
                   >
                     {name}
@@ -124,14 +118,7 @@ export class SearchResult extends React.Component {
             </div>
             <div className="row">
               <div className="view-details columns">
-                <Link
-                  to={linkTo}
-                  onClick={
-                    environment.isProduction ? () => {} : handleLinkClickEvent
-                  }
-                >
-                  View details ›
-                </Link>
+                <Link to={linkTo}>View details ›</Link>
               </div>
             </div>
           </div>

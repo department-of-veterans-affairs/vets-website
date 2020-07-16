@@ -75,7 +75,7 @@ describe('686 report a divorce', () => {
     fillData(form, 'input#root_reportDivorce_location_state', 'VA');
     fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
     // is void
-    selectRadio(form, 'root_reportDivorce_isMarriageAnnulledOrVoid', 'N');
+    selectRadio(form, 'root_reportDivorce_reasonMarriageEnded', 'Divorce');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -110,7 +110,7 @@ describe('686 report a divorce', () => {
     fillData(form, 'input#root_reportDivorce_location_state', 'VA');
     fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
     // is void
-    selectRadio(form, 'root_reportDivorce_isMarriageAnnulledOrVoid', 'Y');
+    selectRadio(form, 'root_reportDivorce_reasonMarriageEnded', 'Other');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
@@ -145,12 +145,8 @@ describe('686 report a divorce', () => {
     fillData(form, 'input#root_reportDivorce_location_state', 'VA');
     fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
     // is void
-    selectRadio(form, 'root_reportDivorce_isMarriageAnnulledOrVoid', 'Y');
-    changeDropdown(
-      form,
-      'select#root_reportDivorce_explanationOfAnnullmentOrVoid',
-      'Other',
-    );
+    selectRadio(form, 'root_reportDivorce_reasonMarriageEnded', 'Other');
+    fillData(form, 'input#root_reportDivorce_explanationOfOther', 'Other');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

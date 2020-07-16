@@ -14,12 +14,12 @@ describe('AddressViewField', () => {
       street: 's1',
       street2: 's2',
       postalCode: '12345',
-      country: 'USA',
+      country: 'United States',
       state: 'state',
     };
     const wrapper = shallow(<AddressViewField formData={formData} />);
     expect(wrapper.html()).to.equal(
-      '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0">s1<br/>s2<br/>city, state 12345<span class="vads-u-display--block">USA</span></p></div>',
+      '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0">s1<br/>s2<br/>city, state 12345<span class="vads-u-display--block">United States</span></p></div>',
     );
     wrapper.unmount();
   });
@@ -58,7 +58,7 @@ describe('AddressViewField', () => {
   it('should render all non-USA fields', () => {
     const formData = {
       ...baseData,
-      country: 'zland',
+      country: 'Canada',
       street: 's1',
       street2: 's2',
       internationalPostalCode: '123456789',
@@ -66,7 +66,7 @@ describe('AddressViewField', () => {
     };
     const wrapper = shallow(<AddressViewField formData={formData} />);
     expect(wrapper.html()).to.equal(
-      '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0">s1<br/>s2<br/>city, p1 123456789<span class="vads-u-display--block">zland</span></p></div>',
+      '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0">s1<br/>s2<br/>city, p1 123456789<span class="vads-u-display--block">Canada</span></p></div>',
     );
     wrapper.unmount();
   });

@@ -97,9 +97,6 @@ export default {
     hasSecondaryCaregiverOneUI: {
       'ui:title': 'Would you like to add a Secondary Family Caregiver?',
       'ui:widget': 'yesNo',
-      'ui:options': {
-        hideOnReview: true,
-      },
     },
     hasSecondaryCaregiverTwoUI: {
       'ui:title': ' ',
@@ -170,8 +167,7 @@ export default {
   primaryCaregiverUI: {
     primaryInputLabel: "Primary Family Caregiver's",
     medicaidEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in Medicaid?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in Medicaid',
       'ui:description': (
         <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
           <AdditionalInfo triggerText="Learn more about Medicaid">
@@ -183,23 +179,21 @@ export default {
       'ui:widget': 'yesNo',
     },
     medicareEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in Medicare?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in Medicare?',
       'ui:description': (
         <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
           <AdditionalInfo triggerText="Learn more about Medicare">
             Medicare is a federal health insurance program providing coverage
-            for people who are 65 years or older or who meet who meet special
-            criteria. Part A insurance covers hospital care, skilled nursing and
-            nursing home care, hospice, and home health services.
+            for people who are 65 years or older or who meet special criteria.
+            Part A insurance covers hospital care, skilled nursing and nursing
+            home care, hospice, and home health services.
           </AdditionalInfo>
         </div>
       ),
       'ui:widget': 'yesNo',
     },
     tricareEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in Tricare?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in Tricare?',
       'ui:description': (
         <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
           <AdditionalInfo triggerText="Learn more about Tricare">
@@ -211,8 +205,7 @@ export default {
       'ui:widget': 'yesNo',
     },
     champvaEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in CHAMPVA?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in CHAMPVA?',
       'ui:description': (
         <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
           <AdditionalInfo triggerText="Learn more about CHAMPVA">
@@ -235,12 +228,14 @@ export default {
     },
     otherHealthInsuranceUI: {
       'ui:title':
-        'Is the Primary Family Caregiver currently enrolled in other health care insurance?',
+        'Is the Primary Family Caregiver enrolled in other health care insurance?',
       'ui:widget': 'yesNo',
     },
     otherHealthInsuranceNameUI: {
       'ui:title':
-        'Name of health insurance? (if there are multiple policies, please separate them with commas)',
+        'Name of health insurance (If there are multiple policies, please separate them with commas.)',
+      'ui:required': formData =>
+        formData[primaryCaregiverFields.otherHealthInsurance] === true,
       'ui:options': {
         expandUnder: primaryCaregiverFields.otherHealthInsurance,
       },

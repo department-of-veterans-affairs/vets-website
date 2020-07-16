@@ -6,6 +6,7 @@ import { MessagingWidget } from '../../containers/MessagingWidget';
 
 const props = {
   canAccessMessaging: true,
+  useSSOe: false,
   messages: [
     {
       messageId: 123,

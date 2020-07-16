@@ -5,7 +5,7 @@ import classNames from 'classnames';
 // Relative
 import { NavItemPropTypes } from '../prop-types';
 
-const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
+const NavItemRow = ({ depth, item, trackEvents }) => {
   // Derive item properties.
   const { expanded, hasChildren, href, id, isSelected, label } = item;
 
@@ -32,7 +32,7 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
         )}
         style={{
           paddingLeft: indentation,
-          fontSize: '15px',
+          fontSize: '14px',
           textTransform: 'uppercase',
         }}
       >
@@ -40,6 +40,10 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
       </h2>
     );
   }
+
+  const handleClick = () => {
+    trackEvents(id);
+  };
 
   // Render the row not as a link when there are child nav items.
   if (hasChildren) {
@@ -55,7 +59,7 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
           open: moreThanLevel2SelectedExpanded,
         })}
         href={href}
-        onClick={toggleItemExpanded(id)}
+        onClick={handleClick}
         rel="noopener noreferrer"
         style={{ paddingLeft: indentation }}
       >
@@ -80,7 +84,7 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
         open: !!(depth >= 2 && isSelected),
       })}
       href={href}
-      onClick={toggleItemExpanded(id)}
+      onClick={handleClick}
       rel="noopener noreferrer"
       style={{ paddingLeft: indentation }}
     >
@@ -100,7 +104,7 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
 NavItemRow.propTypes = {
   depth: PropTypes.number.isRequired,
   item: NavItemPropTypes,
-  toggleItemExpanded: PropTypes.func.isRequired,
+  trackEvents: PropTypes.func.isRequired,
 };
 
 export default NavItemRow;

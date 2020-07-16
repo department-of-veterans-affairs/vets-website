@@ -7,19 +7,14 @@ import ConfirmationDirectScheduleInfo from '../../components/ConfirmationDirectS
 describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
   it('should render', () => {
     const props = {
-      appointmentLength: 20,
       facilityDetails: {
-        id: 'vha_983',
+        id: 'var983',
         name: 'Cheyenne VA Medical Center',
         address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-            address2: null,
-            address3: null,
-          },
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
         },
       },
       data: {
@@ -28,6 +23,10 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
         },
       },
       systemId: '983',
+      slot: {
+        start: '2019-12-20T10:00:00',
+        end: '2019-12-20T10:20:00',
+      },
     };
     const pageTitle = 'Your appointment has been scheduled';
 

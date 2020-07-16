@@ -44,7 +44,7 @@ export default function SingleFacilityEligibilityCheckMessage({
         <p>
           <strong>{facility.name}</strong>
           <br />
-          {facility.address[0].city}, {facility.address[0].state}
+          {facility.address?.city}, {facility.address?.state}
         </p>
         {message}
         <p>

@@ -51,8 +51,10 @@ module.exports = {
    * and put them into an object indexed by filename
    *
    * @param {String} dir - The directory to import all files from
-   * @param {String} prop - The name of the exported property to put into the dict
-   * @return {Object} - The dict of filenam -> exported prop mappings
+   * @param {String} [prop] - The name of the exported property to put into the
+   *                          dict. If undefined, the default export will be
+   *                          used.
+   * @return {Object} - The dict of filename -> exported prop mappings
    */
   getAllImportsFrom(dir, prop) {
     return fs
@@ -60,8 +62,9 @@ module.exports = {
       .filter(name => name.endsWith('.js'))
       .reduce((t, fileName) => {
         const contentModelType = path.parse(fileName).name;
+        const exp = require(path.join(dir, fileName));
         // eslint-disable-next-line no-param-reassign
-        t[contentModelType] = require(path.join(dir, fileName))[prop];
+        t[contentModelType] = prop ? exp[prop] : exp;
         return t;
       }, {});
   },

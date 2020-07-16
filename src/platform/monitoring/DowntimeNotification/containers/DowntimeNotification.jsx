@@ -32,7 +32,7 @@ import { getSoonestDowntime } from '../util/helpers';
  * @property {boolean} isReady - [Provided by container] A flag for indicating whether the downtime array has been retrieved from the API and if the component can render.
  * @property {Node} [loadingIndicator] - A React component that will be rendered while the request to the API for downtime information is pending.
  * @property {function} [render] - A function that may be supplied for custom rendering, useful for customizing how downtime/downtime approaching is handled. Receives the derived status, downtimeWindow, downtimeMap, children as arguments.
- * @module platorm/monitoring/DowntimeNotification
+ * @module platform/monitoring/DowntimeNotification
  */
 class DowntimeNotification extends React.Component {
   static propTypes = {

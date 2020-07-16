@@ -10,6 +10,7 @@ import {
   getChosenClinicInfo,
   getChosenFacilityDetails,
   getSiteIdForChosenFacility,
+  getChosenSlot,
 } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
@@ -65,7 +66,7 @@ export class ConfirmationPage extends React.Component {
       facilityDetails,
       clinic,
       flowType,
-      appointmentLength,
+      slot,
       systemId,
     } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
@@ -78,7 +79,7 @@ export class ConfirmationPage extends React.Component {
             facilityDetails={facilityDetails}
             clinic={clinic}
             pageTitle={this.pageTitle}
-            appointmentLength={appointmentLength}
+            slot={slot}
             systemId={systemId}
           />
         )}
@@ -135,6 +136,7 @@ function mapStateToProps(state) {
     flowType: getFlowType(state),
     appointmentLength: getAppointmentLength(state),
     systemId: getSiteIdForChosenFacility(state),
+    slot: getChosenSlot(state),
   };
 }
 

@@ -3,19 +3,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-
 import recordEvent from 'platform/monitoring/record-event';
 import {
   isLOA3 as isLOA3Selector,
+  isInMVI as isInMVISelector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
   selectProfile,
 } from 'platform/user/selectors';
-import { ssoe as ssoeSelector } from 'platform/user/authentication/selectors';
+import {
+  ssoe as ssoeSelector,
+  signInServiceName as signInServiceNameSelector,
+} from 'platform/user/authentication/selectors';
 
 import ProfileInfoTable from './ProfileInfoTable';
 import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
-import IdentityVerificationStatus from './IdentityVerificationStatus';
+import IdentityNotVerified from './IdentityNotVerified';
+import NotInMVI from './NotInMVI';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
+import EmailAddressNotification from './EmailAddressNotification';
+import Verified from './Verified';
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
@@ -23,14 +29,10 @@ export const AccountSecurityContent = ({
   mhvAccount,
   showMHVTermsAndConditions,
   useSSOe,
+  signInServiceName,
+  isInMVI,
 }) => {
-  const data = [
-    {
-      title: 'Identity verification',
-      value: (
-        <IdentityVerificationStatus isIdentityVerified={isIdentityVerified} />
-      ),
-    },
+  const securitySections = [
     {
       title: '2-factor authentication',
       value: (
@@ -42,16 +44,30 @@ export const AccountSecurityContent = ({
     },
   ];
 
+  if (isIdentityVerified && isInMVI) {
+    securitySections.unshift({
+      title: 'Identity verification',
+      value: <Verified>We’ve verified your identity.</Verified>,
+    });
+  }
+
   if (showMHVTermsAndConditions) {
-    data.push({
+    securitySections.push({
       title: 'Terms and conditions',
       value: <MHVTermsAndConditionsStatus mhvAccount={mhvAccount} />,
     });
   }
 
+  securitySections.push({
+    title: 'Sign-in email address',
+    value: <EmailAddressNotification signInServiceName={signInServiceName} />,
+  });
+
   return (
     <>
-      <ProfileInfoTable data={data} fieldName="accountSecurity" />
+      {!isIdentityVerified && <IdentityNotVerified />}
+      {!isInMVI && isIdentityVerified && <NotInMVI />}
+      <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
       <AlertBox
         status="info"
         headline="Have questions about signing in to VA.gov?"
@@ -82,9 +98,17 @@ export const AccountSecurityContent = ({
 
 AccountSecurityContent.propTypes = {
   isIdentityVerified: PropTypes.bool.isRequired,
+  isInMVI: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
-  mhvAccount: PropTypes.object,
+  mhvAccount: PropTypes.shape({
+    accountLevel: PropTypes.string,
+    accountState: PropTypes.string,
+    errors: PropTypes.array,
+    loading: PropTypes.bool,
+    termsAndConditionsAccepted: PropTypes.bool.isRequired,
+  }),
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
+  signInServiceName: PropTypes.string.isRequired,
   useSSOe: PropTypes.bool.isRequired,
 };
 
@@ -96,9 +120,11 @@ export const mapStateToProps = state => {
 
   return {
     isIdentityVerified: isLOA3Selector(state),
+    isInMVI: isInMVISelector(state),
     isMultifactorEnabled: isMultifactorEnabledSelector(state),
     mhvAccount,
     showMHVTermsAndConditions,
+    signInServiceName: signInServiceNameSelector(state),
     useSSOe: ssoeSelector(state),
   };
 };

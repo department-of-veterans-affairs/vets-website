@@ -26,7 +26,7 @@ const transform = entity => ({
   fieldImageCaption: getDrupalValue(entity.fieldImageCaption),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMedia: entity.fieldMedia[0] || null,
-  fieldOffice: entity.fieldOffice[0] || null,
+  fieldOffice: (entity.fieldOffice && entity.fieldOffice[0]) || null,
 });
 module.exports = {
   filter: [

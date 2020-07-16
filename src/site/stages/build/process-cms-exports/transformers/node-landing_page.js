@@ -31,7 +31,7 @@ const transform = entity => ({
       .format('YYYY-MM-DD HH:mm:ss UTC'),
   },
   fieldPlainlanguageDate: getDrupalValue(entity.fieldPlainlanguageDate),
-  fieldPromo: entity.fieldPromo[0],
+  fieldPromo: entity.fieldPromo[0] || null,
   fieldRelatedLinks: entity.fieldRelatedLinks[0] || null,
   fieldSpokes: entity.fieldSpokes,
   fieldSupportServices: entity.fieldSupportServices,

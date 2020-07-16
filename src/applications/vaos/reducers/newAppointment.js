@@ -126,8 +126,8 @@ function updateFacilitiesSchemaAndData(parents, facilities, schema, data) {
         enum: facilities.map(facility => facility.id),
         enumNames: facilities.map(
           facility =>
-            `${facility.name} (${facility.address[0].city}, ${
-              facility.address[0].state
+            `${facility.name} (${facility.address?.city}, ${
+              facility.address?.state
             })`,
         ),
       },
@@ -196,8 +196,6 @@ export default function formReducer(state = initialState, action) {
         ...initialState,
         parentFacilities: state.parentFacilities,
         facilities: state.facilities,
-        clinics: state.clinics,
-        eligibility: state.eligibility,
         pastAppointments: state.pastAppointments,
         submitStatus: FETCH_STATUS.notStarted,
       };
@@ -537,7 +535,6 @@ export default function formReducer(state = initialState, action) {
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
         availableSlots: action.availableSlots,
         fetchedAppointmentSlotMonths: action.fetchedAppointmentSlotMonths,
-        appointmentLength: action.appointmentLength,
       };
     }
     case FORM_CALENDAR_FETCH_SLOTS_FAILED: {
@@ -650,7 +647,8 @@ export default function formReducer(state = initialState, action) {
         });
 
         clinics = clinics.filter(clinic =>
-          pastAppointmentDateMap.has(clinic.clinicId),
+          // Get clinic portion of id
+          pastAppointmentDateMap.has(clinic.id?.split('_')[1]),
         );
       }
 
@@ -661,9 +659,10 @@ export default function formReducer(state = initialState, action) {
           properties: {
             clinicId: {
               type: 'string',
-              title: `Would you like to make an appointment at ${clinic.clinicFriendlyLocationName ||
-                clinic.clinicName}?`,
-              enum: [clinic.clinicId, 'NONE'],
+              title: `Would you like to make an appointment at ${
+                clinic.serviceName
+              }?`,
+              enum: [clinic.id, 'NONE'],
               enumNames: [
                 'Yes, make my appointment here',
                 'No, I need a different clinic',
@@ -679,12 +678,9 @@ export default function formReducer(state = initialState, action) {
               type: 'string',
               title:
                 'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
-              enum: clinics.map(clinic => clinic.clinicId).concat('NONE'),
+              enum: clinics.map(clinic => clinic.id).concat('NONE'),
               enumNames: clinics
-                .map(
-                  clinic =>
-                    clinic.clinicFriendlyLocationName || clinic.clinicName,
-                )
+                .map(clinic => clinic.serviceName)
                 .concat('I need a different clinic'),
             },
           },
@@ -742,7 +738,7 @@ export default function formReducer(state = initialState, action) {
           initialSchema,
         );
         initialSchema.properties.communityCareSystemId.enumNames = systems.map(
-          system => `${system.address[0].city}, ${system.address[0].state}`,
+          system => `${system.address?.city}, ${system.address?.state}`,
         );
         initialSchema.required.push('communityCareSystemId');
       }
@@ -772,11 +768,13 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         submitStatus: FETCH_STATUS.succeeded,
+        submitStatusVaos400: false,
       };
     case FORM_SUBMIT_FAILED:
       return {
         ...state,
         submitStatus: FETCH_STATUS.failed,
+        submitStatusVaos400: action.isVaos400Error,
       };
     case FORM_UPDATE_CC_ELIGIBILITY: {
       return {

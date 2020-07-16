@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { some } from 'lodash';
 import { connect } from 'react-redux';
 
@@ -149,7 +150,7 @@ const MilitaryInformation = ({ militaryInformation }) => (
   <>
     <h2
       tabIndex="-1"
-      className="vads-u-line-height--1  vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+      className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
       data-focus-target
     >
       Military information
@@ -163,6 +164,20 @@ const MilitaryInformation = ({ militaryInformation }) => (
     </DowntimeNotification>
   </>
 );
+
+MilitaryInformation.propTypes = {
+  militaryInformation: PropTypes.shape({
+    serviceHistory: PropTypes.shape({
+      serviceHistory: PropTypes.arrayOf(
+        PropTypes.shape({
+          branchOfService: PropTypes.string,
+          beginDate: PropTypes.string,
+          endDate: PropTypes.string,
+        }),
+      ),
+    }).isRequired,
+  }).isRequired,
+};
 
 const mapStateToProps = state => ({
   militaryInformation: state.vaProfile?.militaryInformation,

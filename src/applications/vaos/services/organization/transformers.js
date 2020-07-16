@@ -31,14 +31,12 @@ export function transformParentFacilities(parentFacilities) {
       ],
       active: true,
       name: facility.authoritativeName,
-      address: [
-        {
-          line: [],
-          city: facility.city,
-          state: facility.stateAbbrev,
-          postalCode: null,
-        },
-      ],
+      address: {
+        line: [],
+        city: facility.city,
+        state: facility.stateAbbrev,
+        postalCode: null,
+      },
       partOf,
     };
   });

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 
 export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
@@ -7,27 +8,39 @@ export class AdditionalInformation extends React.Component {
 
     return constants.FISCALYEAR;
   }
+
+  renderSection103Info = section103Message => (
+    <div aria-live="off" className="section-103-message">
+      <strong>
+        <button
+          id="section103-button"
+          type="button"
+          className="va-button-link learn-more-button"
+          onClick={() => {
+            recordEvent({
+              event: 'gibct-modal-displayed',
+              'gibct-modal-displayed': 'protection-against-late-va-payments',
+            });
+            this.props.onShowModal('section103');
+          }}
+        >
+          Protection against late VA payments:
+        </button>
+      </strong>
+      &nbsp;
+      {section103Message}
+    </div>
+  );
+
   renderInstitutionSummary() {
     const { institution } = this.props;
     const isOJT = institution.type.toLowerCase() === 'ojt';
 
-    if (this.props.eduSection103 && isOJT && institution.section103Message) {
+    if (isOJT && institution.section103Message) {
       return (
         <div className="institution-summary">
           <h3>Institution summary</h3>
-          <div className="section-103-message">
-            <strong>
-              <button
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={this.props.onShowModal.bind(this, 'section103')}
-              >
-                Protection against late VA payments:
-              </button>
-            </strong>
-            &nbsp;
-            {institution.section103Message}
-          </div>
+          {this.renderSection103Info(institution.section103Message)}
         </div>
       );
     }
@@ -36,9 +49,10 @@ export class AdditionalInformation extends React.Component {
 
     const typeOfAccreditation = institution.accredited &&
       institution.accreditationType && (
-        <div>
+        <div aria-live="off">
           <strong>
             <button
+              id="typeAccredited-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'typeAccredited')}
@@ -66,11 +80,12 @@ export class AdditionalInformation extends React.Component {
     );
 
     return (
-      <div className="institution-summary">
+      <div aria-live="off" className="institution-summary">
         <h3>Institution summary</h3>
-        <div>
+        <div aria-live="off">
           <strong>
             <button
+              id="accredited-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'accredited')}
@@ -99,40 +114,12 @@ export class AdditionalInformation extends React.Component {
         </div>
         {typeOfAccreditation}
         {vetTuitionPolicy}
-        {this.props.eduSection103 &&
-          institution.section103Message && (
-            <div className="section-103-message">
-              <strong>
-                <button
-                  type="button"
-                  className="va-button-link learn-more-button"
-                  onClick={this.props.onShowModal.bind(this, 'section103')}
-                >
-                  Protection against late VA payments:
-                </button>
-              </strong>
-              &nbsp;
-              {institution.section103Message}
-            </div>
-          )}
-        {!this.props.eduSection103 && (
-          <div>
-            <strong>
-              <button
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={this.props.onShowModal.bind(this, 'singleContact')}
-              >
-                Single point of contact for veterans:
-              </button>
-            </strong>
-            &nbsp;
-            {institution.vetPoc ? 'Yes' : 'No'}
-          </div>
-        )}
-        <div>
+        {institution.section103Message &&
+          this.renderSection103Info(institution.section103Message)}
+        <div aria-live="off">
           <strong>
             <button
+              id="creditTraining-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'creditTraining')}
@@ -143,9 +130,10 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.creditForMilTraining ? 'Yes' : 'No'}
         </div>
-        <div>
+        <div aria-live="off">
           <strong>
             <button
+              id="iStudy-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'iStudy')}
@@ -156,9 +144,10 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.independentStudy ? 'Yes' : 'No'}
         </div>
-        <div>
+        <div aria-live="off">
           <strong>
             <button
+              id="stemIndicator-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.props.onShowModal.bind(this, 'stemIndicator')}
@@ -169,21 +158,19 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.stemIndicator ? 'Yes' : 'No'}
         </div>
-        {this.props.eduSection103 && (
-          <div>
-            <strong>
-              <button
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={this.props.onShowModal.bind(this, 'singleContact')}
-              >
-                Single point of contact for veterans:
-              </button>
-            </strong>
-            &nbsp;
-            {institution.vetPoc ? 'Yes' : 'No'}
-          </div>
-        )}
+        <div>
+          <strong>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'singleContact')}
+            >
+              Single point of contact for veterans:
+            </button>
+          </strong>
+          &nbsp;
+          {institution.vetPoc ? 'Yes' : 'No'}
+        </div>
       </div>
     );
   }
@@ -255,9 +242,10 @@ export class AdditionalInformation extends React.Component {
           </div>
           <div className="institution-codes">
             <h3>Institution codes</h3>
-            <div>
+            <div aria-live="off">
               <strong>
                 <button
+                  id="facilityCode-button"
                   type="button"
                   className="va-button-link learn-more-button"
                   onClick={this.props.onShowModal.bind(this, 'facilityCode')}
@@ -268,9 +256,10 @@ export class AdditionalInformation extends React.Component {
               </strong>
               {it.facilityCode || 'N/A'}
             </div>
-            <div>
+            <div aria-live="off">
               <strong>
                 <button
+                  id="ipedsCode-button"
                   type="button"
                   className="va-button-link learn-more-button"
                   onClick={this.props.onShowModal.bind(this, 'ipedsCode')}
@@ -281,9 +270,10 @@ export class AdditionalInformation extends React.Component {
               </strong>
               {it.cross || 'N/A'}
             </div>
-            <div>
+            <div aria-live="off">
               <strong>
                 <button
+                  id="opeCode-button"
                   type="button"
                   className="va-button-link learn-more-button"
                   onClick={this.props.onShowModal.bind(this, 'opeCode')}
@@ -331,7 +321,6 @@ AdditionalInformation.propTypes = {
   constants: PropTypes.object,
   institution: PropTypes.object,
   onShowModal: PropTypes.func,
-  eduSection103: PropTypes.bool,
 };
 
 export default AdditionalInformation;

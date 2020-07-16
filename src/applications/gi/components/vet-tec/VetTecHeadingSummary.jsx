@@ -114,7 +114,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
           </div>
         </div>
         <div className={preferredProvider}>
-          <div className>
+          <div>
             <VetTecAdditionalResources />
           </div>
         </div>

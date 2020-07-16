@@ -1,6 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import FacilityDirectionsLink from './FacilityDirectionsLink';
+import FacilityAddress from './FacilityAddress';
 import FacilityHours from './FacilityHours';
 import { FETCH_STATUS } from '../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -18,8 +18,6 @@ export default function NoValidVAFacilities({ formContext }) {
     return <LoadingIndicator message="Finding locations" />;
   }
 
-  const address = parentDetails?.address?.physical;
-  const phone = parentDetails?.phone;
   const typeOfCareText = typeOfCare ? lowerCase(typeOfCare) : '';
 
   return (
@@ -30,49 +28,23 @@ export default function NoValidVAFacilities({ formContext }) {
         content={
           <>
             <p>
-              We’re sorry. This facility doesn’t allow online appointments for
-              this type of care. Please call the medical center for more
-              information.
+              We’re sorry. This medical center and associated clinics don’t
+              allow online appointments for this type of care. Please call the
+              medical center for more information.
             </p>
             {parentDetails ? (
               <div className="vads-u-padding-left--2 vads-u-border-left--4px vads-u-border-color--primary">
-                <span className="vads-u-font-weight--bold">
-                  {parentDetails?.name}
-                </span>
-                <br />
-                <span>{address?.address1}</span>
-                <br />
-                {!!address?.address2 && (
-                  <>
-                    <span>{address?.address2}</span>
-                    <br />
-                  </>
-                )}
-                <span>
-                  {address?.city}, {address?.state} {address?.zip}
-                </span>
-                <br />
-                <FacilityDirectionsLink location={parentDetails} />
-                <div className="vads-u-display--flex vads-u-margin-top--2">
-                  <FacilityHours location={parentDetails} />
-                </div>
-                <p>
-                  <span className="vads-u-font-weight--bold">Main phone: </span>
-                  <a href={`tel:${phone?.main?.replace('-', '')}`}>
-                    {phone?.main}
-                  </a>
-                </p>
-                {!!phone?.mentalHealthClinic && (
-                  <p>
-                    <span className="vads-u-font-weight--bold">
-                      Mental health phone:{' '}
-                    </span>
-                    <a
-                      href={`tel:${phone.mentalHealthClinic.replace('-', '')}`}
-                    >
-                      {phone?.mentalHealthClinic}
-                    </a>
-                  </p>
+                <FacilityAddress
+                  name={parentDetails.name}
+                  facility={parentDetails}
+                  showDirectionsLink
+                />
+                {!!parentDetails?.hoursOfOperation && (
+                  <div className="vads-u-display--flex vads-u-margin-top--2">
+                    <FacilityHours
+                      hoursOfOperation={parentDetails.hoursOfOperation}
+                    />
+                  </div>
                 )}
               </div>
             ) : (

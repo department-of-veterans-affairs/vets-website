@@ -1,9 +1,14 @@
 .gi-app {
   .va-modal {
     .va-modal-inner {
+      max-height: 100vh;
       max-width: 600px;
+      overflow: scroll;
+      z-index: 100;
     }
-
+    .align-left {
+      margin-right: 1.5em;
+    }
     ul {
       margin-left: 1em;
     }

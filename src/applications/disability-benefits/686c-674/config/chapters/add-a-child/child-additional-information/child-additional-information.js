@@ -19,14 +19,13 @@ export const schema = additionalInformationSchema;
 export const uiSchema = {
   childrenToAdd: {
     'ui:options': {
-      itemName: 'Child',
       viewField: childInfo,
     },
     items: {
       'ui:title': ChildNameHeader,
       doesChildLiveWithYou: {
         'ui:widget': 'yesNo',
-        'ui:title': 'Does this child live with you?',
+        'ui:title': 'Does your child live with you?',
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.addChild),
       },
@@ -50,6 +49,11 @@ export const uiSchema = {
             'ui:title': 'Last name',
             'ui:required': (formData, index) =>
               !formData.childrenToAdd[`${index}`].doesChildLiveWithYou,
+          },
+          suffix: {
+            'ui:options': {
+              hideIf: () => true,
+            },
           },
         },
         address: {

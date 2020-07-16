@@ -1,0 +1,85 @@
+{
+  "resourceType": "Bundle",
+  "id": "9b3b7c1b-c7cf-4422-8649-54ff778a95fd",
+  "meta": { "lastUpdated": "2020-05-22T18:17:23.840+00:00" },
+  "type": "searchset",
+  "total": 2,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://veteran.apps-staging.va.gov/vsp/v1/Organization?identifier=983%2C984"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/Organization/393833",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "393833",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><!--    <div class=\"hapiHeaderText\" th:narrative=\"${resource.name}\"></div>--><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>983</td></tr><tr><td>Identifier</td><td>urn:va:facility:983</td></tr><tr><td>Address</td><td><span>2360 East Pershing Boulevard </span><br/><span>Cheyenne </span><span>WY </span></td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          { "system": "urn:oid:2.16.840.1.113883.6.233", "value": "983" },
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:facility:983"
+          }
+        ],
+        "active": true,
+        "name": "Cheyenne VA Medical Center",
+        "telecom": [
+          { "system": "phone", "value": "307-778-7550" },
+          {
+            "system": "other",
+            "value": "https://www.cheyenne.va.gov/locations/directions.asp"
+          }
+        ],
+        "address": [
+          {
+            "line": ["2360 East Pershing Boulevard"],
+            "city": "Cheyenne",
+            "state": "WY",
+            "postalCode": "82001-5356"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/Organization/393834",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "393834",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><!--    <div class=\"hapiHeaderText\" th:narrative=\"${resource.name}\"></div>--><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>984</td></tr><tr><td>Identifier</td><td>urn:va:facility:984</td></tr><tr><td>Address</td><td><span>4100 West Third Street </span><br/><span>Dayton </span><span>OH </span></td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          { "system": "urn:oid:2.16.840.1.113883.6.233", "value": "984" },
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:facility:984"
+          }
+        ],
+        "active": true,
+        "name": "Dayton VA Medical Center",
+        "telecom": [
+          { "system": "phone", "value": "937-268-6511" },
+          {
+            "system": "other",
+            "value": "https://www.dayton.va.gov/locations/directions.asp"
+          }
+        ],
+        "address": [
+          {
+            "line": ["4100 West Third Street"],
+            "city": "Dayton",
+            "state": "OH",
+            "postalCode": "45428-9000"
+          }
+        ]
+      }
+    }
+  ]
+}

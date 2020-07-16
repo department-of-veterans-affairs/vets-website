@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { DateWidget } from 'platform/forms-system/src/js/review/widgets';
+
 import { genderLabels } from 'platform/static-data/labels';
-import { srSubstitute } from '../utils';
+import { srSubstitute, formatDate } from '../utils';
 import { editNote } from './common';
 
 const unconnectedVetInfoView = profile => {
@@ -10,12 +10,14 @@ const unconnectedVetInfoView = profile => {
   const { ssn, vaFileNumber, dob, gender } = profile;
   const { first, middle, last, suffix } = profile.userFullName;
   const mask = srSubstitute('●●●–●●–', 'ending with');
+
   return (
     <div>
       <p>This is the personal information we have on file for you.</p>
       <div className="blue-bar-block">
         <strong>
-          {first} {middle} {last} {suffix}
+          {`${first || ''} ${middle || ''} ${last || ''}`}
+          {suffix && `, ${suffix}`}
         </strong>
         {ssn && (
           <p>
@@ -29,10 +31,7 @@ const unconnectedVetInfoView = profile => {
             {vaFileNumber.slice(5)}
           </p>
         )}
-        <p>
-          Date of birth:{' '}
-          <DateWidget value={dob} options={{ monthYear: false }} />
-        </p>
+        <p>Date of birth: {dob ? formatDate(dob) : ''}</p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
       {editNote('personal information')}

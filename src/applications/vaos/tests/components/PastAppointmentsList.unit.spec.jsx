@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import moment from 'moment';
 import { PastAppointmentsList } from '../../components/PastAppointmentsList';
 import {
@@ -17,26 +17,58 @@ describe('VAOS <PastAppointmentsList>', () => {
     pastSelectedIndex: 0,
     past: [
       {
-        appointmentType: APPOINTMENT_TYPES.vaAppointment,
-        appointmentDate: moment('2019-12-11T15:00:00Z'),
-        clinicId: '455',
-        facilityId: '983',
+        vaos: {
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          videoType: null,
+          isCommunityCare: false,
+        },
+        start: moment('2019-12-11T15:00:00Z'),
         status: APPOINTMENT_STATUS.booked,
+        participant: [
+          {
+            actor: {
+              reference: 'HealthcareService/var983_455',
+              display: 'CHY OPT VAR1',
+            },
+          },
+          {
+            actor: {
+              reference: 'Location/var983',
+            },
+          },
+        ],
       },
       {
-        appointmentType: APPOINTMENT_TYPES.ccAppointment,
-        appointmentDate: moment('2019-11-25T13:30:00Z'),
-        timeZone: '-04:00 EDT',
+        vaos: {
+          appointmentType: APPOINTMENT_TYPES.ccAppointment,
+          timeZone: '-04:00 EDT',
+          isCommunityCare: true,
+          videoType: null,
+        },
+        contained: [
+          {
+            actor: {
+              name: 'Practice name',
+              address: {
+                line: ['123 second st'],
+                city: 'Northampton',
+                state: 'MA',
+                postalCode: '22222',
+              },
+              telecom: [
+                {
+                  system: 'phone',
+                  value: '1234567890',
+                },
+              ],
+            },
+          },
+        ],
+        start: moment('2019-11-25T13:30:00Z'),
         status: APPOINTMENT_STATUS.booked,
-      },
-      {
-        appointmentType: APPOINTMENT_TYPES.request,
-        status: APPOINTMENT_STATUS.cancelled,
       },
     ],
-    systemClinicToFacilityMap: {
-      '983_455': {},
-    },
+    facilityData: {},
   };
 
   it('should display loading indicator', () => {
@@ -91,6 +123,7 @@ describe('VAOS <PastAppointmentsList>', () => {
     expect(fetchPastAppointments.firstCall.args[1]).to.equal(
       dateRangeOptions[defaultProps.appointments.pastSelectedIndex].endDate,
     );
+
     tree.unmount();
   });
 
@@ -109,7 +142,7 @@ describe('VAOS <PastAppointmentsList>', () => {
         .find('ConfirmedAppointmentListItem')
         .first()
         .props().facility,
-    ).to.equal(appointments.systemClinicToFacilityMap['983_455']);
+    ).to.equal(appointments.facilityData.var442);
 
     tree.unmount();
   });
@@ -215,6 +248,23 @@ describe('VAOS <PastAppointmentsList>', () => {
     expect(defaultProps.router.push.called).to.be.true;
     expect(defaultProps.router.push.firstCall.args[0]).to.equal('/');
     expect(fetchPastAppointments.called).to.be.false;
+    tree.unmount();
+  });
+
+  it('should render the text that describes which months is being displayed', () => {
+    const tree = shallow(
+      <PastAppointmentsList
+        appointments={appointments}
+        showPastAppointments
+        pastSelectedIndex={0}
+      />,
+    );
+
+    const display = tree.find(
+      'span.vads-u-font-size--sm.vads-u-display--block.vads-u-margin-bottom--1',
+    );
+    expect(display.text()).to.contains('Past 3 months');
+
     tree.unmount();
   });
 });

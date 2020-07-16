@@ -22,6 +22,7 @@ window.appName = manifest.entryName;
 
 const store = createCommonStore(reducer);
 
+/* eslint-disable react-hooks/rules-of-hooks */
 const history = useRouterHistory(createHistory)({
   basename: manifest.rootUrl,
 });

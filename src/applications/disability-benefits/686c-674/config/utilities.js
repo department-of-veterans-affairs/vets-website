@@ -1,5 +1,13 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import { validateWhiteSpace } from 'platform/forms/validations';
+import {
+  filterInactivePageData,
+  getActivePages,
+  getInactivePages,
+  stringifyFormReplacer,
+  expandArrayPages,
+  createFormPageList,
+} from 'platform/forms-system/src/js/helpers';
 import { apiRequest } from 'platform/utilities/api';
 
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
@@ -52,3 +60,22 @@ export {
   isServerError,
   isClientError,
 };
+
+export function customTransformForSubmit(
+  formConfig,
+  form,
+  replacer = stringifyFormReplacer,
+) {
+  const expandedPages = expandArrayPages(
+    createFormPageList(formConfig),
+    form.data,
+  );
+  const activePages = getActivePages(expandedPages, form.data);
+  const inactivePages = getInactivePages(expandedPages, form.data);
+  const withoutInactivePages = filterInactivePageData(
+    inactivePages,
+    activePages,
+    form,
+  );
+  return JSON.stringify(withoutInactivePages, replacer) || '{}';
+}

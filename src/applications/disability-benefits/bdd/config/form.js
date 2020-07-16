@@ -9,14 +9,13 @@ import { externalServices as services } from 'platform/monitoring/DowntimeNotifi
 import submitFormFor from '../../all-claims/config/submitForm';
 
 import IntroductionPage from '../components/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPoll from '../components/ConfirmationPoll';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import FormSavedPage from '../../all-claims/containers/FormSavedPage';
 
 import {
   hasGuardOrReservePeriod,
-  hasVAEvidence,
   hasPrivateEvidence,
   capitalizeEachWord,
   hasOtherEvidence,
@@ -29,7 +28,6 @@ import {
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
   isDisabilityPtsd,
-  directToCorrectForm,
 } from '../../all-claims/utils';
 
 import captureEvents from '../../all-claims/analytics-functions';
@@ -39,7 +37,7 @@ import prefillTransformer from '../../all-claims/prefill-transformer';
 import { transform } from '../../all-claims/submit-transformer';
 
 import { veteranInfoDescription } from '../../all-claims/content/veteranDetails';
-import { supportingEvidenceOrientation } from '../../all-claims/content/supportingEvidenceOrientation';
+import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import {
   adaptiveBenefits,
   addDisabilities,
@@ -52,9 +50,9 @@ import {
   choosePtsdType,
   claimExamsInfo,
   contactInformation,
-  evidenceTypes,
   federalOrders,
   finalIncident,
+  fullyDevelopedClaim,
   individualUnemployability,
   mentalHealthChanges,
   newDisabilities,
@@ -73,11 +71,15 @@ import {
   summaryOfEvidence,
   uploadPersonalPtsdDocuments,
   uploadPtsdDocuments,
-  vaMedicalRecords,
+  vaEmployee,
   workBehaviorChanges,
 } from '../../all-claims/pages';
 
-import { militaryHistory } from '../pages';
+import {
+  evidenceTypes,
+  militaryHistory,
+  serviceTreatmentRecords,
+} from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../../all-claims/content/ancillaryFormsWizardIntro';
 
@@ -104,13 +106,12 @@ const formConfig = {
     environment.API_URL
   }/v0/disability_compensation_form/submit_all_claim`,
   submit: submitFormFor('disability-526EZ'),
-  trackingPrefix: 'disability-526EZ-',
+  trackingPrefix: 'disability-526EZ-bdd-',
   downtime: {
     requiredForPrefill: true,
     dependencies: [services.evss, services.emis, services.mvi, services.vet360],
   },
-  formId: VA_FORM_IDS.FORM_21_526EZ,
-  onFormLoaded: directToCorrectForm,
+  formId: VA_FORM_IDS.FORM_21_526EZ_BDD,
   version: migrations.length,
   migrations,
   prefillTransformer,
@@ -124,7 +125,7 @@ const formConfig = {
   formSavedPage: FormSavedPage,
   transformForSubmit: transform,
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
@@ -420,18 +421,17 @@ const formConfig = {
           uiSchema: { 'ui:description': supportingEvidenceOrientation },
           schema: { type: 'object', properties: {} },
         },
+        serviceTreatmentRecords: {
+          title: 'Service treatment records',
+          path: 'supporting-evidence/service-treatment-records',
+          uiSchema: serviceTreatmentRecords.uiSchema,
+          schema: serviceTreatmentRecords.schema,
+        },
         evidenceTypes: {
           title: 'Supporting evidence types',
           path: 'supporting-evidence/evidence-types',
           uiSchema: evidenceTypes.uiSchema,
           schema: evidenceTypes.schema,
-        },
-        vaMedicalRecords: {
-          title: 'VA medical records',
-          path: 'supporting-evidence/va-medical-records',
-          depends: hasVAEvidence,
-          uiSchema: vaMedicalRecords.uiSchema,
-          schema: vaMedicalRecords.schema,
         },
         privateMedicalRecords: {
           title: 'Private medical records',
@@ -479,6 +479,18 @@ const formConfig = {
           uiSchema: paymentInformation.uiSchema,
           schema: paymentInformation.schema,
           onContinue: captureEvents.paymentInformation,
+        },
+        vaEmployee: {
+          title: 'VA employee',
+          path: 'va-employee',
+          uiSchema: vaEmployee.uiSchema,
+          schema: vaEmployee.schema,
+        },
+        fullyDevelopedClaim: {
+          title: 'Fully developed claim program',
+          path: 'fully-developed-claim',
+          uiSchema: fullyDevelopedClaim.uiSchema,
+          schema: fullyDevelopedClaim.schema,
         },
       },
     },

@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
+import { FETCH_STATUS } from '../../../utils/constants';
 
 import CancelAppointmentFailedModal from '../../../components/cancel/CancelAppointmentFailedModal';
 
@@ -10,10 +11,13 @@ describe('VAOS <CancelAppointmentFailedModal>', () => {
     const appointment = {};
     const facility = {
       name: 'Facility name',
-      phone: {
-        main: '234-244-4444',
-      },
-      address: { physical: {} },
+      telecom: [
+        {
+          system: 'phone',
+          value: '234-244-4444',
+        },
+      ],
+      address: {},
     };
     const tree = mount(
       <CancelAppointmentFailedModal
@@ -32,16 +36,49 @@ describe('VAOS <CancelAppointmentFailedModal>', () => {
     tree.unmount();
   });
 
+  it('should display vaos 400 error message', () => {
+    const appointment = {};
+    const facility = {
+      name: 'Facility name',
+      telecom: [
+        {
+          system: 'phone',
+          value: '234-244-4444',
+        },
+      ],
+      address: {},
+    };
+    const tree = mount(
+      <CancelAppointmentFailedModal
+        facility={facility}
+        appointment={appointment}
+        isBadRequest
+      />,
+    );
+
+    expect(tree.find('Modal').props().status).to.equal('error');
+    expect(tree.text()).to.contain(
+      'You can’t cancel your appointment on the VA appointments tool.',
+    );
+    expect(tree.text()).to.contain('Facility name');
+    expect(tree.find('dl').text()).to.contain('234-244-4444');
+
+    tree.unmount();
+  });
+
   it('should close modal', () => {
     const appointment = {
       providerPhone: '1234567890',
     };
     const facility = {
       name: 'Facility name',
-      phone: {
-        main: '234-244-4444',
-      },
-      address: { physical: {} },
+      telecom: [
+        {
+          system: 'phone',
+          value: '234-244-4444',
+        },
+      ],
+      address: {},
     };
     const onClose = sinon.spy();
     const tree = mount(

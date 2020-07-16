@@ -90,7 +90,7 @@ export class SignInModal extends React.Component {
     return (
       <>
         {this.downtimeBanner(
-          [EXTERNAL_SERVICES.idme],
+          [EXTERNAL_SERVICES.idme, EXTERNAL_SERVICES.ssoe],
           'Our sign in process isn’t working right now',
           'error',
           'We’re sorry. We’re working to fix some problems with our sign in process. If you’d like to sign in to VA.gov, please check back later.',

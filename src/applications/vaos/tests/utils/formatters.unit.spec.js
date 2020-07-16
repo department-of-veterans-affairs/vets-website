@@ -2,7 +2,6 @@ import { expect } from 'chai';
 
 import {
   formatTypeOfCare,
-  formatOperatingHours,
   titleCase,
   sentenceCase,
   lowerCase,
@@ -19,38 +18,6 @@ describe('VAOS formatters', () => {
       const result = formatTypeOfCare('Primary care');
 
       expect(result).to.equal('primary care');
-    });
-  });
-  describe('formatOperatingHours', () => {
-    it('should return if falsy', () => {
-      const result = formatOperatingHours(false);
-
-      expect(result).to.equal(false);
-    });
-    it('should convert sunrise - sunset to All day', () => {
-      const result = formatOperatingHours('sunrise-sunset');
-
-      expect(result).to.equal('All Day');
-    });
-    it('should return closed', () => {
-      const result = formatOperatingHours('close');
-
-      expect(result).to.equal('Closed');
-    });
-    it('should format hmmA times', () => {
-      const result = formatOperatingHours('800AM-1000AM');
-
-      expect(result).to.equal('8:00a.m. - 10:00a.m.');
-    });
-    it('should format h:mmA times', () => {
-      const result = formatOperatingHours('8:00AM-10:00PM');
-
-      expect(result).to.equal('8:00a.m. - 10:00p.m.');
-    });
-    it('should skip invalid date', () => {
-      const result = formatOperatingHours('whatever-whatever');
-
-      expect(result).to.equal('whatever-whatever');
     });
   });
 

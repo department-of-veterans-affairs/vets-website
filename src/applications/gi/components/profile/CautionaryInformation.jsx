@@ -62,7 +62,7 @@ export class CautionaryInformation extends React.Component {
           <p>
             To learn more about Caution Flags,{' '}
             <a
-              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp"
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#CF"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => {

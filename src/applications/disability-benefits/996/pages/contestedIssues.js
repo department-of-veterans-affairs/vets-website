@@ -1,4 +1,3 @@
-import fullSchema from '../20-0996-schema.json';
 import SelectArrayItemsWidget from '../containers/SelectArrayItemsWidget';
 
 import {
@@ -16,8 +15,6 @@ import {
 import { requireRatedDisability } from '../validations';
 import SameOfficeReviewField from '../containers/SameOfficeReviewField';
 
-const { contestedIssues } = fullSchema.properties;
-
 const contestedIssuesPage = {
   uiSchema: {
     'ui:title': contestedIssuesTitle,
@@ -30,6 +27,7 @@ const contestedIssuesPage = {
         label: disabilityOption,
         widgetClassNames: 'widget-outline',
         keepInPageOnReview: true,
+        customTitle: ' ',
       },
       'ui:validations': [requireRatedDisability],
       'ui:required': () => true,
@@ -68,7 +66,16 @@ const contestedIssuesPage = {
   schema: {
     type: 'object',
     properties: {
-      contestedIssues,
+      contestedIssues: {
+        type: 'array',
+        minItems: 1,
+        maxItems: 100,
+        items: {
+          type: 'object',
+          properties: {},
+          'view:selected': 'boolean',
+        },
+      },
       'view:contestedIssuesAlert': {
         type: 'object',
         properties: {},

@@ -59,12 +59,10 @@ describe('VAOS data transformation', () => {
                 },
               ],
               name: 'CHYSHR-Cheyenne VA Medical Center',
-              address: [
-                {
-                  city: 'Cheyenne',
-                  state: 'WY',
-                },
-              ],
+              address: {
+                city: 'Cheyenne',
+                state: 'WY',
+              },
               legacyVAR: {
                 institutionTimezone: 'America/Denver',
               },
@@ -159,12 +157,10 @@ describe('VAOS data transformation', () => {
                 },
               ],
               name: 'CHYSHR-Cheyenne VA Medical Center',
-              address: [
-                {
-                  city: 'Cheyenne',
-                  state: 'WY',
-                },
-              ],
+              address: {
+                city: 'Cheyenne',
+                state: 'WY',
+              },
               legacyVAR: {
                 institutionTimezone: 'America/Denver',
               },
@@ -269,12 +265,10 @@ describe('VAOS data transformation', () => {
               },
             ],
             name: 'CHYSHR-Cheyenne VA Medical Center',
-            address: [
-              {
-                city: 'Cheyenne',
-                state: 'WY',
-              },
-            ],
+            address: {
+              city: 'Cheyenne',
+              state: 'WY',
+            },
           },
           {
             id: 'var984',
@@ -284,12 +278,10 @@ describe('VAOS data transformation', () => {
                 value: '984',
               },
             ],
-            address: [
-              {
-                city: 'Dayton',
-                state: 'OH',
-              },
-            ],
+            address: {
+              city: 'Dayton',
+              state: 'OH',
+            },
           },
         ],
         ccEnabledSystems: ['984', '983'],
@@ -416,12 +408,10 @@ describe('VAOS data transformation', () => {
               },
             ],
             name: 'CHYSHR-Cheyenne VA Medical Center',
-            address: [
-              {
-                city: 'Cheyenne',
-                state: 'WY',
-              },
-            ],
+            address: {
+              city: 'Cheyenne',
+              state: 'WY',
+            },
           },
           {
             id: 'var984',
@@ -431,12 +421,10 @@ describe('VAOS data transformation', () => {
                 value: '984',
               },
             ],
-            address: [
-              {
-                city: 'Dayton',
-                state: 'OH',
-              },
-            ],
+            address: {
+              city: 'Dayton',
+              state: 'OH',
+            },
           },
         ],
         ccEnabledSystems: ['984', '983'],
@@ -530,13 +518,22 @@ describe('VAOS data transformation', () => {
             ],
           },
           preferredDate: '2019-12-02',
-          clinicId: '308',
+          clinicId: 'var983_308',
           vaParent: 'var983',
           vaFacility: 'var983',
           facilityType: 'vamc',
           typeOfCareId: '323',
         },
-        appointmentLength: '30',
+        availableSlots: [
+          {
+            start: '2019-12-22T09:30:00',
+            end: '2019-12-22T10:00:00',
+          },
+          {
+            start: '2019-11-22T09:30:00',
+            end: '2019-11-22T10:00:00',
+          },
+        ],
         parentFacilities: [
           {
             id: 'var983',
@@ -546,12 +543,10 @@ describe('VAOS data transformation', () => {
                 value: '983',
               },
             ],
-            address: [
-              {
-                city: 'Cheyenne',
-                state: 'WY',
-              },
-            ],
+            address: {
+              city: 'Cheyenne',
+              state: 'WY',
+            },
           },
         ],
         facilities: {
@@ -565,12 +560,10 @@ describe('VAOS data transformation', () => {
                 },
               ],
               name: 'CHYSHR-Cheyenne VA Medical Center',
-              address: [
-                {
-                  city: 'Cheyenne',
-                  state: 'WY',
-                },
-              ],
+              address: {
+                city: 'Cheyenne',
+                state: 'WY',
+              },
               legacyVAR: {
                 institutionTimezone: 'America/Denver',
               },
@@ -581,12 +574,32 @@ describe('VAOS data transformation', () => {
           // eslint-disable-next-line camelcase
           var983_323: [
             {
-              siteCode: '983',
-              clinicId: '308',
-              clinicName: 'CHY PC KILPATRICK',
-              clinicFriendlyLocationName: 'Green Team Clinic1',
-              institutionName: 'CHYSHR-Cheyenne VA Medical Center',
-              institutionCode: '983',
+              id: 'var983_308',
+              resourceType: 'HealthcareService',
+              serviceName: 'CHY PC KILPATRICK',
+              characteristic: [
+                {
+                  coding: {
+                    code: '983',
+                    userSelected: false,
+                  },
+                  text: 'institutionCode',
+                },
+                {
+                  coding: {
+                    display: 'CHYSHR-Cheyenne VA Medical Center',
+                    userSelected: false,
+                  },
+                  text: 'institutionName',
+                },
+                {
+                  coding: {
+                    display: 'Green Team Clinic1',
+                    userSelected: false,
+                  },
+                  text: 'clinicFriendlyLocationName',
+                },
+              ],
             },
           ],
         },
@@ -672,12 +685,10 @@ describe('VAOS data transformation', () => {
                 },
               ],
               name: 'CHYSHR-Cheyenne VA Medical Center',
-              address: [
-                {
-                  city: 'Cheyenne',
-                  state: 'WY',
-                },
-              ],
+              address: {
+                city: 'Cheyenne',
+                state: 'WY',
+              },
               legacyVAR: {
                 institutionTimezone: 'America/Denver',
               },

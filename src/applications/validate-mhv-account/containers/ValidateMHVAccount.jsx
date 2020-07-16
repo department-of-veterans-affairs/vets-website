@@ -8,13 +8,12 @@ import { fetchMHVAccount } from 'platform/user/profile/actions';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { selectProfile } from 'platform/user/selectors';
-import environment from 'platform/utilities/environment/index';
-import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+import { ssoe } from 'platform/user/authentication/selectors';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import {
   ACCOUNT_STATES,
   ACCOUNT_STATES_SET,
   MHV_ACCOUNT_LEVELS,
-  MHV_URL,
 } from './../constants';
 
 import { MVI_ERROR_STATES } from 'platform/monitoring/RequiresMVI/constants';
@@ -25,19 +24,66 @@ class ValidateMHVAccount extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { mhvAccount } = this.props;
+    const { mhvAccount, useSSOe } = this.props;
 
     if (prevProps.mhvAccount.loading && !mhvAccount.loading) {
-      this.redirect();
+      if (useSSOe) {
+        this.redirectSSOe();
+      } else {
+        this.redirect();
+      }
     }
   }
+
+  redirectSSOe = () => {
+    const {
+      profile,
+      router,
+      isVaPatient,
+      mhvAccountIdState,
+      mviStatus,
+    } = this.props;
+    const gaPrefix = 'register-mhv';
+
+    if (!profile.verified) {
+      recordEvent({ event: `${gaPrefix}-info-needs-identity-verification` });
+      router.replace('verify');
+      return;
+    }
+
+    // MVI Checks
+    const mviErrorStatesSet = new Set(Object.values(MVI_ERROR_STATES));
+
+    if (mviStatus && mviErrorStatesSet.has(mviStatus)) {
+      const hyphenatedMviStatus = mviStatus.replace(/_/g, '-').toLowerCase();
+      recordEvent({
+        event: `${gaPrefix}-error-mvi-error-${hyphenatedMviStatus}`,
+      });
+      if (mviStatus === MVI_ERROR_STATES.NOT_AUTHORIZED) {
+        router.replace('verify');
+        return;
+      }
+      router.replace(`error/mvi-error-${hyphenatedMviStatus}`);
+      return;
+    }
+
+    if (mhvAccountIdState === 'DEACTIVATED') {
+      recordEvent({ event: `${gaPrefix}-error-has-deactivated-mhv-ids` });
+      router.replace(`error/has-deactivated-mhv-ids`);
+      return;
+    } else if (!isVaPatient) {
+      recordEvent({ event: `${gaPrefix}-error-needs-va-patient` });
+      router.replace(`error/needs-va-patient`);
+      return;
+    }
+    window.location = mhvUrl(true, 'home');
+  };
 
   redirect = () => {
     const { profile, mhvAccount, router, mviStatus } = this.props;
     const { accountLevel, accountState } = mhvAccount;
     const hyphenatedAccountState = accountState.replace(/_/g, '-');
     const gaPrefix = 'register-mhv';
-
     if (!profile.verified) {
       recordEvent({ event: `${gaPrefix}-info-needs-identity-verification` });
       router.replace('verify');
@@ -101,9 +147,7 @@ class ValidateMHVAccount extends React.Component {
       accountLevel === MHV_ACCOUNT_LEVELS.PREMIUM ||
       accountLevel === MHV_ACCOUNT_LEVELS.ADVANCED
     ) {
-      window.location = environment.isProduction()
-        ? MHV_URL
-        : replaceWithStagingDomain(MHV_URL);
+      window.location = mhvUrl(false, 'home');
     } else if (accountLevel === MHV_ACCOUNT_LEVELS.BASIC) {
       router.replace('upgrade-account');
     } else {
@@ -138,11 +182,14 @@ class ValidateMHVAccount extends React.Component {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { mhvAccount, status } = profile;
+  const { mhvAccount, status, vaPatient, mhvAccountState } = profile;
   return {
     mhvAccount,
     mviStatus: status,
     profile,
+    isVaPatient: vaPatient,
+    mhvAccountIdState: mhvAccountState,
+    useSSOe: ssoe(state),
   };
 };
 

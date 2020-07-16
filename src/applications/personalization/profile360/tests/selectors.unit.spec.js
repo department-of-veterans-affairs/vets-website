@@ -1,6 +1,18 @@
 import { expect } from 'chai';
 import * as selectors from '../selectors';
 
+const getDirectDepositInfoError = {
+  errors: [
+    {
+      title: 'Bad Gateway',
+      detail: 'Received an an invalid response from the upstream server',
+      code: 'EVSS502',
+      source: 'EVSS::PPIU::Service',
+      status: '502',
+    },
+  ],
+};
+
 describe('profile360 selectors', () => {
   describe('directDepositIsSetUp selector', () => {
     let state;
@@ -42,20 +54,51 @@ describe('profile360 selectors', () => {
       state = {
         vaProfile: {
           paymentInformation: {
-            errors: [
+            error: getDirectDepositInfoError,
+          },
+        },
+      };
+      expect(selectors.directDepositIsSetUp(state)).to.be.false;
+    });
+  });
+
+  describe('directDepositLoadError', () => {
+    it('returns the error if there is one', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            error: getDirectDepositInfoError,
+          },
+        },
+      };
+      expect(selectors.directDepositLoadError(state)).to.deep.equal(
+        getDirectDepositInfoError,
+      );
+    });
+    it('returns undefined if there are no errors', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
               {
-                title: 'Bad Gateway',
-                detail:
-                  'Received an an invalid response from the upstream server',
-                code: 'EVSS502',
-                source: 'EVSS::PPIU::Service',
-                status: '502',
+                paymentAccount: {
+                  accountType: '',
+                  financialInstitutionName: null,
+                  accountNumber: '123123123',
+                  financialInstitutionRoutingNumber: '',
+                },
               },
             ],
           },
         },
       };
-      expect(selectors.directDepositIsSetUp(state)).to.be.false;
+      expect(selectors.directDepositLoadError(state)).to.be.undefined;
+    });
+    it('returns undefined if payment info does not exist on the state', () => {
+      let state = {};
+      expect(selectors.directDepositLoadError(state)).to.be.undefined;
+      state = { vaProfile: {} };
+      expect(selectors.directDepositLoadError(state)).to.be.undefined;
     });
   });
 
@@ -100,16 +143,7 @@ describe('profile360 selectors', () => {
       state = {
         vaProfile: {
           paymentInformation: {
-            errors: [
-              {
-                title: 'Bad Gateway',
-                detail:
-                  'Received an an invalid response from the upstream server',
-                code: 'EVSS502',
-                source: 'EVSS::PPIU::Service',
-                status: '502',
-              },
-            ],
+            error: getDirectDepositInfoError,
           },
         },
       };
@@ -118,20 +152,16 @@ describe('profile360 selectors', () => {
   });
 
   describe('directDepositIsBlocked', () => {
-    it('returns `false` if the `paymentInformation` is not set`', () => {
-      const state = {
-        vaProfile: {},
-      };
-      expect(selectors.directDepositIsBlocked(state)).to.be.false;
-    });
-    it('returns `false` if the `canUpdateAddress` flag is `true`', () => {
+    it('returns `false` if the isCompetentIndicator, noFiduciaryAssignedIndicator, and notDeceasedIndicator flags are all `true`', () => {
       const state = {
         vaProfile: {
           paymentInformation: {
             responses: [
               {
                 controlInformation: {
-                  canUpdateAddress: true,
+                  isCompetentIndicator: true,
+                  noFiduciaryAssignedIndicator: true,
+                  notDeceasedIndicator: true,
                 },
               },
             ],
@@ -140,14 +170,58 @@ describe('profile360 selectors', () => {
       };
       expect(selectors.directDepositIsBlocked(state)).to.be.false;
     });
-    it('returns `true` if the `canUpdateAddress` flag is not `true`', () => {
+    it('returns `false` if the control information is not set', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [{ paymentInformation: {} }],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.false;
+    });
+    it('returns `true` if the `isCompetentIndicator` is not true', () => {
       const state = {
         vaProfile: {
           paymentInformation: {
             responses: [
               {
                 controlInformation: {
-                  canUpdateAddress: null,
+                  isCompetentIndicator: null,
+                  noFiduciaryAssignedIndicator: true,
+                },
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.true;
+    });
+    it('returns `true` if the `noFiduciaryAssignedIndicator` is not true', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
+              {
+                controlInformation: {
+                  isCompetentIndicator: true,
+                },
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.true;
+    });
+    it('returns `true` if the `notDeceasedIndicator` is not true', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
+              {
+                controlInformation: {
+                  isCompetentIndicator: true,
+                  noFiduciaryAssignedIndicator: true,
                 },
               },
             ],

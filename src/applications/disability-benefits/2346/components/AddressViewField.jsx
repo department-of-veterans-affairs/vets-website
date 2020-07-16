@@ -13,7 +13,7 @@ const addLine = line => line && [line, <br key={line} />];
 
 const AddressViewField = ({ formData }) => {
   // unchanged address variable names
-  const { country, city, state, postalCode } = formData;
+  const { city, state, postalCode, country } = formData;
   // this should cover all current address use cases
   // street, line2, line3, postalCode = platform address schema
   // addressLine1, addressLine2, addressLine3 = 526 & HLR
@@ -28,7 +28,7 @@ const AddressViewField = ({ formData }) => {
 
   const getAddressFormat = () => {
     if (country) {
-      return country === 'USA' ? 'domestic' : 'international';
+      return country === 'United States' ? 'domestic' : 'international';
     }
     return undefined;
   };

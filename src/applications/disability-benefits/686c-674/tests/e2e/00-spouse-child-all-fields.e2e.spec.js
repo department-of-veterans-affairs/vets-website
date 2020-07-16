@@ -10,6 +10,7 @@ import * as TestHelpers from './test-helpers';
 const runTest = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
   TestHelpers.initApplicationSubmitMock(token);
+  TestHelpers.initValidVaFileNumberMock(token).then();
   // Login
   Auth.logIn(
     token,
@@ -17,6 +18,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '/view-change-dependents/add-remove-form-686c',
     3,
   ).waitForElementVisible('.process.schemaform-process', Timeouts.verySlow);
+  client.waitForElementVisible(
+    '.usa-alert.usa-alert-info.schemaform-sip-alert',
+    Timeouts.verySlow,
+  );
   client.click('.usa-button-primary.va-button-primary.schemaform-start-button');
 
   // select options
@@ -32,56 +37,13 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // veteran information
   E2eHelpers.expectLocation(client, '/veteran-information');
   client.axeCheck('.main');
+  client.pause(Timeouts.normal);
   client.click('button[id="4-continueButton"]');
 
   // veteran address
   E2eHelpers.expectLocation(client, '/veteran-address');
   client.axeCheck('.main');
   TestHelpers.fillVeteranDomesticAddress(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // child information
-  E2eHelpers.expectLocation(client, '/add-child');
-  client.axeCheck('.main');
-  TestHelpers.fillChildNameInformation(client, testData.data, 0);
-  client.click('.va-growable button.usa-button-secondary.va-growable-add-btn');
-  TestHelpers.fillChildNameInformation(client, testData.data, 1);
-  client.click('button[id="4-continueButton"]');
-
-  // child 1 place of birth and status
-  E2eHelpers.expectLocation(client, '/add-child/0');
-  client.axeCheck('.main');
-  TestHelpers.fillChildPlaceOfBirthAndStatusInformation(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // child 1 current living location
-  E2eHelpers.expectLocation(client, '/add-child/0/additional-information');
-  client.waitForElementVisible(
-    '#root_doesChildLiveWithYou-label',
-    Timeouts.normal,
-  );
-  client.axeCheck('.main');
-  TestHelpers.fillChildAddressStatus(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // child 2 place of birth and status
-  E2eHelpers.expectLocation(client, '/add-child/1');
-  client.axeCheck('.main');
-  TestHelpers.fillChildPlaceOfBirthAndStatusInformation(
-    client,
-    testData.data,
-    true,
-  );
-  client.click('button[id="4-continueButton"]');
-
-  // child 2 living location - lives with another person
-  E2eHelpers.expectLocation(client, '/add-child/1/additional-information');
-  client.waitForElementVisible(
-    '#root_doesChildLiveWithYou-label',
-    Timeouts.normal,
-  );
-  client.axeCheck('.main');
-  TestHelpers.fillChildAddressStatus(client, testData.data, false);
   client.click('button[id="4-continueButton"]');
 
   // spouse information
@@ -130,6 +92,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.waitForElementVisible('#root_startDate-label', Timeouts.normal);
   E2eHelpers.expectLocation(client, '/current-spouse-marriage-history/0');
   client.axeCheck('.main');
+  client.pause(Timeouts.normal);
   TestHelpers.fillSpouseMarriageHistoryDetails(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
@@ -161,6 +124,50 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '.row.form-progress-buttons.schemaform-buttons div.small-6.medium-5.end.columns button.usa-button-primary',
   );
 
+  // child information
+  E2eHelpers.expectLocation(client, '/add-child');
+  client.axeCheck('.main');
+  TestHelpers.fillChildNameInformation(client, testData.data, 0);
+  client.click('.va-growable button.usa-button-secondary.va-growable-add-btn');
+  TestHelpers.fillChildNameInformation(client, testData.data, 1);
+  client.click('button[id="4-continueButton"]');
+
+  // child 1 place of birth and status
+  E2eHelpers.expectLocation(client, '/add-child/0');
+  client.axeCheck('.main');
+  TestHelpers.fillChildPlaceOfBirthAndStatusInformation(client, testData.data);
+  client.click('button[id="4-continueButton"]');
+
+  // child 1 current living location
+  E2eHelpers.expectLocation(client, '/add-child/0/additional-information');
+  client.waitForElementVisible(
+    '#root_doesChildLiveWithYou-label',
+    Timeouts.normal,
+  );
+  client.axeCheck('.main');
+  TestHelpers.fillChildAddressStatus(client, testData.data);
+  client.click('button[id="4-continueButton"]');
+
+  // child 2 place of birth and status
+  E2eHelpers.expectLocation(client, '/add-child/1');
+  client.axeCheck('.main');
+  TestHelpers.fillChildPlaceOfBirthAndStatusInformation(
+    client,
+    testData.data,
+    true,
+  );
+  client.click('button[id="4-continueButton"]');
+
+  // child 2 living location - lives with another person
+  E2eHelpers.expectLocation(client, '/add-child/1/additional-information');
+  client.waitForElementVisible(
+    '#root_doesChildLiveWithYou-label',
+    Timeouts.normal,
+  );
+  client.axeCheck('.main');
+  TestHelpers.fillChildAddressStatus(client, testData.data, false);
+  client.click('button[id="4-continueButton"]');
+
   // review page
   E2eHelpers.expectLocation(client, '/review-and-submit');
   client.waitForElementVisible(
@@ -178,11 +185,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.click('.form-checkbox input[name="privacyAgreementAccepted"]');
-  client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectLocation(client, '/confirmation');
-
-  // confirmation
-  client.axeCheck('.main');
   client.end();
 });
 

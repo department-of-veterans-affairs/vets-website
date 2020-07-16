@@ -18,10 +18,9 @@ import {
   getEligibilityStatus,
   getRootIdForChosenFacility,
   getSiteIdForChosenFacility,
+  vaosVSPAppointmentNew,
 } from '../utils/selectors';
 import {
-  getFacilityInfo,
-  getAvailableSlots,
   getPreferences,
   updatePreferences,
   submitRequest,
@@ -30,9 +29,11 @@ import {
 } from '../api';
 import {
   getOrganizations,
-  getIdOfRootOrganization,
+  getSiteIdFromOrganization,
 } from '../services/organization';
-import { getSupportedLocationsByTypeOfCare } from '../services/location';
+import { getLocation } from '../services/location';
+import { getSupportedHealthcareServicesAndLocations } from '../services/healthcare-service';
+import { getSlots } from '../services/slot';
 import {
   FACILITY_TYPES,
   FLOW_TYPES,
@@ -53,7 +54,7 @@ import {
 
 import { recordEligibilityFailure, resetDataLayer } from '../utils/events';
 
-import { captureError } from '../utils/error';
+import { captureError, getErrorCodes } from '../utils/error';
 
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -234,7 +235,7 @@ export function fetchFacilityDetails(facilityId) {
     });
 
     try {
-      facilityDetails = await getFacilityInfo(facilityId);
+      facilityDetails = await getLocation({ facilityId });
     } catch (error) {
       facilityDetails = null;
       captureError(error);
@@ -266,19 +267,23 @@ export function openFacilityPage(page, uiSchema, schema) {
     const newAppointment = initialState.newAppointment;
     const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
-    const userSystemIds = selectSystemIds(initialState);
+    const userSiteIds = selectSystemIds(initialState);
+    const useVSP = vaosVSPAppointmentNew(initialState);
     let parentFacilities = newAppointment.parentFacilities;
-    let facilities = null;
+    let locations = null;
     let eligibilityData = null;
     let parentId = newAppointment.data.vaParent;
-    let facilityId = newAppointment.data.vaFacility;
-    let rootOrgId = null;
+    let locationId = newAppointment.data.vaFacility;
+    let siteId = null;
 
     try {
       // If we have the VA parent in our state, we don't need to
       // fetch them again
       if (!parentFacilities) {
-        parentFacilities = await getOrganizations(userSystemIds);
+        parentFacilities = await getOrganizations({
+          siteIds: userSiteIds,
+          useVSP,
+        });
       }
 
       const canShowFacilities = !!parentId || parentFacilities?.length === 1;
@@ -288,27 +293,30 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId) {
-        rootOrgId = getIdOfRootOrganization(parentFacilities, parentId);
+        siteId = getSiteIdFromOrganization(
+          parentFacilities.find(parent => parent.id === parentId),
+        );
       }
 
-      facilities =
+      locations =
         newAppointment.facilities[`${typeOfCareId}_${parentId}`] || null;
 
-      if (canShowFacilities && !facilities) {
-        facilities = await getSupportedLocationsByTypeOfCare({
-          rootOrgId,
+      if (canShowFacilities && !locations) {
+        ({ locations } = await getSupportedHealthcareServicesAndLocations({
+          siteId,
           parentId,
           typeOfCareId,
-        });
+          useVSP,
+        }));
       }
 
-      const eligibilityDataNeeded = !!facilityId || facilities?.length === 1;
+      const eligibilityDataNeeded = !!locationId || locations?.length === 1;
 
-      if (eligibilityDataNeeded && !facilityId) {
-        facilityId = facilities[0].id;
+      if (eligibilityDataNeeded && !locationId) {
+        locationId = locations[0].id;
       }
 
-      if (parentId && !facilities?.length) {
+      if (parentId && !locations?.length) {
         recordEligibilityFailure(
           'supported-facilities',
           typeOfCare,
@@ -317,22 +325,18 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       const eligibilityChecks =
-        newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
+        newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
 
       if (eligibilityDataNeeded && !eligibilityChecks) {
         eligibilityData = await getEligibilityData(
-          facilities.find(facility => facility.id === facilityId),
+          locations.find(location => location.id === locationId),
           typeOfCareId,
-          // Remove parse function when converting this call to FHIR service
-          parseFakeFHIRId(rootOrgId),
+          siteId,
           directSchedulingEnabled,
+          useVSP,
         );
 
-        recordEligibilityGAEvents(
-          eligibilityData,
-          typeOfCareId,
-          parseFakeFHIRId(rootOrgId),
-        );
+        recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
       }
 
       dispatch({
@@ -341,15 +345,14 @@ export function openFacilityPage(page, uiSchema, schema) {
         uiSchema,
         schema,
         parentFacilities,
-        facilities,
+        facilities: locations,
         typeOfCareId,
         eligibilityData,
       });
 
-      if (parentId && !facilities.length) {
+      if (parentId && !locations.length) {
         try {
-          // Remove parse function when converting this call to FHIR service
-          const thunk = fetchFacilityDetails(parseFakeFHIRId(parentId));
+          const thunk = fetchFacilityDetails(parentId);
           await thunk(dispatch, getState);
         } catch (e) {
           captureError(e);
@@ -367,34 +370,34 @@ export function openFacilityPage(page, uiSchema, schema) {
 export function updateFacilityPageData(page, uiSchema, data) {
   return async (dispatch, getState) => {
     const state = getState();
+    const useVSP = vaosVSPAppointmentNew(state);
     const directSchedulingEnabled = vaosDirectScheduling(state);
     const previousNewAppointmentState = state.newAppointment;
     const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
-    const rootOrgId = getRootIdForChosenFacility(state, data.vaParent);
     const siteId = getSiteIdForChosenFacility(state, data.vaParent);
-    let facilities =
+    let locations =
       previousNewAppointmentState.facilities[
         `${typeOfCareId}_${data.vaParent}`
       ];
     dispatch(updateFormData(page, uiSchema, data));
 
-    if (!facilities) {
+    if (!locations) {
       dispatch({
         type: FORM_FETCH_CHILD_FACILITIES,
       });
 
       try {
-        facilities = await getSupportedLocationsByTypeOfCare({
-          rootOrgId,
+        ({ locations } = await getSupportedHealthcareServicesAndLocations({
+          siteId,
           parentId: data.vaParent,
           typeOfCareId,
-        });
+          useVSP,
+        }));
 
         // If no available facilities, fetch system details to display contact info
-        if (!facilities?.length) {
-          // Remove parse function when converting this call to FHIR service
-          dispatch(fetchFacilityDetails(parseFakeFHIRId(data.vaParent)));
+        if (!locations?.length) {
+          dispatch(fetchFacilityDetails(data.vaParent));
           recordEligibilityFailure(
             'supported-facilities',
             typeOfCare,
@@ -405,7 +408,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
         dispatch({
           type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
           uiSchema,
-          facilities,
+          facilities: locations,
           typeOfCareId,
         });
       } catch (e) {
@@ -435,11 +438,11 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
       try {
         const eligibilityData = await getEligibilityData(
-          facilities.find(facility => facility.id === data.vaFacility),
+          locations.find(location => location.id === data.vaFacility),
           typeOfCareId,
-          // Remove parse function when converting this call to FHIR service
-          parseFakeFHIRId(rootOrgId),
+          siteId,
           directSchedulingEnabled,
+          useVSP,
         );
 
         recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
@@ -531,7 +534,6 @@ export function getAppointmentSlots(startDate, endDate) {
 
     if (!fetchedStartMonth || !fetchedEndMonth) {
       let mappedSlots = [];
-      let appointmentLength = null;
       dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
@@ -546,36 +548,19 @@ export function getAppointmentSlots(startDate, endDate) {
               .endOf('month')
               .format('YYYY-MM-DD');
 
-        const response = await getAvailableSlots(
-          // Remove parse function when converting this call to FHIR service
-          parseFakeFHIRId(rootOrgId),
-          data.typeOfCareId,
-          data.clinicId,
-          startDateString,
-          endDateString,
-        );
-
-        const fetchedSlots = response[0]?.appointmentTimeSlot || [];
-        appointmentLength = response[0]?.appointmentLength;
+        const fetchedSlots = await getSlots({
+          siteId: rootOrgId,
+          typeOfCareId: data.typeOfCareId,
+          clinicId: data.clinicId,
+          startDate: startDateString,
+          endDate: endDateString,
+        });
 
         const now = moment();
 
-        mappedSlots = fetchedSlots.reduce((acc, slot) => {
-          /**
-           * The datetime we get back for startDateTime and endDateTime includes
-           * an offset of +00:00 that isn't actually accurate. The times returned are
-           * already in the time zone of the facility. In order to prevent
-           * moment from using this offset, we'll remove it in the next line
-           */
-          const dateObj = moment(slot.startDateTime?.split('+')?.[0]);
-          if (dateObj.isValid() && dateObj.isAfter(now)) {
-            acc.push({
-              date: dateObj.format('YYYY-MM-DD'),
-              datetime: dateObj.format('YYYY-MM-DD[T]HH:mm:ss'),
-            });
-          }
-          return acc;
-        }, []);
+        mappedSlots = fetchedSlots.filter(slot =>
+          moment(slot.start).isAfter(now),
+        );
 
         // Keep track of which months we've fetched already so we don't
         // make duplicate calls
@@ -588,14 +573,13 @@ export function getAppointmentSlots(startDate, endDate) {
         }
 
         const sortedSlots = [...availableSlots, ...mappedSlots].sort((a, b) =>
-          a.date.localeCompare(b.date),
+          a.start.localeCompare(b.start),
         );
 
         dispatch({
           type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
           fetchedAppointmentSlotMonths: fetchedAppointmentSlotMonths.sort(),
-          appointmentLength,
         });
       } catch (e) {
         captureError(e);
@@ -619,8 +603,9 @@ export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
 
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
+    const useVSP = vaosVSPAppointmentNew(getState());
     const newAppointment = getState().newAppointment;
-    const systemIds = newAppointment.ccEnabledSystems;
+    const siteIds = newAppointment.ccEnabledSystems;
     let parentFacilities = newAppointment.parentFacilities;
 
     dispatch({
@@ -629,7 +614,10 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
 
     try {
       if (!newAppointment.parentFacilities) {
-        parentFacilities = await getOrganizations(systemIds);
+        parentFacilities = await getOrganizations({
+          siteIds,
+          useVSP,
+        });
       }
 
       dispatch({
@@ -715,6 +703,7 @@ export function submitAppointmentOrRequest(router) {
         captureError(error, true);
         dispatch({
           type: FORM_SUBMIT_FAILED,
+          isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
         });
 
         // Remove parse function when converting this call to FHIR service
@@ -763,6 +752,12 @@ export function submitAppointmentOrRequest(router) {
           // succeeded
           captureError(error, false, 'Request message failure', {
             messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
+            hasLineBreak: newAppointment?.data?.reasonAdditionalInfo?.includes(
+              '\r\n',
+            ),
+            hasNewLine: newAppointment?.data?.reasonAdditionalInfo?.includes(
+              '\n',
+            ),
           });
         }
 
@@ -792,6 +787,7 @@ export function submitAppointmentOrRequest(router) {
         captureError(error, true, 'Request submission failure', extraData);
         dispatch({
           type: FORM_SUBMIT_FAILED,
+          isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
         });
 
         // Remove parse function when converting this call to FHIR service
@@ -840,10 +836,10 @@ export function routeToPageInFlow(flow, router, current, action) {
     }
 
     if (nextPage?.url) {
-      router.push(nextPage.url);
       dispatch({
         type: FORM_PAGE_CHANGE_COMPLETED,
       });
+      router.push(nextPage.url);
     } else if (nextPage) {
       throw new Error(`Tried to route to a page without a url: ${nextPage}`);
     } else {

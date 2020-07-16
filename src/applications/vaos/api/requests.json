@@ -576,14 +576,14 @@
           "assigningAuthority": "ICN"
         },
         "surrogateIdentifier": {},
-        "lastUpdatedDate": "12/16/2019 12:58:41",
-        "optionDate1": "12/16/2019",
+        "lastUpdatedDate": "12/16/2020 12:58:41",
+        "optionDate1": "12/16/2020",
         "optionTime1": "PM",
         "optionDate2": "No Date Selected",
         "optionTime2": "No Time Selected",
         "optionDate3": "No Date Selected",
         "optionTime3": "No Time Selected",
-        "status": "Booked",
+        "status": "Escalated to Tele/Urgent Care - Phone",
         "appointmentType": "Express Care",
         "visitType": "Express Care",
         "facility": {
@@ -630,20 +630,6 @@
               "link": []
             },
             "userId": "1013004612",
-            "objectType": "VARAppointmentRequestDetailCode",
-            "link": []
-          },
-          {
-            "appointmentRequestDetailCodeId": "8a48e79e6c8c2187016c9bc19de80035",
-            "createdDate": "12/16/2019 12:47:32",
-            "detailCode": {
-              "code": "DETCODE8",
-              "providerMessage": "Cancelled by Veteran - Pending",
-              "veteranMessage": "Your request to cancel this appointment request has been sent.",
-              "objectType": "VARDetailCode",
-              "link": []
-            },
-            "userId": "1012845331V153043",
             "objectType": "VARAppointmentRequestDetailCode",
             "link": []
           }

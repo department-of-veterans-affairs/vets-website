@@ -21,6 +21,9 @@ class PaymentInformationEditModal extends React.Component {
 
   componentDidUpdate = prevProps => {
     if (this.props.isEditing && !prevProps.isEditing) {
+      /* This line was diasbled because the `if` statement above should */
+      /* prevent the infinite loop from happening. */
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ formData: {} });
     }
   };

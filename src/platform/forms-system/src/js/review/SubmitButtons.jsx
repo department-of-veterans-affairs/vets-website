@@ -139,7 +139,9 @@ export default function SubmitButtons(props) {
     return (
       <>
         <div className="row">
-          <div className="small-12 medium-12 columns">{submitMessage}</div>
+          <div className="small-12 medium-12 columns" role="alert">
+            {submitMessage}
+          </div>
         </div>
         {preSubmitSection}
         <div className="row form-progress-buttons schemaform-back-buttons">
@@ -156,7 +158,9 @@ export default function SubmitButtons(props) {
   return (
     <>
       <div className="row">
-        <div className="columns">{submitMessage}</div>
+        <div className="columns" role="alert">
+          {submitMessage}
+        </div>
       </div>
       {preSubmitSection}
       <div className="row form-progress-buttons">

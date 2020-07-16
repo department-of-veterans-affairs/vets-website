@@ -20,6 +20,7 @@ import {
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
+import { getVAAppointmentLocationId } from '../services/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from './AppointmentRequestListItem';
 import NoAppointments from './NoAppointments';
@@ -45,7 +46,6 @@ export class FutureAppointmentsList extends React.Component {
       futureStatus,
       facilityData,
       requestMessages,
-      systemClinicToFacilityMap,
     } = appointments;
 
     let content;
@@ -83,41 +83,39 @@ export class FutureAppointmentsList extends React.Component {
           )}
           <ul className="usa-unstyled-list" id="appointments-list">
             {future.map((appt, index) => {
-              switch (appt.appointmentType) {
-                case APPOINTMENT_TYPES.ccRequest:
+              const facilityId = getRealFacilityId(
+                getVAAppointmentLocationId(appt),
+              );
+
+              switch (appt.vaos?.appointmentType) {
+                case APPOINTMENT_TYPES.vaAppointment:
+                case APPOINTMENT_TYPES.ccAppointment:
+                  return (
+                    <ConfirmedAppointmentListItem
+                      key={index}
+                      index={index}
+                      appointment={appt}
+                      facility={facilityData[facilityId]}
+                      showCancelButton={showCancelButton}
+                      cancelAppointment={this.props.cancelAppointment}
+                    />
+                  );
                 case APPOINTMENT_TYPES.request:
+                case APPOINTMENT_TYPES.ccRequest: {
                   return (
                     <AppointmentRequestListItem
                       key={index}
                       index={index}
                       appointment={appt}
-                      facility={
-                        facilityData[
-                          getRealFacilityId(appt.facility?.facilityCode)
-                        ]
-                      }
+                      facility={facilityData[facilityId]}
+                      facilityId={facilityId}
                       showCancelButton={showCancelButton}
                       cancelAppointment={this.props.cancelAppointment}
                       fetchMessages={this.props.fetchRequestMessages}
                       messages={requestMessages}
                     />
                   );
-                case APPOINTMENT_TYPES.ccAppointment:
-                case APPOINTMENT_TYPES.vaAppointment:
-                  return (
-                    <ConfirmedAppointmentListItem
-                      key={index}
-                      index={index}
-                      appointment={appt}
-                      facility={
-                        systemClinicToFacilityMap[
-                          `${appt.facilityId}_${appt.clinicId}`
-                        ]
-                      }
-                      showCancelButton={showCancelButton}
-                      cancelAppointment={this.props.cancelAppointment}
-                    />
-                  );
+                }
                 default:
                   return null;
               }
@@ -153,7 +151,9 @@ export class FutureAppointmentsList extends React.Component {
     }
 
     const header = (
-      <h3 className="vads-u-margin-y--4">Upcoming appointments</h3>
+      <h2 className="vads-u-margin-bottom--4 vads-u-font-size--h3">
+        Upcoming appointments
+      </h2>
     );
 
     if (!showPastAppointments) {

@@ -11,6 +11,7 @@ class CautionaryWarningsFilter extends React.Component {
     excludeCautionFlags: PropTypes.bool.isRequired,
     onChange: PropTypes.func,
     showModal: PropTypes.func.isRequired,
+    handleInputFocus: PropTypes.func,
   };
 
   renderProfileCautionFlagModal = () =>
@@ -21,34 +22,17 @@ class CautionaryWarningsFilter extends React.Component {
       component: this,
     });
   render() {
-    // prod flag for bah-8187. Remove after approval.
-    if (environment.isProduction()) {
-      return (
-        <div>
-          <p>
-            Cautionary warnings
-            {this.renderProfileCautionFlagModal()}
-          </p>
-          <Checkbox
-            checked={this.props.excludeCautionFlags}
-            name="excludeCautionFlags"
-            label="Exclude institutions with warnings"
-            onChange={this.props.onChange}
-          />
-        </div>
-      );
-    }
     return (
       <div>
         <p>
-          Warnings and school closings
-          {this.renderProfileCautionFlagModal()}
+          Warnings and school closings {this.renderProfileCautionFlagModal()}
         </p>
         <Checkbox
           checked={this.props.excludeWarnings}
           name="excludeWarnings"
           label="Exclude results with warnings or closings"
           onChange={this.props.onChange}
+          onFocus={this.props.handleInputFocus}
         />
       </div>
     );

@@ -35,26 +35,28 @@ export const ptsdTypeHelp = (
       )
     }
   >
-    <h4>Types of stressful events</h4>
-    <h5>Combat</h5>
+    <h3 className="vads-u-font-size--h4">Types of stressful events</h3>
+    <h4 className="vads-u-font-size--h5">Combat</h4>
     <p>
       This means you participated in a fight or encounter with a military enemy
       or hostile unit or weapon. It also could mean you were present during
       these events either as a combatant or a service member supporting
       combatants -- for example, providing medical care to the wounded.
     </p>
-    <h5>Sexual trauma</h5>
+    <h4 className="vads-u-font-size--h5">Sexual trauma</h4>
     <p>
       This means you experienced sexual harassment, sexual assault, or rape, by
       a service member or civilian, while on active duty, active duty for
       training, or inactive duty training.
     </p>
-    <h5>Personal assault</h5>
+    <h4 className="vads-u-font-size--h5">Personal assault</h4>
     <p>
       This means you were a victim of an assault, battery, robbery, mugging,
       stalking, or harassment by a person who wasn't part of an enemy force.
     </p>
-    <h5>Non-combat PTSD other than sexual trauma or personal assault</h5>
+    <h4 className="vads-u-font-size--h5">
+      Non-combat PTSD other than sexual trauma or personal assault
+    </h4>
     <p>
       This means you experienced an event such as a car accident, hurricane, or
       plane crash, or witnessed the death, injury, or threat to another person

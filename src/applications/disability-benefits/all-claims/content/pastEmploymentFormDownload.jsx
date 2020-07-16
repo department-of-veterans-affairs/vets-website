@@ -1,4 +1,9 @@
 import React from 'react';
+
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
+
 import { VA_FORM4192_URL } from '../constants';
 import { claimsIntakeAddress } from './itfWrapper';
 
@@ -21,7 +26,7 @@ export const download4192Notice = (
     <p>Or fax them toll-free: 844-531-7818</p>
     <p>
       If they need help completing this form, they can call Veterans Benefits
-      Assistance at 800-827-1000.
+      Assistance at <Telephone contact={CONTACTS.VA_BENEFITS} />.
     </p>
   </div>
 );

@@ -11,7 +11,7 @@ describe('VAOS <AddToCalendar>', () => {
     const tree = shallow(
       <AddToCalendar
         summary="VA Appointment"
-        description="Some description"
+        description="Follow-up/Routine: some description"
         location="A location"
         duration={60}
         startDateTime={moment('2020-01-02').toDate()}
@@ -26,6 +26,12 @@ describe('VAOS <AddToCalendar>', () => {
 
     it('should contain valid ICS end command', () => {
       expect(link.props().href).to.contain(encodeURIComponent('END:VCALENDAR'));
+    });
+
+    it('should contain description', () => {
+      expect(link.props().href).to.contain(
+        encodeURIComponent('some description'),
+      );
     });
 
     it('should download ICS commands to a file named "VA_Appointment.ics"', () => {

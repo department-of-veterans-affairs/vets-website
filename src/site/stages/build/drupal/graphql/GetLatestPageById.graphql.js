@@ -6,6 +6,7 @@ const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const healthCareLocalFacilityPage = require('./healthCareLocalFacilityPage.graphql');
 const healthCareRegionDetailPage = require('./healthCareRegionDetailPage.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
+const vaFormPage = require('./vaFormPage.graphql');
 const pressReleasePage = require('./pressReleasePage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
@@ -44,6 +45,7 @@ module.exports = `
   ${newsStoryPage}
   ${eventPage}
   ${bioPage}
+  ${vaFormPage}
 
   query GetLatestPageById($id: String!, $today: String!, $onlyPublishedContent: Boolean!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -62,6 +64,7 @@ module.exports = `
         ... vamcOperatingStatusAndAlerts
         ... eventPage
         ... bioPage
+        ... vaFormPage
       }
     }
     ${icsFileQuery}

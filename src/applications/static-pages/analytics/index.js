@@ -1,7 +1,7 @@
 import addJumplinkListeners from './addJumpLinkListeners';
 import addQaSectionListeners from './addQaSectionListeners';
 import addTeaserListeners from './addTeaserListeners';
-import addHomepageBannerListeners from './addHomepageBannerListeners';
+import addButtonLinkListeners from './addButtonLinkListeners';
 
 /**
  * Use pageListenersMap.set(<page path>, <array of functions>) to register
@@ -15,17 +15,22 @@ PAGE_EVENT_LISTENERS.set('/coronavirus-veteran-frequently-asked-questions/', [
   addQaSectionListeners,
 ]);
 
-PAGE_EVENT_LISTENERS.set('/', [addHomepageBannerListeners]);
-
 function attachAnalytics() {
-  const specialListeners = PAGE_EVENT_LISTENERS.get(document.location.pathname);
+  try {
+    const specialListeners = PAGE_EVENT_LISTENERS.get(
+      document.location.pathname,
+    );
 
-  if (specialListeners) {
-    specialListeners.forEach(f => f());
+    if (specialListeners) {
+      specialListeners.forEach(f => f());
+    }
+
+    // Global listeners
+    addTeaserListeners();
+    addButtonLinkListeners();
+  } catch (error) {
+    // Catch any error that might occur while trying to attach listeners.
   }
-
-  // Global listeners
-  addTeaserListeners();
 }
 
 // Prevent the window from navigating away.

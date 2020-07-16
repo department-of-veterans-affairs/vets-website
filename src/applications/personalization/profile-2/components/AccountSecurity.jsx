@@ -4,6 +4,8 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
+import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
+
 import AccountSecurityContent from './AccountSecurityContent';
 
 // using a class instead of functional component + useEffect hook since we would
@@ -21,13 +23,13 @@ class AccountSecurity extends Component {
       <>
         <h2
           tabIndex="-1"
-          className="vads-u-line-height--1  vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+          className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
           data-focus-target
         >
           Account security
         </h2>
         <DowntimeNotification
-          appTitle="Account Security"
+          render={handleDowntimeForSection('account security')}
           dependencies={[externalServices.emis, externalServices.mvi]}
         >
           <AccountSecurityContent />

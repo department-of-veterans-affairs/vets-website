@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
-import environment from 'platform/utilities/environment';
 import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
 
 export class Modals extends React.Component {
@@ -146,7 +147,7 @@ export class Modals extends React.Component {
           providers in three installments based on the progress and success of
           their Veteran students.
         </p>
-        <p>
+        <div>
           Training providers receive:
           <ul>
             <li>
@@ -161,7 +162,7 @@ export class Modals extends React.Component {
               employment in their field of study
             </li>
           </ul>
-        </p>
+        </div>
       </Modal>
       <Modal
         onClose={this.props.hideModal}
@@ -239,60 +240,12 @@ export class Modals extends React.Component {
         </p>
       </Modal>
 
-      {/* prod flag for 8524 */}
-      {environment.isProduction() && (
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('yribbon')}
-        >
-          <h3>Yellow Ribbon</h3>
-          <p>
-            The{' '}
-            <a
-              title="Post-9/11 GI Bill"
-              href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Post-9/11 GI Bill
-            </a>{' '}
-            can cover all in-state tuition and fees at public degree granting
-            schools, but may not cover all private degree granting schools and
-            out-of-state tuition. The Yellow Ribbon Program provides additional
-            support in those situations. Institutions voluntarily enter into an
-            agreement with VA to fund uncovered charges. VA matches each dollar
-            of unmet charges the institution agrees to contribute, up to the
-            total cost of the tuition and fees.{' '}
-            <a
-              title="Click here for FAQs about the Yellow Ribbon Program"
-              href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Click here for FAQs about the Yellow Ribbon Program
-            </a>
-          </p>
-          <p>
-            Veterans and Fry Scholarship and Purple Heart recipients are
-            entitled to the maximum benefit rate or their designated transferees
-            can receive this funding. Active-duty service members and their
-            spouses aren’t eligible for this program (child transferees of
-            active-duty service members may be eligible if the service member is
-            qualified at the 100% rate). This information will be updated
-            quarterly.
-          </p>
-        </Modal>
-      )}
-
-      {/* prod flag for 8524 */}
-      {!environment.isProduction() && (
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('yribbon')}
-        >
-          <YellowRibbonModalContent />
-        </Modal>
-      )}
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('yribbon')}
+      >
+        <YellowRibbonModalContent />
+      </Modal>
 
       <Modal
         onClose={this.props.hideModal}
@@ -481,6 +434,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('accredited')}
+        elementToFocusOnClose="accredited-button"
       >
         <h3>Is your school accredited</h3>
         <p>
@@ -519,6 +473,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('typeAccredited')}
+        elementToFocusOnClose="typeAccredited-button"
       >
         <h3>Accreditation types (regional vs. national vs. hybrid)</h3>
         <p>
@@ -552,6 +507,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('singleContact')}
+        elementToFocusOnClose="singleContact-button"
       >
         <h3>Single point of contact for Veterans</h3>
         <p>
@@ -563,6 +519,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('creditTraining')}
+        elementToFocusOnClose="creditTraining-button"
       >
         <h3>Credit for military training</h3>
         <p>
@@ -573,6 +530,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('stemIndicator')}
+        elementToFocusOnClose="stemIndicator-button"
       >
         <h3>The Rogers STEM Scholarship</h3>
         <div>
@@ -603,6 +561,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('iStudy')}
+        elementToFocusOnClose="iStudy-button"
       >
         <h3>Independent study</h3>
         <p>
@@ -619,45 +578,55 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('section103')}
+        elementToFocusOnClose="section103-button"
       >
-        <h3>Protection against late VA payments</h3>
+        <div className="align-left">
+          <h3>Protection against late VA payments</h3>
+        </div>
         <p>
-          If VA payments to institutions are delayed, schools receiving GI Bill
-          benefits must allow beneficiaries to continue attending their classes
-          if they have sufficient proof of eligibility on file.
+          If VA is late making a tuition payment to a GI Bill school, the school
+          can’t prevent a GI Bill student from attending classes or accessing
+          school facilities.
         </p>
-        <p>Schools may require proof of GI Bill eligibility in the form of:</p>
+        <p>
+          Schools may require students to provide proof of their GI Bill
+          eligibility in the form of:
+        </p>
         <ul>
           <li>
             Certificate of Eligibility (COE) <strong>or</strong>
           </li>
           <li>
-            Certificate of Eligibility (COE) and additional criteria such as an
+            Certificate of Eligibility (COE) and additional criteria like an
             award letter or other documents the school specifies
           </li>
         </ul>
         <p>
           <strong>
-            Schools can't impose late fees, deny access to facilities or
-            classes, or otherwise penalize beneficiaries if VA is late with
-            tuition and/or fees payments.
+            In addition, schools can't charge late fees or otherwise penalize GI
+            Bill students if VA is late making a tuition and/or fees payment.
           </strong>{' '}
-          The restriction on penalties doesn't apply if the beneficiary owes
+          This restriction on penalties doesn't apply if the student owes
           additional fees to the school beyond the tuition and fees that VA
-          pays. Students are protected from these penalties up to 90 days from
-          the beginning of the term.
+          pays. Students are protected from these penalties for up to 90 days
+          from the beginning of the term.
         </p>
         <p>
           Contact the School Certifying Official (SCO) to learn more about the
           school’s policy.{' '}
           <a
             href="https://benefits.va.gov/gibill/fgib/transition_act.asp"
+            onClick={() => {
+              recordEvent({
+                event: 'gibct-modal-link-click',
+              });
+            }}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read our FAQs on the Veterans Benefits and Transition Act
-          </a>{' '}
-          to learn more about protections against late VA payments.
+            Read our policy on protecting students from late VA payments
+          </a>
+          .
         </p>
       </Modal>
     </span>
@@ -668,6 +637,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('facilityCode')}
+        elementToFocusOnClose="facilityCode-button"
       >
         <h3>VA facility code</h3>
         <p>Unique identifier for VA-approved facilities.</p>
@@ -676,6 +646,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('ipedsCode')}
+        elementToFocusOnClose="ipedsCode-button"
       >
         <h3>ED IPEDS code</h3>
         <p>
@@ -688,6 +659,7 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('opeCode')}
+        elementToFocusOnClose="opeCode-button"
       >
         <h3>ED OPE code</h3>
         <p>
@@ -918,53 +890,12 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
-        {/* prod flag for 8524 */}
-        {environment.isProduction() && (
-          <Modal
-            onClose={this.props.hideModal}
-            visible={this.shouldDisplayModal('calcYr')}
-          >
-            <h3>Yellow Ribbon</h3>
-            <p>
-              The Post-9/11 GI Bill can cover all in-state tuition and fees at
-              public degree granting schools, but may not cover all private
-              degree granting schools and out-of-state tuition. The Yellow
-              Ribbon Program provides additional support in those situations.
-              Institutions voluntarily enter into an agreement with VA to fund
-              uncovered charges. VA matches each dollar of unmet charges that
-              the institution agrees to contribute, up to the total cost of the
-              tuition and fees. For Frequently Asked Questions about the Yellow
-              Ribbon Program, visit{' '}
-              <a
-                title="Click here for FAQs about the Yellow Ribbon Program"
-                href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                this page.
-              </a>
-            </p>
-            <p>
-              Veterans and Fry Scholarship and Purple Heart recipients are
-              entitled to the maximum benefit rate or their designated
-              transferees can receive this funding. Active-duty service members
-              and their spouses are not eligible for this program (child
-              transferees of active-duty service members may be eligible if the
-              service member is qualified at the 100% rate). This information
-              will be updated quarterly.
-            </p>
-          </Modal>
-        )}
-
-        {/* prod flag for 8524 */}
-        {!environment.isProduction() && (
-          <Modal
-            onClose={this.props.hideModal}
-            visible={this.shouldDisplayModal('calcYr')}
-          >
-            <YellowRibbonModalContent />
-          </Modal>
-        )}
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcYr')}
+        >
+          <YellowRibbonModalContent />
+        </Modal>
 
         <Modal
           onClose={this.props.hideModal}
@@ -977,7 +908,7 @@ export class Modals extends React.Component {
           onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('calcScholarships')}
         >
-          <h3>Scholarships (excluding Pell)</h3>
+          <h3>Scholarships (excluding Pell Grants)</h3>
           <p>
             Are you receiving any scholarships or grants that go directly to pay
             tution/fees this year? If so, add that number here.
@@ -1005,24 +936,51 @@ export class Modals extends React.Component {
           visible={this.shouldDisplayModal('calcEnrolled')}
         >
           <h3>Enrollment status</h3>
-          <p>
-            Are you considered a full-time or part-time student by your school?
-            Students attending school less than full-time will get a pro-rated
-            monthly housing allowance. Students attending school exactly ½ time
-            or less won’t get a monthly housing allowance.
-          </p>
-          <p>
-            For more information about MHA increases or decreases, visit{' '}
-            <a
-              title="For more information about MHA increases or decreases click here"
-              href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              this page
-            </a>
-            .
-          </p>
+          {environment.isProduction() ? (
+            <div>
+              {' '}
+              <p>
+                Are you considered a full-time or part-time student by your
+                school? Students attending school less than full-time will get a
+                pro-rated monthly housing allowance. Students attending school
+                exactly ½ time or less won’t get a monthly housing allowance.
+              </p>
+              <p>
+                For more information about MHA increases or decreases, visit{' '}
+                <a
+                  title="For more information about MHA increases or decreases click here"
+                  href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  this page
+                </a>
+                .
+              </p>
+            </div>
+          ) : (
+            <div>
+              {' '}
+              <p>
+                Are you considered a full-time or part-time student by your
+                school? Students attending school less than full-time will get a
+                pro-rated monthly housing allowance. Students attending school
+                exactly ½ time or less won’t get a monthly housing allowance.
+              </p>
+              <p>
+                Learn more about{' '}
+                <a
+                  title="For more information about MHA increases or decreases click here"
+                  href="https://gibill.custhelp.va.gov/app/answers/detail/a_id/1480/kw/pro-rated%20monthly%20housing%20allowance"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  pro-rated housing allowance calculations
+                </a>
+                .
+              </p>
+            </div>
+          )}
         </Modal>
 
         <Modal
@@ -1041,21 +999,46 @@ export class Modals extends React.Component {
           visible={this.shouldDisplayModal('calcKicker')}
         >
           <h3>Eligible for kicker bonus?</h3>
-          <p>
-            A kicker bonus or college fund is an additional incentive, paid for
-            by the Department of Defense, to extend a tour of duty or retain
-            highly skilled military personnel. The money is a bonus on top of
-            any GI Bill payments paid directly to the Veteran. To learn more,
-            visit{' '}
-            <a
-              href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              this page
-            </a>
-            .
-          </p>
+          {environment.isProduction() ? (
+            <p>
+              A kicker bonus or college fund is an additional incentive, paid
+              for by the Department of Defense, to extend a tour of duty or
+              retain highly skilled military personnel. The money is a bonus on
+              top of any GI Bill payments paid directly to the Veteran. To learn
+              more, visit{' '}
+              <a
+                href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                this page
+              </a>
+              .
+            </p>
+          ) : (
+            <div>
+              {' '}
+              <p>
+                A kicker bonus (also known as the “College Fund”) is an
+                additional incentive paid by an individual’s branch of service.
+                The kicker bonus may be offered to extend a tour of duty, retain
+                highly-skilled military personnel, or for other reasons the
+                branch of service determines. The money is on top of any GI Bill
+                payments paid directly to the Veteran.
+              </p>
+              <p>
+                Learn more about{' '}
+                <a
+                  href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  the GI Bill kicker bonus
+                </a>
+                .
+              </p>
+            </div>
+          )}
         </Modal>
 
         <Modal
@@ -1087,25 +1070,53 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('giBillChapter')}
       >
-        <h3>Which GI Bill benefit do you want to use?</h3>
-        <p>
-          You may be eligible for multiple types of education and training
-          programs. Different programs offer different benefits, so it’s
-          important to choose the program that will best meet your needs. Use
-          this tool to compare programs and schools.
-        </p>
-        <p>
-          For detailed information on eligibility requirements and general
-          program benefits, visit{' '}
-          <a
-            href="/education/eligibility/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            this page
-          </a>
-          .
-        </p>
+        <div className="align-left">
+          <h3>Which GI Bill benefit do you want to use?</h3>
+        </div>
+        {environment.isProduction() ? (
+          <div>
+            {' '}
+            <p>
+              You may be eligible for multiple types of education and training
+              programs. Different programs offer different benefits, so it’s
+              important to choose the program that will best meet your needs.
+              Use this tool to compare programs and schools.
+            </p>
+            <p>
+              For detailed information on eligibility requirements and general
+              program benefits, visit{' '}
+              <a
+                href="/education/eligibility/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                this page
+              </a>
+              .
+            </p>
+          </div>
+        ) : (
+          <div>
+            {' '}
+            <p>
+              You may be eligible for multiple types of education and training
+              programs. Different programs offer different benefits, so it’s
+              important to choose the program that will best meet your needs.
+              Use this tool to compare programs and schools.
+            </p>
+            <p>
+              Learn more about{' '}
+              <a
+                href="/education/eligibility/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GI Bill program benefits and eligibility requirements
+              </a>
+              .
+            </p>
+          </div>
+        )}
       </Modal>
 
       <Modal
@@ -1146,32 +1157,56 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('cumulativeService')}
       >
         <h3>Cumulative Post-9/11 service</h3>
-        <p>
-          The{' '}
-          <a
-            title="Post-9/11 GI Bill"
-            href="../post911_gibill.asp"
-            id="anch_375"
-          >
-            Post-9/11 GI Bill
-          </a>{' '}
-          provides financial support for education and a housing allowance. To
-          qualify for this program, you must have served after September 10,
-          2001 for at least 90 days or, if you were discharged with a
-          service-connected disability, for at least 30 days. You also need to
-          have received an honorable discharge.
-        </p>
-        <p>
-          For detailed information about Cumulative Post-9/11 Service, visit{' '}
-          <a
-            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            this page
-          </a>
-          .
-        </p>
+        {environment.isProduction() ? (
+          <div>
+            {' '}
+            <p>
+              The{' '}
+              <a
+                title="Post-9/11 GI Bill"
+                href="../post911_gibill.asp"
+                id="anch_375"
+              >
+                Post-9/11 GI Bill
+              </a>{' '}
+              provides financial support for education and a housing allowance.
+              To qualify for this program, you must have served after September
+              10, 2001 for at least 90 days or, if you were discharged with a
+              service-connected disability, for at least 30 days. You also need
+              to have received an honorable discharge.
+            </p>
+            <p>
+              For detailed information about Cumulative Post-9/11 Service, visit{' '}
+              <a
+                href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                this page
+              </a>
+              .
+            </p>
+          </div>
+        ) : (
+          <div>
+            <p>
+              The{' '}
+              <a
+                href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Post-9/11 GI Bill
+              </a>{' '}
+              education benefits you receive depend on how much active duty
+              service you’ve completed since September 10, 2001. We calculate
+              the amount based on the total (cumulative) time you’ve spent on
+              active duty. If you’re a Purple Heart or Fry Scholarship
+              recipient, or have a service-connected discharge, you’ll receive
+              100% of the benefits.
+            </p>
+          </div>
+        )}
       </Modal>
 
       <Modal
@@ -1240,66 +1275,37 @@ export class Modals extends React.Component {
           doesn't find meaningful employment within 180 days.
         </p>
       </Modal>
-      {/* prod flag for bah-8187. Remove after approval. */}
-      {environment.isProduction() ? (
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('cautionaryWarnings')}
-        >
-          <h3>Cautionary warnings</h3>
-          <p>
-            When Caution Flags are displayed for an institution, they indicate
-            VA or other federal agencies like the Department of Education or
-            Department of Defense have applied increased regulatory or legal
-            scrutiny to this program. Before enrolling in a program, VA
-            recommends potential students should consider these cautionary
-            warnings.
-          </p>
-          <p>
-            {' '}
-            To learn more about Caution Flags,{' '}
-            <a
-              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              visit the About this Tool page
-            </a>
-            .
-          </p>
-        </Modal>
-      ) : (
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('cautionaryWarnings')}
-        >
-          <h3>Cautionary warnings and school closings</h3>
-          <p>
-            VA applies caution flags when we, or another federal agency, have
-            increased regulatory or legal scrutiny of an educational program. We
-            recommend students consider these warnings before enrolling in
-            flagged programs.
-          </p>
-          <p>
-            When VA receives notice that a school or campus location will be
-            closing, we add a school closing flag to that profile. Once the
-            closing date passes, we remove the institution from the Comparison
-            Tool during the next system update.
-          </p>
-          <p>
-            {' '}
-            To learn more about caution flags,{' '}
-            <a
-              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              visit the About this Tool page
-            </a>
-            .
-          </p>
-        </Modal>
-      )}
+
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('cautionaryWarnings')}
+      >
+        <h3>Cautionary warnings and school closings</h3>
+        <p>
+          VA applies caution flags when we, or another federal agency, have
+          increased regulatory or legal scrutiny of an educational program. We
+          recommend students consider these warnings before enrolling in flagged
+          programs.
+        </p>
+        <p>
+          When VA receives notice that a school or campus location will be
+          closing, we add a school closing flag to that profile. Once the
+          closing date passes, we remove the institution from the Comparison
+          Tool during the next system update.
+        </p>
+        <p>
+          {' '}
+          To learn more about caution flags,{' '}
+          <a
+            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#CF"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            visit the About this Tool page
+          </a>
+          .
+        </p>
+      </Modal>
     </span>
   );
   render() {

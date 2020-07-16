@@ -1,7 +1,10 @@
 import React from 'react';
+import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import moment from 'moment';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
@@ -58,9 +61,9 @@ export const itfError = (
         We’re sorry. Your Intent to File request didn’t go through because
         something went wrong on our end. For help creating an Intent to File a
         Claim for Compensation, please call Veterans Benefits Assistance at{' '}
-        <a href="tel:1-800-827-1000">800-827-1000</a>, Monday – Friday, 8:00
-        a.m. – 9:00 a.m. ET. Or, you can fill out VA Form 21-0966 and submit it
-        to:
+        <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
+        8:00 a.m. to 9:00 a.m. ET. Or, you can fill out VA Form 21-0966 and
+        submit it to:
       </p>
       {claimsIntakeAddress}
     </div>

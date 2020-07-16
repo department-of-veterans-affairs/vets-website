@@ -13,12 +13,12 @@ import { FETCH_STATUS } from '../../utils/constants';
 const availableDates = ['2019-10-29'];
 const availableSlots = [
   {
-    date: '2019-10-29',
-    datetime: '2019-10-29T09:30:00-07:00',
+    start: '2019-10-29T09:30:00',
+    end: '2019-10-29T09:50:00',
   },
   {
-    date: '2019-10-29',
-    datetime: '2019-10-29T10:00:00-07:00',
+    start: '2019-10-29T10:00:00',
+    end: '2019-10-29T10:20:00',
   },
 ];
 
@@ -153,7 +153,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         data={{
           calendarData: {
             selectedDates: [
-              { date: '2019-10-30', datetime: '2019-10-30T10:00:00-07:00' },
+              { date: '2019-10-30', datetime: '2019-10-30T10:00:00' },
             ],
           },
         }}
@@ -197,8 +197,8 @@ describe('VAOS <DateTimeSelectPage>', () => {
   it('should return options for date with getOptionsByDate', () => {
     const selectedDate = '2019-10-29';
     const options = getOptionsByDate(selectedDate, availableSlots);
-    const dateTime0 = moment(availableSlots[0].datetime);
-    const dateTime1 = moment(availableSlots[1].datetime);
+    const dateTime0 = moment(availableSlots[0].start);
+    const dateTime1 = moment(availableSlots[1].start);
     const srMeridiem = m =>
       m
         .format('A')

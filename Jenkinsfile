@@ -76,6 +76,7 @@ node('vetsgov-general-purpose') {
               commonStages.puppeteerNotification()
               throw error
             }
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run cy:test:docker"
           },
 
           accessibility: {

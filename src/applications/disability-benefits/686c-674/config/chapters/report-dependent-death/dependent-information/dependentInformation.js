@@ -12,25 +12,26 @@ export const uiSchema = {
       itemName: 'deceased dependent',
     },
     items: {
+      'ui:title': 'Dependent who is deceased',
       fullName: {
         'ui:validations': [validateName],
         first: {
-          'ui:title': 'Dependent’s first name',
+          'ui:title': 'First name',
           'ui:errorMessages': { required: 'Please enter a first name' },
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
         },
         middle: {
-          'ui:title': 'Dependent’s middle name',
+          'ui:title': 'Middle name',
         },
         last: {
-          'ui:title': 'Dependent’s last name',
+          'ui:title': 'Last name',
           'ui:errorMessages': { required: 'Please enter a last name' },
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
         },
         suffix: {
-          'ui:title': 'Dependent’s suffix',
+          'ui:title': 'Suffix',
           'ui:options': { widgetClassNames: 'form-select-medium' },
         },
       },

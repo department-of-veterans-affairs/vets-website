@@ -1,0 +1,43 @@
+.caregiver-confirmation {
+  .print-details {
+    display: none;
+  }
+}
+
+@media print {
+  .schemaform-title {
+    display: none;
+  }
+
+ .caregiver-confirmation {
+   .print-details {
+     display: flex;
+     flex-direction: column;
+
+     img {
+       width: 240px;
+       margin-bottom: 24px;
+     }
+   }
+
+  .usa-alert, .usa-alert-success {
+    display: none;
+  }
+
+
+   .claim-list {
+     display: none;
+   }
+   .inset {
+     display: none;
+   }
+
+   p {
+     margin: 10px 0;
+   }
+  }
+
+  .caregiver-footer {
+    display: block;
+  }
+}

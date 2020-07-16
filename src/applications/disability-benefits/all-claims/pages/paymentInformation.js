@@ -1,7 +1,9 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { bankFieldsHaveInput } from '../utils';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+
+import { bankFieldsHaveInput } from '../utils';
 import PaymentView from '../components/PaymentView';
+import { paymentInformationTitle } from '../content/paymentInformation';
 
 const {
   bankAccountType,
@@ -12,8 +14,7 @@ const {
 
 export const uiSchema = {
   'view:bankAccount': {
-    'ui:title': 'Payment Information',
-    'ui:description': 'We’ll pay your disability benefit to the account below.',
+    'ui:title': paymentInformationTitle,
     'ui:field': ReviewCardField,
     'ui:options': {
       viewComponent: PaymentView,

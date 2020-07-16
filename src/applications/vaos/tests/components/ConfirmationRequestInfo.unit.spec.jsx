@@ -18,15 +18,12 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
+      id: 'var983',
       address: {
-        physical: {
-          zip: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          address1: '2360 East Pershing Boulevard',
-          address2: null,
-          address3: null,
-        },
+        postalCode: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        line: ['2360 East Pershing Boulevard'],
       },
     };
     const pageTitle = 'Your appointment request has been submitted';
@@ -83,15 +80,12 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
+      id: 'var983',
       address: {
-        physical: {
-          zip: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          address1: '2360 East Pershing Boulevard',
-          address2: null,
-          address3: null,
-        },
+        postalCode: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        line: ['2360 East Pershing Boulevard'],
       },
     };
 
@@ -139,15 +133,12 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
+      id: 'var983',
       address: {
-        physical: {
-          zip: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          address1: '2360 East Pershing Boulevard',
-          address2: null,
-          address3: null,
-        },
+        postalCode: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        line: ['2360 East Pershing Boulevard'],
       },
     };
 
@@ -188,15 +179,12 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
+      id: 'var983',
       address: {
-        physical: {
-          zip: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          address1: '2360 East Pershing Boulevard',
-          address2: null,
-          address3: null,
-        },
+        postalCode: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        line: ['2360 East Pershing Boulevard'],
       },
     };
     const pageTitle = 'Your appointment request has been submitted';
@@ -237,15 +225,12 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
+      id: 'var983',
       address: {
-        physical: {
-          zip: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          address1: '2360 East Pershing Boulevard',
-          address2: null,
-          address3: null,
-        },
+        postalCode: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        line: ['2360 East Pershing Boulevard'],
       },
     };
     const pageTitle = 'Your appointment request has been submitted';

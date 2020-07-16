@@ -123,4 +123,78 @@ describe('VAOS <TypeOfCarePage>', () => {
     expect(document.title).contain(pageTitle);
     form.unmount();
   });
+
+  it('should display alert message when residental address is missing', () => {
+    const openTypeOfCarePage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const form = mount(
+      <TypeOfCarePage
+        addressLine1={null}
+        openTypeOfCarePage={openTypeOfCarePage}
+        schema={initialSchema}
+        updateFormData={updateFormData}
+        data={{}}
+      />,
+    );
+    expect(form.find('.usa-alert').exists()).to.be.true;
+
+    form.find('a.usa-button.usa-button-primary').simulate('click');
+
+    expect(form.find('.usa-alert').exists()).to.be.false;
+    form.unmount();
+  });
+
+  it('should display alert message when residental address is a PO Box', () => {
+    const openTypeOfCarePage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const form = mount(
+      <TypeOfCarePage
+        addressLine1="PO Box 123"
+        openTypeOfCarePage={openTypeOfCarePage}
+        schema={initialSchema}
+        updateFormData={updateFormData}
+        data={{}}
+      />,
+    );
+    expect(form.find('.usa-alert').exists()).to.be.true;
+    form.unmount();
+  });
+
+  it('should NOT display alert message when residental address is non PO Box', () => {
+    const openTypeOfCarePage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const form = mount(
+      <TypeOfCarePage
+        addressLine1="123 Sesame St"
+        openTypeOfCarePage={openTypeOfCarePage}
+        schema={initialSchema}
+        updateFormData={updateFormData}
+        data={{}}
+      />,
+    );
+    expect(form.find('.usa-alert').exists()).to.be.false;
+    form.unmount();
+  });
+
+  it('should NOT display alert message once user clicks the update button', () => {
+    const openTypeOfCarePage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const form = mount(
+      <TypeOfCarePage
+        addressLine1="PO Box 123"
+        openTypeOfCarePage={openTypeOfCarePage}
+        schema={initialSchema}
+        updateFormData={updateFormData}
+        data={{}}
+      />,
+    );
+    form.find('a.usa-button.usa-button-primary').simulate('click');
+
+    expect(form.find('.usa-alert').exists()).to.be.false;
+    form.unmount();
+  });
 });

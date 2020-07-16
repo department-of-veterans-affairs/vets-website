@@ -1,70 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import SignatureInput from 'applications/caregivers/components/PreSubmitInfo/components/SignatureInput';
+import SignatureCheckbox from './components/SignatureBox';
 
-// single checkbox
-const SignatureCheckbox = ({
-  fullName,
-  label,
-  children,
-  signSignature,
-  signatures,
-}) => {
-  const [isSigned, setIsSigned] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const isSignatureComplete = isSigned && isChecked;
-
-  useEffect(
-    () => {
-      signSignature({ ...signatures, [label]: isSignatureComplete });
-    },
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [signSignature, label, isSignatureComplete],
-  );
-
-  return (
-    <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--1p5 vads-u-padding-top--1px vads-u-margin-bottom--7">
-      {children && <header>{children}</header>}
-
-      <SignatureInput
-        setIsSigned={setIsSigned}
-        label={label}
-        fullName={fullName}
-      />
-
-      <ErrorableCheckbox
-        onValueChange={event => setIsChecked(event)}
-        label="I certify the information above is correct and true to the best of my knowledge and belief."
-      />
-    </article>
-  );
-};
-
-// checkbox group
-const PreSubmitCheckboxes = ({
-  onSectionComplete,
-  showError,
-  preSubmitInfo,
-  checked,
-  formData,
-}) => {
+const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
+  const veteranLabel = `Enter Veteran's or service member\u2019s full name`;
+  const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';
+  const secondaryOneLabel = 'Enter Secondary Family Caregiver\u2019s full name';
+  const secondaryTwoLabel =
+    'Enter Secondary Family Caregiver\u2019s (2) full name';
   const [signatures, setSignature] = useState({
-    Veteran: false,
-    'Primary Caregiver': false,
+    [veteranLabel]: false,
+    [primaryLabel]: false,
   });
+
   const [secondaryCaregivers, setSecondaryCaregivers] = useState({
-    hasSecondaryOne: undefined,
-    hasSecondaryTwo: undefined,
+    [secondaryOneLabel]: false,
+    [secondaryTwoLabel]: false,
   });
+  const unSignedLength = Object.values(signatures).filter(
+    obj => Boolean(obj) === false,
+  ).length;
 
   useEffect(
     () => {
-      const unSignedLength = Object.values(signatures).filter(
-        obj => Boolean(obj) === false,
-      ).length;
+      if (!unSignedLength) {
+        onSectionComplete(true);
+      }
 
-      if (!unSignedLength) onSectionComplete(true);
+      if (unSignedLength) {
+        onSectionComplete(false);
+      }
 
       const hasSecondaryOne =
         formData?.secondaryOneFullName?.first &&
@@ -79,20 +43,36 @@ const PreSubmitCheckboxes = ({
         hasSecondaryTwo,
       });
     },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      checked,
-      formData,
-      onSectionComplete,
-      preSubmitInfo,
-      showError,
-      signatures,
+      formData.secondaryOneFullName.first,
+      formData.secondaryOneFullName.last,
+      formData.secondaryTwoFullName.first,
+      formData.secondaryTwoFullName.last,
+      unSignedLength,
     ],
   );
 
+  const PrivacyPolicy = () => (
+    <p>
+      I have read and accept the
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        className="vads-u-margin-left--0p5"
+        href="https://www.va.gov/privacy-policy/"
+      >
+        privacy policy
+      </a>
+      .
+    </p>
+  );
+
   const SecondaryCaregiverCopy = ({ label }) => {
-    const header = title => `${title} statement of truth`;
+    const header = title => `${title} or Family Member Statement of Truth`;
     return (
-      <>
+      <div>
         <h3 className="vads-u-margin-top--4">{header(label)}</h3>
 
         <p className="vads-u-margin-y--4">
@@ -113,19 +93,11 @@ const PreSubmitCheckboxes = ({
           {`I understand that the Veteran or Veteran’s surrogate may initiate my
             revocation as a ${label} at any time and that the VA
             may immediately revoke this designation if I fail to comply with the
-            program requirements for continued participation in the program.`}{' '}
-          I have read and accept the
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            className="vads-u-margin-left--0p5"
-            href="https://www.va.gov/privacy-policy/"
-          >
-            privacy policy
-          </a>
-          .
+            program requirements for continued participation in the program.`}
         </p>
-      </>
+
+        <PrivacyPolicy />
+      </div>
     );
   };
 
@@ -145,87 +117,74 @@ const PreSubmitCheckboxes = ({
 
       <SignatureCheckbox
         fullName={formData.veteranFullName}
-        label="Enter Veteran's or service member's full name"
+        label={veteranLabel}
         signatures={signatures}
-        signSignature={setSignature}
+        setSignature={setSignature}
+        isRequired
+        showError={showError}
       >
         <h3>Veteran or service member statement of truth</h3>
         <p>
           I certify that I give consent to the individual(s) named in this
           application to perform personal care services for me upon being
           approved as Primary and/or Secondary Caregiver(s) in the Program of
-          Comprehensive Assistance for Family Caregivers. I have read and accept
-          the
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            className="vads-u-margin-left--0p5"
-            href="https://www.va.gov/privacy-policy/"
-          >
-            privacy policy
-          </a>
-          .
+          Comprehensive Assistance for Family Caregivers.
         </p>
+
+        <PrivacyPolicy />
       </SignatureCheckbox>
 
       <SignatureCheckbox
         fullName={formData.primaryFullName}
-        label="Enter Primary Family Caregiver's full name"
+        label={primaryLabel}
         signatures={signatures}
-        signSignature={setSignature}
+        setSignature={setSignature}
+        isRequired
+        showError={showError}
       >
-        <>
-          <h3 className="vads-u-margin-top--4">
-            Primary Family Caregiver statement of truth
-          </h3>
+        <h3 className="vads-u-margin-top--4">
+          Primary Family Caregiver statement of truth
+        </h3>
 
-          <p className="vads-u-margin-y--4">
-            I certify that I am at least 18 years of age.
-          </p>
+        <p className="vads-u-margin-y--4">
+          I certify that I am at least 18 years of age.
+        </p>
 
-          <p>
-            I certify that I am a family member of the Veteran or service member
-            named in this application or I reside with the Veteran or service
-            member or will do so upon approval.
-          </p>
+        <p>
+          I certify that I am a family member of the Veteran or service member
+          named in this application or I reside with the Veteran or service
+          member or will do so upon approval.
+        </p>
 
-          <p>
-            I agree to perform personal care services as the Primary Family
-            Caregiver for the Veteran or service member named on this
-            application.
-          </p>
+        <p>
+          I agree to perform personal care services as the Primary Family
+          Caregiver for the Veteran or service member named on this application.
+        </p>
 
-          <p>
-            I understand that the Veteran or Veteran’s surrogate may initiate my
-            revocation as a Primary Family Caregiver at any time and that the VA
-            may immediately revoke this designation if I fail to comply with the
-            program requirements for continued participation in the program.
-          </p>
+        <p>
+          I understand that the Veteran or Veteran’s surrogate may initiate my
+          revocation as a Primary Family Caregiver at any time and that the VA
+          may immediately revoke this designation if I fail to comply with the
+          program requirements for continued participation in the program.
+        </p>
 
-          <p>
-            I understand that participation in the Program of Comprehensive
-            Assistance for Family Caregivers does not create an employment
-            relationship with the Department of Veterans Affairs. I have read
-            and accept the
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              className="vads-u-margin-left--0p5"
-              href="https://www.va.gov/privacy-policy/"
-            >
-              privacy policy
-            </a>
-            .
-          </p>
-        </>
+        <p>
+          I understand that participation in the Program of Comprehensive
+          Assistance for Family Caregivers does not create an employment
+          relationship with the Department of Veterans Affairs.
+        </p>
+
+        <PrivacyPolicy />
       </SignatureCheckbox>
 
       {secondaryCaregivers.hasSecondaryOne && (
         <SignatureCheckbox
           fullName={formData.secondaryOneFullName}
-          label="Enter Secondary Family Caregiver's full name"
+          label={secondaryOneLabel}
           signatures={signatures}
-          signSignature={setSignature}
+          setSignature={setSignature}
+          isRequired
+          showError={showError}
         >
           <SecondaryCaregiverCopy label="Secondary Family Caregiver" />
         </SignatureCheckbox>
@@ -234,9 +193,11 @@ const PreSubmitCheckboxes = ({
       {secondaryCaregivers.hasSecondaryTwo && (
         <SignatureCheckbox
           fullName={formData.secondaryTwoFullName}
-          label="Enter Secondary Family Caregiver's (2) full name"
+          label={secondaryTwoLabel}
           signatures={signatures}
-          signSignature={setSignature}
+          setSignature={setSignature}
+          isRequired
+          showError={showError}
         >
           <SecondaryCaregiverCopy label="Secondary Family Caregiver (2)" />
         </SignatureCheckbox>
@@ -253,5 +214,5 @@ const PreSubmitCheckboxes = ({
 
 export default {
   required: true,
-  CustomComponent: PreSubmitCheckboxes,
+  CustomComponent: PreSubmitCheckboxGroup,
 };

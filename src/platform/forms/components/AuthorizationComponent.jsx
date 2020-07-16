@@ -32,7 +32,7 @@ class AuthorizationComponent extends React.Component {
 
   renderDowntime = (downtime, children) => {
     if (downtime.status === externalServiceStatus.down) {
-      const Message = this.props.downtime.message || DowntimeMessage;
+      const Message = this.props.downtime?.message || DowntimeMessage;
 
       return (
         <Message isAfterSteps={this.props.buttonOnly} downtime={downtime} />

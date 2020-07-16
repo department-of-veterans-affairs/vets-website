@@ -65,14 +65,14 @@ const setReviewTitle = (title, index, formType) => formData => {
     } else {
       // If does not contain REVIEW_TITLE_TOKEN put numberToWords(index + 1) at
       // start of title
-      formattedTitle = `${titleCase(numberToWords(index + 1))} ${title}`;
+      formattedTitle = `${numberToWords(index + 1)} ${title}`;
     }
   } else {
     // can do this without a search check
     formattedTitle = title.replace(REVIEW_TITLE_TOKEN, ' ');
   }
 
-  return formattedTitle;
+  return titleCase(formattedTitle || '');
 };
 
 export function createFormConfig781(iterations) {
@@ -96,11 +96,7 @@ export function createFormConfig781(iterations) {
       },
       // 4. EVENT DATE
       [`incidentDate${index}`]: {
-        title: setReviewTitle(
-          `Date of${REVIEW_TITLE_TOKEN}event`,
-          index,
-          formType,
-        ),
+        title: setReviewTitle(`${REVIEW_TITLE_TOKEN}event`, index, formType),
         path: `disabilities/ptsd-incident-date-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentDate.uiSchema(index),

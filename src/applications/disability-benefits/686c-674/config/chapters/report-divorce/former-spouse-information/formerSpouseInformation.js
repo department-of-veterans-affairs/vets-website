@@ -2,7 +2,11 @@ import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { validateName, reportDivorce } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  stateTitle,
+  cityTitle,
+} from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -43,7 +47,7 @@ export const uiSchema = {
     location: {
       'ui:title': 'Where did this marriage end?',
       state: {
-        'ui:title': 'State (or country if outside USA)',
+        'ui:title': stateTitle,
         'ui:errorMessages': {
           required: 'Please enter a state, or country if outside of USA',
         },
@@ -51,7 +55,7 @@ export const uiSchema = {
           isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
       },
       city: {
-        'ui:title': 'City or county',
+        'ui:title': cityTitle,
         'ui:errorMessages': {
           required: 'Please enter a city or county',
         },
@@ -59,20 +63,28 @@ export const uiSchema = {
           isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
       },
     },
-    isMarriageAnnulledOrVoid: {
+    reasonMarriageEnded: {
       'ui:required': formData =>
         isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
-      'ui:title': 'Was the marriage annulled or declared void?',
-      'ui:widget': 'yesNo',
+      'ui:title': 'Reason marriage ended',
+      'ui:widget': 'radio',
       'ui:errorMessages': {
-        required: 'Please select yes or no',
+        required: 'Please select an option',
+      },
+      'ui:options': {
+        updateSchema: () => ({
+          enumNames: ['Divorce', 'Annulment or other'],
+        }),
       },
     },
-    explanationOfAnnullmentOrVoid: {
+    explanationOfOther: {
       'ui:title': 'Please give a brief explanation',
       'ui:required': formData =>
-        formData?.reportDivorce?.isMarriageAnnulledOrVoid,
-      'ui:options': { expandUnder: 'isMarriageAnnulledOrVoid' },
+        formData?.reportDivorce?.reasonMarriageEnded === 'Other',
+      'ui:options': {
+        expandUnder: 'reasonMarriageEnded',
+        expandUnderCondition: 'Other',
+      },
     },
   },
 };

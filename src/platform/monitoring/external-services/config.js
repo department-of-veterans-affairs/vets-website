@@ -21,6 +21,8 @@ export const EXTERNAL_SERVICES = {
   mvi: 'mvi',
   // Search.gov API
   search: 'search',
+  // SSOe authentication
+  ssoe: 'ssoe',
   // The Image Management System (education forms)
   tims: 'tims',
   // Vet360 - data source for centralized veteran contact information

@@ -7,6 +7,14 @@ const {
 } = require('./helpers');
 const { mapKeys, camelCase } = require('lodash');
 
+const getSocialMediaObject = ({ uri, title }) =>
+  uri
+    ? {
+        url: { path: uri },
+        title,
+      }
+    : null;
+
 const transform = entity => ({
   entityType: 'node',
   entityBundle: 'health_care_local_facility',
@@ -22,15 +30,15 @@ const transform = entity => ({
   // The keys of fieldAddress[0] are snake_case, but we want camelCase
   fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
   fieldEmailSubscription: getDrupalValue(entity.fieldEmailSubscription),
-  fieldFacebook: getDrupalValue(entity.fieldFacebook),
+  fieldFacebook: getSocialMediaObject(entity.fieldFacebook),
   fieldFacilityHours: {
     value: combineItemsInIndexedObject(
       getDrupalValue(entity.fieldFacilityHours),
     ),
   },
   fieldFacilityLocatorApiId: getDrupalValue(entity.fieldFacilityLocatorApiId),
-  fieldFlickr: getDrupalValue(entity.fieldFlickr),
-  fieldInstagram: getDrupalValue(entity.fieldInstagram),
+  fieldFlickr: getSocialMediaObject(entity.fieldFlickr),
+  fieldInstagram: getSocialMediaObject(entity.fieldInstagram),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
     ? entity.fieldLocalHealthCareService.filter(n => Object.keys(n).length)
@@ -52,7 +60,7 @@ const transform = entity => ({
   ),
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
   fieldRegionPage: entity.fieldRegionPage[0] || null,
-  fieldTwitter: getDrupalValue(entity.fieldTwitter),
+  fieldTwitter: getSocialMediaObject(entity.fieldTwitter),
 });
 
 module.exports = {

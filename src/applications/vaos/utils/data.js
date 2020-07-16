@@ -9,9 +9,14 @@ import {
   getChosenFacilityInfo,
   getSiteIdForChosenFacility,
   getChosenParentInfo,
+  getChosenSlot,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
+import {
+  transformAvailableClinic,
+  findCharacteristic,
+} from '../services/healthcare-service/transformers';
 
 function getRequestedDates(data) {
   return data.calendarData.selectedDates.reduce(
@@ -130,8 +135,8 @@ export function transformFormToCCRequest(state) {
     };
   } else {
     cityState = {
-      preferredCity: organization.address[0].city,
-      preferredState: organization.address[0].state,
+      preferredCity: organization.address?.city,
+      preferredState: organization.address?.state,
     };
   }
 
@@ -183,20 +188,28 @@ export function transformFormToAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
   const facility = getChosenFacilityInfo(state);
-  const slot = data.calendarData.selectedDates[0];
+  const slot = getChosenSlot(state);
   const purpose = getUserMessage(data);
-  const appointmentLength = parseInt(
-    state.newAppointment.appointmentLength,
-    10,
-  );
+  const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
   return {
     appointmentType: getTypeOfCare(data).name,
-    clinic,
+    clinic: {
+      siteCode: clinic.id.split('_')[0].replace('var', ''),
+      clinicId: clinic.id.split('_')[1],
+      clinicName: clinic.serviceName,
+      clinicFriendlyLocationName: findCharacteristic(
+        clinic,
+        'clinicFriendlyLocationName',
+      ),
+      institutionName: findCharacteristic(clinic, 'institutionName'),
+      institutionCode: findCharacteristic(clinic, 'institutionCode'),
+    },
+
     // These times are a lie, they're actually in local time, but the upstream
     // service expects the 0 offset.
     desiredDate: `${data.preferredDate}T00:00:00+00:00`,
-    dateTime: moment(slot.datetime).format('YYYY-MM-DD[T]HH:mm:ss[+00:00]'),
+    dateTime: `${slot.start}+00:00`,
     duration: appointmentLength,
     bookingNotes: purpose,
     preferredEmail: data.email,

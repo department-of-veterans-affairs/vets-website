@@ -1,4 +1,9 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+
+#modal-announcement .va-modal-inner {
+  max-height: 100vh;
+  overflow-y: scroll;
+}
 
 #modal-announcement h3 {
   margin-top: 1.5em;

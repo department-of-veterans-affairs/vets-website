@@ -1,13 +1,41 @@
 {
   "data": [
     {
+      "id": "21cdc6741c00ac67b6cbf6b972d084c1",
+      "type": "va_appointments",
+      "attributes": {
+        "startDate": "2025-06-19T16:00:00Z",
+        "clinicId": "308",
+        "clinicFriendlyName": "Jennie's Lab",
+        "facilityId": "983",
+        "sta6aid": "983GC",
+        "communityCare": false,
+        "vdsAppointments": [
+          {
+            "bookingNote": "RP test",
+            "appointmentLength": "60",
+            "appointmentTime": "2020-12-07T16:00:00Z",
+            "clinic": {
+              "name": "CHY OPT VAR1",
+              "askForCheckIn": false,
+              "facilityCode": "983"
+            },
+            "type": "REGULAR",
+            "currentStatus": "NO ACTION TAKEN/TODAY"
+          }
+        ],
+        "vvsAppointments": []
+      }
+    },
+    {
       "id": "22cdc6741c00ac67b6cbf6b972d084c0",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-12-07T16:00:00Z",
+        "startDate": "2020-02-07T16:00:00Z",
         "clinicId": "308",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -34,6 +62,7 @@
         "clinicId": "455",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983GC",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -60,6 +89,7 @@
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983GC",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -86,6 +116,7 @@
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -112,6 +143,7 @@
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -138,6 +170,7 @@
         "clinicId": "437",
         "clinicFriendlyName": "VISUAL FIELD",
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -164,6 +197,7 @@
         "clinicId": "455",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -190,6 +224,7 @@
         "clinicId": "437",
         "clinicFriendlyName": "VISUAL FIELD",
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -216,6 +251,7 @@
         "clinicId": "437",
         "clinicFriendlyName": "VISUAL FIELD",
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -242,6 +278,7 @@
         "clinicId": "3748",
         "clinicFriendlyName": "AUDIOLOGY FELLOW (AM)",
         "facilityId": "984",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -268,6 +305,7 @@
         "clinicId": "1020",
         "clinicFriendlyName": "WHEATLAND AUDIOLOGY",
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -294,6 +332,7 @@
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -320,6 +359,7 @@
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -346,6 +386,7 @@
         "clinicId": "437",
         "clinicFriendlyName": "VISUAL FIELD",
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -372,6 +413,7 @@
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -398,6 +440,7 @@
         "clinicId": "437",
         "clinicFriendlyName": "VISUAL FIELD",
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -424,6 +467,7 @@
         "clinicId": "945",
         "clinicFriendlyName": "C&P BEV AUDIO FTC",
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -450,6 +494,7 @@
         "clinicId": null,
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [],
         "vvsAppointments": [
@@ -464,6 +509,7 @@
             "type": "REGULAR",
             "bookingNotes": "Follow-up/Routine: asfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasf",
             "instructionsOther": false,
+            "instructionsTitle": "Medication Review",
             "patients": [
               {
                 "name": { "firstName": "JUDY", "lastName": "MORRISON" },
@@ -522,6 +568,7 @@
         "clinicId": null,
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [],
         "vvsAppointments": [
@@ -608,6 +655,7 @@
             "type": "REGULAR",
             "bookingNotes": "T+90 Testing",
             "instructionsOther": false,
+            "instructionsTitle": "Video Visit Preparation",
             "patients": [
               {
                 "name": { "firstName": "JUDY", "lastName": "MORRISON" },
@@ -666,6 +714,7 @@
         "clinicId": "1140",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {

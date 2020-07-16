@@ -1,9 +1,11 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import ClaimPhase from './ClaimPhase';
-import { getUserPhase, groupTimelineActivity } from '../utils/helpers';
-import ClaimEstimate from '../components/ClaimEstimate';
+import ClaimEstimate from './ClaimEstimate';
 import PhaseBackWarning from './PhaseBackWarning';
+import CompleteDetails from './CompleteDetails';
+import { getUserPhase, groupTimelineActivity } from '../utils/helpers';
 
 const LAST_EVIDENCE_GATHERING_PHASE = 6;
 
@@ -71,7 +73,9 @@ export default function ClaimsTimeline(props) {
       >
         {userPhase !== 5 ? (
           <ClaimEstimate maxDate={estimatedDate} id={id} />
-        ) : null}
+        ) : (
+          <CompleteDetails />
+        )}
       </ClaimPhase>
     </ol>
   );

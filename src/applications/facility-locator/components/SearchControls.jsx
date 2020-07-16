@@ -50,10 +50,12 @@ class SearchControls extends Component {
   };
 
   renderFacilityTypeDropdown = () => {
-    const { showCommunityCares } = this.props;
+    const { showCommunityCares, suppressPharmacies } = this.props;
     const { facilityType } = this.props.currentQuery;
-
     const locationOptions = facilityTypesOptions;
+    if (suppressPharmacies) {
+      delete locationOptions.cc_pharmacy;
+    }
     if (!showCommunityCares) {
       delete locationOptions.cc_provider;
     }
@@ -87,7 +89,6 @@ class SearchControls extends Component {
       LocationType.HEALTH,
       LocationType.URGENT_CARE,
       LocationType.BENEFITS,
-      LocationType.VET_CENTER,
       LocationType.CC_PROVIDER,
     ].includes(facilityType);
 
@@ -102,11 +103,6 @@ class SearchControls extends Component {
         break;
       case LocationType.BENEFITS:
         services = benefitsServices;
-        break;
-      case LocationType.VET_CENTER:
-        services = vetCenterServices.reduce(result => result, {
-          All: 'Show all facilities',
-        });
         break;
       case LocationType.CC_PROVIDER:
         return (
@@ -167,7 +163,7 @@ class SearchControls extends Component {
                     htmlFor="street-city-state-zip"
                     id="street-city-state-zip-label"
                   >
-                    Search by city, state or postal Code
+                    Search by city, state or postal code
                   </label>
                   <input
                     id="street-city-state-zip"

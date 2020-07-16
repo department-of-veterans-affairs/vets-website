@@ -180,8 +180,7 @@ const formConfig = {
                 },
               },
               'view:chapter33ExpandedContent': {
-                'ui:description':
-                  'When you choose to apply for your Post-9/11 benefit, you have to relinquish (give up) 1 other benefit you may be eligible for. You’ll make this decision on the next page.',
+                'ui:description': benefitsLabels.chapter33Description,
                 'ui:options': {
                   expandUnder: 'chapter33',
                 },

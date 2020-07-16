@@ -1,17 +1,6 @@
 import React from 'react';
-import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import { formatDateRange } from '../utils';
 
-export default function PeriodOfConfinement({ formData }) {
-  let from = '';
-  let to = '';
-  if (formData) {
-    from = formatReviewDate(formData.from);
-    to = formatReviewDate(formData.to);
-  }
-
-  return (
-    <div>
-      {from} &mdash; {to}
-    </div>
-  );
+export default function PeriodOfConfinement({ formData = {} }) {
+  return <div>{formatDateRange(formData)}</div>;
 }

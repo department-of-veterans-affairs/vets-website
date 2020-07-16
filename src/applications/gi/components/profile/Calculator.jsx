@@ -16,7 +16,11 @@ import CalculatorForm from '../profile/CalculatorForm';
 
 const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
   visible ? (
-    <div className={classNames('row', 'calculator-result', { bold })}>
+    <div
+      className={classNames('row', 'calculator-result', {
+        'vads-u-font-weight--bold': bold,
+      })}
+    >
       <div className="small-6 columns">
         {header ? <h4>{label}:</h4> : <div>{label}:</div>}
       </div>

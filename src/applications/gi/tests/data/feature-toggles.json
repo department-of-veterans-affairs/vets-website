@@ -55,11 +55,11 @@
         "value": false
       },
       {
-        "name": "eduSection103",
-        "value": false
+        "name": "gibctEstimateYourBenefits",
+        "value": true
       },
       {
-        "name": "gibctEstimateYourBenefits",
+        "name": "gibctEybBottomSheet",
         "value": true
       }
     ]

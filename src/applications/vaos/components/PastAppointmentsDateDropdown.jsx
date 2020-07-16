@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
 
 export default function PastAppointmentsDateDropdown({
   currentRange,
@@ -21,7 +22,7 @@ export default function PastAppointmentsDateDropdown({
         name="options"
         id="options"
         value={dateRangeIndex}
-        onChange={e => updateDateRangeIndex(e.target.value)}
+        onChange={e => updateDateRangeIndex(Number(e.target.value))}
       >
         {options.map((o, index) => (
           <option key={`date-range-${index}`} value={o.value}>
@@ -33,8 +34,13 @@ export default function PastAppointmentsDateDropdown({
         type="button"
         className="vads-u-display--inline-block vads-u-margin-left--2"
         aria-label="Update my appointments list"
-        disabled={currentRange === dateRangeIndex}
-        onClick={() => onChange(dateRangeIndex)}
+        onClick={() => {
+          if (currentRange !== dateRangeIndex) {
+            onChange(dateRangeIndex);
+          } else {
+            focusElement('#queryResultLabel');
+          }
+        }}
       >
         Update
       </button>
@@ -43,7 +49,7 @@ export default function PastAppointmentsDateDropdown({
 }
 
 PastAppointmentsDateDropdown.propTypes = {
-  value: PropTypes.number.isRequired,
+  currentRange: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
 };

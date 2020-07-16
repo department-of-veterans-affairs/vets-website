@@ -150,6 +150,7 @@ export class VAFacilityPage extends React.Component {
               onBack={this.goBack}
               disabled
               pageChangeInProgress={pageChangeInProgress}
+              loadingText="Page change in progress"
             />
           </div>
         </div>
@@ -166,6 +167,7 @@ export class VAFacilityPage extends React.Component {
               onBack={this.goBack}
               onSubmit={this.goForward}
               pageChangeInProgress={pageChangeInProgress}
+              loadingText="Page change in progress"
             />
           </div>
         </div>
@@ -182,6 +184,7 @@ export class VAFacilityPage extends React.Component {
               onBack={this.goBack}
               disabled
               pageChangeInProgress={pageChangeInProgress}
+              loadingText="Page change in progress"
             />
           </div>
         </div>
@@ -229,6 +232,11 @@ export class VAFacilityPage extends React.Component {
             continueLabel=""
             disabled={disableSubmitButton}
             pageChangeInProgress={loadingEligibility || pageChangeInProgress}
+            loadingText={
+              loadingEligibility
+                ? 'Checking eligibility requirements'
+                : 'Page change in progress'
+            }
           />
           {(loadingEligibility || pageChangeInProgress) && (
             <div aria-atomic="true" aria-live="assertive">

@@ -28,7 +28,7 @@ describe('Disability benefits 4192 Download', () => {
       />,
     );
 
-    expect(form.find('a').length).to.equal(1);
+    expect(form.find('a').length).to.equal(2);
     form.unmount();
   });
 });

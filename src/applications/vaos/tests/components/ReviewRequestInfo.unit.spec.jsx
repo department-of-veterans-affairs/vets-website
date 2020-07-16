@@ -50,14 +50,12 @@ const facility = {
   ],
   name: 'CHYSHR-Sidney VA Clinic',
   telecom: [],
-  address: [
-    {
-      line: [],
-      city: 'Sidney',
-      state: 'NE',
-      postalCode: null,
-    },
-  ],
+  address: {
+    line: [],
+    city: 'Sidney',
+    state: 'NE',
+    postalCode: null,
+  },
   legacyVAR: {
     institutionTimezone: 'America/Denver',
   },

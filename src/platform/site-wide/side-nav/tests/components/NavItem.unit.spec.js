@@ -34,7 +34,7 @@ describe('<NavItem>', () => {
       index: 1,
       renderChildItems: noop,
       sortedNavItems: [item],
-      toggleItemExpanded: noop,
+      trackEvents: noop,
     };
 
     const wrapper = shallow(<NavItem {...defaultProps} />);

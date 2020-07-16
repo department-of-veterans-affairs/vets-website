@@ -5,7 +5,7 @@ import { links } from 'applications/caregivers/definitions/content';
 
 const VetInfo = ({ pageTitle, headerInfo }) => (
   <>
-    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+    {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
 
     {headerInfo && (
       <p className="vads-u-margin-top--2">
@@ -21,7 +21,7 @@ VetInfo.propTypes = {
 
 const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
   <>
-    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+    {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
     <p className="vads-u-margin-top--2">
       Please complete the following information about the Primary Family
       Caregiver.
@@ -132,7 +132,7 @@ const SecondaryCaregiverLegal = () => (
 
 const SecondaryCaregiverInfo = ({ pageTitle, additionalInfo, headerInfo }) => (
   <>
-    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+    {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
     {headerInfo && (
       <p className="vads-u-margin-top--2">
         Please complete the following information about the Secondary Family
@@ -180,7 +180,7 @@ const CaregiverSupportInfo = () => (
 
 const PrimaryHealthCoverage = ({ pageTitle }) => (
   <>
-    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+    {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
 
     <div className="vads-u-margin-bottom--4 vads-u-margin-top--2">
       <p>

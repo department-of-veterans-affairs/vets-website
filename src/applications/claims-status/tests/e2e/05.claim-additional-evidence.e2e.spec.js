@@ -1,7 +1,7 @@
-const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
+const E2eHelpers = require('platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
+const Auth = require('platform/testing/e2e/auth');
 const DisabilityHelpers = require('./claims-status-helpers');
-const Auth = require('../../../../platform/testing/e2e/auth');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
@@ -30,11 +30,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client
     .click('button.usa-button')
-    .waitForElementPresent('.usa-input-error', Timeouts.normal);
+    .waitForElementPresent('.usa-input-error', Timeouts.normal)
+    .axeCheck('.main');
 
   client.expect
     .element('.usa-input-error-message')
-    .text.to.equal('Please select a file first');
+    .text.to.contain('Please select a file first');
 
   // File uploads don't appear to work in Nightwatch/PhantomJS
   // TODO: switch to something that does support uploads or figure out the problem

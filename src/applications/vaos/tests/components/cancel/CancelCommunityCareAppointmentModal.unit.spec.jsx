@@ -8,8 +8,49 @@ import CancelCommunityCareAppointmentModal from '../../../components/cancel/Canc
 describe('VAOS <CancelCommunityCareAppointmentModal>', () => {
   it('should render', () => {
     const appointment = {
-      providerPhone: '1234567890',
-      providerPractice: 'Practice name',
+      resourceType: 'Appointment',
+      status: 'booked',
+      description: null,
+      start: '2019-05-22T10:00:00Z',
+      minutesDuration: 60,
+      comment: 'Instruction text',
+      participant: [
+        {
+          actor: {
+            reference: 'Practitioner/PRACTITIONER_ID',
+            display: 'Rick Katz',
+          },
+        },
+      ],
+      contained: [
+        {
+          actor: {
+            name: 'Practice name',
+            address: {
+              line: ['123 second st'],
+              city: 'Northampton',
+              state: 'MA',
+              postalCode: '22222',
+            },
+            telecom: [
+              {
+                system: 'phone',
+                value: '1234567890',
+              },
+            ],
+          },
+        },
+      ],
+      legacyVAR: {
+        id: '8a4885896a22f88f016a2cb7f5de0062',
+      },
+      vaos: {
+        isPastAppointment: false,
+        appointmentType: 'ccAppointment',
+        videoType: null,
+        isCommunityCare: true,
+        timeZone: 'UTC',
+      },
     };
     const tree = mount(
       <CancelCommunityCareAppointmentModal appointment={appointment} />,
