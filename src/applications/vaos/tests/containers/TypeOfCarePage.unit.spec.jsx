@@ -6,8 +6,14 @@ import { mount } from 'enzyme';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfCarePage } from '../../containers/TypeOfCarePage';
+import {
+  default as TypeOfCarePageRedux,
+  TypeOfCarePage,
+} from '../../containers/TypeOfCarePage';
 import { TYPES_OF_CARE } from '../../utils/constants';
+import { createTestStore } from '../mocks/form';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { fireEvent } from '@testing-library/dom';
 
 const initialSchema = {
   type: 'object',
@@ -217,5 +223,21 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(form.find('.usa-alert').exists()).to.be.false;
     form.unmount();
+  });
+
+  it('should test redux data for update address', () => {
+    const store = createTestStore({});
+
+    const router = {
+      push: sinon.spy(),
+    };
+    const { debug, getByText, queryByText } = renderInReduxProvider(
+      <TypeOfCarePageRedux router={router} />,
+      { store },
+    );
+    expect(getByText(/You need to have a home addres/i)).to.exist;
+
+    fireEvent.click(getByText('Update your address'));
+    expect(queryByText(/You need to have a home addres/i)).to.not.exist;
   });
 });
