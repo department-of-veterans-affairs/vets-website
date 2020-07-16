@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
+import Verified from './Verified';
 
 const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
   const termsAndConditionsUrl =
@@ -9,12 +10,12 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
 
   if (mhvAccount.termsAndConditionsAccepted) {
     return (
-      <>
-        <p className="vads-u-margin--0 vads-u-padding-left--3">
+      <div className="vads-u-display--flex vads-u-flex-direction--column">
+        <Verified>
           You’ve accepted the terms and conditions for using VA.gov health
           tools.
-        </p>
-        <p className="vads-u-margin-bottom--0">
+        </Verified>
+        <p className="vads-u-margin-bottom--0 medium-screen:vads-u-padding-left--5">
           <a
             href={termsAndConditionsUrl}
             onClick={() =>
@@ -28,7 +29,7 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
             View terms and conditions for medical information
           </a>
         </p>
-      </>
+      </div>
     );
   } else if (mhvAccount.accountState === 'needs_terms_acceptance') {
     return (

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+import Verified from './Verified';
 
 const ProfileInfoTable = ({
   data,
@@ -101,14 +102,7 @@ const ProfileInfoTable = ({
               )}
 
               {/* In personal and contact information, we have some rows that need a checkmark when verified  */}
-              {row?.verified && (
-                <span className="vads-u-display--flex">
-                  <i className="fa fa-check vads-u-color--green" />
-                  <p className="vads-u-margin--0 vads-u-padding-left--1 medium-screen:vads-u-padding-left--3">
-                    {row.value}
-                  </p>
-                </span>
-              )}
+              {row?.verified && row.value}
 
               {!row?.verified && (
                 <span className={computedTableRowValueClasses}>{row.value}</span>

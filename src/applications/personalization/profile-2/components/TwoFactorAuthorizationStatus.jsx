@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { mfa } from 'platform/user/authentication/utilities';
+import Verified from './Verified';
 
 const TwoFactorAuthorizationStatus = ({ isMultifactorEnabled, useSSOe }) => {
   if (isMultifactorEnabled) {
-    return 'You’ve added an extra layer of security to your account with 2-factor authentication.';
+    return <Verified>You’ve added an extra layer of security to your account with 2-factor authentication.</Verified>
   }
 
   const mfaHandler = useSSO => {
