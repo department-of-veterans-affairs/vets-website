@@ -18,9 +18,10 @@ export const Banners = ({
     {/* Homepage Banner */}
     <EmergencyBanner
       content={homepageBannerContent}
+      localStorage={localStorage}
       recordEvent={recordEvent}
-      title={homepageBannerTitle}
       showClose={!environment.isProduction()}
+      title={homepageBannerTitle}
       type={homepageBannerType}
       visible={homepageBannerVisible === 'true'}
     />
@@ -30,6 +31,7 @@ export const Banners = ({
       content={config.content}
       expiresAt={config.expiresAt}
       id={config.id}
+      localStorage={localStorage}
       startsAt={config.startsAt}
       title={config.title}
       warnContent={config.warnContent}
