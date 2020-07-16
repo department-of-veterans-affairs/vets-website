@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import Verified from './Verified';
-
 const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
   const termsAndConditionsUrl =
     '/health-care/medical-information-terms-conditions';

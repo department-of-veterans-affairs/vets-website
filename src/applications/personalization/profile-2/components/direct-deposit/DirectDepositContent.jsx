@@ -358,7 +358,7 @@ DirectDepositContent.propTypes = {
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string.isRequired,
     accountType: PropTypes.string.isRequired,
-    financialInstitutionName: PropTypes.string.isRequired,
+    financialInstitutionName: PropTypes.string,
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,

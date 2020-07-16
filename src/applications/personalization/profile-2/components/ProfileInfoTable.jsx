@@ -50,13 +50,13 @@ const ProfileInfoTable = ({
     'medium',
   );
 
-  const tableRowDataClasses = prefixUtilityClasses([
+  const tableRowValueClasses = prefixUtilityClasses([
     'margin--0',
     'width--full',
   ]);
 
 
-  const tableRowDataNewClassesMedium = prefixUtilityClasses(
+  const tableRowValueClassesMedium = prefixUtilityClasses(
     ['margin--0',
     'padding-left--5',
     'width--full'],
@@ -64,6 +64,11 @@ const ProfileInfoTable = ({
   );
 
   const dataContainsVerified = data.some(row => row.verified === true)
+
+  // When a table includes a 'Verified' checkmark in any of its rows, we need to add left padding to its values
+  // so that the data lines up correctly
+  const computedTableRowValueClasses = dataContainsVerified ?
+    [...tableRowValueClasses, ...tableRowValueClassesMedium].join(' ') : [...tableRowValueClasses].join(' ');
 
   // an object where each value is a string of space-separated class names that
   // can be passed directly to a `className` attribute
@@ -77,8 +82,7 @@ const ProfileInfoTable = ({
       ...tableRowTitleClasses,
       ...tableRowTitleClassesMedium,
     ].join(' '),
-    tableRowData: [...tableRowDataClasses].join(' '),
-    tableRowDataNew: [...tableRowDataClasses, ...tableRowDataNewClassesMedium].join(' '),
+    tableRowValue: computedTableRowValueClasses,
   };
 
 
@@ -98,19 +102,16 @@ const ProfileInfoTable = ({
                 <dfn className={classes.tableRowTitle}>{row.title}</dfn>
               )}
 
+              {/* In personal and contact information, we have some rows that need a checkmark when verified  */}
               {row?.verified && (
                 <span className="vads-u-display--flex">
                   <i className="fa fa-check vads-u-color--green" />
-                  <span className={classes.tableRowData}>{row.value}</span>
+                  <span className={classes.tableRowValueClasses}>{row.value}</span>
                 </span>
               )}
 
-              {!row?.verified && !dataContainsVerified && (
-                <span className={classes.tableRowData}>{row.value}</span>
-              )}
-
-              {!row?.verified && dataContainsVerified && (
-                <span className={classes.tableRowDataNew}>{row.value}</span>
+              {!row?.verified && (
+                <span className={classes.tableRowValue}>{row.value}</span>
               )}
 
             </li>

@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { mfa } from 'platform/user/authentication/utilities';
 
-import Verified from './Verified';
-
 const TwoFactorAuthorizationStatus = ({ isMultifactorEnabled, useSSOe }) => {
   if (isMultifactorEnabled) {
     return (

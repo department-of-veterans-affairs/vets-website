@@ -21,7 +21,6 @@ import IdentityNotVerified from './IdentityNotVerified';
 import NotInMVI from './NotInMVI';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
 import EmailAddressNotification from './EmailAddressNotification';
-import Verified from './Verified';
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
