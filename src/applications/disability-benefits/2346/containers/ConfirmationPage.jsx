@@ -368,29 +368,24 @@ const mapStateToProps = state => {
 
   // Temporary fallback until this is added to the API response
   const submittedAt = submission?.submittedAt || moment();
-  let responseStatuses;
   let isCompleteOrderSubmitted;
   let isPartiallySubmittedOrder;
   let hasCompleteOrderFailed;
   let isEmptyOrder;
   let isError = false;
   if (!errors) {
-    responseStatuses = responses.map(response => response.status);
-
-    isCompleteOrderSubmitted = responseStatuses?.every(
-      responseStatus => responseStatus === 'Order Processed',
+    const responseStatuses = responses.map(response => response.status);
+    const failedSubmissions = responseStatuses.filter(
+      response => !response.toLowerCase().includes('processed'),
     );
 
     isPartiallySubmittedOrder =
-      responseStatuses?.includes('Order Processed') &&
-      responseStatuses?.includes(
-        'Unable to place order.  Please call 303-273-6276.',
-      );
+      responseStatuses.length > failedSubmissions.length;
 
-    hasCompleteOrderFailed = responseStatuses?.every(
-      responseStatus =>
-        responseStatus === 'Unable to place order.  Please call 303-273-6276.',
-    );
+    hasCompleteOrderFailed =
+      responseStatuses.length === failedSubmissions.length;
+
+    isCompleteOrderSubmitted = failedSubmissions.length === 0;
   } else {
     isEmptyOrder =
       errors?.every(error => error.code === 'MDOT_supplies_not_selected') &&
