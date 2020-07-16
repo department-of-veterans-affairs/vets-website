@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import get from 'platform/utilities/data/get';
-import { ssoe } from 'platform/user/authentication/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS } from './../constants';
 
@@ -24,7 +24,7 @@ class Main extends React.Component {
       mhvAccount,
       profile,
       router,
-      useSSOe,
+      authenticatedWithSSOe,
     } = this.props;
 
     const pathname = location.pathname;
@@ -53,7 +53,7 @@ class Main extends React.Component {
 
       if (accountLevelChanged || accountStateChanged) {
         if (this.hasMHVAccess()) {
-          window.location = mhvUrl(useSSOe, 'home');
+          window.location = mhvUrl(authenticatedWithSSOe, 'home');
         } else {
           router.replace('/');
         }
@@ -111,7 +111,7 @@ const mapStateToProps = (state, ownProps) => {
     loadingProfile: loading,
     mhvAccount,
     profile,
-    useSSOe: ssoe(state),
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
 

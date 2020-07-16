@@ -17,11 +17,11 @@ const mhvToEauthRoutes = {
 
 // An MHV URL is a function of the following parameters:
 // 1. Whether this is a production or staging environment
-// 2. Whether SSOe is in use (enabled site wide, and for this particular user)
+// 2. Whether the current user is authenticated with SSOe
 // 3. The specific MHV path being accessed
-function mhvUrl(useSSOe, path) {
+function mhvUrl(authenticatedWithSSOe, path) {
   const normPath = path.startsWith('/') ? path.substring(1) : path;
-  if (useSSOe) {
+  if (authenticatedWithSSOe) {
     const eauthDeepLink = mhvToEauthRoutes[normPath];
     return `https://${eauthPrefix}eauth.va.gov/mhv-portal-web/${eauthDeepLink}`;
   }

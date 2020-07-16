@@ -8,7 +8,7 @@ import { fetchMHVAccount } from 'platform/user/profile/actions';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { selectProfile } from 'platform/user/selectors';
-import { ssoe } from 'platform/user/authentication/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import {
   ACCOUNT_STATES,
@@ -24,10 +24,10 @@ class ValidateMHVAccount extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { mhvAccount, useSSOe } = this.props;
+    const { mhvAccount, authenticatedWithSSOe } = this.props;
 
     if (prevProps.mhvAccount.loading && !mhvAccount.loading) {
-      if (useSSOe) {
+      if (authenticatedWithSSOe) {
         this.redirectSSOe();
       } else {
         this.redirect();
@@ -189,7 +189,7 @@ const mapStateToProps = state => {
     profile,
     isVaPatient: vaPatient,
     mhvAccountIdState: mhvAccountState,
-    useSSOe: ssoe(state),
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
 
