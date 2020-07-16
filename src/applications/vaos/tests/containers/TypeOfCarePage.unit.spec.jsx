@@ -6,8 +6,7 @@ import { mount } from 'enzyme';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import TypeOfCarePageRedux from '../../containers/TypeOfCarePage';
-import { TypeOfCarePage } from '../../containers/TypeOfCarePage';
+import TypeOfCarePage, * as noRedux from '../../containers/TypeOfCarePage';
 import { TYPES_OF_CARE } from '../../utils/constants';
 import { createTestStore } from '../mocks/form';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -30,7 +29,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const updateFormData = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         updateFormData={updateFormData}
         schema={initialSchema}
@@ -49,7 +48,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     };
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
         router={router}
@@ -74,7 +73,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     };
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         updateFormData={updateFormData}
         schema={initialSchema}
@@ -95,7 +94,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const onClickedUpdateAddressButton = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         addressLine1={null}
         openTypeOfCarePage={openTypeOfCarePage}
         onClickedUpdateAddressButton={onClickedUpdateAddressButton}
@@ -117,7 +116,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
@@ -138,7 +137,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const pageTitle = 'Choose the type of care you need';
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
         updateFormData={updateFormData}
@@ -155,7 +154,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const updateFormData = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         addressLine1={null}
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
@@ -173,7 +172,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const updateFormData = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         addressLine1="PO Box 123"
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
@@ -190,7 +189,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const updateFormData = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         addressLine1="123 Sesame St"
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
@@ -208,7 +207,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const onClickedUpdateAddressButton = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         addressLine1="PO Box 123"
         openTypeOfCarePage={openTypeOfCarePage}
         onClickedUpdateAddressButton={onClickedUpdateAddressButton}
@@ -230,7 +229,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       push: sinon.spy(),
     };
     const { debug, getByText, queryByText } = renderInReduxProvider(
-      <TypeOfCarePageRedux router={router} />,
+      <TypeOfCarePage router={router} />,
       { store },
     );
     expect(getByText(/You need to have a home addres/i)).to.exist;
