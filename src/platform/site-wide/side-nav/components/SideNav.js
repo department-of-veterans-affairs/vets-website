@@ -6,6 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { find, filter, get, map, orderBy } from 'lodash';
 // Relative
 import NavItem from './NavItem';
+import debounce from 'platform/utilities/data/debounce';
 
 class SideNav extends Component {
   static propTypes = {
@@ -14,7 +15,7 @@ class SideNav extends Component {
 
   constructor(props) {
     super(props);
-
+    this.debouncedResize = debounce(1000, this.updateIsDesktop);
     this.state = {
       active: false,
       isDesktop: this.getDesktop(), // adding this to trigger re-render on window resize
@@ -27,17 +28,19 @@ class SideNav extends Component {
   };
 
   updateIsDesktop = () => {
+    // eslint-disable-next-line no-console
+    console.log(this.state.isDesktop);
     this.setState({ isDesktop: this.getDesktop() });
   };
 
   componentDidMount() {
     // TODO: use debounce (lodash?) to reduce re-rendering
     // https://dustinpfister.github.io/2017/12/03/lodash_debounce/
-    window.addEventListener('resize', this.updateIsDesktop);
+    window.addEventListener('resize', this.debouncedResize);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateIsDesktop);
+    window.removeEventListener('resize', this.debouncedResize);
   }
 
   trackEvents = id => {
