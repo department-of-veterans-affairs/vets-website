@@ -12,10 +12,12 @@ export default function RequestExpressCare() {
         Request an Express Care screening
       </h2>
       <p>
-        If you have a non-emergency health concern and want to talk to a health
-        care provider today, submit a request for same-day telehealth
-        appointment. The window for Express Care requests is 00:00 to 00:00 so
-        we can fulfill all requests during business hours.
+        Have a health concern that you need help with today, but isn't an
+        emergency? Submit a request for a same-day Express Care screening with a
+        VA health care provider. You can sumbit your request Monday through
+        Friday, 00:00 to 00:00. You'll receive a phone screening between 00:00
+        and 00:00 the same day. If needed, we may schedule a follow-up phone,
+        video, or in-person visit or other care.
       </p>
       <a
         className="usa-button"
