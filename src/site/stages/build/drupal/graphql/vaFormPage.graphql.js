@@ -19,6 +19,9 @@ fragment vaFormPage on NodeVaForm {
   fieldVaFormNumber
   fieldVaFormAdministration {
     targetId
+    entity {
+      entityLabel
+    }
   }
   fieldVaFormToolIntro
   fieldVaFormToolUrl {
@@ -29,7 +32,9 @@ fragment vaFormPage on NodeVaForm {
   fieldBenefitCategories {
     targetId
     entity {
-      entityLabel
+      ... on NodeLandingPage {
+        fieldHomePageHubLabel
+      }
     }
   }
   fieldVaFormRevisionDate {

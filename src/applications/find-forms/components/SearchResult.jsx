@@ -1,24 +1,8 @@
 // Node modules.
 import React from 'react';
-import download from 'downloadjs';
 import moment from 'moment';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
-
-// Helper to handle downloads on IE.
-const onDownloadClick = url => event => {
-  event.preventDefault();
-
-  try {
-    // Attempt to download the file.
-    const request = download(url);
-
-    // If we aren't able to, resort to opening the download link in a new tab.
-    request.onerror = window.open(url, '_blank');
-  } catch (error) {
-    window.open(url, '_blank');
-  }
-};
 
 // Helper to derive the download link props.
 const deriveLinkProps = form => {
@@ -26,14 +10,10 @@ const deriveLinkProps = form => {
 
   const isSameOrigin = form?.attributes?.url.startsWith(window.location.origin);
   const isPDF = form?.attributes?.url.toLowerCase().includes('.pdf');
-  const isInternetExplorer = !!navigator.msSaveBlob;
 
   if (!isSameOrigin || !isPDF) {
     // Just open in a new tab if we'd otherwise hit a CORS issue or if the form URL isn't a PDF.
     linkProps.target = '_blank';
-  } else if (isInternetExplorer) {
-    // IE doesn't support the HTML download attribute.
-    linkProps.onClick = onDownloadClick(form.attributes.url);
   } else {
     // Use HTML5 `download` attribute.
     linkProps.download = true;
