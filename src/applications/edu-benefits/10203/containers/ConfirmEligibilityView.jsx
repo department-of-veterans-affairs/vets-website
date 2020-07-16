@@ -137,11 +137,6 @@ export class ConfirmEligibilityView extends React.Component {
         </dl>
       );
     }
-    const buttonClasses = classNames(
-      'usa-button-primary',
-      'wizard-button',
-      'va-button-primary',
-    );
 
     return (
       <div className={divClassName}>
