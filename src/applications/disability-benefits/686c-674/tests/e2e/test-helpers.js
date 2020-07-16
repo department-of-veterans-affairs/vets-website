@@ -530,6 +530,13 @@ export const fillReportDivorceLocationOfDivorce = (client, data) => {
     );
 };
 
+export const fillReportDivorceReasonMarriageEnded = (client, data) => {
+  client.selectRadio(
+    'root_reportDivorce_reasonMarriageEnded',
+    data.reportDivorce.reasonMarriageEnded,
+  );
+};
+
 export const fillDeceasedName = (client, data) => {
   client
     .fill(

@@ -10,8 +10,8 @@ import * as TestHelpers from './test-helpers';
 const runTest = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
   TestHelpers.initApplicationSubmitMock(token);
-  // Login
   TestHelpers.initValidVaFileNumberMock(token).then();
+  // Login
   Auth.logIn(
     token,
     client,
@@ -191,5 +191,5 @@ const runTest = E2eHelpers.createE2eTest(client => {
 module.exports = runTest;
 
 // TODO: Remove this when CI builds temporary landing pages to run e2e tests
-// module.exports['@disabled'] =
-//   manifest.e2eTestsDisabled && process.env.BUILDTYPE !== environments.LOCALHOST;
+module.exports['@disabled'] =
+  manifest.e2eTestsDisabled && process.env.BUILDTYPE !== environments.LOCALHOST;
