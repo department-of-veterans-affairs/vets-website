@@ -10,6 +10,7 @@ import * as TestHelpers from './test-helpers';
 const runTest = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
   TestHelpers.initApplicationSubmitMock(token);
+  TestHelpers.initValidVaFileNumberMock(token).then();
   // Login
   Auth.logIn(
     token,
@@ -50,6 +51,24 @@ const runTest = E2eHelpers.createE2eTest(client => {
   TestHelpers.fillVeteranDomesticAddress(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
+  // report stepchild left household
+  E2eHelpers.expectLocation(
+    client,
+    '/686-stepchild-no-longer-part-of-household',
+  );
+  client.axeCheck('.main');
+  TestHelpers.fillStepchildName(client, testData.data);
+  client.click('button[id="4-continueButton"]');
+
+  // report stepchild left household details
+  E2eHelpers.expectLocation(
+    client,
+    '/686-stepchild-no-longer-part-of-household/0',
+  );
+  client.axeCheck('.main');
+  TestHelpers.fillStepchildDetails(client, testData.data);
+  client.click('button[id="4-continueButton"]');
+
   // deceased name
   E2eHelpers.expectLocation(client, '/686-report-dependent-death');
   client.axeCheck('.main');
@@ -77,24 +96,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
   TestHelpers.fillChildStoppedAttendingDetails(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
-  // report stepchild left household
-  E2eHelpers.expectLocation(
-    client,
-    '/686-stepchild-no-longer-part-of-household',
-  );
-  client.axeCheck('.main');
-  TestHelpers.fillStepchildName(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // report stepchild left household details
-  E2eHelpers.expectLocation(
-    client,
-    '/686-stepchild-no-longer-part-of-household/0',
-  );
-  client.axeCheck('.main');
-  TestHelpers.fillStepchildDetails(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
   // review and submit
   E2eHelpers.expectLocation(client, '/review-and-submit');
   client.waitForElementVisible(
@@ -112,11 +113,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.click('.form-checkbox input[name="privacyAgreementAccepted"]');
-  client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectLocation(client, '/confirmation');
-
-  // confirmation
-  client.axeCheck('.main');
   client.end();
 });
 
