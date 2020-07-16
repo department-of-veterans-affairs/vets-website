@@ -380,7 +380,8 @@ const mapStateToProps = state => {
     );
 
     isPartiallySubmittedOrder =
-      responseStatuses.length > failedSubmissions.length;
+      responseStatuses.length > failedSubmissions.length &&
+      failedSubmissions.length > 0;
 
     hasCompleteOrderFailed =
       responseStatuses.length === failedSubmissions.length;
