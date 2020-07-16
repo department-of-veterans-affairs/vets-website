@@ -1254,15 +1254,16 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/formation-react@5.4.2":
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.4.2.tgz#718aed053fedae5a82ce7e2989651178d2f2649d"
-  integrity sha512-pasmuB33fb6e2MkmQe6bcnd0Zt2OAPIBPNpziFM6Twd3Bg+H+WBnxHOHfxOkqlZQzEM7caOLkq6e0Ocj8+XQlQ==
+"@department-of-veterans-affairs/formation-react@5.4.3":
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.4.3.tgz#770cdfbb56992bd765f90c3c5653505e6f804412"
+  integrity sha512-MhxqV1V3TB+8/jM9RhGLPGiIanvajMl+itFw+Rwr9dDsjAsm8+Ri21KoedljFZChAO7W2Wu2HrbIZ0JxPFeHZQ==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
     moment "^2.23.0"
     prop-types "^15.6.2"
+    react-focus-lock "^2.4.0"
     react-transition-group "1"
 
 "@department-of-veterans-affairs/formation@6.9.4":
