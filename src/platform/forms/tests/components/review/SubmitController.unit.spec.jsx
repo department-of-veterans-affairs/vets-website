@@ -507,7 +507,7 @@ describe('Schemaform review: SubmitController', () => {
       </Provider>,
     );
 
-    const customComponent = tree.getByText('Hello from CustomComponent!');
+    const customComponent = tree.queryAllByText('Hello from CustomComponent!');
     const defaultComponent = tree.getByText(
       'I agree to the terms and conditions.',
     );
