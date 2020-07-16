@@ -4,7 +4,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
 import formConfig from '../config/form';
-import { verifyVaFileNumber } from '../actions';
 
 function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
   const content = (
