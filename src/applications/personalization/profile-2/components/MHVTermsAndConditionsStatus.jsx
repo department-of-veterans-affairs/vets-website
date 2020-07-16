@@ -15,7 +15,7 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
           You’ve accepted the terms and conditions for using VA.gov health
           tools.
         </Verified>
-        <p className="vads-u-margin-bottom--0 medium-screen:vads-u-padding-left--5">
+        <p className="vads-u-margin-bottom--0 vads-u-padding-left--3 medium-screen:vads-u-padding-left--5">
           <a
             href={termsAndConditionsUrl}
             onClick={() =>
