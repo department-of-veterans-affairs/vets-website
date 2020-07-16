@@ -11,7 +11,9 @@ function Column(props) {
   const { children, classNames = '', role = false } = props;
 
   return (
-    <div className={`${classNames} columns`} role={role}>{children}</div>
+    <div className={`${classNames} columns`} role={role}>
+      {children}
+    </div>
   );
 }
 
