@@ -16,6 +16,7 @@ import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
 import { OperatingStatus, FacilityType } from '../constants';
 import { facilityLocatorFeUseV1 } from '../utils/selectors';
+import VABenefitsCall from '../components/VABenefitsCall';
 
 class FacilityDetail extends Component {
   // eslint-disable-next-line camelcase
@@ -110,6 +111,7 @@ class FacilityDetail extends Component {
       facilityType,
     } = facility.attributes;
 
+    const isVBA = facilityType === FacilityType.VA_BENEFITS_FACILITY;
     return (
       <div>
         <h1>{name}</h1>
@@ -134,12 +136,14 @@ class FacilityDetail extends Component {
           <LocationDirectionsLink location={facility} from={'FacilityDetail'} />
         </div>
         {phone &&
-          phone.main && (
+          phone.main &&
+          !isVBA && (
             <p className="p1">
               Planning to visit? Please call first as information on this page
               may change.
             </p>
           )}
+        {isVBA && <VABenefitsCall />}
       </div>
     );
   }

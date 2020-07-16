@@ -24,38 +24,48 @@
           <h2 class="vads-u-margin-top--0 vads-u-margin-bottom--4">{{ fieldVaFormName }}</h2>
         </hgroup>
 
-        {% if fieldBenefitCategories.length > 0 or fieldVaFormRevisionDate %}
-          <dl>
-            {% if fieldBenefitCategories.length > 0 %}
-              <div>
-                <dt class="vads-u-font-weight--bold vads-u-display--inline">
-                  Related to:
-                </dd>
-                <dd class="vads-u-display--inline">
-                  {{ fieldBenefitCategories | map: "entity" | map: "entityLabel" | join: '; ' }}
-                </dd>
-              </div>
-            {% endif %}
+        <dl>
+          <div class="vads-u-margin-y--1">
+            <dt class="vads-u-font-weight--bold vads-u-display--inline">
+              Related to:
+            </dd>
+            <dd class="vads-u-display--inline">
+              {% case fieldVaFormType %}
+                {% when 'employment' %}
+                  Employment or jobs at VA
+                {% when 'Non-VA' %}
+                  A non-VA form. For other government agency forms, go to the <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>.
+                {% else %}
+                  {% comment %}
+                    {% when 'benefit' %}
+                  {% endcomment %}
+                  {% if fieldBenefitCategories.length > 0 %}
+                    {{ fieldBenefitCategories | map: "entity" | map: "fieldHomePageHubLabel" | join: ', ' }}
+                  {% else %}
+                    {{ fieldVaFormAdministration.entity.entityLabel }}
+                  {% endif %}
+              {% endcase %}
+            </dd>
+          </div>
 
-            {% if fieldVaFormRevisionDate %}
-              <div>
-                <dt class="vads-u-font-weight--bold vads-u-display--inline">
-                  Form last updated:
-                </dt>
-                <dd class="vads-u-display--inline">
-                  {{ fieldVaFormRevisionDate.value | humanizeDate }}
-                </dd>
-              </div>
-            {% endif %}
-          </dl>
-        {% endif %}
+          {% if fieldVaFormRevisionDate %}
+            <div>
+              <dt class="vads-u-font-weight--bold vads-u-display--inline">
+                Form last updated:
+              </dt>
+              <dd class="vads-u-display--inline">
+                {{ fieldVaFormRevisionDate.value | humanizeDate }}
+              </dd>
+            </div>
+          {% endif %}
+        </dl>
 
         {% if fieldVaFormUsage %}
           <h3>When to use this form</h3>
           {{ fieldVaFormUsage.processed }}
         {% endif %}
 
-        <a href="{{ fieldVaFormUrl.uri }}">Download VA Form {{ fieldVaFormNumber }} (PDF)</a>
+        <a href="{{ fieldVaFormUrl.uri }}" download>Download VA Form {{ fieldVaFormNumber }} (PDF)</a>
 
         {% if fieldVaFormToolUrl %}
           <h3>Or use the online tool</h3>
@@ -72,12 +82,15 @@
             <ul class="usa-unstyled-list">
             {% for vaForm in fieldVaFormRelatedForms %}
                 <li>
-                  <h4>
-                    VA Form {{ vaForm.entity.fieldVaFormNumber }}
-                    <span class="vads-u-display--block">{{ vaForm.entity.fieldVaFormName }}</span>
-                  </h4>
+                  <hgroup>
+                    <h4>VA Form {{ vaForm.entity.fieldVaFormNumber }}</h4>
+                    <h5 class="vads-u-margin-top--0">
+                      <span class="vads-u-visibility--screen-reader">Form name:</span> {{ vaForm.entity.fieldVaFormName }}
+                    </h5>
+                  </hgroup>
+
                   {{ vaForm.entity.fieldVaFormUsage.processed }}
-                  <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}">
+                  <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}" download>
                     Download VA Form {{ vaForm.entity.fieldVaFormNumber }} (PDF)
                   </a>
                 </li>

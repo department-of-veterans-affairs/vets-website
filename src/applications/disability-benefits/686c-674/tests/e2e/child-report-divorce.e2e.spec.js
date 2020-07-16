@@ -10,6 +10,7 @@ import * as TestHelpers from './test-helpers';
 const runTest = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
   TestHelpers.initApplicationSubmitMock(token);
+  TestHelpers.initValidVaFileNumberMock(token).then();
   // Login
   Auth.logIn(
     token,
@@ -97,6 +98,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main');
   TestHelpers.fillReportDivorceSpouseInformation(client, testData.data);
   TestHelpers.fillReportDivorceLocationOfDivorce(client, testData.data);
+  TestHelpers.fillReportDivorceReasonMarriageEnded(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
   // review page
@@ -116,11 +118,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.click('.form-checkbox input[name="privacyAgreementAccepted"]');
-  client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectLocation(client, '/confirmation');
-
-  // confirmation
-  client.axeCheck('.main');
   client.end();
 });
 

@@ -69,7 +69,7 @@ export const uiSchema = {
       'ui:title': 'Reason marriage ended',
       'ui:widget': 'radio',
       'ui:errorMessages': {
-        required: 'Please select yes or no',
+        required: 'Please select an option',
       },
       'ui:options': {
         updateSchema: () => ({

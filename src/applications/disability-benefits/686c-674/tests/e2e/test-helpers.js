@@ -530,6 +530,13 @@ export const fillReportDivorceLocationOfDivorce = (client, data) => {
     );
 };
 
+export const fillReportDivorceReasonMarriageEnded = (client, data) => {
+  client.selectRadio(
+    'root_reportDivorce_reasonMarriageEnded',
+    data.reportDivorce.reasonMarriageEnded,
+  );
+};
+
 export const fillDeceasedName = (client, data) => {
   client
     .fill(
@@ -779,6 +786,20 @@ export const initApplicationSubmitMock = token => {
         attributes: {
           formSubmissionId: '123fake-submission-id-567',
           timestamp: '2016-05-16',
+        },
+      },
+    },
+  });
+};
+
+export const initValidVaFileNumberMock = token => {
+  return mock(token, {
+    path: '/v0/profile/valid_va_file_number',
+    verb: 'get',
+    value: {
+      data: {
+        attributes: {
+          validVaFileNumber: true,
         },
       },
     },
