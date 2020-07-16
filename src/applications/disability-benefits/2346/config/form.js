@@ -2,6 +2,7 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
@@ -135,7 +136,7 @@ const submit = form => {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/posts',
+  submitUrl: `${environment.API_URL}/v0/mdot/supplies`,
   submit,
   trackingPrefix: 'bam-2346a-',
   verifyRequiredPrefill: true,
