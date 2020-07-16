@@ -19,6 +19,12 @@ export function transform(formConfig, form) {
     return clonedData;
   };
 
+  const entitlementTransform = formData => {
+    const clonedData = _.cloneDeep(formData);
+    delete clonedData['view:remainingEntitlement'];
+    return clonedData;
+  };
+
   // This needs to be last function call in array below
   const usFormTransform = formData =>
     transformForSubmit(formConfig, { ...form, data: formData });
@@ -33,6 +39,7 @@ export function transform(formConfig, form) {
 
   const transformedData = [
     benefitsTransform,
+    entitlementTransform,
     contactInfoTransform,
     usFormTransform, // This needs to be last function call in array
   ].reduce((formData, transformer) => transformer(formData), form.data);
