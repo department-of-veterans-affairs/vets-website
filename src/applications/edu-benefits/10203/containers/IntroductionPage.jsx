@@ -5,9 +5,12 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '../content/SaveInProgressIntro';
 import { connect } from 'react-redux';
 
+import { getRemainingEntitlement } from '../actions/post-911-gib-status';
+
 export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
+    this.props.getRemainingEntitlement();
   }
 
   loggedIn() {
@@ -29,6 +32,48 @@ export class IntroductionPage extends React.Component {
     );
   }
 
+  moreThanSixMonths = remaining => {
+    const totalDays = remaining?.months * 30 + remaining?.days;
+    return totalDays > 180;
+  };
+
+  entitlementRemainingAlert() {
+    return this.props.isLoggedIn ? (
+      this.moreThanSixMonths(this.props?.remainingEntitlement) && (
+        <div className="usa-alert usa-alert-warning schemaform-sip-alert">
+          <div className="usa-alert-body">
+            <h3 className="usa-alert-heading">You may not be eligible</h3>
+            <div className="usa-alert-text">
+              <p>
+                Our entitlement system shows that you have more than 6 months of
+                education benefits remaining.
+              </p>
+              <p>
+                To be eligible for the Rogers STEM Scholarship, you must have
+                less than 6 mo nths of Post-9/11 GI Bill benefits left when you
+                submit your application.
+              </p>
+              <p>
+                Months you have left to use:{' '}
+                <strong>
+                  {this.props?.remainingEntitlement.months} months,{' '}
+                  {this.props?.remainingEntitlement.days} days
+                </strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      )
+    ) : (
+      <SaveInProgressIntro
+        prefillEnabled={this.props.route.formConfig.prefillEnabled}
+        messages={this.props.route.formConfig.savedFormMessages}
+        pageList={this.props.route.pageList}
+        startText="Sign in or create an account"
+      />
+    );
+  }
+
   render() {
     return (
       <div
@@ -41,12 +86,7 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-10203 (Application for Edith Nourse Rogers STEM
           Scholarship)
         </p>
-        <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Sign in or create an account"
-        />
+        {this.entitlementRemainingAlert()}
         <h4>Follow the steps below to apply for this scholarship</h4>
         <div className="process schemaform-process">
           <ol>
@@ -184,7 +224,15 @@ export class IntroductionPage extends React.Component {
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
+    remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
   };
 };
 
-export default connect(mapStateToProps)(IntroductionPage);
+const mapDispatchToProps = {
+  getRemainingEntitlement,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPage);

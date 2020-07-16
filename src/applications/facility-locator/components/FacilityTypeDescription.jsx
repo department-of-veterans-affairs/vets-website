@@ -17,18 +17,18 @@ const facilityName = (query, location) => {
 
 const FacilityTypeDescription = ({ location, from, query }) => (
   <p>
-    <span>
+    <div>
       {from === 'SearchResult' ? (
-        <span>
+        <div>
           {facilityName(query, location) &&
             facilityName(query, location).toUpperCase()}
-        </span>
+        </div>
       ) : (
-        <span>
+        <div>
           <strong>Facility type:</strong> {facilityName(query, location)}
-        </span>
+        </div>
       )}
-    </span>
+    </div>
   </p>
 );
 

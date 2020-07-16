@@ -177,39 +177,6 @@ describe('VAOS <PastAppointmentsList>', () => {
     tree.unmount();
   });
 
-  it('should render focus on H2 tag', () => {
-    // For some reason, testing for document.activeElement doesn't work
-    // unless the component is first attached to a div
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-
-    const tree = mount(
-      <PastAppointmentsList
-        appointments={{
-          ...appointments,
-          pastStatus: FETCH_STATUS.loading,
-        }}
-        showPastAppointments
-        pastSelectedIndex={0}
-      />,
-      { attachTo: div },
-    );
-
-    tree.setProps({
-      appointments: {
-        ...appointments,
-        pastStatus: FETCH_STATUS.succeeded,
-      },
-    });
-
-    expect(tree.find('h2[tabIndex="-1"]').exists()).to.be.true;
-    expect(tree.find('h2[tabIndex="-1"]').text()).to.equal('Past appointments');
-    expect(document.activeElement.id).to.equal('queryResultLabel');
-    expect(document.activeElement.nodeName).to.equal('SPAN');
-
-    tree.unmount();
-  });
-
   it('should display no appointments message if no appointments', () => {
     const defaultProps = {
       appointments: {
