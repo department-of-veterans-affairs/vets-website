@@ -39,6 +39,11 @@
     "schoolState": "MA",
     "view:benefit": {
       "chapter33": true
+    },
+    "view:remainingEntitlement": {
+      "days": 1,
+      "months": 1,
+      "totalDays": 31
     }
   }
 }
