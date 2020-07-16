@@ -27,6 +27,7 @@ import {
   startDirectScheduleFlow,
   startRequestAppointmentFlow,
   requestAppointmentDateChoice,
+  onClickedUpdateAddressButton,
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
@@ -58,6 +59,7 @@ import {
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   START_REQUEST_APPOINTMENT_FLOW,
   START_DIRECT_SCHEDULE_FLOW,
+  CLICKED_UPDATE_ADDRESS_BUTTON,
 } from '../../actions/newAppointment';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -1733,6 +1735,14 @@ describe('VAOS newAppointment actions', () => {
       );
       expect(dispatch.firstCall.args[0].phoneNumber).to.equal('5032222222');
       expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
+    });
+
+    it('should start update address action', () => {
+      const action = onClickedUpdateAddressButton();
+
+      expect(action).to.deep.equal({
+        type: CLICKED_UPDATE_ADDRESS_BUTTON,
+      });
     });
   });
   describe('requestAppointmentDateChoice', () => {
