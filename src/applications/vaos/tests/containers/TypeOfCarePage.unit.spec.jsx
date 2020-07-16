@@ -6,10 +6,8 @@ import { mount } from 'enzyme';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import {
-  default as TypeOfCarePageRedux,
-  TypeOfCarePage,
-} from '../../containers/TypeOfCarePage';
+import TypeOfCarePageRedux from '../../containers/TypeOfCarePage';
+import { TypeOfCarePage } from '../../containers/TypeOfCarePage';
 import { TYPES_OF_CARE } from '../../utils/constants';
 import { createTestStore } from '../mocks/form';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
