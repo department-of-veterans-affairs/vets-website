@@ -13,25 +13,6 @@ export class IntroductionPage extends React.Component {
     this.props.getRemainingEntitlement();
   }
 
-  loggedIn() {
-    return this.props.isLoggedIn ? (
-      <SaveInProgressIntro
-        prefillEnabled={this.props.route.formConfig.prefillEnabled}
-        messages={this.props.route.formConfig.savedFormMessages}
-        pageList={this.props.route.pageList}
-        startText="Start the education application"
-      />
-    ) : (
-      <SaveInProgressIntro
-        buttonOnly
-        prefillEnabled={this.props.route.formConfig.prefillEnabled}
-        messages={this.props.route.formConfig.savedFormMessages}
-        pageList={this.props.route.pageList}
-        startText="Start the education application"
-      />
-    );
-  }
-
   moreThanSixMonths = remaining => {
     const totalDays = remaining?.months * 30 + remaining?.days;
     return totalDays > 180;
@@ -41,7 +22,10 @@ export class IntroductionPage extends React.Component {
     if (this.props.isLoggedIn) {
       if (this.moreThanSixMonths(this.props?.remainingEntitlement)) {
         return (
-          <div className="usa-alert usa-alert-warning schemaform-sip-alert">
+          <div
+            id="entitlement-remaining-alert"
+            className="usa-alert usa-alert-warning schemaform-sip-alert"
+          >
             <div className="usa-alert-body">
               <h3 className="usa-alert-heading">You may not be eligible</h3>
               <div className="usa-alert-text">
@@ -225,7 +209,13 @@ export class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {this.loggedIn()}
+        <SaveInProgressIntro
+          buttonOnly={!this.props.isLoggedIn}
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          startText="Start the education application"
+        />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={5} ombNumber="2900-0878" expDate="06/30/2023" />
         </div>
