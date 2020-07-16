@@ -92,7 +92,7 @@ function GenericError(props) {
     return (
       <>
         <Row>
-          <Column>
+          <Column role="alert">
             <ErrorMessage
               active
               title="We’re sorry. We can't submit your form right now."
