@@ -34,6 +34,7 @@
     "schoolState": "MA",
     "view:benefit": {
       "chapter33": true
-    }
+    },
+    "view:remainingEntitlement": {}
   }
 }
