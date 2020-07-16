@@ -46,13 +46,22 @@ const ProfileInfoTable = ({
     'margin-bottom--1',
   ]);
   const tableRowTitleClassesMedium = prefixUtilityClasses(
-    ['margin-bottom--0', 'margin-right--2'],
+    ['margin-bottom--0'],
     'medium',
   );
+
   const tableRowDataClasses = prefixUtilityClasses([
     'margin--0',
     'width--full',
   ]);
+
+
+  const tableRowDataNewClassesMedium = prefixUtilityClasses(
+    ['margin--0',
+    'padding-left--5',
+    'width--full'],
+    'medium',
+  );
 
   // an object where each value is a string of space-separated class names that
   // can be passed directly to a `className` attribute
@@ -67,7 +76,11 @@ const ProfileInfoTable = ({
       ...tableRowTitleClassesMedium,
     ].join(' '),
     tableRowData: [...tableRowDataClasses].join(' '),
+    tableRowDataNew: [...tableRowDataClasses, ...tableRowDataNewClassesMedium].join(' '),
   };
+
+
+  const dataContainsVerified = data.some(row => row.verified === true)
 
   return (
     <section className={classes.table}>
@@ -85,7 +98,21 @@ const ProfileInfoTable = ({
                 <dfn className={classes.tableRowTitle}>{row.title}</dfn>
               )}
 
-              <span className={classes.tableRowData}>{row.value}</span>
+              {row?.verified && (
+                <>
+                  <i className="fa fa-check vads-u-color--green" />
+                  <span className={classes.tableRowData}>{row.value}</span>
+                </>
+              )}
+
+              {!row?.verified && !dataContainsVerified && (
+                <span className={classes.tableRowData}>{row.value}</span>
+              )}
+
+              {!row?.verified && dataContainsVerified && (
+                <span className={classes.tableRowDataNew}>{row.value}</span>
+              )}
+
             </li>
           ))}
       </ol>

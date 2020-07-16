@@ -12,10 +12,10 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
   if (mhvAccount.termsAndConditionsAccepted) {
     return (
       <>
-        <Verified>
+        <p className="vads-u-margin--0 vads-u-padding-left--3">
           You’ve accepted the terms and conditions for using VA.gov health
           tools.
-        </Verified>
+        </p>
         <p className="vads-u-margin-bottom--0">
           <a
             href={termsAndConditionsUrl}

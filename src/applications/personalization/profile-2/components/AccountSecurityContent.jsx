@@ -35,6 +35,7 @@ export const AccountSecurityContent = ({
   const securitySections = [
     {
       title: '2-factor authentication',
+      verified: isMultifactorEnabled,
       value: (
         <TwoFactorAuthorizationStatus
           isMultifactorEnabled={isMultifactorEnabled}
@@ -47,13 +48,15 @@ export const AccountSecurityContent = ({
   if (isIdentityVerified && isInMVI) {
     securitySections.unshift({
       title: 'Identity verification',
-      value: <Verified>We’ve verified your identity.</Verified>,
+      verified: true,
+      value: <p className="vads-u-margin--0 vads-u-padding-left--3">We’ve verified your identity.</p>,
     });
   }
 
   if (showMHVTermsAndConditions) {
     securitySections.push({
       title: 'Terms and conditions',
+      verified: mhvAccount.termsAndConditionsAccepted,
       value: <MHVTermsAndConditionsStatus mhvAccount={mhvAccount} />,
     });
   }

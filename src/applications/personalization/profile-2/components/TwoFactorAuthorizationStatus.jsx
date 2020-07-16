@@ -9,10 +9,10 @@ import Verified from './Verified';
 const TwoFactorAuthorizationStatus = ({ isMultifactorEnabled, useSSOe }) => {
   if (isMultifactorEnabled) {
     return (
-      <Verified>
+      <p className="vads-u-margin--0 vads-u-padding-left--3">
         You’ve added an extra layer of security to your account with 2-factor
         authentication.
-      </Verified>
+      </p>
     );
   }
 
