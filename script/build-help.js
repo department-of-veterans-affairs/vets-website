@@ -40,6 +40,12 @@ const helpSections = [
         description:
           "Serve the website to your local network by setting this to your machine's IP address.\nE.g. {bold 192.168.0.111}\nUse with --env.host 0.0.0.0",
       },
+      {
+        name: 'env.scaffold',
+        type: Boolean,
+        description:
+          'Automatically generate application landing pages. Can be used as an alternative to running a full content build.',
+      },
     ],
   },
   {

@@ -1,0 +1,167 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div id="content" class="interior">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+
+    {% include 'src/site/navigation/sidebar_nav.drupal.liquid' with sidebar %}
+
+    <div class="usa-width-three-fourths">
+
+      {% if !entityPublished %}
+        <div class="usa-alert usa-alert-info vads-u-margin-bottom--4">
+          <div class="usa-alert-body">
+            <p class="usa-alert-text">You are viewing a draft.</p>
+          </div>
+        </div>
+      {% endif %}
+
+      <article class="usa-content">
+        <hgroup>
+          <h1>{{ title }}</h1>
+          <h2 class="vads-u-margin-top--0 vads-u-margin-bottom--4">{{ fieldVaFormName }}</h2>
+        </hgroup>
+
+        <dl>
+          <div class="vads-u-margin-y--1">
+            <dt class="vads-u-font-weight--bold vads-u-display--inline">
+              Related to:
+            </dd>
+            <dd class="vads-u-display--inline">
+              {% case fieldVaFormType %}
+                {% when 'employment' %}
+                  Employment or jobs at VA
+                {% when 'Non-VA' %}
+                  A non-VA form. For other government agency forms, go to the <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>.
+                {% else %}
+                  {% comment %}
+                    {% when 'benefit' %}
+                  {% endcomment %}
+                  {% if fieldBenefitCategories.length > 0 %}
+                    {{ fieldBenefitCategories | map: "entity" | map: "fieldHomePageHubLabel" | join: ', ' }}
+                  {% else %}
+                    {{ fieldVaFormAdministration.entity.entityLabel }}
+                  {% endif %}
+              {% endcase %}
+            </dd>
+          </div>
+
+          {% if fieldVaFormRevisionDate %}
+            <div>
+              <dt class="vads-u-font-weight--bold vads-u-display--inline">
+                Form last updated:
+              </dt>
+              <dd class="vads-u-display--inline">
+                {{ fieldVaFormRevisionDate.value | humanizeDate }}
+              </dd>
+            </div>
+          {% endif %}
+        </dl>
+
+        {% if fieldVaFormUsage %}
+          <h3>When to use this form</h3>
+          {{ fieldVaFormUsage.processed }}
+        {% endif %}
+
+        <a href="{{ fieldVaFormUrl.uri }}" download>Download VA Form {{ fieldVaFormNumber }} (PDF)</a>
+
+        {% if fieldVaFormToolUrl %}
+          <h3>Or use the online tool</h3>
+          <p>{{ fieldVaFormToolIntro }}</p>
+          <a href="{{ fieldVaFormToolUrl.uri }}" class="usa-button-primary va-button-primary">
+            Go to the online tool <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
+          </a>
+        {% endif %}
+
+
+        {% if fieldVaFormRelatedForms.length > 0 %}
+          <section>
+            <h3>Related forms and instructions</h3>
+            <ul class="usa-unstyled-list">
+            {% for vaForm in fieldVaFormRelatedForms %}
+                <li>
+                  <hgroup>
+                    <h4>VA Form {{ vaForm.entity.fieldVaFormNumber }}</h4>
+                    <h5 class="vads-u-margin-top--0">
+                      <span class="vads-u-visibility--screen-reader">Form name:</span> {{ vaForm.entity.fieldVaFormName }}
+                    </h5>
+                  </hgroup>
+
+                  {{ vaForm.entity.fieldVaFormUsage.processed }}
+                  <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}" download>
+                    Download VA Form {{ vaForm.entity.fieldVaFormNumber }} (PDF)
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </section>
+        {% endif %}
+
+        <section>
+          <div class="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--4">
+            <h3 class="vads-u-margin-top--0 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+              {% if fieldVaFormLinkTeasers.length > 0 %}
+                Helpful links related to VA Form {{ fieldVaFormNumber }}
+              {% else %}
+                Helpful links
+              {% endif %}
+            </h3>
+            <ul class="usa-unstyled-list">
+              {% if fieldVaFormLinkTeasers.length > 0 %}
+                {% for vaFormLinkTeaser in fieldVaFormLinkTeasers %}
+                  <li>
+                    <h4>
+                      <a class="vads-u-text-decoration--none" href="{{ vaFormLinkTeaser.entity.fieldLink.url.path }}">
+                        {{ vaFormLinkTeaser.entity.fieldLink.title }}
+                      </a>
+                    </h4>
+                    <p>{{ vaFormLinkTeaser.entity.fieldLinkSummary }}</p>
+                  </li>
+                {% endfor %}
+              {% else %}
+                {% comment %} The default related links if custom links aren't defined {% endcomment %}
+                <li>
+                  <h4>
+                    <a class="vads-u-text-decoration--none" href="/change-direct-deposit">
+                      Change your direct deposit information
+                    </a>
+                  </h4>
+                  <p>Find out how to update your direct deposit information online for disability compensation, pension, or education benefits. </p>
+                </li>
+                <li>
+                  <h4>
+                    <a class="vads-u-text-decoration--none" href="/change-address">
+                      Change your address
+                    </a>
+                  </h4>
+                  <p>Find out how to change your address and other information in your VA.gov profile for disability compensation, claims and appeals, VA health care, and other benefits.</p>
+                </li>
+                <li>
+                  <h4>
+                    <a class="vads-u-text-decoration--none" href="/records/get-military-service-records/">
+                      Request your military records, including DD214
+                    </a>
+                  </h4>
+                  <p>Submit an online request to get your DD214 or other military service records through the milConnect website.</p>
+                </li>
+                <li>
+                  <h4>
+                    <a class="vads-u-text-decoration--none" href="/records/">
+                      Get your VA records and documents online
+                    </a>
+                  </h4>
+                  <p>Learn how to access your VA records, benefit letters, and documents online.</p>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        </section>
+      </article>
+    </div>
+  </div>
+
+</main>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

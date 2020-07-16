@@ -99,7 +99,7 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   handleCalculateBenefitsClick = childSection => {
-    const accordionId = `${createId(childSection)}-accordion`;
+    const accordionButtonId = `${createId(childSection)}-accordion-button`;
     const { beneficiaryZIPError, beneficiaryZIP } = this.props.inputs;
 
     if (
@@ -117,8 +117,7 @@ class EstimateYourBenefitsForm extends React.Component {
       this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
       setTimeout(() => {
-        scroller.scrollTo(accordionId, getScrollOptions());
-        focusElement(`#${accordionId}`);
+        focusElement(`#${accordionButtonId}`);
       }, 50);
     }
 
@@ -301,7 +300,9 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleEYBSkipLinkOnClick = () => {
     scroller.scrollTo('estimated-benefits', getScrollOptions());
-    focusElement('#estimated-benefits');
+    setTimeout(() => {
+      focusElement('#estimated-benefits');
+    }, 50);
   };
 
   /**
@@ -441,7 +442,7 @@ class EstimateYourBenefitsForm extends React.Component {
     yellowRibbonDegreeLevelOptions = yellowRibbonDegreeLevelOptions.map(
       value => ({ value, label: value }),
     );
-    yellowRibbonDegreeLevelOptions.unshift({
+    yellowRibbonDegreeLevelOptions.push({
       value: 'customAmount',
       label: 'Enter an amount',
     });
@@ -470,6 +471,7 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleInputChange}
           onFocus={this.handleEYBInputFocus}
         />
+
         <div>
           <Dropdown
             label="Degree Level"
@@ -486,6 +488,7 @@ class EstimateYourBenefitsForm extends React.Component {
             label="Division or school"
             name={'yellowRibbonDivision'}
             alt="Division or school"
+            disabled={yellowRibbonDivisionOptions.length <= 1}
             hideArrows={yellowRibbonDivisionOptions.length <= 1}
             options={yellowRibbonDivisionOptions}
             visible={showYellowRibbonDetails}
@@ -539,7 +542,7 @@ class EstimateYourBenefitsForm extends React.Component {
       <div id={scholarshipsFieldId}>
         <label htmlFor={scholarshipsId}>
           {this.renderLearnMoreLabel({
-            text: 'Scholarships (excluding Pell)',
+            text: 'Scholarships (excluding Pell Grants)',
             modal: 'calcScholarships',
             ariaLabel: ariaLabels.learnMore.calcScholarships,
           })}
@@ -950,21 +953,21 @@ class EstimateYourBenefitsForm extends React.Component {
         name="working"
         alt="Will be working"
         options={[
-          { value: '30', label: '30+ hrs / week' },
-          { value: '28', label: '28 hrs / week' },
-          { value: '26', label: '26 hrs / week' },
-          { value: '24', label: '24 hrs / week' },
-          { value: '22', label: '22 hrs / week' },
-          { value: '20', label: '20 hrs / week' },
-          { value: '18', label: '18 hrs / week' },
-          { value: '16', label: '16 hrs / week' },
-          { value: '14', label: '14 hrs / week' },
-          { value: '12', label: '12 hrs / week' },
-          { value: '10', label: '10 hrs / week' },
-          { value: '8', label: '8 hrs / week' },
-          { value: '6', label: '6 hrs / week' },
-          { value: '4', label: '4 hrs / week' },
-          { value: '2', label: '2 hrs / week' },
+          { value: '30', label: '30 plus hours per week' },
+          { value: '28', label: '28 hours per week' },
+          { value: '26', label: '26 hours per week' },
+          { value: '24', label: '24 hours per week' },
+          { value: '22', label: '22 hours per week' },
+          { value: '20', label: '20 hours per week' },
+          { value: '18', label: '18 hours per week' },
+          { value: '16', label: '16 hours per week' },
+          { value: '14', label: '14 hours per week' },
+          { value: '12', label: '12 hours per week' },
+          { value: '10', label: '10 hours per week' },
+          { value: '8', label: '8 hours per week' },
+          { value: '6', label: '6 hours per week' },
+          { value: '4', label: '4 hours per week' },
+          { value: '2', label: '2 hours per week' },
         ]}
         visible
         value={this.props.inputs.working}

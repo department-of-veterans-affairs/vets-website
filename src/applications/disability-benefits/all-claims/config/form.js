@@ -57,8 +57,6 @@ import {
   aidAndAttendance,
   alternateNames,
   ancillaryFormsWizardSummary,
-  bddGoBack,
-  bddRedirect,
   choosePtsdType,
   claimExamsInfo,
   claimType,
@@ -99,7 +97,6 @@ import {
   uploadPtsdDocuments,
   vaEmployee,
   vaMedicalRecords,
-  verifyBdd,
   workBehaviorChanges,
 } from '../pages';
 
@@ -165,14 +162,6 @@ const formConfig = {
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} },
         },
-        claimType: {
-          title: 'Claim type',
-          path: 'claim-type',
-          depends: formData => hasRatedDisabilities(formData),
-          uiSchema: claimType.uiSchema,
-          schema: claimType.schema,
-          onContinue: captureEvents.claimType,
-        },
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
@@ -188,26 +177,13 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({ dob: state.user.profile.dob }),
         },
-        verifyBdd: {
-          title: 'Verify active duty status',
-          path: 'review-veteran-details/verify-bdd',
-          depends: verifyBdd.depends,
-          uiSchema: verifyBdd.uiSchema,
-          schema: verifyBdd.schema,
-        },
-        bddGoBack: {
-          title: '',
-          path: 'review-veteran-details/update-service-history-warning',
-          depends: bddGoBack.depends,
-          uiSchema: bddGoBack.uiSchema,
-          schema: bddGoBack.schema,
-        },
-        bddRedirect: {
-          title: '',
-          path: 'review-veteran-details/bdd-redirect',
-          depends: bddRedirect.depends,
-          uiSchema: bddRedirect.uiSchema,
-          schema: bddRedirect.schema,
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          depends: formData => hasRatedDisabilities(formData),
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+          onContinue: captureEvents.claimType,
         },
         servedInCombatZone: {
           title: 'Combat status',

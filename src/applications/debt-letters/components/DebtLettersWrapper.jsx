@@ -32,7 +32,6 @@ class DebtLettersWrapper extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isFetching: state.debtLetters.isFetching,
-  debts: state.debtLetters.debts,
   isError: state.debtLetters.isError,
 });
 

@@ -3,50 +3,55 @@ import PersonalInformation from './components/personal-information/PersonalInfor
 import MilitaryInformation from './components/MilitaryInformation';
 import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 
-const getRoutes = showDirectDeposit => {
-  const routes = [
+const getRoutes = options => {
+  let routes = [
     {
       component: PersonalInformation,
-      name: 'Personal and contact information',
-      path: '/profile/personal-information',
+      name: PROFILE_PATH_NAMES.PERSONAL_INFORMATION,
+      path: PROFILE_PATHS.PERSONAL_INFORMATION,
       requiresLOA3: true,
       requiresMVI: true,
     },
     {
       component: MilitaryInformation,
-      name: 'Military information',
-      path: '/profile/military-information',
+      name: PROFILE_PATH_NAMES.MILITARY_INFORMATION,
+      path: PROFILE_PATHS.MILITARY_INFORMATION,
       requiresLOA3: true,
       requiresMVI: true,
     },
     {
       component: DirectDeposit,
-      name: 'Direct deposit',
-      path: '/profile/direct-deposit',
+      name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
+      path: PROFILE_PATHS.DIRECT_DEPOSIT,
       requiresLOA3: true,
       requiresMVI: true,
     },
     {
       component: AccountSecurity,
-      name: 'Account security',
-      path: '/profile/account-security',
+      name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
+      path: PROFILE_PATHS.ACCOUNT_SECURITY,
       requiresLOA3: false,
       requiresMVI: false,
     },
     {
       component: ConnectedApplications,
-      name: 'Connected apps',
-      path: '/profile/connected-applications',
+      name: PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
+      path: PROFILE_PATHS.CONNECTED_APPLICATIONS,
       requiresLOA3: true,
       requiresMVI: true,
     },
   ];
-  if (!showDirectDeposit) {
-    return routes.filter(route => {
-      return route.component !== DirectDeposit;
-    });
+
+  if (options.removeDirectDeposit) {
+    routes = routes.filter(route => route.component !== DirectDeposit);
   }
+
+  if (options.removeMilitaryInformation) {
+    routes = routes.filter(route => route.component !== MilitaryInformation);
+  }
+
   return routes;
 };
 

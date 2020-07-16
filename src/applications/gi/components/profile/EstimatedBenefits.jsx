@@ -15,6 +15,26 @@ const year = (
     <span aria-hidden="true">/yr</span>
   </React.Fragment>
 );
+const fragment = (key, sr, label) => {
+  return (
+    <React.Fragment key={key}>
+      <span className="sr-only">{sr}</span>
+      <span aria-hidden="true">{label}</span>
+    </React.Fragment>
+  );
+};
+const termLabel = label => {
+  switch (label) {
+    case 'Months 1-6':
+      return fragment('m16', 'Months 1 through 6', label);
+    case 'Months 7-12':
+      return fragment('m712', 'Months 7 through 12', label);
+    case 'Months 13-18':
+      return fragment('m16', 'Months 13 through 18', label);
+    default:
+      return fragment('m1924', 'Months 19 through 24', label);
+  }
+};
 
 const CalculatorResultRow = ({
   id,
@@ -38,13 +58,20 @@ const CalculatorResultRow = ({
       <div className="small-6 columns vads-u-text-align--right">
         {header ? (
           <div>
-            <h5>
+            <p
+              className="vads-u-font-size--h5 vads-u-font-family--serif
+              vads-u-font-weight--bold eyb-value-header"
+              aria-label={value}
+            >
               {value}
               {screenReaderSpan}
-            </h5>
+            </p>
           </div>
         ) : (
-          <div>{value}</div>
+          <div>
+            {value}
+            {screenReaderSpan}
+          </div>
         )}
       </div>
     </div>
@@ -76,13 +103,17 @@ const perTermSections = (outputs, calculator) => {
           </a>
           )
         </div>
+
         {terms.map(term => (
           <CalculatorResultRow
             key={`${section}${term.label}`}
             id={`${section}${term.label}`}
-            label={term.label}
+            label={
+              calculator.type === 'OJT' ? termLabel(term.label) : term.label
+            }
             value={term.value}
             bold={term.label === 'Total per year'}
+            screenReaderSpan={calculator.type === 'OJT' ? month : ''}
             visible={term.visible}
           />
         ))}
@@ -105,52 +136,54 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
     <h3 id="estimated-benefits" tabIndex="-1">
       Your estimated benefits
     </h3>
-    <div aria-live="polite" role="status" className="out-of-pocket-tuition">
-      <CalculatorResultRow
-        label="GI Bill pays to school"
-        value={outputs.giBillPaysToSchool.value}
-        visible={outputs.giBillPaysToSchool.visible}
-        screenReaderSpan={year}
-        header
-      />
-      <CalculatorResultRow
-        label="Tuition and fees charged"
-        value={outputs.tuitionAndFeesCharged.value}
-        visible={outputs.tuitionAndFeesCharged.visible}
-      />
-      <CalculatorResultRow
-        label="Your scholarships"
-        value={outputs.yourScholarships.value}
-        visible={outputs.yourScholarships.visible}
-      />
-      <CalculatorResultRow
-        label="Out of pocket tuition"
-        value={outputs.outOfPocketTuition.value}
-        bold
-        visible={outputs.outOfPocketTuition.visible}
-      />
-    </div>
-    <div className="total-paid-to-you">
-      <CalculatorResultRow
-        label="Housing allowance"
-        value={outputs.housingAllowance.value}
-        visible={outputs.housingAllowance.visible}
-        screenReaderSpan={month}
-        header
-      />
-      <CalculatorResultRow
-        label="Book stipend"
-        value={outputs.bookStipend.value}
-        visible={outputs.bookStipend.visible}
-        screenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
-        header
-      />
-      <CalculatorResultRow
-        label="Total paid to you"
-        value={outputs.totalPaidToYou.value}
-        bold
-        visible={outputs.totalPaidToYou.visible}
-      />
+    <div aria-atomic="true" aria-live="polite" role="status">
+      <div className="out-of-pocket-tuition">
+        <CalculatorResultRow
+          label="GI Bill pays to school"
+          value={outputs.giBillPaysToSchool.value}
+          visible={outputs.giBillPaysToSchool.visible}
+          screenReaderSpan={year}
+          header
+        />
+        <CalculatorResultRow
+          label="Tuition and fees charged"
+          value={outputs.tuitionAndFeesCharged.value}
+          visible={outputs.tuitionAndFeesCharged.visible}
+        />
+        <CalculatorResultRow
+          label="Your scholarships"
+          value={outputs.yourScholarships.value}
+          visible={outputs.yourScholarships.visible}
+        />
+        <CalculatorResultRow
+          label="Out of pocket tuition"
+          value={outputs.outOfPocketTuition.value}
+          bold
+          visible={outputs.outOfPocketTuition.visible}
+        />
+      </div>
+      <div className="total-paid-to-you">
+        <CalculatorResultRow
+          label="Housing allowance"
+          value={outputs.housingAllowance.value}
+          visible={outputs.housingAllowance.visible}
+          screenReaderSpan={month}
+          header
+        />
+        <CalculatorResultRow
+          label="Book stipend"
+          value={outputs.bookStipend.value}
+          visible={outputs.bookStipend.visible}
+          screenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
+          header
+        />
+        <CalculatorResultRow
+          label="Total paid to you"
+          value={outputs.totalPaidToYou.value}
+          bold
+          visible={outputs.totalPaidToYou.visible}
+        />
+      </div>
     </div>
     <hr aria-hidden="true" />
     {perTermSections(outputs, calculator)}

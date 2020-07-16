@@ -231,6 +231,7 @@ export const genBBoxFromAddress = query => {
       .forwardGeocode({
         countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
         types,
+        autocomplete: false,
         query: query.searchString,
       })
       .send()

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
+import { higherLevelReviewFeature } from '../helpers';
 import { BASE_URL } from '../constants';
 
 import {
@@ -19,14 +21,21 @@ import {
 export const name = 'higher-level-review';
 
 // initChoice & initExpanded set for testing
-const HLRWizard = ({
+export const HLRWizard = ({
   initExpanded = false,
   initClaimChoice = null,
   initLegacyChoice = null,
+  allowHlr = false,
+  testHlr = false,
 }) => {
   const [claimChoice, setClaimChoice] = useState(initClaimChoice);
   const [legacyChoice, setLegacyChoice] = useState(initLegacyChoice);
   const [expanded, setExpanded] = useState(initExpanded);
+
+  if (!(allowHlr || testHlr)) {
+    // Don't render if feature isn't set for the user
+    return null;
+  }
 
   const claimOptions = [
     { value: 'compensation', label: wizardLabels.compensation },
@@ -56,7 +65,7 @@ const HLRWizard = ({
           className="form-expanding-group-open wizard-content vads-u-margin-top--2"
           id="wizardOptions"
         >
-          <div className="wizard-content-inner" role="presentation">
+          <div className="wizard-content-inner">
             <ErrorableRadioButtons
               id={`${name}-claim`}
               label={claimDescription}
@@ -105,4 +114,8 @@ const HLRWizard = ({
   );
 };
 
-export default HLRWizard;
+const mapStateToProps = state => ({
+  allowHlr: higherLevelReviewFeature(state),
+});
+
+export default connect(mapStateToProps)(HLRWizard);

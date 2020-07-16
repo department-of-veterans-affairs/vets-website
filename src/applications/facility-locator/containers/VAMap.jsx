@@ -6,7 +6,6 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { FeatureGroup, Map, TileLayer } from 'react-leaflet';
 import mapboxClient from '../components/MapboxClient';
 import { mapboxToken } from '../utils/mapboxToken';
-import isMobile from 'ismobilejs';
 import { debounce, isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import {
@@ -28,7 +27,7 @@ import {
   LocationType,
   MARKER_LETTERS,
 } from '../constants';
-import { areGeocodeEqual, setFocus } from '../utils/helpers';
+import { areGeocodeEqual, setFocus, showDialogUrgCare } from '../utils/helpers';
 import {
   facilityLocatorShowCommunityCares,
   facilitiesPpmsSuppressPharmacies,
@@ -37,61 +36,21 @@ import {
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import recordEvent from 'platform/monitoring/record-event';
 import { distBetween } from '../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 
 const otherToolsLink = (
   <p>
-    Can’t find what you’re looking for?
+    Can’t find what you’re looking for?&nbsp;&nbsp;
     <a href="https://www.va.gov/directory/guide/home.asp">
       Try using our other tools to search.
     </a>
   </p>
 );
 
-const headingStyle = {
-  fontWeight: '700',
-  fontFamily: 'Bitter, Georgia, Cambria, Times New Roman, Times, serif',
-  lineHeight: '1.3',
-  clear: 'both',
-};
-
-const ddStyle = {
-  margin: '2rem 0 .5rem 0',
-  lineHeight: '1.5',
-};
-
-// Link to urgent care benefit web page
-const urgentCareDialogLink = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <dl className="usa-alert-text">
-        <dt className="usa-alert-heading" style={headingStyle} tabIndex="-1">
-          Important information about your Community Care appointment
-        </dt>
-        <dd style={ddStyle}>
-          Click below to learn how to prepare for your urgent care appointment
-          with a Community Care provider.
-        </dd>
-        <button
-          className="usa-button-primary vads-u-margin-y--0"
-          onClick={() => {
-            // Record event
-            recordEvent({ event: 'cta-primary-button-click' });
-            window.open(
-              'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp',
-              '_blank',
-            );
-          }}
-        >
-          Learn about VA urgent care benefit
-        </button>
-      </dl>
-    </div>
-  </div>
-);
+// See https://design.va.gov/design/breakpoints
+const isMobile = window.innerWidth <= 481;
 
 class VAMap extends Component {
   constructor(props) {
@@ -231,7 +190,7 @@ class VAMap extends Component {
       !updatedQuery.error;
 
     if (shouldZoomOut) {
-      if (isMobile.any) {
+      if (isMobile) {
         // manual zoom-out for mobile
         this.props.updateSearchQuery({
           bounds: [
@@ -563,12 +522,6 @@ class VAMap extends Component {
       pagination: { currentPage, totalPages },
     } = this.props;
     const facilityLocatorMarkers = this.renderMapMarkers();
-    const showDialogUrgCare =
-      (currentQuery.facilityType === LocationType.URGENT_CARE &&
-        currentQuery.serviceType === 'NonVAUrgentCare') ||
-      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
-        ? urgentCareDialogLink
-        : null;
     return (
       <div>
         <div className="columns small-12">
@@ -579,7 +532,7 @@ class VAMap extends Component {
             showCommunityCares={showCommunityCares}
             isMobile
           />
-          <div>{showDialogUrgCare}</div>
+          <div>{showDialogUrgCare(currentQuery)}</div>
           {/* <div ref={this.searchResultTitle}>
             {results.length > 0 ? (
               <p className="search-result-title">
@@ -670,13 +623,6 @@ class VAMap extends Component {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderMapMarkers();
-    const showDialogUrgCare =
-      (currentQuery.facilityType === LocationType.URGENT_CARE &&
-        currentQuery.serviceType === 'NonVAUrgentCare') ||
-      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
-        ? urgentCareDialogLink
-        : null;
-
     return (
       <div className="desktop-container">
         <div>
@@ -688,7 +634,7 @@ class VAMap extends Component {
             suppressPharmacies={suppressPharmacies}
           />
         </div>
-        <div>{showDialogUrgCare}</div>
+        <div>{showDialogUrgCare(currentQuery)}</div>
         {/* <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
           {results.length > 0 ? (
             <p className="search-result-title">
@@ -751,13 +697,11 @@ class VAMap extends Component {
         </div>
         {currentPage &&
           results.length > 0 && (
-            <div className="width-35">
-              <Pagination
-                onPageSelect={this.handlePageSelect}
-                page={currentPage}
-                pages={totalPages}
-              />
-            </div>
+            <Pagination
+              onPageSelect={this.handlePageSelect}
+              page={currentPage}
+              pages={totalPages}
+            />
           )}
       </div>
     );
@@ -800,7 +744,7 @@ class VAMap extends Component {
             community providers as the service type.
           </p>
         </div>
-        {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
+        {isMobile ? this.renderMobileView() : this.renderDesktopView()}
       </div>
     );
   }

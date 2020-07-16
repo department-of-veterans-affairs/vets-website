@@ -164,3 +164,75 @@ export function getMessageMock() {
     },
   };
 }
+
+export function getCCAppointmentMock() {
+  return {
+    id: 'fake',
+    type: 'cc_appointments',
+    attributes: {
+      appointmentRequestId: 'fake',
+      distanceEligibleConfirmed: true,
+      name: { firstName: 'fake', lastName: 'fake' },
+      providerPractice: 'fake',
+      providerPhone: 'fake',
+      address: {
+        street: 'fake',
+        city: 'fake',
+        state: 'FK',
+        zipCode: 'fake',
+      },
+      instructionsToVeteran: 'fake',
+      appointmentTime: 'fake',
+      timeZone: 'fake',
+    },
+  };
+}
+
+export function getCancelReasonMock() {
+  return {
+    id: 'fake',
+    type: 'cancel_reason',
+    attributes: {
+      number: 'fake',
+      text: 'fake',
+      type: 'B',
+      inactive: false,
+    },
+  };
+}
+
+export function getParentSiteMock() {
+  return {
+    id: 'fake',
+    type: 'facility',
+    attributes: {
+      institutionCode: 'fake',
+      city: 'fake',
+      stateAbbrev: 'FK',
+      authoritativeName: 'fake',
+      rootStationCode: 'fake',
+      adminParent: true,
+      parentStationCode: 'fake',
+    },
+  };
+}
+
+export function getFacilityMock() {
+  return {
+    id: 'fake',
+    type: 'direct_scheduling_facility',
+    attributes: {
+      institutionCode: 'fake',
+      city: 'fake',
+      stateAbbrev: 'FK',
+      authoritativeName: 'fake',
+      rootStationCode: 'fake',
+      adminParent: true,
+      parentStationCode: 'fake',
+      requestSupported: false,
+      directSchedulingSupported: false,
+      expressTimes: null,
+      institutionTimezone: 'fake',
+    },
+  };
+}

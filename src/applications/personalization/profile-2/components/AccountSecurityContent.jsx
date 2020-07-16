@@ -42,10 +42,6 @@ export const AccountSecurityContent = ({
         />
       ),
     },
-    {
-      title: 'Sign-in email address',
-      value: <EmailAddressNotification signInServiceName={signInServiceName} />,
-    },
   ];
 
   if (isIdentityVerified && isInMVI) {
@@ -61,6 +57,11 @@ export const AccountSecurityContent = ({
       value: <MHVTermsAndConditionsStatus mhvAccount={mhvAccount} />,
     });
   }
+
+  securitySections.push({
+    title: 'Sign-in email address',
+    value: <EmailAddressNotification signInServiceName={signInServiceName} />,
+  });
 
   return (
     <>

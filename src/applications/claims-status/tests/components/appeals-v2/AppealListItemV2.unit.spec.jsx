@@ -79,7 +79,7 @@ describe('<AppealListItemV2/>', () => {
     const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
     expect(
       wrapper
-        .find('h3.claim-list-item-header-v2')
+        .find('.claim-list-item-header-v2')
         .render()
         .text(),
     ).to.contain('May 1, 2016');
@@ -101,7 +101,7 @@ describe('<AppealListItemV2/>', () => {
     const wrapper = shallow(<AppealListItemV2 {...vhaScProps} />);
     expect(
       wrapper
-        .find('h3.claim-list-item-header-v2')
+        .find('.claim-list-item-header-v2')
         .render()
         .text(),
     ).to.equal('Supplemental claim for health care updated on May 1, 2016');

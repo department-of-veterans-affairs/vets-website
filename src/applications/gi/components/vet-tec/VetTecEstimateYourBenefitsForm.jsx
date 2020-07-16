@@ -83,6 +83,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       'gibct-parent-accordion-section': 'Estimate your benefits',
       'gibct-child-accordion-section': undefined,
     });
+    focusElement('#estimate-your-benefits-accordion-button');
   };
 
   handleEYBSkipLinkOnClick = () => {
@@ -106,7 +107,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         id="scholarships-label"
       >
         {this.renderLearnMoreLabel({
-          text: 'Scholarships (excluding Pell)',
+          text: 'Scholarships (excluding Pell Grants)',
           modal: 'scholarships',
           ariaLabel: ariaLabels.learnMore.scholarships,
         })}

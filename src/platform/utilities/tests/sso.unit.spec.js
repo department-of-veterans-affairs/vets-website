@@ -4,15 +4,14 @@ import sinon from 'sinon';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
 import * as authUtils from 'platform/user/authentication/utilities';
-import * as profUtils from 'platform/user/profile/utilities';
+import * as apiUtils from 'platform/utilities/api';
+import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
 
 import { checkAutoSession, checkAndUpdateSSOeSession } from '../sso';
-import * as forceAuth from '../sso/forceAuth';
+import * as loginAttempted from '../sso/loginAttempted';
 
 function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
   const response = new Response();
-  response.ok = true;
-  response.headers.set('content-type', 'application/json');
   response.headers.set('session-alive', 'true');
   response.headers.set('session-timeout', sessionTimeout);
   response.headers.set('va_eauth_csid', csid);
@@ -24,125 +23,252 @@ function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
       idme: 'http://idmanagement.gov/ns/assurance/loa/3',
     }[csid],
   );
-  response.json = () =>
-    Promise.resolve({
-      status: 200,
-      message: 'OK',
-    });
+  response.json = () => Promise.resolve({ status: 200 });
 
   stub.resolves(response);
 }
 
+let oldWindow;
+
+const fakeWindow = () => {
+  oldWindow = global.window;
+  global.window = {
+    dataLayer: [],
+    location: {
+      get: () => global.window.location,
+      set: value => {
+        global.window.location = value;
+      },
+      pathname: '',
+      search: '',
+    },
+  };
+};
+
 describe('checkAutoSession', () => {
-  it('should auto logout if user is logged in and they do not have a SSOe session', async () => {
-    const sandbox = sinon.createSandbox();
-    sandbox.stub(profUtils, 'hasSession').returns('true');
-    sandbox.stub(profUtils, 'hasSessionSSO').returns(false);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(null);
+  let sandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    fakeWindow();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+    global.window = oldWindow;
+  });
+
+  it('should redirect user to cerner if logged in via SSOe and on the standalone sign in page', async () => {
+    mockFetch({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          data: {
+            attributes: {
+              profile: {
+                // eslint-disable-next-line camelcase
+                sign_in: {
+                  ssoe: true,
+                },
+              },
+            },
+          },
+        }),
+    });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
+    global.window.location.origin = 'http://localhost';
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=myvahealth';
+
+    await checkAutoSession();
+
+    expect(global.window.location).to.eq(
+      'https://ehrm-va-test.patientportal.us.healtheintent.com/',
+    );
+  });
+
+  it('should redirect user to home page if logged in via SSOe and on the standalone sign in page', async () => {
+    mockFetch({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          data: {
+            attributes: {
+              profile: {
+                // eslint-disable-next-line camelcase
+                sign_in: {
+                  ssoe: true,
+                },
+              },
+            },
+          },
+        }),
+    });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
+    global.window.location.origin = 'http://localhost';
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '';
+
+    await checkAutoSession();
+
+    expect(global.window.location).to.eq('http://localhost');
+  });
+
+  it('should auto logout if user has logged in via SSOe and they do not have a SSOe session anymore', async () => {
+    mockFetch({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          data: {
+            attributes: {
+              profile: {
+                // eslint-disable-next-line camelcase
+                sign_in: {
+                  ssoe: true,
+                },
+              },
+            },
+          },
+        }),
+    });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: false, ttl: 0, authn: undefined });
     const auto = sandbox.stub(authUtils, 'logout');
     await checkAutoSession();
-    sandbox.restore();
+
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout');
+    sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout', {
+      'auto-logout': 'true',
+    });
+  });
+
+  it('should not auto logout if user is logged without SSOe and they do not have a SSOe session', async () => {
+    mockFetch({ ok: true });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: false, ttl: 0, authn: undefined });
+    const auto = sandbox.stub(authUtils, 'logout');
+    await checkAutoSession();
+
+    sinon.assert.notCalled(auto);
   });
 
   it('should not auto logout if user is logged in and they have a SSOe session', async () => {
-    const sandbox = sinon.createSandbox();
-    sandbox.stub(profUtils, 'hasSession').returns(true);
-    sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    mockFetch({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          data: {
+            attributes: {
+              profile: {},
+            },
+          },
+        }),
+    });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
     const auto = sandbox.stub(authUtils, 'logout');
     await checkAutoSession();
-    sandbox.restore();
+
     sinon.assert.notCalled(auto);
   });
 
   it('should not auto logout if user is logged in and we dont know if they have a SSOe session', async () => {
-    const sandbox = sinon.createSandbox();
-    sandbox.stub(profUtils, 'hasSession').returns(true);
-    sandbox.stub(profUtils, 'hasSessionSSO').returns(null);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    mockFetch({ ok: true });
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({});
     const auto = sandbox.stub(authUtils, 'logout');
     await checkAutoSession();
-    sandbox.restore();
+
     sinon.assert.notCalled(auto);
   });
 
-  it('should auto login if user is logged out, they have an idme SSOe session, dont need to force auth', async () => {
-    const sandbox = sinon.createSandbox();
-    sandbox.stub(profUtils, 'hasSession').returns(false);
-    sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
-    mockFetch();
-    setKeepAliveResponse(global.fetch.onFirstCall(), 900, 'idme');
+  it('should not auto logout if user is logged in without SSOe and they dont have a SSOe session', async () => {
+    mockFetch({ ok: true });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: true, ttl: 0, authn: undefined });
+    const auto = sandbox.stub(authUtils, 'logout');
+    await checkAutoSession();
+
+    sinon.assert.notCalled(auto);
+  });
+
+  it('should auto login if user is logged out, they have an idme SSOe session, have not previously tried to login', async () => {
+    mockFetch({ ok: false });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
-    sandbox.restore();
+
     sinon.assert.calledOnce(auto);
     sinon.assert.calledWith(
       auto,
       'custom',
       'v1',
-      null,
-      null,
-      { authn: 'http://idmanagement.gov/ns/assurance/loa/3', inbound: 'true' },
+      { authn: 'dslogon' },
       'sso-automatic-login',
     );
   });
 
   it('should auto login if user is logged out, they have an mhv SSOe session, dont need to force auth', async () => {
-    const sandbox = sinon.createSandbox();
-    sandbox.stub(profUtils, 'hasSession').returns(false);
-    sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
-    mockFetch();
-    setKeepAliveResponse(global.fetch.onFirstCall(), 900, 'mhv');
+    mockFetch({ ok: false });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: true, ttl: 900, authn: 'myhealthevet' });
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
-    sandbox.restore();
+
     sinon.assert.calledOnce(auto);
     sinon.assert.calledWith(
       auto,
       'custom',
       'v1',
-      null,
-      null,
-      { authn: 'myhealthevet', inbound: 'true' },
+      { authn: 'myhealthevet' },
       'sso-automatic-login',
     );
   });
 
   it('should not auto login if user is logged out, they have a PIV SSOe session and dont need to force auth', async () => {
-    const sandbox = sinon.createSandbox();
-    sandbox.stub(profUtils, 'hasSession').returns(false);
-    sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
-    setKeepAliveResponse(global.fetch.onFirstCall(), 900, '33');
+    mockFetch({ ok: false });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: true, ttl: 900, authn: null });
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
-    sandbox.restore();
+
     sinon.assert.notCalled(auto);
   });
 
   it('should not auto login if user is logged out, they dont have a SSOe session and dont need to force auth', async () => {
-    const sandbox = sinon.createSandbox();
-    sandbox.stub(profUtils, 'hasSession').returns(false);
-    sandbox.stub(profUtils, 'hasSessionSSO').returns(false);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    mockFetch({ ok: false });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: false, ttl: 0, authn: undefined });
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
-    sandbox.restore();
+
     sinon.assert.notCalled(auto);
   });
 
   it('should not auto login if user is logged out, they have a SSOe session and need to force auth', async () => {
-    const sandbox = sinon.createSandbox();
-    sandbox.stub(profUtils, 'hasSession').returns(false);
-    sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(true);
+    mockFetch({ ok: false });
+    sandbox
+      .stub(keepAliveMod, 'keepAlive')
+      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
+    sandbox.stub(loginAttempted, 'getLoginAttempted').returns(true);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
-    sandbox.restore();
+
     sinon.assert.notCalled(auto);
   });
 });

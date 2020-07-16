@@ -59,6 +59,7 @@ class AccordionItem extends React.Component {
     if (section) {
       return (
         <button
+          id={`${this.id}-button`}
           aria-expanded={expanded}
           aria-controls={this.id}
           onClick={this.toggle}
@@ -76,6 +77,7 @@ class AccordionItem extends React.Component {
     return (
       <h2 className={headerClasses}>
         <button
+          id={`${this.id}-button`}
           onClick={this.toggle}
           className="usa-accordion-button"
           aria-expanded={expanded}

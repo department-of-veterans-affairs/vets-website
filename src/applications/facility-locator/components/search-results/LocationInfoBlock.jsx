@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { LocationType, OperatingStatus } from '../../constants';
+import {
+  CLINIC_URGENTCARE_SERVICE,
+  LocationType,
+  OperatingStatus,
+} from '../../constants';
 import LocationAddress from './LocationAddress';
 import FacilityTypeDescription from '../FacilityTypeDescription';
 import ProviderServiceDescription from '../ProviderServiceDescription';
@@ -57,16 +61,15 @@ const LocationInfoBlock = ({ location, from, query }) => {
         <span>
           <ProviderServiceDescription provider={location} query={query} />
           {query.facilityType === 'cc_pharmacy' ||
-          query.serviceType === 'NonVAUrgentCare' ? (
+          query.serviceType === 'NonVAUrgentCare' ||
+          query.serviceType === CLINIC_URGENTCARE_SERVICE ? (
             <p>
               <span>
                 <strong>{name}</strong>
               </span>
             </p>
           ) : (
-            <h2 className="vads-u-font-size--h5 no-marg-top">
-              <Link to={`provider/${location.id}`}>{name}</Link>
-            </h2>
+            <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
           )}
           {location.attributes.orgName && (
             <h6>{location.attributes.orgName}</h6>

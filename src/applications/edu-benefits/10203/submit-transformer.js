@@ -1,34 +1,21 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { determineEligibilityFor10203Stem } from './helpers';
 
 export function transform(formConfig, form) {
-  const newSchoolTransform = formData => {
-    let clonedData = _.cloneDeep(formData);
-
-    delete clonedData.newSchoolName;
-    delete clonedData.newSchoolAddress;
-
-    clonedData = {
-      ...clonedData,
-      newSchool: {
-        ...clonedData.newSchool,
-        name: formData.newSchoolName,
-        address: formData.newSchoolAddress,
-      },
-    };
-    return clonedData;
-  };
-
-  const fryScholarshipTransform = formData => {
+  const benefitsTransform = formData => {
     const clonedData = _.cloneDeep(formData);
-    if (clonedData.benefit === 'fryScholarship') {
+    const benefits = clonedData['view:benefit'];
+
+    if (benefits.chapter33 || benefits.fryScholarship) {
       clonedData.benefit = 'chapter33';
+    } else {
+      clonedData.benefit = Object.keys(benefits)
+        .find(key => benefits[key])
+        .toString();
     }
-    const submit10203 = determineEligibilityFor10203Stem(clonedData);
-    if (submit10203 !== undefined && !submit10203) {
-      clonedData.isEdithNourseRogersScholarship = false;
-    }
+
+    delete clonedData['view:benefit'];
+
     return clonedData;
   };
 
@@ -38,13 +25,14 @@ export function transform(formConfig, form) {
 
   const contactInfoTransform = formData => ({
     ...formData,
+    mail: formData?.['view:otherContactInfo']?.mail,
     email: formData?.['view:otherContactInfo']?.email,
     homePhone: formData?.['view:otherContactInfo']?.homePhone,
+    mobilePhone: formData?.['view:otherContactInfo']?.mobilePhone,
   });
 
   const transformedData = [
-    newSchoolTransform,
-    fryScholarshipTransform,
+    benefitsTransform,
     contactInfoTransform,
     usFormTransform, // This needs to be last function call in array
   ].reduce((formData, transformer) => transformer(formData), form.data);

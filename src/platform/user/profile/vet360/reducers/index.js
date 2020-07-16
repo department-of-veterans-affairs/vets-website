@@ -221,7 +221,6 @@ export default function vet360(state = initialState, action) {
         : state.initialFormFields;
 
       const modalName = state?.modal;
-      const initialFormFieldValues = state.initialFormFields[modalName]?.value;
       let formFieldValues = formFields[modalName]?.value;
 
       // Initial form fields does not have 'view' properties, those get added to formFields
@@ -229,6 +228,11 @@ export default function vet360(state = initialState, action) {
       formFieldValues = pickBy(formFieldValues, value => value !== undefined);
       formFieldValues = pickBy(
         formFieldValues,
+        (value, key) => !key.startsWith('view:'),
+      );
+
+      const initialFormFieldValues = pickBy(
+        state.initialFormFields[modalName]?.value,
         (value, key) => !key.startsWith('view:'),
       );
 

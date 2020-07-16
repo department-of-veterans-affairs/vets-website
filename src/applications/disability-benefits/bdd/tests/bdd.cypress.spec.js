@@ -10,19 +10,21 @@ import { mockItf } from './bdd.cypress.helpers';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
+
     dataSets: [
-      // disable all test until BDD is in production
-      // 'maximal-test',
-      // 'minimal-test',
-      // 'newOnly-test',
-      // 'secondary-new-test',
-      // 'full-781-781a-8940-test',
-      // 'upload-781-781a-8940-test',
+      'maximal-test',
+      'minimal-test',
+      'newOnly-test',
+      'secondary-new-test',
+      'full-781-781a-8940-test',
+      'upload-781-781a-8940-test',
     ],
+
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
+
     pageHooks: {
       introduction: () => {
         // Hit the start button
@@ -33,6 +35,7 @@ const testConfig = createTestConfig(
         // Click past the ITF message
         cy.findByText(/continue/i, { selector: 'button' }).click();
       },
+
       'disabilities/rated-disabilities': () => {
         cy.get('@testData').then(data => {
           data.ratedDisabilities.forEach((disability, index) => {
@@ -43,6 +46,7 @@ const testConfig = createTestConfig(
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
+
       'payment-information': () => {
         cy.get('@testData').then(data => {
           if (data['view:bankAccount']) {
@@ -59,20 +63,17 @@ const testConfig = createTestConfig(
         });
       },
     },
+
     setupPerTest: () => {
       cy.login();
 
-      cy.route('GET', '/v0/feature_toggles', 'fx:mocks/feature-toggles');
+      cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
 
       // `mockItf` is not a fixture; it can't be loaded as a fixture
       // because fixtures don't evaluate JS.
       cy.route('GET', '/v0/intent_to_file', mockItf);
 
-      cy.route(
-        'PUT',
-        '/v0/in_progress_forms/21-526EZ-BDD',
-        'fx:mocks/in-progress-forms',
-      );
+      cy.route('PUT', '/v0/in_progress_forms/*', 'fx:mocks/in-progress-forms');
 
       cy.route(
         'GET',
@@ -122,6 +123,9 @@ const testConfig = createTestConfig(
         });
       });
     },
+
+    // disable all tests until BDD is in production
+    skip: true,
   },
   manifest,
   formConfig,

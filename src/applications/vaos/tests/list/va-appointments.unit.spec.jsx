@@ -4,7 +4,7 @@ import moment from 'moment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import reducers from '../../reducers';
 import { getVAAppointmentMock, getVAFacilityMock } from '../mocks/v0';
-import { mockAppointmentInfo, mockFacilitesFetch } from '../mocks/helpers';
+import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
 
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 
@@ -16,10 +16,11 @@ const initialState = {
 
 describe('VAOS integration: upcoming VA appointments', () => {
   it('should show information without facility details', async () => {
+    const startDate = moment.utc();
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
-      startDate: moment().format(),
+      startDate: startDate.format(),
       clinicFriendlyName: 'C&P BEV AUDIO FTC1',
       facilityId: '983',
       sta6aid: '983GC',
@@ -40,9 +41,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
 
     const dateHeader = await findByText(
       new RegExp(
-        moment()
-          .tz('America/Denver')
-          .format('dddd, MMMM D, YYYY'),
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm'),
         'i',
       ),
     );
@@ -53,6 +52,8 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(baseElement).to.contain('.fa-check-circle');
 
     expect(dateHeader).to.have.tagName('h3');
+    expect(dateHeader).to.contain.text('MT');
+    expect(dateHeader).to.contain.text('Mountain time');
     expect(getByText(/view facility information/i)).to.have.attribute(
       'href',
       '/find-locations/facility/vha_442GC',
@@ -93,7 +94,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
         },
       },
     };
-    mockFacilitesFetch('vha_442GC', [facility]);
+    mockFacilitiesFetch('vha_442GC', [facility]);
 
     const { findByText, baseElement, getByText } = renderInReduxProvider(
       <FutureAppointmentsList />,

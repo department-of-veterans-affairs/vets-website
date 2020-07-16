@@ -1,6 +1,5 @@
 import moment from '../../utils/moment-tz';
 
-import titleCase from 'platform/utilities/data/titleCase';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -115,9 +114,18 @@ function getStatus(appointment, isPast) {
       return APPOINTMENT_STATUS.booked;
     case APPOINTMENT_TYPES.ccRequest:
     case APPOINTMENT_TYPES.request: {
-      return appointment.status === 'Cancelled'
-        ? APPOINTMENT_STATUS.cancelled
-        : APPOINTMENT_STATUS.pending;
+      if (
+        appointment.status === 'Booked' ||
+        appointment.status === 'Resolved'
+      ) {
+        return APPOINTMENT_STATUS.booked;
+      } else if (appointment.status === 'Cancelled') {
+        return APPOINTMENT_STATUS.cancelled;
+      } else if (appointment.status.startsWith('Escalated')) {
+        return APPOINTMENT_STATUS.pending;
+      }
+
+      return APPOINTMENT_STATUS.proposed;
     }
     case APPOINTMENT_TYPES.vaAppointment: {
       const currentStatus = getVistaStatus(appointment);
@@ -167,8 +175,9 @@ function getMomentConfirmedDate(appt) {
  *  +60 min or +240 min in the case of video
  * @param {*} appt VAR appointment object
  */
-export function isPastAppointment(appt, videoType) {
-  const threshold = videoType ? 240 : 60;
+export function isPastAppointment(appt) {
+  const isVideo = isVideoVisit(appt);
+  const threshold = isVideo ? 240 : 60;
   const apptDateTime = moment(getMomentConfirmedDate(appt));
   return apptDateTime.add(threshold, 'minutes').isBefore(moment());
 }
@@ -233,17 +242,26 @@ function getPurposeOfVisit(appt) {
 function getRequestedPeriods(appt) {
   const requestedPeriods = [];
   const format = 'MM/DD/YYYY';
+
   for (let x = 1; x <= 3; x += 1) {
     const optionTime = appt[`optionTime${x}`];
-    if (optionTime) {
+
+    // Since 'No Date Selected' and 'No Time Selected' are possible values but
+    // invalid dates and times, don't add the start and end attributes.
+    //
+    // NOTE: FHIR Spec says...
+    // If the start element is missing, the start of the period is not known.
+    // If the end element is missing, it means that the period is ongoing,
+    // or the start may be in the past, and the end date in the future,
+    // which means that period is expected / planned to end at the specified time.
+    if (moment(appt[`optionDate${x}`]).isValid() && optionTime) {
+      const momentDate = moment(appt[`optionDate${x}`], format).format(
+        'YYYY-MM-DD',
+      );
       const isAM = optionTime === 'AM';
       requestedPeriods.push({
-        start: `${moment(appt[`optionDate${x}`], format).format(
-          'YYYY-MM-DD',
-        )}T${isAM ? '00:00:00.000Z' : `12:00:00.000Z`}`,
-        end: `${moment(appt[`optionDate${x}`], format).format('YYYY-MM-DD')}T${
-          isAM ? '11:59:99.999Z' : `23:59:99.999Z`
-        }`,
+        start: `${momentDate}T${isAM ? '00:00:00.000' : `12:00:00.000`}`,
+        end: `${momentDate}T${isAM ? '11:59:59.999' : `23:59:59.999`}`,
       });
     }
   }
@@ -301,6 +319,7 @@ function setParticipant(appt) {
       }
       return null;
     }
+    case APPOINTMENT_TYPES.ccRequest:
     case APPOINTMENT_TYPES.request: {
       const hasName =
         appt.patient?.displayName ||
@@ -366,6 +385,11 @@ function setContained(appt) {
             location: {
               reference: `Location/var${appt.facilityId}`,
             },
+            characteristic: [
+              {
+                coding: getVideoType(appt),
+              },
+            ],
             telecom: [
               {
                 system: 'url',
@@ -380,6 +404,45 @@ function setContained(appt) {
       }
 
       return null;
+    }
+    case APPOINTMENT_TYPES.request: {
+      if (appt.visitType === 'Video Conference') {
+        return [
+          {
+            resourceType: 'HealthcareService',
+            characteristic: [
+              {
+                coding: getVideoType(appt),
+              },
+            ],
+          },
+        ];
+      }
+      return null;
+    }
+    case APPOINTMENT_TYPES.ccRequest: {
+      return appt.ccAppointmentRequest.preferredProviders.map(provider => {
+        const participant = {
+          actor: {
+            name: provider.practiceName,
+            // TODO: Map to participant.actor.Practitioner field.
+            firstName: provider.firstName,
+            lastName: provider.lastName,
+          },
+        };
+
+        if (provider.address) {
+          const address = {
+            line: [provider.address?.street],
+            city: provider.address?.city,
+            state: provider.address?.state,
+            postalCode: provider.address?.zipCode,
+          };
+          participant.actor.address = address;
+        }
+
+        return participant;
+      });
     }
     case APPOINTMENT_TYPES.ccAppointment: {
       const address = appt.address;
@@ -416,15 +479,10 @@ function setContained(appt) {
  * @returns {Object}
  */
 function setLegacyVAR(appt) {
-  const legacyVar = {
+  return {
     apiData: appt,
+    bestTimeToCall: appt.bestTimetoCall,
   };
-
-  if (getAppointmentType(appt) === APPOINTMENT_TYPES.request) {
-    legacyVar.bestTimeToCall = appt.bestTimetoCall;
-  }
-
-  return legacyVar;
 }
 
 /**
@@ -438,8 +496,7 @@ export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => {
     const minutesDuration = getAppointmentDuration(appt);
     const start = getMomentConfirmedDate(appt).format();
-    const videoType = getVideoType(appt);
-    const isPast = isPastAppointment(appt, videoType);
+    const isPast = isPastAppointment(appt);
     const isCC = isCommunityCare(appt);
 
     return {
@@ -459,9 +516,9 @@ export function transformConfirmedAppointments(appointments) {
       vaos: {
         isPastAppointment: isPast,
         appointmentType: getAppointmentType(appt),
-        videoType,
         isCommunityCare: isCC,
         timeZone: isCC ? appt.timeZone : null,
+        videoType: getVideoType(appt),
       },
     };
   });
@@ -477,20 +534,21 @@ export function transformConfirmedAppointments(appointments) {
 export function transformPendingAppointments(requests) {
   return requests.map(appt => {
     const isCC = isCommunityCare(appt);
-
-    if (isCC) {
-      // CC requests to be handled in separate PR
-      return appt;
-    }
+    const requestedPeriod = getRequestedPeriods(appt);
 
     return {
       resourceType: 'Appointment',
       id: `var${appt.id}`,
-      status: getStatus(appt),
-      requestedPeriod: getRequestedPeriods(appt),
+      status: getStatus(appt, isCC),
+      requestedPeriod,
       minutesDuration: 60,
       type: {
-        coding: [{ code: appt.appointmentType }],
+        coding: [
+          {
+            code: appt.typeOfCareId,
+            display: appt.appointmentType,
+          },
+        ],
       },
       reason: getPurposeOfVisit(appt),
       participant: setParticipant(appt),
@@ -500,7 +558,6 @@ export function transformPendingAppointments(requests) {
         appointmentType: getAppointmentType(appt),
         isCommunityCare: isCC,
         isExpressCare: appt.typeOfCareId === EXPRESS_CARE,
-        isPastAppointment: false,
       },
     };
   });

@@ -3,7 +3,7 @@ const transform = entity => ({
     entityType: 'paragraph',
     entityBundle: 'staff_profile',
     queryFieldStaffProfile: {
-      entities: [entity.fieldStaffProfile[0]],
+      entities: [entity.fieldStaffProfile[0] || null],
     },
   },
 });

@@ -20,6 +20,7 @@ export class PastAppointmentsList extends React.Component {
     super(props);
     this.dateRangeOptions =
       props.dateRangeOptions || getPastAppointmentDateRangeOptions();
+    this.state = { isInitialMount: true };
   }
 
   componentDidMount() {
@@ -42,15 +43,17 @@ export class PastAppointmentsList extends React.Component {
   componentDidUpdate(prevProps) {
     if (
       prevProps.appointments.pastStatus === FETCH_STATUS.loading &&
-      this.props.appointments.pastStatus === FETCH_STATUS.succeeded
+      this.props.appointments.pastStatus === FETCH_STATUS.succeeded &&
+      !this.state.isInitialMount
     ) {
-      focusElement('#pastAppts');
+      focusElement('#queryResultLabel');
     }
   }
 
   onDateRangeChange = index => {
     const selectedDateRange = this.dateRangeOptions[index];
 
+    this.setState({ isInitialMount: false });
     this.props.fetchPastAppointments(
       selectedDateRange.startDate,
       selectedDateRange.endDate,
@@ -72,7 +75,11 @@ export class PastAppointmentsList extends React.Component {
     } else if (pastStatus === FETCH_STATUS.succeeded && past?.length > 0) {
       content = (
         <>
-          <span className="vads-u-font-size--sm vads-u-display--block vads-u-margin-bottom--1">
+          <span
+            id="queryResultLabel"
+            className="vads-u-font-size--sm vads-u-display--block vads-u-margin-bottom--1"
+            style={{ outline: 'none' }}
+          >
             Showing appointments for:{' '}
             {this.dateRangeOptions[appointments.pastSelectedIndex].label}
           </span>
@@ -120,9 +127,9 @@ export class PastAppointmentsList extends React.Component {
 
     return (
       <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
-        <h3 tabIndex="-1" id="pastAppts">
+        <h2 tabIndex="-1" id="pastAppts" className="vads-u-font-size--h3">
           Past appointments
-        </h3>
+        </h2>
         <PastAppointmentsDateDropdown
           currentRange={appointments.pastSelectedIndex}
           onChange={this.onDateRangeChange}

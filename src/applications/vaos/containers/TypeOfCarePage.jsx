@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
@@ -20,7 +20,10 @@ import {
   vaosDirectScheduling,
 } from '../utils/selectors';
 
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
+import {
+  selectIsCernerOnlyPatient,
+  selectVet360ResidentialAddress,
+} from 'platform/user/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -42,12 +45,53 @@ const uiSchema = {
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
 
+function UpdateAddress({ address, showAlert, onHide }) {
+  const regexp = /^PO Box/;
+  if (showAlert && (!address || address.match(regexp))) {
+    return (
+      <AlertBox
+        status="warning"
+        headline="You need to have a home address on file to use some of the tool's features"
+        className="vads-u-margin-y--3"
+        content={
+          <p>
+            You can update your address in your VA profile. Please allow some
+            time for your address update to process through our system. <br />
+            <a
+              className="usa-button usa-button-primary vads-u-margin-top--4"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="/change-address/#how-do-i-change-my-address-in-"
+              onClick={onHide}
+            >
+              Update your address
+            </a>
+          </p>
+        }
+      />
+    );
+  }
+  return null;
+}
+
 export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showAlert: true,
+    };
+  }
+
+  hideAlert = () => {
+    const showAlert = !this.state.showAlert;
+    this.setState({ showAlert });
+  };
 
   onChange = newData => {
     // When someone chooses a type of care that can be direct scheduled,
@@ -75,6 +119,7 @@ export class TypeOfCarePage extends React.Component {
       data,
       pageChangeInProgress,
       showToCUnavailableModal,
+      addressLine1,
     } = this.props;
 
     if (!schema) {
@@ -84,6 +129,12 @@ export class TypeOfCarePage extends React.Component {
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+        <UpdateAddress
+          address={addressLine1}
+          showAlert={this.state.showAlert}
+          onHide={this.hideAlert}
+        />
+
         <SchemaForm
           name="Type of care"
           title="Type of care"
@@ -112,8 +163,10 @@ export class TypeOfCarePage extends React.Component {
 function mapStateToProps(state) {
   const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
+  const address = selectVet360ResidentialAddress(state);
   return {
     ...formInfo,
+    ...address,
     showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showDirectScheduling: vaosDirectScheduling(state),

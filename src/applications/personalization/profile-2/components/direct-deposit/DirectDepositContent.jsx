@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
@@ -42,6 +43,7 @@ export const DirectDepositContent = ({
   const editBankInfoButton = useRef();
   const [formData, setFormData] = useState({});
   const [showSaveSucceededAlert, setShowSaveSucceededAlert] = useState(false);
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
   const wasSavingBankInfo = usePrevious(directDepositUiState.isSaving);
 
@@ -128,6 +130,15 @@ export const DirectDepositContent = ({
     editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
   };
 
+  const closeDDForm = () => {
+    if (!isEmptyForm) {
+      setShowConfirmCancelModal(true);
+      return;
+    }
+
+    toggleEditState();
+  };
+
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div className={classes.bankInfo}>
@@ -178,8 +189,8 @@ export const DirectDepositContent = ({
         )}
       </div>
       <p className="vads-u-margin-top--0">
-        Please provide your bank’s current routing number as well as your
-        current account number and type.
+        Please enter your bank’s routing and account numbers and your account
+        type.
       </p>
       <div className="vads-u-margin-bottom--2">
         <AdditionalInfo triggerText="Where can I find these numbers?">
@@ -194,7 +205,7 @@ export const DirectDepositContent = ({
         formData={formData}
         formSubmit={saveBankInfo}
         isSaving={directDepositUiState.isSaving}
-        onClose={toggleEditState}
+        onClose={closeDDForm}
         cancelButtonClasses={['va-button-link', 'vads-u-margin-left--1']}
       />
     </>
@@ -238,14 +249,15 @@ export const DirectDepositContent = ({
       value: (
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           <p className="vads-u-margin-top--0">
-            You’ll need to sign in to the eBenefits website with your Premium DS
-            Logon account to change your direct deposit information for GI Bill
-            and other education benefits online.
+            You’ll need to sign in to the eBenefits website with your{' '}
+            <strong>Premium DS Logon</strong> account to change your direct
+            deposit information for GI Bill and other education benefits online.
           </p>{' '}
           <p>
-            If you don’t have a Premium DS Logon account, you can register for
-            one or upgrade your Basic account to Premium. Your MyHealtheVet or
-            ID.me credentials won’t work on eBenefits.
+            If you don’t have a <strong>Premium DS Logon</strong> account, you
+            can register for one or upgrade your Basic account to Premium. Your{' '}
+            <strong>MyHealtheVet</strong> or <strong>ID.me</strong> credentials
+            won’t work on eBenefits.
           </p>
           <a
             target="_blank"
@@ -276,8 +288,37 @@ export const DirectDepositContent = ({
 
   return (
     <>
+      <Modal
+        title={'Are you sure?'}
+        status="warning"
+        visible={showConfirmCancelModal}
+        onClose={() => {
+          setShowConfirmCancelModal(false);
+        }}
+      >
+        <p>
+          {' '}
+          {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won't be saved.`}
+        </p>
+        <button
+          className="usa-button-secondary"
+          onClick={() => {
+            setShowConfirmCancelModal(false);
+          }}
+        >
+          Continue Editing
+        </button>
+        <button
+          onClick={() => {
+            setShowConfirmCancelModal(false);
+            toggleEditState();
+          }}
+        >
+          Cancel
+        </button>
+      </Modal>
       <Prompt
-        message="Are you sure you want to leave? If you leave, your in-progress work won't be saved."
+        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={!isEmptyForm}
       />
       <div id="success" role="alert" aria-atomic="true">
@@ -299,7 +340,10 @@ export const DirectDepositContent = ({
           )}
         </ReactCSSTransitionGroup>
       </div>
-      <ProfileInfoTable title="Bank information" data={directDepositData()} />
+      <ProfileInfoTable
+        title="Disability compensation and pension benefits"
+        data={directDepositData()}
+      />
       <FraudVictimAlert />
       <ProfileInfoTable
         title="Education benefits"
