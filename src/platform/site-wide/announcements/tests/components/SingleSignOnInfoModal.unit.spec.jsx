@@ -18,7 +18,11 @@ describe('Announcements <SingleSignOnInfoModal>', () => {
     const dismiss = sinon.spy();
 
     const tree = mount(
-      <SingleSignOnInfoModal isLoggedIn dismiss={dismiss} useSSOe />,
+      <SingleSignOnInfoModal
+        isLoggedIn
+        dismiss={dismiss}
+        isAuthenticatedWithSSOe
+      />,
     );
 
     expect(tree.text()).to.contain(
@@ -32,7 +36,11 @@ describe('Announcements <SingleSignOnInfoModal>', () => {
     const dismiss = sinon.spy();
 
     const tree = mount(
-      <SingleSignOnInfoModal isLoggedIn dismiss={dismiss} useSSOe />,
+      <SingleSignOnInfoModal
+        isLoggedIn
+        dismiss={dismiss}
+        isAuthenticatedWithSSOe
+      />,
     );
 
     tree
