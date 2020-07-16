@@ -123,9 +123,11 @@ const addCommonProperties = (transformedEntity, originalEntity) => {
   ] = transformedEntity.contentModelType.includes('-')
     ? transformedEntity.contentModelType.split('-')
     : [transformedEntity.contentModelType, transformedEntity.contentModelType];
-  transformedEntity.entityType = entityType;
-  transformedEntity.entityBundle = entityBundle;
-  transformedEntity.entityUrl = originalEntity.entityUrl;
+  transformedEntity.entityType = transformedEntity.entityType || entityType;
+  transformedEntity.entityBundle =
+    transformedEntity.entityBundle || entityBundle;
+  transformedEntity.entityUrl =
+    transformedEntity.entityUrl || originalEntity.entityUrl;
   transformedEntity.entityId = (originalEntity.nid ||
     originalEntity.tid ||
     originalEntity.id ||
