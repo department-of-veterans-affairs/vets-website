@@ -19,7 +19,6 @@ describe('VAOS <PastAppointmentsList>', () => {
       {
         vaos: {
           appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          videoType: null,
           isCommunityCare: false,
         },
         start: moment('2019-12-11T15:00:00Z'),
@@ -43,7 +42,6 @@ describe('VAOS <PastAppointmentsList>', () => {
           appointmentType: APPOINTMENT_TYPES.ccAppointment,
           timeZone: '-04:00 EDT',
           isCommunityCare: true,
-          videoType: null,
         },
         contained: [
           {

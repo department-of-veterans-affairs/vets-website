@@ -47,7 +47,6 @@ describe('VAOS <CancelCommunityCareAppointmentModal>', () => {
       vaos: {
         isPastAppointment: false,
         appointmentType: 'ccAppointment',
-        videoType: null,
         isCommunityCare: true,
         timeZone: 'UTC',
       },

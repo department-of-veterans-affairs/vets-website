@@ -146,6 +146,26 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(baseElement).to.contain.text('Instructions');
   });
 
+  it('should not show comment if does not start with preset purpose text', async () => {
+    const appointment = getVAAppointmentMock();
+    appointment.attributes.startDate = moment().format();
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].bookingNote = 'some comment';
+    mockAppointmentInfo({ va: [appointment] });
+
+    const { findByText, baseElement } = renderInReduxProvider(
+      <FutureAppointmentsList />,
+      {
+        initialState,
+        reducers,
+      },
+    );
+
+    await findByText(new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'));
+
+    expect(baseElement).not.to.contain.text('some comment');
+  });
+
   it('should have correct status when previously cancelled', async () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes.startDate = moment().format();

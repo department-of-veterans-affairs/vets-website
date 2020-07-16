@@ -467,7 +467,7 @@ describe('VAOS Appointment transformer', () => {
         );
       });
 
-      it('should return gfe videoType', () => {
+      it('should return gfe video characteristicyr', () => {
         const gfeData = transformConfirmedAppointments([
           {
             ...videoAppt,

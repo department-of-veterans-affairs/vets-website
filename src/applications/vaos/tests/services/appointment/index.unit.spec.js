@@ -220,7 +220,7 @@ describe('VAOS Appointment service', () => {
     });
   });
 
-  describe('filterFutureCConfirmedAppointments', () => {
+  describe('filterFutureConfirmedAppointments', () => {
     it('should filter future confirmed appointments', () => {
       const confirmedAppts = [
         // appointment more than 395 days should not show
@@ -260,9 +260,13 @@ describe('VAOS Appointment service', () => {
             .clone()
             .subtract(230, 'minutes')
             .format(),
-          vaos: {
-            videoType: VIDEO_TYPES.videoConnect,
-          },
+          contained: [
+            {
+              resourceType: 'HealthcareService',
+              characteristic: [{ coding: VIDEO_TYPES.videoConnect }],
+            },
+          ],
+          vaos: {},
         },
         // video appointment more than 4 hours ago should not show
         {
@@ -270,8 +274,13 @@ describe('VAOS Appointment service', () => {
             .clone()
             .subtract(245, 'minutes')
             .format(),
+          contained: [
+            {
+              resourceType: 'HealthcareService',
+              characteristic: [{ coding: VIDEO_TYPES.videoConnect }],
+            },
+          ],
           vaos: {
-            videoType: VIDEO_TYPES.videoConnect,
             isPastAppointment: true,
           },
         },
@@ -312,9 +321,14 @@ describe('VAOS Appointment service', () => {
     it('should filter out video appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
       const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(code => ({
         description: code,
+        contained: [
+          {
+            resourceType: 'HealthcareService',
+            characteristic: [{ coding: VIDEO_TYPES.videoConnect }],
+          },
+        ],
         vaos: {
           appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          videoType: VIDEO_TYPES.videoConnect,
         },
       }));
 
