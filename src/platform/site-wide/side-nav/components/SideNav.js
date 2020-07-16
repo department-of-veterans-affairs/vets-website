@@ -14,10 +14,30 @@ class SideNav extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       active: false,
+      isDesktop: this.getDesktop(), // adding this to trigger re-render on window resize
       navItemsLookup: props.navItemsLookup,
     };
+  }
+
+  getDesktop = () => {
+    return window.innerWidth > 768;
+  };
+
+  updateIsDesktop = () => {
+    this.setState({ isDesktop: this.getDesktop() });
+  };
+
+  componentDidMount() {
+    // TODO: use debounce (lodash?) to reduce re-rendering
+    // https://dustinpfister.github.io/2017/12/03/lodash_debounce/
+    window.addEventListener('resize', this.updateIsDesktop);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateIsDesktop);
   }
 
   trackEvents = id => {
@@ -85,6 +105,7 @@ class SideNav extends Component {
         renderChildItems={this.renderChildItems}
         sortedNavItems={sortedNavItems}
         trackEvents={this.trackEvents}
+        navExpanded={this.state.isDesktop ? true : !!this.state.active}
       />
     ));
   };
