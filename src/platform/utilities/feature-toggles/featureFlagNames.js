@@ -33,5 +33,5 @@ export default Object.freeze({
   routeStLouisRPOtoBuffaloRPO: 'routeStLouisRPOtoBuffaloRPO',
   gibctSearchEnhancements: 'gibctSearchEnhancements',
   form996HigherLevelReview: 'form996HigherLevelReview',
-  ctFilterEnhancement: 'ctFilterEnhancement',
+  gibctFilterEnhancement: 'gibctFilterEnhancement',
 });
