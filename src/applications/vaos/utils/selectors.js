@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
 
@@ -404,21 +405,16 @@ export const isWelcomeModalDismissed = state =>
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
-export function selectExpressCare(state) {
-  return {
-    expressCareRequests: state.appointments.future?.filter(
-      appt => appt.vaos.isExpressCare,
-    ),
-    status: state.appointments.futureStatus,
-  };
-}
+export const selectExpressCareRequests = createSelector(
+  state => state.appointments.future,
+  future => future?.filter(appt => appt.vaos.isExpressCare),
+);
 
-export function selectUpcoming(state) {
-  const showExpressCare = vaosExpressCare(state);
-  return {
-    ...state.appointments,
-    future: state.appointments.future
+export const selectFutureAppointments = createSelector(
+  vaosExpressCare,
+  state => state.appointments.future,
+  (showExpressCare, future) =>
+    future
       ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
       ?.filter(isUpcomingAppointmentOrRequest),
-  };
-}
+);

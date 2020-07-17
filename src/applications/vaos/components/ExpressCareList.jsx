@@ -13,8 +13,9 @@ import {
 import {
   vaosCancel,
   vaosRequests,
-  selectExpressCare,
+  selectExpressCareRequests,
 } from '../utils/selectors';
+import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import { getVAAppointmentLocationId } from '../services/appointment';
 import AppointmentRequestListItem from './AppointmentRequestListItem';
@@ -118,21 +119,23 @@ export class ExpressCareList extends React.Component {
 }
 
 ExpressCareList.propTypes = {
-  cancelAppointment: PropTypes.func,
   isCernerOnlyPatient: PropTypes.bool,
-  isWelcomeModalDismissed: PropTypes.bool,
-  fetchFutureAppointments: PropTypes.func,
   showCancelButton: PropTypes.bool,
-  showPastAppointments: PropTypes.bool,
   showScheduleButton: PropTypes.bool,
+  expressCareRequests: PropTypes.array,
+  status: PropTypes.string,
+  cancelAppointment: PropTypes.func,
+  fetchFutureAppointments: PropTypes.func,
   startNewAppointmentFlow: PropTypes.func,
 };
 
 function mapStateToProps(state) {
   return {
-    ...selectExpressCare(state),
+    expressCareRequests: selectExpressCareRequests(state),
+    status: state.appointments.futureStatus,
     showCancelButton: vaosCancel(state),
     showScheduleButton: vaosRequests(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };
 }
 
