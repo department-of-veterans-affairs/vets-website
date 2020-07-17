@@ -219,8 +219,6 @@ describe('VAOS Appointment service', () => {
     });
   });
 
-  describe('filterFutureCConfirmedAppointments', () => {});
-
   describe('sortFutureConfirmedAppointments', () => {
     it('should sort future confirmed appointments', () => {
       const confirmedAppts = [
