@@ -47,6 +47,7 @@ export const debtsReducer = (state = initialState, action) => {
       return {
         ...state,
         debtLinks: action.debtLinks,
+        isVBMSError: false,
       };
     case DEBT_LETTERS_FETCH_FAILURE:
       return {
