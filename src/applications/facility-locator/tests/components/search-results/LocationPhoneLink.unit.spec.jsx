@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import LocationPhoneLink from '../../components/search-results/LocationPhoneLink';
+import LocationPhoneLink from '../../../components/search-results/LocationPhoneLink';
 
 describe('LocationPhoneLink', () => {
   it('should render null if bad phone number passed', () => {

@@ -20,6 +20,7 @@ export class PastAppointmentsList extends React.Component {
     super(props);
     this.dateRangeOptions =
       props.dateRangeOptions || getPastAppointmentDateRangeOptions();
+    this.state = { isInitialMount: true };
   }
 
   componentDidMount() {
@@ -45,7 +46,8 @@ export class PastAppointmentsList extends React.Component {
   componentDidUpdate(prevProps) {
     if (
       prevProps.pastStatus === FETCH_STATUS.loading &&
-      this.props.pastStatus === FETCH_STATUS.succeeded
+      this.props.pastStatus === FETCH_STATUS.succeeded &&
+      !this.state.isInitialMount
     ) {
       focusElement('#queryResultLabel');
     }
@@ -54,6 +56,7 @@ export class PastAppointmentsList extends React.Component {
   onDateRangeChange = index => {
     const selectedDateRange = this.dateRangeOptions[index];
 
+    this.setState({ isInitialMount: false });
     this.props.fetchPastAppointments(
       selectedDateRange.startDate,
       selectedDateRange.endDate,

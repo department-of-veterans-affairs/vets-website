@@ -284,7 +284,7 @@ class SaveInProgressIntro extends React.Component {
     }
 
     const content = (
-      <div>
+      <div id="save-in-progress-intro">
         {!this.props.buttonOnly && this.getAlert(savedForm)}
         {this.props.buttonOnly &&
           !this.props.user.login.currentlyLoggedIn &&
