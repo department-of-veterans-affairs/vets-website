@@ -80,7 +80,9 @@ export class AppointmentsPage extends Component {
               />
             )}
             {showExpressCare && <RequestExpressCare />}
-            {showPastAppointments && <TabNav />}
+            {showPastAppointments && (
+              <TabNav hasExpressCare={showExpressCare} />
+            )}
             {children}
             <NeedHelp />
           </div>

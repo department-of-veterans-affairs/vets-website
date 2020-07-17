@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ssoe } from 'platform/user/authentication/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { logout } from 'platform/user/authentication/utilities';
 import MessageTemplate from './../components/MessageTemplate';
 
@@ -9,7 +9,7 @@ import { createAndUpgradeMHVAccount } from 'platform/user/profile/actions';
 
 class CreateMHVAccount extends React.Component {
   logoutHandler = () => {
-    logout(this.props.useSSOe ? 'v1' : 'v0');
+    logout(this.props.authenticatedWithSSOe ? 'v1' : 'v0');
   };
 
   render() {
@@ -53,7 +53,7 @@ CreateMHVAccount.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    useSSOe: ssoe(state),
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 }
 
