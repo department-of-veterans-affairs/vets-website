@@ -208,7 +208,7 @@ describe('VAOS integration: appointment list', () => {
     );
 
     expect(baseElement).to.contain.text(
-      'window for Express Care requests is 00:00 to 00:00',
+      'You’ll receive a phone screening between',
     );
     expect(header).to.have.tagName('h2');
     expect(button).to.have.attribute(

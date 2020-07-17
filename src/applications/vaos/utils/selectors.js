@@ -410,7 +410,8 @@ export const selectSystemIds = state =>
 
 export const selectExpressCareRequests = createSelector(
   state => state.appointments.future,
-  future => future?.filter(appt => appt.vaos.isExpressCare),
+  future =>
+    future?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
 );
 
 export const selectFutureAppointments = createSelector(
