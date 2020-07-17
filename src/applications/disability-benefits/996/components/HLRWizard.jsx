@@ -65,7 +65,7 @@ export const HLRWizard = ({
           className="form-expanding-group-open wizard-content vads-u-margin-top--2"
           id="wizardOptions"
         >
-          <div className="wizard-content-inner" role="presentation">
+          <div className="wizard-content-inner">
             <ErrorableRadioButtons
               id={`${name}-claim`}
               label={claimDescription}

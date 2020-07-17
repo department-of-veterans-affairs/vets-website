@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
 
@@ -24,8 +25,9 @@ import {
   getVAAppointmentLocationId,
   isVideoAppointment,
   isUpcomingAppointmentOrRequest,
-  sortUpcoming,
+  isValidPastAppointment,
   sortByDateDescending,
+  sortUpcoming,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -406,22 +408,24 @@ export const isWelcomeModalDismissed = state =>
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
-export function selectExpressCare(state) {
-  return {
-    expressCareRequests: state.appointments.future
-      ?.filter(appt => appt.vaos.isExpressCare)
-      .sort(sortByDateDescending),
-    status: state.appointments.futureStatus,
-  };
-}
+export const selectExpressCareRequests = createSelector(
+  state => state.appointments.future,
+  future => future?.filter(appt => appt.vaos.isExpressCare),
+);
 
-export function selectUpcoming(state) {
-  const showExpressCare = vaosExpressCare(state);
-  return {
-    ...state.appointments,
-    future: state.appointments.future
+export const selectFutureAppointments = createSelector(
+  vaosExpressCare,
+  state => state.appointments.future,
+  (showExpressCare, future) =>
+    future
       ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
-      .filter(isUpcomingAppointmentOrRequest)
+      ?.filter(isUpcomingAppointmentOrRequest)
       .sort(sortUpcoming),
-  };
-}
+);
+
+export const selectPastAppointments = createSelector(
+  state => state.appointments.past,
+  past => {
+    return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
+  },
+);

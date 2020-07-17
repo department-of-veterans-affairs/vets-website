@@ -418,102 +418,24 @@ describe('VAOS Appointment service', () => {
   });
 
   describe('filterPastAppointments', () => {
-    it('should filter appointments that are not within startDate, endDates', () => {
-      const today = moment().endOf('day');
-      const threeMonthsAgo = now
-        .clone()
-        .subtract(3, 'month')
-        .startOf('day');
-
+    it('should not filter appointments that are not in hidden status set', () => {
       const appointments = [
-        // appointment in future should not show
         {
-          start: now
-            .clone()
-            .add(1, 'day')
-            .format(),
           vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
         },
-        // appointment before startDate should not show
         {
-          start: now
-            .clone()
-            .subtract(100, 'day')
-            .format(),
+          description: 'NO-SHOW',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
+        {
+          description: 'CHECKED IN',
           vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
         },
       ];
 
-      const filtered = appointments.filter(appt =>
-        isValidPastAppointment(appt, threeMonthsAgo, today),
-      );
-      expect(filtered.length).to.equal(0);
+      const filtered = appointments.filter(isValidPastAppointment);
+
+      expect(filtered.length).to.equal(3);
     });
-
-    it('should not filter appointments that are not within startDate, endDates', () => {
-      const today = moment().endOf('day');
-      const threeMonthsAgo = now
-        .clone()
-        .subtract(3, 'month')
-        .startOf('day');
-
-      const appointments = [
-        // appointment within range should show
-        {
-          start: now
-            .clone()
-            .subtract(1, 'day')
-            .format(),
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-        },
-      ];
-
-      const filtered = appointments.filter(appt =>
-        isValidPastAppointment(appt, threeMonthsAgo, today),
-      );
-      expect(filtered.length).to.equal(1);
-    });
-  });
-
-  it('should not filter appointments that are not in hidden status set', () => {
-    const today = moment().endOf('day');
-    const threeMonthsAgo = now
-      .clone()
-      .subtract(3, 'month')
-      .startOf('day');
-
-    const appointments = [
-      // appointment within range should show
-      {
-        start: now
-          .clone()
-          .subtract(1, 'day')
-          .format(),
-        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-      },
-      {
-        start: now
-          .clone()
-          .subtract(1, 'day')
-          .format(),
-        description: 'NO-SHOW',
-        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-      },
-      {
-        facilityId: '984',
-        start: now
-          .clone()
-          .subtract(1, 'day')
-          .format(),
-        description: 'CHECKED IN',
-        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-      },
-    ];
-
-    const filtered = appointments.filter(appt =>
-      isValidPastAppointment(appt, threeMonthsAgo, today),
-    );
-
-    expect(filtered.length).to.equal(3);
   });
 });

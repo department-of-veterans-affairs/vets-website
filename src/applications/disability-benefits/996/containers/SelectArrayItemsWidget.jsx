@@ -110,9 +110,13 @@ export default class SelectArrayItemsWidget extends React.Component {
                       }
                     />
                   )}
-                  <label className={labelClass} htmlFor={elementId}>
-                    {labelWithData}
-                  </label>
+                  {inReviewMode ? (
+                    <div className={labelClass}>{labelWithData}</div>
+                  ) : (
+                    <label className={labelClass} htmlFor={elementId}>
+                      {labelWithData}
+                    </label>
+                  )}
                 </dt>
                 <dd />
               </React.Fragment>

@@ -226,28 +226,15 @@ export function getPatientEmail(appointment) {
 }
 
 /**
- * Checks to see if a past appointment has a valid status and is in
- * the given date range
+ * Checks to see if a past appointment has a valid status
  *
  * @param {Object} appt A FHIR appointment resource
- * @param {Object} startDate A Moment date object containing the start date of the range
- * @param {Object} endDate A Moment date object containing the end date of the range
  * @returns Whether or not the appt should be shown
  */
-export function isValidPastAppointment(appt, startDate, endDate) {
-  const apptDateTime = moment(appt.start);
-
-  if (
-    appt.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
-    PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)
-  ) {
-    return false;
-  }
-
+export function isValidPastAppointment(appt) {
   return (
-    apptDateTime.isValid() &&
-    apptDateTime.isAfter(startDate) &&
-    apptDateTime.isBefore(endDate)
+    appt.vaos.appointmentType !== APPOINTMENT_TYPES.vaAppointment ||
+    !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)
   );
 }
 

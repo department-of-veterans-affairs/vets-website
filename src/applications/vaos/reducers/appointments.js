@@ -1,3 +1,4 @@
+import moment from 'moment';
 import set from 'platform/utilities/data/set';
 
 import {
@@ -18,11 +19,7 @@ import {
 
 import { FORM_SUBMIT_SUCCEEDED } from '../actions/sitewide';
 
-import {
-  sortMessages,
-  isValidPastAppointment,
-  sortByDateDescending,
-} from '../services/appointment';
+import { sortMessages } from '../services/appointment';
 import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,
@@ -74,13 +71,16 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_PAST_APPOINTMENTS_SUCCEEDED: {
       const { data, startDate, endDate } = action;
 
-      const confirmedFilteredAndSorted = data
-        .filter(appt => isValidPastAppointment(appt, startDate, endDate))
-        .sort(sortByDateDescending);
+      const past = data?.filter(appt => {
+        const apptDateTime = moment(appt.start);
+        return (
+          apptDateTime.isValid() && apptDateTime.isBetween(startDate, endDate)
+        );
+      });
 
       return {
         ...state,
-        past: confirmedFilteredAndSorted,
+        past,
         pastStatus: FETCH_STATUS.succeeded,
       };
     }

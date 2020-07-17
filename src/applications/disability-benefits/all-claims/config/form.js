@@ -162,14 +162,6 @@ const formConfig = {
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} },
         },
-        claimType: {
-          title: 'Claim type',
-          path: 'claim-type',
-          depends: formData => hasRatedDisabilities(formData),
-          uiSchema: claimType.uiSchema,
-          schema: claimType.schema,
-          onContinue: captureEvents.claimType,
-        },
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
@@ -184,6 +176,14 @@ const formConfig = {
           schema: militaryHistory.schema,
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({ dob: state.user.profile.dob }),
+        },
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          depends: formData => hasRatedDisabilities(formData),
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+          onContinue: captureEvents.claimType,
         },
         servedInCombatZone: {
           title: 'Combat status',

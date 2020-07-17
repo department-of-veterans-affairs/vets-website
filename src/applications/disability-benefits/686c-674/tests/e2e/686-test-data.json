@@ -184,6 +184,9 @@
         "zipCode": "12345"
       }
     },
+    "reportDivorce": {
+      "reasonMarriageEnded": "Divorce"
+    },
     "for674": {
       "studentInformation": {
         "firstName": "James",

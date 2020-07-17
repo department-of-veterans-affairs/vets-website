@@ -136,6 +136,7 @@ describe('VAOS integration: express care requests', () => {
         },
       );
 
+      expect(baseElement).to.contain.text('Loading your Express Care requests');
       await findByText(/Back pain/i);
       expect(baseElement).to.contain.text('Next step');
       expect(baseElement).to.contain('.fa-exclamation-triangle');
@@ -309,11 +310,15 @@ describe('VAOS integration: express care requests', () => {
         { errors: [] },
       );
 
-      const { findByText } = renderInReduxProvider(<ExpressCareList />, {
-        initialState,
-        reducers,
-      });
+      const { findByText, baseElement } = renderInReduxProvider(
+        <ExpressCareList />,
+        {
+          initialState,
+          reducers,
+        },
+      );
 
+      expect(baseElement).to.contain.text('Loading your Express Care requests');
       expect(
         await findByText(
           /We’re having trouble getting your upcoming appointments/i,
@@ -324,11 +329,15 @@ describe('VAOS integration: express care requests', () => {
     it('should show message when no requests exist', async () => {
       mockAppointmentInfo({});
 
-      const { findByText } = renderInReduxProvider(<ExpressCareList />, {
-        initialState,
-        reducers,
-      });
+      const { findByText, baseElement } = renderInReduxProvider(
+        <ExpressCareList />,
+        {
+          initialState,
+          reducers,
+        },
+      );
 
+      expect(baseElement).to.contain.text('Loading your Express Care requests');
       expect(await findByText(/You don’t have any appointments/i)).to.be.ok;
     });
 
