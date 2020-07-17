@@ -12,10 +12,6 @@ const transform = entity => ({
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityPublished: isPublished(getDrupalValue(entity.moderationState)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityUrl: {
-    breadcrumb: [],
-    path: entity.path[0].alias,
-  },
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldOffice: entity.fieldOffice[0],
 });

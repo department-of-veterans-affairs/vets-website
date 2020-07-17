@@ -13,9 +13,6 @@ const transform = entity => ({
   entityBundle: 'press_release',
   title: getDrupalValue(entity.title),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityUrl: {
-    path: entity.path[0].alias,
-  },
   fieldAddress: entity.fieldAddress[0]
     ? mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k))
     : null,

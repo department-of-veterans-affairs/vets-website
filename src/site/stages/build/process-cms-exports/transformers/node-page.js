@@ -22,9 +22,6 @@ function pageTransform(entity) {
   const transformed = Object.assign({}, entity, {
     title: getDrupalValue(title),
     entityBundle: 'page',
-    entityUrl: {
-      path: entity.path[0].alias,
-    },
     fieldAdministration: entity.fieldAdministration[0],
 
     fieldIntroText: getDrupalValue(fieldIntroText),
