@@ -38,7 +38,6 @@ export function mockAppointmentInfo({ va = [], cc = [], requests = [] }) {
 
 export function mockPastAppointmentInfo({ va = [], cc = [] }) {
   mockFetch();
-  setFetchJSONResponse(global.fetch, { data: [] });
   const vaUrl = `${
     environment.API_URL
   }/vaos/v0/appointments?start_date=${moment()
@@ -53,9 +52,10 @@ export function mockPastAppointmentInfo({ va = [], cc = [] }) {
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
         .add(-3, 'months')
-        .format('YYYY-MM-DD')}&end_date=${moment().format(
-        'YYYY-MM-DD',
-      )}&type=cc`,
+        .startOf('day')
+        .format()}&end_date=${moment()
+        .startOf('day')
+        .format()}&type=cc`,
     ),
     { data: cc },
   );

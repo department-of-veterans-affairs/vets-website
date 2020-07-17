@@ -25,6 +25,8 @@ import {
   getVAAppointmentLocationId,
   isVideoAppointment,
   isUpcomingAppointmentOrRequest,
+  isValidPastAppointment,
+  sortPastAppointments,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -417,4 +419,11 @@ export const selectFutureAppointments = createSelector(
     future
       ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
       ?.filter(isUpcomingAppointmentOrRequest),
+);
+
+export const selectPastAppointments = createSelector(
+  state => state.appointments.past,
+  past => {
+    return past?.filter(isValidPastAppointment).sort(sortPastAppointments);
+  },
 );
