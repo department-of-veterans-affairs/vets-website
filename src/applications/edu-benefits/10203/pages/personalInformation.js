@@ -8,6 +8,7 @@ const addressUiSchema = address.uiSchema('');
 const contactInformation = createContactInformationPage(fullSchema10203);
 const ciUiSchema = contactInformation.uiSchema;
 const ciSchemaProperties = contactInformation.schema.properties;
+const { preferredContactMethod } = fullSchema10203.properties;
 
 export const title = contactInformation.title;
 export const path = contactInformation.path;
@@ -24,26 +25,23 @@ export const uiSchema = {
     ...ciUiSchema['view:otherContactInfo'],
     homePhone: {
       ...phoneUI('Home phone number'),
-      'ui:required': form => form.preferredContactMethod?.homePhone,
+      'ui:required': form => form.preferredContactMethod === 'homePhone',
     },
     mobilePhone: {
       ...phoneUI('Mobile phone number'),
-      'ui:required': form => form.preferredContactMethod?.mobilePhone,
+      'ui:required': form => form.preferredContactMethod === 'mobilePhone',
     },
   },
   preferredContactMethod: {
     'ui:title': preferredContactMethodTitle,
-    mail: {
-      'ui:title': 'Mail',
-    },
-    email: {
-      'ui:title': 'Email',
-    },
-    homePhone: {
-      'ui:title': 'Home phone',
-    },
-    mobilePhone: {
-      'ui:title': 'Mobile phone',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        mail: 'Mail',
+        email: 'Email',
+        homePhone: 'Home phone',
+        mobilePhone: 'Mobile phone',
+      },
     },
   },
 };
@@ -53,22 +51,6 @@ export const schema = {
   properties: {
     veteranAddress: address.schema(fullSchema10203, true),
     'view:otherContactInfo': ciSchemaProperties['view:otherContactInfo'],
-    preferredContactMethod: {
-      type: 'object',
-      properties: {
-        mail: {
-          type: 'boolean',
-        },
-        email: {
-          type: 'boolean',
-        },
-        homePhone: {
-          type: 'boolean',
-        },
-        mobilePhone: {
-          type: 'boolean',
-        },
-      },
-    },
+    preferredContactMethod,
   },
 };
