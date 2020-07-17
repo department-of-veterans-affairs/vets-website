@@ -12,13 +12,13 @@ const transform = entity => {
     entity: {
       entityType: 'paragraph',
       entityBundle: 'situation_update',
-			fieldDateAndTime: {
-				// Assume the raw data is in UTC
-				date: moment
-				.tz(getDrupalValue(fieldDateAndTime), 'UTC')
-				.format('YYYY-MM-DD HH:mm:ss UTC'),
-				value: getDrupalValue(fieldDateAndTime),
-			},
+      fieldDateAndTime: {
+        // Assume the raw data is in UTC
+        date: moment
+          .tz(getDrupalValue(fieldDateAndTime), 'UTC')
+          .format('YYYY-MM-DD HH:mm:ss UTC'),
+        value: getDrupalValue(fieldDateAndTime),
+      },
       fieldSendEmailToSubscribers: getDrupalValue(fieldSendEmailToSubscribers),
       fieldWysiwyg: getDrupalValue(fieldWysiwyg),
     },
