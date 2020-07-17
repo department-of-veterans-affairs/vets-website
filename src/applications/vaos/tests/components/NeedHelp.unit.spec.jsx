@@ -12,7 +12,7 @@ describe('VAOS <NeedHelp>', () => {
     expect(tree.hasClass('vads-u-margin-top--9')).be.true;
 
     const links = tree.find('a');
-    expect(links.length).to.equal(3);
+    expect(links.length).to.equal(5);
     expect(links.at(0).props().href).to.equal('tel:8774705947');
     expect(links.at(0).text()).to.equal('877-470-5947');
     expect(links.at(1).props().href).to.equal('tel:8666513180');
