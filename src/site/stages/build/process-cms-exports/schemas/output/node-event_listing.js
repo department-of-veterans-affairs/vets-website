@@ -20,7 +20,7 @@ module.exports = {
     },
     fieldIntroText: { type: 'string' },
     fieldOffice: {
-      $ref: 'transformed/node-office',
+      $ref: 'output/node-office',
     },
   },
   required: [
