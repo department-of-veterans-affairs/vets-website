@@ -7,7 +7,7 @@ import primaryMedicalPage from './primaryHealthCoverage';
 import hasSecondaryCaregiverPage from './hasSecondaryCaregiver';
 import secondaryCaregiverInfoPage from './secondaryInfo';
 import secondaryCaregiverContactPage from './secondaryCaregiverContact';
-import secondaryTwoInfo from './secondaryTwoInfoi';
+import secondaryTwoInfoPage from './secondaryTwoInfoi';
 import secondaryTwoContactPage from './secondaryTwoContactInfo';
 
 export {
@@ -20,6 +20,6 @@ export {
   hasSecondaryCaregiverPage,
   secondaryCaregiverInfoPage,
   secondaryCaregiverContactPage,
-  secondaryTwoInfo,
+  secondaryTwoInfoPage,
   secondaryTwoContactPage,
 };

@@ -22,7 +22,7 @@ import {
   hasSecondaryCaregiverPage,
   secondaryCaregiverInfoPage,
   secondaryCaregiverContactPage,
-  secondaryTwoInfo,
+  secondaryTwoInfoPage,
   secondaryTwoContactPage,
 } from './pages';
 
@@ -161,8 +161,8 @@ const formConfig = {
           path: 'secondary-two-1',
           title: 'Secondary Family Caregiver (2) information',
           depends: formData => hasSecondaryCaregiverTwo(formData),
-          uiSchema: secondaryTwoInfo.uiSchema,
-          schema: secondaryTwoInfo.schema,
+          uiSchema: secondaryTwoInfoPage.uiSchema,
+          schema: secondaryTwoInfoPage.schema,
         },
         secondaryCaregiverTwoTwo: {
           path: 'secondary-two-2',

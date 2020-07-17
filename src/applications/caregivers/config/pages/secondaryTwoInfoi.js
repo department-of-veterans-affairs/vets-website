@@ -11,7 +11,7 @@ const { dateOfBirthUI, fullNameUI, genderUI, ssnUI } = definitions.sharedItems;
 
 const { secondaryCaregiversUI } = definitions;
 
-const secondaryTwoInfo = {
+const secondaryTwoInfoPage = {
   uiSchema: {
     'ui:description': SecondaryCaregiverInfo,
     // secondaryTwo UI
@@ -53,4 +53,4 @@ const secondaryTwoInfo = {
   },
 };
 
-export default secondaryTwoInfo;
+export default secondaryTwoInfoPage;
