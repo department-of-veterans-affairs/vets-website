@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { states } from '../../../platform/forms/address';
+import { states } from 'platform/forms/address';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 
 export const chapterNames = {
@@ -27,6 +27,13 @@ export const benefitsLabels = {
         Learn more
       </a>
     </p>
+  ),
+  chapter33Description: (
+    <span className="vads-u-background-color--white vads-u-color--gray-dark">
+      When you choose to apply for your Post-9/11 benefit, you have to
+      relinquish (give up) 1 other benefit you may be eligible for. You’ll make
+      this decision on the next page.
+    </span>
   ),
   // 1995-STEM related
   fryScholarship: (

@@ -54,6 +54,10 @@ function createDefaultData() {
         gender: 'M',
         given_names: ['Julio', 'E'],
         active_status: 'active',
+        facilities: [
+          { facilityId: '983', isCerner: false },
+          { facilityId: '984', isCerner: false },
+        ],
       },
     },
   };
@@ -118,6 +122,33 @@ describe('Profile utilities', () => {
       expect(mappedData.vet360).to.deep.equal(
         data.attributes.vet360_contact_information,
       );
+    });
+
+    it('should map the facilities if they are set', () => {
+      const data = createDefaultData();
+      const mappedData = mapRawUserDataToState({
+        data,
+        meta: {
+          errors: null,
+        },
+      });
+
+      expect(mappedData.facilities).to.deep.equal(
+        data.attributes.va_profile.facilities,
+      );
+    });
+
+    it('should not add facilities if they are not set', () => {
+      const data = createDefaultData();
+      delete data.attributes.va_profile.facilities;
+      const mappedData = mapRawUserDataToState({
+        data,
+        meta: {
+          errors: null,
+        },
+      });
+
+      expect(mappedData.facilities).to.be.undefined;
     });
 
     it('should handle profile error', () => {

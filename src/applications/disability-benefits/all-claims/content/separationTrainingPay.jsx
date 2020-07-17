@@ -1,8 +1,7 @@
 import React from 'react';
 
-export const hasSeparationPayTitle = (
-  <p>Did you receive separation pay or disability severance pay?</p>
-);
+export const hasSeparationPayTitle =
+  'Did you receive separation pay or disability severance pay?';
 
 export const separationPayDetailsDescription = (
   <p>

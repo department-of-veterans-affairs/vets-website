@@ -2,18 +2,5 @@
   "appName": "686 Dependent-status form",
   "entryFile": "./686-entry.jsx",
   "entryName": "686-dependent-status",
-  "rootUrl": "/disability-benefits/apply/dependents",
-  "template": {
-    "title": "Declaration Of Status Of Dependents",
-    "heading": "Declaration of status of dependents",
-    "display_title": "Add or remove a dependent",
-    "layout": "page-react.html",
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "path": "disability/",
-        "name": "Disability benefits"
-      }
-    ]
-  }
+  "rootUrl": "/disability-benefits/apply/dependents"
 }

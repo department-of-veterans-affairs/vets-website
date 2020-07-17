@@ -19,6 +19,7 @@ describe('<PreferenceItem>', () => {
   it('should render', () => {
     props.isRemoving = false;
     const component = shallow(<PreferenceItem {...props} />);
+
     // Display benefit-specific Heading
     expect(component.find('.title-container').html()).to.contain('Health care');
     // Display benefit-specific introduction

@@ -31,6 +31,7 @@ import startReactApp from './react';
  */
 export default function startApp({
   routes,
+  createRoutesWithStore,
   component,
   reducer,
   url,
@@ -65,7 +66,9 @@ export default function startApp({
   });
 
   let content = component;
-  if (routes) {
+  if (createRoutesWithStore) {
+    content = <Router history={history}>{createRoutesWithStore(store)}</Router>;
+  } else if (routes) {
     content = <Router history={history}>{routes}</Router>;
   }
 

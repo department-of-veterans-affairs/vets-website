@@ -1,10 +1,8 @@
 function _getReactLandingPages(files) {
-  const reactLandingPages = Object.keys(files)
+  return Object.keys(files)
     .map(fileName => files[fileName])
     .filter(file => !!file.entryname)
     .map(file => `/${file.path}`);
-
-  return reactLandingPages;
 }
 
 function isAspPage(target) {
@@ -36,7 +34,7 @@ function applyIgnoredRoutes(
 
   const reactLandingPages = getReactLandingPages(files);
 
-  const filteredBrokenPages = brokenPages
+  return brokenPages
     .map(brokenPage => {
       const filteredLinkErrors = brokenPage.linkErrors
         .filter(linkError => !isAspPage(linkError.target))
@@ -49,8 +47,6 @@ function applyIgnoredRoutes(
     })
 
     .filter(brokenPage => brokenPage.linkErrors.length > 0);
-
-  return filteredBrokenPages;
 }
 
 module.exports = applyIgnoredRoutes;

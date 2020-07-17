@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimComplete from '../components/ClaimComplete';
@@ -50,18 +49,20 @@ class ClaimStatusPage extends React.Component {
       : `Status - Your ${getClaimType(this.props.claim)} Claim`;
   }
   render() {
-    const { claim, loading, message, synced, isLoggedIn } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
+    // claim can be null
+    const attributes = (claim && claim.attributes) || {};
     if (!loading) {
-      const phase = claim.attributes.phase;
+      const phase = attributes.phase;
       const filesNeeded = itemsNeedingAttentionFromVet(
-        claim.attributes.eventsTimeline,
+        attributes.eventsTimeline,
       );
       const showDocsNeeded =
-        !claim.attributes.decisionLetterSent &&
-        claim.attributes.open &&
-        claim.attributes.documentsNeeded &&
+        !attributes.decisionLetterSent &&
+        attributes.open &&
+        attributes.documentsNeeded &&
         filesNeeded > 0;
 
       content = (
@@ -69,23 +70,20 @@ class ClaimStatusPage extends React.Component {
           {showDocsNeeded ? (
             <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
           ) : null}
-          {claim.attributes.decisionLetterSent && !claim.attributes.open ? (
-            <ClaimsDecision
-              completedDate={getCompletedDate(claim)}
-              isLoggedIn={isLoggedIn}
-            />
+          {attributes.decisionLetterSent && !attributes.open ? (
+            <ClaimsDecision completedDate={getCompletedDate(claim)} />
           ) : null}
-          {!claim.attributes.decisionLetterSent && !claim.attributes.open ? (
+          {!attributes.decisionLetterSent && !attributes.open ? (
             <ClaimComplete completedDate={getCompletedDate(claim)} />
           ) : null}
-          {phase !== null && claim.attributes.open ? (
+          {phase !== null && attributes.open ? (
             <ClaimsTimeline
               id={claim.id}
-              estimatedDate={claim.attributes.maxEstDate}
+              estimatedDate={attributes.maxEstDate}
               phase={phase}
-              currentPhaseBack={claim.attributes.currentPhaseBack}
-              everPhaseBack={claim.attributes.everPhaseBack}
-              events={claim.attributes.eventsTimeline}
+              currentPhaseBack={attributes.currentPhaseBack}
+              everPhaseBack={attributes.everPhaseBack}
+              events={attributes.eventsTimeline}
             />
           ) : null}
         </div>
@@ -116,7 +114,6 @@ function mapStateToProps(state) {
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
-    isLoggedIn: isLoggedInSelector(state),
   };
 }
 

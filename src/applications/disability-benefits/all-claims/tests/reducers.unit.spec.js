@@ -11,6 +11,10 @@ import {
   ITF_CREATION_INITIATED,
   ITF_CREATION_SUCCEEDED,
   ITF_CREATION_FAILED,
+  MVI_ADD_NOT_ATTEMPTED,
+  MVI_ADD_INITIATED,
+  MVI_ADD_SUCCEEDED,
+  MVI_ADD_FAILED,
 } from '../actions';
 
 import reducers from '../reducers';
@@ -164,5 +168,27 @@ describe('ITF reducer', () => {
   it('should handle ITF_CREATION_FAILED', () => {
     const newState = itf(initialState, { type: ITF_CREATION_FAILED });
     expect(newState.creationCallState).to.equal(requestStates.failed);
+  });
+});
+
+describe('MVI reducer', () => {
+  const { mvi } = reducers;
+  const mviInitialState = {
+    addPersonState: MVI_ADD_NOT_ATTEMPTED,
+  };
+
+  it('should handle ITF_CREATION_INITIATED', () => {
+    const newState = mvi(mviInitialState, { type: MVI_ADD_INITIATED });
+    expect(newState.addPersonState).to.equal(MVI_ADD_INITIATED);
+  });
+
+  it('should handle ITF_CREATION_SUCCEEDED', () => {
+    const newState = mvi(mviInitialState, { type: MVI_ADD_SUCCEEDED });
+    expect(newState.addPersonState).to.equal(MVI_ADD_SUCCEEDED);
+  });
+
+  it('should handle ITF_CREATION_FAILED', () => {
+    const newState = mvi(mviInitialState, { type: MVI_ADD_FAILED });
+    expect(newState.addPersonState).to.equal(MVI_ADD_FAILED);
   });
 });

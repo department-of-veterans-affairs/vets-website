@@ -71,13 +71,13 @@ class ClaimsAppealsWidget extends React.Component {
       return null;
     }
 
-    if (canAccessAppeals && canAccessClaims) {
-      if (
-        claimsAvailable !== claimsAvailability.AVAILABLE &&
-        appealsAvailable !== appealsAvailability.AVAILABLE
-      ) {
-        return <ClaimsAppealsUnavailable />;
-      }
+    if (
+      canAccessAppeals &&
+      canAccessClaims &&
+      (claimsAvailable !== claimsAvailability.AVAILABLE &&
+        appealsAvailable !== appealsAvailability.AVAILABLE)
+    ) {
+      return <ClaimsAppealsUnavailable />;
     }
 
     if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
@@ -95,32 +95,30 @@ class ClaimsAppealsWidget extends React.Component {
   }
 
   renderWidgetDowntimeNotification = appName => (downtime, children) => {
-    switch (downtime.status) {
-      case 'down':
-        return (
-          <div>
-            <AlertBox
-              content={
-                <div>
-                  <h4 className="usa-alert-heading">
-                    {appName} is down for maintenance
-                  </h4>
-                  <p>
-                    We’re making some updates to our {appName.toLowerCase()}{' '}
-                    tool. We’re sorry it’s not working right now and hope to be
-                    finished by {downtime.startTime.format('MMMM Do')},{' '}
-                    {downtime.endTime.format('LT')}. Please check back soon.
-                  </p>
-                </div>
-              }
-              isVisible
-              status="warning"
-            />
-          </div>
-        );
-      default:
-        return children;
+    if (downtime.status === 'down') {
+      return (
+        <div>
+          <AlertBox
+            content={
+              <div>
+                <h4 className="usa-alert-heading">
+                  {appName} is down for maintenance
+                </h4>
+                <p>
+                  We’re making some updates to our {appName.toLowerCase()} tool.
+                  We’re sorry it’s not working right now and hope to be finished
+                  by {downtime.startTime.format('MMMM Do')},{' '}
+                  {downtime.endTime.format('LT')}. Please check back soon.
+                </p>
+              </div>
+            }
+            isVisible
+            status="warning"
+          />
+        </div>
+      );
     }
+    return children;
   };
 
   render() {

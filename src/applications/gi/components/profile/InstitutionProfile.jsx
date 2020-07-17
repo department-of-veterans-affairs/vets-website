@@ -5,12 +5,14 @@ import React from 'react';
 import AccordionItem from '../AccordionItem';
 import HeadingSummary from './HeadingSummary';
 import Programs from './Programs';
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
 import SchoolLocations from './SchoolLocations';
 import Calculator from './Calculator';
 import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
-import environment from 'platform/utilities/environment';
-import SchoolLocationsOld from './SchoolLocationsOld';
+import ContactInformation from './ContactInformation';
+import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -19,6 +21,7 @@ export class InstitutionProfile extends React.Component {
     constants: PropTypes.object,
     calculator: PropTypes.object,
     eligibility: PropTypes.object,
+    gibctEybBottemSheet: PropTypes.bool,
   };
 
   shouldShowSchoolLocations = facilityMap =>
@@ -26,8 +29,19 @@ export class InstitutionProfile extends React.Component {
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
 
+  scrollToLocations = () => {
+    scroller.scrollTo('school-locations', getScrollOptions());
+  };
+
   render() {
-    const { profile, isOJT, constants, showModal } = this.props;
+    const {
+      profile,
+      isOJT,
+      constants,
+      showModal,
+      gibctEstimateYourBenefits,
+      gibctEybBottomSheet,
+    } = this.props;
     return (
       <div>
         <HeadingSummary
@@ -35,10 +49,16 @@ export class InstitutionProfile extends React.Component {
           onLearnMore={showModal.bind(this, 'gibillstudents')}
           onViewWarnings={this.handleViewWarnings}
         />
-        <div className="usa-accordion">
+        <div className="usa-accordion vads-u-margin-top--4">
           <ul>
             <AccordionItem button="Estimate your benefits">
-              <Calculator />
+              {gibctEstimateYourBenefits ? (
+                <EstimateYourBenefits
+                  gibctEybBottomSheet={gibctEybBottomSheet}
+                />
+              ) : (
+                <Calculator />
+              )}
             </AccordionItem>
             {!isOJT && (
               <AccordionItem button="Veteran programs">
@@ -50,26 +70,15 @@ export class InstitutionProfile extends React.Component {
             )}
             {this.shouldShowSchoolLocations(profile.attributes.facilityMap) && (
               <AccordionItem button="School locations">
-                {/* prod flag for bah 4383. SchoolLocationsOld.jsx should be deleted when story is approved */
-                environment.isProduction() ? (
-                  <SchoolLocationsOld
-                    institution={profile.attributes}
-                    facilityMap={profile.attributes.facilityMap}
-                    calculator={this.props.calculator}
-                    eligibility={this.props.eligibility}
-                    constants={constants}
-                    version={this.props.version}
-                  />
-                ) : (
-                  <SchoolLocations
-                    institution={profile.attributes}
-                    facilityMap={profile.attributes.facilityMap}
-                    calculator={this.props.calculator}
-                    eligibility={this.props.eligibility}
-                    constants={constants}
-                    version={this.props.version}
-                  />
-                )}
+                <SchoolLocations
+                  institution={profile.attributes}
+                  facilityMap={profile.attributes.facilityMap}
+                  calculator={this.props.calculator}
+                  eligibility={this.props.eligibility}
+                  constants={constants}
+                  version={this.props.version}
+                  onViewLess={this.scrollToLocations}
+                />
               </AccordionItem>
             )}
             <AccordionItem
@@ -78,11 +87,13 @@ export class InstitutionProfile extends React.Component {
                 this._cautionaryInfo = c;
               }}
             >
-              <a name="viewWarnings" />
               <CautionaryInformation
                 institution={profile.attributes}
                 onShowModal={showModal}
               />
+            </AccordionItem>
+            <AccordionItem button="Contact details">
+              <ContactInformation institution={profile.attributes} />
             </AccordionItem>
             <AccordionItem button="Additional information">
               <AdditionalInformation

@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import FacilityTypeDropdown from './FacilityTypeDropdown';
 import ServiceTypeAhead from './ServiceTypeAhead';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { LocationType } from '../constants';
-import { healthServices, benefitsServices, vetCenterServices } from '../config';
+import {
+  healthServices,
+  benefitsServices,
+  vetCenterServices,
+  urgentCareServices,
+  facilityTypesOptions,
+} from '../config';
 import { focusElement } from 'platform/utilities/ui';
 
 class SearchControls extends Component {
@@ -15,8 +20,8 @@ class SearchControls extends Component {
     this.props.onChange({ searchString: e.target.value });
   };
 
-  handleFacilityTypeChange = option => {
-    this.props.onChange({ facilityType: option, serviceType: null });
+  handleFacilityTypeChange = e => {
+    this.props.onChange({ facilityType: e.target.value, serviceType: null });
   };
 
   handleServiceTypeChange = ({ target }) => {
@@ -30,11 +35,9 @@ class SearchControls extends Component {
 
     const { facilityType, serviceType } = this.props.currentQuery;
 
-    if (facilityType === LocationType.CC_PROVIDER) {
-      if (!serviceType) {
-        focusElement('#service-type-ahead-input');
-        return;
-      }
+    if (facilityType === LocationType.CC_PROVIDER && !serviceType) {
+      focusElement('#service-type-ahead-input');
+      return;
     }
 
     // Report event here to only send analytics event when a user clicks on the button
@@ -46,12 +49,46 @@ class SearchControls extends Component {
     this.props.onSubmit();
   };
 
+  renderFacilityTypeDropdown = () => {
+    const { showCommunityCares, suppressPharmacies } = this.props;
+    const { facilityType } = this.props.currentQuery;
+    const locationOptions = facilityTypesOptions;
+    if (suppressPharmacies) {
+      delete locationOptions.cc_pharmacy;
+    }
+    if (!showCommunityCares) {
+      delete locationOptions.cc_provider;
+    }
+    const options = Object.keys(locationOptions).map(facility => (
+      <option key={facility} value={facility}>
+        {locationOptions[facility]}
+      </option>
+    ));
+    return (
+      <span>
+        <label htmlFor="facility-type-dropdown">
+          Choose a VA facility type
+        </label>
+        <select
+          id="facility-type-dropdown"
+          aria-label="Choose a facility type"
+          value={facilityType || ''}
+          className="bor-rad"
+          onChange={this.handleFacilityTypeChange}
+          style={{ fontWeight: 'bold' }}
+        >
+          {options}
+        </select>
+      </span>
+    );
+  };
+
   renderServiceTypeDropdown = () => {
     const { facilityType, serviceType } = this.props.currentQuery;
     const disabled = ![
       LocationType.HEALTH,
+      LocationType.URGENT_CARE,
       LocationType.BENEFITS,
-      LocationType.VET_CENTER,
       LocationType.CC_PROVIDER,
     ].includes(facilityType);
 
@@ -61,13 +98,11 @@ class SearchControls extends Component {
       case LocationType.HEALTH:
         services = healthServices;
         break;
+      case LocationType.URGENT_CARE:
+        services = urgentCareServices;
+        break;
       case LocationType.BENEFITS:
         services = benefitsServices;
-        break;
-      case LocationType.VET_CENTER:
-        services = vetCenterServices.reduce(result => result, {
-          All: 'Show all facilities',
-        });
         break;
       case LocationType.CC_PROVIDER:
         return (
@@ -105,7 +140,7 @@ class SearchControls extends Component {
   };
 
   render() {
-    const { currentQuery, isMobile, showCommunityCares } = this.props;
+    const { currentQuery, isMobile } = this.props;
 
     if (currentQuery.active && isMobile) {
       return (
@@ -128,7 +163,7 @@ class SearchControls extends Component {
                     htmlFor="street-city-state-zip"
                     id="street-city-state-zip-label"
                   >
-                    Search by city, state or ZIP Code
+                    Search by city, state or postal code
                   </label>
                   <input
                     id="street-city-state-zip"
@@ -137,19 +172,14 @@ class SearchControls extends Component {
                     type="text"
                     onChange={this.handleQueryChange}
                     value={currentQuery.searchString}
-                    title="Your location: Street, City, State or Zip"
+                    title="Your location: Street, City, State or Postal code"
                     required
                   />
                 </div>
               </div>
               <div className="row">
                 <div className="columns large-1-2">
-                  <FacilityTypeDropdown
-                    facilityType={this.props.currentQuery.facilityType}
-                    onChange={this.handleFacilityTypeChange}
-                    showCommunityCares={showCommunityCares}
-                    style={{ fontWeight: 'bold' }}
-                  />
+                  {this.renderFacilityTypeDropdown()}
                 </div>
                 <div className="columns large-1-2">
                   {this.renderServiceTypeDropdown()}

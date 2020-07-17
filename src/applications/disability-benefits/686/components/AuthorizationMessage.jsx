@@ -3,8 +3,8 @@ import React from 'react';
 import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 
-import CallVBACenter from '../../../../platform/static-data/CallVBACenter';
-import disabilityIncreaseManifest from '../../526EZ/manifest.json';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
+import disabilityIncreaseManifest from '../../all-claims/manifest.json';
 
 const { rootUrl: increaseRootUrl } = disabilityIncreaseManifest;
 import { profileStatuses } from '../helpers';

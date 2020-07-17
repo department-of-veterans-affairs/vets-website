@@ -86,16 +86,18 @@ class MegaMenu {
   }
 
   exitSmallMegaMenu(e) {
-    if (e.target === this.firstTabbableMenuElement) {
-      if (!isWideScreen() && isReverseTab(e)) {
-        e.preventDefault();
-        this.closeControl.focus();
-      }
+    if (
+      e.target === this.firstTabbableMenuElement &&
+      (!isWideScreen() && isReverseTab(e))
+    ) {
+      e.preventDefault();
+      this.closeControl.focus();
     }
-    if (e.target === this.lastTabbableMenuElement) {
-      if (!isWideScreen() && isTab(e)) {
-        this.lastTabbableElement.focus();
-      }
+    if (
+      e.target === this.lastTabbableMenuElement &&
+      (!isWideScreen() && isTab(e))
+    ) {
+      this.lastTabbableElement.focus();
     }
   }
 }

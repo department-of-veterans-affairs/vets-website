@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import {
+  isFailedTransaction,
+  isPendingTransaction,
+} from 'vet360/util/transactions';
 import Vet360EditModalActionButtons from './Vet360EditModalActionButtons';
 import Vet360EditModalErrorMessage from './Vet360EditModalErrorMessage';
 
@@ -19,17 +23,21 @@ export default class Vet360EditModal extends React.Component {
     hasValidationError: PropTypes.func,
     isEmpty: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
+    onChangeFormDataAndSchemas: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     render: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     transactionRequest: PropTypes.object,
+    useSchemaForm: PropTypes.bool,
   };
 
   componentDidMount() {
-    // initialize form with no fieldName and skip validation
-    this.props.onChange(this.props.getInitialFormValues(), null, true);
+    this.props.onChangeFormDataAndSchemas(
+      this.props.getInitialFormValues(),
+      this.props.formSchema,
+      this.props.uiSchema,
+    );
   }
 
   componentWillUnmount() {
@@ -41,24 +49,9 @@ export default class Vet360EditModal extends React.Component {
     }
   }
 
-  onSubmit = event => {
-    event.preventDefault();
-    if (this.props.onBlur) {
-      this.props.onBlur();
-    }
-    // delay until next tick for onBlur to complete
-    setTimeout(() => {
-      if (this.hasValidationError()) return;
-      this.props.onSubmit(this.props.field.value);
-    }, 10);
+  onSubmit = () => {
+    this.props.onSubmit(this.props.field.value);
   };
-
-  hasValidationError() {
-    if (this.props.hasValidationError) return this.props.hasValidationError();
-
-    const validations = this.props.field.validations;
-    return Object.values(validations).some(e => !!e);
-  }
 
   isInitialized = () =>
     this.props.isInitialized ? this.props.isInitialized() : !!this.props.field;
@@ -74,6 +67,7 @@ export default class Vet360EditModal extends React.Component {
         clearErrors,
         render,
         onDelete,
+        transaction,
         transactionRequest,
         analyticsSectionName,
         deleteDisabled,
@@ -81,42 +75,47 @@ export default class Vet360EditModal extends React.Component {
     } = this;
 
     const isFormReady = isInitialized();
-    const isLoading = transactionRequest && transactionRequest.isPending;
-    const error = transactionRequest && transactionRequest.error;
+    const isLoading =
+      transactionRequest?.isPending || isPendingTransaction(transaction);
+    const error =
+      transactionRequest?.error ||
+      (isFailedTransaction(transaction) ? {} : null);
+
+    const actionButtons = (
+      <Vet360EditModalActionButtons
+        onCancel={onCancel}
+        onDelete={onDelete}
+        title={title}
+        analyticsSectionName={analyticsSectionName}
+        transactionRequest={transactionRequest}
+        deleteEnabled={!isEmpty && !deleteDisabled}
+      >
+        <LoadingButton data-action="save-edit" isLoading={isLoading}>
+          Update
+        </LoadingButton>
+        <button
+          type="button"
+          className="usa-button-secondary"
+          onClick={onCancel}
+        >
+          Cancel
+        </button>
+      </Vet360EditModalActionButtons>
+    );
 
     return (
       <Modal id="profile-edit-modal" onClose={onCancel} visible={isFormReady}>
         <h3>Edit {title.toLowerCase()}</h3>
-        <form onSubmit={onSubmit} data-ready={isFormReady}>
-          {error && (
+        {error && (
+          <div className="vads-u-margin-bottom--1">
             <Vet360EditModalErrorMessage
               title={title}
               error={error}
               clearErrors={clearErrors}
             />
-          )}
-          {isFormReady && render()}
-          <br />
-          <Vet360EditModalActionButtons
-            onCancel={onCancel}
-            onDelete={onDelete}
-            title={title}
-            analyticsSectionName={analyticsSectionName}
-            transactionRequest={transactionRequest}
-            deleteEnabled={!isEmpty && !deleteDisabled}
-          >
-            <LoadingButton data-action="save-edit" isLoading={isLoading}>
-              Update
-            </LoadingButton>
-            <button
-              type="button"
-              className="usa-button-secondary"
-              onClick={onCancel}
-            >
-              Cancel
-            </button>
-          </Vet360EditModalActionButtons>
-        </form>
+          </div>
+        )}
+        {isFormReady && render(actionButtons, onSubmit)}
       </Modal>
     );
   }

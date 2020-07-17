@@ -5,7 +5,7 @@ import {
   personDescriptionText,
 } from '../content/individualsInvolved';
 import IndividualsInvolvedCard from '../components/IndividualsInvolvedCard';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
@@ -18,11 +18,12 @@ export const uiSchema = index => ({
   'ui:description': individualsDescription,
   [`incident${index}`]: {
     personsInvolved: {
-      'ui:title': ' ',
+      'ui:title': '',
       'ui:options': {
         viewField: IndividualsInvolvedCard,
         itemName: 'Person',
         title: 'New Person',
+        reviewTitle: 'Persons Involved',
       },
       items: {
         'ui:order': [

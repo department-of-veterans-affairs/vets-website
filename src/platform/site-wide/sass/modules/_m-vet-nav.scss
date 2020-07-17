@@ -537,3 +537,14 @@ body.va-pos-fixed {
   }
 
 }
+
+// Safari needs this to correctly display megamenu
+#mega-menu {
+  .login-container {
+    .row {
+      &.va-flex {
+        display:  grid;
+      }
+    }
+  }
+}

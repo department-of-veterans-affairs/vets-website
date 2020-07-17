@@ -1,4 +1,4 @@
-"use strict";  // eslint-disable-line
+'use strict'; // eslint-disable-line strict
 
 // Simple test server to serve up the build files.
 
@@ -11,7 +11,7 @@ const express = require('express');
 const fallback = require('express-history-api-fallback');
 const path = require('path');
 const morgan = require('morgan');
-const appSettings = require('../../../../config/parse-app-settings');
+const manifestHelpers = require('../../../../config/manifest-helpers');
 const ENVIRONMENTS = require('../../../site/constants/environments');
 
 const optionDefinitions = [
@@ -37,8 +37,7 @@ if (!fs.existsSync(root)) {
   root = path.resolve(__dirname, `../../../../../build/${options.buildtype}`);
 }
 
-appSettings.parseFromBuildDir(root);
-const routes = appSettings.getAllApplicationRoutes();
+const routes = manifestHelpers.getAppRoutes();
 
 app.use(
   morgan('combined', {

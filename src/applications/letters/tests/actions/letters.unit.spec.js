@@ -6,15 +6,8 @@ import sentryTestkit from 'sentry-testkit';
 const { testkit, sentryTransport } = sentryTestkit();
 
 import {
-  ADDRESS_TYPES,
   BACKEND_SERVICE_ERROR,
   BACKEND_AUTHENTICATION_ERROR,
-  GET_ADDRESS_COUNTRIES_SUCCESS,
-  GET_ADDRESS_COUNTRIES_FAILURE,
-  GET_ADDRESS_STATES_SUCCESS,
-  GET_ADDRESS_STATES_FAILURE,
-  GET_ADDRESS_SUCCESS,
-  GET_ADDRESS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_LETTER_PDF_DOWNLOADING,
@@ -24,20 +17,13 @@ import {
   GET_LETTERS_FAILURE,
   LETTER_ELIGIBILITY_ERROR,
   LETTER_TYPES,
-  SAVE_ADDRESS_PENDING,
-  SAVE_ADDRESS_FAILURE,
-  SAVE_ADDRESS_SUCCESS,
 } from '../../utils/constants';
 
 import {
   getLetterList,
   getLetterListAndBSLOptions,
-  getMailingAddress,
   getBenefitSummaryOptions,
   getLetterPdf,
-  saveAddress,
-  getAddressCountries,
-  getAddressStates,
 } from '../../actions/letters';
 
 Sentry.init({
@@ -74,92 +60,6 @@ const teardown = () => {
   global.window = oldWindow;
 };
 const getState = () => ({});
-
-describe('saveAddress', () => {
-  const frontEndAddress = {
-    addressOne: '123 Any Street',
-    addressThree: '',
-    addressTwo: 'Apt 102',
-    city: 'APO',
-    countryName: 'USA',
-    stateCode: 'AE',
-    type: ADDRESS_TYPES.military,
-    zipCode: '12345',
-    zipSuffix: '',
-  };
-
-  const successResponse = {
-    data: {
-      attributes: {
-        address: {
-          addressEffectiveDate: null,
-          addressOne: frontEndAddress.addressOne,
-          addressThree: frontEndAddress.addressThree,
-          addressTwo: frontEndAddress.addressTwo,
-          militaryPostOfficeTypeCode: frontEndAddress.city,
-          militaryStateCode: frontEndAddress.stateCode,
-          type: frontEndAddress.type,
-          zipCode: frontEndAddress.zipCode,
-          zipSuffix: frontEndAddress.zipSuffix,
-        },
-      },
-    },
-  };
-
-  beforeEach(setup);
-  afterEach(teardown);
-
-  it('dispatches SAVE_ADDRESS_PENDING first', done => {
-    const thunk = saveAddress(frontEndAddress);
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(SAVE_ADDRESS_PENDING);
-      })
-      .then(done, done);
-  });
-
-  it('dispatches SAVE_ADDRESS_FAILURE when addresses do not match', done => {
-    const thunk = saveAddress(frontEndAddress);
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState).then(() => {
-      const action = dispatch.secondCall.args[0];
-      expect(action.type).to.equal(SAVE_ADDRESS_FAILURE);
-      done();
-    });
-  });
-
-  it('dispatches SAVE_ADDRESS_SUCCESS on update success', done => {
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/json' },
-        ok: true,
-        json: () => Promise.resolve(successResponse),
-      }),
-    );
-    const thunk = saveAddress(frontEndAddress);
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.secondCall.args[0];
-        expect(action.address).to.eql(frontEndAddress);
-        expect(action.type).to.equal(SAVE_ADDRESS_SUCCESS);
-      })
-      .then(done, done);
-  });
-
-  it('dispatches SAVE_ADDRESS_FAILURE on update failure', done => {
-    global.fetch.returns(Promise.reject({}));
-    const thunk = saveAddress(frontEndAddress);
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState).then(() => {
-      const action = dispatch.secondCall.args[0];
-      expect(action.type).to.equal(SAVE_ADDRESS_FAILURE);
-      done();
-    });
-  });
-});
 
 describe('getLettersList', () => {
   beforeEach(setup);
@@ -282,147 +182,6 @@ describe('getLetterListAndBSLOptions', () => {
       expect(global.fetch.callCount).to.equal(1);
       done();
     });
-  });
-});
-
-describe('getMailingAddress', () => {
-  beforeEach(setup);
-  afterEach(teardown);
-
-  const addressResponse = {
-    data: {
-      attributes: {
-        address: {
-          type: 'DOMESTIC',
-          addressEffectiveDate: '1973-01-01T05:00:00.000+00:00',
-          addressOne: '140 Rock Creek Church Rd NW',
-          addressTwo: '',
-          addressThree: '',
-          city: 'Washington',
-          stateCode: 'DC',
-          zipCode: '20011',
-          zipSuffix: '1865',
-        },
-        controlInformation: {
-          canUpdate: true,
-          corpAvailIndicator: true,
-          corpRecFoundIndicator: true,
-          hasNoBdnPaymentsIndicator: true,
-          isCompetentIndicator: true,
-          indentityIndicator: true,
-          indexIndicator: true,
-          noFiduciaryAssignedIndicator: true,
-          notDeceasedIndicator: true,
-        },
-      },
-    },
-  };
-
-  it('dispatches GET_ADDRESS_SUCCESS when GET succeeds', done => {
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/json' },
-        ok: true,
-        json: () => Promise.resolve(addressResponse),
-      }),
-    );
-
-    const thunk = getMailingAddress();
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(GET_ADDRESS_SUCCESS);
-      })
-      .then(done, done);
-  });
-
-  it('dispatches GET_ADDRESS_FAILURE when GET fails', done => {
-    global.fetch.returns(Promise.reject({}));
-    const thunk = getMailingAddress();
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(GET_ADDRESS_FAILURE);
-      })
-      .then(done, done);
-  });
-
-  it('dispatches GET_ADDRESS_FAILURE when response mangled', done => {
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/json' },
-        ok: true,
-        json: () => Promise.resolve({}),
-      }),
-    );
-    const thunk = getMailingAddress();
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(GET_ADDRESS_FAILURE);
-      })
-      .then(done, done);
-  });
-
-  // Note: not really sure we need to test this as long as the next test passes
-  it('dispatches with clone of response object (not original)', done => {
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/json' },
-        ok: true,
-        json: () => Promise.resolve(addressResponse),
-      }),
-    );
-    const thunk = getMailingAddress();
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.firstCall.args[0];
-        expect(action.data).to.not.equal(addressResponse);
-      })
-      .then(done, done);
-  });
-
-  it('modifies military addresses', done => {
-    const militaryAddress = {
-      ...addressResponse.data.attributes.address,
-      type: 'MILITARY',
-      militaryPostOfficeTypeCode: 'APO',
-      militaryStateCode: 'AE',
-    };
-
-    const militaryResponse = { ...addressResponse };
-    militaryResponse.data.attributes.address = {
-      ...addressResponse.data.attributes.address,
-      ...militaryAddress,
-    };
-
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/json' },
-        ok: true,
-        json: () => Promise.resolve(militaryResponse),
-      }),
-    );
-    const thunk = getMailingAddress();
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.firstCall.args[0];
-        const { address } = action.data.data.attributes; // Actual
-        const {
-          militaryPostOfficeTypeCode,
-          militaryStateCode,
-        } = militaryAddress; // Test
-        expect(address.city).to.equal(militaryPostOfficeTypeCode);
-        expect(address.stateCode).to.equal(militaryStateCode);
-        expect(address.militaryPostOfficeTypeCode).to.be.undefined;
-        expect(address.militaryStateCode).to.be.undefined;
-      })
-      .then(done, done);
   });
 });
 
@@ -614,98 +373,6 @@ describe('getLetterPdf', () => {
       .then(() => {
         const action = dispatch.secondCall.args[0];
         expect(action.type).to.equal(GET_LETTER_PDF_FAILURE);
-      })
-      .then(done, done);
-  });
-});
-
-describe('getAddressCountries', () => {
-  beforeEach(setup);
-  afterEach(teardown);
-
-  const countriesResponse = {
-    data: {
-      attributes: {
-        countries: [{ name: 'USA' }, { name: 'Afghanistan' }],
-      },
-    },
-  };
-
-  it('dispatches SUCCESS when GET succeeds', done => {
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/json' },
-        ok: true,
-        json: () => Promise.resolve(countriesResponse),
-      }),
-    );
-    const thunk = getAddressCountries();
-    const dispatch = sinon.spy();
-
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.args[0][0]; // first call, first arg
-        expect(action.type).to.equal(GET_ADDRESS_COUNTRIES_SUCCESS);
-        expect(action.countries).to.eql(countriesResponse);
-      })
-      .then(done, done);
-  });
-
-  it('dispatches FAILURE when GET fails', done => {
-    global.fetch.returns(Promise.reject({}));
-    const thunk = getAddressCountries();
-    const dispatch = sinon.spy();
-
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.args[0][0]; // first call, first arg
-        expect(action.type).to.equal(GET_ADDRESS_COUNTRIES_FAILURE);
-      })
-      .then(done, done);
-  });
-});
-
-describe('getAddressStates', () => {
-  beforeEach(setup);
-  afterEach(teardown);
-
-  const statesResponse = {
-    data: {
-      attributes: {
-        states: [{ name: 'CA' }, { name: 'AK' }],
-      },
-    },
-  };
-
-  it('dispatches SUCCESS when GET succeeds', done => {
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/json' },
-        ok: true,
-        json: () => Promise.resolve(statesResponse),
-      }),
-    );
-    const thunk = getAddressStates();
-    const dispatch = sinon.spy();
-
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.args[0][0]; // first call, first arg
-        expect(action.type).to.equal(GET_ADDRESS_STATES_SUCCESS);
-        expect(action.states).to.eql(statesResponse);
-      })
-      .then(done, done);
-  });
-
-  it('dispatches FAILURE when GET fails', done => {
-    global.fetch.returns(Promise.reject({}));
-    const thunk = getAddressStates();
-    const dispatch = sinon.spy();
-
-    thunk(dispatch, getState)
-      .then(() => {
-        const action = dispatch.args[0][0]; // first call, first arg
-        expect(action.type).to.equal(GET_ADDRESS_STATES_FAILURE);
       })
       .then(done, done);
   });

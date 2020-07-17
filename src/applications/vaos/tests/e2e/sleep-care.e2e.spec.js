@@ -18,6 +18,7 @@ module.exports = {
       client,
       '/health-care/schedule-view-va-appointments/appointments/',
       3,
+      VAOSHelpers.getUserDataWithFacilities(),
     ).waitForElementVisible('#appointments-list', Timeouts.slow);
   },
   'Select new appointment': client => {
@@ -35,16 +36,16 @@ module.exports = {
       .click('[value="349"]')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('#root_vaSystem_0', Timeouts.normal);
+      .waitForElementPresent('#root_vaParent_0', Timeouts.normal);
   },
   'Choose a VA location for your appointment': client => {
     client
-      .click('[value="983"]')
+      .click('[value="var983"]')
       .waitForElementPresent(
-        '[name = "root_vaFacility"][value = "983GB"]',
+        '[name = "root_vaFacility"][value = "var983GB"]',
         Timeouts.slow,
       )
-      .click('[name = "root_vaFacility"][value = "983GB"]')
+      .click('[name = "root_vaFacility"][value = "var983GB"]')
       .pause(Timeouts.normal)
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')

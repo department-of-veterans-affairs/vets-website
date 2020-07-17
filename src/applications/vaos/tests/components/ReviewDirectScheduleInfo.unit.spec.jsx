@@ -6,6 +6,7 @@ import AppointmentDate from '../../components/review/AppointmentDate';
 import ReviewDirectScheduleInfo from '../../components/review/ReviewDirectScheduleInfo';
 import ReasonForAppointmentSection from '../../components/review/ReasonForAppointmentSection';
 import ContactDetailSection from '../../components/review/ContactDetailSection';
+import { VHA_FHIR_ID } from '../../utils/constants';
 
 const defaultData = {
   reasonForAppointment: 'routine-follow-up',
@@ -13,20 +14,27 @@ const defaultData = {
   calendarData: {
     selectedDates: [{ datetime: '2019-12-20T10:00:00' }],
   },
-  vaSystem: '578',
+  vaParent: 'var983',
+  vaFacility: 'var983GB',
   typeOfCareId: '323',
 };
 
 const facility = {
-  institutionCode: '983GB',
+  id: 'var983GB',
+  identifier: [
+    {
+      system: VHA_FHIR_ID,
+      value: '983',
+    },
+  ],
   name: 'CHYSHR-Sidney VA Clinic',
-  city: 'Sidney',
-  stateAbbrev: 'NE',
-  authoritativeName: 'CHYSHR-Sidney VA Clinic',
-  rootStationCode: '983',
-  adminParent: false,
-  parentStationCode: '983',
-  institutionTimezone: 'America/Denver',
+  address: {
+    city: 'Sidney',
+    state: 'NE',
+  },
+  legacyVAR: {
+    institutionTimezone: 'America/Denver',
+  },
 };
 
 const clinic = {
@@ -47,6 +55,7 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
           facility={facility}
           clinic={clinic}
           pageTitle={pageTitle}
+          systemId={'983'}
         />,
       );
     });
@@ -61,7 +70,7 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
           .find(AppointmentDate)
           .find('h3')
           .text(),
-      ).to.equal('Friday, December 20, 2019 at 10:00 a.m. CT');
+      ).to.equal('Friday, December 20, 2019 at 10:00 a.m. MT');
     });
 
     it('should render type of care section', () => {
@@ -107,6 +116,7 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
           data={data}
           facility={facility}
           clinic={clinic}
+          systemId={'983'}
         />,
       );
     });
@@ -125,6 +135,10 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
       expect(tree.find('a[aria-label="Edit call back time"]')).to.have.lengthOf(
         1,
       );
+    });
+
+    it('should have aria labels for HR to hide from screen reader', () => {
+      expect(tree.find('hr[aria-hidden="true"]').exists()).to.be.true;
     });
   });
 });

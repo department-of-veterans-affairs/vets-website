@@ -33,12 +33,10 @@ import {
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
   hasNewDisabilities,
-  newConditionsOnly,
   increaseOnly,
-  newAndIncrease,
-  noClaimTypeSelected,
   isDisabilityPtsd,
   directToCorrectForm,
+  DISABILITY_SHARED_CONFIG,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -59,8 +57,6 @@ import {
   aidAndAttendance,
   alternateNames,
   ancillaryFormsWizardSummary,
-  bddGoBack,
-  bddRedirect,
   choosePtsdType,
   claimExamsInfo,
   claimType,
@@ -101,7 +97,6 @@ import {
   uploadPtsdDocuments,
   vaEmployee,
   vaMedicalRecords,
-  verifyBdd,
   workBehaviorChanges,
 } from '../pages';
 
@@ -167,14 +162,6 @@ const formConfig = {
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} },
         },
-        claimType: {
-          title: 'Claim type',
-          path: 'claim-type',
-          depends: formData => hasRatedDisabilities(formData),
-          uiSchema: claimType.uiSchema,
-          schema: claimType.schema,
-          onContinue: captureEvents.claimType,
-        },
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
@@ -190,26 +177,13 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({ dob: state.user.profile.dob }),
         },
-        verifyBdd: {
-          title: 'Verify active duty status',
-          path: 'review-veteran-details/verify-bdd',
-          depends: verifyBdd.depends,
-          uiSchema: verifyBdd.uiSchema,
-          schema: verifyBdd.schema,
-        },
-        bddGoBack: {
-          title: '',
-          path: 'review-veteran-details/update-service-history-warning',
-          depends: bddGoBack.depends,
-          uiSchema: bddGoBack.uiSchema,
-          schema: bddGoBack.schema,
-        },
-        bddRedirect: {
-          title: '',
-          path: 'review-veteran-details/bdd-redirect',
-          depends: bddRedirect.depends,
-          uiSchema: bddRedirect.uiSchema,
-          schema: bddRedirect.schema,
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          depends: formData => hasRatedDisabilities(formData),
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+          onContinue: captureEvents.claimType,
         },
         servedInCombatZone: {
           title: 'Combat status',
@@ -262,18 +236,15 @@ const formConfig = {
       pages: {
         disabilitiesOrientation: {
           title: '',
-          path: 'disabilities/orientation',
-          // Only show the page if both (or potentially neither) options are chosen on the claim-type page
-          depends: formData =>
-            newAndIncrease(formData) || noClaimTypeSelected(formData),
+          path: DISABILITY_SHARED_CONFIG.orientation.path,
+          depends: DISABILITY_SHARED_CONFIG.orientation.depends,
           uiSchema: { 'ui:description': disabilitiesOrientation },
           schema: { type: 'object', properties: {} },
         },
         ratedDisabilities: {
           title: 'Existing conditions (rated disabilities)',
-          path: 'disabilities/rated-disabilities',
-          depends: formData =>
-            hasRatedDisabilities(formData) && !newConditionsOnly(formData),
+          path: DISABILITY_SHARED_CONFIG.ratedDisabilities.path,
+          depends: DISABILITY_SHARED_CONFIG.ratedDisabilities.depends,
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
@@ -286,8 +257,8 @@ const formConfig = {
         },
         addDisabilities: {
           title: 'Add a new disability',
-          path: 'new-disabilities/add',
-          depends: hasNewDisabilities,
+          path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
+          depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,

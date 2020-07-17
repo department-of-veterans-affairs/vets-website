@@ -4,6 +4,7 @@ import { expect } from 'chai';
 
 import ReviewRequestInfo from '../../components/review/ReviewRequestInfo';
 import PreferredDates from '../../components/review/PreferredDates';
+import { VHA_FHIR_ID } from '../../utils/constants';
 
 const defaultData = {
   phoneNumber: '5035551234',
@@ -19,7 +20,7 @@ const defaultData = {
     selectedDates: [
       {
         date: '2019-11-25',
-        optionTime: 'AM',
+        optionTime: 'PM',
       },
       {
         date: '2019-11-26',
@@ -36,15 +37,31 @@ const defaultData = {
 };
 
 const facility = {
-  institutionCode: '983GB',
+  id: `var983`,
+  identifier: [
+    {
+      system: VHA_FHIR_ID,
+      value: '983',
+    },
+    {
+      system: 'http://med.va.gov/fhir/urn',
+      value: `urn:va:division:983:983GB`,
+    },
+  ],
   name: 'CHYSHR-Sidney VA Clinic',
-  city: 'Sidney',
-  stateAbbrev: 'NE',
-  authoritativeName: 'CHYSHR-Sidney VA Clinic',
-  rootStationCode: '983',
-  adminParent: false,
-  parentStationCode: '983',
-  institutionTimezone: 'America/Denver',
+  telecom: [],
+  address: {
+    line: [],
+    city: 'Sidney',
+    state: 'NE',
+    postalCode: null,
+  },
+  legacyVAR: {
+    institutionTimezone: 'America/Denver',
+  },
+  managingOrganization: {
+    reference: `Organization/var983`,
+  },
 };
 
 const pageTitle = 'Review your appointment details';
@@ -62,7 +79,6 @@ describe('VAOS <ReviewRequestInfo>', () => {
     const text = tree.text();
     const heading = tree.find('h1');
 
-    // console.log(tree.debug());
     it('should render page heading', () => {
       expect(heading.exists()).to.be.true;
       expect(heading.text()).to.equal(pageTitle);
@@ -81,7 +97,7 @@ describe('VAOS <ReviewRequestInfo>', () => {
     });
 
     it('should render preferred date and time section', () => {
-      expect(text).to.contain('November 25, 2019 in the morning');
+      expect(text).to.contain('November 25, 2019 in the afternoon');
     });
 
     it('should render contact details section', () => {
@@ -156,7 +172,7 @@ describe('VAOS <ReviewRequestInfo>', () => {
     });
 
     it('should render preferred date section', () => {
-      expect(text).to.contain('November 25, 2019 in the morning');
+      expect(text).to.contain('November 25, 2019 in the afternoon');
     });
 
     it('should render multiple preferred dates', () => {
@@ -204,6 +220,30 @@ describe('VAOS <ReviewRequestInfo>', () => {
     });
     it('should render preferred city and state', () => {
       expect(text).to.contain('Cheyenne, WY');
+    });
+  });
+
+  describe('Accessibility', () => {
+    const data = {
+      ...defaultData,
+      facilityType: 'communityCare',
+      hasCommunityCareProvider: false,
+      preferredLanguage: 'english',
+    };
+    const vaCityState = 'Cheyenne, WY';
+
+    let tree;
+
+    beforeEach(() => {
+      tree = mount(<ReviewRequestInfo data={data} vaCityState={vaCityState} />);
+    });
+
+    afterEach(() => {
+      tree.unmount();
+    });
+
+    it('should have aria labels for HR to hide from screen reader', () => {
+      expect(tree.find('hr[aria-hidden="true"]').exists()).to.be.true;
     });
   });
 });

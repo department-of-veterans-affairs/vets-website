@@ -7,8 +7,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from '../../../../platform/testing/unit/schemaform-utils';
-import { fillDate } from '../../../../platform/testing/unit/helpers';
+} from 'platform/testing/unit/schemaform-utils';
+import { fillDate } from 'platform/testing/unit/helpers';
 import formConfig from '../../config/form';
 
 describe('Hca dependent information', () => {

@@ -2,9 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import DowntimeNotification, {
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
@@ -13,6 +11,8 @@ import Modals from '../containers/Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
 import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
+import ServiceError from '../components/ServiceError';
+import Covid19Banner from '../components/heading/Covid19Banner';
 
 const Disclaimer = () => (
   <div className="row disclaimer">
@@ -89,9 +89,12 @@ export class GiBillApp extends React.Component {
     } else {
       content = this.props.children;
     }
-
     return (
       <div className="gi-app">
+        {(location.pathname === '/gi-bill-comparison-tool/' ||
+          location.pathname === '/gi-bill-comparison-tool') && (
+          <Covid19Banner />
+        )}
         <div className="row">
           <div className="columns small-12">
             {preview.display && (
@@ -105,12 +108,8 @@ export class GiBillApp extends React.Component {
               facilityCode={facilityCode}
               location={this.props.location}
             />
-            <DowntimeNotification
-              appTitle={'GI Bill Comparison Tool'}
-              render={this.renderDowntime}
-              dependencies={[externalServices.global]}
-            >
-              {content}
+            <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
+              {constants.error ? <ServiceError /> : content}
             </DowntimeNotification>
             <AboutThisTool />
             <Disclaimer />

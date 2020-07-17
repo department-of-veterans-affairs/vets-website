@@ -1,12 +1,12 @@
+import React from 'react';
 import _ from 'lodash/fp';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
-import FormFooter from 'platform/forms/components/FormFooter';
+import Footer from '../components/Footer';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import * as address from '../definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
@@ -14,6 +14,7 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 
@@ -83,9 +84,6 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
-  downtime: {
-    dependencies: [externalServices.global],
-  },
   formId: VA_FORM_IDS.FORM_40_10007,
   prefillEnabled: true,
   verifyRequiredPrefill: false,
@@ -100,7 +98,9 @@ const formConfig = {
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   preSubmitInfo,
-  footerContent: FormFooter,
+  footerContent: ({ currentLocation }) => (
+    <Footer formConfig={formConfig} currentLocation={currentLocation} />
+  ),
   getHelp: GetFormHelp,
   errorText: ErrorText,
   defaultDefinitions: {
@@ -261,10 +261,12 @@ const formConfig = {
                 },
                 dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
                 placeOfBirth: {
-                  'ui:title': 'Sponsor’s place of birth',
+                  'ui:title':
+                    "Sponsor's place of birth (City, State, or Territory)",
                 },
                 gender: {
-                  'ui:title': 'Sponsor’s gender',
+                  'ui:title':
+                    "Sponsor's sex (information will be used for statistical purposes only)",
                 },
                 maritalStatus: {
                   'ui:title': 'Sponsor’s marital status',
@@ -668,12 +670,7 @@ const formConfig = {
                   'ui:description': contactInfoDescription,
                 },
                 phoneNumber: phoneUI('Primary telephone number'),
-                email: {
-                  'ui:title': 'Email address',
-                  'ui:errorMessages': {
-                    pattern: 'Please enter a valid email address',
-                  },
-                },
+                email: emailUI(),
               },
             },
           },

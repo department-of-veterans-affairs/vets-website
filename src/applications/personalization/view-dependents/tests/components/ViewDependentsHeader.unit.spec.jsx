@@ -7,7 +7,7 @@ describe('<ViewDependentsHeader />', () => {
   it('Should Render', () => {
     const wrapper = shallow(<ViewDependentsHeader />);
 
-    expect(wrapper.contains(<h1>Your Dependents</h1>)).to.equal(true);
+    expect(wrapper.contains(<h1>Your VA Dependents</h1>)).to.equal(true);
     wrapper.unmount();
   });
 });

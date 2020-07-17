@@ -2,28 +2,41 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const CallToAction = ({ cta }) => {
-  const { description, link, text, gaTag } = cta;
+  const { description, link, text, gaTag, isEbenefitUrl } = cta;
   const hasLinkAndText = link && text;
+  const props = {
+    className: 'usa-button va-button-primary',
+    onClick: () => {
+      recordEvent({
+        event: 'dashboard-navigation',
+        'dashboard-action': 'view-button',
+        'dashboard-product': gaTag,
+      });
+    },
+  };
+  if (isEbenefitUrl) {
+    return (
+      <div>
+        {description}
+        {hasLinkAndText && (
+          <EbenefitsLink path={link} {...props}>
+            {text}
+          </EbenefitsLink>
+        )}
+      </div>
+    );
+  }
   return (
     <div>
       {description}
       {hasLinkAndText && (
-        <a
-          className="usa-button va-button-primary"
-          href={link}
-          onClick={() =>
-            recordEvent({
-              event: 'dashboard-navigation',
-              'dashboard-action': 'view-button',
-              'dashboard-product': gaTag,
-            })
-          }
-        >
+        <a href={link} {...props}>
           {text}
         </a>
       )}

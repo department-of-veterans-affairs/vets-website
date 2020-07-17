@@ -1,10 +1,10 @@
-<section id="situation-updates" class="situation-updates clearfix">
+<section data-template="components/situation_updates" id="situation-updates" class="situation-updates clearfix">
   <h2>Situation updates and information</h2>
   {% for situation in fieldBannerAlert %}
   {% if situation.entity.status == true %}
     {% assign sortedUpdates = situation.entity.fieldSituationUpdates | sort: update.entity.fieldDateAndTime.date | reverse %}
       {% for update in sortedUpdates %}
-        <div class="usa-alert background-color-only vads-u-padding-y--1p5">
+        <div data-entity-id="{{ update.entity.entityId }}" class="usa-alert background-color-only vads-u-padding-y--1p5">
           <h3 class="vads-u-margin-top--0">
             Situation update
           </h3>

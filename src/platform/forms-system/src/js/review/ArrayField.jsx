@@ -35,7 +35,7 @@ class ArrayField extends React.Component {
     this.scrollToRow = this.scrollToRow.bind(this);
     this.isLocked = this.isLocked.bind(this);
   }
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     if (newProps.arrayData !== this.props.arrayData) {
       const arrayData = Array.isArray(newProps.arrayData)
@@ -69,7 +69,7 @@ class ArrayField extends React.Component {
         `topOfTable_${this.props.path[this.props.path.length - 1]}${
           this.isLocked() ? '_locked' : ''
         }`,
-        window.Forms.scroll || {
+        window.Forms?.scroll || {
           duration: 500,
           delay: 0,
           smooth: true,
@@ -83,7 +83,7 @@ class ArrayField extends React.Component {
     setTimeout(() => {
       scroller.scrollTo(
         `table_${id}`,
-        window.Forms.scroll || {
+        window.Forms?.scroll || {
           duration: 500,
           delay: 0,
           smooth: true,
@@ -207,7 +207,7 @@ class ArrayField extends React.Component {
       <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
         {title && (
           <div className="form-review-panel-page-header-row">
-            <h5 className="form-review-panel-page-header">{title}</h5>
+            <h3 className="form-review-panel-page-header">{title}</h3>
             {itemsNeeded && (
               <span className="schemaform-review-array-warning-icon" />
             )}

@@ -20,6 +20,7 @@ const ALERT_PARAGRAPH = '... alertParagraph';
 const TABLE = '... table';
 const DOWNLOADABLE_FILE_PARAGRAPH = '... downloadableFile';
 const MEDIA_PARAGRAPH = '... embeddedImage';
+const NUMBER_CALLOUT = '... numberCallout';
 
 const fieldAministrationKey = 'FieldNodePageFieldAdministration';
 
@@ -29,6 +30,7 @@ module.exports = `
     ${entityElementsFromPages}
     fieldIntroText
     fieldDescription
+    fieldTableOfContentsBoolean
     fieldFeaturedContent {
       entity {
         entityType
@@ -52,6 +54,7 @@ module.exports = `
         ${ALERT_PARAGRAPH}
         ${DOWNLOADABLE_FILE_PARAGRAPH}
         ${MEDIA_PARAGRAPH}
+        ${NUMBER_CALLOUT}
       }
     }
     ${FIELD_ALERT}

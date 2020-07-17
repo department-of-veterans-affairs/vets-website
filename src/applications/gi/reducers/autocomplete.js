@@ -5,6 +5,7 @@ import {
   AUTOCOMPLETE_FAILED,
   AUTOCOMPLETE_SUCCEEDED,
   SEARCH_STARTED,
+  AUTOCOMPLETE_CLEARED,
 } from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import get from 'platform/utilities/data/get';
@@ -58,6 +59,11 @@ export default function(state = INITIAL_STATE, action) {
         suggestions,
         previewVersion: camelPayload.meta.version,
         inProgress: false,
+      };
+    case AUTOCOMPLETE_CLEARED:
+      return {
+        ...state,
+        suggestions: [],
       };
     case SEARCH_STARTED:
       return {

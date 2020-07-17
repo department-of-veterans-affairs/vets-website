@@ -31,7 +31,6 @@ import * as personId from 'platform/forms/definitions/personId';
 import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUi from 'platform/forms/definitions/fullName';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
@@ -112,9 +111,6 @@ const formConfig = {
     fullName,
     ssn,
     vaFileNumber,
-  },
-  downtime: {
-    dependencies: [externalServices.global],
   },
   chapters: {
     applicantInformation: {

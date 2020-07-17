@@ -1,5 +1,4 @@
 const E2eHelpers = require('../../testing/e2e/helpers');
-const Timeouts = require('../../testing/e2e/timeouts.js');
 
 const overlay = '#modal-crisisline';
 const firstModalItem = 'a[href="tel:18002738255"]';
@@ -15,12 +14,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.openUrl(`${E2eHelpers.baseUrl}/`);
 
   E2eHelpers.overrideSmoothScrolling(client);
-
-  client
-    .waitForElementVisible('body', Timeouts.normal)
-    .waitForElementVisible(firstOpenControl, Timeouts.slow)
-    .click('.announcement-brand-consolidation button')
-    .axeCheck('.main');
 
   // --------------------- //
   // --- Modal tests --- //

@@ -2,62 +2,62 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
-import {
-  getVideoVisitLink,
-  isGFEVideoVisit,
-  getMomentConfirmedDate,
-} from '../utils/appointment';
+import { VIDEO_TYPES } from '../utils/constants';
 
 export default function VideoVisitSection({ appointment }) {
   let linkContent = <span>Video visit link unavailable</span>;
 
-  if (isGFEVideoVisit(appointment)) {
+  if (appointment.vaos.isPastAppointment) {
+    return <span>Video conference</span>;
+  }
+
+  if (appointment.vaos.videoType === VIDEO_TYPES.gfe) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
     );
-  } else {
-    const videoLink = getVideoVisitLink(appointment);
+  } else if (
+    appointment.contained?.[0]?.telecom?.find(tele => tele.system === 'url')
+      ?.value
+  ) {
+    const url = appointment.contained?.[0]?.telecom?.[0]?.value;
+    const diff = moment().diff(moment(appointment.start), 'minutes');
 
-    if (videoLink) {
-      const apptTime = getMomentConfirmedDate(appointment);
-      const diff = apptTime.diff(moment(), 'minutes');
+    // Button is enabled 30 minutes prior to start time, until 4 hours after start time
+    const disableVideoLink = diff < -30 || diff > 240;
+    const linkClasses = classNames(
+      'usa-button',
+      'vads-u-margin-left--0',
+      'vads-u-margin-right--1p5',
+      { 'usa-button-disabled': disableVideoLink },
+    );
 
-      // Button is enabled 30 minutes prior to start time, until 4 hours after start time
-      const disableVideoLink = diff < -30 || diff > 240;
-      const linkClasses = classNames(
-        'usa-button',
-        'vads-u-margin-left--0',
-        'vads-u-margin-right--1p5',
-        { 'usa-button-disabled': disableVideoLink },
-      );
-
-      linkContent = (
-        <div className="vaos-appts__video-visit">
-          <a
-            aria-describedby={
-              disableVideoLink
-                ? `description-join-link-${appointment.id}`
-                : undefined
-            }
-            href={videoLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={linkClasses}
-            onClick={disableVideoLink ? e => e.preventDefault() : undefined}
+    linkContent = (
+      <div className="vaos-appts__video-visit">
+        <a
+          aria-describedby={
+            disableVideoLink
+              ? `description-join-link-${appointment.id}`
+              : undefined
+          }
+          aria-disabled={disableVideoLink ? 'true' : 'false'}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={linkClasses}
+          onClick={disableVideoLink ? e => e.preventDefault() : undefined}
+        >
+          Join session
+        </a>
+        {disableVideoLink && (
+          <span
+            id={`description-join-link-${appointment.id}`}
+            className="vads-u-display--block vads-u-font-style--italic"
           >
-            Join session
-          </a>
-          {disableVideoLink && (
-            <span
-              id={`description-join-link-${appointment.id}`}
-              className="vads-u-display--block vads-u-font-style--italic"
-            >
-              You can join VA Video Connect 30 minutes prior to the start time
-            </span>
-          )}
-        </div>
-      );
-    }
+            You can join VA Video Connect 30 minutes prior to the start time
+          </span>
+        )}
+      </div>
+    );
   }
 
   return (

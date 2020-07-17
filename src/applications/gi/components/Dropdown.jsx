@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { handleScrollOnInputFocus } from '../utils/helpers';
 import { SMALL_SCREEN_WIDTH } from '../constants';
+import environment from 'platform/utilities/environment';
 
 class Dropdown extends React.Component {
   constructor(props) {
@@ -20,8 +22,13 @@ class Dropdown extends React.Component {
       return null;
     }
     const hideArrowsClass = this.props.hideArrows ? 'hide-arrows' : '';
+    const disabledClass = this.props.disabled ? 'disabled' : '';
+
     return (
-      <div className={this.props.className} id={this.dropdownId}>
+      <div
+        className={(this.props.className, disabledClass)}
+        id={this.dropdownId}
+      >
         <label htmlFor={this.props.name}>{this.props.label}</label>
         <select
           className={hideArrowsClass}
@@ -30,7 +37,13 @@ class Dropdown extends React.Component {
           alt={this.props.alt}
           value={this.props.value}
           onChange={this.props.onChange}
-          onFocus={this.handleFocus}
+          disabled={this.props.disabled}
+          onFocus={
+            // prod flag for bah-8821
+            environment.isProduction()
+              ? this.handleFocus
+              : this.props.onFocus.bind(this, this.dropdownId)
+          }
         >
           {this.props.options.map(({ value, label }) => (
             <option key={value} value={value}>
@@ -57,11 +70,13 @@ Dropdown.propTypes = {
   onChange: PropTypes.func.isRequired,
   alt: PropTypes.string.isRequired,
   className: PropTypes.string,
+  onFocus: PropTypes.func,
 };
 
 Dropdown.defaultProps = {
   className: 'form-group top-aligned',
   visible: false,
+  onFocus: handleScrollOnInputFocus,
 };
 
 export default Dropdown;

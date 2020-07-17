@@ -6,12 +6,5 @@ export const calculateFilters = filters => {
     };
   }
 
-  if (filters.vetTecProvider) {
-    return {
-      ...filters,
-      category: 'vettec',
-    };
-  }
-
   return filters;
 };

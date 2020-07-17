@@ -6,6 +6,7 @@ const promo = `
    fragment promo on BlockContentPromo {
     fieldImage {
       entity {
+        entityId
         ... on MediaImage {
           image {
             url

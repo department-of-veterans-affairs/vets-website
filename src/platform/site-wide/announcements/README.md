@@ -40,7 +40,7 @@ The Announcement entry point uses React to bind to an element above the footer o
 ## E2E Tests
 Announcements are disabled during E2E tests for two reasons -
 
-1. Philosophically, because they change overtime while E2E tests should run consistently.
+1. Philosophically, because they change over time, while E2E tests should run consistently.
 2. Functionally, because it is likely that announcements will use "position: fixed" in their style, which will interrupt Nightwatch's browser focus while tests are running and break things.
 
 The helper for disabling announcements is named `disableAnnouncements` and is located in `platform/testing/e2e/helpers.js`.

@@ -1,7 +1,6 @@
 const Auth = require('platform/testing/e2e/auth');
 const E2eHelpers = require('platform/testing/e2e/helpers');
 const ErrorMockData = require('../mockdata/error-response.json');
-const manifest = require('../../manifest.json');
 const Mock = require('platform/testing/e2e/mock-helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 
@@ -19,7 +18,9 @@ function runRatedDisabilitiesTest(browser) {
       browser.elementIdText(totalRatingErrorHeader.ELEMENT, el => {
         browser
           .expect(el.value)
-          .to.equal('We don’t have a disability rating on file for you');
+          .to.equal(
+            'We don’t have a combined disability rating on file for you',
+          );
       });
       browser.elementIdText(listErrorHeader.ELEMENT, el => {
         browser
@@ -36,7 +37,7 @@ function runRatedDisabilitiesTest(browser) {
     browser.elementIdText(totalRatingErrorMessage.ELEMENT, el => {
       browser
         .expect(el.value)
-        .to.contain('We can’t find a disability rating for you.');
+        .to.contain('We can’t find a combined disability rating for you.');
     });
     browser.elementIdText(listErrorMessage.ELEMENT, el => {
       browser
@@ -75,5 +76,3 @@ function begin(browser) {
 }
 
 module.exports = E2eHelpers.createE2eTest(begin);
-module.exports['@disabled'] =
-  manifest.template[process.env.BUILDTYPE] === false;

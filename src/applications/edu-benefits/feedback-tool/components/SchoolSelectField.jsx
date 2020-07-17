@@ -239,7 +239,7 @@ export class SchoolSelectField extends React.Component {
           {address2 && <p>{address2}</p>}
           {address3 && <p>{address3}</p>}
           {(city || state) && (
-            <p>{`${city && city}${city && state && ', '}${state && state}`}</p>
+            <p>{`${city}${city && state && ', '}${state}`}</p>
           )}
           {!city && !state && <p>{country}</p>}
         </div>
@@ -398,9 +398,9 @@ export class SchoolSelectField extends React.Component {
                                 </span>
                               )}
                               {(city || state) && (
-                                <span className="institution-city-state">{`${city &&
-                                  city}${city && state && ', '}${state &&
-                                  state}`}</span>
+                                <span className="institution-city-state">{`${city}${city &&
+                                  state &&
+                                  ', '}${state}`}</span>
                               )}
                               {!city &&
                                 !state && (

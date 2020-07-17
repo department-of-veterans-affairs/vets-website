@@ -29,6 +29,7 @@ const HEALTH_SERVICES_RESULTS = `
                     }
                   }
                   fieldNicknameForThisFacility
+                  title
                 }
               }
             }

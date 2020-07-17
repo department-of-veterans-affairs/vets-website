@@ -1,0 +1,100 @@
+{
+  "data": {
+    "id": "",
+    "type": "users_scaffolds",
+    "attributes": {
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "form-save-in-progress",
+        "form-prefill",
+        "evss-claims",
+        "original-claims",
+        "add-person",
+        "user-profile",
+        "appeals-status",
+        "identity-proofed"
+      ],
+      "account": {
+        "accountUuid": "67775fdd-3afe-48f5-b17c-9f682b5654d5"
+      },
+      "profile": {
+        "email": "vets.gov.user+17@gmail.com",
+        "firstName": "EDDIE",
+        "middleName": "J",
+        "lastName": "CALDWELL",
+        "birthDate": "1933-10-27",
+        "gender": "M",
+        "zip": null,
+        "lastSignedIn": "2020-06-18T22:42:59.484Z",
+        "loa": {
+          "current": 3,
+          "highest": 3
+        },
+        "multifactor": true,
+        "verified": true,
+        "signIn": {
+          "serviceName": "idme",
+          "accountType": "N/A"
+        },
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3/vets"
+      },
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "19331027",
+        "familyName": "Caldwell",
+        "gender": "M",
+        "givenNames": [
+          "Eddie",
+          "Joseph"
+        ],
+        "isCernerPatient": false,
+        "facilities": [
+          {
+            "facilityId": "553",
+            "isCerner": false
+          }
+        ],
+        "vaPatient": true,
+        "mhvAccountState": "NONE"
+      },
+      "veteranStatus": null,
+      "inProgressForms": [],
+      "prefillsAvailable": [
+        "21-686C",
+        "40-10007",
+        "22-1990",
+        "22-1990N",
+        "22-1990E",
+        "22-1995",
+        "22-1995S",
+        "22-5490",
+        "22-5495",
+        "22-0993",
+        "22-0994",
+        "FEEDBACK-TOOL",
+        "22-10203",
+        "21-526EZ",
+        "1010ez",
+        "21P-530",
+        "21P-527EZ",
+        "686C-674",
+        "20-0996",
+        "MDOT"
+      ],
+      "vet360ContactInformation": {}
+    }
+  },
+  "meta": {
+    "errors": [
+      {
+        "externalService": "EMIS",
+        "startTime": "2020-06-18T22:43:10Z",
+        "endTime": null,
+        "description": "IOError, Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml].",
+        "status": 503
+      }
+    ]
+  }
+}

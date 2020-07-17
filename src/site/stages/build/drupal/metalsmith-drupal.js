@@ -12,8 +12,12 @@ const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
 const {
   createHealthCareRegionListPages,
+  createPastEventListPages,
   addGetUpdatesFields,
+  addPager,
+  sortServices,
 } = require('./health-care-region');
+
 const { addHubIconField } = require('./benefit-hub');
 const { addHomeContent } = require('./home');
 
@@ -24,51 +28,27 @@ const DRUPAL_HUB_NAV_FILENAME = 'hubNavNames.json';
 // should pull the latest Drupal data.
 const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 // If "--use-cms-export" is passed into the build args, then the build
-// should use the files in the tome-sync export directory
+// should use the files in the cms-export directory
 const USE_CMS_EXPORT_BUILD_ARG = 'use-cms-export';
+const CMS_EXPORT_DIR_BUILD_ARG = 'cms-export-dir';
+
+const getDrupalCachePath = buildOptions =>
+  buildOptions[USE_CMS_EXPORT_BUILD_ARG]
+    ? buildOptions[CMS_EXPORT_DIR_BUILD_ARG]
+    : path.join(buildOptions.cacheDirectory, DRUPAL_CACHE_FILENAME);
 
 // We need to pull the Drupal content if we have --pull-drupal or --use-cms-export, OR if
 // the content is not available in the cache.
-const shouldPullDrupal = buildOptions => {
-  const drupalCache = path.join(
-    buildOptions.cacheDirectory,
-    DRUPAL_CACHE_FILENAME,
-  );
-  const isDrupalAvailableInCache = fs.existsSync(drupalCache);
-  return (
-    buildOptions[PULL_DRUPAL_BUILD_ARG] ||
-    buildOptions[USE_CMS_EXPORT_BUILD_ARG] ||
-    (!isDrupalAvailableInCache &&
-      buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) // Don't require a cache to build locally.
-  );
-};
+const shouldPullDrupal = buildOptions =>
+  buildOptions[PULL_DRUPAL_BUILD_ARG] ||
+  !fs.existsSync(getDrupalCachePath(buildOptions));
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
-  const {
-    data: {
-      nodeQuery: { entities: pages },
-    },
-  } = contentData;
-
-  const skippedContent = {
-    nullEntities: 0,
-    emptyEntities: 0,
-  };
+  const pages = contentData.data.nodeQuery.entities.filter(
+    e => e && Object.keys(e).length,
+  );
 
   for (const page of pages) {
-    // At this time, null values are returned for pages that are not yet published.
-    // Once the Content-Preview server is up and running, then unpublished pages should
-    // reliably return like any other page and we can delete this.
-    if (!page) {
-      skippedContent.nullEntities++;
-      continue;
-    }
-
-    if (!Object.keys(page).length) {
-      skippedContent.emptyEntities++;
-      continue;
-    }
-
     const {
       entityUrl: { path: drupalUrl },
       entityBundle,
@@ -85,6 +65,52 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       case 'health_care_region_detail_page':
         addGetUpdatesFields(pageCompiled, pages);
         break;
+      case 'event_listing':
+        pageCompiled.pastEventTeasers = pageCompiled.pastEvents;
+        pageCompiled.allEventTeasers = pageCompiled.reverseFieldListingNode;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allEventTeasers,
+          'event_listing.drupal.liquid',
+          'event',
+        );
+        break;
+      case 'story_listing':
+        pageCompiled.allNewsStoryTeasers = page.reverseFieldListingNode;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allNewsStoryTeasers,
+          'story_listing.drupal.liquid',
+          'story',
+        );
+        break;
+      case 'press_releases_listing':
+        pageCompiled.allPressReleaseTeasers = page.reverseFieldListingNode;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allPressReleaseTeasers,
+          'press_releases_listing.drupal.liquid',
+          'press_release',
+        );
+        break;
+      case 'health_services_listing':
+        pageCompiled.clinicalHealthServices = sortServices(
+          pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode.entities,
+        );
+        break;
+      case 'leadership_listing':
+        pageCompiled.allStaffProfiles = page.fieldLeadership;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allStaffProfiles,
+          'leadership_listing.drupal.liquid',
+          'bio',
+        );
+        break;
       case 'page':
         addHubIconField(pageCompiled, pages);
         break;
@@ -99,41 +125,30 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     if (page.entityBundle === 'health_care_region_page') {
       createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
     }
+    if (page.entityBundle === 'event_listing') {
+      createPastEventListPages(pageCompiled, drupalPageDir, files);
+    }
   }
-
-  if (skippedContent.nullEntities) {
-    log(`Skipped ${skippedContent.nullEntities} null entities`);
-  }
-  if (skippedContent.emptyEntities) {
-    log(`Skipped ${skippedContent.emptyEntities} empty entities`);
-  }
-
-  addHomeContent(contentData, files);
 }
 
-async function loadDrupal(buildOptions) {
+/**
+ * Uses Drupal content via a new GraphQL query or the cached result of a
+ * previous query. This is where the cache is saved.
+ *
+ * @param {Object} buildOptions
+ * @return {Object} - The result of the GraphQL query
+ */
+async function getContentViaGraphQL(buildOptions) {
   const contentApi = getApiClient(buildOptions);
-  const drupalCache = path.join(
-    buildOptions.cacheDirectory,
-    DRUPAL_CACHE_FILENAME,
-  );
+  const drupalCache = getDrupalCachePath(buildOptions);
   const drupalHubMenuNames = path.join(
     buildOptions.paramsDirectory,
     DRUPAL_HUB_NAV_FILENAME,
   );
 
-  const isDrupalAvailableInCache = fs.existsSync(drupalCache);
-
-  const shouldPull = shouldPullDrupal(buildOptions);
   let drupalPages = null;
 
-  if (!isDrupalAvailableInCache) {
-    log(`Drupal content unavailable in local cache: ${drupalCache}`);
-  } else {
-    log(`Drupal content cache found: ${drupalCache}`);
-  }
-
-  if (shouldPull) {
+  if (shouldPullDrupal(buildOptions)) {
     log(
       `Attempting to load Drupal content from API at ${contentApi.getSiteUri()}`,
     );
@@ -142,22 +157,17 @@ async function loadDrupal(buildOptions) {
 
     console.time(drupalTimer);
 
-    if (buildOptions[USE_CMS_EXPORT_BUILD_ARG]) {
-      drupalPages = await contentApi.getNonNodeContent();
-      drupalPages.data.nodeQuery = {
-        entities: contentApi.getExportedPages(),
-      };
-    } else {
-      drupalPages = await contentApi.getAllPages();
-    }
+    drupalPages = await contentApi.getAllPages();
 
     console.timeEnd(drupalTimer);
 
+    // Error handling
     if (drupalPages.errors && drupalPages.errors.length) {
       log(JSON.stringify(drupalPages.errors, null, 2));
       throw new Error('Drupal query returned with errors');
     }
 
+    // Save new cache
     fs.outputJsonSync(drupalCache, drupalPages, { spaces: 2 });
 
     if (drupalPages.data.allSideNavMachineNamesQuery) {
@@ -174,6 +184,43 @@ async function loadDrupal(buildOptions) {
     // eslint-disable-next-line import/no-dynamic-require
     drupalPages = require(drupalCache);
   }
+
+  return drupalPages;
+}
+
+/**
+ * Use Drupal content via the CMS export. Fetch and untar the CMS export as needed.
+ *
+ * @param {Object} buildOptions
+ * @return {Object} - The transformed content from the cms export
+ */
+async function getContentFromExport(buildOptions) {
+  const contentApi = getApiClient(buildOptions);
+
+  if (shouldPullDrupal(buildOptions)) {
+    await contentApi.fetchExportContent();
+  }
+
+  const drupalPages = await contentApi.getNonNodeContent();
+  drupalPages.data.nodeQuery = {
+    entities: contentApi.getExportedPages(),
+  };
+
+  return drupalPages;
+}
+
+async function loadDrupal(buildOptions) {
+  const drupalCache = getDrupalCachePath(buildOptions);
+
+  if (!fs.existsSync(drupalCache)) {
+    log(`Drupal content unavailable in local cache: ${drupalCache}`);
+  } else {
+    log(`Drupal content cache found: ${drupalCache}`);
+  }
+
+  const drupalPages = buildOptions[USE_CMS_EXPORT_BUILD_ARG]
+    ? await getContentFromExport(buildOptions)
+    : await getContentViaGraphQL(buildOptions);
 
   log('Drupal successfully loaded!');
   return drupalPages;
@@ -204,22 +251,18 @@ async function loadCachedDrupalFiles(buildOptions, files) {
 function getDrupalContent(buildOptions) {
   if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
     log(`Drupal integration disabled for buildtype ${buildOptions.buildtype}`);
-    const noop = () => {};
-    return noop;
+    return () => {};
   }
 
-  // Declared above the middleware scope so that it's cached during the watch task.
-  let drupalData = null;
-
   return async (files, metalsmith, done) => {
+    let drupalData = null;
     try {
-      if (!drupalData) {
-        drupalData = await loadDrupal(buildOptions);
-      }
+      drupalData = await loadDrupal(buildOptions);
       drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
 
       await loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
+      addHomeContent(drupalData, files, metalsmith, buildOptions);
       log('Successfully piped Drupal content into Metalsmith!');
       buildOptions.drupalData = drupalData;
       done();
@@ -231,6 +274,7 @@ function getDrupalContent(buildOptions) {
       log('Failed to pipe Drupal content into Metalsmith!');
       if (
         buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
+        buildOptions[USE_CMS_EXPORT_BUILD_ARG] ||
         buildOptions['drupal-fail-fast']
       ) {
         done(err);

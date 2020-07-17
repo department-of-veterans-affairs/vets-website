@@ -1,49 +1,82 @@
 import React from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import ErrorableDate from '@department-of-veterans-affairs/formation-react/ErrorableDate';
 import { pageNames } from './pageList';
-import { EBEN_526_URL, BDD_INFO_URL } from '../../constants';
 
-// TODO: Add in the dates for 180 and 90 days in the future
-const dateFormat = 'MMMM DD, YYYY';
-const ninetyDays = moment()
-  .add(90, 'd')
-  .format(dateFormat);
-const oneHundredEightyDays = moment()
-  .add(180, 'd')
-  .format(dateFormat);
+import environment from 'platform/utilities/environment';
+import unableToFileBDDProduction from './unable-to-file-bdd-production';
 
-const alertContent = (
-  <>
-    <p>
-      <strong>
-        If your separation date is between {ninetyDays} and{' '}
-        {oneHundredEightyDays}
-      </strong>{' '}
-      (90 and 180 days from today), you can file a disability claim through the
-      Benefits Delivery at Discharge (BDD) program.
-    </p>
-    <p>
-      <strong>If your separation date is before {ninetyDays},</strong> you can’t
-      file a BDD claim, but you can still begin the process of filing your claim
-      on eBenefits.
-    </p>
-    <a href={EBEN_526_URL} className="usa-button-primary va-button-primary">
-      Go to eBenefits
-    </a>
-    <p>
-      <a href={BDD_INFO_URL}>Learn more about the BDD program</a>
-    </p>
-  </>
-);
+// Figure out which page to go to based on the date entered
+const findNextPage = state => {
+  const dateDischarge = moment({
+    day: state.day.value,
+    // moment takes 0-indexed months, but the date picker provides 1-indexed months
+    month: parseInt(state.month.value, 10) - 1,
+    year: state.year.value,
+  });
+  const dateToday = moment();
+  const differenceBetweenDatesInDays =
+    dateDischarge.diff(dateToday, 'days') + 1;
 
-const BDDPage = () => (
-  <AlertBox
-    status="error"
-    headline="You’ll need to file a claim on eBenefits"
-    content={alertContent}
-  />
-);
+  if (differenceBetweenDatesInDays < 90) {
+    return pageNames.fileClaimEarly;
+  } else if (differenceBetweenDatesInDays <= 180) {
+    return pageNames.fileBDD;
+  }
+  return pageNames.unableToFileBDD;
+};
+
+const defaultState = {
+  day: {
+    value: '',
+    dirty: false,
+  },
+  month: {
+    value: '',
+    dirty: false,
+  },
+  year: {
+    value: '',
+    dirty: false,
+  },
+};
+
+const isDateComplete = date =>
+  date.day.value && date.month.value && date.year.value.length === 4;
+
+const isDateInFuture = date =>
+  moment({
+    day: date.day.value,
+    month: parseInt(date.month.value, 10) - 1,
+    year: date.year.value,
+  }).diff(moment()) > 0;
+
+const BDDPage = ({ setPageState, state = defaultState }) => {
+  if (environment.isProduction()) {
+    return <unableToFileBDDProduction.component />;
+  }
+
+  const onChange = pageState =>
+    setPageState(
+      pageState,
+      isDateComplete(pageState) && isDateInFuture(pageState)
+        ? findNextPage(pageState)
+        : undefined,
+    );
+
+  return (
+    <ErrorableDate
+      label="Date or anticipated date of release from active duty"
+      onValueChange={onChange}
+      name="discharge-date"
+      date={state}
+      validation={{
+        valid: isDateInFuture(state),
+        message: 'A separation date must occur in the future',
+      }}
+    />
+  );
+};
 
 export default {
   name: pageNames.bdd,

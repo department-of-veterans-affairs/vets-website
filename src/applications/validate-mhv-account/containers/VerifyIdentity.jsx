@@ -1,8 +1,13 @@
 import React from 'react';
-import MessageTemplate from './../components/MessageTemplate';
-import { verify } from '../../../platform/user/authentication/utilities';
+import { connect } from 'react-redux';
 
-const VerifyIdentity = () => {
+import MessageTemplate from './../components/MessageTemplate';
+
+import { ssoe } from 'platform/user/authentication/selectors';
+import { verify } from 'platform/user/authentication/utilities';
+
+export function VerifyIdentity({ useSSOe }) {
+  const authVersion = useSSOe ? 'v1' : 'v0';
   const content = {
     heading: 'Verify your identity to access health tools',
     body: (
@@ -13,7 +18,7 @@ const VerifyIdentity = () => {
           you access to your personal health information.
         </p>
         <button
-          onClick={verify}
+          onClick={() => verify(authVersion)}
           className="usa-button-primary va-button-primary"
         >
           Verify your identity
@@ -23,6 +28,12 @@ const VerifyIdentity = () => {
   };
 
   return <MessageTemplate content={content} />;
-};
+}
 
-export default VerifyIdentity;
+function mapStateToProps(state) {
+  return {
+    useSSOe: ssoe(state),
+  };
+}
+
+export default connect(mapStateToProps)(VerifyIdentity);

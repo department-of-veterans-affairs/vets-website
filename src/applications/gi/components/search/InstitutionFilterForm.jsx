@@ -9,6 +9,7 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
 } from '../../utils/helpers';
+import CautionaryWarningsFilter from './CautionaryWarningsFilter';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -25,6 +26,7 @@ class InstitutionFilterForm extends React.Component {
     <SearchResultTypeOfInstitutionFilter
       category={this.props.filters.category}
       onChange={this.handleDropdownChange}
+      handleInputFocus={this.props.handleInputFocus}
       displayAllOption
     />
   );
@@ -43,6 +45,7 @@ class InstitutionFilterForm extends React.Component {
         options={addAllOption(options)}
         value={this.props.filters.country}
         onChange={this.handleDropdownChange}
+        onFocus={this.props.handleInputFocus}
         visible
       />
     );
@@ -62,6 +65,7 @@ class InstitutionFilterForm extends React.Component {
         options={addAllOption(sortedOptions)}
         value={this.props.filters.state}
         onChange={this.handleDropdownChange}
+        onFocus={this.props.handleInputFocus}
         visible
       />
     );
@@ -78,42 +82,49 @@ class InstitutionFilterForm extends React.Component {
           name="studentVeteranGroup"
           label="Student Vet Group"
           onChange={this.handleCheckboxChange}
+          onFocus={this.props.handleInputFocus}
         />
         <Checkbox
           checked={filters.yellowRibbonScholarship}
           name="yellowRibbonScholarship"
           label="Yellow Ribbon"
           onChange={this.handleCheckboxChange}
+          onFocus={this.props.handleInputFocus}
         />
         <Checkbox
           checked={filters.principlesOfExcellence}
           name="principlesOfExcellence"
           label="Principles of Excellence"
           onChange={this.handleCheckboxChange}
+          onFocus={this.props.handleInputFocus}
         />
         <Checkbox
           checked={filters.eightKeysToVeteranSuccess}
           name="eightKeysToVeteranSuccess"
           label="8 Keys to Vet Success"
           onChange={this.handleCheckboxChange}
+          onFocus={this.props.handleInputFocus}
         />
         <Checkbox
           checked={filters.stemIndicator}
           name="stemIndicator"
           label="Rogers STEM Scholarship"
           onChange={this.handleCheckboxChange}
+          onFocus={this.props.handleInputFocus}
         />
         <Checkbox
           checked={filters.priorityEnrollment}
           name="priorityEnrollment"
           label="Priority Enrollment"
           onChange={this.handleCheckboxChange}
+          onFocus={this.props.handleInputFocus}
         />
         <Checkbox
           checked={filters.independentStudy}
           name="independentStudy"
           label="Independent Study"
           onChange={this.handleCheckboxChange}
+          onFocus={this.props.handleInputFocus}
         />
       </div>
     );
@@ -137,6 +148,7 @@ class InstitutionFilterForm extends React.Component {
         alt="Filter results by institution type"
         visible
         onChange={this.handleDropdownChange}
+        onFocus={this.props.handleInputFocus}
       />
     );
   };
@@ -148,6 +160,15 @@ class InstitutionFilterForm extends React.Component {
         {this.renderCategoryFilter()}
         {this.renderCountryFilter()}
         {this.renderStateFilter()}
+        {
+          <CautionaryWarningsFilter
+            excludeCautionFlags={this.props.filters.excludeCautionFlags}
+            excludeWarnings={this.props.filters.excludeWarnings}
+            onChange={this.handleCheckboxChange}
+            showModal={this.props.showModal}
+            handleInputFocus={this.props.handleInputFocus}
+          />
+        }
         {this.renderProgramFilters()}
         {this.renderTypeFilter()}
       </div>
@@ -156,6 +177,7 @@ class InstitutionFilterForm extends React.Component {
 }
 
 InstitutionFilterForm.propTypes = {
+  showModal: PropTypes.func,
   filters: PropTypes.shape({
     category: PropTypes.string,
     distanceLearning: PropTypes.bool,
@@ -170,6 +192,8 @@ InstitutionFilterForm.propTypes = {
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
     stemIndicator: PropTypes.bool,
+    excludeWarnings: PropTypes.bool,
+    excludeCautionFlags: PropTypes.bool,
   }),
   handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -186,7 +210,10 @@ InstitutionFilterForm.propTypes = {
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
     stemIndicator: PropTypes.object,
+    excludeWarnings: PropTypes.bool,
+    excludeCautionFlags: PropTypes.bool,
   }),
+  handleInputFocus: PropTypes.func,
 };
 
 InstitutionFilterForm.defaultProps = {};

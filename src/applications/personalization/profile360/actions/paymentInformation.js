@@ -10,8 +10,6 @@ export const PAYMENT_INFORMATION_FETCH_FAILED =
 
 export const PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED =
   'PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED';
-export const PAYMENT_INFORMATION_EDIT_MODAL_FIELD_CHANGED =
-  'PAYMENT_INFORMATION_FORM_FIELD_CHANGED';
 
 export const PAYMENT_INFORMATION_SAVE_STARTED =
   'PAYMENT_INFORMATION_SAVE_STARTED';
@@ -24,7 +22,21 @@ export function fetchPaymentInformation(recordEvent = recordAnalyticsEvent) {
   return async dispatch => {
     dispatch({ type: PAYMENT_INFORMATION_FETCH_STARTED });
 
+    recordEvent({ event: 'profile-get-direct-deposit-started' });
     const response = await getData('/ppiu/payment_information');
+
+    // sample error when getting payment information
+    // response = {
+    //   errors: [
+    //     {
+    //       title: 'Bad Gateway',
+    //       detail: 'Received an an invalid response from the upstream server',
+    //       code: 'EVSS502',
+    //       source: 'EVSS::PPIU::Service',
+    //       status: '502',
+    //     },
+    //   ],
+    // };
 
     if (response.error) {
       recordEvent({ event: 'profile-get-direct-deposit-failure' });
@@ -123,12 +135,4 @@ export function savePaymentInformation(
 
 export function editModalToggled() {
   return { type: PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED };
-}
-
-export function editModalFieldChanged(fieldName, fieldValue) {
-  return {
-    type: PAYMENT_INFORMATION_EDIT_MODAL_FIELD_CHANGED,
-    fieldName,
-    fieldValue,
-  };
 }

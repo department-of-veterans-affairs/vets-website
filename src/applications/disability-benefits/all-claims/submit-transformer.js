@@ -1,10 +1,10 @@
-import _ from '../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 
 import {
   transformForSubmit,
   filterViewFields,
 } from 'platform/forms-system/src/js/helpers';
-import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
+import removeDeeplyEmptyObjects from 'platform/utilities/data/removeDeeplyEmptyObjects';
 
 import {
   causeTypes,
@@ -15,9 +15,10 @@ import {
   disabilityActionTypes,
 } from './constants';
 
-import { disabilityIsSelected } from './utils';
+import { disabilityIsSelected, hasGuardOrReservePeriod } from './utils';
 
 import disabilityLabels from './content/disabilityLabels';
+import separationLocations from '../bdd/content/separationLocations';
 
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
@@ -75,9 +76,13 @@ export function transformProviderFacilities(providerFacilities) {
  * Returns an array of disabilities pulled from ratedDisabilities, newDisabilities, newPrimaryDisabilities and newSecondaryDisabilities
  * @param {object} formData
  */
-function getDisabilities(formData) {
+function getDisabilities(formData, includeDisabilityActionTypeNone = true) {
   // Assumes we have only selected conditions at this point
-  const claimedConditions = formData.ratedDisabilities || [];
+  const claimedConditions = (formData.ratedDisabilities || []).filter(
+    ratedDisability =>
+      includeDisabilityActionTypeNone ||
+      ratedDisability.disabilityActionType !== disabilityActionTypes.NONE,
+  );
 
   // Depending on where this is called in the transformation flow, we have to use different key names.
   // This assumes newDisabilities is removed after it's split out into its primary and secondary counterparts.
@@ -99,9 +104,12 @@ function getDisabilityName(disability) {
   return name && name.trim();
 }
 
-function getClaimedConditionNames(formData) {
-  return getDisabilities(formData).map(disability =>
-    getDisabilityName(disability),
+function getClaimedConditionNames(
+  formData,
+  includeDisabilityActionTypeNone = true,
+) {
+  return getDisabilities(formData, includeDisabilityActionTypeNone).map(
+    disability => getDisabilityName(disability),
   );
 }
 
@@ -165,6 +173,29 @@ export function transformRelatedDisabilities(
   );
 }
 
+export const removeExtraData = formData => {
+  // EVSS no longer accepts some keys
+  const ratingKeysToRemove = [
+    'ratingDecisionId',
+    'decisionCode',
+    'decisionText',
+    'ratingPercentage',
+  ];
+  const clonedData = _.cloneDeep(formData);
+  const disabilities = clonedData.ratedDisabilities;
+  if (disabilities?.length) {
+    clonedData.ratedDisabilities = disabilities.map(disability =>
+      Object.keys(disability).reduce((acc, key) => {
+        if (!ratingKeysToRemove.includes(key)) {
+          acc[key] = disability[key];
+        }
+        return acc;
+      }, {}),
+    );
+  }
+  return clonedData;
+};
+
 /**
  * Returns an array of the maximum set of PTSD incident form data field names
  */
@@ -190,6 +221,36 @@ export function getPtsdChangeText(changeFields = {}) {
         PTSD_CHANGE_LABELS[key],
     )
     .map(key => PTSD_CHANGE_LABELS[key]);
+}
+
+export function filterServicePeriods(formData) {
+  const { serviceInformation } = formData;
+  if (!serviceInformation || hasGuardOrReservePeriod(serviceInformation)) {
+    return formData;
+  }
+  // remove `reservesNationalGuardService` since no associated
+  // Reserve or National guard service periods have been provided
+  // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/6797
+  const clonedData = _.cloneDeep(formData);
+  delete clonedData.serviceInformation.reservesNationalGuardService;
+  return clonedData;
+}
+
+export function transformSeparationLocation(formData) {
+  const separationLocationCode =
+    formData.serviceInformation?.separationLocation;
+  if (!separationLocationCode) {
+    return formData;
+  }
+
+  const clonedData = _.cloneDeep(formData);
+  clonedData.serviceInformation.separationLocation = {
+    separationLocationCode,
+    separationLocationName: separationLocations.find(
+      separationLocation => separationLocation.code === separationLocationCode,
+    )?.description,
+  };
+  return clonedData;
 }
 
 export function transform(formConfig, form) {
@@ -367,7 +428,7 @@ export function transform(formConfig, form) {
         'treatedDisabilityNames',
         transformRelatedDisabilities(
           facility.treatedDisabilityNames,
-          getClaimedConditionNames(formData),
+          getClaimedConditionNames(formData, false),
         ),
         facility,
       ),
@@ -530,6 +591,9 @@ export function transform(formConfig, form) {
     addBackRatedDisabilities, // Must run after filterEmptyObjects
     setActionTypes, // Must run after addBackRatedDisabilities
     filterRatedViewFields, // Must be run after setActionTypes
+    filterServicePeriods,
+    transformSeparationLocation,
+    removeExtraData, // Removed data EVSS does't want
     addPOWSpecialIssues,
     addPTSDCause,
     addClassificationCodeToNewDisabilities,

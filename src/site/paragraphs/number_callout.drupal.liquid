@@ -10,7 +10,7 @@
     }
 {% endcomment %}
 
-<div class="card information">
+<div data-template="paragraphs/number_callout" data-entity-id="{{ entity.entityId }}" class="card information">
   <span class="number">{{ entity.fieldShortPhraseWithANumber }}</span>
   <span class="description">{{ entity.fieldWysiwyg.processed }}</span>
 </div>

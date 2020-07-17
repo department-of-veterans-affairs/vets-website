@@ -1,5 +1,5 @@
-import { countries } from '../../../../platform/forms/address/index.js';
-import _ from '../../../../platform/utilities/data';
+import { countries } from 'platform/forms/address/index.js';
+import _ from 'platform/utilities/data';
 
 /**
  * Changes the form 781 and 781a addresses to use the full country name instead of the

@@ -1,4 +1,6 @@
+const path = require('path');
 const { expect } = require('chai');
+const sinon = require('sinon');
 const {
   combineItemsInIndexedObject,
   createLink,
@@ -6,6 +8,7 @@ const {
   unescapeUnicode,
   createMetaTagArray,
   usePartialSchema,
+  findMatchingEntities,
 } = require('../transformers/helpers');
 
 describe('CMS export transformer helpers', () => {
@@ -305,6 +308,73 @@ describe('CMS export transformer helpers', () => {
         },
         required: ['foo'],
       });
+    });
+  });
+
+  describe('findMatchingEntities', () => {
+    const contentDir = path.join(__dirname, 'helper-test-entities');
+
+    it('should reject non-string baseTypes', () => {
+      expect(() => findMatchingEntities(123, contentDir, () => {})).to.throw();
+    });
+
+    it('should reject paths to a non-existent directory', () => {
+      // Path to nothing
+      expect(() =>
+        findMatchingEntities(
+          path.join(__dirname, 'this-directory-does-not-exist'),
+          'node',
+          () => {},
+        ),
+      ).to.throw();
+      // Path to a file
+      expect(() =>
+        findMatchingEntities('node', __filename, () => {}),
+      ).to.throw();
+    });
+
+    it('should reject a truthy non-string subType', () => {
+      expect(() =>
+        findMatchingEntities('node', contentDir, () => {}, { subType: 123 }),
+      ).to.throw();
+    });
+
+    it('should reject a truthy non-function filter', () => {
+      expect(() =>
+        findMatchingEntities('node', contentDir, () => {}, { filter: 123 }),
+      ).to.throw();
+    });
+
+    it('should return all (and only) entities of a baseType', () => {
+      expect(findMatchingEntities('node', contentDir, () => {})).to.have.length(
+        3,
+      );
+    });
+
+    it('should return only entities of a baseType and subType', () => {
+      expect(
+        findMatchingEntities('node', contentDir, () => {}, {
+          subType: 'some_type',
+        }),
+      ).to.have.length(2);
+    });
+
+    it('should filter out entities not passing the filter function', () => {
+      expect(
+        findMatchingEntities('node', contentDir, () => {}, {
+          subType: 'some_type',
+          filter: e => e.field_keep_me,
+        }),
+      ).to.have.length(1);
+    });
+
+    it('should transform the entities', () => {
+      const spy = sinon.spy();
+      findMatchingEntities('node', contentDir, spy, {
+        subType: 'some_type',
+        filter: e => e.field_keep_me,
+      });
+      expect(spy.calledOnce).to.be.true;
     });
   });
 });

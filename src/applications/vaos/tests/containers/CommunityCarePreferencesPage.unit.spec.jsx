@@ -18,7 +18,7 @@ function CommunityCarePreferencesPageTester(props) {
     <CommunityCarePreferencesPage
       {...props}
       {...formProps}
-      systemsStatus={FETCH_STATUS.succeeded}
+      parentFacilitiesStatus={FETCH_STATUS.succeeded}
     />
   );
 }
@@ -28,7 +28,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     const form = mount(
       <CommunityCarePreferencesPage
         openCommunityCarePreferencesPage={f => f}
-        systemsStatus={FETCH_STATUS.loading}
+        parentFacilitiesStatus={FETCH_STATUS.loading}
       />,
     );
 
@@ -47,7 +47,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     const form = mount(
       <CommunityCarePreferencesPageTester
         data={{ hasCommunityCareProvider: true }}
-        systemsStatus={FETCH_STATUS.succeeded}
+        parentFacilitiesStatus={FETCH_STATUS.succeeded}
       />,
     );
 
@@ -61,7 +61,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     const form = mount(
       <CommunityCarePreferencesPageTester
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        systemsStatus={FETCH_STATUS.succeeded}
+        parentFacilitiesStatus={FETCH_STATUS.succeeded}
       />,
     );
 
@@ -79,6 +79,19 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
 
     expect(form.find('#root_hasCommunityCareProviderYes').getDOMNode().checked)
       .to.be.true;
+    form.unmount();
+  });
+
+  it('should display link to facility locator', () => {
+    const form = mount(<CommunityCarePreferencesPageTester />);
+    selectRadio(form, 'root_hasCommunityCareProvider', 'Y');
+    const facilityLocatorLink = form.find('a');
+    expect(facilityLocatorLink.props().href).to.equal(
+      '/find-locations/?facilityType=cc_provider',
+    );
+    expect(form.text()).contains(
+      'Use the facility locator to find your preferred community care provider. Copy and paste their name and address below.',
+    );
     form.unmount();
   });
 
@@ -106,6 +119,39 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
 
+    form.unmount();
+  });
+
+  it('should display error msg when phone number exceeds 10 char', () => {
+    const routeToNextAppointmentPage = sinon.spy();
+
+    const form = mount(
+      <CommunityCarePreferencesPageTester
+        data={{
+          hasCommunityCareProvider: true,
+          preferredLanguage: 'english',
+          communityCareProvider: {
+            practiceName: 'Practice name',
+            firstName: 'Jane',
+            lastName: 'Doe',
+            phone: '5555555555555555555555555',
+            address: {
+              street: '123 Test',
+              street2: 'line 2',
+              city: 'Northampton',
+              state: 'MA',
+              postalCode: '01060',
+            },
+          },
+        }}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(routeToNextAppointmentPage.called).to.be.false;
     form.unmount();
   });
 });

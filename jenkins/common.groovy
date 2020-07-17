@@ -253,7 +253,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && node script/prearchive.js --buildtype=${envName}"
+    sh "cd /application && node --max-old-space-size=4096 script/prearchive.js --buildtype=${envName}"
   }
 }
 

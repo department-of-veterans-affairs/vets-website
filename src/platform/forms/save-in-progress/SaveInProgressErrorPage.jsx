@@ -15,6 +15,11 @@ import SignInLink from '../components/SignInLink';
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
+import { CONTINUE_APP_DEFAULT_MESSAGE } from './constants';
+
+const DEFAULT_FORBIDDEN_MESSAGE = `
+  We're sorry. We can't give you access to this information. For help, please call the VA.gov help desk at 855-574-7286 (TTY: 711). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
+`;
 
 // For now, this only handles loading errors, but it could feasibly be reworked
 //  to handle save errors as well if we need it to.
@@ -57,9 +62,11 @@ class SaveInProgressErrorPage extends React.Component {
   };
 
   render() {
-    const { loadedStatus } = this.props;
-    const { noAuth, notFound } =
-      this.props.route.formConfig.savedFormMessages || {};
+    const { loadedStatus, formConfig } = this.props;
+    const { forbidden, noAuth, notFound } = formConfig.savedFormMessages || {};
+    const continueAppButtonText =
+      formConfig?.customText?.continueAppButtonText ||
+      CONTINUE_APP_DEFAULT_MESSAGE;
     let content;
 
     switch (loadedStatus) {
@@ -97,9 +104,19 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                Continue Your Application
+                {continueAppButtonText}
               </button>
             </div>
+          </div>
+        );
+        break;
+      case LOAD_STATUSES.forbidden:
+        content = (
+          <div>
+            <div className="usa-alert usa-alert-error background-color-only">
+              {forbidden || DEFAULT_FORBIDDEN_MESSAGE}
+            </div>
+            <div style={{ marginTop: '30px' }} />
           </div>
         );
         break;
@@ -113,7 +130,7 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                Continue Your Application
+                {continueAppButtonText}
               </button>
             </div>
           </div>
@@ -130,7 +147,7 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                Continue Your Application
+                {continueAppButtonText}
               </button>
             </div>
           </div>
@@ -160,22 +177,35 @@ class SaveInProgressErrorPage extends React.Component {
 
 SaveInProgressErrorPage.propTypes = {
   loadedStatus: PropTypes.string.isRequired,
-  savedFormMessages: PropTypes.shape({
-    notFound: PropTypes.string,
-    noAuth: PropTypes.string,
-  }),
-
   isStartingOver: PropTypes.bool.isRequired,
   // For SignInLink
   isLoggedIn: PropTypes.bool.isRequired,
+  formConfig: PropTypes.shape({
+    savedFormMessages: PropTypes.shape({
+      notFound: PropTypes.string,
+      noAuth: PropTypes.string,
+    }),
+    customText: PropTypes.shape({
+      continueAppButtonText: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
-const mapStateToProps = store => ({
+SaveInProgressErrorPage.defaultProps = {
+  formConfig: {
+    customText: {
+      continueAppButtonText: '',
+    },
+  },
+};
+
+const mapStateToProps = (store, ownProps) => ({
   loadedStatus: store.form.loadedStatus,
   prefillStatus: store.form.prefillStatus,
   isLoggedIn: store.user.login.currentlyLoggedIn,
   showLoginModal: store.navigation.showLoginModal,
   isStartingOver: store.form.isStartingOver,
+  formConfig: ownProps.formConfig,
 });
 
 const mapDispatchToProps = {

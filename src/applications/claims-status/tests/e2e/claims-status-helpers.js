@@ -8,6 +8,19 @@ function initAskVAMock(token) {
   });
 }
 
+function initClaimsListEmptyMock(token) {
+  mock(token, {
+    path: '/v0/evss_claims_async',
+    verb: 'get',
+    value: {
+      data: [],
+      meta: {
+        syncStatus: 'SUCCESS',
+      },
+    },
+  });
+}
+
 function initClaimsListMock(token) {
   mock(token, {
     path: '/v0/evss_claims_async',
@@ -235,6 +248,7 @@ function initClaimDetailMocks(
   });
 }
 module.exports = {
+  initClaimsListEmptyMock,
   initClaimsListMock,
   initClaimDetailMocks,
   initAskVAMock,

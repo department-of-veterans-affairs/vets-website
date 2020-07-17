@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import EducationModalContent from 'platform/forms/components/OMBInfoModalContent/EducationModalContent';
-import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import environment from 'platform/utilities/environment';
 
 class IntroductionPage extends React.Component {
@@ -35,7 +35,6 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          downtime={this.props.route.formConfig.downtime}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           startText="Submit Your Feedback"
         />
@@ -97,7 +96,6 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
-          downtime={this.props.route.formConfig.downtime}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}

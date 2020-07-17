@@ -8,11 +8,7 @@ import {
   getBenefitOptionText,
   inferAddressType,
   resetDisallowedAddressFields,
-  stripEmpties,
-  toGenericAddress,
   isAddressEmpty,
-  formatStreetAddress,
-  formatCityStatePostal,
 } from '../../utils/helpers';
 
 const address = {
@@ -198,119 +194,11 @@ describe('Letters helpers: ', () => {
     });
   });
 
-  describe('stripEmpties', () => {
-    const inputAddress = {
-      addressEffectiveDate: '2012-04-03T04:00:00.000+00:00',
-      addressOne: '57 COLUMBUS STRASSA',
-      addressThree: '',
-      addressTwo: '',
-      militaryPostOfficeTypeCode: 'APO',
-      militaryStateCode: 'AE',
-      type: 'MILITARY',
-      zipCode: '09028',
-      zipSuffix: '',
-    };
-
-    const expectedAddress = {
-      addressEffectiveDate: '2012-04-03T04:00:00.000+00:00',
-      addressOne: '57 COLUMBUS STRASSA',
-      militaryPostOfficeTypeCode: 'APO',
-      militaryStateCode: 'AE',
-      type: 'MILITARY',
-      zipCode: '09028',
-    };
-
-    it('should only remove all zero-length properties from an object', () => {
-      const actualAddress = stripEmpties(inputAddress);
-      expect(actualAddress).to.eql(expectedAddress);
-    });
-  });
-
-  describe('toGenericAddress', () => {
-    const militaryAddress = {
-      addressEffectiveDate: '2012-04-03T04:00:00.000+00:00',
-      addressOne: '57 COLUMBUS STRASSA',
-      addressThree: '',
-      addressTwo: '',
-      militaryPostOfficeTypeCode: 'APO',
-      militaryStateCode: 'AE',
-      type: 'MILITARY',
-      zipCode: '09028',
-      zipSuffix: '',
-    };
-
-    const genericFromMilitary = {
-      addressOne: '57 COLUMBUS STRASSA',
-      addressThree: '',
-      addressTwo: '',
-      city: 'APO',
-      stateCode: 'AE',
-      countryName: 'USA',
-      type: 'MILITARY',
-      zipCode: '09028',
-      zipSuffix: '',
-    };
-
-    const domesticAddress = {
-      addressEffectiveDate: '2012-04-03T04:00:00.000+00:00',
-      addressOne: '57 COLUMBUS STRASSA',
-      addressThree: '',
-      addressTwo: '',
-      city: 'Chicago',
-      stateCode: 'IL',
-      countryName: 'USA',
-      type: 'DOMESTIC',
-      zipCode: '06628',
-      zipSuffix: '',
-    };
-
-    const genericFromDomestic = {
-      addressOne: '57 COLUMBUS STRASSA',
-      addressThree: '',
-      addressTwo: '',
-      city: 'Chicago',
-      stateCode: 'IL',
-      countryName: 'USA',
-      type: 'DOMESTIC',
-      zipCode: '06628',
-      zipSuffix: '',
-    };
-
-    it('translates military addresses to generic', () => {
-      const actualAddress = toGenericAddress(militaryAddress);
-      expect(actualAddress).to.eql(genericFromMilitary);
-    });
-
-    it('translates non-military address to generic', () => {
-      const actualAddress = toGenericAddress(domesticAddress);
-      expect(actualAddress).to.eql(genericFromDomestic);
-    });
-
-    it('returns a clone for all cases', () => {
-      const militaryTest = toGenericAddress(militaryAddress);
-      const nonMilitaryTest = toGenericAddress(domesticAddress);
-      expect(militaryTest).to.not.equal(militaryAddress);
-      expect(nonMilitaryTest).to.not.equal(domesticAddress);
-    });
-  });
   // Check empty address parameters
   describe('isAddressEmpty', () => {
-    expect(isAddressEmpty()).to.be.true;
     expect(isAddressEmpty({})).to.be.true;
     // type & countryName are ignored
     expect(isAddressEmpty({ type: 'foo', countryName: 'bar' })).to.be.true;
     expect(isAddressEmpty({ foo: 'bar' })).to.be.false;
-  });
-  describe('formatStreetAddress', () => {
-    expect(formatStreetAddress()).to.equal('');
-    expect(formatStreetAddress({})).to.equal('');
-  });
-  describe('formatCityStatePostal', () => {
-    expect(formatCityStatePostal()).to.equal('');
-    expect(formatCityStatePostal({})).to.equal('');
-    // uses isEmptyAddress
-    expect(formatCityStatePostal({ type: 'foo', countryName: 'bar' })).to.equal(
-      '',
-    );
   });
 });

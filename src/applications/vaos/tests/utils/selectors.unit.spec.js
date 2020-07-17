@@ -16,7 +16,16 @@ import {
   getTypeOfCare,
   getCancelInfo,
   getCCEType,
+  isWelcomeModalDismissed,
+  selectCernerFacilities,
 } from '../../utils/selectors';
+
+import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
+import {
+  VHA_FHIR_ID,
+  APPOINTMENT_TYPES,
+  VIDEO_TYPES,
+} from '../../utils/constants';
 
 describe('VAOS selectors', () => {
   describe('getNewAppointment', () => {
@@ -80,25 +89,83 @@ describe('VAOS selectors', () => {
   });
 
   describe('getFacilityPageInfo', () => {
-    it('should return typeOfCare string and begin loading systems', () => {
+    it('should return typeOfCare string and begin loading parentFacilities', () => {
       const state = {
+        user: {
+          profile: {
+            facilities: [],
+          },
+        },
         newAppointment: {
           pages: {},
           data: {
             typeOfCareId: '160',
             facilityType: 'vamc',
-            vaSystem: '983',
+            vaParent: '983',
           },
           facilities: {},
           eligibility: {},
-          systems: [{}],
+          parentFacilities: [{}],
           facilityDetails: {},
         },
       };
 
       const newState = getFacilityPageInfo(state);
       expect(newState.typeOfCare).to.equal('Pharmacy');
-      expect(newState.loadingSystems).to.be.true;
+      expect(newState.loadingParentFacilities).to.be.true;
+    });
+    it('should return eligibility error flag', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [],
+          },
+        },
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '160',
+            facilityType: 'vamc',
+            vaParent: '983',
+          },
+          facilities: {},
+          eligibility: {},
+          parentFacilities: [{}],
+          facilityDetails: {},
+          eligibilityStatus: 'failed',
+        },
+      };
+
+      const newState = getFacilityPageInfo(state);
+      expect(newState.hasEligibilityError).to.be.true;
+    });
+    it('should return Cerner facilities', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: true },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '160',
+            facilityType: 'vamc',
+            vaParent: '983',
+          },
+          facilities: {},
+          eligibility: {},
+          parentFacilities: [{}],
+          facilityDetails: {},
+          eligibilityStatus: 'failed',
+        },
+      };
+
+      const newState = getFacilityPageInfo(state);
+      expect(newState.cernerFacilities).to.deep.equal(['123']);
     });
   });
 
@@ -109,13 +176,13 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '323',
             clinicId: '124',
-            vaSystem: '123',
-            vaFacility: '983',
+            vaParent: 'var123',
+            vaFacility: 'var983',
           },
           facilities: {
-            '323_123': [
+            '323_var123': [
               {
-                institutionCode: '983',
+                id: 'var983',
               },
             ],
           },
@@ -123,7 +190,7 @@ describe('VAOS selectors', () => {
       };
 
       expect(getChosenFacilityInfo(state)).to.equal(
-        state.newAppointment.facilities['323_123'][0],
+        state.newAppointment.facilities['323_var123'][0],
       );
     });
   });
@@ -156,26 +223,37 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '323',
             vaFacility: '688GB',
-            clinicId: '124',
+            clinicId: 'var688GB_124',
           },
           clinics: {
             '688GB_323': [
               {
-                clinicId: '123',
+                id: 'var688GB_123',
               },
               {
-                clinicId: '124',
+                id: 'var688GB_124',
               },
             ],
           },
         },
       };
       const clinic = getChosenClinicInfo(state);
-      expect(clinic.clinicId).to.equal(state.newAppointment.data.clinicId);
+      expect(clinic.id).to.equal(state.newAppointment.data.clinicId);
     });
   });
 
   describe('getTypeOfCare', () => {
+    it('get eye type of care', () => {
+      const data = {
+        typeOfCareId: 'EYE',
+        typeOfEyeCareId: '408',
+      };
+
+      const typeOfCare = getTypeOfCare(data);
+      expect(typeOfCare.id).to.equal('408');
+      expect(typeOfCare.name).to.equal('Optometry');
+    });
+
     it('get sleep type of care', () => {
       const data = {
         typeOfCareId: 'SLEEP',
@@ -272,12 +350,12 @@ describe('VAOS selectors', () => {
     it('should return available dates data and timezone', () => {
       const availableSlots = [
         {
-          date: '2019-10-24',
-          datetime: '2019-10-24T09:00:00-07:00',
+          start: '2019-10-24T09:00:00',
+          end: '2019-10-24T09:20:00',
         },
         {
-          date: '2019-10-24',
-          datetime: '2019-10-24T09:30:00-07:00',
+          start: '2019-10-24T09:30:00',
+          end: '2019-10-24T09:50:00',
         },
       ];
 
@@ -288,12 +366,32 @@ describe('VAOS selectors', () => {
           },
           data: {
             typeOfCareId: '323',
-            vaSystem: '983',
+            vaParent: 'var983',
+            vaFacility: 'var983',
           },
           eligibility: {
-            '983_323': {
+            // eslint-disable-next-line camelcase
+            var983_323: {
               request: true,
             },
+          },
+          parentFacilities: [
+            {
+              id: 'var983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
+            },
+          ],
+          facilities: {
+            '323_var983': [
+              {
+                id: 'var983',
+              },
+            ],
           },
           availableSlots,
         },
@@ -338,9 +436,15 @@ describe('VAOS selectors', () => {
       });
     });
   });
+
   describe('getCancelInfo', () => {
     it('should fetch facility in info', () => {
       const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
         appointments: {
           appointmentToCancel: {
             facility: {
@@ -348,7 +452,7 @@ describe('VAOS selectors', () => {
             },
           },
           facilityData: {
-            123: {},
+            var123: {},
           },
         },
       };
@@ -356,12 +460,91 @@ describe('VAOS selectors', () => {
       const cancelInfo = getCancelInfo(state);
 
       expect(cancelInfo.facility).to.equal(
-        state.appointments.facilityData['123'],
+        state.appointments.facilityData.var123,
+      );
+    });
+    it('should fetch facility from clinic map', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
+        appointments: {
+          appointmentToCancel: {
+            status: 'booked',
+            vaos: {
+              appointmentType: APPOINTMENT_TYPES.vaAppointment,
+              videoType: null,
+            },
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var123_456',
+                  display: 'Test',
+                },
+              },
+              {
+                actor: {
+                  reference: 'Location/var123',
+                  display: 'Facility name',
+                },
+              },
+            ],
+          },
+          facilityData: {
+            var123: {},
+          },
+        },
+      };
+
+      const cancelInfo = getCancelInfo(state);
+
+      expect(cancelInfo.facility).to.equal(
+        state.appointments.facilityData.var123,
+      );
+    });
+    it('should fetch facility from video appointment', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
+        appointments: {
+          appointmentToCancel: {
+            status: 'booked',
+            vaos: {
+              appointmentType: APPOINTMENT_TYPES.vaAppointment,
+            },
+            contained: [
+              {
+                location: {
+                  reference: 'Location/var123',
+                },
+              },
+              {
+                resourceType: 'HealthcareService',
+                characteristic: [{ coding: VIDEO_TYPES.videoConnect }],
+              },
+            ],
+          },
+          facilityData: {
+            var123: {},
+          },
+        },
+      };
+
+      const cancelInfo = getCancelInfo(state);
+
+      expect(cancelInfo.facility).to.equal(
+        state.appointments.facilityData.var123,
       );
     });
   });
+
   describe('getCCEType', () => {
-    it('should return cce type', () => {
+    it('should return cce type for Audiology', () => {
       const state = {
         appointment: {},
         newAppointment: {
@@ -372,6 +555,96 @@ describe('VAOS selectors', () => {
       };
       const cceType = getCCEType(state);
       expect(cceType).to.equal('Audiology');
+    });
+    it('should return cce type for Optometry', () => {
+      const state = {
+        appointment: {},
+        newAppointment: {
+          data: {
+            typeOfCareId: 'EYE',
+            typeOfEyeCareId: '408',
+          },
+        },
+      };
+      const cceType = getCCEType(state);
+      expect(cceType).to.equal('Optometry');
+    });
+  });
+
+  describe('isWelcomeModalDismissed', () => {
+    it('should return dismissed if key is in list', () => {
+      const state = {
+        announcements: {
+          dismissed: ['welcome-to-new-vaos'],
+        },
+      };
+      expect(isWelcomeModalDismissed(state)).to.be.true;
+    });
+    it('should not return dismissed if key is not in list', () => {
+      const state = {
+        announcements: {
+          dismissed: ['welcome-to-new-va'],
+        },
+      };
+      expect(isWelcomeModalDismissed(state)).to.be.false;
+    });
+  });
+
+  describe('selectIsCernerOnlyPatient', () => {
+    it('should return true if Cerner only', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
+      };
+      expect(selectIsCernerOnlyPatient(state)).to.be.true;
+    });
+    it('should return false if not Cerner only', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: true },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+      expect(selectIsCernerOnlyPatient(state)).to.be.false;
+    });
+  });
+
+  describe('selectCernerFacilities', () => {
+    it('should return collection of cerner facilities', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: true },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+
+      expect(selectCernerFacilities(state).length).to.be.equal(1);
+    });
+
+    it('should return empty collection of cerner facilities', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: false },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+
+      expect(selectCernerFacilities(state).length).to.be.equal(0);
     });
   });
 });

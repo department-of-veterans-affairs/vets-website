@@ -13,10 +13,8 @@ const IS_STAGING = document.location.hostname === 'staging.vets.gov';
 
 class AppointmentsWidget extends React.Component {
   componentDidMount() {
-    if (!IS_PRODUCTION && !IS_STAGING) {
-      if (!this.props.loading) {
-        this.props.fetchAppointments();
-      }
+    if (!IS_PRODUCTION && !IS_STAGING && !this.props.loading) {
+      this.props.fetchAppointments();
     }
   }
 

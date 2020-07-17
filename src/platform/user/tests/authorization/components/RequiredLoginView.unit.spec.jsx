@@ -105,10 +105,8 @@ describe('<RequiredLoginView>', () => {
     verifyUrl: 'http://fake-verify-url',
   };
 
-  class TestChildComponent extends React.Component {
-    render() {
-      return <div>Child Component {this.props.name}</div>;
-    }
+  function TestChildComponent({ name }) {
+    return <div>Child Component {name}</div>;
   }
 
   function setup(props = {}) {

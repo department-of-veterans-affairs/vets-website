@@ -1,4 +1,4 @@
-import environment from '../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 import manifest from './manifest.json';
 
 export const api = {

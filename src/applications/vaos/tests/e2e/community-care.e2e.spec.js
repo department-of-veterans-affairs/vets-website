@@ -18,6 +18,7 @@ module.exports = {
       client,
       '/health-care/schedule-view-va-appointments/appointments/',
       3,
+      VAOSHelpers.getUserDataWithFacilities(),
     ).waitForElementVisible('#appointments-list', Timeouts.slow);
     // .axeCheck('.main');
   },
@@ -46,7 +47,7 @@ module.exports = {
   },
   'Share your community care provider preferences': client => {
     client
-      .selectRadio('root_communityCareSystemId', '983')
+      .selectRadio('root_communityCareSystemId', 'var983')
       .selectDropdown('root_preferredLanguage', 'english')
       .selectYesNo('root_hasCommunityCareProvider', true)
       .waitForElementPresent(

@@ -7,8 +7,8 @@ const noAddressBanner = (
         We don't have a valid address on file for you
       </h3>
       <div className="usa-alert-text">
-        You'll need to update your address before you can view and download your
-        VA letters or documents.
+        You'll need to <a href="/profile">update your address</a> before you can
+        view and download your VA letters or documents.
       </div>
     </div>
   </div>

@@ -50,6 +50,7 @@ const pageKey = 'clinicChoice';
 export class ClinicChoicePage extends React.Component {
   componentDidMount() {
     this.props.openClinicPage(pageKey, uiSchema, initialSchema);
+    scrollAndFocus();
   }
 
   componentDidUpdate(oldProps) {
@@ -156,6 +157,7 @@ export class ClinicChoicePage extends React.Component {
             onBack={this.goBack}
             disabled={usingUnsupportedRequestFlow}
             pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
           />
         </SchemaForm>
       </div>

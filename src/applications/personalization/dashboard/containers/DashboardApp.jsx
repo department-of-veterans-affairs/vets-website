@@ -6,7 +6,10 @@ import { withRouter } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { selectProfile } from 'platform/user/selectors';
+import {
+  selectProfile,
+  selectPatientFacilities,
+} from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { focusElement } from 'platform/utilities/ui';
@@ -17,8 +20,14 @@ import {
   hasServerError as hasESRServerError,
   isEnrolledInVAHealthCare,
 } from 'applications/hca/selectors';
+import { selectShowProfile2 } from 'applications/personalization/profile-2/selectors';
 
 import { recordDashboardClick } from '../helpers';
+import {
+  COVID19Alert,
+  eligibleHealthSystems,
+  showCOVID19AlertSelector,
+} from '../covid-19';
 
 import YourApplications from './YourApplications';
 import ManageYourVAHealthCare from '../components/ManageYourVAHealthCare';
@@ -84,10 +93,10 @@ const EmptyStateLinks = () => (
         >
           <h4 className="va-nav-linkslist-title">Careers and employment</h4>
           <p className="va-nav-linkslist-description">
-            Find out if you're eligible for Vocational Rehabilitation and
-            Employment (VR&E) services, get support for your Veteran-owned small
-            business, and access other resources to help build your career
-            skills and find a job.
+            Find out if you're eligible for Veteran Readiness and Employment
+            (VR&E) services, get support for your Veteran-owned small business,
+            and access other resources to help build your career skills and find
+            a job.
           </p>
         </a>
       </li>
@@ -177,6 +186,26 @@ const ManageYourAccount = () => (
         )}
       >
         View your account settings
+      </a>
+    </p>
+  </>
+);
+
+const ViewYourProfile2 = () => (
+  <>
+    <h2>View your profile</h2>
+    <p>
+      Go to your profile to view the information you need to manage your VA
+      benefits. You can make updates to your personal, military, and financial
+      information, as well as update your account settings to access more online
+      tools and services.
+      <br />
+      <a
+        className="usa-button-primary"
+        href={profileManifest.rootUrl}
+        onClick={recordDashboardClick('view-your-profile', 'view-button')}
+      >
+        Go to your profile
       </a>
     </p>
   </>
@@ -297,8 +326,11 @@ class DashboardApp extends React.Component {
       canAccessMessaging,
       canAccessAppeals,
       profile,
+      showCOVID19Alert,
       showManageYourVAHealthCare,
+      showProfile2,
       showServerError,
+      vaHealthChatEligibleSystemId,
     } = this.props;
     const availableWidgetsCount = [
       canAccessClaims,
@@ -319,6 +351,10 @@ class DashboardApp extends React.Component {
           </p>
         </div>
 
+        {showCOVID19Alert && (
+          <COVID19Alert facilityId={vaHealthChatEligibleSystemId} />
+        )}
+
         {showServerError && <ESRError errorType={ESR_ERROR_TYPES.generic} />}
 
         <PreferencesWidget />
@@ -336,8 +372,15 @@ class DashboardApp extends React.Component {
 
         {showManageYourVAHealthCare && <ManageYourVAHealthCare />}
         <ManageBenefitsOrRequestRecords />
-        <ViewYourProfile />
-        <ManageYourAccount />
+
+        {!showProfile2 && (
+          <>
+            <ViewYourProfile />
+            <ManageYourAccount />
+          </>
+        )}
+
+        {showProfile2 && <ViewYourProfile2 />}
       </>
     );
 
@@ -353,8 +396,9 @@ class DashboardApp extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   const profileState = selectProfile(state);
+  const showProfile2 = selectShowProfile2(state);
   const canAccessRx = profileState.services.includes(backendServices.RX);
   const canAccessMessaging = profileState.services.includes(
     backendServices.MESSAGING,
@@ -366,6 +410,18 @@ const mapStateToProps = state => {
     backendServices.EVSS_CLAIMS,
   );
   const showServerError = hasESRServerError(state);
+  // Just the patient's facilities that are eligible for VA Health Chat:
+  const eligibleFacilities =
+    selectPatientFacilities(state)?.filter(facility =>
+      eligibleHealthSystems.has(facility.facilityId),
+    ) || [];
+  // The system ID of the first eligible facility
+  const vaHealthChatEligibleSystemId = eligibleFacilities.length
+    ? eligibleFacilities[0].facilityId
+    : null;
+
+  const showCOVID19Alert =
+    !!showCOVID19AlertSelector(state) && !!vaHealthChatEligibleSystemId;
 
   return {
     canAccessRx,
@@ -373,9 +429,12 @@ const mapStateToProps = state => {
     canAccessAppeals,
     canAccessClaims,
     profile: profileState,
+    showProfile2,
     showManageYourVAHealthCare:
       isEnrolledInVAHealthCare(state) || canAccessRx || canAccessMessaging,
     showServerError,
+    showCOVID19Alert,
+    vaHealthChatEligibleSystemId,
   };
 };
 

@@ -1,12 +1,34 @@
+const moment = require('moment');
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./pensions-helpers');
-const testData = require('./schema/maximal-test.json');
+const rawTestData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../platform/testing/e2e/form-helpers');
+
+/**
+ * Updates the test data to account for moving dates.
+ *
+ * Mutates the object. (But sneakily.)
+ *
+ * The alternative to this function is making the test data a JS file instead of
+ * JSON.
+ */
+const updateTestData = data => {
+  const d = Object.assign({}, data);
+  d.data.dependents[0].childDateOfBirth = moment()
+    .subtract(20, 'years')
+    .format('YYYY-MM-DD');
+  d.data.dependents[1].childDateOfBirth = moment()
+    .subtract(27, 'years')
+    .format('YYYY-MM-DD');
+  return d;
+};
 
 const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
   PageHelpers.initDocumentUploadMock();
+
+  const testData = updateTestData(rawTestData);
 
   // Ensure introduction page renders.
   client

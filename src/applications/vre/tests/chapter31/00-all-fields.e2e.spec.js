@@ -3,6 +3,8 @@ const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./vre-ch31-helpers');
 const testData = require('../chapter31/schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const manifest = require('../../chapter36/manifest.json');
+const environments = require('../../../../site/constants/environments');
 
 const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
@@ -163,4 +165,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
 });
 
 module.exports = runTest;
-module.exports['@disabled'] = true;
+
+// TODO: Remove this when CI builds temporary landing pages to run e2e tests
+module.exports['@disabled'] =
+  manifest.e2eTestsDisabled && process.env.BUILDTYPE !== environments.LOCALHOST;

@@ -5,6 +5,8 @@ import * as Sentry from '@sentry/browser';
 import createCommonStore from 'platform/startup/store';
 import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import './analytics';
 import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
@@ -15,15 +17,27 @@ import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
-import renderHomepageBanner from './renderHomepageBanner';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
-} from '../find-va-forms/createFindVaForms';
-import createHigherLevelReviewApplicationStatus from '../../applications/disability-benefits/996/components/createHLRApplicationStatus';
+} from '../find-forms/createFindVaForms';
+import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
+import createPost911GiBillStatusWidget, {
+  post911GIBillStatusReducer,
+} from '../post-911-gib-status/createPost911GiBillStatusWidget';
+
+import create686ContentReveal from './view-modify-dependent/686-cta/create686CcontentReveal.js';
+import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
+
+// Health Care | Manage Benefits widgets.
+import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
+import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
+import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
+import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging-page';
+import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-test-and-lab-results-page';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -37,11 +51,14 @@ import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import facilityReducer from './facilities/reducers';
 import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
+import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
+
 // School resources widgets
 import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
+import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -52,6 +69,7 @@ Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 const store = createCommonStore({
   ...facilityReducer,
   ...findVaFormsWidgetReducer,
+  ...post911GIBillStatusReducer,
 });
 
 Sentry.withScope(scope => {
@@ -115,10 +133,36 @@ createScoEventsWidget();
 createScoAnnouncementsWidget();
 
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
+createPost911GiBillStatusWidget(
+  store,
+  widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
+);
+
+createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
+
+createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
+create686ContentReveal(store, widgetTypes.FORM_686_CONTENT_REVEAL);
+
+createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
+
+// Create Health Care | Manage Benefits widgets.
+createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
+createRefillTrackPrescriptionsPage(
+  store,
+  widgetTypes.REFILL_TRACK_PRESCRIPTIONS_PAGE,
+);
+createScheduleViewVAAppointmentsPage(
+  store,
+  widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
+);
+createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
+createViewTestAndLabResultsPage(
+  store,
+  widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
+);
 
 // homepage widgets
 if (location.pathname === '/') {
-  renderHomepageBanner();
   createMyVALoginWidget(store);
 }
 

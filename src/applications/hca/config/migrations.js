@@ -35,8 +35,8 @@ export default [
 
     if (newData.children) {
       newData = _.unset('children', newData);
-      newData.dependents = formData.children.map(child => {
-        const dependent = Object.keys(child).reduce((acc, field) => {
+      newData.dependents = formData.children.map(child =>
+        Object.keys(child).reduce((acc, field) => {
           if (field === 'view:childSupportDescription') {
             acc['view:dependentSupportDescription'] = child[field];
           } else if (field === 'childEducationExpenses') {
@@ -53,10 +53,8 @@ export default [
           }
 
           return acc;
-        }, {});
-
-        return dependent;
-      });
+        }, {}),
+      );
     }
 
     return { formData: newData, metadata };

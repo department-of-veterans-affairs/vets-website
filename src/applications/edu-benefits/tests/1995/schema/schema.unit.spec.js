@@ -20,7 +20,7 @@ describe('1995 schema tests', () => {
       const result = v.validate(JSON.parse(submitData), fullSchema1995);
 
       if (!result.valid) {
-        console.log(result.errors); // eslint-disable-line
+        console.log(result.errors); // eslint-disable-line no-console
       }
       expect(result.valid).to.be.true;
     });

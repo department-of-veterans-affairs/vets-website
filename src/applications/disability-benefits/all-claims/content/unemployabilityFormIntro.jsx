@@ -6,7 +6,9 @@ export const unemployabilityTitle = (
   </legend>
 );
 
-export const unemployabilityPageTitle = title => <h4>{title}</h4>;
+export const unemployabilityPageTitle = title => (
+  <h3 className="vads-u-font-size--h4">{title}</h3>
+);
 
 export const introDescription = (
   <div>
@@ -20,7 +22,7 @@ export const introDescription = (
       <ol>
         <li className="process-step list-one">
           <div>
-            <h5>Answer questions</h5>
+            <h3>Answer questions</h3>
             <p>
               First, we’ll ask you questions about your situation and how your
               service-connected disability prevents you from holding down a
@@ -34,7 +36,7 @@ export const introDescription = (
         </li>
         <li className="process-step list-two">
           <div>
-            <h5>Send former employers a request for information form</h5>
+            <h3>Send former employers a request for information form</h3>
             <p>
               Then, we’ll ask you to send each of your former employers a form
               to fill out verifying your past work. You’ll be able to download

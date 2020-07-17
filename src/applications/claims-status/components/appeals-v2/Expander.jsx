@@ -22,7 +22,7 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
   const alert = expanded && missingEvents ? missingEventsAlert : null;
 
   return (
-    // eslint-disable-next-line
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <li
       className={`past-events-expander process-step clickable ${cssClass}`}
       onClick={onToggle}

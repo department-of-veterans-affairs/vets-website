@@ -10,7 +10,7 @@
     "veteranSocialSecurityNumber": "123333333",
     "view:noSSN": true,
     "vaFileNumber": "C12345678",
-    "benefit": "chapter30",
+    "benefit": "chapter33",
     "toursOfDuty": [
       {
         "serviceBranch": "Army",
@@ -79,6 +79,7 @@
       "accountType": "checking",
       "accountNumber": "1234344",
       "routingNumber": "114923756"
-    }
+    },
+    "view:determineEligibility": {}
   }
 }

@@ -1,12 +1,13 @@
 export const pageNames = {
   start: 'start',
-  originalClaim: 'original-claim',
-  fileOriginalClaim: 'file-original-claim',
   appeals: 'appeals',
   bdd: 'bdd',
+  fileBDD: 'file-bdd',
+  unableToFileBDD: 'unable-to-file-bdd',
+  unableToFileBDDProduction: 'unable-to-file-bdd-production',
   fileClaim: 'file-claim',
+  fileClaimEarly: 'file-claim-early',
   disagreeing: 'disagreeing',
   decisionReview: 'decision-review',
-  fileAppeal: 'file-appeal',
   disagreeFileClaim: 'disagree-file-claim',
 };

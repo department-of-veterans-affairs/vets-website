@@ -78,3 +78,56 @@ export function timeFromNow(date, userFromDate = null) {
 export function isValidDateString(dateString) {
   return !isNaN(Date.parse(dateString));
 }
+
+const monthIndices = {
+  JAN: 0,
+  FEB: 1,
+  MAR: 2,
+  APR: 3,
+  MAY: 4,
+  JUN: 5,
+  JUL: 6,
+  AUG: 7,
+  SEP: 8,
+  OCT: 9,
+  NOV: 10,
+  DEC: 11,
+};
+
+const LONG_FORM_MONTHS = [
+  monthIndices.MAR,
+  monthIndices.APR,
+  monthIndices.MAY,
+  monthIndices.JUN,
+  monthIndices.JUL,
+];
+
+/**
+ * Formats the given date-time into a string that is intended for use in
+ * downtime notifications
+ *
+ * @param {string} dateTime The date-time as a moment or string in Eastern time
+ * @returns {string} The formatted date-time string
+ */
+export const formatDowntime = dateTime => {
+  const dtMoment = moment.parseZone(dateTime);
+  const dtHour = dtMoment.hour();
+  const dtMinute = dtMoment.minute();
+
+  const monthFormat = LONG_FORM_MONTHS.includes(dtMoment.month())
+    ? 'MMMM'
+    : 'MMM';
+
+  let timeFormat;
+
+  if (dtHour === 0 && dtMinute === 0) {
+    timeFormat = '[midnight]';
+  } else if (dtHour === 12 && dtMinute === 0) {
+    timeFormat = '[noon]';
+  } else {
+    const amPmFormat = dtHour < 12 ? '[a.m.]' : '[p.m.]';
+    timeFormat = `h:mm ${amPmFormat}`;
+  }
+
+  return dtMoment.format(`${monthFormat} D [at] ${timeFormat} [ET]`);
+};

@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import PropTypes from 'prop-types';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import { AccountModal } from './AccountModal';
 

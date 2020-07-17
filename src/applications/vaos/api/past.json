@@ -8,6 +8,7 @@
         "clinicId": "455",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983",
         "communityCare": false,
         "vdsAppointments": [
           {
@@ -34,6 +35,7 @@
         "clinicId": "308",
         "clinicFriendlyName": null,
         "facilityId": "983",
+        "sta6aid": "983GC",
         "communityCare": false,
         "vdsAppointments": [
           {

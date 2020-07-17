@@ -1,8 +1,11 @@
 import React from 'react';
+
 import CallToActionAlert from '../../CallToActionAlert';
 import { verify } from 'platform/user/authentication/utilities';
 
-const NotAuthorized = () => {
+function NotAuthorized({ useSSOe }) {
+  const authVersion = useSSOe ? 'v1' : 'v0';
+
   const content = {
     heading: 'Verify your identity to access more VA.gov tools and features',
     alertText: (
@@ -12,7 +15,10 @@ const NotAuthorized = () => {
           track your claims, refill your prescriptions, and download your VA
           benefit letters.
         </p>
-        <button className="usa-button-primary" onClick={verify}>
+        <button
+          className="usa-button-primary"
+          onClick={() => verify(authVersion)}
+        >
           Verify Your Identity
         </button>
         <p>
@@ -26,6 +32,6 @@ const NotAuthorized = () => {
   };
 
   return <CallToActionAlert {...content} />;
-};
+}
 
 export default NotAuthorized;

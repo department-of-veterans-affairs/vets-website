@@ -1,3 +1,8 @@
+import {
+  updateSchemaAndData,
+  updateUiSchema,
+} from 'platform/forms-system/src/js/state/helpers';
+
 export const UPDATE_PROFILE_FORM_FIELD = 'UPDATE_PROFILE_FORM_FIELD';
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const UPDATE_SELECTED_ADDRESS = 'UPDATE_SELECTED_ADDRESS';
@@ -10,24 +15,27 @@ export const openModal = (modal, modalData = null) => ({
 
 export const closeModal = () => ({ type: OPEN_MODAL });
 
-export const updateFormField = (
+export const updateFormFieldWithSchema = (
   fieldName,
-  convertNextValueToCleanData,
-  validateCleanData,
   value,
-  property,
-  skipValidation = false,
+  schema = null,
+  uiSchema = null,
 ) => {
-  const cleanValue = convertNextValueToCleanData(value);
-  const validations = skipValidation
-    ? {}
-    : validateCleanData(cleanValue, property);
+  const newUiSchema = updateUiSchema(uiSchema, value);
+  const { data, schema: newSchema } = updateSchemaAndData(
+    schema,
+    uiSchema,
+    value,
+    true,
+  );
+
   return {
     type: UPDATE_PROFILE_FORM_FIELD,
     field: fieldName,
     newState: {
-      value: cleanValue,
-      validations,
+      value: data,
+      formSchema: newSchema,
+      uiSchema: newUiSchema,
     },
   };
 };

@@ -1,0 +1,6 @@
+// This is to get rid of the info alertbox `i` icon
+.usa-alert {
+  &:before {
+    display: none;
+  }
+}

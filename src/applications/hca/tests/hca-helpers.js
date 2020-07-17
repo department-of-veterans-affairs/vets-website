@@ -345,11 +345,11 @@ function completeEntireForm(client, data) {
   client.click('.form-panel .usa-button-primary');
   completeMilitaryService(client, data);
   client.click('.form-panel .usa-button-primary');
-  completeAdditionalInformation(client, data);
+  completeAdditionalInformation(client);
   client.click('.form-panel .usa-button-primary');
   completeVaBenefits(client, data);
   client.click('.form-panel .usa-button-primary');
-  completeFinancialDisclosure(client, data);
+  completeFinancialDisclosure(client);
   client.click('.form-panel .usa-button-primary');
   completeSpouseInformation(client, data);
   client.click('.form-panel .usa-button-primary');

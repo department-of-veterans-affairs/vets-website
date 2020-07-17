@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import { AddressViewField } from '../utils';
+import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 
 const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const midBreakpoint = -7;

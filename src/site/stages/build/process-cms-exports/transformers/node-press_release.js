@@ -1,4 +1,5 @@
 const moment = require('moment');
+const { mapKeys, camelCase } = require('lodash');
 
 const {
   createMetaTagArray,
@@ -15,32 +16,16 @@ const transform = entity => ({
   entityUrl: {
     path: entity.path[0].alias,
   },
-  fieldAddress: {
-    locality: entity.fieldAddress[0].locality,
-    // The things in fieldAddress don't get camelCased
-    administrativeArea: entity.fieldAddress[0].administrative_area,
-  },
+  fieldAddress: entity.fieldAddress[0]
+    ? mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k))
+    : null,
 
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldOffice: entity.fieldOffice[0],
+  fieldOffice: (entity.fieldOffice && entity.fieldOffice[0]) || null,
   fieldPdfVersion: entity.fieldPdfVersion[0] || null,
-  fieldPressReleaseContact: entity.fieldPressReleaseContact[0]
-    ? [
-        {
-          entity: {
-            title: `${entity.fieldPressReleaseContact[0].fieldNameFirst} ${
-              entity.fieldPressReleaseContact[0].fieldLastName
-            }`,
-            fieldDescription:
-              entity.fieldPressReleaseContact[0].fieldDescription,
-            fieldPhoneNumber:
-              entity.fieldPressReleaseContact[0].fieldPhoneNumber,
-            fieldEmailAddress:
-              entity.fieldPressReleaseContact[0].fieldEmailAddress,
-          },
-        },
-      ]
-    : [],
+  fieldPressReleaseContact: entity.fieldPressReleaseContact.map(i => ({
+    entity: i,
+  })),
   fieldPressReleaseDownloads: entity.fieldPressReleaseDownloads,
   fieldPressReleaseFulltext: {
     processed: getWysiwygString(

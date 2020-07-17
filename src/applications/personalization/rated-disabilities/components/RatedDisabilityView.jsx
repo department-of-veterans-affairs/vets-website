@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import RatedDisabilityList from './RatedDisabilityList';
 import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
 import RatedDisabilitiesSidebar from '../components/RatedDisabilitiesSidebar';
@@ -94,37 +93,11 @@ class RatedDisabilityView extends React.Component {
     }
 
     return (
-      <div>
-        <div className="medium-screen:vads-u-padding-left--1p5 large-screen:vads-u-padding-left--6">
-          <Breadcrumbs>
-            {[
-              <a href="/" aria-label="back to VA Home page" key="1">
-                Home
-              </a>,
-              <a
-                href="/disability"
-                aria-label="Back to the Disability Benefits page"
-                key="2"
-              >
-                Disability Benefits
-              </a>,
-              <a
-                href="/disability/check-disability-rating"
-                aria-label="back to the view your VA disability rating page"
-                key="3"
-              >
-                View your VA disability rating
-              </a>,
-              <a href="/disability/check-disability-rating/rating" key="4">
-                Your VA disability rating
-              </a>,
-            ]}
-          </Breadcrumbs>
-        </div>
+      <>
         <div className="vads-l-grid-container">
           <div className="vads-l-row">{content}</div>
         </div>
-      </div>
+      </>
     );
   }
 }

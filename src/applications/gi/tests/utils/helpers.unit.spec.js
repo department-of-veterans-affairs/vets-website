@@ -9,6 +9,8 @@ import {
   isCountryInternational,
   rubyifyKeys,
   sortOptionsByStateName,
+  formatDollarAmount,
+  handleScrollOnInputFocus,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -30,9 +32,6 @@ describe('GIBCT helpers:', () => {
   describe('isVetTecSelected', () => {
     it('should recognize VET TEC', () => {
       expect(isVetTecSelected({ category: 'vettec' })).to.be.true;
-    });
-    it('should recognize vetTecProvider flag', () => {
-      expect(isVetTecSelected({ vetTecProvider: true })).to.be.true;
     });
   });
 
@@ -75,13 +74,6 @@ describe('GIBCT helpers:', () => {
       };
       expect(rubyifyKeys(data)).to.have.key('test_key');
     });
-
-    it('should properly suffix keys for array fields', () => {
-      const data = {
-        testKey: ['a', 'b'],
-      };
-      expect(rubyifyKeys(data)).to.have.key('test_key[]');
-    });
   });
 
   describe('sortOptionsByStateName', () => {
@@ -101,6 +93,27 @@ describe('GIBCT helpers:', () => {
         { value: 'CA', label: 'California' },
       ];
       expect(data.sort(sortOptionsByStateName)).to.deep.equal(sortedData);
+    });
+  });
+
+  describe('formatDollarAmount', () => {
+    const data = 100.5;
+    expect(formatDollarAmount(data)).to.equal('$101');
+  });
+
+  describe('handleScrollOnInputFocus', () => {
+    const mainDiv = document.createElement('div');
+    let scrolledIntoViewIsCalled = false;
+    mainDiv.id = 'test';
+    mainDiv.scrollIntoView = () => {
+      scrolledIntoViewIsCalled = true;
+    };
+
+    it('should scrollIntoView', () => {
+      window.innerWidth = 480;
+      document.body.appendChild(mainDiv);
+      handleScrollOnInputFocus('test');
+      expect(scrolledIntoViewIsCalled).to.be.true;
     });
   });
 });

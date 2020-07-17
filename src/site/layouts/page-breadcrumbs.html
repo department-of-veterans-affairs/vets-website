@@ -4,14 +4,6 @@
   {% include "src/site/includes/gibs-down.html" %}
 {% endif %}
 
-{% if appealsbanner %}
-  {% include "src/site/includes/appeals-banner.html" %}
-{% endif %}
-
-{% if decision_reviews_banner %}
-  {% include "src/site/includes/decision-reviews-banner.html" %}
-{% endif %}
-
 <div class="vads-l-grid-container large-screen:vads-u-padding-x--0">
   {% include "src/site/includes/breadcrumbs.html" newGrid=true %}
 </div>
@@ -24,18 +16,11 @@
   {% endif %}
 
   {% case template %}
-    {% when 'level2-index' %}
-      {% include "src/site/includes/level2-index.html" %}
-
     {% when 'detail-page' %}
       {% include "src/site/includes/detail-page.html" %}
 
-    {% when 'topic-landing' %}
-      {% include "src/site/includes/topic-landing.html" %}
-
     {% when 'education-sco' %}
       {% include "src/site/includes/education-sco.html" %}
-
   {% else %}
     {{ contents }}
   {% endcase %}

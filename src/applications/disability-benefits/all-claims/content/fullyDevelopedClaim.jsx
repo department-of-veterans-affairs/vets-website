@@ -1,8 +1,11 @@
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export const FDCDescription = (
   <div>
-    <h5>Fully developed claim program</h5>
+    <h3 className="vads-u-font-size--h5">Fully developed claim program</h3>
     <p>
       You can apply using the Fully Developed Claim (FDC) program if you’ve
       uploaded all the supporting documents or additional forms needed to
@@ -57,7 +60,7 @@ export const noFDCWarning = (
           </li>
           <li>
             Call Veterans Benefits Assistance at{' '}
-            <a href="tel:1-800-827-1000">800-827-1000</a>, Monday – Friday, 8:30
+            <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday – Friday, 8:30
             a.m. – 4:30 p.m. ET.
           </li>
           <li>

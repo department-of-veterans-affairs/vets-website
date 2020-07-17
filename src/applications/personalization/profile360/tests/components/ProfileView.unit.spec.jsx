@@ -18,6 +18,7 @@ describe('<ProfileView/>', () => {
       profile: {},
       downtimeData: {},
       message: {},
+      directDepositIsBlocked: false,
     };
   });
 
@@ -27,6 +28,12 @@ describe('<ProfileView/>', () => {
     expect(wrapper.find('ContactInformation')).to.have.lengthOf(1);
     expect(wrapper.find('PersonalInformation')).to.have.lengthOf(1);
     expect(wrapper.find('MilitaryInformation')).to.have.lengthOf(1);
+    wrapper.unmount();
+  });
+
+  it('should render BreadCrumbs', () => {
+    const wrapper = enzyme.shallow(<ProfileView {...props} />);
+    expect(wrapper.find('Breadcrumbs')).to.have.lengthOf(1);
     wrapper.unmount();
   });
 
@@ -44,5 +51,21 @@ describe('<ProfileView/>', () => {
     expect(wrapper.find('MVIError')).to.have.lengthOf(1);
     expect(wrapper.find('Hero')).to.have.lengthOf(0);
     wrapper.unmount();
+  });
+
+  describe('Blocked from Direct Deposit alert', () => {
+    it('should not be shown when `directDepositIsBlocked` is not `true`', () => {
+      const wrapper = enzyme.shallow(<ProfileView {...props} />);
+      expect(wrapper.find('PaymentInformationBlocked')).to.have.lengthOf(0);
+      expect(wrapper.find('Hero')).to.have.lengthOf(1);
+      wrapper.unmount();
+    });
+    it('should be shown when `directDepositIsBlocked` is `true`', () => {
+      props.directDepositIsBlocked = true;
+      const wrapper = enzyme.shallow(<ProfileView {...props} />);
+      expect(wrapper.find('PaymentInformationBlocked')).to.have.lengthOf(1);
+      expect(wrapper.find('Hero')).to.have.lengthOf(1);
+      wrapper.unmount();
+    });
   });
 });

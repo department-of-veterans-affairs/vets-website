@@ -7,7 +7,9 @@ import {
   FETCH_BAH_FAILED,
   FETCH_BAH_STARTED,
   FETCH_BAH_SUCCEEDED,
+  FETCH_PROFILE_STARTED,
   FETCH_PROFILE_SUCCEEDED,
+  UPDATE_ESTIMATED_BENEFITS,
 } from '../actions';
 
 const beneficiaryZIPRegExTester = /^\d{1,5}$/;
@@ -40,7 +42,23 @@ const INITIAL_STATE = {
   vetTecTuitionFees: null,
   vetTecScholarships: null,
   vetTecProgramName: '',
+  selectedProgram: '',
   classesOutsideUS: false,
+  estimatedBenefits: {
+    bookStipend: { visible: false },
+    giBillPaysToSchool: { visible: false },
+    housingAllowance: { visible: false },
+    outOfPocketTuition: { visible: false },
+    totalPaidToYou: { visible: false },
+    tuitionAndFeesCharged: { visible: false },
+    yourScholarships: { visible: false },
+    perTerm: {
+      tuitionFees: { visible: false },
+      yellowRibbon: { visible: false },
+      housingAllowance: { visible: false },
+      bookStipend: { visible: false },
+    },
+  },
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -69,6 +87,17 @@ export default function(state = INITIAL_STATE, action) {
       let newState = {
         [field]: convertedValue,
       };
+
+      if (field === 'EstimateYourBenefitsFields') {
+        newState = {
+          ...newState,
+          vetTecProgramName: value.vetTecProgramName,
+          vetTecTuitionFees: value.vetTecTuitionFees,
+          vetTecScholarships: value.vetTecScholarships,
+          vetTecProgramFacilityCode: value.vetTecProgramFacilityCode,
+          selectedProgram: value.vetTecProgramName,
+        };
+      }
 
       if (field === 'vetTecProgram') {
         newState = {
@@ -169,7 +198,7 @@ export default function(state = INITIAL_STATE, action) {
       // institution and zipcode_rates endpoints both return this generic error
       const errorMessage =
         error.message === 'Record not found'
-          ? 'No rates for this zip code found. Try another zip code'
+          ? 'No rates for this postal code found. Try another postal code'
           : 'Something went wrong. Try again';
 
       // response mismatch - do nothing
@@ -244,7 +273,7 @@ export default function(state = INITIAL_STATE, action) {
         beneficiaryZIP !== '' &&
         !beneficiaryZIPRegExTester.exec(beneficiaryZIP)
       ) {
-        beneficiaryZIPError = 'Zip code must be a 5-digit number';
+        beneficiaryZIPError = 'Postal code must be a 5-digit number';
       } else {
         beneficiaryZIPError = '';
       }
@@ -261,6 +290,13 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         ...newState,
+      };
+    }
+
+    case FETCH_PROFILE_STARTED: {
+      return {
+        ...state,
+        selectedProgram: INITIAL_STATE.selectedProgram,
       };
     }
 
@@ -368,6 +404,14 @@ export default function(state = INITIAL_STATE, action) {
         yellowRibbonProgramIndex,
         vetTecProgramName,
         vetTecTuitionFees,
+      };
+    }
+
+    case UPDATE_ESTIMATED_BENEFITS: {
+      const { estimatedBenefits } = action;
+      return {
+        ...state,
+        estimatedBenefits,
       };
     }
 

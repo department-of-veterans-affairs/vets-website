@@ -5,39 +5,49 @@ import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
 import NavItemRow from '../../components/NavItemRow';
+import sinon from 'sinon';
 
 describe('<NavItemRow>', () => {
-  it('should render a button tag when there are child nav items.', () => {
-    const noop = () => {};
+  const trackEventsSpy = sinon.spy();
 
-    const item = {
-      description: 'Some description',
-      expanded: true,
-      hasChildren: true,
-      href: '/pittsburgh-health-care',
-      id: uniqueId('sidenav_'),
-      isSelected: true,
-      label: 'Location',
-      order: 0,
-      parentID: uniqueId('sidenav_'),
-    };
+  const itemWithChildren = {
+    description: 'Some description',
+    expanded: true,
+    hasChildren: true,
+    href: '/pittsburgh-health-care',
+    id: uniqueId('sidenav_'),
+    isSelected: true,
+    label: 'Location',
+    order: 0,
+    parentID: uniqueId('sidenav_'),
+  };
 
-    const defaultProps = {
-      depth: 2,
-      item,
-      toggleItemExpanded: noop,
-    };
+  const defaultProps = (item = itemWithChildren) => ({
+    depth: 2,
+    item,
+    trackEvents: trackEventsSpy,
+  });
 
-    const wrapper = shallow(<NavItemRow {...defaultProps} />);
-    expect(wrapper.exists('button')).to.equal(true);
-    expect(wrapper.exists('a')).to.equal(false);
+  beforeEach(() => {
+    trackEventsSpy.reset();
+  });
+
+  it('should fire trackEvents when href clicked', () => {
+    const wrapper = shallow(<NavItemRow {...defaultProps()} />);
+    expect(trackEventsSpy.called).to.equal(false);
+    wrapper.find('a').simulate('click');
+    expect(trackEventsSpy.calledOnce).to.equal(true);
     wrapper.unmount();
   });
 
-  it('should render an anchor tag when there are child nav items.', () => {
-    const noop = () => {};
+  it('should render a hyperlink tag only when there are child nav items.', () => {
+    const wrapper = shallow(<NavItemRow {...defaultProps()} />);
+    expect(wrapper.exists('a')).to.equal(true);
+    wrapper.unmount();
+  });
 
-    const item = {
+  it('should render a hyperlink tag when there are not child nav items.', () => {
+    const itemWithoutChildren = {
       description: 'Some description',
       expanded: true,
       hasChildren: false,
@@ -49,14 +59,9 @@ describe('<NavItemRow>', () => {
       parentID: uniqueId('sidenav_'),
     };
 
-    const defaultProps = {
-      depth: 2,
-      item,
-      toggleItemExpanded: noop,
-    };
-
-    const wrapper = shallow(<NavItemRow {...defaultProps} />);
-    expect(wrapper.exists('button')).to.equal(false);
+    const wrapper = shallow(
+      <NavItemRow {...defaultProps(itemWithoutChildren)} />,
+    );
     expect(wrapper.exists('a')).to.equal(true);
     wrapper.unmount();
   });

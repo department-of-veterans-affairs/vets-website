@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
-import { months } from '../../../platform/static-data/options-for-select.js';
-import { focusElement } from '../../../platform/utilities/ui';
+import { months } from 'platform/static-data/options-for-select.js';
+import { focusElement } from 'platform/utilities/ui';
 import {
   questionLabels,
   prevApplicationYearCutoff,
@@ -36,7 +36,7 @@ class FormQuestions extends React.Component {
       const el = this.props.formValues.questions.slice(-1)[0];
       scroller.scrollTo(
         el,
-        window.VetsGov.scroll || {
+        window.VetsGov?.scroll || {
           duration: 1000,
           smooth: true,
         },
@@ -80,7 +80,7 @@ class FormQuestions extends React.Component {
 
     scroller.scrollTo(
       e.target.name,
-      window.VetsGov.scroll || {
+      window.VetsGov?.scroll || {
         duration: 1000,
         smooth: true,
         offset: -150,

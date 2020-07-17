@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash/fp';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { getUserPhaseDescription } from '../utils/helpers';
 
 const stepClasses = {
@@ -167,7 +167,7 @@ export default class ClaimPhase extends React.Component {
   render() {
     const { phase, current, children } = this.props;
     const expandCollapseIcon =
-      phase <= current && phase !== COMPLETE_PHASE ? (
+      phase <= current ? (
         <i
           aria-hidden="true"
           className={
@@ -179,21 +179,25 @@ export default class ClaimPhase extends React.Component {
       ) : null;
 
     return (
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
       <li
-        onClick={() => this.expandCollapse()}
-        role="presentation"
+        onClick={e => {
+          e.preventDefault();
+          this.expandCollapse();
+        }}
         className={`${getClasses(phase, current)}`}
       >
         {expandCollapseIcon}
-        <h5 className="section-header">
+        <h3 className="section-header vads-u-font-size--h4">
           <button
             className="section-header-button"
             aria-expanded={this.state.open}
           >
             {getUserPhaseDescription(phase)}
           </button>
-        </h5>
-        {this.state.open || phase === COMPLETE_PHASE ? (
+        </h3>
+        {this.state.open ||
+        (current !== COMPLETE_PHASE && phase === COMPLETE_PHASE) ? (
           <div>
             {children}
             {this.displayActivity()}

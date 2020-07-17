@@ -19,11 +19,6 @@ export const findNextPage = state => {
   if (!date.isBefore(feb19, 'day')) {
     return pageNames.decisionReview;
   }
-  if (!date.isBefore(moment().subtract(1, 'year'), 'day')) {
-    // On Feb 19, 2020, this will be obsolete since the decision date will be either
-    //  on or after feb19 or over a year ago.
-    return pageNames.fileAppeal;
-  }
   return pageNames.disagreeFileClaim;
 };
 
@@ -53,7 +48,7 @@ const DisagreeingPage = ({ setPageState, state = defaultState }) => {
     );
   return (
     <ErrorableDate
-      label="What’s the official date of VA’s decision?"
+      label="What’s the date of VA’s decision?"
       onValueChange={onChange}
       name="decision-date"
       date={state}

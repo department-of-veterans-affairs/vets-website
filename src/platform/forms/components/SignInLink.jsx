@@ -12,7 +12,7 @@ class SignInLink extends React.Component {
   }
 
   // If the loggedIn status went from false to true, call onLogin()
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     const loginAttemptCompleted =
       this.props.showLoginModal === true &&

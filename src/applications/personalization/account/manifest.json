@@ -2,17 +2,5 @@
   "appName": "Account",
   "entryFile": "./account-entry.jsx",
   "entryName": "account",
-  "rootUrl": "/account",
-  "production": true,
-  "template": {
-    "title": "Your VA.gov Account",
-    "layout": "page-react.html",
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "path": "account/",
-        "name": "Your account settings"
-      }
-    ]
-  }
+  "rootUrl": "/account"
 }

@@ -11,20 +11,21 @@ function runEmailTest(
 ) {
   const fieldWrapper = `[data-field-name="${fieldName}"]`;
   const editButton = `${fieldWrapper} [data-action="edit"]`;
-  const editModal = `${fieldWrapper} #profile-edit-modal form[data-ready=true]`;
-  const emailInput = `${fieldWrapper} input[name=email]`;
+  const editForm = `${fieldWrapper} #profile-edit-modal form.rjsf`;
+  const emailInput = `${fieldWrapper} input[name=root_emailAddress]`;
   const saveEditButton = `${fieldWrapper} button[data-action="save-edit"]`;
-  const transactionPending = `${fieldWrapper} [data-transaction-pending]`;
 
   browser.assert.containsText(fieldWrapper, initialValue);
   browser.click(editButton);
-  browser.waitForElementVisible(editModal, Timeouts.normal);
+  browser.waitForElementVisible(editForm, Timeouts.normal);
 
   browser.clearValue(emailInput);
   browser.setValue(emailInput, 'anything@gmail.com');
 
   browser.click(saveEditButton);
-  browser.waitForElementVisible(transactionPending, Timeouts.normal);
+
+  // the edit modal and form will go away after a save occurs
+  browser.waitForElementNotPresent(editForm, Timeouts.normal);
 
   // Edit button should become visible again after transaction finishes
   browser.waitForElementVisible(editButton, Timeouts.slow);
@@ -66,8 +67,8 @@ function beginTests(browser) {
   runAddressTest(
     browser,
     'mailingAddress',
-    '1493 Martin Luther King Rd, string string',
-    'Fulton, New York 97062',
+    '1493 Martin Luther King Rd, Apt 1',
+    'Fulton, NY 97062',
   );
   runAddressTest(
     browser,
@@ -106,7 +107,7 @@ function begin(browser) {
       // There's so much data loading async that it's easiest to just do a slow timeout
       // and not try to wait for all elements to finish loading.
       browser.pause(Timeouts.slow);
-      beginTests(browser, token);
+      beginTests(browser);
       done();
     });
   });

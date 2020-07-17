@@ -16,6 +16,7 @@ import { LocationType, BOUNDING_RADIUS } from '../constants';
 import { ccLocatorEnabled } from '../config';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import recordEvent from 'platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -40,8 +41,9 @@ export const clearSearchResults = () => ({
  * @param {Object} location The actual location object if we already have it.
  *                 (This is a kinda hacky way to do a force update of the Redux
  *                  store to set the currently `selectedResult` but ¯\_(ツ)_/¯)
+ * @param {number} api version number
  */
-export const fetchVAFacility = (id, location = null) => {
+export const fetchVAFacility = (id, location = null, apiVersion) => {
   if (location) {
     return {
       type: FETCH_LOCATION_DETAIL,
@@ -58,7 +60,7 @@ export const fetchVAFacility = (id, location = null) => {
     });
 
     try {
-      const data = await LocatorApi.fetchVAFacility(id);
+      const data = await LocatorApi.fetchVAFacility(id, apiVersion);
       dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data });
     } catch (error) {
       dispatch({ type: SEARCH_FAILED, error });
@@ -97,6 +99,7 @@ export const fetchProviderDetail = id => async dispatch => {
  * @param {string} serviceType (see config.js for valid types)
  * @param {number} page What page of results to request
  * @param {Function} dispatch Redux's dispatch method
+ * @param {number} api version number
  */
 const fetchLocations = async (
   address = null,
@@ -105,6 +108,7 @@ const fetchLocations = async (
   serviceType,
   page,
   dispatch,
+  apiVersion,
 ) => {
   try {
     const data = await LocatorApi.searchWithBounds(
@@ -113,7 +117,12 @@ const fetchLocations = async (
       locationType,
       serviceType,
       page,
+      apiVersion,
     );
+    // Record event as soon as API return results
+    if (data.data && data.data.length > 0) {
+      recordEvent({ event: 'fl-search-results' });
+    }
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
@@ -129,15 +138,21 @@ const fetchLocations = async (
  *
  * Allows for filtering on location types and services provided.
  *
- * @param {{bounds: number[], facilityType: string, serviceType: string, page: number}}
+ * @param {{bounds: number[], facilityType: string, serviceType: string, page: number, apiVersion: number}}
  */
 export const searchWithBounds = ({
   bounds,
   facilityType,
   serviceType,
   page = 1,
+  apiVersion,
 }) => {
-  const needsAddress = [LocationType.CC_PROVIDER, LocationType.ALL];
+  const needsAddress = [
+    LocationType.CC_PROVIDER,
+    LocationType.ALL,
+    LocationType.URGENT_CARE_FARMACIES,
+    LocationType.URGENT_CARE,
+  ];
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
@@ -166,10 +181,19 @@ export const searchWithBounds = ({
           serviceType,
           page,
           dispatch,
+          apiVersion,
         );
       });
     } else {
-      fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
+      fetchLocations(
+        null,
+        bounds,
+        facilityType,
+        serviceType,
+        page,
+        dispatch,
+        apiVersion,
+      );
     }
   };
 };
@@ -195,7 +219,7 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: SEARCH_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = ['place', 'region', 'postcode', 'locality'];
+    let types = ['place', 'region', 'postcode', 'locality', 'address'];
     // check for postcode search
     const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
 
@@ -207,6 +231,7 @@ export const genBBoxFromAddress = query => {
       .forwardGeocode({
         countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
         types,
+        autocomplete: false,
         query: query.searchString,
       })
       .send()
@@ -241,6 +266,10 @@ export const genBBoxFromAddress = query => {
             position: {
               latitude: coordinates[1],
               longitude: coordinates[0],
+            },
+            searchCoords: {
+              lat: features[0].geometry.coordinates[1],
+              lng: features[0].geometry.coordinates[0],
             },
             bounds: minBounds,
             zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,

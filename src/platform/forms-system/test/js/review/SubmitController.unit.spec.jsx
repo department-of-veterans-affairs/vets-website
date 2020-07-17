@@ -300,6 +300,79 @@ describe('Schemaform review: SubmitController', () => {
     expect(setPreSubmit.calledWith('yep', true)).to.be.true;
     tree.unmount();
   });
+  it('should render a CustomComponent, and override default PreSubmitSection', () => {
+    const CustomPreSubmitInfo = () => (
+      <>
+        <h1 className="custom-preSubmitInfo">'Hello from CustomComponent!'</h1>
+      </>
+    );
+
+    const formConfig = createFormConfig({
+      preSubmitInfo: {
+        required: true,
+        CustomComponent: CustomPreSubmitInfo,
+      },
+    });
+    const pagesByChapter = createPagesByChapter();
+    const form = createForm();
+    const pageList = createPageList();
+    const setPreSubmit = sinon.spy();
+    const submission = {
+      hasAttemptedSubmit: false,
+    };
+
+    const tree = mount(
+      <SubmitController
+        submitForm={f => f}
+        setPreSubmit={setPreSubmit}
+        formConfig={formConfig}
+        form={form}
+        pagesByChapter={pagesByChapter}
+        pageList={pageList}
+        submission={submission}
+        route={{ formConfig, pageList }}
+      />,
+    );
+
+    const customComponent = tree.find('.custom-preSubmitInfo');
+    const defaultComponent = tree.find('.form-checkbox');
+    expect(customComponent.length).to.equal(1);
+    expect(defaultComponent.length).to.equal(0);
+    tree.unmount();
+  });
+  it('should render the PreSubmitSection, and NOT a CustomComponent', () => {
+    const formConfig = createFormConfig({
+      preSubmitInfo: {
+        required: true,
+      },
+    });
+    const pagesByChapter = createPagesByChapter();
+    const form = createForm();
+    const pageList = createPageList();
+    const setPreSubmit = sinon.spy();
+    const submission = {
+      hasAttemptedSubmit: false,
+    };
+
+    const tree = mount(
+      <SubmitController
+        submitForm={f => f}
+        setPreSubmit={setPreSubmit}
+        formConfig={formConfig}
+        form={form}
+        pagesByChapter={pagesByChapter}
+        pageList={pageList}
+        submission={submission}
+        route={{ formConfig, pageList }}
+      />,
+    );
+
+    const customComponent = tree.find('.custom-preSubmitInfo');
+    const defaultComponent = tree.find('.form-checkbox');
+    expect(customComponent.length).to.equal(0);
+    expect(defaultComponent.length).to.equal(1);
+    tree.unmount();
+  });
   it('should go back', () => {
     const formConfig = createFormConfig();
     const pageList = createPageList();

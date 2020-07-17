@@ -44,7 +44,7 @@ class DocumentRequestPage extends React.Component {
       scrollToTop();
     }
   }
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (!props.loading && !props.trackedItem) {
       this.props.router.replace(`/your-claims/${this.props.params.id}/status`);

@@ -1,11 +1,12 @@
+// Node modules.
+import moment from 'moment';
 // Relative imports.
 import ExploreVAModal from '../components/ExploreVAModal';
 import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
-import PersonalizationBanner from '../components/PersonalizationBanner';
-import Profile360Intro from '../components/Profile360Intro';
-import VAPlusVetsModal from '../components/VAPlusVetsModal';
-import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
+import SingleSignOnInfoModal from '../components/SingleSignOnInfoModal';
 import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
+import VAPlusVetsModal from '../components/VAPlusVetsModal';
+import WelcomeVAOSModal from '../components/WelcomeVAOSModal';
 
 const config = {
   announcements: [
@@ -22,12 +23,11 @@ const config = {
       component: ExploreVAModal,
       disabled: !ExploreVAModal.isEnabled(),
       showEverytime: true,
-      relatedAnnouncements: ['welcome-to-new-va'],
     },
     {
-      name: 'welcome-to-new-va',
-      paths: /^\/$/,
-      component: WelcomeToNewVAModal,
+      name: 'welcome-to-new-vaos',
+      paths: /^\/health-care\/schedule-view-va-appointments\/appointments\/$/,
+      component: WelcomeVAOSModal,
     },
     {
       name: 'pittsburgh-vamc',
@@ -42,15 +42,9 @@ const config = {
       relatedAnnouncements: ['personalization'],
     },
     {
-      name: 'profile-360-intro',
-      paths: /^(\/profile\/)$/,
-      component: Profile360Intro,
-      relatedAnnouncements: ['personalization'],
-    },
-    {
-      name: 'personalization',
+      name: 'single-sign-on-intro',
       paths: /(.)/,
-      component: PersonalizationBanner,
+      component: SingleSignOnInfoModal,
     },
   ],
 };

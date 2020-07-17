@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import get from '../../../../platform/utilities/data/get';
+import get from 'platform/utilities/data/get';
 import * as pages from '../pages';
 
 // Some pages have duplicate properties on purpose. These pages add new information to existing
@@ -69,7 +69,7 @@ describe('Root property names', () => {
 
     // Print out a readable list
     Object.keys(duplicatedProperties).forEach(propName => {
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       console.log(
         `${propName} is found on the following pages: ${duplicatedProperties[
           propName

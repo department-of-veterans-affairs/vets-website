@@ -6,8 +6,8 @@ export default function FacilityAddress({
   facility,
   showDirectionsLink,
 }) {
-  const address = facility?.address?.physical;
-  const phone = facility?.phone?.main;
+  const address = facility?.address;
+  const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
   return (
     <>
@@ -17,13 +17,13 @@ export default function FacilityAddress({
           <br />
         </>
       )}
-      {address.address1}
-      <br />
-      {address.address2}
-      {!!address.address2 && <br />}
-      {address.address3}
-      {!!address.address3 && <br />}
-      {address.city}, {address.state} {address.zip}
+      {address?.line?.map(line => (
+        <React.Fragment key={line}>
+          {line}
+          <br />
+        </React.Fragment>
+      ))}
+      {address.city}, {address.state} {address.postalCode}
       <br />
       {showDirectionsLink && (
         <>
@@ -37,7 +37,7 @@ export default function FacilityAddress({
             <strong>Main phone:</strong>
           </dt>{' '}
           <dd className="vads-u-display--inline">
-            <a href={`tel:${phone.replace(/-/g, '')}`}>{phone}</a>
+            <a href={`tel:${phone.replace(/[^0-9]/g, '')}`}>{phone}</a>
           </dd>
         </dl>
       )}

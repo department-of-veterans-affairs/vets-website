@@ -33,14 +33,15 @@ const checkCollections = () => (files, metalsmith, done) => {
               );
             }
           });
-        } else if (file.collection.constructor.name === 'String') {
-          if (!VALID_COLLECTIONS.includes(file.collection)) {
-            accum.push(
-              `Error: Your { collection: "${
-                file.collection
-              }" }, does not exist in the collection: ${key}`,
-            );
-          }
+        } else if (
+          file.collection.constructor.name === 'String' &&
+          !VALID_COLLECTIONS.includes(file.collection)
+        ) {
+          accum.push(
+            `Error: Your { collection: "${
+              file.collection
+            }" }, does not exist in the collection: ${key}`,
+          );
         }
       }
 

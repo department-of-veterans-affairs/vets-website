@@ -5,8 +5,10 @@ import { pageNames } from './pageList';
 const alertContent = (
   <>
     <p>
-      If you disagree with a VA decision we made over a year ago, you need to
-      file a Supplemental Claim (VA Form 20-0995).
+      If you disagree with a VA decision on your claim, you can file a
+      Supplemental Claim. Because more than a year has passed since the date on
+      your decision letter, you can no longer request a Higher-Level Review or
+      Board Appeal.
     </p>
     <a href="/decision-reviews/supplemental-claim/">
       Find out how to file a Supplemental Claim

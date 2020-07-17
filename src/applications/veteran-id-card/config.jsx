@@ -1,5 +1,5 @@
 import React from 'react';
-import EmailVICHelp from '../../platform/static-data/EmailVICHelp';
+import EmailVICHelp from 'platform/static-data/EmailVICHelp';
 
 const config = {
   messages: {

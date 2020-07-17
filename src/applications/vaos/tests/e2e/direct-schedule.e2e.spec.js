@@ -4,7 +4,6 @@ const VAOSHelpers = require('./vaos-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
 
 module.exports = {
-  '@disabled': true,
   after: (client, done) => {
     client.deleteCookies();
     client.end();
@@ -20,6 +19,7 @@ module.exports = {
       client,
       '/health-care/schedule-view-va-appointments/appointments/',
       3,
+      VAOSHelpers.getUserDataWithFacilities(),
     ).waitForElementVisible('#appointments-list', Timeouts.slow);
   },
   'Select new appointment': client => {
@@ -30,16 +30,16 @@ module.exports = {
       .click('[value="211"]')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('#root_vaSystem_0', Timeouts.normal);
+      .waitForElementPresent('#root_vaParent_0', Timeouts.normal);
   },
   'Choose a VA location for your appointment': client => {
     client
-      .click('[value="983"]')
+      .click('[value="var983"]')
       .waitForElementPresent(
-        '[name = "root_vaFacility"][value = "983"]',
+        '[name = "root_vaFacility"][value = "var983"]',
         Timeouts.slow,
       )
-      .click('[name = "root_vaFacility"][value = "983"]')
+      .click('[name = "root_vaFacility"][value = "var983"]')
       .pause(Timeouts.normal)
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
@@ -47,7 +47,7 @@ module.exports = {
   },
   'What is your preferred clinic?': client => {
     client
-      .selectRadio('root_clinicId', '308')
+      .selectRadio('root_clinicId', 'var983_308')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('#root_preferredDateMonth', Timeouts.normal);

@@ -45,7 +45,6 @@ $duo-tone-lighten: #000;
   .vads-l-row {
     min-width: 94%;
     max-width: 94%;
-    flex-wrap: nowrap;
   }
 }
 
@@ -126,12 +125,12 @@ $duo-tone-lighten: #000;
 
 .story-detail-img {
   width: 100%;
-  height: 164px;
+  height: auto;
   object-fit: cover;
 
   @include media($medium-large-screen) {
     width: 100%;
-    height: 295px;
+    height: auto;
     object-fit: cover;
   }
 }

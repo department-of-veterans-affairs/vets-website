@@ -95,10 +95,8 @@ export function libraryCurrent() {
     } else {
       element.classList.remove('pager-hide');
     }
-    if (activePage === undefined) {
-      if (numVal > itemsPerPage) {
-        element.classList.add('pager-hide');
-      }
+    if (activePage === undefined && numVal > itemsPerPage) {
+      element.classList.add('pager-hide');
     }
   });
 }
@@ -152,7 +150,7 @@ export function libraryReset() {
 
 export function libraryFilters(el) {
   // Grab our current page from the active pager button.
-  if (el.srcElement.className === 'pager-numbers') {
+  if (el.srcElement.classList.contains('pager-numbers')) {
     activePage = parseInt(el.srcElement.text, 10);
     sessionStorage.setItem('pageNum', parseInt(el.srcElement.text, 10));
   }

@@ -3,30 +3,28 @@ import React from 'react';
 
 import SystemDownView from '@department-of-veterans-affairs/formation-react/SystemDownView';
 
-import EmailVICHelp from '../../../platform/static-data/EmailVICHelp';
+import EmailVICHelp from 'platform/static-data/EmailVICHelp';
 
-class RequiredVeteranView extends React.Component {
-  render() {
-    let view;
+function RequiredVeteranView({ userProfile, children }) {
+  let view;
 
-    if (this.props.userProfile.veteranStatus === 'SERVER_ERROR') {
-      // If eMIS status is null, show a system down message.
-      view = (
-        <SystemDownView
-          messageLine1="We’re sorry. We can’t process your request for a Veteran ID Card right now because we can't access your records at the moment. Please try again in a few minutes."
-          messageLine2={
-            <span>
-              Please <EmailVICHelp />
-            </span>
-          }
-        />
-      );
-    } else {
-      view = this.props.children;
-    }
-
-    return <div>{view}</div>;
+  if (userProfile.veteranStatus === 'SERVER_ERROR') {
+    // If eMIS status is null, show a system down message.
+    view = (
+      <SystemDownView
+        messageLine1="We’re sorry. We can’t process your request for a Veteran ID Card right now because we can't access your records at the moment. Please try again in a few minutes."
+        messageLine2={
+          <span>
+            Please <EmailVICHelp />
+          </span>
+        }
+      />
+    );
+  } else {
+    view = children;
   }
+
+  return <div>{view}</div>;
 }
 
 RequiredVeteranView.propTypes = {

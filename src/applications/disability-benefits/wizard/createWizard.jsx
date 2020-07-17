@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-const disabilityForms = new Set([VA_FORM_IDS.FORM_21_526EZ]);
+const disabilityForms = new Set([
+  VA_FORM_IDS.FORM_21_526EZ,
+  VA_FORM_IDS.FORM_21_526EZ_BDD,
+]);
 
 export default function createDisabilityIncreaseApplicationStatus(
   store,

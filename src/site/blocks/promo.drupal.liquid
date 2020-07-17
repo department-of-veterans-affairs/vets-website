@@ -31,7 +31,7 @@
   }
 {% endcomment %}
 {% assign image = entity.fieldImage.entity.image %}
-<div class="merger-r-rail hub-promo" id="promo">
+<div data-template="blocks/promo" data-entity-id="{{ entity.entityId }}" class="merger-r-rail hub-promo" id="promo">
     <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
   {% if entity.fieldPromoLink != empty %}
     {% assign link = entity.fieldPromoLink.entity.fieldLink | featureSingleValueFieldLink %}

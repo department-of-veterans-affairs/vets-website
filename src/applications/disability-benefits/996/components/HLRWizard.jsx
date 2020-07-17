@@ -1,28 +1,49 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
+import { higherLevelReviewFeature } from '../helpers';
 import { BASE_URL } from '../constants';
 
 import {
   wizardButtonText,
-  wizardDescription,
   wizardLabels,
+  claimDescription,
+  legacyDescription,
   startPageText,
   alertHeading,
-  AlertContent,
+  AlertOtherTypeContent,
+  AlertLegacyContent,
 } from '../content/wizardLabels';
 
+export const name = 'higher-level-review';
+
 // initChoice & initExpanded set for testing
-const HLRWizard = ({ initChoice = null, initExpanded = false }) => {
-  const [choice, setChoice] = useState(initChoice);
+export const HLRWizard = ({
+  initExpanded = false,
+  initClaimChoice = null,
+  initLegacyChoice = null,
+  allowHlr = false,
+  testHlr = false,
+}) => {
+  const [claimChoice, setClaimChoice] = useState(initClaimChoice);
+  const [legacyChoice, setLegacyChoice] = useState(initLegacyChoice);
   const [expanded, setExpanded] = useState(initExpanded);
 
-  const name = 'higher-level-review';
-  const options = [
+  if (!(allowHlr || testHlr)) {
+    // Don't render if feature isn't set for the user
+    return null;
+  }
+
+  const claimOptions = [
     { value: 'compensation', label: wizardLabels.compensation },
     { value: 'other', label: wizardLabels.other },
+  ];
+  const legacyOptions = [
+    { value: 'no', label: wizardLabels.no },
+    { value: 'yes', label: wizardLabels.yes },
   ];
 
   return (
@@ -44,27 +65,41 @@ const HLRWizard = ({ initChoice = null, initExpanded = false }) => {
           className="form-expanding-group-open wizard-content vads-u-margin-top--2"
           id="wizardOptions"
         >
-          <div className="wizard-content-inner" role="presentation">
+          <div className="wizard-content-inner">
             <ErrorableRadioButtons
-              name={name}
-              id={name}
-              label={wizardDescription}
-              options={options}
-              onValueChange={({ value }) => setChoice(value)}
-              value={{ value: choice }}
-              additionalFieldsetClass={'vads-u-margin-top--0'}
+              id={`${name}-claim`}
+              label={claimDescription}
+              options={claimOptions}
+              onValueChange={({ value }) => setClaimChoice(value)}
+              value={{ value: claimChoice }}
+              additionalFieldsetClass={`${name}-claim vads-u-margin-top--0`}
             />
 
-            {choice === 'other' && (
+            {claimChoice === 'compensation' && (
+              <ErrorableRadioButtons
+                id={`${name}-legacy`}
+                label={legacyDescription}
+                options={legacyOptions}
+                onValueChange={({ value }) => setLegacyChoice(value)}
+                value={{ value: legacyChoice }}
+                additionalFieldsetClass={`${name}-legacy vads-u-margin-top--0`}
+              />
+            )}
+
+            {(claimChoice === 'other' || legacyChoice === 'yes') && (
               <AlertBox
                 headline={alertHeading}
-                content={AlertContent}
+                content={
+                  (claimChoice === 'other' && AlertOtherTypeContent) ||
+                  (legacyChoice === 'yes' && AlertLegacyContent)
+                }
                 status="info"
                 isVisible
               />
             )}
-            {choice &&
-              choice !== 'other' && (
+
+            {claimChoice === 'compensation' &&
+              legacyChoice === 'no' && (
                 <a
                   href={BASE_URL}
                   className="usa-button usa-button-primary va-button-primary"
@@ -79,4 +114,8 @@ const HLRWizard = ({ initChoice = null, initExpanded = false }) => {
   );
 };
 
-export default HLRWizard;
+const mapStateToProps = state => ({
+  allowHlr: higherLevelReviewFeature(state),
+});
+
+export default connect(mapStateToProps)(HLRWizard);

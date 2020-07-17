@@ -4,8 +4,10 @@
     margin-top: 0;
   }
 
-  .usa-accordion {
+  .profile-accordion-list {
     margin-top: 1em;
+    list-style-type: none;
+    padding-left: 0;
   }
 
   .accordion-button-text {
@@ -27,13 +29,80 @@
     padding-bottom: 0.5em;
   }
 
-  .caution-flag {
-    background-color: $color-gold;
+  .additional-resources-preferred-provider {
+    position: relative;
+    top: 2em;
   }
 
   .additional-resources {
     @include media-maxwidth($medium-large-screen - 1) {
       display: none;
+    }
+  }
+
+  @media (max-width: $medium-screen -1) {
+    .additional-resources-profile {
+      padding-top: 2em;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .additional-resources-responsive {
+      margin-top: 2em;
+    }
+    .vettec-logo-profile {
+      height: 60px;
+      width: 126px;
+    }
+    .additional-resources-vettec {
+      margin-top: 1em;
+    }
+    .vettec-logo-additional-resources {
+      display: none;
+    }
+    .logo-container {
+      display: none;
+    }
+    .additional-resources-preferred-provider {
+      margin-bottom: 23em;
+    }
+  }
+
+  @media (min-width: 641px) {
+    .additional-resources-vettec {
+      margin-top: -14em;
+    }
+    .vettec-logo-profile {
+      display: none;
+    }
+    .vettec-logo-additional-resources {
+      height: 85px;
+      width: 179px;
+    }
+    .additional-resources-preferred-provider {
+      top: 2.5em;
+      padding-bottom: 9.5em;
+    }
+  }
+
+  @media (min-width: 920px) {
+    .logo-container {
+      width: 180px;
+      margin-bottom: 2em;
+      margin-left: 4em;
+    }
+  }
+  @media (max-width: 919px) {
+    .logo-container {
+      width: 180px;
+      margin-bottom: 3em;
+      padding-right: 10px;
+      text-align: right;
+    }
+  }
+  @media screen and (max-width: $small-screen) {
+    .usa-alert {
+      padding-right: 3.2rem;
     }
   }
 
@@ -55,26 +124,23 @@
     }
 
     button {
-      margin: 0.5em 0;
+      margin: 0.75em 0 0 0;
       padding: 1rem 2rem;
     }
 
-    .form-expanding-group-open {
-      margin-bottom: 3rem;
-      @media screen and (min-width: $small-screen) {
-        border-left: none;
-        padding-left: 0;
-      }
-    }
-
     .calculator-result {
-      &.bold {
-        font-weight: bold;
-      }
-
       h5 {
         padding: 0;
       }
+    }
+
+    li.section-item button.usa-accordion-button {
+      padding-right: 4rem;
+    }
+
+    .calculate-button:disabled {
+      color: $color-white;
+      background-color: $color-gray-lighter;
     }
   }
 
@@ -95,6 +161,10 @@
 
     hr {
       border: 1px solid $color-primary-darkest;
+    }
+    .eyb-value-header {
+      margin-top: 22.5px;
+      margin-bottom: 7.5px;
     }
   }
 
@@ -271,6 +341,112 @@
   @include media-maxwidth($medium-screen - 1) {
     .locations-table {
       display: none;
+    }
+  }
+
+  .sco-list {
+    list-style: none;
+  }
+
+  .estimated-benefits-header:focus {
+    outline: 0;
+    outline-color: transparent;
+    outline-style: none;
+  }
+
+  .checked-program {
+    max-width: fit-content;
+  }
+
+  .eyb-button {
+    &.usa-accordion-button[aria-expanded='false'] {
+      background-image: url('/img/arrow-up.png');
+      background-image: url('/img/arrow-up.svg');
+    }
+    &.usa-accordion-button[aria-expanded='true'] {
+      background-image: url('/img/arrow-down.png');
+      background-image: url('/img/arrow-down.svg');
+    }
+  }
+
+  .eyb-sheet {
+    background-color: $color-gray-lightest;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 401;
+    overflow: hidden;
+    box-shadow: -1px -1px 16px 0 rgba(0, 0, 0, 0.15);
+    max-height: 0%;
+    // OUT
+    transition: max-height 1.5s ease-in-out;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
+    &.open {
+      max-height: 100%;
+      transition: max-height 1.5s ease-in-out;
+      -webkit-transition-delay: 0s;
+      transition-delay: 0s;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+      &.open {
+        transition: none;
+      }
+    }
+  }
+
+  .overlay {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .estimate-your-benefits-form {
+    max-width: 400px;
+
+    ul {
+      list-style-type: none !important;
+    }
+
+    label,
+    span {
+      margin-top: 1.5em;
+    }
+
+    button.calculate-button {
+      background-image: none;
+      background-color: $color-primary;
+      border-radius: $button-border-radius;
+      color: $color-white;
+      width: auto;
+      text-align: inherit;
+
+      @include media-maxwidth($small-screen) {
+        text-align: center;
+        width: 100%;
+      }
+    }
+
+    .gi-checkbox-label {
+      margin-top: 1em;
+    }
+  }
+
+  .primary-sco-list {
+    padding-left: 0;
+  }
+
+  .secondary-sco-list {
+    padding-left: 0;
+  }
+
+  .eyb-skip-link {
+    position: absolute;
+    top: -100rem;
+
+    &:focus {
+      top: auto;
     }
   }
 }

@@ -1,24 +1,41 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { FETCH_STATUS } from '../utils/constants';
-import { getMomentConfirmedDate } from '../utils/appointment';
+import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
+import recordEvent from 'platform/monitoring/record-event';
+import { resetDataLayer } from '../utils/events';
 
 import {
-  getConfirmedAppointments,
-  getPendingAppointments,
   getCancelReasons,
   getRequestMessages,
   updateAppointment,
   updateRequest,
-  getFacilitiesInfo,
-  getClinicInstitutions,
 } from '../api';
+import { getLocations } from '../services/location';
+
+import {
+  getBookedAppointments,
+  getAppointmentRequests,
+  getVARClinicId,
+  getVARFacilityId,
+  getVAAppointmentLocationId,
+  getVideoAppointmentLocation,
+  isVideoAppointment,
+} from '../services/appointment';
+
+import { captureError, getErrorCodes } from '../utils/error';
+import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_FAILED';
 export const FETCH_FUTURE_APPOINTMENTS_SUCCEEDED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_SUCCEEDED';
+
+export const FETCH_PAST_APPOINTMENTS = 'vaos/FETCH_PAST_APPOINTMENTS';
+export const FETCH_PAST_APPOINTMENTS_FAILED =
+  'vaos/FETCH_PAST_APPOINTMENTS_FAILED';
+export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
+  'vaos/FETCH_PAST_APPOINTMENTS_SUCCEEDED';
 
 export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
 export const FETCH_REQUEST_MESSAGES_FAILED =
@@ -49,7 +66,7 @@ export function fetchRequestMessages(requestId) {
         messages,
       });
     } catch (error) {
-      Sentry.captureException(error);
+      captureError(error);
       dispatch({
         type: FETCH_REQUEST_MESSAGES_FAILED,
         error,
@@ -58,97 +75,49 @@ export function fetchRequestMessages(requestId) {
   };
 }
 
-function aggregateClinicsBySystem(appointments) {
-  const facilityClinicListMap = new Map();
-
-  appointments.forEach(appt => {
-    const facility = facilityClinicListMap.get(appt.facilityId);
-    if (facility) {
-      facility.add(appt.clinicId);
-    } else {
-      facilityClinicListMap.set(appt.facilityId, new Set([appt.clinicId]));
-    }
-  });
-
-  return facilityClinicListMap;
-}
-
-async function getClinicDataBySystem(facilityClinicListMap) {
-  // Don't overload the backend with requests until we better understand
-  // the impact
-  if (facilityClinicListMap.size > 3) {
-    Sentry.withScope(scope => {
-      scope.setExtra('size', facilityClinicListMap.size);
-      Sentry.captureMessage('Too many clinic requests required');
-    });
-    return [];
-  }
-
-  const facilityEntries = Array.from(facilityClinicListMap.entries());
-
-  const clinicData = await Promise.all(
-    facilityEntries
-      .filter(entry => entry[1]?.size > 0)
-      .map(([facilityId, clinicSet]) =>
-        getClinicInstitutions(facilityId, Array.from(clinicSet)),
-      ),
-  );
-
-  // We get an array of arrays of clinic data, which we can flatten
-  return [].concat(...clinicData);
-}
-
 /*
  * The facility data we get back from the various endpoints for
  * requests and appointments does not have basics like address or phone.
- * Additionally, for VA appointments, the facilityId returned is not
- * the real facility id, it's the system id.
  *
  * We want to show that basic info on the list page, so this goes and fetches
  * it separately, but doesn't block the list page from displaying
- *
- * 1. Break the appt list into VA appts and everything else
- * 2. For everything but VA appts, collect the facility ids
- * 3. For VA appts, collect the facility (i.e. system) ids and the clinic ids
- *    associated with each appt
- * 4. Fetch the full clinic data for each system and specified clinics
- * 5. Collect the real facility ids from the clinic data
- * 6. De-dupe the facility ids for both non-VA and VA appointments
- * 7. Fetch the full facility data for all the unique facility ids we've collected
  */
 async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
-  const requestsOrNonVAFacilityAppointments = futureAppointments.filter(
-    appt => !appt.clinicId,
-  );
-  let facilityIds = requestsOrNonVAFacilityAppointments
-    .map(appt => appt.facilityId || appt.facility?.facilityCode)
-    .filter(id => !!id);
+  const nonVaFacilityAppointmentIds = futureAppointments
+    .filter(
+      appt =>
+        !isVideoAppointment(appt) && (appt.vaos?.isCommunityCare || !appt.vaos),
+    )
+    .map(appt => appt.facilityId || appt.facility?.facilityCode);
+
+  const videoAppointmentIds = futureAppointments
+    .filter(appt => isVideoAppointment(appt))
+    .map(getVideoAppointmentLocation);
 
   // Get facility ids from VA appointments
-  const vaFacilityAppointments = futureAppointments.filter(
-    appt => appt.clinicId,
-  );
-  let clinicInstitutionList = null;
-  const facilityClinicListMap = aggregateClinicsBySystem(
-    vaFacilityAppointments,
-  );
+  const vaFacilityAppointmentIds = futureAppointments
+    .filter(
+      appt =>
+        appt.vaos && !isVideoAppointment(appt) && !appt.vaos.isCommunityCare,
+    )
+    .map(getVAAppointmentLocationId);
 
-  clinicInstitutionList = await getClinicDataBySystem(facilityClinicListMap);
-  facilityIds = facilityIds.concat(
-    clinicInstitutionList.map(clinic => clinic.institutionCode),
+  const uniqueFacilityIds = new Set(
+    [
+      ...nonVaFacilityAppointmentIds,
+      ...videoAppointmentIds,
+      ...vaFacilityAppointmentIds,
+    ].filter(id => !!id),
   );
-
-  const uniqueFacilityIds = new Set(facilityIds);
   let facilityData = null;
   if (uniqueFacilityIds.size > 0) {
-    facilityData = await getFacilitiesInfo(Array.from(uniqueFacilityIds));
+    facilityData = await getLocations({
+      facilityIds: Array.from(uniqueFacilityIds),
+    });
   }
 
-  return {
-    facilityData,
-    clinicInstitutionList,
-  };
+  return facilityData;
 }
 
 export function fetchFutureAppointments() {
@@ -160,60 +129,90 @@ export function fetchFutureAppointments() {
 
       try {
         const data = await Promise.all([
-          getConfirmedAppointments(
-            'va',
-            moment()
-              .startOf('day')
-              .toISOString(),
-            moment()
-              .startOf('day')
-              .add(1, 'years')
-              .toISOString(),
-          ),
-          getConfirmedAppointments(
-            'cc',
-            moment().format('YYYY-MM-DD'),
-            moment()
-              .add(1, 'years')
+          getBookedAppointments({
+            startDate: moment().format('YYYY-MM-DD'),
+            endDate: moment()
+              .add(13, 'months')
               .format('YYYY-MM-DD'),
-          ),
-          getPendingAppointments(
-            moment()
+          }),
+          getAppointmentRequests({
+            startDate: moment()
               .subtract(30, 'days')
               .format('YYYY-MM-DD'),
-            moment().format('YYYY-MM-DD'),
-          ),
+            endDate: moment().format('YYYY-MM-DD'),
+          }),
         ]);
 
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
           data,
-          today: moment(),
         });
 
         try {
-          const {
-            clinicInstitutionList,
-            facilityData,
-          } = await getAdditionalFacilityInfo(getState().appointments.future);
+          const facilityData = await getAdditionalFacilityInfo(
+            getState().appointments.future,
+          );
 
           if (facilityData) {
             dispatch({
               type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-              clinicInstitutionList,
               facilityData,
             });
           }
         } catch (error) {
-          Sentry.captureException(error);
+          captureError(error);
         }
       } catch (error) {
-        Sentry.captureException(error);
+        captureError(error);
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_FAILED,
           error,
         });
       }
+    }
+  };
+}
+
+export function fetchPastAppointments(startDate, endDate, selectedIndex) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FETCH_PAST_APPOINTMENTS,
+      selectedIndex,
+    });
+
+    try {
+      const data = await getBookedAppointments({
+        startDate,
+        endDate,
+      });
+
+      dispatch({
+        type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+        data,
+        startDate,
+        endDate,
+      });
+
+      try {
+        const facilityData = await getAdditionalFacilityInfo(
+          getState().appointments.past,
+        );
+
+        if (facilityData) {
+          dispatch({
+            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+            facilityData,
+          });
+        }
+      } catch (error) {
+        captureError(error);
+      }
+    } catch (error) {
+      captureError(error);
+      dispatch({
+        type: FETCH_PAST_APPOINTMENTS_FAILED,
+        error,
+      });
     }
   };
 }
@@ -228,50 +227,72 @@ export function cancelAppointment(appointment) {
   };
 }
 
-const SUBMITTED_REQUEST = 'Submitted';
 const CANCELLED_REQUEST = 'Cancelled';
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
+    const appointment = getState().appointments.appointmentToCancel;
+    const isConfirmedAppointment =
+      appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
+    const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
+    const additionalEventdata = {
+      appointmentType: !isConfirmedAppointment ? 'pending' : 'confirmed',
+      facilityType:
+        appointment.vaos?.isCommunityCare || appointment.isCommunityCare
+          ? 'cc'
+          : 'va',
+    };
+    let apiData = appointment.legacyVAR?.apiData || appointment.apiData;
+    let cancelReasons = null;
+    let cancelReason = null;
+
     try {
+      recordEvent({
+        event: eventPrefix,
+        ...additionalEventdata,
+      });
+
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED,
       });
 
-      const appointment = getState().appointments.appointmentToCancel;
-
-      if (appointment.status === SUBMITTED_REQUEST) {
-        await updateRequest({
-          ...appointment,
+      if (!isConfirmedAppointment) {
+        apiData = await updateRequest({
+          ...appointment.legacyVAR.apiData,
           status: CANCELLED_REQUEST,
           appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
+        const facilityId = getVARFacilityId(appointment).replace('var', '');
+
         const cancelData = {
-          appointmentTime: getMomentConfirmedDate(appointment).format(
-            'MM/DD/YYYY HH:mm:ss',
-          ),
-          clinicId: appointment.clinicId,
+          appointmentTime: moment
+            .parseZone(appointment.start)
+            .format('MM/DD/YYYY HH:mm:ss'),
+          clinicId: getVARClinicId(appointment),
+          facilityId,
           remarks: '',
-          clinicName: appointment.vdsAppointments[0].clinic.name,
+          // Grabbing this from the api data because it's not clear if
+          // we have to send the real name or if the friendly name is ok
+          clinicName:
+            appointment.legacyVAR.apiData.vdsAppointments[0].clinic.name,
           cancelCode: 'PC',
         };
 
-        const cancelReasons = await getCancelReasons(
-          appointment.facilityId.substr(0, 3),
-        );
+        cancelReasons = await getCancelReasons(facilityId);
 
         if (
-          cancelReasons.find(reason => reason.number === UNABLE_TO_KEEP_APPT)
+          cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)
         ) {
+          cancelReason = UNABLE_TO_KEEP_APPT;
           await updateAppointment({
             ...cancelData,
-            cancelReason: UNABLE_TO_KEEP_APPT,
+            cancelReason,
           });
         } else if (
-          cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason))
+          cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason.number))
         ) {
-          const cancelReason = cancelReasons.find(reason =>
-            VALID_CANCEL_CODES.has(reason),
+          cancelReason = cancelReasons.find(reason =>
+            VALID_CANCEL_CODES.has(reason.number),
           );
           await updateAppointment({
             ...cancelData,
@@ -284,12 +305,36 @@ export function confirmCancelAppointment() {
 
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+        apiData,
       });
+
+      recordEvent({
+        event: `${eventPrefix}-successful`,
+        ...additionalEventdata,
+      });
+      resetDataLayer();
     } catch (e) {
-      Sentry.captureException(e);
+      const isVaos400Error = getErrorCodes(e).includes('VAOS_400');
+      if (isVaos400Error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', e);
+          scope.setExtra('cancelReasons', cancelReasons);
+          scope.setExtra('cancelReason', cancelReason);
+          Sentry.captureMessage('Cancel failed due to bad request');
+        });
+      } else {
+        captureError(e, true);
+      }
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+        isVaos400Error,
       });
+
+      recordEvent({
+        event: `${eventPrefix}-failed`,
+        ...additionalEventdata,
+      });
+      resetDataLayer();
     }
   };
 }
@@ -297,5 +342,11 @@ export function confirmCancelAppointment() {
 export function closeCancelAppointment() {
   return {
     type: CANCEL_APPOINTMENT_CLOSED,
+  };
+}
+
+export function startNewAppointmentFlow() {
+  return {
+    type: STARTED_NEW_APPOINTMENT_FLOW,
   };
 }

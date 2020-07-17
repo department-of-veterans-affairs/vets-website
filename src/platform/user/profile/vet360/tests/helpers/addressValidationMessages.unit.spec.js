@@ -50,11 +50,13 @@ describe('getValidationMessageKey', () => {
         },
       },
     ];
+    const confirmedAddresses = [];
     expect(
       getValidationMessageKey(
         suggestedAddresses,
         validationKey,
         addressValidationError,
+        confirmedAddresses,
       ),
     ).to.equal('showSuggestionsOverride');
   });

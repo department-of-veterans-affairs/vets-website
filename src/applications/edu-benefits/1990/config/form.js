@@ -17,7 +17,6 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
@@ -108,9 +107,6 @@ const formConfig = {
     phone,
     serviceBefore1977,
   },
-  downtime: {
-    dependencies: [externalServices.global],
-  },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
   preSubmitInfo,
@@ -184,8 +180,7 @@ const formConfig = {
                 },
               },
               'view:chapter33ExpandedContent': {
-                'ui:description':
-                  'When you choose to apply for your Post-9/11 benefit, you have to relinquish (give up) 1 other benefit you may be eligible for. You’ll make this decision on the next page.',
+                'ui:description': benefitsLabels.chapter33Description,
                 'ui:options': {
                   expandUnder: 'chapter33',
                 },

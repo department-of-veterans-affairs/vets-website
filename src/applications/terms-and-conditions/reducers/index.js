@@ -44,6 +44,7 @@ export function termsAndConditions(state = initialState, action) {
       };
 
     case ACCEPT_LATEST_TERMS_SUCCESS:
+    case FETCH_TERMS_ACCEPTANCE_SUCCESS:
       return {
         ...state,
         accepted: true,
@@ -57,29 +58,19 @@ export function termsAndConditions(state = initialState, action) {
         loading: { ...state.loading, tc: false },
       };
 
-    case FETCH_LATEST_TERMS_SUCCESS: {
+    case FETCH_LATEST_TERMS_SUCCESS:
       return {
         ...state,
         attributes: action.data.attributes,
         loading: { ...state.loading, tc: false },
       };
-    }
 
-    case FETCH_TERMS_ACCEPTANCE_FAILURE: {
+    case FETCH_TERMS_ACCEPTANCE_FAILURE:
       return {
         ...state,
         accepted: false,
         loading: { ...state.loading, acceptance: false },
       };
-    }
-
-    case FETCH_TERMS_ACCEPTANCE_SUCCESS: {
-      return {
-        ...state,
-        accepted: true,
-        loading: { ...state.loading, acceptance: false },
-      };
-    }
 
     default:
       return state;

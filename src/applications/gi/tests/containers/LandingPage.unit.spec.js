@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import createCommonStore from '../../../../platform/startup/store';
+import createCommonStore from 'platform/startup/store';
 import { LandingPage } from '../../containers/LandingPage';
 import reducer from '../../reducers';
 

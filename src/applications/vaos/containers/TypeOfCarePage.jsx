@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-
-import { TYPES_OF_CARE } from '../utils/constants';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
 import TypeOfCareUnavailableModal from '../components/TypeOfCareUnavailableModal';
@@ -14,12 +14,16 @@ import {
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
 } from '../actions/newAppointment.js';
-import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
+import {
+  getFormPageInfo,
+  getNewAppointment,
+  vaosDirectScheduling,
+} from '../utils/selectors';
 
-const sortedCare = TYPES_OF_CARE.sort(
-  (careA, careB) =>
-    careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
-);
+import {
+  selectIsCernerOnlyPatient,
+  selectVet360ResidentialAddress,
+} from 'platform/user/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -27,37 +31,76 @@ const initialSchema = {
   properties: {
     typeOfCareId: {
       type: 'string',
-      enum: sortedCare.map(care => care.id || care.ccId),
-      enumNames: sortedCare.map(care => care.label || care.name),
     },
   },
 };
 
 const uiSchema = {
   typeOfCareId: {
-    'ui:title': 'What type of care do you need?',
+    'ui:title': 'Please choose a type of care',
     'ui:widget': 'radio',
-    'ui:options': {
-      hideLabelText: true,
-    },
   },
 };
 
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
 
+function UpdateAddress({ address, showAlert, onHide }) {
+  const regexp = /^PO Box/;
+  if (showAlert && (!address || address.match(regexp))) {
+    return (
+      <AlertBox
+        status="warning"
+        headline="You need to have a home address on file to use some of the tool's features"
+        className="vads-u-margin-y--3"
+        content={
+          <p>
+            You can update your address in your VA profile. Please allow some
+            time for your address update to process through our system. <br />
+            <a
+              className="usa-button usa-button-primary vads-u-margin-top--4"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="/change-address/#how-do-i-change-my-address-in-"
+              onClick={onHide}
+            >
+              Update your address
+            </a>
+          </p>
+        }
+      />
+    );
+  }
+  return null;
+}
+
 export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
   }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showAlert: true,
+    };
+  }
+
+  hideAlert = () => {
+    const showAlert = !this.state.showAlert;
+    this.setState({ showAlert });
+  };
 
   onChange = newData => {
     // When someone chooses a type of care that can be direct scheduled,
     // kick off the past appointments fetch, which takes a while
     // This could get called multiple times, but the function is memoized
     // and returns the previous promise if it eixsts
-    getLongTermAppointmentHistory();
+    if (this.props.showDirectScheduling) {
+      getLongTermAppointmentHistory();
+    }
 
     this.props.updateFormData(pageKey, uiSchema, newData);
   };
@@ -76,15 +119,26 @@ export class TypeOfCarePage extends React.Component {
       data,
       pageChangeInProgress,
       showToCUnavailableModal,
+      addressLine1,
     } = this.props;
+
+    if (!schema) {
+      return null;
+    }
 
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+        <UpdateAddress
+          address={addressLine1}
+          showAlert={this.state.showAlert}
+          onHide={this.hideAlert}
+        />
+
         <SchemaForm
           name="Type of care"
           title="Type of care"
-          schema={schema || initialSchema}
+          schema={schema}
           uiSchema={uiSchema}
           onSubmit={this.goForward}
           onChange={this.onChange}
@@ -93,6 +147,7 @@ export class TypeOfCarePage extends React.Component {
           <FormButtons
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
           />
         </SchemaForm>
         <TypeOfCareUnavailableModal
@@ -108,9 +163,13 @@ export class TypeOfCarePage extends React.Component {
 function mapStateToProps(state) {
   const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
+  const address = selectVet360ResidentialAddress(state);
   return {
     ...formInfo,
+    ...address,
     showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showDirectScheduling: vaosDirectScheduling(state),
   };
 }
 

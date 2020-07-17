@@ -4,7 +4,9 @@ import { debounce } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
 import classNames from 'classnames';
-import { WAIT_INTERVAL, SMALL_SCREEN_WIDTH, KEY_CODES } from '../../constants';
+import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
+import { handleScrollOnInputFocus } from '../../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
@@ -56,9 +58,9 @@ export class KeywordSearch extends React.Component {
   };
 
   handleFocus = () => {
-    const field = document.getElementsByClassName('keyword-search')[0];
-    if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      field.scrollIntoView();
+    // prod flag for bah-8821
+    if (!environment.isProduction()) {
+      handleScrollOnInputFocus('keyword-search');
     }
   };
 
@@ -80,7 +82,7 @@ export class KeywordSearch extends React.Component {
       );
     }
     return (
-      <div className={searchClassName}>
+      <div className={searchClassName} id="keyword-search">
         <label
           id="institution-search-label"
           className="institution-search-label"

@@ -1,28 +1,14 @@
 import { expect } from 'chai';
 import { set } from 'lodash/fp';
 
-import { calculatorConstants } from '../gibct-helpers';
-import createCommonStore from '../../../../platform/startup/store';
-import reducer from '../../reducers';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { formatCurrency } from '../../utils/helpers';
+import { getDefaultState } from '../helpers';
 
-let defaultState = createCommonStore(reducer).getState();
-
-defaultState.constants = {
-  constants: {},
-  version: calculatorConstants.meta.version,
-  inProgress: false,
-};
-
-calculatorConstants.data.forEach(c => {
-  defaultState.constants.constants[c.attributes.name] = c.attributes.value;
-});
-
-defaultState = {
-  ...defaultState,
+const defaultState = {
+  ...getDefaultState(),
   profile: {
-    ...defaultState.profile,
+    ...getDefaultState().profile,
     attributes: {
       accreditationStatus: null,
       accreditationType: 'regional',
@@ -144,7 +130,7 @@ defaultState = {
     inProgress: false,
   },
   eligibility: {
-    ...defaultState.eligibility,
+    ...getDefaultState().eligibility,
     militaryStatus: 'veteran',
     giBillChapter: '33',
     cumulativeService: '1.0',
@@ -157,7 +143,7 @@ defaultState = {
   },
 
   calculator: {
-    ...defaultState.calculator,
+    ...getDefaultState().calculator,
     beneficiaryLocationQuestion: 'yes',
     beneficiaryZIP: '',
     inState: 'yes',
@@ -201,7 +187,7 @@ describe('getCalculatedBenefits', () => {
     );
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
-    ).to.equal('$0/mo');
+    ).to.equal('$0');
   });
 
   it('should show Yellow Ribbon fields when eligible', () => {
@@ -339,21 +325,21 @@ describe('getCalculatedBenefits', () => {
     const state = set('calculator.giBillBenefit', 'no', defaultState);
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
-    ).to.equal('$2,271/mo');
+    ).to.equal('$2,271');
   });
   it('should use VA rate when Post-9/11 GI Bill benefit used before 1/1/2018', () => {
     let state = set('profile.attributes.dodBah', 2000, defaultState);
     state = set('calculator.giBillBenefit', 'yes', state);
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
-    ).to.equal('$2,271/mo');
+    ).to.equal('$2,271');
   });
   it('should use DOD rate when available', () => {
     let state = set('profile.attributes.dodBah', 2000, defaultState);
     state = set('calculator.giBillBenefit', 'no', state);
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
-    ).to.equal('$2,000/mo');
+    ).to.equal('$2,000');
   });
 
   it('should calculate DEARATEFULLTIME housing allowance for DEA (35) if enrolledOld is full', () => {
@@ -363,7 +349,7 @@ describe('getCalculatedBenefits', () => {
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
     ).to.equal(
-      `${formatCurrency(defaultState.constants.constants.DEARATEFULLTIME)}/mo`,
+      formatCurrency(defaultState.constants.constants.DEARATEFULLTIME),
     );
   });
 
@@ -374,9 +360,7 @@ describe('getCalculatedBenefits', () => {
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
     ).to.equal(
-      `${formatCurrency(
-        defaultState.constants.constants.DEARATETHREEQUARTERS,
-      )}/mo`,
+      formatCurrency(defaultState.constants.constants.DEARATETHREEQUARTERS),
     );
   });
 
@@ -386,9 +370,7 @@ describe('getCalculatedBenefits', () => {
 
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
-    ).to.equal(
-      `${formatCurrency(defaultState.constants.constants.DEARATEONEHALF)}/mo`,
-    );
+    ).to.equal(formatCurrency(defaultState.constants.constants.DEARATEONEHALF));
   });
 
   it("should calculate housing allowance as DEARATEFULLTIME * 0.5 for DEA (35) if enrolledOld is 'less than half' and tuitionFeesPerTerm > totalHousingAllowance", () => {
@@ -398,9 +380,7 @@ describe('getCalculatedBenefits', () => {
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
     ).to.equal(
-      `${formatCurrency(
-        defaultState.constants.constants.DEARATEUPTOONEHALF,
-      )}/mo`,
+      formatCurrency(defaultState.constants.constants.DEARATEUPTOONEHALF),
     );
   });
 
@@ -411,9 +391,7 @@ describe('getCalculatedBenefits', () => {
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
     ).to.equal(
-      `${formatCurrency(
-        defaultState.constants.constants.DEARATEUPTOONEQUARTER,
-      )}/mo`,
+      formatCurrency(defaultState.constants.constants.DEARATEUPTOONEQUARTER),
     );
   });
 
@@ -442,7 +420,7 @@ describe('getCalculatedBenefits', () => {
 
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
-    ).to.equal(`${formatCurrency(housingAllowance)}/mo`);
+    ).to.equal(formatCurrency(housingAllowance));
   });
 
   it('should calculate housing allowance using tuitionFeesPerTerm for DEA (35) if enrolledOld is quarter and tuitionFeesPerTerm < totalHousingAllowance', () => {
@@ -470,7 +448,7 @@ describe('getCalculatedBenefits', () => {
 
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
-    ).to.equal(`${formatCurrency(housingAllowance)}/mo`);
+    ).to.equal(formatCurrency(housingAllowance));
   });
 
   it('should calculate housing allowance using tuitionFeesPerTerm for DEA (35) if OJT', () => {
@@ -500,7 +478,7 @@ describe('getCalculatedBenefits', () => {
       ropOjt * defaultState.constants.constants.DEARATEOJT;
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
-    ).to.equal(`${formatCurrency(monthlyRateFinal)}/mo`);
+    ).to.equal(formatCurrency(monthlyRateFinal));
   });
 
   it('should calculate housing allowance using half the average DOD/VA rate if OJT and online only courses', () => {
@@ -529,6 +507,6 @@ describe('getCalculatedBenefits', () => {
       (ropOjt * defaultState.constants.constants.AVGDODBAH) / 2;
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
-    ).to.equal(`${formatCurrency(monthlyRateFinal)}/mo`);
+    ).to.equal(formatCurrency(monthlyRateFinal));
   });
 });

@@ -24,9 +24,17 @@
 {% else %}
   {% assign header = "h3" %}
 {% endif %}
-<div itemscope="" itemtype="http://schema.org/Question">
-  <{{ header }} itemprop="name">{{ entity.fieldQuestion }}</{{ header }}>
-  <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
+<div
+  itemscope=""
+  itemtype="http://schema.org/Question"
+  data-template="paragraphs/q_a"
+  data-entity-id="{{ entity.entityId }}"
+  data-analytics-faq-section="{{ sectionHeader | escape }}"
+  data-analytics-faq-text="{{ entity.fieldQuestion | escape }}">
+  <{{ header }} itemprop="name">
+    {{ entity.fieldQuestion }}
+  </{{ header }}>
+  <div data-entity-id="{{ entity.entityId }}" itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
     <div itemprop="text">
 
     {% for answer in entity.fieldAnswer %}

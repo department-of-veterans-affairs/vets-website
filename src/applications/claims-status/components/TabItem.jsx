@@ -11,10 +11,7 @@ class TabItem extends React.Component {
   }
 
   // Grab the current URL, trim the leading '/', and return activeTabPath
-  trimCurrentUrl = () => {
-    const activeTabPath = this.props.location.pathname.slice(1);
-    return activeTabPath;
-  };
+  trimCurrentUrl = () => this.props.location.pathname.slice(1);
 
   tabShortcut = evt => {
     if (evt.altKey && evt.which === 48 + this.props.shortcut) {

@@ -7,8 +7,9 @@
 // TODO: These colors are not close enough to anything that already exists in
 // Formation. Perhaps the design should be reevaluated to see if Formation
 // colors could be used in place of these
-$color-info-bubble-border: #6495a3;
-$color-info-bubble-text: #818a8d;
+$facility-locator-color-info-bubble-border: #6495a3;
+$facility-locator-color-info-bubble-text: #818a8d;
+$facility-locator-color-gray: #ccc;
 
 .facility-locator {
 
@@ -87,7 +88,7 @@ $color-info-bubble-text: #818a8d;
 
   .facility-result {
     padding: 1em;
-    background: $color-gray-light-alt;
+    background: $color-white ;
     border-bottom: none;
 
     &.active {
@@ -100,7 +101,6 @@ $color-info-bubble-text: #818a8d;
 
     a {
       color: $color-link-default;
-      text-decoration: none;
 
       &:focus {
         h5 {
@@ -123,7 +123,7 @@ $color-info-bubble-text: #818a8d;
   }
 
   .facility-result+.facility-result {
-    border-top: solid 12px $color-white;
+    border-top: solid 2px $color-gray-lighter;
   }
 
   .leaflet-popup-content {
@@ -194,10 +194,6 @@ $color-info-bubble-text: #818a8d;
       p {
         color: $color-black;
       }
-    }
-
-    a {
-      text-decoration: none;
     }
   }
 
@@ -317,6 +313,10 @@ $color-info-bubble-text: #818a8d;
     border: solid thin $color-gray-lightest;
     background: $color-gray-lightest;
 
+    select:disabled {
+      background: $color-gray-lightest;
+    }
+
     #facility-search-controls {
       display: flex;
       flex-direction: column;
@@ -340,11 +340,26 @@ $color-info-bubble-text: #818a8d;
         .large-1-2 {
           width: 396px !important;
         }
-
       }
 
-      select:disabled {
-        background: $color-gray-lightest;
+      @include media($medium-screen) {
+        input[type=submit] {
+          // The "columns:last-child" selector from Foundation adds
+          // a "float: right" to the submit button container,
+          // which pushes it too far to the right on tablets.
+          // The following is added as a workaround.
+          position: absolute;
+          right: 30px;
+          width: auto;
+        }
+      }
+
+      @include media($small-desktop-screen) {
+        input[type=submit] {
+          position: relative;
+          width: 100%;
+          right: 0;
+        }
       }
 
       input[type=submit] {
@@ -362,7 +377,7 @@ $color-info-bubble-text: #818a8d;
   .scroller-left{
     position: fixed;
     left: 0;
-    background:#CCC;
+    background: $facility-locator-color-gray;
   }
 
 
@@ -690,6 +705,14 @@ $color-info-bubble-text: #818a8d;
   font-weight: bold;
 }
 
+.current-pos-pin {
+  border-radius: 50%;
+  width: 23px;
+  height: 23px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  border: solid 4px $color-white;
+  background-color: $color-red-dark;
+}
 
 #infoBubble {
   background-color: $color-aqua-lightest;
@@ -702,7 +725,7 @@ $color-info-bubble-text: #818a8d;
   padding: 0.7rem;
   box-shadow: 0px 0px 4px $color-gray-medium;
   border-radius: 4px;
-  border: 1px solid $color-info-bubble-border;
+  border: 1px solid $facility-locator-color-info-bubble-border;
   z-index: 9999;
 
   span {
@@ -711,7 +734,7 @@ $color-info-bubble-text: #818a8d;
     font-size: 1.9rem;
     font-family: Arial, sans-serif;
     cursor: pointer;
-    color: $color-info-bubble-text;
+    color: $facility-locator-color-info-bubble-text;
   }
 
 
@@ -771,4 +794,29 @@ $color-info-bubble-text: #818a8d;
 
 .va-nav-breadcrumbs:focus {
   outline: 0;
+}
+
+.i-pin-card-map {
+  background: $color-gray-dark;
+  color: $color-white;
+  padding: 2px 8px;
+  border-radius: 50%;
+  font-size: 16px;
+  font-family: 'Source Sans Pro', sans-serif !important;
+}
+.notice-marg-pad {
+  padding: 0.5rem !important;
+  margin-top: 0;
+  font-size: 16px;
+  font-weight: bold;
+  width: 280px;
+  height: 40px;
+}
+.icon-base {
+  color: $color-base !important;
+}
+
+.facility-phone-group {
+  display: flex;
+  flex-direction: column;
 }

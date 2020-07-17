@@ -19,7 +19,7 @@ describe('hca schema tests', () => {
       const data = JSON.parse(submitData);
       const result = v.validate(data, fullSchemaHca);
       if (!result.valid) {
-          console.log(result.errors); // eslint-disable-line
+        console.log(result.errors); // eslint-disable-line no-console
       }
       expect(typeof data.dependents).not.to.equal('undefined');
       expect(result.valid).to.be.true;

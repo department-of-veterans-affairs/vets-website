@@ -93,7 +93,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
       a {
         text-decoration: none;
         &:after {
-          content: " (https://vets.gov" attr(href) ")";
+          content: " (https://www.va.gov" attr(href) ")";
         }
       }
 

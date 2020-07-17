@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import createCommonStore from '../../../../platform/startup/store';
+import createCommonStore from 'platform/startup/store';
 import { SearchPage } from '../../containers/SearchPage';
 import reducer from '../../reducers';
 
@@ -72,6 +72,25 @@ describe('<SearchPage>', () => {
   });
 });
 
+it('should render error message', () => {
+  const props = {
+    ...defaultProps,
+    search: {
+      ...defaultProps.search,
+      inProgress: true,
+      error: 'Service Unavailable',
+    },
+  };
+  const tree = mount(
+    <Provider store={defaultStore}>
+      <SearchPage {...props} />
+    </Provider>,
+  );
+
+  expect(tree.find('ServiceError')).to.be.ok;
+  tree.unmount();
+});
+
 describe('<SearchPage> functions', () => {
   it('updateSearchResults should set store correctly', () => {
     const booleanFilterParams = [
@@ -84,7 +103,6 @@ describe('<SearchPage> functions', () => {
       'stemIndicator',
       'priorityEnrollment',
       'independentStudy',
-      'vetTecProvider',
       'preferredProvider',
     ];
 
@@ -126,7 +144,6 @@ describe('<SearchPage> functions', () => {
       stemIndicator: 'false',
       priorityEnrollment: 'false',
       independentStudy: 'false',
-      vetTecProvider: 'false',
       preferredProvider: 'false',
       version: '94ed39bf-f816-4b12-b3ce-a8241c2325b7',
       category: 'school',

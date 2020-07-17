@@ -93,8 +93,9 @@ Disallow: /
 User-Agent: *
 Disallow: /analytics-opt-out.html
 Disallow: /cgi-bin/
-Disallow: /scorecard
 Disallow: /drupal
+Disallow: /performance-dashboard
+Disallow: /covid19screen
 
 # sitemap index
 Sitemap: https://www.va.gov/sitemap.xml

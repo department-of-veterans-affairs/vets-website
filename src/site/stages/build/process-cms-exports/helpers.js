@@ -4,13 +4,16 @@ const path = require('path');
 const get = require('lodash/get');
 
 /**
- * This assumes the tome-sync output is sibling to the vets-website
- * directory.
+ * The path to the CMS export content.
+ *
+ * @param {String} buildtype - The build type
+ * @return {String} - The path to the saved CMS export content
  */
-const contentDir = path.join(
-  __dirname,
-  '../../../../../../tome-sync-output/content/',
-);
+const defaultCMSExportContentDir = buildtype =>
+  path.join(
+    __dirname,
+    `../../../../../.cache/${buildtype}/cms-export-content/`,
+  );
 
 /**
  * The sub-type can be found in a few different properties, depending
@@ -39,7 +42,7 @@ function getContentModelType(entity) {
 }
 
 module.exports = {
-  contentDir,
+  defaultCMSExportContentDir,
   typeProperties,
   getContentModelType,
 
@@ -48,8 +51,10 @@ module.exports = {
    * and put them into an object indexed by filename
    *
    * @param {String} dir - The directory to import all files from
-   * @param {String} prop - The name of the exported property to put into the dict
-   * @return {Object} - The dict of filenam -> exported prop mappings
+   * @param {String} [prop] - The name of the exported property to put into the
+   *                          dict. If undefined, the default export will be
+   *                          used.
+   * @return {Object} - The dict of filename -> exported prop mappings
    */
   getAllImportsFrom(dir, prop) {
     return fs
@@ -57,8 +62,9 @@ module.exports = {
       .filter(name => name.endsWith('.js'))
       .reduce((t, fileName) => {
         const contentModelType = path.parse(fileName).name;
+        const exp = require(path.join(dir, fileName));
         // eslint-disable-next-line no-param-reassign
-        t[contentModelType] = require(path.join(dir, fileName))[prop];
+        t[contentModelType] = prop ? exp[prop] : exp;
         return t;
       }, {});
   },
@@ -77,17 +83,25 @@ module.exports = {
    * Note: Later, we can keep a counter for how many times we open a
    * particular file to see if we can gain anything from caching the
    * contents.
-   * @param {String} baseType - The type of entity; corresponds to the
-   *                              name of the file.
-   * @param {String} uuid - The UUID of the entity; corresponds to the
-   *                        name of the file.
+   *
+   * TODO: Memoize this function if the build is slow because of this CMS
+   * content transformation process.
+   *
+   * @param {String} baseType - The type of entity; corresponds to the name of
+   *                            the file.
+   * @param {String} uuid - The UUID of the entity; corresponds to the name of
+   *                        the file.
+   * @param {Boolean} noLog - [Optional] Skip logging of the filename. This is
+   *                          so findMatchingEntities doesn't log _every_
+   *                          filename even if it's not used. This _does_ mean
+   *                          it won't log files that may be used.
    *
    * @return {Object} - The contents of the file.
    */
-  readEntity(dir, baseType, uuid) {
+  readEntity(dir, baseType, uuid, { noLog } = {}) {
     // Used only in script/remove-unnecessary-raw-entity-files.sh to get the
     // list of all entities the assemble-entity-tree.unit.spec.js tests access.
-    if (process.env.LOG_USED_ENTITIES) {
+    if (process.env.LOG_USED_ENTITIES && !noLog) {
       // eslint-disable-next-line no-console
       console.log(`${baseType}.${uuid}.json`);
     }
@@ -106,11 +120,16 @@ module.exports = {
   },
 
   /**
-   * Get all the starting nodes
+   * Get all the starting node IDs.
+   *
+   * @param {String} dir - The path to the directory with the content JSON files
+   * @return {String[][]} - An array of tuples consisting of the entity type
+   *                        (always "node") and UUID.
+   *                        E.g. [["node", "123"], ["node", "456"]]
    */
-  readAllNodeNames(dirName = contentDir) {
+  readAllNodeNames(dir) {
     return fs
-      .readdirSync(dirName)
+      .readdirSync(dir)
       .filter(name => name.startsWith('node'))
       .map(name => name.split('.').slice(0, 2));
   },

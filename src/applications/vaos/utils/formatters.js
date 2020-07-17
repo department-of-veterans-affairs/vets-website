@@ -1,38 +1,3 @@
-import moment from 'moment';
-
-export function formatTimeToCall(timeToCall) {
-  if (timeToCall.length === 1) {
-    return timeToCall[0].toLowerCase();
-  } else if (timeToCall.length === 2) {
-    return `${timeToCall[0].toLowerCase()} or ${timeToCall[1].toLowerCase()}`;
-  }
-
-  return `${timeToCall[0].toLowerCase()}, ${timeToCall[1].toLowerCase()}, or ${timeToCall[2].toLowerCase()}`;
-}
-
-export function formatBestTimeToCall(bestTime) {
-  const times = [];
-  if (bestTime?.morning) {
-    times.push('Morning');
-  }
-
-  if (bestTime?.afternoon) {
-    times.push('Afternoon');
-  }
-
-  if (bestTime?.evening) {
-    times.push('Evening');
-  }
-
-  if (times.length === 1) {
-    return times[0];
-  } else if (times.length === 2) {
-    return `${times[0]} or ${times[1]}`;
-  }
-
-  return 'Anytime during the day';
-}
-
 export function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
     return careLabel;
@@ -41,51 +6,53 @@ export function formatTypeOfCare(careLabel) {
   return careLabel.slice(0, 1).toLowerCase() + careLabel.slice(1);
 }
 
-export const formatOperatingHours = operatingHours => {
-  if (!operatingHours) return operatingHours;
-  // Remove all whitespace.
-  const sanitizedOperatingHours = operatingHours.replace(' ', '');
+export function titleCase(str) {
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
 
-  // Escape early if it is 'Sunrise - Sunset'.
-  if (sanitizedOperatingHours.toLowerCase() === 'sunrise-sunset') {
-    return 'All Day';
-  }
+export function sentenceCase(str) {
+  return str
+    .split(' ')
+    .map((word, index) => {
+      if (/^[^a-z]*$/.test(word)) {
+        return word;
+      }
 
-  // Derive if the hours are closed.
-  const isClosed =
-    sanitizedOperatingHours === '-' ||
-    sanitizedOperatingHours.toLowerCase().includes('close');
+      if (index === 0) {
+        return `${word.charAt(0).toUpperCase()}${word
+          .substr(1, word.length - 1)
+          .toLowerCase()}`;
+      }
 
-  // Escape early if it is '-' or 'Closed'.
-  if (isClosed) {
-    return 'Closed';
-  }
+      return word.toLowerCase();
+    })
+    .join(' ');
+}
 
-  // Derive the opening and closing hours.
-  const hours = sanitizedOperatingHours.split('-');
-  const openingHour = hours[0];
-  const closingHour = hours[hours.length - 1];
+export function lowerCase(str = '') {
+  return str
+    .split(' ')
+    .map(word => {
+      if (/^[^a-z]*$/.test(word)) {
+        return word;
+      }
 
-  // Format the hours based on 'hmmA' format.
-  let formattedOpeningHour = moment(openingHour, 'hmmA').format('h:mma');
-  let formattedClosingHour = moment(closingHour, 'hmmA').format('h:mma');
+      return word.toLowerCase();
+    })
+    .join(' ');
+}
 
-  // Attempt to format the hours based on 'h:mmA' if theere's a colon.
-  if (openingHour.includes(':')) {
-    formattedOpeningHour = moment(openingHour, 'h:mmA').format('h:mma');
-  }
-  if (closingHour.includes(':')) {
-    formattedClosingHour = moment(closingHour, 'h:mmA').format('h:mma');
-  }
-
-  // Derive the formatted operating hours.
-  const formattedOperatingHours = `${formattedOpeningHour} - ${formattedClosingHour}`;
-
-  // Return original string if invalid date.
-  if (formattedOperatingHours.search(/Invalid date/i) === 0) {
-    return operatingHours;
-  }
-
-  // Return the formatted operating hours.
-  return formattedOperatingHours;
-};
+/**
+ * Returns formatted address from facility details object
+ *
+ * @param {*} facility - facility details object
+ */
+export function formatFacilityAddress(facility) {
+  return `${facility.address?.line.join(', ')}, ${facility.address?.city}, ${
+    facility.address?.state
+  } ${facility.address?.postalCode}`;
+}

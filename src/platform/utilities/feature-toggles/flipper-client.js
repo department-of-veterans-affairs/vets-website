@@ -1,11 +1,13 @@
 /* This file is must run in both NodeJS and browser environments */
 
-const FEATURE_FLAG_NAMES = require('./featureFlagNames');
+import FEATURE_FLAG_NAMES from './featureFlagNames';
+import { getFlipperId } from './helpers';
 
+const FLIPPER_ID = getFlipperId();
 const featureToggleQueryList = Object.values(FEATURE_FLAG_NAMES);
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?features=${featureToggleQueryList.join(
   ',',
-)}`;
+)}&cookie_id=${FLIPPER_ID}`;
 const TOGGLE_POLLING_INTERVAL = 5000;
 
 let flipperClientInstance;
@@ -17,16 +19,27 @@ function FlipperClient({
   let _timeoutId;
   let _pollingActive;
   const _subscriberCallbacks = [];
+  const csrfTokenStored = localStorage.getItem('csrfToken');
 
   const _fetchToggleValues = async () => {
     const response = await fetch(`${host}${toggleValuesPath}`, {
       credentials: 'include',
+      headers: {
+        'X-CSRF-Token': csrfTokenStored,
+      },
     });
     if (!response.ok) {
       const errorMessage = `Failed to fetch toggle values with status ${
         response.status
       } ${response.statusText}`;
       throw new Error(errorMessage);
+    }
+
+    // Get CSRF Token from API header
+    const csrfToken = response.headers.get('X-CSRF-Token');
+
+    if (csrfToken && csrfToken !== csrfTokenStored) {
+      localStorage.setItem('csrfToken', csrfToken);
     }
 
     return response.json();
@@ -64,13 +77,11 @@ function FlipperClient({
     */
     const { data } = await _fetchToggleValues();
     const { features = [] } = data;
-    const toggleValues = features.reduce((acc, toggle) => {
+    return features.reduce((acc, toggle) => {
       acc[toggle.name] = toggle.value;
 
       return acc;
     }, {});
-
-    return toggleValues;
   };
 
   const removeSubscriberCallback = index => {
@@ -107,12 +118,8 @@ function FlipperClient({
   };
 }
 
-function makeFlipperClient(options) {
+export default function makeFlipperClient(options) {
   flipperClientInstance = flipperClientInstance || new FlipperClient(options);
 
   return flipperClientInstance;
 }
-
-module.exports = {
-  FlipperClient: makeFlipperClient,
-};

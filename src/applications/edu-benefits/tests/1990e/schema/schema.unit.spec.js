@@ -19,7 +19,7 @@ describe('1990e schema tests', () => {
         .educationBenefitsClaim.form;
       const result = v.validate(JSON.parse(submitData), fullSchema1990e);
       if (!result.valid) {
-          console.log(result.errors); // eslint-disable-line
+        console.log(result.errors); // eslint-disable-line no-console
       }
       expect(result.valid).to.be.true;
     });

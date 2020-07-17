@@ -4,7 +4,7 @@ import { has, head } from 'lodash';
 import { initiateIdRequest, timeoutRedirect } from '../actions';
 import config from '../config';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import EmailVICHelp from '../../../platform/static-data/EmailVICHelp';
+import EmailVICHelp from 'platform/static-data/EmailVICHelp';
 
 class Main extends React.Component {
   constructor(props) {

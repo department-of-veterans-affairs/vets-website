@@ -1,7 +1,7 @@
 import React from 'react';
 import { getTypeOfCare } from '../../utils/selectors';
 import { FLOW_TYPES, FACILITY_TYPES } from '../../utils/constants';
-import { lowerCase } from '../../utils/appointment';
+import { lowerCase } from '../../utils/formatters';
 
 export default function Description({ data, flowType }) {
   const typeOfCare = lowerCase(getTypeOfCare(data)?.name);

@@ -15,6 +15,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getFormPageInfo } from '../utils/selectors';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 const initialSchema = {
   type: 'object',
@@ -48,6 +49,7 @@ const initialSchema = {
         phone: {
           type: 'string',
           minLength: 10,
+          pattern: '^[0-9]{10}$',
         },
       },
     },
@@ -67,7 +69,7 @@ const uiSchema = {
   hasCommunityCareProvider: {
     'ui:widget': 'yesNo',
     'ui:title':
-      'Do you have a referral or preferred Community Care provider for this appointment?',
+      'Do you have a Community Care referral or a preferred VA-approved community care provider?',
     'ui:options': {
       labels: {
         N: "No/I don't know",
@@ -79,6 +81,20 @@ const uiSchema = {
     'ui:options': {
       expandUnder: 'hasCommunityCareProvider',
     },
+    'ui:description': (
+      <p className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1">
+        Use the{' '}
+        <a
+          href="/find-locations/?facilityType=cc_provider"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          facility locator
+        </a>{' '}
+        to find your preferred community care provider. Copy and paste their
+        name and address below.
+      </p>
+    ),
     practiceName: {
       'ui:title': 'Practice name',
     },
@@ -127,6 +143,7 @@ export class CommunityCarePreferencesPage extends React.Component {
       initialSchema,
     );
     document.title = `${pageTitle}  | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   goBack = () => {
@@ -138,17 +155,22 @@ export class CommunityCarePreferencesPage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress, systemsStatus } = this.props;
+    const {
+      schema,
+      data,
+      pageChangeInProgress,
+      parentFacilitiesStatus,
+    } = this.props;
 
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        {systemsStatus === FETCH_STATUS.failed && <ErrorMessage />}
-        {(!schema || systemsStatus === FETCH_STATUS.loading) && (
+        {parentFacilitiesStatus === FETCH_STATUS.failed && <ErrorMessage />}
+        {(!schema || parentFacilitiesStatus === FETCH_STATUS.loading) && (
           <LoadingIndicator message="Loading Community Care facilities" />
         )}
         {!!schema &&
-          systemsStatus === FETCH_STATUS.succeeded && (
+          parentFacilitiesStatus === FETCH_STATUS.succeeded && (
             <SchemaForm
               name="ccPreferences"
               title="Community Care preferences"
@@ -163,6 +185,7 @@ export class CommunityCarePreferencesPage extends React.Component {
               <FormButtons
                 onBack={this.goBack}
                 pageChangeInProgress={pageChangeInProgress}
+                loadingText="Page change in progress"
               />
             </SchemaForm>
           )}
@@ -174,7 +197,7 @@ export class CommunityCarePreferencesPage extends React.Component {
 function mapStateToProps(state) {
   return {
     ...getFormPageInfo(state, pageKey),
-    systemsStatus: state.newAppointment.systemsStatus,
+    parentFacilitiesStatus: state.newAppointment.parentFacilitiesStatus,
   };
 }
 

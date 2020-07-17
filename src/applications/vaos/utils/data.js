@@ -1,14 +1,22 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { PURPOSE_TEXT, TYPE_OF_VISIT, LANGUAGES } from './constants';
+import { getSiteIdFromOrganization } from '../services/organization';
 import {
   getTypeOfCare,
-  getSystems,
   getFormData,
   getChosenClinicInfo,
   getChosenFacilityInfo,
+  getSiteIdForChosenFacility,
+  getChosenParentInfo,
+  getChosenSlot,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
+import { getFacilityIdFromLocation } from '../services/location';
+import {
+  transformAvailableClinic,
+  findCharacteristic,
+} from '../services/healthcare-service/transformers';
 
 function getRequestedDates(data) {
   return data.calendarData.selectedDates.reduce(
@@ -40,21 +48,17 @@ export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
+  const siteId = getSiteIdForChosenFacility(state);
+  const facilityId = getFacilityIdFromLocation(facility);
 
   return {
     typeOfCare: typeOfCare.id,
     typeOfCareId: typeOfCare.id,
-    appointmentType: getTypeOfCare(data).name,
-    cityState: {
-      institutionCode: data.vaSystem,
-      rootStationCode: data.vaSystem,
-      parentStationCode: data.vaSystem,
-      adminParent: true,
-    },
+    appointmentType: typeOfCare.name,
     facility: {
-      name: facility.authoritativeName,
-      facilityCode: data.vaFacility,
-      parentSiteCode: data.vaSystem,
+      name: facility.name,
+      facilityCode: facilityId,
+      parentSiteCode: siteId,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
@@ -117,9 +121,8 @@ export function transformFormToCCRequest(state) {
   }
 
   const residentialAddress = selectVet360ResidentialAddress(state);
-  const system = getSystems(state).find(
-    sys => sys.institutionCode === data.communityCareSystemId,
-  );
+  const organization = getChosenParentInfo(state, data.communityCareSystemId);
+  const siteId = getSiteIdFromOrganization(organization);
   let cityState;
 
   if (
@@ -132,8 +135,8 @@ export function transformFormToCCRequest(state) {
     };
   } else {
     cityState = {
-      preferredCity: system.city,
-      preferredState: system.stateAbbrev,
+      preferredCity: organization.address?.city,
+      preferredState: organization.address?.state,
     };
   }
 
@@ -143,16 +146,10 @@ export function transformFormToCCRequest(state) {
     typeOfCare: typeOfCare.ccId,
     typeOfCareId: typeOfCare.ccId,
     appointmentType: typeOfCare.name,
-    cityState: {
-      institutionCode: data.communityCareSystemId,
-      rootStationCode: data.communityCareSystemId,
-      parentStationCode: data.communityCareSystemId,
-      adminParent: true,
-    },
     facility: {
-      name: system.authoritativeName,
-      facilityCode: data.communityCareSystemId,
-      parentSiteCode: data.communityCareSystemId,
+      name: organization.name,
+      facilityCode: siteId,
+      parentSiteCode: siteId,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
@@ -191,24 +188,32 @@ export function transformFormToAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
   const facility = getChosenFacilityInfo(state);
-  const slot = data.calendarData.selectedDates[0];
+  const slot = getChosenSlot(state);
   const purpose = getUserMessage(data);
-  const appointmentLength = parseInt(
-    state.newAppointment.appointmentLength,
-    10,
-  );
+  const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
   return {
     appointmentType: getTypeOfCare(data).name,
-    clinic,
+    clinic: {
+      siteCode: clinic.id.split('_')[0].replace('var', ''),
+      clinicId: clinic.id.split('_')[1],
+      clinicName: clinic.serviceName,
+      clinicFriendlyLocationName: findCharacteristic(
+        clinic,
+        'clinicFriendlyLocationName',
+      ),
+      institutionName: findCharacteristic(clinic, 'institutionName'),
+      institutionCode: findCharacteristic(clinic, 'institutionCode'),
+    },
+
     // These times are a lie, they're actually in local time, but the upstream
     // service expects the 0 offset.
     desiredDate: `${data.preferredDate}T00:00:00+00:00`,
-    dateTime: moment(slot.datetime).format('YYYY-MM-DD[T]HH:mm:ss[+00:00]'),
+    dateTime: `${slot.start}+00:00`,
     duration: appointmentLength,
     bookingNotes: purpose,
     preferredEmail: data.email,
-    timeZone: facility.institutionTimezone,
+    timeZone: facility.legacyVAR.institutionTimezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',

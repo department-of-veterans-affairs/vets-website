@@ -31,49 +31,6 @@
   margin-bottom: 1em;
 }
 
-/* Opt out of old appeals styles */
-article[data-location="opt-out-of-old-appeals"] {
-  /* Hide form progression & step number to match design */
-  .progress-bar-segmented,
-  .schemaform-chapter-progress,
-  /* Hide title & (*Required) label above opt-out checkbox */
-  #root_legacyOptInApproved-label,
-  /* Hide save form link */
-  .form-progress-buttons + div {
-    display: none;
-  }
-
-  /* Reduce opt-out title spacing */
-  .confirmation-page-title {
-    margin-top: 0;
-  }
-
-  /* Remove left padding to align left side, per design */
-  .progress-box {
-    padding-left: 0;
-  }
-
-  /* Move checkbox error message _below_ the checkbox, per spec:
-   * https://design.va.gov/patterns/form-feedback#errors-on-checkboxes;
-   * necessary for this custom checkbox widget
-   */
-  .usa-input-error{
-    display: flex;
-    flex-direction: column;
-    flex-flow: column-reverse;
-  }
-
-  /* Maintain margin above checkbox with error */
-  .schemaform-first-field > .usa-input-error {
-    margin-top: 1.8em;
-  }
-
-  /* Reduce padding below footer link and site footer */
-  .help-footer-box {
-    padding-bottom: 0;
-  }
-}
-
 /* Step 1a */
 /* Veteran details block */
 .blue-bar-block {
@@ -98,89 +55,20 @@ article[data-location="opt-out-of-old-appeals"] {
   }
 }
 
-/* Step 1b */
-/* Contact information review cards & forwarding address block */
-.schemaform-block,
-.review-card--title {
-  margin-top: .5em;
-}
-
-/* */
-.usa-button-primary.update-button,
-.usa-button-secondary.edit-button {
-  margin-top: 1em;
-  width: auto;
-}
-
-/* ReviewCardField styles (copied from 526ez form)
-  * shouldn't this be centralized?
-  */
-.review-card {
-  .review-card--header {
-    background-color: $color-gray-lightest;
-    padding: 0 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .review-card--title {
-      margin: 0;
-      display: inline-block;
-    }
-
-    .edit-button {
-      width: 8rem;
-      margin-right: 0;
-    }
-  }
-
-  .review-card--body {
-    padding: 1.5rem;
-    border: 2px solid $color-gray-lightest;
-    /* Remove the top border because it looks like it just extends the header */
-    border-top: none;
-    margin-bottom: 1em;
-
-    .review-card--title {
-      margin: 1.5rem 0 2.5rem;
-    }
-
-    .update-button {
-      margin-top: 1rem;
-      width: 15rem;
-    }
-
-    /* Remove blue border (with this, it's not consistent across the site) */
-    .blue-bar-block {
-      border-left: none;
-      padding-left: 0;
-    }
-  }
-}
-
-/* Step 2a */
+/* Step 2 */
 /*** Contested issues block ***/
-.usa-button-secondary.btn-see-all-issues {
-  width: auto;
-}
 
+/* global definitions */
 // hide Required label (added to description)
 #root_contestedIssues-label {
   display: none;
 }
 
-.schemaform-first-field > .usa-input-error {
-  padding-top: 0;
-}
-
-.contested-issues-error.usa-alert-error {
-  margin-top: 0;
-}
-
-// This could go in the schemaform css, but it isn't used anywhere but here for
-// now
+/* Contested issue cards (contested issue page & review/submit page)
+ * This could go in the schemaform css, it's used in form 526 & HLR
+ */
 .widget-outline {
-  padding: 1em;
+  padding: 0;
   border: solid 4px $color-primary-alt-light;
   border-radius: 7px;
   margin-top: 0.5em;
@@ -193,14 +81,11 @@ article[data-location="opt-out-of-old-appeals"] {
     margin-bottom: 1em;
   }
 
-  label {
-    display: inline-block;
-  }
-
   /* long descriptions cause the content to shift down, using flex to fix it */
   .widget-content {
     display: flex;
     flex-direction: column;
+    padding: 1em;
   }
 
   h4 {
@@ -213,29 +98,58 @@ article[data-location="opt-out-of-old-appeals"] {
     // the outside of the border.
     margin-top: 0em;
     margin-bottom: 0em;
+    padding: 1em;
 
     // Eliminate unnecessary margin inside the label component
     > div *:last-child {
       margin-bottom: 0em;
     }
+
+    .widget-content {
+      padding: 0;
+    }
   }
 }
 
-/* Step 2c */
-article[data-location^="contested-issues/"] {
-  /* Add space above AdditionalInfo block */
-  .form-expanding-group {
-    margin-top: 2em;
+/* Contested issue page specific definitions */
+article[data-location="contested-issues"] {
+  /* hide error; we have a huge alert box instead; but it needs to show on
+   * the review & submit page because the alert doesn't show up
+   */
+  #root_contestedIssues-error-message {
+    display: none;
   }
 
-  .usa-input-error label {
-    font-weight: bold;
+  .usa-input-error {
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  dl.review {
+    border-bottom-width: 0;
   }
 }
 
 /* Step 3 */
 /* Informal conference */
+/* global */
+#root_informalConferenceTimes-label {
+  p {
+    margin-top: 0;
+  }
+  .schemaform-required-span {
+    display: none;
+  }
+}
+.schemaform-block-header > p + p {
+  margin-top: 1em;
+}
+/* page specific */
 article[data-location="request-informal-conference"] {
+  .schemaform-block-header {
+    margin-bottom: 1.5em;
+  }
+
   .form-expanding-group-open {
     .schemaform-field-template,
     .schemaform-field-container {
@@ -245,6 +159,7 @@ article[data-location="request-informal-conference"] {
 
   /* Remove extra spacing between form elements */
   .form-expanding-group {
+    .schemaform-first-field,
     .usa-input-error {
       margin-top: 0;
     }
@@ -254,14 +169,8 @@ article[data-location="request-informal-conference"] {
     }
   }
 
-  #root_scheduleTimes-label {
-    p {
-      margin-top: 0;
-    }
-
-    .schemaform-required-span {
-      display: none;
-    }
+  .schemaform-label.usa-input-error-label {
+    font-weight: bold;
   }
 
   .form-checkbox label {
@@ -271,9 +180,24 @@ article[data-location="request-informal-conference"] {
 
 /* Step 4 Review Application */
 article[data-location="review-and-submit"] {
-  /* checkbox group "Required" lable (added to */
-  #root_scheduleTimes-label {
-    display: none;
+  /* reduce huge gaps where text should be rendered */
+  .schemaform-field-template {
+    margin-top: 0;
+  }
+
+  /* tweak second entry */
+  .scheduled-time + .scheduled-time {
+    padding-top: 0;
+    margin-top: -0.5rem;
+    border-top-width: 0;
+
+    /* hide duplicate label */
+    .time-contact {
+      display: none;
+    }
+  }
+  .normal-weight-in-review {
+    font-weight: normal;
   }
 }
 
@@ -281,5 +205,21 @@ article[data-location="review-and-submit"] {
 article[data-location="confirmation"] {
   h1[tabindex="-1"] {
     outline: none;
+  }
+  @media print {
+    .confirmation-page-title, a {
+      text-align: left;
+      padding-left: 0;
+    }
+  }
+}
+
+@media print {
+  .usa-width-two-thirds {
+    width: 100%;
+  }
+  .schemaform-title,
+  .schemaform-subtitle {
+    display: none;
   }
 }

@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 
-import { apiRequest } from '../../../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
 export const ITF_FETCH_INITIATED = 'ITF_FETCH_INITIATED';
 export const ITF_FETCH_SUCCEEDED = 'ITF_FETCH_SUCCEEDED';
@@ -32,6 +32,26 @@ export function createITF() {
       .catch(() => {
         Sentry.captureMessage('itf_creation_failed');
         dispatch({ type: ITF_CREATION_FAILED });
+      });
+  };
+}
+
+// "add-person" service means the user has a edipi and SSN in the system, but
+// is missing either a BIRLS or participant ID
+export const MVI_ADD_NOT_ATTEMPTED = 'MVI_ADD_NOT_ATTEMPTED';
+export const MVI_ADD_INITIATED = 'MVI_ADD_INITIATED';
+export const MVI_ADD_SUCCEEDED = 'MVI_ADD_SUCCEEDED';
+export const MVI_ADD_FAILED = 'MVI_ADD_FAILED';
+
+export function addPerson() {
+  return dispatch => {
+    dispatch({ type: MVI_ADD_INITIATED });
+
+    return apiRequest('/mvi_users/21-0966', { method: 'POST' })
+      .then(({ data }) => dispatch({ type: MVI_ADD_SUCCEEDED, data }))
+      .catch(() => {
+        Sentry.captureMessage('mvi_add_failed');
+        dispatch({ type: MVI_ADD_FAILED });
       });
   };
 }

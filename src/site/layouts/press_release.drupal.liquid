@@ -106,7 +106,6 @@
 
                 {% comment %} Content {% endcomment %}
                 <div class="usa-width-three-fourths">
-                    {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                     <article class="usa-content">
                         <section class="vads-u-margin-bottom--5">
                             <h1 class="vads-u-margin-bottom--2p5">{{ title }}</h1>
@@ -168,7 +167,7 @@
                         <section class="vads-u-margin-bottom--3">
                             {{ fieldOffice.entity.fieldPressReleaseBlurb.processed }}
                         </section>
-                        {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
+                        {% assign index = entityUrl.breadcrumb.length | minus: 1 %}
                         <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all news releases</a>
                     </article>
                 </div>
@@ -177,7 +176,6 @@
         {% comment %} On non-prod environments, do not show the SideNav. {% endcomment %}
         {% else %}
             <div class="usa-grid usa-grid-full">
-                {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                 <article class="usa-content">
                     <section class="vads-u-margin-bottom--5">
                         <h1 class="vads-u-margin-bottom--2p5">{{ title }}</h1>
@@ -239,7 +237,7 @@
                     <section class="vads-u-margin-bottom--3">
                         {{ fieldOffice.entity.fieldPressReleaseBlurb.processed }}
                     </section>
-                    {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
+                    {% assign index = entityUrl.breadcrumb.length | minus: 1 %}
                     <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all news releases</a>
                 </article>
             </div>

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import { handleScrollOnInputFocus } from '../utils/helpers';
 
 /**
  * A checkbox group with a label.
@@ -21,7 +22,7 @@ class CheckboxGroup extends React.Component {
 
   renderOptions = () => {
     const options = Array.isArray(this.props.options) ? this.props.options : [];
-    const optionElements = options.map((option, index) => {
+    return options.map((option, index) => {
       const { checked, label, name, learnMore } = option;
       return (
         <div key={index} className="form-checkbox">
@@ -30,6 +31,7 @@ class CheckboxGroup extends React.Component {
             id={`${this.inputId}-${index}`}
             name={name}
             type="checkbox"
+            onFocus={this.props.onFocus.bind(this, `${this.inputId}-${index}`)}
             onChange={this.props.onChange}
             aria-labelledby={`${this.inputId}-legend ${name}-${index}-label`}
           />
@@ -45,8 +47,6 @@ class CheckboxGroup extends React.Component {
         </div>
       );
     });
-
-    return optionElements;
   };
 
   render() {
@@ -54,7 +54,7 @@ class CheckboxGroup extends React.Component {
       <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
         <fieldset>
           <div>
-            <span id={`${this.inputId}-legend`} className="gibct-legend">
+            <span id={`${this.inputId}-legend`} className={'gibct-legend'}>
               {this.props.label}
             </span>
             {this.renderOptions()}
@@ -77,6 +77,11 @@ CheckboxGroup.propTypes = {
     ]),
   ).isRequired,
   onChange: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
+};
+
+CheckboxGroup.defaultProps = {
+  onFocus: handleScrollOnInputFocus,
 };
 
 export default CheckboxGroup;

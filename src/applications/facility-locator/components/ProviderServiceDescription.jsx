@@ -1,4 +1,30 @@
 import React from 'react';
+import { facilityTypes, ccUrgentCareLabels } from '../config';
+
+export const urgentCareProviderNames = posCodes => {
+  if (posCodes && parseInt(posCodes, 10) === 17) {
+    return ccUrgentCareLabels.WalkIn;
+  } else if (posCodes && parseInt(posCodes, 10) === 20) {
+    return ccUrgentCareLabels.UrgentCare;
+  } else {
+    return facilityTypes.cc_provider.toUpperCase();
+  }
+};
+
+const providerName = (query, posCodes) => {
+  let name;
+  switch (query.facilityType) {
+    case 'cc_pharmacy':
+      name = facilityTypes.cc_pharmacy.toUpperCase();
+      break;
+    case 'urgent_care':
+      name = urgentCareProviderNames(posCodes);
+      break;
+    default:
+      name = urgentCareProviderNames(posCodes);
+  }
+  return name;
+};
 
 /**
  * Description block for a CC Provider
@@ -11,7 +37,7 @@ import React from 'react';
  *      PPMS provided description of each specialty/service is included
  *      on the details output.
  */
-const ProviderServiceDescription = ({ provider, details = false }) => {
+const ProviderServiceDescription = ({ provider, query, details = false }) => {
   if (details) {
     const { specialty } = provider.attributes;
     if (specialty && specialty.length < 1) return null;
@@ -28,14 +54,19 @@ const ProviderServiceDescription = ({ provider, details = false }) => {
   }
 
   const services = provider.attributes.specialty.map(s => s.name.trim());
-  if (services.length < 1) return null;
+  const { posCodes } = provider.attributes;
 
   return (
-    <p>
-      <span>
-        <strong>Services:</strong> {services.join(', ')}
-      </span>
-    </p>
+    <div>
+      <p>{providerName(query, posCodes)}</p>
+      {services.length >= 1 && (
+        <p>
+          <span>
+            <strong>Services:</strong> {services.join(', ')}
+          </span>
+        </p>
+      )}
+    </div>
   );
 };
 

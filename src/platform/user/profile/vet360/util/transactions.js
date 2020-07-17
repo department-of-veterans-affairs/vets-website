@@ -1,5 +1,4 @@
 import * as VET360 from '../constants';
-import countries from '../constants/countries.json';
 
 export const PENDING_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.RECEIVED,
@@ -17,61 +16,73 @@ export const FAILURE_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.REJECTED,
 ]);
 
+export const VA_PROFILE_INIT_ERROR_CODES = new Set(['CORE100']);
+
 export const UPDATE_ERROR_CODES = new Set([
-  'VET360_ADDR200',
-  'VET360_ADDR201',
-  'VET360_EMAIL200',
-  'VET360_EMAIL201',
-  'VET360_PHON124',
-  'VET360_PHON125',
-  'VET360_CORE100',
-  'VET360_CORE101',
-  'VET360_CORE102',
-  'VET360_CORE105',
-  'VET360_CORE106',
-  'VET360_CORE107',
-  'VET360_CORE109',
-  'VET360_CORE110',
-  'VET360_CORE500',
-  'VET360_CORE501',
-  'VET360_CORE502',
+  'ADDR200',
+  'ADDR201',
+  'EMAIL200',
+  'EMAIL201',
+  'PHON124',
+  'PHON125',
+  'CORE101',
+  'CORE102',
+  'CORE105',
+  'CORE106',
+  'CORE107',
+  'CORE109',
+  'CORE110',
+  'CORE500',
+  'CORE501',
+  'CORE502',
 ]);
 
-export const MVI_NOT_FOUND_ERROR_CODES = new Set(['VET360_MVI201']);
+export const MVI_NOT_FOUND_ERROR_CODES = new Set(['MVI201']);
 
 export const MVI_ERROR_CODES = new Set([
-  'VET360_MVI100',
-  'VET360_MVI101',
-  'VET360_MVI200',
-  'VET360_MVI202',
-  'VET360_MVI203',
+  'MVI100',
+  'MVI101',
+  'MVI200',
+  'MVI202',
+  'MVI203',
 ]);
 
 // This results as a direct error response from the API, and prior to a transaction being created.
 // For context - https://github.com/department-of-veterans-affairs/vets.gov-team/issues/11352
 export const LOW_CONFIDENCE_ADDRESS_ERROR_CODES = new Set([
-  'VET360_ADDR305',
-  'VET360_ADDR306',
-  'VET360_ADDR307',
+  'ADDR305',
+  'ADDR306',
+  'ADDR307',
 ]);
 
-export const DECEASED_ERROR_CODES = new Set(['VET360_MVI300']);
+export const DECEASED_ERROR_CODES = new Set(['MVI300']);
 
 export function isPendingTransaction(transaction) {
-  return PENDING_STATUSES.has(transaction.data.attributes.transactionStatus);
+  return PENDING_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }
 
 export function isSuccessfulTransaction(transaction) {
-  return SUCCESS_STATUSES.has(transaction.data.attributes.transactionStatus);
+  return SUCCESS_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }
 
 export function isFailedTransaction(transaction) {
-  return FAILURE_STATUSES.has(transaction.data.attributes.transactionStatus);
+  return FAILURE_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }
 
 function matchErrorCode(codeSet, transaction) {
-  const { metadata } = transaction.data.attributes;
-  return metadata && metadata.some(error => codeSet.has(error.code));
+  // Create a codeSet that contains all the values of the passed-in codeSet,
+  // with and without a `VET360_` prefix. The `VET360_` prefix is added by our
+  // vets-api layer, but is only added in some cases.
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/8847#issuecomment-635992074
+  const hydratedCodeSet = new Set(
+    Array.from(codeSet).reduce((codes, code) => {
+      codes.push(code);
+      codes.push(`VET360_${code}`);
+      return codes;
+    }, []),
+  );
+  const { metadata } = transaction?.data?.attributes;
+  return metadata?.some(error => hydratedCodeSet.has(error.code));
 }
 
 export function hasGenericUpdateError(transaction) {
@@ -82,23 +93,14 @@ export function hasMVINotFoundError(transaction) {
   return matchErrorCode(MVI_NOT_FOUND_ERROR_CODES, transaction);
 }
 
+export function hasVAProfileInitError(transaction) {
+  return matchErrorCode(VA_PROFILE_INIT_ERROR_CODES, transaction);
+}
+
 export function hasMVIError(transaction) {
   return matchErrorCode(MVI_ERROR_CODES, transaction);
 }
 
 export function hasUserIsDeceasedError(transaction) {
   return matchErrorCode(DECEASED_ERROR_CODES, transaction);
-}
-
-// Adds a countryCodeIso3 to an address based on the countryName value
-export function addCountryCodeIso3ToAddress(address) {
-  if (!address.countryName) return { ...address };
-
-  const countryData = countries.find(
-    country => country.countryName === address.countryName,
-  );
-
-  if (!countryData) return { ...address };
-
-  return { ...address, countryCodeIso3: countryData.countryCodeISO3 };
 }

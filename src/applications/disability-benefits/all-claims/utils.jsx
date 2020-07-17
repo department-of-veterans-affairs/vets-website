@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from 'react';
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
@@ -6,18 +7,20 @@ import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import fastLevenshtein from 'fast-levenshtein';
-import { apiRequest } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
-import _ from '../../../platform/utilities/data';
+import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import _ from 'platform/utilities/data';
+import titleCase from 'platform/utilities/data/titleCase';
+
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import disability526Manifest from 'applications/disability-benefits/526EZ/manifest.json';
 import {
   validateMilitaryCity,
   validateMilitaryState,
   validateZIP,
 } from './validations';
-import ReviewCardField from './components/ReviewCardField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 
 import {
   DATA_PATHS,
@@ -36,6 +39,7 @@ import {
   TYPO_THRESHOLD,
   itfStatuses,
   NULL_CONDITION_STRING,
+  DATE_FORMAT,
 } from './constants';
 
 /**
@@ -68,6 +72,19 @@ export const srSubstitute = (srIgnored, substitutionText) => (
   </span>
 );
 
+export const formatDate = (date, format = DATE_FORMAT) => {
+  const m = moment(date);
+  return m.isValid() ? m.format(format) : null;
+};
+
+export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) =>
+  dateRange?.from || dateRange?.to
+    ? `${formatDate(dateRange.from, format)} to ${formatDate(
+        dateRange.to,
+        format,
+      )}`
+    : null;
+
 // moment().isSameOrBefore() => true; so expirationDate can't be undefined
 export const isNotExpired = (expirationDate = '') =>
   moment().isSameOrBefore(expirationDate);
@@ -89,7 +106,7 @@ export const hasGuardOrReservePeriod = formData => {
   return serviceHistory.reduce((isGuardReserve, { serviceBranch }) => {
     // For a new service period, service branch defaults to undefined
     if (!serviceBranch) {
-      return false;
+      return isGuardReserve;
     }
     const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
     return (
@@ -133,7 +150,7 @@ export const ReservesGuardDescription = ({ formData }) => {
   return (
     <div>
       Please tell us more about your {serviceBranch} service that ended on{' '}
-      {moment(to).format('MMMM DD, YYYY')}.
+      {formatDate(to)}.
     </div>
   );
 };
@@ -285,42 +302,6 @@ export const bankFieldsHaveInput = formData =>
     'view:bankAccount.bankName',
   ]);
 
-export const AddressViewField = ({ formData }) => {
-  const {
-    addressLine1,
-    addressLine2,
-    addressLine3,
-    city,
-    country,
-    state,
-    zipCode,
-  } = formData;
-  let zipString;
-  if (zipCode) {
-    const firstFive = zipCode.slice(0, 5);
-    const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
-    zipString = `${firstFive}${lastChunk}`;
-  }
-
-  let lastLine;
-  if (country === USA) {
-    lastLine = `${city}, ${state} ${zipString}`;
-  } else {
-    lastLine = `${city}, ${country}`;
-  }
-  return (
-    <p className="blue-bar-block">
-      {addressLine1 && addressLine1}
-      <br />
-      {addressLine2 && addressLine2}
-      {addressLine2 && <br />}
-      {addressLine3 && addressLine3}
-      {addressLine3 && <br />}
-      {lastLine}
-    </p>
-  );
-};
-
 /**
  * Returns the path with any ':index' substituted with the actual index.
  * @param {string} path - The path with or without ':index'
@@ -388,19 +369,20 @@ export const addressUISchema = (
     addressLine1: {
       'ui:title': 'Street address',
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid address',
+        pattern: 'Please enter a valid street address',
+        required: 'Please enter a street address',
       },
     },
     addressLine2: {
       'ui:title': 'Street address',
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid address',
+        pattern: 'Please enter a valid street address',
       },
     },
     addressLine3: {
       'ui:title': 'Street address',
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid address',
+        pattern: 'Please enter a valid street address',
       },
     },
     city: {
@@ -413,7 +395,8 @@ export const addressUISchema = (
         },
       ],
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid city',
+        pattern: 'Please enter a valid city',
+        required: 'Please enter a city',
       },
     },
     state: {
@@ -438,6 +421,10 @@ export const addressUISchema = (
           validator: validateMilitaryState,
         },
       ],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid state',
+        required: 'Please enter a state',
+      },
     },
     zipCode: {
       'ui:title': 'Postal code',
@@ -447,7 +434,9 @@ export const addressUISchema = (
         _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
           USA,
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
+        required: 'Please enter a postal code',
+        pattern:
+          'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
@@ -718,10 +707,7 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
     The dates you enter must be within one of the service periods you entered.
     <ul>
       {servicePeriodDateRanges.map((range, index) => (
-        <li key={index}>
-          {moment(range.from).format('MMM DD, YYYY')} —{' '}
-          {moment(range.to).format('MMM DD, YYYY')}
-        </li>
+        <li key={index}>{formatDateRange(range)}</li>
       ))}
     </ul>
   </span>
@@ -752,7 +738,6 @@ export const hasNewDisabilities = formData =>
  * @enum {String}
  */
 export const urls = {
-  v1: disability526Manifest.rootUrl,
   v2: DISABILITY_526_V2_ROOT_URL,
 };
 
@@ -817,3 +802,21 @@ export const activeServicePeriods = formData =>
   _.get('serviceInformation.servicePeriods', formData, []).filter(
     sp => !sp.dateRange.to || moment(sp.dateRange.to).isAfter(moment()),
   );
+
+export const DISABILITY_SHARED_CONFIG = {
+  orientation: {
+    path: 'disabilities/orientation',
+    // Only show the page if both (or potentially neither) options are chosen on the claim-type page
+    depends: formData =>
+      newAndIncrease(formData) || noClaimTypeSelected(formData),
+  },
+  ratedDisabilities: {
+    path: 'disabilities/rated-disabilities',
+    depends: formData =>
+      hasRatedDisabilities(formData) && !newConditionsOnly(formData),
+  },
+  addDisabilities: {
+    path: 'new-disabilities/add',
+    depends: hasNewDisabilities,
+  },
+};

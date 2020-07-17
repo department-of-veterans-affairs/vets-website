@@ -22,12 +22,10 @@ function createIndexPage(files) {
     .map(fileName => `<li><a href="/${fileName}">${fileName}</a></li>`)
     .join('');
 
-  const drupalIndex = `
+  return `
     <h1>The following pages were provided by Drupal:</h1>
     <ol>${drupalPages}</ol>
   `;
-
-  return drupalIndex;
 }
 
 function createDrupalDebugPage(buildOptions) {
@@ -37,8 +35,7 @@ function createDrupalDebugPage(buildOptions) {
     !ENABLED_ENVIRONMENTS.has(buildOptions.buildtype) ||
     buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD
   ) {
-    const noop = () => {};
-    return noop;
+    return () => {};
   }
 
   return (files, smith, done) => {

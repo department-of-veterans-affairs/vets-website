@@ -315,6 +315,46 @@ describe('Schemaform <FileField>', () => {
     expect(tree.find('label').exists()).to.be.false;
     tree.unmount();
   });
+  it('should not render upload button on review & submit page while in review mode', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files');
+    const formData = [
+      {
+        confirmationCode: 'asdfds',
+        name: 'Test file name',
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={{ reviewMode: true }}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.find('label').exists()).to.be.false;
+    tree.unmount();
+  });
 
   it('should delete file', () => {
     const uiSchema = fileUploadUI('Files');
@@ -491,6 +531,122 @@ describe('Schemaform <FileField>', () => {
     expect(tree.find('SchemaField').prop('schema')).to.equal(
       schema.items[0].properties.name,
     );
+    tree.unmount();
+  });
+
+  // Accessibility checks
+  it('should render a div wrapper when not on the review page', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      additionalItems: {
+        type: 'object',
+        properties: {
+          attachmentId: {
+            type: 'string',
+          },
+        },
+      },
+      items: [
+        {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files', {
+      attachmentName: {
+        'ui:title': 'Document name',
+      },
+    });
+    const formData = [
+      {
+        confirmationCode: 'asdfds',
+        name: 'Test file name',
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={{ onReviewPage: false }}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    // expect dl wrapper on review page
+    expect(tree.find('div.review').exists()).to.be.true;
+    tree.unmount();
+  });
+  it('should render a dl wrapper when on the review page', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      additionalItems: {
+        type: 'object',
+        properties: {
+          attachmentId: {
+            type: 'string',
+          },
+        },
+      },
+      items: [
+        {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files', {
+      attachmentName: {
+        'ui:title': 'Document name',
+      },
+    });
+    const formData = [
+      {
+        confirmationCode: 'asdfds',
+        name: 'Test file name',
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={{ onReviewPage: true, reviewMode: true }}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    // expect dl wrapper on review page
+    expect(tree.find('dl.review').exists()).to.be.true;
     tree.unmount();
   });
 });

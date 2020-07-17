@@ -7,9 +7,12 @@ import TextWidget from './TextWidget';
  * instead
  */
 export default class PhoneNumberWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { val: props.value };
+  state = { val: this.props.value, firstUpdate: true };
+
+  componentDidUpdate(prevProps) {
+    if (this.state.firstUpdate && this.props.value !== prevProps.value) {
+      this.handleChange(this.props.value);
+    }
   }
 
   handleChange = val => {
@@ -18,7 +21,7 @@ export default class PhoneNumberWidget extends React.Component {
       stripped = val.replace(/[ \-()x+]/g, '');
     }
 
-    this.setState({ val }, () => {
+    this.setState({ val, firstUpdate: false }, () => {
       this.props.onChange(stripped);
     });
   };

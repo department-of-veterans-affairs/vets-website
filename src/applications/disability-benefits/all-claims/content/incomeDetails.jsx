@@ -12,7 +12,7 @@ const helpClicked = () =>
 
 export const incomeDescription = (
   <div>
-    <h4>Income details</h4>
+    <h3 className="vads-u-font-size--h4">Income details</h3>
     <p>
       Now we’re going to ask you about your income history. Please provide your
       gross income, which is all the money you earned through employment for the

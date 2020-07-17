@@ -5,6 +5,7 @@ import sinon from 'sinon';
 
 import { mockEventListeners } from 'platform/testing/unit/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
+import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { Main, mapStateToProps } from '../../containers/Main';
 
 describe('<Main>', () => {
@@ -49,9 +50,9 @@ describe('<Main>', () => {
   });
 
   it('should render', () => {
-    const wrapper = shallow(<Main {...props} />);
+    const wrapper = shallow(<Main {...props} />, { context: { store: {} } });
     expect(wrapper.find('SearchHelpSignIn').exists()).to.be.true;
-    expect(wrapper.find('SignInModal').exists()).to.be.true;
+    expect(wrapper.find(SignInModal).exists()).to.be.true;
     wrapper.unmount();
   });
 

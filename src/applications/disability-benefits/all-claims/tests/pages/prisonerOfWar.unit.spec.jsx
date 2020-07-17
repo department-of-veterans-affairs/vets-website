@@ -5,7 +5,7 @@ import {
   DefinitionTester,
   fillDate,
   selectRadio,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
@@ -92,7 +92,7 @@ describe('Prisoner of war info', () => {
         .find('.va-growable-background')
         .first()
         .text(),
-    ).to.contain('05/05/2011');
+    ).to.contain('May 5, 2010');
     form.unmount();
   });
 

@@ -26,14 +26,19 @@
   <div class="row va-flex usa-grid usa-grid-full" id="va-header-logo-menu">
     <div class="va-header-logo-wrapper">
       <a href="/" class="va-header-logo">
-      <img src="/img/header-logo.png" alt="Go to VA.gov"/>
+        <img src="/img/header-logo.png" alt="Go to VA.gov"/>
       </a>
     </div>
-    <div id="va-nav-controls"></div>
-    <div id="login-root" class="vet-toolbar"></div>
+    {% if !noNavOrLogin %}
+      <div id="va-nav-controls"></div>
+      <div id="login-root" class="vet-toolbar"></div>
+    {% endif %}
   </div>
-  <div class="usa-grid usa-grid-full">
-    <div id="menu-rule" class="usa-one-whole"></div>
-    <div id="mega-menu"></div> <!-- for the mega-menu, but if you add the ID the css breaks rn -->
-  </div>
+  {% if !noMegamenu %}
+    <div class="usa-grid usa-grid-full">
+      <div id="menu-rule" class="usa-one-whole"></div>
+      <div id="mega-menu"></div>
+      <!-- for the mega-menu, but if you add the ID the css breaks rn -->
+    </div>
+  {% endif %}
 </header>

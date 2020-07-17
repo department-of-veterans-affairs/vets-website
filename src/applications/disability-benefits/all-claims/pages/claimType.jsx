@@ -13,8 +13,8 @@ export const uiSchema = {
     },
     'ui:validations': [validateBooleanGroup],
     'ui:errorMessages': {
-      atLeastOne: 'Please select at least one',
-      required: 'Please select at least one',
+      atLeastOne: 'Please select at least one type',
+      required: 'Please select at least one type',
     },
     'view:claimingNew': {
       'ui:title': 'A new condition',

@@ -16,11 +16,6 @@ const initialState = {
 export default function claimDetailReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIM_DETAIL:
-      return _.assign(state, {
-        synced: action.meta.syncStatus === 'SUCCESS',
-        available: true,
-        authorized: true,
-      });
     case SET_CLAIMS:
       return _.assign(state, {
         synced: action.meta.syncStatus === 'SUCCESS',

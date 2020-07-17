@@ -2,7 +2,7 @@ import React from 'react';
 
 export const UploadDescription = ({ uploadTitle }) => (
   <div>
-    {uploadTitle && <h5>{uploadTitle}</h5>}
+    {uploadTitle && <h3 className="vads-u-font-size--h5">{uploadTitle}</h3>}
     <p>
       You can upload your document in a .pdf, .jpeg, or .png file format. You’ll
       first need to scan a copy of your document onto your computer or mobile

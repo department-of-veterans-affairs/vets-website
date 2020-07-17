@@ -11,7 +11,7 @@
   }
 {% endcomment %}
 
-<div class="process schemaform-process">
+<div data-template="paragraphs/process" data-entity-id="{{ entity.entityId }}" class="process schemaform-process">
     <ol>
     {% assign count = 1 %}
         {% for item in entity.fieldSteps %}

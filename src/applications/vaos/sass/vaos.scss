@@ -1,6 +1,55 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "../../../platform/forms/sass/m-schemaform";
 
+.vaos-appts__tabs {
+  padding: 0;
+  border-bottom: 1px solid $color-gray-light;
+  display: flex;
+}
+
+.vaos-appts__tabs li {
+  width: 50%;
+  display: flex;
+
+  @include media($medium-screen) {
+    width: 200px;
+  }
+}
+
+.vaos-appts__tab {
+  width: 100%;
+  font-size: 14px;
+  border: solid 1px $color-gray-light;
+  border-radius: 0 !important;
+  position: relative;
+  list-style: none;
+  padding: 6px 0px;
+  cursor: pointer;
+  bottom: -1px;
+  text-decoration: none;
+  background-color: $color-gray-light-alt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover, &:focus, &:active {
+    color: $color-gray-dark;
+    text-decoration: none;
+    background: $color-gray-lighter;
+  }
+
+  &.vaos-appts__tab--current {
+    border-top: solid 3px $color-primary;
+    background: $color-white !important;
+    border-bottom: solid 1px $color-white;
+    margin: 0;
+  }
+
+  @include media($medium-screen) {
+    font-size: 16px;
+  }
+}
+
 .vaos-option-list__icon {
   display: inline-block;
   font-size: 19px;
@@ -73,6 +122,10 @@
   z-index: 10000;
 }
 
+.vaos-calendar__validation-msg:focus {
+  outline: 0;
+}
+
 .vaos-calendar__weekday {
   width: 20%;
 }
@@ -85,65 +138,62 @@
   @include media($small-screen) {
     margin: 8px;
   }
+}
 
-  button {
-    width: 100%;
-    color: $color-base;
-    background-color: $color-gray-lightest;
-    border: 1px solid $color-gray-medium;
-    border-radius: 5px;
-    padding: 12px;
-    margin: 0;
+.vaos-calendar__day--current {
+  margin-bottom: 12px;
+  @include media($small-screen) {
+    margin-bottom: 8px;
+  }
+}
 
-    &:hover {
-      border-color: $color-primary-darker;
-    }
+.vaos-calendar__day--current > button,
+.vaos-calendar__day--selected > button {
+  position: relative;
+  background-color: $color-primary;
+  border-color: $color-primary;
+  color: $color-white;
+
+  &:hover {
+    border: 1px solid $color-primary-darker;
+  }
+}
+
+.vaos-calendar__fa-check-position {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  font-size: 10px;
+}
+.vaos-calendar__day--selected-triangle {
+  display: block;
+  height: 20px;
+  width: 20px;
+  background-color: inherit;
+  border: inherit;
+  position: absolute;
+  bottom: -10px;
+  left: calc(50% - 10px);
+  clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+  transform: rotate(-45deg);
+  border-radius: 0 0 0 0.25em;
+  z-index: -1;
+}
+
+.vaos-calendar__calendar-day-button {
+  width: 100%;
+  color: $color-base;
+  background-color: $color-gray-lightest;
+  border: 1px solid $color-gray-medium;
+  border-radius: 5px;
+  padding: 12px;
+  margin: 0;
+
+  &:hover {
+    border-color: $color-primary-darker;
   }
 
-  &.vaos-calendar__cell-selected button {
-    position: relative;
-    background-color: $color-primary;
-    border-color: $color-primary;
-    color: $color-white;
-  }
-
-  .fa-check {
-    position: absolute;
-    left: 4px;
-    top: 4px;
-    font-size: 10px;
-  }
-
-  &.vaos-calendar__cell-current {
-    margin-bottom: 12px;
-    @include media($small-screen) {
-      margin-bottom: 8px;
-    }
-
-    button {
-      position: relative;
-      background-color: $color-primary;
-      border-color: $color-primary;
-      color: $color-white;
-
-      .vaos-calendar__cell-selected-triangle {
-        display: block;
-        height: 20px;
-        width: 20px;
-        background-color: inherit;
-        border: inherit;
-        position: absolute;
-        bottom: -10px;
-        left: calc(50% - 10px);
-        clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
-        transform: rotate(-45deg);
-        border-radius: 0 0 0 0.25em;
-        z-index: -1;
-      }
-    }
-  }
-
-  button:disabled {
+  &:disabled {
     background-color: $color-gray-lightest;
     border-color: $color-gray-lightest;
     color: $color-gray-light;
@@ -163,20 +213,17 @@
   margin-bottom: 11px;
 }
 
-.vaos-calendar__nav-links {
+.vaos-calendar__nav-links-button {
   margin-top: -30px;
+  background: none;
 
-  button {
+  &:disabled {
+    color: $color-gray-light !important;
     background: none;
+  }
 
-    &:disabled {
-      color: $color-gray-light !important;
-      background: none;
-    }
-
-    &:hover {
-      background: none;
-    }
+  &:hover {
+    background: none;
   }
 }
 
@@ -232,6 +279,20 @@
     margin-top: 0;
     box-shadow: 0 0 0 1px $color-primary;
   }
+
+  &.disabled {
+    cursor: not-allowed;
+
+    label {
+      cursor: not-allowed;
+    }
+
+    input[type="checkbox"], input[type="checkbox"] + label::before {
+      box-shadow: 0 0 0 1px $color-gray-light;
+      background: $color-gray-lightest;
+      cursor: not-allowed;
+    }
+  }
 }
 
 h1:focus {
@@ -246,4 +307,13 @@ h1:focus {
   > .usa-input-error {
     margin-top: 0;
   }
+}
+
+.vaos-u-word-break--break-word {
+  word-break: break-word;
+}
+
+.vaos-flex-break {
+  flex-basis: 100%;
+  height: 0;
 }

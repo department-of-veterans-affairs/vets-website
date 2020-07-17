@@ -8,14 +8,14 @@ export default function CommunityCareSection(props) {
   return (
     <>
       <PreferredDatesSection data={props.data} />
-      <hr className="vads-u-margin-y--2" />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <PreferredProviderSection
         data={props.data}
         vaCityState={props.vaCityState}
       />
-      <hr className="vads-u-margin-y--2" />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={props.data} />
-      <hr className="vads-u-margin-y--2" />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ContactDetailSection data={props.data} />
     </>
   );

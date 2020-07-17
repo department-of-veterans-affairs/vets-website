@@ -10,7 +10,8 @@ describe('brand-consolidation/va-subdomain', () => {
   });
 
   it('returns false if is not a VA subdomain', () => {
-    window = { // eslint-disable-line
+    // eslint-disable-next-line no-global-assign
+    window = {
       location: {
         hostname: 'www.va.gov',
       },
@@ -20,7 +21,8 @@ describe('brand-consolidation/va-subdomain', () => {
   });
 
   it('returns true if is a VA subdomain', () => {
-    window = { // eslint-disable-line
+    // eslint-disable-next-line no-global-assign
+    window = {
       location: {
         hostname: 'www.BENEFITS.va.gov',
       },

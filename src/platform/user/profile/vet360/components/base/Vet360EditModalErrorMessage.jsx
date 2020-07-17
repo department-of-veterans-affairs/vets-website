@@ -54,10 +54,11 @@ export default function Vet360EditModalErrorMessage({
 
   return (
     <AlertBox
-      isVisible
-      status="error"
       content={<div className="columns">{content}</div>}
+      isVisible
       onCloseAlert={clearErrors}
+      scrollOnShow
+      status="error"
     />
   );
 }

@@ -11,19 +11,17 @@ const INITIAL_STATE = Object.freeze({
   eightKeysToVeteranSuccess: false,
   stemIndicator: false,
   typeName: 'ALL',
-  vetTecProvider: false,
   preferredProvider: false,
   provider: [],
+  excludeWarnings: false,
+  excludeCautionFlags: false,
 });
 
 export default function(state = INITIAL_STATE, action) {
-  switch (action.type) {
-    case INSTITUTION_FILTER_CHANGED:
-      return {
+  return action.type === INSTITUTION_FILTER_CHANGED
+    ? {
         ...INITIAL_STATE,
         ...action.filter,
-      };
-    default:
-      return { ...state };
-  }
+      }
+    : { ...state };
 }

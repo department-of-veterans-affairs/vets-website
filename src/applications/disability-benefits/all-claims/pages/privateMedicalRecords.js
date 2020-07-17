@@ -3,7 +3,7 @@ import {
   patientAcknowledgmentText,
 } from '../content/privateMedicalRecords';
 import { UploadDescription } from '../content/fileUploadDescriptions';
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { ancillaryFormUploadUi } from '../utils';
 import { DATA_PATHS } from '../constants';
@@ -11,11 +11,11 @@ import { DATA_PATHS } from '../constants';
 const { privateMedicalRecordAttachments } = fullSchema.properties;
 
 const fileUploadUi = ancillaryFormUploadUi(
-  'Upload your private medical records',
+  'to your private medical records',
   ' ',
   {
     attachmentId: '',
-    addAnotherLabel: 'Add Another Document',
+    addAnotherLabel: 'Add another document',
   },
 );
 
@@ -24,8 +24,8 @@ export const uiSchema = {
     'Now we’ll ask you about your private medical records for your claimed disability.',
   'view:aboutPrivateMedicalRecords': {
     'ui:title': 'About private medical records',
-    'ui:description': `If you have your private medical records, you can upload them to your 
-      application. If you want us to get them for you, you’ll need to 
+    'ui:description': `If you have your private medical records, you can upload them to your
+      application. If you want us to get them for you, you’ll need to
       authorize their release.`,
   },
   'view:uploadPrivateRecordsQualifier': {
@@ -37,6 +37,8 @@ export const uiSchema = {
           Y: 'Yes',
           N: 'No, please get my records from my doctor.',
         },
+        // Force ReviewFieldTemplate to wrap this component in a <dl>
+        useDlWrap: true,
       },
     },
     'view:privateRecordsChoiceHelp': {

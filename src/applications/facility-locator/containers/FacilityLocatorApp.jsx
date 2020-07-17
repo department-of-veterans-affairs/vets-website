@@ -4,7 +4,7 @@ import React from 'react';
 import appendQuery from 'append-query';
 import DowntimeNotification, {
   externalServices,
-} from '../../../platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import { validateIdString } from '../utils/helpers';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import { ccLocatorEnabled } from '../config';

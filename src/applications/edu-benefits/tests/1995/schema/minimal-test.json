@@ -29,6 +29,7 @@
       }
     },
     "serviceBefore1977": {},
-    "privacyAgreementAccepted": true
+    "privacyAgreementAccepted": true,
+    "view:determineEligibility": {}
   }
 }

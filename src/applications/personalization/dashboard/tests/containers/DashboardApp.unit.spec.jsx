@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 
 import localStorage from 'platform/utilities/storage/localStorage';
-import { DashboardApp } from '../../containers/DashboardApp';
+import { DashboardApp, mapStateToProps } from '../../containers/DashboardApp';
 
 const defaultProps = {
   profile: {
@@ -92,6 +92,27 @@ describe('<DashboardApp>', () => {
     );
   });
 
+  it('should render the ViewYourProfile2 section when showProfile 2 is true', () => {
+    const tree = SkinDeep.shallowRender(
+      <DashboardApp {...defaultProps} showProfile2 />,
+    );
+    expect(tree.toString()).to.contain('<ViewYourProfile2 />');
+  });
+
+  it('should not render the Manage Your Account section when showProfile 2 is true', () => {
+    const tree = SkinDeep.shallowRender(
+      <DashboardApp {...defaultProps} showProfile2 />,
+    );
+    expect(tree.toString()).not.to.contain('<ManageYourAccount />');
+  });
+
+  it('should render the Manage Your Account section when showProfile 2 is false', () => {
+    const tree = SkinDeep.shallowRender(
+      <DashboardApp profile={{ loa: { current: 3 }, showProfile2: false }} />,
+    );
+    expect(tree.toString()).to.contain('<ManageYourAccount />');
+  });
+
   it('should not render warnings if information available', () => {
     const props = {
       profile: {
@@ -110,5 +131,86 @@ describe('<DashboardApp>', () => {
     expect(tree.toString()).to.not.contain(
       'Verify your identity to access more VA.gov tools and features',
     );
+  });
+});
+
+describe('mapStateToProps', () => {
+  const defaultState = () => ({
+    featureToggles: {
+      dashboardShowCovid19Alert: true,
+    },
+    hcaEnrollmentStatus: {},
+    user: {
+      profile: {
+        services: [],
+        facilities: [],
+      },
+    },
+  });
+  describe('showCOVID19Alert', () => {
+    it('is set to true when the user is a patient in a VISN23 health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [
+        { facilityId: 'abc' },
+        { facilityId: '123' },
+        { facilityId: '656' }, // St. Cloud VA is in VISN23
+      ];
+      const props = mapStateToProps(state);
+      expect(props.showCOVID19Alert).to.be.true;
+    });
+    it('is set to false when the user is a patient in a VISN8 health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [
+        { facilityId: 'abc' },
+        { facilityId: '123' },
+        { facilityId: '548' }, // West Palm Beach is in VISN8
+      ];
+      const props = mapStateToProps(state);
+      expect(props.showCOVID19Alert).to.be.false;
+    });
+    it('is set to false when the user is not a patient in an eligible health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [{ facilityId: 'abc' }];
+      const props = mapStateToProps(state);
+      expect(props.showCOVID19Alert).to.be.false;
+    });
+  });
+  describe('showProfile2', () => {
+    it('is set to true when the feature flag "profile_show_profile_2.0" is turned on', () => {
+      const state = defaultState();
+      const profile2 = 'profile_show_profile_2.0';
+      state.featureToggles[profile2] = true;
+      const props = mapStateToProps(state);
+      expect(props.showProfile2).to.be.true;
+    });
+  });
+  describe('vaHealthChatEligibleFacilityId', () => {
+    it("is set to the facilityId of the facility that's eligible for VA health chat", () => {
+      const state = defaultState();
+      state.user.profile.facilities = [
+        { facilityId: 'abc' },
+        { facilityId: '123' },
+        { facilityId: '656' }, // St. Cloud VA is in VISN23
+      ];
+      const props = mapStateToProps(state);
+      expect(props.vaHealthChatEligibleSystemId).to.equal('656');
+    });
+    it('is set to null when the user is not a patient in an eligible health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [
+        { facilityId: 'abc' },
+        { facilityId: '123' },
+        { facilityId: '548' }, // West Palm Beach is in VISN8
+      ];
+      state.user.profile.facilities = [{ facilityId: 'abc' }];
+      const props = mapStateToProps(state);
+      expect(props.vaHealthChatEligibleSystemId).to.be.null;
+    });
+    it('is set to null when the user is not a patient in an eligible health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [{ facilityId: 'abc' }];
+      const props = mapStateToProps(state);
+      expect(props.vaHealthChatEligibleSystemId).to.be.null;
+    });
   });
 });

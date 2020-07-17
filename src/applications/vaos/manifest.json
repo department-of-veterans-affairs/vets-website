@@ -2,10 +2,5 @@
   "appName": "VA Online Scheduling",
   "entryFile": "./vaos-entry",
   "entryName": "vaos",
-  "rootUrl": "/health-care/schedule-view-va-appointments/appointments",
-  "production": true,
-  "template": {
-    "vagovprod": true,
-    "layout": "page-react.html"
-  }
+  "rootUrl": "/health-care/schedule-view-va-appointments/appointments"
 }

@@ -34,4 +34,8 @@ describe('VAOS <ReasonForAppointmentSection>', () => {
       tree.find(Link).find('[aria-label="Edit purpose of appointment"]'),
     ).to.have.lengthOf(1);
   });
+
+  it('contain class that breaks long comments', () => {
+    expect(tree.find('.vaos-u-word-break--break-word').exists()).to.be.true;
+  });
 });

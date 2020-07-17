@@ -1,34 +1,40 @@
 import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
+import 'url-search-params-polyfill';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
+import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
+import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
 };
 
-const SESSIONS_URI = `${environment.API_URL}/sessions`;
-const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
-
-const SIGNUP_URL = sessionTypeUrl('signup');
-const MHV_URL = sessionTypeUrl('mhv');
-const DSLOGON_URL = sessionTypeUrl('dslogon');
-const IDME_URL = sessionTypeUrl('idme');
-const MFA_URL = sessionTypeUrl('mfa');
-const VERIFY_URL = sessionTypeUrl('verify');
-const LOGOUT_URL = sessionTypeUrl('slo');
-
-const loginUrl = policy => {
-  switch (policy) {
-    case 'mhv':
-      return MHV_URL;
-    case 'dslogon':
-      return DSLOGON_URL;
-    default:
-      return IDME_URL;
-  }
+export const externalRedirects = {
+  myvahealth: environment.isProduction()
+    ? 'https://patientportal.myhealth.va.gov/'
+    : 'https://ehrm-va-test.patientportal.us.healtheintent.com/',
 };
+
+export const ssoKeepAliveEndpoint = () => {
+  const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
+  return `https://${envPrefix}eauth.va.gov/keepalive`;
+};
+
+function sessionTypeUrl(type = '', version = 'v0', queryParams = {}) {
+  const base =
+    version === 'v1'
+      ? `${environment.API_URL}/v1/sessions`
+      : `${environment.API_URL}/sessions`;
+
+  const searchParams = new URLSearchParams(queryParams);
+
+  const queryString =
+    searchParams.toString() === '' ? '' : `?${searchParams.toString()}`;
+
+  return `${base}/${type}/new${queryString}`;
+}
 
 export function setSentryLoginType(loginType) {
   Sentry.setTag('loginType', loginType);
@@ -62,9 +68,28 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
+export function standaloneRedirect() {
+  const searchParams = new URLSearchParams(window.location.search);
+  const application = searchParams.get('application');
+  const to = searchParams.get('to');
+  let url = externalRedirects[application] || null;
+
+  if (url && to) {
+    const pathname = to.startsWith('/') ? to : `/${to}`;
+    url = url.endsWith('/') ? url.slice(0, -1) : url;
+    url = `${url}${pathname}`.replace('\r\n', ''); // Prevent CRLF injection.
+  }
+  return url;
+}
+
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
+  // If the user is coming via the standalone sign-in, redirect to the home page.
+  const returnUrl =
+    window.location.pathname === '/sign-in/'
+      ? standaloneRedirect() || window.location.origin
+      : window.location;
+  sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
   if (redirectUrl.includes('idme')) {
@@ -74,23 +99,34 @@ function redirect(redirectUrl, clickedEvent) {
   }
 }
 
-export function login(policy) {
-  return redirect(loginUrl(policy), 'login-link-clicked-modal');
+export function login(
+  policy,
+  version = 'v0',
+  queryParams = {},
+  clickedEvent = 'login-link-clicked-modal',
+) {
+  const url = sessionTypeUrl(policy, version, queryParams);
+  setLoginAttempted();
+  return redirect(url, clickedEvent);
 }
 
-export function mfa() {
-  return redirect(MFA_URL, 'multifactor-link-clicked');
+export function mfa(version = 'v0') {
+  return redirect(sessionTypeUrl('mfa', version), 'multifactor-link-clicked');
 }
 
-export function verify() {
-  return redirect(VERIFY_URL, 'verify-link-clicked');
+export function verify(version = 'v0') {
+  return redirect(sessionTypeUrl('verify', version), 'verify-link-clicked');
 }
 
-export function logout() {
+export function logout(
+  version = 'v0',
+  clickedEvent = 'logout-link-clicked',
+  queryParams = {},
+) {
   clearSentryLoginType();
-  return redirect(LOGOUT_URL, 'logout-link-clicked');
+  return redirect(sessionTypeUrl('slo', version, queryParams), clickedEvent);
 }
 
-export function signup() {
-  return redirect(SIGNUP_URL, 'register-link-clicked');
+export function signup(version = 'v0') {
+  return redirect(sessionTypeUrl('signup', version), 'register-link-clicked');
 }

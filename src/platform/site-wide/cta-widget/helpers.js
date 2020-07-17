@@ -1,5 +1,7 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
-import environment from 'platform/utilities/environment';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import { rootUrl as hearingAidSuppliesFormUrl } from 'applications/disability-benefits/2346/manifest.json';
+import { rootUrl as viewDependentsAppUrl } from 'applications/personalization/view-dependents/manifest.json';
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when
@@ -12,6 +14,7 @@ export const widgetTypes = {
   DISABILITY_RATINGS: 'disability-ratings',
   GI_BILL_BENEFITS: 'gi-bill-benefits',
   HEALTH_RECORDS: 'health-records',
+  HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
   LAB_AND_TEST_RESULTS: 'lab-and-test-results',
   LETTERS: 'letters',
   MESSAGING: 'messaging',
@@ -20,10 +23,10 @@ export const widgetTypes = {
   VET_TEC: 'vet-tec',
   VETERAN_ID_CARD: 'vic',
   VIEW_APPOINTMENTS: 'view-appointments',
+  VIEW_DEPENDENTS: 'view-dependents',
 };
 
 const HEALTH_TOOLS = [
-  widgetTypes.DIRECT_DEPOSIT,
   widgetTypes.HEALTH_RECORDS,
   widgetTypes.LAB_AND_TEST_RESULTS,
   widgetTypes.MESSAGING,
@@ -53,12 +56,6 @@ export const hasRequiredMhvAccount = (appId, accountLevel) => {
 
 export const isHealthTool = appId => HEALTH_TOOLS.includes(appId);
 
-export const mhvBaseUrl = () => {
-  const mhvSubdomain = !environment.isProduction() ? 'mhv-syst' : 'www';
-
-  return `https://${mhvSubdomain}.myhealth.va.gov`;
-};
-
 export const mhvToolName = appId => {
   switch (appId) {
     case widgetTypes.HEALTH_RECORDS:
@@ -77,51 +74,43 @@ export const mhvToolName = appId => {
     case widgetTypes.VIEW_APPOINTMENTS:
       return 'VA Appointments';
 
-    case widgetTypes.DIRECT_DEPOSIT:
-      return 'Direct Deposit';
-
     default: // Not a recognized health tool.
   }
 
   return null;
 };
 
-export const toolUrl = appId => {
+export const toolUrl = (appId, useSSOe = false) => {
   switch (appId) {
     case widgetTypes.HEALTH_RECORDS:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/download-my-data`,
+        url: mhvUrl(useSSOe, 'download-my-data'),
         redirect: false,
       };
 
     case widgetTypes.RX:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/refill-prescriptions`,
-        redirect: true,
+        url: mhvUrl(useSSOe, 'web/myhealthevet/refill-prescriptions'),
+        redirect: false,
       };
 
     case widgetTypes.MESSAGING:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/secure-messaging`,
-        redirect: true,
-      };
-
-    case widgetTypes.VIEW_APPOINTMENTS:
-      return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/appointments`,
+        url: mhvUrl(useSSOe, 'secure-messaging'),
         redirect: false,
       };
 
+    case widgetTypes.VIEW_APPOINTMENTS:
     case widgetTypes.SCHEDULE_APPOINTMENTS:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
+        url: mhvUrl(useSSOe, 'appointments'),
         redirect: false,
       };
 
     case widgetTypes.LAB_AND_TEST_RESULTS:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/labs-tests`,
-        redirect: true,
+        url: mhvUrl(useSSOe, 'labs-tests'),
+        redirect: false,
       };
 
     case widgetTypes.CLAIMS_AND_APPEALS:
@@ -170,6 +159,18 @@ export const toolUrl = appId => {
     case widgetTypes.DISABILITY_RATINGS:
       return {
         url: '/disability/view-disability-rating/rating',
+        redirect: false,
+      };
+
+    case widgetTypes.HEARING_AID_SUPPLIES:
+      return {
+        url: hearingAidSuppliesFormUrl,
+        redirect: false,
+      };
+
+    case widgetTypes.VIEW_DEPENDENTS:
+      return {
+        url: viewDependentsAppUrl,
         redirect: false,
       };
 
@@ -233,10 +234,10 @@ export const serviceDescription = appId => {
       return 'view your lab and test results';
 
     case widgetTypes.VIEW_APPOINTMENTS:
-      return 'view your appointments';
+      return 'view, schedule, or cancel your appointment online';
 
     case widgetTypes.SCHEDULE_APPOINTMENTS:
-      return 'schedule, reschedule, or cancel a VA appointment online';
+      return 'view, schedule, or cancel your appointment online';
 
     case widgetTypes.GI_BILL_BENEFITS:
       return 'check your GI Bill Benefits';
@@ -261,6 +262,12 @@ export const serviceDescription = appId => {
 
     case widgetTypes.DISABILITY_RATINGS:
       return 'view your VA disability rating';
+
+    case widgetTypes.HEARING_AID_SUPPLIES:
+      return 'order hearing aid supplies';
+
+    case widgetTypes.VIEW_DEPENDENTS:
+      return 'view current dependents';
 
     default:
       return 'use this service';

@@ -10,6 +10,16 @@ describe('Schemaform <RoutedSavablePage>', () => {
     pathname: '/testing/0',
   };
 
+  let formConfigDefaultData;
+
+  beforeEach(() => {
+    formConfigDefaultData = {
+      customText: {
+        finishAppLaterMessage: '',
+      },
+    };
+  });
+
   it('should include SaveLink and SaveStatus', () => {
     const route = {
       pageConfig: {
@@ -50,6 +60,7 @@ describe('Schemaform <RoutedSavablePage>', () => {
         route={route}
         user={user}
         location={location}
+        formConfig={formConfigDefaultData}
       />,
     )
       .find('FormPage')
@@ -57,6 +68,70 @@ describe('Schemaform <RoutedSavablePage>', () => {
 
     expect(tree.find('SaveStatus').exists()).to.be.true;
     expect(tree.find('SaveFormLink').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should display the finishAppLaterMessage if passed in', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+      },
+      pageList: [
+        {
+          path: 'testing',
+        },
+      ],
+    };
+    const form = {
+      disableSave: false,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        },
+      },
+      data: {},
+    };
+    const user = {
+      profile: {
+        savedForms: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+
+    const finishLaterLinkFormConfigData = {
+      ...formConfigDefaultData,
+      customText: {
+        finishAppLaterMessage:
+          'Custom finish this application another time message.',
+      },
+    };
+
+    const tree = shallow(
+      <RoutedSavablePage
+        form={form}
+        route={route}
+        user={user}
+        location={location}
+        formConfig={finishLaterLinkFormConfigData}
+      />,
+    )
+      .find('FormPage')
+      .dive();
+
+    expect(tree.find('SaveFormLink').exists()).to.be.true;
+    expect(
+      tree
+        .find('SaveFormLink')
+        .children()
+        .text(),
+    ).to.equal('Custom finish this application another time message.');
     tree.unmount();
   });
 
@@ -104,6 +179,7 @@ describe('Schemaform <RoutedSavablePage>', () => {
         user={user}
         location={location}
         autoSave={autosave}
+        formConfig={formConfigDefaultData}
       />,
     );
     tree.instance().debouncedAutoSave = autosave;

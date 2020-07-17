@@ -19,7 +19,7 @@ class AskVAPage extends React.Component {
     document.title = 'Ask for your Claim Decision';
     setUpPage();
   }
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.decisionRequested) {
       props.getClaimDetail(this.props.params.id);

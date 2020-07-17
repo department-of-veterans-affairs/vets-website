@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '../AlertBox';
 
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -78,7 +78,7 @@ class CalculatorForm extends React.Component {
       this.isFullZipcode(event.value);
       this.setState({ invalidZip: '' });
     } else if (event.dirty && this.props.inputs.beneficiaryZIP.length < 5) {
-      this.setState({ invalidZip: 'Zip code must be a 5-digit number' });
+      this.setState({ invalidZip: 'Postal code must be a 5-digit number' });
     }
   };
 
@@ -388,7 +388,7 @@ class CalculatorForm extends React.Component {
       <div id={scholarshipsFieldId}>
         <label htmlFor={scholarshipsId}>
           {this.renderLearnMoreLabel({
-            text: 'Scholarships (excluding Pell)',
+            text: 'Scholarships (excluding Pell Grants)',
             modal: 'calcScholarships',
             ariaLabel: ariaLabels.learnMore.calcScholarships,
           })}
@@ -661,8 +661,8 @@ class CalculatorForm extends React.Component {
 
       if (!inputs.classesOutsideUS) {
         const label = this.isCountryInternational()
-          ? "If you're taking classes in the U.S., enter the location's zip code"
-          : "Please enter the zip code where you'll take your classes";
+          ? "If you're taking classes in the U.S., enter the location's postal code"
+          : "Please enter the postal code where you'll take your classes";
 
         amountInput = (
           <div>
@@ -679,7 +679,7 @@ class CalculatorForm extends React.Component {
 
         zipcodeLocation = (
           <p aria-live="polite" aria-atomic="true">
-            <span className="sr-only">Your zip code is located in</span>
+            <span className="sr-only">Your postal code is located in</span>
             <strong>{inputs.housingAllowanceCity}</strong>
           </p>
         );
@@ -710,8 +710,6 @@ class CalculatorForm extends React.Component {
             <span>
               {'Where will you take the majority of your classes? '}
               <button
-                aria-live="polite"
-                aria-atomic="true"
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={onShowModal.bind(

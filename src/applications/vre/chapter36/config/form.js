@@ -2,27 +2,27 @@ import _ from 'lodash/fp';
 
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
-import { genderLabels } from '../../../../platform/static-data/labels.jsx';
+import { genderLabels } from 'platform/static-data/labels.jsx';
 
-import * as address from '../../../../platform/forms/definitions/address';
+import * as address from 'platform/forms/definitions/address';
 import { benefitsLabels, dischargeTypeLabels } from '../../utils/labels.jsx';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { transform } from '../helpers';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 
-import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
+import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
-// import environment from '../../../../platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+// import environment from 'platform/utilities/environment';
 
 const {
   applicantEmail,
@@ -179,9 +179,6 @@ const formConfig = {
     vaFileNumber,
     dateRange,
     requiredDateRange,
-  },
-  downtime: {
-    dependencies: [externalServices.global],
   },
   chapters: {
     applicantInformation: {
@@ -466,15 +463,12 @@ const formConfig = {
               'Primary phone number where a message can be left',
             ),
             applicantOtherPhone: phoneUI('Other phone number'),
-            applicantEmail: {
-              'ui:title': 'Email address',
-            },
-            'view:confirmEmail': {
-              'ui:title': 'Re-enter email address',
+            applicantEmail: emailUI(),
+            'view:confirmEmail': _.merge(emailUI('Re-enter email address'), {
               'ui:options': {
                 hideOnReview: true,
               },
-            },
+            }),
             'ui:validations': [
               validateMatch('applicantEmail', 'view:confirmEmail'),
             ],

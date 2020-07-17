@@ -26,9 +26,7 @@ function createQueryString(query) {
 
 export function createUrlWithQuery(url, query) {
   const queryString = createQueryString(query);
-  const fullUrl = queryString ? `${url}?${queryString}` : url;
-
-  return fullUrl;
+  return queryString ? `${url}?${queryString}` : url;
 }
 
 export function formattedDate(date, options = {}) {

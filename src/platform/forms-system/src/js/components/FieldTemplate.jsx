@@ -27,12 +27,10 @@ export default function FieldTemplate(props) {
   const requiredSpan = required ? (
     <span className="schemaform-required-span">(*Required)</span>
   ) : null;
-  const label = uiSchema['ui:title'] || props.label;
+  const label = uiSchema['ui:title'] || props.label || '';
   const isDateField = uiSchema['ui:widget'] === 'date';
   const showFieldLabel =
     uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
-  const hideLabelText =
-    uiSchema['ui:options'] && uiSchema['ui:options'].hideLabelText;
   const useLabelElement = showFieldLabel === 'label';
 
   const description = uiSchema['ui:description'];
@@ -59,6 +57,7 @@ export default function FieldTemplate(props) {
 
   const containerClassNames = classNames(
     'schemaform-field-template',
+    errorClass,
     _.get(['ui:options', 'classNames'], uiSchema),
   );
   const labelClassNames = classNames({
@@ -95,9 +94,15 @@ export default function FieldTemplate(props) {
     </label>
   );
 
+  // Don't render hidden or empty labels - prevents duplicate IDs on review &
+  // submit page
+  const showLabel =
+    !uiSchema['ui:options']?.hideLabelText &&
+    (typeof label !== 'string' || (requiredSpan || label.trim()));
+
   const content = (
-    <div className={errorClass}>
-      {!hideLabelText && labelElement}
+    <>
+      {showLabel && labelElement}
       {textDescription && <p>{textDescription}</p>}
       {DescriptionField && (
         <DescriptionField options={uiSchema['ui:options']} />
@@ -106,7 +111,7 @@ export default function FieldTemplate(props) {
       {errorSpan}
       {<div className={inputWrapperClassNames}>{children}</div>}
       {help}
-    </div>
+    </>
   );
 
   if (useFieldsetLegend) {

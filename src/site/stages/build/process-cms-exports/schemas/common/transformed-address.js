@@ -1,10 +1,9 @@
 module.exports = {
   $id: 'Address',
   type: ['object', 'null'],
-  // None of these are required
   properties: {
     countryCode: { type: ['string', 'null'] },
-    addressLine1: { type: 'string' },
+    addressLine1: { type: ['string', 'null'] },
     addressLine2: { type: ['string', 'null'] },
     administrativeArea: { type: ['string', 'null'] }, // Also known as state
     locality: { type: ['string', 'null'] }, // Also known as city
@@ -18,4 +17,5 @@ module.exports = {
     givenName: { type: ['string', 'null'] },
     familyName: { type: ['string', 'null'] },
   },
+  required: ['addressLine1', 'administrativeArea', 'locality', 'postalCode'],
 };

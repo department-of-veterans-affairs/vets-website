@@ -21,8 +21,8 @@ describe('526 all claims schema tests', () => {
       const result = v.validate(submitData.form526, fullSchema);
 
       if (!result.valid) {
-        console.log(`Validation errors found in ${file}`); // eslint-disable-line
-        console.log(JSON.stringify(result.errors, null, 2)); // eslint-disable-line
+        console.log(`Validation errors found in ${file}`); // eslint-disable-line no-console
+        console.log(JSON.stringify(result.errors, null, 2)); // eslint-disable-line no-console
       }
       expect(result.valid).to.be.true;
     });

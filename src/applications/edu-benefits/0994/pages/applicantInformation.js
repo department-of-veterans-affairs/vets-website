@@ -15,26 +15,12 @@ const {
 
 export const uiSchema = {
   'ui:description': ApplicantDescription,
-  applicantFullName: {
-    ...fullNameUI,
-    first: {
-      ...fullNameUI.first,
-      'ui:errorMessages': {
-        pattern: 'Please provide a response',
-      },
-    },
-    last: {
-      ...fullNameUI.last,
-      'ui:errorMessages': {
-        pattern: 'Please provide a response',
-      },
-    },
-  },
+  applicantFullName: fullNameUI,
   applicantSocialSecurityNumber: ssnUI,
   dateOfBirth: {
     ...currentOrPastDateUI('Date of birth'),
     'ui:errorMessages': {
-      pattern: 'Please provide a valid date',
+      required: 'Please provide a valid date',
       futureDate: 'Please provide a valid date',
     },
   },

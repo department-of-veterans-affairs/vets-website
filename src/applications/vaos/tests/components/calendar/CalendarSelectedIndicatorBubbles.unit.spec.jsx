@@ -23,7 +23,9 @@ describe('VAOS <CalendarSelectedIndicator>', () => {
       />,
     );
     expect(tree.find('.vaos-calendar__indicator-bubble').length).to.equal(0);
-    expect(tree.find('.fa-check').length).to.equal(1);
+    expect(
+      tree.find('.fa-check.vaos-calendar__fa-check-position').length,
+    ).to.equal(1);
     tree.unmount();
   });
 

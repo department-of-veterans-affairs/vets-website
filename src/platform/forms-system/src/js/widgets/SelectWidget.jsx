@@ -34,16 +34,20 @@ function SelectWidget({
       id={id}
       name={id}
       multiple={multiple}
-      className={options.widgetClassNames}
+      className={`${options.widgetClassNames} ${
+        disabled ? 'vads-u-background-color--gray-lighter' : ''
+      }`}
       value={value || ''}
       required={required}
       disabled={disabled}
       readOnly={readonly}
       onBlur={event => {
+        // eslint-disable-next-line sonarjs/no-extra-arguments
         const newValue = getValue(event, multiple);
         onBlur(id, processValue(schema, newValue));
       }}
       onChange={event => {
+        // eslint-disable-next-line sonarjs/no-extra-arguments
         const newValue = getValue(event, multiple);
         onChange(processValue(schema, newValue));
       }}

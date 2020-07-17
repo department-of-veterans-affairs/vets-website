@@ -1,7 +1,8 @@
 import _ from 'lodash/fp';
 import * as Sentry from '@sentry/browser';
 
-import environment from '../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
+import localStorage from 'platform/utilities/storage/localStorage';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { SET_UNAUTHORIZED } from '../actions/index.jsx';
 
@@ -240,7 +241,7 @@ export function isClaimComplete(claim) {
 }
 
 export function itemsNeedingAttentionFromVet(events) {
-  return events.filter(
+  return events?.filter(
     event =>
       event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
   ).length;
@@ -253,6 +254,7 @@ export function makeAuthRequest(
   onSuccess,
   onError,
 ) {
+  const csrfTokenStored = localStorage.getItem('csrfToken');
   const options = _.merge(
     {
       method: 'GET',
@@ -261,6 +263,7 @@ export function makeAuthRequest(
       headers: {
         'X-Key-Inflection': 'camel',
         'Source-App-Name': window.appName,
+        'X-CSRF-Token': csrfTokenStored,
       },
       responseType: 'json',
     },
@@ -299,7 +302,7 @@ export function makeAuthRequest(
 }
 
 export function getCompletedDate(claim) {
-  if (claim.attributes && claim.attributes.eventsTimeline) {
+  if (claim?.attributes?.eventsTimeline) {
     const completedEvents = claim.attributes.eventsTimeline.filter(
       event => event.type === 'completed',
     );
@@ -313,7 +316,7 @@ export function getCompletedDate(claim) {
 
 export function getClaimType(claim) {
   return (
-    claim.attributes.claimType || 'disability compensation'
+    claim?.attributes?.claimType || 'disability compensation'
   ).toLowerCase();
 }
 

@@ -94,7 +94,7 @@ export default class ArrayField extends React.Component {
     setTimeout(() => {
       scroller.scrollTo(
         `topOfTable_${this.props.idSchema.$id}`,
-        window.Forms.scroll || {
+        window.Forms?.scroll || {
           duration: 500,
           delay: 0,
           smooth: true,
@@ -108,7 +108,7 @@ export default class ArrayField extends React.Component {
     setTimeout(() => {
       scroller.scrollTo(
         `table_${id}`,
-        window.Forms.scroll || {
+        window.Forms?.scroll || {
           duration: 500,
           delay: 0,
           smooth: true,
@@ -283,7 +283,9 @@ export default class ArrayField extends React.Component {
                       {isLast &&
                       items.length > 1 &&
                       uiSchema['ui:options'].itemName ? (
-                        <h5>New {uiSchema['ui:options'].itemName}</h5>
+                        <h3 className="vads-u-font-size--h5">
+                          New {uiSchema['ui:options'].itemName}
+                        </h3>
                       ) : null}
                       <div className="input-section">
                         <SchemaField

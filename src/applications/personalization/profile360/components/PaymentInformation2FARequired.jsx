@@ -1,7 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-export default function PaymentInformation2FARequired() {
+import { ssoe } from 'platform/user/authentication/selectors';
+import { mfa } from 'platform/user/authentication/utilities';
+import recordEvent from 'platform/monitoring/record-event';
+
+function mfaHandler(useSSOe) {
+  recordEvent({ event: 'multifactor-link-clicked' });
+  mfa(useSSOe ? 'v1' : 'v0');
+}
+
+export function PaymentInformation2FARequired({ useSSOe }) {
   return (
     <AlertBox
       status="success"
@@ -20,10 +31,21 @@ export default function PaymentInformation2FARequired() {
           make sure that no one but you can access your account—even if they get
           your password.
         </p>
-        <a className="usa-button-primary va-button-primary" href="/account">
+        <button
+          className="usa-button-primary va-button-primary"
+          onClick={() => mfaHandler(useSSOe)}
+        >
           Set up 2-factor authentication
-        </a>
+        </button>
       </>
     </AlertBox>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    useSSOe: ssoe(state),
+  };
+}
+
+export default connect(mapStateToProps)(PaymentInformation2FARequired);

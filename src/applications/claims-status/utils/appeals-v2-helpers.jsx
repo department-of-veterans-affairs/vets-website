@@ -257,8 +257,8 @@ export function formatDate(date) {
 function getHearingType(type) {
   const typeMaps = {
     video: 'videoconference',
-    travel_board: 'travel board', // eslint-disable-line
-    central_office: 'Washington, DC central office', // eslint-disable-line
+    travel_board: 'travel board', // eslint-disable-line camelcase
+    central_office: 'Washington, DC central office', // eslint-disable-line camelcase
   };
 
   return typeMaps[type] || type;
@@ -281,7 +281,7 @@ function getHearingType(type) {
 export function getStatusContents(appeal, name = {}) {
   const { status, aoj, programArea } = appeal.attributes;
   const appealType = appeal.type;
-  const statusType = status.type;
+  const statusType = status.type || status;
   const details = status.details || {};
   const amaDocket = _.get(appeal, 'attributes.docket.type');
   const aojDescription = getAojDescription(aoj);
@@ -947,6 +947,7 @@ export function getEventContent(event) {
         description: '',
       };
     case EVENT_TYPES.failureToRespond:
+    case EVENT_TYPES.otherClose:
       return {
         title: 'Your appeal was closed',
         description: '',
@@ -974,11 +975,6 @@ export function getEventContent(event) {
     case EVENT_TYPES.vacated:
       return {
         title: 'Board of Veterans’ Appeals vacated a previous decision',
-        description: '',
-      };
-    case EVENT_TYPES.otherClose:
-      return {
-        title: 'Your appeal was closed',
         description: '',
       };
     case EVENT_TYPES.amaNod:
@@ -1552,17 +1548,6 @@ export function getNextEvents(appeal) {
       };
     }
     case STATUS_TYPES.bvaDevelopment:
-      return {
-        header: '', // intentionally empty
-        events: [
-          {
-            title: 'The Board will make a decision',
-            description: makeDecisionReviewContent(),
-            durationText: '',
-            cardDescription: '',
-          },
-        ],
-      };
     case STATUS_TYPES.stayed:
       return {
         header: '', // intentionally empty
@@ -2089,9 +2074,7 @@ export const getErrorStatus = response => {
  */
 const getAppealDate = appeal => {
   const { events } = appeal.attributes;
-  const dateString =
-    events && events.length ? events[events.length - 1].date : '0';
-  return dateString;
+  return events && events.length ? events[events.length - 1].date : '0';
 };
 
 /**
@@ -2101,8 +2084,7 @@ const getAppealDate = appeal => {
  */
 const getClaimDate = claim => {
   const { phaseChangeDate } = claim.attributes;
-  const dateString = phaseChangeDate || '0';
-  return dateString;
+  return phaseChangeDate || '0';
 };
 
 /**

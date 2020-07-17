@@ -24,6 +24,9 @@ export const uiSchema = {
       label: disabilityOption,
       widgetClassNames: 'widget-outline',
       keepInPageOnReview: true,
+      // making the customTitle truthy but an empty string (trimmable), so the
+      // ObjectField doesn't wrap this content in a <DL> and break accessibility
+      customTitle: ' ',
     },
     'ui:validations': [requireRatedDisability],
   },

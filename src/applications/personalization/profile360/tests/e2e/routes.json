@@ -1,27 +1,5 @@
 [
   {
-    "path": "/v0/address/countries",
-    "verb": "get",
-    "value": {
-      "data": {
-        "attributes": {
-          "countries": ["USA"]
-        }
-      }
-    }
-  },
-  {
-    "path": "/v0/address/states",
-    "verb": "get",
-    "value": {
-      "data": {
-        "attributes": {
-          "states": ["Alabama", "Kentucky"]
-        }
-      }
-    }
-  },
-  {
     "path": "/v0/profile/full_name",
     "verb": "get",
     "value": {

@@ -81,7 +81,6 @@ describe('<YourClaimsPageV2>', () => {
 
   it('should render a no claims message when no claims or appeals present', () => {
     const props = _.cloneDeep(defaultProps);
-    props.canAccessClaims = false;
     props.list = [];
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('NoClaims').length).to.equal(1);
@@ -93,7 +92,6 @@ describe('<YourClaimsPageV2>', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
     expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
-    expect(wrapper.find('ClaimsUnauthorized').length).to.equal(0);
     expect(wrapper.find('AppealsUnavailable').length).to.equal(0);
     wrapper.unmount();
   });
@@ -103,7 +101,6 @@ describe('<YourClaimsPageV2>', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
     expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
-    expect(wrapper.find('ClaimsUnauthorized').length).to.equal(0);
     expect(wrapper.find('AppealsUnavailable').length).to.equal(0);
     wrapper.unmount();
   });

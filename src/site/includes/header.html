@@ -7,6 +7,12 @@
 <html lang="en">
 <!--<![endif]-->
 
+<!--
+  layout: {{ layout }}
+  path: {{ path }}
+  entityId: {{ entityId | default: 'N/A' }}
+-->
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -14,14 +20,19 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  {% if buildtype != 'vagovprod' %}
+    <meta name="robots" content="noindex">
+  {% endif %}
+
   {% if drupalTags %}
   {% include "src/site/includes/metatags.drupal.liquid" %}
   {% else %}
   {% include "src/site/includes/metatags.liquid" %}
   {% endif %}
 
-  <script src="/js/record-event.js"></script>
-  <script src="/js/settings.js"></script>
+  <script>
+    {% include "src/site/assets/js/record-event.js" %}
+  </script>
 
   {% include 'src/site/includes/google-analytics' %}
 
@@ -52,6 +63,10 @@
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
+  {% if botframework_cdn %}
+    <script nonce="**CSP_NONCE**" src="{{ botframework_cdn }}"></script>
+  {% endif %}
+
   <script defer nomodule data-entry-name="polyfills.js"></script>
   <script defer data-entry-name="vendor.js"></script>
   <script defer data-entry-name="{{ entryname | default: 'static-pages' }}.js"></script>
@@ -60,12 +75,11 @@
   We participate in the US government’s analytics program. See the data at analytics.usa.gov.
   https://github.com/digital-analytics-program/gov-wide-code
 -->
-  <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA"
+  <script async type="text/javascript" nonce="**CSP_NONCE**" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA"
     id="_fed_an_ua_tag"></script>
 
   <script type="text/javascript">
     window.VetsGov = window.VetsGov || {};
-    window.featureToggles = {{ featureToggles }};
     window.VetsGov.headerFooter = {{ headerFooterData }};
   </script>
 
@@ -76,15 +90,23 @@
   <a class="show-on-focus" href="#content">Skip to Content</a>
 
   {% if !noHeader %}
-  {% include "src/site/includes/top-nav.html" %}
+    {% include "src/site/includes/top-nav.html" %}
   {% endif %}
 
   {% include "src/site/components/fullwidth_banner_alerts.drupal.liquid" %}
 
-  {% if path == '' or path == '/' %}
-  <div id="homepage-banner">
-    <!-- Rendered from vets-website/src/applications/static-pages/renderHomepageBanner.js -->
-  </div>
-  {% endif %}
+  <div
+    data-widget-type="banners"
+    data-homepage-banner-content="{{ homepage_banner.content | escape }}"
+    data-homepage-banner-title="{{ homepage_banner.title | escape }}"
+    data-homepage-banner-type="{{ homepage_banner.type }}"
+    data-homepage-banner-visible="{{ homepage_banner.visible }}"
+  ></div>
 
-  <script async src="/js/incompatible-browser.js"></script>
+  <script type="text/javascript">
+  (function() {
+    var module = {};
+    {% include "src/site/assets/js/incompatible-browser.js" %}
+    checkBrowserCompatibility();
+  })();
+  </script>

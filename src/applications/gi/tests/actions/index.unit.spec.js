@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+
 import {
   mockFetch,
   resetFetch,
@@ -16,7 +17,32 @@ import {
   FETCH_PROFILE_STARTED,
   FETCH_PROFILE_FAILED,
   FETCH_PROFILE_SUCCEEDED,
+  fetchInstitutionAutocompleteSuggestions,
+  fetchProgramAutocompleteSuggestions,
+  fetchConstants,
+  fetchInstitutionSearchResults,
+  AUTOCOMPLETE_SUCCEEDED,
+  AUTOCOMPLETE_FAILED,
+  FETCH_CONSTANTS_STARTED,
+  FETCH_CONSTANTS_FAILED,
+  SEARCH_STARTED,
+  SEARCH_FAILED,
+  eligibilityChange,
+  ELIGIBILITY_CHANGED,
+  calculatorInputChange,
+  CALCULATOR_INPUTS_CHANGED,
 } from '../../actions/index';
+
+const verifyAction = (expectedAction, actualAction) => {
+  expect(expectedAction).to.eql(actualAction);
+};
+
+const verifyGibctFormChange = (field, value, actionIndex = 0) => {
+  const recordedEvent = global.window.dataLayer[actionIndex];
+  expect(recordedEvent.event).to.eq('gibct-form-change');
+  expect(recordedEvent['gibct-form-field']).to.eq(field);
+  expect(recordedEvent['gibct-form-value']).to.eq(value);
+};
 
 describe('beneficiaryZIPCodeChanged', () => {
   beforeEach(() => mockFetch());
@@ -27,7 +53,7 @@ describe('beneficiaryZIPCodeChanged', () => {
       type: 'BENEFICIARY_ZIP_CODE_CHANGED',
       beneficiaryZIP: '1111',
     };
-    expect(expectedAction).to.eql(actualAction);
+    verifyAction(expectedAction, actualAction);
   });
 
   it('should dispatch started and success actions', done => {
@@ -172,9 +198,8 @@ describe('fetchProfile', () => {
     ).to.be.true;
 
     setTimeout(() => {
-      const { type, err } = dispatch.secondCall.args[0];
+      const { type } = dispatch.secondCall.args[0];
       expect(type).to.eql(FETCH_PROFILE_FAILED);
-      expect(err instanceof Error).to.be.true;
       done();
     }, 0);
   });
@@ -225,4 +250,192 @@ describe('fetchProfile', () => {
     }, 0);
   });
   afterEach(() => resetFetch());
+});
+
+describe('institution autocomplete', () => {
+  beforeEach(() => mockFetch());
+  it('should dispatch a success action', done => {
+    const autocompleteResults = {
+      meta: {
+        version: 1,
+      },
+      data: [],
+    };
+
+    setFetchResponse(global.fetch.onFirstCall(), autocompleteResults);
+
+    const dispatch = sinon.spy();
+
+    fetchInstitutionAutocompleteSuggestions('test', {})(dispatch);
+
+    setTimeout(() => {
+      expect(
+        dispatch.firstCall.calledWith({
+          type: AUTOCOMPLETE_SUCCEEDED,
+          payload: {
+            ...autocompleteResults,
+          },
+        }),
+      ).to.be.true;
+      done();
+    }, 0);
+  });
+
+  it('should dispatch a failure action', done => {
+    const error = { test: 'test' };
+    setFetchFailure(global.fetch.onFirstCall(), error);
+
+    const dispatch = sinon.spy();
+
+    fetchInstitutionAutocompleteSuggestions('test', {})(dispatch);
+
+    setTimeout(() => {
+      const { type, err } = dispatch.firstCall.args[0];
+      expect(type).to.eql(AUTOCOMPLETE_FAILED);
+      expect(err instanceof Error).to.be.true;
+      done();
+    }, 0);
+  });
+});
+
+describe('institution program autocomplete', () => {
+  beforeEach(() => mockFetch());
+  it('should dispatch a success action', done => {
+    const autocompleteResults = {
+      meta: {
+        version: 1,
+      },
+      data: [],
+    };
+
+    setFetchResponse(global.fetch.onFirstCall(), autocompleteResults);
+
+    const dispatch = sinon.spy();
+
+    fetchProgramAutocompleteSuggestions('test', {})(dispatch);
+
+    setTimeout(() => {
+      expect(
+        dispatch.firstCall.calledWith({
+          type: AUTOCOMPLETE_SUCCEEDED,
+          payload: {
+            ...autocompleteResults,
+          },
+        }),
+      ).to.be.true;
+      done();
+    }, 0);
+  });
+
+  it('should dispatch a failure action', done => {
+    const error = { test: 'test' };
+    setFetchFailure(global.fetch.onFirstCall(), error);
+
+    const dispatch = sinon.spy();
+
+    fetchProgramAutocompleteSuggestions('test', {})(dispatch);
+
+    setTimeout(() => {
+      const { type, err } = dispatch.firstCall.args[0];
+      expect(type).to.eql(AUTOCOMPLETE_FAILED);
+      expect(err instanceof Error).to.be.true;
+      done();
+    }, 0);
+  });
+});
+
+describe('institution search', () => {
+  beforeEach(() => mockFetch());
+
+  it('should dispatch a failure action', done => {
+    const error = { test: 'test' };
+    setFetchFailure(global.fetch.onFirstCall(), error);
+
+    const dispatch = sinon.spy();
+
+    fetchInstitutionSearchResults('@@', {})(dispatch);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(SEARCH_STARTED);
+
+    setTimeout(() => {
+      const { payload } = dispatch.secondCall.args[0];
+
+      expect(dispatch.secondCall.args[0]).to.eql({
+        type: SEARCH_FAILED,
+        payload,
+      });
+      done();
+    }, 0);
+  });
+
+  it('should pass fuzzy_search flag', done => {
+    const dispatch = sinon.spy();
+    fetchInstitutionSearchResults({}, true)(dispatch);
+    expect(global.fetch.firstCall.args[0]).to.contain('fuzzy_search=true');
+    done();
+  });
+
+  it('should not pass fuzzy_search flag when fuzzySearch is false', done => {
+    const dispatch = sinon.spy();
+    fetchInstitutionSearchResults({}, false)(dispatch);
+    expect(global.fetch.firstCall.args[0]).to.not.contain('fuzzy_search');
+    done();
+  });
+});
+
+describe('constants', () => {
+  beforeEach(() => mockFetch());
+
+  it('should dispatch a failure action', done => {
+    const error = { test: 'test' };
+    setFetchFailure(global.fetch.onFirstCall(), error);
+
+    const dispatch = sinon.spy();
+
+    fetchConstants('test')(dispatch);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(FETCH_CONSTANTS_STARTED);
+
+    setTimeout(() => {
+      const { payload } = dispatch.secondCall.args[0];
+
+      expect(dispatch.secondCall.args[0]).to.eql({
+        type: FETCH_CONSTANTS_FAILED,
+        payload,
+      });
+      done();
+    }, 0);
+  });
+});
+
+describe('eligibility change', () => {
+  it('should return ELIGIBILITY_CHANGED ', () => {
+    const field = 'militaryStatus';
+    const value = 'veteran';
+    const actualAction = eligibilityChange({ target: { name: field, value } });
+
+    const expectedAction = {
+      type: ELIGIBILITY_CHANGED,
+      field,
+      value,
+    };
+    verifyAction(expectedAction, actualAction);
+    verifyGibctFormChange(field, value);
+  });
+});
+
+describe('calculator input change', () => {
+  it('should return ELIGIBILITY_CHANGED ', () => {
+    const field = 'calendar';
+    const value = 'quarters';
+    const actualAction = calculatorInputChange({ field, value });
+
+    const expectedAction = {
+      type: CALCULATOR_INPUTS_CHANGED,
+      field,
+      value,
+    };
+    verifyAction(expectedAction, actualAction);
+    verifyGibctFormChange(field, value);
+  });
 });

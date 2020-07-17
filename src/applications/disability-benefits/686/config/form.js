@@ -13,7 +13,6 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import dataUtils from 'platform/utilities/data/index';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -279,7 +278,7 @@ function createAddressUISchemaForKey(key, isRequiredCallback = () => true) {
       'ui:title': 'Street',
       'ui:required': isRequiredCallback,
       'ui:errorMessages': {
-        required: 'Please fill in a valid street address',
+        required: 'Please enter a street address',
       },
     },
     street2: {
@@ -291,11 +290,17 @@ function createAddressUISchemaForKey(key, isRequiredCallback = () => true) {
     city: {
       'ui:title': 'City',
       'ui:required': isRequiredCallback,
+      'ui:errorMessages': {
+        required: 'Please enter a city',
+      },
     },
     state: {
       'ui:title': 'State',
       'ui:required': (formData, index) =>
         isDomesticAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      'ui:errorMessages': {
+        required: 'Please enter a state',
+      },
       'ui:options': {
         hideIf: (formData, index) =>
           !isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
@@ -305,6 +310,10 @@ function createAddressUISchemaForKey(key, isRequiredCallback = () => true) {
       'ui:title': 'Post Office',
       'ui:required': (formData, index) =>
         isMilitaryAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid post office',
+        required: 'Please enter a post office ',
+      },
       'ui:options': {
         hideIf: (formData, index) =>
           isNotMilitaryAddress(
@@ -316,6 +325,10 @@ function createAddressUISchemaForKey(key, isRequiredCallback = () => true) {
       'ui:title': 'Postal Type',
       'ui:required': (formData, index) =>
         isMilitaryAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid postal type',
+        required: 'Please enter a postal type',
+      },
       'ui:options': {
         hideIf: (formData, index) =>
           isNotMilitaryAddress(
@@ -328,8 +341,8 @@ function createAddressUISchemaForKey(key, isRequiredCallback = () => true) {
       'ui:required': (formData, index) =>
         isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid postal code',
-        required: 'Please fill in a valid postal code',
+        pattern: 'Please enter a valid postal code',
+        required: 'Please enter a postal code',
       },
     },
   };
@@ -363,7 +376,6 @@ const formConfig = {
   trackingPrefix: '686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: VA_FORM_IDS.FORM_21_686C,
   version: 0,
   prefillEnabled: false,
   savedFormMessages: {

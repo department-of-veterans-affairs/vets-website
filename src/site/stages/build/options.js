@@ -14,6 +14,7 @@ const defaultContentDir = '../../../../../vagov-content/pages';
 
 const getDrupalClient = require('./drupal/api');
 const { shouldPullDrupal } = require('./drupal/metalsmith-drupal');
+const { defaultCMSExportContentDir } = require('./process-cms-exports/helpers');
 const { logDrupal } = require('./drupal/utilities-drupal');
 const { useFlags } = require('./drupal/load-saved-flags');
 
@@ -32,7 +33,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
   { name: 'pull-drupal', type: Boolean, defaultValue: false },
   { name: 'use-cms-export', type: Boolean, defaultValue: false },
-  { name: 'cms-export-dir', type: String, defaultValue: false },
+  { name: 'cms-export-dir', type: String, defaultValue: null },
   { name: 'drupal-fail-fast', type: Boolean, defaultValue: false },
   {
     name: 'drupal-address',
@@ -59,6 +60,10 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
 
 function gatherFromCommandLine() {
   const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
+
+  // Set defaults which require the value of other options
+  options['cms-export-dir'] =
+    options['cms-export-dir'] || defaultCMSExportContentDir(options.buildtype);
 
   if (options.unexpected && options.unexpected.length !== 0) {
     throw new Error(`Unexpected arguments: '${options.unexpected}'`);
@@ -98,17 +103,17 @@ function applyDefaultOptions(options) {
     },
     layouts,
     collections: require('./data/collections.json'),
-    watchPaths: {
-      [`${contentRoot}/**/*`]: '**/*.{md,html}',
-      [`${includes}/**/*`]: '**/*.{md,html}',
-      [`${components}/**/*`]: '**/*.{md,html}',
-      [`${layouts}/**/*`]: '**/*.{md,html}',
-      [`${paragraphs}/**/*`]: '**/*.{md,html}',
-      [`${navigation}/**/*`]: '**/*.{md,html}',
-      [`${facilities}/**/*`]: '**/*.{md,html}',
-      [`${blocks}/**/*`]: '**/*.{md,html}',
-      [`${teasers}/**/*`]: '**/*.{md,html}',
-    },
+    watchPaths: [
+      `${contentRoot}/**/*.{md,html,liquid}`,
+      `${includes}/**/*.{md,html,liquid}`,
+      `${components}/**/*.{md,html,liquid}`,
+      `${layouts}/**/*.{md,html,liquid}`,
+      `${paragraphs}/**/*.{md,html,liquid}`,
+      `${navigation}/**/*.{md,html,liquid}`,
+      `${facilities}/**/*.{md,html,liquid}`,
+      `${blocks}/**/*.{md,html,liquid}`,
+      `${teasers}/**/*.{md,html,liquid}`,
+    ],
     cacheDirectory: path.join(projectRoot, '.cache', options.buildtype),
     paramsDirectory: path.join(utilities, 'query-params'),
   });

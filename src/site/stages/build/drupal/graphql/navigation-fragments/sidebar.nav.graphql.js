@@ -121,5 +121,8 @@ if (cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS && hubNavNames !== null) {
     recordsBenefitsHubQuery: ${queryFilter('records-benefits-hub')} {
       ${SIDEBAR_QUERY}
     }
+    decisionReviewsHubQuery: ${queryFilter('decision-reviews-benefits-h')} {
+      ${SIDEBAR_QUERY}
+    }
 `;
 }

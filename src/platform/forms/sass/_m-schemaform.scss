@@ -421,6 +421,15 @@ legend.schemaform-label.schemaform-file-label {
   width: 100%;
 }
 
+/* hide outline on focused <p> inside review form; recommendation from:
+ * https://github.com/department-of-veterans-affairs/vets-website/pull/11847#discussion_r391864665
+*/
+.form-review-panel-page p[tabIndex],
+.form-review-panel-page legend[tabIndex],
+.form-review-panel-page label[tabIndex] {
+  outline: none;
+}
+
 .schemaform-review-array-warning {
   margin: -1em -0.8em 0;
   border: 2px solid $color-gold-lightest;

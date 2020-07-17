@@ -1,6 +1,6 @@
 import { createUrlWithQuery } from '../utils/helpers';
-import environment from '../../../../platform/utilities/environment';
-import { apiRequest } from '../../../../platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
 
 import {
   FETCH_FOLDER_FAILURE,

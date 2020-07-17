@@ -2,8 +2,8 @@ const transform = entity => ({
   entity: {
     entityType: 'block_content',
     entityBundle: 'promo',
-    fieldImage: entity.fieldImage,
-    fieldPromoLink: entity.fieldPromoLink,
+    fieldImage: entity.fieldImage[0],
+    fieldPromoLink: entity.fieldPromoLink[0],
   },
 });
 module.exports = {

@@ -45,13 +45,11 @@ export const getBoxCenter = bounds => {
  * @param {Number} lon Longitude coordinate
  * @param {Number} lat Latitude coordinate
  *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
- *   default => `'address,postcode'`
+ *   default => `[address,postcode]`
  *
  * @returns {String} The best approximation of the address for the coordinates
  */
-export const reverseGeocode = async (lon, lat) => {
-  const types = ['address', 'postcode'];
-
+export const reverseGeocode = async (lon, lat, types) => {
   const response = await mbxClient
     .reverseGeocode({ query: [lon, lat], types })
     .send()
@@ -74,11 +72,11 @@ export const reverseGeocode = async (lon, lat) => {
  * @param {Array<Number>} bounds A geographic bounding box definition
  * @param @param {String} types A valid type-of-address string as defined by the Mapbox API:
  *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
- *   default => `'address,postcode'`
+ *   default => `[address,postcode]`
  *
  * @returns {String} The best approximation of the address for the coordinates
  */
 export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
   const { lon, lat } = getBoxCenter(bounds);
-  return reverseGeocode(lon, lat, types);
+  return reverseGeocode(lon, lat, types.split(','));
 };

@@ -16,7 +16,7 @@ const testData = getTestDataSets(join(__dirname, 'data'), {
 const testConfig = {
   debug: true,
   setup: userToken => {
-    PageHelpers.initDocumentUploadMock();
+    PageHelpers.initDocumentUploadMock(userToken);
     PageHelpers.initApplicationSubmitMock(userToken);
     PageHelpers.initItfMock(userToken);
     PageHelpers.initPaymentInformationMock(userToken);

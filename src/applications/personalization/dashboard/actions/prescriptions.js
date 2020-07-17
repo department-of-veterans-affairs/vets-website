@@ -1,5 +1,5 @@
-import environment from '../../../../platform/utilities/environment';
-import { apiRequest } from '../../../../platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
 
 export function loadPrescriptions(options) {
   let url = '/';

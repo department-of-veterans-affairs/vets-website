@@ -1,5 +1,4 @@
 import React from 'react';
-
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 
@@ -23,7 +22,9 @@ import edu0994Manifest from 'applications/edu-benefits/0994/manifest.json';
 import preneedManifest from 'applications/pre-need/manifest.json';
 import pensionManifest from 'applications/pensions/manifest.json';
 import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
+import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
 import hlrManifest from 'applications/disability-benefits/996/manifest.json';
+import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 
 import hcaConfig from 'applications/hca/config/form.js';
 import dependentStatusConfig from 'applications/disability-benefits/686/config/form';
@@ -39,13 +40,15 @@ import edu0993Config from 'applications/edu-benefits/0993/config/form.js';
 import edu0994Config from 'applications/edu-benefits/0994/config/form.js';
 import preneedConfig from 'applications/pre-need/config/form.jsx';
 import pensionConfig from 'applications/pensions/config/form.js';
-import vicV2Config from 'applications/vic-v2/config/form';
-import disability526Config from 'applications/disability-benefits/526EZ/config/form.js';
+import disability526Config from 'applications/disability-benefits/all-claims/config/form.js';
+import bddConfig from 'applications/disability-benefits/bdd/config/form.js';
 import hlrConfig from 'applications/disability-benefits/996/config/form';
+import mdotConfig from 'applications/disability-benefits/2346/config/form';
 
 export const formConfigs = {
   [VA_FORM_IDS.FORM_10_10EZ]: hcaConfig,
   [VA_FORM_IDS.FORM_21_526EZ]: disability526Config,
+  [VA_FORM_IDS.FORM_21_526EZ_BDD]: bddConfig,
   [VA_FORM_IDS.FORM_21_686C]: dependentStatusConfig,
   [VA_FORM_IDS.FORM_21P_527EZ]: pensionConfig,
   [VA_FORM_IDS.FORM_21P_530]: burialsConfig,
@@ -58,13 +61,14 @@ export const formConfigs = {
   [VA_FORM_IDS.FORM_22_5490]: edu5490Config,
   [VA_FORM_IDS.FORM_22_5495]: edu5495Config,
   [VA_FORM_IDS.FORM_40_10007]: preneedConfig,
-  [VA_FORM_IDS.VIC]: vicV2Config,
   [VA_FORM_IDS.FEEDBACK_TOOL]: feedbackConfig,
   [VA_FORM_IDS.FORM_20_0996]: hlrConfig,
+  [VA_FORM_IDS.FORM_VA_2346A]: mdotConfig,
 };
 
 export const formBenefits = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
+  [VA_FORM_IDS.FORM_21_526EZ_BDD]: 'Benefits Delivery at Discharge',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'Veterans pension benefits',
   [VA_FORM_IDS.FORM_21P_530]: 'burial benefits',
   [VA_FORM_IDS.FORM_10_10EZ]: 'health care benefits',
@@ -78,15 +82,15 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
   [VA_FORM_IDS.FORM_40_10007]:
     'pre-need determination of eligibility in a VA national cemetery',
-  [VA_FORM_IDS.VIC]: 'Veteran ID Card',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
+  [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
   let formNumber;
-  if (key === VA_FORM_IDS.FORM_40_10007 || key === VA_FORM_IDS.VIC) {
+  if (key === VA_FORM_IDS.FORM_40_10007) {
     formNumber = '';
   } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
     formNumber = ' (10-10EZ)';
@@ -103,22 +107,25 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
 export const formDescriptions = Object.keys(formBenefits).reduce(
   (descriptions, key) => {
     let formNumber;
-    if (key === VA_FORM_IDS.FORM_40_10007 || key === VA_FORM_IDS.VIC) {
+    if (key === VA_FORM_IDS.FORM_40_10007) {
       formNumber = '';
     } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
       formNumber = '(10-10EZ)';
     } else {
       formNumber = `(${key})`;
     }
-    const formDescription = `${formBenefits[key]} application ${formNumber}`;
-    descriptions[key] = formDescription; // eslint-disable-line no-param-reassign
-    return descriptions;
+    let formDescription = `${formBenefits[key]} application ${formNumber}`;
+    if (key === VA_FORM_IDS.FORM_VA_2346A) {
+      formDescription = `${formBenefits[key]} ${formNumber}`;
+    }
+    return { ...descriptions, [key]: formDescription };
   },
   {},
 );
 
 export const formLinks = {
   [VA_FORM_IDS.FORM_21_526EZ]: `${DISABILITY_526_V2_ROOT_URL}/`,
+  [VA_FORM_IDS.FORM_21_526EZ_BDD]: `${BDD_FORM_ROOT_URL}/`,
   [VA_FORM_IDS.FORM_21P_527EZ]: `${pensionManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21P_530]: `${burialsManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_10_10EZ]: `${hcaManifest.rootUrl}/`,
@@ -131,15 +138,15 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_22_5490]: `${edu5490Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_5495]: `${edu5495Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_40_10007]: `${preneedManifest.rootUrl}/`,
-  // VIC is not active, will need a new url if we start using this
-  [VA_FORM_IDS.VIC]: '/veteran-id-card/apply/',
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${feedbackManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21_686C]: `${dependentStatusManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_20_0996]: `${hlrManifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_VA_2346A]: `${mdotManifest.rootUrl}/`,
 };
 
 export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability-526EZ-',
+  [VA_FORM_IDS.FORM_21_526EZ_BDD]: 'disability-526EZ-bdd-',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'pensions-527EZ-',
   [VA_FORM_IDS.FORM_21P_530]: 'burials-530-',
   [VA_FORM_IDS.FORM_10_10EZ]: 'hca-',
@@ -152,16 +159,17 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_22_5490]: 'edu-5490-',
   [VA_FORM_IDS.FORM_22_5495]: 'edu-5495-',
   [VA_FORM_IDS.FORM_40_10007]: 'preneed-',
-  [VA_FORM_IDS.VIC]: 'veteran-id-card-',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
   [VA_FORM_IDS.FORM_21_686C]: '686-',
-  [VA_FORM_IDS.FORM_20_0996]: 'hlr-0996-',
+  [VA_FORM_IDS.FORM_20_0996]: 'decision-reviews-va20-0996-',
+  [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
 };
 
 export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_10_10EZ,
   VA_FORM_IDS.FORM_21_686C,
   VA_FORM_IDS.FORM_21_526EZ,
+  VA_FORM_IDS.FORM_21_526EZ_BDD,
   VA_FORM_IDS.FORM_21P_527EZ,
   VA_FORM_IDS.FORM_21P_530,
   VA_FORM_IDS.FORM_22_0993,
@@ -173,20 +181,18 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_22_5490,
   VA_FORM_IDS.FORM_22_5495,
   VA_FORM_IDS.FORM_40_10007,
-  VA_FORM_IDS.VIC,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.FORM_20_0996,
+  VA_FORM_IDS.FORM_VA_2346A,
 ]);
 
 // A dict of presentable form IDs. Generally this is just the form ID itself
 // prefixed with `FORM` for display purposes (ex: 'FORM 21-526EZ'). The only
-// exceptions to this rule right now are the FEEDBACK-TOOL and VIC.
+// exception to this rule right now is the FEEDBACK-TOOL.
 export const presentableFormIDs = Object.keys(formBenefits).reduce(
   (prefixedIDs, formID) => {
     if (formID === VA_FORM_IDS.FEEDBACK_TOOL) {
       prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
-    } else if (formID === VA_FORM_IDS.VIC) {
-      prefixedIDs[formID] = 'VETERAN ID CARD'; // eslint-disable-line no-param-reassign
     } else {
       prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
     }
@@ -258,31 +264,29 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
   downtime,
   children,
 ) => {
-  switch (downtime.status) {
-    case 'down':
-      return (
-        <div>
-          <h2>{sectionTitle}</h2>
-          <AlertBox
-            content={
-              <div>
-                <h4 className="usa-alert-heading">
-                  {appName} is down for maintenance
-                </h4>
-                <p>
-                  We’re making some updates to our {appName.toLowerCase()} tool.
-                  We’re sorry it’s not working right now and hope to be finished
-                  by {downtime.startTime.format('MMMM Do')},{' '}
-                  {downtime.endTime.format('LT')}. Please check back soon.
-                </p>
-              </div>
-            }
-            isVisible
-            status="warning"
-          />
-        </div>
-      );
-    default:
-      return children;
+  if (downtime.status === 'down') {
+    return (
+      <div>
+        <h2>{sectionTitle}</h2>
+        <AlertBox
+          content={
+            <div>
+              <h4 className="usa-alert-heading">
+                {appName} is down for maintenance
+              </h4>
+              <p>
+                We’re making some updates to our {appName.toLowerCase()} tool.
+                We’re sorry it’s not working right now and hope to be finished
+                by {downtime.startTime.format('MMMM Do')},{' '}
+                {downtime.endTime.format('LT')}. Please check back soon.
+              </p>
+            </div>
+          }
+          isVisible
+          status="warning"
+        />
+      </div>
+    );
   }
+  return children;
 };

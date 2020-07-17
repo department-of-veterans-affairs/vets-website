@@ -22,10 +22,25 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .expect.element('.usa-accordion-bordered')
     .to.be.present.before(Timeouts.normal);
 
+  client.elements('css selector', '.usa-accordion-bordered', result => {
+    client.assert.equal(result.value.length, 5);
+  });
+
   client
-    .click('.usa-accordion-bordered')
+    .click(`.usa-accordion-bordered:nth-of-type(1)`)
     .expect.element('.va-button-primary')
     .to.be.present.before(Timeouts.normal);
+
+  client
+    .click(`.usa-accordion-bordered:nth-of-type(2)`)
+    .click(`.usa-accordion-bordered:nth-of-type(3)`)
+    .click(`.usa-accordion-bordered:nth-of-type(4)`)
+    .click(`.usa-accordion-bordered:nth-of-type(5)`)
+    .waitForElementVisible(
+      `.usa-accordion-bordered:nth-of-type(5) .usa-accordion-content`,
+      Timeouts.normal,
+    )
+    .axeCheck('.main');
 
   // -- Go to letters list -- //
 

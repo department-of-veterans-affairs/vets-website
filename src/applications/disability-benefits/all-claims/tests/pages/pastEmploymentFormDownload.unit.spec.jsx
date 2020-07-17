@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 describe('Disability benefits 4192 Download', () => {
@@ -28,7 +28,7 @@ describe('Disability benefits 4192 Download', () => {
       />,
     );
 
-    expect(form.find('a').length).to.equal(1);
+    expect(form.find('a').length).to.equal(2);
     form.unmount();
   });
 });

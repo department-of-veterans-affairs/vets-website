@@ -1,0 +1,173 @@
+[
+  {
+    "path": "/v0/feature_toggles",
+    "verb": "get",
+    "value": {
+      "data": {
+        "features": [
+          {
+            "name": "vaProfileAddressValidation",
+            "value": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "path": "/v0/address/countries",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "countries": ["USA"]
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/address/states",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "states": ["Alabama", "Kentucky"]
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/full_name",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "first": "First",
+          "middle": "Middle",
+          "last": "Last"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/personal_information",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "birthDate": "1972-03-21",
+          "gender": "M"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/service_history",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "serviceHistory": [
+            {
+              "branchOfService": "Army",
+              "beginDate": "1951-09-04",
+              "endDate": "1957-01-04"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/email",
+    "verb": "put",
+    "value": {
+      "data": {
+        "attributes": {
+          "transaction_id": "transaction_1",
+          "transaction_status": "RECEIVED"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/status/transaction_1",
+    "verb": "put",
+    "value": {
+      "data": {
+        "attributes": {
+          "transaction_id": "transaction_1",
+          "transaction_status": "COMPLETED_SUCCESS"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/address_validation",
+    "verb": "post",
+    "value": {
+      "addresses": [
+        {
+          "address": {
+            "addressLine1": "400 N 65th St",
+            "addressType": "DOMESTIC",
+            "city": "Seattle",
+            "countryName": "United States",
+            "countryCodeIso3": "USA",
+            "countyCode": "53033",
+            "countyName": "King",
+            "stateCode": "WA",
+            "zipCode": "98103",
+            "zipCodeSuffix": "5252"
+          },
+          "addressMetaData": {
+            "confidenceScore": 100.0,
+            "addressType": "Domestic",
+            "deliveryPointValidation": "UNDELIVERABLE"
+          }
+        },
+        {
+          "address": {
+            "addressLine1": "400 NW 65th St",
+            "addressType": "DOMESTIC",
+            "city": "Seattle",
+            "countryName": "United States",
+            "countryCodeIso3": "USA",
+            "countyCode": "53033",
+            "countyName": "King",
+            "stateCode": "WA",
+            "zipCode": "98117",
+            "zipCodeSuffix": "5026"
+          },
+          "addressMetaData": {
+            "confidenceScore": 100.0,
+            "addressType": "Domestic",
+            "deliveryPointValidation": "CONFIRMED",
+            "residentialDeliveryIndicator": "RESIDENTIAL"
+          }
+        },
+        {
+          "address": {
+            "addressLine1": "400 NE 65th St",
+            "addressType": "DOMESTIC",
+            "city": "Seattle",
+            "countryName": "United States",
+            "countryCodeIso3": "USA",
+            "countyCode": "53033",
+            "countyName": "King",
+            "stateCode": "WA",
+            "zipCode": "98115",
+            "zipCodeSuffix": "6463"
+          },
+          "addressMetaData": {
+            "confidenceScore": 98.0,
+            "addressType": "Domestic",
+            "deliveryPointValidation":
+            "STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER",
+            "residentialDeliveryIndicator": "RESIDENTIAL"
+          }
+        }
+      ],
+      "validationKey": -2009470897
+    }
+  }
+]

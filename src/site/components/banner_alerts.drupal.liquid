@@ -28,7 +28,10 @@
   {% endfor %}
 
   {% if outputStatus == true %}
-    <div aria-labelledby="usa-alert-heading-{{ entity.entityId }}"
+    <div
+      data-template="components/banner_alerts"
+      data-entity-id="{{ entity.entityId }}"
+      aria-labelledby="usa-alert-heading-{{ entity.entityId }}"
       class="usa-alert-full-width dismissable-option-header usa-alert-full-width-{{ alertType }}"
       id="usa-alert-full-width-{{ entity.entityId }}" role="region">
       <div class="usa-alert usa-alert-{{ alertType }}" role="alert">
@@ -49,7 +52,10 @@
 
             {% if entity.fieldAlertOperatingStatusCta == true %}
               <p>
-                <a href="{{ statusUrl }}">Get
+                <a href="{{ statusUrl }}" onclick="recordEvent({
+                  'event':'nav-warning-alert-box-content-link-click',
+                  'alertBoxHeading': '{{entity.title}}'
+                  });">Get
                   updates on affected services and facilities</a>
               </p>
             {% endif %}

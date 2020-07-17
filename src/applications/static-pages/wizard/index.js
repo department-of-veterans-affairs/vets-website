@@ -18,6 +18,9 @@ export default class Wizard extends React.Component {
     return pageHistory[currentPageIndex];
   }
 
+  getPageStateFromPageName = pageName =>
+    this.state.pageHistory.find(page => page.name === pageName)?.state;
+
   setPageState = (index, newState, nextPageName) => {
     let newHistory = set(`[${index}].state`, newState, this.state.pageHistory);
 
@@ -76,6 +79,9 @@ export default class Wizard extends React.Component {
               return (
                 <Page
                   key={`${page.name}_${index}`}
+                  getPageStateFromPageName={pageName =>
+                    this.getPageStateFromPageName(pageName)
+                  }
                   setPageState={(newState, nextPageName) =>
                     this.setPageState(index, newState, nextPageName)
                   }

@@ -6,7 +6,7 @@ import { ERR_MSG_CSS_CLASS } from '../../../0994/constants';
 import {
   DefinitionTester,
   selectRadio,
-} from '../../../../../platform/testing/unit/schemaform-utils';
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../0994/config/form';
 
 describe('VET TEC benefits eligibility', () => {

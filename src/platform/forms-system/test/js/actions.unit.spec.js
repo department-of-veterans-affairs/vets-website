@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import localStorage from 'platform/utilities/storage/localStorage';
 import {
   setData,
   SET_DATA,
@@ -17,6 +18,14 @@ import {
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
+  before(() => {
+    sinon.stub(localStorage, 'getItem');
+  });
+
+  after(() => {
+    localStorage.getItem.restore();
+  });
+
   describe('setData', () => {
     it('should return action', () => {
       const data = {};
@@ -222,7 +231,7 @@ describe('Schemaform actions:', () => {
       const thunk = submitForm(formConfig, form);
       const dispatch = sinon.spy();
 
-      const promise = thunk(dispatch).then(() => {
+      return thunk(dispatch).then(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
@@ -236,8 +245,6 @@ describe('Schemaform actions:', () => {
           response: response.data,
         });
       });
-
-      return promise;
     });
   });
   describe('uploadFile', () => {

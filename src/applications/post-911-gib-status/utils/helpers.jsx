@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import { formatDateParsedZoneLong } from '../../../platform/utilities/date';
+import { formatDateParsedZoneLong } from 'platform/utilities/date';
 import EducationWizard from '../components/EducationWizard';
 import wizardConfig from './wizardConfig';
 

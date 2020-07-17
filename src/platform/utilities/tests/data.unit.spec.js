@@ -56,7 +56,7 @@ describe('data utils', () => {
       },
       string: 'string!',
       array: ['0', 1, null, { s: 'thing', o: { k: 'I am nested' } }],
-      // eslint-disable-next-line
+      // eslint-disable-next-line func-names, object-shorthand
       func: function() {
         return this.int;
       },

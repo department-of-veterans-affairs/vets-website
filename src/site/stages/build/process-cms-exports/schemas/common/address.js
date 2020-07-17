@@ -9,7 +9,7 @@ module.exports = {
       locality: { type: 'string' },
       administrative_area: { type: 'string' }, // Looks like this acts like 'state'
       country_code: { type: 'string' },
-      address_line1: { type: 'string' },
+      address_line1: { type: ['string', 'null'] },
       address_line2: { type: ['string', 'null'] },
       dependent_locality: { type: ['string', 'null'] },
       postal_code: { type: ['string', 'null'] },

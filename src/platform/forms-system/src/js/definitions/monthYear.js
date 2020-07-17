@@ -9,7 +9,8 @@ export default function uiSchema(title = 'Date') {
     },
     'ui:validations': [validateMonthYear],
     'ui:errorMessages': {
-      pattern: 'Please provide a valid date',
+      pattern: 'Please enter a valid month and year',
+      required: 'Please enter a date',
     },
   };
 }

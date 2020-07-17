@@ -21,14 +21,12 @@ describe('constants reducer', () => {
       { inProgress: true },
       {
         type: 'FETCH_CONSTANTS_FAILED',
-        err: {
-          errorMessage: 'error',
-        },
+        payload: 'Service Unavailable',
       },
     );
 
     expect(state.inProgress).to.eql(false);
-    expect(state.errorMessage).to.eql('error');
+    expect(state.error).to.eql('Service Unavailable');
   });
 
   it('should handle fetch succeeded', () => {

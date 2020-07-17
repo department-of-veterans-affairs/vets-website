@@ -11,7 +11,7 @@ The way React components work in vets-website is that they are injected into web
 startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
 ```
 
-As you can see we pass in a data argument located at `window.VetsGov.headerFooter.megaMenuData`. This data is derived from a YAML file located in the ***vagov-content*** repo at ***vagov-content/fragments/megamenu/index.yaml***. There is a MetalSmith plugin that we created to add this to the global window. This is done in the build process. You can find the plugin code at */src/site/stages/build/plugins/create-header-footer.js*
+As you can see we pass in a data argument located at `window.VetsGov.headerFooter.megaMenuData`. There is a MetalSmith plugin that we created to add this to the global window. This is done in the build process. You can find the plugin code at */src/site/stages/build/plugins/create-header-footer.js*
 
 ## Redux
 The MegaMenu uses Redux to store it's state. You can find the container component at */src/platform/site-wide/mega-menu/containers/Main.jsx. This is where all logic for the component lives. You will also find all of the common Redux files (actions, reducers) in the *mega-menu* folder.

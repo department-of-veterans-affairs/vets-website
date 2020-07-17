@@ -2,12 +2,5 @@
   "appName": "Authentication callback",
   "entryFile": "./auth-entry.jsx",
   "entryName": "auth",
-  "rootUrl": "/auth/login/callback",
-  "noRouting": true,
-  "production": true,
-  "template": {
-    "title": "Auth",
-    "layout": "page-react.html",
-    "loadingMessage": "Please wait while we log you in."
-  }
+  "rootUrl": "/auth/login/callback"
 }

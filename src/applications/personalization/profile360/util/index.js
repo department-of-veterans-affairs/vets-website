@@ -34,15 +34,15 @@ export async function getData(apiRoute, options) {
 const hasErrorMessage = (errors, errorKey, errorText) => {
   if (errorText) {
     return errors.some(err =>
-      err.meta.messages.some(
+      err.meta?.messages?.some(
         message =>
           message.key === errorKey &&
-          message.text.toLowerCase().includes(errorText.toLowerCase()),
+          message.text?.toLowerCase().includes(errorText.toLowerCase()),
       ),
     );
   }
   return errors.some(err =>
-    err.meta.messages.some(message => message.key === errorKey),
+    err.meta?.messages?.some(message => message.key === errorKey),
   );
 };
 

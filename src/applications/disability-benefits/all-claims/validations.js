@@ -1,4 +1,4 @@
-import _ from '../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
 
@@ -32,7 +32,7 @@ export function isValidZIP(value) {
 export function validateZIP(errors, zip) {
   if (zip && !isValidZIP(zip)) {
     errors.addError(
-      'Please enter a valid 5 or 9 digit Postal code (dashes allowed)',
+      'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
     );
   }
 }
@@ -241,7 +241,7 @@ export const isWithinServicePeriod = (errors, fieldData, formData) => {
       errors.from.addError(
         getPOWValidationMessage(servicePeriods.map(period => period.dateRange)),
       );
-      errors.to.addError('');
+      errors.to.addError('Please provide your service periods');
     }
   }
 };
@@ -263,8 +263,9 @@ export const validateDisabilityName = (err, fieldData) => {
 
 export const requireDisability = (err, fieldData, formData) => {
   if (!hasClaimedConditions(formData)) {
-    // The actual validation error is displayed as an alert field, so we don't need to add an error message here.
-    err.addError('');
+    // The actual validation error is displayed as an alert field. The message
+    // here will be shown on the review page
+    err.addError('Please select a disability');
   }
 };
 
@@ -273,8 +274,9 @@ export const requireDisability = (err, fieldData, formData) => {
  */
 export const requireRatedDisability = (err, fieldData, formData) => {
   if (increaseOnly(formData) && !claimingRated(formData)) {
-    // The actual validation error is displayed as an alert field, so we don't need to add an error message here.
-    err.addError('');
+    // The actual validation error is displayed as an alert field. The message
+    // here will be shown on the review page
+    err.addError('Please selected a rated disability');
   }
 };
 
@@ -284,7 +286,8 @@ export const requireRatedDisability = (err, fieldData, formData) => {
  */
 export const requireNewDisability = (err, fieldData, formData) => {
   if (!claimingRated(formData) && !fieldData) {
-    // The actual validation error is displayed as an alert field, so we don't need to add an error message here.
-    err.addError('');
+    // The actual validation error is displayed as an alert field. The message
+    // here will be shown on the review page
+    err.addError('No rated disability selected. Please add a new one');
   }
 };

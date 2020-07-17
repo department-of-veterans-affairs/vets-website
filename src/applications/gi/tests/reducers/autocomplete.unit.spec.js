@@ -85,6 +85,23 @@ describe('autocomplete reducer', () => {
     expect(state.inProgress).to.eql(false);
   });
 
+  it('should handle autocomplete clear', () => {
+    const state = autocompleteReducer(
+      {
+        ...initialState,
+        suggestions: [{}],
+      },
+      {
+        type: 'AUTOCOMPLETE_CLEARED',
+        query: {
+          name: 'newSearchTerm',
+        },
+      },
+    );
+
+    expect(state.suggestions.length).to.eql(0);
+  });
+
   it('should handle search starting', () => {
     const state = autocompleteReducer(initialState, {
       type: 'SEARCH_STARTED',

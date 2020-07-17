@@ -18,6 +18,7 @@ class VetTecFilterBy extends React.Component {
     ).isRequired,
     handleFilterChange: PropTypes.func.isRequired,
     handleProviderFilterChange: PropTypes.func.isRequired,
+    handleInputFocus: PropTypes.func,
   };
 
   handleFilterChange = e => {
@@ -72,6 +73,7 @@ class VetTecFilterBy extends React.Component {
                 this.props.filters.provider.includes(provider.name),
               )
             }
+            onFocus={this.props.handleInputFocus}
           />
         </div>
       ));
@@ -110,6 +112,7 @@ class VetTecFilterBy extends React.Component {
           label=""
           onChange={this.handleFilterChange}
           options={options}
+          onFocus={this.props.handleInputFocus}
         />
         {this.renderProviderFilters()}
       </div>

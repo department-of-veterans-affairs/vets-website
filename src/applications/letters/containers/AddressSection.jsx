@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { focusElement } from '../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 
 import { isAddressEmpty } from '../utils/helpers';
 import noAddressBanner from '../components/NoAddressBanner';
@@ -65,8 +65,7 @@ export class AddressSection extends React.Component {
       <div>
         <div>
           <div aria-live="polite" aria-relevant="additions">
-            {emptyAddress && noAddressBanner}
-            {addressContent}
+            {emptyAddress ? noAddressBanner : addressContent}
           </div>
         </div>
         {viewLettersButton}

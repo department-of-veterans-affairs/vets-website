@@ -2,20 +2,22 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-class ClaimComplete extends React.Component {
-  render() {
-    const completedDate = this.props.completedDate;
-    return (
+import CompleteDetails from './CompleteDetails';
+
+function ClaimComplete({ completedDate }) {
+  return (
+    <>
       <div className="usa-alert usa-alert-info background-color-only claims-alert-status">
-        <h4 className="claims-alert-header">
+        <h3 className="claims-alert-header vads-u-font-size--h4">
           Your claim was closed{' '}
           {completedDate
             ? `on ${moment(completedDate).format('MMM D, YYYY')}`
             : null}
-        </h4>
+        </h3>
       </div>
-    );
-  }
+      <CompleteDetails className="vads-u-margin--2" />
+    </>
+  );
 }
 
 ClaimComplete.propTypes = {

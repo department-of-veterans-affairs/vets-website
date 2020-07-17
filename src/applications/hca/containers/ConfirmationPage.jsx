@@ -90,9 +90,8 @@ export class ConfirmationPage extends React.Component {
           </p>
           <p>
             Please don’t apply again. Instead, please call our toll-free hotline
-            at 877-222-VETS
-            <br />(<a href="tel:+18772228387">877-222-8387</a>
-            ). We’re here Monday through Friday, 8:00 am to 8:00 pm ET.
+            at <a href="tel:+18772228387">877-222-8387</a>. We’re here Monday
+            through Friday, 8:00 am to 8:00 pm ET.
           </p>
           <h4 className="confirmation-guidance-heading">
             How can I check the status of my application?
@@ -159,9 +158,8 @@ export class ConfirmationPage extends React.Component {
             What if I have more questions?
           </h4>
           <p className="confirmation-guidance-message">
-            Please call 877-222-VETS (
-            <a href="tel:+18772228387">877-222-8387</a>) and select 2. We're
-            here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+            Please call <a href="tel:+18772228387">877-222-8387</a> and select
+            2. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </div>
       </div>

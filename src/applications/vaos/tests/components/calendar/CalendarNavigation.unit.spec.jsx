@@ -39,4 +39,11 @@ describe('VAOS <CalendarNavigation>', () => {
     expect(nextOnClick.calledOnce).to.be.true;
     tree.unmount();
   });
+
+  it('test CSS class added to button', () => {
+    const tree = shallow(<CalendarNavigation />);
+    const items = tree.find('button.vaos-calendar__nav-links-button');
+    expect(items).to.have.lengthOf(2);
+    tree.unmount();
+  });
 });

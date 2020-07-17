@@ -28,7 +28,7 @@
 {% endcomment %}
 
 
-<table class="va-table">
+<table data-template="paragraphs/table" data-entity-id="{{ entity.entityId }}" class="va-table">
 
     {% if entity.fieldTable.caption %}
         <caption>{{ entity.fieldTable.caption }}</caption>

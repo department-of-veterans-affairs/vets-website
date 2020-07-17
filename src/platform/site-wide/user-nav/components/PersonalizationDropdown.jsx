@@ -1,7 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import { ssoe } from 'platform/user/authentication/selectors';
 import { logout } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
+
+import { selectShowProfile2 } from 'applications/personalization/profile-2/selectors';
 
 const recordNavUserEvent = section => () => {
   recordEvent({ event: 'nav-user', 'nav-user-section': section });
@@ -12,12 +16,12 @@ const recordMyHealthEvent = recordNavUserEvent('my-health');
 const recordProfileEvent = recordNavUserEvent('profile');
 const recordAccountEvent = recordNavUserEvent('account');
 
-class PersonalizationDropdown extends React.Component {
+export class PersonalizationDropdown extends React.Component {
   signOut = () => {
     // Prevent double clicking of "Sign Out"
     if (!this.signOutDisabled) {
       this.signOutDisabled = true;
-      logout();
+      logout(this.props.useSSOe ? 'v1' : 'v0');
     }
   };
 
@@ -38,15 +42,18 @@ class PersonalizationDropdown extends React.Component {
           </a>
         </li>
         <li>
-          <a href="/profile" onClick={recordProfileEvent}>
+          <a href={'/profile'} onClick={recordProfileEvent}>
             Profile
           </a>
         </li>
-        <li>
-          <a href="/account" onClick={recordAccountEvent}>
-            Account
-          </a>
-        </li>
+        {this.props.showAccount && (
+          <li>
+            <a href="/account" onClick={recordAccountEvent}>
+              Account
+            </a>
+          </li>
+        )}
+
         <li>
           <a href="#" onClick={this.signOut}>
             Sign Out
@@ -57,4 +64,11 @@ class PersonalizationDropdown extends React.Component {
   }
 }
 
-export default PersonalizationDropdown;
+function mapStateToProps(state) {
+  return {
+    useSSOe: ssoe(state),
+    showAccount: !selectShowProfile2(state),
+  };
+}
+
+export default connect(mapStateToProps)(PersonalizationDropdown);

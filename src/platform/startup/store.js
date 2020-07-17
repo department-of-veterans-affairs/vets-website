@@ -6,7 +6,6 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
-import buildSettings from '../monitoring/BuildSettings/reducer';
 import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
 import externalServiceStatuses from '../monitoring/external-services/reducer';
 import announcements from '../site-wide/announcements/reducers';
@@ -28,7 +27,6 @@ const brandConsolidatedReducers = {
  */
 export const commonReducer = {
   announcements,
-  buildSettings,
   externalServiceStatuses,
   featureToggles: FeatureToggleReducer,
   navigation,
@@ -50,15 +48,27 @@ export default function createCommonStore(
   appReducer = {},
   analyticsEvents = [],
 ) {
-  const reducer = Object.assign({}, appReducer, commonReducer);
+  const reducer = {
+    ...appReducer,
+    ...commonReducer,
+  };
   const useDevTools =
     !environment.isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__;
 
-  return createStore(
+  const store = createStore(
     combineReducers(reducer),
     compose(
       applyMiddleware(thunk, createAnalyticsMiddleware(analyticsEvents)),
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
     ),
   );
+
+  store.reducerMap = reducer;
+
+  store.injectReducer = (key, newReducer) => {
+    store.reducerMap[key] = newReducer;
+    store.replaceReducer(combineReducers(store.reducerMap));
+  };
+
+  return store;
 }

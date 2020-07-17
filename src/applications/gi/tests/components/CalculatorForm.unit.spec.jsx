@@ -52,14 +52,12 @@ const tree = mount(
 
 describe('<CalculatorForm>', () => {
   it('should display error message when beneficiary zip is less than 5 digits', () => {
-    const textBox = tree.find('#errorable-text-input-1');
+    const textBox = tree.find('input[name="beneficiaryZIPCode"]');
     textBox.simulate('blur');
-    const errorMessage = tree
-      .find('#errorable-text-input-1-error-message')
-      .text();
+    const errorMessage = tree.find('.usa-input-error-message').text();
     tree.unmount();
 
-    expect(errorMessage).to.equal('Error Zip code must be a 5-digit number');
+    expect(errorMessage).to.equal('Error Postal code must be a 5-digit number');
   });
 });
 
@@ -81,11 +79,9 @@ const treeValid = mount(
 
 describe('<CalculatorForm> Valid', () => {
   it('should display empty string when beneficiary zip is a valid 5 digit zipcode', () => {
-    const textBox2 = treeValid.find('#errorable-text-input-2');
+    const textBox2 = treeValid.find('input[name="beneficiaryZIPCode"]');
     textBox2.simulate('blur');
-    const errorMessage = treeValid.find(
-      '#errorable-text-input-2-error-message',
-    );
+    const errorMessage = treeValid.find('.usa-input-error-message');
     treeValid.unmount();
 
     expect(errorMessage.length).to.equal(0);

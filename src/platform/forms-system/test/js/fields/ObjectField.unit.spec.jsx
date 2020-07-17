@@ -1,8 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
+import { getFormDOM } from 'platform/testing/unit/schemaform-utils';
 import ObjectField from '../../../src/js/fields/ObjectField';
 
 describe('Schemaform: ObjectField', () => {
@@ -305,5 +307,140 @@ describe('Schemaform: ObjectField', () => {
     tree.getMountedInstance().onPropertyBlur('test')();
 
     expect(onBlur.firstCall.args[0]).to.eql(['test']);
+  });
+
+  it('should render non-unique IDs on regular pages', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const formContext = {
+      onReviewPage: false,
+    };
+    const schema1 = {
+      properties: {
+        type: 'object',
+        test: {
+          type: 'string',
+        },
+      },
+    };
+    const schema2 = {
+      properties: {
+        type: 'object',
+        test2: {
+          type: 'string',
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'Blah',
+    };
+    const idSchema1 = {
+      $id: 'root',
+      test: {
+        $id: 'root_test',
+      },
+    };
+    const idSchema2 = {
+      $id: 'root',
+      test2: {
+        $id: 'root_test2',
+      },
+    };
+    const form = ReactTestUtils.renderIntoDocument(
+      <div>
+        <ObjectField
+          formContext={formContext}
+          uiSchema={uiSchema}
+          schema={schema1}
+          idSchema={idSchema1}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+        <ObjectField
+          formContext={formContext}
+          uiSchema={uiSchema}
+          schema={schema2}
+          idSchema={idSchema2}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      </div>,
+    );
+    const formDOM = getFormDOM(form);
+    const ids = formDOM.querySelectorAll('legend');
+    expect(ids).to.have.length(2);
+
+    const id0 = ids[0].id;
+    const id1 = ids[1].id;
+    expect(id0).to.equal('root__title');
+    expect(id0).to.equal(id1);
+  });
+  it('should render unique IDs on review & submit page', () => {
+    // This occurs on form 526 when "ratedDisabilities" &
+    // "unempolyabilityDisabilities" both render the same list of rated
+    // disabilities
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const formContext = {
+      onReviewPage: true,
+    };
+    const schema = {
+      properties: {
+        type: 'object',
+        test: {
+          type: 'string',
+        },
+        test2: {
+          type: 'string',
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'Blah',
+    };
+    const idSchema1 = {
+      $id: 'root',
+      test: {
+        $id: 'root_test',
+      },
+    };
+    const idSchema2 = {
+      $id: 'root',
+      test2: {
+        $id: 'root_test2',
+      },
+    };
+    const form = ReactTestUtils.renderIntoDocument(
+      <div>
+        <ObjectField
+          formContext={formContext}
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={idSchema1}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+        <ObjectField
+          formContext={formContext}
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={idSchema2}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      </div>,
+    );
+    const formDOM = getFormDOM(form);
+    const ids = formDOM.querySelectorAll('legend');
+    expect(ids).to.have.length(2);
+
+    const id0 = ids[0].id;
+    const id1 = ids[1].id;
+    expect(id0).to.equal('root_test__title');
+    expect(id1).to.equal('root_test2__title');
   });
 });

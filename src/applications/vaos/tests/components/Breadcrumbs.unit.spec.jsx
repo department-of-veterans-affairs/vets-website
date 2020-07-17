@@ -24,8 +24,11 @@ describe('VAOS <Breadcrumbs>', () => {
     const items = tree.find('a');
     expect(items.at(0).props().href).to.equal('/');
     expect(items.at(1).props().href).to.equal('/health-care');
-    expect(items.at(2).props().href).to.equal('#');
-    expect(items.at(2).text()).to.equal('Testing');
+    expect(items.at(2).props().href).to.equal(
+      '/health-care/schedule-view-va-appointments',
+    );
+    expect(items.at(3).props().href).to.equal('#');
+    expect(items.at(3).text()).to.equal('Testing');
 
     tree.unmount();
   });

@@ -24,7 +24,7 @@ const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
     'topScrollElement',
-    window.VetsGov.scroll || {
+    window.VetsGov?.scroll || {
       duration: 500,
       delay: 0,
       smooth: true,
@@ -40,7 +40,7 @@ class RoutedSavableApp extends React.Component {
     super(props);
     this.location = props.location || window.location;
   }
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
@@ -78,7 +78,7 @@ class RoutedSavableApp extends React.Component {
       this.redirectOrLoad(this.props);
     }
   }
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     // When a user is logged in, the profile finishes loading after the component
     //  has mounted, so we check here.
@@ -236,9 +236,10 @@ class RoutedSavableApp extends React.Component {
       trimmedPathname.endsWith('resume') ||
       loadedStatus === LOAD_STATUSES.pending;
     if (
-      !formConfig.disableSave &&
-      loadingForm &&
-      this.props.prefillStatus === PREFILL_STATUSES.pending
+      (!formConfig.disableSave &&
+        loadingForm &&
+        this.props.prefillStatus === PREFILL_STATUSES.pending) ||
+      (!formConfig.disableSave && this.shouldRedirectOrLoad)
     ) {
       content = (
         <LoadingIndicator message="Retrieving your profile information..." />
@@ -250,10 +251,6 @@ class RoutedSavableApp extends React.Component {
       this.props.savedStatus === SAVE_STATUSES.pending
     ) {
       content = <LoadingIndicator message="Saving your form..." />;
-    } else if (!formConfig.disableSave && this.shouldRedirectOrLoad) {
-      content = (
-        <LoadingIndicator message="Retrieving your profile information..." />
-      );
     } else {
       content = (
         <FormApp formConfig={formConfig} currentLocation={currentLocation}>
