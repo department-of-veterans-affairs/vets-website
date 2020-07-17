@@ -82,6 +82,27 @@ const DebtLettersList = ({ debtLinks }) => (
               </p>
             </div>
           )}
+          {debtLinks.length < 1 && (
+            <div className="vads-u-background-color--gray-lightest vads-u-padding--3">
+              <h4 className="vads-u-font-family--serif vads-u-margin-top--0">
+                Our records show that you don't have any debt letters
+              </h4>
+              <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+                If you believe that you have a debt with the VA, call the Debt
+                Management Center at{' '}
+                <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
+                  800-827-0648
+                </a>
+              </p>
+              <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+                For medical copayment debts, visit{' '}
+                <a href="/health-care/pay-copay-bill/">
+                  Pay your VA copay bill
+                </a>{' '}
+                to learn about your payment options.
+              </p>
+            </div>
+          )}
         </div>
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
           <HowDoIPay />

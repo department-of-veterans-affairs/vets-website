@@ -96,6 +96,21 @@ describe('DebtLettersList', () => {
     };
     const wrapper = shallow(<DebtLettersList store={fakeStoreEmptyState} />);
     expect(wrapper.dive().find(`table`).length).to.equal(0);
+    expect(
+      wrapper
+        .dive()
+        .find('h4')
+        .text(),
+    ).to.equal("Our records show that you don't have any debt letters");
+    expect(
+      wrapper
+        .dive()
+        .find('p')
+        .at(1)
+        .text(),
+    ).to.equal(
+      'If you believe that you have a debt with the VA, call the Debt Management Center at 800-827-0648',
+    );
     wrapper.unmount();
   });
 });
