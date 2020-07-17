@@ -144,6 +144,14 @@ function makeLinkList(hostUrl, links) {
 }
 
 function makePromo(hostUrl, promo) {
+  if (!promo.entity.fieldImage.entity) {
+    // Need the media-image transformer
+    return {
+      img: { src: '', alt: '' },
+      link: { text: '', href: '' },
+      description: '',
+    };
+  }
   const img = promo.entity.fieldImage.entity.image;
   const link = promo.entity.fieldPromoLink.entity.fieldLink;
 

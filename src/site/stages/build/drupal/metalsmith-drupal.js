@@ -97,9 +97,13 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         );
         break;
       case 'health_services_listing':
-        pageCompiled.clinicalHealthServices = sortServices(
-          pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode.entities,
-        );
+        // fieldOffice is sometimes not there
+        pageCompiled.clinicalHealthServices = pageCompiled.fieldOffice.entity
+          ? sortServices(
+              pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode
+                .entities,
+            )
+          : [];
         break;
       case 'leadership_listing':
         pageCompiled.allStaffProfiles = page.fieldLeadership;
@@ -203,7 +207,7 @@ async function getContentFromExport(buildOptions) {
 
   const drupalPages = await contentApi.getNonNodeContent();
   drupalPages.data.nodeQuery = {
-    entities: contentApi.getExportedPages(),
+    entities: contentApi.getExportedPages().filter(e => e),
   };
 
   return drupalPages;

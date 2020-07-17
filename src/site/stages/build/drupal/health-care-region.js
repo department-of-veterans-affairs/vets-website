@@ -28,7 +28,7 @@ function sortServices(sortItem) {
 function createPastEventListPages(page, drupalPagePath, files) {
   const sidebar = page.facilitySidebar;
   // Events listing page
-  const allEvents = page.pastEvents;
+  const allEvents = page.pastEvents || { entities: [] }; // Don't know how to get this from the CMS export right now
 
   // store past & current events
   const pastEventTeasers = {
@@ -221,7 +221,8 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   // Staff bio listing page
   const bioEntityUrl = createEntityUrlObj(drupalPagePath);
   page.allStaffProfiles = {
-    entities: [...page.fieldLeadership],
+    // Sometimes fieldLeadership is null (or maybe undefined)
+    entities: page.fieldLeadership ? [...page.fieldLeadership] : [],
   };
   const bioObj = {
     allStaffProfiles: page.allStaffProfiles,
@@ -256,12 +257,16 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
  * @return nothing
  */
 function addGetUpdatesFields(page, pages) {
-  const regionPage = pages.find(
-    p =>
-      p.entityUrl
-        ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
-        : false,
-  );
+  // It's unclear why this is using the second item in the breadcrumb array, but
+  // sometimes that breadcrumb doesn't exist; returning here to skip over it
+  // until I know what the real solution is
+  if (!page.entityUrl.breadcrumb[1]) return;
+
+  const regionPage = pages.find(p => {
+    return p.entityUrl
+      ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
+      : false;
+  });
 
   if (regionPage) {
     page.fieldFacebook = regionPage.fieldFacebook;

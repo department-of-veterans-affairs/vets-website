@@ -17,7 +17,8 @@ function createFileObj(page, layout) {
     isDrupalPage: true,
     layout,
     contents: Buffer.from('<!-- Drupal-provided data -->'),
-    debug: JSON.stringify(page, null, 4),
+    // Currently, we have circular references due to missing transformers, so this won't work
+    // debug: JSON.stringify(page, null, 4),
     private: privStatus,
   };
 }
