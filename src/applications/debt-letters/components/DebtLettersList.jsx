@@ -23,7 +23,10 @@ const DebtLettersList = ({ debtLinks }) => (
           </p>
           {debtLinks.length > 0 && (
             <div className="vads-l-row">
-              <table className="vads-u-font-family--sans vads-u-margin-y--5">
+              <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--5">
+                Your debt letters
+              </h2>
+              <table className="vads-u-font-family--sans vads-u-margin-bottom--5 vads-u-margin-top--3">
                 <thead>
                   <tr>
                     <th className="vads-u-border--0">Date</th>
@@ -58,9 +61,9 @@ const DebtLettersList = ({ debtLinks }) => (
                   ))}
                 </tbody>
               </table>
-              <h2 className="vads-u-margin-top--0 vads-u-font-size--h4">
+              <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
                 What if I don't see the letter I'm looking for?
-              </h2>
+              </h3>
               <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
                 if you have been notified of a debt and don't see the debt's
                 letter on this page, or you would like to get information about
