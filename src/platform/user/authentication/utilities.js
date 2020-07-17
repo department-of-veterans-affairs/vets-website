@@ -118,9 +118,13 @@ export function verify(version = 'v0') {
   return redirect(sessionTypeUrl('verify', version), 'verify-link-clicked');
 }
 
-export function logout(version = 'v0', clickedEvent = 'logout-link-clicked') {
+export function logout(
+  version = 'v0',
+  clickedEvent = 'logout-link-clicked',
+  queryParams = {},
+) {
   clearSentryLoginType();
-  return redirect(sessionTypeUrl('slo', version), clickedEvent);
+  return redirect(sessionTypeUrl('slo', version, queryParams), clickedEvent);
 }
 
 export function signup(version = 'v0') {

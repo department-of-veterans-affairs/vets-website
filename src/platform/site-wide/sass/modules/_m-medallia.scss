@@ -1,0 +1,21 @@
+// Overrides default Medallia styling to match Va.gov branding 
+button {
+  &.va-sidebarnav-close {
+    position: absolute;
+  }
+
+  &#nebula_div_btn {
+    width: 81px;
+    margin-right: 0;
+
+    &:focus {
+      position: fixed;
+    }
+  }
+}
+
+// The original style is added directly to a <style> node which
+// requires an !important attribute for an imported stylesheet to override.
+.kampyle_feedback-button.kampyle_bottom-right .kampyle_triangle {
+  border-bottom-color: #fdb81e !important;
+}

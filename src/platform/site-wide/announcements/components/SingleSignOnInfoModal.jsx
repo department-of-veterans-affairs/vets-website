@@ -3,11 +3,12 @@ import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 export default function SingleSignOnInfoModal({
   dismiss,
-  isLoggedIn,
-  useSSOe,
+  isAuthenticatedWithSSOe,
   useSSOeEbenefitsLinks,
 }) {
-  if (!isLoggedIn || !useSSOe) return null;
+  if (!isAuthenticatedWithSSOe) {
+    return null;
+  }
 
   return (
     <Modal visible onClose={dismiss} id="modal-announcement">

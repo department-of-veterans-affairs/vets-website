@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -14,7 +15,7 @@ import {
 } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import get from 'platform/utilities/data/get';
-import { ssoe } from 'platform/user/authentication/selectors';
+import environment from 'platform/utilities/environment';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(
   ['/auth/login/callback', '/session-expired'].join('|'),
@@ -124,7 +125,7 @@ export class AuthApp extends React.Component {
     const { type } = this.props.location.query;
     const authMetrics = new AuthMetrics(type, payload);
     authMetrics.run();
-    setupProfileSession(authMetrics.userProfile, this.props.useSSOe);
+    setupProfileSession(authMetrics.userProfile);
     this.redirect();
   };
 
@@ -132,8 +133,13 @@ export class AuthApp extends React.Component {
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
+    const postAuthUrl =
+      returnUrl.includes('?next=') && !environment.isProduction()
+        ? appendQuery(returnUrl, 'postLogin=true')
+        : returnUrl;
+
     const redirectUrl =
-      (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && returnUrl) || '/';
+      (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
 
     window.location.replace(redirectUrl);
   };
@@ -488,15 +494,11 @@ export class AuthApp extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  useSSOe: ssoe(state),
-});
-
 const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(AuthApp);

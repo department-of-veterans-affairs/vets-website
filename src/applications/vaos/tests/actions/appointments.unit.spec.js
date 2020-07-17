@@ -513,7 +513,7 @@ describe('VAOS actions: appointments', () => {
             facilityId: '983',
             status: APPOINTMENT_STATUS.booked,
             appointmentType: APPOINTMENT_TYPES.request,
-            apiData: {},
+            legacyVAR: { apiData: {} },
           },
         },
       };

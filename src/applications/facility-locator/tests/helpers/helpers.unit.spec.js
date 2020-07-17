@@ -4,7 +4,7 @@ import {
   formatOperatingHours,
   validateIdString,
   isVADomain,
-} from '../utils/helpers';
+} from '../../utils/helpers';
 
 describe('Locator Helper Method Tests', () => {
   describe('areBoundsEqual Tests', () => {

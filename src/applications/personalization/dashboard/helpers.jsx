@@ -85,8 +85,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
-  [VA_FORM_IDS.FORM_VA_2346A]:
-    'order for hearing aid batteries and accessories',
+  [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {

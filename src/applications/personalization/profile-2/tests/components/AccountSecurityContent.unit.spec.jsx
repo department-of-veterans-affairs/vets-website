@@ -60,8 +60,8 @@ describe('AccountSecurityContent', () => {
         const expectedTitles = [
           'Identity verification',
           '2-factor authentication',
-          'Sign-in email address',
           'Terms and conditions',
+          'Sign-in email address',
         ];
         infoTableData.forEach((row, rowIndex) => {
           expect(row.title).to.equal(expectedTitles[rowIndex]);
@@ -78,12 +78,12 @@ describe('AccountSecurityContent', () => {
           props.isMultifactorEnabled,
         );
       });
-      it('should render the `EmailAddressNotification` component in the third row', () => {
-        const secondRowComponent = infoTableData[2].value;
+      it('should render the `EmailAddressNotification` component in the fourth row', () => {
+        const secondRowComponent = infoTableData[3].value;
         expect(secondRowComponent.type).to.equal(EmailAddressNotification);
       });
-      it('should pass the `mhvAccount` prop to the `MHVTermsAndConditionsStatus` component in the fourth row', () => {
-        const thirdRowComponent = infoTableData[3].value;
+      it('should pass the `mhvAccount` prop to the `MHVTermsAndConditionsStatus` component in the third row', () => {
+        const thirdRowComponent = infoTableData[2].value;
         expect(thirdRowComponent.type).to.equal(MHVTermsAndConditionsStatus);
         expect(thirdRowComponent.props.mhvAccount).to.equal(props.mhvAccount);
       });

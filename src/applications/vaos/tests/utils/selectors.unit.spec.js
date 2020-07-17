@@ -516,13 +516,16 @@ describe('VAOS selectors', () => {
             status: 'booked',
             vaos: {
               appointmentType: APPOINTMENT_TYPES.vaAppointment,
-              videoType: VIDEO_TYPES.videoConnect,
             },
             contained: [
               {
                 location: {
                   reference: 'Location/var123',
                 },
+              },
+              {
+                resourceType: 'HealthcareService',
+                characteristic: [{ coding: VIDEO_TYPES.videoConnect }],
               },
             ],
           },

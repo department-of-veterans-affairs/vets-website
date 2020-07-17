@@ -22,6 +22,12 @@ const {
 
 const optionDefinitions = [
   {
+    name: 'bundle',
+    type: String,
+    description:
+      'Transform all entities of the bundle type specified. For example, "page" or "block_content-alert"',
+  },
+  {
     name: 'entity',
     alias: 'e',
     type: String,
@@ -47,10 +53,10 @@ const optionDefinitions = [
     description: 'Show this help.',
   },
   {
-    name: 'bundle',
-    type: String,
-    description:
-      'Transform all entities of the bundle type specified. For example, "page" or "block_content-alert"',
+    name: 'transform-unpublished',
+    type: Boolean,
+    description: 'Transform unpublished entities.',
+    default: false,
   },
 ];
 
@@ -60,6 +66,7 @@ const {
   print: printIndex,
   bundle,
   help,
+  transformUnpublished,
 } = commandLineArgs(optionDefinitions);
 
 if (help) {
@@ -87,7 +94,10 @@ if (entityNames) {
       '--entity (or -e) needs to be the filename of an entity. E.g. node.<uuid>.json',
     );
 
-    return assembleEntityTree(readEntity(contentDir, ...nodeNamePieces));
+    return assembleEntityTree(
+      readEntity(contentDir, ...nodeNamePieces),
+      transformUnpublished,
+    );
   });
   console.log(
     JSON.stringify(result.length === 1 ? result[0] : result, null, 2),
@@ -126,7 +136,9 @@ if (entityNames) {
     );
   }
 
-  const modifiedEntities = map(entities, entity => assembleEntityTree(entity));
+  const modifiedEntities = map(entities, entity =>
+    assembleEntityTree(entity, transformUnpublished),
+  );
 
   console.log(
     chalk.bold('Number of entities transformed:'),

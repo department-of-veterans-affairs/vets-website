@@ -95,7 +95,7 @@ export default function ConfirmedAppointmentListItem({
       className={itemClasses}
       data-request-id={appointment.id}
       data-is-cancelable={
-        !appointment.isCommunityCare && !appointment.videoType
+        !appointment.isCommunityCare && !appointment.vaos.videoType
           ? 'true'
           : 'false'
       }

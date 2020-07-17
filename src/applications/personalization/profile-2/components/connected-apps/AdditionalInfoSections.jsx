@@ -31,14 +31,14 @@ export const AdditionalInfoSections = ({ activeApps }) => {
   return (
     <>
       {showConnectToAvailableApps && (
-        <div className="vads-u-margin-y--2 available-connected-apps">
+        <div className="vads-u-margin-y--3 available-connected-apps">
           <AdditionalInfo
             triggerText={`What other third-party apps can I connect to my profile?`}
           >
             <p>
               <strong>At this time, you can connect any of these apps:</strong>
             </p>
-            <ul className="vads-u-margin-bottom--2 vads-u-margin-left--3">
+            <ul className="vads-u-margin-bottom--3 vads-u-margin-left--3">
               {filteredApps?.map(app => {
                 return (
                   <li key={app.name}>
@@ -57,7 +57,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
         </div>
       )}
 
-      <div className="vads-u-margin-bottom--2">
+      <div className="vads-u-margin-bottom--3">
         <AdditionalInfo
           triggerText={`How do I connect a third-party app to my profile?`}
         >
@@ -85,7 +85,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
       </div>
 
       {hasConnectedApps && (
-        <div className="vads-u-margin-bottom--2">
+        <div className="vads-u-margin-bottom--3">
           <AdditionalInfo
             triggerText={`What should I do if my records are wrong or out of date in a connected app?`}
           >

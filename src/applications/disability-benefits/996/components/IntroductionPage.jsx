@@ -189,10 +189,7 @@ export class IntroductionPage extends React.Component {
         </CallToActionWidget>
         {/* TODO: Remove inline style after I figure out why
           .omb-info--container has a left padding */}
-        <div
-          className="omb-info--container vads-u-padding-left--0"
-          role="presentation"
-        >
+        <div className="omb-info--container vads-u-padding-left--0">
           <OMBInfo resBurden={15} ombNumber="2900-0862" expDate="02/28/2022" />
         </div>
       </article>
