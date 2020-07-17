@@ -26,7 +26,14 @@ import definitions, {
 } from 'applications/caregivers/definitions/caregiverUI';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
-import { vetInfoPage, vetContactInfoPage, vetMedicalCenterPage } from './pages';
+import {
+  vetInfoPage,
+  vetContactInfoPage,
+  vetMedicalCenterPage,
+  primaryInfoPage,
+  primaryContactInfoPage,
+  primaryMedicalPage,
+} from './pages';
 
 const {
   veteran,
@@ -135,131 +142,20 @@ const formConfig = {
         primaryCaregiverInfoOne: {
           path: 'primary-1',
           title: 'Primary Family Caregiver information',
-          uiSchema: {
-            'ui:description': () =>
-              PrimaryCaregiverInfo({ additionalInfo: true }),
-            [primaryCaregiverFields.fullName]: fullNameUI(
-              primaryCaregiverUI.primaryInputLabel,
-            ),
-            [primaryCaregiverFields.ssn]: ssnUI(
-              primaryCaregiverUI.primaryInputLabel,
-            ),
-            [primaryCaregiverFields.dateOfBirth]: dateOfBirthUI(
-              primaryCaregiverUI.primaryInputLabel,
-            ),
-            [primaryCaregiverFields.gender]: genderUI(
-              primaryCaregiverUI.primaryInputLabel,
-            ),
-          },
-          schema: {
-            type: 'object',
-            required: [
-              primaryCaregiverFields.fullName,
-              primaryCaregiverFields.ssn,
-              primaryCaregiverFields.dateOfBirth,
-              primaryCaregiverFields.gender,
-            ],
-            properties: {
-              [primaryCaregiverFields.fullName]: primaryCaregiverProps.fullName,
-              [primaryCaregiverFields.ssn]: primaryCaregiverProps.ssnOrTin,
-              [primaryCaregiverFields.dateOfBirth]:
-                primaryCaregiverProps.dateOfBirth,
-              [primaryCaregiverFields.gender]: primaryCaregiverProps.gender,
-            },
-          },
+          uiSchema: primaryInfoPage.uiSchema,
+          schema: primaryInfoPage.schema,
         },
         primaryCaregiverInfoTwo: {
           path: 'primary-2',
           title: contactInfoTitle,
-          uiSchema: {
-            'ui:description': () =>
-              PrimaryCaregiverInfo({ pageTitle: contactInfoTitle }),
-            [primaryCaregiverFields.address]: addressWithoutCountryUI(
-              primaryCaregiverUI.primaryInputLabel,
-            ),
-            [primaryCaregiverFields.primaryPhoneNumber]: primaryPhoneNumberUI(
-              primaryCaregiverUI.primaryInputLabel,
-            ),
-            [primaryCaregiverFields.alternativePhoneNumber]: alternativePhoneNumberUI(
-              primaryCaregiverUI.primaryInputLabel,
-            ),
-            [primaryCaregiverFields.email]: emailUI(
-              primaryCaregiverUI.primaryInputLabel,
-            ),
-            [primaryCaregiverFields.verifyEmail]: confirmationEmailUI(
-              primaryCaregiverUI.primaryInputLabel,
-              primaryCaregiverFields.email,
-            ),
-            [primaryCaregiverFields.vetRelationship]: vetRelationshipUI(
-              primaryCaregiverUI.primaryInputLabel,
-            ),
-          },
-          schema: {
-            type: 'object',
-            required: [
-              primaryCaregiverFields.address,
-              primaryCaregiverFields.primaryPhoneNumber,
-              primaryCaregiverFields.vetRelationship,
-            ],
-            properties: {
-              [primaryCaregiverFields.address]: address,
-              [primaryCaregiverFields.primaryPhoneNumber]:
-                primaryCaregiverProps.primaryPhoneNumber,
-              [primaryCaregiverFields.alternativePhoneNumber]:
-                primaryCaregiverProps.alternativePhoneNumber,
-              [primaryCaregiverFields.email]: primaryCaregiverProps.email,
-              [primaryCaregiverFields.verifyEmail]: primaryCaregiverProps.email,
-              [primaryCaregiverFields.vetRelationship]:
-                primaryCaregiverProps.vetRelationship,
-            },
-          },
+          uiSchema: primaryContactInfoPage.uiSchema,
+          schema: primaryContactInfoPage.schema,
         },
         primaryCaregiverInfoThree: {
           path: 'primary-3',
           title: 'Health care coverage',
-          uiSchema: {
-            'ui:description': PrimaryHealthCoverage({
-              pageTitle: 'Health care coverage',
-            }),
-            [primaryCaregiverFields.medicaidEnrolled]:
-              primaryCaregiverUI.medicaidEnrolledUI,
-            [primaryCaregiverFields.medicareEnrolled]:
-              primaryCaregiverUI.medicareEnrolledUI,
-            [primaryCaregiverFields.tricareEnrolled]:
-              primaryCaregiverUI.tricareEnrolledUI,
-            [primaryCaregiverFields.champvaEnrolled]:
-              primaryCaregiverUI.champvaEnrolledUI,
-            [primaryCaregiverFields.otherHealthInsurance]:
-              primaryCaregiverUI.otherHealthInsuranceUI,
-            // optionally require
-            [primaryCaregiverFields.otherHealthInsuranceName]:
-              primaryCaregiverUI.otherHealthInsuranceNameUI,
-          },
-          schema: {
-            type: 'object',
-            required: [
-              primaryCaregiverFields.medicaidEnrolled,
-              primaryCaregiverFields.medicareEnrolled,
-              primaryCaregiverFields.tricareEnrolled,
-              primaryCaregiverFields.champvaEnrolled,
-              primaryCaregiverFields.otherHealthInsurance,
-            ],
-            properties: {
-              [primaryCaregiverFields.medicaidEnrolled]:
-                primaryCaregiverProps.medicaidEnrolled,
-              [primaryCaregiverFields.medicareEnrolled]:
-                primaryCaregiverProps.medicareEnrolled,
-              [primaryCaregiverFields.tricareEnrolled]:
-                primaryCaregiverProps.tricareEnrolled,
-              [primaryCaregiverFields.champvaEnrolled]:
-                primaryCaregiverProps.champvaEnrolled,
-              [primaryCaregiverFields.otherHealthInsurance]: {
-                type: 'boolean',
-              },
-              [primaryCaregiverFields.otherHealthInsuranceName]:
-                primaryCaregiverProps.otherHealthInsuranceName,
-            },
-          },
+          uiSchema: primaryMedicalPage.uiSchema,
+          schema: primaryMedicalPage.schema,
         },
       },
     },
