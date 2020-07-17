@@ -385,7 +385,6 @@ describe('VAOS integration appointment cancellation:', () => {
       findByRole,
       baseElement,
       findByText,
-      queryByRole,
       getByRole,
     } = renderInReduxProvider(
       <AppointmentsPage>
@@ -500,8 +499,8 @@ describe('VAOS integration appointment cancellation:', () => {
     appointment.attributes = {
       ...appointment.attributes,
       status: 'Submitted',
-      appointmentType: 'Express Care',
       typeOfCareId: 'CR1',
+      reasonForVisit: 'Back pain',
     };
     mockAppointmentInfo({ requests: [appointment] });
     setFetchJSONResponse(
@@ -529,10 +528,7 @@ describe('VAOS integration appointment cancellation:', () => {
       <AppointmentsPage>
         <ExpressCareList />
       </AppointmentsPage>,
-      {
-        initialState,
-        reducers,
-      },
+      { initialState, reducers },
     );
 
     await findByText(/cancel appointment/i);

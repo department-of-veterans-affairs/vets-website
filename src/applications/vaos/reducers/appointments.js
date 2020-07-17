@@ -19,11 +19,7 @@ import {
 
 import { FORM_SUBMIT_SUCCEEDED } from '../actions/sitewide';
 
-import {
-  sortFutureConfirmedAppointments,
-  sortFutureRequests,
-  sortMessages,
-} from '../services/appointment';
+import { sortMessages } from '../services/appointment';
 import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,
@@ -54,14 +50,9 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
       const [bookedAppointments, requests] = action.data;
 
-      const confirmedFilteredAndSorted = [...bookedAppointments].sort(
-        sortFutureConfirmedAppointments,
-      );
-      const requestsFilteredAndSorted = [...requests].sort(sortFutureRequests);
-
       return {
         ...state,
-        future: [...confirmedFilteredAndSorted, ...requestsFilteredAndSorted],
+        future: [...bookedAppointments, ...requests],
         futureStatus: FETCH_STATUS.succeeded,
       };
     }
