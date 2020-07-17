@@ -16,7 +16,7 @@ export function TabNav({ location, router, hasExpressCare }) {
           router.push('/past');
           focusElement('#tabpast');
         }}
-        title="Upcoming appointments"
+        title={hasExpressCare ? 'Upcoming' : 'Upcoming appointments'}
       />
       <TabItem
         id="past"
@@ -32,7 +32,7 @@ export function TabNav({ location, router, hasExpressCare }) {
             focusElement('#tabexpress-care');
           }
         }}
-        title="Past appointments"
+        title={hasExpressCare ? 'Past' : 'Past appointments'}
       />
       {hasExpressCare && (
         <TabItem
