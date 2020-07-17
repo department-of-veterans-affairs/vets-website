@@ -38,17 +38,6 @@ const initialState = {
   },
 };
 
-const parentSite983 = {
-  id: '983',
-  attributes: {
-    ...getParentSiteMock().attributes,
-    institutionCode: '983',
-    authoritativeName: 'Some VA facility',
-    rootStationCode: '983',
-    parentStationCode: '983',
-  },
-};
-
 describe('VAOS integration: select date time slot page', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
