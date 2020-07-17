@@ -80,6 +80,10 @@ $facility-locator-color-gray: #ccc;
     border-bottom: solid thin $color-gray-lightest;
   }
 
+  .search-result-title {
+    font-size: 18px;
+  }
+
   .search-result-title:focus {
     @include focus-gold-light-outline(0);
     outline-offset: 2px;

@@ -511,6 +511,16 @@ class VAMap extends Component {
     return mapMarkers;
   };
 
+  renderResultsHeader = (results, facilityType, queryContext) => {
+    return results.length > 0 ? (
+      <h2 className="search-result-title">
+        {`Results for ${facilityTypes[facilityType]} near ${queryContext}`}
+      </h2>
+    ) : (
+      <br />
+    );
+  };
+
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
@@ -533,22 +543,9 @@ class VAMap extends Component {
             isMobile
           />
           <div>{showDialogUrgCare(currentQuery)}</div>
-          {/* <div ref={this.searchResultTitle}>
-            {results.length > 0 ? (
-              <p className="search-result-title">
-                <strong>{totalEntries} results</strong>
-                {` for `}
-                <strong>
-                  {facilityTypes[this.props.currentQuery.facilityType]}
-                </strong>
-                {` near `}
-                <strong>“{this.props.currentQuery.context}”</strong>
-              </p>
-            ) : (
-              <br />
-            )}
-          </div> */}
-          <br />
+          <div ref={this.searchResultTitle}>
+            {this.renderResultsHeader(results)}
+          </div>
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -571,7 +568,6 @@ class VAMap extends Component {
               )}
             </TabPanel>
             <TabPanel>
-              {otherToolsLink}
               <Map
                 ref="map"
                 center={position}
@@ -606,6 +602,7 @@ class VAMap extends Component {
               )}
             </TabPanel>
           </Tabs>
+          {otherToolsLink}
         </div>
       </div>
     );
@@ -620,6 +617,9 @@ class VAMap extends Component {
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
+    const facilityType = currentQuery.facilityType.slice();
+    const queryContext = currentQuery.context.slice();
+
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderMapMarkers();
@@ -635,22 +635,9 @@ class VAMap extends Component {
           />
         </div>
         <div>{showDialogUrgCare(currentQuery)}</div>
-        {/* <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
-          {results.length > 0 ? (
-            <p className="search-result-title">
-              <strong>{totalEntries} results</strong>
-              {` for `}
-              <strong>
-                {facilityTypes[this.props.currentQuery.facilityType]}
-              </strong>
-              {` near `}
-              <strong>“{this.props.currentQuery.context}”</strong>
-            </p>
-          ) : (
-            <br >
-          )}
-        </div> */}
-        <br />
+        <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
+          {this.renderResultsHeader(results, facilityType, queryContext)}
+        </div>
         <div className="row">
           <div
             className="columns usa-width-one-third medium-4 small-12"
@@ -670,7 +657,6 @@ class VAMap extends Component {
             className="columns usa-width-two-thirds medium-8 small-12"
             style={{ minHeight: '75vh', paddingLeft: '0px' }}
           >
-            {otherToolsLink}
             <Map
               ref="map"
               center={position}
@@ -693,6 +679,7 @@ class VAMap extends Component {
                 </FeatureGroup>
               )}
             </Map>
+            {otherToolsLink}
           </div>
         </div>
         {currentPage &&
