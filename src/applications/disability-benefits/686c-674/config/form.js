@@ -178,7 +178,8 @@ const formConfig = {
           depends: formData =>
             typeof formData?.currentMarriageInformation?.type === 'string' &&
             formData?.currentMarriageInformation?.type !==
-              MARRIAGE_TYPES.ceremonial,
+              MARRIAGE_TYPES.ceremonial &&
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Additional evidence needed to add spouse',
           path: 'add-spouse-evidence',
           uiSchema: marriageAdditionalEvidence.uiSchema,
@@ -224,7 +225,7 @@ const formConfig = {
                 child?.childStatus?.stepchild === true ||
                 child?.childStatus?.adopted === true ||
                 child?.childStatus?.notCapable === true,
-            ),
+            ) && isChapterFieldRequired(formData, TASK_KEYS.addChild),
           title: 'Additional evidence needed to add child',
           path: 'add-child-evidence',
           uiSchema: childAdditionalEvidence.uiSchema,
