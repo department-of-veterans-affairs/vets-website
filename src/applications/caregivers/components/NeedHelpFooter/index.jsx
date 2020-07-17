@@ -54,7 +54,13 @@ const NeedHelpFooter = props => {
             {links.reportLine.label}
           </a>
           .<br />
-          <span>If you have hearing loss, call <a href="tel:711" aria-label="TTY. 7 1 1."><a href="tel:711" aria-label="TTY. 7 1 1.">TTY: 711</a></a>.</span>
+          <span>
+            If you have hearing loss, call{' '}
+            <a href="tel:711" aria-label="TTY. 7 1 1.">
+              TTY: 711
+            </a>
+            .
+          </span>
         </p>
       </div>
     </footer>
