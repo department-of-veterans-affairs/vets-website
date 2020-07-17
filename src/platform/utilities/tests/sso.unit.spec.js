@@ -57,15 +57,15 @@ describe('checkAutoSession', () => {
   });
 
   it('should redirect user to cerner if logged in via SSOe and on the standalone sign in page', async () => {
-    localStorage.setItem('hasSession', true);
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
     global.window.location.origin = 'http://localhost';
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=myvahealth';
+    const loggedIn = true;
     const authenticatedWithSSOe = true;
-    await checkAutoSession(authenticatedWithSSOe);
+    await checkAutoSession(loggedIn, authenticatedWithSSOe);
 
     expect(global.window.location).to.eq(
       'https://ehrm-va-test.patientportal.us.healtheintent.com/',
@@ -73,7 +73,6 @@ describe('checkAutoSession', () => {
   });
 
   it('should redirect user to home page if logged in via SSOe and on the standalone sign in page', async () => {
-    localStorage.setItem('hasSession', true);
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
@@ -81,21 +80,22 @@ describe('checkAutoSession', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '';
 
+    const loggedIn = true;
     const authenticatedWithSSOe = true;
-    await checkAutoSession(authenticatedWithSSOe);
+    await checkAutoSession(loggedIn, authenticatedWithSSOe);
 
     expect(global.window.location).to.eq('http://localhost');
   });
 
   it('should auto logout if user has logged in via SSOe and they do not have a SSOe session anymore', async () => {
-    localStorage.setItem('hasSession', true);
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: false, ttl: 0, authn: undefined });
     const auto = sandbox.stub(authUtils, 'logout');
 
+    const loggedIn = true;
     const authenticatedWithSSOe = true;
-    await checkAutoSession(authenticatedWithSSOe);
+    await checkAutoSession(loggedIn, authenticatedWithSSOe);
 
     sinon.assert.calledOnce(auto);
     sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout', {
@@ -104,24 +104,25 @@ describe('checkAutoSession', () => {
   });
 
   it('should not auto logout if user is logged without SSOe and they do not have a SSOe session', async () => {
-    localStorage.setItem('hasSession', true);
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: false, ttl: 0, authn: undefined });
     const auto = sandbox.stub(authUtils, 'logout');
-    await checkAutoSession();
+    const loggedIn = true;
+    const authenticatedWithSSOe = undefined;
+    await checkAutoSession(loggedIn, authenticatedWithSSOe);
 
     sinon.assert.notCalled(auto);
   });
 
   it('should not auto logout if user is logged in and they have a SSOe session', async () => {
-    localStorage.setItem('hasSession', true);
     sandbox
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
     const auto = sandbox.stub(authUtils, 'logout');
+    const loggedIn = true;
     const authenticatedWithSSOe = true;
-    await checkAutoSession(authenticatedWithSSOe);
+    await checkAutoSession(loggedIn, authenticatedWithSSOe);
 
     sinon.assert.notCalled(auto);
   });

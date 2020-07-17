@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import * as ssoUtils from 'platform/utilities/sso';
 import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
 
@@ -16,13 +15,10 @@ describe('<AutoSSO>', () => {
       useInboundSSOe: false,
       hasCalledKeepAlive: false,
       authenticatedWithSSOe: false,
+      loggedIn: false,
       profileLoading: false,
       checkKeepAlive: sinon.spy(),
     };
-  });
-
-  afterEach(() => {
-    localStorage.clear();
   });
 
   it('should not call removeLoginAttempted if user is logged out', () => {
@@ -35,7 +31,9 @@ describe('<AutoSSO>', () => {
 
   it('should call removeLoginAttempted if user is logged in', () => {
     const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
-    localStorage.setItem('hasSession', 'true');
+    Object.assign(props, {
+      loggedIn: true,
+    });
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.calledOnce(stub);
@@ -45,8 +43,9 @@ describe('<AutoSSO>', () => {
   it('should not call checkAutoSession if it already has', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
-      hasCalledKeepAlive: true,
       useInboundSSOe: true,
+      profileLoading: false,
+      hasCalledKeepAlive: true,
     });
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
@@ -57,8 +56,9 @@ describe('<AutoSSO>', () => {
   it('should call keepalive if it has yet to', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
-      hasCalledKeepAlive: false,
       useInboundSSOe: true,
+      profileLoading: false,
+      hasCalledKeepAlive: false,
     });
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();

@@ -36,10 +36,10 @@ export async function ssoKeepAliveSession() {
   return { ttl, authn };
 }
 
-export async function checkAutoSession(authenticatedWithSSOe) {
+export async function checkAutoSession(loggedIn, authenticatedWithSSOe) {
   const { ttl, authn } = await ssoKeepAliveSession();
 
-  if (hasSession() && authenticatedWithSSOe) {
+  if (loggedIn && authenticatedWithSSOe) {
     if (window.location.pathname === '/sign-in/' && ttl > 0) {
       // the user is on the standalone signin page, but already logged in with SSOe
       // redirect them back to their return url
@@ -52,7 +52,7 @@ export async function checkAutoSession(authenticatedWithSSOe) {
       // in which case we don't want to logout the user because we don't know
       logout('v1', 'sso-automatic-logout', { 'auto-logout': 'true' });
     }
-  } else if (!hasSession() && ttl > 0 && !getLoginAttempted() && authn) {
+  } else if (!loggedIn && ttl > 0 && !getLoginAttempted() && authn) {
     // only attempt an auto login if the user is
     // a) does not have a VA.gov session
     // b) has an SSOe session
