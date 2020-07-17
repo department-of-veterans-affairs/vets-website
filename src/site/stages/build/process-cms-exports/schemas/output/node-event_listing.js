@@ -20,7 +20,10 @@ module.exports = {
     },
     fieldIntroText: { type: 'string' },
     fieldOffice: {
-      $ref: 'output/node-office',
+      oneOf: [
+        { $ref: 'output/node-health_care_region_page' },
+        { $ref: 'output/node-office' },
+      ],
     },
   },
   required: [
