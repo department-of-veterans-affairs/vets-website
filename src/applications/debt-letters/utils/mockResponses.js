@@ -137,6 +137,33 @@ const data = [
   },
 ];
 
+const debtLettersVBMS = [
+  {
+    documentId: '{64B0BDC4-D40C-4C54-86E0-104C987B8D8F}',
+    docType: '1213',
+    typeDescription: 'DMC - Second Demand Letter',
+    receivedAt: '2020-05-29',
+  },
+  {
+    documentId: '{70412535-E39E-4202-B24E-2751D9FBC874}',
+    docType: '194',
+    typeDescription: 'DMC - First Demand Letter',
+    receivedAt: '2020-05-29',
+  },
+  {
+    documentId: '{3626D232-98D9-41AB-AA3A-CD2DDF7DA59C}',
+    docType: '194',
+    typeDescription: 'DMC - First Demand Letter',
+    receivedAt: '2020-05-29',
+  },
+  {
+    documentId: '{641D0414-10A9-4246-9AFD-3C0BE2D62B2F}',
+    docType: '1213',
+    typeDescription: 'DMC - Second Demand Letter',
+    receivedAt: '2020-05-29',
+  },
+];
+
 function asyncReturn(returnValue, delay = 300) {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -146,6 +173,7 @@ function asyncReturn(returnValue, delay = 300) {
 }
 
 export const debtLettersSuccess = () => asyncReturn(data);
+export const debtLettersSuccessVBMS = () => asyncReturn(debtLettersVBMS);
 
 export const debtLettersFailure = () =>
   asyncReturn(

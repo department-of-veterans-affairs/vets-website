@@ -15,7 +15,7 @@ const HowDoIPay = () => (
     <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">Online</h3>
     <p className="vads-u-margin-top--0">
       Pay directly from your bank account or by debit or credit card on the
-      secure pay.gov website.
+      secure <a href="https://www.pay.va.gov/">pay.gov</a> website.
     </p>
     <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">By phone</h3>
     <p className="vads-u-margin-bottom--0 vads-u-margin-top--0">

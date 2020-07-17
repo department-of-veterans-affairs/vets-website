@@ -14,11 +14,6 @@ const transform = entity => ({
   promote: getDrupalValue(entity.promote),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   entityPublished: isPublished(getDrupalValue(entity.moderationState)),
-  entityUrl: {
-    // TODO: Get the breadcrumb from the CMS export when it's available
-    breadcrumb: [],
-    path: entity.path[0].alias,
-  },
   fieldAuthor: entity.fieldAuthor[0] || null,
   fieldFullStory: {
     processed: getWysiwygString(getDrupalValue(entity.fieldFullStory)),
