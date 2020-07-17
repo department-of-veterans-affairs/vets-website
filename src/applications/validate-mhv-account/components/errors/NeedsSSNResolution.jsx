@@ -28,7 +28,11 @@ const NeedsSSNResolution = () => {
           <p>
             Please call us at <a href="tel:800-827-1000">800-827-1000</a>. We’re
             here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have
-            hearing loss, call <a href="tel:711" aria-label="TTY. 7 1 1.">TTY: 711</a>.
+            hearing loss, call{' '}
+            <a href="tel:711" aria-label="TTY. 7 1 1.">
+              TTY: 711
+            </a>
+            .
           </p>
           <p>
             When the system prompts you to give a reason for your call, say,

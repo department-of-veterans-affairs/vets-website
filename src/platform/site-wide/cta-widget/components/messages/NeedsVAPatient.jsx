@@ -19,7 +19,11 @@ const NeedsVAPatient = () => {
         <p>
           Call VA311 (<a href="tel:844-698-2311">844-698-2311</a>
           ), and select 3 to reach your nearest VA medical center. If you have
-          hearing loss, call <a href="tel:711" aria-label="TTY. 7 1 1.">TTY: 711</a>.
+          hearing loss, call{' '}
+          <a href="tel:711" aria-label="TTY. 7 1 1.">
+            TTY: 711
+          </a>
+          .
         </p>
         <p>
           Tell the representative that you tried to sign in to use the health
@@ -35,7 +39,10 @@ const NeedsVAPatient = () => {
         <p>
           Call <a href="tel:844-698-2311">844-698-2311</a>, and select 3 to
           reach your nearest VA medical center. If you have hearing loss, call
-          <a href="tel:711" aria-label="TTY. 7 1 1.">TTY: 711</a>.
+          <a href="tel:711" aria-label="TTY. 7 1 1.">
+            TTY: 711
+          </a>
+          .
         </p>
         <p>
           Tell the representative that you’re enrolled in VA health care and

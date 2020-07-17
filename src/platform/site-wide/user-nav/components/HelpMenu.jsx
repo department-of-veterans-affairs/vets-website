@@ -27,7 +27,11 @@ function HelpMenu({ clickHandler, cssClass, isOpen }) {
       <p>
         <a href="tel:18446982311">Call VA311: 844-698-2311</a>
       </p>
-      <p><a href="tel:711" aria-label="TTY. 7 1 1.">TTY: 711</a></p>
+      <p>
+        <a href="tel:711" aria-label="TTY. 7 1 1.">
+          TTY: 711
+        </a>
+      </p>
     </div>
   );
 
