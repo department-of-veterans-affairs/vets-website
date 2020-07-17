@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { ssoe } from 'platform/user/authentication/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { logout } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -21,7 +21,7 @@ export class PersonalizationDropdown extends React.Component {
     // Prevent double clicking of "Sign Out"
     if (!this.signOutDisabled) {
       this.signOutDisabled = true;
-      logout(this.props.useSSOe ? 'v1' : 'v0');
+      logout(this.props.authenticatedWithSSOe ? 'v1' : 'v0');
     }
   };
 
@@ -66,7 +66,7 @@ export class PersonalizationDropdown extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    useSSOe: ssoe(state),
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     showAccount: !selectShowProfile2(state),
   };
 }
