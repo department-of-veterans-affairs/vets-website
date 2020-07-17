@@ -4,11 +4,11 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
 import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
-import { submitTransform } from 'applications/caregivers/helpers';
 import {
-  primaryCaregiverFields,
-  secondaryCaregiverFields,
-} from 'applications/caregivers/definitions/constants';
+  submitTransform,
+  hasSecondaryCaregiverOne,
+  hasSecondaryCaregiverTwo,
+} from 'applications/caregivers/helpers';
 import definitions, {
   addressWithoutCountryUI,
 } from 'applications/caregivers/definitions/caregiverUI';
@@ -38,16 +38,7 @@ const {
 } = fullSchema.definitions;
 
 const { contactInfoTitle } = definitions.sharedItems;
-
-const { vetUI, primaryCaregiverUI, secondaryCaregiversUI } = definitions;
-
-const hasSecondaryCaregiverOne = formData =>
-  formData[primaryCaregiverFields.hasSecondaryCaregiverOneView] === true;
-
-const hasSecondaryCaregiverTwo = formData =>
-  formData[
-    secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwoView
-  ] === true;
+const { secondaryCaregiversUI } = definitions;
 
 /* Chapters
  * 1 - Vet/Service Member (required)
