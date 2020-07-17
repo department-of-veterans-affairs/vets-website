@@ -23,9 +23,10 @@ import {
 import definitions, {
   addressWithoutCountryUI,
   confirmationEmailUI,
-} from '../definitions/caregiverUI';
+} from 'applications/caregivers/definitions/caregiverUI';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
+import { vetInfoPage, vetContactInfoPage, vetMedicalCenterPage } from './pages';
 
 const {
   veteran,
@@ -111,119 +112,20 @@ const formConfig = {
         veteranInfoOne: {
           path: 'vet-1',
           title: 'Veteran information',
-          uiSchema: {
-            'ui:description': VetInfo({ headerInfo: true }),
-            [vetFields.fullName]: fullNameUI(vetUI.vetInputLabel),
-            [vetFields.ssn]: ssnUI(vetUI.vetInputLabel),
-            [vetFields.dateOfBirth]: dateOfBirthUI(vetUI.vetInputLabel),
-            [vetFields.gender]: genderUI(vetUI.vetInputLabel),
-          },
-          schema: {
-            type: 'object',
-            required: [
-              vetFields.dateOfBirth,
-              vetFields.fullName,
-              vetFields.ssn,
-              vetFields.gender,
-            ],
-            properties: {
-              [vetFields.fullName]: veteranProps.fullName,
-              [vetFields.ssn]: veteranProps.ssnOrTin,
-              [vetFields.dateOfBirth]: veteranProps.dateOfBirth,
-              [vetFields.gender]: veteranProps.gender,
-            },
-          },
+          uiSchema: vetInfoPage.uiSchema,
+          schema: vetInfoPage.schema,
         },
         veteranInfoTwo: {
           path: 'vet-2',
           title: contactInfoTitle,
-          uiSchema: {
-            'ui:description': VetInfo({
-              pageTitle: contactInfoTitle,
-              headerInfo: true,
-            }),
-            [vetFields.address]: addressWithoutCountryUI(vetUI.vetInputLabel),
-            [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI(
-              vetUI.vetInputLabel,
-            ),
-            [vetFields.alternativePhoneNumber]: alternativePhoneNumberUI(
-              vetUI.vetInputLabel,
-            ),
-            [vetFields.email]: emailUI(vetUI.vetInputLabel),
-            [vetFields.verifyEmail]: confirmationEmailUI(
-              vetUI.vetInputLabel,
-              vetFields.email,
-            ),
-          },
-          schema: {
-            type: 'object',
-            required: [vetFields.address, vetFields.primaryPhoneNumber],
-            properties: {
-              [vetFields.address]: address,
-              [vetFields.primaryPhoneNumber]: phone,
-              [vetFields.alternativePhoneNumber]: phone,
-              [vetFields.email]: veteranProps.email,
-              [vetFields.verifyEmail]: veteranProps.email,
-            },
-          },
+          uiSchema: vetContactInfoPage.uiSchema,
+          schema: vetContactInfoPage.schema,
         },
         veteranInfoThree: {
           path: 'vet-3',
           title: 'VA medical center',
-          uiSchema: {
-            'ui:description': VetInfo({
-              pageTitle: 'VA medical center',
-            }),
-            [vetFields.previousTreatmentFacility]:
-              vetUI.previousTreatmentFacilityUI,
-            [vetFields.preferredFacilityView]: {
-              ...vetUI[vetFields.preferredFacilityView],
-            },
-            [vetFields.preferredFacilityInfoView]: vetUI.preferredFacilityInfo,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              // TODO: update using full schema
-              [vetFields.previousTreatmentFacility]: {
-                type: 'object',
-                additionalProperties: false,
-                required: ['name', 'type'],
-                properties: {
-                  name: {
-                    type: 'string',
-                  },
-                  type: {
-                    type: 'string',
-                    enum: ['hospital', 'clinic'],
-                  },
-                },
-              },
-              // dynamic properties for filtering facilities dropDown
-              [vetFields.preferredFacilityView]: {
-                type: 'object',
-                required: [
-                  vetFields.preferredFacilityStateView,
-                  vetFields.plannedClinic,
-                ],
-                properties: {
-                  [vetFields.preferredFacilityStateView]: {
-                    type: 'string',
-                    enum: states.USA.map(state => state.value).filter(
-                      state => !!medicalCentersByState[state],
-                    ),
-                  },
-                  [vetFields.plannedClinic]: Object.assign({}, plannedClinic, {
-                    enum: [],
-                  }),
-                },
-              },
-              // facility additional info section - noop property
-              [vetFields.preferredFacilityInfoView]: {
-                type: 'string',
-              },
-            },
-          },
+          uiSchema: vetMedicalCenterPage.uiSchema,
+          schema: vetMedicalCenterPage.schema,
         },
       },
     },
