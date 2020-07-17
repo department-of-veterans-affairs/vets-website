@@ -1,6 +1,5 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import createContactInformationPage from '../../pages/contactInformation';
-import { preferredContactMethodTitle } from '../content/personalInformation';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms/definitions/address';
 
