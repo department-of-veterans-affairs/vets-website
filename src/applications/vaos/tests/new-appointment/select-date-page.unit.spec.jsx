@@ -7,11 +7,7 @@ import { cleanup } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
-import {
-  getParentSiteMock,
-  getClinicMock,
-  getAppointmentSlotMock,
-} from '../mocks/v0';
+import { getClinicMock, getAppointmentSlotMock } from '../mocks/v0';
 import {
   createTestStore,
   setTypeOfCare,
