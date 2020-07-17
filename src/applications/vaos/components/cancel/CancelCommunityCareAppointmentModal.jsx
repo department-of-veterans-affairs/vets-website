@@ -15,7 +15,7 @@ export default function CancelCommunityCareAppointmentModal({
       onClose={onClose}
       title="You need to call your provider to cancel this appointment"
     >
-      Community Care appointments can’t be canceled online. Please call the
+      Community care appointments can’t be canceled online. Please call the
       below community provider to cancel your appointment.
       <div className="vads-u-margin-y--2">
         {!!name && (
