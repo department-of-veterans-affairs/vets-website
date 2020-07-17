@@ -28,7 +28,7 @@ export default function FormQuestion({
     }
   });
 
-  function QuestionOptions({ questionId, options }) {
+  function QuestionOptions({ questionId, questionValue, options }) {
     return options.map(option => (
       <>
         <input
@@ -38,6 +38,7 @@ export default function FormQuestion({
           onChange={handleClick}
           name={`option-${questionId}`}
           value={option.optionValue}
+          checked={option.optionValue === questionValue}
         />
         <label htmlFor={`option-${option.optionValue}`}>
           {option.optionText}
@@ -46,42 +47,17 @@ export default function FormQuestion({
     ));
   }
 
-  const inputOptions = optionsConfig.map(option => (
-    <>
-      <label htmlFor={`option-${option.optionValue}`}>
-        {option.optionText}
-      </label>
-      <input
-        id={`option-${option.optionValue}`}
-        key={`option-${option.optionValue}`}
-        type="radio"
-        // onClick={handleClick}
-        name={'question'}
-        value={option.optionValue}
-      />
-    </>
-    // <button
-    //   key={index}
-    //   type="button"
-    //   className={classnames(
-    //     'usa-button-big',
-    //     (question.value === option.optionValue ? 'usa-button' : null) ?? [
-    //       'usa-button-secondary',
-    //       'vads-u-background-color--white', // TODO: resolve upstream design system bug https://github.com/department-of-veterans-affairs/va.gov-team/issues/9610
-    //     ],
-    //   )}
-    //   onClick={handleClick}
-    //   value={option.optionValue}
-    // >
-    //   {option.optionText}
-    // </button>
-  ));
-
   return (
-    <fieldset className="feature" id={`question-${question.id}`}>
-      {/* <Element name={scrollElementName} /> */}
-      <legend id={question.id}>{question.text}</legend>
-      <QuestionOptions questionId={question.id} options={optionsConfig} />
-    </fieldset>
+    <div className="feature">
+      <Element name={scrollElementName} />
+      <fieldset id={`question-${question.id}`}>
+        <legend id={question.id}>{question.text}</legend>
+        <QuestionOptions
+          questionId={question.id}
+          options={optionsConfig}
+          questionValue={question.value}
+        />
+      </fieldset>
+    </div>
   );
 }
