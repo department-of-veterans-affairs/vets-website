@@ -24,6 +24,7 @@ import {
 
 import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
+import ExpressCareList from '../../components/ExpressCareList';
 import AppointmentsPage from '../../containers/AppointmentsPage';
 
 const initialState = {
@@ -455,6 +456,78 @@ describe('VAOS integration appointment cancellation:', () => {
     } = renderInReduxProvider(
       <AppointmentsPage>
         <FutureAppointmentsList />
+      </AppointmentsPage>,
+      {
+        initialState,
+        reducers,
+      },
+    );
+
+    await findByText(/cancel appointment/i);
+    expect(baseElement).not.to.contain.text('Canceled');
+
+    fireEvent.click(getByText(/cancel appointment/i));
+
+    await findByRole('alertdialog');
+
+    fireEvent.click(getByText(/yes, cancel this appointment/i));
+
+    await findByText(/your appointment has been canceled/i);
+
+    const cancelData = JSON.parse(
+      global.fetch
+        .getCalls()
+        .find(call => call.args[0].includes('appointment_requests/test_id'))
+        .args[1].body,
+    );
+
+    expect(cancelData).to.deep.equal({
+      ...appointment.attributes,
+      id: 'test_id',
+      appointmentRequestDetailCode: ['DETCODE8'],
+      status: 'Cancelled',
+    });
+
+    fireEvent.click(getByText(/continue/i));
+
+    expect(queryByRole('alertdialog')).to.not.be.ok;
+    expect(baseElement).to.contain.text('Canceled');
+  });
+
+  it('express care requests on a separate tab should be cancelled', async () => {
+    const appointment = getVARequestMock();
+    appointment.id = 'test_id';
+    appointment.attributes = {
+      ...appointment.attributes,
+      status: 'Submitted',
+      appointmentType: 'Express Care',
+      typeOfCareId: 'CR1',
+    };
+    mockAppointmentInfo({ requests: [appointment] });
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointment_requests/test_id`,
+      ),
+      {
+        data: {
+          ...appointment,
+          attributes: {
+            ...appointment.attributes,
+            status: 'Cancelled',
+          },
+        },
+      },
+    );
+
+    const {
+      getByText,
+      findByRole,
+      baseElement,
+      findByText,
+      queryByRole,
+    } = renderInReduxProvider(
+      <AppointmentsPage>
+        <ExpressCareList />
       </AppointmentsPage>,
       {
         initialState,
