@@ -7,14 +7,88 @@ import {
 import { addSpouse } from '../../../utilities';
 import { marriageTypeInformation } from './helpers';
 
+import { locationUISchema } from '../../../location-schema';
+
 const { currentMarriageInformation } = addSpouse.properties;
+
+//export const schema = {
+  //type: 'object',
+  //properties: {
+  //  currentMarriageInformation,
+  //},
+//};
 
 export const schema = {
   type: 'object',
   properties: {
-    currentMarriageInformation,
+  currentMarriageInformation: {
+    type: "object",
+    properties: {
+      date: {
+        pattern: "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+        type: "string"
+      },
+      location: {
+        type: "object",
+        properties: {
+          isOutsideUS: {
+            type: "boolean",
+            default: false,
+          },
+          state: {
+            type: "string",
+            enum: [
+              "CA",
+              "AL",
+              "FL",
+            ],
+            enumNames: [
+              "California",
+              "Alabama",
+              "Florida",
+            ],
+          },
+          country: {
+            type: 'string',
+            maxLength: 50,
+            pattern: "^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$",
+          },
+          city: {
+            type: "string",
+            maxLength: 30,
+            pattern: "^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$"
+          }
+        }
+      },
+      type: {
+        type: "string",
+        enum: [
+          "CEREMONIAL",
+          "COMMON-LAW",
+          "TRIBAL",
+          "PROXY",
+          "OTHER"
+        ],
+        enumNames: [
+          "Religious or civil ceremony (minister, justice of the peace, etc.)",
+          "Common-law",
+          "Tribal",
+          "Proxy",
+          "Other"
+        ]
+      },
+      typeOther: {
+        type: "string",
+        maxLength: 50,
+      },
+      "view:marriageTypeInformation": {
+        type: "object",
+        properties: {}
+      }
+    }
   },
-};
+},
+}
 
 export const uiSchema = {
   currentMarriageInformation: {
@@ -25,19 +99,7 @@ export const uiSchema = {
           isChapterFieldRequired(formData, 'addSpouse'),
       },
     },
-    location: {
-      'ui:title': 'Where were you married?',
-      state: {
-        'ui:required': formData =>
-          isChapterFieldRequired(formData, 'addSpouse'),
-        'ui:title': stateTitle,
-      },
-      city: {
-        'ui:required': formData =>
-          isChapterFieldRequired(formData, 'addSpouse'),
-        'ui:title': cityTitle,
-      },
-    },
+    location: locationUISchema('currentMarriageInformation', 'location'),
     type: {
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
       'ui:title': 'Type of marriage:',
