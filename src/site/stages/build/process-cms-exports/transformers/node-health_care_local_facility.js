@@ -22,11 +22,6 @@ const transform = entity => ({
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityPublished: isPublished(getDrupalValue(entity.moderationState)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityUrl: {
-    // TODO: Get the breadcrumb from the CMS export when it's available
-    breadcrumb: [],
-    path: entity.path[0].alias,
-  },
   // The keys of fieldAddress[0] are snake_case, but we want camelCase
   fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
   fieldEmailSubscription: getDrupalValue(entity.fieldEmailSubscription),

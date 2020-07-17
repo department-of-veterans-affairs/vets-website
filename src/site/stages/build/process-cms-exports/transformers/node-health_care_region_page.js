@@ -21,9 +21,6 @@ const transform = ({
     entityPublished: getDrupalValue(moderationState) === 'published',
     entityLabel: getDrupalValue(title),
     title: getDrupalValue(title),
-    entityUrl: {
-      path: path[0].alias,
-    },
     fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
     fieldLinkFacilityEmergList:
       fieldLinkFacilityEmergList && fieldLinkFacilityEmergList[0]

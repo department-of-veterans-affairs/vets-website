@@ -182,7 +182,7 @@ describe('VAOS integration: appointment list', () => {
   });
 
   // This will change to only show when EC is available
-  it('should show express care button when flag is on', async () => {
+  it('should show express care button and tab when flag is on', async () => {
     mockAppointmentInfo({});
     const initialStateWithExpressCare = {
       featureToggles: {
@@ -193,7 +193,7 @@ describe('VAOS integration: appointment list', () => {
     const memoryHistory = createMemoryHistory();
 
     // Mocking a route here so that components using withRouter don't fail
-    const { findAllByText, baseElement } = renderInReduxProvider(
+    const { findAllByText, baseElement, getAllByRole } = renderInReduxProvider(
       <Router history={memoryHistory}>
         <Route path="/" component={AppointmentsPage} />
       </Router>,
@@ -208,16 +208,17 @@ describe('VAOS integration: appointment list', () => {
     );
 
     expect(baseElement).to.contain.text(
-      'window for Express Care requests is 00:00 to 00:00',
+      'You’ll receive a phone screening between',
     );
     expect(header).to.have.tagName('h2');
     expect(button).to.have.attribute(
       'href',
       'https://veteran.apps-staging.va.gov/var/v4/#new-express-request',
     );
+    expect(getAllByRole('tab')[2]).to.contain.text('Express Care');
   });
 
-  it('should not show express care action when flag is off', async () => {
+  it('should not show express care action or tab when flag is off', async () => {
     mockAppointmentInfo({});
     const initialStateWithExpressCare = {
       featureToggles: {
@@ -228,7 +229,7 @@ describe('VAOS integration: appointment list', () => {
     const memoryHistory = createMemoryHistory();
 
     // Mocking a route here so that components using withRouter don't fail
-    const { findByText, queryByText } = renderInReduxProvider(
+    const { findByText, queryByText, getAllByRole } = renderInReduxProvider(
       <Router history={memoryHistory}>
         <Route path="/" component={AppointmentsPage} />
       </Router>,
@@ -240,5 +241,6 @@ describe('VAOS integration: appointment list', () => {
 
     await findByText('Create a new appointment');
     expect(queryByText(/request an express care screening/i)).to.not.be.ok;
+    expect(getAllByRole('tab').length).to.equal(2);
   });
 });
