@@ -37,6 +37,7 @@ import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
+import SearchResultsHeader from '../components/SearchResultsHeader';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -330,6 +331,9 @@ class VAMap extends Component {
     });
 
     this.props.genBBoxFromAddress(currentQuery);
+    if (this.searchResultTitle.current) {
+      setFocus(this.searchResultTitle.current);
+    }
   };
 
   handleBoundsChanged = () => {
@@ -511,15 +515,13 @@ class VAMap extends Component {
     return mapMarkers;
   };
 
-  renderResultsHeader = (results, facilityType, queryContext) => {
-    return results.length > 0 ? (
-      <h2 className="search-result-title">
-        {`Results for ${facilityTypes[facilityType]} near ${queryContext}`}
-      </h2>
-    ) : (
-      <br />
-    );
-  };
+  renderResultsHeader = (results, facilityType, queryContext) => (
+    <SearchResultsHeader
+      results={results}
+      facilityType={facilityType}
+      context={queryContext}
+    />
+  );
 
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
@@ -532,6 +534,9 @@ class VAMap extends Component {
       pagination: { currentPage, totalPages },
     } = this.props;
     const facilityLocatorMarkers = this.renderMapMarkers();
+    const facilityType = currentQuery.facilityType;
+    const queryContext = currentQuery.context;
+
     return (
       <div>
         <div className="columns small-12">
@@ -544,7 +549,7 @@ class VAMap extends Component {
           />
           <div>{showDialogUrgCare(currentQuery)}</div>
           <div ref={this.searchResultTitle}>
-            {this.renderResultsHeader(results)}
+            {this.renderResultsHeader(results, facilityType, queryContext)}
           </div>
           <Tabs onSelect={this.centerMap}>
             <TabList>
@@ -617,8 +622,8 @@ class VAMap extends Component {
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
-    const facilityType = currentQuery.facilityType.slice();
-    const queryContext = currentQuery.context.slice();
+    const facilityType = currentQuery.facilityType;
+    const queryContext = currentQuery.context;
 
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
@@ -635,7 +640,7 @@ class VAMap extends Component {
           />
         </div>
         <div>{showDialogUrgCare(currentQuery)}</div>
-        <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
+        <div ref={this.searchResultTitle}>
           {this.renderResultsHeader(results, facilityType, queryContext)}
         </div>
         <div className="row">
