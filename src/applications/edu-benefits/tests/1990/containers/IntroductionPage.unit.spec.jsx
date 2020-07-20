@@ -49,6 +49,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     expect(wrapper.exists('.wizard-container')).to.equal(true);
     expect(wrapper.exists('.subway-map')).to.equal(false);
+    expect(mockStore.sessionStorage).to.be.empty;
     wrapper.unmount();
   });
   it('should display the wizard when the button is clicked', () => {
