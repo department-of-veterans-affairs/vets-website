@@ -90,7 +90,7 @@ const initialState = {
   fetchedAppointmentSlotMonths: [],
   submitStatus: FETCH_STATUS.notStarted,
   isCCEligible: false,
-  clickedUpdateAddressButton: false,
+  hideUpdateAddressAlert: false,
 };
 
 function getFacilities(state, typeOfCareId, vaParent) {
@@ -200,7 +200,7 @@ export default function formReducer(state = initialState, action) {
         facilities: state.facilities,
         pastAppointments: state.pastAppointments,
         submitStatus: FETCH_STATUS.notStarted,
-        clickedUpdateAddressButton: state.clickedUpdateAddressButton,
+        hideUpdateAddressAlert: state.hideUpdateAddressAlert,
       };
     }
     case FORM_PAGE_CHANGE_STARTED: {
@@ -270,7 +270,7 @@ export default function formReducer(state = initialState, action) {
     case CLICKED_UPDATE_ADDRESS_BUTTON: {
       return {
         ...state,
-        clickedUpdateAddressButton: true,
+        hideUpdateAddressAlert: true,
       };
     }
     case FORM_UPDATE_FACILITY_TYPE: {

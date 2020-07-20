@@ -89,28 +89,6 @@ describe('VAOS <TypeOfCarePage>', () => {
     global.fetch.resetHistory();
   });
 
-  it('should call onClickedUpdateAddressButton after update button', () => {
-    const openTypeOfCarePage = sinon.spy();
-    const onClickedUpdateAddressButton = sinon.spy();
-
-    const form = mount(
-      <noRedux.TypeOfCarePage
-        addressLine1={null}
-        openTypeOfCarePage={openTypeOfCarePage}
-        onClickedUpdateAddressButton={onClickedUpdateAddressButton}
-        schema={initialSchema}
-        data={{}}
-      />,
-    );
-
-    form.find('a.usa-button.usa-button-primary').simulate('click');
-
-    expect(onClickedUpdateAddressButton.called).to.be.true;
-
-    form.unmount();
-    // global.fetch.resetHistory();
-  });
-
   it('should submit with valid data', () => {
     const openTypeOfCarePage = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
@@ -201,28 +179,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     form.unmount();
   });
 
-  it('should NOT display alert message once user clicks the update address button', () => {
-    const openTypeOfCarePage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const onClickedUpdateAddressButton = sinon.spy();
-
-    const form = mount(
-      <noRedux.TypeOfCarePage
-        addressLine1="PO Box 123"
-        openTypeOfCarePage={openTypeOfCarePage}
-        onClickedUpdateAddressButton={onClickedUpdateAddressButton}
-        schema={initialSchema}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
-    );
-    form.find('a.usa-button.usa-button-primary').simulate('click');
-
-    expect(form.find('.usa-alert').exists()).to.be.false;
-    form.unmount();
-  });
-
-  it('should test redux data for update address', () => {
+  it('should NOT display alert message once user clicks the update address button using redux state', () => {
     const store = createTestStore({});
 
     const router = {

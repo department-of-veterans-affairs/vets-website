@@ -53,17 +53,8 @@ export class TypeOfCarePage extends React.Component {
     scrollAndFocus();
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showAlert: true,
-    };
-  }
-
   hideAlert = () => {
-    const showAlert = !this.state.showAlert;
     this.props.onClickedUpdateAddressButton();
-    this.setState({ showAlert });
   };
 
   onChange = newData => {
@@ -93,7 +84,7 @@ export class TypeOfCarePage extends React.Component {
       pageChangeInProgress,
       showToCUnavailableModal,
       addressLine1,
-      clickedUpdateAddressButton,
+      hideUpdateAddressAlert,
     } = this.props;
 
     if (!schema) {
@@ -105,7 +96,7 @@ export class TypeOfCarePage extends React.Component {
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <UpdateAddressAlert
           address={addressLine1}
-          showAlert={!clickedUpdateAddressButton && this.state.showAlert}
+          showAlert={!hideUpdateAddressAlert}
           onHide={this.hideAlert}
         />
 
@@ -138,14 +129,13 @@ function mapStateToProps(state) {
   const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
   const address = selectVet360ResidentialAddress(state);
-  const clickedUpdateAddressButton = newAppointment.clickedUpdateAddressButton;
   return {
     ...formInfo,
     ...address,
     showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showDirectScheduling: vaosDirectScheduling(state),
-    clickedUpdateAddressButton: newAppointment.clickedUpdateAddressButton,
+    hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
   };
 }
 
