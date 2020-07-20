@@ -1,11 +1,19 @@
 // libs
 import { createSelector } from 'reselect';
 
+// selectors
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+
 const formSelector = state => state.form;
 const navigationSelector = state => state.navigation;
 const userSelector = state => state.user;
 
 const preSubmitInfoSelector = formConfig => formConfig?.preSubmitInfo;
+
+const reviewPageFlipperSelector = createSelector(
+  toggleValues,
+  state => state?.forms_review_page,
+);
 
 const preSubmitSelector = createSelector(
   preSubmitInfoSelector,
@@ -28,6 +36,7 @@ const showLoginModalSelector = createSelector(
 export {
   formSelector,
   preSubmitSelector,
+  reviewPageFlipperSelector,
   showLoginModalSelector,
   userSelector,
 };

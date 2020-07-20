@@ -4,6 +4,7 @@ export default Object.freeze({
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilityLocatorFeUseV1: 'facilityLocatorFeUseV1',
+  forms_review_page: 'forms_review_page',
   profileShowProfile2: 'profile_show_profile_2.0',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',

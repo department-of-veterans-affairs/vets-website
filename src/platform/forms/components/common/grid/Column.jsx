@@ -8,7 +8,7 @@ import React from 'react';
  * @param {string} role ARIA role for component if needed
  */
 function Column(props) {
-  const { children, classNames = '', role = false } = props;
+  const { children, classNames = '', role } = props;
 
   return (
     <div className={`${classNames} columns`} role={role}>

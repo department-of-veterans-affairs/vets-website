@@ -4,8 +4,7 @@ import {
   createRoutes,
 } from 'platform/forms-system/src/js/helpers';
 import RoutedSavablePage from './RoutedSavablePage';
-// import RoutedSavableReviewPage from './RoutedSavableReviewPage';
-import RoutedSavableReviewPage from 'platform/forms/containers/review/RoutedSavableReviewPage';
+import RoutedSavableReviewPageFlipper from 'platform/forms/containers/review/RoutedSavableReviewPageFlipper';
 import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
@@ -42,7 +41,7 @@ export function createRoutesWithSaveInProgress(formConfig) {
     // rewrite review page component
     if (route.path === 'review-and-submit') {
       newRoute = Object.assign({}, route, {
-        component: RoutedSavableReviewPage,
+        component: RoutedSavableReviewPageFlipper,
       });
       newRoutes[index] = newRoute;
     }
