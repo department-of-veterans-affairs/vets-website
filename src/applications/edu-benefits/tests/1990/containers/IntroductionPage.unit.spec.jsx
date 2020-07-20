@@ -1,10 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
-
 import { IntroductionPage } from '../../../1990/containers/IntroductionPage';
-import { wrap } from 'lodash';
 
 describe('Edu 1990 <IntroductionPage>', () => {
   const mockStore = {
