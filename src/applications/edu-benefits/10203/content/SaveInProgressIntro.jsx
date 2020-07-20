@@ -27,7 +27,7 @@ import DowntimeMessage from 'platform/forms/save-in-progress/DowntimeMessage';
 import {
   APP_TYPE_DEFAULT,
   UNAUTH_SIGN_IN_DEFAULT_MESSAGE,
-} from 'platform/forms/constants';
+} from 'platform/forms/save-in-progress/constants';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {
