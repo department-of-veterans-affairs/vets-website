@@ -410,7 +410,7 @@
     "entryName": "login-page",
     "rootUrl": "/sign-in",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "includeBreadcrumbs": false,
       "noNavOrLogin": true,
