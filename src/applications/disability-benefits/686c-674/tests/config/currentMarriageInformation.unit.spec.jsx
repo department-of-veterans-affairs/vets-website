@@ -32,7 +32,7 @@ describe('686 current marriage information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(9);
     form.unmount();
   });
 
