@@ -109,7 +109,7 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.pastSelectedIndex).to.equal(1);
   });
 
-  it('should populate confirmed with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
+  it('should populate past with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
     const action = {
       type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
       startDate: '2018-01-01',
@@ -158,9 +158,6 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
     expect(newState.pastStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.past.length).to.equal(4);
-    expect(
-      moment(newState.past[0].start).isAfter(moment(newState.past[1].start)),
-    ).to.be.true;
   });
 
   it('should update pastStatus to be failed when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {

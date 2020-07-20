@@ -4,11 +4,12 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { bindActionCreators } from 'redux';
-import { fetchDebtLetters } from '../actions';
+import { fetchDebtLetters, fetchDebtLettersVBMS } from '../actions';
 
 class DebtLettersWrapper extends Component {
   componentDidMount() {
     this.props.fetchDebtLetters();
+    this.props.fetchDebtLettersVBMS();
   }
 
   renderError = () => (
@@ -36,7 +37,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ fetchDebtLetters }, dispatch),
+  ...bindActionCreators({ fetchDebtLetters, fetchDebtLettersVBMS }, dispatch),
 });
 
 export default connect(

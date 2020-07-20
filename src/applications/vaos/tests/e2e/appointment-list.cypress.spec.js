@@ -45,5 +45,6 @@ describe('Appointment List', () => {
     cy.findByLabelText(/select a date range/i).select('1');
     cy.findByText('Update').click();
     cy.findByText(/four month clinic name/i).should('exist');
+    cy.get('#queryResultLabel').should('have.focus');
   });
 });

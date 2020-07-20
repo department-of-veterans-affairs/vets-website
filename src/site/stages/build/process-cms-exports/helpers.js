@@ -41,6 +41,33 @@ function getContentModelType(entity) {
   return [entity.baseType, subType].filter(x => x).join('-');
 }
 
+/**
+ * Add common properties to the entity. Does not mutate `entity`; instead,
+ * returns a new object.
+ * @param {Object} entity - The entity to add the common properties to
+ * @param {String} baseType - The type of entity; corresponds to the name of
+ *                            the file.
+ * @param {String} uuid - The UUID of the entity; corresponds to the name of
+ *                        the file.
+ * @returns {Object} - The new entity with the added properties
+ */
+function addCommonProperties(entity, baseType, uuid) {
+  const newEntity = Object.assign({}, entity, {
+    baseType,
+    uuid,
+  });
+  // getContentModelType uses baseType
+  const contentModelType = getContentModelType(newEntity);
+  const entityBundle = contentModelType.includes('-')
+    ? contentModelType.split('-')[1]
+    : contentModelType;
+  Object.assign(newEntity, {
+    contentModelType,
+    entityBundle,
+  });
+  return newEntity;
+}
+
 module.exports = {
   defaultCMSExportContentDir,
   typeProperties,
@@ -111,12 +138,7 @@ module.exports = {
         .readFileSync(path.join(dir, `${baseType}.${uuid}.json`))
         .toString('utf8'),
     );
-    // Add what we already know about the entity
-    entity.baseType = baseType;
-    // Overrides the UUID property in the contents of the entity
-    entity.uuid = uuid;
-    entity.contentModelType = getContentModelType(entity);
-    return entity;
+    return addCommonProperties(entity, baseType, uuid);
   },
 
   /**
