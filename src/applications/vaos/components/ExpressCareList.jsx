@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { getRealFacilityId } from '../utils/appointment';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   cancelAppointment,
@@ -92,19 +91,12 @@ export class ExpressCareList extends React.Component {
       );
     }
 
-    const header = (
-      <h2 className="vads-u-margin-bottom--4 vads-u-font-size--h3">
-        Express Care
-      </h2>
-    );
-
     return (
       <div
         role="tabpanel"
         aria-labelledby="tabexpress-care"
         id="tabpanelexpress-care"
       >
-        {header}
         {content}
       </div>
     );

@@ -16,6 +16,7 @@ import {
   vaosCancel,
   vaosRequests,
   vaosPastAppts,
+  vaosExpressCare,
   selectFutureAppointments,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
@@ -42,6 +43,7 @@ export class FutureAppointmentsList extends React.Component {
       futureStatus,
       facilityData,
       requestMessages,
+      hasExpressCareAccess,
     } = this.props;
 
     let content;
@@ -146,7 +148,7 @@ export class FutureAppointmentsList extends React.Component {
       );
     }
 
-    const header = (
+    const header = !hasExpressCareAccess && (
       <h2 className="vads-u-margin-bottom--4 vads-u-font-size--h3">
         Upcoming appointments
       </h2>
@@ -191,6 +193,7 @@ function mapStateToProps(state) {
     showCancelButton: vaosCancel(state),
     showPastAppointments: vaosPastAppts(state),
     showScheduleButton: vaosRequests(state),
+    hasExpressCareAccess: vaosExpressCare(state),
   };
 }
 

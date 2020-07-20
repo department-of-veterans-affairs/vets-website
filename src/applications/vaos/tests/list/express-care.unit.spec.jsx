@@ -288,13 +288,16 @@ describe('VAOS integration: express care requests', () => {
       appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-        initialState,
-        reducers,
-      });
+      const { findByText, queryByText } = renderInReduxProvider(
+        <FutureAppointmentsList />,
+        {
+          initialState,
+          reducers,
+        },
+      );
 
-      return expect(findByText(/You don’t have any appointments/i)).to
-        .eventually.be.ok;
+      expect(await findByText(/You don’t have any appointments/i)).to.be.ok;
+      expect(queryByText('Upcoming appointments')).to.not.exist;
     });
 
     it('should show error message when request fails', async () => {
