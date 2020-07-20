@@ -50,7 +50,7 @@ export const uiSchema = {
       'location',
       false,
       'Where did this marriage end?',
-      'reportDivorce',
+      TASK_KEYS.reportDivorce,
     ),
     reasonMarriageEnded: {
       'ui:required': formData =>
