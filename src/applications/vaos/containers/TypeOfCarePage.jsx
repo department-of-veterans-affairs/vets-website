@@ -13,7 +13,7 @@ import {
   routeToPreviousAppointmentPage,
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
-  onClickedUpdateAddressButton,
+  clickUpdateAddressButton,
 } from '../actions/newAppointment.js';
 import {
   getFormPageInfo,
@@ -54,7 +54,7 @@ export class TypeOfCarePage extends React.Component {
   }
 
   hideAlert = () => {
-    this.props.onClickedUpdateAddressButton();
+    this.props.clickUpdateAddressButton();
   };
 
   onChange = newData => {
@@ -146,7 +146,7 @@ const mapDispatchToProps = {
   routeToPreviousAppointmentPage,
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
-  onClickedUpdateAddressButton,
+  clickUpdateAddressButton,
 };
 
 export default connect(

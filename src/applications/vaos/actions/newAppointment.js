@@ -152,7 +152,7 @@ export function startNewAppointmentFlow() {
   };
 }
 
-export function onClickedUpdateAddressButton() {
+export function clickUpdateAddressButton() {
   return {
     type: CLICKED_UPDATE_ADDRESS_BUTTON,
   };
