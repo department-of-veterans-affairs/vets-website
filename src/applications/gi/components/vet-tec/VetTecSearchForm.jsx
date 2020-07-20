@@ -180,6 +180,9 @@ class VetTecSearchForm extends React.Component {
               onUpdateAutocompleteSearchTerm={
                 this.props.updateAutocompleteSearchTerm
               }
+              autocompleteSuggestionSelected={
+                this.props.autocompleteSuggestionSelected
+              }
             />
 
             {this.renderCountryFilter()}

@@ -6,6 +6,7 @@ import {
   AUTOCOMPLETE_SUCCEEDED,
   SEARCH_STARTED,
   AUTOCOMPLETE_CLEARED,
+  AUTOCOMPLETE_SUGGESTION_SELECTED,
 } from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import get from 'platform/utilities/data/get';
@@ -16,6 +17,7 @@ const INITIAL_STATE = {
   searchTerm: '',
   facilityCode: null,
   suggestions: [],
+  suggestionSelected: false,
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -25,12 +27,14 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         searchTerm: action.searchTerm,
         facilityCode: null,
+        suggestionSelected: false,
       };
     case AUTOCOMPLETE_STARTED:
       return {
         ...state,
         inProgress: true,
         suggestions: [],
+        suggestionSelected: false,
       };
     case AUTOCOMPLETE_FAILED:
       return {
@@ -38,6 +42,7 @@ export default function(state = INITIAL_STATE, action) {
         ...action.err,
         searchTerm: action.value,
         inProgress: false,
+        suggestionSelected: false,
       };
     case AUTOCOMPLETE_SUCCEEDED:
       const camelPayload = camelCaseKeysRecursive(action.payload);
@@ -59,16 +64,23 @@ export default function(state = INITIAL_STATE, action) {
         suggestions,
         previewVersion: camelPayload.meta.version,
         inProgress: false,
+        suggestionSelected: false,
       };
     case AUTOCOMPLETE_CLEARED:
       return {
         ...state,
         suggestions: [],
+        suggestionSelected: false,
       };
     case SEARCH_STARTED:
       return {
         ...state,
         searchTerm: get('query.name', action, ''),
+      };
+    case AUTOCOMPLETE_SUGGESTION_SELECTED:
+      return {
+        ...state,
+        suggestionSelected: true,
       };
     default:
       return state;

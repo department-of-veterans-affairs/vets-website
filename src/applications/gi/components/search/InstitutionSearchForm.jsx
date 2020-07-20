@@ -44,6 +44,9 @@ function InstitutionSearchForm(props) {
             onFetchAutocompleteSuggestions={props.fetchAutocompleteSuggestions}
             onFilterChange={props.handleFilterChange}
             onUpdateAutocompleteSearchTerm={props.updateAutocompleteSearchTerm}
+            autocompleteSuggestionSelected={
+              props.autocompleteSuggestionSelected
+            }
           />
           <InstitutionFilterForm
             search={props.search}

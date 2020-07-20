@@ -17,6 +17,7 @@ import {
   eligibilityChange,
   showModal,
   hideModal,
+  autocompleteSuggestionSelected,
 } from '../actions';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -117,10 +118,11 @@ export class SearchPage extends React.Component {
     });
 
     this.props.institutionFilterChange(institutionFilter);
-    this.props.fetchInstitutionSearchResults(
-      query,
-      this.props.gibctSearchEnhancements,
-    );
+    const fuzzySearch = this.props.autocomplete.suggestionSelected
+      ? false
+      : this.props.gibctSearchEnhancements;
+
+    this.props.fetchInstitutionSearchResults(query, fuzzySearch);
   };
 
   autocomplete = (value, version) => {
@@ -273,6 +275,9 @@ export class SearchPage extends React.Component {
         eligibilityChange={this.props.eligibilityChange}
         gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
         hideModal={this.props.hideModal}
+        autocompleteSuggestionSelected={
+          this.props.autocompleteSuggestionSelected
+        }
       />
     </div>
   );
@@ -332,6 +337,7 @@ const mapDispatchToProps = {
   eligibilityChange,
   showModal,
   hideModal,
+  autocompleteSuggestionSelected,
 };
 
 export default connect(

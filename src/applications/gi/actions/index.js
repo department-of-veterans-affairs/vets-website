@@ -20,6 +20,8 @@ export const AUTOCOMPLETE_FAILED = 'AUTOCOMPLETE_FAILED';
 export const AUTOCOMPLETE_SUCCEEDED = 'AUTOCOMPLETE_SUCCEEDED';
 export const AUTOCOMPLETE_CLEARED = 'AUTOCOMPLETE_CLEARED';
 export const AUTOCOMPLETE_TERM_CHANGED = 'AUTOCOMPLETE_TERM_CHANGED';
+export const AUTOCOMPLETE_SUGGESTION_SELECTED =
+  'AUTOCOMPLETE_SUGGESTION_SELECTED';
 export const ELIGIBILITY_CHANGED = 'ELIGIBILITY_CHANGED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
@@ -122,6 +124,12 @@ export function updateAutocompleteSearchTerm(searchTerm) {
   return {
     type: AUTOCOMPLETE_TERM_CHANGED,
     searchTerm,
+  };
+}
+
+export function autocompleteSuggestionSelected() {
+  return {
+    type: AUTOCOMPLETE_SUGGESTION_SELECTED,
   };
 }
 

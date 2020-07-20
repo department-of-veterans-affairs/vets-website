@@ -54,6 +54,7 @@ export class KeywordSearch extends React.Component {
       event: 'gibct-autosuggest',
       'gibct-autosuggest-value': searchQuery,
     });
+    this.props.autocompleteSuggestionSelected();
     this.props.onFilterChange(searchQuery);
   };
 
@@ -159,6 +160,7 @@ KeywordSearch.propTypes = {
   onUpdateAutocompleteSearchTerm: PropTypes.func,
   searchError: PropTypes.bool,
   validateSearchQuery: PropTypes.func,
+  autocompleteSuggestionSelected: PropTypes.func,
 };
 
 export default KeywordSearch;

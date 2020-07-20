@@ -14,6 +14,7 @@ import {
   updateAutocompleteSearchTerm,
   eligibilityChange,
   showModal,
+  autocompleteSuggestionSelected,
 } from '../actions';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -294,6 +295,9 @@ export class VetTecSearchPage extends React.Component {
               eligibility={this.props.eligibility}
               showModal={this.props.showModal}
               eligibilityChange={this.props.eligibilityChange}
+              autocompleteSuggestionSelected={
+                this.props.autocompleteSuggestionSelected
+              }
             />
           </div>
         )}
@@ -322,6 +326,7 @@ const mapDispatchToProps = {
   updateAutocompleteSearchTerm,
   eligibilityChange,
   showModal,
+  autocompleteSuggestionSelected,
 };
 
 export default connect(
