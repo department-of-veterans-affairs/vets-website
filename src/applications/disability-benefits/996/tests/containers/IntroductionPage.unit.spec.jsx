@@ -72,7 +72,7 @@ describe('IntroductionPage', () => {
         issues: [],
         status: '',
         error: {
-          errors: [{ title: 'some server error' }],
+          errors: [{ title: 'We can’t load your issues' }],
         },
       },
     };
@@ -80,9 +80,7 @@ describe('IntroductionPage', () => {
     const tree = shallow(<IntroductionPage {...props} />);
 
     const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include(
-      'can’t load your contestable issues',
-    );
+    expect(AlertBox.render().text()).to.include('can’t load your issues');
     tree.unmount();
   });
   it('should render alert showing no contestable issues', () => {
@@ -99,7 +97,7 @@ describe('IntroductionPage', () => {
 
     const AlertBox = tree.find('AlertBox').first();
     expect(AlertBox.render().text()).to.include(
-      'don’t have any contestable issues',
+      'don’t have any issues on file for you',
     );
     tree.unmount();
   });
