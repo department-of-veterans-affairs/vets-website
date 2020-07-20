@@ -4,53 +4,37 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-import { disabilitiesExplanation } from './contestedIssues';
+import { disabilitiesExplanationAlert } from './contestedIssues';
 
 const noIssuesMessage = (
   <>
-    Our records show that you don’t have any issues eligible for a Higher-Level
-    Review. If you think this is an error, please call{' '}
-    <Telephone contact={CONTACTS.VA_BENEFITS} />.
-    {disabilitiesExplanation({ introPageAlert: true })}
+    We don’t have any issues on file for you that are eligible for Higher-Level
+    Review. These are called contestable issues. If you think this is an error,
+    please call us at <Telephone contact={CONTACTS.VA_BENEFITS} />.
+    {disabilitiesExplanationAlert}
   </>
 );
 
-const networkError = errors => {
-  const messages =
-    errors?.length > 1 ? (
-      <ul>
-        {errors.map(error => (
-          <li key={error.title}>{error.title}</li>
-        ))}
-      </ul>
-    ) : (
-      <p>
-        <strong>{errors?.[0].title}</strong>
-      </p>
-    );
-  return (
-    <>
-      We’re having some connection issues on our end.
-      <p />
-      {messages}
-      <p>Please refresh this page to try again.</p>
-    </>
-  );
-};
+const networkError = (
+  <p>
+    We’re having some connection issues on our end. Please refresh this page to
+    try again.
+  </p>
+);
 
 export const noContestableIssuesFound = (
   <AlertBox
     status="warning"
-    headline="We don’t have any contestable issues for you"
+    headline="You have no issues eligible for a Higher-Level Review"
     content={noIssuesMessage}
   />
 );
 
-export const showContestableIssueError = errors => (
+export const showContestableIssueError = (
   <AlertBox
     status="error"
-    headline="We can’t load your contestable issues"
-    content={networkError(errors)}
+    headline="We can’t load your issues"
+    content={networkError}
   />
 );
 
