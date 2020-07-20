@@ -58,7 +58,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     expect(wrapper.exists('#wizardOptions')).to.equal(true);
     wrapper.unmount();
   });
-  it('should display the subway map when the correct radio button selection are made', () => {
+  it('should display the 1990 subway map when the correct radio button selection are made', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
