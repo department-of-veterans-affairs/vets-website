@@ -12,9 +12,10 @@ import { reviewPageFlipperSelector } from 'platform/forms/selectors/review';
 function RoutedSavableReviewPageFlipper(props) {
   const { isNewReviewPageEnabled } = props;
 
-  console.log('isNewReviewPageEnabled: ', isNewReviewPageEnabled);
-
-  return isNewReviewPageEnabled && <RoutedSavableReviewPageNew {...props} /> || <RoutedSavableReviewPageOld {...props} />;
+  return (
+    isNewReviewPageEnabled && <RoutedSavableReviewPageNew {...props} />) || (
+    <RoutedSavableReviewPageOld {...props} />
+  );
 }
 
 export default connect(state => {
@@ -22,5 +23,5 @@ export default connect(state => {
 
   return {
     isNewReviewPageEnabled,
-  }
+  };
 })(RoutedSavableReviewPageFlipper);
