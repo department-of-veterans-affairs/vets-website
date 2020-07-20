@@ -64,7 +64,7 @@ export class IntroductionPage extends React.Component {
     }
     const { formConfig } = route;
     if (contestableIssues?.error) {
-      return showContestableIssueError(contestableIssues.error.errors);
+      return showContestableIssueError();
     }
     return contestableIssues?.issues?.length > 0 ? (
       <SaveInProgressIntro
