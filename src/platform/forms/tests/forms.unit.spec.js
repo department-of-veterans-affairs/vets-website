@@ -69,11 +69,11 @@ const configs = [
 
 // These forms do not have formConfig but are found in vets-json-schema/dist/schemas
 const excludedForms = new Set([
+  '21-686C',
   '28-1900',
   '28-8832',
   '24-0296',
   '10-10CG-example',
-  '686C-674', // Until we import the schema
   VA_FORM_IDS.FORM_22_1995S,
   'definitions',
   'constants',

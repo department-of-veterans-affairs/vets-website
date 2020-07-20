@@ -8,7 +8,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants.js';
 import recordEvent from 'platform/monitoring/record-event';
 
 import hcaManifest from 'applications/hca/manifest.json';
-import dependentStatusManifest from 'applications/disability-benefits/686/manifest.json';
+import dependentStatusManifest from 'applications/disability-benefits/686c-674/manifest.json';
 import feedbackManifest from 'applications/edu-benefits/feedback-tool/manifest.json';
 import burialsManifest from 'applications/burials/manifest.json';
 import edu1990Manifest from 'applications/edu-benefits/1990/manifest.json';
@@ -27,7 +27,7 @@ import hlrManifest from 'applications/disability-benefits/996/manifest.json';
 import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 
 import hcaConfig from 'applications/hca/config/form.js';
-import dependentStatusConfig from 'applications/disability-benefits/686/config/form';
+import dependentStatusConfig from 'applications/disability-benefits/686c-674/config/form';
 import feedbackConfig from 'applications/edu-benefits/feedback-tool/config/form.js';
 import burialsConfig from 'applications/burials/config/form.js';
 import edu1990Config from 'applications/edu-benefits/1990/config/form.js';
