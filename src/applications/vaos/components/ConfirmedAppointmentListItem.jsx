@@ -94,9 +94,7 @@ export default function ConfirmedAppointmentListItem({
       aria-labelledby={`card-${index}-type card-${index}-status`}
       className={itemClasses}
       data-request-id={appointment.id}
-      data-is-cancelable={
-        !appointment.isCommunityCare && !isVideo ? 'true' : 'false'
-      }
+      data-is-cancelable={!isCommunityCare && !isVideo ? 'true' : 'false'}
     >
       <div
         id={`card-${index}-type`}

@@ -143,7 +143,6 @@ describe('VAOS integration: upcoming video appointments', () => {
       dateTime: moment()
         .add(20, 'minutes')
         .format(),
-      bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
       patients: [
