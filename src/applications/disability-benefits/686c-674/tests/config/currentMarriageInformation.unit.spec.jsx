@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { changeDropdown } from '../helpers/index.js';
 import {
   DefinitionTester,
@@ -21,6 +21,11 @@ describe('686 current marriage information', () => {
     'view:selectable686Options': {
       addSpouse: true,
     },
+    currentMarriageInformation: {
+      location: {
+        isOutsideUS: false,
+      },
+    },
   };
 
   it('should render', () => {
@@ -32,7 +37,7 @@ describe('686 current marriage information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(9);
+    expect(form.find('input').length).to.equal(8);
     form.unmount();
   });
 
@@ -67,10 +72,10 @@ describe('686 current marriage information', () => {
     changeDropdown(form, 'select#root_currentMarriageInformation_dateMonth', 1);
     changeDropdown(form, 'select#root_currentMarriageInformation_dateDay', 1);
     fillData(form, 'input#root_currentMarriageInformation_dateYear', '2010');
-    fillData(
+    changeDropdown(
       form,
-      'input#root_currentMarriageInformation_location_state',
-      'California',
+      'select#root_currentMarriageInformation_location_state',
+      'CA',
     );
     fillData(
       form,
