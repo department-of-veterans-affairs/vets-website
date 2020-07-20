@@ -27,6 +27,7 @@ export const uiSchema = {
         'startLocation',
         true,
         'Where were they married?',
+        'addSpouse',
       ),
       reasonMarriageEnded: {
         'ui:required': formData => formData.spouseWasMarriedBefore === true,
@@ -61,6 +62,7 @@ export const uiSchema = {
         'endLocation',
         true,
         'Place marriage with former spouse ended',
+        'addSpouse',
       ),
     },
   },

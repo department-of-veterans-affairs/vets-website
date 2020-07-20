@@ -11,6 +11,7 @@ import { TASK_KEYS } from '../../../constants';
 import { ChildNameHeader } from '../helpers';
 import { childInfo } from '../child-information/helpers';
 import { childStatusDescription } from './childStatusDescription';
+import { locationUISchema } from '../../../location-schema';
 
 export const schema = addChild.properties.addChildPlaceOfBirth;
 
@@ -21,19 +22,13 @@ export const uiSchema = {
     },
     items: {
       'ui:title': ChildNameHeader,
-      placeOfBirth: {
-        'ui:title': "Child's place of birth",
-        state: {
-          'ui:title': stateTitle,
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addChild),
-        },
-        city: {
-          'ui:title': cityTitle,
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addChild),
-        },
-      },
+      placeOfBirth: locationUISchema(
+        'childrenToAdd',
+        'placeOfBirth',
+        true,
+        "Child's place of birth",
+        'addChild',
+      ),
       childStatus: {
         'ui:title': "Your child's status (Check all that apply)",
         'ui:validations': [

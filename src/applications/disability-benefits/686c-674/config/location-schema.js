@@ -5,6 +5,7 @@ export const locationUISchema = (
   outerField,
   isInsideListLoop,
   uiTitle,
+  formChapter,
 ) => {
   // IF we are inside a list loop, return hideIf and required uiSchema that use `index`
   if (isInsideListLoop) {
@@ -41,7 +42,7 @@ export const locationUISchema = (
       },
       city: {
         'ui:required': formData =>
-          isChapterFieldRequired(formData, 'addSpouse'),
+          isChapterFieldRequired(formData, formChapter),
         'ui:title': 'City',
       },
     };
