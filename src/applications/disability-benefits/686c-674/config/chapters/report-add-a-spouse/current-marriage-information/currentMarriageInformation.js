@@ -86,7 +86,12 @@ export const uiSchema = {
           isChapterFieldRequired(formData, 'addSpouse'),
       },
     },
-    location: locationUISchema('currentMarriageInformation', 'location'),
+    location: locationUISchema(
+      'currentMarriageInformation',
+      'location',
+      false,
+      'Where were you married?',
+    ),
     type: {
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
       'ui:title': 'Type of marriage:',

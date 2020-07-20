@@ -1,43 +1,53 @@
 import { isChapterFieldRequired } from './helpers';
 
-export const locationUISchema = (chapter, outerField, isInsideListLoop) => {
-  let hideConditionCountry = {};
-  let hideConditionState = {};
-
+export const locationUISchema = (
+  chapter,
+  outerField,
+  isInsideListLoop,
+  uiTitle,
+) => {
+  // IF we are inside a list loop, return hideIf and required uiSchema that use `index`
   if (isInsideListLoop) {
-    hideConditionCountry = {
-      hideIf: (formData, index) => {
-        if (!formData[chapter][`${index}`][outerField].isOutsideUS) {
-          return true;
-        }
+    return {
+      'ui:title': uiTitle,
+      isOutsideUS: {
+        'ui:title': 'This occurred outsite the US',
       },
-    };
-
-    hideConditionState = {
-      hideIf: (formData, index) => {
-        if (formData[chapter][`${index}`][outerField].isOutsideUS) {
-          return true;
-        }
+      country: {
+        'ui:title': 'Country',
+        'ui:required': (formData, index) =>
+          formData[chapter][`${index}`][outerField]?.isOutsideUS,
+        'ui:options': {
+          hideIf: (formData, index) => {
+            if (!formData[chapter][`${index}`][outerField]?.isOutsideUS) {
+              return true;
+            }
+            return false;
+          },
+        },
       },
-    };
-  } else {
-    hideConditionCountry = {
-      hideIf: formData => {
-        if (!formData[chapter][outerField].isOutsideUS) {
-          return true;
-        }
+      state: {
+        'ui:title': 'State',
+        'ui:required': (formData, index) =>
+          !formData[chapter][`${index}`][outerField]?.isOutsideUS,
+        'ui:options': {
+          hideIf: (formData, index) => {
+            if (formData[chapter][`${index}`][outerField]?.isOutsideUS) {
+              return true;
+            }
+            return false;
+          },
+        },
       },
-    };
-
-    hideConditionState = {
-      hideIf: formData => {
-        if (formData[chapter][outerField].isOutsideUS) {
-          return true;
-        }
+      city: {
+        'ui:required': formData =>
+          isChapterFieldRequired(formData, 'addSpouse'),
+        'ui:title': 'City',
       },
     };
   }
 
+  // IF we are NOT inside a list loop, return hideIf and required uiSchema that do NOT use `index`
   return {
     'ui:title': 'Where were you married?',
     isOutsideUS: {
@@ -45,15 +55,27 @@ export const locationUISchema = (chapter, outerField, isInsideListLoop) => {
     },
     country: {
       'ui:title': 'Country',
-      'ui:required': formData =>
-        formData[chapter][outerField].isOutsideUS === true,
-      'ui:options': hideConditionCountry,
+      'ui:required': formData => formData[chapter][outerField]?.isOutsideUS,
+      'ui:options': {
+        hideIf: formData => {
+          if (!formData[chapter][outerField].isOutsideUS) {
+            return true;
+          }
+          return false;
+        },
+      },
     },
     state: {
       'ui:title': 'State',
-      'ui:required': formData =>
-        formData[chapter][outerField].isOutsideUS === false,
-      'ui:options': hideConditionState,
+      'ui:required': formData => !formData[chapter][outerField]?.isOutsideUS,
+      'ui:options': {
+        hideIf: formData => {
+          if (formData[chapter][outerField].isOutsideUS) {
+            return true;
+          }
+          return false;
+        },
+      },
     },
     city: {
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
