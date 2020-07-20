@@ -565,7 +565,7 @@ export class IntroductionPage extends React.Component {
         )}
         {educationBenefitSelected === '1990' &&
           wizardCompletionStatus === 'complete' && (
-            <>
+            <div className="subway-map">
               <FormTitle title="Apply for education benefits" />
               <p>
                 Equal to VA Form 22-1990 (Application for VA Education
@@ -676,7 +676,7 @@ export class IntroductionPage extends React.Component {
                   expDate="12/31/2019"
                 />
               </div>
-            </>
+            </div>
           )}
       </div>
     );
