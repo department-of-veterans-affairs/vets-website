@@ -683,4 +683,8 @@ export class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+const mapStateToProps = state => ({
+  showSTEMScholarship: educationWizard10203(state),
+});
+
+export default connect(mapStateToProps)(IntroductionPage);
