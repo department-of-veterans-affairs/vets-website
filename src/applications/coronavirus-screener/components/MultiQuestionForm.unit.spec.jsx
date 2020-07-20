@@ -36,7 +36,7 @@ describe('coronavirus-screener', () => {
       );
 
       const firstQuestionId = `#question-${mockQuestions[0].id}`;
-      const firstQuestionText = mockQuestions[0].text;
+      const firstQuestionExpectedText = mockQuestions[0].text;
 
       const firstQuestion = wrapper
         .children()
@@ -44,7 +44,9 @@ describe('coronavirus-screener', () => {
         .dive()
         .find(firstQuestionId);
 
-      expect(firstQuestion.find('h2').text()).to.equal(firstQuestionText);
+      expect(firstQuestion.find('legend').text()).to.equal(
+        firstQuestionExpectedText,
+      );
 
       wrapper.unmount();
     });
