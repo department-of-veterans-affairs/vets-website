@@ -20,6 +20,12 @@ global.__MEGAMENU_CONFIG__ = null;
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
 
+function filterStackTrace(trace) {
+  return trace
+    .split('\n')
+    .filter(line => !line.includes('node_modules'))
+    .join('\n');
+}
 /**
  * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
  */
@@ -30,8 +36,21 @@ export default function setupJSDom() {
 
   // Prevent warnings from displaying
   /* eslint-disable no-console */
-  console.error = () => {};
-  console.warn = () => {};
+  if (process.env.LOG_LEVEL === 'debug') {
+    console.error = (error, reactError) => {
+      if (reactError instanceof Error) {
+        console.log(filterStackTrace(reactError.stack));
+      } else if (error instanceof Response) {
+        console.log(`Error ${error.status}: ${error.url}`);
+      } else if (error instanceof Error) {
+        console.log(filterStackTrace(error.stack));
+      }
+    };
+    console.warn = () => {};
+  } else if (process.env.LOG_LEVEL !== 'trace') {
+    console.error = () => {};
+    console.warn = () => {};
+  }
   /* eslint-enable no-console */
 
   // setup the simplest document possible
