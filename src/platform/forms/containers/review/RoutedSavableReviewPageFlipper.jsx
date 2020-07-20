@@ -13,8 +13,9 @@ function RoutedSavableReviewPageFlipper(props) {
   const { isNewReviewPageEnabled } = props;
 
   return (
-    isNewReviewPageEnabled && <RoutedSavableReviewPageNew {...props} />) || (
-    <RoutedSavableReviewPageOld {...props} />
+    (isNewReviewPageEnabled && <RoutedSavableReviewPageNew {...props} />) || (
+      <RoutedSavableReviewPageOld {...props} />
+    )
   );
 }
 
