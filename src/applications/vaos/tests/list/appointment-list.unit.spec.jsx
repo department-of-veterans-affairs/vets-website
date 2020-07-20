@@ -194,7 +194,7 @@ describe('VAOS integration: appointment list', () => {
 
     // Mocking a route here so that components using withRouter don't fail
     const {
-      findAllByText,
+      findByText,
       baseElement,
       getAllByRole,
       getByText,
@@ -208,14 +208,14 @@ describe('VAOS integration: appointment list', () => {
       },
     );
 
-    const [header, button] = await findAllByText(
-      'Request an Express Care screening',
-    );
+    const button = await findByText('Request Express Care');
 
     expect(baseElement).to.contain.text(
-      'You’ll receive a phone screening between',
+      'Submit a request for a same-day Express Care',
     );
-    expect(header).to.have.tagName('h2');
+    expect(getByText('Create a new Express Care request')).to.have.tagName(
+      'h2',
+    );
     expect(button).to.have.attribute(
       'href',
       'https://veteran.apps-staging.va.gov/var/v4/#new-express-request',
