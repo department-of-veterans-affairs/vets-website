@@ -133,9 +133,9 @@ describe('Edu 1990 <IntroductionPage>', () => {
       .find('#nationalCallToService-1')
       .simulate('change', { target: { value: 'no' } });
     // console.log(wrapper.debug(), wrapper.state());
-    // wrapper
-    //   .find('#vetTecBenefit-1')
-    //   .simulate('change', { target: { value: 'no' } });
+    wrapper
+      .find('#vetTecBenefit-1')
+      .simulate('change', { target: { value: 'no' } });
     // instance.setState({
     //   educationBenefitSelected: '1990',
     //   wizardCompletionStatus: 'complete',
