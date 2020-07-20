@@ -92,8 +92,8 @@ class ServicesAtFacility extends Component {
 
     if (
       !services.benefits ||
-      services.benefits === 0 ||
-      services.benefits.standard === 0
+      services.benefits.length === 0 ||
+      (services.benefits.standard && services.benefits.standard.length === 0)
     ) {
       return null;
     }
@@ -109,7 +109,8 @@ class ServicesAtFacility extends Component {
       <div className="mb2">
         <ul>
           {services.benefits.map(s => this.renderService(s)) ||
-            services.benefits.standard.map(s => this.renderService(s))}
+            (services.benefits.standard &&
+              services.benefits.standard.map(s => this.renderService(s)))}
         </ul>
       </div>
     );
