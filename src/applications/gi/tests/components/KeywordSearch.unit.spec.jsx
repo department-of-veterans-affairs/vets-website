@@ -75,6 +75,7 @@ describe('<KeywordSearch>', () => {
         onFilterChange={onFilterChange}
         onUpdateAutocompleteSearchTerm={() => {}}
         validateSearchQuery={validateSearchQuery}
+        autocompleteSuggestionSelected={() => {}}
       />,
     );
 
