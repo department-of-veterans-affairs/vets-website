@@ -12,7 +12,7 @@ const preSubmitInfoSelector = formConfig => formConfig?.preSubmitInfo;
 
 const reviewPageFlipperSelector = createSelector(
   toggleValues,
-  state => state?.forms_review_page,
+  state => state?.formsReviewPage,
 );
 
 const preSubmitSelector = createSelector(
