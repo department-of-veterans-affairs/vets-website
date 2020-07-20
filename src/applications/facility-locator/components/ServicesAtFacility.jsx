@@ -91,13 +91,23 @@ class ServicesAtFacility extends Component {
       },
     } = this.props;
 
-    if (!services.benefits || isEmpty(services.benefits.standard)) {
+    if (!services.benefits) {
       return null;
     }
 
+    /**
+     * Since moving to v1 the services object changed. For now,
+     * supporting v0 as the implementation is still on flipper.
+     *
+     * v0  - services.benefits.standard
+     * v1  - services.benefits
+     */
     return (
       <div className="mb2">
-        <ul>{services.benefits.standard.map(s => this.renderService(s))}</ul>
+        <ul>
+          {services.benefits.map(s => this.renderService(s)) ||
+            services.benefits.standard.map(s => this.renderService(s))}
+        </ul>
       </div>
     );
   }
