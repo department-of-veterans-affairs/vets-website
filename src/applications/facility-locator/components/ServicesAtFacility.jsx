@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
-import { isEmpty } from 'lodash';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { vetCenterServices } from '../config';
@@ -91,7 +90,11 @@ class ServicesAtFacility extends Component {
       },
     } = this.props;
 
-    if (!services.benefits) {
+    if (
+      !services.benefits ||
+      services.benefits === 0 ||
+      services.benefits.standard === 0
+    ) {
       return null;
     }
 
@@ -106,8 +109,7 @@ class ServicesAtFacility extends Component {
       <div className="mb2">
         <ul>
           {services.benefits.map(s => this.renderService(s)) ||
-            (services.benefits.standard &&
-              services.benefits.standard.map(s => this.renderService(s)))}
+            services.benefits.standard.map(s => this.renderService(s))}
         </ul>
       </div>
     );
