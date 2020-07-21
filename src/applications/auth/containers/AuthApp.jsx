@@ -49,6 +49,7 @@ class AuthMetrics {
       case 'signup':
         recordEvent({ event: `register-success-${this.serviceName}` });
         break;
+      case 'custom': /* type=custom is used for SSOe auto login */
       case 'mhv':
       case 'dslogon':
       case 'idme':
@@ -63,7 +64,6 @@ class AuthMetrics {
         recordEvent({ event: `verify-success-${this.serviceName}` });
         break;
       */
-      case 'custom': /* type=custom is used for SSOe auto login */
       default:
         recordEvent({ event: `login-or-register-success-${this.serviceName}` });
         Sentry.withScope(scope => {
