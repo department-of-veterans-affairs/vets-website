@@ -7,29 +7,23 @@ import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 
 describe('Common ErrorMessage component', () => {
   it('should not render if not active', () => {
-    const tree = render(
-      <ErrorMessage testId="12345" />
-    );
+    const tree = render(<ErrorMessage testId="12345" />);
 
-    expect(tree.queryAllByTestId("12345")).to.be.an('array').that.is.empty;
+    expect(tree.queryAllByTestId('12345')).to.be.an('array').that.is.empty;
     tree.unmount();
   });
 
   it('should render if active', () => {
-    const tree = render(
-      <ErrorMessage testId="12345" active />
-    );
+    const tree = render(<ErrorMessage testId="12345" active />);
 
-    expect(tree.getByTestId("12345")).to.not.be.null;
+    expect(tree.getByTestId('12345')).to.not.be.null;
     tree.unmount();
   });
 
   it('should render title if passed as a prop', () => {
     const title = 'i am a title';
 
-    const tree = render(
-      <ErrorMessage testId="12345" active title={title} />
-    );
+    const tree = render(<ErrorMessage testId="12345" active title={title} />);
 
     expect(tree.getByText(title)).to.not.be.null;
     tree.unmount();
@@ -38,9 +32,7 @@ describe('Common ErrorMessage component', () => {
   it('should render message if passed as a prop', () => {
     const message = 'i am a message';
 
-    const tree = render(
-      <ErrorMessage testId="12345" active message="i am a message" />
-    );
+    const tree = render(<ErrorMessage active message={message} />);
 
     expect(tree.getByText(message)).to.not.be.null;
     tree.unmount();
@@ -50,9 +42,7 @@ describe('Common ErrorMessage component', () => {
     const children = 'i am a child component';
 
     const tree = render(
-      <ErrorMessage active>
-        {children}
-      </ErrorMessage>
+      <ErrorMessage active>{children}</ErrorMessage>
     );
 
     expect(tree.getByText(children)).to.not.be.null;

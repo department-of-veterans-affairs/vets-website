@@ -85,10 +85,10 @@ describe('ClientError component', () => {
           goBack={goBack}
           onSubmit={onSubmit}
         />
-      </Provider>
+      </Provider>,
     );
 
-    expect(tree.getByTestId("12345")).to.not.be.null;
+    expect(tree.getByTestId('12345')).to.not.be.null;
     tree.unmount();
   });
 
@@ -107,7 +107,7 @@ describe('ClientError component', () => {
           goBack={goBack}
           onSubmit={onSubmit}
         />
-      </Provider>
+      </Provider>,
     );
 
     const submitButton = tree.getByText('Submit application');
@@ -132,7 +132,7 @@ describe('ClientError component', () => {
           goBack={goBack}
           onSubmit={onSubmit}
         />
-      </Provider>
+      </Provider>,
     );
 
     const backButton = tree.getByText('Back');

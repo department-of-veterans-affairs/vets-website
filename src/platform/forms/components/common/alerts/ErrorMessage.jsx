@@ -8,7 +8,10 @@ function ErrorMessage(props) {
   if (!active) return null;
   else {
     return (
-      <div className="usa-alert usa-alert-error schemaform-failure-alert" data-testid={testId}>
+      <div
+        className="usa-alert usa-alert-error schemaform-failure-alert"
+        data-testid={testId}
+      >
         <div className="usa-alert-body">
           <p className="schemaform-warning-header">
             <strong>{title}</strong>
