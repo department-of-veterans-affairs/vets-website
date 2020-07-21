@@ -1,81 +1,72 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  cancelAppointment,
-  fetchFutureAppointments,
-  startNewAppointmentFlow,
-} from '../actions/appointments';
+import * as actions from '../actions/appointments';
 import {
   vaosCancel,
   vaosRequests,
   selectExpressCareRequests,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
+import { GA_PREFIX } from '../utils/constants';
 import ExpressCareListItem from './ExpressCareListItem';
 import NoAppointments from './NoAppointments';
 
-// eslint-disable-next-line react/prefer-stateless-function
-export class ExpressCareList extends React.Component {
-  render() {
-    const {
-      showCancelButton,
-      showScheduleButton,
-      isCernerOnlyPatient,
-      expressCareRequests,
-    } = this.props;
+export function ExpressCareList({
+  showCancelButton,
+  showScheduleButton,
+  isCernerOnlyPatient,
+  expressCareRequests,
+  cancelAppointment,
+  startNewAppointmentFlow,
+}) {
+  let content;
 
-    let content;
-
-    if (expressCareRequests?.length > 0) {
-      content = (
-        <>
-          <ul className="usa-unstyled-list" id="appointments-list">
-            {expressCareRequests.map((appt, index) => {
-              return (
-                <ExpressCareListItem
-                  key={index}
-                  index={index}
-                  appointment={appt}
-                  showCancelButton={showCancelButton}
-                  cancelAppointment={this.props.cancelAppointment}
-                />
-              );
-            })}
-          </ul>
-        </>
-      );
-    } else {
-      content = (
-        <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
-          <NoAppointments
-            showScheduleButton={showScheduleButton}
-            isCernerOnlyPatient={isCernerOnlyPatient}
-            startNewAppointmentFlow={() => {
-              recordEvent({
-                event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-              });
-              this.props.startNewAppointmentFlow();
-            }}
-          />
-        </div>
-      );
-    }
-
-    return (
-      <div
-        role="tabpanel"
-        aria-labelledby="tabexpress-care"
-        id="tabpanelexpress-care"
-      >
-        {content}
+  if (expressCareRequests?.length > 0) {
+    content = (
+      <>
+        <ul className="usa-unstyled-list" id="appointments-list">
+          {expressCareRequests.map((appt, index) => {
+            return (
+              <ExpressCareListItem
+                key={index}
+                index={index}
+                appointment={appt}
+                showCancelButton={showCancelButton}
+                cancelAppointment={cancelAppointment}
+              />
+            );
+          })}
+        </ul>
+      </>
+    );
+  } else {
+    content = (
+      <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+        <NoAppointments
+          showScheduleButton={showScheduleButton}
+          isCernerOnlyPatient={isCernerOnlyPatient}
+          startNewAppointmentFlow={() => {
+            recordEvent({
+              event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+            });
+            startNewAppointmentFlow();
+          }}
+        />
       </div>
     );
   }
+
+  return (
+    <div
+      role="tabpanel"
+      aria-labelledby="tabexpress-care"
+      id="tabpanelexpress-care"
+    >
+      {content}
+    </div>
+  );
 }
 
 ExpressCareList.propTypes = {
@@ -100,9 +91,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  cancelAppointment,
-  fetchFutureAppointments,
-  startNewAppointmentFlow,
+  cancelAppointment: actions.cancelAppointment,
+  startNewAppointmentFlow: actions.startNewAppointmentFlow,
 };
 
 export default connect(
