@@ -57,11 +57,12 @@ function GenericError(props) {
     onSubmit,
     saveAndRedirectToReturnUrl,
     showLoginModal,
+    testId,
     toggleLoginModal,
     user,
   } = props;
 
-  const { errorText } = formConfig;
+  const { errorText, submissionError: CustomSubmissionError } = formConfig;
   const isLoggedIn = user?.login?.currentlyLoggedIn;
   let submitButton;
 
@@ -90,8 +91,15 @@ function GenericError(props) {
     return saveLink;
   } else {
     return (
+      (CustomSubmissionError &&
+        <CustomSubmissionError
+          form={form}
+          location={location}
+          testId={testId}
+          user={user}
+        />) || (
       <>
-        <Row>
+        <Row testId={testId}>
           <Column role="alert">
             <ErrorMessage
               active
@@ -129,7 +137,7 @@ function GenericError(props) {
           </Column>
         </Row>
       </>
-    );
+    ));
   }
 }
 
