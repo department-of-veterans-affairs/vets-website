@@ -17,8 +17,8 @@ export default function RequestExpressCare() {
         with a VA health care provider.
         <ul>
           <li>
-            You can submit your request [Day] through [Day], [Hours] to [Hours]
-            a.m. [time zone].
+            You can submit your request today from [Hours] to [Hours] a.m. [time
+            zone].
           </li>
           <li>A VA health care provider will call you today.</li>
           <li>
