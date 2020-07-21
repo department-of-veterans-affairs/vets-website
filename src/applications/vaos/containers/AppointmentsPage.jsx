@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+
 import Breadcrumbs from '../components/Breadcrumbs';
 import ScheduleNewAppointment from '../components/ScheduleNewAppointment';
 import {
+  fetchExpressCareWindows,
   closeCancelAppointment,
   confirmCancelAppointment,
   startNewAppointmentFlow,
@@ -18,9 +21,10 @@ import {
   vaosCommunityCare,
   vaosExpressCare,
   isWelcomeModalDismissed,
+  selectExpressCare,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { GA_PREFIX } from '../utils/constants';
+import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
 import TabNav from '../components/TabNav';
@@ -35,6 +39,7 @@ export class AppointmentsPage extends Component {
     }
 
     document.title = `${pageTitle} | Veterans Affairs`;
+    this.props.fetchExpressCareWindows();
   }
 
   componentDidUpdate(prevProps) {
@@ -60,10 +65,12 @@ export class AppointmentsPage extends Component {
       showScheduleButton,
       showCommunityCare,
       hasExpressCareAccess,
+      expressCare,
       showDirectScheduling,
       isCernerOnlyPatient,
       showPastAppointments,
     } = this.props;
+    const { fetchWindowsStatus, allowRequests } = expressCare;
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
@@ -71,20 +78,21 @@ export class AppointmentsPage extends Component {
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--2">
             <h1 className="vads-u-flex--1">{pageTitle}</h1>
-            {showScheduleButton && (
-              <ScheduleNewAppointment
-                isCernerOnlyPatient={isCernerOnlyPatient}
-                showCommunityCare={showCommunityCare}
-                showDirectScheduling={showDirectScheduling}
-                startNewAppointmentFlow={this.startNewAppointmentFlow}
-              />
-            )}
-            {hasExpressCareAccess && (
+            {fetchWindowsStatus === FETCH_STATUS.loading ? (
+              <div className="vads-u-margin-y--8">
+                <LoadingIndicator />
+              </div>
+            ) : (
               <>
-                <RequestExpressCare />
-                <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
-                  View your upcoming, past, and Express Care appointments
-                </h2>
+                {showScheduleButton && (
+                  <ScheduleNewAppointment
+                    isCernerOnlyPatient={isCernerOnlyPatient}
+                    showCommunityCare={showCommunityCare}
+                    showDirectScheduling={showDirectScheduling}
+                    startNewAppointmentFlow={this.startNewAppointmentFlow}
+                  />
+                )}
+                <RequestExpressCare {...expressCare} />
               </>
             )}
             {showPastAppointments && (
@@ -126,10 +134,12 @@ function mapStateToProps(state) {
     hasExpressCareAccess: vaosExpressCare(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    expressCare: selectExpressCare(state),
   };
 }
 
 const mapDispatchToProps = {
+  fetchExpressCareWindows,
   closeCancelAppointment,
   confirmCancelAppointment,
   startNewAppointmentFlow,

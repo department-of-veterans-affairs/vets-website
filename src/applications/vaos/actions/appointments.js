@@ -1,15 +1,28 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
+import {
+  FETCH_STATUS,
+  GA_PREFIX,
+  APPOINTMENT_TYPES,
+  EXPRESS_CARE,
+} from '../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../utils/events';
 
 import {
   getCancelReasons,
+  getFacilitiesBySystemAndTypeOfCare,
   getRequestMessages,
   updateAppointment,
   updateRequest,
 } from '../api';
+
+import {
+  getOrganizations,
+  getRootOrganization,
+  getSiteIdFromOrganization,
+} from '../services/organization';
+
 import { getLocations } from '../services/location';
 
 import {
@@ -21,6 +34,8 @@ import {
   getVideoAppointmentLocation,
   isVideoAppointment,
 } from '../services/appointment';
+
+import { selectSystemIds, vaosVSPAppointmentNew } from '../utils/selectors';
 
 import { captureError, getErrorCodes } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
@@ -42,6 +57,12 @@ export const FETCH_REQUEST_MESSAGES_FAILED =
   'vaos/FETCH_REQUEST_MESSAGES_FAILED';
 export const FETCH_REQUEST_MESSAGES_SUCCEEDED =
   'vaos/FETCH_REQUEST_MESSAGES_SUCCEEDED';
+
+export const FETCH_EXPRESS_CARE_WINDOWS = 'vaos/FETCH_EXPRESS_CARE_WINDOWS';
+export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
+  'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
+export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
+  'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
 
 export const CANCEL_APPOINTMENT = 'vaos/CANCEL_APPOINTMENT';
 export const CANCEL_APPOINTMENT_CONFIRMED = 'vaos/CANCEL_APPOINTMENT_CONFIRMED';
@@ -211,6 +232,71 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       captureError(error);
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_FAILED,
+        error,
+      });
+    }
+  };
+}
+
+export function fetchExpressCareWindows() {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FETCH_EXPRESS_CARE_WINDOWS,
+    });
+
+    const initialState = getState();
+    const appointments = initialState.appointments;
+    let parentFacilities = appointments.parentFacilities;
+    const userSiteIds = selectSystemIds(initialState);
+
+    try {
+      if (!parentFacilities) {
+        parentFacilities = await getOrganizations({
+          siteIds: userSiteIds,
+          useVSP: false,
+        });
+        if (parentFacilities.length) {
+          const ids = parentFacilities.map(parent => parent.id);
+          const paramsArray = parentFacilities.map(parent => {
+            const rootOrg = getRootOrganization(parentFacilities, parent.id);
+            return {
+              siteId: getSiteIdFromOrganization(rootOrg || parent),
+              parentId: parent.id.replace('var', ''),
+              typeOfCareId: EXPRESS_CARE,
+            };
+          });
+
+          const facilityData = [];
+
+          // The below while loop ensures that we don't make more than 5 concurrent
+          // calls to the API as to not overload it
+          while (paramsArray.length) {
+            facilityData.push(
+              // eslint-disable-next-line no-await-in-loop
+              ...(await Promise.all(
+                paramsArray
+                  .splice(0, 5)
+                  .map(p =>
+                    getFacilitiesBySystemAndTypeOfCare(
+                      p.siteId,
+                      p.parentId,
+                      p.typeOfCareId,
+                    ),
+                  ),
+              )),
+            );
+          }
+
+          dispatch({
+            type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+            facilityData,
+          });
+        }
+      }
+    } catch (error) {
+      captureError(error);
+      dispatch({
+        type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
         error,
       });
     }

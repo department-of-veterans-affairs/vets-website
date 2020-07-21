@@ -2,6 +2,9 @@ import moment from 'moment';
 import set from 'platform/utilities/data/set';
 
 import {
+  FETCH_EXPRESS_CARE_WINDOWS,
+  FETCH_EXPRESS_CARE_WINDOWS_FAILED,
+  FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
@@ -38,6 +41,12 @@ const initialState = {
   facilityData: {},
   requestMessages: {},
   systemClinicToFacilityMap: {},
+  expressCare: {
+    checkStatus: FETCH_STATUS.notStarted,
+    allowRequests: false,
+    available: null,
+    window: null,
+  },
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -182,6 +191,72 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         future: null,
         futureStatus: FETCH_STATUS.notStarted,
+      };
+    case FETCH_EXPRESS_CARE_WINDOWS:
+      return {
+        ...state,
+        expressCare: {
+          ...initialState.expressCare,
+          fetchWindowsStatus: FETCH_STATUS.loading,
+        },
+      };
+    case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
+      const { facilityData } = action;
+      const now = moment();
+
+      const times = facilityData
+        .reduce(function(arr, row) {
+          return arr.concat(row);
+        }, [])
+        .filter(f => !!f.expressTimes)
+        .map(f => {
+          const { expressTimes } = f;
+          const today = now.format('YYYY-MM-DD');
+          const { start, end, offsetUtc, timezone } = expressTimes;
+          return {
+            start: moment(`${today}T${start}${offsetUtc}`).format(),
+            end: moment(`${today}T${end}${offsetUtc}`).format(),
+            timeZone: timezone,
+          };
+        })
+        .sort((a, b) => (a.start < b.start ? -1 : 1));
+
+      let minStart;
+      let maxEnd;
+
+      if (times.length) {
+        const timesReverseSorted = times.sort(
+          (a, b) => (a.end > b.end ? -1 : 1),
+        );
+
+        minStart = times?.[0]?.start;
+        maxEnd = timesReverseSorted?.[0]?.end;
+      }
+
+      return {
+        ...state,
+        expressCare: {
+          fetchWindowsStatus: FETCH_STATUS.succeeded,
+          allowRequests:
+            times.length &&
+            now.isAfter(moment(minStart)) &&
+            now.isBefore(maxEnd),
+          window:
+            minStart && maxEnd
+              ? `${moment(minStart).format('h:mm a')} to ${moment(
+                  maxEnd,
+                ).format('h:mm a')} ${times?.[0]?.timeZone}`
+              : null,
+        },
+      };
+    }
+    case FETCH_EXPRESS_CARE_WINDOWS_FAILED:
+      return {
+        ...state,
+        expressCare: {
+          ...initialState.expressCare,
+          fetchWindowsStatus: FETCH_STATUS.failed,
+        },
       };
     default:
       return state;
