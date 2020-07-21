@@ -41,9 +41,7 @@ describe('Common ErrorMessage component', () => {
   it('should render children if passed as a prop', () => {
     const children = 'i am a child component';
 
-    const tree = render(
-      <ErrorMessage active>{children}</ErrorMessage>
-    );
+    const tree = render(<ErrorMessage active>{children}</ErrorMessage>);
 
     expect(tree.getByText(children)).to.not.be.null;
     tree.unmount();
