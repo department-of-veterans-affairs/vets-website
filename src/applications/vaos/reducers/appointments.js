@@ -42,10 +42,11 @@ const initialState = {
   requestMessages: {},
   systemClinicToFacilityMap: {},
   expressCare: {
-    checkStatus: FETCH_STATUS.notStarted,
+    fetchWindowsStatus: FETCH_STATUS.notStarted,
     allowRequests: false,
-    available: null,
     window: null,
+    minStart: null,
+    maxEnd: null,
   },
 };
 
