@@ -2,9 +2,13 @@
 import React from 'react';
 
 function Row(props) {
-  const { children, classNames = '' } = props;
+  const { children, classNames = '', testId } = props;
 
-  return <div className={`row ${classNames}`}>{children}</div>;
+  return (
+    <div className={`row ${classNames}`} data-testid={testId}>
+      {children}
+    </div>
+  );
 }
 
 export default Row;
