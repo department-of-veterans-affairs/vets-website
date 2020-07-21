@@ -35,9 +35,7 @@ export function fetchMilitaryInformation() {
     dispatch({
       type: FETCH_MILITARY_INFORMATION_SUCCESS,
       militaryInformation: {
-        serviceHistory: environment.isLocalhost()
-          ? await asyncFetchMilitaryInformation()
-          : await getData('/profile/service_history'),
+        serviceHistory: await getData('/profile/service_history'),
       },
     });
   };
