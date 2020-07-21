@@ -108,9 +108,9 @@ class ServicesAtFacility extends Component {
     return (
       <div className="mb2">
         <ul>
-          {services.benefits.map(s => this.renderService(s)) ||
-            (services.benefits.standard &&
-              services.benefits.standard.map(s => this.renderService(s)))}
+          {(services.benefits.standard &&
+            services.benefits.standard.map(s => this.renderService(s))) ||
+            services.benefits.map(s => this.renderService(s))}
         </ul>
       </div>
     );
