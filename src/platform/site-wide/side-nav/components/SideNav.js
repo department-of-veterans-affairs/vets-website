@@ -15,7 +15,7 @@ class SideNav extends Component {
 
   constructor(props) {
     super(props);
-    this.debouncedResize = debounce(250, this.updateIsDesktop);
+    this.debouncedResize = debounce(250, this.setIsDesktop);
     this.state = {
       active: false,
       isDesktop: this.getDesktop(), // adding this to trigger re-render on window resize
@@ -27,7 +27,7 @@ class SideNav extends Component {
     return window.innerWidth > 768;
   };
 
-  updateIsDesktop = () => {
+  setIsDesktop = () => {
     this.setState({ isDesktop: this.getDesktop() });
   };
 
