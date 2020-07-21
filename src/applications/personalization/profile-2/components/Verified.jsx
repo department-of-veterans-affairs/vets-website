@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
  */
 const Verified = ({ children }) => (
   <span className="vads-u-display--flex">
-    <i className="fa fa-check vads-u-color--green vads-u-margin-top--0p5" />
+    <i className="fa fa-check vads-u-color--green vads-u-margin-top--0p5" aria-hidden="true" />
     <p className="vads-u-margin--0 vads-u-padding-left--1 medium-screen:vads-u-padding-left--3">
       {children}
     </p>

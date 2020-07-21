@@ -47,7 +47,7 @@ const ProfileInfoTable = ({
     'margin-bottom--1',
   ]);
   const tableRowTitleClassesMedium = prefixUtilityClasses(
-    ['margin-bottom--0'],
+    ['margin-bottom--0', 'margin-right--2'],
     'medium',
   );
 
@@ -58,9 +58,7 @@ const ProfileInfoTable = ({
 
 
   const tableRowValueClassesMedium = prefixUtilityClasses(
-    ['margin--0',
-    'padding-left--5',
-    'width--full'],
+    ['padding-left--5'],
     'medium',
   );
 
@@ -101,10 +99,10 @@ const ProfileInfoTable = ({
                 <dfn className={classes.tableRowTitle}>{row.title}</dfn>
               )}
 
-              {/* In personal and contact information, we have some rows that need a checkmark when verified  */}
-              {row?.verified && row.value}
+              {/* In Account Security, we have some rows that need a checkmark when verified  */}
+              {row.verified && row.value}
 
-              {!row?.verified && (
+              {!row.verified && (
                 <span className={computedTableRowValueClasses}>{row.value}</span>
               )}
 
