@@ -12,9 +12,9 @@ export default function RequestExpressCare() {
         Create a new Express Care request
       </h2>
       <p>
-        Have a health concern that you need help with today, but isn’t an
-        emergency? Submit a request for a same-day Express Care screening with a
-        VA health care provider.
+        Do you have a health concern that you need help with today, but it isn't
+        an emergency? Submit a request for a same-day Express Care screening
+        with a VA health care provider.
         <ul>
           <li>
             You can submit your request [Day] through [Day], [Hours] to [Hours]
@@ -22,8 +22,8 @@ export default function RequestExpressCare() {
           </li>
           <li>A VA health care provider will call you today.</li>
           <li>
-            If needed, we may schedule a follow-up phone, video, or in-person
-            visit or other care.
+            After your screening, we may schedule a follow-up phone, video, or
+            in-person visit or other care if needed.
           </li>
         </ul>
       </p>
