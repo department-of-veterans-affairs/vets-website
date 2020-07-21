@@ -383,7 +383,7 @@ describe('VAOS reducer: appointments', () => {
       const today = moment.utc();
       const startString = `${today}T${window.start}${window.offsetUtc}`;
       const endString = `${today}T${window.start}${window.offsetUtc}`;
-      expect(expressCare.window).to.equal(
+      expect(expressCare.localWindowString).to.equal(
         `${moment(startString).format('h:mm a')} to ${moment(endString).format(
           'h:mm a',
         )}`,

@@ -44,7 +44,7 @@ const initialState = {
   expressCare: {
     fetchWindowsStatus: FETCH_STATUS.notStarted,
     allowRequests: false,
-    window: null,
+    localWindowString: null,
     minStart: null,
     maxEnd: null,
   },
@@ -252,7 +252,7 @@ export default function appointmentsReducer(state = initialState, action) {
             now.isBefore(moment.utc(maxEnd)),
           minStart,
           maxEnd,
-          window:
+          localWindowString:
             minStart && maxEnd
               ? `${moment(minStart).format('h:mm a')} to ${moment(
                   maxEnd,

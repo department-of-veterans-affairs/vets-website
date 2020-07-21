@@ -5,7 +5,7 @@ import { FETCH_STATUS } from '../utils/constants';
 export default function RequestExpressCare({
   fetchWindowsStatus,
   allowRequests,
-  window,
+  localWindowString,
 }) {
   const legacyLink = `https://veteran.apps${
     environment.isProduction() ? '' : '-staging'
@@ -23,7 +23,7 @@ export default function RequestExpressCare({
           a VA health care provider.
         </p>
         <ul>
-          <li>You can submit your request from {window}.</li>
+          <li>You can submit your request from {localWindowString}.</li>
           <li>A VA health care provider will call you today.</li>
           <li>
             If needed, we may schedule a follow-up phone, video, or in-person
