@@ -28,7 +28,20 @@ describe('<TabNav>', () => {
       pathname: '/',
     };
 
-    const tree = shallow(<TabNav location={location} id={1} showExpressCare />);
+    const tree = shallow(
+      <TabNav location={location} id={1} hasExpressCareRequests />,
+    );
+
+    expect(tree.find('TabItem').length).to.equal(3);
+    tree.unmount();
+  });
+
+  it('should render Express Care tab when on EC page', () => {
+    const location = {
+      pathname: '/express-care',
+    };
+
+    const tree = shallow(<TabNav location={location} id={1} />);
 
     expect(tree.find('TabItem').length).to.equal(3);
     tree.unmount();
@@ -83,7 +96,12 @@ describe('<TabNav>', () => {
     };
 
     const tree = shallow(
-      <TabNav router={router} location={location} id={1} showExpressCare />,
+      <TabNav
+        router={router}
+        location={location}
+        id={1}
+        hasExpressCareRequests
+      />,
     );
 
     tree
@@ -105,7 +123,12 @@ describe('<TabNav>', () => {
     };
 
     const tree = shallow(
-      <TabNav router={router} location={location} id={1} showExpressCare />,
+      <TabNav
+        router={router}
+        location={location}
+        id={1}
+        hasExpressCareRequests
+      />,
     );
 
     tree

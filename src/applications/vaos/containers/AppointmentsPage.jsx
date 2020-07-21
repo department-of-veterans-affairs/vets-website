@@ -114,7 +114,7 @@ export class AppointmentsPage extends Component {
                           appointments
                         </h2>
                       )}
-                      <TabNav showExpressCare={hasExpressCareRequests} />
+                      <TabNav hasExpressCareRequests={hasExpressCareRequests} />
                       {children}
                     </>
                   )}
