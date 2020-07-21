@@ -820,3 +820,20 @@ export const DISABILITY_SHARED_CONFIG = {
     depends: hasNewDisabilities,
   },
 };
+
+export const isBDD = servicePeriods => {
+  if (!servicePeriods || !Array.isArray(servicePeriods)) {
+    return false;
+  }
+
+  const mostRecentDate = servicePeriods
+    .filter(({ dateRange }) => dateRange?.to)
+    .map(({ dateRange }) => moment(dateRange.to))
+    .sort((dateA, dateB) => dateB - dateA)[0];
+
+  if (!mostRecentDate) {
+    return false;
+  }
+
+  return mostRecentDate.isAfter(moment().add(89, 'days'));
+};
