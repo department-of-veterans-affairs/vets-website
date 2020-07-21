@@ -821,7 +821,9 @@ export const DISABILITY_SHARED_CONFIG = {
   },
 };
 
-export const isBDD = servicePeriods => {
+export const isBDD = formData => {
+  const servicePeriods = formData.serviceInformation?.servicePeriods;
+
   if (!servicePeriods || !Array.isArray(servicePeriods)) {
     return false;
   }
