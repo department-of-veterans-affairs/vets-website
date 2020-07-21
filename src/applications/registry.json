@@ -855,5 +855,16 @@
       "vagovprod": false,
       "layout": "page-react.html"
     }
+  },
+  {
+    "appName": "View Payments",
+    "entryName": "view-payments",
+    "rootUrl": "/disability-benefits/view-payments",
+    "template": {
+      "includeBreadcrumbs": true,
+      "vagovprod": false,
+      "layout": "page-react.html",
+      "title": "View Payments"
+    }
   }
 ]
