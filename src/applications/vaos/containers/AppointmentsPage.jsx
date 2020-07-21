@@ -104,29 +104,20 @@ export class AppointmentsPage extends Component {
                   futureStatus === FETCH_STATUS.notStarted) && (
                   <LoadingIndicator message="Loading your appointment information" />
                 )}
-                {futureStatus === FETCH_STATUS.succeeded && (
-                  <>
-                    <RequestExpressCare />
-                    {hasExpressCareRequests && (
-                      <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
-                        View your upcoming, past, and Express Care appointments
-                      </h2>
-                    )}
-                    <TabNav showExpressCare={hasExpressCareRequests} />
-                    {children}
-                  </>
-                )}
-                {futureStatus === FETCH_STATUS.failed && (
-                  <>
-                    <AlertBox
-                      status="error"
-                      headline="We’re sorry. We’ve run into a problem"
-                    >
-                      We’re having trouble getting your upcoming appointments.
-                      Please try again later.
-                    </AlertBox>
-                  </>
-                )}
+                {futureStatus !== FETCH_STATUS.loading &&
+                  futureStatus !== FETCH_STATUS.notStarted && (
+                    <>
+                      <RequestExpressCare />
+                      {hasExpressCareRequests && (
+                        <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
+                          View your upcoming, past, and Express Care
+                          appointments
+                        </h2>
+                      )}
+                      <TabNav showExpressCare={hasExpressCareRequests} />
+                      {children}
+                    </>
+                  )}
               </>
             )}
             <NeedHelp />

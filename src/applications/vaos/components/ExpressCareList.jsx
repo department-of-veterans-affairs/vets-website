@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../actions/appointments';
 import {
@@ -9,13 +10,14 @@ import {
   selectExpressCareRequests,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { GA_PREFIX } from '../utils/constants';
+import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
 import ExpressCareListItem from './ExpressCareListItem';
 import NoAppointments from './NoAppointments';
 
 export function ExpressCareList({
   showCancelButton,
   showScheduleButton,
+  status,
   isCernerOnlyPatient,
   expressCareRequests,
   cancelAppointment,
@@ -23,7 +25,14 @@ export function ExpressCareList({
 }) {
   let content;
 
-  if (expressCareRequests?.length > 0) {
+  if (status === FETCH_STATUS.failed) {
+    content = (
+      <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
+        We’re having trouble getting your Express Care requests. Please try
+        again later.
+      </AlertBox>
+    );
+  } else if (expressCareRequests?.length > 0) {
     content = (
       <>
         <ul className="usa-unstyled-list" id="appointments-list">

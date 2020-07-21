@@ -330,7 +330,7 @@ describe('VAOS integration: express care requests', () => {
 
       expect(
         await findByText(
-          /We’re having trouble getting your upcoming appointments/i,
+          /We’re having trouble getting your Express Care requests/i,
         ),
       ).to.be.ok;
     });
