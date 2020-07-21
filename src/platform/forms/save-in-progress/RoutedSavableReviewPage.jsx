@@ -6,7 +6,7 @@ import Scroll from 'react-scroll';
 import {
   FINISH_APP_LATER_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
-} from '../constants';
+} from '../../forms-system/src/js/constants';
 import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';

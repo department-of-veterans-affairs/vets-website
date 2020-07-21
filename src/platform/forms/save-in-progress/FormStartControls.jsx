@@ -8,7 +8,7 @@ import {
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
-} from '../constants';
+} from '../../forms-system/src/js/constants';
 
 class FormStartControls extends React.Component {
   constructor(props) {
