@@ -111,8 +111,6 @@ const ProfileHeader = ({
               src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
               alt={`${latestBranchOfService} seal`}
               className="profile-service-badge vads-u-padding-right--3"
-              aria-hidden="true"
-              role="img"
             />
           )}
         </div>
