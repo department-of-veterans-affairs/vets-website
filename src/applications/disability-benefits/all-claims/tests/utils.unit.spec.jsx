@@ -32,6 +32,7 @@ import {
   activeServicePeriods,
   formatDate,
   formatDateRange,
+  isBDD,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -893,6 +894,43 @@ describe('526 v2 depends functions', () => {
       'view:claimingNew': false,
     },
   };
+  const isBDDTrueData = {
+    serviceInformation: {
+      servicePeriods: [
+        {
+          dateRange: {
+            to: moment().format('YYYY-MM-DD'),
+          },
+        },
+        {
+          dateRange: {
+            to: moment()
+              .add(90, 'days')
+              .format('YYYY-MM-DD'),
+          },
+        },
+      ],
+    },
+  };
+  const isBDDLessThan90Data = {
+    serviceInformation: {
+      servicePeriods: [
+        {
+          dateRange: {
+            to: moment().format('YYYY-MM-DD'),
+          },
+        },
+        {
+          dateRange: {
+            to: moment()
+              .add(89, 'days')
+              .format('YYYY-MM-DD'),
+          },
+        },
+      ],
+    },
+  };
+
   describe('newOnly', () => {
     it('should return true if only new conditions are claimed', () => {
       expect(newConditionsOnly(newOnlyData)).to.be.true;
@@ -941,6 +979,18 @@ describe('526 v2 depends functions', () => {
       expect(
         formatDateRange({ from: '2020-06-15', to: '2020-12-31' }),
       ).to.equal('June 15, 2020 to December 31, 2020');
+    });
+  });
+
+  describe('isBDD', () => {
+    it('should return true if the most recent service period has a separation date 90 to 180 days from today', () => {
+      expect(isBDD(isBDDTrueData)).to.be.true;
+    });
+    it('should return false if the most recent service period has a separation before 90 days from today', () => {
+      expect(isBDD(isBDDLessThan90Data)).to.be.false;
+    });
+    it('should return false if no service period is provided with a separation date', () => {
+      expect(isBDD(null)).to.be.false;
     });
   });
 });

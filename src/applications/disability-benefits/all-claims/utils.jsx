@@ -822,7 +822,7 @@ export const DISABILITY_SHARED_CONFIG = {
 };
 
 export const isBDD = formData => {
-  const servicePeriods = formData.serviceInformation?.servicePeriods;
+  const servicePeriods = formData?.serviceInformation?.servicePeriods;
 
   if (!servicePeriods || !Array.isArray(servicePeriods)) {
     return false;
@@ -837,5 +837,6 @@ export const isBDD = formData => {
     return false;
   }
 
+  // not checking for less than 180 days as we validate that in militaryHistory
   return mostRecentDate.isAfter(moment().add(89, 'days'));
 };

@@ -299,7 +299,7 @@ export const checkSeparationLocation = (errors, values = {}, formData) => {
   const data = formData?.serviceInformation?.separationLocation?.label;
   const isValid =
     data && separationLocations.some(({ description }) => data === description);
-  if (!isValid && isBDD(formData.serviceInformation.servicePeriods)) {
+  if (!isValid && isBDD(formData)) {
     errors.addError('Please select an option from the suggestions');
   }
 };

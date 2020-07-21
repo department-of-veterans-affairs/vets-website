@@ -74,9 +74,7 @@ export const uiSchema = {
       'ui:title': SeparationLocationTitle,
       'ui:description': SeparationLocationDescription,
       'ui:options': {
-        hideIf: formData =>
-          environment.isProduction() ||
-          !isBDD(formData.serviceInformation.servicePeriods),
+        hideIf: formData => environment.isProduction() || !isBDD(formData),
       },
     },
     // Not using autosuggest.uiSchema; validations not set?
@@ -86,9 +84,7 @@ export const uiSchema = {
       'ui:required': () => true,
       'ui:validations': [checkSeparationLocation],
       'ui:options': {
-        hideIf: formData =>
-          environment.isProduction() ||
-          !isBDD(formData.serviceInformation.servicePeriods),
+        hideIf: formData => environment.isProduction() || !isBDD(formData),
         showFieldLabel: 'label',
         maxOptions: 20,
         getOptions: () =>

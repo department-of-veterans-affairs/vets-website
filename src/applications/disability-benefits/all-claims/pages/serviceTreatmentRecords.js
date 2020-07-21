@@ -41,7 +41,11 @@ export const uiSchema = {
     },
     'ui:description': UploadDescription,
     'ui:required': data =>
-      _.get('view:hasServiceTreatmentRecordsToUpload', data, false),
+      _.get(
+        'view:uploadServiceTreatmentRecordsQualifier.view:hasServiceTreatmentRecordsToUpload',
+        data,
+        false,
+      ),
   },
   'view:serviceTreatmentRecordsSubmitLater': {
     'ui:title': '',
