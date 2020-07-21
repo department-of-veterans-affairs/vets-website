@@ -100,7 +100,7 @@ describe('GenericError component', () => {
 
   it('should render a custom error', () => {
     const formConfig = createFormConfig({
-      submissionError: props => (<div data-testid={props.testId} />),
+      submissionError: props => <div data-testid={props.testId} />,
     });
     const goBack = sinon.spy();
     const onSubmit = sinon.spy();

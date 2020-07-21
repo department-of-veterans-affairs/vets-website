@@ -91,53 +91,55 @@ function GenericError(props) {
     return saveLink;
   } else {
     return (
-      (CustomSubmissionError &&
+      (CustomSubmissionError && (
         <CustomSubmissionError
           form={form}
           location={location}
           testId={testId}
           user={user}
-        />) || (
-      <>
-        <Row testId={testId}>
-          <Column role="alert">
-            <ErrorMessage
-              active
-              title="We’re sorry. We can't submit your form right now."
-            >
-              <p>
-                We’re working to fix the problem. Please make sure you’re
-                connected to the Internet, and then try saving your form again.{' '}
-                {saveLink}
-                {'.'}
-              </p>
-              {!isLoggedIn && (
+        />
+      )) || (
+        <>
+          <Row testId={testId}>
+            <Column role="alert">
+              <ErrorMessage
+                active
+                title="We’re sorry. We can't submit your form right now."
+              >
                 <p>
-                  If you don’t have an account, you’ll have to start over. Try
-                  submitting your form again tomorrow.
+                  We’re working to fix the problem. Please make sure you’re
+                  connected to the Internet, and then try saving your form
+                  again. {saveLink}
+                  {'.'}
                 </p>
-              )}
-            </ErrorMessage>
-            <InlineErrorComponent errorText={errorText} />
-          </Column>
-        </Row>
-        <PreSubmitSection formConfig={formConfig} />
-        <Row classNames="form-progress-buttons">
-          <Column classNames="small-6 medium-5">
-            <ProgressButton
-              onButtonClick={goBack}
-              buttonText="Back"
-              buttonClass="usa-button-secondary"
-              beforeText="«"
-            />
-          </Column>
-          <Column classNames="small-6 medium-5">{submitButton}</Column>
-          <Column classNames="small-1 medium-1 end">
-            <div className="hidden">&nbsp;</div>
-          </Column>
-        </Row>
-      </>
-    ));
+                {!isLoggedIn && (
+                  <p>
+                    If you don’t have an account, you’ll have to start over. Try
+                    submitting your form again tomorrow.
+                  </p>
+                )}
+              </ErrorMessage>
+              <InlineErrorComponent errorText={errorText} />
+            </Column>
+          </Row>
+          <PreSubmitSection formConfig={formConfig} />
+          <Row classNames="form-progress-buttons">
+            <Column classNames="small-6 medium-5">
+              <ProgressButton
+                onButtonClick={goBack}
+                buttonText="Back"
+                buttonClass="usa-button-secondary"
+                beforeText="«"
+              />
+            </Column>
+            <Column classNames="small-6 medium-5">{submitButton}</Column>
+            <Column classNames="small-1 medium-1 end">
+              <div className="hidden">&nbsp;</div>
+            </Column>
+          </Row>
+        </>
+      )
+    );
   }
 }
 
