@@ -112,6 +112,7 @@ const ProfileHeader = ({
               alt={`${latestBranchOfService} seal`}
               className="profile-service-badge vads-u-padding-right--3"
               aria-hidden="true"
+              role="img"
             />
           )}
         </div>
