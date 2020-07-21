@@ -5,6 +5,9 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_EXPRESS_CARE_WINDOWS,
+  FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+  FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
@@ -341,5 +344,53 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(state, action);
     expect(newState.futureStatus).to.equal(FETCH_STATUS.notStarted);
     expect(newState.future).to.be.null;
+  });
+
+  describe('express care window', () => {
+    it('should set fetchWindowsStatus to loading', () => {
+      const action = {
+        type: FETCH_EXPRESS_CARE_WINDOWS,
+      };
+
+      const newState = appointmentsReducer(initialState, action);
+      expect(newState.expressCare.fetchWindowsStatus).to.equal(
+        FETCH_STATUS.loading,
+      );
+    });
+
+    it('should fetch and format express care window and update fetchWindowsStatus', () => {
+      const action = {
+        type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+        facilityData: [
+          [
+            {
+              expressTimes: {
+                start: '00:00',
+                end: '23:59',
+                timezone: 'MDT',
+                offsetUtc: '-06:00',
+              },
+            },
+          ],
+        ],
+      };
+
+      const newState = appointmentsReducer(initialState, action);
+      const { expressCare } = newState;
+      expect(expressCare.fetchWindowsStatus).to.equal(FETCH_STATUS.succeeded);
+      expect('allowRequests' in expressCare).to.equal(true);
+      expect(expressCare.window).to.equal('12:00 a.m. to 11:59 p.m. MDT');
+    });
+
+    it('should set fetchWindowsStatus to failed', () => {
+      const action = {
+        type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
+      };
+
+      const newState = appointmentsReducer(initialState, action);
+      expect(newState.expressCare.fetchWindowsStatus).to.equal(
+        FETCH_STATUS.failed,
+      );
+    });
   });
 });

@@ -213,9 +213,10 @@ export default function appointmentsReducer(state = initialState, action) {
           const { expressTimes } = f;
           const today = now.format('YYYY-MM-DD');
           const { start, end, offsetUtc, timezone } = expressTimes;
+
           return {
-            start: moment(`${today}T${start}${offsetUtc}`).format(),
-            end: moment(`${today}T${end}${offsetUtc}`).format(),
+            start: moment.parseZone(`${today}T${start}${offsetUtc}`).format(),
+            end: moment.parseZone(`${today}T${end}${offsetUtc}`).format(),
             timeZone: timezone,
           };
         })
@@ -243,9 +244,11 @@ export default function appointmentsReducer(state = initialState, action) {
             now.isBefore(maxEnd),
           window:
             minStart && maxEnd
-              ? `${moment(minStart).format('h:mm a')} to ${moment(
-                  maxEnd,
-                ).format('h:mm a')} ${times?.[0]?.timeZone}`
+              ? `${moment
+                  .parseZone(minStart)
+                  .format('h:mm a')} to ${moment
+                  .parseZone(maxEnd)
+                  .format('h:mm a')} ${times?.[0]?.timeZone}`
               : null,
         },
       };
