@@ -359,17 +359,18 @@ describe('VAOS reducer: appointments', () => {
     });
 
     it('should fetch and format express care window and update fetchWindowsStatus', () => {
+      const window = {
+        start: '00:00',
+        end: '23:59',
+        timezone: 'MDT',
+        offsetUtc: '-06:00',
+      };
       const action = {
         type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
         facilityData: [
           [
             {
-              expressTimes: {
-                start: '00:00',
-                end: '23:59',
-                timezone: 'MDT',
-                offsetUtc: '-06:00',
-              },
+              expressTimes: [window],
             },
           ],
         ],
@@ -379,7 +380,14 @@ describe('VAOS reducer: appointments', () => {
       const { expressCare } = newState;
       expect(expressCare.fetchWindowsStatus).to.equal(FETCH_STATUS.succeeded);
       expect('allowRequests' in expressCare).to.equal(true);
-      expect(expressCare.window).to.equal('12:00 a.m. to 11:59 p.m. MDT');
+      const today = moment.utc();
+      const startString = `${today}T${window.start}${window.offsetUtc}`;
+      const endString = `${today}T${window.start}${window.offsetUtc}`;
+      expect(expressCare.window).to.equal(
+        `${moment(startString).format('h:mm a')} to ${moment(endString).format(
+          'h:mm a',
+        )}`,
+      );
     });
 
     it('should set fetchWindowsStatus to failed', () => {

@@ -202,7 +202,7 @@ export default function appointmentsReducer(state = initialState, action) {
       };
     case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
       const { facilityData } = action;
-      const now = moment();
+      const now = moment.utc();
 
       const times = facilityData
         .reduce(function(arr, row) {
@@ -210,28 +210,35 @@ export default function appointmentsReducer(state = initialState, action) {
         }, [])
         .filter(f => !!f.expressTimes)
         .map(f => {
-          const { expressTimes } = f;
-          const today = now.format('YYYY-MM-DD');
+          const { expressTimes, authoritativeName, id } = f;
           const { start, end, offsetUtc, timezone } = expressTimes;
+          const today = now.format('YYYY-MM-DD');
+          const startString = `${today}T${start}${offsetUtc}`;
+          const endString = `${today}T${end}${offsetUtc}`;
 
           return {
-            start: moment.parseZone(`${today}T${start}${offsetUtc}`).format(),
-            end: moment.parseZone(`${today}T${end}${offsetUtc}`).format(),
+            utcStart: moment.utc(startString).format(),
+            utcEnd: moment.utc(endString).format(),
+            start: moment.parseZone(startString).format(),
+            end: moment.parseZone(endString).format(),
+            offset: offsetUtc,
             timeZone: timezone,
+            name: f.authoritativeName,
+            id,
           };
         })
-        .sort((a, b) => (a.start < b.start ? -1 : 1));
+        .sort((a, b) => (a.utcStart < b.utcStart ? -1 : 1));
 
       let minStart;
       let maxEnd;
 
       if (times.length) {
         const timesReverseSorted = times.sort(
-          (a, b) => (a.end > b.end ? -1 : 1),
+          (a, b) => (a.utcEnd > b.utcEnd ? -1 : 1),
         );
 
-        minStart = times?.[0]?.start;
-        maxEnd = timesReverseSorted?.[0]?.end;
+        minStart = times?.[0]?.utcStart;
+        maxEnd = timesReverseSorted?.[0]?.utcEnd;
       }
 
       return {
@@ -240,15 +247,15 @@ export default function appointmentsReducer(state = initialState, action) {
           fetchWindowsStatus: FETCH_STATUS.succeeded,
           allowRequests:
             times.length &&
-            now.isAfter(moment(minStart)) &&
-            now.isBefore(maxEnd),
+            now.isAfter(moment.utc(minStart)) &&
+            now.isBefore(moment.utc(maxEnd)),
+          minStart,
+          maxEnd,
           window:
             minStart && maxEnd
-              ? `${moment
-                  .parseZone(minStart)
-                  .format('h:mm a')} to ${moment
-                  .parseZone(maxEnd)
-                  .format('h:mm a')} ${times?.[0]?.timeZone}`
+              ? `${moment(minStart).format('h:mm a')} to ${moment(
+                  maxEnd,
+                ).format('h:mm a')}`
               : null,
         },
       };

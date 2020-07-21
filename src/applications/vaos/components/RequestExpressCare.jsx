@@ -23,7 +23,7 @@ export default function RequestExpressCare({
           a VA health care provider.
         </p>
         <ul>
-          <li>You can submit your request {window}.</li>
+          <li>You can submit your request from {window}.</li>
           <li>A VA health care provider will call you today.</li>
           <li>
             If needed, we may schedule a follow-up phone, video, or in-person

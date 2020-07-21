@@ -206,9 +206,7 @@ describe('VAOS integration: appointment list', () => {
   // This will change to only show when EC is available
   it('should show express care button and tab when flag is on and within express times', async () => {
     mockAppointmentInfo({});
-    const now = moment();
-    const oneHourBehind = now.clone().subtract(1, 'hours');
-    const oneHourAhead = now.clone().add(1, 'hours');
+    const now = moment().utcOffset('-06:00');
     mockParentSites(['983'], [parentSite983]);
     mockSupportedFacilities({
       siteId: 983,
@@ -218,10 +216,10 @@ describe('VAOS integration: appointment list', () => {
         {
           attributes: {
             expressTimes: {
-              start: oneHourBehind.format('H:mm'),
-              end: oneHourAhead.format('H:mm'),
+              start: '09:00',
+              end: '17:00',
               timezone: 'MDT',
-              offsetUtc: now.format('z'),
+              offsetUtc: '-06:00',
             },
           },
         },
@@ -314,9 +312,10 @@ describe('VAOS integration: appointment list', () => {
 
   it('should not show express care action when outside of express care window', async () => {
     mockAppointmentInfo({});
-    const now = moment();
+    const now = moment().utcOffset('-06:00');
     const currentHour = now.format('H');
     mockParentSites(['983'], [parentSite983]);
+
     mockSupportedFacilities({
       siteId: 983,
       parentId: 983,
@@ -328,13 +327,13 @@ describe('VAOS integration: appointment list', () => {
               start: now
                 .clone()
                 .subtract(3, 'minutes')
-                .format('H:mm'),
+                .format('HH:mm'),
               end: now
                 .clone()
                 .subtract(2, 'minutes')
-                .format('H:mm'),
+                .format('HH:mm'),
               timezone: 'MDT',
-              offsetUtc: now.format('z'),
+              offsetUtc: '-06:00',
             },
           },
         },
