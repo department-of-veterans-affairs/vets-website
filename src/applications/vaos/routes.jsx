@@ -54,6 +54,9 @@ const DateTimeSelectPage = asyncLoader(() =>
 const ConfirmationPage = asyncLoader(() =>
   import(/* webpackChunkName: "vaos-form" */ './containers/ConfirmationPage'),
 );
+const ExpressCareList = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './components/ExpressCareList'),
+);
 
 export default function createRoutesWithStore(store) {
   return (
@@ -61,6 +64,7 @@ export default function createRoutesWithStore(store) {
       <Route path="/" component={AppointmentsPage}>
         <IndexRoute component={FutureAppointmentsList} />
         <Route component={PastAppointmentsList} path="past" />
+        <Route component={ExpressCareList} path="express-care" />
       </Route>
       <Route
         path="new-appointment"
