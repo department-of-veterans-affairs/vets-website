@@ -9,6 +9,7 @@ import {
   hasClaimedConditions,
   increaseOnly,
   claimingRated,
+  isBDD,
 } from './utils';
 
 import {
@@ -16,6 +17,8 @@ import {
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
 } from './constants';
+
+import separationLocations from './content/separationLocations';
 
 export const hasMilitaryRetiredPay = data =>
   _.get('view:hasMilitaryRetiredPay', data, false);
@@ -289,5 +292,14 @@ export const requireNewDisability = (err, fieldData, formData) => {
     // The actual validation error is displayed as an alert field. The message
     // here will be shown on the review page
     err.addError('No rated disability selected. Please add a new one');
+  }
+};
+
+export const checkSeparationLocation = (errors, values = {}, formData) => {
+  const data = formData?.serviceInformation?.separationLocation?.label;
+  const isValid =
+    data && separationLocations.some(({ description }) => data === description);
+  if (!isValid && isBDD(formData.serviceInformation.servicePeriods)) {
+    errors.addError('Please select an option from the suggestions');
   }
 };
