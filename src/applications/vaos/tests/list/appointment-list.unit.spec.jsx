@@ -11,8 +11,13 @@ import {
   getVideoAppointmentMock,
   getVAAppointmentMock,
   getCCAppointmentMock,
+  getParentSiteMock,
 } from '../mocks/v0';
-import { mockAppointmentInfo } from '../mocks/helpers';
+import {
+  mockAppointmentInfo,
+  mockSupportedFacilities,
+  mockParentSites,
+} from '../mocks/helpers';
 
 import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
@@ -181,14 +186,56 @@ describe('VAOS integration: appointment list', () => {
     expect(baseElement).not.to.contain.text('You don’t have any appointments');
   });
 
+  const userState = {
+    profile: {
+      facilities: [{ facilityId: '983', isCerner: false }],
+    },
+  };
+
+  const parentSite983 = {
+    id: '983',
+    attributes: {
+      ...getParentSiteMock().attributes,
+      institutionCode: '983',
+      authoritativeName: 'Some VA facility',
+      rootStationCode: '983',
+      parentStationCode: '983',
+    },
+  };
+
   // This will change to only show when EC is available
-  it('should show express care button and tab when flag is on', async () => {
+  it('should show express care button and tab when flag is on and within express times', async () => {
     mockAppointmentInfo({});
+    const now = moment();
+    const oneHourBehind = now.clone().subtract(1, 'hours');
+    const oneHourAhead = now.clone().add(1, 'hours');
+    mockParentSites(['983'], [parentSite983]);
+    mockSupportedFacilities({
+      siteId: 983,
+      parentId: 983,
+      typeOfCareId: 'CR1',
+      data: [
+        {
+          attributes: {
+            expressTimes: {
+              start: oneHourBehind.format('H:mm'),
+              end: oneHourAhead.format('H:mm'),
+              timezone: 'MDT',
+              offsetUtc: now.format('z'),
+            },
+          },
+        },
+      ],
+    });
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingExpressCare: true,
       },
+      appointment: {
+        expressCare: {},
+      },
+      user: userState,
     };
     const memoryHistory = createMemoryHistory();
 
@@ -263,5 +310,67 @@ describe('VAOS integration: appointment list', () => {
     expect(
       queryByText(/View your upcoming, past, and Express Care appointments/i),
     ).not.to.exist;
+  });
+
+  it('should not show express care action when outside of express care window', async () => {
+    mockAppointmentInfo({});
+    const now = moment();
+    const currentHour = now.format('H');
+    mockParentSites(['983'], [parentSite983]);
+    mockSupportedFacilities({
+      siteId: 983,
+      parentId: 983,
+      typeOfCareId: 'CR1',
+      data: [
+        {
+          attributes: {
+            expressTimes: {
+              start: now
+                .clone()
+                .subtract(3, 'minutes')
+                .format('H:mm'),
+              end: now
+                .clone()
+                .subtract(2, 'minutes')
+                .format('H:mm'),
+              timezone: 'MDT',
+              offsetUtc: now.format('z'),
+            },
+          },
+        },
+      ],
+    });
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+      },
+      appointment: {
+        expressCare: {},
+      },
+      user: userState,
+    };
+    const memoryHistory = createMemoryHistory();
+
+    // Mocking a route here so that components using withRouter don't fail
+    const {
+      findByText,
+      queryByText,
+      getAllByRole,
+      getByText,
+    } = renderInReduxProvider(
+      <Router history={memoryHistory}>
+        <Route path="/" component={AppointmentsPage} />
+      </Router>,
+      {
+        initialState: initialStateWithExpressCare,
+        reducers,
+      },
+    );
+
+    await findByText('Create a new appointment');
+    expect(queryByText(/create a new Express Care request/i)).to.not.be.ok;
+    expect(getByText('Upcoming')).to.have.attribute('role', 'tab');
+    expect(getByText('Past')).to.have.attribute('role', 'tab');
   });
 });
