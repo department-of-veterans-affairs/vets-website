@@ -299,6 +299,7 @@ export class VetTecSearchPage extends React.Component {
               eligibility={this.props.eligibility}
               showModal={this.props.showModal}
               eligibilityChange={this.props.eligibilityChange}
+              gibctSearchEnhancements={this.props.gibctSearchEnhancements}
             />
           </div>
         )}
