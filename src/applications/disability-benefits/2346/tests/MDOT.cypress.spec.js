@@ -74,8 +74,7 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.get('@testKey').then(testKey => {
-        cy.login();
-        cy.route('GET', '/v0/user', dataSetToUserMap[testKey]);
+        cy.login(dataSetToUserMap[testKey]);
       });
       cy.get('@testData').then(testData => {
         cy.route('GET', '/v0/in_progress_forms/MDOT', testData);

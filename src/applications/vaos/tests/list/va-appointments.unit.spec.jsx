@@ -2,6 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import environment from 'platform/utilities/environment';
+import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../reducers';
 import { getVAAppointmentMock, getVAFacilityMock } from '../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
@@ -146,6 +148,26 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(baseElement).to.contain.text('Instructions');
   });
 
+  it('should not show comment if does not start with preset purpose text', async () => {
+    const appointment = getVAAppointmentMock();
+    appointment.attributes.startDate = moment().format();
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].bookingNote = 'some comment';
+    mockAppointmentInfo({ va: [appointment] });
+
+    const { findByText, baseElement } = renderInReduxProvider(
+      <FutureAppointmentsList />,
+      {
+        initialState,
+        reducers,
+      },
+    );
+
+    await findByText(new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'));
+
+    expect(baseElement).not.to.contain.text('some comment');
+  });
+
   it('should have correct status when previously cancelled', async () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes.startDate = moment().format();
@@ -199,5 +221,29 @@ describe('VAOS integration: upcoming VA appointments', () => {
 
     return expect(findByText(/You don’t have any appointments/i)).to.eventually
       .be.ok;
+  });
+  it('should show error message when request fails', async () => {
+    mockAppointmentInfo({});
+    setFetchJSONFailure(
+      global.fetch.withArgs(
+        `${
+          environment.API_URL
+        }/vaos/v0/appointment_requests?start_date=${moment()
+          .add(-30, 'days')
+          .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
+      ),
+      { errors: [] },
+    );
+
+    const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
+      initialState,
+      reducers,
+    });
+
+    expect(
+      await findByText(
+        /We’re having trouble getting your upcoming appointments/i,
+      ),
+    ).to.be.ok;
   });
 });

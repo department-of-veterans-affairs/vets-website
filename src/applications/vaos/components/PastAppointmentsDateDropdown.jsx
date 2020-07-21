@@ -9,7 +9,7 @@ export default function PastAppointmentsDateDropdown({
 }) {
   const [dateRangeIndex, updateDateRangeIndex] = useState(currentRange);
   return (
-    <div className="vads-u-margin-bottom--3">
+    <div className="vads-u-display--flex vads-u-margin-bottom--3 small-screen:vads-u-align-items--center vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
       <label
         className="vads-u-display--inline-block vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-right--2"
         htmlFor="options"
@@ -18,7 +18,7 @@ export default function PastAppointmentsDateDropdown({
         <span className="sr-only">for your appointments</span>
       </label>
       <select
-        className="usa-select usa-select vads-u-display--inline-block vads-u-width--auto"
+        className="usa-select small-screen:vads-u-width--auto small-screen:vads-u-margin-right--2"
         name="options"
         id="options"
         value={dateRangeIndex}
@@ -32,7 +32,6 @@ export default function PastAppointmentsDateDropdown({
       </select>
       <button
         type="button"
-        className="vads-u-display--inline-block vads-u-margin-left--2"
         aria-label="Update my appointments list"
         onClick={() => {
           if (currentRange !== dateRangeIndex) {
