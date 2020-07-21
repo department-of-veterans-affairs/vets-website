@@ -1,22 +1,36 @@
-import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
-import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  setFetchJSONFailure,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import { getVARequestMock } from '../mocks/v0';
 import { mockAppointmentInfo } from '../mocks/helpers';
-
-import reducers from '../../reducers';
-import FutureAppointmentsList from '../../components/FutureAppointmentsList';
-import ExpressCareList from '../../components/ExpressCareList';
+import { renderFromRoutes } from '../mocks/setup';
 
 describe('VAOS integration: express care requests', () => {
   describe('when shown in upcoming appointments tab', () => {
     const initialState = {
       featureToggles: {
+        vaOnlineScheduling: true,
+        vaOnlineSchedulingPast: true,
         vaOnlineSchedulingCancel: true,
+        vaOnlineSchedulingExpressCare: false,
+      },
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+        profile: {
+          loading: false,
+          verified: true,
+          services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
       },
     };
 
@@ -45,14 +59,9 @@ describe('VAOS integration: express care requests', () => {
       appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { baseElement, findByText, getByText } = renderInReduxProvider(
-        <FutureAppointmentsList />,
-        {
-          initialState,
-          reducers,
-        },
-      );
-
+      const { baseElement, findByText, getByText } = renderFromRoutes({
+        initialState,
+      });
       await findByText(/Some VA medical center/i);
       expect(baseElement).to.contain.text('Express care appointment');
       expect(baseElement).not.to.contain.text('Preferred date and time');
@@ -91,9 +100,8 @@ describe('VAOS integration: express care requests', () => {
         findByText,
         getByText,
         queryByText,
-      } = renderInReduxProvider(<FutureAppointmentsList />, {
+      } = renderFromRoutes({
         initialState,
-        reducers,
       });
 
       await findByText(/Some VA medical center/i);
@@ -109,8 +117,21 @@ describe('VAOS integration: express care requests', () => {
   describe('when shown in separate tab', () => {
     const initialState = {
       featureToggles: {
+        vaOnlineScheduling: true,
+        vaOnlineSchedulingPast: true,
         vaOnlineSchedulingCancel: true,
         vaOnlineSchedulingExpressCare: true,
+      },
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+        profile: {
+          loading: false,
+          verified: true,
+          services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
       },
     };
 
@@ -128,15 +149,11 @@ describe('VAOS integration: express care requests', () => {
       appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { baseElement, findByText, getByText } = renderInReduxProvider(
-        <ExpressCareList />,
-        {
-          initialState,
-          reducers,
-        },
-      );
+      const { baseElement, findByText, getByText } = renderFromRoutes({
+        initialState,
+        path: '/express-care',
+      });
 
-      expect(baseElement).to.contain.text('Loading your Express Care requests');
       await findByText(/Back pain/i);
       expect(baseElement).to.contain.text('Next step');
       expect(baseElement).to.contain('.fa-exclamation-triangle');
@@ -166,13 +183,10 @@ describe('VAOS integration: express care requests', () => {
       appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { baseElement, findByText, queryByText } = renderInReduxProvider(
-        <ExpressCareList />,
-        {
-          initialState,
-          reducers,
-        },
-      );
+      const { baseElement, findByText, queryByText } = renderFromRoutes({
+        initialState,
+        path: '/express-care',
+      });
 
       await findByText(/Back pain/i);
       expect(baseElement).to.contain.text('Next step');
@@ -199,9 +213,9 @@ describe('VAOS integration: express care requests', () => {
         findByText,
         queryByText,
         getByText,
-      } = renderInReduxProvider(<ExpressCareList />, {
+      } = renderFromRoutes({
         initialState,
-        reducers,
+        path: '/express-care',
       });
 
       await findByText(/Back pain/i);
@@ -230,9 +244,9 @@ describe('VAOS integration: express care requests', () => {
         findByText,
         queryByText,
         getByText,
-      } = renderInReduxProvider(<ExpressCareList />, {
+      } = renderFromRoutes({
         initialState,
-        reducers,
+        path: '/express-care',
       });
 
       await findByText(/Back pain/i);
@@ -260,9 +274,9 @@ describe('VAOS integration: express care requests', () => {
         findByText,
         queryByText,
         getByText,
-      } = renderInReduxProvider(<ExpressCareList />, {
+      } = renderFromRoutes({
         initialState,
-        reducers,
+        path: '/express-care',
       });
 
       await findByText(/Back pain/i);
@@ -288,13 +302,9 @@ describe('VAOS integration: express care requests', () => {
       appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText, queryByText } = renderInReduxProvider(
-        <FutureAppointmentsList />,
-        {
-          initialState,
-          reducers,
-        },
-      );
+      const { findByText, queryByText } = renderFromRoutes({
+        initialState,
+      });
 
       expect(await findByText(/You don’t have any appointments/i)).to.be.ok;
       expect(queryByText('Upcoming appointments')).to.not.exist;
@@ -313,15 +323,11 @@ describe('VAOS integration: express care requests', () => {
         { errors: [] },
       );
 
-      const { findByText, baseElement } = renderInReduxProvider(
-        <ExpressCareList />,
-        {
-          initialState,
-          reducers,
-        },
-      );
+      const { findByText } = renderFromRoutes({
+        initialState,
+        path: '/express-care',
+      });
 
-      expect(baseElement).to.contain.text('Loading your Express Care requests');
       expect(
         await findByText(
           /We’re having trouble getting your upcoming appointments/i,
@@ -332,15 +338,11 @@ describe('VAOS integration: express care requests', () => {
     it('should show message when no requests exist', async () => {
       mockAppointmentInfo({});
 
-      const { findByText, baseElement } = renderInReduxProvider(
-        <ExpressCareList />,
-        {
-          initialState,
-          reducers,
-        },
-      );
+      const { findByText } = renderFromRoutes({
+        initialState,
+        path: '/express-care',
+      });
 
-      expect(baseElement).to.contain.text('Loading your Express Care requests');
       expect(await findByText(/You don’t have any appointments/i)).to.be.ok;
     });
 
@@ -387,13 +389,10 @@ describe('VAOS integration: express care requests', () => {
       ];
       mockAppointmentInfo({ requests });
 
-      const { baseElement, findByText } = renderInReduxProvider(
-        <ExpressCareList />,
-        {
-          initialState,
-          reducers,
-        },
-      );
+      const { baseElement, findByText } = renderFromRoutes({
+        initialState,
+        path: '/express-care',
+      });
 
       await findByText('First');
       const dateHeadings = Array.from(
@@ -401,6 +400,72 @@ describe('VAOS integration: express care requests', () => {
       ).map(card => card.textContent.trim());
 
       expect(dateHeadings).to.deep.equal(['First', 'Second', 'Third']);
+    });
+    it('should be cancelled', async () => {
+      const appointment = getVARequestMock();
+      appointment.id = 'test_id';
+      appointment.attributes = {
+        ...appointment.attributes,
+        status: 'Submitted',
+        typeOfCareId: 'CR1',
+        reasonForVisit: 'Back pain',
+      };
+      mockAppointmentInfo({ requests: [appointment] });
+      setFetchJSONResponse(
+        global.fetch.withArgs(
+          `${environment.API_URL}/vaos/v0/appointment_requests/test_id`,
+        ),
+        {
+          data: {
+            ...appointment,
+            attributes: {
+              ...appointment.attributes,
+              status: 'Cancelled',
+            },
+          },
+        },
+      );
+
+      const {
+        getByText,
+        findByRole,
+        baseElement,
+        findByText,
+        queryByRole,
+      } = renderFromRoutes({
+        initialState,
+        path: '/express-care',
+      });
+
+      await findByText(/cancel appointment/i);
+      expect(baseElement).not.to.contain.text('Canceled');
+
+      fireEvent.click(getByText(/cancel appointment/i));
+
+      await findByRole('alertdialog');
+
+      fireEvent.click(getByText(/yes, cancel this appointment/i));
+
+      await findByText(/your appointment has been canceled/i);
+
+      const cancelData = JSON.parse(
+        global.fetch
+          .getCalls()
+          .find(call => call.args[0].includes('appointment_requests/test_id'))
+          .args[1].body,
+      );
+
+      expect(cancelData).to.deep.equal({
+        ...appointment.attributes,
+        id: 'test_id',
+        appointmentRequestDetailCode: ['DETCODE8'],
+        status: 'Cancelled',
+      });
+
+      fireEvent.click(getByText(/continue/i));
+
+      expect(queryByRole('alertdialog')).to.not.be.ok;
+      expect(baseElement).to.contain.text('Canceled');
     });
   });
 });

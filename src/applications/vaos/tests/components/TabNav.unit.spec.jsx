@@ -28,7 +28,7 @@ describe('<TabNav>', () => {
       pathname: '/',
     };
 
-    const tree = shallow(<TabNav location={location} id={1} hasExpressCare />);
+    const tree = shallow(<TabNav location={location} id={1} showExpressCare />);
 
     expect(tree.find('TabItem').length).to.equal(3);
     tree.unmount();
@@ -83,7 +83,7 @@ describe('<TabNav>', () => {
     };
 
     const tree = shallow(
-      <TabNav router={router} location={location} id={1} hasExpressCare />,
+      <TabNav router={router} location={location} id={1} showExpressCare />,
     );
 
     tree
@@ -105,7 +105,7 @@ describe('<TabNav>', () => {
     };
 
     const tree = shallow(
-      <TabNav router={router} location={location} id={1} hasExpressCare />,
+      <TabNav router={router} location={location} id={1} showExpressCare />,
     );
 
     tree

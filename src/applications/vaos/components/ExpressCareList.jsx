@@ -19,34 +19,19 @@ import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import ExpressCareListItem from './ExpressCareListItem';
 import NoAppointments from './NoAppointments';
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class ExpressCareList extends React.Component {
-  componentDidMount() {
-    if (this.props.status === FETCH_STATUS.notStarted) {
-      this.props.fetchFutureAppointments();
-    }
-  }
-
   render() {
     const {
       showCancelButton,
       showScheduleButton,
       isCernerOnlyPatient,
       expressCareRequests,
-      status,
     } = this.props;
 
     let content;
 
-    if (status === FETCH_STATUS.loading) {
-      content = (
-        <div className="vads-u-margin-y--8">
-          <LoadingIndicator message="Loading your Express Care requests..." />
-        </div>
-      );
-    } else if (
-      status === FETCH_STATUS.succeeded &&
-      expressCareRequests?.length > 0
-    ) {
+    if (expressCareRequests?.length > 0) {
       content = (
         <>
           <ul className="usa-unstyled-list" id="appointments-list">
@@ -63,16 +48,6 @@ export class ExpressCareList extends React.Component {
             })}
           </ul>
         </>
-      );
-    } else if (status === FETCH_STATUS.failed) {
-      content = (
-        <AlertBox
-          status="error"
-          headline="We’re sorry. We’ve run into a problem"
-        >
-          We’re having trouble getting your upcoming appointments. Please try
-          again later.
-        </AlertBox>
       );
     } else {
       content = (
