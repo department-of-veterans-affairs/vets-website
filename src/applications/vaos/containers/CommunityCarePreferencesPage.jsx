@@ -68,8 +68,7 @@ const uiSchema = {
   },
   hasCommunityCareProvider: {
     'ui:widget': 'yesNo',
-    'ui:title':
-      'Do you have a Community Care referral or a preferred VA-approved community care provider?',
+    'ui:title': 'Do you have a preferred VA-approved community care provider?',
     'ui:options': {
       labels: {
         N: "No/I don't know",

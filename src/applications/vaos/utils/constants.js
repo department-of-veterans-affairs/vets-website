@@ -12,6 +12,11 @@ export const APPOINTMENT_TYPES = {
   ccRequest: 'ccRequest',
 };
 
+export const CONFIRMED_APPOINTMENT_TYPES = new Set([
+  APPOINTMENT_TYPES.ccAppointment,
+  APPOINTMENT_TYPES.vaAppointment,
+]);
+
 export const APPOINTMENT_STATUS = {
   arrived: 'arrived',
   booked: 'booked',
@@ -344,3 +349,5 @@ export const FREE_BUSY_TYPES = {
   busyUnavailable: 'busy-unavailable',
   busyTentative: 'busy-tentative',
 };
+
+export const UNABLE_TO_REACH_VETERAN_DETCODE = 'DETCODE23';

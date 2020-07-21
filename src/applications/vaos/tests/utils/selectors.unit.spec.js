@@ -475,7 +475,6 @@ describe('VAOS selectors', () => {
             status: 'booked',
             vaos: {
               appointmentType: APPOINTMENT_TYPES.vaAppointment,
-              videoType: null,
             },
             participant: [
               {

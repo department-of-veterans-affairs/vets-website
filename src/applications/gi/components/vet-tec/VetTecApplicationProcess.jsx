@@ -67,7 +67,11 @@ class VetTecApplicationProcess extends React.Component {
           <li>
             Call us at 888-GIBILL-1 (<a href="tel:+18884424551">888-442-4551</a>
             ). We’re here Monday through Friday, 8:00a.m. to 7:00 p.m. ET. If
-            you have hearing loss, call TTY:711, <b>or</b>
+            you have hearing loss, call{' '}
+            <a href="tel:711" aria-label="TTY. 7 1 1.">
+              TTY: 711
+            </a>
+            , <b>or</b>
           </li>
           <li>
             Email us at{' '}

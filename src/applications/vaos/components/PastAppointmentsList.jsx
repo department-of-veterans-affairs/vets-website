@@ -6,7 +6,11 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { fetchPastAppointments } from '../actions/appointments';
 import { getVAAppointmentLocationId } from '../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
-import { vaosPastAppts } from '../utils/selectors';
+import {
+  vaosPastAppts,
+  selectPastAppointments,
+  vaosExpressCare,
+} from '../utils/selectors';
 import {
   getRealFacilityId,
   getPastAppointmentDateRangeOptions,
@@ -24,26 +28,29 @@ export class PastAppointmentsList extends React.Component {
   }
 
   componentDidMount() {
-    const { appointments, router, showPastAppointments } = this.props;
+    const {
+      pastStatus,
+      pastSelectedIndex,
+      router,
+      showPastAppointments,
+    } = this.props;
 
     if (!showPastAppointments) {
       router.push('/');
-    } else if (appointments.pastStatus === FETCH_STATUS.notStarted) {
-      const selectedDateRange = this.dateRangeOptions[
-        appointments.pastSelectedIndex
-      ];
+    } else if (pastStatus === FETCH_STATUS.notStarted) {
+      const selectedDateRange = this.dateRangeOptions[pastSelectedIndex];
       this.props.fetchPastAppointments(
         selectedDateRange.startDate,
         selectedDateRange.endDate,
-        appointments.pastSelectedIndex,
+        pastSelectedIndex,
       );
     }
   }
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.appointments.pastStatus === FETCH_STATUS.loading &&
-      this.props.appointments.pastStatus === FETCH_STATUS.succeeded &&
+      prevProps.pastStatus === FETCH_STATUS.loading &&
+      this.props.pastStatus === FETCH_STATUS.succeeded &&
       !this.state.isInitialMount
     ) {
       focusElement('#queryResultLabel');
@@ -62,8 +69,13 @@ export class PastAppointmentsList extends React.Component {
   };
 
   render() {
-    const { appointments } = this.props;
-    const { past, pastStatus, facilityData } = appointments;
+    const {
+      past,
+      pastStatus,
+      facilityData,
+      pastSelectedIndex,
+      hasExpressCareAccess,
+    } = this.props;
     let content;
 
     if (pastStatus === FETCH_STATUS.loading) {
@@ -81,7 +93,7 @@ export class PastAppointmentsList extends React.Component {
             style={{ outline: 'none' }}
           >
             Showing appointments for:{' '}
-            {this.dateRangeOptions[appointments.pastSelectedIndex].label}
+            {this.dateRangeOptions[pastSelectedIndex].label}
           </span>
           <ul className="usa-unstyled-list" id="appointments-list">
             {past.map((appt, index) => {
@@ -119,19 +131,21 @@ export class PastAppointmentsList extends React.Component {
       );
     } else {
       content = (
-        <h4 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
+        <h3 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
           You don’t have any appointments in the selected date range
-        </h4>
+        </h3>
       );
     }
 
     return (
       <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
-        <h2 tabIndex="-1" id="pastAppts" className="vads-u-font-size--h3">
-          Past appointments
-        </h2>
+        {!hasExpressCareAccess && (
+          <h2 tabIndex="-1" id="pastAppts" className="vads-u-font-size--h3">
+            Past appointments
+          </h2>
+        )}
         <PastAppointmentsDateDropdown
-          currentRange={appointments.pastSelectedIndex}
+          currentRange={pastSelectedIndex}
           onChange={this.onDateRangeChange}
           options={this.dateRangeOptions}
         />
@@ -142,16 +156,23 @@ export class PastAppointmentsList extends React.Component {
 }
 
 PastAppointmentsList.propTypes = {
-  appointments: PropTypes.object,
+  past: PropTypes.array,
+  pastStatus: PropTypes.string,
+  pastSelectedIndex: PropTypes.number,
+  facilityData: PropTypes.object,
   fetchPastAppointments: PropTypes.func,
   showPastAppointments: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
   return {
-    appointments: state.appointments,
+    past: selectPastAppointments(state),
+    pastStatus: state.appointments.pastStatus,
+    pastSelectedIndex: state.appointments.pastSelectedIndex,
+    facilityData: state.appointments.facilityData,
     fetchPastAppointments,
     showPastAppointments: vaosPastAppts(state),
+    hasExpressCareAccess: vaosExpressCare(state),
   };
 }
 
