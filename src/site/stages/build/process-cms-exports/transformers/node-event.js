@@ -25,11 +25,6 @@ const transform = entity => ({
   // Unsure why this was in the transformer in the first place, but it's possibly used in the templates somewhere?
   // uid: entity.uid[0],
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  entityUrl: {
-    // TODO: Get the breadcrumb from the CMS export when it's available
-    breadcrumb: [],
-    path: entity.path[0].alias,
-  },
   entityMetatags: createMetaTagArray(entity.metatag.value),
   // TODO: Verify this is how to derive the entityPublished state
   entityPublished: entity.moderationState[0].value === 'published',

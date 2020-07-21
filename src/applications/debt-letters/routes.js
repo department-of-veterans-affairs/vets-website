@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import DebtLettersList from './components/DebtLettersList';
+import DebtLettersSummary from './components/DebtLettersSummary';
 import DebtLettersWrapper from './components/DebtLettersWrapper';
 import DebtDetails from './components/DebtDetails';
 

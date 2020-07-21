@@ -110,8 +110,12 @@ export const AdditionalInfoSections = ({ activeApps }) => {
               <li className="vads-u-padding-left--1">
                 <strong>If your information isn’t accurate:</strong> Call VA311
                 at <Telephone contact={CONTACTS.VA_311} />. If you have hearing
-                loss, call TTY: <a href="tel:711">711</a>. Or visit a VA health
-                facility near you and ask a staff member for help.{' '}
+                loss, call{' '}
+                <a href="tel:711" aria-label="TTY. 7 1 1.">
+                  TTY: 711
+                </a>
+                . Or visit a VA health facility near you and ask a staff member
+                for help.{' '}
                 <p>
                   <a href="/find-locations">
                     Find a VA health facility near you

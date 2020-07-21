@@ -47,7 +47,6 @@ describe('VAOS <CancelCommunityCareAppointmentModal>', () => {
       vaos: {
         isPastAppointment: false,
         appointmentType: 'ccAppointment',
-        videoType: null,
         isCommunityCare: true,
         timeZone: 'UTC',
       },
@@ -58,7 +57,7 @@ describe('VAOS <CancelCommunityCareAppointmentModal>', () => {
 
     expect(tree.find('Modal').props().status).to.equal('warning');
     expect(tree.text()).to.contain(
-      'Community Care appointments can’t be canceled',
+      'Community care appointments can’t be canceled',
     );
     expect(tree.text()).to.contain('Practice name');
     expect(tree.find('dl').text()).to.contain('1234567890');

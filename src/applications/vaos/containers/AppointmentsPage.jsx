@@ -59,7 +59,7 @@ export class AppointmentsPage extends Component {
       children,
       showScheduleButton,
       showCommunityCare,
-      showExpressCare,
+      hasExpressCareAccess,
       showDirectScheduling,
       isCernerOnlyPatient,
       showPastAppointments,
@@ -79,8 +79,17 @@ export class AppointmentsPage extends Component {
                 startNewAppointmentFlow={this.startNewAppointmentFlow}
               />
             )}
-            {showExpressCare && <RequestExpressCare />}
-            {showPastAppointments && <TabNav />}
+            {hasExpressCareAccess && (
+              <>
+                <RequestExpressCare />
+                <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
+                  View your upcoming, past, and Express Care appointments
+                </h2>
+              </>
+            )}
+            {showPastAppointments && (
+              <TabNav hasExpressCare={hasExpressCareAccess} />
+            )}
             {children}
             <NeedHelp />
           </div>
@@ -114,7 +123,7 @@ function mapStateToProps(state) {
     showScheduleButton: vaosRequests(state),
     showCommunityCare: vaosCommunityCare(state),
     showDirectScheduling: vaosDirectScheduling(state),
-    showExpressCare: vaosExpressCare(state),
+    hasExpressCareAccess: vaosExpressCare(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };
