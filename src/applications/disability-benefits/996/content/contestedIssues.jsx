@@ -50,7 +50,7 @@ const downloadLink = (
   <a
     href={FORM_URL}
     download="VBA-20-0996-ARE.pdf"
-    title="download Decision Review Request: Higher-Level Review PDF"
+    title="download VA Form 20-0996"
     type="application/pdf"
   >
     <i
@@ -58,9 +58,9 @@ const downloadLink = (
       className="fas fa-download vads-u-padding-right--0p5"
       role="img"
     />
-    download Decision Review Request: Higher-Level Review{' '}
+    download VA Form 20-0996{' '}
     <dfn>
-      <abbr title="Portable Document Format">PDF</abbr> (VA Form 20-0996, 1.5
+      <abbr title="Portable Document Format">PDF</abbr> (1.5
       <abbr title="Megabytes">MB</abbr>)
     </dfn>
   </a>
@@ -75,20 +75,20 @@ const disabilitiesList = (
     <li>
       Your issue is for a benefit type other than compensation or pension. To
       request a Higher-Level Review for another benefit type like health care,
-      insurance, or education, you'll need to {downloadLink}, fill out and
-      submit it by mail or in person.
+      insurance, or education, you’ll need to {downloadLink} and submit a
+      completed application by mail or in person.
     </li>
     <li>
       The issue or decision isn’t in our system yet. Please refer to your
-      decision letter about what form you'll need to submit to request a
+      decision letter about what form you’ll need to submit to request a
       Higher-Level Review.
     </li>
     <li>
-      You’re unable to request a Higher-Level Review within 1 year from the date
+      You’re unable to request a Higher-Level Review within 1 year of the date
       on your decision letter due to the COVID-19 pandemic. To request a good
-      cause extension, you'll need to {downloadLink}, fill out and attach a note
-      to your application that you’re requesting an exemption for timely filing
-      due to COVID-19.
+      cause extension, you’ll need to {downloadLink} fill it out and attach a
+      note to your application that you’re requesting an exemption for timely
+      filing due to COVID-19.
       <br />
       <br />
       To learn more about how COVID-19 affect claims or appeals, please visit
