@@ -7,7 +7,7 @@ module.exports = {
     title: { type: 'string' },
     changed: { type: 'number' },
     entityUrl: { $ref: 'EntityUrl' },
-    path: { type: 'object', properties: {} },
+    // path: { type: 'object', properties: {} },
     entityMetatags: { $ref: 'MetaTags' },
     fieldAdministration: {
       $ref: 'output/taxonomy_term-administration',
@@ -19,16 +19,23 @@ module.exports = {
     fieldAlertOperatingStatusCta: { type: 'boolean' },
     fieldAlertType: { type: 'string' },
     fieldBannerAlertComputdvalues: { type: 'string' },
-    fieldBannerAlertVamcs: { type: 'array' },
+    fieldBannerAlertVamcs: {
+      $ref: 'output/node-vamc_operating_status_and_alerts',
+    },
     fieldBody: { type: 'string' },
     fieldOperatingStatusSendemail: { type: 'boolean' },
-    fieldSituationUpdates: { type: 'array' },
+    fieldSituationUpdates: {
+      type: 'array',
+      items: {
+        $ref: 'Paragraph',
+      },
+    },
   },
   required: [
     'title',
     'changed',
     'entityUrl',
-    'path',
+    // 'path',
     'entityMetatags',
     'fieldAdministration',
     'fieldAlertDismissable',

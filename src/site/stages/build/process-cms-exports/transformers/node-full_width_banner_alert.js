@@ -11,7 +11,7 @@ const transform = entity => ({
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   path: getDrupalValue(entity.path),
-  fieldAdministration: getDrupalValue(entity.fieldAdministration),
+  fieldAdministration: entity.fieldAdministration[0],
   fieldAlertDismissable: getDrupalValue(entity.fieldAlertDismissable),
   fieldAlertEmailUpdatesButton: getDrupalValue(
     entity.fieldAlertEmailUpdatesButton,
@@ -29,12 +29,12 @@ const transform = entity => ({
   fieldBannerAlertComputdvalues: getDrupalValue(
     entity.fieldBannerAlertComputdvalues,
   ),
-  fieldBannerAlertVamcs: getDrupalValue(entity.fieldBannerAlertVamcs),
+  fieldBannerAlertVamcs: entity.fieldBannerAlertVamcs[0] || null,
   fieldBody: getDrupalValue(entity.fieldBody),
   fieldOperatingStatusSendemail: getDrupalValue(
     entity.fieldOperatingStatusSendemail,
   ),
-  fieldSituationUpdates: getDrupalValue(entity.fieldSituationUpdates),
+  fieldSituationUpdates: entity.fieldSituationUpdates || null,
 });
 
 module.exports = {
