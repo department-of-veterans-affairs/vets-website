@@ -19,19 +19,21 @@ const levels = [
   ['applyForScholarship'],
 ];
 export class IntroductionPage extends React.Component {
-  constructor(props) {
-    super(props);
-    // flattens all the fields in levels into object keys
-    this.state = []
-      .concat(...levels)
-      .reduce((state, field) => Object.assign(state, { [field]: null }), {
-        open: false,
-        educationBenefitSelected:
-          sessionStorage.getItem('educationBenefitSelected') || 'none selected',
-        wizardCompletionStatus:
-          sessionStorage.getItem('EduWizardStatus') || 'not complete',
-      });
-  }
+  state = {
+    open: false,
+    educationBenefitSelected:
+      sessionStorage.getItem('educationBenefitSelected') || 'none selected',
+    wizardCompletionStatus:
+      sessionStorage.getItem('EduWizardStatus') || 'not complete',
+    newBenefit: null,
+    serviceBenefitBasedOn: null,
+    transferredEduBenefits: null,
+    nationalCallToService: null,
+    sponsorDeceasedDisabledMIA: null,
+    vetTecBenefit: null,
+    sponsorTransferredBenefits: null,
+    applyForScholarship: null,
+  };
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
@@ -58,31 +60,36 @@ export class IntroductionPage extends React.Component {
       ) {
         this.setEduBenefitFormSelected('1990');
         this.setWizardCompletionStatus('complete');
-      } else if (
+      }
+      if (
         newBenefit === 'yes' &&
         nationalCallToService === 'no' &&
         vetTecBenefit === 'yes'
       ) {
         this.setEduBenefitFormSelected('0994');
         this.setWizardCompletionStatus('complete');
-      } else if (
+      }
+      if (
         newBenefit === 'no' &&
         (transferredEduBenefits === 'transferred' ||
           transferredEduBenefits === 'own')
       ) {
         this.setEduBenefitFormSelected('1995');
         this.setWizardCompletionStatus('complete');
-      } else if (newBenefit === 'no' && transferredEduBenefits === 'fry') {
+      }
+      if (newBenefit === 'no' && transferredEduBenefits === 'fry') {
         this.setEduBenefitFormSelected('5495');
         this.setWizardCompletionStatus('complete');
-      } else if (
+      }
+      if (
         newBenefit === 'yes' &&
         serviceBenefitBasedOn === 'other' &&
         sponsorDeceasedDisabledMIA === 'yes'
       ) {
         this.setEduBenefitFormSelected('5490');
         this.setWizardCompletionStatus('complete');
-      } else if (
+      }
+      if (
         newBenefit === 'yes' &&
         serviceBenefitBasedOn === 'other' &&
         sponsorDeceasedDisabledMIA === 'no' &&
@@ -90,13 +97,16 @@ export class IntroductionPage extends React.Component {
       ) {
         this.setEduBenefitFormSelected('1990E');
         this.setWizardCompletionStatus('complete');
-      } else if (newBenefit === 'yes' && nationalCallToService === 'yes') {
+      }
+      if (newBenefit === 'yes' && nationalCallToService === 'yes') {
         this.setEduBenefitFormSelected('1990N');
         this.setWizardCompletionStatus('complete');
-      } else if (applyForScholarship === 'yes') {
+      }
+      if (applyForScholarship === 'yes') {
         this.setEduBenefitFormSelected(form1995);
         this.setWizardCompletionStatus('complete');
-      } else if (applyForScholarship === 'no' && newBenefit === 'extend') {
+      }
+      if (applyForScholarship === 'no' && newBenefit === 'extend') {
         this.setEduBenefitFormSelected('none selected');
         this.setWizardCompletionStatus('complete');
       } else {
