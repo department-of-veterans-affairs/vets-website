@@ -157,15 +157,14 @@ describe('Add new disabilities', () => {
       },
     });
 
-    describe('should return newData with empty array', () => {
-      const result = { newDisabilities: [] };
+    describe('should return unmodified newData', () => {
       it("if oldData.newDisabilities doesn't exist", () => {
         const newData = { newDisabilities: ['foo'] };
-        expect(updateFormData({}, newData)).to.deep.equal(result);
+        expect(updateFormData({}, newData)).to.deep.equal(newData);
       });
       it("if newData.newDisabilities doesn't exist", () => {
         const newData = {};
-        expect(updateFormData(oldData(), newData)).to.deep.equal(result);
+        expect(updateFormData(oldData(), newData)).to.deep.equal(newData);
       });
       it('if no disabilities changed', () => {
         const old = oldData();

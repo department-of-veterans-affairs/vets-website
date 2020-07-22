@@ -187,8 +187,8 @@ const removeDisability = (deletedElement, formData) => {
 
 // Find the old name -> change to new name
 const changeDisabilityName = (oldData, newData, changedIndex) => {
-  const oldId = sippableId(oldData.newDisabilities[changedIndex].condition);
-  const newId = sippableId(newData.newDisabilities[changedIndex].condition);
+  const oldId = sippableId(oldData.newDisabilities[changedIndex]?.condition);
+  const newId = sippableId(newData.newDisabilities[changedIndex]?.condition);
 
   let result = removeDisability(oldData.newDisabilities[changedIndex], newData);
 
@@ -224,25 +224,16 @@ const changeDisabilityName = (oldData, newData, changedIndex) => {
   return result;
 };
 
-// Strip out empty ("Unknown Condition") entries; doing this shows the user
-// an error instead of blocking progress if there are no new conditions
-const removeInvalidDisabilities = data => ({
-  ...data,
-  newDisabilities: (data?.newDisabilities || []).filter(d => d.condition),
-});
-
 export const updateFormData = (oldData, newData) => {
-  const cleanOldData = removeInvalidDisabilities(oldData);
-  const cleanNewData = removeInvalidDisabilities(newData);
-  const oldArr = cleanOldData.newDisabilities;
-  const newArr = cleanNewData.newDisabilities;
+  const oldArr = oldData.newDisabilities;
+  const newArr = newData.newDisabilities;
   // Sanity check
-  if (!Array.isArray(oldArr) || !Array.isArray(newArr)) return cleanNewData;
+  if (!Array.isArray(oldArr) || !Array.isArray(newArr)) return newData;
 
   // Disability was removed
   if (oldArr.length > newArr.length) {
     const deletedElement = deleted(oldArr, newArr);
-    return removeDisability(deletedElement, cleanNewData);
+    return removeDisability(deletedElement, newData);
   }
 
   // Disability was modified
@@ -250,8 +241,8 @@ export const updateFormData = (oldData, newData) => {
   if (oldArr.length === newArr.length && changedIndex !== undefined) {
     // Update the disability name in treatedDisabilityNames and
     // powDisabilities _if_ it exists already
-    return changeDisabilityName(cleanOldData, cleanNewData, changedIndex);
+    return changeDisabilityName(oldData, newData, changedIndex);
   }
 
-  return cleanNewData;
+  return newData;
 };
