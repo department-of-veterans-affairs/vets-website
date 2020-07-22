@@ -26,7 +26,7 @@ export const uiSchema = {
         'spouseMarriageHistory',
         'startLocation',
         true,
-        'Where were they married?',
+        'Place of marriage to former spouse',
         'addSpouse',
       ),
       reasonMarriageEnded: {
