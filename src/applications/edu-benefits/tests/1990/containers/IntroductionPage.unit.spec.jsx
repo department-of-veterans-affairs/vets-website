@@ -58,14 +58,17 @@ describe('Edu 1990 <IntroductionPage>', () => {
     expect(wrapper.exists('#wizardOptions')).to.equal(true);
     wrapper.unmount();
   });
-  it('should display the 1990 subway map when the correct radio button selection are made', () => {
+  it('should display the 1990 subway map when the correct radio button selections are made', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
       educationBenefitSelected: '1990',
-      wizardCompletionStatus: 'complete',
+      wizardCompletionStatus: 'awaiting click on apply button',
     });
+    const applyNowLink = wrapper.find('#apply-now-link');
+    expect(applyNowLink.prop('href')).to.include('1990');
+    applyNowLink.simulate('click', { preventDefault: () => {} });
     expect(wrapper.exists('.subway-map')).to.equal(true);
     expect(wrapper.exists('.wizard-container')).to.equal(false);
     wrapper.unmount();
@@ -76,7 +79,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
       educationBenefitSelected: '0994',
-      wizardCompletionStatus: 'complete',
+      wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
     expect(wrapper.exists('.wizard-container')).to.equal(true);
@@ -89,7 +92,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
       educationBenefitSelected: '1995',
-      wizardCompletionStatus: 'complete',
+      wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
     expect(wrapper.exists('.wizard-container')).to.equal(true);
@@ -102,7 +105,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
       educationBenefitSelected: '5495',
-      wizardCompletionStatus: 'complete',
+      wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
     expect(wrapper.exists('.wizard-container')).to.equal(true);
@@ -115,7 +118,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
       educationBenefitSelected: '5490',
-      wizardCompletionStatus: 'complete',
+      wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
     expect(wrapper.exists('.wizard-container')).to.equal(true);
@@ -128,7 +131,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
       educationBenefitSelected: '1990E',
-      wizardCompletionStatus: 'complete',
+      wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
     expect(wrapper.exists('.wizard-container')).to.equal(true);
@@ -141,7 +144,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
       educationBenefitSelected: '1990N',
-      wizardCompletionStatus: 'complete',
+      wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
     expect(wrapper.exists('.wizard-container')).to.equal(true);
@@ -154,7 +157,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
       educationBenefitSelected: '10203',
-      wizardCompletionStatus: 'complete',
+      wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
     expect(wrapper.exists('.wizard-container')).to.equal(true);
