@@ -194,7 +194,7 @@ export class IntroductionPage extends React.Component {
   };
   /**
    *
-   * @param {string} value a string value to determine whether the wizard is in a complete status
+   * @param {string} value the wizard's completion status
    */
 
   setWizardCompletionStatus = value => {
@@ -206,7 +206,7 @@ export class IntroductionPage extends React.Component {
 
   /**
    *
-   * @param {string} formId a string value of the form id of the selected education benefit
+   * @param {string} formId the form id of the selected education benefit
    */
 
   setEduBenefitFormSelected = formId => {
