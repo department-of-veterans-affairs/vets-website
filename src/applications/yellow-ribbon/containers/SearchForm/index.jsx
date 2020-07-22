@@ -1,7 +1,6 @@
 // Dependencies.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import 'url-search-params-polyfill';
 import classNames from 'classnames';
 import map from 'lodash/map';
 import { connect } from 'react-redux';

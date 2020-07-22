@@ -5,7 +5,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import 'url-search-params-polyfill';
 import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';

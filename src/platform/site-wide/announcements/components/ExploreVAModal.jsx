@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import 'url-search-params-polyfill';
 
 const EXPLORE_VA = 'explore.va.gov';
 

@@ -1,5 +1,3 @@
-import 'url-search-params-polyfill';
-
 export default function keepAlive() {
   const params = new URLSearchParams(window.location.search);
   return Promise.resolve({
