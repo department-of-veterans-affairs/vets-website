@@ -17,6 +17,7 @@ export default function AccessToCare({ location }) {
   }
 
   const healthFeedbackAttrs = location.attributes.feedback.health;
+  const { effectiveDate } = location.attributes.access; // V1
 
   if (!healthFeedbackAttrs) {
     return null;
@@ -55,8 +56,8 @@ export default function AccessToCare({ location }) {
         <p>
           Current as of{' '}
           <strong>
-            {moment(healthFeedbackAttrs.effectiveDate, 'YYYY-MM-DD').format(
-              'MMMM Do, YYYY',
+            {moment(effectiveDate || healthFeedbackAttrs.effectiveDate).format(
+              'YYYY-MM-DD',
             )}
           </strong>
         </p>
