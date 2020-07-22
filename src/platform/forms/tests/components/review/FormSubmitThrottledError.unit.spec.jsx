@@ -74,7 +74,7 @@ describe('FormSubmitThrottledError component', () => {
     const form = createForm({
       submission: {
         extra: new Date(Date.UTC()),
-      }
+      },
     });
     const formConfig = createFormConfig();
     const goBack = sinon.spy();
@@ -102,7 +102,7 @@ describe('FormSubmitThrottledError component', () => {
     const form = createForm({
       submission: {
         extra: new Date(Date.UTC()),
-      }
+      },
     });
     const formConfig = createFormConfig();
     const goBack = sinon.spy();
@@ -133,7 +133,7 @@ describe('FormSubmitThrottledError component', () => {
     const form = createForm({
       submission: {
         extra: new Date(Date.UTC()),
-      }
+      },
     });
     const formConfig = createFormConfig();
     const goBack = sinon.spy();
