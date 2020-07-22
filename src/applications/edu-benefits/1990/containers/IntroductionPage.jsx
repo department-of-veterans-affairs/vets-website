@@ -9,16 +9,31 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import classNames from 'classnames';
 import _ from 'lodash/fp';
-import manifest from '../manifest.json';
-import environment from 'platform/utilities/environment';
+
+const NO_EDU_BENEFIT_REFERRED = 'no education benefit was referred';
+const WIZARD_STATUS_NOT_STARTED = 'not started';
+const WIZARD_STATUS_APPLY_NOW = 'awaiting click on apply button';
+const WIZARD_STATUS_IN_PROGRESS = 'in progress';
+const WIZARD_STATUS_UPDATING = 'updating';
+const WIZARD_STATUS_COMPLETE = 'complete';
+const FORM_ID_1990 = '1990';
+const FORM_ID_10203 = '10203';
+const FORM_ID_1995 = '1995';
+const FORM_ID_0994 = '0994';
+const FORM_ID_5495 = '5495';
+const FORM_ID_5490 = '5490';
+const FORM_ID_1990E = '1990E';
+const FORM_ID_1990N = '1990N';
 
 export class IntroductionPage extends React.Component {
   state = {
     open: false,
-    educationBenefitSelected:
-      sessionStorage.getItem('educationBenefitSelected') || 'none selected',
+    educationBenefitReferred:
+      sessionStorage.getItem('educationBenefitReferred') ||
+      NO_EDU_BENEFIT_REFERRED,
     wizardCompletionStatus:
-      sessionStorage.getItem('EduWizardStatus') || 'not complete',
+      sessionStorage.getItem('educationWizardStatus') ||
+      WIZARD_STATUS_NOT_STARTED,
     newBenefit: null,
     serviceBenefitBasedOn: null,
     transferredEduBenefits: null,
@@ -45,66 +60,66 @@ export class IntroductionPage extends React.Component {
       wizardCompletionStatus,
     } = this.state;
     const { showSTEMScholarship } = this.props;
-    const form1995 = showSTEMScholarship ? '10203' : '1995';
-    if (wizardCompletionStatus === 'pending') {
+    const form1995 = showSTEMScholarship ? FORM_ID_10203 : FORM_ID_1995;
+    if (wizardCompletionStatus === WIZARD_STATUS_UPDATING) {
       if (
         newBenefit === 'yes' &&
         nationalCallToService === 'no' &&
         vetTecBenefit === 'no'
       ) {
-        this.setWizardCompletionStatus('awaiting click on apply button');
-        this.setEduBenefitFormSelected('1990');
+        this.setWizardCompletionStatus(WIZARD_STATUS_APPLY_NOW);
+        this.setEduBenefitFormSelected(FORM_ID_1990);
       } else if (
         newBenefit === 'yes' &&
         nationalCallToService === 'no' &&
         vetTecBenefit === 'yes'
       ) {
-        this.setWizardCompletionStatus('awaiting click on apply button');
-        this.setEduBenefitFormSelected('0994');
+        this.setWizardCompletionStatus(WIZARD_STATUS_APPLY_NOW);
+        this.setEduBenefitFormSelected(FORM_ID_0994);
       } else if (
         newBenefit === 'no' &&
         (transferredEduBenefits === 'transferred' ||
           transferredEduBenefits === 'own')
       ) {
-        this.setWizardCompletionStatus('awaiting click on apply button');
-        this.setEduBenefitFormSelected('1995');
+        this.setWizardCompletionStatus(WIZARD_STATUS_APPLY_NOW);
+        this.setEduBenefitFormSelected(FORM_ID_1995);
       } else if (newBenefit === 'no' && transferredEduBenefits === 'fry') {
-        this.setWizardCompletionStatus('awaiting click on apply button');
-        this.setEduBenefitFormSelected('5495');
+        this.setWizardCompletionStatus(WIZARD_STATUS_APPLY_NOW);
+        this.setEduBenefitFormSelected(FORM_ID_5495);
       } else if (
         newBenefit === 'yes' &&
         serviceBenefitBasedOn === 'other' &&
         sponsorDeceasedDisabledMIA === 'yes'
       ) {
-        this.setWizardCompletionStatus('awaiting click on apply button');
-        this.setEduBenefitFormSelected('5490');
+        this.setWizardCompletionStatus(WIZARD_STATUS_APPLY_NOW);
+        this.setEduBenefitFormSelected(FORM_ID_5490);
       } else if (
         newBenefit === 'yes' &&
         serviceBenefitBasedOn === 'other' &&
         sponsorDeceasedDisabledMIA === 'no' &&
         sponsorTransferredBenefits !== null
       ) {
-        this.setWizardCompletionStatus('awaiting click on apply button');
-        this.setEduBenefitFormSelected('1990E');
+        this.setWizardCompletionStatus(WIZARD_STATUS_APPLY_NOW);
+        this.setEduBenefitFormSelected(FORM_ID_1990E);
       } else if (newBenefit === 'yes' && nationalCallToService === 'yes') {
-        this.setWizardCompletionStatus('awaiting click on apply button');
-        this.setEduBenefitFormSelected('1990N');
+        this.setWizardCompletionStatus(WIZARD_STATUS_APPLY_NOW);
+        this.setEduBenefitFormSelected(FORM_ID_1990N);
       } else if (applyForScholarship === 'yes') {
-        this.setWizardCompletionStatus('awaiting click on apply button');
+        this.setWizardCompletionStatus(WIZARD_STATUS_APPLY_NOW);
         this.setEduBenefitFormSelected(form1995);
       } else if (applyForScholarship === 'no' && newBenefit === 'extend') {
-        this.setWizardCompletionStatus('awaiting click on apply button');
-        this.setEduBenefitFormSelected('none selected');
+        this.setWizardCompletionStatus(WIZARD_STATUS_APPLY_NOW);
+        this.setEduBenefitFormSelected(NO_EDU_BENEFIT_REFERRED);
       } else {
-        this.setWizardCompletionStatus('not complete');
-        this.setEduBenefitFormSelected('none selected');
+        this.setWizardCompletionStatus(WIZARD_STATUS_IN_PROGRESS);
+        this.setEduBenefitFormSelected(NO_EDU_BENEFIT_REFERRED);
       }
     }
   }
 
   getButton(formId) {
     const url =
-      formId === '0994'
+      formId === FORM_ID_0994
         ? `/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994`
         : `/education/apply-for-education-benefits/application/${formId}`;
 
@@ -114,7 +129,7 @@ export class IntroductionPage extends React.Component {
         href={url}
         className="usa-button va-button-primary"
         onClick={e => {
-          if (formId === '1990') {
+          if (formId === FORM_ID_1990) {
             e.preventDefault();
           }
           this.recordWizardValues();
@@ -129,7 +144,7 @@ export class IntroductionPage extends React.Component {
   answerQuestion = (field, answer) => {
     const newState = Object.assign(
       {},
-      { [field]: answer, wizardCompletionStatus: 'pending' },
+      { [field]: answer, wizardCompletionStatus: WIZARD_STATUS_UPDATING },
     );
     if (field === 'newBenefit') {
       recordEvent({
@@ -204,9 +219,9 @@ export class IntroductionPage extends React.Component {
    */
 
   setWizardCompletionStatus = value => {
-    sessionStorage.setItem('EduWizardStatus', value);
+    sessionStorage.setItem('educationWizardStatus', value);
     this.setState({
-      wizardCompletionStatus: sessionStorage.getItem('EduWizardStatus'),
+      wizardCompletionStatus: sessionStorage.getItem('educationWizardStatus'),
     });
   };
 
@@ -216,10 +231,10 @@ export class IntroductionPage extends React.Component {
    */
 
   setEduBenefitFormSelected = formId => {
-    sessionStorage.setItem('educationBenefitSelected', formId);
+    sessionStorage.setItem('educationBenefitReferred', formId);
     this.setState({
-      educationBenefitSelected: sessionStorage.getItem(
-        'educationBenefitSelected',
+      educationBenefitReferred: sessionStorage.getItem(
+        'educationBenefitReferred',
       ),
     });
   };
@@ -236,7 +251,7 @@ export class IntroductionPage extends React.Component {
       applyForScholarship,
       open,
       wizardCompletionStatus,
-      educationBenefitSelected,
+      educationBenefitReferred,
     } = this.state;
 
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
@@ -558,8 +573,8 @@ export class IntroductionPage extends React.Component {
                       </div>
                     </div>
                   )}
-                  {educationBenefitSelected !== 'none selected' &&
-                    this.getButton(educationBenefitSelected)}
+                  {educationBenefitReferred !== NO_EDU_BENEFIT_REFERRED &&
+                    this.getButton(educationBenefitReferred)}
                 </div>
               </div>
             )}
@@ -574,16 +589,16 @@ export class IntroductionPage extends React.Component {
               className="vads-u-display--inline-block vads-u-margin-bottom--3"
               onClick={e => {
                 e.preventDefault();
-                this.setEduBenefitFormSelected('1990');
-                this.setWizardCompletionStatus('complete');
+                this.setEduBenefitFormSelected(FORM_ID_1990);
+                this.setWizardCompletionStatus(WIZARD_STATUS_COMPLETE);
               }}
             >
               If you know VA Form 22-1990 is right, apply now
             </a>
           </div>
         )}
-        {educationBenefitSelected === '1990' &&
-          wizardCompletionStatus === 'complete' && (
+        {educationBenefitReferred === FORM_ID_1990 &&
+          wizardCompletionStatus === WIZARD_STATUS_COMPLETE && (
             <div className="subway-map">
               <SaveInProgressIntro
                 prefillEnabled={this.props.route.formConfig.prefillEnabled}

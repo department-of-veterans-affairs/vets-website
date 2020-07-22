@@ -63,7 +63,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
-      educationBenefitSelected: '1990',
+      educationBenefitReferred: '1990',
       wizardCompletionStatus: 'awaiting click on apply button',
     });
     const applyNowLink = wrapper.find('#apply-now-link');
@@ -78,7 +78,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
-      educationBenefitSelected: '0994',
+      educationBenefitReferred: '0994',
       wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
@@ -91,7 +91,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
-      educationBenefitSelected: '1995',
+      educationBenefitReferred: '1995',
       wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
@@ -104,7 +104,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
-      educationBenefitSelected: '5495',
+      educationBenefitReferred: '5495',
       wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
@@ -117,7 +117,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
-      educationBenefitSelected: '5490',
+      educationBenefitReferred: '5490',
       wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
@@ -130,7 +130,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
-      educationBenefitSelected: '1990E',
+      educationBenefitReferred: '1990E',
       wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
@@ -143,7 +143,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
-      educationBenefitSelected: '1990N',
+      educationBenefitReferred: '1990N',
       wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
@@ -156,7 +156,7 @@ describe('Edu 1990 <IntroductionPage>', () => {
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     instance.setState({
-      educationBenefitSelected: '10203',
+      educationBenefitReferred: '10203',
       wizardCompletionStatus: 'awaiting click on apply button',
     });
     expect(wrapper.exists('.subway-map')).to.equal(false);
