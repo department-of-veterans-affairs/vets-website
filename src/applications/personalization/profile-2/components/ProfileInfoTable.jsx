@@ -56,18 +56,18 @@ const ProfileInfoTable = ({
     'width--full',
   ]);
 
-
   const tableRowValueClassesMedium = prefixUtilityClasses(
     ['padding-left--5'],
     'medium',
   );
 
-  const dataContainsVerified = data.some(row => row.verified === true)
+  const dataContainsVerified = data.some(row => row.verified === true);
 
   // When a table includes a 'Verified' checkmark in any of its rows, we need to add left padding to its values
   // so that the data lines up correctly
-  const computedTableRowValueClasses = dataContainsVerified ?
-    [...tableRowValueClasses, ...tableRowValueClassesMedium].join(' ') : [...tableRowValueClasses].join(' ');
+  const computedTableRowValueClasses = dataContainsVerified
+    ? [...tableRowValueClasses, ...tableRowValueClassesMedium].join(' ')
+    : [...tableRowValueClasses].join(' ');
 
   // an object where each value is a string of space-separated class names that
   // can be passed directly to a `className` attribute
@@ -103,9 +103,10 @@ const ProfileInfoTable = ({
               {row.verified && row.value}
 
               {!row.verified && (
-                <span className={computedTableRowValueClasses}>{row.value}</span>
+                <span className={computedTableRowValueClasses}>
+                  {row.value}
+                </span>
               )}
-
             </li>
           ))}
       </ol>

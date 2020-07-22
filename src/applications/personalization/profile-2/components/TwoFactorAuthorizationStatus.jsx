@@ -7,7 +7,12 @@ import Verified from './Verified';
 
 const TwoFactorAuthorizationStatus = ({ isMultifactorEnabled, useSSOe }) => {
   if (isMultifactorEnabled) {
-    return <Verified>You’ve added an extra layer of security to your account with 2-factor authentication.</Verified>
+    return (
+      <Verified>
+        You’ve added an extra layer of security to your account with 2-factor
+        authentication.
+      </Verified>
+    );
   }
 
   const mfaHandler = useSSO => {
