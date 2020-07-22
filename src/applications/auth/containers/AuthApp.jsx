@@ -133,9 +133,10 @@ export class AuthApp extends React.Component {
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
-    const postAuthUrl = !environment.isProduction()
-      ? appendQuery(returnUrl, 'postLogin=true')
-      : returnUrl;
+    const postAuthUrl =
+      returnUrl && !environment.isProduction()
+        ? appendQuery(returnUrl, 'postLogin=true')
+        : returnUrl;
 
     const redirectUrl =
       (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
