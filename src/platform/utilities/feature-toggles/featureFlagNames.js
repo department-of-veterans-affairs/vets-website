@@ -35,4 +35,5 @@ export default Object.freeze({
   form996HigherLevelReview: 'form996HigherLevelReview',
   gibctFilterEnhancement: 'gibctFilterEnhancement',
   gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
+  debtLettersShowLetters: 'debt_letters_show_letters',
 });
