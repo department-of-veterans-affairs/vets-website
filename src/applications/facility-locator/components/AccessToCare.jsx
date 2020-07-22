@@ -17,7 +17,7 @@ export default function AccessToCare({ location }) {
   }
 
   const healthFeedbackAttrs = location.attributes.feedback.health;
-  const { effectiveDate } = location.attributes.access; // V1
+  const { effectiveDate } = location.attributes.feedback; // V1
 
   if (!healthFeedbackAttrs) {
     return null;
