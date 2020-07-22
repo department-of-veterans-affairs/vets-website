@@ -1,21 +1,11 @@
 import { Pact, Matchers } from '@pact-foundation/pact';
 import { expect } from 'chai';
 
+import contractTest from 'platform/testing/contract';
 import environment from 'platform/utilities/environment';
 
-describe('HCA API', () => {
+contractTest('HCA', 'VA.gov API', mockApi => {
   const { like, iso8601DateTimeWithMillis } = Matchers;
-
-  const provider = new Pact({
-    port: 3000,
-    consumer: 'HCA',
-    provider: 'VA.gov API',
-    spec: 2,
-  });
-
-  before(() => provider.setup());
-  after(() => provider.finalize());
-  afterEach(() => provider.verify());
 
   const PAYLOAD = {
     asyncCompatible: true,
@@ -87,9 +77,7 @@ describe('HCA API', () => {
 
   describe('POST /health_care_applications', () => {
     it('without attachments responds with success', async () => {
-      await provider.addInteraction(
-        interactions.SUBMISSION_WITHOUT_ATTACHMENTS,
-      );
+      await mockApi.addInteraction(interactions.SUBMISSION_WITHOUT_ATTACHMENTS);
 
       const response = await fetch(
         `${environment.API_URL}/v0/health_care_applications`,
