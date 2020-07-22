@@ -17,11 +17,11 @@ import ProgressButton from 'platform/forms-system/src/js/components/ProgressButt
 import { timeFromNow } from 'platform/utilities/date';
 
 function FormSubmitThrottledError(props) {
-  const { formConfig, formSubmission, goBack, onSubmit } = props;
+  const { formConfig, formSubmission, goBack, onSubmit, testId } = props;
 
   return (
     <>
-      <Row>
+      <Row testId={testId}>
         <Column>
           <ErrorMessage
             active
