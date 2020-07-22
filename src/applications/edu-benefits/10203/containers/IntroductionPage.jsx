@@ -117,9 +117,8 @@ export class IntroductionPage extends React.Component {
                   <li>
                     <b>STEM degree:</b> You're enrolled in a bachelor’s degree
                     program for science, technology, engineering, or math
-                    (STEM), <b>or</b>
-                    have already earned a STEM bachelor’s degree and are
-                    pursuing a teaching certification.{' '}
+                    (STEM), <b>or</b> have already earned a STEM bachelor’s
+                    degree and are pursuing a teaching certification.{' '}
                     <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
                       See eligible programs
                     </a>
