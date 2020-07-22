@@ -1,6 +1,8 @@
 import React from 'react';
+import { Router, Route } from 'react-router';
 import { expect } from 'chai';
 import moment from 'moment';
+import { createMemoryHistory } from 'history';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
 import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
@@ -14,6 +16,7 @@ import { mockAppointmentInfo } from '../mocks/helpers';
 
 import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
+import AppointmentsPage from '../../containers/AppointmentsPage';
 
 const initialState = {
   featureToggles: {
@@ -176,5 +179,89 @@ describe('VAOS integration: appointment list', () => {
 
     expect(baseElement.querySelector('.usa-alert-error')).to.be.ok;
     expect(baseElement).not.to.contain.text('You don’t have any appointments');
+  });
+
+  // This will change to only show when EC is available
+  it('should show express care button and tab when flag is on', async () => {
+    mockAppointmentInfo({});
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+      },
+    };
+    const memoryHistory = createMemoryHistory();
+
+    // Mocking a route here so that components using withRouter don't fail
+    const {
+      findAllByText,
+      baseElement,
+      getAllByRole,
+      getByText,
+    } = renderInReduxProvider(
+      <Router history={memoryHistory}>
+        <Route path="/" component={AppointmentsPage} />
+      </Router>,
+      {
+        initialState: initialStateWithExpressCare,
+        reducers,
+      },
+    );
+
+    const [header, button] = await findAllByText(
+      'Request an Express Care screening',
+    );
+
+    expect(baseElement).to.contain.text(
+      'You’ll receive a phone screening between',
+    );
+    expect(header).to.have.tagName('h2');
+    expect(button).to.have.attribute(
+      'href',
+      'https://veteran.apps-staging.va.gov/var/v4/#new-express-request',
+    );
+    expect(getAllByRole('tab').length).to.equal(3);
+    expect(getByText('Upcoming')).to.have.attribute('role', 'tab');
+    expect(getByText('Past')).to.have.attribute('role', 'tab');
+    expect(getByText('Express Care')).to.have.attribute('role', 'tab');
+    expect(
+      getByText(/View your upcoming, past, and Express Care appointments/i),
+    ).to.have.tagName('h2');
+  });
+
+  it('should not show express care action or tab when flag is off', async () => {
+    mockAppointmentInfo({});
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: false,
+      },
+    };
+    const memoryHistory = createMemoryHistory();
+
+    // Mocking a route here so that components using withRouter don't fail
+    const {
+      findByText,
+      queryByText,
+      getAllByRole,
+      getByText,
+    } = renderInReduxProvider(
+      <Router history={memoryHistory}>
+        <Route path="/" component={AppointmentsPage} />
+      </Router>,
+      {
+        initialState: initialStateWithExpressCare,
+        reducers,
+      },
+    );
+
+    await findByText('Create a new appointment');
+    expect(queryByText(/request an express care screening/i)).to.not.be.ok;
+    expect(getAllByRole('tab').length).to.equal(2);
+    expect(getByText('Upcoming appointments')).to.have.attribute('role', 'tab');
+    expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
+    expect(
+      queryByText(/View your upcoming, past, and Express Care appointments/i),
+    ).not.to.exist;
   });
 });

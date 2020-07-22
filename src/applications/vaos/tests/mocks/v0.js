@@ -200,3 +200,70 @@ export function getCancelReasonMock() {
     },
   };
 }
+
+export function getParentSiteMock() {
+  return {
+    id: 'fake',
+    type: 'facility',
+    attributes: {
+      institutionCode: 'fake',
+      city: 'fake',
+      stateAbbrev: 'FK',
+      authoritativeName: 'fake',
+      rootStationCode: 'fake',
+      adminParent: true,
+      parentStationCode: 'fake',
+    },
+  };
+}
+
+export function getFacilityMock() {
+  return {
+    id: 'fake',
+    type: 'direct_scheduling_facility',
+    attributes: {
+      institutionCode: 'fake',
+      city: 'fake',
+      stateAbbrev: 'FK',
+      authoritativeName: 'fake',
+      rootStationCode: 'fake',
+      adminParent: true,
+      parentStationCode: 'fake',
+      requestSupported: false,
+      directSchedulingSupported: false,
+      expressTimes: null,
+      institutionTimezone: 'fake',
+    },
+  };
+}
+
+export function getClinicMock() {
+  return {
+    id: 'fake',
+    type: 'clinic',
+    attributes: {
+      siteCode: 'fake',
+      clinicId: 'fake',
+      clinicName: 'Fake name',
+      clinicFriendlyLocationName: 'Fake friendly name',
+      primaryStopCode: 'fake',
+      secondaryStopCode: '',
+      directSchedulingFlag: 'Y',
+      displayToPatientFlag: 'Y',
+      institutionName: 'Fake inst name',
+      institutionCode: 'fake',
+      objectType: 'CdwClinic',
+      link: [],
+    },
+  };
+}
+
+export function getAppointmentSlotMock() {
+  return {
+    startDateTime: 'fake',
+    endDateTime: 'fake',
+    bookingStatus: '1',
+    remainingAllowedOverBookings: '3',
+    availability: true,
+  };
+}

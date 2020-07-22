@@ -1,47 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LocationType } from '../../constants';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import { LocationType, CLINIC_URGENTCARE_SERVICE } from '../../constants';
+import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
-const renderPhoneNumber = (
-  title,
-  subTitle = null,
-  phone,
-  icon = 'fw',
-  altPhone,
-  from,
-  isCCProvider,
-) => {
+const renderPhoneNumber = (title, subTitle = null, phone, from) => {
   if (!phone) {
     return null;
   }
 
-  const re = /^(\d{3})[ -]?(\d{3})[ -]?(\d{4})[ ]?(x?)[ ]?(\d*)/;
+  const { formattedPhoneNumber, extension, contact } = parsePhoneNumber(phone);
+
+  // The Telephone component will throw an error if passed an invalid phone number.
+  // Since we can't use try/catch or componentDidCatch here, we'll just do this:
+  if (contact.length !== 10) {
+    return null;
+  }
 
   return (
     <div>
-      {from === 'FacilityDetail' && <i className={`fa fa-${icon}`} />}
+      {from === 'FacilityDetail' && (
+        <i aria-hidden="true" role="presentation" className="fa fa-phone" />
+      )}
       {title && <strong>{title}: </strong>}
-      {!isCCProvider && phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
-      <br />
-      {from === 'FacilityDetail' && <i className="fa fa-fw" />}
       {subTitle}
-      {isCCProvider &&
-        ` ${phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}`}
-      {from === 'FacilityDetail' ? (
-        <a
-          href={`tel:${phone.replace(/[ ]?x/, '')}`}
-          className={altPhone && 'facility-phone-alt'}
-        >
-          {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
-        </a>
-      ) : null}
+      <Telephone
+        className={
+          subTitle ? 'vads-u-margin-left--0p5' : 'vads-u-margin-left--0p25'
+        }
+        contact={contact}
+        extension={extension}
+      >
+        {formattedPhoneNumber}
+      </Telephone>
     </div>
   );
 };
 
 const LocationPhoneLink = ({ location, from, query }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
-  const isCCProvider = query && query.facilityType === LocationType.CC_PROVIDER;
+  const isCCProvider =
+    query &&
+    query.facilityType === LocationType.CC_PROVIDER &&
+    query.serviceType !== CLINIC_URGENTCARE_SERVICE;
   if (isProvider) {
     const { caresitePhone: phone } = location.attributes;
     return (
@@ -50,10 +51,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
           isCCProvider ? 'If you have a referral' : null,
           isCCProvider ? 'Call this facility at' : null,
           phone,
-          'phone',
           true,
-          undefined,
-          isCCProvider,
         )}
         {isCCProvider && (
           <p>
@@ -68,21 +66,16 @@ const LocationPhoneLink = ({ location, from, query }) => {
     attributes: { phone },
   } = location;
   return (
-    <div>
-      {renderPhoneNumber('Main Number', null, phone.main, 'phone', null, from)}
-      {renderPhoneNumber(
-        'Mental Health',
-        null,
-        phone.mentalHealthClinic,
-        null,
-        from,
-      )}
+    <div className="facility-phone-group">
+      {renderPhoneNumber('Main number', null, phone.main, from)}
+      {renderPhoneNumber('Mental health', null, phone.mentalHealthClinic, from)}
     </div>
   );
 };
 
 LocationPhoneLink.propTypes = {
   location: PropTypes.object,
+  from: PropTypes.string,
 };
 
 export default LocationPhoneLink;

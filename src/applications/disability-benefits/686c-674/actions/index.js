@@ -1,5 +1,6 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { getData, isServerError, isClientError } from '../util';
+import * as Sentry from '@sentry/browser';
 
 export const VERIFY_VA_FILE_NUMBER_STARTED = 'VERIFY_VA_FILE_NUMBER_STARTED';
 export const VERIFY_VA_FILE_NUMBER_SUCCEEDED =
@@ -18,12 +19,14 @@ export const verifyVaFileNumber = () => async dispatch => {
     // TODO: fire off analytics event when endpoint is wired up.
     //   const errCode = res.errors[0].code;
     //   isServerError(errCode) ? recordEvent({}) : recordEvent({})
+    Sentry.captureMessage('disability-file-number-gate-failed');
     recordEvent({
       event: 'disability-file-number-gate-failed',
       'error-key': `${response.errors[0].code}_error_description`,
     });
     dispatch({ type: VERIFY_VA_FILE_NUMBER_FAILED, response });
   } else {
+    Sentry.captureMessage('disability-file-number-gate-successful');
     recordEvent({
       event: 'disability-file-number-gate-successful',
     });

@@ -4,8 +4,9 @@ import { checkKeepAlive } from 'platform/user/authentication/actions';
 import {
   ssoeInbound,
   hasCheckedKeepAlive,
+  isAuthenticatedWithSSOe,
 } from 'platform/user/authentication/selectors';
-import { hasSession } from 'platform/user/profile/utilities';
+import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 import { checkAutoSession } from 'platform/utilities/sso';
 import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
@@ -13,16 +14,28 @@ function AutoSSO(props) {
   const {
     useInboundSSOe,
     hasCalledKeepAlive,
-    application = null,
-    to = null,
+    authenticatedWithSSOe,
+    loggedIn,
+    profileLoading,
   } = props;
 
-  if (hasSession()) {
+  if (loggedIn) {
     removeLoginAttempted();
   }
 
-  if (useInboundSSOe && !hasCalledKeepAlive) {
-    checkAutoSession(application, to).then(() => {
+  const badPaths = ['auth/login/callback', 'logout'];
+  const isValidPath = !badPaths.some(path =>
+    window.location.pathname.includes(path),
+  );
+
+  if (
+    // avoid race condition where hasSession hasn't been set
+    isValidPath &&
+    useInboundSSOe &&
+    !profileLoading &&
+    !hasCalledKeepAlive
+  ) {
+    checkAutoSession(loggedIn, authenticatedWithSSOe).then(() => {
       props.checkKeepAlive();
     });
   }
@@ -31,8 +44,11 @@ function AutoSSO(props) {
 }
 
 const mapStateToProps = state => ({
-  useInboundSSOe: ssoeInbound(state),
+  authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
+  profileLoading: isProfileLoading(state),
+  loggedIn: isLoggedIn(state),
+  useInboundSSOe: ssoeInbound(state),
 });
 
 const mapDispatchToProps = {

@@ -60,8 +60,11 @@ const VerificationRequiredAlert = () => (
           </li>
           <li>
             Or call us at <a href="tel:+18772228387">877-222-8387</a>. If you
-            have hearing loss, call TTY: 800-877-8339. We’re here Monday through
-            Friday, 8:00 a.m. to 8:00 p.m. ET.
+            have hearing loss, call TTY:{' '}
+            <a href="tel:8008778339" aria-label="8 0 0. 8 7 7. 8 3 3 9.">
+              800-877-8339
+            </a>
+            . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </li>
         </ul>
         <p>

@@ -8,7 +8,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants.js';
 import recordEvent from 'platform/monitoring/record-event';
 
 import hcaManifest from 'applications/hca/manifest.json';
-import dependentStatusManifest from 'applications/disability-benefits/686/manifest.json';
+import dependentStatusManifest from 'applications/disability-benefits/686c-674/manifest.json';
 import feedbackManifest from 'applications/edu-benefits/feedback-tool/manifest.json';
 import burialsManifest from 'applications/burials/manifest.json';
 import edu1990Manifest from 'applications/edu-benefits/1990/manifest.json';
@@ -27,7 +27,7 @@ import hlrManifest from 'applications/disability-benefits/996/manifest.json';
 import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 
 import hcaConfig from 'applications/hca/config/form.js';
-import dependentStatusConfig from 'applications/disability-benefits/686/config/form';
+import dependentStatusConfig from 'applications/disability-benefits/686c-674/config/form';
 import feedbackConfig from 'applications/edu-benefits/feedback-tool/config/form.js';
 import burialsConfig from 'applications/burials/config/form.js';
 import edu1990Config from 'applications/edu-benefits/1990/config/form.js';
@@ -40,7 +40,7 @@ import edu0993Config from 'applications/edu-benefits/0993/config/form.js';
 import edu0994Config from 'applications/edu-benefits/0994/config/form.js';
 import preneedConfig from 'applications/pre-need/config/form.jsx';
 import pensionConfig from 'applications/pensions/config/form.js';
-import disability526Config from 'applications/disability-benefits/526EZ/config/form.js';
+import disability526Config from 'applications/disability-benefits/all-claims/config/form.js';
 import bddConfig from 'applications/disability-benefits/bdd/config/form.js';
 import hlrConfig from 'applications/disability-benefits/996/config/form';
 import mdotConfig from 'applications/disability-benefits/2346/config/form';
@@ -85,8 +85,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
-  [VA_FORM_IDS.FORM_VA_2346A]:
-    'order for hearing aid batteries and accessories',
+  [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
@@ -162,7 +161,7 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_40_10007]: 'preneed-',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
   [VA_FORM_IDS.FORM_21_686C]: '686-',
-  [VA_FORM_IDS.FORM_20_0996]: 'hlr-0996-',
+  [VA_FORM_IDS.FORM_20_0996]: 'decision-reviews-va20-0996-',
   [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
 };
 

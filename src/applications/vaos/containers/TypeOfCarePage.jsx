@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
 import TypeOfCareUnavailableModal from '../components/TypeOfCareUnavailableModal';
+import UpdateAddressAlert from '../components/UpdateAddressAlert';
 import {
   openTypeOfCarePage,
   updateFormData,
@@ -13,6 +13,7 @@ import {
   routeToPreviousAppointmentPage,
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
+  clickUpdateAddressButton,
 } from '../actions/newAppointment.js';
 import {
   getFormPageInfo,
@@ -20,7 +21,10 @@ import {
   vaosDirectScheduling,
 } from '../utils/selectors';
 
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
+import {
+  selectIsCernerOnlyPatient,
+  selectVet360ResidentialAddress,
+} from 'platform/user/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -49,6 +53,10 @@ export class TypeOfCarePage extends React.Component {
     scrollAndFocus();
   }
 
+  hideAlert = () => {
+    this.props.clickUpdateAddressButton();
+  };
+
   onChange = newData => {
     // When someone chooses a type of care that can be direct scheduled,
     // kick off the past appointments fetch, which takes a while
@@ -75,6 +83,8 @@ export class TypeOfCarePage extends React.Component {
       data,
       pageChangeInProgress,
       showToCUnavailableModal,
+      addressLine1,
+      hideUpdateAddressAlert,
     } = this.props;
 
     if (!schema) {
@@ -84,6 +94,12 @@ export class TypeOfCarePage extends React.Component {
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+        <UpdateAddressAlert
+          address={addressLine1}
+          showAlert={!hideUpdateAddressAlert}
+          onHide={this.hideAlert}
+        />
+
         <SchemaForm
           name="Type of care"
           title="Type of care"
@@ -112,11 +128,14 @@ export class TypeOfCarePage extends React.Component {
 function mapStateToProps(state) {
   const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
+  const address = selectVet360ResidentialAddress(state);
   return {
     ...formInfo,
+    ...address,
     showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showDirectScheduling: vaosDirectScheduling(state),
+    hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
   };
 }
 
@@ -127,6 +146,7 @@ const mapDispatchToProps = {
   routeToPreviousAppointmentPage,
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
+  clickUpdateAddressButton,
 };
 
 export default connect(

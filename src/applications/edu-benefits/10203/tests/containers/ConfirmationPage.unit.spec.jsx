@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { shallow } from 'enzyme';
 
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
 
@@ -21,37 +21,33 @@ const form = {
 
 describe('<ConfirmationPage>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
+    const tree = shallow(<ConfirmationPage form={form} />);
 
-    expect(tree.subTree('.confirmation-page-title').text()).to.equal(
-      'Claim received',
+    expect(tree.find('.confirmation-page-title').text()).to.equal(
+      "We've received your application.",
     );
     expect(
       tree
-        .everySubTree('span')[1]
+        .find('span')
+        .at(2)
         .text()
         .trim(),
     ).to.equal('for Jane Doe');
-    expect(tree.everySubTree('p')[0].text()).to.contain(
-      'We usually process claims within 30 days.',
-    );
-    expect(tree.everySubTree('p')[1].text()).to.contain(
-      'We may contact you for more information or documents.Please print this page for your records',
+    expect(
+      tree
+        .find('p')
+        .at(0)
+        .text(),
+    ).to.contain(
+      'We usually process claims within 30 days.We may contact you for more information or documents.',
     );
     expect(
-      tree.everySubTree('.confirmation-guidance-message')[0].text(),
+      tree
+        .find('.confirmation-guidance-message')
+        .at(0)
+        .text(),
     ).to.contain('Find out what happens after you apply');
-  });
 
-  it('should expand documents', () => {
-    const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
-
-    // Check to see that div.usa-accordion-content doesn't exist
-    expect(tree.subTree('.usa-accordion-content')).to.be.false;
-
-    tree.getMountedInstance().toggleExpanded({ preventDefault: f => f });
-
-    // Check to see that div.usa-accordion-content exists after expanding
-    expect(tree.subTree('.usa-accordion-content')).to.be.an('object');
+    tree.unmount();
   });
 });

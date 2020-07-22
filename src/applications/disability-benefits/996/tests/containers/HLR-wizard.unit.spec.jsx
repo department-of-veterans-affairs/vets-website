@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
 import { BASE_URL } from '../../constants';
-import HLRWizard, { name } from '../../components/HLRWizard';
+import { HLRWizard, name } from '../../components/HLRWizard';
 
 const getSelected = (tree, group) => {
   // return tree.subTree(`.higher-level-review-${name}`).props.value.value;
@@ -15,7 +15,7 @@ const getSelected = (tree, group) => {
 
 describe('<HLRWizard>', () => {
   it('should show button and no questions (collapsed)', () => {
-    const tree = SkinDeep.shallowRender(<HLRWizard />);
+    const tree = SkinDeep.shallowRender(<HLRWizard testHlr />);
     const button = tree.subTree('button');
     expect(button).not.to.be.false;
     expect(button.props['aria-expanded']).to.be.false;
@@ -25,7 +25,7 @@ describe('<HLRWizard>', () => {
 
   // Claim choices
   it('should show empty claim button choices (expanded)', () => {
-    const tree = SkinDeep.shallowRender(<HLRWizard initExpanded />);
+    const tree = SkinDeep.shallowRender(<HLRWizard testHlr initExpanded />);
     const button = tree.subTree('button');
     expect(button).not.to.be.false;
     expect(button.props['aria-expanded']).not.to.be.false;
@@ -38,7 +38,7 @@ describe('<HLRWizard>', () => {
   });
   it('should show alert when "other" is chosen', () => {
     const tree = SkinDeep.shallowRender(
-      <HLRWizard initExpanded initClaimChoice={'other'} />,
+      <HLRWizard testHlr initExpanded initClaimChoice={'other'} />,
     );
     expect(tree.subTree('button')).not.to.be.false;
     expect(tree.subTree('#wizardOptions')).not.to.be.false;
@@ -50,7 +50,7 @@ describe('<HLRWizard>', () => {
 
   it('should show legacy choices when "compensation" is chosen', () => {
     const tree = SkinDeep.shallowRender(
-      <HLRWizard initExpanded initClaimChoice={'compensation'} />,
+      <HLRWizard testHlr initExpanded initClaimChoice={'compensation'} />,
     );
     expect(tree.subTree('button')).not.to.be.false;
     expect(tree.subTree('#wizardOptions')).not.to.be.false;
@@ -63,6 +63,7 @@ describe('<HLRWizard>', () => {
   it('should show alert when "other" & "yes" is chosen', () => {
     const tree = SkinDeep.shallowRender(
       <HLRWizard
+        testHlr
         initExpanded
         initClaimChoice={'compensation'}
         initLegacyChoice={'yes'}
@@ -78,6 +79,7 @@ describe('<HLRWizard>', () => {
   it('should show link to HLR when "compensation" & "no" is chosen', () => {
     const tree = SkinDeep.shallowRender(
       <HLRWizard
+        testHlr
         initExpanded
         initClaimChoice={'compensation'}
         initLegacyChoice={'no'}

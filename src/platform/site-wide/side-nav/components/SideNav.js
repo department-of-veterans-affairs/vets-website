@@ -120,7 +120,6 @@ class SideNav extends Component {
       >
         <button
           type="button"
-          aria-describedby="va-sidenav-ul-container"
           className={classNames(
             'medium-screen:vads-u-display--none',
             'va-sidenav-default-trigger',
@@ -128,7 +127,9 @@ class SideNav extends Component {
           )}
           onClick={this.toggleUlClass}
         >
-          In this section <i className="fa fa-bars" />
+          <span className="sr-only">View sub-navigation for </span>
+          In this section
+          <i className="fa fa-bars" aria-hidden="true" role="img" />
         </button>
         <ul
           id="va-sidenav-ul-container"

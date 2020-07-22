@@ -170,4 +170,42 @@ describe('<ConfirmEligibilityView>', () => {
 
     tree.unmount();
   });
+
+  it('should display invalid remaining entitlement', () => {
+    const store = createStore({
+      'view:remainingEntitlement': {
+        months: 6,
+        days: 1,
+        totalDays: 181,
+      },
+    });
+    const tree = mount(
+      <Provider store={store}>
+        <ConfirmEligibilityView {...defaultProps} />
+      </Provider>,
+    );
+
+    expect(tree.html()).to.contain('6 months, 1 days');
+
+    tree.unmount();
+  });
+
+  it('should not display valid remaining entitlement', () => {
+    const store = createStore({
+      'view:remainingEntitlement': {
+        months: 1,
+        days: 1,
+        totalDays: 31,
+      },
+    });
+    const tree = mount(
+      <Provider store={store}>
+        <ConfirmEligibilityView {...defaultProps} />
+      </Provider>,
+    );
+
+    expect(tree.html()).to.not.contain('1 months, 1 days');
+
+    tree.unmount();
+  });
 });

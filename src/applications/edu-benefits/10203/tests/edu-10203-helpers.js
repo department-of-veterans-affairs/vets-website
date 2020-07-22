@@ -2,12 +2,10 @@ const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 const completeStemSelection = client => {
   client.waitForElementVisible(
-    'label[for="root_isEdithNourseRogersScholarshipYes"',
+    'label[for="root_isEnrolledStemYes"',
     Timeouts.slow,
   );
-  client.click('input[id="root_isEdithNourseRogersScholarshipYes"]');
   client.click('input[id="root_isEnrolledStemYes"]');
-  client.click('input[id="root_view:exhaustionOfBenefitsYes"]');
 };
 
 const completeActiveDuty = client => {

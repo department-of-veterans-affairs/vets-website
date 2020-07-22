@@ -4,11 +4,12 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { bindActionCreators } from 'redux';
-import { fetchDebtLetters } from '../actions';
+import { fetchDebtLetters, fetchDebtLettersVBMS } from '../actions';
 
 class DebtLettersWrapper extends Component {
   componentDidMount() {
     this.props.fetchDebtLetters();
+    this.props.fetchDebtLettersVBMS();
   }
 
   renderError = () => (
@@ -16,13 +17,13 @@ class DebtLettersWrapper extends Component {
   );
 
   render() {
-    const { isPending, children, isError } = this.props;
+    const { isPending, isPendingVBMS, children, isError } = this.props;
     return (
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--4 vads-u-margin-top--2 vads-u-font-family--serif">
         <CallToActionWidget appId="debt-letters">
-          {isPending && <LoadingIndicator />}
+          {isPending || (isPendingVBMS && <LoadingIndicator />)}
           {isError && this.renderError()}
-          {!isPending && !isError && children}
+          {!isPending && !isPendingVBMS && !isError && children}
         </CallToActionWidget>
       </div>
     );
@@ -33,10 +34,12 @@ const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isFetching: state.debtLetters.isFetching,
   isError: state.debtLetters.isError,
+  isPending: state.debtLetters.isPending,
+  isPendingVBMS: state.debtLetters.isPendingVBMS,
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ fetchDebtLetters }, dispatch),
+  ...bindActionCreators({ fetchDebtLetters, fetchDebtLettersVBMS }, dispatch),
 });
 
 export default connect(

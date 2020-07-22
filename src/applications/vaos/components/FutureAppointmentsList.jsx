@@ -16,10 +16,11 @@ import {
   vaosCancel,
   vaosRequests,
   vaosPastAppts,
-  isWelcomeModalDismissed,
+  vaosExpressCare,
+  selectFutureAppointments,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
+import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
 import { getVAAppointmentLocationId } from '../services/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from './AppointmentRequestListItem';
@@ -27,26 +28,23 @@ import NoAppointments from './NoAppointments';
 
 export class FutureAppointmentsList extends React.Component {
   componentDidMount() {
-    if (this.props.appointments.futureStatus === FETCH_STATUS.notStarted) {
+    if (this.props.futureStatus === FETCH_STATUS.notStarted) {
       this.props.fetchFutureAppointments();
     }
   }
 
   render() {
     const {
-      appointments,
       showPastAppointments,
       showCancelButton,
       showScheduleButton,
       isCernerOnlyPatient,
-    } = this.props;
-
-    const {
       future,
       futureStatus,
       facilityData,
       requestMessages,
-    } = appointments;
+      hasExpressCareAccess,
+    } = this.props;
 
     let content;
 
@@ -83,41 +81,42 @@ export class FutureAppointmentsList extends React.Component {
           )}
           <ul className="usa-unstyled-list" id="appointments-list">
             {future.map((appt, index) => {
-              if (appt.vaos) {
-                return (
-                  <ConfirmedAppointmentListItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                    facility={
-                      facilityData[
-                        getRealFacilityId(getVAAppointmentLocationId(appt))
-                      ]
-                    }
-                    showCancelButton={showCancelButton}
-                    cancelAppointment={this.props.cancelAppointment}
-                  />
-                );
-              } else if (appt.appointmentType) {
-                return (
-                  <AppointmentRequestListItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                    facility={
-                      facilityData[
-                        `var${getRealFacilityId(appt.facility?.facilityCode)}`
-                      ]
-                    }
-                    showCancelButton={showCancelButton}
-                    cancelAppointment={this.props.cancelAppointment}
-                    fetchMessages={this.props.fetchRequestMessages}
-                    messages={requestMessages}
-                  />
-                );
-              }
+              const facilityId = getRealFacilityId(
+                getVAAppointmentLocationId(appt),
+              );
 
-              return null;
+              switch (appt.vaos?.appointmentType) {
+                case APPOINTMENT_TYPES.vaAppointment:
+                case APPOINTMENT_TYPES.ccAppointment:
+                  return (
+                    <ConfirmedAppointmentListItem
+                      key={index}
+                      index={index}
+                      appointment={appt}
+                      facility={facilityData[facilityId]}
+                      showCancelButton={showCancelButton}
+                      cancelAppointment={this.props.cancelAppointment}
+                    />
+                  );
+                case APPOINTMENT_TYPES.request:
+                case APPOINTMENT_TYPES.ccRequest: {
+                  return (
+                    <AppointmentRequestListItem
+                      key={index}
+                      index={index}
+                      appointment={appt}
+                      facility={facilityData[facilityId]}
+                      facilityId={facilityId}
+                      showCancelButton={showCancelButton}
+                      cancelAppointment={this.props.cancelAppointment}
+                      fetchMessages={this.props.fetchRequestMessages}
+                      messages={requestMessages}
+                    />
+                  );
+                }
+                default:
+                  return null;
+              }
             })}
           </ul>
         </>
@@ -149,7 +148,7 @@ export class FutureAppointmentsList extends React.Component {
       );
     }
 
-    const header = (
+    const header = !hasExpressCareAccess && (
       <h2 className="vads-u-margin-bottom--4 vads-u-font-size--h3">
         Upcoming appointments
       </h2>
@@ -174,10 +173,8 @@ export class FutureAppointmentsList extends React.Component {
 }
 
 FutureAppointmentsList.propTypes = {
-  appointments: PropTypes.object,
   cancelAppointment: PropTypes.func,
   isCernerOnlyPatient: PropTypes.bool,
-  isWelcomeModalDismissed: PropTypes.bool,
   fetchRequestMessages: PropTypes.func,
   fetchFutureAppointments: PropTypes.func,
   showCancelButton: PropTypes.bool,
@@ -188,12 +185,15 @@ FutureAppointmentsList.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    appointments: state.appointments,
+    requestMessages: state.appointments.requestMessages,
+    facilityData: state.appointments.facilityData,
+    futureStatus: state.appointments.futureStatus,
+    future: selectFutureAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    isWelcomeModalDismissed: isWelcomeModalDismissed(state),
     showCancelButton: vaosCancel(state),
     showPastAppointments: vaosPastAppts(state),
     showScheduleButton: vaosRequests(state),
+    hasExpressCareAccess: vaosExpressCare(state),
   };
 }
 

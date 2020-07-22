@@ -6,7 +6,7 @@ import 'url-search-params-polyfill';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { ssoe } from 'platform/user/authentication/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { logout, verify, mfa } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -79,8 +79,8 @@ export class CallToActionWidget extends React.Component {
     }
 
     if (this.isAccessible()) {
-      const { appId, useSSOe } = this.props;
-      const { url, redirect } = toolUrl(appId, useSSOe);
+      const { appId, authenticatedWithSSOe } = this.props;
+      const { url, redirect } = toolUrl(appId, authenticatedWithSSOe);
       this._toolUrl = url;
       if (redirect && !this._popup) this.goToTool();
     } else if (this.isHealthTool()) {
@@ -170,13 +170,13 @@ export class CallToActionWidget extends React.Component {
   };
 
   getHealthToolContent = () => {
-    const { mhvAccount, useSSOe } = this.props;
+    const { mhvAccount, authenticatedWithSSOe } = this.props;
 
     if (this.hasMVIError()) {
       return this.getMviErrorContent();
     }
 
-    if (useSSOe) {
+    if (authenticatedWithSSOe) {
       const errorContent = this.getInaccessibleHealthToolContentSSOe();
       if (errorContent) return errorContent;
       return (
@@ -209,7 +209,11 @@ export class CallToActionWidget extends React.Component {
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
-        return <NotAuthorized useSSOe={this.props.useSSOe} />;
+        return (
+          <NotAuthorized
+            authenticatedWithSSOe={this.props.authenticatedWithSSOe}
+          />
+        );
       case 'NOT_FOUND':
         return <NotFound />;
       default:
@@ -412,7 +416,7 @@ export class CallToActionWidget extends React.Component {
   };
 
   authVersion() {
-    return this.props.useSSOe ? 'v1' : 'v0';
+    return this.props.authenticatedWithSSOe ? 'v1' : 'v0';
   }
 
   signOut = () => {
@@ -444,8 +448,8 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
-    const { appId, useSSOe } = this.props;
-    const { url } = toolUrl(appId, useSSOe);
+    const { appId, authenticatedWithSSOe } = this.props;
+    const { url } = toolUrl(appId, authenticatedWithSSOe);
     this._toolUrl = url;
 
     const content = this.getContent();
@@ -495,7 +499,7 @@ const mapStateToProps = state => {
     mhvAccount,
     mviStatus: status,
     featureToggles: state.featureToggles,
-    useSSOe: ssoe(state),
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     isVaPatient: vaPatient,
     mhvAccountIdState: mhvAccountState,
   };

@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
 
@@ -22,6 +23,11 @@ import { getParentOfLocation } from '../services/location';
 import {
   getVideoAppointmentLocation,
   getVAAppointmentLocationId,
+  isVideoAppointment,
+  isUpcomingAppointmentOrRequest,
+  isValidPastAppointment,
+  sortByDateDescending,
+  sortUpcoming,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -330,11 +336,12 @@ export function getCancelInfo(state) {
     facilityData,
   } = state.appointments;
 
+  const isVideo = appointmentToCancel
+    ? isVideoAppointment(appointmentToCancel)
+    : false;
+
   let facility = null;
-  if (
-    appointmentToCancel?.status === APPOINTMENT_STATUS.booked &&
-    !appointmentToCancel?.vaos?.videoType
-  ) {
+  if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
     // Confirmed in person VA appts
     const locationId = getVAAppointmentLocationId(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];
@@ -344,7 +351,7 @@ export function getCancelInfo(state) {
       facilityData[
         `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
       ];
-  } else if (appointmentToCancel?.vaos?.videoType) {
+  } else if (isVideo) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];
@@ -387,6 +394,10 @@ export const vaosPastAppts = state =>
   toggleValues(state).vaOnlineSchedulingPast;
 export const vaosVSPAppointmentNew = state =>
   toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
+export const vaosExpressCare = state =>
+  toggleValues(state).vaOnlineSchedulingExpressCare;
+export const vaosExpressCareNew = state =>
+  toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 
 export const isWelcomeModalDismissed = state =>
@@ -396,3 +407,26 @@ export const isWelcomeModalDismissed = state =>
 
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
+
+export const selectExpressCareRequests = createSelector(
+  state => state.appointments.future,
+  future =>
+    future?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
+);
+
+export const selectFutureAppointments = createSelector(
+  vaosExpressCare,
+  state => state.appointments.future,
+  (showExpressCare, future) =>
+    future
+      ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
+      ?.filter(isUpcomingAppointmentOrRequest)
+      .sort(sortUpcoming),
+);
+
+export const selectPastAppointments = createSelector(
+  state => state.appointments.past,
+  past => {
+    return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
+  },
+);

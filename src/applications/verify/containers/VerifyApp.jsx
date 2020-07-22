@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { ssoe } from 'platform/user/authentication/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
@@ -50,7 +50,7 @@ export class VerifyApp extends React.Component {
 
   render() {
     const { profile } = this.props;
-    const authVersion = this.props.useSSOe ? 'v1' : 'v0';
+    const authVersion = this.props.authenticatedWithSSOe ? 'v1' : 'v0';
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
@@ -103,7 +103,12 @@ export class VerifyApp extends React.Component {
                   <SubmitSignInForm startSentence>
                     Call the VA.gov Help Desk at{' '}
                     <a href="tel:1-855-574-7286">855-574-7286</a>, TTY:{' '}
-                    <a href="tel:18008778339">800-877-8339</a>
+                    <a
+                      href="tel:18008778339"
+                      aria-label="8 0 0. 8 7 7. 8 3 3 9."
+                    >
+                      800-877-8339
+                    </a>
                     <br />
                     Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
                   </SubmitSignInForm>
@@ -122,7 +127,7 @@ const mapStateToProps = state => {
   return {
     login: userState.login,
     profile: userState.profile,
-    useSSOe: ssoe(state),
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
 
