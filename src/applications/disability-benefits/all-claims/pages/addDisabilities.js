@@ -16,6 +16,8 @@ import {
   newConditionsOnly,
   newAndIncrease,
   hasClaimedConditions,
+  claimingRated,
+  hasRatedDisabilities,
   sippableId,
 } from '../utils';
 
@@ -33,8 +35,8 @@ export const uiSchema = {
       reviewTitle: 'New Disabilities',
       itemName: 'Disability',
     },
-    // Ideally, this would show the validation on the array itself (or the name field in an array
-    //  item), but that's not working.
+    // Ideally, this would show the validation on the array itself (or the name
+    // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
     items: {
       condition: autosuggest.uiSchema(
@@ -91,9 +93,14 @@ export const uiSchema = {
     'view:increaseAndNewAlert': {
       'ui:description': increaseAndNewAlert,
       'ui:options': {
-        hideIf: formData =>
-          // Only show this alert if the veteran is claiming both rated and new conditions
-          !newAndIncrease(formData) || hasClaimedConditions(formData),
+        hideIf: formData => {
+          // Only show this alert if the veteran is claiming both rated and new
+          // conditions but no rated conditions were selected
+          return (
+            !claimingRated(formData) &&
+            (!newAndIncrease(formData) || hasClaimedConditions(formData))
+          );
+        },
       },
     },
   },
@@ -180,8 +187,8 @@ const removeDisability = (deletedElement, formData) => {
 
 // Find the old name -> change to new name
 const changeDisabilityName = (oldData, newData, changedIndex) => {
-  const oldId = sippableId(oldData.newDisabilities[changedIndex].condition);
-  const newId = sippableId(newData.newDisabilities[changedIndex].condition);
+  const oldId = sippableId(oldData.newDisabilities[changedIndex]?.condition);
+  const newId = sippableId(newData.newDisabilities[changedIndex]?.condition);
 
   let result = removeDisability(oldData.newDisabilities[changedIndex], newData);
 
