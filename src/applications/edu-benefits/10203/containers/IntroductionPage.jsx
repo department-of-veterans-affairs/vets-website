@@ -37,8 +37,8 @@ export class IntroductionPage extends React.Component {
                   submit your application.
                 </p>
                 <p>
-                  Our entitlement system shows that you have the following
-                  benefits remaining:{' '}
+                  Our entitlement system shows you have the following benefits
+                  remaining:{' '}
                   <strong>
                     {this.props?.remainingEntitlement.months} months,{' '}
                     {this.props?.remainingEntitlement.days} days
