@@ -25,7 +25,6 @@ jobs:
   unit-test:
     docker:
       - image: circleci/node:10.15.3
-    environment:
     steps:
       - checkout
       - restore_cache:
@@ -42,6 +41,30 @@ jobs:
           command: ./script/run-isolated-tests.sh
           environment:
             MOCHA_FILE: ./test-results/test-results.xml
+      - store_test_results:
+          path: ./test-results
+      - store_artifacts:
+          path: ./test-results
+
+  contract-test:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: mkdir -p ./test-results
+      - run: yarn test:contract
+      - run:
+          command: yarn pact:publish
+          environment:
+            PACT_BROKER_URL: https://vagov-pact-broker.herokuapp.com
       - store_test_results:
           path: ./test-results
       - store_artifacts:
@@ -243,6 +266,7 @@ workflows:
     jobs:
       - lint
       - unit-test
+      - contract-test
       - security-audit
       - build-e2e
       - build:
