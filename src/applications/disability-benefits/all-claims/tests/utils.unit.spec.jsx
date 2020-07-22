@@ -873,6 +873,7 @@ describe('526 v2 depends functions', () => {
       'view:claimingIncrease': true,
       'view:claimingNew': false,
     },
+    ratedDisabilities: [{}],
   };
   const newOnlyData = {
     'view:claimType': {
@@ -885,6 +886,7 @@ describe('526 v2 depends functions', () => {
       'view:claimingIncrease': true,
       'view:claimingNew': true,
     },
+    ratedDisabilities: [{}],
   };
   // Shouldn't be possible, but worth testing anyhow
   const noneSelected = {
@@ -892,6 +894,10 @@ describe('526 v2 depends functions', () => {
       'view:claimingIncrease': false,
       'view:claimingNew': false,
     },
+  };
+  const empty = {
+    ratedDisabilities: [{}, {}],
+    'view:claimType': {},
   };
   describe('newOnly', () => {
     it('should return true if only new conditions are claimed', () => {
@@ -903,6 +909,7 @@ describe('526 v2 depends functions', () => {
     });
     it('should return false if no claim type is selected', () => {
       expect(newConditionsOnly(noneSelected)).to.be.false;
+      expect(newConditionsOnly(empty)).to.be.false;
     });
   });
   describe('increaseOnly', () => {
@@ -915,6 +922,7 @@ describe('526 v2 depends functions', () => {
     });
     it('should return false if no claim type is selected', () => {
       expect(increaseOnly(noneSelected)).to.be.false;
+      expect(increaseOnly(empty)).to.be.false;
     });
   });
 
