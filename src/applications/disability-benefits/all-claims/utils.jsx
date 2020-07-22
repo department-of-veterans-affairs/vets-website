@@ -729,15 +729,15 @@ const isClaimingIncrease = formData =>
   _.get('view:claimType.view:claimingIncrease', formData, false);
 
 export const increaseOnly = formData =>
-  isClaimingIncrease(formData) && !isClaimingNew(formData);
+  (isClaimingIncrease(formData) && !isClaimingNew(formData)) || false;
 export const newConditionsOnly = formData =>
-  !isClaimingIncrease(formData) && isClaimingNew(formData);
+  (!isClaimingIncrease(formData) && isClaimingNew(formData)) || false;
 export const newAndIncrease = formData =>
-  isClaimingNew(formData) && isClaimingIncrease(formData);
+  (isClaimingNew(formData) && isClaimingIncrease(formData)) || false;
 
 // Shouldn't be possible, but just in case this requirement is lifted later...
 export const noClaimTypeSelected = formData =>
-  !isClaimingNew(formData) && !isClaimingIncrease(formData);
+  (!isClaimingNew(formData) && !isClaimingIncrease(formData)) || false;
 
 export const hasNewDisabilities = formData =>
   formData['view:newDisabilities'] === true;
@@ -792,13 +792,16 @@ export const directToCorrectForm = ({
 };
 
 export const claimingRated = formData =>
-  isClaimingIncrease(formData) &&
-  formData.ratedDisabilities &&
-  formData.ratedDisabilities.some(d => d['view:selected']);
+  (isClaimingIncrease(formData) &&
+    formData.ratedDisabilities &&
+    formData.ratedDisabilities.some(d => d['view:selected'])) ||
+  false;
 
 // TODO: Rename this to avoid collision with `isClaimingNew` above
 export const claimingNew = formData =>
-  formData.newDisabilities && formData.newDisabilities.some(d => d.condition);
+  (formData.newDisabilities &&
+    formData.newDisabilities.some(d => d.condition)) ||
+  false;
 
 export const hasClaimedConditions = formData =>
   (isClaimingIncrease(formData) && claimingRated(formData)) ||

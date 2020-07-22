@@ -896,6 +896,7 @@ describe('526 v2 depends functions', () => {
     },
   };
   const empty = {
+    ratedDisabilities: [{}, {}],
     'view:claimType': {},
   };
   describe('newOnly', () => {
