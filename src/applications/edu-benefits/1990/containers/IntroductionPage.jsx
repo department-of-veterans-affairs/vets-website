@@ -301,7 +301,7 @@ export class IntroductionPage extends React.Component {
               className={buttonClasses}
               onClick={() => this.setState({ open: !this.state.open })}
             >
-              Find your education benefit form
+              Let's get started
             </button>
             {open && (
               <div className={contentClasses} id="wizardOptions">

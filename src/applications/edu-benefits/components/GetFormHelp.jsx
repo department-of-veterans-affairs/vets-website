@@ -5,26 +5,15 @@ function GetFormHelp() {
   return (
     <div>
       <p className="help-talk">
-        For help filling out this form,
-        <br />
-        ask the Education Call Center:
-      </p>
-      <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:1-888-442-4551">
-          888-442-4551 (888-GI-BILL-1)
+        For help filling out this form, or if the form isn't working right,
+        please call VA Benefits and Services at{' '}
+        <a href="tel:800-827-1000" aria-label="8 0 0. 8 2 7. 1 0 0 0.">
+          800-827-1000
         </a>
-        <br />
-        Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET
-        <br />
-        <a
-          className="help-phone-number-link"
-          href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
-        >
-          Submit a question to Education Service
+        . If you have hearing loss, call{' '}
+        <a href="tel:711" aria-label="TTY. 7 1 1.">
+          TTY: 711
         </a>
-      </p>
-      <p className="help-talk">
-        If this form isn't working right for you, please <CallHRC />
       </p>
     </div>
   );
