@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import classNames from 'classnames';
 import _ from 'lodash/fp';
+import manifest from '../manifest.json';
+import environment from 'platform/utilities/environment';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -50,49 +52,49 @@ export class IntroductionPage extends React.Component {
         nationalCallToService === 'no' &&
         vetTecBenefit === 'no'
       ) {
+        this.setWizardCompletionStatus('awaiting click on apply button');
         this.setEduBenefitFormSelected('1990');
-        this.setWizardCompletionStatus('complete');
       } else if (
         newBenefit === 'yes' &&
         nationalCallToService === 'no' &&
         vetTecBenefit === 'yes'
       ) {
+        this.setWizardCompletionStatus('awaiting click on apply button');
         this.setEduBenefitFormSelected('0994');
-        this.setWizardCompletionStatus('complete');
       } else if (
         newBenefit === 'no' &&
         (transferredEduBenefits === 'transferred' ||
           transferredEduBenefits === 'own')
       ) {
+        this.setWizardCompletionStatus('awaiting click on apply button');
         this.setEduBenefitFormSelected('1995');
-        this.setWizardCompletionStatus('complete');
       } else if (newBenefit === 'no' && transferredEduBenefits === 'fry') {
+        this.setWizardCompletionStatus('awaiting click on apply button');
         this.setEduBenefitFormSelected('5495');
-        this.setWizardCompletionStatus('complete');
       } else if (
         newBenefit === 'yes' &&
         serviceBenefitBasedOn === 'other' &&
         sponsorDeceasedDisabledMIA === 'yes'
       ) {
+        this.setWizardCompletionStatus('awaiting click on apply button');
         this.setEduBenefitFormSelected('5490');
-        this.setWizardCompletionStatus('complete');
       } else if (
         newBenefit === 'yes' &&
         serviceBenefitBasedOn === 'other' &&
         sponsorDeceasedDisabledMIA === 'no' &&
         sponsorTransferredBenefits !== null
       ) {
+        this.setWizardCompletionStatus('awaiting click on apply button');
         this.setEduBenefitFormSelected('1990E');
-        this.setWizardCompletionStatus('complete');
       } else if (newBenefit === 'yes' && nationalCallToService === 'yes') {
+        this.setWizardCompletionStatus('awaiting click on apply button');
         this.setEduBenefitFormSelected('1990N');
-        this.setWizardCompletionStatus('complete');
       } else if (applyForScholarship === 'yes') {
+        this.setWizardCompletionStatus('awaiting click on apply button');
         this.setEduBenefitFormSelected(form1995);
-        this.setWizardCompletionStatus('complete');
       } else if (applyForScholarship === 'no' && newBenefit === 'extend') {
+        this.setWizardCompletionStatus('awaiting click on apply button');
         this.setEduBenefitFormSelected('none selected');
-        this.setWizardCompletionStatus('complete');
       } else {
         this.setWizardCompletionStatus('not complete');
         this.setEduBenefitFormSelected('none selected');
@@ -111,8 +113,12 @@ export class IntroductionPage extends React.Component {
         id="apply-now-link"
         href={url}
         className="usa-button va-button-primary"
-        onClick={() => {
+        onClick={e => {
+          if (formId === '1990') {
+            e.preventDefault();
+          }
           this.recordWizardValues();
+          this.setWizardCompletionStatus('complete');
         }}
       >
         Apply now
@@ -265,12 +271,14 @@ export class IntroductionPage extends React.Component {
     ];
     return (
       <div className="schemaform-intro">
-        {educationBenefitSelected !== '1990' && (
+        <FormTitle title="Apply for education benefits" />
+        <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
+        {wizardCompletionStatus !== 'complete' && (
           <div className="wizard-container">
-            <h3>Are you in the right place?</h3>
+            <h2>Find out if this is the right form</h2>
             <p>
-              We'd like to ask you a few questions to confirm that this is the
-              correct application for your claim.
+              To see if this is the right form for you, please answer a few
+              questions.
             </p>
             <button
               aria-expanded={this.state.open ? 'true' : 'false'}
@@ -555,16 +563,28 @@ export class IntroductionPage extends React.Component {
                 </div>
               </div>
             )}
+            <h2>Already know this is the right form?</h2>
+            <p>
+              If you already know that VA Form 22-1990 is correct or if you were
+              directed to complete this application, you can go straight to the
+              application without answering the questions above.
+            </p>
+            <a
+              href="#"
+              className="vads-u-display--inline-block vads-u-margin-bottom--3"
+              onClick={e => {
+                e.preventDefault();
+                this.setEduBenefitFormSelected('1990');
+                this.setWizardCompletionStatus('complete');
+              }}
+            >
+              If you know VA Form 22-1990 is right, apply now
+            </a>
           </div>
         )}
         {educationBenefitSelected === '1990' &&
           wizardCompletionStatus === 'complete' && (
             <div className="subway-map">
-              <FormTitle title="Apply for education benefits" />
-              <p>
-                Equal to VA Form 22-1990 (Application for VA Education
-                Benefits).
-              </p>
               <SaveInProgressIntro
                 prefillEnabled={this.props.route.formConfig.prefillEnabled}
                 messages={this.props.route.formConfig.savedFormMessages}
