@@ -713,10 +713,20 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
   </span>
 );
 
-const isClaimingIncrease = formData =>
-  _.get('view:claimType.view:claimingIncrease', formData, false);
+export const hasRatedDisabilities = formData =>
+  formData.ratedDisabilities && formData.ratedDisabilities.length;
+
 const isClaimingNew = formData =>
-  _.get('view:claimType.view:claimingNew', formData, false);
+  _.get(
+    'view:claimType.view:claimingNew',
+    formData,
+    // force default to true if user has no rated disabilities
+    !hasRatedDisabilities(formData),
+  ) || _.get('view:newDisabilities', formData, false);
+
+const isClaimingIncrease = formData =>
+  hasRatedDisabilities(formData) &&
+  _.get('view:claimType.view:claimingIncrease', formData, false);
 
 export const increaseOnly = formData =>
   isClaimingIncrease(formData) && !isClaimingNew(formData);
@@ -738,6 +748,7 @@ export const hasNewDisabilities = formData =>
  * @enum {String}
  */
 export const urls = {
+  v1: DISABILITY_526_V2_ROOT_URL,
   v2: DISABILITY_526_V2_ROOT_URL,
 };
 
@@ -781,6 +792,7 @@ export const directToCorrectForm = ({
 };
 
 export const claimingRated = formData =>
+  isClaimingIncrease(formData) &&
   formData.ratedDisabilities &&
   formData.ratedDisabilities.some(d => d['view:selected']);
 
@@ -789,10 +801,8 @@ export const claimingNew = formData =>
   formData.newDisabilities && formData.newDisabilities.some(d => d.condition);
 
 export const hasClaimedConditions = formData =>
-  claimingNew(formData) || claimingRated(formData);
-
-export const hasRatedDisabilities = formData =>
-  formData.ratedDisabilities && formData.ratedDisabilities.length;
+  (isClaimingIncrease(formData) && claimingRated(formData)) ||
+  (isClaimingNew(formData) && claimingNew(formData));
 
 /**
  * Finds active service periods—those without end dates or end dates

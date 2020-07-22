@@ -8,6 +8,7 @@ import {
   pathWithIndex,
   hasClaimedConditions,
   increaseOnly,
+  hasRatedDisabilities,
   claimingRated,
 } from './utils';
 
@@ -286,8 +287,11 @@ export const requireRatedDisability = (err, fieldData, formData) => {
  */
 export const requireNewDisability = (err, fieldData, formData) => {
   if (!claimingRated(formData) && !fieldData) {
+    const message = hasRatedDisabilities(formData)
+      ? 'No rated disability selected. Please add a new one'
+      : 'We didn’t find any existing rated disabilities. Please choose to add a new one';
     // The actual validation error is displayed as an alert field. The message
     // here will be shown on the review page
-    err.addError('No rated disability selected. Please add a new one');
+    err.addError(message);
   }
 };

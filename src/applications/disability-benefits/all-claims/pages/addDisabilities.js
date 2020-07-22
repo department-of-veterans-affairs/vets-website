@@ -16,6 +16,8 @@ import {
   newConditionsOnly,
   newAndIncrease,
   hasClaimedConditions,
+  claimingRated,
+  hasRatedDisabilities,
   sippableId,
 } from '../utils';
 
@@ -33,8 +35,8 @@ export const uiSchema = {
       reviewTitle: 'New Disabilities',
       itemName: 'Disability',
     },
-    // Ideally, this would show the validation on the array itself (or the name field in an array
-    //  item), but that's not working.
+    // Ideally, this would show the validation on the array itself (or the name
+    // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
     items: {
       condition: autosuggest.uiSchema(
@@ -91,9 +93,14 @@ export const uiSchema = {
     'view:increaseAndNewAlert': {
       'ui:description': increaseAndNewAlert,
       'ui:options': {
-        hideIf: formData =>
-          // Only show this alert if the veteran is claiming both rated and new conditions
-          !newAndIncrease(formData) || hasClaimedConditions(formData),
+        hideIf: formData => {
+          // Only show this alert if the veteran is claiming both rated and new
+          // conditions but no rated conditions were selected
+          return (
+            !claimingRated(formData) &&
+            (!newAndIncrease(formData) || hasClaimedConditions(formData))
+          );
+        },
       },
     },
   },
@@ -217,16 +224,25 @@ const changeDisabilityName = (oldData, newData, changedIndex) => {
   return result;
 };
 
+// Strip out empty ("Unknown Condition") entries; doing this shows the user
+// an error instead of blocking progress if there are no new conditions
+const removeInvalidDisabilities = data => ({
+  ...data,
+  newDisabilities: (data?.newDisabilities || []).filter(d => d.condition),
+});
+
 export const updateFormData = (oldData, newData) => {
-  const oldArr = oldData.newDisabilities;
-  const newArr = newData.newDisabilities;
+  const cleanOldData = removeInvalidDisabilities(oldData);
+  const cleanNewData = removeInvalidDisabilities(newData);
+  const oldArr = cleanOldData.newDisabilities;
+  const newArr = cleanNewData.newDisabilities;
   // Sanity check
-  if (!Array.isArray(oldArr) || !Array.isArray(newArr)) return newData;
+  if (!Array.isArray(oldArr) || !Array.isArray(newArr)) return cleanNewData;
 
   // Disability was removed
   if (oldArr.length > newArr.length) {
     const deletedElement = deleted(oldArr, newArr);
-    return removeDisability(deletedElement, newData);
+    return removeDisability(deletedElement, cleanNewData);
   }
 
   // Disability was modified
@@ -234,8 +250,8 @@ export const updateFormData = (oldData, newData) => {
   if (oldArr.length === newArr.length && changedIndex !== undefined) {
     // Update the disability name in treatedDisabilityNames and
     // powDisabilities _if_ it exists already
-    return changeDisabilityName(oldData, newData, changedIndex);
+    return changeDisabilityName(cleanOldData, cleanNewData, changedIndex);
   }
 
-  return newData;
+  return cleanNewData;
 };

@@ -84,6 +84,63 @@ describe('Add new disabilities', () => {
     form.unmount();
   });
 
+  it('should show new conditions only alert', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          claimType: {
+            'view:claimingNew': true,
+            'view:claimingIncrease': false,
+          },
+          'view:newDisabilities': true,
+          newDisabilities: [],
+          // previously selected rated disability
+          ratedDisabilities: [{}, { 'view:selected': true }],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+    form.find('form').simulate('submit');
+    const error = form.find('.usa-alert');
+    expect(error.length).to.equal(1);
+    expect(error.text()).to.contain('add a new disability to claim');
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+  it('should show increase & new alert', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:claimType': {
+            'view:claimingNew': true,
+            'view:claimingIncrease': true,
+          },
+          'view:newDisabilities': true,
+          newDisabilities: [],
+          // no rated disability selected
+          ratedDisabilities: [{}, {}],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+    form.find('form').simulate('submit');
+    const error = form.find('.usa-alert');
+    expect(error.length).to.equal(1);
+    expect(error.text()).to.contain('add a new disability or choose a rated');
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
   describe('updateFormData', () => {
     // It's a function just to make sure we're not mutating it anywhere along the way
     const oldData = () => ({
@@ -100,18 +157,19 @@ describe('Add new disabilities', () => {
       },
     });
 
-    describe('should return unmodified newData', () => {
+    describe('should return newData with empty array', () => {
+      const result = { newDisabilities: [] };
       it("if oldData.newDisabilities doesn't exist", () => {
         const newData = { newDisabilities: ['foo'] };
-        expect(updateFormData({}, newData)).to.equal(newData);
+        expect(updateFormData({}, newData)).to.deep.equal(result);
       });
       it("if newData.newDisabilities doesn't exist", () => {
         const newData = {};
-        expect(updateFormData(oldData(), newData)).to.equal(newData);
+        expect(updateFormData(oldData(), newData)).to.deep.equal(result);
       });
       it('if no disabilities changed', () => {
         const old = oldData();
-        expect(updateFormData(old, old)).to.equal(old);
+        expect(updateFormData(old, old)).to.deep.equal(old);
       });
     });
 
