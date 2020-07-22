@@ -10,14 +10,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import classNames from 'classnames';
 import _ from 'lodash/fp';
 
-const levels = [
-  ['newBenefit'],
-  ['serviceBenefitBasedOn', 'transferredEduBenefits'],
-  ['nationalCallToService', 'sponsorDeceasedDisabledMIA'],
-  ['vetTecBenefit'],
-  ['sponsorTransferredBenefits'],
-  ['applyForScholarship'],
-];
 export class IntroductionPage extends React.Component {
   state = {
     open: false,
@@ -145,7 +137,7 @@ export class IntroductionPage extends React.Component {
     // everything at that level and beyond, so we don't see questions from
     // different branches
     const fields = [].concat(
-      ..._.dropWhile(level => !level.includes(field), levels),
+      ..._.dropWhile(level => !level.includes(field), this.state),
     );
     fields.forEach(laterField => {
       if (laterField !== field) {
