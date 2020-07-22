@@ -393,7 +393,6 @@ describe('VAOS actions: appointments', () => {
             vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
-              videoType: null,
               isCommunityCare: false,
               timeZone: null,
             },
@@ -478,7 +477,6 @@ describe('VAOS actions: appointments', () => {
             vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
-              videoType: null,
               isCommunityCare: false,
               timeZone: null,
             },
@@ -584,7 +582,6 @@ describe('VAOS actions: appointments', () => {
             vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
-              videoType: null,
               isCommunityCare: false,
               timeZone: null,
             },
@@ -671,7 +668,6 @@ describe('VAOS actions: appointments', () => {
             vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
-              videoType: null,
               isCommunityCare: false,
               timeZone: null,
             },

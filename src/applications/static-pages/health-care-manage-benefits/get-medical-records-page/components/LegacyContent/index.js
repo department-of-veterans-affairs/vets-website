@@ -302,10 +302,7 @@ const LegacyContent = () => (
                   877-327-0022
                 </a>{' '}
                 (TTY:{' '}
-                <a
-                  aria-label="TTY. 8 0 0. 8 7 7. 8 3 3 9."
-                  href="tel:18008778339"
-                >
+                <a aria-label="8 0 0. 8 7 7. 8 3 3 9." href="tel:18008778339">
                   800-877-8339
                 </a>
                 ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.

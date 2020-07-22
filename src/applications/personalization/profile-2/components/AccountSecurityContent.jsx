@@ -11,7 +11,7 @@ import {
   selectProfile,
 } from 'platform/user/selectors';
 import {
-  ssoe as ssoeSelector,
+  isAuthenticatedWithSSOe as authenticatedWithSSOeSelector,
   signInServiceName as signInServiceNameSelector,
 } from 'platform/user/authentication/selectors';
 
@@ -28,7 +28,7 @@ export const AccountSecurityContent = ({
   isMultifactorEnabled,
   mhvAccount,
   showMHVTermsAndConditions,
-  useSSOe,
+  isAuthenticatedWithSSOe,
   signInServiceName,
   isInMVI,
 }) => {
@@ -38,7 +38,7 @@ export const AccountSecurityContent = ({
       value: (
         <TwoFactorAuthorizationStatus
           isMultifactorEnabled={isMultifactorEnabled}
-          useSSOe={useSSOe}
+          isAuthenticatedWithSSOe={isAuthenticatedWithSSOe}
         />
       ),
     },
@@ -109,7 +109,7 @@ AccountSecurityContent.propTypes = {
   }),
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
   signInServiceName: PropTypes.string.isRequired,
-  useSSOe: PropTypes.bool.isRequired,
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
 };
 
 export const mapStateToProps = state => {
@@ -125,7 +125,7 @@ export const mapStateToProps = state => {
     mhvAccount,
     showMHVTermsAndConditions,
     signInServiceName: signInServiceNameSelector(state),
-    useSSOe: ssoeSelector(state),
+    isAuthenticatedWithSSOe: authenticatedWithSSOeSelector(state),
   };
 };
 

@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 // Relative
 import Banners from './index';
-import HomepageBanner from '../HomepageBanner';
-import MaintenanceBanner from '../MaintenanceBanner';
+import EmergencyBanner from '@department-of-veterans-affairs/formation-react/EmergencyBanner';
+import MaintenanceBanner from '@department-of-veterans-affairs/formation-react/MaintenanceBanner';
 
 describe('<Banners>', () => {
   const defaultProps = {
@@ -17,7 +17,7 @@ describe('<Banners>', () => {
 
   it('should render homepage banner', () => {
     const wrapper = shallow(<Banners {...defaultProps} />);
-    expect(wrapper.find(HomepageBanner)).to.not.equal(null);
+    expect(wrapper.find(EmergencyBanner)).to.not.equal(null);
     wrapper.unmount();
   });
 

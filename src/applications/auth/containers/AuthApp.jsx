@@ -15,7 +15,6 @@ import {
 } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import get from 'platform/utilities/data/get';
-import { ssoe } from 'platform/user/authentication/selectors';
 import environment from 'platform/utilities/environment';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(
@@ -50,6 +49,7 @@ class AuthMetrics {
       case 'signup':
         recordEvent({ event: `register-success-${this.serviceName}` });
         break;
+      case 'custom': /* type=custom is used for SSOe auto login */
       case 'mhv':
       case 'dslogon':
       case 'idme':
@@ -126,7 +126,7 @@ export class AuthApp extends React.Component {
     const { type } = this.props.location.query;
     const authMetrics = new AuthMetrics(type, payload);
     authMetrics.run();
-    setupProfileSession(authMetrics.userProfile, this.props.useSSOe);
+    setupProfileSession(authMetrics.userProfile);
     this.redirect();
   };
 
@@ -317,7 +317,14 @@ export class AuthApp extends React.Component {
                 <p>
                   Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re
                   here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
-                  have hearing loss, call TTY: 800-877-3399.
+                  have hearing loss, call TTY:{' '}
+                  <a
+                    href="tel:800-877-3399"
+                    aria-label="8 0 0. 8 7 7. 3 3 9 9."
+                  >
+                    800-877-3399
+                  </a>
+                  .
                 </p>
                 <p>
                   Tell the representative that you tried to sign in to VA.gov,
@@ -495,15 +502,11 @@ export class AuthApp extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  useSSOe: ssoe(state),
-});
-
 const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(AuthApp);

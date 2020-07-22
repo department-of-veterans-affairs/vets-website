@@ -174,9 +174,11 @@ describe('DirectDepositContent', () => {
       await waitForElementToBeRemoved(() => view.queryByRole('form'));
 
       // shows a save succeeded alert
-      expect(view.getByRole('alert')).to.contain.text(
-        'We’ve saved your direct deposit information',
-      );
+      expect(
+        view.findByRole('alert', {
+          name: /we’ve saved your direct deposit information/i,
+        }),
+      ).to.exist;
 
       // and the bank info from the mocked call should be shown
       expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))
@@ -215,9 +217,11 @@ describe('DirectDepositContent', () => {
       await waitForElementToBeRemoved(() => view.queryByRole('form'));
 
       // shows a save succeeded alert
-      expect(view.getByRole('alert')).to.contain.text(
-        'We’ve saved your direct deposit information',
-      );
+      expect(
+        view.findByRole('alert', {
+          name: /we’ve saved your direct deposit information/i,
+        }),
+      ).to.exist;
 
       // and the bank info from the mocked call should be shown
       expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))

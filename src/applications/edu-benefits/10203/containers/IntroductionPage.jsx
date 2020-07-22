@@ -13,58 +13,55 @@ export class IntroductionPage extends React.Component {
     this.props.getRemainingEntitlement();
   }
 
-  loggedIn() {
-    return this.props.isLoggedIn ? (
-      <SaveInProgressIntro
-        prefillEnabled={this.props.route.formConfig.prefillEnabled}
-        messages={this.props.route.formConfig.savedFormMessages}
-        pageList={this.props.route.pageList}
-        startText="Start the education application"
-      />
-    ) : (
-      <SaveInProgressIntro
-        buttonOnly
-        prefillEnabled={this.props.route.formConfig.prefillEnabled}
-        messages={this.props.route.formConfig.savedFormMessages}
-        pageList={this.props.route.pageList}
-        startText="Start the education application"
-      />
-    );
-  }
-
   moreThanSixMonths = remaining => {
     const totalDays = remaining?.months * 30 + remaining?.days;
     return totalDays > 180;
   };
 
   entitlementRemainingAlert() {
-    return this.props.isLoggedIn ? (
-      this.moreThanSixMonths(this.props?.remainingEntitlement) && (
-        <div className="usa-alert usa-alert-warning schemaform-sip-alert">
-          <div className="usa-alert-body">
-            <h3 className="usa-alert-heading">You may not be eligible</h3>
-            <div className="usa-alert-text">
-              <p>
-                Our entitlement system shows that you have more than 6 months of
-                education benefits remaining.
-              </p>
-              <p>
-                To be eligible for the Rogers STEM Scholarship, you must have
-                less than 6 mo nths of Post-9/11 GI Bill benefits left when you
-                submit your application.
-              </p>
-              <p>
-                Months you have left to use:{' '}
-                <strong>
-                  {this.props?.remainingEntitlement.months} months,{' '}
-                  {this.props?.remainingEntitlement.days} days
-                </strong>
-              </p>
+    if (this.props.isLoggedIn) {
+      if (this.moreThanSixMonths(this.props?.remainingEntitlement)) {
+        return (
+          <div
+            id="entitlement-remaining-alert"
+            className="usa-alert usa-alert-warning schemaform-sip-alert"
+          >
+            <div className="usa-alert-body">
+              <h3 className="usa-alert-heading">You may not be eligible</h3>
+              <div className="usa-alert-text">
+                <p>
+                  Our entitlement system shows that you have more than 6 months
+                  of education benefits remaining.
+                </p>
+                <p>
+                  To be eligible for the Rogers STEM Scholarship, you must have
+                  less than 6 mo nths of Post-9/11 GI Bill benefits left when
+                  you submit your application.
+                </p>
+                <p>
+                  Months you have left to use:{' '}
+                  <strong>
+                    {this.props?.remainingEntitlement.months} months,{' '}
+                    {this.props?.remainingEntitlement.days} days
+                  </strong>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )
-    ) : (
+        );
+      }
+
+      return (
+        <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          startText="Start the education application"
+        />
+      );
+    }
+
+    return (
       <SaveInProgressIntro
         prefillEnabled={this.props.route.formConfig.prefillEnabled}
         messages={this.props.route.formConfig.savedFormMessages}
@@ -212,7 +209,13 @@ export class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {this.loggedIn()}
+        <SaveInProgressIntro
+          buttonOnly={!this.props.isLoggedIn}
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          startText="Start the education application"
+        />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={5} ombNumber="2900-0878" expDate="06/30/2023" />
         </div>
