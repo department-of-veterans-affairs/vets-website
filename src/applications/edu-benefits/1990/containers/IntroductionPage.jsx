@@ -60,36 +60,31 @@ export class IntroductionPage extends React.Component {
       ) {
         this.setEduBenefitFormSelected('1990');
         this.setWizardCompletionStatus('complete');
-      }
-      if (
+      } else if (
         newBenefit === 'yes' &&
         nationalCallToService === 'no' &&
         vetTecBenefit === 'yes'
       ) {
         this.setEduBenefitFormSelected('0994');
         this.setWizardCompletionStatus('complete');
-      }
-      if (
+      } else if (
         newBenefit === 'no' &&
         (transferredEduBenefits === 'transferred' ||
           transferredEduBenefits === 'own')
       ) {
         this.setEduBenefitFormSelected('1995');
         this.setWizardCompletionStatus('complete');
-      }
-      if (newBenefit === 'no' && transferredEduBenefits === 'fry') {
+      } else if (newBenefit === 'no' && transferredEduBenefits === 'fry') {
         this.setEduBenefitFormSelected('5495');
         this.setWizardCompletionStatus('complete');
-      }
-      if (
+      } else if (
         newBenefit === 'yes' &&
         serviceBenefitBasedOn === 'other' &&
         sponsorDeceasedDisabledMIA === 'yes'
       ) {
         this.setEduBenefitFormSelected('5490');
         this.setWizardCompletionStatus('complete');
-      }
-      if (
+      } else if (
         newBenefit === 'yes' &&
         serviceBenefitBasedOn === 'other' &&
         sponsorDeceasedDisabledMIA === 'no' &&
@@ -97,16 +92,13 @@ export class IntroductionPage extends React.Component {
       ) {
         this.setEduBenefitFormSelected('1990E');
         this.setWizardCompletionStatus('complete');
-      }
-      if (newBenefit === 'yes' && nationalCallToService === 'yes') {
+      } else if (newBenefit === 'yes' && nationalCallToService === 'yes') {
         this.setEduBenefitFormSelected('1990N');
         this.setWizardCompletionStatus('complete');
-      }
-      if (applyForScholarship === 'yes') {
+      } else if (applyForScholarship === 'yes') {
         this.setEduBenefitFormSelected(form1995);
         this.setWizardCompletionStatus('complete');
-      }
-      if (applyForScholarship === 'no' && newBenefit === 'extend') {
+      } else if (applyForScholarship === 'no' && newBenefit === 'extend') {
         this.setEduBenefitFormSelected('none selected');
         this.setWizardCompletionStatus('complete');
       } else {
