@@ -85,6 +85,7 @@ export function standaloneRedirect() {
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
+  const postAuthUrl = appendQuery(redirectUrl, 'postLogin=true');
   const returnUrl =
     window.location.pathname === '/sign-in/'
       ? standaloneRedirect() || window.location.origin
@@ -92,10 +93,10 @@ function redirect(redirectUrl, clickedEvent) {
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
-  if (redirectUrl.includes('idme')) {
-    redirectWithGAClientId(redirectUrl);
+  if (postAuthUrl.includes('idme')) {
+    redirectWithGAClientId(postAuthUrl);
   } else {
-    window.location = redirectUrl;
+    window.location = postAuthUrl;
   }
 }
 
