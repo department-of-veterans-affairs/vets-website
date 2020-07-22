@@ -13,8 +13,8 @@ describe('Verified component', () => {
   afterEach(() => {
     wrapper.unmount();
   });
-  it('should render a `p` tag', () => {
-    expect(wrapper.type()).to.equal('p');
+  it('should render a `span`', () => {
+    expect(wrapper.type()).to.equal('span');
   });
 
   it('should render a Font Awesome check mark as its first child', () => {

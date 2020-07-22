@@ -1,5 +1,6 @@
 import React from 'react';
-import moment from 'moment';
+import { Router } from 'react-router';
+import { createMemoryHistory } from 'history';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
@@ -17,18 +18,10 @@ import VAFacilityPage from '../../containers/VAFacilityPage';
 import { cleanup } from '@testing-library/react';
 import ClinicChoicePage from '../../containers/ClinicChoicePage';
 import PreferredDatePage from '../../containers/PreferredDatePage';
-import {
-  getParentSiteMock,
-  getFacilityMock,
-  getClinicMock,
-  getAppointmentSlotMock,
-} from '../mocks/v0';
-import {
-  mockEligibilityFetches,
-  mockParentSites,
-  mockSupportedFacilities,
-  mockAppointmentSlotFetch,
-} from '../mocks/helpers';
+import { getParentSiteMock, getFacilityMock } from './v0';
+import { mockParentSites, mockSupportedFacilities } from './helpers';
+
+import createRoutesWithStore from '../../routes';
 
 export function createTestStore(initialState) {
   return createStore(
@@ -40,6 +33,27 @@ export function createTestStore(initialState) {
     initialState,
     applyMiddleware(thunk),
   );
+}
+
+export function renderFromRoutes({ initialState, store = null, path = '' }) {
+  const testStore =
+    store ||
+    createStore(
+      combineReducers({ ...commonReducer, ...reducers }),
+      initialState,
+      applyMiddleware(thunk),
+    );
+  const memoryHistory = createMemoryHistory(path);
+  const screen = renderInReduxProvider(
+    <Router history={memoryHistory}>{createRoutesWithStore(testStore)}</Router>,
+    {
+      store: testStore,
+      initialState,
+      reducers,
+    },
+  );
+
+  return { ...screen, memoryHistory };
 }
 
 export async function setTypeOfCare(store, label) {

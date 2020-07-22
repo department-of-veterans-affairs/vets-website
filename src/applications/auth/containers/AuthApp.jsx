@@ -49,6 +49,7 @@ class AuthMetrics {
       case 'signup':
         recordEvent({ event: `register-success-${this.serviceName}` });
         break;
+      case 'custom': /* type=custom is used for SSOe auto login */
       case 'mhv':
       case 'dslogon':
       case 'idme':

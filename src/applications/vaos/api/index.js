@@ -60,9 +60,15 @@ export function getConfirmedAppointments(type, startDate, endDate) {
 export function getPendingAppointments(startDate, endDate) {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = import('./requests.json').then(
-      module => (module.default ? module.default : module),
-    );
+    promise = new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          import('./requests.json').then(
+            module => (module.default ? module.default : module),
+          ),
+        );
+      }, 1000);
+    });
   } else {
     promise = vaosApiRequest(
       `/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
