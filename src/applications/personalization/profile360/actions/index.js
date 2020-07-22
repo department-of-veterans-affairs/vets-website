@@ -1,6 +1,5 @@
 import { getData } from '../util';
 import environment from 'platform/utilities/environment';
-import { asyncFetchMilitaryInformation } from '../../profile-2/helpers';
 
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS =
