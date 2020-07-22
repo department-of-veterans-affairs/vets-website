@@ -12,11 +12,11 @@ import PreSubmitSection from 'platform/forms/containers/review/PreSubmitSection'
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 
 function FormSubmitPending(props) {
-  const { formConfig, goBack, onSubmit } = props;
+  const { formConfig, goBack, onSubmit, testId } = props;
 
   return (
     <>
-      <Row>
+      <Row testId={testId}>
         <Column />
       </Row>
       <PreSubmitSection formConfig={formConfig} />
