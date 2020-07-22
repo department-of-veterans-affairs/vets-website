@@ -124,7 +124,8 @@ describe('<Main>', () => {
     const wrapper = shallow(<Main {...props} />);
     wrapper.setProps({ currentlyLoggedIn: true });
     expect(global.window.location.replace.calledOnce).to.be.true;
-    expect(global.window.location.replace.calledWith('/account')).to.be.true;
+    expect(global.window.location.replace.calledWith('/account?postLogin=true'))
+      .to.be.true;
     wrapper.unmount();
   });
 
