@@ -9,7 +9,7 @@ import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import {
   vaosPastAppts,
   selectPastAppointments,
-  vaosExpressCare,
+  selectHasExpressCareRequests,
 } from '../utils/selectors';
 import {
   getRealFacilityId,
@@ -74,7 +74,7 @@ export class PastAppointmentsList extends React.Component {
       pastStatus,
       facilityData,
       pastSelectedIndex,
-      hasExpressCareAccess,
+      hasExpressCareRequests,
     } = this.props;
     let content;
 
@@ -139,7 +139,7 @@ export class PastAppointmentsList extends React.Component {
 
     return (
       <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
-        {!hasExpressCareAccess && (
+        {!hasExpressCareRequests && (
           <h2 tabIndex="-1" id="pastAppts" className="vads-u-font-size--h3">
             Past appointments
           </h2>
@@ -172,7 +172,7 @@ function mapStateToProps(state) {
     facilityData: state.appointments.facilityData,
     fetchPastAppointments,
     showPastAppointments: vaosPastAppts(state),
-    hasExpressCareAccess: vaosExpressCare(state),
+    hasExpressCareRequests: selectHasExpressCareRequests(state),
   };
 }
 
