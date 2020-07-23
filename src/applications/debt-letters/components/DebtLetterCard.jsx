@@ -16,7 +16,7 @@ const DebtLetterCard = props => {
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2p5">
       <h4 className="vads-u-margin--0 vads-u-font-size--h3">
-        {deductionCodes[debt.deductionCode]} debt{' '}
+        {deductionCodes[debt.deductionCode]} debt
       </h4>
       <p className="vads-u-margin-top--0p5">
         Received on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
