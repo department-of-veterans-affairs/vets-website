@@ -17,7 +17,7 @@ import mockFeatureToggles from '../fixtures/feature-toggles.json';
 function checkAllPages(mobile = false) {
   cy.visit('/profile');
   if (mobile) {
-    cy.viewport('iphone-6');
+    cy.viewport('iphone-4');
   }
 
   // should show a loading indicator
@@ -36,7 +36,7 @@ function checkAllPages(mobile = false) {
 
   // make the a11y check on the Personal Info section
   cy.injectAxe();
-  cy.checkA11y();
+  cy.axeCheck();
 
   // make the  a11y check on the Military Info section
   if (mobile) {
@@ -47,7 +47,7 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.MILITARY_INFORMATION}`,
   );
-  cy.checkA11y();
+  cy.axeCheck();
 
   // make the a11y check on the Direct Deposit section
   if (mobile) {
@@ -58,7 +58,7 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
   );
-  cy.checkA11y();
+  cy.axeCheck();
 
   // make the a11y check on the Account Security section
   if (mobile) {
@@ -69,7 +69,7 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
   );
-  cy.checkA11y();
+  cy.axeCheck();
 
   // make the a11y check on the Connected Apps section
   if (mobile) {
@@ -80,7 +80,7 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONNECTED_APPLICATIONS}`,
   );
-  cy.checkA11y();
+  cy.axeCheck();
 }
 
 describe('Profile', () => {
