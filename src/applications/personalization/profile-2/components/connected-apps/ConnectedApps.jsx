@@ -21,6 +21,16 @@ export class ConnectedApps extends Component {
   }
 
   confirmDelete = appId => {
+    const { apps } = this.props;
+    const deletedApps = apps ? apps.filter(app => app.deleted) : [];
+    const showHasConnectedApps = apps && deletedApps?.length !== apps?.length;
+
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': 'disconnect-button',
+      'profile-section': 'connected-accounts',
+      'user-has-connected-apps': showHasConnectedApps,
+    });
     this.props.deleteConnectedApp(appId);
   };
 
@@ -145,9 +155,9 @@ export class ConnectedApps extends Component {
               className="vads-u-color--primary-alt-darkest"
               onClick={() =>
                 recordEvent({
-                  event: 'account-navigation',
-                  'account-action': 'view-link',
-                  'account-section': 'vets-faqs',
+                  event: 'profile-navigation',
+                  'profile-action': 'view-link',
+                  'profile-section': 'vets-faqs',
                 })
               }
               href="/sign-in-faq/"

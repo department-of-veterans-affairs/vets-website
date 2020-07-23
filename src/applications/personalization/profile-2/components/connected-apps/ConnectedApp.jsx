@@ -19,11 +19,6 @@ export class ConnectedApp extends Component {
   };
 
   confirmDelete = () => {
-    recordEvent({
-      event: 'account-navigation',
-      'account-action': 'disconnect-button',
-      'account-section': 'connected-accounts',
-    });
     this.props.confirmDelete(this.props.id);
   };
 
