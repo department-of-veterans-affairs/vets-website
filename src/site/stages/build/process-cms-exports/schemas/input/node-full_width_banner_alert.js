@@ -4,30 +4,9 @@ module.exports = {
   type: 'object',
   properties: {
     title: { $ref: 'GenericNestedString' },
-    changed: {
-      type: 'array',
-      maxItems: 1,
-      items: {
-        type: 'object',
-        properties: {
-          value: { type: 'string' },
-          format: { type: 'string' },
-        },
-        required: ['value', 'format'],
-      },
-    },
+    changed: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
-    path: {
-      type: 'array',
-      maxItems: 1,
-      items: {
-        type: 'object',
-        properties: {
-          alias: { type: 'string' },
-        },
-        required: ['alias'],
-      },
-    },
+    path: { $ref: 'RawPath' },
     field_administration: { $ref: 'EntityReferenceArray' },
     field_alert_dismissable: { $ref: 'GenericNestedBoolean' },
     field_alert_email_updates_button: { $ref: 'GenericNestedBoolean' },
