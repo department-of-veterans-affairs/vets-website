@@ -68,13 +68,6 @@ describe('DebtLettersList', () => {
         .at(1)
         .text(),
     ).to.equal('Second Demand Letter');
-    expect(
-      wrapper
-        .dive()
-        .find('td')
-        .at(2)
-        .text(),
-    ).to.equal('Download Letter');
     wrapper.unmount();
   });
   it('renders correct empty state', () => {
