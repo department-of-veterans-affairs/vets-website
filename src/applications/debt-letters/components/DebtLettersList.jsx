@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const DebtLettersList = ({ debtLinks, isVBMSError }) => {
   const renderAlert = () => (
     <div
-      className="usa-alert usa-alert-error vads-u-margin-top--0"
+      className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
       role="alert"
     >
       <div className="usa-alert-body">
@@ -17,24 +17,24 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
           You can't download your debt letters because something went wrong on
           our end.
         </p>
-        <p>
+        <p className="vads-u-margin-bottom--1">
           <strong>What you can do</strong>
         </p>
-        <p className="vads-u-font-family--sans">
+        <p className="vads-u-font-family--sans vads-u-margin-y--0">
           You can check back later or call the Debt Management Center at{' '}
           <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
             800-827-0648
           </a>{' '}
-          to find out more information about how to resolve your debt
+          to find out more information about how to resolve your debt.
         </p>
       </div>
     </div>
   );
   return (
-    <div className="vads-l-row ">
-      <p className="vads-u-font-size--h2 vads-u-font-weight--bold vads-u-margin-top--1p5 vads-u-margin-bottom--2">
-        Your Debt Letters
-      </p>
+    <div>
+      <h2 className="vads-u-margin-top--1p5 vads-u-margin-bottom--2">
+        Your debt letters
+      </h2>
       {isVBMSError && renderAlert()}
       {!isVBMSError &&
         debtLinks.length > 0 && (
@@ -101,7 +101,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
           </div>
         )}
       <div className="vads-u-margin-bottom--6 vads-u-margin-top--3">
-        <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">
+        <h3 className="vads-u-margin-y--0">
           What if I don't see the letter I'm looking for?
         </h3>
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">

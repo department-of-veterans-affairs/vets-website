@@ -18,7 +18,7 @@ const DebtLetterCard = props => {
       <h4 className="vads-u-margin--0 vads-u-font-size--h3">
         {deductionCodes[debt.deductionCode]} debt{' '}
       </h4>
-      <p className="vads-u-margin-top--0p5 vads-u-font-family--sans">
+      <p className="vads-u-margin-top--0p5">
         Received on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
       </p>
       <p className="vads-u-margin-bottom--2 vads-u-font-size--md vads-u-font-family--sans">

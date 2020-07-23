@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { bindActionCreators } from 'redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -17,29 +16,10 @@ class DebtLettersWrapper extends Component {
   }
 
   render() {
-    const {
-      isPending,
-      isPendingVBMS,
-      children,
-      isError,
-      isErrorVBMS,
-      showDebtLetters,
-    } = this.props;
+    const { isPending, isPendingVBMS, children, showDebtLetters } = this.props;
 
     if (showDebtLetters === false) {
-      return document.location.replace('/');
-    }
-
-    if (isError && isErrorVBMS) {
-      return (
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--4 vads-u-margin-top--2 vads-u-font-family--serif">
-          <AlertBox
-            headline="Error alert"
-            content="Temp error text"
-            status="error"
-          />
-        </div>
-      );
+      return window.location.replace('/');
     }
 
     if (isPending || isPendingVBMS) {
@@ -64,9 +44,6 @@ class DebtLettersWrapper extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
-  isFetching: state.debtLetters.isFetching,
-  isError: state.debtLetters.isError,
-  isErrorVBMS: state.debtLetters.isErrorVBMS,
   isPending: state.debtLetters.isPending,
   isPendingVBMS: state.debtLetters.isPendingVBMS,
   showDebtLetters: toggleValues(state)[

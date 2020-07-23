@@ -86,7 +86,8 @@ describe('DebtLettersList', () => {
           },
         },
         debtLetters: {
-          isFetching: false,
+          isPendingVBMS: false,
+          isPending: false,
           debts: [],
           debtLinks: [],
         },
@@ -106,10 +107,10 @@ describe('DebtLettersList', () => {
       wrapper
         .dive()
         .find('p')
-        .at(1)
+        .at(2)
         .text(),
     ).to.equal(
-      'If you believe that you have a debt with the VA, call the Debt Management Center at 800-827-0648',
+      "If you have been notified of a debt and don't see the debt's letter on this page, or you would like to get information about your debts that have been resolved, call the Debt Management Center at 800-827-0648",
     );
     wrapper.unmount();
   });

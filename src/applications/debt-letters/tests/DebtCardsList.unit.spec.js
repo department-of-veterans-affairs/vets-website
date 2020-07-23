@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
-import DebtLettersSummary from '../components/DebtLettersSummary';
+import DebtCardsList from '../components/DebtCardsList';
 
 describe('DebtLettersSummary', () => {
   const fakeStore = {
@@ -163,11 +163,16 @@ describe('DebtLettersSummary', () => {
   };
 
   it('mounts wrapper component', () => {
-    const wrapper = shallow(<DebtLettersSummary store={fakeStore} />);
+    const wrapper = shallow(<DebtCardsList store={fakeStore} />);
     expect(wrapper.length).to.equal(1);
     wrapper.unmount();
   });
-  it('renders correct error state', () => {
+  it('renders correct number of debt cards', () => {
+    const wrapper = shallow(<DebtCardsList store={fakeStore} />);
+    expect(wrapper.dive().find(`Connect(DebtLetterCard)`).length).to.equal(4);
+    wrapper.unmount();
+  });
+  it('renders correct empty state', () => {
     const fakeStoreEmptyState = {
       getState: () => ({
         user: {
@@ -176,31 +181,25 @@ describe('DebtLettersSummary', () => {
           },
         },
         debtLetters: {
-          isFetching: false,
-          isVBMSError: true,
-          isError: true,
+          isPending: false,
+          isPendingVBMS: false,
+          isVBMSError: false,
+          isError: false,
           debts: [],
         },
       }),
       subscribe: () => {},
       dispatch: () => {},
     };
-    const wrapper = shallow(<DebtLettersSummary store={fakeStoreEmptyState} />);
+    const wrapper = shallow(<DebtCardsList store={fakeStoreEmptyState} />);
     expect(wrapper.dive().find(`Connect(DebtLetterCard)`).length).to.equal(0);
     expect(
       wrapper
         .dive()
-        .find('h3')
-        .text(),
-    ).to.equal("We're sorry. Something went wrong on our end.");
-    expect(
-      wrapper
-        .dive()
-        .find('p')
-        .at(2)
+        .find('h4')
         .text(),
     ).to.equal(
-      'If you need help resolving debt, or you would like to get information about a debt that has been resolved, call the Debt Management Center at 800-827-0648.',
+      "You don't have any current Education or Compensation & Pension Debts",
     );
     wrapper.unmount();
   });

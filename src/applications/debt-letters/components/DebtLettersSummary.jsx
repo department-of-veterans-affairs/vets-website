@@ -9,7 +9,7 @@ import DebtLettersList from './DebtLettersList';
 const DebtLettersSummary = ({ isError, isVBMSError }) => {
   const renderAlert = () => (
     <div
-      className="usa-alert usa-alert-error vads-u-margin-top--0"
+      className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
       role="alert"
     >
       <div className="usa-alert-body">
@@ -20,21 +20,22 @@ const DebtLettersSummary = ({ isError, isVBMSError }) => {
           You can't view information about your current debts or download your
           debt letters because something went wrong on our end.
         </p>
-        <p>
+        <p className="vads-u-margin-bottom--1">
           <strong>What you can do</strong>
         </p>
-        <p className="vads-u-font-family--sans">
+        <p className="vads-u-font-family--sans vads-u-margin-y--0">
           If you need help resolving debt, or you would like to get information
           about a debt that has been resolved, call the Debt Management Center
           at{' '}
           <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
             800-827-0648
           </a>
+          {'.'}
         </p>
       </div>
     </div>
   );
-
+  const allDebtsFetchFailure = isVBMSError && isError;
   return (
     <>
       <Breadcrumbs className="vads-u-font-family--sans">
@@ -52,14 +53,13 @@ const DebtLettersSummary = ({ isError, isVBMSError }) => {
               Download your debt letters, learn your payment options, or find
               out how to get help with your VA debts.
             </h2>
-            {isError && isVBMSError && renderAlert()}
-            {!isVBMSError &&
-              !isError && (
-                <>
-                  <DebtCardsList />
-                  <DebtLettersList />
-                </>
-              )}
+            {allDebtsFetchFailure && renderAlert()}
+            {!allDebtsFetchFailure && (
+              <>
+                <DebtCardsList />
+                <DebtLettersList />
+              </>
+            )}
           </div>
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
             <HowDoIPay />

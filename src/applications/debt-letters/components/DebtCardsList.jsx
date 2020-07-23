@@ -6,7 +6,7 @@ import DebtLetterCard from './DebtLetterCard';
 const DebtCardsList = ({ debts, isError }) => {
   const renderAlert = () => (
     <div
-      className="usa-alert usa-alert-error vads-u-margin-top--0"
+      className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
       role="alert"
     >
       <div className="usa-alert-body">
@@ -17,10 +17,10 @@ const DebtCardsList = ({ debts, isError }) => {
           You can't view information ab out your current debts because something
           went wrong on our end
         </p>
-        <p>
+        <p className="vads-u-margin-bottom--1">
           <strong>What you can do</strong>
         </p>
-        <p className="vads-u-font-family--sans">
+        <p className="vads-u-font-family--sans vads-u-margin-y--0">
           You're still able to download your debt letters from the list below.
           If you need help resolving a debt, or you would like to get
           information about a debt that has been resolved, call the Debt
@@ -28,15 +28,16 @@ const DebtCardsList = ({ debts, isError }) => {
           <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
             800-827-0648
           </a>
+          {'.'}
         </p>
       </div>
     </div>
   );
   return (
     <>
-      <p className="vads-u-font-size--h2 vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-bottom--2">
+      <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         Your current debts
-      </p>
+      </h2>
       {isError && renderAlert()}
       {!isError &&
         debts.length > 0 && (
