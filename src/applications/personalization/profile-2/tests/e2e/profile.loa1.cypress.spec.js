@@ -44,7 +44,7 @@ describe('LOA1 users', () => {
       cy.findByRole('link', { name: /account security/i }).should('exist');
     });
 
-    // Going directly to any other  should redirect to the
+    // Going directly to any other should redirect to the
     // account security section
     [
       PROFILE_PATHS.CONNECTED_APPLICATIONS,
