@@ -68,7 +68,7 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
           }
         />
       );
-    } else if (some(error.errors, e => ['500', '503'].includes(e.code))) {
+    } else {
       return <LoadFail information="military" />;
     }
   }

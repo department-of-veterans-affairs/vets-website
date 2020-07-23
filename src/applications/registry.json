@@ -859,7 +859,7 @@
   {
     "appName": "View Payments",
     "entryName": "view-payments",
-    "rootUrl": "/disability-benefits/view-payments",
+    "rootUrl": "/va-payment-history/payments",
     "template": {
       "includeBreadcrumbs": true,
       "vagovprod": false,
