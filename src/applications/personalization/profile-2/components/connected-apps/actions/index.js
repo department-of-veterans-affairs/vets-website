@@ -65,12 +65,10 @@ export function deleteConnectedApp(appId) {
       .then(() => {
         const { connectedApps } = getState();
         const apps = connectedApps?.apps;
-        const deletedApps = apps ? apps.filter(app => app.deleted) : [];
         const activeApps = apps ? apps.filter(app => !app.deleted) : [];
         const deletingLastApp =
           activeApps?.length === 1 && activeApps[0].deleting;
-        const hasConnectedApps =
-          apps && deletedApps?.length !== apps?.length && !deletingLastApp;
+        const hasConnectedApps = activeApps?.length && !deletingLastApp;
 
         recordEvent({
           event: 'profile-navigation',
