@@ -19,7 +19,7 @@ function keepAlive() {
 }
 
 export async function ssoKeepAliveSession() {
-  const { ttl, authn } = await keepAlive();
+  const { ttl, transactionid, authn } = await keepAlive();
   if (ttl > 0) {
     // ttl is positive, user has an active session
     // ttl is in seconds, add from now
@@ -33,23 +33,28 @@ export async function ssoKeepAliveSession() {
     // ttl is null, we can't determine if the user has a session or not
     localStorage.removeItem('hasSessionSSO');
   }
-  return { ttl, authn };
+  return { ttl, transactionid, authn };
 }
 
-export async function checkAutoSession(loggedIn, authenticatedWithSSOe) {
-  const { ttl, authn } = await ssoKeepAliveSession();
+export async function checkAutoSession(loggedIn, ssoeTransactionId) {
+  const { ttl, transactionid, authn } = await ssoKeepAliveSession();
 
-  if (loggedIn && authenticatedWithSSOe) {
+  if (loggedIn && ssoeTransactionId) {
     if (window.location.pathname === '/sign-in/' && ttl > 0) {
       // the user is on the standalone signin page, but already logged in with SSOe
       // redirect them back to their return url
       window.location = standaloneRedirect() || window.location.origin;
-    } else if (ttl === 0) {
+    } else if (ttl === 0 || transactionid !== ssoeTransactionId) {
       // having a user session is not enough, we also need to make sure when
       // the user authenticated they used SSOe, otherwise we can't auto logout
-      // explicitly check to see if the TTL for the SSO3 session is 0, as it
+      // explicitly check to see if the TTL for the SSOe session is 0, as it
       // could also be null if we failed to get a response from the SSOe server,
       // in which case we don't want to logout the user because we don't know
+      // Additionally check to make sure that the transaction id returned from
+      // the /keepalive endpoint doesn't match that of the users VA session.
+      // If they don't match, it means we might have a different user logged in,
+      // thus we should auto log out the user, and immediately log them back in
+      // to make sure the users match
       logout('v1', 'sso-automatic-logout', { 'auto-logout': 'true' });
     }
   } else if (!loggedIn && ttl > 0 && !getLoginAttempted() && authn) {
