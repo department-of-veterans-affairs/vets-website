@@ -10,7 +10,7 @@ describe('Connected Apps actions', () => {
 
   describe('loadConnectedApps', () => {
     it('creates the correct action when the call succeeds', async () => {
-      const mockResponse = { data: 'data' };
+      const mockResponse = { data: [{ app: '1', deleted: false }] };
       const dispatch = sinon.stub();
       mockApiRequest(mockResponse);
       const thunk = await actions.loadConnectedApps();
