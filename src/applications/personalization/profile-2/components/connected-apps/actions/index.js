@@ -53,7 +53,6 @@ export function loadConnectedApps() {
 export function deleteConnectedApp(appId) {
   return async (dispatch, getState) => {
     dispatch({ type: DELETING_CONNECTED_APP, appId });
-    const { connectedApps } = getState();
 
     // Locally we cannot call the endpoint
     if (environment.isLocalhost()) {
@@ -64,9 +63,14 @@ export function deleteConnectedApp(appId) {
 
     await apiRequest(`${grantsUrl}/${appId}`, { method: 'DELETE' })
       .then(() => {
+        const { connectedApps } = getState();
         const apps = connectedApps?.apps;
         const deletedApps = apps ? apps.filter(app => app.deleted) : [];
-        const hasConnectedApps = apps && deletedApps?.length !== apps?.length;
+        const activeApps = apps ? apps.filter(app => !app.deleted) : [];
+        const deletingLastApp =
+          activeApps?.length === 1 && activeApps[0].deleting;
+        const hasConnectedApps =
+          apps && deletedApps?.length !== apps?.length && !deletingLastApp;
 
         recordEvent({
           event: 'profile-navigation',
