@@ -7,7 +7,11 @@ module.exports = {
     changed: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
-    field_administration: { $ref: 'EntityReferenceArray' },
+    field_administration: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'EntityReference' },
+    },
     field_alert_dismissable: { $ref: 'GenericNestedBoolean' },
     field_alert_email_updates_button: { $ref: 'GenericNestedBoolean' },
     field_alert_find_facilities_cta: { $ref: 'GenericNestedBoolean' },
