@@ -151,6 +151,9 @@ export class LandingPage extends React.Component {
                   {...this.props.eligibility}
                   hideModal={this.props.hideModal}
                   showModal={this.props.showModal}
+                  gibctCh33BenefitRateUpdate={
+                    this.props.gibctCh33BenefitRateUpdate
+                  }
                 />
               ) : (
                 <EligibilityForm
@@ -217,6 +220,9 @@ const mapStateToProps = state => ({
   ],
   gibctSearchEnhancements: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSearchEnhancements
+  ],
+  gibctCh33BenefitRateUpdate: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
   ],
 });
 
