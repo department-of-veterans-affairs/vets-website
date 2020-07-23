@@ -103,7 +103,7 @@ export const schema = {
   type: 'object',
   properties: {
     serviceInformation: {
-      required: ['servicePeriods', 'separationLocation'], // required in fullSchema
+      required: ['servicePeriods'], // required in fullSchema
       type: 'object',
       properties: {
         servicePeriods:
