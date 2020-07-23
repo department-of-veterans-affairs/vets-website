@@ -13,9 +13,10 @@ function parseId(id) {
 /**
  * Method to get available HealthcareService objects.
  *
- * @param {String} facilityId
- * @param {String} typeOfCareId
+ * @param {String} facilityId The VistA facility id
+ * @param {String} typeOfCareId An id for the type of care to check for the chosen organization
  * @param {String} systemId
+ * @param {Boolean} params.useVSP A flag that determines whether or not to use the new VSP apis
  *
  * @returns {Array} An a collection of HealthcareService objects.
  */
@@ -23,28 +24,42 @@ export async function getAvailableHealthcareServices({
   facilityId,
   typeOfCareId,
   systemId,
+  useVSP,
 }) {
-  try {
-    const clinics = await getAvailableClinics(
-      parseId(facilityId),
-      typeOfCareId,
-      systemId,
-    );
+  if (useVSP) {
+    const results = await fhirSearch({
+      query:
+        `HealthcareService?location:Location.identifier=${facilityId}` +
+        '&characteristic=PATIENTDS_ENABLED',
+      mock: () =>
+        facilityId === '983'
+          ? import('./mock_healthcare_system_983.json')
+          : import('./mock_healthcare_system_984.json'),
+    });
+    return results.filter(item => item.resourceType === 'HealthcareService');
+  } else {
+    try {
+      const clinics = await getAvailableClinics(
+        parseId(facilityId),
+        typeOfCareId,
+        systemId,
+      );
 
-    return transformAvailableClinics(
-      parseId(facilityId),
-      typeOfCareId,
-      clinics,
-    ).sort(
-      (a, b) =>
-        a.serviceName.toUpperCase() < b.serviceName.toUpperCase() ? -1 : 1,
-    );
-  } catch (e) {
-    if (e.errors) {
-      throw mapToFHIRErrors(e.errors);
+      return transformAvailableClinics(
+        parseId(facilityId),
+        typeOfCareId,
+        clinics,
+      ).sort(
+        (a, b) =>
+          a.serviceName.toUpperCase() < b.serviceName.toUpperCase() ? -1 : 1,
+      );
+    } catch (e) {
+      if (e.errors) {
+        throw mapToFHIRErrors(e.errors);
+      }
+
+      throw e;
     }
-
-    throw e;
   }
 }
 
