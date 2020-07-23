@@ -27,23 +27,26 @@ export class IntroductionPage extends React.Component {
             className="usa-alert usa-alert-warning schemaform-sip-alert"
           >
             <div className="usa-alert-body">
-              <h3 className="usa-alert-heading">You may not be eligible</h3>
+              <h3 className="usa-alert-heading">
+                It appears you're not eligible
+              </h3>
               <div className="usa-alert-text">
                 <p>
-                  Our entitlement system shows that you have more than 6 months
-                  of education benefits remaining.
-                </p>
-                <p>
                   To be eligible for the Rogers STEM Scholarship, you must have
-                  less than 6 mo nths of Post-9/11 GI Bill benefits left when
-                  you submit your application.
+                  less than 6 months of Post-9/11 GI Bill benefits left when you
+                  submit your application.
                 </p>
                 <p>
-                  Months you have left to use:{' '}
+                  Our entitlement system shows you have the following benefits
+                  remaining:{' '}
                   <strong>
                     {this.props?.remainingEntitlement.months} months,{' '}
                     {this.props?.remainingEntitlement.days} days
                   </strong>
+                </p>
+                <p>
+                  If you apply and you’re not eligible, your application will be
+                  denied.
                 </p>
               </div>
             </div>
@@ -108,21 +111,22 @@ export class IntroductionPage extends React.Component {
                 </div>
                 <ul>
                   <li>
-                    Are using or recently used Post-9/11 GI Bill or Fry
-                    Scholarship benefits.
+                    <b>Education benefit:</b> You're using or recently used
+                    Post-9/11 GI Bill or Fry Scholarship benefits.
                   </li>
                   <li>
-                    Are enrolled in a bachelor’s degree program for science,
-                    technology, engineering, or math (STEM), <b>or</b> have
-                    already earned a STEM bachelor’s degree and are pursuing a
-                    teaching certification.{' '}
+                    <b>STEM degree:</b> You're enrolled in a bachelor’s degree
+                    program for science, technology, engineering, or math
+                    (STEM), <b>or</b> have already earned a STEM bachelor’s
+                    degree and are pursuing a teaching certification.{' '}
                     <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
-                      See approved STEM programs
+                      See eligible programs
                     </a>
                   </li>
                   <li>
-                    Have used all of your education benefits or are within 6
-                    months of doing so when you submit your application.{' '}
+                    <b>Remaining entitlement:</b> You've used all of your
+                    education benefits or are within 6 months of doing so when
+                    you submit your application.{' '}
                     <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/">
                       Check your remaining benefits
                     </a>
@@ -149,10 +153,10 @@ export class IntroductionPage extends React.Component {
                   <li>Bank account direct deposit information</li>
                 </ul>
                 <p>
-                  <b>What if I need help filling out my application?</b> A
-                  School Certifying Official (SCO) at your school or an
-                  accredited representative, like a Veterans Service Officer
-                  (VSO), can help you fill out your claim.{' '}
+                  <b>What if I need help filling out my application?</b> An
+                  accredited individual, like a Veterans Service Officer (VSO)
+                  or a Veteran representative at your school, can help you fill
+                  out this application.{' '}
                   <a href="/disability/get-help-filing-claim/">
                     Get help filing your claim
                   </a>
@@ -217,7 +221,7 @@ export class IntroductionPage extends React.Component {
           startText="Start the education application"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={5} ombNumber="2900-0878" expDate="06/30/2023" />
+          <OMBInfo resBurden={15} ombNumber="2900-0878" expDate="06/30/2023" />
         </div>
       </div>
     );
