@@ -74,8 +74,8 @@ export function deleteConnectedApp(appId) {
           'profile-section': 'connected-accounts',
           'user-has-connected-apps': hasConnectedApps,
         });
-        dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId }))
-      }
+        dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId });
+      })
       .catch(({ errors }) =>
         dispatch({ type: ERROR_DELETING_CONNECTED_APP, appId, errors }),
       );
