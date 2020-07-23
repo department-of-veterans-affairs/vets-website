@@ -265,9 +265,12 @@ export default class ArrayField extends React.Component {
               itemIdPrefix,
               definitions,
             );
+            const showSave = uiSchema['ui:options'].showSave;
+            const updateText = showSave && index === 0 ? 'Save' : 'Update';
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
-            const notLastOrMultipleRows = !isLast || items.length > 1;
+            const notLastOrMultipleRows =
+              showSave || !isLast || items.length > 1;
 
             if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
@@ -308,24 +311,26 @@ export default class ArrayField extends React.Component {
                       {notLastOrMultipleRows && (
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
-                            {!isLast && (
+                            {(!isLast || showSave) && (
                               <button
                                 className="float-left"
                                 onClick={() => this.handleUpdate(index)}
-                                aria-label={`Update ${title}`}
+                                aria-label={`${updateText} ${title}`}
                               >
-                                Update
+                                {updateText}
                               </button>
                             )}
                           </div>
                           <div className="small-6 right columns">
-                            <button
-                              className="usa-button-secondary float-right"
-                              type="button"
-                              onClick={() => this.handleRemove(index)}
-                            >
-                              Remove
-                            </button>
+                            {index !== 0 && (
+                              <button
+                                className="usa-button-secondary float-right"
+                                type="button"
+                                onClick={() => this.handleRemove(index)}
+                              >
+                                Remove
+                              </button>
+                            )}
                           </div>
                         </div>
                       )}
