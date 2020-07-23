@@ -25,7 +25,7 @@ describe('<AccessToCare>', () => {
     },
   };
 
-  it('Should render when used.', () => {
+  it('Should render access care component', () => {
     const wrapper = shallow(<AccessToCare location={testFacility} />);
     expect(wrapper.type()).to.not.equal(null);
     wrapper.unmount();
