@@ -81,7 +81,7 @@ export const uiSchema = {
     separationLocation: {
       'ui:title': 'Enter a location',
       'ui:field': AutosuggestField,
-      'ui:required': () => true,
+      'ui:required': formData => !environment.isProduction() && isBDD(formData),
       'ui:validations': [checkSeparationLocation],
       'ui:options': {
         hideIf: formData => environment.isProduction() || !isBDD(formData),
