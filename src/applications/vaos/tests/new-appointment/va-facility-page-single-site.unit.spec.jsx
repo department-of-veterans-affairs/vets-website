@@ -8,7 +8,7 @@ import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import VAFacilityPage from '../../containers/VAFacilityPage';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { getParentSiteMock, getFacilityMock } from '../mocks/v0';
-import { createTestStore, setTypeOfCare } from '../mocks/form';
+import { createTestStore, setTypeOfCare } from '../mocks/setup';
 import {
   mockEligibilityFetches,
   mockParentSites,

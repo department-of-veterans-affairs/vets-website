@@ -430,3 +430,10 @@ export const selectPastAppointments = createSelector(
     return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
   },
 );
+
+export function selectHasExpressCareRequests(state) {
+  return (
+    vaosExpressCare(state) &&
+    state.appointments.future?.some(appt => appt.vaos.isExpressCare)
+  );
+}
