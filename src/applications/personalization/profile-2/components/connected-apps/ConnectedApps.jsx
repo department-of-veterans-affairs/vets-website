@@ -21,16 +21,6 @@ export class ConnectedApps extends Component {
   }
 
   confirmDelete = appId => {
-    const { apps } = this.props;
-    const deletedApps = apps ? apps.filter(app => app.deleted) : [];
-    const showHasConnectedApps = apps && deletedApps?.length !== apps?.length;
-
-    recordEvent({
-      event: 'profile-navigation',
-      'profile-action': 'disconnect-button',
-      'profile-section': 'connected-accounts',
-      'user-has-connected-apps': showHasConnectedApps,
-    });
     this.props.deleteConnectedApp(appId);
   };
 
