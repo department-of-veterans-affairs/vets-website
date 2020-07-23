@@ -97,7 +97,7 @@ describe('DebtLetterCard', () => {
         .find('p')
         .at(1)
         .text(),
-    ).to.equal('$10,000.00');
+    ).to.equal('Amount owed: $10,000.00');
     expect(
       wrapper
         .dive()

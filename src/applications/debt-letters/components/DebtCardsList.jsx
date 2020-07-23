@@ -25,7 +25,7 @@ const DebtCardsList = ({ debts, isError }) => {
           If you need help resolving a debt, or you would like to get
           information about a debt that has been resolved, call the Debt
           Management Center at{' '}
-          <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
+          <a href="tel: 800-827-0648" aria-label="8 0 0. 8 2 7. 0 6 4 8.">
             800-827-0648
           </a>
           {'.'}
@@ -50,7 +50,7 @@ const DebtCardsList = ({ debts, isError }) => {
               <strong>Note: </strong>
               This list may not show your most recently updated debts. If you
               have questions about your VA debt, contact the DMC at{' '}
-              <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
+              <a href="tel: 800-827-0648" aria-label="8 0 0. 8 2 7. 0 6 4 8.">
                 800-827-0648
               </a>
             </p>
