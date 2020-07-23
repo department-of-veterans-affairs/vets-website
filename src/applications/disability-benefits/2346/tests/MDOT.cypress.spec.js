@@ -83,7 +83,7 @@ const testConfig = createTestConfig(
     },
 
     // Skip tests until MDOT is in production
-    skip: true,
+    skip: false,
   },
   manifest,
   formConfig,
