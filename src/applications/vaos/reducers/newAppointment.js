@@ -55,6 +55,7 @@ import {
 } from '../actions/sitewide';
 
 import {
+  FACILITY_TYPES,
   FLOW_TYPES,
   REASON_ADDITIONAL_INFO_TITLES,
   REASON_MAX_CHARS,
@@ -562,6 +563,9 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
+      const uiSchema = { ...action.uiSchema };
+      const isCommunityCare =
+        state.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       let reasonMaxChars = REASON_MAX_CHARS.request;
 
       if (state.flowType === FLOW_TYPES.DIRECT) {
@@ -578,18 +582,34 @@ export default function formReducer(state = initialState, action) {
         action.schema,
       );
 
+      let additionalInfoTitle;
+
+      // If community care, hide reasonForAppointment radios, update
+      // additional info title, remove expand condition and make optional
+      if (isCommunityCare) {
+        additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.cc;
+        reasonSchema = unset('properties.reasonForAppointment', reasonSchema);
+        reasonSchema = unset('required', reasonSchema);
+        delete uiSchema.reasonAdditionalInfo['ui:options'].expandUnder;
+        delete uiSchema.reasonAdditionalInfo['ui:options'].expandUnderCondition;
+        delete uiSchema.reasonForAppointment;
+      } else {
+        additionalInfoTitle =
+          state.flowType === FLOW_TYPES.DIRECT
+            ? REASON_ADDITIONAL_INFO_TITLES.direct
+            : REASON_ADDITIONAL_INFO_TITLES.request;
+      }
+
       reasonSchema = set(
         'properties.reasonAdditionalInfo.title',
-        state.flowType === FLOW_TYPES.DIRECT
-          ? REASON_ADDITIONAL_INFO_TITLES.direct
-          : REASON_ADDITIONAL_INFO_TITLES.request,
+        additionalInfoTitle,
         reasonSchema,
       );
 
       const { data, schema } = setupFormData(
         state.data,
         reasonSchema,
-        action.uiSchema,
+        uiSchema,
       );
 
       return {
@@ -747,7 +767,8 @@ export default function formReducer(state = initialState, action) {
           initialSchema,
         );
         initialSchema.properties.communityCareSystemId.enumNames = systems.map(
-          system => `${system.address?.city}, ${system.address?.state}`,
+          system =>
+            `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
         );
         initialSchema.required.push('communityCareSystemId');
       }

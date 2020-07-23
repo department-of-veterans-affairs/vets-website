@@ -46,6 +46,7 @@ import {
   REASON_MAX_CHARS,
   PURPOSE_TEXT,
   VHA_FHIR_ID,
+  FACILITY_TYPES,
 } from '../../utils/constants';
 
 import { transformParentFacilities } from '../../services/organization/transformers';
@@ -774,12 +775,12 @@ describe('VAOS reducer: newAppointment', () => {
       ).to.equal(REASON_ADDITIONAL_INFO_TITLES.request);
     });
 
-    it('page open should set max characters', async () => {
+    it('should remove reasonForAppointment radio buttons and make reasonAdditionalInfo optional if cc', async () => {
       const currentState = {
         ...defaultState,
-        flowType: FLOW_TYPES.DIRECT,
+        flowType: FLOW_TYPES.REQUEST,
         data: {
-          reasonForAppointment: 'other',
+          facilityType: FACILITY_TYPES.COMMUNITY_CARE,
         },
       };
 
@@ -788,66 +789,108 @@ describe('VAOS reducer: newAppointment', () => {
         page: 'reasonForAppointment',
         schema: {
           type: 'object',
+          required: ['reasonForAppointment', 'reasonAdditionalInfo'],
+          properties: {
+            reasonForAppointment: {
+              type: 'string',
+            },
+            reasonAdditionalInfo: {
+              type: 'string',
+            },
+          },
+        },
+        uiSchema: {
+          reasonAdditionalInfo: {
+            'ui:options': {
+              expandUnder: 'reasonForAppointment',
+              expandUnderCondition: reasonForAppointment =>
+                !!reasonForAppointment,
+            },
+          },
+          reasonForAppointment: {},
+        },
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      const reasonState = newState.pages.reasonForAppointment;
+      expect('required' in reasonState).to.equal(false);
+      expect('reasonForAppointment' in reasonState.properties).to.equal(false);
+    });
+  });
+
+  it('page open should set max characters', async () => {
+    const currentState = {
+      ...defaultState,
+      flowType: FLOW_TYPES.DIRECT,
+      data: {
+        reasonForAppointment: 'other',
+      },
+    };
+
+    const action = {
+      type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+      page: 'reasonForAppointment',
+      schema: {
+        type: 'object',
+        properties: {
+          reasonAdditionalInfo: {
+            type: 'string',
+          },
+        },
+      },
+      uiSchema: {},
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(
+      newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+        .maxLength,
+    ).to.equal(
+      REASON_MAX_CHARS.direct -
+        PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
+        2,
+    );
+  });
+
+  it('change should set max characters', async () => {
+    const currentState = {
+      ...defaultState,
+      flowType: FLOW_TYPES.DIRECT,
+      data: {
+        reasonForAppointment: 'medication-concern',
+      },
+      pages: {
+        reasonForAppointment: {
+          type: 'object',
           properties: {
             reasonAdditionalInfo: {
               type: 'string',
             },
           },
         },
-        uiSchema: {},
-      };
+      },
+    };
 
-      const newState = newAppointmentReducer(currentState, action);
+    const action = {
+      type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
+      page: 'reasonForAppointment',
+      uiSchema: {},
+      data: {
+        reasonForAppointment: 'other',
+      },
+    };
 
-      expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
-          .maxLength,
-      ).to.equal(
-        REASON_MAX_CHARS.direct -
-          PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
-          2,
-      );
-    });
+    const newState = newAppointmentReducer(currentState, action);
 
-    it('change should set max characters', async () => {
-      const currentState = {
-        ...defaultState,
-        flowType: FLOW_TYPES.DIRECT,
-        data: {
-          reasonForAppointment: 'medication-concern',
-        },
-        pages: {
-          reasonForAppointment: {
-            type: 'object',
-            properties: {
-              reasonAdditionalInfo: {
-                type: 'string',
-              },
-            },
-          },
-        },
-      };
-
-      const action = {
-        type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
-        page: 'reasonForAppointment',
-        uiSchema: {},
-        data: {
-          reasonForAppointment: 'other',
-        },
-      };
-
-      const newState = newAppointmentReducer(currentState, action);
-
-      expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
-          .maxLength,
-      ).to.equal(
-        REASON_MAX_CHARS.direct -
-          PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
-          2,
-      );
-    });
+    expect(
+      newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+        .maxLength,
+    ).to.equal(
+      REASON_MAX_CHARS.direct -
+        PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
+        2,
+    );
   });
 
   describe('CC preferences page', () => {
