@@ -1,6 +1,7 @@
 import React from 'react';
 import last from 'lodash/last';
 import moment from 'moment';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { deductionCodes } from '../const';
 import { connect } from 'react-redux';
 
@@ -17,13 +18,19 @@ const DebtLetterCard = props => {
       <h4 className="vads-u-margin--0 vads-u-font-size--h3">
         {deductionCodes[debt.deductionCode]} debt{' '}
       </h4>
-      <p>Received on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}</p>
-      <p className="vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--sans">
-        Amount owed:
+      <p className="vads-u-margin-top--0p5 vads-u-font-family--sans">
+        Received on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
       </p>
-      <p className="vads-u-margin-top--0 vads-u-font-size--md vads-u-font-family--sans">
+      <p className="vads-u-margin-bottom--2 vads-u-font-size--md vads-u-font-family--sans">
+        <strong>Amount owed: </strong>
         {formatter.format(parseFloat(debt.currentAr))}
       </p>
+      <AdditionalInfo triggerText="Why might I have this debt?">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aperiam
+        culpa debitis deleniti earum explicabo fuga fugit libero magnam
+        molestiae non, omnis porro qui, quod voluptatibus. Natus perspiciatis
+        quibusdam recusandae?
+      </AdditionalInfo>
     </div>
   );
 };

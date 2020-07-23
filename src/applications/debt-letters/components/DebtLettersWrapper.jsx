@@ -50,9 +50,9 @@ class DebtLettersWrapper extends Component {
       <>
         {showDebtLetters ? (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--4 vads-u-margin-top--2 vads-u-font-family--serif">
-            <CallToActionWidget appId="debt-letters">
-              {children}
-            </CallToActionWidget>
+            {/* <CallToActionWidget appId="debt-letters"> */}
+            {children}
+            {/* </CallToActionWidget> */}
           </div>
         ) : (
           <div />
