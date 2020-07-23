@@ -11,7 +11,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import { getFormPageInfo } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
-import { PURPOSE_TEXT } from '../utils/constants';
+import { PURPOSE_TEXT, FACILITY_TYPES } from '../utils/constants';
 import TextareaWidget from '../components/TextareaWidget';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
@@ -47,14 +47,20 @@ const uiSchema = {
 };
 
 const pageKey = 'reasonForAppointment';
-const pageTitle = 'Choose a reason for your appointment';
 
 export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
-    document.title = `${pageTitle} | Veterans Affairs`;
+    document.title = `${this.getPageTitle(
+      this.props.data.facilityType,
+    )} | Veterans Affairs`;
     this.props.openReasonForAppointment(pageKey, uiSchema, initialSchema);
     scrollAndFocus();
   }
+
+  getPageTitle = facilityType =>
+    facilityType === FACILITY_TYPES.COMMUNITY_CARE
+      ? 'Tell us the reason for this appointment'
+      : 'Choose a reason for your appointment';
 
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
@@ -69,7 +75,9 @@ export class ReasonForAppointmentPage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+        <h1 className="vads-u-font-size--h2">
+          {this.getPageTitle(data.facilityType)}
+        </h1>
         <SchemaForm
           name="Reason for appointment"
           title="Reason for appointment"
