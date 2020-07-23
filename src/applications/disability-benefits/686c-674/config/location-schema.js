@@ -33,21 +33,9 @@ export const locationUISchema = (
 ) => {
   // IF we are inside a list loop, return hideIf and required uiSchema that use `index`
   if (isInsideListLoop) {
-    return isInsideListLoopReturn(
-      chapter,
-      outerField,
-      isInsideListLoop,
-      uiTitle,
-      formChapter,
-    );
+    return isInsideListLoopReturn(chapter, outerField, uiTitle, formChapter);
   }
 
   // IF we are NOT inside a list loop, return hideIf and required uiSchema that do NOT use `index`
-  return isOutsideListLoopReturn(
-    chapter,
-    outerField,
-    isInsideListLoop,
-    uiTitle,
-    formChapter,
-  );
+  return isOutsideListLoopReturn(chapter, outerField, uiTitle, formChapter);
 };

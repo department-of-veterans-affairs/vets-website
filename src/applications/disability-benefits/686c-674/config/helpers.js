@@ -75,7 +75,6 @@ export const cityTitle = (
 export const isInsideListLoopReturn = (
   chapter,
   outerField,
-  isInsideListLoop,
   uiTitle,
   formChapter,
 ) => {
@@ -120,7 +119,6 @@ export const isInsideListLoopReturn = (
 export const isOutsideListLoopReturn = (
   chapter,
   outerField,
-  isInsideListLoop,
   uiTitle,
   formChapter,
 ) => {
