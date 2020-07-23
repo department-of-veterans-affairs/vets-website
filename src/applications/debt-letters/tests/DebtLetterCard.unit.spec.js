@@ -98,14 +98,6 @@ describe('DebtLetterCard', () => {
         .at(1)
         .text(),
     ).to.equal('Amount owed: $10,000.00');
-    expect(
-      wrapper
-        .dive()
-        .find('p')
-        .at(3)
-        .text(),
-    ).to.equal('Returned From Cross Servicing - At TOP');
-
     wrapper.unmount();
   });
 });
