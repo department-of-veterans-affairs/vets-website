@@ -65,13 +65,32 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                     </td>
                     <td className="vads-u-border--0">
                       <a
+                        download={`${debtLetter.typeDescription} dated ${moment(
+                          debtLetter.receivedAt,
+                        ).format('MMM D, YYYY')}`}
                         href={encodeURI(
                           `${environment.API_URL}/v0/debt_letters/${
                             debtLetter.documentId
                           }`,
                         )}
                       >
-                        Download Letter
+                        <i
+                          aria-hidden="true"
+                          role="img"
+                          className="fas fa-download vads-u-padding-right--1"
+                        />
+                        Download
+                        <span className="sr-only">
+                          ` ${debtLetter.typeDescription} `
+                        </span>{' '}
+                        letter{' '}
+                        <span className="sr-only">
+                          `dated $
+                          {moment(debtLetter.receivedAt).format('MMM D, YYYY')}`
+                        </span>{' '}
+                        <dfn>
+                          <abbr title="Portable Document Format">PDF</abbr>
+                        </dfn>
                       </a>
                     </td>
                   </tr>
