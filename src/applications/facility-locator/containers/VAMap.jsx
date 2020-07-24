@@ -182,9 +182,15 @@ class VAMap extends Component {
     const { currentQuery: prevQuery } = prevProps;
     const updatedQuery = this.props.currentQuery;
 
-    const shouldZoomOut = // ToTriggerNewSearch
-      !updatedQuery.searchBoundsInProgress &&
-      prevQuery.searchBoundsInProgress && // search completed
+    const searchCompleted =
+      !updatedQuery.searchBoundsInProgress && prevQuery.searchBoundsInProgress;
+
+    if (searchCompleted && this.searchResultTitle.current) {
+      setFocus(this.searchResultTitle.current);
+    }
+
+    const shouldZoomOut =
+      searchCompleted &&
       isEmpty(this.props.results) &&
       updatedQuery.bounds &&
       parseInt(updatedQuery.zoomLevel, 10) > 2 &&
@@ -331,9 +337,6 @@ class VAMap extends Component {
     });
 
     this.props.genBBoxFromAddress(currentQuery);
-    if (this.searchResultTitle.current) {
-      setFocus(this.searchResultTitle.current);
-    }
   };
 
   handleBoundsChanged = () => {
@@ -515,13 +518,14 @@ class VAMap extends Component {
     return mapMarkers;
   };
 
-  renderResultsHeader = (results, facilityType, queryContext) => (
-    <SearchResultsHeader
-      results={results}
-      facilityType={facilityType}
-      context={queryContext}
-    />
-  );
+  renderResultsHeader = (results, facilityType, queryContext) =>
+    !this.props.currentQuery.inProgress && (
+      <SearchResultsHeader
+        results={results}
+        facilityType={facilityType}
+        context={queryContext}
+      />
+    );
 
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
