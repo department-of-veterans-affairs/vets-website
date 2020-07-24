@@ -14,7 +14,7 @@
         "requestSupported": true,
         "directSchedulingSupported": false,
         "expressTimes": {
-          "start": "18:00",
+          "start": "09:00",
           "end": "23:00",
           "timezone": "MDT",
           "offsetUtc": "-06:00"
