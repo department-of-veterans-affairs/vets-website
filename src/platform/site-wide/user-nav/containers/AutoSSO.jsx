@@ -14,7 +14,6 @@ function AutoSSO(props) {
   const {
     useInboundSSOe,
     hasCalledKeepAlive,
-    authenticatedWithSSOe,
     transactionId,
     loggedIn,
     profileLoading,
