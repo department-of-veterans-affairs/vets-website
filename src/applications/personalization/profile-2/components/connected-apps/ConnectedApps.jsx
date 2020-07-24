@@ -146,9 +146,9 @@ export class ConnectedApps extends Component {
               className="vads-u-color--primary-alt-darkest"
               onClick={() =>
                 recordEvent({
-                  event: 'account-navigation',
-                  'account-action': 'view-link',
-                  'account-section': 'vets-faqs',
+                  event: 'profile-navigation',
+                  'profile-action': 'view-link',
+                  'profile-section': 'vets-faqs',
                 })
               }
               href="/sign-in-faq/"
