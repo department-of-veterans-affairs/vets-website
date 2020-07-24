@@ -50,11 +50,10 @@ export async function checkAutoSession(loggedIn, ssoeTransactionId) {
       // explicitly check to see if the TTL for the SSOe session is 0, as it
       // could also be null if we failed to get a response from the SSOe server,
       // in which case we don't want to logout the user because we don't know
-      // Additionally check to make sure that the transaction id returned from
-      // the /keepalive endpoint doesn't match that of the users VA session.
-      // If they don't match, it means we might have a different user logged in,
-      // thus we should auto log out the user, and immediately log them back in
-      // to make sure the users match
+      // Additionally, compare the transaction id from the keepalive endpoint
+      // with the existing transaction id. If they don't match, it means we might
+      // have a different user logged in. Thus, we should auto log out the user,
+      // and immediately log them back in to make sure the users match.
       logout('v1', 'sso-automatic-logout', { 'auto-logout': 'true' });
     }
   } else if (!loggedIn && ttl > 0 && !getLoginAttempted() && authn) {
