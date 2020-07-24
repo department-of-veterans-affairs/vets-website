@@ -7,6 +7,8 @@ import {
   optionsList,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
+import { getNestedUISchema } from './ReviewFieldTemplate';
+
 /*
  * This is a minimal string field implementation for the
  * review page, so we can pass custom review widgets
@@ -14,11 +16,12 @@ import {
  */
 export default function StringField(props) {
   const { registry, schema, uiSchema, formData } = props;
-  const uiOptions = getUiOptions(uiSchema);
+  const realUiSchema = getNestedUISchema(uiSchema);
+  const uiOptions = getUiOptions(realUiSchema);
   const labels = uiOptions.labels || {};
   const enumOptions = Array.isArray(schema.enum) && optionsList(schema);
 
-  let Widget = _.get('ui:reviewWidget', uiSchema);
+  let Widget = _.get('ui:reviewWidget', realUiSchema);
   if (!Widget) {
     const defaultWidget = schema.format || (enumOptions ? 'select' : 'text');
     Widget = getWidget(
