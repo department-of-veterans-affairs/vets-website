@@ -72,25 +72,27 @@ export default class Wizard extends React.Component {
             {this.props.buttonText}
           </button>
         )}
-        <div className={contentClasses} id="wizardOptions">
-          <div className="wizard-content-inner">
-            {this.state.pageHistory.map((page, index) => {
-              const Page = page.component;
-              return (
-                <Page
-                  key={`${page.name}_${index}`}
-                  getPageStateFromPageName={pageName =>
-                    this.getPageStateFromPageName(pageName)
-                  }
-                  setPageState={(newState, nextPageName) =>
-                    this.setPageState(index, newState, nextPageName)
-                  }
-                  state={page.state}
-                />
-              );
-            })}
+        {this.state.expanded && (
+          <div className={contentClasses} id="wizardOptions">
+            <div className="wizard-content-inner">
+              {this.state.pageHistory.map((page, index) => {
+                const Page = page.component;
+                return (
+                  <Page
+                    key={`${page.name}_${index}`}
+                    getPageStateFromPageName={pageName =>
+                      this.getPageStateFromPageName(pageName)
+                    }
+                    setPageState={(newState, nextPageName) =>
+                      this.setPageState(index, newState, nextPageName)
+                    }
+                    state={page.state}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
