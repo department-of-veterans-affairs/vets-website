@@ -83,7 +83,7 @@ const DebtLettersList = ({ debtLinks }) => (
             </div>
           )}
           {debtLinks.length < 1 && (
-            <div className="vads-u-background-color--gray-lightest vads-u-padding--3">
+            <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
               <h4 className="vads-u-font-family--serif vads-u-margin-top--0">
                 Our records show that you don't have any debt letters
               </h4>

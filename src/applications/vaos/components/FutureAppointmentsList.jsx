@@ -17,6 +17,8 @@ import {
   vaosRequests,
   vaosPastAppts,
   selectFutureAppointments,
+  selectHasExpressCareRequests,
+  vaosExpressCare,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
@@ -27,7 +29,10 @@ import NoAppointments from './NoAppointments';
 
 export class FutureAppointmentsList extends React.Component {
   componentDidMount() {
-    if (this.props.futureStatus === FETCH_STATUS.notStarted) {
+    if (
+      !this.props.showExpressCare &&
+      this.props.futureStatus === FETCH_STATUS.notStarted
+    ) {
       this.props.fetchFutureAppointments();
     }
   }
@@ -42,6 +47,7 @@ export class FutureAppointmentsList extends React.Component {
       futureStatus,
       facilityData,
       requestMessages,
+      hasExpressCareRequests,
     } = this.props;
 
     let content;
@@ -146,7 +152,7 @@ export class FutureAppointmentsList extends React.Component {
       );
     }
 
-    const header = (
+    const header = !hasExpressCareRequests && (
       <h2 className="vads-u-margin-bottom--4 vads-u-font-size--h3">
         Upcoming appointments
       </h2>
@@ -178,6 +184,7 @@ FutureAppointmentsList.propTypes = {
   showCancelButton: PropTypes.bool,
   showPastAppointments: PropTypes.bool,
   showScheduleButton: PropTypes.bool,
+  showExpressCare: PropTypes.bool,
   startNewAppointmentFlow: PropTypes.func,
 };
 
@@ -191,6 +198,8 @@ function mapStateToProps(state) {
     showCancelButton: vaosCancel(state),
     showPastAppointments: vaosPastAppts(state),
     showScheduleButton: vaosRequests(state),
+    showExpressCare: vaosExpressCare(state),
+    hasExpressCareRequests: selectHasExpressCareRequests(state),
   };
 }
 

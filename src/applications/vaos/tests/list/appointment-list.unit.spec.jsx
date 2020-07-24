@@ -183,7 +183,15 @@ describe('VAOS integration: appointment list', () => {
 
   // This will change to only show when EC is available
   it('should show express care button and tab when flag is on', async () => {
-    mockAppointmentInfo({});
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+    };
+    mockAppointmentInfo({
+      requests: [request],
+    });
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -193,7 +201,12 @@ describe('VAOS integration: appointment list', () => {
     const memoryHistory = createMemoryHistory();
 
     // Mocking a route here so that components using withRouter don't fail
-    const { findAllByText, baseElement, getAllByRole } = renderInReduxProvider(
+    const {
+      findAllByText,
+      baseElement,
+      getAllByRole,
+      getByText,
+    } = renderInReduxProvider(
       <Router history={memoryHistory}>
         <Route path="/" component={AppointmentsPage} />
       </Router>,
@@ -215,7 +228,13 @@ describe('VAOS integration: appointment list', () => {
       'href',
       'https://veteran.apps-staging.va.gov/var/v4/#new-express-request',
     );
-    expect(getAllByRole('tab')[2]).to.contain.text('Express Care');
+    expect(getAllByRole('tab').length).to.equal(3);
+    expect(getByText('Upcoming')).to.have.attribute('role', 'tab');
+    expect(getByText('Past')).to.have.attribute('role', 'tab');
+    expect(getByText('Express Care')).to.have.attribute('role', 'tab');
+    expect(
+      getByText(/View your upcoming, past, and Express Care appointments/i),
+    ).to.have.tagName('h2');
   });
 
   it('should not show express care action or tab when flag is off', async () => {
@@ -229,7 +248,12 @@ describe('VAOS integration: appointment list', () => {
     const memoryHistory = createMemoryHistory();
 
     // Mocking a route here so that components using withRouter don't fail
-    const { findByText, queryByText, getAllByRole } = renderInReduxProvider(
+    const {
+      findByText,
+      queryByText,
+      getAllByRole,
+      getByText,
+    } = renderInReduxProvider(
       <Router history={memoryHistory}>
         <Route path="/" component={AppointmentsPage} />
       </Router>,
@@ -242,5 +266,47 @@ describe('VAOS integration: appointment list', () => {
     await findByText('Create a new appointment');
     expect(queryByText(/request an express care screening/i)).to.not.be.ok;
     expect(getAllByRole('tab').length).to.equal(2);
+    expect(getByText('Upcoming appointments')).to.have.attribute('role', 'tab');
+    expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
+    expect(
+      queryByText(/View your upcoming, past, and Express Care appointments/i),
+    ).not.to.exist;
+  });
+
+  it('should show express care action but not tab when flag is on and no requests', async () => {
+    mockAppointmentInfo({});
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+      },
+    };
+    const memoryHistory = createMemoryHistory();
+
+    // Mocking a route here so that components using withRouter don't fail
+    const {
+      findByText,
+      queryByText,
+      getAllByRole,
+      getByText,
+      getAllByText,
+    } = renderInReduxProvider(
+      <Router history={memoryHistory}>
+        <Route path="/" component={AppointmentsPage} />
+      </Router>,
+      {
+        initialState: initialStateWithExpressCare,
+        reducers,
+      },
+    );
+
+    await findByText('Create a new appointment');
+    expect(getAllByText('Request an Express Care screening')).to.be.ok;
+    expect(getAllByRole('tab').length).to.equal(2);
+    expect(getByText('Upcoming appointments')).to.have.attribute('role', 'tab');
+    expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
+    expect(
+      queryByText(/View your upcoming, past, and Express Care appointments/i),
+    ).not.to.exist;
   });
 });

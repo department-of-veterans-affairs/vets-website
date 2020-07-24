@@ -10,7 +10,11 @@ export default function GetFormHelp() {
         </a>
         <br />
         TTY:{' '}
-        <a className="help-phone-number-link" href="tel:+18008778339">
+        <a
+          className="help-phone-number-link"
+          href="tel:+18008778339"
+          aria-label="8 0 0. 8 7 7. 8 3 3 9."
+        >
           800-877-8339
         </a>
         <br />

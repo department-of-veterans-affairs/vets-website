@@ -17,6 +17,7 @@ export const widgetTypes = {
   HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
   LAB_AND_TEST_RESULTS: 'lab-and-test-results',
   LETTERS: 'letters',
+  MANAGE_VA_DEBT: 'manage-va-debt',
   MESSAGING: 'messaging',
   RX: 'rx',
   SCHEDULE_APPOINTMENTS: 'schedule-appointments',
@@ -177,6 +178,12 @@ export const toolUrl = (appId, authenticatedWithSSOe = false) => {
         redirect: false,
       };
 
+    case widgetTypes.MANAGE_VA_DEBT:
+      return {
+        url: '/manage-va-debt/debt-letters',
+        redirect: false,
+      };
+
     default:
       return {};
   }
@@ -271,6 +278,9 @@ export const serviceDescription = appId => {
 
     case widgetTypes.VIEW_DEPENDENTS:
       return 'view current dependents';
+
+    case widgetTypes.MANAGE_VA_DEBT:
+      return 'manage your VA debt';
 
     default:
       return 'use this service';

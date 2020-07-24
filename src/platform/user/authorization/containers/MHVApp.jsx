@@ -71,8 +71,11 @@ const INELIGIBLE_MESSAGES = {
         </p>
         <p>
           Please call the My HealtheVet Help Desk at 877-327-0022 (TTY:
-          800-877-8339), 7:00 a.m. - 7:00 p.m. CT, and ask for help to activate
-          your disabled account.
+          <a href="tel:8008773399" aria-label="8 0 0. 8 7 7. 3 3 9 9.">
+            800-877-3399
+          </a>
+          ), 7:00 a.m. - 7:00 p.m. CT, and ask for help to activate your
+          disabled account.
         </p>
       </div>
     ),
@@ -91,8 +94,11 @@ const INELIGIBLE_MESSAGES = {
         </p>
         <p>
           Please call the My HealtheVet Help Desk at 877-327-0022 (TTY:
-          800-877-8339), 7:00 a.m. - 7:00 p.m. CT, and ask for help to delete
-          any extra accounts in the system.
+          <a href="tel:8008773399" aria-label="8 0 0. 8 7 7. 3 3 9 9.">
+            800-877-3399
+          </a>
+          ), 7:00 a.m. - 7:00 p.m. CT, and ask for help to delete any extra
+          accounts in the system.
         </p>
       </div>
     ),

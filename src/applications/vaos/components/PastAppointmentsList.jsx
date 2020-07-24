@@ -6,7 +6,11 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { fetchPastAppointments } from '../actions/appointments';
 import { getVAAppointmentLocationId } from '../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
-import { vaosPastAppts, selectPastAppointments } from '../utils/selectors';
+import {
+  vaosPastAppts,
+  selectPastAppointments,
+  selectHasExpressCareRequests,
+} from '../utils/selectors';
 import {
   getRealFacilityId,
   getPastAppointmentDateRangeOptions,
@@ -65,7 +69,13 @@ export class PastAppointmentsList extends React.Component {
   };
 
   render() {
-    const { past, pastStatus, facilityData, pastSelectedIndex } = this.props;
+    const {
+      past,
+      pastStatus,
+      facilityData,
+      pastSelectedIndex,
+      hasExpressCareRequests,
+    } = this.props;
     let content;
 
     if (pastStatus === FETCH_STATUS.loading) {
@@ -121,17 +131,19 @@ export class PastAppointmentsList extends React.Component {
       );
     } else {
       content = (
-        <h4 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
+        <h3 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
           You don’t have any appointments in the selected date range
-        </h4>
+        </h3>
       );
     }
 
     return (
       <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
-        <h2 tabIndex="-1" id="pastAppts" className="vads-u-font-size--h3">
-          Past appointments
-        </h2>
+        {!hasExpressCareRequests && (
+          <h2 tabIndex="-1" id="pastAppts" className="vads-u-font-size--h3">
+            Past appointments
+          </h2>
+        )}
         <PastAppointmentsDateDropdown
           currentRange={pastSelectedIndex}
           onChange={this.onDateRangeChange}
@@ -160,6 +172,7 @@ function mapStateToProps(state) {
     facilityData: state.appointments.facilityData,
     fetchPastAppointments,
     showPastAppointments: vaosPastAppts(state),
+    hasExpressCareRequests: selectHasExpressCareRequests(state),
   };
 }
 
