@@ -73,6 +73,15 @@ export class ConnectedApps extends Component {
           </>
         )}
 
+        {!isEmpty(errors) && (
+          <AlertBox
+            className="vads-u-margin-bottom--2"
+            headline="We couldn’t retrieve your connected apps"
+            status="warning"
+            content="We’re sorry. Something went wrong on our end and we couldn’t access your connected apps. Please try again later."
+          />
+        )}
+
         {deletedApps.map(app => (
           <AppDeletedAlert
             id={app.id}
@@ -118,14 +127,6 @@ export class ConnectedApps extends Component {
               }. Please try again later.`}
             />
           ))}
-        {!isEmpty(errors) && (
-          <AlertBox
-            className="vads-u-margin-bottom--2"
-            headline="We couldn’t retrieve your connected apps"
-            status="warning"
-            content="We’re sorry. Something went wrong on our end and we couldn’t access your connected apps. Please try again later."
-          />
-        )}
 
         {activeApps.map((app, idx) => (
           <ConnectedApp
