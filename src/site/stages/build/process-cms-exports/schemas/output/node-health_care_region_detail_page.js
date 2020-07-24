@@ -18,7 +18,12 @@ module.exports = {
       items: { $ref: 'Paragraph' },
     },
     fieldIntroText: { type: 'string' },
-    fieldOffice: { $ref: 'output/node-health_care_region_page' },
+    fieldOffice: {
+      oneOf: [
+        { $ref: 'output/node-office' },
+        { $ref: 'output/node-health_care_region_page' },
+      ],
+    },
     fieldRelatedLinks: {
       oneOf: [
         { $ref: 'output/paragraph-list_of_link_teasers' },

@@ -16,17 +16,17 @@
   }
 {% endcomment %}
 
-<div data-template="paragraphs/q_a.collapsible_panel" class="usa-accordion" itemscope="" itemtype="http://schema.org/Question">
+<div data-template="paragraphs/q_a.collapsible_panel" class="usa-accordion">
   <ul class="usa-unstyled-list">
       {% for accordionItem in questions %}
         {% assign item = accordionItem.entity %}
-        <li>
+        <li itemscope="" itemtype="http://schema.org/Question">
           <button
-                  class="usa-accordion-button usa-button-unstyled"
-                  aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
-                  itemprop="name"
+            class="usa-accordion-button usa-button-unstyled"
+            aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
+            itemprop="name"
           >
-              {{ item.fieldQuestion }}
+            {{ item.fieldQuestion }}
           </button>
           <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
             <div itemprop="text">

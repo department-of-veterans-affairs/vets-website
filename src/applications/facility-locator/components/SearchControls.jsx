@@ -163,7 +163,7 @@ class SearchControls extends Component {
                     htmlFor="street-city-state-zip"
                     id="street-city-state-zip-label"
                   >
-                    Search by city, state or postal Code
+                    Search by city, state or postal code
                   </label>
                   <input
                     id="street-city-state-zip"

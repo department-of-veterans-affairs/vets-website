@@ -138,11 +138,11 @@ export const hasSession = () => localStorage.getItem('hasSession');
 export const hasSessionSSO = () =>
   JSON.parse(localStorage.getItem('hasSessionSSO'));
 
-export function setupProfileSession(userProfile, useSSOe) {
+export function setupProfileSession(userProfile) {
   const { firstName, signIn } = userProfile;
-  const loginType = (signIn && signIn.serviceName) || null;
+  const loginType = signIn?.serviceName || null;
   localStorage.setItem('hasSession', true);
-  if (useSSOe) {
+  if (signIn?.ssoe) {
     ssoKeepAliveSession();
   }
 

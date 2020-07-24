@@ -40,6 +40,7 @@ module.exports = {
     'field_image_caption',
     'field_intro_text',
     'field_media',
-    'field_office',
+    // Apparently this isn't always there
+    // 'field_office',
   ],
 };

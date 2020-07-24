@@ -1,3 +1,18 @@
+const socialMediaSchema = {
+  type: ['object', 'null'],
+  properties: {
+    url: {
+      type: 'object',
+      properties: {
+        path: { type: 'string' },
+      },
+      required: ['path'],
+    },
+    title: { type: 'string' },
+  },
+  required: ['url', 'title'],
+};
+
 module.exports = {
   type: 'object',
   properties: {
@@ -11,7 +26,7 @@ module.exports = {
     entityUrl: { $ref: 'EntityUrl' },
     fieldAddress: { $ref: 'Address' },
     fieldEmailSubscription: { type: ['string', 'null'] },
-    fieldFacebook: { type: ['string', 'null'] },
+    fieldFacebook: socialMediaSchema,
     fieldFacilityHours: {
       type: 'object',
       properties: {
@@ -31,8 +46,8 @@ module.exports = {
       },
     },
     fieldFacilityLocatorApiId: { type: ['string', 'null'] },
-    fieldFlickr: { type: ['string', 'null'] },
-    fieldInstagram: { type: ['string', 'null'] },
+    fieldFlickr: socialMediaSchema,
+    fieldInstagram: socialMediaSchema,
     fieldIntroText: { type: ['string', 'null'] },
     fieldLocalHealthCareService: {
       type: ['array', 'null'],
@@ -53,7 +68,7 @@ module.exports = {
     // Could probably be an enum, but it's not clear what all the possible values are
     fieldOperatingStatusFacility: { type: 'string' },
     // Only found null as an example; not sure what else it's supposed to be
-    fieldOperatingStatusMoreInfo: { type: 'null' },
+    fieldOperatingStatusMoreInfo: { type: ['string', 'null'] },
     fieldPhoneNumber: { type: ['string', 'null'] },
     fieldRegionPage: {
       oneOf: [
@@ -61,7 +76,7 @@ module.exports = {
         { type: 'null' },
       ],
     },
-    fieldTwitter: { type: ['string', 'null'] },
+    fieldTwitter: socialMediaSchema,
   },
   required: [
     'title',

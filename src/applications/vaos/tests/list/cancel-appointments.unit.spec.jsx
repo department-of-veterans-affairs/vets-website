@@ -384,7 +384,6 @@ describe('VAOS integration appointment cancellation:', () => {
       findByRole,
       baseElement,
       findByText,
-      queryByRole,
       getByRole,
     } = renderInReduxProvider(
       <AppointmentsPage>

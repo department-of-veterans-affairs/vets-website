@@ -9,13 +9,13 @@ module.exports = {
     fieldBody: { type: ['string', 'null'] },
     fieldDescription: { type: ['string', 'null'] },
     fieldEmailAddress: { type: ['string', 'null'] },
-    fieldLastName: { type: 'string' },
+    fieldLastName: { type: ['string', 'null'] },
     fieldMedia: { $ref: 'Media' },
     fieldNameFirst: { type: 'string' },
     // This isn't a node-office $ref because we only want
     // some of the properties in the entity
     fieldOffice: {
-      type: 'object',
+      type: ['object', 'null'],
       properties: {
         entity: {
           type: 'object',

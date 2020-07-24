@@ -32,13 +32,13 @@ table.responsive td {
 
   table.responsive tr {
     display: block;
-    margin-bottom: 0.625em;
+    border-bottom: 1px solid #757575;
   }
 
   table.responsive td {
     display: block;
-    text-align: right;
     border: none;
+    font-size: 16px;
   }
 
   table.responsive td::before {
@@ -49,7 +49,7 @@ content: attr(aria-label);
     content: attr(data-label);
     float: left;
     font-weight: bold;
-    text-transform: uppercase;
+    padding-right: 4px;
   }
 
   table.responsive td:last-child {

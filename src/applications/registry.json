@@ -263,8 +263,8 @@
     }
   },
   {
-    "appName": "686c-674",
-    "entryName": "new-686",
+    "appName": "686C-674",
+    "entryName": "686C-674",
     "rootUrl": "/view-change-dependents/add-remove-form-686c",
     "template": {
       "layout": "page-react.html",
@@ -329,9 +329,10 @@
   {
     "appName": "Order hearing aid batteries and accessories",
     "entryName": "order-form-2346",
-    "rootUrl": "/health-care/order-hearing-aid-batteries-and-accessories",
+    "rootUrl": "/health-care/order-hearing-aid-batteries-and-accessories/order-form-2346",
     "template": {
-      "vagovprod": false
+      "layout": "page-react.html",
+      "vagovprod": true
     }
   },
   {
@@ -844,6 +845,26 @@
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "28-8832-planning-and-guidance",
+    "entryName": "28-8832-planning-and-career-guidance",
+    "rootUrl": "/vre/28-8832",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "View Payments",
+    "entryName": "view-payments",
+    "rootUrl": "/va-payment-history/payments",
+    "template": {
+      "includeBreadcrumbs": true,
+      "vagovprod": false,
+      "layout": "page-react.html",
+      "title": "View Payments"
     }
   }
 ]

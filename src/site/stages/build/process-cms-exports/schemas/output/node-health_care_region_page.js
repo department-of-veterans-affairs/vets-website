@@ -9,7 +9,7 @@ module.exports = {
         entityBundle: { enum: ['health_care_region_page'] },
         title: { type: 'string' },
         entityUrl: { $ref: 'EntityUrl' },
-        fieldNicknameForThisFacility: { type: 'string' },
+        fieldNicknameForThisFacility: { type: ['string', 'null'] },
         fieldLinkFacilityEmergList: {
           type: ['object', 'null'],
           properties: {

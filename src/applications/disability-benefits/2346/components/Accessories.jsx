@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ACCESSORIES } from '../constants';
+import { ACCESSORY } from '../constants';
 
 class Accessories extends Component {
   componentDidMount(props) {
@@ -49,14 +49,9 @@ class Accessories extends Component {
     const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
     const accessorySupplies = supplies.filter(
-      supply => supply.productGroup === ACCESSORIES,
+      supply => supply.productGroup === ACCESSORY,
     );
     const areAccessorySuppliesEligible = eligibility.accessories;
-    const haveAccessoriesBeenOrderedInLastFiveMonths =
-      accessorySupplies.length > 0 &&
-      accessorySupplies.every(
-        accessory => currentDate.diff(accessory.lastOrderDate, 'months') <= 5,
-      );
     const haveAccessoriesBeenOrderedInLastTwoYears =
       accessorySupplies.length > 0 &&
       accessorySupplies.every(
@@ -80,52 +75,12 @@ class Accessories extends Component {
             Select the hearing aid accessories you need
           </h3>
         )}
-        {!haveAccessoriesBeenOrderedInLastFiveMonths &&
-          haveAccessoriesBeenOrderedInLastTwoYears &&
-          !areAccessorySuppliesEligible &&
-          accessorySupplies.length === 0 && (
-            <>
-              <AlertBox
-                headline="You can't add accessories to your order at this time"
-                content={
-                  <>
-                    <p>
-                      Our records show that your accessories aren't available
-                      for reorder until{' '}
-                      {moment(earliestAvailableDateForReordering).format(
-                        'MMMM D, YYYY',
-                      )}
-                      . You can only order items once every 5 months.
-                    </p>
-                    <p>
-                      If you need unavailable batteries sooner, call the DLC
-                      Customer Service Section at{' '}
-                      <a
-                        aria-label="3 0 3. 2 7 3. 6 2 0 0."
-                        href="tel:303-273-6200"
-                      >
-                        303-273-6200
-                      </a>{' '}
-                      or email{' '}
-                      <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-                    </p>
-                  </>
-                }
-                status="info"
-                isVisible
-              />
-              <p className="vads-u-font-weight--bold">
-                These are the hearing aid accessories we have on file fo you:
-              </p>
-            </>
-          )}
         {!haveAccessoriesBeenOrderedInLastTwoYears &&
-          !haveAccessoriesBeenOrderedInLastFiveMonths &&
           !areAccessorySuppliesEligible && (
             <AlertBox
               headline="You can't add accessories to your order at this time"
               content={
-                <>
+                <div className="accessories-two-year-alert-content">
                   <p>
                     You can only order accessories that you've received in the
                     past 2 years.
@@ -143,7 +98,7 @@ class Accessories extends Component {
                     or email{' '}
                     <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                   </p>
-                </>
+                </div>
               }
               status="info"
               isVisible

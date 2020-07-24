@@ -111,6 +111,7 @@ describe('<VAPProfileField/>', () => {
       title: props.title,
       transactionRequest: props.transactionRequest,
       clearErrors: props.clearErrors,
+      refreshTransaction: props.refreshTransaction,
     };
     sinon.spy(props, 'ValidationView');
 

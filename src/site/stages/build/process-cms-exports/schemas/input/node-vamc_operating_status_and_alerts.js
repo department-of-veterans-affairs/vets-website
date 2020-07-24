@@ -9,8 +9,15 @@ module.exports = {
     path: { $ref: 'RawPath' },
     field_banner_alert: {
       type: 'array',
-      items: { $ref: 'EntityReference' },
-      maxItems: 1,
+      items: {
+        oneOf: [
+          // No idea why this is a thing, but sometimes we get empty arrays
+          // instead of entity references. We filter them out in the
+          // transformer.
+          { type: 'array', maxItems: 0 },
+          { $ref: 'EntityReference' },
+        ],
+      },
     },
     field_facility_operating_status: { $ref: 'EntityReferenceArray' },
     field_links: {
