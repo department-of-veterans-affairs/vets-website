@@ -95,7 +95,7 @@ describe('DebtLettersList', () => {
         .dive()
         .find('h4')
         .text(),
-    ).to.equal("Our records show that you don't have any debt letters");
+    ).to.equal("Our records show that you don't have any current debts");
     expect(
       wrapper
         .dive()
