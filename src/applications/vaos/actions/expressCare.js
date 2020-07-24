@@ -1,10 +1,9 @@
 import moment from 'moment';
 
+import newExpressCareRequestFlow from '../newExpressCareRequestFlow';
 import { selectSystemIds } from '../utils/selectors';
 import { captureError } from '../utils/error';
-
 import { getFacilitiesBySystemAndTypeOfCare } from '../api';
-
 import { FETCH_STATUS, EXPRESS_CARE } from '../utils/constants';
 
 import {
@@ -13,11 +12,15 @@ import {
   getSiteIdFromOrganization,
 } from '../services/organization';
 
-export const FETCH_EXPRESS_CARE_WINDOWS = 'vaos/FETCH_EXPRESS_CARE_WINDOWS';
+export const FETCH_EXPRESS_CARE_WINDOWS =
+  'expressCare/FETCH_EXPRESS_CARE_WINDOWS';
 export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
-  'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
+  'expressCare/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
-  'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
+  'expressCare/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
+export const FORM_PAGE_CHANGE_STARTED = 'expressCare/FORM_PAGE_CHANGE_STARTED';
+export const FORM_PAGE_CHANGE_COMPLETED =
+  'expressCare/FORM_PAGE_CHANGE_COMPLETED';
 
 export function fetchExpressCareWindows() {
   return async (dispatch, getState) => {
@@ -77,4 +80,46 @@ export function fetchExpressCareWindows() {
       });
     }
   };
+}
+
+export function routeToPageInFlow(flow, router, current, action) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FORM_PAGE_CHANGE_STARTED,
+    });
+
+    const nextAction = flow[current][action];
+    let nextPage;
+
+    if (typeof nextAction === 'string') {
+      nextPage = flow[nextAction];
+    } else {
+      const nextStateKey = await nextAction(getState(), dispatch);
+      nextPage = flow[nextStateKey];
+    }
+
+    if (nextPage?.url) {
+      dispatch({
+        type: FORM_PAGE_CHANGE_COMPLETED,
+      });
+      router.push(nextPage.url);
+    } else if (nextPage) {
+      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
+    } else {
+      throw new Error('Tried to route to page that does not exist');
+    }
+  };
+}
+
+export function routeToNextAppointmentPage(router, current) {
+  return routeToPageInFlow(newExpressCareRequestFlow, router, current, 'next');
+}
+
+export function routeToPreviousAppointmentPage(router, current) {
+  return routeToPageInFlow(
+    newExpressCareRequestFlow,
+    router,
+    current,
+    'previous',
+  );
 }
