@@ -257,32 +257,27 @@ export function fetchExpressCareWindows() {
         });
         if (parentFacilities.length) {
           const ids = parentFacilities.map(parent => parent.id);
-          const paramsArray = parentFacilities.map(parent => {
-            const rootOrg = getRootOrganization(parentFacilities, parent.id);
-            return {
-              siteId: getSiteIdFromOrganization(rootOrg || parent),
-              parentId: parent.id.replace('var', ''),
-              typeOfCareId: EXPRESS_CARE,
-            };
-          });
-
           const facilityData = [];
 
-          // The below while loop ensures that we don't make more than 5 concurrent
-          // calls to the API as to not overload it
-          while (paramsArray.length) {
+          if (ids.length < 20) {
+            const paramsArray = parentFacilities.map(parent => {
+              const rootOrg = getRootOrganization(parentFacilities, parent.id);
+              return {
+                siteId: getSiteIdFromOrganization(rootOrg || parent),
+                parentId: parent.id.replace('var', ''),
+                typeOfCareId: EXPRESS_CARE,
+              };
+            });
+
             facilityData.push(
-              // eslint-disable-next-line no-await-in-loop
               ...(await Promise.all(
-                paramsArray
-                  .splice(0, 5)
-                  .map(p =>
-                    getFacilitiesBySystemAndTypeOfCare(
-                      p.siteId,
-                      p.parentId,
-                      p.typeOfCareId,
-                    ),
+                paramsArray.map(p =>
+                  getFacilitiesBySystemAndTypeOfCare(
+                    p.siteId,
+                    p.parentId,
+                    p.typeOfCareId,
                   ),
+                ),
               )),
             );
           }
@@ -297,7 +292,6 @@ export function fetchExpressCareWindows() {
       captureError(error);
       dispatch({
         type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
-        error,
       });
     }
   };
