@@ -71,6 +71,10 @@ export const uiSchema = {
           // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
           'ui:validations': [validateDisabilityName],
           'ui:required': () => true,
+          'ui:errorMessages': {
+            required:
+              'Please enter a condition or select an option from the suggestions',
+          },
         },
       ),
       'view:descriptionInfo': {

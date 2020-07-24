@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import moment from 'moment';
 import {
   DefinitionTester,
   fillData,
@@ -8,6 +9,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
+import separationLocations from '../../content/separationLocations';
 
 describe('Military history', () => {
   const {
@@ -174,6 +176,44 @@ describe('Military history', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should not submit with BDD date and no separation location', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        appStateData={appStateData}
+      />,
+    );
+
+    fillData(
+      form,
+      'select#root_serviceInformation_servicePeriods_0_serviceBranch',
+      'Army',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_from',
+      '2010-05-05',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_to',
+      moment()
+        .add(90, 'days')
+        .format('YYYY-MM-DD'),
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1); // missing separation location
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });
