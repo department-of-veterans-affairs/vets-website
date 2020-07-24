@@ -3,7 +3,8 @@ import environment from 'platform/utilities/environment';
 import { FETCH_STATUS } from '../utils/constants';
 
 export default function RequestExpressCare({
-  fetchWindowsStatus,
+  windowsStatus,
+  enabled,
   allowRequests,
   localWindowString,
 }) {
@@ -11,7 +12,7 @@ export default function RequestExpressCare({
     environment.isProduction() ? '' : '-staging'
   }.va.gov/var/v4/#new-express-request`;
 
-  if (fetchWindowsStatus === FETCH_STATUS.succeeded && allowRequests) {
+  if (enabled && windowsStatus === FETCH_STATUS.succeeded && allowRequests) {
     return (
       <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
         <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">

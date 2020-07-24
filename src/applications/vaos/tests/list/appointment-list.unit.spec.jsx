@@ -204,8 +204,16 @@ describe('VAOS integration: appointment list', () => {
   };
 
   // This will change to only show when EC is available
-  it('should show express care button and tab when flag is on', async () => {
+  it('should show express care button and tab when flag is on and within express care window', async () => {
     const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+    };
+    mockAppointmentInfo({
+      requests: [request],
+    });
     const now = moment().utcOffset('-06:00');
     mockParentSites(['983'], [parentSite983]);
     mockSupportedFacilities({
@@ -216,22 +224,14 @@ describe('VAOS integration: appointment list', () => {
         {
           attributes: {
             expressTimes: {
-              start: '09:00',
-              end: '17:00',
+              start: '00:00',
+              end: '23:59',
               timezone: 'MDT',
               offsetUtc: '-06:00',
             },
           },
         },
       ],
-    });
-    request.attributes = {
-      ...request.attributes,
-      status: 'Submitted',
-      typeOfCareId: 'CR1',
-    };
-    mockAppointmentInfo({
-      requests: [request],
     });
     const initialStateWithExpressCare = {
       featureToggles: {
@@ -261,14 +261,13 @@ describe('VAOS integration: appointment list', () => {
       },
     );
 
+    const header = await findByText('Create a new Express Care request');
     const button = await findByText('Request Express Care');
 
     expect(baseElement).to.contain.text(
-      'Submit a request for a same-day Express Care',
+      'Have a health concern that you need help with today',
     );
-    expect(getByText('Create a new Express Care request')).to.have.tagName(
-      'h2',
-    );
+    expect(header).to.have.tagName('h2');
     expect(button).to.have.attribute(
       'href',
       'https://veteran.apps-staging.va.gov/var/v4/#new-express-request',
@@ -280,6 +279,65 @@ describe('VAOS integration: appointment list', () => {
     expect(
       getByText(/View your upcoming, past, and Express Care appointments/i),
     ).to.have.tagName('h2');
+  });
+
+  it('should not show express care action when outside of express care window', async () => {
+    mockAppointmentInfo({});
+    const now = moment().utcOffset('-06:00');
+    mockParentSites(['983'], [parentSite983]);
+    mockSupportedFacilities({
+      siteId: 983,
+      parentId: 983,
+      typeOfCareId: 'CR1',
+      data: [
+        {
+          attributes: {
+            expressTimes: {
+              start: now
+                .clone()
+                .subtract(3, 'minutes')
+                .format('HH:mm'),
+              end: now
+                .clone()
+                .subtract(2, 'minutes')
+                .format('HH:mm'),
+              timezone: 'MDT',
+              offsetUtc: '-06:00',
+            },
+          },
+        },
+      ],
+    });
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+      },
+      appointment: {
+        expressCare: {},
+      },
+      user: userState,
+    };
+    const memoryHistory = createMemoryHistory();
+
+    // Mocking a route here so that components using withRouter don't fail
+    const {
+      findByText,
+      queryByText,
+      getAllByRole,
+      getByText,
+    } = renderInReduxProvider(
+      <Router history={memoryHistory}>
+        <Route path="/" component={AppointmentsPage} />
+      </Router>,
+      {
+        initialState: initialStateWithExpressCare,
+        reducers,
+      },
+    );
+
+    await findByText('Create a new appointment');
+    expect(queryByText(/create a new Express Care request/i)).to.not.be.ok;
   });
 
   it('should not show express care action or tab when flag is off', async () => {
@@ -318,12 +376,10 @@ describe('VAOS integration: appointment list', () => {
     ).not.to.exist;
   });
 
-  it('should not show express care action when outside of express care window', async () => {
+  it('should show express care action but not tab when flag is on and no requests', async () => {
     mockAppointmentInfo({});
     const now = moment().utcOffset('-06:00');
-    const currentHour = now.format('H');
     mockParentSites(['983'], [parentSite983]);
-
     mockSupportedFacilities({
       siteId: 983,
       parentId: 983,
@@ -332,14 +388,8 @@ describe('VAOS integration: appointment list', () => {
         {
           attributes: {
             expressTimes: {
-              start: now
-                .clone()
-                .subtract(3, 'minutes')
-                .format('HH:mm'),
-              end: now
-                .clone()
-                .subtract(2, 'minutes')
-                .format('HH:mm'),
+              start: '00:00',
+              end: '23:59',
               timezone: 'MDT',
               offsetUtc: '-06:00',
             },
@@ -347,10 +397,6 @@ describe('VAOS integration: appointment list', () => {
         },
       ],
     });
-  });
-
-  it('should show express care action but not tab when flag is on and no requests', async () => {
-    mockAppointmentInfo({});
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -366,10 +412,10 @@ describe('VAOS integration: appointment list', () => {
     // Mocking a route here so that components using withRouter don't fail
     const {
       findByText,
-      queryByText,
-      getAllByText,
       getAllByRole,
       getByText,
+      getAllByText,
+      queryByText,
     } = renderInReduxProvider(
       <Router history={memoryHistory}>
         <Route path="/" component={AppointmentsPage} />
@@ -381,7 +427,7 @@ describe('VAOS integration: appointment list', () => {
     );
 
     await findByText('Create a new appointment');
-    expect(getAllByText('Request an Express Care screening')).to.be.ok;
+    expect(getAllByText('Create a new Express Care request')).to.be.ok;
     expect(getAllByRole('tab').length).to.equal(2);
     expect(getByText('Upcoming appointments')).to.have.attribute('role', 'tab');
     expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
