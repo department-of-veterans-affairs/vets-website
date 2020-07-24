@@ -78,29 +78,22 @@ describe('Schemaform ReviewFieldTemplate', () => {
       ),
     };
     const tree = SkinDeep.shallowRender(
-      <ReviewFieldTemplate schema={{ type: 'string' }} uiSchema={uiSchema}>
-        <div className="test-child" />
-      </ReviewFieldTemplate>,
+      <ReviewFieldTemplate schema={{ type: 'string' }} uiSchema={uiSchema} />,
     );
 
-    expect(tree.subTree('dt').text()).to.equal('Test');
-    // Children are ignored for non-string/array objects
-    expect(tree.everySubTree('.test-child').length).to.equal(0);
+    expect(tree.subTree('.review-row').text()).to.equal('Test');
   });
-  it('should render the custom reviewField & children', () => {
+  it('should render children', () => {
     const uiSchema = {
       'ui:title': 'Label',
       'ui:description': 'Blah',
-      'ui:reviewField': () => (
-        <dl className="review-row">
-          <dt>Test</dt>
-        </dl>
-      ),
     };
     const tree = SkinDeep.shallowRender(
-      <ReviewFieldTemplate schema={{ type: 'object' }} uiSchema={uiSchema} />,
+      <ReviewFieldTemplate schema={{ type: 'object' }} uiSchema={uiSchema}>
+        <div className="test-child" />
+      </ReviewFieldTemplate>,
     );
-    expect(tree.subTree('.review-row').text()).to.equal('Test');
+    expect(tree.subTree('.test-child')).to.exist;
   });
 
   const hideEmptyUiSchema = {
