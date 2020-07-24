@@ -347,18 +347,16 @@ describe('VAOS reducer: appointments', () => {
   });
 
   describe('express care window', () => {
-    it('should set fetchWindowsStatus to loading', () => {
+    it('should set windowsStatus to loading', () => {
       const action = {
         type: FETCH_EXPRESS_CARE_WINDOWS,
       };
 
       const newState = appointmentsReducer(initialState, action);
-      expect(newState.expressCare.fetchWindowsStatus).to.equal(
-        FETCH_STATUS.loading,
-      );
+      expect(newState.expressCare.windowsStatus).to.equal(FETCH_STATUS.loading);
     });
 
-    it('should fetch and format express care window and update fetchWindowsStatus', () => {
+    it('should fetch and format express care window and update windowsStatus', () => {
       const window = {
         start: '00:00',
         end: '23:59',
@@ -370,35 +368,32 @@ describe('VAOS reducer: appointments', () => {
         facilityData: [
           [
             {
-              expressTimes: [window],
+              expressTimes: window,
             },
           ],
         ],
+        nowUtc: moment.utc(),
       };
 
       const newState = appointmentsReducer(initialState, action);
       const { expressCare } = newState;
-      expect(expressCare.fetchWindowsStatus).to.equal(FETCH_STATUS.succeeded);
+      expect(expressCare.windowsStatus).to.equal(FETCH_STATUS.succeeded);
       expect('allowRequests' in expressCare).to.equal(true);
       const today = moment.utc();
       const startString = `${today}T${window.start}${window.offsetUtc}`;
       const endString = `${today}T${window.start}${window.offsetUtc}`;
       expect(expressCare.localWindowString).to.equal(
-        `${moment(startString).format('h:mm a')} to ${moment(endString).format(
-          'h:mm a',
-        )}`,
+        '12:00 a.m. to 11:59 p.m. MDT',
       );
     });
 
-    it('should set fetchWindowsStatus to failed', () => {
+    it('should set windowsStatus to failed', () => {
       const action = {
         type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
       };
 
       const newState = appointmentsReducer(initialState, action);
-      expect(newState.expressCare.fetchWindowsStatus).to.equal(
-        FETCH_STATUS.failed,
-      );
+      expect(newState.expressCare.windowsStatus).to.equal(FETCH_STATUS.failed);
     });
   });
 });

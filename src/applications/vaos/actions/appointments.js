@@ -285,6 +285,7 @@ export function fetchExpressCareWindows() {
           dispatch({
             type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
             facilityData,
+            nowUtc: moment.utc(),
           });
         }
       }

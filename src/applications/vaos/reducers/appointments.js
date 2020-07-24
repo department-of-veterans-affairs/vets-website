@@ -42,7 +42,7 @@ const initialState = {
   requestMessages: {},
   systemClinicToFacilityMap: {},
   expressCare: {
-    fetchWindowsStatus: FETCH_STATUS.notStarted,
+    windowsStatus: FETCH_STATUS.notStarted,
     allowRequests: false,
     localWindowString: null,
     minStart: null,
@@ -198,13 +198,11 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         expressCare: {
           ...initialState.expressCare,
-          fetchWindowsStatus: FETCH_STATUS.loading,
+          windowsStatus: FETCH_STATUS.loading,
         },
       };
     case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
-      const { facilityData } = action;
-      const now = moment.utc();
-
+      const { facilityData, nowUtc } = action;
       const times = facilityData
         .reduce(function(arr, row) {
           return arr.concat(row);
@@ -213,7 +211,7 @@ export default function appointmentsReducer(state = initialState, action) {
         .map(f => {
           const { expressTimes, authoritativeName, id } = f;
           const { start, end, offsetUtc, timezone } = expressTimes;
-          const today = now.format('YYYY-MM-DD');
+          const today = nowUtc.format('YYYY-MM-DD');
           const startString = `${today}T${start}${offsetUtc}`;
           const endString = `${today}T${end}${offsetUtc}`;
 
@@ -238,25 +236,45 @@ export default function appointmentsReducer(state = initialState, action) {
           (a, b) => (a.utcEnd > b.utcEnd ? -1 : 1),
         );
 
-        minStart = times?.[0]?.utcStart;
-        maxEnd = timesReverseSorted?.[0]?.utcEnd;
+        minStart = times?.[0];
+        maxEnd = timesReverseSorted?.[0];
       }
+
+      const expressCare = {
+        windowsStatus: FETCH_STATUS.succeeded,
+        allowRequests:
+          times.length &&
+          nowUtc.isAfter(moment.utc(minStart?.utcStart)) &&
+          nowUtc.isBefore(moment.utc(maxEnd?.utcEnd)),
+        minStart,
+        maxEnd,
+        localWindowString:
+          minStart && maxEnd
+            ? `${moment
+                .parseZone(minStart.start)
+                .format('h:mm a')} to ${moment
+                .parseZone(maxEnd.end)
+                .format('h:mm a')} ${minStart.timeZone}`
+            : null,
+      };
 
       return {
         ...state,
         expressCare: {
-          fetchWindowsStatus: FETCH_STATUS.succeeded,
+          windowsStatus: FETCH_STATUS.succeeded,
           allowRequests:
             times.length &&
-            now.isAfter(moment.utc(minStart)) &&
-            now.isBefore(moment.utc(maxEnd)),
+            nowUtc.isAfter(moment.utc(minStart?.utcStart)) &&
+            nowUtc.isBefore(moment.utc(maxEnd?.utcEnd)),
           minStart,
           maxEnd,
           localWindowString:
             minStart && maxEnd
-              ? `${moment(minStart).format('h:mm a')} to ${moment(
-                  maxEnd,
-                ).format('h:mm a')}`
+              ? `${moment
+                  .parseZone(minStart.start)
+                  .format('h:mm a')} to ${moment
+                  .parseZone(maxEnd.end)
+                  .format('h:mm a')} ${minStart.timeZone}`
               : null,
         },
       };
@@ -266,7 +284,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         expressCare: {
           ...initialState.expressCare,
-          fetchWindowsStatus: FETCH_STATUS.failed,
+          windowsStatus: FETCH_STATUS.failed,
         },
       };
     default:
