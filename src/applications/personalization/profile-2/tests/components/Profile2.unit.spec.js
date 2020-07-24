@@ -2,18 +2,18 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
 
-import Profile2 from '../../components/Profile2Wrapper';
+import Profile2Wrapper from '../../components/Profile2Wrapper';
 import getRoutes from '../../routes';
 import { PROFILE_PATHS } from '../../constants';
 
 import { renderWithProfileReducers as render } from '../unit-test-helpers';
 
-describe('Profile2', () => {
+describe('Profile2Wrapper', () => {
   it('should render the correct breadcrumb (Personal and contact Information)', () => {
     const config = {};
     const ui = (
       <MemoryRouter initialEntries={[PROFILE_PATHS.PERSONAL_INFORMATION]}>
-        <Profile2 routes={getRoutes(config)} />
+        <Profile2Wrapper routes={getRoutes(config)} />
       </MemoryRouter>
     );
     const { getByTestId } = render(ui);
