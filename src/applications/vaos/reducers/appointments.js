@@ -203,10 +203,8 @@ export default function appointmentsReducer(state = initialState, action) {
       };
     case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
       const { facilityData, nowUtc } = action;
-      const times = facilityData
-        .reduce(function(arr, row) {
-          return arr.concat(row);
-        }, [])
+      const times = []
+        .concat(...facilityData)
         .filter(f => !!f.expressTimes)
         .map(f => {
           const { expressTimes, authoritativeName, id } = f;
@@ -243,9 +241,7 @@ export default function appointmentsReducer(state = initialState, action) {
       const expressCare = {
         windowsStatus: FETCH_STATUS.succeeded,
         allowRequests:
-          times.length &&
-          nowUtc.isAfter(moment.utc(minStart?.utcStart)) &&
-          nowUtc.isBefore(moment.utc(maxEnd?.utcEnd)),
+          times.length && nowUtc.isBetween(minStart?.utcStart, maxEnd?.utcEnd),
         minStart,
         maxEnd,
         localWindowString:

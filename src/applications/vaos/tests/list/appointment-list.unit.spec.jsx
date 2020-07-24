@@ -238,9 +238,6 @@ describe('VAOS integration: appointment list', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingExpressCare: true,
       },
-      appointment: {
-        expressCare: {},
-      },
       user: userState,
     };
     const memoryHistory = createMemoryHistory();
@@ -312,9 +309,6 @@ describe('VAOS integration: appointment list', () => {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingExpressCare: true,
-      },
-      appointment: {
-        expressCare: {},
       },
       user: userState,
     };
@@ -401,9 +395,6 @@ describe('VAOS integration: appointment list', () => {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingExpressCare: true,
-      },
-      appointment: {
-        expressCare: {},
       },
       user: userState,
     };
