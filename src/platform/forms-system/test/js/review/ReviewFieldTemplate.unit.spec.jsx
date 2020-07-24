@@ -83,7 +83,7 @@ describe('Schemaform ReviewFieldTemplate', () => {
 
     expect(tree.subTree('.review-row').text()).to.equal('Test');
   });
-  it('should render children', () => {
+  it('should render children if ui:reviewField is not defined', () => {
     const uiSchema = {
       'ui:title': 'Label',
       'ui:description': 'Blah',
