@@ -204,8 +204,8 @@ describe('VAOS integration: appointment list', () => {
   };
 
   // This will change to only show when EC is available
-  it('should show express care button and tab when flag is on and within express times', async () => {
-    mockAppointmentInfo({});
+  it('should show express care button and tab when flag is on', async () => {
+    const request = getVARequestMock();
     const now = moment().utcOffset('-06:00');
     mockParentSites(['983'], [parentSite983]);
     mockSupportedFacilities({
@@ -224,6 +224,14 @@ describe('VAOS integration: appointment list', () => {
           },
         },
       ],
+    });
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+    };
+    mockAppointmentInfo({
+      requests: [request],
     });
     const initialStateWithExpressCare = {
       featureToggles: {
@@ -339,6 +347,10 @@ describe('VAOS integration: appointment list', () => {
         },
       ],
     });
+  });
+
+  it('should show express care action but not tab when flag is on and no requests', async () => {
+    mockAppointmentInfo({});
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -355,6 +367,7 @@ describe('VAOS integration: appointment list', () => {
     const {
       findByText,
       queryByText,
+      getAllByText,
       getAllByRole,
       getByText,
     } = renderInReduxProvider(
@@ -368,8 +381,12 @@ describe('VAOS integration: appointment list', () => {
     );
 
     await findByText('Create a new appointment');
-    expect(queryByText(/create a new Express Care request/i)).to.not.be.ok;
-    expect(getByText('Upcoming')).to.have.attribute('role', 'tab');
-    expect(getByText('Past')).to.have.attribute('role', 'tab');
+    expect(getAllByText('Request an Express Care screening')).to.be.ok;
+    expect(getAllByRole('tab').length).to.equal(2);
+    expect(getByText('Upcoming appointments')).to.have.attribute('role', 'tab');
+    expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
+    expect(
+      queryByText(/View your upcoming, past, and Express Care appointments/i),
+    ).not.to.exist;
   });
 });

@@ -438,3 +438,10 @@ export const selectExpressCare = state => {
     allowRequests: vaosExpressCare(state) && expressCare?.allowRequests,
   };
 };
+
+export function selectHasExpressCareRequests(state) {
+  return (
+    vaosExpressCare(state) &&
+    state.appointments.future?.some(appt => appt.vaos.isExpressCare)
+  );
+}
