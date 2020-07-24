@@ -2,6 +2,6 @@
   "appName": "View Payments",
   "entryFile": "./app-entry.jsx",
   "entryName": "view-payments",
-  "rootUrl": "/disability-benefits/view-payments",
+  "rootUrl": "/va-payment-history/payments",
   "production": false
 }

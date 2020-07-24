@@ -263,8 +263,8 @@
     }
   },
   {
-    "appName": "686c-674",
-    "entryName": "new-686",
+    "appName": "686C-674",
+    "entryName": "686C-674",
     "rootUrl": "/view-change-dependents/add-remove-form-686c",
     "template": {
       "layout": "page-react.html",
@@ -859,7 +859,7 @@
   {
     "appName": "View Payments",
     "entryName": "view-payments",
-    "rootUrl": "/disability-benefits/view-payments",
+    "rootUrl": "/va-payment-history/payments",
     "template": {
       "includeBreadcrumbs": true,
       "vagovprod": false,
