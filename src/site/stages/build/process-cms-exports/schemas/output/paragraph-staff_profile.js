@@ -13,7 +13,12 @@ module.exports = {
             entities: {
               type: 'array',
               maxItems: 1,
-              items: { $ref: 'output/node-person_profile' },
+              items: {
+                oneOf: [
+                  { $ref: 'output/node-person_profile' },
+                  { type: 'null' },
+                ],
+              },
             },
           },
           required: ['entities'],

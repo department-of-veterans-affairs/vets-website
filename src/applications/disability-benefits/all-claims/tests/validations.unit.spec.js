@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
+import moment from 'moment';
 
 import {
   isValidYear,
@@ -7,10 +8,12 @@ import {
   oneDisabilityRequired,
   hasMonthYear,
   validateDisabilityName,
+  checkSeparationLocation,
 } from '../validations';
 
 import disabilityLabels from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
+import separationLocations from '../content/separationLocations';
 
 describe('526 All Claims validations', () => {
   describe('isValidYear', () => {
@@ -237,6 +240,68 @@ describe('526 All Claims validations', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(err, tooLong);
       expect(err.addError.calledOnce).to.be.true;
+    });
+  });
+
+  describe('checkSeparationLocaton', () => {
+    const checkSeparationLocationValidData = {
+      serviceInformation: {
+        separationLocation: {
+          label: separationLocations[0].description,
+        },
+        servicePeriods: [
+          {
+            dateRange: {
+              to: moment()
+                .add(90, 'days')
+                .format('YYYY-MM-DD'),
+            },
+          },
+        ],
+      },
+    };
+    const checkSeparationLocationInvalidData = {
+      serviceInformation: {
+        servicePeriods: [
+          {
+            dateRange: {
+              to: moment()
+                .add(90, 'days')
+                .format('YYYY-MM-DD'),
+            },
+          },
+        ],
+      },
+    };
+    const checkSeparationLocationIsBDDFalseData = {
+      separationLocation: {
+        label: separationLocations[0].description,
+      },
+    };
+
+    it('should not add an error when the separation location entered is in the separation locations list and claim is BDD', () => {
+      const errors = { addError: sinon.spy() };
+      checkSeparationLocation(errors, {}, checkSeparationLocationValidData);
+      expect(errors.addError.calledOnce).to.be.false;
+    });
+    it('should add an error when the separation location entered is not in the separation locations list and claim is BDD', () => {
+      const errors = { addError: sinon.spy() };
+      checkSeparationLocation(errors, {}, checkSeparationLocationInvalidData);
+      expect(errors.addError.calledOnce).to.be.true;
+    });
+    it('should not add an error when the separation location entered is in the separation locations list and claim is not BDD', () => {
+      const errors = { addError: sinon.spy() };
+      checkSeparationLocation(
+        errors,
+        {},
+        checkSeparationLocationIsBDDFalseData,
+      );
+      expect(errors.addError.calledOnce).to.be.false;
+    });
+    it('should not add an error when the separation location entered is not in the separation locations list and claim is not BDD', () => {
+      const errors = { addError: sinon.spy() };
+      checkSeparationLocation(errors, {}, null);
+      expect(errors.addError.calledOnce).to.be.false;
     });
   });
 });

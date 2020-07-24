@@ -31,7 +31,7 @@
       {
         "deviceName": "OMEGAX d3241",
         "productName": "ZA1239",
-        "productGroup": "BATTERIES",
+        "productGroup": "Battery",
         "productId": 1,
         "availableForReorder": true,
         "lastOrderDate": "2020-01-01",
@@ -41,7 +41,7 @@
       },
       {
         "productName": "DOME",
-        "productGroup": "ACCESSORIES",
+        "productGroup": "Accessory",
         "productId": 3,
         "lastOrderDate": "2019-06-30",
         "nextAvailabilityDate": "2022-12-15",
@@ -50,7 +50,7 @@
       },
       {
         "productName": "DOME",
-        "productGroup": "ACCESSORIES",
+        "productGroup": "Accessory",
         "productId": 4,
         "lastOrderDate": "2019-06-30",
         "nextAvailabilityDate": "2022-12-15",
@@ -59,7 +59,7 @@
       },
       {
         "productName": "WaxBuster Single Unit",
-        "productGroup": "ACCESSORIES",
+        "productGroup": "Accessory",
         "productId": 5,
         "lastOrderDate": "2019-06-30",
         "nextAvailabilityDate": "2022-12-15",

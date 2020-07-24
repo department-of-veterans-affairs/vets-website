@@ -53,13 +53,11 @@ export const informalConferenceTimeAllLabels = {
 
 // These labels are hidden on the review page
 export const InformalConferenceTimeLabels = key => (
-  <span className="time-title" role="presentation">
-    {informalConferenceTimeAllLabels[key]}
-  </span>
+  <span className="time-title">{informalConferenceTimeAllLabels[key]}</span>
 );
 
 export const InformalConferenceAvailability = contact => (
-  <span className="time-contact" role="presentation">
+  <span className="time-contact">
     {contact === 'me' ? 'My' : 'Representative’s'} availability for scheduling
   </span>
 );

@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 
 import MessageTemplate from './../components/MessageTemplate';
 
-import { ssoe } from 'platform/user/authentication/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { verify } from 'platform/user/authentication/utilities';
 
-export function VerifyIdentity({ useSSOe }) {
-  const authVersion = useSSOe ? 'v1' : 'v0';
+export function VerifyIdentity({ authenticatedWithSSOe }) {
+  const authVersion = authenticatedWithSSOe ? 'v1' : 'v0';
   const content = {
     heading: 'Verify your identity to access health tools',
     body: (
@@ -32,7 +32,7 @@ export function VerifyIdentity({ useSSOe }) {
 
 function mapStateToProps(state) {
   return {
-    useSSOe: ssoe(state),
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 }
 

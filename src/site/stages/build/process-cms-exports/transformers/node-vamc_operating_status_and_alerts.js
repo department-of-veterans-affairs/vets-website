@@ -10,10 +10,6 @@ const transform = entity => ({
   title: getDrupalValue(entity.title),
   entityPublished: isPublished(getDrupalValue(entity.moderationState)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityUrl: {
-    breadcrumb: [],
-    path: entity.path[0].alias,
-  },
   fieldBannerAlert: (entity.fieldBannerAlert || []).filter(
     // Apparently sometimes we get an array of alerts with array items:
     // "field_banner_alert": [

@@ -12,7 +12,11 @@ export const errorFragment = (
       <a aria-label="8 4 4. 6 9 8. 2 3 1 1." href="tel:8446982311">
         844-698-2311
       </a>{' '}
-      (TTY:711). We're here Monday-Friday, 8:00a.m.-8:00p.m. ET.
+      (
+      <a href="tel:711" aria-label="TTY. 7 1 1.">
+        TTY: 711
+      </a>
+      ). We're here Monday-Friday, 8:00a.m.-8:00p.m. ET.
     </p>
   </>
 );

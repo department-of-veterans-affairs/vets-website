@@ -325,7 +325,9 @@ const AuthContent = () => (
               </p>
               <p>
                 Or call us at <a href="tel:+18773270022">877-327-0022</a> (TTY:{' '}
-                <a href="tel:+18008778339">800-877-8339</a>
+                <a href="tel:+18008778339" aria-label="8 0 0. 8 7 7. 8 3 3 9.">
+                  800-877-8339
+                </a>
                 ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
               </p>
               <p>
