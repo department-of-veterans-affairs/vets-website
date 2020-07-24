@@ -27,7 +27,6 @@ import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 
 import ErrorBoundary from 'platform/utilities/error-boundary';
-// const ErrorBoundary = React.Fragment;
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
