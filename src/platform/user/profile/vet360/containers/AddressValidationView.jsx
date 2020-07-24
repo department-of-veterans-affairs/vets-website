@@ -175,7 +175,6 @@ class AddressValidationView extends React.Component {
         {isFirstOptionOrEnabled &&
           hasConfirmedSuggestions && (
             <input
-              className="address-validation-input"
               type="radio"
               id={id}
               onChange={() => {

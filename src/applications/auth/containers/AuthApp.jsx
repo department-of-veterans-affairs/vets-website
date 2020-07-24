@@ -135,7 +135,7 @@ export class AuthApp extends React.Component {
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
     const postAuthUrl =
-      returnUrl.includes('?next=') && !environment.isProduction()
+      returnUrl && !environment.isProduction()
         ? appendQuery(returnUrl, 'postLogin=true')
         : returnUrl;
 
