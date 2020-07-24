@@ -27,7 +27,7 @@ export async function getAvailableHealthcareServices({
   useVSP,
 }) {
   if (useVSP) {
-    const results = await fhirSearch({
+    return fhirSearch({
       query:
         `HealthcareService?location:Location.identifier=${facilityId}` +
         '&characteristic=PATIENTDS_ENABLED',
@@ -36,7 +36,6 @@ export async function getAvailableHealthcareServices({
           ? import('./mock_healthcare_system_983.json')
           : import('./mock_healthcare_system_984.json'),
     });
-    return results.filter(item => item.resourceType === 'HealthcareService');
   } else {
     try {
       const clinics = await getAvailableClinics(
