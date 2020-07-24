@@ -26,6 +26,9 @@ import {
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 
+import ErrorBoundary from 'platform/utilities/error-boundary';
+// const ErrorBoundary = React.Fragment;
+
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
@@ -150,43 +153,45 @@ class RoutedSavableReviewPage extends React.Component {
 
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
     return (
-      <div>
-        <ReviewChapters
-          formConfig={formConfig}
-          formContext={formContext}
-          pageList={pageList}
-          onSetData={() => this.debouncedAutoSave()}
-        />
-        <DowntimeNotification
-          appTitle="application"
-          render={this.renderDowntime}
-          dependencies={downtimeDependencies}
-        >
-          <SubmitController
+      <ErrorBoundary>
+        <div>
+          <ReviewChapters
             formConfig={formConfig}
+            formContext={formContext}
             pageList={pageList}
-            path={path}
-            renderErrorMessage={this.renderErrorMessage}
+            onSetData={() => this.debouncedAutoSave()}
           />
-        </DowntimeNotification>
-        <SaveStatus
-          isLoggedIn={user.login.currentlyLoggedIn}
-          showLoginModal={this.props.showLoginModal}
-          toggleLoginModal={this.props.toggleLoginModal}
-          form={form}
-        />
-        <SaveFormLink
-          locationPathname={location.pathname}
-          form={form}
-          user={user}
-          showLoginModal={this.props.showLoginModal}
-          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}
-        >
-          {formConfig?.customText?.finishAppLaterMessage ||
-            FINISH_APP_LATER_DEFAULT_MESSAGE}
-        </SaveFormLink>
-      </div>
+          <DowntimeNotification
+            appTitle="application"
+            render={this.renderDowntime}
+            dependencies={downtimeDependencies}
+          >
+            <SubmitController
+              formConfig={formConfig}
+              pageList={pageList}
+              path={path}
+              renderErrorMessage={this.renderErrorMessage}
+            />
+          </DowntimeNotification>
+          <SaveStatus
+            isLoggedIn={user.login.currentlyLoggedIn}
+            showLoginModal={this.props.showLoginModal}
+            toggleLoginModal={this.props.toggleLoginModal}
+            form={form}
+          />
+          <SaveFormLink
+            locationPathname={location.pathname}
+            form={form}
+            user={user}
+            showLoginModal={this.props.showLoginModal}
+            saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+            toggleLoginModal={this.props.toggleLoginModal}
+          >
+            {formConfig?.customText?.finishAppLaterMessage ||
+              FINISH_APP_LATER_DEFAULT_MESSAGE}
+          </SaveFormLink>
+        </div>
+      </ErrorBoundary>
     );
   }
 }
