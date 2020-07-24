@@ -34,4 +34,5 @@ export default Object.freeze({
   gibctSearchEnhancements: 'gibctSearchEnhancements',
   form996HigherLevelReview: 'form996HigherLevelReview',
   gibctFilterEnhancement: 'gibctFilterEnhancement',
+  gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
 });
