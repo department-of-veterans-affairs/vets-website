@@ -1,5 +1,4 @@
 import React from 'react';
-import { get } from 'core-js/fn/dict';
 /*
  * This is the template for each field (which in the schema library means label + widget)
  */
