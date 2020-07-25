@@ -15,6 +15,7 @@ const contractTest = (consumer, provider, test) => {
       consumer,
       provider,
       spec: 2,
+      cors: true,
     });
 
     before(() => mockApi.setup());
