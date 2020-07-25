@@ -518,14 +518,14 @@ class VAMap extends Component {
     return mapMarkers;
   };
 
-  renderResultsHeader = (results, facilityType, queryContext) =>
-    !this.props.currentQuery.inProgress && (
-      <SearchResultsHeader
-        results={results}
-        facilityType={facilityType}
-        context={queryContext}
-      />
-    );
+  renderResultsHeader = (results, facilityType, queryContext) => (
+    <SearchResultsHeader
+      results={results}
+      facilityType={facilityType}
+      context={queryContext}
+      inProgress={this.props.currentQuery.inProgress}
+    />
+  );
 
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;

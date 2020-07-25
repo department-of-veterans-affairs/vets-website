@@ -12,6 +12,13 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
+  it('should not render header if inProgress is true', () => {
+    const wrapper = shallow(<SearchResultsHeader results={[{}]} inProgress />);
+
+    expect(wrapper.find('h2').length).to.equal(0);
+    wrapper.unmount();
+  });
+
   it('should render header if results exist', () => {
     const wrapper = shallow(
       <SearchResultsHeader
