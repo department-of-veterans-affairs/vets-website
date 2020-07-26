@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { changeDropdown } from '../helpers/index.js';
 
 import {
@@ -20,6 +20,11 @@ describe('686 report a divorce', () => {
   const formData = {
     'view:selectable686Options': {
       reportDivorce: true,
+    },
+    reportDivorce: {
+      location: {
+        isOutsideUS: false,
+      },
     },
   };
 
@@ -48,7 +53,7 @@ describe('686 report a divorce', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -72,7 +77,7 @@ describe('686 report a divorce', () => {
     changeDropdown(form, 'select#root_reportDivorce_dateDay', 1);
     fillData(form, 'input#root_reportDivorce_dateYear', '2010');
     // location
-    fillData(form, 'input#root_reportDivorce_location_state', 'VA');
+    changeDropdown(form, 'select#root_reportDivorce_location_state', 'CA');
     fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
     // is void
     selectRadio(form, 'root_reportDivorce_reasonMarriageEnded', 'Divorce');
@@ -107,7 +112,7 @@ describe('686 report a divorce', () => {
     });
     fillData(form, 'input#root_reportDivorce_dateYear', '2010');
     // location
-    fillData(form, 'input#root_reportDivorce_location_state', 'VA');
+    changeDropdown(form, 'select#root_reportDivorce_location_state', 'CA');
     fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
     // is void
     selectRadio(form, 'root_reportDivorce_reasonMarriageEnded', 'Other');
@@ -142,7 +147,7 @@ describe('686 report a divorce', () => {
     });
     fillData(form, 'input#root_reportDivorce_dateYear', '2010');
     // location
-    fillData(form, 'input#root_reportDivorce_location_state', 'VA');
+    changeDropdown(form, 'select#root_reportDivorce_location_state', 'CA');
     fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
     // is void
     selectRadio(form, 'root_reportDivorce_reasonMarriageEnded', 'Other');

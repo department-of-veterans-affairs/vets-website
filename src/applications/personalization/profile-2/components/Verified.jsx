@@ -10,6 +10,7 @@ const Verified = ({ children }) => (
     <i
       className="fa fa-check vads-u-color--green vads-u-margin-top--0p5"
       aria-hidden="true"
+      role="img"
     />
     <p className="vads-u-margin--0 vads-u-padding-left--1 medium-screen:vads-u-padding-left--3">
       {children}
