@@ -14,7 +14,13 @@ import {
  * in the config
  */
 export default function StringField(props) {
-  const { registry = getDefaultRegistry(), schema, uiSchema, formData } = props;
+  const {
+    registry = getDefaultRegistry(),
+    schema,
+    uiSchema,
+    formData,
+    children,
+  } = props;
   const realUiSchema = checkForNestedUISchema(uiSchema);
   const uiOptions = getUiOptions(realUiSchema);
   const labels = uiOptions.labels || {};
@@ -23,13 +29,11 @@ export default function StringField(props) {
     _.get('ui:reviewWidget', realUiSchema) || _.get('widget', uiOptions);
 
   if (!Widget) {
-    if (schema.type !== 'object') {
+    if (schema.type !== 'object' && schema.type !== 'array') {
       const defaultWidget = schema.format || (enumOptions ? 'select' : 'text');
       Widget = getWidget(schema, defaultWidget, registry.widgets);
     } else {
-      throw Error(
-        'There are no default widgets available for object type schemas. Please provide either a ui:reviewWidget or a ui:options widget in your uiSchema.',
-      );
+      return children;
     }
   }
 
