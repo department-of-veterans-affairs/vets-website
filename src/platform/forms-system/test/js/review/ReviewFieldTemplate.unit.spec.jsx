@@ -83,7 +83,7 @@ describe('Schemaform ReviewFieldTemplate', () => {
 
     expect(tree.subTree('.review-row').text()).to.equal('Test');
   });
-  it('should render children if ui:reviewField is not defined', () => {
+  it('should render children for object and array schemas if ui:reviewField and ui:options widget are not defined', () => {
     const uiSchema = {
       'ui:title': 'Label',
       'ui:description': 'Blah',
