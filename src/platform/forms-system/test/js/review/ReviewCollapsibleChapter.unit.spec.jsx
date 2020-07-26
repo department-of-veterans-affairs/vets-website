@@ -488,7 +488,7 @@ describe('<ReviewCollapsibleChapter>', () => {
     };
     const setPagesViewed = sinon.spy();
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <ReviewCollapsibleChapter
         setPagesViewed={setPagesViewed}
         viewedPages={new Set()}
@@ -501,11 +501,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       />,
     );
 
-    const titleDiv = wrapper.find('.form-review-panel-page-header');
-
+    const titleDiv = wrapper.find('SchemaForm');
     expect(titleDiv.length).to.equal(1);
-    expect(titleDiv.text()).to.equal(testPageTitle);
-    expect(titleDiv.text()).to.not.equal(testChapterTitle);
+    expect(titleDiv.prop('title')).to.equal(testPageTitle);
 
     wrapper.unmount();
   });
@@ -543,7 +541,7 @@ describe('<ReviewCollapsibleChapter>', () => {
     };
     const setPagesViewed = sinon.spy();
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <ReviewCollapsibleChapter
         setPagesViewed={setPagesViewed}
         viewedPages={new Set()}
