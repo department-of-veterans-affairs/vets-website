@@ -701,3 +701,20 @@ export function transformForSubmit(
 
   return JSON.stringify(withoutViewFields, replacer) || '{}';
 }
+
+/**
+ * @param {Object} uiSchema A nested `uiSchema`
+ * @returns {Object} The closest `uiSchema` object that holds the `uiSchema` keys
+ */
+export const checkForNestedUISchema = uiSchema => {
+  const uiSchemaKeys = Object.keys(uiSchema);
+  const isThisAUISchemaObj = !!uiSchemaKeys.find(uiSchemaKey =>
+    uiSchemaKey.includes('ui:'),
+  );
+  for (const uiSchemaKey of uiSchemaKeys) {
+    if (isThisAUISchemaObj) break;
+    const nestedUISchema = uiSchema[uiSchemaKey];
+    return checkForNestedUISchema(nestedUISchema);
+  }
+  return uiSchema;
+};
