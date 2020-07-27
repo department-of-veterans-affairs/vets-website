@@ -64,7 +64,7 @@ export class ConfirmEligibilityView extends React.Component {
     const { isEnrolledStem, isPursuingTeachingCert } = this.props;
     const check = isEnrolledStem || isPursuingTeachingCert;
     const text =
-      'Are enrolled in an undergraduate degree for science, technology, engineering, or math (STEM) requiring at least 120 semester (or 180 quarter) credit hours for completion, or have already earned an undergraduate STEM degree and are pursuing a teaching certification';
+      'Are enrolled in a bachelor’s degree program for science, technology, engineering, or math (STEM), or have already earned a STEM bachelor’s degree and are pursuing a teaching certification';
     const title = this.iconText(check);
     const iconTitle = `${title} ${text}`;
 
@@ -75,12 +75,11 @@ export class ConfirmEligibilityView extends React.Component {
     <div>
       <p className="vads-u-margin-bottom--1">
         <span className="vads-u-font-family--serif heading-level-4">
-          Based on your responses, it appears you’re not eligible for the Rogers
-          STEM Scholarship.
+          Rogers STEM Scholarship eligibility summary
         </span>
         <br />
         <br />
-        <b>Your responses:</b>
+        <b>Based on your responses, you may not be eligible</b>
       </p>
       <ul className="fa-ul vads-u-margin-left--3 vads-u-margin-top--0p5 stem-eligibility-ul">
         {this.renderBenefitCheck()}
@@ -170,14 +169,6 @@ export class ConfirmEligibilityView extends React.Component {
             If your situation changes in the future and you meet all of the
             criteria, you may return to apply for the Rogers STEM Scholarship.
           </span>
-          <div className="vads-u-padding-top--2">
-            <a
-              className={'usa-button-primary wizard-button va-button-primary'}
-              href="/education/about-gi-bill-benefits/"
-            >
-              Explore other education benefits
-            </a>
-          </div>
         </div>
 
         <div>
@@ -225,6 +216,24 @@ export class ConfirmEligibilityView extends React.Component {
         <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2">
           {this.renderChecks()}
           {this.renderConfirmEligibility()}
+        </div>
+        <div className="vads-u-padding-y--4">
+          <b>
+            You must meet the above requirements to qualify for the scholarship.
+          </b>{' '}
+          Please consider that ineligible applications delay the processing of
+          benefits for eligible applicants.
+        </div>
+        <div className="vads-u-margin-top--neg2">
+          <a
+            className={'usa-button-primary wizard-button va-button-primary'}
+            href="/education/about-gi-bill-benefits/"
+          >
+            Exit application
+          </a>
+        </div>
+        <div>
+          <p>If you still wish to apply for the scholarship, click Continue.</p>
         </div>
       </div>
     );
