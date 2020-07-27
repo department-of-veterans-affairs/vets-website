@@ -58,10 +58,10 @@ const ExpressCareList = asyncLoader(() =>
   import(/* webpackChunkName: "express-care" */ './components/ExpressCareList'),
 );
 const NewExpressCareRequestLayout = asyncLoader(() =>
-  import(/* webpackChunkName: "new-express-care-request-layout" */ './containers/NewExpressCareRequestLayout'),
+  import(/* webpackChunkName: "express-care" */ './containers/NewExpressCareRequestLayout'),
 );
 const ExpressCareInfo = asyncLoader(() =>
-  import(/* webpackChunkName: "new-express-care-request" */ './containers/ExpressCareInfo'),
+  import(/* webpackChunkName: "express-care */ './containers/ExpressCareInfo'),
 );
 
 export default function createRoutesWithStore(store) {
