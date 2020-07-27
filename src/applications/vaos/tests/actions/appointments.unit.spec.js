@@ -26,17 +26,26 @@ import {
   FETCH_REQUEST_MESSAGES,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
   FETCH_REQUEST_MESSAGES_FAILED,
+  FETCH_EXPRESS_CARE_WINDOWS,
+  FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+  FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
+  fetchExpressCareWindows,
 } from './../../actions/appointments';
+
+import { mockParentSites, mockSupportedFacilities } from '../mocks/helpers';
+import { getParentSiteMock } from '../mocks/v0';
 
 import { APPOINTMENT_TYPES, APPOINTMENT_STATUS } from '../../utils/constants';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../actions/sitewide';
 
+import parentFacilities from '../../api/facilities.json';
 import facilityData from '../../api/facility_data.json';
+import facilityExpressCareData from '../../api/facilities_983_express_care.json';
 import clinicData from '../../api/clinics.json';
 import cancelReasons from '../../api/cancel_reasons.json';
 
@@ -701,6 +710,93 @@ describe('VAOS actions: appointments', () => {
 
     expect(action).to.deep.equal({
       type: STARTED_NEW_APPOINTMENT_FLOW,
+    });
+  });
+
+  describe('express care', () => {
+    const userState = {
+      profile: {
+        facilities: [
+          {
+            facilityId: '983',
+            isCerner: false,
+          },
+        ],
+      },
+    };
+
+    it('should fetch express care windows', async () => {
+      const getState = () => ({
+        user: userState,
+        appointments: {
+          futureStatus: 'notStarted',
+          future: [{ facilityId: '442' }],
+        },
+      });
+      const data = {
+        data: [],
+      };
+      mockParentSites(
+        ['983'],
+        [
+          {
+            id: '983',
+            attributes: {
+              ...getParentSiteMock().attributes,
+              institutionCode: '983',
+              authoritativeName: 'Some VA facility',
+              rootStationCode: '983',
+              parentStationCode: '983',
+            },
+          },
+        ],
+      );
+      mockSupportedFacilities({
+        siteId: 983,
+        parentId: 983,
+        typeOfCareId: 'CR1',
+        data: [
+          {
+            attributes: {
+              expressTimes: {
+                start: '18:00',
+                end: '23:00',
+                timezone: 'MDT',
+                offsetUtc: '-06:00',
+              },
+            },
+          },
+        ],
+      });
+      const thunk = fetchExpressCareWindows();
+      const dispatchSpy = sinon.spy();
+      await thunk(dispatchSpy, getState);
+      expect(dispatchSpy.firstCall.args[0].type).to.eql(
+        FETCH_EXPRESS_CARE_WINDOWS,
+      );
+      expect(dispatchSpy.secondCall.args[0].type).to.eql(
+        FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+      );
+    });
+
+    it('should dispatch fail action when failed to fetch windows', async () => {
+      const data = {
+        data: [],
+      };
+      setFetchJSONFailure(global.fetch, data);
+      const thunk = fetchExpressCareWindows();
+      const dispatchSpy = sinon.spy();
+      const getState = () => ({
+        user: userState,
+        appointments: {},
+      });
+      await thunk(dispatchSpy, getState);
+      expect(dispatchSpy.firstCall.args[0].type).to.eql(
+        FETCH_EXPRESS_CARE_WINDOWS,
+      );
+      expect(dispatchSpy.lastCall.args[0].type).to.eql(
+        FETCH_EXPRESS_CARE_WINDOWS_FAILED,
+      );
     });
   });
 });

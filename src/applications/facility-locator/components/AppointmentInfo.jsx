@@ -43,6 +43,7 @@ export default class AppointmentInfo extends Component {
     }
 
     const healthAccessAttrs = location.attributes.access.health;
+    const { effectiveDate } = location.attributes.access; // V1
 
     if (!healthAccessAttrs) {
       return null;
@@ -144,8 +145,8 @@ export default class AppointmentInfo extends Component {
         <p>
           Current as of{' '}
           <strong>
-            {moment(healthAccessAttrs.effectiveDate, 'YYYY-MM-DD').format(
-              'MMMM YYYY',
+            {moment(effectiveDate || healthAccessAttrs.effectiveDate).format(
+              'YYYY-MM-DD',
             )}
           </strong>
         </p>
