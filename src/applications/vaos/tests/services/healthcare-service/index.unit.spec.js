@@ -11,6 +11,7 @@ import {
 } from '../../../services/healthcare-service';
 import mockLocations983 from '../../../services/healthcare-service/mock_locations_983.json';
 import clinicList983 from '../../../api/clinicList983.json';
+import mockHealthcareSystem983 from '../../../services/healthcare-service/mock_healthcare_system_983.json';
 
 describe('VAOS Healthcare service', () => {
   beforeEach(() => {
@@ -127,6 +128,39 @@ describe('VAOS Healthcare service', () => {
         `/vaos/v0/facilities/983/clinics?type_of_care_id=123&system_id=456`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+    });
+
+    describe('Test making call to Vista Scheduling Provider (VSP) api', () => {
+      beforeEach(() => {
+        mockFetch();
+        setFetchJSONResponse(global.fetch, mockHealthcareSystem983);
+      });
+
+      it('should make successful request to VSP api', async () => {
+        const data = await getAvailableHealthcareServices({
+          facilityId: '983',
+          typeOfCareId: '123',
+          systemId: '456',
+          useVSP: true,
+        });
+
+        expect(global.fetch.firstCall.args[0]).to.contain(
+          '/HealthcareService?location:Location.identifier=983' +
+            '&characteristic=PATIENTDS_ENABLED',
+        );
+      });
+
+      it('should return collection of Healthcare Services', async () => {
+        const data = await getAvailableHealthcareServices({
+          facilityId: '983',
+          typeOfCareId: '123',
+          systemId: '456',
+          useVSP: true,
+        });
+
+        expect(data.length).to.equal(13);
+        expect(data[0].resourceType).to.equal('HealthcareService');
+      });
     });
   });
 
