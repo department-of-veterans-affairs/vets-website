@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FormButtons from '../components/express-care/FormButtons';
+import FormButtons from '../components/FormButtons';
 
 import {
   routeToNextAppointmentPage,
@@ -24,6 +24,7 @@ class ExpressCareInfo extends React.Component {
       <div>
         <h1>How Express Care Works</h1>
         <FormButtons
+          backBeforeText=""
           backButtonText="Cancel"
           nextButtonText="Continue with Express Care request"
           onBack={this.goBack}
