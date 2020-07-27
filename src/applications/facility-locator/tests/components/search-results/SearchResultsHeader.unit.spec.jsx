@@ -28,8 +28,8 @@ describe('SearchResultsHeader', () => {
       />,
     );
 
-    expect(wrapper.find('h2').text()).to.equal(
-      'Results for VA health near new york',
+    expect(wrapper.find('h2').text()).to.match(
+      /Results for "VA health" near\s+"new york"/,
     );
     wrapper.unmount();
   });
