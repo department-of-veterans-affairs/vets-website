@@ -286,6 +286,7 @@ export class IntroductionPage extends React.Component {
     ];
     return (
       <div className="schemaform-intro">
+        <FormTitle title="Apply to use transferred education benefits" />
         {wizardCompletionStatus !== WIZARD_STATUS_COMPLETE && (
           <div className="wizard-container">
             <h2>Find out if this is the right form</h2>
@@ -599,7 +600,6 @@ export class IntroductionPage extends React.Component {
         {educationBenefitReferred === FORM_ID_1990E &&
           wizardCompletionStatus === 'complete' && (
             <div className="subway-map">
-              <FormTitle title="Apply to use transferred education benefits" />
               <p>
                 Equal to VA Form 22-1990E (Application for Family Member to Use
                 Transferred Benefits).
