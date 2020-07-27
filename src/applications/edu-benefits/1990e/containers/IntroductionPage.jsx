@@ -129,11 +129,11 @@ export class IntroductionPage extends React.Component {
         href={url}
         className="usa-button va-button-primary"
         onClick={e => {
-          if (formId === FORM_ID_1990) {
+          if (formId === FORM_ID_1990E) {
             e.preventDefault();
           }
           this.recordWizardValues();
-          this.setWizardCompletionStatus('complete');
+          this.setWizardCompletionStatus(WIZARD_STATUS_COMPLETE);
         }}
       >
         Apply now
@@ -251,7 +251,7 @@ export class IntroductionPage extends React.Component {
       applyForScholarship,
       open,
       wizardCompletionStatus,
-      educationBenefitSelected,
+      educationBenefitReferred,
     } = this.state;
 
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
@@ -286,12 +286,12 @@ export class IntroductionPage extends React.Component {
     ];
     return (
       <div className="schemaform-intro">
-        {educationBenefitSelected !== FORM_ID_1990E && (
+        {wizardCompletionStatus !== WIZARD_STATUS_COMPLETE && (
           <div className="wizard-container">
-            <h3>Are you in the right place?</h3>
+            <h2>Find out if this is the right form</h2>
             <p>
-              We'd like to ask you a few questions to confirm that this is the
-              correct application for your claim.
+              To see if this is the right form for you, please answer a few
+              questions.
             </p>
             <button
               aria-expanded={this.state.open ? 'true' : 'false'}
@@ -571,14 +571,32 @@ export class IntroductionPage extends React.Component {
                       </div>
                     </div>
                   )}
-                  {educationBenefitSelected !== 'none selected' &&
-                    this.getButton(educationBenefitSelected)}
+                  {educationBenefitReferred !== 'none selected' &&
+                    wizardCompletionStatus === WIZARD_STATUS_APPLY_NOW &&
+                    this.getButton(educationBenefitReferred)}
                 </div>
               </div>
             )}
+            <h2>Already know this is the right form?</h2>
+            <p>
+              If you already know that VA Form 22-1990E is correct or if you
+              were directed to complete this application, you can go straight to
+              the application without answering the questions above.
+            </p>
+            <a
+              href="#"
+              className="vads-u-display--inline-block vads-u-margin-bottom--3"
+              onClick={e => {
+                e.preventDefault();
+                this.setEduBenefitFormSelected(FORM_ID_1990E);
+                this.setWizardCompletionStatus(WIZARD_STATUS_COMPLETE);
+              }}
+            >
+              If you know VA Form 22-1990E is right, apply now
+            </a>
           </div>
         )}
-        {educationBenefitSelected === FORM_ID_1990E &&
+        {educationBenefitReferred === FORM_ID_1990E &&
           wizardCompletionStatus === 'complete' && (
             <div className="subway-map">
               <FormTitle title="Apply to use transferred education benefits" />
