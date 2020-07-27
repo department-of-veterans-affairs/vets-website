@@ -70,7 +70,7 @@ export default function createRoutesWithStore(store) {
       <Route path="/" component={AppointmentsPage}>
         <IndexRoute component={FutureAppointmentsList} />
         <Route component={PastAppointmentsList} path="past" />
-        <Route component={ExpressCareList} path="express-care-requests" />
+        <Route component={ExpressCareList} path="express-care" />
       </Route>
       <Route
         path="new-appointment"
