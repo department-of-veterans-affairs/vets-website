@@ -22,6 +22,8 @@ export const uiSchema = {
   },
   'view:otherContactInfo': {
     ...ciUiSchema['view:otherContactInfo'],
+    'ui:description':
+      'Please enter your contact details below so we can get in touch with you, if necessary.',
     homePhone: {
       ...phoneUI('Home phone number'),
       'ui:required': form => form.preferredContactMethod === 'homePhone',
