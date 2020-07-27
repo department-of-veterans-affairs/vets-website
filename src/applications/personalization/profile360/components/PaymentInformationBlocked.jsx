@@ -1,5 +1,8 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export default function PaymentInformationBlocked() {
   return (
@@ -23,10 +26,7 @@ export default function PaymentInformationBlocked() {
         >
           855-574-7286
         </a>{' '}
-        (
-        <a href="tel:711" aria-label="TTY. 7 1 1.">
-          TTY: 711
-        </a>
+        (<Telephone contact={CONTACTS['711']} />
         ). We’re here Monday &#8211; Friday, 8 a.m. &#8211; 8 p.m. ET.
       </p>
     </AlertBox>

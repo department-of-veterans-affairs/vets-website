@@ -1,5 +1,8 @@
 import React from 'react';
 import CollapsiblePanel from '@department-of-veterans-affairs/formation-react/CollapsiblePanel';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 import MessageTemplate from '../MessageTemplate';
 
 const VerificationFailed = () => {
@@ -29,11 +32,7 @@ const VerificationFailed = () => {
           <p>
             Please call us at <a href="tel:800-827-1000">800-827-1000</a>. We’re
             here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have
-            hearing loss, call{' '}
-            <a href="tel:711" aria-label="TTY. 7 1 1.">
-              TTY: 711
-            </a>
-            .
+            hearing loss, call <Telephone contact={CONTACTS['711']} />.
           </p>
           <p>
             When the system prompts you to give a reason for your call, say,

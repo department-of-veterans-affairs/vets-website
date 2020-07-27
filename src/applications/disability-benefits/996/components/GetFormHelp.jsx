@@ -1,4 +1,7 @@
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const GetFormHelp = () => (
   <p className="help-talk">
@@ -13,11 +16,7 @@ const GetFormHelp = () => (
     </a>
     .<br />
     <br />
-    If you have hearing loss, call{' '}
-    <a href="tel:711" aria-label="TTY. 7 1 1.">
-      TTY: 711
-    </a>
-    .
+    If you have hearing loss, call <Telephone contact={CONTACTS['711']} />.
   </p>
 );
 

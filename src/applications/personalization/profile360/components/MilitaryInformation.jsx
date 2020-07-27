@@ -10,6 +10,9 @@ import LoadingSection from './LoadingSection';
 import { handleDowntimeForSection } from './DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import facilityLocator from 'applications/facility-locator/manifest.json';
@@ -128,7 +131,7 @@ class MilitaryInformationContent extends React.Component {
             <a href="tel:18663632883" aria-label="1. 8 6 6. 3 6 3. 2 8 8 3.">
               1-866-363-2883
             </a>
-            .
+            <Telephone contact={CONTACTS.DS_LOGON_TTY} />.
           </p>
         </AdditionalInfo>
         <LoadingSection
