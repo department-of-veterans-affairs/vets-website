@@ -22,6 +22,7 @@ const grantsUrl = '/profile/connected_applications';
 
 export function loadConnectedApps() {
   return async dispatch => {
+    recordEvent({ event: 'profile-get-connected-apps-started' });
     dispatch({ type: LOADING_CONNECTED_APPS });
 
     // Locally we cannot call the endpoint
