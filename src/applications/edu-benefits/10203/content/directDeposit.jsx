@@ -66,7 +66,7 @@ export const bankInfoHelpText = (
         </li>
         <li>
           {' '}
-          call{' '}
+          Call{' '}
           <a className="help-phone-number-link" href="tel:1-800-333-1795">
             1-800-333-1795
           </a>
