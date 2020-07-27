@@ -1,6 +1,7 @@
 import React from 'react';
 import environment from 'platform/utilities/environment';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const DebtLettersList = ({ debtLinks, isVBMSError }) => {
@@ -147,5 +148,21 @@ const mapStateToProps = state => ({
   isVBMSError: state.debtLetters.isVBMSError,
   debtLinks: state.debtLetters.debtLinks,
 });
+
+DebtLettersList.propTypes = {
+  isVBMSError: PropTypes.bool.isRequired,
+  debtLinks: PropTypes.arrayOf(
+    PropTypes.shape({
+      documentId: PropTypes.string,
+      receivedAt: PropTypes.string,
+      typeDescription: PropTypes.string,
+    }),
+  ),
+};
+
+DebtLettersList.defaultProps = {
+  isVBMSError: false,
+  debtLinks: [],
+};
 
 export default connect(mapStateToProps)(DebtLettersList);
