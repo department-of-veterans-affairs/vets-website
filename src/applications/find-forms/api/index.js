@@ -1,4 +1,5 @@
 // Dependencies.
+import * as Sentry from '@sentry/browser';
 import appendQuery from 'append-query';
 import sortBy from 'lodash/sortBy';
 import { apiRequest } from 'platform/utilities/api';
@@ -27,6 +28,21 @@ export const fetchFormsApi = async (query, options = {}) => {
   const onlyValidForms = forms?.filter(
     form => form.attributes?.validPDF || form.attributes?.validPdf,
   );
+
+  const potentialServerIssue =
+    (query === '' || query === '10-10ez') && onlyValidForms.length === 0;
+
+  if (potentialServerIssue) {
+    // A query-less search should always include hundreds of results, and a
+    // search for "10-10ez" should always yield helath care form 10-10EZ.
+    // If there are no results, this is likely an indicator of an unexpected server response.
+
+    Sentry.withScope(scope => {
+      scope.setExtra('query', query);
+      scope.setExtra('forms', forms);
+      Sentry.captureMessage(`Find Forms - unexpected empty results`);
+    });
+  }
 
   return sortBy(onlyValidForms, 'id');
 };
