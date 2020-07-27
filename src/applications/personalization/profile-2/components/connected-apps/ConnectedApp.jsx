@@ -23,7 +23,7 @@ export class ConnectedApp extends Component {
   };
 
   render() {
-    const { logo, title, created, grants } = this.props.attributes;
+    const { logo, title, grants } = this.props.attributes;
 
     return (
       <div
@@ -42,7 +42,8 @@ export class ConnectedApp extends Component {
                 {title}
               </h3>
               <p className="vads-u-margin-top--0p5">
-                Connected on {moment(created).format('MMMM D, YYYY h:mm A')}
+                Connected on{' '}
+                {moment(grants[0]?.created).format('MMMM D, YYYY h:mm A')}
               </p>
             </div>
 

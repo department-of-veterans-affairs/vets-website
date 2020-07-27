@@ -11,8 +11,13 @@ import {
   getVideoAppointmentMock,
   getVAAppointmentMock,
   getCCAppointmentMock,
+  getParentSiteMock,
 } from '../mocks/v0';
-import { mockAppointmentInfo } from '../mocks/helpers';
+import {
+  mockAppointmentInfo,
+  mockSupportedFacilities,
+  mockParentSites,
+} from '../mocks/helpers';
 
 import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
@@ -181,8 +186,25 @@ describe('VAOS integration: appointment list', () => {
     expect(baseElement).not.to.contain.text('You don’t have any appointments');
   });
 
+  const userState = {
+    profile: {
+      facilities: [{ facilityId: '983', isCerner: false }],
+    },
+  };
+
+  const parentSite983 = {
+    id: '983',
+    attributes: {
+      ...getParentSiteMock().attributes,
+      institutionCode: '983',
+      authoritativeName: 'Some VA facility',
+      rootStationCode: '983',
+      parentStationCode: '983',
+    },
+  };
+
   // This will change to only show when EC is available
-  it('should show express care button and tab when flag is on', async () => {
+  it('should show express care button and tab when flag is on and within express care window', async () => {
     const request = getVARequestMock();
     request.attributes = {
       ...request.attributes,
@@ -192,17 +214,37 @@ describe('VAOS integration: appointment list', () => {
     mockAppointmentInfo({
       requests: [request],
     });
+    const now = moment().utcOffset('-06:00');
+    mockParentSites(['983'], [parentSite983]);
+    mockSupportedFacilities({
+      siteId: 983,
+      parentId: 983,
+      typeOfCareId: 'CR1',
+      data: [
+        {
+          attributes: {
+            expressTimes: {
+              start: '00:00',
+              end: '23:59',
+              timezone: 'MDT',
+              offsetUtc: '-06:00',
+            },
+          },
+        },
+      ],
+    });
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingExpressCare: true,
       },
+      user: userState,
     };
     const memoryHistory = createMemoryHistory();
 
     // Mocking a route here so that components using withRouter don't fail
     const {
-      findAllByText,
+      findByText,
       baseElement,
       getAllByRole,
       getByText,
@@ -216,12 +258,11 @@ describe('VAOS integration: appointment list', () => {
       },
     );
 
-    const [header, button] = await findAllByText(
-      'Request an Express Care screening',
-    );
+    const header = await findByText('Create a new Express Care request');
+    const button = await findByText('Request Express Care');
 
     expect(baseElement).to.contain.text(
-      'You’ll receive a phone screening between',
+      'Have a health concern that you need help with today',
     );
     expect(header).to.have.tagName('h2');
     expect(button).to.have.attribute(
@@ -235,6 +276,62 @@ describe('VAOS integration: appointment list', () => {
     expect(
       getByText(/View your upcoming, past, and Express Care appointments/i),
     ).to.have.tagName('h2');
+  });
+
+  it('should not show express care action when outside of express care window', async () => {
+    mockAppointmentInfo({});
+    const now = moment().utcOffset('-06:00');
+    mockParentSites(['983'], [parentSite983]);
+    mockSupportedFacilities({
+      siteId: 983,
+      parentId: 983,
+      typeOfCareId: 'CR1',
+      data: [
+        {
+          attributes: {
+            expressTimes: {
+              start: now
+                .clone()
+                .subtract(3, 'minutes')
+                .format('HH:mm'),
+              end: now
+                .clone()
+                .subtract(2, 'minutes')
+                .format('HH:mm'),
+              timezone: 'MDT',
+              offsetUtc: '-06:00',
+            },
+          },
+        },
+      ],
+    });
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+      },
+      user: userState,
+    };
+    const memoryHistory = createMemoryHistory();
+
+    // Mocking a route here so that components using withRouter don't fail
+    const {
+      findByText,
+      queryByText,
+      getAllByRole,
+      getByText,
+    } = renderInReduxProvider(
+      <Router history={memoryHistory}>
+        <Route path="/" component={AppointmentsPage} />
+      </Router>,
+      {
+        initialState: initialStateWithExpressCare,
+        reducers,
+      },
+    );
+
+    await findByText('Create a new appointment');
+    expect(queryByText(/create a new Express Care request/i)).to.not.be.ok;
   });
 
   it('should not show express care action or tab when flag is off', async () => {
@@ -275,21 +372,41 @@ describe('VAOS integration: appointment list', () => {
 
   it('should show express care action but not tab when flag is on and no requests', async () => {
     mockAppointmentInfo({});
+    const now = moment().utcOffset('-06:00');
+    mockParentSites(['983'], [parentSite983]);
+    mockSupportedFacilities({
+      siteId: 983,
+      parentId: 983,
+      typeOfCareId: 'CR1',
+      data: [
+        {
+          attributes: {
+            expressTimes: {
+              start: '00:00',
+              end: '23:59',
+              timezone: 'MDT',
+              offsetUtc: '-06:00',
+            },
+          },
+        },
+      ],
+    });
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingExpressCare: true,
       },
+      user: userState,
     };
     const memoryHistory = createMemoryHistory();
 
     // Mocking a route here so that components using withRouter don't fail
     const {
       findByText,
-      queryByText,
       getAllByRole,
       getByText,
-      getAllByText,
+      findAllByText,
+      queryByText,
     } = renderInReduxProvider(
       <Router history={memoryHistory}>
         <Route path="/" component={AppointmentsPage} />
@@ -301,7 +418,7 @@ describe('VAOS integration: appointment list', () => {
     );
 
     await findByText('Create a new appointment');
-    expect(getAllByText('Request an Express Care screening')).to.be.ok;
+    expect(await findAllByText('Create a new Express Care request')).to.be.ok;
     expect(getAllByRole('tab').length).to.equal(2);
     expect(getByText('Upcoming appointments')).to.have.attribute('role', 'tab');
     expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
