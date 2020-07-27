@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Wizard from '../../../static-pages/wizard';
-import pages from '../pages';
+import pageComponents from '../pages';
 
 const WizardContainer = () => (
   <div className="wizard-container">
@@ -9,7 +9,7 @@ const WizardContainer = () => (
     <p>
       To see if this is the right form for you, please answer a few questions.
     </p>
-    <Wizard pages={pages} expander buttonText="Let's get started" />
+    <Wizard pages={pageComponents} expander buttonText="Let's get started" />
     <h2>Already know this is the right form?</h2>
     <p>
       If you already know that VA Form 22-1990 is correct or if you were

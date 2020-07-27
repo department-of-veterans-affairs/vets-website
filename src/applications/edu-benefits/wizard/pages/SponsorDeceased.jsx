@@ -1,0 +1,50 @@
+import React from 'react';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import { pageNames } from './pageList';
+
+const sponsorDeceasedOptions = [
+  { label: 'Yes', value: 'yes' },
+  { label: 'No', value: 'no' },
+];
+
+const SponsorDeceased = ({
+  setPageState,
+  getPageStateFromPageName,
+  state = {},
+}) => (
+  <ErrorableRadioButtons
+    name={`${pageNames.sponsorDeceased}`}
+    label="Is your sponsor deceased, 100% permanently disabled, MIA, or a POW?"
+    id={`${pageNames.sponsorDeceased}`}
+    additionalFieldsetClass="wizard-fieldset"
+    options={sponsorDeceasedOptions}
+    onValueChange={({ value }) => {
+      const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
+        ?.selected;
+      const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
+        pageNames.claimingBenefit,
+      )?.selected;
+      const transferredBenefitsAnswer = getPageStateFromPageName(
+        pageNames.transferredBenefits,
+      )?.selected;
+      if (
+        newBenefitAnswer === 'yes' &&
+        claimingBenefitOwnServiceAnswer === 'other' &&
+        value === 'no' &&
+        transferredBenefitsAnswer === 'no'
+      ) {
+        return setPageState({ selected: value }, pageNames.warningAlert);
+      } else if (value === 'no') {
+        return setPageState({ selected: value }, pageNames.transferredBenefits);
+      } else {
+        return setPageState({ selected: value });
+      }
+    }}
+    value={{ value: state.selected }}
+  />
+);
+
+export default {
+  name: pageNames?.sponsorDeceased,
+  component: SponsorDeceased,
+};

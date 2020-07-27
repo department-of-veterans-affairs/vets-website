@@ -59,7 +59,6 @@ export default class Wizard extends React.Component {
         'wizard-content-closed': !this.state.expanded,
       },
     );
-
     return (
       <div>
         {this.props.expander && (
