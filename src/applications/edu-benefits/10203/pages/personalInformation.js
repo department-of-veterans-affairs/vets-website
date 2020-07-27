@@ -32,8 +32,7 @@ export const uiSchema = {
     },
   },
   preferredContactMethod: {
-    'ui:title':
-      'How should we contact you if we have questions about your application?',
+    'ui:title': "What's the best way for us to contact you?",
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
