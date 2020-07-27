@@ -28,6 +28,7 @@ import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
 } from '../utils/constants';
+import { stripDST } from '../utils/timezone';
 
 const initialState = {
   future: null,
@@ -43,6 +44,7 @@ const initialState = {
   systemClinicToFacilityMap: {},
   expressCare: {
     windowsStatus: FETCH_STATUS.notStarted,
+    hasWindow: false,
     allowRequests: false,
     localWindowString: null,
     minStart: null,
@@ -206,8 +208,7 @@ export default function appointmentsReducer(state = initialState, action) {
       const times = []
         .concat(...facilityData)
         .filter(f => !!f.expressTimes)
-        .map(f => {
-          const { expressTimes, authoritativeName, id } = f;
+        .map(({ expressTimes, authoritativeName, id }) => {
           const { start, end, offsetUtc, timezone } = expressTimes;
           const today = nowUtc.format('YYYY-MM-DD');
           const startString = `${today}T${start}${offsetUtc}`;
@@ -219,8 +220,8 @@ export default function appointmentsReducer(state = initialState, action) {
             start: moment.parseZone(startString).format(),
             end: moment.parseZone(endString).format(),
             offset: offsetUtc,
-            timeZone: timezone,
-            name: f.authoritativeName,
+            timeZone: stripDST(timezone),
+            name: authoritativeName,
             id,
           };
         })

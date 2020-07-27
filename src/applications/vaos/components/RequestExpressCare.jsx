@@ -13,7 +13,7 @@ export default function RequestExpressCare({
     environment.isProduction() ? '' : '-staging'
   }.va.gov/var/v4/#new-express-request`;
 
-  if (!enabled || windowsStatus !== FETCH_STATUS.succeeded) {
+  if (!enabled || windowsStatus !== FETCH_STATUS.succeeded || !hasWindow) {
     return null;
   }
 
@@ -40,22 +40,18 @@ export default function RequestExpressCare({
     );
   }
 
-  if (hasWindow) {
-    return (
-      <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
-        <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
-          Express Care isn’t available right now
-        </h2>
-        <p>
-          Express Care is only available {localWindowString} today. Express Care
-          lets you talk to VA health care staff the same day to discuss a
-          symptom that’s not urgent and doesn’t need emergency care. To use
-          Express Care, check back during the time shown above.
-        </p>
-        <button disabled>Create an Express Care request</button>
-      </div>
-    );
-  }
-
-  return null;
+  return (
+    <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
+      <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
+        Express Care isn’t available right now
+      </h2>
+      <p>
+        Express Care is only available {localWindowString} today. Express Care
+        lets you talk to VA health care staff the same day to discuss a symptom
+        that’s not urgent and doesn’t need emergency care. To use Express Care,
+        check back during the time shown above.
+      </p>
+      <button disabled>Create an Express Care request</button>
+    </div>
+  );
 }
