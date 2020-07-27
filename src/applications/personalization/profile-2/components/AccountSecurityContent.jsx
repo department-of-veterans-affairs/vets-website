@@ -86,9 +86,9 @@ export const AccountSecurityContent = ({
           href="/sign-in-faq/"
           onClick={() =>
             recordEvent({
-              event: 'account-navigation',
-              'account-action': 'view-link',
-              'account-section': 'vets-faqs',
+              event: 'profile-navigation',
+              'profile-action': 'view-link',
+              'profile-section': 'vets-faqs',
             })
           }
         >
