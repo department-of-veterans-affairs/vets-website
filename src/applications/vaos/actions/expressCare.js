@@ -2,16 +2,12 @@ import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 
 import newExpressCareRequestFlow from '../newExpressCareRequestFlow';
-import { selectSystemIds } from '../utils/selectors';
 import {
   getPreferences,
   updatePreferences,
   getFacilitiesBySystemAndTypeOfCare,
   submitRequest,
 } from '../api';
-import { GA_PREFIX, EXPRESS_CARE } from '../utils/constants';
-import { resetDataLayer } from '../utils/events';
-import { captureError, getErrorCodes } from '../utils/error';
 
 import {
   getOrganizations,
@@ -23,6 +19,10 @@ import {
   transformFormToExpressCareRequest,
   createPreferenceBody,
 } from '../utils/data';
+import { selectSystemIds } from '../utils/selectors';
+import { captureError, getErrorCodes } from '../utils/error';
+import { EXPRESS_CARE, GA_PREFIX } from '../utils/constants';
+import { resetDataLayer } from '../utils/events';
 
 export const FORM_PAGE_OPENED = 'expressCare/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';

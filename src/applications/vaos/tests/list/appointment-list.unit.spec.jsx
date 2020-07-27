@@ -405,7 +405,7 @@ describe('VAOS integration: appointment list', () => {
       findByText,
       getAllByRole,
       getByText,
-      getAllByText,
+      findAllByText,
       queryByText,
     } = renderInReduxProvider(
       <Router history={memoryHistory}>
@@ -418,7 +418,7 @@ describe('VAOS integration: appointment list', () => {
     );
 
     await findByText('Create a new appointment');
-    expect(getAllByText('Create a new Express Care request')).to.be.ok;
+    expect(await findAllByText('Create a new Express Care request')).to.be.ok;
     expect(getAllByRole('tab').length).to.equal(2);
     expect(getByText('Upcoming appointments')).to.have.attribute('role', 'tab');
     expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
