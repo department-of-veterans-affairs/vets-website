@@ -12,6 +12,7 @@ import * as claimType from './claimType';
 import * as contactInformation from './contactInformation';
 import * as employmentHistory from './employmentHistory';
 import * as evidenceTypes from './evidenceTypes';
+import * as evidenceTypesBDD from './evidenceTypesBDD';
 import * as federalOrders from './federalOrders';
 import * as finalIncident from './finalIncident';
 import * as fullyDevelopedClaim from './fullyDevelopedClaim';
@@ -71,6 +72,7 @@ import * as secondaryUploadSourcesChoice from './secondaryUploadSourcesChoice';
 import * as secondaryUploadSources from './secondaryUploadSources';
 import * as separationPay from './separationPay';
 import * as servedInCombatZone from './servedInCombatZone';
+import * as serviceTreatmentRecords from './serviceTreatmentRecords';
 import * as socialBehaviorChanges from './socialBehaviorChanges';
 import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
@@ -108,6 +110,7 @@ export {
   contactInformation,
   employmentHistory,
   evidenceTypes,
+  evidenceTypesBDD,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,
@@ -167,6 +170,7 @@ export {
   secondaryUploadSourcesChoice,
   separationPay,
   servedInCombatZone,
+  serviceTreatmentRecords,
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,

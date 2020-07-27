@@ -73,16 +73,58 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      let postData = [];
       cy.get('@testKey').then(testKey => {
         cy.login(dataSetToUserMap[testKey]);
+        cy.route('GET', '/v0/user', dataSetToUserMap[testKey]);
+        if (testKey === 'noBatteries') {
+          postData = [
+            {
+              status: 'Order Processed',
+              orderId: 2324,
+              productId: 3,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2325,
+              productId: 5,
+            },
+          ];
+        } else if (testKey === 'noAccessories') {
+          postData = [
+            {
+              status: 'Order Processed',
+              orderId: 2326,
+              productId: 1,
+            },
+          ];
+        } else {
+          postData = [
+            {
+              status: 'Order Processed',
+              orderId: 2329,
+              productId: 1,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2330,
+              productId: 3,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2331,
+              productId: 5,
+            },
+          ];
+        }
       });
       cy.get('@testData').then(testData => {
         cy.route('GET', '/v0/in_progress_forms/MDOT', testData);
       });
-      cy.route('POST', '/v0/mdot/supplies', null);
+      cy.get('@testKey').then(testKey => {
+        cy.route('POST', '/v0/mdot/supplies', postData);
+      });
     },
-
-    // Skip tests until MDOT is in production
     skip: false,
   },
   manifest,

@@ -49,6 +49,7 @@ class AuthMetrics {
       case 'signup':
         recordEvent({ event: `register-success-${this.serviceName}` });
         break;
+      case 'custom': /* type=custom is used for SSOe auto login */
       case 'mhv':
       case 'dslogon':
       case 'idme':
@@ -134,7 +135,7 @@ export class AuthApp extends React.Component {
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
     const postAuthUrl =
-      returnUrl.includes('?next=') && !environment.isProduction()
+      returnUrl && !environment.isProduction()
         ? appendQuery(returnUrl, 'postLogin=true')
         : returnUrl;
 
