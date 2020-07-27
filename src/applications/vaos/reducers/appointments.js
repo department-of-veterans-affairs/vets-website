@@ -238,30 +238,14 @@ export default function appointmentsReducer(state = initialState, action) {
         maxEnd = timesReverseSorted?.[0];
       }
 
-      const expressCare = {
-        windowsStatus: FETCH_STATUS.succeeded,
-        allowRequests:
-          times.length && nowUtc.isBetween(minStart?.utcStart, maxEnd?.utcEnd),
-        minStart,
-        maxEnd,
-        localWindowString:
-          minStart && maxEnd
-            ? `${moment
-                .parseZone(minStart.start)
-                .format('h:mm a')} to ${moment
-                .parseZone(maxEnd.end)
-                .format('h:mm a')} ${minStart.timeZone}`
-            : null,
-      };
-
       return {
         ...state,
         expressCare: {
           windowsStatus: FETCH_STATUS.succeeded,
+          hasWindow: !!times.length,
           allowRequests:
             times.length &&
-            nowUtc.isAfter(moment.utc(minStart?.utcStart)) &&
-            nowUtc.isBefore(moment.utc(maxEnd?.utcEnd)),
+            nowUtc.isBetween(minStart?.utcStart, maxEnd?.utcEnd),
           minStart,
           maxEnd,
           localWindowString:
