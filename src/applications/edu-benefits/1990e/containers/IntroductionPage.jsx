@@ -287,6 +287,10 @@ export class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply to use transferred education benefits" />
+        <p>
+          Equal to VA Form 22-1990E (Application for Family Member to Use
+          Transferred Benefits).
+        </p>
         {wizardCompletionStatus !== WIZARD_STATUS_COMPLETE && (
           <div className="wizard-container">
             <h2>Find out if this is the right form</h2>
@@ -599,10 +603,6 @@ export class IntroductionPage extends React.Component {
         )}
         {wizardCompletionStatus === WIZARD_STATUS_COMPLETE && (
           <div className="subway-map">
-            <p>
-              Equal to VA Form 22-1990E (Application for Family Member to Use
-              Transferred Benefits).
-            </p>
             <SaveInProgressIntro
               prefillEnabled={this.props.route.formConfig.prefillEnabled}
               messages={this.props.route.formConfig.savedFormMessages}
