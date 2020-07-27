@@ -7,7 +7,7 @@ export default function NewAppointmentLayout({ children }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
       <Breadcrumbs>
-        <Link to="new-appointment">Express Care request</Link>
+        <Link to="new-express-care-request">Express Care request</Link>
       </Breadcrumbs>
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
