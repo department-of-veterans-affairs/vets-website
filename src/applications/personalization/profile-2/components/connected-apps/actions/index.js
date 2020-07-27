@@ -40,13 +40,15 @@ export function loadConnectedApps() {
         const hasConnectedApps = data && deletedApps?.length !== data?.length;
 
         recordEvent({
+          event: 'profile-get-connected-apps-retrieved',
           'user-has-connected-apps': hasConnectedApps,
         });
         dispatch({ type: FINISHED_LOADING_CONNECTED_APPS, data });
       })
-      .catch(({ errors }) =>
-        dispatch({ type: ERROR_LOADING_CONNECTED_APPS, errors }),
-      );
+      .catch(({ errors }) => {
+        recordEvent({ event: 'profile-get-connected-apps-failure' });
+        dispatch({ type: ERROR_LOADING_CONNECTED_APPS, errors });
+      });
   };
 }
 
