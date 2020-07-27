@@ -16,6 +16,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
       }/education/apply-for-education-benefits/application/1990E`,
     )
     .waitForElementVisible('body', Timeouts.normal)
+    .waitForElementVisible('.skip-wizard-link')
+    .click('.skip-wizard-link')
     .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
     .axeCheck('.main')
     .click('.schemaform-start-button');
