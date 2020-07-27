@@ -51,6 +51,7 @@ const SignatureInput = ({
       additionalClass="signature-input"
       ref={inputRef}
       label={label}
+      data-test-id={`vet-signature-input`}
       required={required}
       onValueChange={value => setSignature(value)}
       field={{ value: signature.value, dirty: signature.dirty }}
