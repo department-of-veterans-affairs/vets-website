@@ -4,9 +4,20 @@ import classNames from 'classnames';
 import set from 'platform/utilities/data/set';
 import recordEvent from 'platform/monitoring/record-event';
 
-const NO_BENEFIT_REFERRED = 'no benefit was referred';
-const WIZARD_STATUS_NOT_STARTED = 'not started';
+export const NO_BENEFIT_REFERRED = 'no benefit was referred';
+export const WIZARD_STATUS_NOT_STARTED = 'not started';
 export const WIZARD_STATUS_COMPLETE = 'complete';
+export const WIZARD_STATUS_APPLY_NOW = 'awaiting click on apply button';
+export const WIZARD_STATUS_IN_PROGRESS = 'in progress';
+export const WIZARD_STATUS_UPDATING = 'updating';
+export const FORM_ID_1990 = '1990';
+export const FORM_ID_10203 = '10203';
+export const FORM_ID_1995 = '1995';
+export const FORM_ID_0994 = '0994';
+export const FORM_ID_5495 = '5495';
+export const FORM_ID_5490 = '5490';
+export const FORM_ID_1990E = '1990E';
+export const FORM_ID_1990N = '1990N';
 
 export const getBenefitReffered = () =>
   sessionStorage.getItem('benefitReferred') || NO_BENEFIT_REFERRED;
