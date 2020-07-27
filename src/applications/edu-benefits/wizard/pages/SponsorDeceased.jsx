@@ -34,6 +34,8 @@ const SponsorDeceased = ({
         transferredBenefitsAnswer === 'no'
       ) {
         return setPageState({ selected: value }, pageNames.warningAlert);
+      } else if (newBenefitAnswer === 'no' && value === 'yes') {
+        return setPageState({ selected: value }, pageNames.applyNow);
       } else if (value === 'no') {
         return setPageState({ selected: value }, pageNames.transferredBenefits);
       } else {

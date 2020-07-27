@@ -2,6 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import set from 'platform/utilities/data/set';
+import recordEvent from 'platform/monitoring/record-event';
+
+const NO_BENEFIT_REFERRED = 'no benefit was referred';
+const WIZARD_STATUS_NOT_STARTED = 'not started';
+export const WIZARD_STATUS_COMPLETE = 'complete';
+
+export const getBenefitReffered = () =>
+  sessionStorage.getItem('benefitReferred') || NO_BENEFIT_REFERRED;
+
+export const getWizardCompletionStatus = () =>
+  sessionStorage.getItem('wizardStatus') || WIZARD_STATUS_NOT_STARTED;
 
 export default class Wizard extends React.Component {
   constructor(props) {
@@ -10,6 +21,8 @@ export default class Wizard extends React.Component {
       pageHistory: [props.pages[0]],
       currentPageIndex: 0,
       expanded: !props.expander,
+      benefitReferred: getBenefitReffered(),
+      wizardCompletionStatus: getWizardCompletionStatus(),
     };
   }
 
@@ -47,6 +60,28 @@ export default class Wizard extends React.Component {
     }
     this.setState({ pageHistory: newHistory });
   };
+  /**
+   * @param {string} value The wizard's completion status
+   */
+  setWizardCompletionStatus = value => {
+    sessionStorage.setItem('wizardStatus', value);
+    this.setState({
+      wizardCompletionStatus: sessionStorage.getItem('wizardStatus'),
+    });
+  };
+
+  /**
+   * @param {string} formId The form id of the referred benefit
+   */
+
+  setBenefitReffered = formId => {
+    sessionStorage.setItem('benefitReferred', formId);
+    this.setState({
+      educationBenefitReferred: sessionStorage.getItem('benefitReferred'),
+    });
+  };
+
+  recordWizardEvent = eventDetails => recordEvent({ ...eventDetails });
 
   render() {
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
@@ -86,6 +121,15 @@ export default class Wizard extends React.Component {
                       this.setPageState(index, newState, nextPageName)
                     }
                     state={page.state}
+                    setWizardCompletionStatus={statusMessage =>
+                      this.setWizardCompletionStatus(statusMessage)
+                    }
+                    recordWizardEvent={eventDetails =>
+                      this.recordWizardEvent(eventDetails)
+                    }
+                    setBenefitReffered={formId =>
+                      this.setBenefitReffered(formId)
+                    }
                   />
                 );
               })}

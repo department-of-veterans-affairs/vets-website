@@ -69,8 +69,14 @@ const TransferredBenefits = ({
           value === 'no'
         ) {
           return setPageState({ selected: value }, pageNames.warningAlert);
+        } else if (newBenefitAnswer === 'no' && value === 'own') {
+          return setPageState({ selected: value }, pageNames.applyNow);
+        } else if (newBenefitAnswer === 'no' && value === 'transferred') {
+          return setPageState({ selected: value }, pageNames.applyNow);
+        } else if (newBenefitAnswer === 'no' && value === 'fry') {
+          return setPageState({ selected: value }, pageNames.applyNow);
         } else {
-          return setPageState({ selected: value });
+          return setPageState({ selected: value }, pageNames.applyNow);
         }
       }}
       value={{ value: state.selected }}

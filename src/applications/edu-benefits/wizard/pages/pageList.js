@@ -7,4 +7,5 @@ export const pageNames = {
   vetTec: 'VetTec',
   warningAlert: 'WarningAlert',
   STEMScholarship: 'STEMScholarship',
+  applyNow: 'ApplyNow',
 };

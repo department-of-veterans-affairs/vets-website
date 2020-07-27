@@ -51,6 +51,12 @@ const NewBenefit = ({ setPageState, getPageStateFromPageName, state = {} }) => (
         (value === 'yes' && nationalCallToServiceAnswer === 'yes')
       ) {
         return setPageState({ selected: value }, pageNames.warningAlert);
+      } else if (
+        value === 'no' &&
+        sponsorDeceasedAnswer === 'no' &&
+        transferredBenefitsAnswer === 'yes'
+      ) {
+        return setPageState({ selected: value }, pageNames.applyNow);
       } else if (value === 'yes') {
         return setPageState({ selected: value }, pageNames.claimingBenefit);
       } else if (value === 'no') {

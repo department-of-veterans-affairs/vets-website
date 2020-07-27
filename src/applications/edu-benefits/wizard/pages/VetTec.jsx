@@ -7,7 +7,7 @@ const vetTecOptions = [
   { label: 'No', value: 'no' },
 ];
 
-const VetTec = ({ setPageState, state = {} }) => (
+const VetTec = ({ setPageState, getPageStateFromPageName, state = {} }) => (
   <ErrorableRadioButtons
     name={`${pageNames.vetTec}`}
     label={
@@ -19,7 +19,30 @@ const VetTec = ({ setPageState, state = {} }) => (
     id={`${pageNames.vetTec}`}
     additionalFieldsetClass="wizard-fieldset"
     options={vetTecOptions}
-    onValueChange={({ value }) => setPageState({ selected: value })}
+    onValueChange={({ value }) => {
+      const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
+        ?.selected;
+      const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
+        pageNames.claimingBenefit,
+      )?.selected;
+      /* eslint-disable no-debugger */
+      debugger;
+      if (
+        newBenefitAnswer === 'yes' &&
+        claimingBenefitOwnServiceAnswer === 'own' &&
+        value === 'yes'
+      ) {
+        return setPageState({ selected: value }, pageNames.applyNow);
+      } else if (
+        newBenefitAnswer === 'yes' &&
+        claimingBenefitOwnServiceAnswer === 'own' &&
+        value === 'no'
+      ) {
+        return setPageState({ selected: value }, pageNames.applyNow);
+      } else {
+        return setPageState({ selected: value });
+      }
+    }}
     value={{ value: state.selected }}
   />
 );

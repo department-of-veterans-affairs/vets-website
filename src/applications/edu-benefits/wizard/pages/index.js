@@ -6,6 +6,7 @@ import SponsorDeceased from './SponsorDeceased';
 import VetTec from './VetTec';
 import WarningAlert from './WarningAlert';
 import STEMScholarship from './STEMScholarship';
+import ApplyNow from './ApplyNow';
 
 export default [
   NewBenefit,
@@ -16,4 +17,5 @@ export default [
   VetTec,
   WarningAlert,
   STEMScholarship,
+  ApplyNow,
 ];

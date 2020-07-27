@@ -1,28 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-
-const WarningAOptions = [
-  { label: 'Applying for a new benefit', value: 'yes' },
-  {
-    label: (
-      <span className="radioText">
-        Updating my program of study or place of training
-      </span>
-    ),
-    value: 'no',
-  },
-  {
-    label: (
-      <span className="radioText">
-        Applying to extend my Post-9/11 or Fry Scholarship benefits using the
-        Edith Nourse Rogers STEM Scholarship
-      </span>
-    ),
-    value: 'extend',
-  },
-];
 
 const WarningAlert = ({
   setPageState,
@@ -43,9 +22,9 @@ const WarningAlert = ({
   const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
     pageNames.claimingBenefit,
   )?.selected;
+  const [applyPageRendered, setApplyPageRendered] = useState(false);
   let headline;
   let content;
-
   if (
     newBenefitAnswer === 'yes' &&
     claimingBenefitOwnServiceAnswer === 'other' &&
@@ -84,7 +63,15 @@ const WarningAlert = ({
       </>
     );
   }
-
+  useEffect(
+    () => {
+      if (!applyPageRendered) {
+        setPageState({}, pageNames.applyNow);
+        setApplyPageRendered(true);
+      }
+    },
+    [applyPageRendered, setPageState],
+  );
   return <AlertBox headline={headline} content={content} status="warning" />;
 };
 
