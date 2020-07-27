@@ -14,14 +14,14 @@ export const FETCH_ADDRESS_CONSTANTS_SUCCESS =
 export function fetchHero() {
   return async dispatch => {
     dispatch({ type: FETCH_HERO });
+    const response = await getData('/profile/full_name');
 
-    await getData('/profile/full_name')
-      .then(data => {
-        dispatch({ type: FETCH_HERO_SUCCESS, hero: { userFullName: data } });
-      })
-      .catch(errors => {
-        dispatch({ type: FETCH_HERO_FAILED, hero: { errors } });
-      });
+    if (response?.errors) {
+      dispatch({ type: FETCH_HERO_FAILED, hero: { response } });
+      return;
+    }
+
+    dispatch({ type: FETCH_HERO_SUCCESS, hero: { userFullName: response } });
   };
 }
 
