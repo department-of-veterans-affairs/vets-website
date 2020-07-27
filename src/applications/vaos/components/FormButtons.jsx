@@ -9,27 +9,30 @@ export default function FormButtons({
   pageChangeInProgress,
   loadingText,
   disabled,
+  backBeforeText,
+  backButtonText,
+  nextButtonText,
 }) {
   return (
     <div className="vads-l-row form-progress-buttons schemaform-buttons">
-      <div className="vads-l-col--6 vads-u-padding-right--2p5">
+      <div className="xsmall-screen:vads-u-padding-right--1p5 medium-screen:vads-u-padding-right--0p5">
         <ProgressButton
           onButtonClick={onBack}
-          buttonText="Back"
-          buttonClass="usa-button-secondary vads-u-width--full"
-          beforeText="«"
+          buttonText={backButtonText || 'Back'}
+          buttonClass="usa-button-secondary"
+          beforeText={typeof backBeforeText === 'string' ? backBeforeText : '«'}
         />
       </div>
-      <div className="vads-l-col--6">
+      <div>
         <LoadingButton
           isLoading={pageChangeInProgress}
           loadingText={loadingText}
           type="submit"
           onClick={onSubmit}
           disabled={disabled}
-          className="usa-button usa-button-primary vads-u-width--full"
+          className="usa-button usa-button-primary"
         >
-          Continue »
+          {nextButtonText || 'Continue »'}
         </LoadingButton>
       </div>
     </div>

@@ -2,6 +2,7 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { rootUrl as hearingAidSuppliesFormUrl } from 'applications/disability-benefits/2346/manifest.json';
 import { rootUrl as viewDependentsAppUrl } from 'applications/personalization/view-dependents/manifest.json';
+import { rootUrl as form686FormUrl } from 'applications/disability-benefits/686c-674/manifest.json';
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when
@@ -25,6 +26,7 @@ export const widgetTypes = {
   VETERAN_ID_CARD: 'vic',
   VIEW_APPOINTMENTS: 'view-appointments',
   VIEW_DEPENDENTS: 'view-dependents',
+  ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
 };
 
 const HEALTH_TOOLS = [
@@ -184,6 +186,12 @@ export const toolUrl = (appId, authenticatedWithSSOe = false) => {
         redirect: false,
       };
 
+    case widgetTypes.ADD_MODIFY_DEPENDENTS:
+      return {
+        url: form686FormUrl,
+        redirect: false,
+      };
+
     default:
       return {};
   }
@@ -281,6 +289,9 @@ export const serviceDescription = appId => {
 
     case widgetTypes.MANAGE_VA_DEBT:
       return 'manage your VA debt';
+
+    case widgetTypes.FORM_686_CTA:
+      return 'add or remove dependents';
 
     default:
       return 'use this service';
