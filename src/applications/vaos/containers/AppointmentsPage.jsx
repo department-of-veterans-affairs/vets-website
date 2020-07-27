@@ -8,12 +8,12 @@ import recordEvent from 'platform/monitoring/record-event';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ScheduleNewAppointment from '../components/ScheduleNewAppointment';
 import {
-  fetchExpressCareWindows,
   closeCancelAppointment,
   confirmCancelAppointment,
   startNewAppointmentFlow,
   fetchFutureAppointments,
 } from '../actions/appointments';
+import { fetchExpressCareWindows } from '../actions/expressCare';
 import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
@@ -48,7 +48,10 @@ export class AppointmentsPage extends Component {
     }
 
     document.title = `${pageTitle} | Veterans Affairs`;
-    if (this.props.expressCare.enabled) {
+    if (
+      this.props.expressCare.enabled &&
+      this.props.expressCare.windowsStatus === FETCH_STATUS.notStarted
+    ) {
       this.props.fetchExpressCareWindows();
     }
   }
@@ -77,12 +80,15 @@ export class AppointmentsPage extends Component {
       showScheduleButton,
       showCommunityCare,
       expressCare,
-      showExpressCare,
       showDirectScheduling,
       isCernerOnlyPatient,
       showPastAppointments,
     } = this.props;
-    const { windowsStatus, enabled, hasRequests } = expressCare;
+    const isLoading =
+      futureStatus === FETCH_STATUS.loading ||
+      expressCare.windowsStatus === FETCH_STATUS.loading ||
+      futureStatus === FETCH_STATUS.notStarted ||
+      expressCare.windowsStatus === FETCH_STATUS.notStarted;
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
@@ -106,26 +112,21 @@ export class AppointmentsPage extends Component {
             )}
             {expressCare.enabled && (
               <>
-                {(futureStatus === FETCH_STATUS.loading ||
-                  futureStatus === FETCH_STATUS.notStarted) && (
+                {isLoading && (
                   <LoadingIndicator message="Loading your appointment information" />
                 )}
-                {futureStatus !== FETCH_STATUS.loading &&
-                  futureStatus !== FETCH_STATUS.notStarted && (
-                    <>
-                      <RequestExpressCare {...expressCare} />
-                      {expressCare.hasRequests && (
-                        <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
-                          View your upcoming, past, and Express Care
-                          appointments
-                        </h2>
-                      )}
-                      <TabNav
-                        hasExpressCareRequests={expressCare.hasRequests}
-                      />
-                      {children}
-                    </>
-                  )}
+                {!isLoading && (
+                  <>
+                    <RequestExpressCare {...expressCare} />
+                    {expressCare.hasRequests && (
+                      <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
+                        View your upcoming, past, and Express Care appointments
+                      </h2>
+                    )}
+                    <TabNav hasExpressCareRequests={expressCare.hasRequests} />
+                    {children}
+                  </>
+                )}
               </>
             )}
             <NeedHelp />
