@@ -12,13 +12,20 @@ const SearchResultsHeader = ({
     return <div style={{ height: '38px' }} />;
   }
 
+  const location = context.replace(', United States', '');
+
   return (
     <h2
       id="facility-search-results"
-      className="vads-u-padding-left--2  vads-u-font-size--md vads-u-margin-y--1"
+      className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
+      style={{ 'margin-left': '12px' }}
       tabIndex="-1"
     >
-      {`Results for ${facilityTypes[facilityType]} near ${context}`}
+      Results for &quot;
+      <b>{facilityTypes[facilityType]}</b>
+      &quot; near&nbsp; &quot;
+      <b>{location}</b>
+      &quot;
     </h2>
   );
 };
