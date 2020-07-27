@@ -17,10 +17,12 @@ import { FETCH_STATUS } from '../utils/constants';
 
 const initialState = {
   windowsStatus: FETCH_STATUS.notStarted,
+  times: null,
   allowRequests: false,
   localWindowString: null,
   minStart: null,
   maxEnd: null,
+  data: {},
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -84,24 +86,25 @@ export default function expressCareReducer(state = initialState, action) {
           const endString = `${today}T${end}${offsetUtc}`;
 
           return {
-            utcStart: moment.utc(startString).format(),
-            utcEnd: moment.utc(endString).format(),
-            start: moment.parseZone(startString).format(),
-            end: moment.parseZone(endString).format(),
+            utcStart: moment.utc(startString),
+            utcEnd: moment.utc(endString),
+            start: moment.parseZone(startString),
+            end: moment.parseZone(endString),
             offset: offsetUtc,
             timeZone: timezone,
             name: f.authoritativeName,
+            rootStationCode: f.rootStationCode,
             id,
           };
         })
-        .sort((a, b) => (a.utcStart < b.utcStart ? -1 : 1));
+        .sort((a, b) => (a.utcStart.format() < b.utcStart.format() ? -1 : 1));
 
       let minStart;
       let maxEnd;
 
       if (times.length) {
         const timesReverseSorted = times.sort(
-          (a, b) => (a.utcEnd > b.utcEnd ? -1 : 1),
+          (a, b) => (a.utcEnd.format() > b.utcEnd.format() ? -1 : 1),
         );
 
         minStart = times?.[0];
@@ -115,13 +118,12 @@ export default function expressCareReducer(state = initialState, action) {
           times.length && nowUtc.isBetween(minStart?.utcStart, maxEnd?.utcEnd),
         minStart,
         maxEnd,
+        times,
         localWindowString:
           minStart && maxEnd
-            ? `${moment
-                .parseZone(minStart.start)
-                .format('h:mm a')} to ${moment
-                .parseZone(maxEnd.end)
-                .format('h:mm a')} ${minStart.timeZone}`
+            ? `${minStart.start.format('h:mm a')} to ${maxEnd.end.format(
+                'h:mm a',
+              )} ${minStart.timeZone}`
             : null,
       };
     }

@@ -439,3 +439,17 @@ export const selectExpressCare = state => ({
     vaosExpressCare(state) &&
     state.appointments.future?.some(appt => appt.vaos.isExpressCare),
 });
+
+export function selectExpressCareData(state) {
+  return state.expressCare.data;
+}
+
+export function selectActiveExpressCareFacility(state, nowUTCMoment) {
+  return state.expressCare.times
+    ?.find(time => nowUTCMoment.isBetween(time.utcStart, time.utcEnd))
+    ?.map(time => ({
+      name: time.authoritativeName,
+      facilityId: time.id,
+      siteId: time.rootStationCode,
+    }));
+}

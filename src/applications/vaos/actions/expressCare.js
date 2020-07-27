@@ -1,10 +1,17 @@
 import moment from 'moment';
+import recordEvent from 'platform/monitoring/record-event';
 
 import newExpressCareRequestFlow from '../newExpressCareRequestFlow';
 import { selectSystemIds } from '../utils/selectors';
-import { captureError } from '../utils/error';
-import { getFacilitiesBySystemAndTypeOfCare } from '../api';
-import { FETCH_STATUS, EXPRESS_CARE } from '../utils/constants';
+import {
+  getPreferences,
+  updatePreferences,
+  getFacilitiesBySystemAndTypeOfCare,
+  submitRequest,
+} from '../api';
+import { GA_PREFIX, EXPRESS_CARE } from '../utils/constants';
+import { resetDataLayer } from '../utils/events';
+import { captureError, getErrorCodes } from '../utils/error';
 
 import {
   getOrganizations,
@@ -12,12 +19,20 @@ import {
   getSiteIdFromOrganization,
 } from '../services/organization';
 
+import {
+  transformFormToExpressCareRequest,
+  createPreferenceBody,
+} from '../utils/data';
+
 export const FORM_PAGE_OPENED = 'expressCare/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
 export const FORM_PAGE_CHANGE_STARTED = 'expressCare/FORM_PAGE_CHANGE_STARTED';
 export const FORM_PAGE_CHANGE_COMPLETED =
   'expressCare/FORM_PAGE_CHANGE_COMPLETED';
 export const FORM_RESET = 'expressCare/FORM_RESET';
+export const FORM_SUBMIT = 'expressCare/FORM_SUBMIT';
+export const FORM_SUBMIT_SUCCEEDED = 'expressCare/FORM_SUBMIT_SUCCEEDED';
+export const FORM_SUBMIT_FAILED = 'expressCare/FORM_SUBMIT_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS';
 export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
@@ -143,4 +158,62 @@ export function routeToPreviousAppointmentPage(router, current) {
     current,
     'previous',
   );
+}
+
+async function buildPreferencesDataAndUpdate(expressCare) {
+  const preferenceData = await getPreferences();
+  const preferenceBody = createPreferenceBody(preferenceData, expressCare.data);
+  return updatePreferences(preferenceBody);
+}
+
+export function submitExpressCareRequest(router) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const expressCare = state.expressCare;
+
+    dispatch({
+      type: FORM_SUBMIT,
+    });
+
+    let requestBody;
+
+    recordEvent({
+      event: `${GA_PREFIX}-express-care-submission`,
+    });
+
+    try {
+      requestBody = transformFormToExpressCareRequest(getState());
+      const requestData = await submitRequest('va', requestBody);
+
+      try {
+        await buildPreferencesDataAndUpdate(expressCare);
+      } catch (error) {
+        // These are ancillary updates, the request went through if the first submit
+        // succeeded
+        captureError(error, false, 'Express Care preferences error');
+      }
+
+      dispatch({
+        type: FORM_SUBMIT_SUCCEEDED,
+        requestData,
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-express-care-submission-successful`,
+      });
+      resetDataLayer();
+      router.push('/new-appointment/confirmation');
+    } catch (error) {
+      captureError(error, true, 'Express Care submission failure');
+      dispatch({
+        type: FORM_SUBMIT_FAILED,
+        isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-express-care-submission-failed`,
+      });
+      resetDataLayer();
+    }
+  };
 }
