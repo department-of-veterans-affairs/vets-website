@@ -12,15 +12,36 @@ import {
   getSiteIdFromOrganization,
 } from '../services/organization';
 
+export const FORM_PAGE_OPENED = 'expressCare/FORM_PAGE_OPENED';
+export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
+export const FORM_PAGE_CHANGE_STARTED = 'expressCare/FORM_PAGE_CHANGE_STARTED';
+export const FORM_PAGE_CHANGE_COMPLETED =
+  'expressCare/FORM_PAGE_CHANGE_COMPLETED';
+export const FORM_RESET = 'expressCare/FORM_RESET';
 export const FETCH_EXPRESS_CARE_WINDOWS =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS';
 export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
-export const FORM_PAGE_CHANGE_STARTED = 'expressCare/FORM_PAGE_CHANGE_STARTED';
-export const FORM_PAGE_CHANGE_COMPLETED =
-  'expressCare/FORM_PAGE_CHANGE_COMPLETED';
+
+export function openFormPage(page, uiSchema, schema) {
+  return {
+    type: FORM_PAGE_OPENED,
+    page,
+    uiSchema,
+    schema,
+  };
+}
+
+export function updateFormData(page, uiSchema, data) {
+  return {
+    type: FORM_DATA_UPDATED,
+    page,
+    uiSchema,
+    data,
+  };
+}
 
 export function fetchExpressCareWindows() {
   return async (dispatch, getState) => {
