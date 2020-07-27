@@ -1,6 +1,13 @@
 import moment from 'moment';
+import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import {
+  updateSchemaAndData,
+  updateItemsSchema,
+} from 'platform/forms-system/src/js/state/helpers';
 
 import {
+  FORM_PAGE_OPENED,
+  FORM_DATA_UPDATED,
   FETCH_EXPRESS_CARE_WINDOWS,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
@@ -16,8 +23,49 @@ const initialState = {
   maxEnd: null,
 };
 
+function setupFormData(data, schema, uiSchema) {
+  const schemaWithItemsCorrected = updateItemsSchema(schema);
+  return updateSchemaAndData(
+    schemaWithItemsCorrected,
+    uiSchema,
+    getDefaultFormState(schemaWithItemsCorrected, data, {}),
+  );
+}
+
 export default function expressCareReducer(state = initialState, action) {
   switch (action.type) {
+    case FORM_PAGE_OPENED: {
+      const { data, schema } = setupFormData(
+        state.data,
+        action.schema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
+        },
+      };
+    }
+    case FORM_DATA_UPDATED: {
+      const { data, schema } = updateSchemaAndData(
+        state.pages[action.page],
+        action.uiSchema,
+        action.data,
+      );
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
+        },
+      };
+    }
     case FETCH_EXPRESS_CARE_WINDOWS:
       return {
         ...initialState,

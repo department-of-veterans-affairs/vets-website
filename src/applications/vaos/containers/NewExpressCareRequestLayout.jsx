@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Breadcrumbs from '../components/Breadcrumbs';
 
-export default function NewAppointmentLayout({ children }) {
+export default function NewExpressCareRequestLayout({ children }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
       <Breadcrumbs>
