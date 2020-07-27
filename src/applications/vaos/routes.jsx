@@ -61,7 +61,7 @@ const NewExpressCareRequestLayout = asyncLoader(() =>
   import(/* webpackChunkName: "express-care" */ './containers/NewExpressCareRequestLayout'),
 );
 const ExpressCareInfo = asyncLoader(() =>
-  import(/* webpackChunkName: "express-care */ './containers/ExpressCareInfo'),
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareInfo'),
 );
 
 export default function createRoutesWithStore(store) {
