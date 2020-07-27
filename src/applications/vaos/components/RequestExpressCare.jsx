@@ -1,5 +1,6 @@
 import React from 'react';
 import environment from 'platform/utilities/environment';
+import { Link } from 'react-router';
 import { FETCH_STATUS } from '../utils/constants';
 
 export default function RequestExpressCare({
@@ -7,6 +8,7 @@ export default function RequestExpressCare({
   enabled,
   allowRequests,
   localWindowString,
+  useNewFlow,
 }) {
   const legacyLink = `https://veteran.apps${
     environment.isProduction() ? '' : '-staging'
@@ -31,14 +33,20 @@ export default function RequestExpressCare({
             visit or other care.
           </li>
         </ul>
-        <a
-          className="usa-button"
-          href={legacyLink}
-          target="_blank"
-          rel="noreferrer nofollow"
-        >
-          Request Express Care
-        </a>
+        {useNewFlow ? (
+          <Link className="usa-button" to="/new-express-care-request">
+            Request Express Care
+          </Link>
+        ) : (
+          <a
+            className="usa-button"
+            href={legacyLink}
+            target="_blank"
+            rel="noreferrer nofollow"
+          >
+            Request Express Care
+          </a>
+        )}
       </div>
     );
   }
