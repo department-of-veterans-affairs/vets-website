@@ -258,6 +258,10 @@
     "node": "10.15.3",
     "yarn": "1.21.1"
   },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": false,
+    "stepDefinitions" : "src/applications/facility-locator/tests/cucumber/"
+  },
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "6.9.5",
@@ -272,6 +276,7 @@
     "cookie": "^0.3.1",
     "cookie-parser": "^1.4.5",
     "core-js": "^2.5.7",
+    "cypress-cucumber-preprocessor": "^2.5.4",
     "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
     "express": "^4.17.1",

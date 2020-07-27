@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
+const cucumber = require('cypress-cucumber-preprocessor').default;
 
 module.exports = on => {
   const ENV = 'localhost';
@@ -17,9 +18,13 @@ module.exports = on => {
       },
     },
   };
-
-  on('file:preprocessor', webpackPreprocessor(options));
-
+  on('file:preprocessor', file => {
+    if (file.filePath.match(/\.(js|jsx)/g)) {
+      return webpackPreprocessor(options)(file);
+    } else {
+      return cucumber()(file);
+    }
+  });
   on('task', {
     /* eslint-disable no-console */
     log: message => console.log(message) || null,
