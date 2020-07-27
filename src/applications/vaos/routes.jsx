@@ -57,6 +57,12 @@ const ConfirmationPage = asyncLoader(() =>
 const ExpressCareList = asyncLoader(() =>
   import(/* webpackChunkName: "express-care" */ './components/ExpressCareList'),
 );
+const NewExpressCareRequestLayout = asyncLoader(() =>
+  import(/* webpackChunkName: "new-express-care-request-layout" */ './containers/NewExpressCareRequestLayout'),
+);
+const ExpressCareInfo = asyncLoader(() =>
+  import(/* webpackChunkName: "new-express-care-request" */ './containers/ExpressCareInfo'),
+);
 
 export default function createRoutesWithStore(store) {
   return (
@@ -64,7 +70,7 @@ export default function createRoutesWithStore(store) {
       <Route path="/" component={AppointmentsPage}>
         <IndexRoute component={FutureAppointmentsList} />
         <Route component={PastAppointmentsList} path="past" />
-        <Route component={ExpressCareList} path="express-care" />
+        <Route component={ExpressCareList} path="express-care-requests" />
       </Route>
       <Route
         path="new-appointment"
@@ -97,6 +103,12 @@ export default function createRoutesWithStore(store) {
         <Route path="reason-appointment" component={ReasonForAppointmentPage} />
         <Route path="review" component={ReviewPage} />
         <Route path="confirmation" component={ConfirmationPage} />
+      </Route>
+      <Route
+        path="new-express-care-request"
+        component={NewExpressCareRequestLayout}
+      >
+        <IndexRoute component={ExpressCareInfo} />
       </Route>
     </Route>
   );
