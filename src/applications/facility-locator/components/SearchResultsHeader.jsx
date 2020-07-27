@@ -14,6 +14,7 @@ const SearchResultsHeader = ({
 
   return (
     <h2
+      id="facility-search-results"
       className="vads-u-padding-left--2  vads-u-font-size--md vads-u-margin-y--1"
       tabIndex="-1"
     >
