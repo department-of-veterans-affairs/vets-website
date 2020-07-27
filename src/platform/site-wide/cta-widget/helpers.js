@@ -26,7 +26,7 @@ export const widgetTypes = {
   VETERAN_ID_CARD: 'vic',
   VIEW_APPOINTMENTS: 'view-appointments',
   VIEW_DEPENDENTS: 'view-dependents',
-  ADD_MODIFY_DEPENDENTS: 'add-remove-dependents',
+  ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
 };
 
 const HEALTH_TOOLS = [
