@@ -136,10 +136,15 @@ export class ConfirmEligibilityView extends React.Component {
   render() {
     return (
       <div>
-        <div className="vads-u-padding-bottom--2">
-          <h4>Rogers STEM Scholarship eligibility summary</h4>
-        </div>
-
+        {!this.props.onReviewPage ? (
+          <div className="vads-u-padding-bottom--2">
+            <h4>Rogers STEM Scholarship eligibility summary</h4>
+          </div>
+        ) : (
+          <div className="vads-u-padding-bottom--2">
+            <h5>Rogers STEM Scholarship eligibility summary</h5>
+          </div>
+        )}
         <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2">
           {this.renderChecks()}
           {this.renderConfirmEligibility()}
@@ -152,22 +157,25 @@ export class ConfirmEligibilityView extends React.Component {
           benefits for eligible applicants.
         </div>
         {!this.props.onReviewPage && (
-          <div className="vads-u-margin-top--neg2">
-            <a
-              className={'usa-button-primary wizard-button va-button-primary'}
-              href="/education/about-gi-bill-benefits/"
-              target="self"
-            >
-              Exit application
-            </a>
+          <div>
+            <div className="vads-u-margin-top--neg2">
+              <a
+                className={'usa-button-primary wizard-button va-button-primary'}
+                href="/education/about-gi-bill-benefits/"
+                target="self"
+              >
+                Exit application
+              </a>
+            </div>
+
+            <div>
+              <p>
+                If you'd still like to apply, you can continue with your
+                application.
+              </p>
+            </div>
           </div>
         )}
-        <div>
-          <p>
-            If you'd still like to apply, you can continue with your
-            application.
-          </p>
-        </div>
       </div>
     );
   }

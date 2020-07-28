@@ -49,12 +49,13 @@ export const chapters = {
         schema: stemEligibility.schema,
       },
       confirmEligibility: {
-        title: '',
+        title: 'Rogers STEM Scholarship eligibility summary',
         path: 'benefits/confirm-eligibility',
         depends: form => displayConfirmEligibility(form),
         pageClass: 'vads-u-max-width--100 vads-u-vads-u-width--full',
         uiSchema: confirmEligibility.uiSchema,
         schema: confirmEligibility.schema,
+        hideHeaderRow: true,
       },
       programDetails: {
         title: 'Your STEM degree',
