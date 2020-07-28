@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { isChapter33 } from '../helpers';
-import captureEvents from '../analytics-functions';
 
 export class ConfirmEligibilityView extends React.Component {
   onChange = property => {
@@ -104,39 +103,8 @@ export class ConfirmEligibilityView extends React.Component {
   };
 
   renderConfirmEligibility = () => {
-    const { showErrors, confirmEligibility } = this.props;
-    const id = 'root_confirmEligibility';
-    const divClassName = classNames(
-      'form-radio-buttons',
-      showErrors ? 'usa-input-error' : '',
-    );
-    const legendClassName = classNames(
-      'schemaform-label',
-      showErrors ? 'usa-input-error-label' : '',
-    );
-    const questionText =
-      'Would you still like to apply and let us determine your eligibility?';
-
-    if (this.inReviewEditMode()) {
-      let value;
-      if (confirmEligibility !== undefined) {
-        value = confirmEligibility ? 'Yes' : 'No';
-      }
-
-      return (
-        <dl className="review">
-          <div className="review-row">
-            <dt>{questionText}</dt>
-            <dd>
-              <span>{value}</span>
-            </dd>
-          </div>
-        </dl>
-      );
-    }
-
     return (
-      <div className={divClassName}>
+      <div>
         <div className={'vads-u-padding-bottom--2'}>
           {this.props.remainingEntitlement &&
             this.props.remainingEntitlement.totalDays > 180 && (
