@@ -69,7 +69,7 @@ const testConfig = createTestConfig(
     },
 
     // disable all tests until HLR is in production
-    skip: false,
+    skip: true,
   },
   manifest,
   formConfig,
