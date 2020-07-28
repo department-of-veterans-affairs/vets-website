@@ -843,5 +843,14 @@
       "layout": "page-react.html",
       "title": "View Payments"
     }
+  },
+  {
+    "appName": "Ask a Question",
+    "entryName": "ask-a-question",
+    "rootUrl": "/ask-a-question",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
   }
 ]
