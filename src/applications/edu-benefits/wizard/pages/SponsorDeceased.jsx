@@ -22,21 +22,29 @@ const SponsorDeceased = ({
       const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
         ?.selected;
       const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
-        pageNames.claimingBenefit,
+        pageNames.claimingBenefitOwnService,
       )?.selected;
       const transferredBenefitsAnswer = getPageStateFromPageName(
         pageNames.transferredBenefits,
       )?.selected;
       if (
-        newBenefitAnswer === 'yes' &&
-        claimingBenefitOwnServiceAnswer === 'other' &&
+        newBenefitAnswer === 'new' &&
+        claimingBenefitOwnServiceAnswer === 'no' &&
         value === 'no' &&
         transferredBenefitsAnswer === 'no'
       ) {
         return setPageState({ selected: value }, pageNames.warningAlert);
-      } else if (newBenefitAnswer === 'no' && value === 'yes') {
+      } else if (
+        newBenefitAnswer === 'new' &&
+        claimingBenefitOwnServiceAnswer === 'no' &&
+        value === 'yes'
+      ) {
         return setPageState({ selected: value }, pageNames.applyNow);
-      } else if (value === 'no') {
+      } else if (
+        newBenefitAnswer === 'new' &&
+        claimingBenefitOwnServiceAnswer === 'no' &&
+        value === 'no'
+      ) {
         return setPageState({ selected: value }, pageNames.transferredBenefits);
       } else {
         return setPageState({ selected: value });

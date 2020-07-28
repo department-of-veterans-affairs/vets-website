@@ -23,19 +23,17 @@ const VetTec = ({ setPageState, getPageStateFromPageName, state = {} }) => (
       const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
         ?.selected;
       const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
-        pageNames.claimingBenefit,
+        pageNames.claimingBenefitOwnService,
       )?.selected;
-      /* eslint-disable no-debugger */
-      debugger;
       if (
-        newBenefitAnswer === 'yes' &&
-        claimingBenefitOwnServiceAnswer === 'own' &&
+        newBenefitAnswer === 'new' &&
+        claimingBenefitOwnServiceAnswer === 'yes' &&
         value === 'yes'
       ) {
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (
-        newBenefitAnswer === 'yes' &&
-        claimingBenefitOwnServiceAnswer === 'own' &&
+        newBenefitAnswer === 'new' &&
+        claimingBenefitOwnServiceAnswer === 'yes' &&
         value === 'no'
       ) {
         return setPageState({ selected: value }, pageNames.applyNow);

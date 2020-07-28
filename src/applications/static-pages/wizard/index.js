@@ -85,7 +85,7 @@ export default class Wizard extends React.Component {
    * @param {string} formId The form id of the referred benefit
    */
 
-  setBenefitReffered = formId => {
+  setBenefitReferred = formId => {
     sessionStorage.setItem('benefitReferred', formId);
     this.setState({
       educationBenefitReferred: sessionStorage.getItem('benefitReferred'),
@@ -138,8 +138,8 @@ export default class Wizard extends React.Component {
                     recordWizardEvent={eventDetails =>
                       this.recordWizardEvent(eventDetails)
                     }
-                    setBenefitReffered={formId =>
-                      this.setBenefitReffered(formId)
+                    setBenefitReferred={formId =>
+                      this.setBenefitReferred(formId)
                     }
                   />
                 );

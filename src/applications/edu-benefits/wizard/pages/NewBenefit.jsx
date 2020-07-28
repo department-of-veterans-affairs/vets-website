@@ -1,16 +1,17 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
+import {} from './index';
 
 const newBenefitOptions = [
-  { label: 'Applying for a new benefit', value: 'yes' },
+  { label: 'Applying for a new benefit', value: 'new' },
   {
     label: (
       <span className="radioText">
         Updating my program of study or place of training
       </span>
     ),
-    value: 'no',
+    value: 'update',
   },
   {
     label: (
@@ -23,7 +24,12 @@ const newBenefitOptions = [
   },
 ];
 
-const NewBenefit = ({ setPageState, getPageStateFromPageName, state = {} }) => (
+const NewBenefit = ({
+  setPageState,
+  getPageStateFromPageName,
+  state = {},
+  setBenefitReferred,
+}) => (
   <ErrorableRadioButtons
     name={`${pageNames.newBenefit}`}
     label="Are you applying for a benefit or updating your program or place of training?"
@@ -32,7 +38,7 @@ const NewBenefit = ({ setPageState, getPageStateFromPageName, state = {} }) => (
     options={newBenefitOptions}
     onValueChange={({ value }) => {
       const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
-        pageNames.claimingBenefit,
+        pageNames.claimingBenefitOwnService,
       )?.selected;
       const sponsorDeceasedAnswer = getPageStateFromPageName(
         pageNames.sponsorDeceased,
@@ -44,25 +50,32 @@ const NewBenefit = ({ setPageState, getPageStateFromPageName, state = {} }) => (
         pageNames.nationalCallToService,
       )?.selected;
       if (
-        (value === 'yes' &&
-          claimingBenefitOwnServiceAnswer === 'other' &&
+        (value === 'new' &&
+          claimingBenefitOwnServiceAnswer === 'no' &&
           sponsorDeceasedAnswer === 'no' &&
           transferredBenefitsAnswer === 'no') ||
-        (value === 'yes' && nationalCallToServiceAnswer === 'yes')
+        (value === 'new' &&
+          claimingBenefitOwnServiceAnswer === 'yes' &&
+          nationalCallToServiceAnswer === 'yes')
       ) {
         return setPageState({ selected: value }, pageNames.warningAlert);
       } else if (
-        value === 'no' &&
+        value === 'update' &&
         sponsorDeceasedAnswer === 'no' &&
         transferredBenefitsAnswer === 'yes'
       ) {
         return setPageState({ selected: value }, pageNames.applyNow);
-      } else if (value === 'yes') {
-        return setPageState({ selected: value }, pageNames.claimingBenefit);
-      } else if (value === 'no') {
+      } else if (value === 'new') {
+        return setPageState(
+          { selected: value },
+          pageNames.claimingBenefitOwnService,
+        );
+      } else if (value === 'update') {
         return setPageState({ selected: value }, pageNames.transferredBenefits);
-      } else {
+      } else if (value === 'extend') {
         return setPageState({ selected: value }, pageNames.STEMScholarship);
+      } else {
+        return setPageState({ selected: value });
       }
     }}
     value={{ value: state.selected }}

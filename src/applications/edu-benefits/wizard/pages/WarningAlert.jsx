@@ -20,14 +20,14 @@ const WarningAlert = ({
     pageNames.transferredBenefits,
   )?.selected;
   const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
-    pageNames.claimingBenefit,
+    pageNames.claimingBenefitOwnService,
   )?.selected;
   const [applyPageRendered, setApplyPageRendered] = useState(false);
   let headline;
   let content;
   if (
-    newBenefitAnswer === 'yes' &&
-    claimingBenefitOwnServiceAnswer === 'other' &&
+    newBenefitAnswer === 'new' &&
+    claimingBenefitOwnServiceAnswer === 'no' &&
     sponsorDeceasedAnswer === 'no' &&
     transferredBenefitsAnswer === 'no'
   ) {
@@ -43,7 +43,8 @@ const WarningAlert = ({
       </a>
     );
   } else if (
-    newBenefitAnswer === 'yes' &&
+    newBenefitAnswer === 'new' &&
+    claimingBenefitOwnServiceAnswer === 'yes' &&
     nationalCallToServiceAnswer === 'yes'
   ) {
     headline = 'Are you sure?';

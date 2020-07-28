@@ -57,26 +57,33 @@ const TransferredBenefits = ({
         const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
           ?.selected;
         const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
-          pageNames.claimingBenefit,
+          pageNames.claimingBenefitOwnService,
         )?.selected;
         const sponsorDeceasedAnswer = getPageStateFromPageName(
           pageNames.sponsorDeceased,
         )?.selected;
         if (
-          newBenefitAnswer === 'yes' &&
-          claimingBenefitOwnServiceAnswer === 'other' &&
+          newBenefitAnswer === 'new' &&
+          claimingBenefitOwnServiceAnswer === 'no' &&
           sponsorDeceasedAnswer === 'no' &&
           value === 'no'
         ) {
           return setPageState({ selected: value }, pageNames.warningAlert);
-        } else if (newBenefitAnswer === 'no' && value === 'own') {
+        } else if (
+          newBenefitAnswer === 'new' &&
+          claimingBenefitOwnServiceAnswer === 'no' &&
+          sponsorDeceasedAnswer === 'no' &&
+          value === 'yes'
+        ) {
           return setPageState({ selected: value }, pageNames.applyNow);
-        } else if (newBenefitAnswer === 'no' && value === 'transferred') {
+        } else if (newBenefitAnswer === 'update' && value === 'own') {
           return setPageState({ selected: value }, pageNames.applyNow);
-        } else if (newBenefitAnswer === 'no' && value === 'fry') {
+        } else if (newBenefitAnswer === 'update' && value === 'transferred') {
+          return setPageState({ selected: value }, pageNames.applyNow);
+        } else if (newBenefitAnswer === 'update' && value === 'fry') {
           return setPageState({ selected: value }, pageNames.applyNow);
         } else {
-          return setPageState({ selected: value }, pageNames.applyNow);
+          return setPageState({ selected: value });
         }
       }}
       value={{ value: state.selected }}

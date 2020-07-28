@@ -25,13 +25,21 @@ const NationalCallToService = ({
     options={nationalCallToServiceOptions}
     onValueChange={({ value }) => {
       const claimingBenefitAnswer = getPageStateFromPageName(
-        pageNames.claimingBenefit,
+        pageNames.claimingBenefitOwnService,
       )?.selected;
       const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
         ?.selected;
-      if (claimingBenefitAnswer === 'own' && value === 'no') {
+      if (
+        newBenefitAnswer === 'new' &&
+        claimingBenefitAnswer === 'yes' &&
+        value === 'no'
+      ) {
         return setPageState({ selected: value }, pageNames.vetTec);
-      } else if (newBenefitAnswer === 'yes' && value === 'yes') {
+      } else if (
+        newBenefitAnswer === 'new' &&
+        claimingBenefitAnswer === 'yes' &&
+        value === 'yes'
+      ) {
         return setPageState({ selected: value }, pageNames.warningAlert);
       } else {
         return setPageState({ selected: value });

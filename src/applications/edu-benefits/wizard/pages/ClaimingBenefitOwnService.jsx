@@ -4,9 +4,9 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
-const claimingBenefitOptions = [
-  { label: 'Yes', value: 'own' },
-  { label: 'No', value: 'other' },
+const claimingBenefitOwnServiceOptions = [
+  { label: 'Yes', value: 'yes' },
+  { label: 'No', value: 'no' },
 ];
 
 const ClaimingBenefitOwnService = ({
@@ -16,11 +16,11 @@ const ClaimingBenefitOwnService = ({
 }) => (
   <div>
     <ErrorableRadioButtons
-      name={`${pageNames.claimingBenefit}`}
+      name={`${pageNames.claimingBenefitOwnService}`}
       label="Are you a Veteran or service member claiming a benefit based on your own service?"
-      id={`${pageNames.claimingBenefit}`}
+      id={`${pageNames.claimingBenefitOwnService}`}
       additionalFieldsetClass="wizard-fieldset"
-      options={claimingBenefitOptions}
+      options={claimingBenefitOwnServiceOptions}
       onValueChange={({ value }) => {
         const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
           ?.selected;
@@ -34,21 +34,23 @@ const ClaimingBenefitOwnService = ({
           pageNames.nationalCallToService,
         )?.selected;
         if (
-          newBenefitAnswer === 'yes' &&
-          value === 'other' &&
+          newBenefitAnswer === 'new' &&
+          value === 'no' &&
           sponsorDeceasedAnswer === 'no' &&
           transferredBenefitsAnswer === 'no'
         ) {
           return setPageState({ selected: value }, pageNames.warningAlert);
-        } else if (nationalCallToServiceAnswer === 'no' && value === 'own') {
+        } else if (nationalCallToServiceAnswer === 'no' && value === 'yes') {
           return setPageState({ selected: value }, pageNames.vetTec);
-        } else if (value === 'own') {
+        } else if (newBenefitAnswer === 'new' && value === 'yes') {
           return setPageState(
             { selected: value },
             pageNames.nationalCallToService,
           );
-        } else {
+        } else if (newBenefitAnswer === 'new' && value === 'no') {
           return setPageState({ selected: value }, pageNames.sponsorDeceased);
+        } else {
+          return setPageState({ selected: value });
         }
       }}
       value={{ value: state.selected }}
@@ -57,6 +59,6 @@ const ClaimingBenefitOwnService = ({
 );
 
 export default {
-  name: pageNames?.claimingBenefit,
+  name: pageNames?.claimingBenefitOwnService,
   component: ClaimingBenefitOwnService,
 };

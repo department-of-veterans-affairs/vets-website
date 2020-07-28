@@ -1,6 +1,6 @@
 export const pageNames = {
   newBenefit: 'NewBenefit',
-  claimingBenefit: 'ClaimingBenefit',
+  claimingBenefitOwnService: 'ClaimingBenefitOwnService',
   transferredBenefits: 'TransferredBenefits',
   nationalCallToService: 'NationalCallToService',
   sponsorDeceased: 'SponsorDeceased',

@@ -1,5 +1,5 @@
 import NewBenefit from './NewBenefit';
-import ClaimingBenefit from './ClaimingBenefitOwnService';
+import ClaimingBenefitOwnService from './ClaimingBenefitOwnService';
 import TransferredBenefits from './TransferredBenefits';
 import NationalCallToService from './NationalCallToService';
 import SponsorDeceased from './SponsorDeceased';
@@ -10,7 +10,7 @@ import ApplyNow from './ApplyNow';
 
 export default [
   NewBenefit,
-  ClaimingBenefit,
+  ClaimingBenefitOwnService,
   TransferredBenefits,
   NationalCallToService,
   SponsorDeceased,

@@ -4,7 +4,7 @@ import { pageNames } from './pageList';
 import recordEvent from 'platform/monitoring/record-event';
 
 const STEMScholarship = ({ setPageState, state = {} }) => {
-  const transferredBenefitOptions = [
+  const STEMScholarshipOptions = [
     { label: 'Yes', value: 'yes' },
     { label: 'No', value: 'no' },
   ];
@@ -70,9 +70,9 @@ const STEMScholarship = ({ setPageState, state = {} }) => {
 
       <ErrorableRadioButtons
         additionalFieldsetClass="wizard-fieldset"
-        name={`${pageNames.transferredBenefits}`}
-        id={`${pageNames.transferredBenefits}`}
-        options={[{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }]}
+        name={`${pageNames.STEMScholarship}`}
+        id={`${pageNames.STEMScholarship}`}
+        options={STEMScholarshipOptions}
         onValueChange={({ value }) => {
           setSTEMScholarshipAnswer(value);
           return setPageState({ selected: value });
