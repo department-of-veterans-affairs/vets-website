@@ -20,14 +20,6 @@ export const formIdSuffixes = {
   FORM_ID_1990E: '1990E',
   FORM_ID_1990N: '1990N',
 };
-// export const FORM_ID_1990 = '1990';
-// export const FORM_ID_10203 = '10203';
-// export const FORM_ID_1995 = '1995';
-// export const FORM_ID_0994 = '0994';
-// export const FORM_ID_5495 = '5495';
-// export const FORM_ID_5490 = '5490';
-// export const FORM_ID_1990E = '1990E';
-// export const FORM_ID_1990N = '1990N';
 
 export const getReferredBenefit = async () =>
   (await sessionStorage.getItem('benefitReferred')) || NO_BENEFIT_REFERRED;
