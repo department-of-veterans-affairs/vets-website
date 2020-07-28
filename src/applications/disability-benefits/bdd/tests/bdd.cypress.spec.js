@@ -125,7 +125,7 @@ const testConfig = createTestConfig(
     },
 
     // disable all tests until BDD is in production
-    skip: true,
+    skip: false,
   },
   manifest,
   formConfig,

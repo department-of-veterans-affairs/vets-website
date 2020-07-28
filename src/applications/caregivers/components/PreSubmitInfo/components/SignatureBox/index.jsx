@@ -36,7 +36,10 @@ const SignatureCheckbox = ({
   );
 
   return (
-    <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7">
+    <article
+      data-test-id={`${label}-signature-input`}
+      className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7"
+    >
       {children && <header>{children}</header>}
 
       <SignatureInput

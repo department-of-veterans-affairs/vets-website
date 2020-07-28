@@ -1,0 +1,54 @@
+{
+  "view:hasSecondaryCaregiverOne": false,
+  "primaryMedicaidEnrolled": false,
+  "primaryMedicareEnrolled": false,
+  "primaryTricareEnrolled": false,
+  "primaryChampvaEnrolled": false,
+  "view:otherHealthInsurance": false,
+  "primaryAddress": {
+    "street": "1375 E Buena Vista Dr",
+    "city": "Orlando",
+    "state": "FL",
+    "postalCode": "32830"
+  },
+  "primaryPrimaryPhoneNumber": "9109446787",
+  "primaryEmail": "mickeymouse@disney.com",
+  "view:primaryEmail": "mickeymouse@disney.com",
+  "primaryVetRelationship": "Spouse",
+  "primaryFullName": {
+    "first": "Mini",
+    "last": "Mouse"
+  },
+  "primarySsnOrTin": "777887777",
+  "primaryDateOfBirth": "1990-11-18",
+  "primaryGender": "M",
+  "veteranLastTreatmentFacility": {
+    "name": "Magic Kingdom",
+    "type": "clinic"
+  },
+  "veteranPreferredFacility": {
+    "veteranFacilityState": "FL",
+    "plannedClinic": "675"
+  },
+  "veteranAddress": {
+    "street": "1375 E Buena Vista Dr",
+    "city": "Orlando",
+    "state": "FL",
+    "postalCode": "32830"
+  },
+  "veteranPrimaryPhoneNumber": "9109446787",
+  "veteranEmail": "mickeymouse@disney.com",
+  "view:veteranEmail": "mickeymouse@disney.com",
+  "veteranFullName": {
+    "first": "Micky",
+    "last": "Mouse"
+  },
+  "veteranSsnOrTin": "777887777",
+  "veteranDateOfBirth": "1990-11-18",
+  "veteranGender": "M",
+  "secondaryOneFullName": {},
+  "secondaryOneAddress": {},
+  "secondaryTwoFullName": {},
+  "secondaryTwoAddress": {},
+  "AGREED": true
+}
