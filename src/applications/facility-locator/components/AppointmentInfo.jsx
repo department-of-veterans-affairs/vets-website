@@ -76,11 +76,8 @@ export default class AppointmentInfo extends Component {
       } else {
         // V0 legacy structure TODO: remove when fully migrated to V1
         const value = get(accessAttrs, ['primaryCare', category]);
-        if (value || value === 0) {
-          return renderStat(
-            'Primary Care',
-            accessAttrs.primaryCare.established,
-          );
+        if (value) {
+          return renderStat('Primary Care', value);
         }
       }
       return null;
