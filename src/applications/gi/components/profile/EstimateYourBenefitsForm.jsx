@@ -1024,6 +1024,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   renderMilitaryDetails = () => {
     const name = 'Your military details';
+
     return (
       <AccordionItem
         button={name}
@@ -1041,6 +1042,7 @@ class EstimateYourBenefitsForm extends React.Component {
             displayedInputs={this.props.displayedInputs}
             handleInputFocus={this.handleEYBInputFocus}
             giBillChapterOpen={[this.props.displayedInputs?.giBillBenefit]}
+            gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
           >
             {this.renderGbBenefit()}
           </BenefitsForm>

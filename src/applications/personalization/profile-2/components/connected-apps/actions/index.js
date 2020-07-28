@@ -1,8 +1,9 @@
-import { apiRequest } from 'platform/utilities/api';
-
 export * from 'platform/user/profile/actions';
-
+import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
+import { mockConnectedApps } from 'applications/personalization/profile360/util/connected-apps.js';
+import { isEmpty } from 'lodash';
 
 export const LOADING_CONNECTED_APPS = 'connected-apps/LOADING_CONNECTED_APPS';
 export const FINISHED_LOADING_CONNECTED_APPS =
@@ -19,8 +20,6 @@ export const DELETED_APP_ALERT_DISMISSED =
 
 const grantsUrl = '/profile/connected_applications';
 
-import { mockConnectedApps } from 'applications/personalization/profile360/util/connected-apps.js';
-
 export function loadConnectedApps() {
   return async dispatch => {
     dispatch({ type: LOADING_CONNECTED_APPS });
@@ -36,9 +35,15 @@ export function loadConnectedApps() {
     }
 
     await apiRequest(grantsUrl)
-      .then(({ data }) =>
-        dispatch({ type: FINISHED_LOADING_CONNECTED_APPS, data }),
-      )
+      .then(({ data }) => {
+        const deletedApps = data ? data.filter(app => app.deleted) : [];
+        const hasConnectedApps = data && deletedApps?.length !== data?.length;
+
+        recordEvent({
+          'user-has-connected-apps': hasConnectedApps,
+        });
+        dispatch({ type: FINISHED_LOADING_CONNECTED_APPS, data });
+      })
       .catch(({ errors }) =>
         dispatch({ type: ERROR_LOADING_CONNECTED_APPS, errors }),
       );
@@ -46,7 +51,7 @@ export function loadConnectedApps() {
 }
 
 export function deleteConnectedApp(appId) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch({ type: DELETING_CONNECTED_APP, appId });
 
     // Locally we cannot call the endpoint
@@ -57,7 +62,22 @@ export function deleteConnectedApp(appId) {
     }
 
     await apiRequest(`${grantsUrl}/${appId}`, { method: 'DELETE' })
-      .then(() => dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId }))
+      .then(() => {
+        const { connectedApps } = getState();
+        const apps = connectedApps?.apps;
+        const activeApps = apps ? apps.filter(app => !app.deleted) : [];
+        const deletingLastApp =
+          activeApps?.length === 1 && activeApps[0].deleting;
+        const hasConnectedApps = activeApps?.length && !deletingLastApp;
+
+        recordEvent({
+          event: 'profile-navigation',
+          'profile-action': 'disconnect-button',
+          'profile-section': 'connected-accounts',
+          'user-has-connected-apps': hasConnectedApps,
+        });
+        dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId });
+      })
       .catch(({ errors }) =>
         dispatch({ type: ERROR_DELETING_CONNECTED_APP, appId, errors }),
       );

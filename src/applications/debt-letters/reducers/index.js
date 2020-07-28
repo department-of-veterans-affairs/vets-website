@@ -61,6 +61,7 @@ export const debtsReducer = (state = initialState, action) => {
       return {
         ...state,
         isPending: false,
+        isPendingVBMS: false,
         isVBMSError: true,
       };
     default:
