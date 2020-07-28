@@ -6,7 +6,7 @@ import ProgressButton from '../components/ProgressButton';
 import { timeFromNow } from '../utilities/date';
 
 // components
-import { Column, Row, } from 'platform/forms/components/common/grid';
+import { Column, Row } from 'platform/forms/components/common/grid';
 
 export default function SubmitButtons(props) {
   const {
@@ -161,9 +161,7 @@ export default function SubmitButtons(props) {
   return (
     <>
       <Row>
-        <Column role="alert">
-          {submitMessage}
-        </Column>
+        <Column role="alert">{submitMessage}</Column>
       </Row>
       {preSubmitSection}
       <Row classNames="form-progress-buttons">
