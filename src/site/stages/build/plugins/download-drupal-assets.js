@@ -17,6 +17,20 @@ async function downloadFile(
   const asset = assetsToDownload.shift();
   const response = await client.proxyFetch(asset.src);
 
+  if (!asset) {
+    return;
+  }
+
+  let response;
+  try {
+    response = await client.proxyFetch(asset.src);
+  } catch (err) {
+    downloadResults.errorCount++;
+    console.error(err);
+    everythingDownloaded();
+    return;
+  }
+
   if (response.ok) {
     files[asset.dest] = {
       path: asset.dest,

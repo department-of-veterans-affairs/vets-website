@@ -269,7 +269,12 @@ function build(BUILD_OPTIONS) {
 
   /* eslint-disable no-console */
   smith.build(err => {
-    if (err) throw err;
+    if (err) {
+      var stack = new Error().stack;
+      console.error(stack);
+      throw err;
+    }
+
     if (BUILD_OPTIONS.watch) {
       console.log('Metalsmith build finished!');
     } else {

@@ -144,20 +144,25 @@ function makeLinkList(hostUrl, links) {
 }
 
 function makePromo(hostUrl, promo) {
-  const img = promo.entity.fieldImage.entity.image;
-  const link = promo.entity.fieldPromoLink.entity.fieldLink;
+  try {
+    const img = promo.entity.fieldImage.entity.image;
+    const link = promo.entity.fieldPromoLink.entity.fieldLink;
 
-  return {
-    img: {
-      src: convertLinkToAbsolute(hostUrl, img.derivative.url),
-      alt: img.alt || '',
-    },
-    link: {
-      text: link.title,
-      href: convertLinkToAbsolute(hostUrl, link.url.path),
-    },
-    description: promo.entity.fieldPromoLink.entity.fieldLinkSummary,
-  };
+    return {
+      img: {
+        src: convertLinkToAbsolute(hostUrl, img.derivative.url),
+        alt: img.alt || '',
+      },
+      link: {
+        text: link.title,
+        href: convertLinkToAbsolute(hostUrl, link.url.path),
+      },
+      description: promo.entity.fieldPromoLink.entity.fieldLinkSummary,
+    };
+  } catch (err) {
+    console.error('Ignoring error');
+    console.error(err);
+  }
 }
 
 /**

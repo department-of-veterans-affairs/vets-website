@@ -58,75 +58,81 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     const drupalPageDir = path.join('.', drupalUrl);
     const drupalFileName = path.join(drupalPageDir, 'index.html');
 
-    switch (page.entityBundle) {
-      case 'health_care_local_facility':
-        addGetUpdatesFields(pageCompiled, pages);
-        break;
-      case 'health_care_region_detail_page':
-        addGetUpdatesFields(pageCompiled, pages);
-        break;
-      case 'event_listing':
-        pageCompiled.pastEventTeasers = pageCompiled.pastEvents;
-        pageCompiled.allEventTeasers = pageCompiled.reverseFieldListingNode;
-        addPager(
-          pageCompiled,
-          files,
-          pageCompiled.allEventTeasers,
-          'event_listing.drupal.liquid',
-          'event',
-        );
-        break;
-      case 'story_listing':
-        pageCompiled.allNewsStoryTeasers = page.reverseFieldListingNode;
-        addPager(
-          pageCompiled,
-          files,
-          pageCompiled.allNewsStoryTeasers,
-          'story_listing.drupal.liquid',
-          'story',
-        );
-        break;
-      case 'press_releases_listing':
-        pageCompiled.allPressReleaseTeasers = page.reverseFieldListingNode;
-        addPager(
-          pageCompiled,
-          files,
-          pageCompiled.allPressReleaseTeasers,
-          'press_releases_listing.drupal.liquid',
-          'press_release',
-        );
-        break;
-      case 'health_services_listing':
-        pageCompiled.clinicalHealthServices = sortServices(
-          pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode.entities,
-        );
-        break;
-      case 'leadership_listing':
-        pageCompiled.allStaffProfiles = page.fieldLeadership;
-        addPager(
-          pageCompiled,
-          files,
-          pageCompiled.allStaffProfiles,
-          'leadership_listing.drupal.liquid',
-          'bio',
-        );
-        break;
-      case 'page':
-        addHubIconField(pageCompiled, pages);
-        break;
-      default:
-    }
+    try {
+      switch (page.entityBundle) {
+        case 'health_care_local_facility':
+          addGetUpdatesFields(pageCompiled, pages);
+          break;
+        case 'health_care_region_detail_page':
+          addGetUpdatesFields(pageCompiled, pages);
+          break;
+        case 'event_listing':
+          pageCompiled.pastEventTeasers = pageCompiled.pastEvents;
+          pageCompiled.allEventTeasers = pageCompiled.reverseFieldListingNode;
+          addPager(
+            pageCompiled,
+            files,
+            pageCompiled.allEventTeasers,
+            'event_listing.drupal.liquid',
+            'event',
+          );
+          break;
+        case 'story_listing':
+          pageCompiled.allNewsStoryTeasers = page.reverseFieldListingNode;
+          addPager(
+            pageCompiled,
+            files,
+            pageCompiled.allNewsStoryTeasers,
+            'story_listing.drupal.liquid',
+            'story',
+          );
+          break;
+        case 'press_releases_listing':
+          pageCompiled.allPressReleaseTeasers = page.reverseFieldListingNode;
+          addPager(
+            pageCompiled,
+            files,
+            pageCompiled.allPressReleaseTeasers,
+            'press_releases_listing.drupal.liquid',
+            'press_release',
+          );
+          break;
+        case 'health_services_listing':
+          pageCompiled.clinicalHealthServices = sortServices(
+            pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode.entities,
+          );
+          break;
+        case 'leadership_listing':
+          pageCompiled.allStaffProfiles = page.fieldLeadership;
+          addPager(
+            pageCompiled,
+            files,
+            pageCompiled.allStaffProfiles,
+            'leadership_listing.drupal.liquid',
+            'bio',
+          );
+          break;
+        case 'page':
+          addHubIconField(pageCompiled, pages);
+          break;
+        default:
+      }
 
-    files[drupalFileName] = createFileObj(
-      pageCompiled,
-      `${entityBundle}.drupal.liquid`,
-    );
+      files[drupalFileName] = createFileObj(
+        pageCompiled,
+        `${entityBundle}.drupal.liquid`,
+      );
 
-    if (page.entityBundle === 'health_care_region_page') {
-      createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
-    }
-    if (page.entityBundle === 'event_listing') {
-      createPastEventListPages(pageCompiled, drupalPageDir, files);
+      if (page.entityBundle === 'health_care_region_page') {
+        createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
+      }
+      if (page.entityBundle === 'event_listing') {
+        createPastEventListPages(pageCompiled, drupalPageDir, files);
+      }
+    } catch (err) {
+      // console.error(JSON.stringify(page, null, 2));
+      console.error(err);
+      // process.exit(1);
     }
   }
 }
