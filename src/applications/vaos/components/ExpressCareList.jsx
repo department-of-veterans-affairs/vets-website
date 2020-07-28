@@ -11,7 +11,7 @@ import {
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
-import ExpressCareListItem from './ExpressCareCard';
+import ExpressCareCard from './ExpressCareCard';
 import NoAppointments from './NoAppointments';
 
 export function ExpressCareList({
@@ -43,7 +43,7 @@ export function ExpressCareList({
                 aria-labelledby={`card-${appt.id} card-${appt.id}-status`}
                 className="vaos-appts__list-item"
               >
-                <ExpressCareListItem
+                <ExpressCareCard
                   appointment={appt}
                   showCancelButton={showCancelButton}
                   cancelAppointment={cancelAppointment}

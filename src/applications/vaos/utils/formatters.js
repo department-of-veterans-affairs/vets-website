@@ -14,7 +14,7 @@ export function titleCase(str) {
     .join(' ');
 }
 
-export function sentenceCase(str = '') {
+export function sentenceCase(str) {
   return str
     .split(' ')
     .map((word, index) => {
