@@ -19,11 +19,11 @@ export const FORM_ID_5490 = '5490';
 export const FORM_ID_1990E = '1990E';
 export const FORM_ID_1990N = '1990N';
 
-export const getReferredBenefit = () =>
-  sessionStorage.getItem('benefitReferred') || NO_BENEFIT_REFERRED;
+export const getReferredBenefit = async () =>
+  (await sessionStorage.getItem('benefitReferred')) || NO_BENEFIT_REFERRED;
 
-export const getWizardCompletionStatus = () =>
-  sessionStorage.getItem('wizardStatus') || WIZARD_STATUS_NOT_STARTED;
+export const getWizardCompletionStatus = async () =>
+  (await sessionStorage.getItem('wizardStatus')) || WIZARD_STATUS_NOT_STARTED;
 
 export default class Wizard extends React.Component {
   constructor(props) {

@@ -16,32 +16,20 @@ const ApplyNow = ({
   const [url, setUrl] = useState('');
   const [referredBenefit, setReferredBenefit] = useState('');
 
-  useEffect(
-    () => {
-      const getTheReferredBenefit = async () => {
-        const referredBenefitValue = await getReferredBenefit();
-        setReferredBenefit(referredBenefitValue);
-      };
-      getTheReferredBenefit();
-    },
-    [referredBenefit],
-  );
-
-  useEffect(
-    () => {
-      const getUrl = () => {
-        if (referredBenefit) {
-          setUrl(
-            referredBenefit === FORM_ID_0994
-              ? `/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994`
-              : `/education/apply-for-education-benefits/application/${referredBenefit}`,
-          );
-        }
-      };
-      getUrl();
-    },
-    [referredBenefit, url],
-  );
+  useEffect(() => {
+    const updateUrl = async () => {
+      const updatedBenefit = await getReferredBenefit();
+      setReferredBenefit(updatedBenefit);
+      if (updatedBenefit) {
+        setUrl(
+          updatedBenefit === FORM_ID_0994
+            ? `/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994`
+            : `/education/apply-for-education-benefits/application/${updatedBenefit}`,
+        );
+      }
+    };
+    updateUrl();
+  });
 
   return (
     <a

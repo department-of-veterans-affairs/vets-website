@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
 import recordEvent from 'platform/monitoring/record-event';
+import { FORM_ID_1995 } from '../../../static-pages/wizard';
 
-const STEMScholarship = ({ setPageState, state = {} }) => {
+const STEMScholarship = ({ setPageState, state = {}, setBenefitReferred }) => {
   const STEMScholarshipOptions = [
     { label: 'Yes', value: 'yes' },
     { label: 'No', value: 'no' },
@@ -75,7 +76,12 @@ const STEMScholarship = ({ setPageState, state = {} }) => {
         options={STEMScholarshipOptions}
         onValueChange={({ value }) => {
           setSTEMScholarshipAnswer(value);
-          return setPageState({ selected: value });
+          if (value === 'yes') {
+            setBenefitReferred(FORM_ID_1995);
+            return setPageState({ selected: value }, pageNames.applyNow);
+          } else {
+            return setPageState({ selected: value });
+          }
         }}
         value={{ value: state?.selected }}
         label="Based on the eligibility requirements above, do you want to apply for this scholarship?"
