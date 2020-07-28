@@ -91,6 +91,8 @@ export class EstimateYourBenefits extends React.Component {
     const {
       profile,
       gibctEybBottomSheet,
+      gibctCh33BenefitRateUpdate,
+
       calculator: inputs,
       calculated: { inputs: displayed },
     } = this.props;
@@ -125,6 +127,7 @@ export class EstimateYourBenefits extends React.Component {
           onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
           estimatedBenefits={this.props.estimatedBenefits}
           updateEstimatedBenefits={this.updateEstimatedBenefits}
+          gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits

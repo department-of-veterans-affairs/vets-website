@@ -833,3 +833,23 @@ export const DISABILITY_SHARED_CONFIG = {
     depends: hasNewDisabilities,
   },
 };
+
+export const isBDD = formData => {
+  const servicePeriods = formData?.serviceInformation?.servicePeriods;
+
+  if (!servicePeriods || !Array.isArray(servicePeriods)) {
+    return false;
+  }
+
+  const mostRecentDate = servicePeriods
+    .filter(({ dateRange }) => dateRange?.to)
+    .map(({ dateRange }) => moment(dateRange.to))
+    .sort((dateA, dateB) => dateB - dateA)[0];
+
+  if (!mostRecentDate) {
+    return false;
+  }
+
+  // not checking for less than 180 days as we validate that in militaryHistory
+  return mostRecentDate.isAfter(moment().add(89, 'days'));
+};

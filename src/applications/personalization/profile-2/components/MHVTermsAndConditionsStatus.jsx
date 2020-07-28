@@ -20,9 +20,9 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
             href={termsAndConditionsUrl}
             onClick={() =>
               recordEvent({
-                event: 'account-navigation',
-                'account-action': 'view-link',
-                'account-section': 'terms',
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'terms',
               })
             }
           >
@@ -46,9 +46,9 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
             href={termsAndConditionsUrl}
             onClick={() =>
               recordEvent({
-                event: 'account-navigation',
-                'account-action': 'view-link',
-                'account-section': 'terms',
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'terms',
               })
             }
           >

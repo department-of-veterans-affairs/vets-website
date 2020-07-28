@@ -1,5 +1,8 @@
 // Node modules.
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
@@ -444,10 +447,7 @@ export const LegacyContent = () => (
                 <a aria-label="8 7 7. 3 2 7. 0 0 2 2." href="tel:18773270022">
                   877-327-0022
                 </a>{' '}
-                (TTY:{' '}
-                <a aria-label="8 0 0. 8 7 7. 8 3 3 9." href="tel:18008778339">
-                  800-877-8339
-                </a>
+                (TTY: <Telephone contact={CONTACTS.HELP_TTY} />
                 ). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
               </p>
             </div>

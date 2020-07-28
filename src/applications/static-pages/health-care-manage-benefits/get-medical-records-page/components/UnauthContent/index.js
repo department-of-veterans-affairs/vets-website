@@ -1,5 +1,8 @@
 // Node modules.
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
@@ -243,9 +246,7 @@ const UnauthContent = () => (
               </p>
               <p>
                 Or call us at <a href="tel:+18773270022">877-327-0022</a> (TTY:{' '}
-                <a href="tel:+18008778339" aria-label="8 0 0. 8 7 7. 8 3 3 9.">
-                  800-877-8339
-                </a>
+                <Telephone contact={CONTACTS.HELP_TTY} />
                 ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
               </p>
             </div>

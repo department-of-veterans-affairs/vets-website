@@ -17,7 +17,7 @@ import {
 } from './actions';
 import { getFormContext } from './selectors';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
-import { FINISH_APP_LATER_DEFAULT_MESSAGE } from './constants';
+import { FINISH_APP_LATER_DEFAULT_MESSAGE } from '../../forms-system/src/js/constants';
 
 class RoutedSavablePage extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class RoutedSavablePage extends React.Component {
   }
 
   render() {
-    const { user, form, formConfig } = this.props;
+    const { user, form, formConfig, route } = this.props;
     const contentAfterButtons = (
       <div>
         <SaveStatus
@@ -55,6 +55,9 @@ class RoutedSavablePage extends React.Component {
         <SaveFormLink
           locationPathname={this.props.location.pathname}
           form={form}
+          formConfig={formConfig}
+          route={route}
+          pageList={route.pageList}
           user={user}
           showLoginModal={this.props.showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}

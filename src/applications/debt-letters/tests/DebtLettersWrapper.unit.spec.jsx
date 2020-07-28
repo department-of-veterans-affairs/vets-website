@@ -7,6 +7,9 @@ describe('DebtLettersWrapper', () => {
   it('mounts wrapper component', () => {
     const fakeStore = {
       getState: () => ({
+        featureToggles: {
+          debtLettersShowLetters: true,
+        },
         user: {
           login: {
             currentlyLoggedIn: true,
@@ -27,13 +30,17 @@ describe('DebtLettersWrapper', () => {
   it('renders CTA if user isnt logged in', () => {
     const fakeStore = {
       getState: () => ({
+        featureToggles: {
+          debtLettersShowLetters: true,
+        },
         user: {
           login: {
             currentlyLoggedIn: false,
           },
         },
         debtLetters: {
-          isFetching: false,
+          isPending: false,
+          isPendingVBMS: false,
           debts: [],
           isError: false,
         },

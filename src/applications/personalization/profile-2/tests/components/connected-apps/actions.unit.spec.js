@@ -10,7 +10,7 @@ describe('Connected Apps actions', () => {
 
   describe('loadConnectedApps', () => {
     it('creates the correct action when the call succeeds', async () => {
-      const mockResponse = { data: 'data' };
+      const mockResponse = { data: [{ app: '1', deleted: false }] };
       const dispatch = sinon.stub();
       mockApiRequest(mockResponse);
       const thunk = await actions.loadConnectedApps();
@@ -48,10 +48,15 @@ describe('Connected Apps actions', () => {
   describe('deleteConnectedApp', () => {
     it('creates the correct action when the call succeeds', async () => {
       const mockResponse = { data: 'data' };
+      const getState = () => ({
+        connectedApps: {
+          apps: [{ app: '1', deleted: false }, { app: '2', deleted: false }],
+        },
+      });
       const dispatch = sinon.stub();
       mockApiRequest(mockResponse);
       const thunk = await actions.deleteConnectedApp(appId);
-      await thunk(dispatch);
+      await thunk(dispatch, getState);
 
       expect(
         dispatch.firstCall.calledWith({
