@@ -19,6 +19,7 @@ export class BenefitsForm extends React.Component {
     handleInputFocus: PropTypes.func,
     giBillChapterOpen: PropTypes.arrayOf(PropTypes.bool),
     yourMilitaryDetails: PropTypes.bool,
+    gibctCh33BenefitRateUpdate: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -45,6 +46,21 @@ export class BenefitsForm extends React.Component {
     { value: 'purple heart', label: 'Purple Heart Service: 100%' },
   ];
 
+  updatedCumulativeServiceOptions = () => [
+    { value: '1.0', label: '36+ months: 100%' }, // notice not 1.00
+    { value: '0.9', label: '30 months: 90%' },
+    { value: '0.8', label: '24 months: 80%' },
+    { value: '0.7', label: '18 months: 70%' },
+    { value: '0.6', label: '6 months: 60%' },
+    { value: '0.5', label: '90 days: 50%' },
+    { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' }, // notice not 1.0
+    {
+      value: 'service discharge',
+      label: 'Service-Connected Discharge: 100%',
+    },
+    { value: 'purple heart', label: 'Purple Heart Service: 100%' },
+  ];
+
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
     renderLearnMoreLabel({
       text,
@@ -61,6 +77,7 @@ export class BenefitsForm extends React.Component {
   };
 
   renderYourMilitaryDetails() {
+    const { gibctCh33BenefitRateUpdate } = this.props;
     return (
       <div>
         <ExpandingGroup open={this.props.militaryStatus === 'spouse'}>
@@ -165,7 +182,11 @@ export class BenefitsForm extends React.Component {
                 ariaLabel: ariaLabels.learnMore.post911Chapter33,
               })}
               name="cumulativeService"
-              options={this.cumulativeServiceOptions()}
+              options={
+                gibctCh33BenefitRateUpdate
+                  ? this.updatedCumulativeServiceOptions()
+                  : this.cumulativeServiceOptions()
+              }
               value={this.props.cumulativeService}
               alt="Cumulative Post-9/11 active-duty service"
               visible={this.props.giBillChapter === '33'}

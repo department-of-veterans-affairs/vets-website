@@ -68,13 +68,6 @@ describe('DebtLettersList', () => {
         .at(1)
         .text(),
     ).to.equal('Second Demand Letter');
-    expect(
-      wrapper
-        .dive()
-        .find('td')
-        .at(2)
-        .text(),
-    ).to.equal('Download Letter');
     wrapper.unmount();
   });
   it('renders correct empty state', () => {
@@ -86,7 +79,8 @@ describe('DebtLettersList', () => {
           },
         },
         debtLetters: {
-          isFetching: false,
+          isPendingVBMS: false,
+          isPending: false,
           debts: [],
           debtLinks: [],
         },
@@ -101,15 +95,15 @@ describe('DebtLettersList', () => {
         .dive()
         .find('h4')
         .text(),
-    ).to.equal("Our records show that you don't have any debt letters");
+    ).to.equal("Our records show that you don't have any current debts");
     expect(
       wrapper
         .dive()
         .find('p')
-        .at(1)
+        .at(2)
         .text(),
     ).to.equal(
-      'If you believe that you have a debt with the VA, call the Debt Management Center at 800-827-0648',
+      "If you have been notified of a debt and don't see the debt's letter on this page, or you would like to get information about your debts that have been resolved, call the Debt Management Center at 800-827-0648",
     );
     wrapper.unmount();
   });

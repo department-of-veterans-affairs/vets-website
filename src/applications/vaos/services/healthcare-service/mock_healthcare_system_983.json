@@ -1,0 +1,929 @@
+{
+  "resourceType": "Bundle",
+  "id": "9dd9f0e4-8022-4f6e-b184-02eea52a182c",
+  "meta": {
+    "lastUpdated": "2020-07-21T19:51:12.056+00:00"
+  },
+  "type": "searchset",
+  "total": 13,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService?characteristic=PATIENTDS_ENABLED&location%3ALocation.identifier=983"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A333038",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A333038",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:308</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:308"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "Green Team Clinic1",
+        "comment": "Physical location: CHEYENNE",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "323"
+              }
+            ],
+            "text": "PRIMARY CARE/MEDICINE"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A333336",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A333336",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:336</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:336"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "CHY NUTRITION",
+        "comment": "Physical location: 1-128",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "123"
+              }
+            ],
+            "text": "NUTRITION/DIETETICS-INDIVIDUAL"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A343038",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A343038",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:408</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:408"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "CHY OPT VAR1",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "408"
+              }
+            ],
+            "text": "OPTOMETRY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A343337",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A343337",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:437</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:437"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "VISUAL FIELD",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "408"
+              }
+            ],
+            "text": "OPTOMETRY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A343535",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A343535",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:455</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:455"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "CHY PC CASSIDY",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "323"
+              }
+            ],
+            "text": "PRIMARY CARE/MEDICINE"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A343537",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A343537",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:457</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:457"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "Green Team Clinic2",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "323"
+              }
+            ],
+            "text": "PRIMARY CARE/MEDICINE"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/secondary",
+                "code": "117"
+              }
+            ],
+            "text": "NURSING (2ND ONLY)"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A343538",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A343538",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:458</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:458"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "VAR1 Primary Care",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "323"
+              }
+            ],
+            "text": "PRIMARY CARE/MEDICINE"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/secondary",
+                "code": "185"
+              }
+            ],
+            "text": "PHYS EXTND NP (NRS PRCNR) 2ND"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A373037",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A373037",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:707</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:707"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "CHY NUTRITION/SATP",
+        "comment": "Physical location: PSYCH SERVICE",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "124"
+              }
+            ],
+            "text": "NUTRITION/DIETETICS-GROUP"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/secondary",
+                "code": "513"
+              }
+            ],
+            "text": "SUBSTANCE USE DISORDER IND"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A383438",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A383438",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:848</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:848"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "CHY PC VAR2",
+        "comment": "Physical location: prob",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "323"
+              }
+            ],
+            "text": "PRIMARY CARE/MEDICINE"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A393939",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A393939",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:999</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:999"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "Friendly Name Optometry",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "408"
+              }
+            ],
+            "text": "OPTOMETRY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A31303134",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A31303134",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:1014</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:1014"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "Friendly Name Audiology",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "203"
+              }
+            ],
+            "text": "AUDIOLOGY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A31303230",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A31303230",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:1020</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:1020"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "WHEATLAND AUDIOLOGY",
+        "comment": "Physical location: WHEATLAND",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "203"
+              }
+            ],
+            "text": "AUDIOLOGY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938333A3938333A31313131",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938333A3938333A31313131",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:983:983:1111</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:983:983:1111"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393833"
+        },
+        "location": {
+          "reference": "Location/393833"
+        },
+        "serviceName": "Cheyenne Move & Nutrition",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "372"
+              }
+            ],
+            "text": "MOVE! PGM INDIV"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/secondary",
+                "code": "123"
+              }
+            ],
+            "text": "NUTRITION/DIETETICS-INDIVIDUAL"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    }
+  ]
+}
