@@ -337,6 +337,8 @@
   "resolutions": {
     "**/lodash": "4.17.15",
     "**/js-yaml": "^3.13.1",
+    "set-value": "^3.0.1",
+    "chokidar": "^3.4.0",
     "cypress": "^4.8.0"
   }
 }
