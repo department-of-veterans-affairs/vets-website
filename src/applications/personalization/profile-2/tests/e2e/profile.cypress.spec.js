@@ -28,6 +28,10 @@ function checkAllPages(mobile = false) {
   cy.findByRole('progressbar').should('not.exist');
   cy.findByText(/loading your information/i).should('not.exist');
 
+  // since we did not mock the `GET profile/full_name` endpoint, the
+  // ProfileHeader should not be rendered on the page
+  cy.findByTestId('profile-header').should('not.exist');
+
   // visiting /profile should redirect to profile/personal-information
   cy.url().should(
     'eq',

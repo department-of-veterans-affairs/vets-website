@@ -189,8 +189,6 @@ const formConfig = {
           uiSchema: claimType.uiSchema,
           schema: claimType.schema,
           onContinue: captureEvents.claimType,
-          // set newDisabilities value from claimType
-          updateFormData: claimType.updateFormData,
         },
         servedInCombatZone: {
           title: 'Combat status',
@@ -267,10 +265,7 @@ const formConfig = {
         newDisabilities: {
           title: 'New disabilities',
           path: 'new-disabilities',
-          depends: formData =>
-            // Don't show new disability question if claimType already selected
-            !formData['view:claimType']?.['view:claimingNew'] &&
-            !increaseOnly(formData),
+          depends: formData => !increaseOnly(formData),
           uiSchema: newDisabilities.uiSchema,
           schema: newDisabilities.schema,
         },
