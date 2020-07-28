@@ -12,7 +12,6 @@ describe('Edu 1990 <IntroductionPage>', () => {
     sessionStorage: {},
   };
 
-  let sessionStorage;
   let defaultProps;
 
   before(() => {
