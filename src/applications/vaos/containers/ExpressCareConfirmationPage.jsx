@@ -38,7 +38,9 @@ export class ExpressCareConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+        <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--4">
+          {pageTitle}
+        </h1>
         <ExpressCareCard headingLevel="2" appointment={transformedRequest} />
         <div className="vads-u-margin-y--2">
           <Link
@@ -46,7 +48,7 @@ export class ExpressCareConfirmationPage extends React.Component {
             className="usa-button vads-u-padding-right--2"
             onClick={() => {
               recordEvent({
-                event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+                event: `${GA_PREFIX}-express-care-view-your-appointments-button-clicked`,
               });
             }}
           >

@@ -445,6 +445,7 @@ export function selectExpressCare(state) {
       ),
     enabled: vaosExpressCare(state),
     useNewFlow: vaosExpressCareNew(state),
+    hasWindow: !!expressCare.windows?.length,
     hasRequests:
       vaosExpressCare(state) &&
       state.appointments.future?.some(appt => appt.vaos.isExpressCare),

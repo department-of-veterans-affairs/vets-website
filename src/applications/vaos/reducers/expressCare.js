@@ -5,6 +5,8 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
+import { stripDST } from '../utils/timezone';
+
 import {
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
@@ -87,8 +89,7 @@ export default function expressCareReducer(state = initialState, action) {
       const windows = []
         .concat(...facilityData)
         .filter(f => !!f.expressTimes)
-        .map(f => {
-          const { expressTimes, authoritativeName, id } = f;
+        .map(({ expressTimes, authoritativeName, rootStationCode, id }) => {
           const { start, end, offsetUtc, timezone } = expressTimes;
           const today = nowUtc.format('YYYY-MM-DD');
           const startString = `${today}T${start}${offsetUtc}`;
@@ -100,9 +101,9 @@ export default function expressCareReducer(state = initialState, action) {
             start: moment.parseZone(startString),
             end: moment.parseZone(endString),
             offset: offsetUtc,
-            timeZone: timezone,
-            name: f.authoritativeName,
-            rootStationCode: f.rootStationCode,
+            timeZone: stripDST(timezone),
+            authoritativeName,
+            rootStationCode,
             id,
           };
         })

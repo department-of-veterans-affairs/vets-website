@@ -49,7 +49,9 @@ const mapDispatchToProps = {
 };
 
 function mapStateToProps(state) {
-  return state.expressCare;
+  return {
+    submitStatus: state.expressCare.submitStatus,
+  };
 }
 
 export default connect(
