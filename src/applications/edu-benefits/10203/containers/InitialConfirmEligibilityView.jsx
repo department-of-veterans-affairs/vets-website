@@ -11,8 +11,7 @@ function InitialConfirmEligibilityView(props) {
         <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
             <h4 className="usa-alert-heading">
-              Based on your response, you may not be eligible for the Rogers
-              STEM Scholarship
+              Based on your response, you may not be eligible
             </h4>
             <div className="usa-alert-text">
               <p>
@@ -33,7 +32,6 @@ function InitialConfirmEligibilityView(props) {
           className={'usa-button-primary wizard-button va-button-primary'}
           href="/education/"
           target="_self"
-          rel="noopener noreferrer"
         >
           Exit application
         </a>
@@ -46,15 +44,8 @@ function InitialConfirmEligibilityView(props) {
   );
 }
 
-const mapStateToProps = (state, props) => {
-  return {
-    onReviewPage: props?.formContext?.onReviewPage,
-  };
-};
+const mapStateToProps = (state, props) => ({
+  onReviewPage: props?.formContext?.onReviewPage,
+});
 
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(InitialConfirmEligibilityView);
+export default connect(mapStateToProps)(InitialConfirmEligibilityView);
