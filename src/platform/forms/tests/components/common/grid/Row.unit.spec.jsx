@@ -7,14 +7,14 @@ import Row from 'platform/forms/components/common/grid/Row';
 
 describe('Common Row component', () => {
   it('should render', () => {
-    const tree = render(<Row testId="12345"/>);
+    const tree = render(<Row testId="12345" />);
 
     expect(tree.getByTestId('12345')).to.not.be.null;
     tree.unmount();
   });
 
   it('should render child components', () => {
-    const childComponent = (<div data-testid="12345">i am a component</div>);
+    const childComponent = <div data-testid="12345">i am a component</div>;
 
     const tree = render(<Row>{childComponent}</Row>);
 
