@@ -99,7 +99,7 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   handleCalculateBenefitsClick = childSection => {
-    const accordionId = `${createId(childSection)}-accordion`;
+    const accordionButtonId = `${createId(childSection)}-accordion-button`;
     const { beneficiaryZIPError, beneficiaryZIP } = this.props.inputs;
 
     if (
@@ -117,8 +117,7 @@ class EstimateYourBenefitsForm extends React.Component {
       this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
       setTimeout(() => {
-        scroller.scrollTo(accordionId, getScrollOptions());
-        focusElement(`#${accordionId}`);
+        focusElement(`#${accordionButtonId}`);
       }, 50);
     }
 
@@ -301,7 +300,9 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleEYBSkipLinkOnClick = () => {
     scroller.scrollTo('estimated-benefits', getScrollOptions());
-    focusElement('#estimated-benefits');
+    setTimeout(() => {
+      focusElement('#estimated-benefits');
+    }, 50);
   };
 
   /**
@@ -1023,6 +1024,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   renderMilitaryDetails = () => {
     const name = 'Your military details';
+
     return (
       <AccordionItem
         button={name}
@@ -1040,6 +1042,7 @@ class EstimateYourBenefitsForm extends React.Component {
             displayedInputs={this.props.displayedInputs}
             handleInputFocus={this.handleEYBInputFocus}
             giBillChapterOpen={[this.props.displayedInputs?.giBillBenefit]}
+            gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
           >
             {this.renderGbBenefit()}
           </BenefitsForm>
@@ -1196,12 +1199,14 @@ class EstimateYourBenefitsForm extends React.Component {
     );
 
     return (
-      <div className={className}>
-        <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
-          The {sectionCount} sections below include questions that will refine
-          your benefits estimate. Use the fields in each section to make your
-          updates.
-        </p>
+      <div aria-live="off" className={className}>
+        <div>
+          <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+            The {sectionCount} sections below include questions that will refine
+            your benefits estimate. Use the fields in each section to make your
+            updates.
+          </p>
+        </div>
         <ul className="vads-u-padding--0">
           {this.renderMilitaryDetails()}
           {this.renderSchoolCostsAndCalendar()}

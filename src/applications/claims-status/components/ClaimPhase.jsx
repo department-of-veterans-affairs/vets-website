@@ -167,7 +167,7 @@ export default class ClaimPhase extends React.Component {
   render() {
     const { phase, current, children } = this.props;
     const expandCollapseIcon =
-      phase <= current && phase !== COMPLETE_PHASE ? (
+      phase <= current ? (
         <i
           aria-hidden="true"
           className={
@@ -188,15 +188,16 @@ export default class ClaimPhase extends React.Component {
         className={`${getClasses(phase, current)}`}
       >
         {expandCollapseIcon}
-        <h5 className="section-header">
+        <h3 className="section-header vads-u-font-size--h4">
           <button
             className="section-header-button"
             aria-expanded={this.state.open}
           >
             {getUserPhaseDescription(phase)}
           </button>
-        </h5>
-        {this.state.open || phase === COMPLETE_PHASE ? (
+        </h3>
+        {this.state.open ||
+        (current !== COMPLETE_PHASE && phase === COMPLETE_PHASE) ? (
           <div>
             {children}
             {this.displayActivity()}

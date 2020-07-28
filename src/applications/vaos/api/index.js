@@ -2,6 +2,7 @@ import moment from 'moment';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { generateMockSlots } from '../utils/calendar';
+import { EXPRESS_CARE } from '../utils/constants';
 
 function getStagingId(facilityId) {
   if (!environment.isProduction() && facilityId.startsWith('983')) {
@@ -60,9 +61,15 @@ export function getConfirmedAppointments(type, startDate, endDate) {
 export function getPendingAppointments(startDate, endDate) {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = import('./requests.json').then(
-      module => (module.default ? module.default : module),
-    );
+    promise = new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          import('./requests.json').then(
+            module => (module.default ? module.default : module),
+          ),
+        );
+      }, 1000);
+    });
   } else {
     promise = vaosApiRequest(
       `/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
@@ -167,7 +174,25 @@ export function getFacilitiesBySystemAndTypeOfCare(
 ) {
   let promise;
   if (USE_MOCK_DATA) {
-    if (parentId === '984') {
+    if (typeOfCareId === EXPRESS_CARE) {
+      if (parentId === '983') {
+        promise = new Promise(resolve => {
+          setTimeout(() => {
+            import('./facilities_983_express_care.json').then(module => {
+              resolve(module.default ? module.default : module);
+            });
+          }, 500);
+        });
+      } else {
+        promise = new Promise(resolve => {
+          setTimeout(() => {
+            import('./facilities_984_express_care.json').then(module => {
+              resolve(module.default ? module.default : module);
+            });
+          }, 500);
+        });
+      }
+    } else if (parentId === '984') {
       promise = import('./facilities_984.json').then(
         module => (module.default ? module.default : module),
       );

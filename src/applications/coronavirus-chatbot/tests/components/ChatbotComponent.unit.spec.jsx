@@ -2,18 +2,26 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as IndexModule from '../../index';
+import * as ChatbotModule from '../../index';
+import * as GaEvents from '../../gaEvents';
+import * as Utils from '../../utils';
 import { ChatbotComponent } from '../../components/ChatbotComponent';
 
 describe('ChatbotComponent <ChatbotComponent>', () => {
   let initializeChatbotStub;
+  let linkListenerStub;
+  let handleButtonsStub;
 
   beforeEach(() => {
-    initializeChatbotStub = sinon.stub(IndexModule, 'initializeChatbot');
+    initializeChatbotStub = sinon.stub(ChatbotModule, 'initializeChatbot');
+    linkListenerStub = sinon.stub(GaEvents, 'addLinkClickListener');
+    handleButtonsStub = sinon.stub(Utils, 'handleButtonsPostRender');
   });
 
   afterEach(() => {
     initializeChatbotStub.restore();
+    linkListenerStub.restore();
+    handleButtonsStub.restore();
   });
 
   const setupWindowObject = renderWebChatStub => {

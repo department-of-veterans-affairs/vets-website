@@ -50,7 +50,7 @@ function VetTecProgramSearchResult(props) {
       <div className="outer">
         <div className="inner">
           <div className="row vads-u-padding-top--1p5">
-            <div className="small-12 medium-7 columns">
+            <div className="small-12 medium-6 columns">
               <h2>
                 <Link
                   to={linkTo}

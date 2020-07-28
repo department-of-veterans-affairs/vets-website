@@ -10,6 +10,7 @@ import { mockItf } from './all-claims.cypress.helpers';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
+
     dataSets: [
       'full-781-781a-8940-test.json',
       'maximal-test',
@@ -18,10 +19,12 @@ const testConfig = createTestConfig(
       'secondary-new-test.json',
       'upload-781-781a-8940-test.json',
     ],
+
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
+
     pageHooks: {
       introduction: () => {
         // Hit the start button
@@ -32,6 +35,7 @@ const testConfig = createTestConfig(
         // Click past the ITF message
         cy.findByText(/continue/i, { selector: 'button' }).click();
       },
+
       'disabilities/rated-disabilities': () => {
         cy.get('@testData').then(data => {
           data.ratedDisabilities.forEach((disability, index) => {
@@ -42,6 +46,7 @@ const testConfig = createTestConfig(
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
+
       'payment-information': () => {
         cy.get('@testData').then(data => {
           if (data['view:bankAccount']) {
@@ -58,6 +63,7 @@ const testConfig = createTestConfig(
         });
       },
     },
+
     setupPerTest: () => {
       cy.login();
 

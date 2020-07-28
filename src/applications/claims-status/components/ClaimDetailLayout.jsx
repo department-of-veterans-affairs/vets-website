@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+
 import TabNav from '../components/TabNav';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import AskVAQuestions from '../components/AskVAQuestions';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
+import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
 const MAX_CONTENTIONS = 3;
@@ -27,7 +29,11 @@ export default function ClaimDetailLayout(props) {
 
   let bodyContent;
   let headingContent;
-  if (!loading) {
+  if (loading) {
+    bodyContent = (
+      <LoadingIndicator setFocus message="Loading your claim information..." />
+    );
+  } else if (claim !== null) {
     headingContent = (
       <>
         {message && (
@@ -41,9 +47,11 @@ export default function ClaimDetailLayout(props) {
         <h1 className="claim-title">Your {getClaimType(claim)} claim</h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions">
-          <h6 className="claim-contentions-header">What you’ve claimed:</h6>
+          <h2 className="claim-contentions-header vads-u-font-size--h6">
+            What you’ve claimed:
+          </h2>
           <span>
-            {claim.attributes.contentionList &&
+            {claim?.attributes?.contentionList &&
             claim.attributes.contentionList.length
               ? claim.attributes.contentionList
                   .slice(0, MAX_CONTENTIONS)
@@ -51,7 +59,7 @@ export default function ClaimDetailLayout(props) {
                   .join(', ')
               : 'Not available'}
           </span>
-          {claim.attributes.contentionList &&
+          {claim?.attributes?.contentionList &&
           claim.attributes.contentionList.length > MAX_CONTENTIONS ? (
             <span>
               <br />
@@ -77,7 +85,8 @@ export default function ClaimDetailLayout(props) {
           >
             {currentTab === tab && (
               <div className="va-tab-content claim-tab-content">
-                {isPopulatedClaim(claim) || !claim.attributes.open ? null : (
+                {isPopulatedClaim(claim || {}) ||
+                !claim?.attributes.open ? null : (
                   <AddingDetails />
                 )}
                 {props.children}
@@ -89,7 +98,10 @@ export default function ClaimDetailLayout(props) {
     );
   } else {
     bodyContent = (
-      <LoadingIndicator setFocus message="Loading your claim information..." />
+      <>
+        <h1>We encountered a problem</h1>
+        <ClaimsUnavailable headerLevel={2} />
+      </>
     );
   }
 

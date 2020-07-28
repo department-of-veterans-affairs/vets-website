@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-
 import { SaveInProgressIntro } from '../../save-in-progress/SaveInProgressIntro';
 
 describe('Schemaform <SaveInProgressIntro>', () => {
@@ -19,6 +18,12 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   const fetchInProgressForm = () => {};
   const removeInProgressForm = () => {};
   const toggleLoginModal = () => {};
+
+  const formConfig = {
+    customText: {
+      appType: '',
+    },
+  };
 
   it('should render in progress message', () => {
     const user = {
@@ -51,15 +56,19 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
     expect(
-      tree.find('.saved-form-item-metadata').get(1).props.children[1],
-    ).to.equal(moment.unix(946684800).format('M/D/YYYY [at] h:mm a'));
+      tree
+        .find('.saved-form-item-metadata')
+        .last()
+        .text(),
+    ).to.include(moment.unix(946684800).format('M/D/YYYY [at] h:mm a'));
 
     expect(tree.find('.usa-alert').text()).to.contain(
-      'Your form is in progress',
+      'Your application is in progress',
     );
     expect(tree.find('.usa-alert').text()).to.contain('will expire on');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
@@ -95,6 +104,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -130,6 +140,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -170,6 +181,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -206,11 +218,12 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
     expect(tree.find('.usa-alert').text()).to.contain(
-      'You can save this form in progress',
+      'You can save this application in progress',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     tree.unmount();
@@ -236,11 +249,12 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
     expect(tree.find('.usa-alert').text()).to.contain(
-      'Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress and come back later to finish filling it out.',
+      'Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your application in progress and come back later to finish filling it out.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     tree.unmount();
@@ -277,6 +291,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         retentionPeriod={'1 year'}
+        formConfig={formConfig}
       />,
     );
 
@@ -311,6 +326,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -344,10 +360,13 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain('Your form has expired');
+    expect(tree.find('.usa-alert').text()).to.contain(
+      'Your application has expired',
+    );
     expect(tree.find('.usa-alert').text()).to.contain(
       'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
     );
@@ -384,6 +403,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -424,6 +444,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -463,6 +484,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
       />,
     );
 
@@ -499,6 +521,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         startMessageOnly
+        formConfig={formConfig}
       />,
     );
 
@@ -533,11 +556,47 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         startMessageOnly
+        formConfig={formConfig}
       />,
     );
 
     expect(tree.find('.schemaform-start-button').exists()).to.be.false;
 
+    tree.unmount();
+  });
+  it('should display an unauthStartText message', () => {
+    const user = {
+      profile: {
+        savedForms: [],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        prefillEnabled
+        hideUnauthedStartLink
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        startMessageOnly
+        unauthStartText="Custom message displayed to non-signed-in users"
+        formConfig={formConfig}
+      />,
+    );
+    expect(tree.find('.usa-button-primary').text()).to.equal(
+      'Custom message displayed to non-signed-in users',
+    );
     tree.unmount();
   });
 });

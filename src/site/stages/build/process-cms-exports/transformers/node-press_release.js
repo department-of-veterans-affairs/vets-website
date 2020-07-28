@@ -13,19 +13,16 @@ const transform = entity => ({
   entityBundle: 'press_release',
   title: getDrupalValue(entity.title),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityUrl: {
-    path: entity.path[0].alias,
-  },
   fieldAddress: entity.fieldAddress[0]
     ? mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k))
     : null,
 
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldOffice: entity.fieldOffice[0],
+  fieldOffice: (entity.fieldOffice && entity.fieldOffice[0]) || null,
   fieldPdfVersion: entity.fieldPdfVersion[0] || null,
-  fieldPressReleaseContact: entity.fieldPressReleaseContact[0]
-    ? [{ entity: entity.fieldPressReleaseContact[0] }]
-    : [],
+  fieldPressReleaseContact: entity.fieldPressReleaseContact.map(i => ({
+    entity: i,
+  })),
   fieldPressReleaseDownloads: entity.fieldPressReleaseDownloads,
   fieldPressReleaseFulltext: {
     processed: getWysiwygString(

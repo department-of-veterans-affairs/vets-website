@@ -14,7 +14,9 @@ describe('<AutoSSO>', () => {
     props = {
       useInboundSSOe: false,
       hasCalledKeepAlive: false,
-      userLoggedIn: false,
+      transactionId: undefined,
+      loggedIn: false,
+      profileLoading: false,
       checkKeepAlive: sinon.spy(),
     };
   });
@@ -30,7 +32,7 @@ describe('<AutoSSO>', () => {
   it('should call removeLoginAttempted if user is logged in', () => {
     const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
     Object.assign(props, {
-      userLoggedIn: true,
+      loggedIn: true,
     });
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
@@ -41,8 +43,9 @@ describe('<AutoSSO>', () => {
   it('should not call checkAutoSession if it already has', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
-      hasCalledKeepAlive: true,
       useInboundSSOe: true,
+      profileLoading: false,
+      hasCalledKeepAlive: true,
     });
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
@@ -53,8 +56,9 @@ describe('<AutoSSO>', () => {
   it('should call keepalive if it has yet to', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
-      hasCalledKeepAlive: false,
       useInboundSSOe: true,
+      profileLoading: false,
+      hasCalledKeepAlive: false,
     });
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();

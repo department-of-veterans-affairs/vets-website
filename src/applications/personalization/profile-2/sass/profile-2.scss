@@ -1,8 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "../../../../platform/forms/sass/m-schemaform";
+@import "./shared";
 @import "./profile-info-table";
-@import "./profile-sidenav";
-@import "./mobile-sidenav-trigger";
+@import "./profile-subnav";
+@import "./profile-mobile-subnav";
 @import "./connected-apps";
 
 .profile-service-badge {

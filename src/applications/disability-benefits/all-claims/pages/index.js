@@ -6,14 +6,13 @@ import * as additionalRemarks781 from './additionalRemarks781';
 import * as aidAndAttendance from './aidAndAttendance';
 import * as alternateNames from './alternateNames';
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
-import * as bddGoBack from './bddGoBack';
-import * as bddRedirect from './bddRedirect';
 import * as choosePtsdType from './choosePtsdType';
 import * as claimExamsInfo from './claimExamsInfo';
 import * as claimType from './claimType';
 import * as contactInformation from './contactInformation';
 import * as employmentHistory from './employmentHistory';
 import * as evidenceTypes from './evidenceTypes';
+import * as evidenceTypesBDD from './evidenceTypesBDD';
 import * as federalOrders from './federalOrders';
 import * as finalIncident from './finalIncident';
 import * as fullyDevelopedClaim from './fullyDevelopedClaim';
@@ -73,6 +72,7 @@ import * as secondaryUploadSourcesChoice from './secondaryUploadSourcesChoice';
 import * as secondaryUploadSources from './secondaryUploadSources';
 import * as separationPay from './separationPay';
 import * as servedInCombatZone from './servedInCombatZone';
+import * as serviceTreatmentRecords from './serviceTreatmentRecords';
 import * as socialBehaviorChanges from './socialBehaviorChanges';
 import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
@@ -93,7 +93,6 @@ import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemplo
 import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
 import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
-import * as verifyBdd from './verifyBdd';
 import * as workBehaviorChanges from './workBehaviorChanges';
 
 export {
@@ -105,14 +104,13 @@ export {
   aidAndAttendance,
   alternateNames,
   ancillaryFormsWizardSummary,
-  bddGoBack,
-  bddRedirect,
   choosePtsdType,
   claimExamsInfo,
   claimType,
   contactInformation,
   employmentHistory,
   evidenceTypes,
+  evidenceTypesBDD,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,
@@ -172,6 +170,7 @@ export {
   secondaryUploadSourcesChoice,
   separationPay,
   servedInCombatZone,
+  serviceTreatmentRecords,
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,
@@ -192,6 +191,5 @@ export {
   uploadUnemployabilitySupportingDocumentsChoice,
   vaEmployee,
   vaMedicalRecords,
-  verifyBdd,
   workBehaviorChanges,
 };

@@ -4,7 +4,6 @@ import { captureError } from '../utils/error';
 import {
   checkPastVisits,
   getRequestLimits,
-  getAvailableClinics,
   getLongTermAppointmentHistory,
 } from '../api';
 import { getFacilityIdFromLocation } from '../services/location';
@@ -51,10 +50,12 @@ export async function getEligibilityData(
   typeOfCareId,
   systemId,
   isDirectScheduleEnabled,
+  useVSP,
 ) {
   const facilityId = getFacilityIdFromLocation(location);
   const directSchedulingAvailable =
-    location.legacyVAR.directSchedulingSupported && isDirectScheduleEnabled;
+    (useVSP || location.legacyVAR.directSchedulingSupported) &&
+    isDirectScheduleEnabled;
 
   const eligibilityChecks = {
     requestLimits: getRequestLimits(facilityId, typeOfCareId).catch(
@@ -88,6 +89,7 @@ export async function getEligibilityData(
       facilityId,
       typeOfCareId,
       systemId,
+      useVSP,
     }).catch(createErrorHandler('direct', 'direct-available-clinics-error'));
     eligibilityChecks.pastAppointments = getLongTermAppointmentHistory().catch(
       createErrorHandler('direct', 'direct-no-matching-past-clinics-error'),
@@ -99,9 +101,9 @@ export async function getEligibilityData(
   const eligibility = {
     ...results,
     hasMatchingClinics: !!results.clinics?.length,
-    directSupported: location.legacyVAR.directSchedulingSupported,
+    directSupported: useVSP || location.legacyVAR.directSchedulingSupported,
     directEnabled: isDirectScheduleEnabled,
-    requestSupported: location.legacyVAR.requestSupported,
+    requestSupported: useVSP || location.legacyVAR.requestSupported,
   };
 
   if (directSchedulingAvailable && eligibility.clinics?.length) {

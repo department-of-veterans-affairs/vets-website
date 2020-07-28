@@ -151,7 +151,7 @@ export const benefitsServices = {
   TransitionAssistance: 'Transition help',
   UpdatingDirectDepositInformation: 'Updating direct deposit information',
   VocationalRehabilitationAndEmploymentAssistance:
-    'Vocational Rehabilitation and Employment (VR&E) help',
+    'Vocational rehabilitation and employment help',
 };
 
 export const vetCenterServices = [

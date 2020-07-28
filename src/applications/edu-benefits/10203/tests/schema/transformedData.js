@@ -14,7 +14,6 @@ const transformedMinimalDataActual = {
   },
   email: 'test2@test1.net',
   mobilePhone: '4445551213',
-  benefit: 'chapter33',
   veteranFullName: {
     first: 'Min',
     last: 'asdf',
@@ -28,6 +27,7 @@ const transformedMinimalDataActual = {
   schoolName: '0',
   schoolCity: '0',
   schoolState: 'MA',
+  benefit: 'chapter33',
 };
 
 export const transformedMinimalData = JSON.stringify({
@@ -54,7 +54,6 @@ const transformedMaximalDataActual = {
   email: 'test2@test1.net',
   homePhone: '4445551212',
   mobilePhone: '4445551213',
-  benefit: 'chapter33',
   veteranFullName: {
     first: 'Max',
     middle: 'A',
@@ -70,6 +69,7 @@ const transformedMaximalDataActual = {
   schoolName: '0',
   schoolCity: '0',
   schoolState: 'MA',
+  benefit: 'chapter33',
 };
 
 export const transformedMaximalData = JSON.stringify({

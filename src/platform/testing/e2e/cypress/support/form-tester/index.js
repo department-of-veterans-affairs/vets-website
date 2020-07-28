@@ -8,13 +8,21 @@ const ARRAY_ITEM_SELECTOR =
 const FIELD_SELECTOR = 'input, select, textarea';
 const LOADING_SELECTOR = '.loading-indicator';
 
-// Suppress logs for most commands, particularly calls to wrap and get
-// that are mainly there to support more specific operations.
-const COMMAND_OPTIONS = { log: false };
+// Force interactions on elements, skipping the default checks for the
+// "user interactive" state of an element, potentially saving some time.
+// More importantly, this ensures the interaction will target the actual
+// selected element, which overrides the default behavior that simulates
+// how a real user might try to interact with a target element that has moved.
+// https://github.com/cypress-io/cypress/issues/6165
+const FORCE_OPTION = { force: true };
 
 // Cypress does not officially support typing without delay.
 // See the main support file for more details.
-const TYPE_OPTIONS = { delay: 0 };
+const NO_DELAY_OPTION = { delay: 0 };
+
+// Suppress logs for most commands, particularly calls to wrap and get
+// that are mainly there to support more specific operations.
+const NO_LOG_OPTION = { log: false };
 
 /**
  * Builds an object from a form field with attributes that are used
@@ -61,7 +69,7 @@ const createFieldObject = element => {
  * @param {string} pathname - The pathname of the current page.
  */
 const getArrayItemPath = pathname => {
-  cy.get('@arrayPages', COMMAND_OPTIONS).then(arrayPages => {
+  cy.get('@arrayPages', NO_LOG_OPTION).then(arrayPages => {
     let index;
 
     const { arrayPath } =
@@ -108,7 +116,7 @@ const addNewArrayItem = $form => {
                 cy.wrap(arrayTypeRoot)
                   .siblings('button.va-growable-add-btn')
                   .first()
-                  .click();
+                  .click(FORCE_OPTION);
               }
             }
           });
@@ -134,7 +142,7 @@ const performPageActions = (pathname, autofill = true) => {
     cy.axeCheck();
 
     if (!hookExecuted && autofill) {
-      cy.findByText(/continue/i, { selector: 'button' }).click();
+      cy.findByText(/continue/i, { selector: 'button' }).click(FORCE_OPTION);
     }
   });
 };
@@ -147,21 +155,21 @@ const processPage = () => {
   // Run aXe check before doing anything on the page.
   cy.axeCheck();
 
-  cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
+  cy.location('pathname', NO_LOG_OPTION).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
       performPageActions(pathname, false);
 
       // Check the privacy agreement box if it exists.
-      cy.get(APP_SELECTOR, COMMAND_OPTIONS).then($form => {
+      cy.get(APP_SELECTOR, NO_LOG_OPTION).then($form => {
         const privacyAgreement = $form.find('input[name^="privacyAgreement"]');
         if (privacyAgreement.length) {
           cy.wrap(privacyAgreement)
             .first()
-            .click();
+            .check(FORCE_OPTION);
         }
       });
 
-      cy.findByText(/submit/i, { selector: 'button' }).click();
+      cy.findByText(/submit/i, { selector: 'button' }).click(FORCE_OPTION);
 
       // The form should end up at the confirmation page after submitting.
       cy.location('pathname').then(endPathname => {
@@ -171,7 +179,7 @@ const processPage = () => {
       });
     } else {
       performPageActions(pathname);
-      cy.location('pathname', COMMAND_OPTIONS)
+      cy.location('pathname', NO_LOG_OPTION)
         .should(newPathname => {
           if (pathname === newPathname) {
             throw new Error(`Expected to navigate away from ${pathname}`);
@@ -188,23 +196,20 @@ const processPage = () => {
  * @returns {boolean} Resolves true if a hook ran and false otherwise.
  */
 Cypress.Commands.add('execHook', pathname => {
-  cy.get('@pageHooks', COMMAND_OPTIONS).then(pageHooks => {
+  cy.get('@pageHooks', NO_LOG_OPTION).then(pageHooks => {
     const hook = pageHooks?.[pathname];
-    if (hook) {
-      if (typeof hook !== 'function') {
-        throw new Error(`Page hook for ${pathname} is not a function`);
-      }
+    if (!hook) return cy.wrap(false, NO_LOG_OPTION);
 
-      cy.wrap(
-        new Promise(resolve => {
-          hook();
-          resolve(true);
-        }),
-        COMMAND_OPTIONS,
-      );
-    } else {
-      cy.wrap(false, COMMAND_OPTIONS);
+    if (typeof hook !== 'function') {
+      throw new Error(`Page hook for ${pathname} is not a function`);
     }
+
+    const hookPromise = new Promise(resolve => {
+      hook();
+      resolve(true);
+    });
+
+    return cy.wrap(hookPromise, NO_LOG_OPTION);
   });
 });
 
@@ -216,7 +221,7 @@ Cypress.Commands.add('execHook', pathname => {
 Cypress.Commands.add('findData', field => {
   let resolvedDataPath;
 
-  cy.get('@testData', COMMAND_OPTIONS).then(testData => {
+  cy.get('@testData', NO_LOG_OPTION).then(testData => {
     const relativeDataPath = field.key
       .replace(/^root_/, '')
       .replace(/_/g, '.')
@@ -227,7 +232,7 @@ Cypress.Commands.add('findData', field => {
       ? `${field.arrayItemPath}.${relativeDataPath}`
       : relativeDataPath;
 
-    cy.wrap(get(resolvedDataPath, testData), COMMAND_OPTIONS);
+    cy.wrap(get(resolvedDataPath, testData), NO_LOG_OPTION);
   });
 
   Cypress.log({
@@ -244,15 +249,12 @@ Cypress.Commands.add('enterData', field => {
   switch (field.type) {
     // Select fields register as having type 'select-one'.
     case 'select-one':
-      cy.wrap(field.element).select(field.data);
+      cy.wrap(field.element).select(field.data, FORCE_OPTION);
       break;
 
     case 'checkbox': {
-      // Only click the checkbox if we need to.
-      const checked = field.element.prop('checked');
-      if ((checked && !field.data) || (!checked && field.data)) {
-        cy.wrap(field.element).click();
-      }
+      if (field.data) cy.wrap(field.element).check(FORCE_OPTION);
+      else cy.wrap(field.element).uncheck(FORCE_OPTION);
       break;
     }
 
@@ -262,8 +264,8 @@ Cypress.Commands.add('enterData', field => {
     case 'number':
     case 'text': {
       cy.wrap(field.element)
-        .clear()
-        .type(field.data, TYPE_OPTIONS)
+        .clear(FORCE_OPTION)
+        .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .then(element => {
           // Get the autocomplete menu out of the way.
           if (element.attr('role') === 'combobox') {
@@ -276,8 +278,9 @@ Cypress.Commands.add('enterData', field => {
     case 'radio': {
       let value = field.data;
       // Use 'Y' / 'N' because of the yesNo widget.
-      if (typeof field.data === 'boolean') value = field.data ? 'Y' : 'N';
-      cy.get(`input[name="${field.key}"][value="${value}"]`).click();
+      if (typeof value === 'boolean') value = value ? 'Y' : 'N';
+      const selector = `input[name="${field.key}"][value="${value}"]`;
+      cy.get(selector).check(FORCE_OPTION);
       break;
     }
 
@@ -296,11 +299,11 @@ Cypress.Commands.add('enterData', field => {
 
       cy.get(`#${baseSelector}Year`)
         .clear()
-        .type(year, TYPE_OPTIONS);
+        .type(year, { ...FORCE_OPTION, ...NO_DELAY_OPTION });
 
-      cy.get(`#${baseSelector}Month`).select(month);
+      cy.get(`#${baseSelector}Month`).select(month, FORCE_OPTION);
 
-      if (day !== 'XX') cy.get(`#${baseSelector}Day`).select(day);
+      if (day !== 'XX') cy.get(`#${baseSelector}Day`).select(day, FORCE_OPTION);
 
       break;
     }
@@ -327,7 +330,7 @@ Cypress.Commands.add('enterData', field => {
  * Fills all of the fields on a page, looping until no more fields appear.
  */
 Cypress.Commands.add('fillPage', () => {
-  cy.location('pathname', COMMAND_OPTIONS)
+  cy.location('pathname', NO_LOG_OPTION)
     .then(getArrayItemPath)
     .then(arrayItemPath => {
       const touchedFields = new Set();
@@ -364,7 +367,7 @@ Cypress.Commands.add('fillPage', () => {
       };
 
       const fillAvailableFields = () => {
-        cy.get(APP_SELECTOR, COMMAND_OPTIONS)
+        cy.get(APP_SELECTOR, NO_LOG_OPTION)
           .then($form => {
             // Get the starting number of array items and fields to compare
             // after filling out all currently visible fields, as new fields
@@ -372,12 +375,12 @@ Cypress.Commands.add('fillPage', () => {
             snapshot.arrayItemCount = $form.find(ARRAY_ITEM_SELECTOR).length;
             snapshot.fieldCount = $form.find(FIELD_SELECTOR).length;
           })
-          .within(COMMAND_OPTIONS, $form => {
+          .within(NO_LOG_OPTION, $form => {
             // Fill out every field that's currently on the page.
             const fields = $form.find(FIELD_SELECTOR);
             if (!fields.length) return;
             cy.wrap(fields).each(element => {
-              cy.wrap(createFieldObject(element), COMMAND_OPTIONS).then(
+              cy.wrap(createFieldObject(element), NO_LOG_OPTION).then(
                 processFieldObject,
               );
             });
@@ -388,7 +391,7 @@ Cypress.Commands.add('fillPage', () => {
               addNewArrayItem($form);
             }
 
-            cy.wrap($form, COMMAND_OPTIONS);
+            cy.wrap($form, NO_LOG_OPTION);
           })
           .then($form => {
             // If there are new array items or fields to be filled,
@@ -410,13 +413,13 @@ Cypress.Commands.add('fillPage', () => {
  *
  * @typedef {Object} TestConfig
  * @property {string} appName - Name of the app (form) to describe the test.
- * @property {Array} [arrayPages] - Objects that represent array pages
+ * @property {Object[]} [arrayPages] - Objects that represent array pages
  *     in the form. For matching array pages to their corresponding test data.
  * @property {string} [dataPrefix] - The path prefix for accessing nested
  *     test data. For example, if the test data looks like
  *     { data: { field1: 'value' } }, dataPrefix should be set to 'data'.
- * @property {Array} dataSets - Array of fixture file paths to test data, which
- *     are relative to the "data" path loaded into fixtures. For example,
+ * @property {string[]} dataSets - Array of fixture file paths to test data
+ *     relative to the "data" path loaded into fixtures. For example,
  *     if the fixtures object maps the "data" path to "some/folder/path",
  *     which contains a "test.json" file, dataSets can be set to ['test']
  *     to use that file as a data set. A test is generated for each data set
@@ -431,6 +434,9 @@ Cypress.Commands.add('fillPage', () => {
  * @property {function} [setup] - Function that's called once before starting any
  *     tests in the spec module. Corresponds to the before (all) hook.
  * @property {function} [setupPerTest] - Function that's called before each test.
+ * @property {(boolean|string[])} [skip] - Skips specific tests if it's an array
+ *     that contains the test names as strings. Skips the whole suite
+ *     if it's otherwise truthy.
  * ---
  * @param {TestConfig} testConfig
  */
@@ -445,11 +451,17 @@ const testForm = testConfig => {
     rootUrl,
     setup = () => {},
     setupPerTest = () => {},
+    skip,
   } = testConfig;
 
-  const extractTestData = testData => get(dataPrefix, testData, testData);
+  const skippedTests = Array.isArray(skip) && new Set(skip);
+  const testSuite = skip && !skippedTests ? describe.skip : describe;
+  const testCase = (testKey, callback) =>
+    skippedTests.has?.(testKey)
+      ? context.skip(testKey, callback)
+      : context(testKey, callback);
 
-  describe(appName, () => {
+  testSuite(appName, () => {
     before(() => {
       if (!fixtures.data) {
         throw new Error('Required data fixture is undefined.');
@@ -472,24 +484,24 @@ const testForm = testConfig => {
 
       // Save a couple of seconds by definitively responding with
       // no maintenance windows instead of letting the request time out.
-      cy.server().route('GET', 'v0/maintenance_windows', []);
+      cy.server().route('GET', '/v0/maintenance_windows', []);
 
       // Resolve relative page hook paths as relative to the form's root URL.
-      cy.wrap(
-        Object.keys(pageHooks).reduce(
-          (hooks, path) => ({
-            ...hooks,
-            [path.startsWith(sep) ? path : join(rootUrl, path)]: pageHooks[
-              path
-            ],
-          }),
-          {},
-        ),
-      ).as('pageHooks');
+      const resolvedPageHooks = Object.entries(pageHooks).reduce(
+        (hooks, [path, hook]) => ({
+          ...hooks,
+          [path.startsWith(sep) ? path : join(rootUrl, path)]: hook,
+        }),
+        {},
+      );
+
+      cy.wrap(resolvedPageHooks).as('pageHooks');
     });
 
-    dataSets.forEach(testKey => {
-      context(testKey, () => {
+    const extractTestData = testData => get(dataPrefix, testData, testData);
+
+    const createTestCase = testKey =>
+      testCase(testKey, () => {
         beforeEach(() => {
           cy.wrap(testKey).as('testKey');
           cy.fixture(`data/${testKey}`)
@@ -506,7 +518,8 @@ const testForm = testConfig => {
             .then(processPage);
         });
       });
-    });
+
+    dataSets.forEach(createTestCase);
   });
 };
 

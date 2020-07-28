@@ -1,6 +1,10 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { addSpouse } from '../../../utilities';
 import { SpouseTitle } from '../../../../components/ArrayPageItemSpouseTitle';
+import { stateTitle, cityTitle } from '../../../helpers';
+import { locationUISchema } from '../../../location-schema';
+
+import { get } from 'lodash';
 
 export const schema = addSpouse.properties.spouseMarriageHistoryDetails;
 
@@ -14,17 +18,13 @@ export const uiSchema = {
           'ui:required': formData => formData.spouseWasMarriedBefore,
         },
       },
-      startLocation: {
-        'ui:title': 'Place of marriage to former spouse',
-        state: {
-          'ui:required': formData => formData.spouseWasMarriedBefore,
-          'ui:title': 'State (or country if outside the U.S.)',
-        },
-        city: {
-          'ui:required': formData => formData.spouseWasMarriedBefore,
-          'ui:title': 'City or county',
-        },
-      },
+      startLocation: locationUISchema(
+        'spouseMarriageHistory',
+        'startLocation',
+        true,
+        'Place of marriage to former spouse',
+        'addSpouse',
+      ),
       reasonMarriageEnded: {
         'ui:required': formData => formData.spouseWasMarriedBefore === true,
         'ui:title': 'Reason marriage ended',
@@ -53,17 +53,13 @@ export const uiSchema = {
           'ui:required': formData => formData.spouseWasMarriedBefore,
         },
       },
-      endLocation: {
-        'ui:title': 'Place marriage with former spouse ended',
-        state: {
-          'ui:required': formData => formData.spouseWasMarriedBefore,
-          'ui:title': 'State (or country if outside the U.S.)',
-        },
-        city: {
-          'ui:required': formData => formData.spouseWasMarriedBefore,
-          'ui:title': 'City or county',
-        },
-      },
+      endLocation: locationUISchema(
+        'spouseMarriageHistory',
+        'endLocation',
+        true,
+        'Place marriage with former spouse ended',
+        'addSpouse',
+      ),
     },
   },
 };

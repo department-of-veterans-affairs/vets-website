@@ -54,6 +54,15 @@ const DateTimeSelectPage = asyncLoader(() =>
 const ConfirmationPage = asyncLoader(() =>
   import(/* webpackChunkName: "vaos-form" */ './containers/ConfirmationPage'),
 );
+const ExpressCareList = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './components/ExpressCareList'),
+);
+const NewExpressCareRequestLayout = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/NewExpressCareRequestLayout'),
+);
+const ExpressCareInfo = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareInfo'),
+);
 
 export default function createRoutesWithStore(store) {
   return (
@@ -61,6 +70,7 @@ export default function createRoutesWithStore(store) {
       <Route path="/" component={AppointmentsPage}>
         <IndexRoute component={FutureAppointmentsList} />
         <Route component={PastAppointmentsList} path="past" />
+        <Route component={ExpressCareList} path="express-care" />
       </Route>
       <Route
         path="new-appointment"
@@ -93,6 +103,12 @@ export default function createRoutesWithStore(store) {
         <Route path="reason-appointment" component={ReasonForAppointmentPage} />
         <Route path="review" component={ReviewPage} />
         <Route path="confirmation" component={ConfirmationPage} />
+      </Route>
+      <Route
+        path="new-express-care-request"
+        component={NewExpressCareRequestLayout}
+      >
+        <IndexRoute component={ExpressCareInfo} />
       </Route>
     </Route>
   );

@@ -27,19 +27,19 @@ function parseId(id) {
  *
  * @export
  * @param {Object} locationsParams Parameters needed for fetching locations
- * @param {Array} locationParams.rootOrgId An id for the organization of the VistA site to pull child facilities for
- * @param {Array} locationParams.parentId An id for the parent organization of the facilities being pulled
- * @param {Array} locationParams.typeOfCareId An id for the type of care to check for the chosen organization
- * @returns {Object} A FHIR searchset of Location resources
+ * @param {String} locationParams.siteId A VistA site id for the locations being pulled
+ * @param {String} locationParams.parentId An id for the parent organization of the facilities being pulled
+ * @param {String} locationParams.typeOfCareId An id for the type of care to check for the chosen organization
+ * @returns {Array} A FHIR searchset of Location resources
  */
 export async function getSupportedLocationsByTypeOfCare({
-  rootOrgId,
+  siteId,
   parentId,
   typeOfCareId,
 }) {
   try {
     const parentFacilities = await getFacilitiesBySystemAndTypeOfCare(
-      parseId(rootOrgId),
+      siteId,
       parseId(parentId),
       typeOfCareId,
     );

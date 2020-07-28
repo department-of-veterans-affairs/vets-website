@@ -1,7 +1,5 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 
-import { benefitLeftDescription } from '../content/stemEligibility';
-
 const {
   isEnrolledStem,
   isPursuingTeachingCert,
@@ -27,7 +25,6 @@ export const uiSchema = {
   },
   benefitLeft: {
     'ui:title': 'About how much of your education benefit do you have left?',
-    'ui:description': benefitLeftDescription,
     'ui:options': {
       labels: {
         moreThanSixMonths: 'More than 6 months',

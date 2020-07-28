@@ -5,6 +5,9 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_EXPRESS_CARE_WINDOWS,
+  FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+  FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
@@ -24,6 +27,8 @@ import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
 } from '../../utils/constants';
+
+import { setRequestedPeriod } from '../mocks/helpers';
 
 const initialState = {};
 
@@ -63,11 +68,11 @@ describe('VAOS reducer: appointments', () => {
         // pending appointments will show
         [
           {
-            status: 'Submitted',
-            appointmentType: 'Primary Care',
-            optionDate1: moment()
-              .add(2, 'days')
-              .format('MM/DD/YYYY'),
+            status: APPOINTMENT_STATUS.proposed,
+            requestedPeriod: [
+              setRequestedPeriod(moment().add(2, 'days'), 'AM'),
+            ],
+            vaos: {},
           },
         ],
       ],
@@ -107,7 +112,7 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.pastSelectedIndex).to.equal(1);
   });
 
-  it('should populate confirmed with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
+  it('should populate past with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
     const action = {
       type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
       startDate: '2018-01-01',
@@ -156,9 +161,6 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
     expect(newState.pastStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.past.length).to.equal(4);
-    expect(
-      moment(newState.past[0].start).isAfter(moment(newState.past[1].start)),
-    ).to.be.true;
   });
 
   it('should update pastStatus to be failed when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {
