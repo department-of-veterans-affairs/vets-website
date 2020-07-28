@@ -45,7 +45,7 @@ const WizardContainer = ({ setWizardStatus }) => {
       </p>
       <a
         href="#"
-        className="vads-u-display--inline-block vads-u-margin-bottom--3"
+        className="vads-u-display--inline-block vads-u-margin-bottom--3 skip-wizard-link"
         onClick={e => {
           e.preventDefault();
           setBenefitReferred(currentFormId);
