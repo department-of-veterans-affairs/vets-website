@@ -38,6 +38,13 @@ const initialState = {
   facilityData: {},
   requestMessages: {},
   systemClinicToFacilityMap: {},
+  expressCare: {
+    windowsStatus: FETCH_STATUS.notStarted,
+    allowRequests: false,
+    localWindowString: null,
+    minStart: null,
+    maxEnd: null,
+  },
 };
 
 export default function appointmentsReducer(state = initialState, action) {

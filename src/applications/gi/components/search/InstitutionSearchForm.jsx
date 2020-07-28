@@ -60,6 +60,7 @@ function InstitutionSearchForm(props) {
               showModal={props.showModal}
               showHeader
               handleInputFocus={handleInstitutionSearchInputFocus}
+              gibctCh33BenefitRateUpdate={props.gibctCh33BenefitRateUpdate}
             />
           ) : (
             <EligibilityForm

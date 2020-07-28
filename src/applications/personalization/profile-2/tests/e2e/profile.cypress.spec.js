@@ -15,7 +15,7 @@ import mockFeatureToggles from '../fixtures/feature-toggles.json';
  *   and performs an aXe scan
  */
 function checkAllPages(mobile = false) {
-  cy.visit('/profile');
+  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
   if (mobile) {
     cy.viewport('iphone-4');
   }
@@ -89,9 +89,8 @@ describe('Profile', () => {
       'DISMISSED_ANNOUNCEMENTS',
       JSON.stringify(['single-sign-on-intro']),
     );
-    cy.login();
+    cy.login(mockUser);
     // login() calls cy.server() so we can now mock routes
-    cy.route('GET', '/v0/user', mockUser);
     cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.route('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
   });

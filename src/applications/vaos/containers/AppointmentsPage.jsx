@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
+
 import Breadcrumbs from '../components/Breadcrumbs';
 import ScheduleNewAppointment from '../components/ScheduleNewAppointment';
 import {
@@ -12,6 +13,7 @@ import {
   startNewAppointmentFlow,
   fetchFutureAppointments,
 } from '../actions/appointments';
+import { fetchExpressCareWindows } from '../actions/expressCare';
 import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
@@ -21,10 +23,10 @@ import {
   vaosCommunityCare,
   vaosExpressCare,
   isWelcomeModalDismissed,
-  selectHasExpressCareRequests,
+  selectExpressCare,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
+import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
 import TabNav from '../components/TabNav';
@@ -46,6 +48,9 @@ export class AppointmentsPage extends Component {
     }
 
     document.title = `${pageTitle} | Veterans Affairs`;
+    if (this.props.expressCare.enabled) {
+      this.props.fetchExpressCareWindows();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -71,12 +76,13 @@ export class AppointmentsPage extends Component {
       futureStatus,
       showScheduleButton,
       showCommunityCare,
+      expressCare,
       showExpressCare,
-      hasExpressCareRequests,
       showDirectScheduling,
       isCernerOnlyPatient,
       showPastAppointments,
     } = this.props;
+    const { windowsStatus, enabled, hasRequests } = expressCare;
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
@@ -92,13 +98,13 @@ export class AppointmentsPage extends Component {
                 startNewAppointmentFlow={this.startNewAppointmentFlow}
               />
             )}
-            {!showExpressCare && (
+            {!expressCare.enabled && (
               <>
                 {showPastAppointments && <TabNav />}
                 {children}
               </>
             )}
-            {showExpressCare && (
+            {expressCare.enabled && (
               <>
                 {(futureStatus === FETCH_STATUS.loading ||
                   futureStatus === FETCH_STATUS.notStarted) && (
@@ -107,14 +113,16 @@ export class AppointmentsPage extends Component {
                 {futureStatus !== FETCH_STATUS.loading &&
                   futureStatus !== FETCH_STATUS.notStarted && (
                     <>
-                      <RequestExpressCare />
-                      {hasExpressCareRequests && (
+                      <RequestExpressCare {...expressCare} />
+                      {expressCare.hasRequests && (
                         <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
                           View your upcoming, past, and Express Care
                           appointments
                         </h2>
                       )}
-                      <TabNav hasExpressCareRequests={hasExpressCareRequests} />
+                      <TabNav
+                        hasExpressCareRequests={expressCare.hasRequests}
+                      />
                       {children}
                     </>
                   )}
@@ -148,7 +156,6 @@ AppointmentsPage.propTypes = {
 function mapStateToProps(state) {
   return {
     futureStatus: state.appointments.futureStatus,
-    hasExpressCareRequests: selectHasExpressCareRequests(state),
     cancelInfo: getCancelInfo(state),
     showPastAppointments: vaosPastAppts(state),
     showScheduleButton: vaosRequests(state),
@@ -157,10 +164,12 @@ function mapStateToProps(state) {
     showExpressCare: vaosExpressCare(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    expressCare: selectExpressCare(state),
   };
 }
 
 const mapDispatchToProps = {
+  fetchExpressCareWindows,
   closeCancelAppointment,
   confirmCancelAppointment,
   startNewAppointmentFlow,
