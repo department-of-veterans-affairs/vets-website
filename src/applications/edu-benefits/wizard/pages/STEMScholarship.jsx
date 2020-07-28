@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
 import recordEvent from 'platform/monitoring/record-event';
-import { FORM_ID_1995 } from '../../../static-pages/wizard';
+import { formIdSuffixes } from '../../../static-pages/wizard';
 
 const STEMScholarship = ({ setPageState, state = {}, setBenefitReferred }) => {
   const STEMScholarshipOptions = [
@@ -77,6 +77,7 @@ const STEMScholarship = ({ setPageState, state = {}, setBenefitReferred }) => {
         onValueChange={({ value }) => {
           setSTEMScholarshipAnswer(value);
           if (value === 'yes') {
+            const { FORM_ID_1995 } = formIdSuffixes;
             setBenefitReferred(FORM_ID_1995);
             return setPageState({ selected: value }, pageNames.applyNow);
           } else {

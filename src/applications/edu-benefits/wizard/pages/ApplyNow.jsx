@@ -3,7 +3,7 @@ import { pageNames } from './pageList';
 import {
   WIZARD_STATUS_COMPLETE,
   getReferredBenefit,
-  FORM_ID_0994,
+  formIdSuffixes,
 } from '../../../static-pages/wizard/';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -11,7 +11,7 @@ const ApplyNow = ({
   setPageState,
   getPageStateFromPageName,
   state = {},
-  setWizardCompletionStatus,
+  setWizardStatus,
 }) => {
   const [url, setUrl] = useState('');
   const [referredBenefit, setReferredBenefit] = useState('');
@@ -50,6 +50,7 @@ const ApplyNow = ({
   useEffect(() => {
     const updateUrl = async () => {
       const updatedBenefit = await getReferredBenefit();
+      const { FORM_ID_0994 } = formIdSuffixes;
       setReferredBenefit(updatedBenefit);
       if (updatedBenefit) {
         setUrl(
@@ -71,7 +72,7 @@ const ApplyNow = ({
         if (window.location.pathname.includes(referredBenefit)) {
           e.preventDefault();
         }
-        setWizardCompletionStatus(WIZARD_STATUS_COMPLETE);
+        setWizardStatus(WIZARD_STATUS_COMPLETE);
         const eduBenefitEventDetails = {
           event: 'edu-howToApply-applyNow',
           'edu-benefitUpdate': newBenefitAnswer,

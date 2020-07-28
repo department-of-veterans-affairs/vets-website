@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
-import {
-  FORM_ID_1995,
-  FORM_ID_1990E,
-  FORM_ID_5495,
-} from '../../../static-pages/wizard';
+import { formIdSuffixes } from '../../../static-pages/wizard';
 
 const getTransferredBenefitOptions = sponsorDeceasedValue =>
   sponsorDeceasedValue === 'no'
@@ -35,24 +31,19 @@ const TransferredBenefits = ({
   state = {},
   setBenefitReferred,
 }) => {
-  const [sponsorDeceasedValue, setSponsorDeceasedValue] = useState(undefined);
-  const wasSponsorDeceasedAnswered = !!getPageStateFromPageName(
+  const sponsorDeceasedAnswer = getPageStateFromPageName(
     pageNames.sponsorDeceased,
   )?.selected;
-  if (!sponsorDeceasedValue && wasSponsorDeceasedAnswered) {
-    setSponsorDeceasedValue(
-      getPageStateFromPageName(pageNames.sponsorDeceased)?.selected,
-    );
-  }
+
   const transferredBenefitOptions = getTransferredBenefitOptions(
-    sponsorDeceasedValue,
+    sponsorDeceasedAnswer,
   );
 
   return (
     <ErrorableRadioButtons
       name={`${pageNames.transferredBenefits}`}
       label={
-        sponsorDeceasedValue === 'no'
+        sponsorDeceasedAnswer === 'no'
           ? 'Has your sponsor transferred their benefits to you?'
           : 'Are you receiving education benefits transferred to you by a sponsor Veteran?'
       }
@@ -65,9 +56,6 @@ const TransferredBenefits = ({
         const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
           pageNames.claimingBenefitOwnService,
         )?.selected;
-        const sponsorDeceasedAnswer = getPageStateFromPageName(
-          pageNames.sponsorDeceased,
-        )?.selected;
         if (
           claimingBenefitOwnServiceAnswer === 'no' &&
           sponsorDeceasedAnswer === 'no' &&
@@ -79,15 +67,18 @@ const TransferredBenefits = ({
           sponsorDeceasedAnswer === 'no' &&
           value === 'yes'
         ) {
+          const { FORM_ID_1990E } = formIdSuffixes;
           setBenefitReferred(FORM_ID_1990E);
           return setPageState({ selected: value }, pageNames.applyNow);
         } else if (
           (newBenefitAnswer === 'update' && value === 'own') ||
           (newBenefitAnswer === 'update' && value === 'transferred')
         ) {
+          const { FORM_ID_1995 } = formIdSuffixes;
           setBenefitReferred(FORM_ID_1995);
           return setPageState({ selected: value }, pageNames.applyNow);
         } else if (newBenefitAnswer === 'update' && value === 'fry') {
+          const { FORM_ID_5495 } = formIdSuffixes;
           setBenefitReferred(FORM_ID_5495);
           return setPageState({ selected: value }, pageNames.applyNow);
         } else {

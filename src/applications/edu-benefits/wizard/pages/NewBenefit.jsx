@@ -1,7 +1,7 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
-import { FORM_ID_1995, FORM_ID_5495 } from '../../../static-pages/wizard';
+import { formIdSuffixes } from '../../../static-pages/wizard';
 
 const newBenefitOptions = [
   { label: 'Applying for a new benefit', value: 'new' },
@@ -66,9 +66,11 @@ const NewBenefit = ({
         (value === 'update' && transferredBenefitsAnswer === 'own') ||
         (value === 'update' && transferredBenefitsAnswer === 'transferred')
       ) {
+        const { FORM_ID_1995 } = formIdSuffixes;
         setBenefitReferred(FORM_ID_1995);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (value === 'update' && transferredBenefitsAnswer === 'fry') {
+        const { FORM_ID_5495 } = formIdSuffixes;
         setBenefitReferred(FORM_ID_5495);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (value === 'new') {

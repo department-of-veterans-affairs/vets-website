@@ -1,7 +1,7 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
-import { FORM_ID_0994, FORM_ID_1990 } from '../../../static-pages/wizard';
+import { formIdSuffixes } from '../../../static-pages/wizard';
 
 const vetTecOptions = [
   { label: 'Yes', value: 'yes' },
@@ -39,6 +39,7 @@ const VetTec = ({
         nationalCallToServiceAnswer === 'no' &&
         value === 'yes'
       ) {
+        const { FORM_ID_0994 } = formIdSuffixes;
         setBenefitReferred(FORM_ID_0994);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (
@@ -46,6 +47,7 @@ const VetTec = ({
         nationalCallToServiceAnswer === 'no' &&
         value === 'no'
       ) {
+        const { FORM_ID_1990 } = formIdSuffixes;
         setBenefitReferred(FORM_ID_1990);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else {

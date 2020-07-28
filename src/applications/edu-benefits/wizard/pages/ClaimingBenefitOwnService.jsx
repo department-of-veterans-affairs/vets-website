@@ -3,13 +3,12 @@ import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
-import { FORM_ID_5490 } from '../../../static-pages/wizard';
+import { formIdSuffixes } from '../../../static-pages/wizard';
 
 const claimingBenefitOwnServiceOptions = [
   { label: 'Yes', value: 'yes' },
   { label: 'No', value: 'no' },
 ];
-
 const ClaimingBenefitOwnService = ({
   setPageState,
   getPageStateFromPageName,
@@ -46,6 +45,7 @@ const ClaimingBenefitOwnService = ({
           value === 'no' &&
           sponsorDeceasedAnswer === 'yes'
         ) {
+          const { FORM_ID_5490 } = formIdSuffixes;
           setBenefitReferred(FORM_ID_5490);
           return setPageState({ selected: value }, pageNames.applyNow);
         } else if (

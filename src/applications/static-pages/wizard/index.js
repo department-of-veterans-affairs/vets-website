@@ -10,19 +10,29 @@ export const WIZARD_STATUS_COMPLETE = 'complete';
 export const WIZARD_STATUS_APPLY_NOW = 'awaiting click on apply button';
 export const WIZARD_STATUS_IN_PROGRESS = 'in progress';
 export const WIZARD_STATUS_UPDATING = 'updating';
-export const FORM_ID_1990 = '1990';
-export const FORM_ID_10203 = '10203';
-export const FORM_ID_1995 = '1995';
-export const FORM_ID_0994 = '0994';
-export const FORM_ID_5495 = '5495';
-export const FORM_ID_5490 = '5490';
-export const FORM_ID_1990E = '1990E';
-export const FORM_ID_1990N = '1990N';
+export const formIdSuffixes = {
+  FORM_ID_1990: '1990',
+  FORM_ID_10203: '10203',
+  FORM_ID_1995: '1995',
+  FORM_ID_0994: '0994',
+  FORM_ID_5495: '5495',
+  FORM_ID_5490: '5490',
+  FORM_ID_1990E: '1990E',
+  FORM_ID_1990N: '1990N',
+};
+// export const FORM_ID_1990 = '1990';
+// export const FORM_ID_10203 = '10203';
+// export const FORM_ID_1995 = '1995';
+// export const FORM_ID_0994 = '0994';
+// export const FORM_ID_5495 = '5495';
+// export const FORM_ID_5490 = '5490';
+// export const FORM_ID_1990E = '1990E';
+// export const FORM_ID_1990N = '1990N';
 
 export const getReferredBenefit = async () =>
   (await sessionStorage.getItem('benefitReferred')) || NO_BENEFIT_REFERRED;
 
-export const getWizardCompletionStatus = async () =>
+export const getWizardStatus = async () =>
   (await sessionStorage.getItem('wizardStatus')) || WIZARD_STATUS_NOT_STARTED;
 
 export default class Wizard extends React.Component {
@@ -33,7 +43,7 @@ export default class Wizard extends React.Component {
       currentPageIndex: 0,
       expanded: !props.expander,
       benefitReferred: getReferredBenefit(),
-      wizardCompletionStatus: getWizardCompletionStatus(),
+      wizardStatus: getWizardStatus(),
     };
   }
 
@@ -71,30 +81,14 @@ export default class Wizard extends React.Component {
     }
     this.setState({ pageHistory: newHistory });
   };
-  /**
-   * @param {string} value The wizard's completion status
-   */
-  setWizardCompletionStatus = value => {
-    sessionStorage.setItem('wizardStatus', value);
-    this.setState({
-      wizardCompletionStatus: sessionStorage.getItem('wizardStatus'),
-    });
-  };
-
-  /**
-   * @param {string} formId The form id of the referred benefit
-   */
-
-  setBenefitReferred = formId => {
-    sessionStorage.setItem('benefitReferred', formId);
-    this.setState({
-      educationBenefitReferred: sessionStorage.getItem('benefitReferred'),
-    });
-  };
-
-  recordWizardEvent = eventDetails => recordEvent({ ...eventDetails });
 
   render() {
+    const {
+      setBenefitReferred,
+      setWizardStatus,
+      expander,
+      buttonText,
+    } = this.props;
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
       'va-button-primary': !this.state.expanded,
     });
@@ -107,14 +101,14 @@ export default class Wizard extends React.Component {
     );
     return (
       <div>
-        {this.props.expander && (
+        {expander && (
           <button
             aria-expanded={this.state.expanded ? 'true' : 'false'}
             aria-controls="wizardOptions"
             className={buttonClasses}
             onClick={() => this.setState({ expanded: !this.state.expanded })}
           >
-            {this.props.buttonText}
+            {buttonText}
           </button>
         )}
         {this.state.expanded && (
@@ -132,15 +126,8 @@ export default class Wizard extends React.Component {
                       this.setPageState(index, newState, nextPageName)
                     }
                     state={page.state}
-                    setWizardCompletionStatus={statusMessage =>
-                      this.setWizardCompletionStatus(statusMessage)
-                    }
-                    recordWizardEvent={eventDetails =>
-                      this.recordWizardEvent(eventDetails)
-                    }
-                    setBenefitReferred={formId =>
-                      this.setBenefitReferred(formId)
-                    }
+                    setWizardStatus={setWizardStatus}
+                    setBenefitReferred={setBenefitReferred}
                   />
                 );
               })}
@@ -163,9 +150,13 @@ Wizard.propTypes = {
   ),
   buttonText: PropTypes.string,
   expander: PropTypes.bool,
+  setWizardStatus: PropTypes.func,
+  setBenefitReferred: PropTypes.func,
 };
 
 Wizard.defaultProps = {
   buttonText: 'Find your form',
   expander: true,
+  setWizardStatus: () => {},
+  setBenefitReferred: () => {},
 };

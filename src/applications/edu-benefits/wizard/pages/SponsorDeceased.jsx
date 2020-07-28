@@ -1,7 +1,7 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
-import { FORM_ID_1990E, FORM_ID_5490 } from '../../../static-pages/wizard';
+import { formIdSuffixes } from '../../../static-pages/wizard';
 
 const sponsorDeceasedOptions = [
   { label: 'Yes', value: 'yes' },
@@ -46,6 +46,7 @@ const SponsorDeceased = ({
         claimingBenefitOwnServiceAnswer === 'no' &&
         value === 'yes'
       ) {
+        const { FORM_ID_5490 } = formIdSuffixes;
         setBenefitReferred(FORM_ID_5490);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else {

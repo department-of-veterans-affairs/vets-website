@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { FORM_ID_1990E, FORM_ID_1990N } from '../../../static-pages/wizard';
+import { formIdSuffixes } from '../../../static-pages/wizard';
 
 const WarningAlert = ({
   setPageState,
@@ -44,6 +44,7 @@ const WarningAlert = ({
         Instructions for your sponsor to transfer education benefits.
       </a>
     );
+    const { FORM_ID_1990E } = formIdSuffixes;
     formId = FORM_ID_1990E;
   } else if (
     newBenefitAnswer === 'new' &&
@@ -66,6 +67,7 @@ const WarningAlert = ({
         </ul>
       </>
     );
+    const { FORM_ID_1990N } = formIdSuffixes;
     formId = FORM_ID_1990N;
   }
   useEffect(
