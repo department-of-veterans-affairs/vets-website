@@ -103,7 +103,7 @@ const ProfileHeader = ({
   };
 
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.wrapper} data-testid="profile-header">
       <div className={classes.innerWrapper}>
         <div className={classes.serviceBadge}>
           {showBadgeImage && (
