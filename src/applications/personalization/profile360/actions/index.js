@@ -16,7 +16,7 @@ export function fetchHero() {
     const response = await getData('/profile/full_name');
 
     if (response.errors || response.error) {
-      dispatch({ type: FETCH_HERO_FAILED, hero: { errors: response } });
+      dispatch({ type: FETCH_HERO_FAILED, hero: { response } });
       return;
     }
 
