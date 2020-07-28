@@ -48,7 +48,6 @@ const formFields = {
   preferredResponseType: 'preferredResponseType',
   fullName: 'fullName',
   address: 'address',
-  ssn: 'ssn',
   email: 'email',
   phoneNumber: 'phoneNumber',
   branchOfService: 'branchOfService',
@@ -57,7 +56,7 @@ const formFields = {
   serviceNumber: 'serviceNumber',
   dob: 'dob',
   dateEnteredActiveDuty: 'dateEnteredActiveDuty',
-  dateReleasedActiveDuty: 'dateReleasedActiveDuty'
+  dateReleasedActiveDuty: 'dateReleasedActiveDuty',
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
@@ -69,8 +68,9 @@ const formPages = {
 };
 
 const conditionalPhoneUI = () => {
-  response = phoneUI('Daytime phone');
-  response['ui:required'] = (formData, index) => formData.preferredResponseType === 'Telephone';
+  const response = phoneUI('Daytime phone');
+  response['ui:required'] = (formData, index) =>
+    formData.preferredResponseType === 'Telephone';
   response['ui:title'] = 'Daytime phone';
   return response;
 };
@@ -107,25 +107,29 @@ const formConfig = {
           title: 'What is your Question for the VA?',
           uiSchema: {
             [formFields.topic]: {
-              'ui:title': 'Topic'
+              'ui:title': 'Topic',
             },
             [formFields.inquiryType]: {
-              'ui:title': 'Inquiry Type'
+              'ui:title': 'Inquiry Type',
             },
             [formFields.query]: {
-              'ui:title': 'Question'
-            }
+              'ui:title': 'Question',
+            },
           },
           schema: {
             type: 'object',
-            required: [formFields.topic, formFields.inquiryType, formFields.query],
+            required: [
+              formFields.topic,
+              formFields.inquiryType,
+              formFields.query,
+            ],
             properties: {
               [formFields.topic]: {
                 type: 'string',
                 enum: [
                   'Policy Questions',
-                  'Question about Women Veterans Programs'
-                ]
+                  'Question about Women Veterans Programs',
+                ],
               },
               [formFields.inquiryType]: {
                 type: 'string',
@@ -136,12 +140,12 @@ const formConfig = {
                   'Suggestion',
                   'Status of Claim',
                   'Status of Appeal at a Local VA Office',
-                  'Status of Appeals at BVA, Wash DC'
-                ]
+                  'Status of Appeals at BVA, Wash DC',
+                ],
               },
               [formFields.query]: {
                 type: 'string',
-              }
+              },
             },
           },
         },
@@ -172,10 +176,13 @@ const formConfig = {
               'ui:options': {
                 expandUnder: formFields.veteranStatus,
                 expandUnderCondition: status =>
-                  status === 'for, about, or on behalf of a Veteran' || status === 'for the Dependent of a Veteran'
+                  status === 'for, about, or on behalf of a Veteran' ||
+                  status === 'for the Dependent of a Veteran',
               },
               'ui:required': (formData, index) =>
-                formData.veteranStatus === 'for, about, or on behalf of a Veteran' || formData.veteranStatus === 'for the Dependent of a Veteran',
+                formData.veteranStatus ===
+                  'for, about, or on behalf of a Veteran' ||
+                formData.veteranStatus === 'for the Dependent of a Veteran',
             },
             [formFields.isVeteranDeceased]: {
               'ui:title': 'Is Veteran Deceased?',
@@ -183,10 +190,13 @@ const formConfig = {
               'ui:options': {
                 expandUnder: formFields.veteranStatus,
                 expandUnderCondition: status =>
-                  status === 'for, about, or on behalf of a Veteran' || status === 'for the Dependent of a Veteran'
+                  status === 'for, about, or on behalf of a Veteran' ||
+                  status === 'for the Dependent of a Veteran',
               },
               'ui:required': (formData, index) =>
-                formData.veteranStatus === 'for, about, or on behalf of a Veteran' || formData.veteranStatus === 'for the Dependent of a Veteran',
+                formData.veteranStatus ===
+                  'for, about, or on behalf of a Veteran' ||
+                formData.veteranStatus === 'for the Dependent of a Veteran',
             },
           },
           schema: {
@@ -200,7 +210,7 @@ const formConfig = {
                   'for, about, or on behalf of a Veteran',
                   'for the Dependent of a Veteran',
                   'a General Question (Vet Info Not Needed)',
-                ]
+                ],
               },
               [formFields.isDependent]: {
                 type: 'boolean',
@@ -226,7 +236,7 @@ const formConfig = {
                   'Funeral Director',
                   'Other',
                   'General Question; Not Applicable',
-                ]
+                ],
               },
               [formFields.isVeteranDeceased]: {
                 type: 'boolean',
@@ -236,24 +246,6 @@ const formConfig = {
         },
       },
     },
-    // serviceInfoChapter: {
-    //   title: 'Service History',
-    //   pages: {
-    //     [formPages.serviceInfo]: {
-    //       path: 'service-history',
-    //       title: 'Service History',
-    //       uiSchema: {
-    //         [formFields.toursOfDuty]: toursOfDutyUI,
-    //       },
-    //       schema: {
-    //         type: 'object',
-    //         properties: {
-    //           [formFields.toursOfDuty]: toursOfDuty,
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
     contactInformationChapter: {
       title: 'Contact Information',
       pages: {
@@ -262,7 +254,7 @@ const formConfig = {
           title: 'Contact Information',
           uiSchema: {
             [formFields.preferredResponseType]: {
-              'ui:title': 'Preferred Response Type'
+              'ui:title': 'Preferred Response Type',
             },
             [formFields.fullName]: fullNameUI,
             [formFields.email]: {
@@ -279,11 +271,7 @@ const formConfig = {
             properties: {
               [formFields.preferredResponseType]: {
                 type: 'string',
-                enum: [
-                  'Email',
-                  'Telephone',
-                  'US Mail',
-                ]
+                enum: ['Email', 'Telephone', 'US Mail'],
               },
               [formFields.fullName]: fullName,
               [formFields.email]: {
@@ -298,6 +286,24 @@ const formConfig = {
       },
     },
   },
+  // serviceInfoChapter: {
+  //   title: 'Service History',
+  //   pages: {
+  //     [formPages.serviceInfo]: {
+  //       path: 'service-history',
+  //       title: 'Service History',
+  //       uiSchema: {
+  //         [formFields.toursOfDuty]: toursOfDutyUI,
+  //       },
+  //       schema: {
+  //         type: 'object',
+  //         properties: {
+  //           [formFields.toursOfDuty]: toursOfDuty,
+  //         },
+  //       },
+  //     },
+  //   },
+  // },
 };
 
 export default formConfig;
