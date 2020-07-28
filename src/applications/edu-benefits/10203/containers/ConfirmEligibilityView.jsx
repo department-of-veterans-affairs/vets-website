@@ -151,15 +151,17 @@ export class ConfirmEligibilityView extends React.Component {
           Please consider that ineligible applications delay the processing of
           benefits for eligible applicants.
         </div>
-        <div className="vads-u-margin-top--neg2">
-          <a
-            className={'usa-button-primary wizard-button va-button-primary'}
-            href="/education/about-gi-bill-benefits/"
-            target="self"
-          >
-            Exit application
-          </a>
-        </div>
+        {!this.props.onReviewPage && (
+          <div className="vads-u-margin-top--neg2">
+            <a
+              className={'usa-button-primary wizard-button va-button-primary'}
+              href="/education/about-gi-bill-benefits/"
+              target="self"
+            >
+              Exit application
+            </a>
+          </div>
+        )}
         <div>
           <p>
             If you'd still like to apply, you can continue with your
