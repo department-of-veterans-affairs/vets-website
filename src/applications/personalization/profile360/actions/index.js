@@ -1,5 +1,4 @@
 import { getData } from '../util';
-import environment from 'platform/utilities/environment';
 
 export const FETCH_HERO = 'FETCH_HERO';
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
@@ -16,8 +15,8 @@ export function fetchHero() {
     dispatch({ type: FETCH_HERO });
     const response = await getData('/profile/full_name');
 
-    if (response?.errors) {
-      dispatch({ type: FETCH_HERO_FAILED, hero: { response } });
+    if (response.errors || response.error) {
+      dispatch({ type: FETCH_HERO_FAILED, hero: { errors: response } });
       return;
     }
 
