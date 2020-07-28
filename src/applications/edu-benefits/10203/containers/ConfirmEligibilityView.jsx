@@ -73,14 +73,12 @@ export class ConfirmEligibilityView extends React.Component {
 
   renderChecks = () => (
     <div>
-      <p className="vads-u-margin-bottom--1">
-        <span className="vads-u-font-family--serif heading-level-4">
-          Rogers STEM Scholarship eligibility summary
-        </span>
-        <br />
-        <br />
-        <b>Based on your responses, you may not be eligible</b>
-      </p>
+      <div className="vads-u-margin-top--neg2p5">
+        <h3>Based on your responses, you may not be eligible</h3>
+      </div>
+      <div className="vads-u-margin-right--neg7 vads-u-padding-top--1p5">
+        <b>Your responses:</b>
+      </div>
       <ul className="fa-ul vads-u-margin-left--3 vads-u-margin-top--0p5 stem-eligibility-ul">
         {this.renderBenefitCheck()}
         {this.renderEnrolledCheck()}
@@ -149,7 +147,7 @@ export class ConfirmEligibilityView extends React.Component {
                     <div className="usa-alert-text">
                       <p>
                         Our entitlement system shows that you have more than 6
-                        months of education benefits remaining. You can apply
+                        months of education benefits remaining. You should apply
                         when you have less than 6 months of entitlement left.
                       </p>
                       <p>
@@ -162,49 +160,8 @@ export class ConfirmEligibilityView extends React.Component {
                     </div>
                   </div>
                 </div>
-                <br />
               </div>
             )}
-          <span>
-            If your situation changes in the future and you meet all of the
-            criteria, you may return to apply for the Rogers STEM Scholarship.
-          </span>
-        </div>
-
-        <div>
-          <fieldset className="schemaform-field-template schemaform-first-field">
-            <legend className={legendClassName}>
-              {questionText}
-              <span className="schemaform-required-span">(*Required)</span>
-            </legend>
-            {this.renderErrorMessage()}
-            <input
-              type="radio"
-              checked={confirmEligibility === false}
-              id={`${id}No`}
-              name={`${id}`}
-              value="N"
-              onChange={() =>
-                this.onChange({ 'view:confirmEligibility': false })
-              }
-              onClick={() => captureEvents.ineligibilityStillApply(false)}
-            />
-            <label htmlFor={`${id}No`}>No</label>
-            <input
-              type="radio"
-              checked={confirmEligibility === true}
-              id={`${id}Yes`}
-              name={`${id}`}
-              value="Y"
-              onChange={() =>
-                this.onChange({ 'view:confirmEligibility': true })
-              }
-              onClick={() => {
-                captureEvents.ineligibilityStillApply(true);
-              }}
-            />
-            <label htmlFor={`${id}Yes`}>Yes</label>
-          </fieldset>
         </div>
       </div>
     );
@@ -213,6 +170,10 @@ export class ConfirmEligibilityView extends React.Component {
   render() {
     return (
       <div>
+        <div className="vads-u-padding-bottom--2">
+          <h4>Rogers STEM Scholarship eligibility summary</h4>
+        </div>
+
         <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2">
           {this.renderChecks()}
           {this.renderConfirmEligibility()}
@@ -228,12 +189,16 @@ export class ConfirmEligibilityView extends React.Component {
           <a
             className={'usa-button-primary wizard-button va-button-primary'}
             href="/education/about-gi-bill-benefits/"
+            target="self"
           >
             Exit application
           </a>
         </div>
         <div>
-          <p>If you still wish to apply for the scholarship, click Continue.</p>
+          <p>
+            If you'd still like to apply, you can continue with your
+            application.
+          </p>
         </div>
       </div>
     );
