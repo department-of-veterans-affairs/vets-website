@@ -5,7 +5,7 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
 import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
-import SubmitError from 'applications/caregivers/components/SubmitError/SubmitError';
+import SubmitError from 'applications/caregivers/components/SubmitError';
 import {
   submitTransform,
   hasSecondaryCaregiverOne,
