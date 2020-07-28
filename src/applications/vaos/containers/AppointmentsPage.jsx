@@ -8,12 +8,12 @@ import recordEvent from 'platform/monitoring/record-event';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ScheduleNewAppointment from '../components/ScheduleNewAppointment';
 import {
-  fetchExpressCareWindows,
   closeCancelAppointment,
   confirmCancelAppointment,
   startNewAppointmentFlow,
   fetchFutureAppointments,
 } from '../actions/appointments';
+import { fetchExpressCareWindows } from '../actions/expressCare';
 import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
