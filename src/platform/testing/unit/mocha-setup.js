@@ -44,7 +44,7 @@ export default function setupJSDom() {
         console.log(`Error ${error.status}: ${error.url}`);
       } else if (error instanceof Error) {
         console.log(filterStackTrace(error.stack));
-      } else if (error.includes('The above error occurred')) {
+      } else if (error?.includes?.('The above error occurred')) {
         console.log(error);
       }
     };
