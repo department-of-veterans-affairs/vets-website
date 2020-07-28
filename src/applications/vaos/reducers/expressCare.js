@@ -71,7 +71,7 @@ export default function expressCareReducer(state = initialState, action) {
     }
     case FETCH_EXPRESS_CARE_WINDOWS:
       return {
-        ...initialState,
+        ...state,
         windowsStatus: FETCH_STATUS.loading,
       };
     case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
@@ -130,13 +130,11 @@ export default function expressCareReducer(state = initialState, action) {
     }
     case FETCH_EXPRESS_CARE_WINDOWS_FAILED:
       return {
-        ...initialState,
+        ...state,
         windowsStatus: FETCH_STATUS.failed,
       };
 
     default:
-      return {
-        ...state,
-      };
+      return state;
   }
 }
