@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import set from 'platform/utilities/data/set';
-import recordEvent from 'platform/monitoring/record-event';
 
 export const NO_BENEFIT_REFERRED = 'no benefit was referred';
 export const WIZARD_STATUS_NOT_STARTED = 'not started';
