@@ -5,17 +5,48 @@ import {
   getReferredBenefit,
   FORM_ID_0994,
 } from '../../../static-pages/wizard/';
+import recordEvent from 'platform/monitoring/record-event';
 
 const ApplyNow = ({
   setPageState,
   getPageStateFromPageName,
   state = {},
   setWizardCompletionStatus,
-  recordWizardEvent,
 }) => {
   const [url, setUrl] = useState('');
   const [referredBenefit, setReferredBenefit] = useState('');
-
+  const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
+    ?.selected;
+  const claimingBenefitAnswer = getPageStateFromPageName(
+    pageNames.claimingBenefitOwnService,
+  )?.selected;
+  const nationalCallToServiceAnswer = getPageStateFromPageName(
+    pageNames.nationalCallToService,
+  )?.selected;
+  const sponsorDeceasedAnswer = getPageStateFromPageName(
+    pageNames.sponsorDeceased,
+  )?.selected;
+  const vetTecAnswer = getPageStateFromPageName(pageNames.vetTec)?.selected;
+  const STEMScholarshipAnswer = getPageStateFromPageName(
+    pageNames.STEMScholarship,
+  )?.selected;
+  const transferredBenefitsAnswer = getPageStateFromPageName(
+    pageNames.transferredBenefits,
+  )?.selected;
+  let hasSponsoredTransferredBenefitsAnswer;
+  let receivingSponsorBenefitsAnswer;
+  if (
+    transferredBenefitsAnswer === 'yes' ||
+    transferredBenefitsAnswer === 'no'
+  ) {
+    hasSponsoredTransferredBenefitsAnswer = transferredBenefitsAnswer;
+  } else if (
+    transferredBenefitsAnswer === 'own' ||
+    transferredBenefitsAnswer === 'transferred' ||
+    transferredBenefitsAnswer === 'fry'
+  ) {
+    receivingSponsorBenefitsAnswer = transferredBenefitsAnswer;
+  }
   useEffect(() => {
     const updateUrl = async () => {
       const updatedBenefit = await getReferredBenefit();
@@ -42,23 +73,17 @@ const ApplyNow = ({
         }
         setWizardCompletionStatus(WIZARD_STATUS_COMPLETE);
         const eduBenefitEventDetails = {
-          // event: 'edu-howToApply-applyNow',
-          // 'edu-benefitUpdate': this.eduFormChange(this.state.newBenefit),
-          // 'edu-isBenefitClaimForSelf': this.isBenefitClaimForSelf(
-          //   this.state.serviceBenefitBasedOn,
-          // ),
-          // 'edu-isNationalCallToServiceBenefit': this.state
-          //   .nationalCallToService,
-          // 'edu-isVetTec': this.state.vetTecBenefit,
-          // 'edu-hasSponsorTransferredBenefits': this.state
-          //   .sponsorTransferredBenefits,
-          // 'edu-isReceivingSponsorBenefits': this.isReceivingSponsorBenefits(
-          //   this.state.transferredEduBenefits,
-          // ),
-          // 'edu-isSponsorReachable': this.state.sponsorDeceasedDisabledMIA,
-          // 'edu-stemApplicant': this.state.applyForScholarship,
+          event: 'edu-howToApply-applyNow',
+          'edu-benefitUpdate': newBenefitAnswer,
+          'edu-isBenefitClaimForSelf': claimingBenefitAnswer,
+          'edu-isNationalCallToServiceBenefit': nationalCallToServiceAnswer,
+          'edu-isVetTec': vetTecAnswer,
+          'edu-hasSponsorTransferredBenefits': hasSponsoredTransferredBenefitsAnswer,
+          'edu-isReceivingSponsorBenefits': receivingSponsorBenefitsAnswer,
+          'edu-isSponsorReachable': sponsorDeceasedAnswer,
+          'edu-stemApplicant': STEMScholarshipAnswer,
         };
-        recordWizardEvent(eduBenefitEventDetails);
+        recordEvent(eduBenefitEventDetails);
       }}
     >
       Apply now
