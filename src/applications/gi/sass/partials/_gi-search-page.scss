@@ -14,6 +14,21 @@
       margin-top: 1.5em;
     }
 
+    .search-results-collapsible {
+      background-color: #ffffff !important;
+      padding: 0;
+      font-weight: 500;
+
+      &.usa-accordion-button[aria-expanded="false"] {
+        background-image: url("/img/arrow-down.png");
+        background-image: url("/img/arrow-down.svg");
+      }
+      &.usa-accordion-button[aria-expanded="true"] {
+        background-image: url("/img/arrow-up.png");
+        background-image: url("/img/arrow-up.svg");
+      }
+    }
+
     @include media-maxwidth($small-screen) {
       background: $color-white;
       display: none;
@@ -172,6 +187,14 @@
         margin-right: 0.4em;
       }
     }
+  }
+
+  .search-result-tag {
+    background-color: $color-white;
+    color: $color-gray-dark;
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
   }
 
   .vettec-logo-container {

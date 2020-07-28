@@ -9,6 +9,8 @@ import Dropdown from '../Dropdown';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 
 export class BenefitsForm extends React.Component {
+  state = { showYourMilitaryDetails: false };
+
   static propTypes = {
     showModal: PropTypes.func,
     hideModal: PropTypes.func,
@@ -16,12 +18,14 @@ export class BenefitsForm extends React.Component {
     showHeader: PropTypes.bool,
     handleInputFocus: PropTypes.func,
     giBillChapterOpen: PropTypes.arrayOf(PropTypes.bool),
+    yourMilitaryDetails: PropTypes.bool,
   };
 
   static defaultProps = {
     showGbBenefit: false,
     showHeader: false,
     giBillChapterOpen: [],
+    yourMilitaryDetails: true,
   };
 
   cumulativeServiceOptions = () => [
@@ -50,10 +54,15 @@ export class BenefitsForm extends React.Component {
       component: this,
     });
 
-  render() {
+  handleMilitaryDetailsClick = () => {
+    this.setState({
+      showYourMilitaryDetails: !this.state.showYourMilitaryDetails,
+    });
+  };
+
+  renderYourMilitaryDetails() {
     return (
-      <div className="eligibility-form">
-        {this.props.showHeader && <h2>Your benefits</h2>}
+      <div>
         <ExpandingGroup open={this.props.militaryStatus === 'spouse'}>
           <Dropdown
             label="What's your military status?"
@@ -216,6 +225,33 @@ export class BenefitsForm extends React.Component {
             {this.props.children}
           </div>
         </ExpandingGroup>
+      </div>
+    );
+  }
+
+  render() {
+    if (this.props.gibctFilterEnhancement) {
+      return (
+        <div className="eligibility-form">
+          <button
+            aria-expanded={
+              this.state.showYourMilitaryDetails ? 'true' : 'false'
+            }
+            className="usa-accordion-button search-results-collapsible"
+            onClick={() => this.handleMilitaryDetailsClick()}
+          >
+            <p>Your military details</p>
+          </button>
+          {this.state.showYourMilitaryDetails &&
+            this.renderYourMilitaryDetails()}
+        </div>
+      );
+    }
+
+    return (
+      <div className="eligibility-form">
+        {this.props.showHeader && <h2>Your benefits</h2>}
+        {this.renderYourMilitaryDetails()}
       </div>
     );
   }

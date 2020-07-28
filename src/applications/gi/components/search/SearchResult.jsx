@@ -4,11 +4,18 @@ import { Link } from 'react-router';
 import appendQuery from 'append-query';
 import environment from 'platform/utilities/environment';
 import { estimatedBenefits } from '../../selectors/estimator';
-import { formatCurrency, locationInfo } from '../../utils/helpers';
+import {
+  formatCurrency,
+  locationInfo,
+  getReligiousAffiliationName,
+} from '../../utils/helpers';
 import {
   renderCautionAlert,
   renderSchoolClosingAlert,
 } from '../../utils/render';
+
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 export class SearchResult extends React.Component {
   estimate = ({ qualifier, value }) => {
@@ -70,7 +77,7 @@ export class SearchResult extends React.Component {
                 </div>
               </div>
             )}
-            <div className="row">
+            <div className="row small-screen: vads-u-margin-bottom--neg5">
               <div className={'small-12  medium-6 large-7 columns'}>
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p className="locality" id={`location-${facilityCode}`}>
@@ -116,6 +123,31 @@ export class SearchResult extends React.Component {
                 </div>
               </div>
             </div>
+            {this.props.gibctFilterEnhancement && (
+              <div
+                className="vads-u-margin-top--neg7"
+                style={{
+                  display: 'inline-block',
+                }}
+              >
+                {this.props.womenonly === 1 && (
+                  <div className="search-result-tag gender-tag">Women only</div>
+                )}
+                {this.props.menonly === 1 && (
+                  <div className="search-result-tag gender-tag">Men only</div>
+                )}
+                {getReligiousAffiliationName(this.props.relaffil) && (
+                  <div className="search-result-tag religious-affiliation-tag">
+                    {getReligiousAffiliationName(this.props.relaffil)}
+                  </div>
+                )}
+                {this.props.hbcu === 1 && (
+                  <div className="search-result-tag hbcu-tag">
+                    Historically Black Colleges and Universities
+                  </div>
+                )}
+              </div>
+            )}
             <div className="row">
               <div className="view-details columns">
                 <Link to={linkTo}>View details ›</Link>
@@ -130,6 +162,9 @@ export class SearchResult extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   estimated: estimatedBenefits(state, props),
+  gibctFilterEnhancement: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctFilterEnhancement
+  ],
 });
 
 const mapDispatchToProps = {};

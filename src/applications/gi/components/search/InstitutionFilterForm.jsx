@@ -4,16 +4,23 @@ import React from 'react';
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
 import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
+import SearchResultGenderFilter from './SearchResultGenderFilter';
 import {
   addAllOption,
   getStateNameForCode,
   sortOptionsByStateName,
+  getReligiousAffiliationName,
 } from '../../utils/helpers';
 import CautionaryWarningsFilter from './CautionaryWarningsFilter';
 
 class InstitutionFilterForm extends React.Component {
+  state = { gender: 'Any' };
+
   handleDropdownChange = e => {
     const { name: field, value } = e.target;
+    if (field === 'gender') {
+      this.setState({ gender: value });
+    }
     this.props.handleFilterChange(field, value);
   };
 
@@ -28,6 +35,7 @@ class InstitutionFilterForm extends React.Component {
       onChange={this.handleDropdownChange}
       handleInputFocus={this.props.handleInputFocus}
       displayAllOption
+      gibctFilterEnhancement={this.props.gibctFilterEnhancement}
     />
   );
 
@@ -130,6 +138,57 @@ class InstitutionFilterForm extends React.Component {
     );
   };
 
+  renderGenderFilter = () => {
+    return (
+      <div>
+        <SearchResultGenderFilter
+          gender={this.state.gender}
+          onChange={this.handleDropdownChange}
+          handleInputFocus={this.props.handleInputFocus}
+          handleFilterChange={this.props.handleFilterChange}
+        />
+      </div>
+    );
+  };
+
+  renderSpecializedMission = () => {
+    return (
+      <div>
+        <p>Specialized mission</p>
+        <Checkbox
+          checked={this.props.filters.hbcu}
+          name="hbcu"
+          label="Historically Black Colleges and Universities (HBCU)"
+          onChange={this.handleCheckboxChange}
+          onFocus={this.props.handleInputFocus}
+        />
+      </div>
+    );
+  };
+
+  renderReligiousAffiliation = () => {
+    const options = [{ value: 'ALL', label: 'ALL' }];
+
+    if (this.props.search.facets?.relaffil) {
+      Object.keys(this.props.search.facets.relaffil).forEach(num =>
+        options.push({ value: num, label: getReligiousAffiliationName(num) }),
+      );
+    }
+
+    return (
+      <Dropdown
+        label="Religious affiliation"
+        name="relaffil"
+        options={options}
+        value={this.props.filters.relaffil}
+        alt="Filter results by institution type"
+        visible
+        onChange={this.handleDropdownChange}
+        onFocus={this.props.handleInputFocus}
+      />
+    );
+  };
+
   renderTypeFilter = () => {
     const options = [
       { value: 'ALL', label: 'ALL' },
@@ -141,7 +200,11 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
-        label="Institution type"
+        label={
+          this.props.gibctFilterEnhancement
+            ? 'Institution categories'
+            : 'Institution type'
+        }
         name="type"
         options={options}
         value={this.props.filters.type}
@@ -154,6 +217,30 @@ class InstitutionFilterForm extends React.Component {
   };
 
   render() {
+    if (this.props.gibctFilterEnhancement) {
+      return (
+        <div className="institution-filter-form">
+          {this.renderCountryFilter()}
+          {this.renderStateFilter()}
+
+          {
+            <CautionaryWarningsFilter
+              excludeCautionFlags={this.props.filters.excludeCautionFlags}
+              excludeWarnings={this.props.filters.excludeWarnings}
+              onChange={this.handleCheckboxChange}
+              showModal={this.props.showModal}
+              handleInputFocus={this.props.handleInputFocus}
+            />
+          }
+          {this.renderCategoryFilter()}
+          {this.renderTypeFilter()}
+          {this.renderProgramFilters()}
+          {this.renderGenderFilter()}
+          {this.renderSpecializedMission()}
+          {this.renderReligiousAffiliation()}
+        </div>
+      );
+    }
     return (
       <div className="institution-filter-form">
         <h2>Institution details</h2>
@@ -194,6 +281,10 @@ InstitutionFilterForm.propTypes = {
     stemIndicator: PropTypes.bool,
     excludeWarnings: PropTypes.bool,
     excludeCautionFlags: PropTypes.bool,
+    womenonly: PropTypes.bool,
+    menonly: PropTypes.bool,
+    hbcu: PropTypes.bool,
+    relaffil: PropTypes.string,
   }),
   handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -212,6 +303,10 @@ InstitutionFilterForm.propTypes = {
     stemIndicator: PropTypes.object,
     excludeWarnings: PropTypes.bool,
     excludeCautionFlags: PropTypes.bool,
+    womenonly: PropTypes.bool,
+    menonly: PropTypes.bool,
+    hbcu: PropTypes.bool,
+    relaffil: PropTypes.string,
   }),
   handleInputFocus: PropTypes.func,
 };
