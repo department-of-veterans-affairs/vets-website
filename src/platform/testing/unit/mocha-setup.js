@@ -49,7 +49,7 @@ export default function setupJSDom() {
       }
     };
     console.warn = () => {};
-  } else if (process.env.LOG_LEVEL !== 'trace') {
+  } else if (process.env.LOG_LEVEL === 'log') {
     console.error = () => {};
     console.warn = () => {};
   }
