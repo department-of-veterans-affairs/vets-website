@@ -8,7 +8,7 @@ import manifest from '../manifest.json';
 // import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 
 const veteranLabel = `Enter Veteran's or service member\u2019s full name`;
-const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';
+// const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';
 // const secondaryOneLabel = 'Enter Secondary Family Caregiver\u2019s full name';
 // const secondaryTwoLabel =
 //   'Enter Secondary Family Caregiver\u2019s (2) full name';
@@ -43,19 +43,19 @@ const testConfig = createTestConfig(
           .first()
           .type('Micky Mouse');
 
-        // check  checkbox as veteran
+        // check  checkbox as a veteran
         cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
           .find('[type="checkbox"]')
           .check();
 
         // sign signature as primary caregiver
-        cy.get(`[data-test-id="${primaryLabel}-signature-input"]`)
+        cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
           .find('input')
           .first()
-          .type('Mini Mouse');
+          .type('Micky Mouse');
 
         // check  checkbox as primary caregiver
-        cy.get(`[data-test-id="${primaryLabel}-signature-input"]`)
+        cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
           .find('[type="checkbox"]')
           .check();
       },
