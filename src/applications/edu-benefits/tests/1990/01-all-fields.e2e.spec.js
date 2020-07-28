@@ -17,7 +17,7 @@ const test = E2eHelpers.createE2eTest(client => {
     )
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.skip-wizard-link', Timeouts.normal)
-    .click('.wizard-skip-link', Timeouts.normal)
+    .click('.skip-wizard-link', Timeouts.normal)
     .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
     .axeCheck('.main')
     .click('.schemaform-start-button');
