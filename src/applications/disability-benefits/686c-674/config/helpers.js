@@ -51,7 +51,11 @@ export const ServerErrorAlert = (
       <a href="tel:8446982311" aria-label="8 4 4. 6 9 8. 2 3 1 1.">
         844-698-2311
       </a>{' '}
-      (TTY:711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      (
+      <a href="tel:711" aria-label="TTY. 7 1 1.">
+        TTY: 711
+      </a>
+      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </>
 );
@@ -67,3 +71,89 @@ export const cityTitle = (
     City <strong>or</strong> county
   </>
 );
+
+export const isInsideListLoopReturn = (
+  chapter,
+  outerField,
+  uiTitle,
+  formChapter,
+) => {
+  return {
+    'ui:title': uiTitle,
+    isOutsideUS: {
+      'ui:title': 'This occurred outside the US',
+    },
+    country: {
+      'ui:title': 'Country',
+      'ui:required': (formData, index) =>
+        formData[chapter][`${index}`][outerField]?.isOutsideUS,
+      'ui:options': {
+        hideIf: (formData, index) => {
+          if (!formData[chapter][`${index}`][outerField]?.isOutsideUS) {
+            return true;
+          }
+          return false;
+        },
+      },
+    },
+    state: {
+      'ui:title': 'State',
+      'ui:required': (formData, index) =>
+        !formData[chapter][`${index}`][outerField]?.isOutsideUS,
+      'ui:options': {
+        hideIf: (formData, index) => {
+          if (formData[chapter][`${index}`][outerField]?.isOutsideUS) {
+            return true;
+          }
+          return false;
+        },
+      },
+    },
+    city: {
+      'ui:required': formData => isChapterFieldRequired(formData, formChapter),
+      'ui:title': 'City',
+    },
+  };
+};
+
+export const isOutsideListLoopReturn = (
+  chapter,
+  outerField,
+  uiTitle,
+  formChapter,
+) => {
+  return {
+    'ui:title': 'Where were you married?',
+    isOutsideUS: {
+      'ui:title': 'This occurred outsite the US',
+    },
+    country: {
+      'ui:title': 'Country',
+      'ui:required': formData => formData[chapter][outerField]?.isOutsideUS,
+      'ui:options': {
+        hideIf: formData => {
+          if (!formData[chapter][outerField].isOutsideUS) {
+            return true;
+          }
+          return false;
+        },
+      },
+    },
+    state: {
+      'ui:title': 'State',
+      'ui:required': formData => !formData[chapter][outerField]?.isOutsideUS,
+      'ui:options': {
+        hideIf: formData => {
+          if (formData[chapter][outerField].isOutsideUS) {
+            return true;
+          }
+          return false;
+        },
+      },
+    },
+    city: {
+      'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
+      'ui:title': 'City',
+    },
+  };
+};

@@ -64,7 +64,10 @@ export default function CrisisPanel() {
                 className="fa fa-deaf va-crisis-panel-icon"
                 aria-hidden="true"
               />
-              <a href="tel:18007994889">
+              <a
+                href="tel:18007994889"
+                aria-label="TTY. 8 0 0. 7 9 9. 4 8 8 9."
+              >
                 Call TTY if you have hearing loss <strong>800-799-4889</strong>
               </a>
             </li>

@@ -81,7 +81,8 @@ describe('686 report dependent death additional information', () => {
     changeDropdown(form, 'select#root_dateMonth', 1);
     changeDropdown(form, 'select#root_dateDay', 1);
     fillData(form, 'input#root_dateYear', '2000');
-    fillData(form, 'input#root_location_state', 'California');
+    changeDropdown(form, 'select#root_dateMonth', 1);
+    changeDropdown(form, 'select#root_location_state', 'CA');
     fillData(form, 'input#root_location_city', 'Someplace');
 
     form.find('form').simulate('submit');
