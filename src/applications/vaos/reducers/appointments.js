@@ -17,7 +17,10 @@ import {
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
 } from '../actions/appointments';
 
-import { FORM_SUBMIT_SUCCEEDED } from '../actions/sitewide';
+import {
+  FORM_SUBMIT_SUCCEEDED,
+  EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED,
+} from '../actions/sitewide';
 
 import { sortMessages } from '../services/appointment';
 import {
@@ -25,7 +28,6 @@ import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
 } from '../utils/constants';
-import { stripDST } from '../utils/timezone';
 
 const initialState = {
   future: null,
@@ -186,6 +188,7 @@ export default function appointmentsReducer(state = initialState, action) {
         appointmentToCancel: null,
         cancelAppointmentStatus: FETCH_STATUS.notStarted,
       };
+    case EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED:
     case FORM_SUBMIT_SUCCEEDED:
       return {
         ...state,

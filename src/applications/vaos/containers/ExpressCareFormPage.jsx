@@ -6,7 +6,7 @@ import FormButtons from '../components/FormButtons';
 
 import * as actions from '../actions/expressCare';
 
-export function ExpressCareFormPage({
+function ExpressCareFormPage({
   submitStatus,
   submitExpressCareRequest,
   router,
@@ -21,9 +21,8 @@ export function ExpressCareFormPage({
         nextButtonText="Submit Express Care request"
         pageChangeInProgress={submitStatus === FETCH_STATUS.loading}
         disabled={submitStatus === FETCH_STATUS.failed}
-        onBack={() =>
-          routeToPreviousAppointmentPage(router, 'express-care-form')
-        }
+        loadingText="Submitting your Express Care request"
+        onBack={() => routeToPreviousAppointmentPage(router, 'form')}
         onSubmit={() => submitExpressCareRequest(router)}
       />
       {submitStatus === FETCH_STATUS.failed && (

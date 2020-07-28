@@ -23,6 +23,7 @@ import { selectSystemIds } from '../utils/selectors';
 import { captureError, getErrorCodes } from '../utils/error';
 import { EXPRESS_CARE, GA_PREFIX } from '../utils/constants';
 import { resetDataLayer } from '../utils/events';
+import { EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED } from './sitewide';
 
 export const FORM_PAGE_OPENED = 'expressCare/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
@@ -31,7 +32,7 @@ export const FORM_PAGE_CHANGE_COMPLETED =
   'expressCare/FORM_PAGE_CHANGE_COMPLETED';
 export const FORM_RESET = 'expressCare/FORM_RESET';
 export const FORM_SUBMIT = 'expressCare/FORM_SUBMIT';
-export const FORM_SUBMIT_SUCCEEDED = 'expressCare/FORM_SUBMIT_SUCCEEDED';
+export const FORM_SUBMIT_SUCCEEDED = EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED;
 export const FORM_SUBMIT_FAILED = 'expressCare/FORM_SUBMIT_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS';

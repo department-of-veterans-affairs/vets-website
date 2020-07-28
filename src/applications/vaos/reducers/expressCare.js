@@ -26,12 +26,7 @@ const initialState = {
   localWindowString: null,
   minStart: null,
   maxEnd: null,
-  data: {
-    email: 'test@va.gov',
-    phoneNumber: '5555555555',
-    reasonForVisit: 'cough',
-    additionalInformation: 'Whatever',
-  },
+  data: {},
   submitStatus: FETCH_STATUS.notStarted,
   successfulRequest: null,
 };
@@ -150,6 +145,7 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         submitStatus: FETCH_STATUS.succeeded,
         successfulRequest: action.responseData,
+        data: {},
       };
     case FORM_SUBMIT_FAILED:
       return {
