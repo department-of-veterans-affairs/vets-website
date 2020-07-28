@@ -104,33 +104,31 @@ export class ConfirmEligibilityView extends React.Component {
 
   renderConfirmEligibility = () => {
     return (
-      <div>
-        <div className={'vads-u-padding-bottom--2'}>
-          {this.props.remainingEntitlement &&
-            this.props.remainingEntitlement.totalDays > 180 && (
-              <div>
-                <div className="usa-alert usa-alert-warning vads-u-background-color--white">
-                  <div className="usa-alert-body">
-                    <strong>Your remaining education benefits</strong>
-                    <div className="usa-alert-text">
-                      <p>
-                        Our entitlement system shows that you have more than 6
-                        months of education benefits remaining. You should apply
-                        when you have less than 6 months of entitlement left.
-                      </p>
-                      <p>
-                        Months you have left to use:{' '}
-                        <strong>
-                          {this.props.remainingEntitlement.months} months,{' '}
-                          {this.props.remainingEntitlement.days} days{' '}
-                        </strong>
-                      </p>
-                    </div>
+      <div className={'vads-u-padding-bottom--2'}>
+        {this.props.remainingEntitlement &&
+          this.props.remainingEntitlement.totalDays > 180 && (
+            <div>
+              <div className="usa-alert usa-alert-warning vads-u-background-color--white">
+                <div className="usa-alert-body">
+                  <strong>Your remaining education benefits</strong>
+                  <div className="usa-alert-text">
+                    <p>
+                      Our entitlement system shows that you have more than 6
+                      months of education benefits remaining. You should apply
+                      when you have less than 6 months of entitlement left.
+                    </p>
+                    <p>
+                      Months you have left to use:{' '}
+                      <strong>
+                        {this.props.remainingEntitlement.months} months,{' '}
+                        {this.props.remainingEntitlement.days} days{' '}
+                      </strong>
+                    </p>
                   </div>
                 </div>
               </div>
-            )}
-        </div>
+            </div>
+          )}
       </div>
     );
   };
