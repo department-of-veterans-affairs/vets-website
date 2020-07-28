@@ -141,7 +141,7 @@ export default class AppointmentInfo extends Component {
           Current as of{' '}
           <strong>
             {moment(effectiveDate || healthAccessAttrs.effectiveDate).format(
-              'YYYY-MM-DD',
+              'LL',
             )}
           </strong>
         </p>
