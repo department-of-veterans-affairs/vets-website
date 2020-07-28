@@ -8,6 +8,9 @@ import {
 import {
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
+  FORM_SUBMIT,
+  FORM_SUBMIT_FAILED,
+  FORM_SUBMIT_SUCCEEDED,
   FETCH_EXPRESS_CARE_WINDOWS,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
@@ -17,12 +20,16 @@ import { FETCH_STATUS } from '../utils/constants';
 
 const initialState = {
   windowsStatus: FETCH_STATUS.notStarted,
-  times: null,
-  allowRequests: false,
+  windows: null,
   localWindowString: null,
   minStart: null,
   maxEnd: null,
-  data: {},
+  data: {
+    reasonForVisit: 'cough',
+    additionalInformation: 'Whatever',
+  },
+  submitStatus: FETCH_STATUS.notStarted,
+  successfulRequest: null,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -70,12 +77,12 @@ export default function expressCareReducer(state = initialState, action) {
     }
     case FETCH_EXPRESS_CARE_WINDOWS:
       return {
-        ...initialState,
+        ...state,
         windowsStatus: FETCH_STATUS.loading,
       };
     case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
       const { facilityData, nowUtc } = action;
-      const times = []
+      const windows = []
         .concat(...facilityData)
         .filter(f => !!f.expressTimes)
         .map(f => {
@@ -102,23 +109,21 @@ export default function expressCareReducer(state = initialState, action) {
       let minStart;
       let maxEnd;
 
-      if (times.length) {
-        const timesReverseSorted = times.sort(
+      if (windows.length) {
+        const windowsReverseSorted = windows.sort(
           (a, b) => (a.utcEnd.format() > b.utcEnd.format() ? -1 : 1),
         );
 
-        minStart = times?.[0];
-        maxEnd = timesReverseSorted?.[0];
+        minStart = windows?.[0];
+        maxEnd = windowsReverseSorted?.[0];
       }
 
       return {
         ...state,
         windowsStatus: FETCH_STATUS.succeeded,
-        allowRequests:
-          times.length && nowUtc.isBetween(minStart?.utcStart, maxEnd?.utcEnd),
         minStart,
         maxEnd,
-        times,
+        windows,
         localWindowString:
           minStart && maxEnd
             ? `${minStart.start.format('h:mm a')} to ${maxEnd.end.format(
@@ -129,13 +134,26 @@ export default function expressCareReducer(state = initialState, action) {
     }
     case FETCH_EXPRESS_CARE_WINDOWS_FAILED:
       return {
-        ...initialState,
+        ...state,
         windowsStatus: FETCH_STATUS.failed,
       };
-
-    default:
+    case FORM_SUBMIT:
       return {
         ...state,
+        submitStatus: FETCH_STATUS.loading,
       };
+    case FORM_SUBMIT_SUCCEEDED:
+      return {
+        ...state,
+        submitStatus: FETCH_STATUS.succeeded,
+        successfulRequest: action.responseData,
+      };
+    case FORM_SUBMIT_FAILED:
+      return {
+        ...state,
+        submitStatus: FETCH_STATUS.failed,
+      };
+    default:
+      return state;
   }
 }

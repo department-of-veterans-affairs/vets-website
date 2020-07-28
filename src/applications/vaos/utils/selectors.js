@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
@@ -431,25 +432,37 @@ export const selectPastAppointments = createSelector(
   },
 );
 
-export const selectExpressCare = state => ({
-  ...state.expressCare,
-  enabled: vaosExpressCare(state),
-  useNewFlow: vaosExpressCareNew(state),
-  hasRequests:
-    vaosExpressCare(state) &&
-    state.appointments.future?.some(appt => appt.vaos.isExpressCare),
-});
+export function selectExpressCare(state) {
+  const nowUTC = moment.utc();
+  const expressCare = state.expressCare;
+  return {
+    ...expressCare,
+    allowRequests:
+      expressCare.windows?.length &&
+      nowUTC.isBetween(
+        expressCare.minStart?.utcStart,
+        expressCare.maxEnd?.utcEnd,
+      ),
+    enabled: vaosExpressCare(state),
+    useNewFlow: vaosExpressCareNew(state),
+    hasRequests:
+      vaosExpressCare(state) &&
+      state.appointments.future?.some(appt => appt.vaos.isExpressCare),
+  };
+}
 
 export function selectExpressCareData(state) {
   return state.expressCare.data;
 }
 
 export function selectActiveExpressCareFacility(state, nowUTCMoment) {
-  return state.expressCare.times
-    ?.find(time => nowUTCMoment.isBetween(time.utcStart, time.utcEnd))
-    ?.map(time => ({
-      name: time.authoritativeName,
-      facilityId: time.id,
-      siteId: time.rootStationCode,
-    }));
+  const activeWindow = state.expressCare.windows?.find(ecWindow =>
+    nowUTCMoment.isBetween(ecWindow.utcStart, ecWindow.utcEnd),
+  );
+
+  return {
+    name: activeWindow.authoritativeName,
+    facilityId: activeWindow.id,
+    siteId: activeWindow.rootStationCode,
+  };
 }

@@ -183,7 +183,7 @@ export function submitExpressCareRequest(router) {
 
     try {
       requestBody = transformFormToExpressCareRequest(getState());
-      const requestData = await submitRequest('va', requestBody);
+      const responseData = await submitRequest('va', requestBody);
 
       try {
         await buildPreferencesDataAndUpdate(expressCare);
@@ -195,14 +195,14 @@ export function submitExpressCareRequest(router) {
 
       dispatch({
         type: FORM_SUBMIT_SUCCEEDED,
-        requestData,
+        responseData,
       });
 
       recordEvent({
         event: `${GA_PREFIX}-express-care-submission-successful`,
       });
       resetDataLayer();
-      router.push('/new-appointment/confirmation');
+      router.push('/new-express-care-request/confirmation');
     } catch (error) {
       captureError(error, true, 'Express Care submission failure');
       dispatch({

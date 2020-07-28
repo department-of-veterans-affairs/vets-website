@@ -8,7 +8,7 @@ import * as actions from '../actions/expressCare';
 
 export function ExpressCareFormPage({
   submitStatus,
-  submitRequest,
+  submitExpressCareRequest,
   router,
   routeToPreviousAppointmentPage,
 }) {
@@ -24,7 +24,7 @@ export function ExpressCareFormPage({
         onBack={() =>
           routeToPreviousAppointmentPage(router, 'express-care-form')
         }
-        onSubmit={() => submitRequest(router)}
+        onSubmit={() => submitExpressCareRequest(router)}
       />
       {submitStatus === FETCH_STATUS.failed && (
         <AlertBox
@@ -44,7 +44,7 @@ export function ExpressCareFormPage({
 }
 
 const mapDispatchToProps = {
-  submitRequest: actions.submitRequest,
+  submitExpressCareRequest: actions.submitExpressCareRequest,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
 };
 
