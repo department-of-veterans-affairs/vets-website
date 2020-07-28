@@ -6,7 +6,7 @@ import { getPatientPhone, getPatientEmail } from '../services/appointment';
 import { APPOINTMENT_STATUS } from '../utils/constants';
 import ExpressCareStatus from './ExpressCareStatus';
 
-export default function ExpressCareListItem({
+export default function ExpressCareCard({
   appointment,
   cancelAppointment,
   showCancelButton,
