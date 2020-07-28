@@ -7,18 +7,27 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 // import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 
+const veteranLabel = `Enter Veteran's or service member\u2019s full name`;
+const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';
+// const secondaryOneLabel = 'Enter Secondary Family Caregiver\u2019s full name';
+// const secondaryTwoLabel =
+//   'Enter Secondary Family Caregiver\u2019s (2) full name';
+
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataSets: ['minimal.json'],
+    dataSets: ['minimal-mpi-failure.json'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
+      mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
 
     pageHooks: {
       introduction: () => {
+        cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
+
         // Hit the start button
         cy.findAllByText(/start/i, { selector: 'button' })
           .first()
@@ -28,7 +37,27 @@ const testConfig = createTestConfig(
         cy.findByText(/continue/i, { selector: 'button' }).click();
       },
       'review-and-submit': () => {
-        cy.get('vet-signature-input').first();
+        // sign signature as veteran
+        cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
+          .find('input')
+          .first()
+          .type('Micky Mouse');
+
+        // check  checkbox as veteran
+        cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
+          .find('[type="checkbox"]')
+          .check();
+
+        // sign signature as primary caregiver
+        cy.get(`[data-test-id="${primaryLabel}-signature-input"]`)
+          .find('input')
+          .first()
+          .type('Mini Mouse');
+
+        // check  checkbox as primary caregiver
+        cy.get(`[data-test-id="${primaryLabel}-signature-input"]`)
+          .find('[type="checkbox"]')
+          .check();
       },
     },
   },

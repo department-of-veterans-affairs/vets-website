@@ -14,21 +14,21 @@
   "primaryPrimaryPhoneNumber": "9109446787",
   "primaryEmail": "mickeymouse@disney.com",
   "view:primaryEmail": "mickeymouse@disney.com",
-  "primaryVetRelationship": "Brother",
+  "primaryVetRelationship": "Spouse",
   "primaryFullName": {
-    "first": "Micky",
+    "first": "Mini",
     "last": "Mouse"
   },
   "primarySsnOrTin": "777887777",
   "primaryDateOfBirth": "1990-11-18",
   "primaryGender": "M",
   "veteranLastTreatmentFacility": {
-    "name": "Magic",
-    "type": "Kingdom"
+    "name": "Magic Kingdom",
+    "type": "clinic"
   },
   "veteranPreferredFacility": {
     "veteranFacilityState": "FL",
-    "plannedClinic": "521"
+    "plannedClinic": "675"
   },
   "veteranAddress": {
     "street": "1375 E Buena Vista Dr",
