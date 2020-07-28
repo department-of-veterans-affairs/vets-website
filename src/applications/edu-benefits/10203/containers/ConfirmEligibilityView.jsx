@@ -133,18 +133,30 @@ export class ConfirmEligibilityView extends React.Component {
     );
   };
 
+  renderHeader = () => {
+    if (this.props.onReviewPage) {
+      return (
+        <div className="form-review-panel-page-header-row">
+          <h3 className="form-review-panel-page-header vads-u-font-size--h5">
+            Rogers STEM Scholarship eligibility summary
+            <div >
+              <hr className="edu-review-hr" />
+            </div>
+          </h3>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h4>Rogers STEM Scholarship eligibility summary</h4>
+      </div>
+    );
+  };
+
   render() {
     return (
       <div>
-        {!this.props.onReviewPage ? (
-          <div className="vads-u-padding-bottom--2">
-            <h4>Rogers STEM Scholarship eligibility summary</h4>
-          </div>
-        ) : (
-          <div className="vads-u-padding-bottom--2">
-            <h5>Rogers STEM Scholarship eligibility summary</h5>
-          </div>
-        )}
+        {this.renderHeader()}
         <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2">
           {this.renderChecks()}
           {this.renderConfirmEligibility()}
