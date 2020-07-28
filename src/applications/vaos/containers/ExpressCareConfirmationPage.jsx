@@ -9,17 +9,16 @@ import {
   fetchFacilityDetails,
 } from '../actions/newAppointment';
 import { transformPendingAppointments } from '../services/appointment/transformers';
-import ExpressCareListItem from '../components/ExpressCareListItem';
+import ExpressCareCard from '../components/ExpressCareCard';
 
-const pageTitle = 'Your Express Care request has been submitted';
+const pageTitle = 'You’ve successfully submitted your Express Care request';
 
 export class ExpressCareConfirmationPage extends React.Component {
   componentDidMount() {
     document.title = `${pageTitle} | Veterans Affairs`;
 
-    const { data, router } = this.props;
-    // Check formData for typeOfCareId. Reroute if empty
-    if (router && !data?.reasonForVisit) {
+    const { successfulRequest, router } = this.props;
+    if (router && !successfulRequest) {
       router.replace('/new-express-care-request');
     }
 
@@ -28,6 +27,11 @@ export class ExpressCareConfirmationPage extends React.Component {
 
   render() {
     const { successfulRequest } = this.props;
+
+    if (!successfulRequest) {
+      return null;
+    }
+
     const transformedRequest = transformPendingAppointments([
       successfulRequest,
     ])[0];
@@ -35,7 +39,7 @@ export class ExpressCareConfirmationPage extends React.Component {
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        <ExpressCareListItem index="1" appointment={transformedRequest} />
+        <ExpressCareCard headingLevel="2" appointment={transformedRequest} />
         <div className="vads-u-margin-y--2">
           <Link
             to="/express-care"

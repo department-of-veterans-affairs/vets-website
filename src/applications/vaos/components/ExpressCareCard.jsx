@@ -8,14 +8,14 @@ import ExpressCareStatus from './ExpressCareStatus';
 
 export default function ExpressCareListItem({
   appointment,
-  index,
   cancelAppointment,
   showCancelButton,
+  headingLevel = '3',
 }) {
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
 
   const itemClasses = classNames(
-    'vaos-appts__list-item vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
+    'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
     {
       'vads-u-border-top--4px': true,
       'vads-u-border-color--warning-message':
@@ -26,21 +26,21 @@ export default function ExpressCareListItem({
         appointment.status === APPOINTMENT_STATUS.fulfilled,
     },
   );
+  const Heading = `h${headingLevel}`;
 
   return (
-    <li
-      aria-labelledby={`card-${index} card-${index}-status`}
+    <div
       data-request-id={appointment.id}
       className={itemClasses}
       data-is-cancelable={appointment.status === APPOINTMENT_STATUS.proposed}
     >
-      <h3
-        id={`card-${index}`}
+      <Heading
+        id={`card-${appointment.id}`}
         className="vads-u-font-size--h3 vads-u-margin-y--0"
       >
         {sentenceCase(appointment.reason)}
-      </h3>
-      <ExpressCareStatus appointment={appointment} index={index} />
+      </Heading>
+      <ExpressCareStatus appointment={appointment} />
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <dl className="vads-u-margin--0">
@@ -77,6 +77,6 @@ export default function ExpressCareListItem({
             </button>
           </div>
         )}
-    </li>
+    </div>
   );
 }

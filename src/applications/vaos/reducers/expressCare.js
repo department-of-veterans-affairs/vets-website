@@ -25,6 +25,8 @@ const initialState = {
   minStart: null,
   maxEnd: null,
   data: {
+    email: 'test@va.gov',
+    phoneNumber: '5555555555',
     reasonForVisit: 'cough',
     additionalInformation: 'Whatever',
   },

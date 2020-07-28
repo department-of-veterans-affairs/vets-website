@@ -481,7 +481,10 @@ export function submitRequest(type, request) {
     if (request.typeOfCareId === EXPRESS_CARE) {
       promise = Promise.resolve({
         data: {
+          id: 'testing',
           attributes: {
+            email: request.email,
+            phoneNumber: request.phoneNumber,
             typeOfCareId: request.typeOfCareId,
             reasonForVisit: request.reasonForVisit,
             additionalInformation: request.additionalInformation,

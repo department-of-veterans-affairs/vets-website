@@ -11,7 +11,7 @@ import {
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
-import ExpressCareListItem from './ExpressCareListItem';
+import ExpressCareListItem from './ExpressCareCard';
 import NoAppointments from './NoAppointments';
 
 export function ExpressCareList({
@@ -36,15 +36,19 @@ export function ExpressCareList({
     content = (
       <>
         <ul className="usa-unstyled-list" id="appointments-list">
-          {expressCareRequests.map((appt, index) => {
+          {expressCareRequests.map(appt => {
             return (
-              <ExpressCareListItem
-                key={index}
-                index={index}
-                appointment={appt}
-                showCancelButton={showCancelButton}
-                cancelAppointment={cancelAppointment}
-              />
+              <li
+                key={appt.id}
+                aria-labelledby={`card-${appt.id} card-${appt.id}-status`}
+                className="vaos-appts__list-item"
+              >
+                <ExpressCareListItem
+                  appointment={appt}
+                  showCancelButton={showCancelButton}
+                  cancelAppointment={cancelAppointment}
+                />
+              </li>
             );
           })}
         </ul>
