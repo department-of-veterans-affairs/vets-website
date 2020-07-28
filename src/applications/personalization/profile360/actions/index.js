@@ -1,5 +1,4 @@
 import { getData } from '../util';
-import environment from 'platform/utilities/environment';
 
 export const FETCH_HERO = 'FETCH_HERO';
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
