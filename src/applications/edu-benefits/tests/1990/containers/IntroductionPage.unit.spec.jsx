@@ -6,7 +6,6 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from '../../../../static-pages/wizard';
-import { wrap } from 'lodash';
 
 describe('Edu 1990 <IntroductionPage>', () => {
   const mockStore = {
