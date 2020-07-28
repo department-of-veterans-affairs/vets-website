@@ -1,8 +1,8 @@
 const { spawn } = require('child_process');
 
 const runCommand = cmd => {
-  const command = spawn(cmd, [], { shell: true, stdio: 'inherit' });
-  command.on('exit', code => {
+  const child = spawn(cmd, [], { shell: true, stdio: 'inherit' });
+  child.on('exit', code => {
     process.exit(code);
   });
 };
