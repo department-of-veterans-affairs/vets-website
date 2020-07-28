@@ -19,7 +19,7 @@ export const FORM_ID_5490 = '5490';
 export const FORM_ID_1990E = '1990E';
 export const FORM_ID_1990N = '1990N';
 
-export const getBenefitReffered = () =>
+export const getReferredBenefit = () =>
   sessionStorage.getItem('benefitReferred') || NO_BENEFIT_REFERRED;
 
 export const getWizardCompletionStatus = () =>
@@ -32,7 +32,7 @@ export default class Wizard extends React.Component {
       pageHistory: [props.pages[0]],
       currentPageIndex: 0,
       expanded: !props.expander,
-      benefitReferred: getBenefitReffered(),
+      benefitReferred: getReferredBenefit(),
       wizardCompletionStatus: getWizardCompletionStatus(),
     };
   }

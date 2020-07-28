@@ -1,13 +1,19 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
+import { FORM_ID_0994, FORM_ID_1990 } from '../../../static-pages/wizard';
 
 const vetTecOptions = [
   { label: 'Yes', value: 'yes' },
   { label: 'No', value: 'no' },
 ];
 
-const VetTec = ({ setPageState, getPageStateFromPageName, state = {} }) => (
+const VetTec = ({
+  setPageState,
+  getPageStateFromPageName,
+  state = {},
+  setBenefitReferred,
+}) => (
   <ErrorableRadioButtons
     name={`${pageNames.vetTec}`}
     label={
@@ -25,17 +31,22 @@ const VetTec = ({ setPageState, getPageStateFromPageName, state = {} }) => (
       const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
         pageNames.claimingBenefitOwnService,
       )?.selected;
+      const nationalCallToServiceAnswer = getPageStateFromPageName(
+        pageNames.nationalCallToService,
+      )?.selected;
       if (
-        newBenefitAnswer === 'new' &&
         claimingBenefitOwnServiceAnswer === 'yes' &&
+        nationalCallToServiceAnswer === 'no' &&
         value === 'yes'
       ) {
+        setBenefitReferred(FORM_ID_0994);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (
-        newBenefitAnswer === 'new' &&
         claimingBenefitOwnServiceAnswer === 'yes' &&
+        nationalCallToServiceAnswer === 'no' &&
         value === 'no'
       ) {
+        setBenefitReferred(FORM_ID_1990);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else {
         return setPageState({ selected: value });

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { FORM_ID_1990E, FORM_ID_1990N } from '../../../static-pages/wizard';
 
 const WarningAlert = ({
   setPageState,
   getPageStateFromPageName,
   state = {},
+  setBenefitReferred,
 }) => {
   const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
     ?.selected;
@@ -25,8 +27,8 @@ const WarningAlert = ({
   const [applyPageRendered, setApplyPageRendered] = useState(false);
   let headline;
   let content;
+  let formId;
   if (
-    newBenefitAnswer === 'new' &&
     claimingBenefitOwnServiceAnswer === 'no' &&
     sponsorDeceasedAnswer === 'no' &&
     transferredBenefitsAnswer === 'no'
@@ -42,6 +44,7 @@ const WarningAlert = ({
         Instructions for your sponsor to transfer education benefits.
       </a>
     );
+    formId = FORM_ID_1990E;
   } else if (
     newBenefitAnswer === 'new' &&
     claimingBenefitOwnServiceAnswer === 'yes' &&
@@ -63,15 +66,17 @@ const WarningAlert = ({
         </ul>
       </>
     );
+    formId = FORM_ID_1990N;
   }
   useEffect(
     () => {
       if (!applyPageRendered) {
+        setBenefitReferred(formId);
         setPageState({}, pageNames.applyNow);
         setApplyPageRendered(true);
       }
     },
-    [applyPageRendered, setPageState],
+    [applyPageRendered, setPageState, formId, setBenefitReferred],
   );
   return <AlertBox headline={headline} content={content} status="warning" />;
 };

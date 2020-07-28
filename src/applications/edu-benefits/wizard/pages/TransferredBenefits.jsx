@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
+import {
+  FORM_ID_1995,
+  FORM_ID_1990E,
+  FORM_ID_5495,
+} from '../../../static-pages/wizard';
 
 const getTransferredBenefitOptions = sponsorDeceasedValue =>
   sponsorDeceasedValue === 'no'
@@ -28,6 +33,7 @@ const TransferredBenefits = ({
   setPageState,
   getPageStateFromPageName,
   state = {},
+  setBenefitReferred,
 }) => {
   const [sponsorDeceasedValue, setSponsorDeceasedValue] = useState(undefined);
   const wasSponsorDeceasedAnswered = !!getPageStateFromPageName(
@@ -63,24 +69,26 @@ const TransferredBenefits = ({
           pageNames.sponsorDeceased,
         )?.selected;
         if (
-          newBenefitAnswer === 'new' &&
           claimingBenefitOwnServiceAnswer === 'no' &&
           sponsorDeceasedAnswer === 'no' &&
           value === 'no'
         ) {
           return setPageState({ selected: value }, pageNames.warningAlert);
         } else if (
-          newBenefitAnswer === 'new' &&
           claimingBenefitOwnServiceAnswer === 'no' &&
           sponsorDeceasedAnswer === 'no' &&
           value === 'yes'
         ) {
+          setBenefitReferred(FORM_ID_1990E);
           return setPageState({ selected: value }, pageNames.applyNow);
-        } else if (newBenefitAnswer === 'update' && value === 'own') {
-          return setPageState({ selected: value }, pageNames.applyNow);
-        } else if (newBenefitAnswer === 'update' && value === 'transferred') {
+        } else if (
+          (newBenefitAnswer === 'update' && value === 'own') ||
+          (newBenefitAnswer === 'update' && value === 'transferred')
+        ) {
+          setBenefitReferred(FORM_ID_1995);
           return setPageState({ selected: value }, pageNames.applyNow);
         } else if (newBenefitAnswer === 'update' && value === 'fry') {
+          setBenefitReferred(FORM_ID_5495);
           return setPageState({ selected: value }, pageNames.applyNow);
         } else {
           return setPageState({ selected: value });

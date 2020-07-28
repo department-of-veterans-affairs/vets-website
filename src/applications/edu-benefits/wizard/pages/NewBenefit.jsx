@@ -1,7 +1,7 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
-import {} from './index';
+import { FORM_ID_1995, FORM_ID_5495 } from '../../../static-pages/wizard';
 
 const newBenefitOptions = [
   { label: 'Applying for a new benefit', value: 'new' },
@@ -50,28 +50,32 @@ const NewBenefit = ({
         pageNames.nationalCallToService,
       )?.selected;
       if (
-        (value === 'new' &&
-          claimingBenefitOwnServiceAnswer === 'no' &&
-          sponsorDeceasedAnswer === 'no' &&
-          transferredBenefitsAnswer === 'no') ||
-        (value === 'new' &&
-          claimingBenefitOwnServiceAnswer === 'yes' &&
-          nationalCallToServiceAnswer === 'yes')
+        value === 'new' &&
+        claimingBenefitOwnServiceAnswer === 'yes' &&
+        nationalCallToServiceAnswer === 'yes'
       ) {
         return setPageState({ selected: value }, pageNames.warningAlert);
       } else if (
-        value === 'update' &&
-        sponsorDeceasedAnswer === 'no' &&
-        transferredBenefitsAnswer === 'yes'
+        (value === 'new' &&
+          claimingBenefitOwnServiceAnswer === 'no' &&
+          sponsorDeceasedAnswer === 'no') ||
+        value === 'update'
       ) {
+        return setPageState({ selected: value }, pageNames.transferredBenefits);
+      } else if (
+        (value === 'update' && transferredBenefitsAnswer === 'own') ||
+        (value === 'update' && transferredBenefitsAnswer === 'transferred')
+      ) {
+        setBenefitReferred(FORM_ID_1995);
+        return setPageState({ selected: value }, pageNames.applyNow);
+      } else if (value === 'update' && transferredBenefitsAnswer === 'fry') {
+        setBenefitReferred(FORM_ID_5495);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (value === 'new') {
         return setPageState(
           { selected: value },
           pageNames.claimingBenefitOwnService,
         );
-      } else if (value === 'update') {
-        return setPageState({ selected: value }, pageNames.transferredBenefits);
       } else if (value === 'extend') {
         return setPageState({ selected: value }, pageNames.STEMScholarship);
       } else {

@@ -3,6 +3,7 @@ import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import { FORM_ID_5490 } from '../../../static-pages/wizard';
 
 const claimingBenefitOwnServiceOptions = [
   { label: 'Yes', value: 'yes' },
@@ -13,6 +14,7 @@ const ClaimingBenefitOwnService = ({
   setPageState,
   getPageStateFromPageName,
   state = {},
+  setBenefitReferred,
 }) => (
   <div>
     <ErrorableRadioButtons
@@ -36,11 +38,21 @@ const ClaimingBenefitOwnService = ({
         if (
           newBenefitAnswer === 'new' &&
           value === 'no' &&
-          sponsorDeceasedAnswer === 'no' &&
           transferredBenefitsAnswer === 'no'
         ) {
-          return setPageState({ selected: value }, pageNames.warningAlert);
-        } else if (nationalCallToServiceAnswer === 'no' && value === 'yes') {
+          return setPageState({ selected: value }, pageNames.sponsorDeceased);
+        } else if (
+          newBenefitAnswer === 'new' &&
+          value === 'no' &&
+          sponsorDeceasedAnswer === 'yes'
+        ) {
+          setBenefitReferred(FORM_ID_5490);
+          return setPageState({ selected: value }, pageNames.applyNow);
+        } else if (
+          newBenefitAnswer === 'new' &&
+          nationalCallToServiceAnswer === 'no' &&
+          value === 'yes'
+        ) {
           return setPageState({ selected: value }, pageNames.vetTec);
         } else if (newBenefitAnswer === 'new' && value === 'yes') {
           return setPageState(

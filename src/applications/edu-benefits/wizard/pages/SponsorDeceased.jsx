@@ -1,6 +1,7 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
+import { FORM_ID_1990E, FORM_ID_5490 } from '../../../static-pages/wizard';
 
 const sponsorDeceasedOptions = [
   { label: 'Yes', value: 'yes' },
@@ -11,6 +12,7 @@ const SponsorDeceased = ({
   setPageState,
   getPageStateFromPageName,
   state = {},
+  setBenefitReferred,
 }) => (
   <ErrorableRadioButtons
     name={`${pageNames.sponsorDeceased}`}
@@ -28,7 +30,6 @@ const SponsorDeceased = ({
         pageNames.transferredBenefits,
       )?.selected;
       if (
-        newBenefitAnswer === 'new' &&
         claimingBenefitOwnServiceAnswer === 'no' &&
         value === 'no' &&
         transferredBenefitsAnswer === 'no'
@@ -37,15 +38,16 @@ const SponsorDeceased = ({
       } else if (
         newBenefitAnswer === 'new' &&
         claimingBenefitOwnServiceAnswer === 'no' &&
-        value === 'yes'
-      ) {
-        return setPageState({ selected: value }, pageNames.applyNow);
-      } else if (
-        newBenefitAnswer === 'new' &&
-        claimingBenefitOwnServiceAnswer === 'no' &&
         value === 'no'
       ) {
         return setPageState({ selected: value }, pageNames.transferredBenefits);
+      } else if (
+        newBenefitAnswer === 'new' &&
+        claimingBenefitOwnServiceAnswer === 'no' &&
+        value === 'yes'
+      ) {
+        setBenefitReferred(FORM_ID_5490);
+        return setPageState({ selected: value }, pageNames.applyNow);
       } else {
         return setPageState({ selected: value });
       }
