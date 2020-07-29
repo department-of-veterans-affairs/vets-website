@@ -46,10 +46,9 @@ const optionDefinitions = [
     description: 'Show this help.',
   },
   {
-    name: 'transform-unpublished',
+    name: 'transform-only-published',
     type: Boolean,
     description: 'Transform unpublished entities.',
-    defaultValue: true,
   },
   {
     name: 'buildtype',
@@ -65,7 +64,7 @@ const {
   print: printIndex,
   bundle,
   help,
-  'transform-unpublished': transformUnpublished,
+  'transform-only-published': transformOnlyPublished,
   buildtype,
 } = commandLineArgs(optionDefinitions);
 
@@ -102,7 +101,7 @@ if (entityNames) {
 
     return assembleEntityTree(
       readEntity(contentDir, ...nodeNamePieces),
-      transformUnpublished,
+      !transformOnlyPublished,
     );
   });
   console.log(
@@ -143,7 +142,7 @@ if (entityNames) {
   }
 
   const modifiedEntities = map(entities, entity =>
-    assembleEntityTree(entity, transformUnpublished),
+    assembleEntityTree(entity, !transformOnlyPublished),
   );
 
   console.log(
