@@ -28,6 +28,7 @@ class ExpressCareInfo extends React.Component {
           backButtonText="Cancel"
           nextButtonText="Continue with Express Care request"
           onBack={this.goBack}
+          onSubmit={this.goForward}
         />
       </div>
     );

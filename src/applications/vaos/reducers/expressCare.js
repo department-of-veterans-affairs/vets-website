@@ -21,6 +21,7 @@ const initialState = {
   localWindowString: null,
   minStart: null,
   maxEnd: null,
+  newRequest: { data: {}, pages: {} },
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -35,34 +36,42 @@ function setupFormData(data, schema, uiSchema) {
 export default function expressCareReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
+      const newRequest = { ...state.newRequest };
       const { data, schema } = setupFormData(
-        state.data,
+        newRequest.data,
         action.schema,
         action.uiSchema,
       );
 
       return {
         ...state,
-        data,
-        pages: {
-          ...state.pages,
-          [action.page]: schema,
+        newRequest: {
+          ...newRequest,
+          data,
+          pages: {
+            ...newRequest.pages,
+            [action.page]: schema,
+          },
         },
       };
     }
     case FORM_DATA_UPDATED: {
+      const newRequest = { ...state.newRequest };
       const { data, schema } = updateSchemaAndData(
-        state.pages[action.page],
+        newRequest.pages[action.page],
         action.uiSchema,
         action.data,
       );
 
       return {
         ...state,
-        data,
-        pages: {
-          ...state.pages,
-          [action.page]: schema,
+        newRequest: {
+          ...newRequest,
+          data,
+          pages: {
+            ...newRequest.pages,
+            [action.page]: schema,
+          },
         },
       };
     }

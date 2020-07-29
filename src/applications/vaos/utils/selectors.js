@@ -431,6 +431,14 @@ export const selectPastAppointments = createSelector(
   },
 );
 
+export function getExpressCareNewRequest(state) {
+  return state.expressCare.newRequest;
+}
+
+export function getExpressCareFormData(state) {
+  return getExpressCareNewRequest(state).data;
+}
+
 export const selectExpressCare = state => ({
   ...state.expressCare,
   enabled: vaosExpressCare(state),
@@ -439,3 +447,11 @@ export const selectExpressCare = state => ({
     vaosExpressCare(state) &&
     state.appointments.future?.some(appt => appt.vaos.isExpressCare),
 });
+
+export function getExpressCareFormPageInfo(state, pageKey) {
+  return {
+    schema: getExpressCareNewRequest(state).pages[pageKey],
+    data: getExpressCareFormData(state),
+    pageChangeInProgress: getExpressCareFormData(state).pageChangeInProgress,
+  };
+}
