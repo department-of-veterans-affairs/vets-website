@@ -1254,10 +1254,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/formation-react@5.4.6":
-  version "5.4.6"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.4.6.tgz#114615170ab713b9a813f1728fb0815c28538b4b"
-  integrity sha512-Gy1BUZLsC2gza/mKXaFAMHEPZV3XkujpZ8uvBUNxylo8Qc/NH2t2ceokuQYo41JYQiMxvKBBf6OaGKT6Aw4KPw==
+"@department-of-veterans-affairs/formation-react@5.4.7":
+  version "5.4.7"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.4.7.tgz#84ae911211190051ee2731e421c98fb32c43df38"
+  integrity sha512-J6VVxpBYBxPkTnDVKchcbZMOEEEln4qmjhWfapKkg1E5pZLhz+hLvOKKrdxrkBHojsorW3luIimuhJ3K7sN1Xg==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
@@ -9824,9 +9824,10 @@ jest@^23.6.0:
     import-local "^1.0.0"
     jest-cli "^23.6.0"
 
-jpeg-js@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.2.0.tgz#53e448ec9d263e683266467e9442d2c5a2ef5482"
+jpeg-js@0.2.0, jpeg-js@^0.4.0:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.4.1.tgz#937a3ae911eb6427f151760f8123f04c8bfe6ef7"
+  integrity sha512-jA55yJiB5tCXEddos8JBbvW+IMrqY0y1tjjx9KNVtA+QPmu7ND5j0zkKopClpUTsaETL135uOM2XfcYG4XRjmw==
 
 js-base64@^2.1.8:
   version "2.5.1"
