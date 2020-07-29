@@ -8,6 +8,7 @@ import {
 import { deceasedDependents } from '../../../utilities';
 import DependentViewField from '../../../../components/DependentViewField';
 import { DependentNameHeader } from './helpers';
+import { locationUISchema } from '../../../location-schema';
 
 export const schema =
   deceasedDependents.properties.dependentAdditionalInformation;
@@ -22,19 +23,13 @@ export const uiSchema = {
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
       },
-      location: {
-        'ui:title': 'Place of death',
-        city: {
-          'ui:title': cityTitle,
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-        },
-        state: {
-          'ui:title': stateTitle,
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-        },
-      },
+      location: locationUISchema(
+        'deaths',
+        'location',
+        true,
+        'Place of death',
+        'reportDeath',
+      ),
     },
   },
 };

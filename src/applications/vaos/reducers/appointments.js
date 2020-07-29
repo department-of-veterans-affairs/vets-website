@@ -25,6 +25,7 @@ import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
 } from '../utils/constants';
+import { stripDST } from '../utils/timezone';
 
 const initialState = {
   future: null,
@@ -38,6 +39,14 @@ const initialState = {
   facilityData: {},
   requestMessages: {},
   systemClinicToFacilityMap: {},
+  expressCare: {
+    windowsStatus: FETCH_STATUS.notStarted,
+    hasWindow: false,
+    allowRequests: false,
+    localWindowString: null,
+    minStart: null,
+    maxEnd: null,
+  },
 };
 
 export default function appointmentsReducer(state = initialState, action) {

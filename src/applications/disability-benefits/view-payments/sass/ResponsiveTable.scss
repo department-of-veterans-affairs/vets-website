@@ -1,9 +1,14 @@
+$responsive-table-width-medium: 600px;
+
 table.responsive {
   font-family: "Open Sans", sans-serif;
   border-collapse: collapse;
   margin: 0;
   padding: 0;
   width: 100%;
+}
+table.responsive th {
+  vertical-align: bottom;
 }
 
 table.responsive tr {
@@ -12,9 +17,11 @@ table.responsive tr {
 
 table.responsive td {
   word-wrap: break-word;
+  vertical-align: top;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: $responsive-table-width-medium) {
+  
   table.responsive {
     border: 0;
   }
@@ -33,6 +40,10 @@ table.responsive td {
   table.responsive tr {
     display: block;
     border-bottom: 1px solid #757575;
+
+    &:first-child {
+      border-top: 1px solid #757575 !important;
+    }
   }
 
   table.responsive td {

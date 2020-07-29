@@ -85,7 +85,7 @@ describe('686 spouse marriage history details', () => {
     changeDropdown(form, 'select#root_startDateDay', 1);
     fillData(form, 'input#root_startDateYear', '2010');
     // Marriage start location
-    fillData(form, 'input#root_startLocation_state', 'Somewhere');
+    changeDropdown(form, 'select#root_startLocation_state', 'CA');
     fillData(form, 'input#root_startLocation_city', 'Outhere');
     // Reason marriage ended
     selectRadio(form, 'root_reasonMarriageEnded', 'Divorce');
@@ -94,7 +94,7 @@ describe('686 spouse marriage history details', () => {
     changeDropdown(form, 'select#root_endDateDay', 1);
     fillData(form, 'input#root_endDateYear', '2011');
     // Marriage end location
-    fillData(form, 'input#root_endLocation_state', 'Somewhere');
+    changeDropdown(form, 'select#root_endLocation_state', 'CA');
     fillData(form, 'input#root_endLocation_city', 'Not here');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -120,7 +120,7 @@ describe('686 spouse marriage history details', () => {
     changeDropdown(form, 'select#root_startDateDay', 1);
     fillData(form, 'input#root_startDateYear', '2010');
     // Marriage start location
-    fillData(form, 'input#root_startLocation_state', 'Somewhere');
+    changeDropdown(form, 'select#root_startLocation_state', 'CA');
     fillData(form, 'input#root_startLocation_city', 'Outhere');
     // Reason marriage ended
     selectRadio(form, 'root_reasonMarriageEnded', 'Other');
@@ -134,7 +134,7 @@ describe('686 spouse marriage history details', () => {
     changeDropdown(form, 'select#root_endDateDay', 1);
     fillData(form, 'input#root_endDateYear', '2011');
     // Marriage end location
-    fillData(form, 'input#root_endLocation_state', 'Somewhere');
+    changeDropdown(form, 'select#root_endLocation_state', 'CA');
     fillData(form, 'input#root_endLocation_city', 'Not here');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

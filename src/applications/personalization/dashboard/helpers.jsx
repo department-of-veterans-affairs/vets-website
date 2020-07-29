@@ -22,7 +22,6 @@ import edu0994Manifest from 'applications/edu-benefits/0994/manifest.json';
 import preneedManifest from 'applications/pre-need/manifest.json';
 import pensionManifest from 'applications/pensions/manifest.json';
 import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
-import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
 import hlrManifest from 'applications/disability-benefits/996/manifest.json';
 import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 
@@ -41,14 +40,12 @@ import edu0994Config from 'applications/edu-benefits/0994/config/form.js';
 import preneedConfig from 'applications/pre-need/config/form.jsx';
 import pensionConfig from 'applications/pensions/config/form.js';
 import disability526Config from 'applications/disability-benefits/all-claims/config/form.js';
-import bddConfig from 'applications/disability-benefits/bdd/config/form.js';
 import hlrConfig from 'applications/disability-benefits/996/config/form';
 import mdotConfig from 'applications/disability-benefits/2346/config/form';
 
 export const formConfigs = {
   [VA_FORM_IDS.FORM_10_10EZ]: hcaConfig,
   [VA_FORM_IDS.FORM_21_526EZ]: disability526Config,
-  [VA_FORM_IDS.FORM_21_526EZ_BDD]: bddConfig,
   [VA_FORM_IDS.FORM_21_686C]: dependentStatusConfig,
   [VA_FORM_IDS.FORM_21P_527EZ]: pensionConfig,
   [VA_FORM_IDS.FORM_21P_530]: burialsConfig,
@@ -68,7 +65,6 @@ export const formConfigs = {
 
 export const formBenefits = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
-  [VA_FORM_IDS.FORM_21_526EZ_BDD]: 'Benefits Delivery at Discharge',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'Veterans pension benefits',
   [VA_FORM_IDS.FORM_21P_530]: 'burial benefits',
   [VA_FORM_IDS.FORM_10_10EZ]: 'health care benefits',
@@ -125,7 +121,6 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
 
 export const formLinks = {
   [VA_FORM_IDS.FORM_21_526EZ]: `${DISABILITY_526_V2_ROOT_URL}/`,
-  [VA_FORM_IDS.FORM_21_526EZ_BDD]: `${BDD_FORM_ROOT_URL}/`,
   [VA_FORM_IDS.FORM_21P_527EZ]: `${pensionManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21P_530]: `${burialsManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_10_10EZ]: `${hcaManifest.rootUrl}/`,
@@ -146,7 +141,6 @@ export const formLinks = {
 
 export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability-526EZ-',
-  [VA_FORM_IDS.FORM_21_526EZ_BDD]: 'disability-526EZ-bdd-',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'pensions-527EZ-',
   [VA_FORM_IDS.FORM_21P_530]: 'burials-530-',
   [VA_FORM_IDS.FORM_10_10EZ]: 'hca-',
@@ -169,7 +163,6 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_10_10EZ,
   VA_FORM_IDS.FORM_21_686C,
   VA_FORM_IDS.FORM_21_526EZ,
-  VA_FORM_IDS.FORM_21_526EZ_BDD,
   VA_FORM_IDS.FORM_21P_527EZ,
   VA_FORM_IDS.FORM_21P_530,
   VA_FORM_IDS.FORM_22_0993,

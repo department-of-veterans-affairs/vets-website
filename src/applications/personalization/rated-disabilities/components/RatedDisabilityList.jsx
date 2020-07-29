@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 import moment from 'moment';
 import RatedDisabilityListItem from './RatedDisabilityListItem';
 import { isServerError } from '../util';
@@ -41,10 +45,7 @@ class RatedDisabilityList extends React.Component {
             >
               844-698-2311
             </a>{' '}
-            (
-            <a href="tel:711" aria-label="TTY. 7 1 1.">
-              TTY: 711
-            </a>
+            (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
             ). We’re here Monday-Friday, 8:00 a.m.-8:00 p.m. ET.
           </p>
         </>

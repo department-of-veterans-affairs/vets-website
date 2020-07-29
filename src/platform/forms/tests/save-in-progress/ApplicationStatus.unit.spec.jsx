@@ -84,7 +84,7 @@ describe('schemaform <ApplicationStatus>', () => {
       'Continue your application',
     );
     expect(tree.subTree('.form-title').text()).to.contain(
-      'Your form is in progress',
+      'Your application is in progress',
     );
   });
   it('should render expired form', () => {
@@ -148,7 +148,7 @@ describe('schemaform <ApplicationStatus>', () => {
       'Continue your application',
     );
     expect(tree.subTree('.form-title').text()).to.contain(
-      'Your form is in progress',
+      'Your application is in progress',
     );
   });
   it('should render multiple forms message', () => {
@@ -187,7 +187,7 @@ describe('schemaform <ApplicationStatus>', () => {
 
     expect(tree.subTree('.usa-alert-info')).to.not.be.false;
     expect(tree.subTree('.usa-alert-info').text()).to.contain(
-      'more than one in-progress form',
+      'more than one in-progress application',
     );
   });
   it('should display a custom button message when passing in startNewAppButtonText', () => {
