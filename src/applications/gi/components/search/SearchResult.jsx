@@ -77,7 +77,7 @@ export class SearchResult extends React.Component {
                 </div>
               </div>
             )}
-            <div className="row small-screen: vads-u-margin-bottom--neg5">
+            <div className="row">
               <div className={'small-12  medium-6 large-7 columns'}>
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p className="locality" id={`location-${facilityCode}`}>
@@ -124,25 +124,20 @@ export class SearchResult extends React.Component {
               </div>
             </div>
             {this.props.gibctFilterEnhancement && (
-              <div
-                className="vads-u-margin-top--neg7"
-                style={{
-                  display: 'inline-block',
-                }}
-              >
+              <div className="tag-container">
                 {this.props.womenonly === 1 && (
-                  <div className="search-result-tag gender-tag">Women only</div>
+                  <div className="search-result-tag">Women only</div>
                 )}
                 {this.props.menonly === 1 && (
-                  <div className="search-result-tag gender-tag">Men only</div>
+                  <div className="search-result-tag">Men only</div>
                 )}
                 {getReligiousAffiliationName(this.props.relaffil) && (
-                  <div className="search-result-tag religious-affiliation-tag">
+                  <div className="search-result-tag">
                     {getReligiousAffiliationName(this.props.relaffil)}
                   </div>
                 )}
                 {this.props.hbcu === 1 && (
-                  <div className="search-result-tag hbcu-tag">
+                  <div className="search-result-tag">
                     Historically Black Colleges and Universities
                   </div>
                 )}

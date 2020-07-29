@@ -189,12 +189,20 @@
     }
   }
 
+  .tag-container {
+    margin-top: -34px;
+    padding: 4px 0px;
+    @include media-maxwidth($medium-screen) {
+      margin-top: 10px;
+    }
+  }
+
   .search-result-tag {
     background-color: $color-white;
     color: $color-gray-dark;
     display: inline-block;
-    margin: 5px;
-    padding: 5px;
+    margin: 0px 8px 8px 0px;
+    padding: 0px 4px;
   }
 
   .vettec-logo-container {
