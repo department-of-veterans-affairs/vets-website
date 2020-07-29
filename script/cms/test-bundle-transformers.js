@@ -8,14 +8,7 @@ const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 const { map } = require('lodash');
 
-const contentDir = path.resolve(
-  __dirname,
-  '../../.cache/localhost/cms-export-content',
-);
-
-const assembleEntityTree = require('../../src/site/stages/build/process-cms-exports')(
-  contentDir,
-);
+const assembleEntityTreeFactory = require('../../src/site/stages/build/process-cms-exports');
 const {
   readEntity,
 } = require('../../src/site/stages/build/process-cms-exports/helpers');
@@ -58,6 +51,12 @@ const optionDefinitions = [
     description: 'Transform unpublished entities.',
     default: true,
   },
+  {
+    name: 'buildtype',
+    type: String,
+    description: 'The buildtype to test the transformers against.',
+    default: 'localhost',
+  },
 ];
 
 const {
@@ -67,7 +66,14 @@ const {
   bundle,
   help,
   'transform-unpublished': transformUnpublished,
+  buildtype,
 } = commandLineArgs(optionDefinitions);
+
+const contentDir = path.resolve(
+  __dirname,
+  `../../.cache/${buildtype}/cms-export-content`,
+);
+const assembleEntityTree = assembleEntityTreeFactory(contentDir);
 
 if (help) {
   console.log(
