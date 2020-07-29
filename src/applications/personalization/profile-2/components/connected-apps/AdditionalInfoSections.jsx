@@ -116,7 +116,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
                   pattern={PATTERNS['911']}
                 />
                 . Or visit a VA health facility near you and ask a staff member
-                staff member for help.{' '}
+                for help.{' '}
                 <p>
                   <a href="/find-locations">
                     Find a VA health facility near you
