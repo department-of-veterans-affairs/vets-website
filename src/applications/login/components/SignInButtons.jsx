@@ -6,13 +6,9 @@ import { login, signup } from 'platform/user/authentication/utilities';
 
 const vaGovFullDomain = environment.BASE_URL;
 
-function loginHandler(loginType, application = null, redirect = null) {
+function loginHandler(loginType) {
   recordEvent({ event: `login-attempted-${loginType}` });
-  login(loginType, 'v1', application, redirect);
-}
-
-function signupHandler(application = null, redirect = null) {
-  signup('v1', application, redirect);
+  login(loginType, 'v1');
 }
 
 export default function SignInButtons({ isDisabled, application, redirect }) {
@@ -21,7 +17,7 @@ export default function SignInButtons({ isDisabled, application, redirect }) {
       <button
         disabled={isDisabled}
         className="dslogon"
-        onClick={() => loginHandler('dslogon', application, redirect)}
+        onClick={() => loginHandler('dslogon')}
       >
         <img
           alt="DS Logon"
@@ -32,7 +28,7 @@ export default function SignInButtons({ isDisabled, application, redirect }) {
       <button
         disabled={isDisabled}
         className="mhv"
-        onClick={() => loginHandler('mhv', application, redirect)}
+        onClick={() => loginHandler('mhv')}
       >
         <img
           alt="My HealtheVet"
@@ -43,7 +39,7 @@ export default function SignInButtons({ isDisabled, application, redirect }) {
       <button
         disabled={isDisabled}
         className="usa-button-primary va-button-primary"
-        onClick={() => loginHandler('idme', application, redirect)}
+        onClick={() => loginHandler('idme')}
       >
         <img
           alt="ID.me"
@@ -57,7 +53,7 @@ export default function SignInButtons({ isDisabled, application, redirect }) {
         <button
           disabled={isDisabled}
           className="idme-create usa-button usa-button-secondary"
-          onClick={() => signupHandler(application, redirect)}
+          onClick={() => signup('v1')}
         >
           <img
             alt="ID.me"

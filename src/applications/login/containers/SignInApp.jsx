@@ -96,11 +96,7 @@ class SignInPage extends React.Component {
                 </div>
                 <div className="signin-actions">
                   <h5>Sign in with an existing account</h5>
-                  <SignInButtons
-                    isDisabled={globalDowntime}
-                    application={application}
-                    redirect={redirect}
-                  />
+                  <SignInButtons isDisabled={globalDowntime} />
                 </div>
               </div>
             </div>
