@@ -4,6 +4,7 @@ import { hcaEnrollmentStatus } from 'applications/hca/reducer';
 
 import {
   FETCH_HERO_SUCCESS,
+  FETCH_HERO_FAILED,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_MILITARY_INFORMATION_SUCCESS,
 } from '../actions';
@@ -32,6 +33,9 @@ const initialState = {
 function vaProfile(state = initialState, action) {
   switch (action.type) {
     case FETCH_HERO_SUCCESS:
+      return set('hero', action.hero, state);
+
+    case FETCH_HERO_FAILED:
       return set('hero', action.hero, state);
 
     case FETCH_PERSONAL_INFORMATION_SUCCESS:
