@@ -49,13 +49,13 @@ const optionDefinitions = [
     name: 'transform-unpublished',
     type: Boolean,
     description: 'Transform unpublished entities.',
-    default: true,
+    defaultValue: true,
   },
   {
     name: 'buildtype',
     type: String,
     description: 'The buildtype to test the transformers against.',
-    default: 'localhost',
+    defaultValue: 'localhost',
   },
 ];
 
