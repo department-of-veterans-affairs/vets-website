@@ -10,6 +10,7 @@ import {
   getSiteIdForChosenFacility,
   getChosenParentInfo,
   getChosenSlot,
+  vaosVSPAppointmentNew,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
@@ -42,6 +43,29 @@ function getUserMessage(data) {
   ).short;
 
   return `${label}: ${data.reasonAdditionalInfo}`;
+}
+
+// When useVSP is true, the clinic data is using the FHIR format. The clinic id format is:
+// urn:va:healthcareservice:983:983:308
+// where the last 3 tokens represent the site id, facility id, and clinic id.
+function getToken(clinic, index) {
+  return clinic.identifier[0].value.split(':')[index];
+}
+
+function getSiteCode(clinic, useVSP) {
+  if (clinic) {
+    return useVSP
+      ? getToken(clinic, 3)
+      : clinic.id.split('_')[0].replace('var', '');
+  }
+  return undefined;
+}
+
+function getClinicId(clinic, useVSP) {
+  if (clinic) {
+    return useVSP ? getToken(clinic, 5) : clinic.id.split('_')[1];
+  }
+  return undefined;
 }
 
 export function transformFormToVARequest(state) {
@@ -191,12 +215,13 @@ export function transformFormToAppointment(state) {
   const slot = getChosenSlot(state);
   const purpose = getUserMessage(data);
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
+  const useVSP = vaosVSPAppointmentNew(state);
 
   return {
     appointmentType: getTypeOfCare(data).name,
     clinic: {
-      siteCode: clinic.id.split('_')[0].replace('var', ''),
-      clinicId: clinic.id.split('_')[1],
+      siteCode: getSiteCode(clinic, useVSP),
+      clinicId: getClinicId(clinic, useVSP),
       clinicName: clinic.serviceName,
       clinicFriendlyLocationName: findCharacteristic(
         clinic,
@@ -213,7 +238,7 @@ export function transformFormToAppointment(state) {
     duration: appointmentLength,
     bookingNotes: purpose,
     preferredEmail: data.email,
-    timeZone: facility.legacyVAR.institutionTimezone,
+    timeZone: facility.legacyVAR?.institutionTimezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',

@@ -159,7 +159,10 @@ export function findCharacteristic(clinic, characteristic) {
     return element.text === characteristic;
   });
 
-  return result.coding.code && result.coding.code !== undefined
-    ? result.coding.code
-    : result.coding.display;
+  if (result) {
+    return result.coding.code && result.coding.code !== undefined
+      ? result.coding.code
+      : result.coding.display;
+  }
+  return undefined;
 }
