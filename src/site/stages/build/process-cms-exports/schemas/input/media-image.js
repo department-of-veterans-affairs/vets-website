@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 
+const entityReferenceSchema = require('../common/entity-reference');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -14,7 +16,7 @@ module.exports = {
           title: { type: ['string', 'null'] },
           width: { type: 'number' },
           height: { type: 'number' },
-          ...{ $ref: 'EntityReference' }.properties,
+          ...entityReferenceSchema.properties,
         },
       },
     },
