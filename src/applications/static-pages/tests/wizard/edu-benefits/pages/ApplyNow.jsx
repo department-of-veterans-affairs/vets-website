@@ -4,7 +4,7 @@ import {
   WIZARD_STATUS_COMPLETE,
   getReferredBenefit,
   formIdSuffixes,
-} from '../../../../static-pages/wizard/';
+} from '../../../../../static-pages/wizard/';
 import recordEvent from 'platform/monitoring/record-event';
 
 const ApplyNow = ({
