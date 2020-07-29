@@ -118,7 +118,6 @@ describe('the Education Benefits Wizard', () => {
     expect(wrapper.state('pageHistory')[3].state).to.deep.equal({
       selected: 'no',
     });
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.find('WarningAlert').exists()).to.equal(true);
     const benefit = sessionStorage.getItem('benefitReferred');
     expect(benefit).to.equal(formIdSuffixes.FORM_ID_1990E);
