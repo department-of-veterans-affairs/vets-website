@@ -122,9 +122,8 @@ class MilitaryInformationContent extends React.Component {
             work with you to update your information in DEERS.
           </p>
           <p>
-            To reach the DMDC, call{' '}
-            <Telephone contact={CONTACTS.DS_LOGON} />
-            , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
+            To reach the DMDC, call <Telephone contact={CONTACTS.DS_LOGON} />,
+            Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
             p.m. ET. If you have hearing loss, call TTY:{' '}
             <Telephone contact={CONTACTS.DMDC_DEERS} />
             <Telephone contact={CONTACTS.DS_LOGON_TTY} />.
