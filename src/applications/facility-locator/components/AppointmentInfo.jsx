@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 
+import { formatServiceName } from '../utils/formatServiceName';
+
 /**
  * VA Facility Appointments
  */
@@ -56,7 +58,7 @@ export default class AppointmentInfo extends Component {
         const dayString = value === 1 ? 'day' : 'days';
         return (
           <li key={label} className={sublist ? 'sublist' : null}>
-            {label}:{' '}
+            {formatServiceName(label)}:{' '}
             <strong>
               {value.toFixed(0)} {dayString}
             </strong>
@@ -95,7 +97,7 @@ export default class AppointmentInfo extends Component {
             <ul className="vads-u-margin-top--1">
               {healthAccessSpecialty.map(k =>
                 renderStat(
-                  k.service.replace(/([A-Z])/g, ' $1').trim(),
+                  k.service,
                   k.established ? k.established : k.new,
                   true,
                 ),
@@ -120,7 +122,7 @@ export default class AppointmentInfo extends Component {
             <ul className="vads-u-margin-top--1">
               {specialtyKeys.map(k =>
                 renderStat(
-                  startCase(k.replace(/([A-Z])/g, ' $1')),
+                  k,
                   healthAccessAttrs[k][existing ? 'established' : 'new'],
                   true,
                 ),
