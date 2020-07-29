@@ -5,6 +5,7 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { bindActionCreators } from 'redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import PropTypes from 'prop-types';
 import { fetchDebtLetters, fetchDebtLettersVBMS } from '../actions';
 
 class DebtLettersWrapper extends Component {
@@ -54,6 +55,19 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({ fetchDebtLetters, fetchDebtLettersVBMS }, dispatch),
 });
+
+DebtLettersWrapper.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  isPending: PropTypes.bool.isRequired,
+  isPendingVBMS: PropTypes.bool.isRequired,
+  showDebtLetters: PropTypes.bool,
+};
+
+DebtLettersWrapper.defaultProps = {
+  isLoggedIn: false,
+  isPending: false,
+  isPendingVBMS: false,
+};
 
 export default connect(
   mapStateToProps,
