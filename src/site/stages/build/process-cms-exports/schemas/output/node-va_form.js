@@ -1,3 +1,39 @@
+const { usePartialSchema } = require('../../transformers/helpers');
+// const vaFormSchema = {
+//   title: { type: 'string' },
+// };
+
+const vaFormSchema = {
+  type: 'object',
+  properties: {
+    fieldVaFormName: { type: 'string' },
+    fieldVaFormNumber: { type: 'string' },
+    fieldVaFormUsage: { $ref: 'ProcessedString' },
+    fieldVaFormUrl: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          uri: {
+            type: 'object',
+            properties: {
+              path: { type: 'string' },
+            },
+            required: ['path'],
+          },
+        },
+        required: ['uri'],
+      },
+    },
+  },
+  required: [
+    'fieldVaFormName',
+    'fieldVaFormNumber',
+    'fieldVaFormUsage',
+    'fieldVaFormUrl',
+  ],
+};
+
 module.exports = {
   type: 'object',
   properties: {
@@ -21,9 +57,24 @@ module.exports = {
     fieldVaFormName: { type: 'string' },
     fieldVaFormNumber: { type: 'string' },
     fieldVaFormNumPages: { type: 'number' },
+    // fieldVaFormRelatedForms: {
+    //   type: 'array',
+    //   items: { $ref: 'output/node-va_form' },
+    // },
     fieldVaFormRelatedForms: {
       type: 'array',
-      items: { $ref: 'output/node-va_form' },
+      items: {
+        type: 'object',
+        properties: {
+          /* eslint-disable react-hooks/rules-of-hooks */
+          entity: usePartialSchema(vaFormSchema, [
+            'fieldVaFormName',
+            'fieldVaFormNumber',
+            'fieldVaFormUsage',
+            'fieldVaFormUrl',
+          ]),
+        },
+      },
     },
     fieldVaFormRevisionDate: { type: ['string', 'null'] },
     fieldVaFormTitle: { type: 'string' },

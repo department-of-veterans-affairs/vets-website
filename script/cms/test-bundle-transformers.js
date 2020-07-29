@@ -66,7 +66,7 @@ const {
   print: printIndex,
   bundle,
   help,
-  'transform-unpublished': transformUnpublished,
+  transformUnpublished,
 } = commandLineArgs(optionDefinitions);
 
 if (help) {
