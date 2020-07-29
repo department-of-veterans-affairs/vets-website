@@ -1,5 +1,6 @@
 import React from 'react';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import { hasRatedDisabilities } from '../utils';
 
 const filingClaimContent = <strong>I’m filing a claim for:</strong>;
 
@@ -36,11 +37,4 @@ export const schema = {
       },
     },
   },
-};
-
-export const updateFormData = (_, newData) => {
-  const newCondition = newData['view:claimType']?.['view:claimingNew'];
-  // skip "Do you have any new conditions you want to add to your claim?"
-  // question if new condition claim type is selected
-  return { ...newData, 'view:newDisabilities': newCondition };
 };

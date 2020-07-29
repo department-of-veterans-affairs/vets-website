@@ -1,15 +1,28 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
+import {
+  FETCH_STATUS,
+  GA_PREFIX,
+  APPOINTMENT_TYPES,
+  EXPRESS_CARE,
+} from '../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../utils/events';
 
 import {
   getCancelReasons,
+  getFacilitiesBySystemAndTypeOfCare,
   getRequestMessages,
   updateAppointment,
   updateRequest,
 } from '../api';
+
+import {
+  getOrganizations,
+  getRootOrganization,
+  getSiteIdFromOrganization,
+} from '../services/organization';
+
 import { getLocations } from '../services/location';
 
 import {
@@ -21,6 +34,8 @@ import {
   getVideoAppointmentLocation,
   isVideoAppointment,
 } from '../services/appointment';
+
+import { selectSystemIds, vaosVSPAppointmentNew } from '../utils/selectors';
 
 import { captureError, getErrorCodes } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';

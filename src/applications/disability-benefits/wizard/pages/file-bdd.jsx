@@ -3,7 +3,7 @@ import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
 import { BDD_INFO_URL } from '../../constants';
-import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
+import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
 
 function alertContent(getPageStateFromPageName) {
   const stateBDD = getPageStateFromPageName('bdd');
@@ -63,7 +63,7 @@ function alertContent(getPageStateFromPageName) {
         </a>
       </p>
       <a
-        href={`${BDD_FORM_ROOT_URL}/introduction`}
+        href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
         className="usa-button-primary va-button-primary"
       >
         File a Benefits Delivery at Discharge claim
