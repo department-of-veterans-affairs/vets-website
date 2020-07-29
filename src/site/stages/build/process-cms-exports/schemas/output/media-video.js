@@ -5,8 +5,6 @@ module.exports = {
     entityBundle: { type: 'string', enum: ['video'] },
     name: { type: 'string' },
     thumbnail: { $ref: 'output/file' },
-    created: { type: 'number' },
-    changed: { type: 'number' },
     entityMetatags: { $ref: 'MetaTags' },
     fieldMediaInLibrary: { type: 'boolean' },
     fieldMediaVideoEmbedField: { type: 'string' },
@@ -15,8 +13,6 @@ module.exports = {
   required: [
     'name',
     'thumbnail',
-    'created',
-    'changed',
     'entityMetatags',
     'fieldMediaInLibrary',
     'fieldMediaVideoEmbedField',

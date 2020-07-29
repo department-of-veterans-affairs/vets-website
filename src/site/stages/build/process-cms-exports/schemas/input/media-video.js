@@ -20,8 +20,6 @@ module.exports = {
         },
       },
     },
-    created: { $ref: 'GenericNestedString' },
-    changed: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_media_in_library: { $ref: 'GenericNestedBoolean' },
@@ -35,8 +33,6 @@ module.exports = {
   required: [
     'name',
     'thumbnail',
-    'created',
-    'changed',
     'metatag',
     'path',
     'field_media_in_library',
