@@ -8,7 +8,7 @@ import { shallow, mount } from 'enzyme';
 import pages from './pages';
 import { pageNames } from './pages/pageList';
 
-describe('the Wizard', () => {
+describe('the Education Benefits Wizard', () => {
   const mockStore = {
     sessionStorage: {},
   };
@@ -47,7 +47,7 @@ describe('the Wizard', () => {
     expect(wrapper.exists('.wizard-button')).to.equal(true);
     wrapper.unmount();
   });
-  it('should take you to the 1990E no warning site', () => {
+  it('should take you to the 1990E form with no warning alert', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
@@ -78,13 +78,199 @@ describe('the Wizard', () => {
       selected: 'yes',
     });
     // eslint-disable-next-line no-unused-expressions
-    expect(wrapper.find('WarningAlert')).to.be.empty;
-    const benefit = global.sessionStorage.getItem('benefitReferred');
-    expect(benefit).to.equal('1990E');
+    expect(wrapper.find('WarningAlert').exists()).to.equal(false);
+    const benefit = sessionStorage.getItem('benefitReferred');
+    expect(benefit).to.equal(formIdSuffixes.FORM_ID_1990E);
     wrapper.find('#apply-now-link').invoke('onClick')({
       preventDefault: () => {},
     });
-    const wizardStatus = global.sessionStorage.getItem('wizardStatus');
+    const wizardStatus = sessionStorage.getItem('wizardStatus');
+    expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
+    wrapper.unmount();
+  });
+  it('should take you to the 1990E form with a warning alert', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    const instance = wrapper.instance();
+    wrapper.find('.wizard-button').simulate('click');
+    // eslint-disable-next-line no-unused-expressions
+    expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
+    wrapper.find('#NewBenefit-0').invoke('onChange')({
+      target: { value: 'new' },
+    });
+    expect(wrapper.state('pageHistory')[0].state).to.deep.equal({
+      selected: 'new',
+    });
+    wrapper.find('#ClaimingBenefitOwnService-1').invoke('onChange')({
+      target: { value: 'no' },
+    });
+    expect(wrapper.state('pageHistory')[1].state).to.deep.equal({
+      selected: 'no',
+    });
+    wrapper.find('#SponsorDeceased-1').invoke('onChange')({
+      target: { value: 'no' },
+    });
+    expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
+      selected: 'no',
+    });
+    wrapper.find('#TransferredBenefits-1').invoke('onChange')({
+      target: { value: 'no' },
+    });
+    expect(wrapper.state('pageHistory')[3].state).to.deep.equal({
+      selected: 'no',
+    });
+    // eslint-disable-next-line no-unused-expressions
+    expect(wrapper.find('WarningAlert').exists()).to.equal(true);
+    const benefit = sessionStorage.getItem('benefitReferred');
+    expect(benefit).to.equal(formIdSuffixes.FORM_ID_1990E);
+    wrapper.find('#apply-now-link').invoke('onClick')({
+      preventDefault: () => {},
+    });
+    const wizardStatus = sessionStorage.getItem('wizardStatus');
+    expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
+    wrapper.unmount();
+  });
+  it('should take you to the 5490 form', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    const instance = wrapper.instance();
+    wrapper.find('.wizard-button').simulate('click');
+    // eslint-disable-next-line no-unused-expressions
+    expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
+    wrapper.find('#NewBenefit-0').invoke('onChange')({
+      target: { value: 'new' },
+    });
+    expect(wrapper.state('pageHistory')[0].state).to.deep.equal({
+      selected: 'new',
+    });
+    wrapper.find('#ClaimingBenefitOwnService-1').invoke('onChange')({
+      target: { value: 'no' },
+    });
+    expect(wrapper.state('pageHistory')[1].state).to.deep.equal({
+      selected: 'no',
+    });
+    wrapper.find('#SponsorDeceased-1').invoke('onChange')({
+      target: { value: 'yes' },
+    });
+    expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
+      selected: 'yes',
+    });
+    const benefit = sessionStorage.getItem('benefitReferred');
+    expect(benefit).to.equal(formIdSuffixes.FORM_ID_5490);
+    wrapper.find('#apply-now-link').invoke('onClick')({
+      preventDefault: () => {},
+    });
+    const wizardStatus = sessionStorage.getItem('wizardStatus');
+    expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
+    wrapper.unmount();
+  });
+  it('should take you to the 1990 form', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    const instance = wrapper.instance();
+    wrapper.find('.wizard-button').simulate('click');
+    // eslint-disable-next-line no-unused-expressions
+    expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
+    wrapper.find('#NewBenefit-0').invoke('onChange')({
+      target: { value: 'new' },
+    });
+    expect(wrapper.state('pageHistory')[0].state).to.deep.equal({
+      selected: 'new',
+    });
+    wrapper.find('#ClaimingBenefitOwnService-1').invoke('onChange')({
+      target: { value: 'yes' },
+    });
+    expect(wrapper.state('pageHistory')[1].state).to.deep.equal({
+      selected: 'yes',
+    });
+    wrapper.find('#NationalCallToService-1').invoke('onChange')({
+      target: { value: 'no' },
+    });
+    expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
+      selected: 'no',
+    });
+    wrapper.find('#VetTec-1').invoke('onChange')({
+      target: { value: 'no' },
+    });
+    expect(wrapper.state('pageHistory')[3].state).to.deep.equal({
+      selected: 'no',
+    });
+    const benefit = sessionStorage.getItem('benefitReferred');
+    expect(benefit).to.equal(formIdSuffixes.FORM_ID_1990);
+    wrapper.find('#apply-now-link').invoke('onClick')({
+      preventDefault: () => {},
+    });
+    const wizardStatus = sessionStorage.getItem('wizardStatus');
+    expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
+    wrapper.unmount();
+  });
+  it('should take you to the 0994 form', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    const instance = wrapper.instance();
+    wrapper.find('.wizard-button').simulate('click');
+    // eslint-disable-next-line no-unused-expressions
+    expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
+    wrapper.find('#NewBenefit-0').invoke('onChange')({
+      target: { value: 'new' },
+    });
+    expect(wrapper.state('pageHistory')[0].state).to.deep.equal({
+      selected: 'new',
+    });
+    wrapper.find('#ClaimingBenefitOwnService-1').invoke('onChange')({
+      target: { value: 'yes' },
+    });
+    expect(wrapper.state('pageHistory')[1].state).to.deep.equal({
+      selected: 'yes',
+    });
+    wrapper.find('#NationalCallToService-1').invoke('onChange')({
+      target: { value: 'no' },
+    });
+    expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
+      selected: 'no',
+    });
+    wrapper.find('#VetTec-0').invoke('onChange')({
+      target: { value: 'yes' },
+    });
+    expect(wrapper.state('pageHistory')[3].state).to.deep.equal({
+      selected: 'yes',
+    });
+    const benefit = sessionStorage.getItem('benefitReferred');
+    expect(benefit).to.equal(formIdSuffixes.FORM_ID_0994);
+    wrapper.find('#apply-now-link').invoke('onClick')({
+      preventDefault: () => {},
+    });
+    const wizardStatus = sessionStorage.getItem('wizardStatus');
+    expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
+    wrapper.unmount();
+  });
+  it('should take you to the 1990N form', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    const instance = wrapper.instance();
+    wrapper.find('.wizard-button').simulate('click');
+    // eslint-disable-next-line no-unused-expressions
+    expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
+    wrapper.find('#NewBenefit-0').invoke('onChange')({
+      target: { value: 'new' },
+    });
+    expect(wrapper.state('pageHistory')[0].state).to.deep.equal({
+      selected: 'new',
+    });
+    wrapper.find('#ClaimingBenefitOwnService-1').invoke('onChange')({
+      target: { value: 'yes' },
+    });
+    expect(wrapper.state('pageHistory')[1].state).to.deep.equal({
+      selected: 'yes',
+    });
+    wrapper.find('#NationalCallToService-0').invoke('onChange')({
+      target: { value: 'yes' },
+    });
+    expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
+      selected: 'yes',
+    });
+    expect(wrapper.find('WarningAlert').exists()).to.equal(true);
+    const benefit = sessionStorage.getItem('benefitReferred');
+    expect(benefit).to.equal(formIdSuffixes.FORM_ID_1990N);
+    wrapper.find('#apply-now-link').invoke('onClick')({
+      preventDefault: () => {},
+    });
+    const wizardStatus = sessionStorage.getItem('wizardStatus');
     expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
     wrapper.unmount();
   });
