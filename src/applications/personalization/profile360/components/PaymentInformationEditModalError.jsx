@@ -1,5 +1,9 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import {
   hasAccountFlaggedError,
@@ -25,10 +29,7 @@ function FlaggedAccount() {
         <span className="no-wrap">
           <a href="tel:1-800-827-1000">800-827-1000</a>
         </span>{' '}
-        (
-        <a href="tel:711" aria-label="TTY. 7 1 1.">
-          TTY: <span className="no-wrap">711</span>
-        </a>
+        (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
@@ -45,10 +46,7 @@ function FlaggedRoutingNumber() {
         <span className="no-wrap">
           <a href="tel:1-800-827-1000">800-827-1000</a>
         </span>{' '}
-        (
-        <a href="tel:711" aria-label="TTY. 7 1 1.">
-          TTY: 711
-        </a>
+        (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
       <p>
