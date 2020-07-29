@@ -51,7 +51,10 @@ describe('VAOS integration: Express Care form submission', () => {
       typeOfCareId: 'CR1',
       data: [
         {
+          id: '983',
           attributes: {
+            authoritativeName: 'Testing',
+            rootStationCode: '983',
             expressTimes: {
               start: '00:00',
               end: '23:59',
@@ -82,7 +85,7 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     });
     store.dispatch(fetchExpressCareWindows());
-    mockRequestSubmit('va', {
+    const requestData = {
       id: 'testing',
       attributes: {
         typeOfCareId: 'CR1',
@@ -92,7 +95,8 @@ describe('VAOS integration: Express Care form submission', () => {
         additionalInformation: 'Whatever',
         status: 'Submitted',
       },
-    });
+    };
+    mockRequestSubmit('va', requestData);
 
     const router = {
       push: sinon.spy(),
@@ -114,6 +118,23 @@ describe('VAOS integration: Express Care form submission', () => {
     );
     await cleanup();
 
+    const responseData = JSON.parse(
+      global.fetch
+        .getCalls()
+        .find(call => call.args[0].includes('appointment_requests')).args[1]
+        .body,
+    );
+
+    expect(responseData).to.deep.include({
+      ...requestData.attributes,
+      typeOfCareId: 'CR1',
+      facility: {
+        facilityCode: '983',
+        parentSiteCode: '983',
+        name: 'Testing',
+      },
+    });
+
     screen = renderInReduxProvider(
       <ExpressCareConfirmationPage router={router} />,
       {
@@ -134,5 +155,26 @@ describe('VAOS integration: Express Care form submission', () => {
       'You shared these details about your concern',
     );
     expect(screen.baseElement).to.contain.text('Whatever');
+  });
+
+  it('should redirect home when there is no request to show', async () => {
+    const store = createTestStore(initialState);
+    store.dispatch(fetchExpressCareWindows());
+
+    const router = {
+      replace: sinon.spy(),
+    };
+    const screen = renderInReduxProvider(
+      <ExpressCareConfirmationPage router={router} />,
+      {
+        store,
+      },
+    );
+
+    await waitFor(() => expect(router.replace.called).to.be.true);
+    expect(screen.baseElement.textContent).to.not.be.ok;
+    expect(router.replace.firstCall.args[0]).to.equal(
+      '/new-express-care-request',
+    );
   });
 });

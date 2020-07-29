@@ -20,7 +20,7 @@ import {
   createPreferenceBody,
 } from '../utils/data';
 import { selectSystemIds } from '../utils/selectors';
-import { captureError, getErrorCodes } from '../utils/error';
+import { captureError } from '../utils/error';
 import { EXPRESS_CARE, GA_PREFIX } from '../utils/constants';
 import { resetDataLayer } from '../utils/events';
 import { EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED } from './sitewide';
@@ -208,7 +208,6 @@ export function submitExpressCareRequest(router) {
       captureError(error, true, 'Express Care submission failure');
       dispatch({
         type: FORM_SUBMIT_FAILED,
-        isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
       });
 
       recordEvent({
