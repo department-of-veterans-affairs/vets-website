@@ -1,5 +1,8 @@
 import React from 'react';
 import CollapsiblePanel from '@department-of-veterans-affairs/formation-react/CollapsiblePanel';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import MessageTemplate from '../MessageTemplate';
 
@@ -29,11 +32,7 @@ const DeactivatedMHVId = () => {
           <p>
             Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re here
             Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have
-            hearing loss, call TTY:{' '}
-            <a href="tel:8008773399" aria-label="8 0 0. 8 7 7. 3 3 9 9.">
-              800-877-3399
-            </a>
-            .
+            hearing loss, call TTY: <Telephone contact={CONTACTS.HELP_TTY} />.
           </p>
           <p>
             Tell the representative that you tried to sign in to use health
