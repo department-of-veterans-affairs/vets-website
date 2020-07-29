@@ -123,14 +123,10 @@ class MilitaryInformationContent extends React.Component {
           </p>
           <p>
             To reach the DMDC, call{' '}
-            <a href="tel:18005389552" aria-label="1. 8 0 0. 5 3 8. 9 5 5 2.">
-              1-800-538-9552
-            </a>
+            <Telephone contact={CONTACTS.DS_LOGON} />
             , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
             p.m. ET. If you have hearing loss, call TTY:{' '}
-            <a href="tel:18663632883" aria-label="1. 8 6 6. 3 6 3. 2 8 8 3.">
-              1-866-363-2883
-            </a>
+            <Telephone contact={CONTACTS.DMDC_DEERS} />
             <Telephone contact={CONTACTS.DS_LOGON_TTY} />.
           </p>
         </AdditionalInfo>
