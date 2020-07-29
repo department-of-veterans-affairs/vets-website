@@ -6,6 +6,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import DowntimeNotification, {
@@ -227,7 +228,7 @@ class PaymentInformation extends React.Component {
               <a href="tel:1-800-827-1000" className="no-wrap">
                 800-827-1000
               </a>{' '}
-              (<Telephone contact={CONTACTS['711']} />
+              (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
               ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
             </p>
           )}

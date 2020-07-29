@@ -6,6 +6,7 @@ import IconHelp from '@department-of-veterans-affairs/formation-react/IconHelp';
 import recordEvent from 'platform/monitoring/record-event';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
@@ -31,7 +32,7 @@ function HelpMenu({ clickHandler, cssClass, isOpen }) {
         <a href="tel:18446982311">Call VA311: 844-698-2311</a>
       </p>
       <p>
-        <Telephone contact={CONTACTS['711']} />
+        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
       </p>
     </div>
   );

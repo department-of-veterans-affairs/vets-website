@@ -1,6 +1,7 @@
 import React from 'react';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const GetFormHelp = () => (
@@ -12,7 +13,8 @@ const GetFormHelp = () => (
     </a>
     .<br />
     <br />
-    If you have hearing loss, call <Telephone contact={CONTACTS['711']} />.
+    If you have hearin g loss, call{' '}
+    <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
   </p>
 );
 
