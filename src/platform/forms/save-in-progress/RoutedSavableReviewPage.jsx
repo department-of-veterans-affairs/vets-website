@@ -75,6 +75,7 @@ class RoutedSavableReviewPage extends React.Component {
         locationPathname={location.pathname}
         form={form}
         formConfig={route?.formConfig}
+        pageList={route.pageList}
         user={user}
         showLoginModal={showLoginModal}
         saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
@@ -190,6 +191,7 @@ class RoutedSavableReviewPage extends React.Component {
           form={form}
           formConfig={formConfig}
           user={user}
+          pageList={pageList}
           showLoginModal={this.props.showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}

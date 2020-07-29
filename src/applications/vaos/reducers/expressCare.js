@@ -5,6 +5,8 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
+import { stripDST } from '../utils/timezone';
+
 import {
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
@@ -17,6 +19,7 @@ import { FETCH_STATUS } from '../utils/constants';
 
 const initialState = {
   windowsStatus: FETCH_STATUS.notStarted,
+  hasWindow: false,
   allowRequests: false,
   localWindowString: null,
   minStart: null,
@@ -68,7 +71,7 @@ export default function expressCareReducer(state = initialState, action) {
     }
     case FETCH_EXPRESS_CARE_WINDOWS:
       return {
-        ...initialState,
+        ...state,
         windowsStatus: FETCH_STATUS.loading,
       };
     case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
@@ -76,8 +79,7 @@ export default function expressCareReducer(state = initialState, action) {
       const times = []
         .concat(...facilityData)
         .filter(f => !!f.expressTimes)
-        .map(f => {
-          const { expressTimes, authoritativeName, id } = f;
+        .map(({ expressTimes, authoritativeName, id }) => {
           const { start, end, offsetUtc, timezone } = expressTimes;
           const today = nowUtc.format('YYYY-MM-DD');
           const startString = `${today}T${start}${offsetUtc}`;
@@ -89,8 +91,8 @@ export default function expressCareReducer(state = initialState, action) {
             start: moment.parseZone(startString).format(),
             end: moment.parseZone(endString).format(),
             offset: offsetUtc,
-            timeZone: timezone,
-            name: f.authoritativeName,
+            timeZone: stripDST(timezone),
+            name: authoritativeName,
             id,
           };
         })
@@ -111,6 +113,7 @@ export default function expressCareReducer(state = initialState, action) {
       return {
         ...state,
         windowsStatus: FETCH_STATUS.succeeded,
+        hasWindow: !!times.length,
         allowRequests:
           times.length && nowUtc.isBetween(minStart?.utcStart, maxEnd?.utcEnd),
         minStart,
@@ -127,13 +130,11 @@ export default function expressCareReducer(state = initialState, action) {
     }
     case FETCH_EXPRESS_CARE_WINDOWS_FAILED:
       return {
-        ...initialState,
+        ...state,
         windowsStatus: FETCH_STATUS.failed,
       };
 
     default:
-      return {
-        ...state,
-      };
+      return state;
   }
 }

@@ -6,6 +6,7 @@ import { FETCH_STATUS } from '../utils/constants';
 export default function RequestExpressCare({
   windowsStatus,
   enabled,
+  hasWindow,
   allowRequests,
   localWindowString,
   useNewFlow,
@@ -14,28 +15,24 @@ export default function RequestExpressCare({
     environment.isProduction() ? '' : '-staging'
   }.va.gov/var/v4/#new-express-request`;
 
-  if (enabled && windowsStatus === FETCH_STATUS.succeeded && allowRequests) {
+  if (!enabled || windowsStatus !== FETCH_STATUS.succeeded || !hasWindow) {
+    return null;
+  }
+
+  if (allowRequests) {
     return (
       <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
         <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
           Create a new Express Care request
         </h2>
         <p>
-          Have a health concern that you need help with today, but isn’t an
-          emergency? Submit a request for a same-day Express Care screening with
-          a VA health care provider.
+          Talk to VA health care staff today about a condition or symptom that’s
+          not urgent and doesn’t need emergency care. This new Express Care
+          option is available from {localWindowString}.
         </p>
-        <ul>
-          <li>You can submit your request from {localWindowString}.</li>
-          <li>A VA health care provider will call you today.</li>
-          <li>
-            If needed, we may schedule a follow-up phone, video, or in-person
-            visit or other care.
-          </li>
-        </ul>
         {useNewFlow ? (
           <Link className="usa-button" to="/new-express-care-request">
-            Request Express Care
+            Create an Express Care request
           </Link>
         ) : (
           <a
@@ -44,12 +41,25 @@ export default function RequestExpressCare({
             target="_blank"
             rel="noreferrer nofollow"
           >
-            Request Express Care
+            Create an Express Care request
           </a>
         )}
       </div>
     );
   }
 
-  return null;
+  return (
+    <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
+      <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
+        Express Care isn’t available right now
+      </h2>
+      <p>
+        Express Care is only available {localWindowString} today. Express Care
+        lets you talk to VA health care staff the same day to discuss a symptom
+        that’s not urgent and doesn’t need emergency care. To use Express Care,
+        check back during the time shown above.
+      </p>
+      <button disabled>Create an Express Care request</button>
+    </div>
+  );
 }

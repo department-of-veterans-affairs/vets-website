@@ -1,6 +1,8 @@
 import React from 'react';
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const DebtLettersList = ({ debtLinks, isVBMSError }) => {
@@ -30,6 +32,15 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
       </div>
     </div>
   );
+
+  const handleDownloadClick = (event, type, date) => {
+    event.preventDefault();
+    return recordEvent({
+      event: 'bam-debt-letter-download',
+      'letter-type': type,
+      'letter-received-date': date,
+    });
+  };
   return (
     <div>
       <h2 className="vads-u-margin-top--1p5 vads-u-margin-bottom--2">
@@ -65,6 +76,13 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                     </td>
                     <td className="vads-u-border--0">
                       <a
+                        onClick={event =>
+                          handleDownloadClick(
+                            event,
+                            debtLetter.typeDescription,
+                            moment(debtLetter.receivedAt).format('MMM D, YYYY'),
+                          )
+                        }
                         download={`${debtLetter.typeDescription} dated ${moment(
                           debtLetter.receivedAt,
                         ).format('MMM D, YYYY')}`}
@@ -147,5 +165,21 @@ const mapStateToProps = state => ({
   isVBMSError: state.debtLetters.isVBMSError,
   debtLinks: state.debtLetters.debtLinks,
 });
+
+DebtLettersList.propTypes = {
+  isVBMSError: PropTypes.bool.isRequired,
+  debtLinks: PropTypes.arrayOf(
+    PropTypes.shape({
+      documentId: PropTypes.string,
+      receivedAt: PropTypes.string,
+      typeDescription: PropTypes.string,
+    }),
+  ),
+};
+
+DebtLettersList.defaultProps = {
+  isVBMSError: false,
+  debtLinks: [],
+};
 
 export default connect(mapStateToProps)(DebtLettersList);

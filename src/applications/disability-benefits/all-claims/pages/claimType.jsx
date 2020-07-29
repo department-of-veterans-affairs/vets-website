@@ -38,16 +38,3 @@ export const schema = {
     },
   },
 };
-
-export const updateFormData = (oldData, newData) => {
-  const newCondition = newData['view:claimType']?.['view:claimingNew'];
-  if (
-    newCondition !== oldData['view:claimType']?.['view:claimingNew'] &&
-    hasRatedDisabilities(newData)
-  ) {
-    // skip "Do you have any new conditions you want to add to your claim?"
-    // question if new condition claim type is selected
-    return { ...newData, 'view:newDisabilities': newCondition };
-  }
-  return newData;
-};
