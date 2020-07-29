@@ -29,8 +29,8 @@ export const display1995StemFlow = form =>
   (isEligibleForEdithNourseRogersScholarship(form) ||
     determineEligibilityFor1995Stem(form));
 
-export const buildSubmitEventData = (formData, isProduction) => {
-  if (isProduction) {
+export const buildSubmitEventData = formData => {
+  if (environment.isProduction()) {
     const exhaustedAllBenefits =
       formData['view:exhaustionOfBenefits'] === true ||
       formData['view:exhaustionOfBenefitsAfterPursuingTeachingCert'] === true;
