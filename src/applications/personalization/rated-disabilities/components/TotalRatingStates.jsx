@@ -1,6 +1,10 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export const errorMessage = () => {
   const message = (
@@ -21,10 +25,7 @@ export const errorMessage = () => {
         >
           844-698-2311
         </a>{' '}
-        (
-        <a href="tel:711" aria-label="TTY. 7 1 1.">
-          TTY: 711
-        </a>
+        (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday-Friday, 8:00 a.m.-8:00 p.m. ET.
       </p>
     </>

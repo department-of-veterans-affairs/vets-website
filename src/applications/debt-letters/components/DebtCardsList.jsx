@@ -1,6 +1,7 @@
 import React from 'react';
 import reverse from 'lodash/reverse';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import DebtLetterCard from './DebtLetterCard';
 
 const DebtCardsList = ({ debts, isError }) => {
@@ -89,5 +90,18 @@ const mapStateToProps = state => ({
   debts: state.debtLetters.debts,
   isError: state.debtLetters.isError,
 });
+
+DebtCardsList.propTypes = {
+  debts: PropTypes.arrayOf(
+    PropTypes.shape({
+      fileNumber: PropTypes.string,
+    }),
+  ),
+  isError: PropTypes.bool.isRequired,
+};
+DebtCardsList.defaultProps = {
+  debts: [],
+  isError: false,
+};
 
 export default connect(mapStateToProps)(DebtCardsList);

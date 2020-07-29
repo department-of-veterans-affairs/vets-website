@@ -49,10 +49,8 @@ describe('express care window', () => {
     const newState = expressCareReducer(initialState, action);
     expect(newState.windowsStatus).to.equal(FETCH_STATUS.succeeded);
     expect('allowRequests' in newState).to.equal(true);
-    const today = moment.utc();
-    const startString = `${today}T${window.start}${window.offsetUtc}`;
-    const endString = `${today}T${window.start}${window.offsetUtc}`;
-    expect(newState.localWindowString).to.equal('12:00 a.m. to 11:59 p.m. MDT');
+    expect(newState.localWindowString).to.equal('12:00 a.m. to 11:59 p.m. MT');
+    expect(newState.hasWindow).to.be.true;
   });
 
   it('should set windowsStatus to failed', () => {
