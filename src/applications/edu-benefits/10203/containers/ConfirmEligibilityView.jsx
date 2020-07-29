@@ -139,7 +139,7 @@ export class ConfirmEligibilityView extends React.Component {
         <div className="form-review-panel-page-header-row">
           <h3 className="form-review-panel-page-header vads-u-font-size--h5">
             Rogers STEM Scholarship eligibility summary
-            <div >
+            <div>
               <hr className="edu-review-hr" />
             </div>
           </h3>
