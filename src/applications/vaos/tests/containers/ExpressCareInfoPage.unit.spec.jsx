@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import React from 'react';
-import ExpressCareInfo from '../../containers/ExpressCareInfo';
+import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
 import { createTestStore } from '../mocks/setup';
 import { fetchExpressCareWindows } from '../../actions/expressCare';
 import { getNodeText } from '@testing-library/dom';
 
-describe('VAOS <ExpressCareInfo>', () => {
+describe('VAOS <ExpressCareInfoPage>', () => {
   const store = createTestStore({
     expressCare: {
       windowsStatus: 'succeeded',
@@ -37,7 +37,7 @@ describe('VAOS <ExpressCareInfo>', () => {
 
   it('should render', () => {
     const { debug, getByText, queryByText } = renderInReduxProvider(
-      <ExpressCareInfo />,
+      <ExpressCareInfoPage />,
       { store },
     );
 
@@ -47,7 +47,7 @@ describe('VAOS <ExpressCareInfo>', () => {
 
   it('should display start and end time for express care request', () => {
     const { debug, getByText, queryByText } = renderInReduxProvider(
-      <ExpressCareInfo />,
+      <ExpressCareInfoPage />,
       { store },
     );
 
