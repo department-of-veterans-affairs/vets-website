@@ -6,6 +6,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -109,11 +110,11 @@ export const AdditionalInfoSections = ({ activeApps }) => {
               </li>
               <li className="vads-u-padding-left--1">
                 <strong>If your information isn’t accurate:</strong> Call VA311
-                at <Telephone contact={CONTACTS.VA_311} />. If you have hearing
-                loss, call{' '}
-                <a href="tel:711" aria-label="TTY. 7 1 1.">
-                  TTY: 711
-                </a>
+                at <Telephone contact={CONTACTS.VA_311} />. If you have hearing{' '}
+                <Telephone
+                  contact={CONTACTS['711']}
+                  pattern={PATTERNS['911']}
+                />
                 . Or visit a VA health facility near you and ask a staff member
                 for help.{' '}
                 <p>
