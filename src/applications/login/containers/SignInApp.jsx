@@ -1,10 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import appendQuery from 'append-query';
+import 'url-search-params-polyfill';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import environment from 'platform/utilities/environment';
+import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
+import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 
 import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
 import SignInButtons from '../components/SignInButtons';
@@ -16,11 +22,23 @@ import downtimeBanners from '../utilities/downtimeBanners';
 const vaGovFullDomain = environment.BASE_URL;
 
 class SignInPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      globalDowntime: false,
-    };
+  state = {
+    globalDowntime: false,
+  };
+
+  componentDidUpdate() {
+    const searchParams = new URLSearchParams(window.location.search);
+    const application = searchParams.get('application');
+    if (
+      this.props.isAuthenticatedWithSSOe &&
+      !this.props.profile.verified &&
+      application === 'myvahealth'
+    ) {
+      this.props.router.push('/verify');
+      // window.location.replace(
+      //   appendQuery('/verify', { next: window.location.href }),
+      // );
+    }
   }
 
   setGlobalDowntimeState = () => {
@@ -125,4 +143,10 @@ class SignInPage extends React.Component {
   }
 }
 
-export default SignInPage;
+const mapStateToProps = state => ({
+  profile: selectProfile(state),
+  profileLoading: isProfileLoading(state),
+  isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+});
+
+export default connect(mapStateToProps)(SignInPage);
