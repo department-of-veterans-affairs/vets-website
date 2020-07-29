@@ -143,7 +143,7 @@ if (entityNames) {
 
   const modifiedEntities = map(entities, entity =>
     assembleEntityTree(entity, !transformOnlyPublished),
-  );
+  ).filter(e => e);
 
   console.log(
     chalk.bold('Number of entities transformed:'),
