@@ -1,5 +1,6 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import environment from 'platform/utilities/environment';
 import { display1995StemFlow, buildSubmitEventData } from './helpers';
 
 const submitForm = (form, formConfig) => {
@@ -15,7 +16,7 @@ const submitForm = (form, formConfig) => {
     body,
     submitUrl,
     formConfig.trackingPrefix,
-    buildSubmitEventData(form.data),
+    buildSubmitEventData(form.data, environment.isProduction()),
   );
 };
 

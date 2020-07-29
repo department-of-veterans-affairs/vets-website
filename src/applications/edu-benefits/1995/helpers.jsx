@@ -1,5 +1,5 @@
-import environment from 'platform/utilities/environment';
 import _ from 'lodash';
+import environment from 'platform/utilities/environment';
 
 // 1995-STEM related
 const isEdithNourseRogersScholarship = form =>
@@ -29,7 +29,25 @@ export const display1995StemFlow = form =>
   (isEligibleForEdithNourseRogersScholarship(form) ||
     determineEligibilityFor1995Stem(form));
 
-export const buildSubmitEventData = formData => {
+export const buildSubmitEventData = (formData, isProduction) => {
+  if (isProduction) {
+    const exhaustedAllBenefits =
+      formData['view:exhaustionOfBenefits'] === true ||
+      formData['view:exhaustionOfBenefitsAfterPursuingTeachingCert'] === true;
+    return {
+      benefitsUsedRecently: formData.benefit,
+      'edu-stemApplicant': formData.isEdithNourseRogersScholarship
+        ? 'Yes'
+        : 'No',
+      'edu-undergradStem': formData.isEnrolledStem ? 'Yes' : 'No',
+      'edu-pursueTeaching': formData.isPursuingTeachingCert ? 'Yes' : 'No',
+      activeDuty: formData.isActiveDuty ? 'Yes' : 'No',
+      calledActiveDuty: formData.isActiveDuty ? 'Yes' : 'No',
+      preferredContactMethod: formData.preferredContactMethod,
+      'edu-exhaustedAllBenefits': exhaustedAllBenefits ? 'Yes' : 'No',
+    };
+  }
+
   const yesNoOrUndefined = value => {
     if (value === undefined) {
       return undefined;
