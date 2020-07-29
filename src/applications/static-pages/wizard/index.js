@@ -37,7 +37,6 @@ export default class Wizard extends React.Component {
       wizardStatus: getWizardStatus(),
     };
   }
-
   get currentPage() {
     const { pageHistory, currentPageIndex } = this.state;
     return pageHistory[currentPageIndex];
