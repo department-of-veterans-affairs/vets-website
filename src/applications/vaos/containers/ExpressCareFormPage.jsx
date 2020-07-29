@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { FETCH_STATUS } from '../utils/constants';
+import { FETCH_STATUS, EXPRESS_CARE_ERROR_REASON } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
 
 import * as actions from '../actions/expressCare';
 
 function ExpressCareFormPage({
   submitStatus,
+  submitErrorReason,
+  localWindowString,
   submitExpressCareRequest,
   router,
   routeToPreviousAppointmentPage,
@@ -26,17 +28,34 @@ function ExpressCareFormPage({
         onSubmit={() => submitExpressCareRequest(router)}
       />
       {submitStatus === FETCH_STATUS.failed && (
-        <AlertBox
-          status="error"
-          headline="Your request didn’t go through"
-          content={
-            <p>
-              Something went wrong when we tried to submit your request and
-              you’ll need to start over. We suggest you wait a day to try again
-              or you can call your medical center to help with your request.
-            </p>
-          }
-        />
+        <>
+          {submitErrorReason === EXPRESS_CARE_ERROR_REASON.error && (
+            <AlertBox
+              status="error"
+              headline="Your request didn’t go through"
+              content={
+                <p>
+                  Something went wrong when we tried to submit your request and
+                  you’ll need to start over. We suggest you wait a day to try
+                  again or you can call your medical center to help with your
+                  request.
+                </p>
+              }
+            />
+          )}
+          {submitErrorReason === EXPRESS_CARE_ERROR_REASON.noActiveFacility && (
+            <AlertBox
+              status="error"
+              headline="Express Care isn’t available right now"
+              content={
+                <p>
+                  Express Care is only available {localWindowString} today. To
+                  use Express Care, check back during the time shown above.
+                </p>
+              }
+            />
+          )}
+        </>
       )}
     </div>
   );
@@ -48,9 +67,7 @@ const mapDispatchToProps = {
 };
 
 function mapStateToProps(state) {
-  return {
-    submitStatus: state.expressCare.submitStatus,
-  };
+  return state.expressCare;
 }
 
 export default connect(

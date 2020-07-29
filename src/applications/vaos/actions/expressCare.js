@@ -19,9 +19,16 @@ import {
   transformFormToExpressCareRequest,
   createPreferenceBody,
 } from '../utils/data';
-import { selectSystemIds } from '../utils/selectors';
-import { captureError } from '../utils/error';
-import { EXPRESS_CARE, GA_PREFIX } from '../utils/constants';
+import {
+  selectSystemIds,
+  selectActiveExpressCareFacility,
+} from '../utils/selectors';
+import { captureError, getErrorCodes } from '../utils/error';
+import {
+  EXPRESS_CARE,
+  GA_PREFIX,
+  EXPRESS_CARE_ERROR_REASON,
+} from '../utils/constants';
 import { resetDataLayer } from '../utils/events';
 import { EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED } from './sitewide';
 
@@ -169,8 +176,11 @@ async function buildPreferencesDataAndUpdate(expressCare) {
 
 export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
-    const state = getState();
-    const expressCare = state.expressCare;
+    const expressCare = getState().expressCare;
+    const activeFacility = selectActiveExpressCareFacility(
+      getState(),
+      moment.utc(),
+    );
 
     dispatch({
       type: FORM_SUBMIT,
@@ -183,6 +193,10 @@ export function submitExpressCareRequest(router) {
     });
 
     try {
+      if (!activeFacility) {
+        throw new Error('No facilities available for Express Care request');
+      }
+
       requestBody = transformFormToExpressCareRequest(getState());
       const responseData = await submitRequest('va', requestBody);
 
@@ -205,9 +219,15 @@ export function submitExpressCareRequest(router) {
       resetDataLayer();
       router.push('/new-express-care-request/confirmation');
     } catch (error) {
-      captureError(error, true, 'Express Care submission failure');
+      const errorReason = !activeFacility
+        ? EXPRESS_CARE_ERROR_REASON.noActiveFacility
+        : EXPRESS_CARE_ERROR_REASON.error;
+      captureError(error, true, 'Express Care submission failure', {
+        errorReason,
+      });
       dispatch({
         type: FORM_SUBMIT_FAILED,
+        errorReason,
       });
 
       recordEvent({
