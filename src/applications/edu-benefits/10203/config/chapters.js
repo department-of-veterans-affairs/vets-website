@@ -43,7 +43,7 @@ export const chapters = {
     title: 'Program details',
     pages: {
       stemEligibility: {
-        title: 'Rogers STEM Scholarship eligibility summary',
+        title: 'Rogers STEM Scholarship eligibility',
         path: 'benefits/stem-eligibility',
         uiSchema: stemEligibility.uiSchema,
         schema: stemEligibility.schema,
@@ -57,7 +57,7 @@ export const chapters = {
         schema: confirmEligibility.schema,
       },
       programDetails: {
-        title: 'STEM degree and school details',
+        title: 'Rogers STEM Scholarship eligibility summary',
         path: 'benefits/program-details',
         uiSchema: programDetails.uiSchema,
         schema: programDetails.schema,
