@@ -147,6 +147,19 @@ yarn cy:run --spec "src/applications/my-app/tests/**/*"
 yarn cy:run --spec "src/applications/a/tests/**/*,src/applications/b/tests/**/*"
 ```
 
+To **run Cypress tests from the command line on a specific browser**:
+
+```sh
+yarn cy:run --headless --browser chrome
+yarn cy:run --headless --browser firefox
+
+# Without --headless, the test runner will open and run the test.
+yarn cy:run --browser chrome
+yarn cy:run --browser firefox
+```
+
+**For other options with `yarn cy:run`,** [the same options for `cypress run` are applicable](https://docs.cypress.io/guides/guides/command-line.html#Commands).
+
 To **run Nightwatch tests**, you first need three things:
 1. Install the Java JDK on MacOS (if needed):
     ```
