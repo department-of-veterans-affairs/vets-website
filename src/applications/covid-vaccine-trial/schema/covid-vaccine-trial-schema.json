@@ -1,0 +1,219 @@
+{
+  "descriptionText": "Thank you for your interest in volunteering for COVID-19 research. If you’re a U.S. Veteran, please answer the questions below and we’ll add you to our VA volunteer registry. If we think you may meet the criteria for a research study, we’ll contact you for a phone interview.  Note: We won’t share your information with anyone outside of VA. If you're not a  Veteran, you can volunteer through the  COVID-19 Prevention Network.",
+
+  "yesNoQuestions": {
+    "diagnosed": "Have ever been diagnosed with COVID-19?",
+    "hospitalized": "Have you been hospitalized at any time in the past 6 months?",
+    "smokeOrVape": "Do you smoke or vape, or do you have a past history of smoking or vaping?"
+  },
+  "multiQuestions": {
+    "healthHistory": {
+      "description": "Do you have a history of any of the health issues listed below?",
+      "healthHistorySchema": {
+        "type": "object",
+        "properties": {
+          "ALLERGY_VACCINE": {
+            "type": "boolean"
+          },
+          "AUTOIMMUNE_DISEASE": {
+            "type": "boolean"
+          },
+          "CANCER": {
+            "type": "boolean"
+          },
+          "DIABETES": {
+            "type": "boolean"
+          },
+          "HEART_DISEASE": {
+            "type": "boolean"
+          },
+          "HIGH_BLOOD_PRESSURE": {
+            "type": "boolean"
+          },
+          "IMMUNOCOMPROMISED": {
+            "type": "boolean"
+          },
+          "KIDNEY_LIVER_DISEASE": {
+            "type": "boolean"
+          },
+          "LUNG_DISEASE": {
+            "type": "boolean"
+          },
+          "STROKE": {
+            "type": "boolean"
+          },
+          "ANOTHER_SERIOUS_CHRONIC_ILLNESS": {
+            "type": "boolean"
+          }
+        }
+      },
+      "healthHistoryUISchema": {
+        "ui:title": "Do you have a history of any of the health issues listed below?",
+        "ui:description": "Please check all that apply.",
+        "ALLERGY_VACCINE": {
+          "ui:title": "Allergy to any vaccines"
+        },
+        "AUTOIMMUNE_DISEASE": {
+          "ui:title": "Autoimmune disease"
+        },
+        "CANCER": {
+          "ui:title": "Cancer"
+        },
+        "DIABETES": {
+          "ui:title": "Diabetes (type 1 or 2)"
+        },
+        "HEART_DISEASE": {
+          "ui:title": "Heart disease"
+        },
+        "HIGH_BLOOD_PRESSURE": {
+          "ui:title": "High blood pressure"
+        },
+        "IMMUNOCOMPROMISED": {
+          "ui:title": "Immunocompromised (including HIV/AIDS)"
+        },
+        "KIDNEY_LIVER_DISEASE": {
+          "ui:title": "Kidney or liver disease"
+        },
+        "LUNG_DISEASE": {
+          "ui:title": "Lung disease"
+        },
+        "STROKE": {
+          "ui:title": "Stroke"
+        },
+        "ANOTHER_SERIOUS_CHRONIC_ILLNESS": {
+          "ui:title": "Another serious chronic (long-term) illness"
+        }
+      }
+    },
+    "employmentStatus": {
+      "description": "Which work situation best describes you?",
+      "employmentStatusSchema": {
+        "type": "object",
+        "properties": {
+          "EMPLOYED_HOME": {
+            "type": "boolean"
+          },
+          "EMPLOYED_OUTSIDE_OF_HOME": {
+            "type": "boolean"
+          },
+          "FRONTLINE_WORKER": {
+            "type": "boolean"
+          },
+          "FURLOUGHED_UNEMPLOYED": {
+            "type": "boolean"
+          },
+          "RETIRED": {
+            "type": "boolean"
+          },
+          "STUDENT": {
+            "type": "boolean"
+          },
+          "NONE_OF_ABOVE": {
+            "type": "boolean"
+          }
+        }
+      },
+      "employmentStatusUISchema": {
+        "ui:title": "Which work situation best describes you?",
+        "ui:description": "Please check all that apply.",
+        "EMPLOYED_HOME": {
+          "ui:title": "Employed (working from home)"
+        },
+        "EMPLOYED_OUTSIDE_OF_HOME": {
+          "ui:title": "Employed (working outside the home)"
+        },
+        "FRONTLINE_WORKER": {
+          "ui:title": "Frontline health care provider"
+        },
+        "FURLOUGHED_UNEMPLOYED": {
+          "ui:title": "Furloughed or unemployed"
+        },
+        "RETIRED": {
+          "ui:title": "Retired"
+        },
+        "STUDENT": {
+          "ui:title": "Student"
+        },
+        "NONE_OF_ABOVE": {
+          "ui:title": "None of the above"
+        }
+      }
+    },
+    "transportation": {
+      "transportationSchema": {
+        "type": "object",
+        "properties": {
+          "CAR": {
+            "type": "boolean"
+          },
+          "FREQUENT_AIR_TRAVEL": {
+            "type": "boolean"
+          },
+          "PUBLIC_TRANSPORT": {
+            "type": "boolean"
+          },
+          "WALK_BIKE": {
+            "type": "boolean"
+          },
+          "WORK_FROM_HOME": {
+            "type": "boolean"
+          },
+          "NONE_OF_ABOVE": {
+            "type": "boolean"
+          }
+        }
+      },
+      "transportationUISchema": {
+        "ui:title": "How do you get to work?",
+        "ui:description": "Please check all that apply.",
+        "CAR": {
+          "ui:title": "CAR"
+        },
+        "FREQUENT_AIR_TRAVEL": {
+          "ui:title": "Frequent air travel"
+        },
+        "PUBLIC_TRANSPORT": {
+          "ui:title": "Public transporation (bus, train, subway)"
+        },
+        "WALK_BIKE": {
+          "ui:title": "Walk or bike"
+        },
+        "WORK_FROM_HOME": {
+          "ui:title": "Work from home"
+        },
+        "NONE_OF_ABOVE": {
+          "ui:title": "None of the above"
+        }
+      }
+    },
+    "residents": {
+      "residentsUISchema": {
+        "ui:title": "How many people live in your home?",
+        "ui:widget": "radio"
+      },
+      "residentsSchema": {
+        "type": "string",
+        "enum": ["ONE_TWO", "THREE_FIVE", "SIX_TEN", "MORE_THAN_TEN"],
+        "enumNames": ["1 to 2", "3 to 5", "6 to 10", "More than 10"]
+      }
+    },
+    "closeContact": {
+      "closeContactUISchema": {
+        "ui:title": "On most days, how many people do you have close contact with outside of those who live in your home?",
+        "ui:description": "We define close contact as being within 6 feet of a person.",
+        "ui:widget": "radio"
+      },
+      "closeContactSchema": {
+        "type": "string",
+        "enum": [
+          "ZERO",
+          "ONE_TEN",
+          "ELEVEN_THIRTY",
+          "THIRTYONE_FIFTY",
+          "MORE_THAN_FIFTY"
+        ],
+        "enumNames": ["0", "1 to 10", "11 to 30", "31 to 50", "More than 50"]
+      }
+    }
+  }
+}

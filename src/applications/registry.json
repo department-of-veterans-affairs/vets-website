@@ -843,5 +843,14 @@
       "layout": "page-react.html",
       "title": "View Payments"
     }
+  },
+  {
+    "appName": "Covid Vaccine Trial",
+    "entryName": "covid-vaccine-trial",
+    "rootUrl": "/covid-vaccine-trial",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
   }
 ]
