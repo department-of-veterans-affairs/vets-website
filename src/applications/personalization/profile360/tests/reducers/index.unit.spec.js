@@ -15,6 +15,17 @@ describe('index reducer', () => {
     expect(state.hero).to.eql('heroContent');
   });
 
+  it('should populate with errors when errors are present', () => {
+    const state = vaProfile(undefined, {
+      type: 'FETCH_HERO_FAILED',
+      hero: {
+        errors: ['This is an error'],
+      },
+    });
+
+    expect(state.hero).to.eql({ errors: ['This is an error'] });
+  });
+
   it('should fetch personalInformation', () => {
     const state = vaProfile(undefined, {
       type: 'FETCH_PERSONAL_INFORMATION_SUCCESS',
