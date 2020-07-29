@@ -56,7 +56,7 @@ const optionDefinitions = [
     name: 'transform-unpublished',
     type: Boolean,
     description: 'Transform unpublished entities.',
-    default: false,
+    default: true,
   },
 ];
 
