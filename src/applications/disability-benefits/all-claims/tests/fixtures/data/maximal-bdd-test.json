@@ -193,7 +193,6 @@
         }
       ],
       "view:newDisabilities": true,
-      "ratedDisabilities": [],
       "view:disabilitiesClarification": {},
       "serviceInformation": {
         "reservesNationalGuardService": {
@@ -210,7 +209,7 @@
         },
         "servicePeriods": [
           {
-            "serviceBranch": "Overwritten in Submit Transformer Unit Test",
+            "serviceBranch": "Air Force Reserve",
             "dateRange": {
               "from": "2001-03-21",
               "to": "2014-07-21"
