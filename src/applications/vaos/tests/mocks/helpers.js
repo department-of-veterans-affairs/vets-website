@@ -331,3 +331,12 @@ export function mockAppointmentSlotFetch({
     },
   );
 }
+
+export function mockRequestSubmit(type, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/appointment_requests?type=${type}`,
+    ),
+    { data },
+  );
+}
