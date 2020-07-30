@@ -24,7 +24,9 @@ const WizardContainer = ({ setWizardStatus }) => {
     }
     return NO_BENEFIT_REFERRED;
   };
-
+  /**
+   * @param {string} currentFormIdSuffix The suffix of the current VA form id
+   */
   const getCurrentVAFormId = currentFormIdSuffix => {
     const VAFormIDs = Object.values(VA_FORM_IDS);
     for (const VAFormID of VAFormIDs) {
