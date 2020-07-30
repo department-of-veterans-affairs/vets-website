@@ -24,11 +24,6 @@ module.exports = {
     path: { $ref: 'RawPath' },
     field_media_in_library: { $ref: 'GenericNestedBoolean' },
     field_media_video_embed_field: { $ref: 'GenericNestedString' },
-    field_owner: {
-      type: 'array',
-      maxItems: 1,
-      items: { $ref: 'EntityReference' },
-    },
   },
   required: [
     'name',

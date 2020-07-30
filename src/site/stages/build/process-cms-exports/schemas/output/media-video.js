@@ -8,7 +8,6 @@ module.exports = {
     entityMetatags: { $ref: 'MetaTags' },
     fieldMediaInLibrary: { type: 'boolean' },
     fieldMediaVideoEmbedField: { type: 'string' },
-    fieldOwner: { $ref: 'output/taxonomy_term-administration' },
   },
   required: [
     'name',
