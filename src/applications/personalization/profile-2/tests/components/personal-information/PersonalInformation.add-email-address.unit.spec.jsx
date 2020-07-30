@@ -52,29 +52,28 @@ describe('Adding email address', () => {
     });
 
     // click the button
-    view.getByRole('button', { name: /add.*email address/i }).click();
+    view.getByText(/add.*email address/i, { selector: 'button' }).click();
 
-    const editForm = await view.findByRole('form');
+    const emailAddressInput = view.getByLabelText(/email address/i);
 
-    expect(editForm).to.exist;
+    expect(emailAddressInput).to.exist;
 
     // enter data in the form
-    const input = view.getByLabelText(/email address/i);
-    user.type(input, newEmailAddress);
+    user.type(emailAddressInput, newEmailAddress);
 
     // save
-    view.getByRole('button', { name: 'Update' }).click();
+    view.getByText('Update', { selector: 'button' }).click();
 
     // wait for the edit mode to exit and the new address to show up
-    await waitForElementToBeRemoved(editForm);
+    await waitForElementToBeRemoved(emailAddressInput);
 
     // the edit email button should exist
     expect(view.getByRole('button', { name: /edit.*email address/i })).to.exist;
     // and the new email address should exist in the DOM
     expect(view.getByText(newEmailAddress)).to.exist;
     // and the add email button should be gone
-    expect(view.queryByRole('button', { name: /add.*email address/i })).not.to
-      .exist;
+    expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not
+      .to.exist;
   });
   it('should handle a transaction that does not succeed until after the edit view exits', async () => {
     server.use(...mocks.addEmailAddressTransactionPending);
@@ -87,21 +86,20 @@ describe('Adding email address', () => {
     });
 
     // click the button
-    view.getByRole('button', { name: /add.*email address/i }).click();
+    view.getByText(/add.*email address/i, { selector: 'button' }).click();
 
-    const editForm = await view.findByRole('form');
+    const emailAddressInput = view.getByLabelText(/email address/i);
 
-    expect(editForm).to.exist;
+    expect(emailAddressInput).to.exist;
 
     // enter data in the form
-    const input = view.getByLabelText(/email address/i);
-    user.type(input, newEmailAddress);
+    user.type(emailAddressInput, newEmailAddress);
 
     // save
-    view.getByRole('button', { name: 'Update' }).click();
+    view.getByText('Update', { selector: 'button' }).click();
 
     // wait for the edit mode to exit and the new address to show up
-    await waitForElementToBeRemoved(editForm);
+    await waitForElementToBeRemoved(emailAddressInput);
 
     // check that the "we're saving your..." message appears
     const savingMessage = await view.findByText(
@@ -122,8 +120,8 @@ describe('Adding email address', () => {
     // and the new email address should exist in the DOM
     expect(view.getByText(newEmailAddress)).to.exist;
     // and the add email button should be gone
-    expect(view.queryByRole('button', { name: /add.*email address/i })).not.to
-      .exist;
+    expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not
+      .to.exist;
   });
   it('should show an error if the transaction cannot be created', async () => {
     server.use(...mocks.addEmailAddressCreateTransactionFailure);
@@ -136,18 +134,17 @@ describe('Adding email address', () => {
     });
 
     // click the button
-    view.getByRole('button', { name: /add.*email address/i }).click();
+    view.getByText(/add.*email address/i, { selector: 'button' }).click();
 
-    const editForm = await view.findByRole('form');
+    const emailAddressInput = view.getByLabelText(/email address/i);
 
-    expect(editForm).to.exist;
+    expect(emailAddressInput).to.exist;
 
     // enter data in the form
-    const input = view.getByLabelText(/email address/i);
-    user.type(input, newEmailAddress);
+    user.type(emailAddressInput, newEmailAddress);
 
     // save
-    view.getByRole('button', { name: 'Update' }).click();
+    view.getByText('Update', { selector: 'button' }).click();
 
     // expect an error to be shown
     const alert = await view.findByRole('alert');
@@ -167,18 +164,17 @@ describe('Adding email address', () => {
     });
 
     // click the button
-    view.getByRole('button', { name: /add.*email address/i }).click();
+    view.getByText(/add.*email address/i, { selector: 'button' }).click();
 
-    const editForm = await view.findByRole('form');
+    const emailAddressInput = view.getByLabelText(/email address/i);
 
-    expect(editForm).to.exist;
+    expect(emailAddressInput).to.exist;
 
     // enter data in the form
-    const input = view.getByLabelText(/email address/i);
-    user.type(input, newEmailAddress);
+    user.type(emailAddressInput, newEmailAddress);
 
     // save
-    view.getByRole('button', { name: 'Update' }).click();
+    view.getByText('Update', { selector: 'button' }).click();
 
     // expect an error to be shown
     const alert = await view.findByRole('alert');
@@ -198,21 +194,20 @@ describe('Adding email address', () => {
     });
 
     // click the button
-    view.getByRole('button', { name: /add.*email address/i }).click();
+    view.getByText(/add.*email address/i, { selector: 'button' }).click();
 
-    const editForm = await view.findByRole('form');
+    const emailAddressInput = view.getByLabelText(/email address/i);
 
-    expect(editForm).to.exist;
+    expect(emailAddressInput).to.exist;
 
     // enter data in the form
-    const input = view.getByLabelText(/email address/i);
-    user.type(input, newEmailAddress);
+    user.type(emailAddressInput, newEmailAddress);
 
     // save
-    view.getByRole('button', { name: 'Update' }).click();
+    view.getByText('Update', { selector: 'button' }).click();
 
     // wait for the edit mode to exit and the new address to show up
-    await waitForElementToBeRemoved(editForm);
+    await waitForElementToBeRemoved(emailAddressInput);
 
     // check that the "we're saving your..." message appears
     const savingMessage = await view.findByText(
@@ -234,6 +229,7 @@ describe('Adding email address', () => {
     // and the new email address should not exist in the DOM
     expect(view.queryByText(newEmailAddress)).not.to.exist;
     // and the add email button should be back
-    expect(view.getByRole('button', { name: /add.*email address/i })).to.exist;
+    expect(view.getByText(/add.*email address/i, { selector: 'button' })).to
+      .exist;
   });
 });
