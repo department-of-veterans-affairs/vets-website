@@ -73,20 +73,27 @@ const pageKey = 'reasonForAppointment';
 
 export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
-    const isCC = this.isCC();
-    document.title = `${this.getPageTitle(isCC)} | Veterans Affairs`;
+    const isCommunityCare = this.isCommunityCare();
+    const reasonUiSchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
+    const reasonInitialSchema = isCommunityCare
+      ? initialSchema.cc
+      : initialSchema.default;
+
     this.props.openReasonForAppointment(
       pageKey,
-      isCC ? uiSchema.cc : uiSchema.default,
-      isCC ? initialSchema.cc : initialSchema.default,
+      reasonUiSchema,
+      reasonInitialSchema,
     );
+
+    document.title = `${this.getPageTitle(isCommunityCare)} | Veterans Affairs`;
     scrollAndFocus();
   }
 
-  isCC = () => this.props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+  isCommunityCare = () =>
+    this.props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
 
-  getPageTitle = () =>
-    this.isCC()
+  getPageTitle = isCommunityCare =>
+    isCommunityCare
       ? 'Tell us the reason for this appointment'
       : 'Choose a reason for your appointment';
 
@@ -100,9 +107,11 @@ export class ReasonForAppointmentPage extends React.Component {
 
   render() {
     const { schema, data, pageChangeInProgress } = this.props;
-    const isCC = this.isCC();
-    const reasonUiSchema = isCC ? uiSchema.cc : uiSchema.default;
-    const reasonInitialSchema = isCC ? initialSchema.cc : initialSchema.default;
+    const isCommunityCare = this.isCommunityCare();
+    const reasonUiSchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
+    const reasonInitialSchema = isCommunityCare
+      ? initialSchema.cc
+      : initialSchema.default;
 
     return (
       <div>
