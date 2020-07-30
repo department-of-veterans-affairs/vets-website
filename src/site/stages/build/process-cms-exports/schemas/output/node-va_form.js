@@ -64,16 +64,13 @@ module.exports = {
     fieldVaFormRelatedForms: {
       type: 'array',
       items: {
-        type: 'object',
-        properties: {
-          /* eslint-disable react-hooks/rules-of-hooks */
-          entity: usePartialSchema(vaFormSchema, [
-            'fieldVaFormName',
-            'fieldVaFormNumber',
-            'fieldVaFormUsage',
-            'fieldVaFormUrl',
-          ]),
-        },
+        /* eslint-disable react-hooks/rules-of-hooks */
+        entity: usePartialSchema(vaFormSchema, [
+          'fieldVaFormName',
+          'fieldVaFormNumber',
+          'fieldVaFormUsage',
+          'fieldVaFormUrl',
+        ]),
       },
     },
     fieldVaFormRevisionDate: { type: ['string', 'null'] },
