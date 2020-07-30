@@ -8,7 +8,7 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import TypeOfCarePage, * as noRedux from '../../containers/TypeOfCarePage';
 import { TYPES_OF_CARE } from '../../utils/constants';
-import { createTestStore } from '../mocks/form';
+import { createTestStore } from '../mocks/setup';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/dom';
 

@@ -67,7 +67,7 @@ const mockUser = {
 /**
  * Simulates a logged in session.
  */
-Cypress.Commands.add('login', () => {
+Cypress.Commands.add('login', (userData = mockUser) => {
   window.localStorage.setItem('hasSession', true);
-  cy.server().route('GET', '/v0/user', mockUser);
+  cy.server().route('GET', '/v0/user', userData);
 });

@@ -88,6 +88,7 @@ export class DateTimeSelectPage extends React.Component {
         .add(1, 'months')
         .endOf('month')
         .format('YYYY-MM-DD'),
+      true,
     );
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();

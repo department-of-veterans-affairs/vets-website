@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
-import { isEmpty } from 'lodash';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { vetCenterServices } from '../config';
@@ -91,13 +90,28 @@ class ServicesAtFacility extends Component {
       },
     } = this.props;
 
-    if (!services.benefits || isEmpty(services.benefits.standard)) {
+    if (
+      !services.benefits ||
+      services.benefits.length === 0 ||
+      (services.benefits.standard && services.benefits.standard.length === 0)
+    ) {
       return null;
     }
 
+    /**
+     * Since moving to v1 the services object changed. For now,
+     * supporting v0 as the implementation is still on flipper.
+     *
+     * v0  - services.benefits.standard
+     * v1  - services.benefits
+     */
     return (
       <div className="mb2">
-        <ul>{services.benefits.standard.map(s => this.renderService(s))}</ul>
+        <ul>
+          {(services.benefits.standard &&
+            services.benefits.standard.map(s => this.renderService(s))) ||
+            services.benefits.map(s => this.renderService(s))}
+        </ul>
       </div>
     );
   }

@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import DowntimeNotification, {
@@ -68,7 +71,7 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
           }
         />
       );
-    } else if (some(error.errors, e => ['500', '503'].includes(e.code))) {
+    } else {
       return <LoadFail information="military" />;
     }
   }
@@ -135,10 +138,7 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
             </a>
             , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
             p.m. ET. If you have hearing loss, call TTY:{' '}
-            <a href="tel:1-866-363-2883" className="no-wrap">
-              1-866-363-2883
-            </a>
-            .
+            <Telephone contact={CONTACTS.DS_LOGON_TTY} />.
           </p>
         </AdditionalInfo>
       </div>

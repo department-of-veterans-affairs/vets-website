@@ -88,6 +88,9 @@ export const resolveParamsWithUrl = (
   };
 };
 
+// Please use sentence case for all of these
+// except 'Vet Centers' and acronyms like IDES.
+
 export const facilityTypes = {
   [FacilityType.VA_HEALTH_FACILITY]: 'VA health',
   [FacilityType.URGENT_CARE]: 'Urgent care',
@@ -104,11 +107,11 @@ export const facilityTypes = {
 
 export const healthServices = {
   All: 'All VA health services',
-  PrimaryCare: 'Primary Care',
-  MentalHealthCare: 'Mental Health Care',
-  DentalServices: 'Dental Services',
-  UrgentCare: 'Urgent Care',
-  EmergencyCare: 'Emergency Care',
+  PrimaryCare: 'Primary care',
+  MentalHealthCare: 'Mental health care',
+  DentalServices: 'Dental services',
+  UrgentCare: 'Urgent care',
+  EmergencyCare: 'Emergency care',
   Audiology: 'Audiology',
   Cardiology: 'Cardiology',
   Dermatology: 'Dermatology',
@@ -118,7 +121,7 @@ export const healthServices = {
   Optometry: 'Optometry',
   Orthopedics: 'Orthopedics',
   Urology: 'Urology',
-  WomensHealth: "Women's Health",
+  WomensHealth: "Women's health",
 };
 
 export const ccUrgentCareLabels = {
@@ -141,7 +144,7 @@ export const benefitsServices = {
   EducationClaimAssistance: 'Education claim help',
   FamilyMemberClaimAssistance: 'Family member claim help',
   HomelessAssistance: 'Help for homeless Veterans',
-  VAHomeLoanAssistance: 'VA Home Loan help',
+  VAHomeLoanAssistance: 'VA home loan help',
   InsuranceClaimAssistanceAndFinancialCounseling:
     'Insurance claim help and financial counseling',
   IntegratedDisabilityEvaluationSystemAssistance:
@@ -173,5 +176,5 @@ export const facilityTypesOptions = {
     'Urgent care pharmacies (in VA’s network)',
   [LocationType.BENEFITS]: 'VA benefits',
   [LocationType.CEMETARY]: 'VA cemeteries',
-  [LocationType.VET_CENTER]: 'Vet centers',
+  [LocationType.VET_CENTER]: 'Vet Centers',
 };

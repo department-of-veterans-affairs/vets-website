@@ -1,0 +1,529 @@
+{
+  "resourceType": "Bundle",
+  "id": "0f4f13a9-f0b5-4fc6-bd18-2b554d715e1e",
+  "meta": {
+    "lastUpdated": "2020-07-21T19:57:18.210+00:00"
+  },
+  "type": "searchset",
+  "total": 7,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService?characteristic=PATIENTDS_ENABLED&location%3ALocation.identifier=984"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938343A3938343A31313834",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938343A3938343A31313834",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:984:984:1184</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:984:984:1184"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393834"
+        },
+        "location": {
+          "reference": "Location/393834"
+        },
+        "serviceName": "C&P OPTOMETRY",
+        "comment": "Physical location: BLDG 310, ROOM 9",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "408"
+              }
+            ],
+            "text": "OPTOMETRY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/secondary",
+                "code": "450"
+              }
+            ],
+            "text": "COMP & PENS (C&P) EXAMS"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938343A3938343A31333133",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938343A3938343A31333133",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:984:984:1313</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:984:984:1313"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393834"
+        },
+        "location": {
+          "reference": "Location/393834"
+        },
+        "serviceName": "DAY NUTRITION",
+        "comment": "Physical location: B330, 1E-151",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "124"
+              }
+            ],
+            "text": "NUTRITION/DIETETICS-GROUP"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938343A3938343A32383232",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938343A3938343A32383232",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:984:984:2822</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:984:984:2822"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393834"
+        },
+        "location": {
+          "reference": "Location/393834"
+        },
+        "serviceName": "PMR-KT RISK FACTOR REDU-WALTER",
+        "comment": "Physical location: B305, Rm 113",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "372"
+              }
+            ],
+            "text": "MOVE! PGM INDIV"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/secondary",
+                "code": "214"
+              }
+            ],
+            "text": "KINESIOTHERAPY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938343A3938343A33323934",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938343A3938343A33323934",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:984:984:3294</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:984:984:3294"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393834"
+        },
+        "location": {
+          "reference": "Location/393834"
+        },
+        "serviceName": "OPTOM/CONTACT LENS",
+        "comment": "Physical location: BLDG 330, 6 NORTH",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "408"
+              }
+            ],
+            "text": "OPTOMETRY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/secondary",
+                "code": "449"
+              }
+            ],
+            "text": "FITTING & ADJSTMNTS 2ND ONLY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938343A3938343A33353833",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938343A3938343A33353833",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:984:984:3583</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:984:984:3583"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393834"
+        },
+        "location": {
+          "reference": "Location/393834"
+        },
+        "serviceName": "AUDIOLOGY CONSULTANT-2 (AM)",
+        "comment": "Physical location: PATIENT TOWER, 2ND FLOOR",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "203"
+              }
+            ],
+            "text": "AUDIOLOGY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938343A3938343A33373233",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938343A3938343A33373233",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:984:984:3723</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:984:984:3723"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393834"
+        },
+        "location": {
+          "reference": "Location/393834"
+        },
+        "serviceName": "PHE WEIGHT MANAGEMENT F/U",
+        "comment": "Physical location: B330, Rm 8C-102",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "373"
+              }
+            ],
+            "text": "MOVE! PGM GROUP"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/secondary",
+                "code": "558"
+              }
+            ],
+            "text": "PSYCHOLOGY-GROUP"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/HealthcareService/3938343A3938343A33373438",
+      "resource": {
+        "resourceType": "HealthcareService",
+        "id": "3938343A3938343A33373438",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier></td><td>urn:va:healthcareservice:984:984:3748</td></tr></tbody></table></div>"
+        },
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:healthcareservice:984:984:3748"
+          }
+        ],
+        "providedBy": {
+          "reference": "Organization/393834"
+        },
+        "location": {
+          "reference": "Location/393834"
+        },
+        "serviceName": "AUDIOLOGY FELLOW (AM)",
+        "comment": "Physical location: TOWER, 2ND FLOOR",
+        "characteristic": [
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/urn/vsp/clinic/stopcode/primary",
+                "code": "203"
+              }
+            ],
+            "text": "AUDIOLOGY"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENTDS_ENABLED",
+                "display": "Patient direct scheduling enabled"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://med.va.gov/fhir/vsp/clinic-flags",
+                "code": "PATIENT_DISPLAY_ENABLED",
+                "display": "Patient appointment display enabled"
+              }
+            ]
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": [
+              "mon",
+              "fri",
+              "sun",
+              "wed",
+              "thu",
+              "tue",
+              "sat"
+            ],
+            "allDay": true
+          }
+        ]
+      }
+    }
+  ]
+}

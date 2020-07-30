@@ -117,7 +117,7 @@ class FacilityDetail extends Component {
         <h1>{name}</h1>
         {this.showOperationStatus(operatingStatus, website, facilityType)}
         <div className="p1">
-          <FacilityTypeDescription location={facility} />
+          <FacilityTypeDescription from="FacilityDetail" location={facility} />
           <LocationAddress location={facility} />
         </div>
         <div>
