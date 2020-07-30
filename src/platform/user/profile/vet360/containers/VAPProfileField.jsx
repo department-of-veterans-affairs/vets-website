@@ -90,7 +90,15 @@ class VAPProfileField extends React.Component {
     // seconds we will show a "we're saving your new information..." message on
     // the Profile
     if (!prevProps.transaction && this.props.transaction) {
-      this.closeModalTimeoutID = setTimeout(() => this.closeModal(), 5000);
+      this.closeModalTimeoutID = setTimeout(
+        () => this.closeModal(),
+        // Using 50ms as the unit test timeout before exiting edit view while
+        // waiting for an update to happen. Being too aggressive, like 5ms,
+        // results in exiting the edit view before Redux has had time to do
+        // everything it needs to do. In that situation we see the "we're saving
+        // your..." message while Redux is processing everything.
+        window.VetsGov.pollTimeout ? 50 : 5000,
+      );
     }
 
     if (this.justClosedModal(prevProps, this.props)) {
