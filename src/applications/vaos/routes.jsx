@@ -63,6 +63,12 @@ const NewExpressCareRequestLayout = asyncLoader(() =>
 const ExpressCareInfoPage = asyncLoader(() =>
   import(/* webpackChunkName: "express-care" */ './containers/ExpressCareInfoPage'),
 );
+const ExpressCareFormPage = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareFormPage'),
+);
+const ExpressCareConfirmationPage = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareConfirmationPage'),
+);
 
 export default function createRoutesWithStore(store) {
   return (
@@ -109,6 +115,8 @@ export default function createRoutesWithStore(store) {
         component={NewExpressCareRequestLayout}
       >
         <IndexRoute component={ExpressCareInfoPage} />
+        <Route path="form" component={ExpressCareFormPage} />
+        <Route path="confirmation" component={ExpressCareConfirmationPage} />
       </Route>
     </Route>
   );
