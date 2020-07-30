@@ -87,7 +87,7 @@ export const isInsideListLoopReturn = (
     country: {
       'ui:title': 'Country',
       'ui:required': (formData, index) =>
-        formData[chapter][`${index}`][outerField]?.isOutsideUS,
+        `formData?.${chapter}?.${index}?.${outerField}?.isOutsideUS`,
       'ui:options': {
         hideIf: (formData, index) => {
           if (!formData[chapter][`${index}`][outerField]?.isOutsideUS) {
@@ -100,7 +100,7 @@ export const isInsideListLoopReturn = (
     state: {
       'ui:title': 'State',
       'ui:required': (formData, index) =>
-        !formData[chapter][`${index}`][outerField]?.isOutsideUS,
+        !`formData?.${chapter}?.${index}?.${outerField}?.isOutsideUS`,
       'ui:options': {
         hideIf: (formData, index) => {
           if (formData[chapter][`${index}`][outerField]?.isOutsideUS) {
@@ -130,10 +130,10 @@ export const isOutsideListLoopReturn = (
     },
     country: {
       'ui:title': 'Country',
-      'ui:required': formData => formData[chapter][outerField]?.isOutsideUS,
+      'ui:required': formData => formData?.[chapter]?.[outerField]?.isOutsideUS,
       'ui:options': {
         hideIf: formData => {
-          if (!formData[chapter][outerField].isOutsideUS) {
+          if (!formData?.[chapter]?.[outerField]?.isOutsideUS) {
             return true;
           }
           return false;
@@ -142,10 +142,11 @@ export const isOutsideListLoopReturn = (
     },
     state: {
       'ui:title': 'State',
-      'ui:required': formData => !formData[chapter][outerField]?.isOutsideUS,
+      'ui:required': formData =>
+        !formData?.[chapter]?.[outerField]?.isOutsideUS,
       'ui:options': {
         hideIf: formData => {
-          if (formData[chapter][outerField].isOutsideUS) {
+          if (formData?.[chapter]?.[outerField]?.isOutsideUS) {
             return true;
           }
           return false;
@@ -153,7 +154,7 @@ export const isOutsideListLoopReturn = (
       },
     },
     city: {
-      'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
+      'ui:required': formData => isChapterFieldRequired(formData, formChapter),
       'ui:title': 'City',
     },
   };
