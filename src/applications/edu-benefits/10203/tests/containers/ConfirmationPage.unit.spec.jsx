@@ -46,7 +46,7 @@ describe('<ConfirmationPage>', () => {
         .find('.confirmation-guidance-message')
         .at(0)
         .text(),
-    ).to.contain('Find out what happens after you apply');
+    ).to.contain('We usually decide on applications within 30 days.');
 
     tree.unmount();
   });
