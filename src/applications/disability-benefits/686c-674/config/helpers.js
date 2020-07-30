@@ -87,10 +87,10 @@ export const isInsideListLoopReturn = (
     country: {
       'ui:title': 'Country',
       'ui:required': (formData, index) =>
-        `formData?.${chapter}?.${index}?.${outerField}?.isOutsideUS`,
+        formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUS,
       'ui:options': {
         hideIf: (formData, index) => {
-          if (!formData[chapter][`${index}`][outerField]?.isOutsideUS) {
+          if (!formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUS) {
             return true;
           }
           return false;
@@ -100,10 +100,10 @@ export const isInsideListLoopReturn = (
     state: {
       'ui:title': 'State',
       'ui:required': (formData, index) =>
-        !`formData?.${chapter}?.${index}?.${outerField}?.isOutsideUS`,
+        !formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUS,
       'ui:options': {
         hideIf: (formData, index) => {
-          if (formData[chapter][`${index}`][outerField]?.isOutsideUS) {
+          if (formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUS) {
             return true;
           }
           return false;
