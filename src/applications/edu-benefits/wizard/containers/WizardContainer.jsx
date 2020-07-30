@@ -7,7 +7,7 @@ import Wizard, {
   formIdSuffixes,
   NO_BENEFIT_REFERRED,
 } from '../../../static-pages/wizard';
-import pageComponents from '../pages';
+import pages from '../pages';
 
 const WizardContainer = ({ setWizardStatus }) => {
   /**
@@ -31,7 +31,7 @@ const WizardContainer = ({ setWizardStatus }) => {
         To see if this is the right form for you, please answer a few questions.
       </p>
       <Wizard
-        pages={pageComponents}
+        pages={pages}
         expander
         setBenefitReferred={setBenefitReferred}
         setWizardStatus={setWizardStatus}
