@@ -16,20 +16,10 @@ const facilityName = (query, location) => {
 };
 
 const FacilityTypeDescription = ({ location, from, query }) => (
-  <p>
-    <div>
-      {from === 'SearchResult' ? (
-        <div>
-          {facilityName(query, location) &&
-            facilityName(query, location).toUpperCase()}
-        </div>
-      ) : (
-        <div>
-          <strong>Facility type:</strong> {facilityName(query, location)}
-        </div>
-      )}
-    </div>
-  </p>
+  <div className="vads-u-margin-bottom--1">
+    {from === 'FacilityDetail' && <strong>Facility type: </strong>}
+    {facilityName(query, location)}
+  </div>
 );
 
 export default FacilityTypeDescription;

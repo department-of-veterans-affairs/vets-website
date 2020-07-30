@@ -807,11 +807,11 @@
   },
   {
     "appName": "Debt Letters",
-    "entryName": "debt-letters",
-    "rootUrl": "/debt-letters",
+    "entryName": "your-debt",
+    "rootUrl": "/manage-va-debt/your-debt",
     "template": {
       "vagovprod": false,
-      "title": "Debt Letters",
+      "title": "Your VA Debt",
       "layout": "page-react.html"
     }
   },

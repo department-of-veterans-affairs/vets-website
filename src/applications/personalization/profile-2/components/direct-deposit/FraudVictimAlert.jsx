@@ -1,5 +1,9 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const FraudVictimAlert = () => (
   <AlertBox
@@ -16,10 +20,7 @@ const FraudVictimAlert = () => (
     >
       800-827-1000
     </a>{' '}
-    (
-    <a href="tel:711" aria-label="TTY. 7 1 1.">
-      TTY: 711
-    </a>
+    (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
     ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
   </AlertBox>
 );
