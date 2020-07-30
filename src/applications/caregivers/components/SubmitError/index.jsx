@@ -12,7 +12,7 @@ const SubmitError = () => {
           We’re sorry. Something went wrong when you tried to submit your
           application. Please review your application to make sure you entered
           your information correctly. If you think your information is correct,
-          please call the VA.gov help desk at
+          please call the VA.gov help desk at{' '}
           <Telephone contact={CONTACTS.HELP_DESK} />. We’re here Monday through
           Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
@@ -22,7 +22,7 @@ const SubmitError = () => {
           to:
         </p>
 
-        <p className="va-address-block">
+        <p className="va-address-block vads-u-margin-x--0">
           Program of Comprehensive Assistance for Family Caregivers <br />
           Health Eligibility Center <br />
           2957 Clairmont Road NE, Ste 200 <br />
