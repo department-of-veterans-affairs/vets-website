@@ -8,7 +8,6 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import environment from 'platform/utilities/environment';
-import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 
@@ -34,10 +33,9 @@ class SignInPage extends React.Component {
       !this.props.profile.verified &&
       application === 'myvahealth'
     ) {
-      this.props.router.push('/verify');
-      // window.location.replace(
-      //   appendQuery('/verify', { next: window.location.href }),
-      // );
+      this.props.router.push(
+        appendQuery('/verify', { next: window.location.href }),
+      );
     }
   }
 
@@ -74,71 +72,69 @@ class SignInPage extends React.Component {
     const loggedOut = query.auth === 'logged_out';
 
     return (
-      <main className="login">
+      <>
         <AutoSSO />
-        <div className="container">
-          <div className="row">
-            {loggedOut && <LogoutAlert />}
-            <div className="columns small-12">
-              <h1 className="medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--5">
-                Sign in
-              </h1>
-            </div>
-          </div>
-          <div className="row medium-screen:vads-u-display--none mobile-explanation">
-            <div className="columns small-12">
-              <h2>
-                One sign in. A lifetime of benefits and services at your
-                fingertips.
-              </h2>
-            </div>
-          </div>
-          {downtimeBanners.map((props, index) =>
-            this.downtimeBanner(props, globalDowntime, index),
-          )}
-          <div className="row">
-            <div className="usa-width-one-half">
-              <div className="signin-actions-container">
-                <div className="top-banner">
-                  <div>
-                    <img
-                      alt="ID.me"
-                      src={`${vaGovFullDomain}/img/signin/lock-icon.svg`}
-                    />{' '}
-                    Secured & powered by{' '}
-                    <img
-                      alt="ID.me"
-                      src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
-                    />
-                  </div>
-                </div>
-                <div className="signin-actions">
-                  <h5>Sign in with an existing account</h5>
-                  <SignInButtons isDisabled={globalDowntime} />
-                </div>
-              </div>
-            </div>
-            <SignInDescription />
-          </div>
-          <div className="row">
-            <div className="columns small-12">
-              <div className="help-info">
-                <h4>Having trouble signing in?</h4>
-                <p>
-                  <a href="/sign-in-faq/" target="_blank">
-                    Get answers to Frequently Asked Questions
-                  </a>
-                </p>
-                <p>
-                  <SubmitSignInForm startSentence />
-                </p>
-              </div>
-              <hr />
-              <FedWarning />
-            </div>
+        <div className="row">
+          {loggedOut && <LogoutAlert />}
+          <div className="columns small-12">
+            <h1 className="medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--5">
+              Sign in
+            </h1>
           </div>
         </div>
-      </main>
+        <div className="row medium-screen:vads-u-display--none mobile-explanation">
+          <div className="columns small-12">
+            <h2>
+              One sign in. A lifetime of benefits and services at your
+              fingertips.
+            </h2>
+          </div>
+        </div>
+        {downtimeBanners.map((props, index) =>
+          this.downtimeBanner(props, globalDowntime, index),
+        )}
+        <div className="row">
+          <div className="usa-width-one-half">
+            <div className="signin-actions-container">
+              <div className="top-banner">
+                <div>
+                  <img
+                    alt="ID.me"
+                    src={`${vaGovFullDomain}/img/signin/lock-icon.svg`}
+                  />{' '}
+                  Secured & powered by{' '}
+                  <img
+                    alt="ID.me"
+                    src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
+                  />
+                </div>
+              </div>
+              <div className="signin-actions">
+                <h5>Sign in with an existing account</h5>
+                <SignInButtons isDisabled={globalDowntime} />
+              </div>
+            </div>
+          </div>
+          <SignInDescription />
+        </div>
+        <div className="row">
+          <div className="columns small-12">
+            <div className="help-info">
+              <h4>Having trouble signing in?</h4>
+              <p>
+                <a href="/sign-in-faq/" target="_blank">
+                  Get answers to Frequently Asked Questions
+                </a>
+              </p>
+              <p>
+                <SubmitSignInForm startSentence />
+              </p>
+            </div>
+            <hr />
+            <FedWarning />
+          </div>
+        </div>
+      </>
     );
   }
 }
