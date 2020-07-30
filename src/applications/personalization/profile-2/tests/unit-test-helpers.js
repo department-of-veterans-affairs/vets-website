@@ -151,3 +151,28 @@ export function getBasicContactInfoState() {
     textPermission: null,
   };
 }
+
+export function createBasicInitialState() {
+  return {
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: {
+        get() {},
+      },
+      dismissedDowntimeWarnings: [],
+    },
+    vaProfile: {
+      personalInformation: {
+        gender: 'M',
+        birthDate: '1986-05-06',
+      },
+    },
+    user: {
+      profile: {
+        vet360: getBasicContactInfoState(),
+      },
+    },
+  };
+}

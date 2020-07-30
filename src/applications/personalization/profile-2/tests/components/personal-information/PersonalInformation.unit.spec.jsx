@@ -1,73 +1,17 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
 import { resetFetch } from 'platform/testing/unit/helpers';
 
 import * as mocks from '../../../msw-mocks';
-import {
-  getBasicContactInfoState,
-  renderWithProfileReducers,
-} from '../../unit-test-helpers';
-
 import PersonalInformation from '../../../components/personal-information/PersonalInformation';
 
-function createBasicInitialState() {
-  return {
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: {
-        get() {},
-      },
-      dismissedDowntimeWarnings: [],
-    },
-    vaProfile: {
-      personalInformation: {
-        gender: 'M',
-        birthDate: '1986-05-06',
-      },
-    },
-    user: {
-      profile: {
-        vet360: getBasicContactInfoState(),
-      },
-    },
-  };
-}
-
-function fillOutAndSubmitBankInfoForm(view) {
-  const accountNumberField = view.getByLabelText(/account number/i);
-  const routingNumberField = view.getByLabelText(/routing/i);
-  const accountTypeSelect = view.getByLabelText(/account type/i);
-  const submitButton = view.getByRole('button', { name: /update/i });
-
-  userEvent.type(accountNumberField, '123123123');
-  userEvent.type(routingNumberField, '456456456');
-  userEvent.selectOptions(accountTypeSelect, ['Savings']);
-  userEvent.click(submitButton);
-}
-
-function findSetUpBankInfoButton(view) {
-  return view.queryByRole('button', {
-    name: /please add your bank information/i,
-  });
-}
-
-function findEditBankInfoButton(view) {
-  return view.getByRole('button', {
-    name: /edit your direct deposit bank information/i,
-  });
-}
-
-function findCancelEditButton(view) {
-  return view.getByRole('button', {
-    name: /cancel/i,
-  });
-}
+import {
+  createBasicInitialState,
+  renderWithProfileReducers,
+} from '../../unit-test-helpers';
 
 describe('PersonalInformation', () => {
   let server;

@@ -8,37 +8,12 @@ import { setupServer } from 'msw/node';
 import { resetFetch } from 'platform/testing/unit/helpers';
 
 import * as mocks from '../../../msw-mocks';
-import {
-  getBasicContactInfoState,
-  renderWithProfileReducers,
-} from '../../unit-test-helpers';
-
 import PersonalInformation from '../../../components/personal-information/PersonalInformation';
 
-function createBasicInitialState() {
-  return {
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: {
-        get() {},
-      },
-      dismissedDowntimeWarnings: [],
-    },
-    vaProfile: {
-      personalInformation: {
-        gender: 'M',
-        birthDate: '1986-05-06',
-      },
-    },
-    user: {
-      profile: {
-        vet360: getBasicContactInfoState(),
-      },
-    },
-  };
-}
+import {
+  createBasicInitialState,
+  renderWithProfileReducers,
+} from '../../unit-test-helpers';
 
 describe('Adding email address', () => {
   // before we can use msw, we need to make sure that global.fetch has been
