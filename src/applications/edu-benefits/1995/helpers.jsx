@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import environment from 'platform/utilities/environment';
 
 // 1995-STEM related
@@ -60,7 +59,7 @@ export const buildSubmitEventData = formData => {
     'new-service-periods-to-record': yesNoOrUndefined(
       formData['view:newService'],
     ),
-    'service-details': _.get(formData, 'toursOfDuty', []).map(tour => ({
+    'service-details': (formData.toursOfDuty || []).map(tour => ({
       'service-branch': tour.serviceBranch,
       'service-start-date': tour.dateRange.from,
       'service-end-date': tour.dateRange.to,
