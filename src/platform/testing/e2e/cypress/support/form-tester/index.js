@@ -482,10 +482,6 @@ const testForm = testConfig => {
 
       cy.wrap(arrayPages).as('arrayPages');
 
-      // Save a couple of seconds by definitively responding with
-      // no maintenance windows instead of letting the request time out.
-      cy.server().route('GET', '/v0/maintenance_windows', []);
-
       // Resolve relative page hook paths as relative to the form's root URL.
       const resolvedPageHooks = Object.entries(pageHooks).reduce(
         (hooks, [path, hook]) => ({
