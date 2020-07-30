@@ -1,15 +1,6 @@
 {
     "form526": {
       "standardClaim": false,
-      "isVaEmployee": true,
-      "homelessOrAtRisk": "homeless",
-      "homelessHousingSituation": "other",
-      "otherHomelessHousing": "Under a bridge",
-      "needToLeaveHousing": true,
-      "homelessnessContact": {
-        "name": "Name Here and invalid chars with email elmer fud com",
-        "phoneNumber": "1231231234"
-      },
       "bankAccountType": "Checking",
       "bankAccountNumber": "1233",
       "bankRoutingNumber": "123123123",
@@ -33,33 +24,6 @@
         "zipCode": "54321",
         "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
       },
-      "vaTreatmentFacilities": [
-        {
-          "treatmentCenterName": "Treatment Center the First",
-          "treatmentDateRange": { "from": "2008-01-XX", "to": "2010-01-XX" },
-          "treatmentCenterAddress": {
-            "country": "USA",
-            "city": "Bigcity",
-            "state": "AK"
-          },
-          "treatedDisabilityNames": [
-            "myocardial infarction (MI)"
-          ]
-        },
-        {
-          "treatmentCenterName": "Treatment Center the Second",
-          "treatmentDateRange": { "from": "2010-01-XX", "to": "2018-02-XX" },
-          "treatmentCenterAddress": {
-            "country": "Uganda",
-            "city": "Ugandan City"
-          },
-          "treatedDisabilityNames": ["asthma", "phlebitis", "knee replacement"]
-        }
-      ],
-      "confinements": [
-        { "from": "2016-01-01", "to": "2017-01-01" },
-        { "from": "2017-01-06", "to": "2017-04-01" }
-      ],
       "ratedDisabilities": [],
       "serviceInformation": {
         "reservesNationalGuardService": {
@@ -75,17 +39,14 @@
         },
         "servicePeriods": [
           {
-            "serviceBranch": "Air Force Reserve",
+            "serviceBranch": "Overwritten in Submit Transformer Unit Test",
             "dateRange": { "from": "2001-03-21", "to": "2014-07-21" }
-          },
-          {
-            "serviceBranch": "Air National Guard",
-            "dateRange": { "from": "2015-01-01", "to": "2017-05-13" }
           }
         ],
-        "separationLocation": "Andersen AFB - Air Force / Guam"
+        "separationLocation": {
+          "separationLocationCode": "Andersen AFB - Air Force / Guam"
+        }
       },
-      "servedInCombatZonePost911": true,
       "newPrimaryDisabilities": [
         {
           "cause": "NEW",
@@ -98,7 +59,6 @@
           "worsenedDescription": "My knee was strained in the service",
           "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?",
           "condition": "knee replacement",
-          "specialIssues": ["POW"],
           "classificationCode": "8919"
         },
         {
@@ -107,7 +67,6 @@
           "vaMistreatmentLocation": "Somewhereville",
           "vaMistreatmentDate": "A while ago",
           "condition": "myocardial infarction (MI)",
-          "specialIssues": ["POW"],
           "classificationCode": "4440"
         },
         {
@@ -118,6 +77,11 @@
         }
       ],
       "attachments": [
+        {
+          "name": "STR.pdf",
+          "confirmationCode": "abcdef00-a42f-4bbc-88f3-873c5bea6c00",
+          "attachmentId": "L451"
+        },
         {
           "name": "AngleSettingJig_9_25_15.pdf",
           "confirmationCode": "544f14cc-4e51-4661-b8f4-d79f71567491",
@@ -142,11 +106,6 @@
           "name": "Success.jpg",
           "confirmationCode": "de89492d-2d3f-4486-a73d-1fa4868aa49d",
           "attachmentId": "L023"
-        },
-        {
-          "name": "STR.pdf",
-          "confirmationCode": "abcdef00-a42f-4bbc-88f3-873c5bea6c00",
-          "attachmentId": "L451"
         }
       ]
     }

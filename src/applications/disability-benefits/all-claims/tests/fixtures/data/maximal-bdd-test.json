@@ -210,17 +210,10 @@
         },
         "servicePeriods": [
           {
-            "serviceBranch": "Air Force Reserve",
+            "serviceBranch": "Overwritten in Submit Transformer Unit Test",
             "dateRange": {
               "from": "2001-03-21",
               "to": "2014-07-21"
-            }
-          },
-          {
-            "serviceBranch": "Air National Guard",
-            "dateRange": {
-              "from": "2015-01-01",
-              "to": "2017-05-13"
             }
           }
         ],
