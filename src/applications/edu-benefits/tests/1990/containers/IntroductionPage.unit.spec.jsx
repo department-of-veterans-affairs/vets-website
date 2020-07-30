@@ -5,6 +5,7 @@ import { IntroductionPage } from '../../../1990/containers/IntroductionPage';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
+  getWizardStatus,
 } from '../../../../static-pages/wizard';
 
 describe('Edu 1990 <IntroductionPage>', () => {
@@ -58,6 +59,9 @@ describe('Edu 1990 <IntroductionPage>', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const instance = wrapper.instance();
     instance.setWizardStatus(WIZARD_STATUS_COMPLETE);
+    const wizardStatus = getWizardStatus().then(() => {
+      expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
+    });
     expect(wrapper.exists('WizardContainer')).to.equal(false);
     expect(wrapper.exists('.subway-map')).to.equal(true);
     wrapper.unmount();
