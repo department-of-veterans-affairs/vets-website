@@ -1,16 +1,17 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
-import { displayConfirmEligibility } from '../helpers';
+import { displayConfirmEligibility, isChapter33 } from '../helpers';
 
 import {
   activeDuty,
   applicantInformation,
   benefitSelection,
-  directDeposit,
-  personalInformation,
-  stemEligibility,
   confirmEligibility,
+  directDeposit,
+  initialConfirmEligibility,
+  stemEligibility,
+  personalInformation,
   programDetails,
 } from '../pages';
 
@@ -37,6 +38,14 @@ export const chapters = {
         uiSchema: benefitSelection.uiSchema,
         schema: benefitSelection.schema,
       },
+      initialConfirmEligibility: {
+        title: '',
+        path: 'benefits/initial-confirm-eligibility',
+        depends: form => !isChapter33(form),
+        pageClass: 'vads-u-max-width--100 vads-u-vads-u-width--full',
+        uiSchema: initialConfirmEligibility.uiSchema,
+        schema: initialConfirmEligibility.schema,
+      },
     },
   },
   programDetails: {
@@ -49,15 +58,16 @@ export const chapters = {
         schema: stemEligibility.schema,
       },
       confirmEligibility: {
-        title: '',
+        title: 'Rogers STEM Scholarship eligibility summary',
         path: 'benefits/confirm-eligibility',
-        depends: form => displayConfirmEligibility(form),
+        depends: displayConfirmEligibility,
         pageClass: 'vads-u-max-width--100 vads-u-vads-u-width--full',
         uiSchema: confirmEligibility.uiSchema,
         schema: confirmEligibility.schema,
+        hideHeaderRow: true,
       },
       programDetails: {
-        title: 'Your STEM degree',
+        title: 'STEM degree and school details',
         path: 'benefits/program-details',
         uiSchema: programDetails.uiSchema,
         schema: programDetails.schema,

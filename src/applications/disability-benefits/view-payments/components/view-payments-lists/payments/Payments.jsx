@@ -70,7 +70,7 @@ class PaymentsReceived extends Component {
       tableContent = (
         <>
           {this.props.textContent}
-          <p className="vads-u-font-size--lg">
+          <p className="vads-u-font-size--lg vads-u-font-family--serif">
             Displaying {this.state.fromNumber} - {this.state.toNumber} of{' '}
             {this.props.data.length}
           </p>

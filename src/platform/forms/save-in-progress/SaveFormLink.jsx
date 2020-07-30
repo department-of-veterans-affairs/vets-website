@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { SAVE_STATUSES, saveErrors } from './actions';
 import { focusElement } from '../../utilities/ui';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
+import SipsDevModal from './SaveInProgressDevModal';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -39,13 +40,12 @@ class SaveFormLink extends React.Component {
 
   render() {
     if (!this.props.user.login.currentlyLoggedIn) return null;
-
     const { savedStatus } = this.props.form;
     const { formConfig } = this.props;
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
     return (
-      <div style={{ display: this.props.children ? 'inline' : null }}>
+      <div className={this.props.children ? 'vads-u-display--inline' : ''}>
         <Element name="saveFormLinkTop" />
         {saveErrors.has(savedStatus) && (
           <div
@@ -80,6 +80,7 @@ class SaveFormLink extends React.Component {
               {this.props.children || `Finish this ${appType} later`}
             </button>
             {!this.props.children && '.'}
+            <SipsDevModal {...this.props} />
           </span>
         )}
       </div>
