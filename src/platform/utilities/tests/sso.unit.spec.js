@@ -56,7 +56,7 @@ describe('checkAutoSession', () => {
     global.window = oldWindow;
   });
 
-  it('should redirect user to cerner if logged in via SSOe and on the standalone sign in page', async () => {
+  it('should redirect user to cerner if logged in via SSOe and on the "/sign-in/?application=myvahealth" subroute', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
@@ -66,14 +66,33 @@ describe('checkAutoSession', () => {
     global.window.location.origin = 'http://localhost';
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=myvahealth';
-    await checkAutoSession(true, 'X');
+    const profile = { verified: true };
+    await checkAutoSession(true, 'X', profile);
 
     expect(global.window.location).to.eq(
       'https://ehrm-va-test.patientportal.us.healtheintent.com/',
     );
   });
 
-  it('should redirect user to home page if logged in via SSOe and on the standalone sign in page', async () => {
+  it('should do nothing if on "/sign-in/?application=myvahealth" and not verified', async () => {
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      sessionAlive: true,
+      ttl: 900,
+      authn: 'dslogon',
+      transactionid: 'X',
+    });
+    global.window.location.origin = 'http://localhost';
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=myvahealth';
+    const profile = { verified: false };
+    await checkAutoSession(true, 'X', profile);
+
+    expect(global.window.location.origin).to.eq('http://localhost');
+    expect(global.window.location.pathname).to.eq('/sign-in/');
+    expect(global.window.location.search).to.eq('?application=myvahealth');
+  });
+
+  it('should redirect user to home page if logged in via SSOe, verified, and on the standalone sign in page', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
@@ -83,8 +102,9 @@ describe('checkAutoSession', () => {
     global.window.location.origin = 'http://localhost';
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '';
+    const profile = { verified: true };
 
-    await checkAutoSession(true, 'X');
+    await checkAutoSession(true, 'X', profile);
 
     expect(global.window.location).to.eq('http://localhost');
   });

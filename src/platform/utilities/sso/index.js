@@ -36,7 +36,11 @@ export async function ssoKeepAliveSession() {
   return { ttl, transactionid, authn };
 }
 
-export async function checkAutoSession(loggedIn, ssoeTransactionId, profile) {
+export async function checkAutoSession(
+  loggedIn,
+  ssoeTransactionId,
+  profile = {},
+) {
   const { ttl, transactionid, authn } = await ssoKeepAliveSession();
 
   if (loggedIn && ssoeTransactionId) {
@@ -49,11 +53,11 @@ export async function checkAutoSession(loggedIn, ssoeTransactionId, profile) {
       // redirect them back to their return url
       window.location = standaloneRedirect() || window.location.origin;
     } else if (ttl === 0 || transactionid !== ssoeTransactionId) {
-      // having a user session is not enough, we also need to make sure when
-      // the user authenticated they used SSOe, otherwise we can't auto logout
-      // explicitly check to see if the TTL for the SSOe session is 0, as it
+      // Having a user session is not enough. We also need to make sure when
+      // the user authenticated that they used SSOe, otherwise we can't auto logout.
+      // Explicitly check to see if the TTL for the SSOe session is 0, as it
       // could also be null if we failed to get a response from the SSOe server,
-      // in which case we don't want to logout the user because we don't know
+      // in which case we don't want to logout the user, because we don't know their SSOe status.
       // Additionally, compare the transaction id from the keepalive endpoint
       // with the existing transaction id. If they don't match, it means we might
       // have a different user logged in. Thus, we should auto log out the user,
