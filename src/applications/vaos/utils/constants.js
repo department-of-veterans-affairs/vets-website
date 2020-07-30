@@ -68,8 +68,6 @@ export const PURPOSE_TEXT = [
 export const CC_PURPOSE = 'other';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
-  cc:
-    'Please let us know any additional details about your symptoms that may be helpful for the community health provider to know. (Optional)',
   request:
     'Please give us more detail about why you’re making this appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can’t have an appointment on a certain day or time.',
   direct:

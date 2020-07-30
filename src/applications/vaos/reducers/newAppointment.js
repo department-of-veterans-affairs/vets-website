@@ -564,13 +564,12 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
       const uiSchema = { ...action.uiSchema };
-      const isCommunityCare =
-        state.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+      const formData = state.data;
       let reasonMaxChars = REASON_MAX_CHARS.request;
 
       if (state.flowType === FLOW_TYPES.DIRECT) {
         const prependText = PURPOSE_TEXT.find(
-          purpose => purpose.id === state.data.reasonForAppointment,
+          purpose => purpose.id === formData.reasonForAppointment,
         )?.short;
         reasonMaxChars =
           REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2;
@@ -582,35 +581,20 @@ export default function formReducer(state = initialState, action) {
         action.schema,
       );
 
-      let additionalInfoTitle;
-
-      // If community care, hide reasonForAppointment radios, update
-      // additional info title, remove expand condition and make optional
-      if (isCommunityCare) {
-        additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.cc;
-        reasonSchema = unset('properties.reasonForAppointment', reasonSchema);
-        reasonSchema = unset('required', reasonSchema);
-        delete uiSchema.reasonAdditionalInfo['ui:options'].expandUnder;
-        delete uiSchema.reasonAdditionalInfo['ui:options'].expandUnderCondition;
-        delete uiSchema.reasonForAppointment;
-      } else {
-        additionalInfoTitle =
+      if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
+        const additionalInfoTitle =
           state.flowType === FLOW_TYPES.DIRECT
             ? REASON_ADDITIONAL_INFO_TITLES.direct
             : REASON_ADDITIONAL_INFO_TITLES.request;
+
+        reasonSchema = set(
+          'properties.reasonAdditionalInfo.title',
+          additionalInfoTitle,
+          reasonSchema,
+        );
       }
 
-      reasonSchema = set(
-        'properties.reasonAdditionalInfo.title',
-        additionalInfoTitle,
-        reasonSchema,
-      );
-
-      const { data, schema } = setupFormData(
-        state.data,
-        reasonSchema,
-        uiSchema,
-      );
+      const { data, schema } = setupFormData(formData, reasonSchema, uiSchema);
 
       return {
         ...state,

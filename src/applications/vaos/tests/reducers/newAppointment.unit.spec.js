@@ -774,48 +774,6 @@ describe('VAOS reducer: newAppointment', () => {
           .title,
       ).to.equal(REASON_ADDITIONAL_INFO_TITLES.request);
     });
-
-    it('should remove reasonForAppointment radio buttons and make reasonAdditionalInfo optional if cc', async () => {
-      const currentState = {
-        ...defaultState,
-        flowType: FLOW_TYPES.REQUEST,
-        data: {
-          facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-        },
-      };
-
-      const action = {
-        type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
-        page: 'reasonForAppointment',
-        schema: {
-          type: 'object',
-          required: ['reasonForAppointment', 'reasonAdditionalInfo'],
-          properties: {
-            reasonForAppointment: {
-              type: 'string',
-            },
-            reasonAdditionalInfo: {
-              type: 'string',
-            },
-          },
-        },
-        uiSchema: {
-          reasonAdditionalInfo: {
-            'ui:options': {
-              expandUnder: 'reasonForAppointment',
-              expandUnderCondition: reasonForAppointment =>
-                !!reasonForAppointment,
-            },
-          },
-          reasonForAppointment: {},
-        },
-      };
-
-      const newState = newAppointmentReducer(currentState, action);
-      const reasonState = newState.pages.reasonForAppointment;
-      expect('required' in reasonState).to.equal(false);
-      expect('reasonForAppointment' in reasonState.properties).to.equal(false);
-    });
   });
 
   it('page open should set max characters', async () => {

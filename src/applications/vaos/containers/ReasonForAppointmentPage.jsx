@@ -16,33 +16,56 @@ import TextareaWidget from '../components/TextareaWidget';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
 const initialSchema = {
-  type: 'object',
-  required: ['reasonForAppointment', 'reasonAdditionalInfo'],
-  properties: {
-    reasonForAppointment: {
-      type: 'string',
-      enum: PURPOSE_TEXT.map(purpose => purpose.id),
-      enumNames: PURPOSE_TEXT.map(purpose => purpose.label),
+  default: {
+    type: 'object',
+    required: ['reasonForAppointment', 'reasonAdditionalInfo'],
+    properties: {
+      reasonForAppointment: {
+        type: 'string',
+        enum: PURPOSE_TEXT.map(purpose => purpose.id),
+        enumNames: PURPOSE_TEXT.map(purpose => purpose.label),
+      },
+      reasonAdditionalInfo: {
+        type: 'string',
+      },
     },
-    reasonAdditionalInfo: {
-      type: 'string',
+  },
+  cc: {
+    type: 'object',
+    properties: {
+      reasonAdditionalInfo: {
+        type: 'string',
+      },
     },
   },
 };
 
 const uiSchema = {
-  reasonForAppointment: {
-    'ui:widget': 'radio',
-    'ui:title': 'Please let us know why you’re making this appointment.',
-  },
-  reasonAdditionalInfo: {
-    'ui:widget': TextareaWidget,
-    'ui:options': {
-      rows: 5,
-      expandUnder: 'reasonForAppointment',
-      expandUnderCondition: reasonForAppointment => !!reasonForAppointment,
+  default: {
+    reasonForAppointment: {
+      'ui:widget': 'radio',
+      'ui:title': 'Please let us know why you’re making this appointment.',
     },
-    'ui:validations': [validateWhiteSpace],
+    reasonAdditionalInfo: {
+      'ui:widget': TextareaWidget,
+      'ui:options': {
+        rows: 5,
+        expandUnder: 'reasonForAppointment',
+        expandUnderCondition: reasonForAppointment => !!reasonForAppointment,
+      },
+      'ui:validations': [validateWhiteSpace],
+    },
+  },
+  cc: {
+    reasonAdditionalInfo: {
+      'ui:widget': TextareaWidget,
+      'ui:title':
+        'Please let us know any additional details about your symptoms that may be helpful for the community health provider to know. (Optional)',
+      'ui:options': {
+        rows: 5,
+      },
+      'ui:validations': [validateWhiteSpace],
+    },
   },
 };
 
@@ -50,15 +73,20 @@ const pageKey = 'reasonForAppointment';
 
 export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
-    document.title = `${this.getPageTitle(
-      this.props.data.facilityType,
-    )} | Veterans Affairs`;
-    this.props.openReasonForAppointment(pageKey, uiSchema, initialSchema);
+    const isCC = this.isCC();
+    document.title = `${this.getPageTitle(isCC)} | Veterans Affairs`;
+    this.props.openReasonForAppointment(
+      pageKey,
+      isCC ? uiSchema.cc : uiSchema.default,
+      isCC ? initialSchema.cc : initialSchema.default,
+    );
     scrollAndFocus();
   }
 
-  getPageTitle = facilityType =>
-    facilityType === FACILITY_TYPES.COMMUNITY_CARE
+  isCC = () => this.props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+
+  getPageTitle = () =>
+    this.isCC()
       ? 'Tell us the reason for this appointment'
       : 'Choose a reason for your appointment';
 
@@ -72,6 +100,9 @@ export class ReasonForAppointmentPage extends React.Component {
 
   render() {
     const { schema, data, pageChangeInProgress } = this.props;
+    const isCC = this.isCC();
+    const reasonUiSchema = isCC ? uiSchema.cc : uiSchema.default;
+    const reasonInitialSchema = isCC ? initialSchema.cc : initialSchema.default;
 
     return (
       <div>
@@ -81,13 +112,13 @@ export class ReasonForAppointmentPage extends React.Component {
         <SchemaForm
           name="Reason for appointment"
           title="Reason for appointment"
-          schema={schema || initialSchema}
-          uiSchema={uiSchema}
+          schema={schema || reasonInitialSchema}
+          uiSchema={reasonUiSchema}
           onSubmit={this.goForward}
           onChange={newData =>
             this.props.updateReasonForAppointmentData(
               pageKey,
-              uiSchema,
+              reasonUiSchema,
               newData,
             )
           }
