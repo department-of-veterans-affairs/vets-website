@@ -37,6 +37,7 @@ describe('PersonalInformation', () => {
 
   let initialState;
   it('should render personal info data from the Redux state', () => {
+    const timerId = 'render-personal-info';
     initialState = createBasicInitialState();
 
     const view = renderWithProfileReducers(ui, {
@@ -48,6 +49,7 @@ describe('PersonalInformation', () => {
   });
 
   it('should render the correct contact based on what exists in the Redux state', () => {
+    const timerId = 'render-contact-info';
     initialState = createBasicInitialState();
 
     const {
@@ -86,9 +88,10 @@ describe('PersonalInformation', () => {
     expect(view.getByText(`x17747`)).to.exist;
     expect(view.getByText(`(214) 718-2112`)).to.exist;
 
-    expect(view.getByRole('button', { name: /please add your fax number/i })).to
-      .exist;
-    expect(view.getByRole('button', { name: /please add your email/i })).to
+    expect(
+      view.getByText(/please add your fax number/i, { selector: 'button' }),
+    ).to.exist;
+    expect(view.getByText(/please add your email/i, { selector: 'button' })).to
       .exist;
   });
 });
