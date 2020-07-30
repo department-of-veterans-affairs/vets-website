@@ -74,7 +74,7 @@ export default class Wizard extends React.Component {
 
   render() {
     const {
-      setBenefitReferred,
+      setReferredBenefit,
       setWizardStatus,
       expander,
       buttonText,
@@ -117,7 +117,7 @@ export default class Wizard extends React.Component {
                     }
                     state={page.state}
                     setWizardStatus={setWizardStatus}
-                    setBenefitReferred={setBenefitReferred}
+                    setReferredBenefit={setReferredBenefit}
                   />
                 );
               })}
@@ -141,12 +141,12 @@ Wizard.propTypes = {
   buttonText: PropTypes.string,
   expander: PropTypes.bool,
   setWizardStatus: PropTypes.func,
-  setBenefitReferred: PropTypes.func,
+  setReferredBenefit: PropTypes.func,
 };
 
 Wizard.defaultProps = {
   buttonText: 'Find your form',
   expander: true,
   setWizardStatus: () => {},
-  setBenefitReferred: () => {},
+  setReferredBenefit: () => {},
 };

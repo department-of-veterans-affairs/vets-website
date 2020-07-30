@@ -13,7 +13,7 @@ const WizardContainer = ({ setWizardStatus }) => {
   /**
    * @param {string} formId The form id suffix of the referred benefit
    */
-  const setBenefitReferred = formId =>
+  const setReferredBenefit = formId =>
     sessionStorage.setItem('benefitReferred', formId);
 
   const getCurrentFormId = () => {
@@ -35,7 +35,7 @@ const WizardContainer = ({ setWizardStatus }) => {
       <Wizard
         pages={pages}
         expander
-        setBenefitReferred={setBenefitReferred}
+        setReferredBenefit={setReferredBenefit}
         setWizardStatus={setWizardStatus}
         buttonText="Find the right application form"
       />
@@ -49,7 +49,7 @@ const WizardContainer = ({ setWizardStatus }) => {
         className="vads-u-display--inline-block vads-u-margin-bottom--3 skip-wizard-link"
         onClick={e => {
           e.preventDefault();
-          setBenefitReferred(currentFormId);
+          setReferredBenefit(currentFormId);
           setWizardStatus(WIZARD_STATUS_COMPLETE);
         }}
       >

@@ -4,7 +4,7 @@ import { pageNames } from './pageList';
 import recordEvent from 'platform/monitoring/record-event';
 import { formIdSuffixes } from '../../../static-pages/wizard';
 
-const STEMScholarship = ({ setPageState, state = {}, setBenefitReferred }) => {
+const STEMScholarship = ({ setPageState, state = {}, setReferredBenefit }) => {
   const STEMScholarshipOptions = [
     { label: 'Yes', value: 'yes' },
     { label: 'No', value: 'no' },
@@ -78,7 +78,7 @@ const STEMScholarship = ({ setPageState, state = {}, setBenefitReferred }) => {
           setSTEMScholarshipAnswer(value);
           if (value === 'yes') {
             const { FORM_ID_1995 } = formIdSuffixes;
-            setBenefitReferred(FORM_ID_1995);
+            setReferredBenefit(FORM_ID_1995);
             return setPageState({ selected: value }, pageNames.applyNow);
           } else {
             return setPageState({ selected: value });

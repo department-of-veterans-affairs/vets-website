@@ -28,7 +28,7 @@ const NewBenefit = ({
   setPageState,
   getPageStateFromPageName,
   state = {},
-  setBenefitReferred,
+  setReferredBenefit,
 }) => (
   <ErrorableRadioButtons
     name={`${pageNames.newBenefit}`}
@@ -67,11 +67,11 @@ const NewBenefit = ({
         (value === 'update' && transferredBenefitsAnswer === 'transferred')
       ) {
         const { FORM_ID_1995 } = formIdSuffixes;
-        setBenefitReferred(FORM_ID_1995);
+        setReferredBenefit(FORM_ID_1995);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (value === 'update' && transferredBenefitsAnswer === 'fry') {
         const { FORM_ID_5495 } = formIdSuffixes;
-        setBenefitReferred(FORM_ID_5495);
+        setReferredBenefit(FORM_ID_5495);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (value === 'new') {
         return setPageState(

@@ -13,7 +13,7 @@ const ClaimingBenefitOwnService = ({
   setPageState,
   getPageStateFromPageName,
   state = {},
-  setBenefitReferred,
+  setReferredBenefit,
 }) => (
   <div>
     <ErrorableRadioButtons
@@ -46,7 +46,7 @@ const ClaimingBenefitOwnService = ({
           sponsorDeceasedAnswer === 'yes'
         ) {
           const { FORM_ID_5490 } = formIdSuffixes;
-          setBenefitReferred(FORM_ID_5490);
+          setReferredBenefit(FORM_ID_5490);
           return setPageState({ selected: value }, pageNames.applyNow);
         } else if (
           newBenefitAnswer === 'new' &&

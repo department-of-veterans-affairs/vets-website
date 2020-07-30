@@ -12,7 +12,7 @@ const VetTec = ({
   setPageState,
   getPageStateFromPageName,
   state = {},
-  setBenefitReferred,
+  setReferredBenefit,
 }) => (
   <ErrorableRadioButtons
     name={`${pageNames.vetTec}`}
@@ -40,7 +40,7 @@ const VetTec = ({
         value === 'yes'
       ) {
         const { FORM_ID_0994 } = formIdSuffixes;
-        setBenefitReferred(FORM_ID_0994);
+        setReferredBenefit(FORM_ID_0994);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (
         claimingBenefitOwnServiceAnswer === 'yes' &&
@@ -48,7 +48,7 @@ const VetTec = ({
         value === 'no'
       ) {
         const { FORM_ID_1990 } = formIdSuffixes;
-        setBenefitReferred(FORM_ID_1990);
+        setReferredBenefit(FORM_ID_1990);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else {
         return setPageState({ selected: value });

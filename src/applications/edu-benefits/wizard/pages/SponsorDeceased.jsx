@@ -12,7 +12,7 @@ const SponsorDeceased = ({
   setPageState,
   getPageStateFromPageName,
   state = {},
-  setBenefitReferred,
+  setReferredBenefit,
 }) => (
   <ErrorableRadioButtons
     name={`${pageNames.sponsorDeceased}`}
@@ -47,7 +47,7 @@ const SponsorDeceased = ({
         value === 'yes'
       ) {
         const { FORM_ID_5490 } = formIdSuffixes;
-        setBenefitReferred(FORM_ID_5490);
+        setReferredBenefit(FORM_ID_5490);
         return setPageState({ selected: value }, pageNames.applyNow);
       } else {
         return setPageState({ selected: value });

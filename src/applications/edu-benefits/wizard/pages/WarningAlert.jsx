@@ -8,7 +8,7 @@ const WarningAlert = ({
   setPageState,
   getPageStateFromPageName,
   state = {},
-  setBenefitReferred,
+  setReferredBenefit,
 }) => {
   const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
     ?.selected;
@@ -73,12 +73,12 @@ const WarningAlert = ({
   useEffect(
     () => {
       if (!applyPageRendered) {
-        setBenefitReferred(formId);
+        setReferredBenefit(formId);
         setPageState({}, pageNames.applyNow);
         setApplyPageRendered(true);
       }
     },
-    [applyPageRendered, setPageState, formId, setBenefitReferred],
+    [applyPageRendered, setPageState, formId, setReferredBenefit],
   );
   return <AlertBox headline={headline} content={content} status="warning" />;
 };
