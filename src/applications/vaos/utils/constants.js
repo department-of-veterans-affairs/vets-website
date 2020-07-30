@@ -353,3 +353,8 @@ export const FREE_BUSY_TYPES = {
 };
 
 export const UNABLE_TO_REACH_VETERAN_DETCODE = 'DETCODE23';
+
+export const EXPRESS_CARE_ERROR_REASON = {
+  error: 'error',
+  noActiveFacility: 'noActiveFacility',
+};

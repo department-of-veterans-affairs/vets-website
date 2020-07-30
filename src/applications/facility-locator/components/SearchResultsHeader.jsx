@@ -18,7 +18,7 @@ const SearchResultsHeader = ({
     <h2
       id="facility-search-results"
       className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
-      style={{ 'margin-left': '12px' }}
+      style={{ marginLeft: '12px' }}
       tabIndex="-1"
     >
       Results for &quot;

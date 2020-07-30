@@ -1,0 +1,242 @@
+{
+    "attribution": "NOTICE: \u00a9 2020 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained. POI(s) provided by Foursquare.",
+    "features": [
+        {
+            "bbox": [
+                -74.2590879797556,
+                40.477399,
+                -73.7008392055224,
+                40.917576401307
+            ],
+            "center": [
+                -73.9808,
+                40.7648
+            ],
+            "context": [
+                {
+                    "id": "region.17349986251855570",
+                    "short_code": "US-NY",
+                    "text": "New York",
+                    "wikidata": "Q1384"
+                },
+                {
+                    "id": "country.19678805456372290",
+                    "short_code": "us",
+                    "text": "United States",
+                    "wikidata": "Q30"
+                }
+            ],
+            "geometry": {
+                "coordinates": [
+                    -73.9808,
+                    40.7648
+                ],
+                "type": "Point"
+            },
+            "id": "place.15278078705964500",
+            "place_name": "New York, New York, United States",
+            "place_type": [
+                "place"
+            ],
+            "properties": {
+                "wikidata": "Q60"
+            },
+            "relevance": 1,
+            "text": "New York",
+            "type": "Feature"
+        },
+        {
+            "bbox": [
+                -79.8578350999901,
+                40.4771391062446,
+                -71.7564918092633,
+                45.0239286969073
+            ],
+            "center": [
+                -75.4652471468304,
+                42.751210955
+            ],
+            "context": [
+                {
+                    "id": "country.19678805456372290",
+                    "short_code": "us",
+                    "text": "United States",
+                    "wikidata": "Q30"
+                }
+            ],
+            "geometry": {
+                "coordinates": [
+                    -75.4652471468304,
+                    42.751210955
+                ],
+                "type": "Point"
+            },
+            "id": "region.17349986251855570",
+            "place_name": "New York, United States",
+            "place_type": [
+                "region"
+            ],
+            "properties": {
+                "short_code": "US-NY",
+                "wikidata": "Q1384"
+            },
+            "relevance": 1,
+            "text": "New York",
+            "type": "Feature"
+        },
+        {
+            "center": [
+                -74.9070261,
+                40.0876857
+            ],
+            "context": [
+                {
+                    "id": "neighborhood.268624",
+                    "text": "Bridgewater"
+                },
+                {
+                    "id": "postcode.13157620979914970",
+                    "text": "19021"
+                },
+                {
+                    "id": "place.12814197145516530",
+                    "text": "Croydon",
+                    "wikidata": "Q1131985"
+                },
+                {
+                    "id": "region.13761801799111630",
+                    "short_code": "US-PA",
+                    "text": "Pennsylvania",
+                    "wikidata": "Q1400"
+                },
+                {
+                    "id": "country.19678805456372290",
+                    "short_code": "us",
+                    "text": "United States",
+                    "wikidata": "Q30"
+                }
+            ],
+            "geometry": {
+                "coordinates": [
+                    -74.9070261,
+                    40.0876857
+                ],
+                "type": "Point"
+            },
+            "id": "address.2855757665642076",
+            "place_name": "New York Avenue, Croydon, Pennsylvania 19021, United States",
+            "place_type": [
+                "address"
+            ],
+            "properties": {
+                "accuracy": "street"
+            },
+            "relevance": 1,
+            "text": "New York Avenue",
+            "type": "Feature"
+        },
+        {
+            "center": [
+                -83.2803774,
+                42.2881322
+            ],
+            "context": [
+                {
+                    "id": "neighborhood.2101547",
+                    "text": "Westwood"
+                },
+                {
+                    "id": "postcode.3847643042690820",
+                    "text": "48124"
+                },
+                {
+                    "id": "place.9292389865434900",
+                    "text": "Dearborn",
+                    "wikidata": "Q430464"
+                },
+                {
+                    "id": "region.9469196105857470",
+                    "short_code": "US-MI",
+                    "text": "Michigan",
+                    "wikidata": "Q1166"
+                },
+                {
+                    "id": "country.19678805456372290",
+                    "short_code": "us",
+                    "text": "United States",
+                    "wikidata": "Q30"
+                }
+            ],
+            "geometry": {
+                "coordinates": [
+                    -83.2803774,
+                    42.2881322
+                ],
+                "type": "Point"
+            },
+            "id": "address.5281008280472928",
+            "place_name": "New York Street, Dearborn, Michigan 48124, United States",
+            "place_type": [
+                "address"
+            ],
+            "properties": {
+                "accuracy": "street"
+            },
+            "relevance": 1,
+            "text": "New York Street",
+            "type": "Feature"
+        },
+        {
+            "center": [
+                -87.3771537275386,
+                37.96103058285
+            ],
+            "context": [
+                {
+                    "id": "postcode.5058120226431650",
+                    "text": "47630"
+                },
+                {
+                    "id": "place.12295397326999400",
+                    "text": "Newburgh",
+                    "wikidata": "Q2729540"
+                },
+                {
+                    "id": "region.9456556908766400",
+                    "short_code": "US-IN",
+                    "text": "Indiana",
+                    "wikidata": "Q1415"
+                },
+                {
+                    "id": "country.19678805456372290",
+                    "short_code": "us",
+                    "text": "United States",
+                    "wikidata": "Q30"
+                }
+            ],
+            "geometry": {
+                "coordinates": [
+                    -87.3771537275386,
+                    37.96103058285
+                ],
+                "type": "Point"
+            },
+            "id": "address.5928858991951950",
+            "place_name": "New York, Newburgh, Indiana 47630, United States",
+            "place_type": [
+                "address"
+            ],
+            "properties": {
+                "accuracy": "street"
+            },
+            "relevance": 1,
+            "text": "New York",
+            "type": "Feature"
+        }
+    ],
+    "query": [
+        "new",
+        "york"
+    ],
+    "type": "FeatureCollection"
+}
