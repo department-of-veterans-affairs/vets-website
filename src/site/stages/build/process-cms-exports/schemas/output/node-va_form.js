@@ -1,7 +1,4 @@
 const { usePartialSchema } = require('../../transformers/helpers');
-// const vaFormSchema = {
-//   title: { type: 'string' },
-// };
 
 const vaFormSchema = {
   type: 'object',
@@ -57,10 +54,6 @@ module.exports = {
     fieldVaFormName: { type: 'string' },
     fieldVaFormNumber: { type: 'string' },
     fieldVaFormNumPages: { type: 'number' },
-    // fieldVaFormRelatedForms: {
-    //   type: 'array',
-    //   items: { $ref: 'output/node-va_form' },
-    // },
     fieldVaFormRelatedForms: {
       type: 'array',
       items: {
