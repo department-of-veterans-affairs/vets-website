@@ -5,6 +5,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 const ContactInfoForm = props => (
   <SchemaForm
+    addNameAttribute
     // `name` and `title` are required by SchemaForm, but are only used
     // internally by the SchemaForm component
     name="Contact Info Form"
