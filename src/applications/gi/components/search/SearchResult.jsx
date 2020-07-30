@@ -4,15 +4,12 @@ import { Link } from 'react-router';
 import appendQuery from 'append-query';
 import environment from 'platform/utilities/environment';
 import { estimatedBenefits } from '../../selectors/estimator';
-import {
-  formatCurrency,
-  locationInfo,
-  getReligiousAffiliationName,
-} from '../../utils/helpers';
+import { formatCurrency, locationInfo } from '../../utils/helpers';
 import {
   renderCautionAlert,
   renderSchoolClosingAlert,
 } from '../../utils/render';
+import { religiousAffiliations } from '../../utils/data/religiousAffiliations';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -131,9 +128,9 @@ export class SearchResult extends React.Component {
                 {this.props.menonly === 1 && (
                   <div className="search-result-tag">Men only</div>
                 )}
-                {getReligiousAffiliationName(this.props.relaffil) && (
+                {religiousAffiliations[this.props.relaffil] && (
                   <div className="search-result-tag">
-                    {getReligiousAffiliationName(this.props.relaffil)}
+                    {religiousAffiliations[this.props.relaffil]}
                   </div>
                 )}
                 {this.props.hbcu === 1 && (

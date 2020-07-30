@@ -1,7 +1,6 @@
 import { snakeCase } from 'lodash';
 import constants from 'vets-json-schema/dist/constants.json';
 import { SMALL_SCREEN_WIDTH } from '../constants';
-import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 
 export const formatNumber = value => {
   const str = (+value).toString();
@@ -134,8 +133,3 @@ export const handleInputFocusWithPotentialOverLap = (
     }
   }
 };
-
-export function getReligiousAffiliationName(relId) {
-  return religiousAffiliations.values.find(x => x.id === parseInt(relId, 10))
-    ?.name;
-}

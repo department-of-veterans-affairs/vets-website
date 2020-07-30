@@ -176,18 +176,15 @@ export class SearchPage extends React.Component {
     }
 
     if (field === 'gender') {
+      delete query?.menonly;
+      delete query?.womenonly;
       if (value === 'womenonly') {
         query = { ...query, womenonly: 'true' };
-        delete query?.menonly;
       }
       if (value === 'menonly') {
         query = { ...query, menonly: 'true' };
-        delete query?.womenonly;
       }
-      if (value === 'Any') {
-        delete query?.menonly;
-        delete query?.womenonly;
-      }
+
       delete query?.gender;
     }
     this.props.router.push({ ...this.props.location, query });

@@ -9,9 +9,10 @@ import {
   addAllOption,
   getStateNameForCode,
   sortOptionsByStateName,
-  getReligiousAffiliationName,
 } from '../../utils/helpers';
 import CautionaryWarningsFilter from './CautionaryWarningsFilter';
+
+import { religiousAffiliations } from '../../utils/data/religiousAffiliations';
 
 class InstitutionFilterForm extends React.Component {
   state = { gender: 'Any' };
@@ -167,11 +168,10 @@ class InstitutionFilterForm extends React.Component {
   };
 
   renderReligiousAffiliation = () => {
-    const options = [{ value: 'ALL', label: 'ALL' }];
-
+    const options = [];
     if (this.props.search.facets?.relaffil) {
       Object.keys(this.props.search.facets.relaffil).forEach(num =>
-        options.push({ value: num, label: getReligiousAffiliationName(num) }),
+        options.push({ value: num, label: religiousAffiliations[num] }),
       );
     }
 
@@ -179,7 +179,9 @@ class InstitutionFilterForm extends React.Component {
       <Dropdown
         label="Religious affiliation"
         name="relaffil"
-        options={options}
+        options={addAllOption(
+          options.sort((a, b) => a.label.localeCompare(b.label)),
+        )}
         value={this.props.filters.relaffil}
         alt="Filter results by institution type"
         visible
