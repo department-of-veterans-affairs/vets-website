@@ -1,9 +1,8 @@
-import _ from 'lodash/fp';
+import _ from 'lodash';
 
 // import fullSchema from 'vets-json-schema/dist/covid-vaccine-trial-schema.json';
 import fullSchema from '../schema/covid-vaccine-trial-schema.json';
 import schemaDefinitions from 'vets-json-schema/dist/definitions.json';
-// import * as address from 'platform/forms/definitions/address';
 
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
