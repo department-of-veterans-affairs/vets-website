@@ -180,7 +180,7 @@ class InstitutionFilterForm extends React.Component {
         label="Religious affiliation"
         name="relaffil"
         options={addAllOption(
-          options.sort((a, b) => a.label.localeCompare(b.label)),
+          options.sort((a, b) => a.label?.localeCompare(b.label)),
         )}
         value={this.props.filters.relaffil}
         alt="Filter results by institution type"
