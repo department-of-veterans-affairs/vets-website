@@ -32,7 +32,7 @@ describe('the Education Benefits Wizard', () => {
       pages,
       expander: true,
       buttonText: 'Start the wizard',
-      setBenefitReferred: formId =>
+      setReferredBenefit: formId =>
         sessionStorage.setItem('benefitReferred', formId),
       setWizardStatus: value => sessionStorage.setItem('wizardStatus', value),
     };

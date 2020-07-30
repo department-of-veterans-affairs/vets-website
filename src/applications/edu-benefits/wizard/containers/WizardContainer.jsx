@@ -8,6 +8,7 @@ import Wizard, {
   NO_BENEFIT_REFERRED,
 } from '../../../static-pages/wizard';
 import pages from '../pages';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const WizardContainer = ({ setWizardStatus }) => {
   /**
@@ -16,21 +17,31 @@ const WizardContainer = ({ setWizardStatus }) => {
   const setReferredBenefit = formId =>
     sessionStorage.setItem('benefitReferred', formId);
 
-  const getCurrentFormId = () => {
-    const formIds = Object.values(formIdSuffixes);
-    for (const formId of formIds) {
-      if (window.location.href.includes(formId)) return formId;
+  const getCurrentFormIdSuffix = () => {
+    const formIDSuffixes = Object.values(formIdSuffixes);
+    for (const formIDSuffix of formIDSuffixes) {
+      if (window.location.href.includes(formIDSuffix)) return formIDSuffix;
     }
     return NO_BENEFIT_REFERRED;
   };
-  const currentFormId = getCurrentFormId();
+
+  const getCurrentVAFormId = currentFormIdSuffix => {
+    const VAFormIDs = Object.values(VA_FORM_IDS);
+    for (const VAFormID of VAFormIDs) {
+      if (VAFormID.includes(currentFormIdSuffix)) return VAFormID;
+    }
+    return null;
+  };
+
+  const currentFormIdSuffix = getCurrentFormIdSuffix();
+  const currentVAFormId = getCurrentVAFormId(currentFormIdSuffix);
   return (
     <div className="wizard-container">
       <h2>Is this the form I need?</h2>
       <p>
-        Answer a few questions to find out if you should use VA Form 22-1990 or
-        another application form to apply for the VA education benefits you
-        need.
+        Answer a few questions to find out if you should use VA Form{' '}
+        {currentVAFormId} or another application form to apply for the VA
+        education benefits you need.
       </p>
       <Wizard
         pages={pages}
@@ -49,11 +60,11 @@ const WizardContainer = ({ setWizardStatus }) => {
         className="vads-u-display--inline-block vads-u-margin-bottom--3 skip-wizard-link"
         onClick={e => {
           e.preventDefault();
-          setReferredBenefit(currentFormId);
+          setReferredBenefit(currentFormIdSuffix);
           setWizardStatus(WIZARD_STATUS_COMPLETE);
         }}
       >
-        Apply online with VA Form 22-1990
+        Apply online with VA Form {currentVAFormId}
       </a>
     </div>
   );
