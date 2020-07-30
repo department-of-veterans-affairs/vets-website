@@ -31,7 +31,7 @@ export class IntroductionPage extends React.Component {
     const { wizardStatus } = this.state;
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for education benefits" />
+        <FormTitle title="Apply for VA Education Benefits" />
         <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
         {wizardStatus !== WIZARD_STATUS_COMPLETE && (
           <WizardContainer setWizardStatus={this.setWizardStatus} />

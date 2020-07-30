@@ -11,7 +11,7 @@ import pages from '../pages';
 
 const WizardContainer = ({ setWizardStatus }) => {
   /**
-   * @param {string} formId The form id of the referred benefit
+   * @param {string} formId The form id suffix of the referred benefit
    */
   const setBenefitReferred = formId =>
     sessionStorage.setItem('benefitReferred', formId);
@@ -26,22 +26,23 @@ const WizardContainer = ({ setWizardStatus }) => {
   const currentFormId = getCurrentFormId();
   return (
     <div className="wizard-container">
-      <h2>Find out if this is the right form</h2>
+      <h2>Is this the form I need?</h2>
       <p>
-        To see if this is the right form for you, please answer a few questions.
+        Answer a few questions to find out if you should use VA Form 22-1990 or
+        another application form to apply for the VA education benefits you
+        need.
       </p>
       <Wizard
         pages={pages}
         expander
         setBenefitReferred={setBenefitReferred}
         setWizardStatus={setWizardStatus}
-        buttonText="Let's get started"
+        buttonText="Find the right application form"
       />
-      <h2>Already know this is the right form?</h2>
+      <h2>I know this is the form I need. How do I apply?</h2>
       <p>
-        If you already know that VA Form 22-1990 is correct or if you were
-        directed to complete this application, you can go straight to the
-        application without answering the questions above.
+        Click on the link below to go to our online application without
+        answering the questions above.
       </p>
       <a
         href="#"
@@ -52,7 +53,7 @@ const WizardContainer = ({ setWizardStatus }) => {
           setWizardStatus(WIZARD_STATUS_COMPLETE);
         }}
       >
-        If you know VA Form 22-1990 is right, apply now
+        Apply online with VA Form 22-1990
       </a>
     </div>
   );
