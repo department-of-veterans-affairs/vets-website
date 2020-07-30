@@ -23,7 +23,7 @@ import { getTimezoneBySystemId } from '../../utils/timezone';
 function getAppointmentType(appt) {
   if (appt.typeOfCareId?.startsWith('CC')) {
     return APPOINTMENT_TYPES.ccRequest;
-  } else if (appt.optionDate1) {
+  } else if (appt.typeOfCareId) {
     return APPOINTMENT_TYPES.request;
   } else if (appt.clinicId || appt.vvsAppointments) {
     return APPOINTMENT_TYPES.vaAppointment;
