@@ -172,7 +172,10 @@ const processPage = () => {
       cy.findByText(/submit/i, { selector: 'button' }).click(FORCE_OPTION);
 
       // The form should end up at the confirmation page after submitting.
-      cy.location('pathname').then(endPathname => {
+      // Increased timeout for this step; there can sometimes be a longer delay
+      // between clicking submit and loading the confirmation page, which would
+      // cause the pathname assertion to time out and fail.
+      cy.location('pathname', { timeout: 8000 }).then(endPathname => {
         expect(endPathname).to.match(/confirmation$/);
         cy.axeCheck();
         performPageActions(endPathname, false);
