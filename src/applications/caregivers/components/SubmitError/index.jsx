@@ -22,12 +22,12 @@ const SubmitError = () => {
           to:
         </p>
 
-        <div>
-          <b>Program of Comprehensive Assistance for Family Caregivers</b>
-          <p className="vads-u-margin--0">Health Eligibility Center</p>
-          <p className="vads-u-margin--0">2957 Clairmont Road NE, Ste 200</p>
-          <p className="vads-u-margin--0">Atlanta, GA 30329-1647</p>
-        </div>
+        <p className="va-address-block">
+          Program of Comprehensive Assistance for Family Caregivers <br />
+          Health Eligibility Center <br />
+          2957 Clairmont Road NE, Ste 200 <br />
+          Atlanta, GA 30329-1647 <br />
+        </p>
       </div>
     );
   };
