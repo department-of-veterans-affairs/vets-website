@@ -81,8 +81,27 @@ export const addEmailAddressCreateTransactionFailure = [
   }),
 ];
 
+export const updateEmailAddressCreateTransactionFailure = [
+  rest.put(`${prefix}/v0/profile/email_addresses`, (req, res, ctx) => {
+    return res(
+      ctx.status(400),
+      ctx.json({
+        // response pulled from vets-api config/locales/exceptions.en.yml
+        errors: [
+          {
+            title: 'Check Email Domain',
+            code: 'VET360_EMAIL304',
+            detail: 'AlphaNumeric ToplevelDomainName must be <= 63 Characters.',
+            status: '400',
+          },
+        ],
+      }),
+    );
+  }),
+];
+
 // When the transaction has not resolved or failed
-export const addEmailAddressTransactionPending = [
+export const editEmailAddressTransactionPending = [
   rest.get(`${prefix}/v0/profile/status/:id`, (req, res, ctx) => {
     return res(
       ctx.json({
@@ -102,7 +121,7 @@ export const addEmailAddressTransactionPending = [
 ];
 
 // When the transaction fails to resolve
-export const addEmailAddressTransactionFailure = [
+export const editEmailAddressTransactionFailure = [
   rest.get(`${prefix}/v0/profile/status/:id`, (req, res, ctx) => {
     return res(
       ctx.json({
@@ -133,7 +152,7 @@ export const addEmailAddressTransactionFailure = [
   }),
 ];
 
-export const addEmailAddressTransactionSuccess = [
+export const editEmailAddressTransactionSuccess = [
   rest.get(`${prefix}/v0/profile/status/:id`, (req, res, ctx) => {
     return res(
       ctx.json({
@@ -152,12 +171,29 @@ export const addEmailAddressTransactionSuccess = [
   }),
 ];
 
-export const addEmailAddressSuccess = () => {
+export const editEmailAddressSuccess = () => {
   // store the email address that's passed in via the POST call so we can return
   // it with the GET user/ response
   let newEmailAddress;
   return [
     rest.post(`${prefix}/v0/profile/email_addresses`, (req, res, ctx) => {
+      newEmailAddress = req.body.emailAddress;
+      return res(
+        ctx.json({
+          data: {
+            id: '',
+            type: 'async_transaction_vet360_email_transactions',
+            attributes: {
+              transactionId: '61ffa9bd-3290-4e4b-9480-d93fd6236dcf',
+              transactionStatus: 'RECEIVED',
+              type: 'AsyncTransaction::Vet360::EmailTransaction',
+              metadata: [],
+            },
+          },
+        }),
+      );
+    }),
+    rest.put(`${prefix}/v0/profile/email_addresses`, (req, res, ctx) => {
       newEmailAddress = req.body.emailAddress;
       return res(
         ctx.json({

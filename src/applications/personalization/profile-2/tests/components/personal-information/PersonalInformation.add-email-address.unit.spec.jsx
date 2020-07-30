@@ -15,17 +15,167 @@ import {
   renderWithProfileReducers,
 } from '../../unit-test-helpers';
 
+const newEmailAddress = 'new-address@domain.com';
+const ui = (
+  <MemoryRouter>
+    <PersonalInformation />
+  </MemoryRouter>
+);
+let view;
+let server;
+
+function getEditButton() {
+  let editButton = view.queryByText(/add.*email address/i, {
+    selector: 'button',
+  });
+  if (!editButton) {
+    // Need to use `queryByRole` since the visible label is simply `Edit`, but
+    // the aria-label is more descriptive
+    editButton = view.queryByRole('button', { name: /edit.*email address/i });
+  }
+  return editButton;
+}
+
+// helper function that enters the `Edit email address` view, enters an
+// address, and clicks the `Update` button.
+function editEmailAddress() {
+  const editButton = getEditButton();
+  editButton.click();
+
+  const emailAddressInput = view.getByLabelText(/email address/i);
+  expect(emailAddressInput).to.exist;
+
+  // enter a new email address in the form
+  user.clear(emailAddressInput);
+  user.type(emailAddressInput, newEmailAddress);
+
+  // save
+  view.getByText('Update', { selector: 'button' }).click();
+
+  return { emailAddressInput };
+}
+
+async function testQuickSuccess() {
+  server.use(...mocks.editEmailAddressTransactionSuccess);
+
+  const { emailAddressInput } = editEmailAddress();
+
+  // wait for the edit mode to exit and the new address to show up
+  await waitForElementToBeRemoved(emailAddressInput);
+
+  // the edit email button should exist
+  expect(view.getByRole('button', { name: /edit.*email address/i })).to.exist;
+  // and the new email address should exist in the DOM
+  expect(view.getByText(newEmailAddress)).to.exist;
+  // and the add email button should be gone
+  expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not.to
+    .exist;
+}
+
+async function testSlowSuccess() {
+  server.use(...mocks.editEmailAddressTransactionPending);
+
+  const { emailAddressInput } = editEmailAddress();
+
+  // wait for the edit mode to exit and the new address to show up
+  await waitForElementToBeRemoved(emailAddressInput);
+
+  // check that the "we're saving your..." message appears
+  const savingMessage = await view.findByText(
+    /We’re working on saving your new email address. We’ll show it here once it’s saved./i,
+  );
+  expect(savingMessage).to.exist;
+
+  server.use(...mocks.editEmailAddressTransactionSuccess);
+
+  await waitForElementToBeRemoved(savingMessage);
+
+  // the edit email button should exist
+  expect(
+    view.getByRole('button', {
+      name: /edit.*email address/i,
+    }),
+  ).to.exist;
+  // and the new email address should exist in the DOM
+  expect(view.getByText(newEmailAddress)).to.exist;
+  // and the add email button should be gone
+  expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not.to
+    .exist;
+}
+
+async function testTransactionCreationFails() {
+  server.use(...mocks.updateEmailAddressCreateTransactionFailure);
+
+  editEmailAddress();
+
+  // expect an error to be shown
+  const alert = await view.findByRole('alert');
+  expect(alert).to.have.class('usa-alert-error');
+  expect(alert).to.contain.text(
+    'We’re sorry. We couldn’t update your email address. Please try again.',
+  );
+}
+
+async function testQuickFailure() {
+  server.use(...mocks.editEmailAddressTransactionFailure);
+
+  editEmailAddress();
+
+  // expect an error to be shown
+  const alert = await view.findByRole('alert');
+  expect(alert).to.have.class('usa-alert-error');
+  expect(alert).to.contain.text(
+    'We’re sorry. We couldn’t update your email address. Please try again.',
+  );
+}
+
+async function testSlowFailure() {
+  server.use(...mocks.editEmailAddressTransactionPending);
+
+  const { emailAddressInput } = editEmailAddress();
+
+  // wait for the edit mode to exit and the new address to show up
+  await waitForElementToBeRemoved(emailAddressInput);
+
+  // check that the "we're saving your..." message appears
+  const savingMessage = await view.findByText(
+    /We’re working on saving your new email address. We’ll show it here once it’s saved./i,
+  );
+  expect(savingMessage).to.exist;
+
+  server.use(...mocks.editEmailAddressTransactionFailure);
+
+  await waitForElementToBeRemoved(savingMessage);
+
+  // make sure the error message appears
+  expect(
+    view.getByText(
+      /We couldn’t save your recent email address update. Please try again later/i,
+    ),
+  ).to.exist;
+
+  // and the new email address should not exist in the DOM
+  expect(view.queryByText(newEmailAddress)).not.to.exist;
+  // and the add email button should be back
+  expect(getEditButton()).to.exist;
+}
+
 describe('Adding email address', () => {
-  // before we can use msw, we need to make sure that global.fetch has been
-  // restored and is no longer a sinon stub.
-  let server;
   before(() => {
+    // before we can use msw, we need to make sure that global.fetch has been
+    // restored and is no longer a sinon stub.
     resetFetch();
-    server = setupServer(...mocks.addEmailAddressSuccess());
+    server = setupServer(...mocks.editEmailAddressSuccess());
     server.listen();
   });
   beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
+    const initialState = createBasicInitialState();
+    initialState.user.profile.vet360.email = null;
+
+    view = renderWithProfileReducers(ui, {
+      initialState,
+    });
   });
   afterEach(() => {
     server.resetHandlers();
@@ -34,202 +184,59 @@ describe('Adding email address', () => {
     server.close();
   });
 
-  const ui = (
-    <MemoryRouter>
-      <PersonalInformation />
-    </MemoryRouter>
-  );
-
-  let initialState;
   it('should handle a transaction that succeeds quickly', async () => {
-    server.use(...mocks.addEmailAddressTransactionSuccess);
-
-    const newEmailAddress = 'new-address@domain.com';
-    initialState = createBasicInitialState();
-
-    const view = renderWithProfileReducers(ui, {
-      initialState,
-    });
-
-    // click the button
-    view.getByText(/add.*email address/i, { selector: 'button' }).click();
-
-    const emailAddressInput = view.getByLabelText(/email address/i);
-
-    expect(emailAddressInput).to.exist;
-
-    // enter data in the form
-    user.type(emailAddressInput, newEmailAddress);
-
-    // save
-    view.getByText('Update', { selector: 'button' }).click();
-
-    // wait for the edit mode to exit and the new address to show up
-    await waitForElementToBeRemoved(emailAddressInput);
-
-    // the edit email button should exist
-    expect(view.getByRole('button', { name: /edit.*email address/i })).to.exist;
-    // and the new email address should exist in the DOM
-    expect(view.getByText(newEmailAddress)).to.exist;
-    // and the add email button should be gone
-    expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not
-      .to.exist;
+    testQuickSuccess();
   });
   it('should handle a transaction that does not succeed until after the edit view exits', async () => {
-    server.use(...mocks.addEmailAddressTransactionPending);
-
-    const newEmailAddress = 'new-address@domain.com';
-    initialState = createBasicInitialState();
-
-    const view = renderWithProfileReducers(ui, {
-      initialState,
-    });
-
-    // click the button
-    view.getByText(/add.*email address/i, { selector: 'button' }).click();
-
-    const emailAddressInput = view.getByLabelText(/email address/i);
-
-    expect(emailAddressInput).to.exist;
-
-    // enter data in the form
-    user.type(emailAddressInput, newEmailAddress);
-
-    // save
-    view.getByText('Update', { selector: 'button' }).click();
-
-    // wait for the edit mode to exit and the new address to show up
-    await waitForElementToBeRemoved(emailAddressInput);
-
-    // check that the "we're saving your..." message appears
-    const savingMessage = await view.findByText(
-      /We’re working on saving your new email address. We’ll show it here once it’s saved./i,
-    );
-    expect(savingMessage).to.exist;
-
-    server.use(...mocks.addEmailAddressTransactionSuccess);
-
-    await waitForElementToBeRemoved(savingMessage);
-
-    // the edit email button should exist
-    expect(
-      view.getByRole('button', {
-        name: /edit.*email address/i,
-      }),
-    ).to.exist;
-    // and the new email address should exist in the DOM
-    expect(view.getByText(newEmailAddress)).to.exist;
-    // and the add email button should be gone
-    expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not
-      .to.exist;
+    testSlowSuccess();
   });
   it('should show an error if the transaction cannot be created', async () => {
-    server.use(...mocks.addEmailAddressCreateTransactionFailure);
-
-    const newEmailAddress = 'new-address@domain.com';
-    initialState = createBasicInitialState();
-
-    const view = renderWithProfileReducers(ui, {
-      initialState,
-    });
-
-    // click the button
-    view.getByText(/add.*email address/i, { selector: 'button' }).click();
-
-    const emailAddressInput = view.getByLabelText(/email address/i);
-
-    expect(emailAddressInput).to.exist;
-
-    // enter data in the form
-    user.type(emailAddressInput, newEmailAddress);
-
-    // save
-    view.getByText('Update', { selector: 'button' }).click();
-
-    // expect an error to be shown
-    const alert = await view.findByRole('alert');
-    expect(alert).to.have.class('usa-alert-error');
-    expect(alert).to.contain.text(
-      'We’re sorry. We couldn’t update your email address. Please try again.',
-    );
+    testTransactionCreationFails();
   });
   it('should show an error if the transaction fails quickly', async () => {
-    server.use(...mocks.addEmailAddressTransactionFailure);
-
-    const newEmailAddress = 'new-address@domain.com';
-    initialState = createBasicInitialState();
-
-    const view = renderWithProfileReducers(ui, {
-      initialState,
-    });
-
-    // click the button
-    view.getByText(/add.*email address/i, { selector: 'button' }).click();
-
-    const emailAddressInput = view.getByLabelText(/email address/i);
-
-    expect(emailAddressInput).to.exist;
-
-    // enter data in the form
-    user.type(emailAddressInput, newEmailAddress);
-
-    // save
-    view.getByText('Update', { selector: 'button' }).click();
-
-    // expect an error to be shown
-    const alert = await view.findByRole('alert');
-    expect(alert).to.have.class('usa-alert-error');
-    expect(alert).to.contain.text(
-      'We’re sorry. We couldn’t update your email address. Please try again.',
-    );
+    testQuickFailure();
   });
   it('should show an error if the transaction fails after the edit view exits', async () => {
-    server.use(...mocks.addEmailAddressTransactionPending);
+    testSlowFailure();
+  });
+});
 
-    const newEmailAddress = 'new-address@domain.com';
-    initialState = createBasicInitialState();
+describe('Editing an existing email address', () => {
+  before(() => {
+    // before we can use msw, we need to make sure that global.fetch has been
+    // restored and is no longer a sinon stub.
+    resetFetch();
+    server = setupServer(...mocks.editEmailAddressSuccess());
+    server.listen();
+  });
+  beforeEach(() => {
+    window.VetsGov = { pollTimeout: 1 };
+    const initialState = createBasicInitialState();
 
-    const view = renderWithProfileReducers(ui, {
+    view = renderWithProfileReducers(ui, {
       initialState,
     });
+  });
+  afterEach(() => {
+    server.resetHandlers();
+  });
+  after(() => {
+    server.close();
+  });
 
-    // click the button
-    view.getByText(/add.*email address/i, { selector: 'button' }).click();
-
-    const emailAddressInput = view.getByLabelText(/email address/i);
-
-    expect(emailAddressInput).to.exist;
-
-    // enter data in the form
-    user.type(emailAddressInput, newEmailAddress);
-
-    // save
-    view.getByText('Update', { selector: 'button' }).click();
-
-    // wait for the edit mode to exit and the new address to show up
-    await waitForElementToBeRemoved(emailAddressInput);
-
-    // check that the "we're saving your..." message appears
-    const savingMessage = await view.findByText(
-      /We’re working on saving your new email address. We’ll show it here once it’s saved./i,
-    );
-    expect(savingMessage).to.exist;
-
-    server.use(...mocks.addEmailAddressTransactionFailure);
-
-    await waitForElementToBeRemoved(savingMessage);
-
-    // make sure the error message appears
-    expect(
-      view.getByText(
-        /We couldn’t save your recent email address update. Please try again later/i,
-      ),
-    ).to.exist;
-
-    // and the new email address should not exist in the DOM
-    expect(view.queryByText(newEmailAddress)).not.to.exist;
-    // and the add email button should be back
-    expect(view.getByText(/add.*email address/i, { selector: 'button' })).to
-      .exist;
+  it('should handle a transaction that succeeds quickly', async () => {
+    testQuickSuccess();
+  });
+  it('should handle a transaction that does not succeed until after the edit view exits', async () => {
+    testSlowSuccess();
+  });
+  it('should show an error if the transaction cannot be created', async () => {
+    testTransactionCreationFails();
+  });
+  it('should show an error if the transaction fails quickly', async () => {
+    testQuickFailure();
+  });
+  it('should show an error if the transaction fails after the edit view exits', async () => {
+    testSlowFailure();
   });
 });
