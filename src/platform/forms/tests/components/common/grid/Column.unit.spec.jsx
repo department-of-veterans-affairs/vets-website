@@ -25,9 +25,9 @@ describe('Common Column component', () => {
   it('should add classNames to output', () => {
     const classNames = 'i-am-classname';
 
-    const tree = render(<Column classNames={classNames} testId="12345" />);
+    const tree = render(<Column classNames={classNames} />);
 
-    expect(tree.getByTestId('12345')).to.have.class(classNames);
+    expect(tree.container.firstChild).to.have.class(classNames);
     tree.unmount();
   });
 
@@ -36,7 +36,7 @@ describe('Common Column component', () => {
 
     const tree = render(<Column role={role} testId="12345" />);
 
-    expect(tree.getByTestId('12345')).to.not.be.null;
+    expect(tree.getByTestId('12345')).to.have.attribute('role', role);
     tree.unmount();
   });
 });
