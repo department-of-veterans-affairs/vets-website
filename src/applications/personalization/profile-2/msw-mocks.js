@@ -67,17 +67,12 @@ export const addEmailAddressCreateTransactionFailure = [
     return res(
       ctx.status(400),
       ctx.json({
-        // This is an error response I saw when trying to start a phone number
-        // update, not email address update. I have not seen an error when
-        // trying to create an email address update transaction so am using this
-        // for the mock response
+        // response pulled from vets-api config/locales/exceptions.en.yml
         errors: [
           {
-            title: 'Check Domestic Phone Number',
-            detail:
-              'Domestic phone number size must be 7 characters, and can not start with a 0 or 1.',
-            code: 'VET360_PHON207',
-            source: 'Vet360::ContactInformation::Service',
+            title: 'Check Email Domain',
+            code: 'VET360_EMAIL304',
+            detail: 'AlphaNumeric ToplevelDomainName must be <= 63 Characters.',
             status: '400',
           },
         ],
