@@ -32,7 +32,7 @@ const WizardContainer = ({ setWizardStatus }) => {
       </p>
       <Wizard
         pages={pageComponents}
-        expander={false}
+        expander
         setBenefitReferred={setBenefitReferred}
         setWizardStatus={setWizardStatus}
         buttonText="Let's get started"
