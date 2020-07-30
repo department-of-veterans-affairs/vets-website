@@ -15,7 +15,7 @@ import mockFeatureToggles from '../fixtures/feature-toggles.json';
  *   and performs an aXe scan
  */
 function checkAllPages(mobile = false) {
-  cy.visit('/profile');
+  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
   if (mobile) {
     cy.viewport('iphone-4');
   }
@@ -27,6 +27,10 @@ function checkAllPages(mobile = false) {
   // and then the loading indicator should be removed
   cy.findByRole('progressbar').should('not.exist');
   cy.findByText(/loading your information/i).should('not.exist');
+
+  // since we did not mock the `GET profile/full_name` endpoint, the
+  // ProfileHeader should not be rendered on the page
+  cy.findByTestId('profile-header').should('not.exist');
 
   // visiting /profile should redirect to profile/personal-information
   cy.url().should(
@@ -89,9 +93,8 @@ describe('Profile', () => {
       'DISMISSED_ANNOUNCEMENTS',
       JSON.stringify(['single-sign-on-intro']),
     );
-    cy.login();
+    cy.login(mockUser);
     // login() calls cy.server() so we can now mock routes
-    cy.route('GET', '/v0/user', mockUser);
     cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.route('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
   });

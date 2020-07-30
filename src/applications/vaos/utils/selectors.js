@@ -431,9 +431,11 @@ export const selectPastAppointments = createSelector(
   },
 );
 
-export function selectHasExpressCareRequests(state) {
-  return (
+export const selectExpressCare = state => ({
+  ...state.expressCare,
+  enabled: vaosExpressCare(state),
+  useNewFlow: vaosExpressCareNew(state),
+  hasRequests:
     vaosExpressCare(state) &&
-    state.appointments.future?.some(appt => appt.vaos.isExpressCare)
-  );
-}
+    state.appointments.future?.some(appt => appt.vaos.isExpressCare),
+});
