@@ -29,7 +29,7 @@ import {
 } from '../api';
 import {
   getOrganizations,
-  getSiteIdFromOrganization,
+  getIdOfRootOrganization,
 } from '../services/organization';
 import { getLocation } from '../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../services/healthcare-service';
@@ -301,8 +301,8 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId) {
-        siteId = getSiteIdFromOrganization(
-          parentFacilities.find(parent => parent.id === parentId),
+        siteId = parseFakeFHIRId(
+          getIdOfRootOrganization(parentFacilities, parentId),
         );
       }
 
