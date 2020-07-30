@@ -1,6 +1,11 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
-import { PURPOSE_TEXT, TYPE_OF_VISIT, LANGUAGES } from './constants';
+import {
+  PURPOSE_TEXT,
+  TYPE_OF_VISIT,
+  LANGUAGES,
+  EXPRESS_CARE,
+} from './constants';
 import { getSiteIdFromOrganization } from '../services/organization';
 import {
   getTypeOfCare,
@@ -10,13 +15,12 @@ import {
   getSiteIdForChosenFacility,
   getChosenParentInfo,
   getChosenSlot,
+  selectActiveExpressCareFacility,
+  selectExpressCareData,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
-import {
-  transformAvailableClinic,
-  findCharacteristic,
-} from '../services/healthcare-service/transformers';
+import { findCharacteristic } from '../services/healthcare-service/transformers';
 
 function getRequestedDates(data) {
   return data.calendarData.selectedDates.reduce(
@@ -90,6 +94,47 @@ export function transformFormToVARequest(state) {
     requestedPhoneCall: false,
     providerId: '0',
     providerOption: '',
+  };
+}
+
+export function transformFormToExpressCareRequest(state) {
+  const data = selectExpressCareData(state);
+  const { facilityId, siteId, name } = selectActiveExpressCareFacility(
+    state,
+    moment.utc(),
+  );
+
+  return {
+    typeOfCare: EXPRESS_CARE,
+    typeOfCareId: EXPRESS_CARE,
+    appointmentType: 'Express Care',
+    facility: {
+      name,
+      facilityCode: facilityId,
+      parentSiteCode: siteId,
+    },
+    reasonForVisit: data.reasonForVisit,
+    additionalInformation: data.additionalInformation,
+    phoneNumber: data.phoneNumber,
+    verifyPhoneNumber: data.phoneNumber,
+    emailPreferences: {
+      emailAddress: data.email,
+      // defaulted values
+      notificationFrequency: 'Each new message',
+      emailAllowed: true,
+      textMsgAllowed: false,
+      textMsgPhNumber: '',
+    },
+    email: data.email,
+    // defaulted values
+    status: 'Submitted',
+    schedulingMethod: 'clerk',
+    requestedPhoneCall: false,
+    providerId: '0',
+    providerOption: '',
+    // The bad camel casing here is intentional, to match downstream
+    // system
+    bestTimetoCall: [],
   };
 }
 
