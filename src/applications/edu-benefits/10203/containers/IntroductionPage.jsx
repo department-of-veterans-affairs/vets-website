@@ -106,7 +106,7 @@ export class IntroductionPage extends React.Component {
                     <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
                       Edith Nourse Rogers STEM Scholarship
                     </a>
-                    , you must meet all the requirements below. You:
+                    , you must meet all the requirements below.
                   </p>
                 </div>
                 <ul>

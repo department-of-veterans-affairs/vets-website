@@ -203,7 +203,6 @@ describe('VAOS integration: appointment list', () => {
     },
   };
 
-  // This will change to only show when EC is available
   it('should show express care button and tab when flag is on and within express care window', async () => {
     const request = getVARequestMock();
     request.attributes = {
@@ -214,7 +213,6 @@ describe('VAOS integration: appointment list', () => {
     mockAppointmentInfo({
       requests: [request],
     });
-    const now = moment().utcOffset('-06:00');
     mockParentSites(['983'], [parentSite983]);
     mockSupportedFacilities({
       siteId: 983,
@@ -259,10 +257,10 @@ describe('VAOS integration: appointment list', () => {
     );
 
     const header = await findByText('Create a new Express Care request');
-    const button = await findByText('Request Express Care');
+    const button = await findByText('Create an Express Care request');
 
     expect(baseElement).to.contain.text(
-      'Have a health concern that you need help with today',
+      'Talk to VA health care staff today about a condition',
     );
     expect(header).to.have.tagName('h2');
     expect(button).to.have.attribute(
@@ -315,12 +313,7 @@ describe('VAOS integration: appointment list', () => {
     const memoryHistory = createMemoryHistory();
 
     // Mocking a route here so that components using withRouter don't fail
-    const {
-      findByText,
-      queryByText,
-      getAllByRole,
-      getByText,
-    } = renderInReduxProvider(
+    const { findByText, getByText } = renderInReduxProvider(
       <Router history={memoryHistory}>
         <Route path="/" component={AppointmentsPage} />
       </Router>,
@@ -330,8 +323,10 @@ describe('VAOS integration: appointment list', () => {
       },
     );
 
-    await findByText('Create a new appointment');
-    expect(queryByText(/create a new Express Care request/i)).to.not.be.ok;
+    await findByText(/Express Care isn’t available right now/i);
+    expect(getByText(/create an express care request/i)).to.have.attribute(
+      'disabled',
+    );
   });
 
   it('should not show express care action or tab when flag is off', async () => {
@@ -372,7 +367,6 @@ describe('VAOS integration: appointment list', () => {
 
   it('should show express care action but not tab when flag is on and no requests', async () => {
     mockAppointmentInfo({});
-    const now = moment().utcOffset('-06:00');
     mockParentSites(['983'], [parentSite983]);
     mockSupportedFacilities({
       siteId: 983,
