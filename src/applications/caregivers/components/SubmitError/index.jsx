@@ -1,5 +1,8 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const SubmitError = () => {
   const ErrorBody = () => {
@@ -9,8 +12,11 @@ const SubmitError = () => {
           We’re sorry. Something went wrong when you tried to submit your
           application. Please review your application to make sure you entered
           your information correctly. If you think your information is correct,
-          please call the VA.gov help desk at 855-574-7286 (TTY: 711). We’re
-          here Monday through Friday, 8:00 a.m.–8:00 p.m. ET.
+          please call the VA.gov help desk at
+          <Telephone contact={CONTACTS.HELP_DESK}>
+            855-574-7286 (TTY: 711)
+          </Telephone>
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
 
         <p>
@@ -29,20 +35,11 @@ const SubmitError = () => {
   };
 
   return (
-    <>
-      <AlertBox
-        headline="We didn't receive your online application"
-        content={ErrorBody()}
-        status="error"
-      />
-
-      <a
-        className="usa-button-primary va-button-primary vads-u-margin-top--3"
-        href="#"
-      >
-        Download your online application
-      </a>
-    </>
+    <AlertBox
+      headline="We didn't receive your online application"
+      content={ErrorBody()}
+      status="error"
+    />
   );
 };
 
