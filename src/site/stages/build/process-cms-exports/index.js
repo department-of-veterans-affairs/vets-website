@@ -218,7 +218,7 @@ const entityAssemblerFactory = contentDir => {
 
     // Handle circular references
     const a = findCircularReference(entity, ancestors);
-    if (a) return a;
+    if (a) return a.entity;
 
     validateInput(entity);
 
