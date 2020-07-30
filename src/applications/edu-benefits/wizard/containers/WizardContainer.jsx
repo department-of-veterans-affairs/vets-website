@@ -12,10 +12,10 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const WizardContainer = ({ setWizardStatus }) => {
   /**
-   * @param {string} formId The form id suffix of the referred benefit
+   * @param {string} formIdSuffix The form id suffix of the referred benefit
    */
-  const setReferredBenefit = formId =>
-    sessionStorage.setItem('benefitReferred', formId);
+  const setReferredBenefit = formIdSuffix =>
+    sessionStorage.setItem('benefitReferred', formIdSuffix);
 
   const getCurrentFormIdSuffix = () => {
     const formIDSuffixes = Object.values(formIdSuffixes);
