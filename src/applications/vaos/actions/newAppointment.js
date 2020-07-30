@@ -754,10 +754,10 @@ export function submitAppointmentOrRequest(router) {
         }
 
         try {
-          await sendRequestMessage(
-            requestData.id,
-            newAppointment.data.reasonAdditionalInfo,
-          );
+          const requestMessage = newAppointment.data.reasonAdditionalInfo;
+          if (requestMessage) {
+            await sendRequestMessage(requestData.id, requestMessage);
+          }
           await buildPreferencesDataAndUpdate(newAppointment);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
