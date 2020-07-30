@@ -13,10 +13,8 @@ const SubmitError = () => {
           application. Please review your application to make sure you entered
           your information correctly. If you think your information is correct,
           please call the VA.gov help desk at
-          <Telephone contact={CONTACTS.HELP_DESK}>
-            855-574-7286 (TTY: 711)
-          </Telephone>
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          <Telephone contact={CONTACTS.HELP_DESK} />. We’re here Monday through
+          Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
 
         <p>
