@@ -37,7 +37,6 @@ describe('PersonalInformation', () => {
 
   let initialState;
   it('should render personal info data from the Redux state', () => {
-    const timerId = 'render-personal-info';
     initialState = createBasicInitialState();
 
     const view = renderWithProfileReducers(ui, {
@@ -49,7 +48,6 @@ describe('PersonalInformation', () => {
   });
 
   it('should render the correct contact based on what exists in the Redux state', () => {
-    const timerId = 'render-contact-info';
     initialState = createBasicInitialState();
 
     const {
