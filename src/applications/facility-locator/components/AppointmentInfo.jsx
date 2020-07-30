@@ -74,7 +74,9 @@ export default class AppointmentInfo extends Component {
         const value = accessAttrs.find(
           k => k.service === 'PrimaryCare' && k[category],
         );
-        return renderStat('Primary Care', value[category]);
+        if (value) {
+          return renderStat('Primary Care', value[category]);
+        }
       } else {
         // V0 legacy structure TODO: remove when fully migrated to V1
         const value = get(accessAttrs, ['primaryCare', category]);
