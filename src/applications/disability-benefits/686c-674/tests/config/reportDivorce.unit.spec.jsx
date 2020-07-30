@@ -8,6 +8,7 @@ import {
   DefinitionTester,
   fillData,
   selectRadio,
+  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
@@ -148,6 +149,43 @@ describe('686 report a divorce', () => {
     fillData(form, 'input#root_reportDivorce_dateYear', '2010');
     // location
     changeDropdown(form, 'select#root_reportDivorce_location_state', 'CA');
+    fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
+    // is void
+    selectRadio(form, 'root_reportDivorce_reasonMarriageEnded', 'Other');
+    fillData(form, 'input#root_reportDivorce_explanationOfOther', 'Other');
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should submit a form with a location outside the US', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        data={formData}
+      />,
+    );
+    // spouse name
+    fillData(form, 'input#root_reportDivorce_fullName_first', 'John');
+    fillData(form, 'input#root_reportDivorce_fullName_last', 'Doe');
+    // date of divorce
+    const monthDropdown = form.find('select#root_reportDivorce_dateMonth');
+    const dayDropdown = form.find('select#root_reportDivorce_dateDay');
+    monthDropdown.simulate('change', {
+      target: { value: '1' },
+    });
+    dayDropdown.simulate('change', {
+      target: { value: '1' },
+    });
+    fillData(form, 'input#root_reportDivorce_dateYear', '2010');
+    // location
+    selectCheckbox(form, 'root_reportDivorce_location_isOutsideUS', true);
+    changeDropdown(form, 'select#root_reportDivorce_location_country', 'AFG');
     fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
     // is void
     selectRadio(form, 'root_reportDivorce_reasonMarriageEnded', 'Other');

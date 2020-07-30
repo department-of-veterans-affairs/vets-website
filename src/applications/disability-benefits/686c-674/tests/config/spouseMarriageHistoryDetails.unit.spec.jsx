@@ -7,6 +7,7 @@ import {
   DefinitionTester,
   fillData,
   selectRadio,
+  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
@@ -135,6 +136,48 @@ describe('686 spouse marriage history details', () => {
     fillData(form, 'input#root_endDateYear', '2011');
     // Marriage end location
     changeDropdown(form, 'select#root_endLocation_state', 'CA');
+    fillData(form, 'input#root_endLocation_city', 'Not here');
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should submit with a marriage start and end location outside the US', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        pagePerItemIndex={0}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        arrayPath={arrayPath}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+      />,
+    );
+    // Date marriage start
+    changeDropdown(form, 'select#root_startDateMonth', 1);
+    changeDropdown(form, 'select#root_startDateDay', 1);
+    fillData(form, 'input#root_startDateYear', '2010');
+    // Marriage start location
+    selectCheckbox(form, 'root_startLocation_isOutsideUS', true);
+    changeDropdown(form, 'select#root_startLocation_country', 'AFG');
+    fillData(form, 'input#root_startLocation_city', 'Outhere');
+    // Reason marriage ended
+    selectRadio(form, 'root_reasonMarriageEnded', 'Other');
+    fillData(
+      form,
+      'input#root_reasonMarriageEndedOther',
+      'This is an explanation',
+    );
+    // Date marriage ended
+    changeDropdown(form, 'select#root_endDateMonth', 1);
+    changeDropdown(form, 'select#root_endDateDay', 1);
+    fillData(form, 'input#root_endDateYear', '2011');
+    // Marriage end location
+    selectCheckbox(form, 'root_endLocation_isOutsideUS', true);
+    changeDropdown(form, 'select#root_endLocation_country', 'AFG');
     fillData(form, 'input#root_endLocation_city', 'Not here');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
