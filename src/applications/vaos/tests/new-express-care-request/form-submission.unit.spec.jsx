@@ -79,11 +79,13 @@ describe('VAOS integration: Express Care form submission', () => {
         localWindowString: null,
         minStart: null,
         maxEnd: null,
-        data: {
-          email: 'test@va.gov',
-          phoneNumber: '5555555555',
-          reasonForVisit: 'cough',
-          additionalInformation: 'Whatever',
+        newRequest: {
+          data: {
+            email: 'test@va.gov',
+            phoneNumber: '5555555555',
+            reasonForVisit: 'cough',
+            additionalInformation: 'Whatever',
+          },
         },
         submitStatus: FETCH_STATUS.notStarted,
         successfulRequest: null,
@@ -210,7 +212,9 @@ describe('VAOS integration: Express Care form submission', () => {
         localWindowString: null,
         minStart: null,
         maxEnd: null,
-        data: {},
+        newRequest: {
+          data: {},
+        },
         submitStatus: FETCH_STATUS.notStarted,
         successfulRequest: null,
       },
@@ -271,7 +275,9 @@ describe('VAOS integration: Express Care form submission', () => {
         localWindowString: null,
         minStart: null,
         maxEnd: null,
-        data: {},
+        newRequest: {
+          data: {},
+        },
         submitStatus: FETCH_STATUS.notStarted,
         successfulRequest: null,
       },

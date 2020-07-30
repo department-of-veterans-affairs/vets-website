@@ -453,7 +453,7 @@ export function selectExpressCare(state) {
 }
 
 export function selectExpressCareData(state) {
-  return state.expressCare.data;
+  return state.expressCare.newRequest.data;
 }
 
 export function selectActiveExpressCareFacility(state, nowUTCMoment) {

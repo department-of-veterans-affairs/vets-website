@@ -26,7 +26,9 @@ const initialState = {
   localWindowString: null,
   minStart: null,
   maxEnd: null,
-  data: {},
+  newRequest: {
+    data: {},
+  },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
   successfulRequest: null,
@@ -146,7 +148,7 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         submitStatus: FETCH_STATUS.succeeded,
         successfulRequest: action.responseData,
-        data: {},
+        newRequest: {},
       };
     case FORM_SUBMIT_FAILED:
       return {
