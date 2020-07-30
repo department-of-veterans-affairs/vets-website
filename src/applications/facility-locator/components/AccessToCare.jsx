@@ -57,7 +57,7 @@ export default function AccessToCare({ location }) {
           Current as of{' '}
           <strong>
             {moment(effectiveDate || healthFeedbackAttrs.effectiveDate).format(
-              'YYYY-MM-DD',
+              'LL',
             )}
           </strong>
         </p>
