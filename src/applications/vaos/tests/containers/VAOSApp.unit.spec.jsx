@@ -141,7 +141,7 @@ describe('VAOS <VAOSApp>', () => {
       store,
     });
 
-    expect(await screen.findByText(/unavailable soon/)).to.exist;
+    expect(await screen.findByText(/will be down for maintenance/)).to.exist;
     expect(screen.getByText('Child content')).to.exist;
     fireEvent.click(screen.getByText('Dismiss'));
     await waitFor(

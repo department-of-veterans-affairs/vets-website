@@ -51,7 +51,7 @@ function DowntimeMessage({
           onClose={close}
           visible={!isDowntimeWarningDismissed}
         >
-          <h3>VA online scheduling will be temporarily unavailable soon</h3>
+          <h3>VA online scheduling will be down for maintenance</h3>
           <p>
             We’re doing work on the VA appointments tool on{' '}
             {startTime.format('MMMM Do')} between {startTime.format('LT')} and{' '}
