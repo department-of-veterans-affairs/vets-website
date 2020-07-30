@@ -5,16 +5,12 @@ const confirmEligibilityIsNotChecked = formData =>
 
 export const uiSchema = {
   'view:confirmEligibility': {
-    'view:confirmEligibility': {
-      'ui:required': confirmEligibilityIsNotChecked,
-    },
     'ui:field': ConfirmEligibilityView,
   },
 };
 
 export const schema = {
   type: 'object',
-  required: ['view:confirmEligibility'],
   properties: {
     'view:confirmEligibility': {
       type: 'object',

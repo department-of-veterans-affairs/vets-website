@@ -136,9 +136,7 @@ class ServicesAtFacility extends Component {
       <div>
         <p style={{ margin: '0 0 0.5em' }}>
           Services current as of&nbsp;
-          <strong>
-            {moment(services.last_updated).format('MMMM D, YYYY')}
-          </strong>
+          <strong>{moment(services.last_updated).format('LL')}</strong>
         </p>
 
         <div className="mb2">

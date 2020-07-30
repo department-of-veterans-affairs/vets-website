@@ -478,12 +478,28 @@ export function updateRequest(req) {
 export function submitRequest(type, request) {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve({
-      data: {
-        id: 'testing',
-        attributes: {},
-      },
-    });
+    if (request.typeOfCareId === EXPRESS_CARE) {
+      promise = Promise.resolve({
+        data: {
+          id: 'testing',
+          attributes: {
+            email: request.email,
+            phoneNumber: request.phoneNumber,
+            typeOfCareId: request.typeOfCareId,
+            reasonForVisit: request.reasonForVisit,
+            additionalInformation: request.additionalInformation,
+            status: 'Submitted',
+          },
+        },
+      });
+    } else {
+      promise = Promise.resolve({
+        data: {
+          id: 'testing',
+          attributes: {},
+        },
+      });
+    }
   } else {
     promise = vaosApiRequest(`/v0/appointment_requests?type=${type}`, {
       method: 'POST',
