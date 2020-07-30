@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import { SearchResult } from '../../components/search/SearchResult';
 
@@ -43,10 +43,28 @@ describe('<SearchResult>', () => {
         state={result.state}
         cautionFlags={result.cautionFlags}
         schoolClosing={result.schoolClosing}
+      />,
+    );
+    const vdom = tree.html();
+    expect(vdom).to.not.be.undefined;
+    tree.unmount();
+  });
+
+  it('should render with gibctFilterEnhancement feature flag', () => {
+    const tree = shallow(
+      <SearchResult
+        estimated={estimated}
+        city={result.city}
+        name={result.name}
+        country={result.country}
+        state={result.state}
+        cautionFlags={result.cautionFlags}
+        schoolClosing={result.schoolClosing}
         womenonly={result.womenonly}
         menonly={result.menonly}
         relaffil={result.relaffil}
         hbcu={result.relaffil}
+        gibctFilterEnhancement
       />,
     );
     const vdom = tree.html();
