@@ -1,4 +1,7 @@
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export default function CrisisPanel() {
   return (
@@ -68,7 +71,10 @@ export default function CrisisPanel() {
                 href="tel:18007994889"
                 aria-label="TTY. 8 0 0. 7 9 9. 4 8 8 9."
               >
-                Call TTY if you have hearing loss <strong>800-799-4889</strong>
+                Call TTY if you have hearing loss{' '}
+                <strong>
+                  <Telephone contact={CONTACTS.SUICIDE_PREVENTION_LIFELINE} />
+                </strong>
               </a>
             </li>
           </ul>
