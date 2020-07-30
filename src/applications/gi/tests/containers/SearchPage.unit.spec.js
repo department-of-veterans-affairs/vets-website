@@ -27,6 +27,14 @@ describe('<SearchPage>', () => {
     tree.unmount();
   });
 
+  it('should render with gibctFilterEnhancement feature flag enabled', () => {
+    const tree = shallow(
+      <SearchPage {...defaultProps} gibctFilterEnhancement />,
+    );
+    expect(tree).to.not.be.undefined;
+    tree.unmount();
+  });
+
   it('should render LoadingIndicator', () => {
     const props = {
       ...defaultProps,
