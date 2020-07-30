@@ -723,7 +723,6 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED: {
       let formData = state.data;
       const typeOfCare = getTypeOfCare(formData);
-      debugger;
       let initialSchema = set(
         'properties.hasCommunityCareProvider.title',
         `Do you have a preferred VA-approved community care provider for this ${

@@ -52,6 +52,10 @@ const initialSchema = {
           minLength: 10,
           pattern: '^[0-9]{10}$',
         },
+        'view:textObject': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   },
@@ -132,7 +136,9 @@ const uiSchema = {
     phone: {
       ...phoneUI(),
       'ui:required': data => data.hasCommunityCareProvider,
-      'ui:help': (
+    },
+    'view:textObject': {
+      'ui:description': (
         <AlertBox
           status="info"
           headline="We’ll try to schedule your appointment with your preferred community provider"
