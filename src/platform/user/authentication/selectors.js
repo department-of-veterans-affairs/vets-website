@@ -18,3 +18,6 @@ export const signInServiceName = state =>
 
 export const isAuthenticatedWithSSOe = state =>
   selectProfile(state).signIn?.ssoe;
+
+export const ssoeTransactionId = state =>
+  selectProfile(state).signIn?.transactionid;

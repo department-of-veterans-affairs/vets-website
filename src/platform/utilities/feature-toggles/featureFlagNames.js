@@ -33,4 +33,7 @@ export default Object.freeze({
   routeStLouisRPOtoBuffaloRPO: 'routeStLouisRPOtoBuffaloRPO',
   gibctSearchEnhancements: 'gibctSearchEnhancements',
   form996HigherLevelReview: 'form996HigherLevelReview',
+  gibctFilterEnhancement: 'gibctFilterEnhancement',
+  debtLettersShowLetters: 'debtLettersShowLetters',
+  gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
 });

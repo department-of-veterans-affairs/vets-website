@@ -29,7 +29,7 @@ import {
 } from '../api';
 import {
   getOrganizations,
-  getSiteIdFromOrganization,
+  getIdOfRootOrganization,
 } from '../services/organization';
 import { getLocation } from '../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../services/healthcare-service';
@@ -134,6 +134,8 @@ export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 export const FORM_UPDATE_CC_ELIGIBILITY =
   'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
+export const CLICKED_UPDATE_ADDRESS_BUTTON =
+  'newAppointment/CLICKED_UPDATE_ADDRESS_BUTTON';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -147,6 +149,12 @@ export function openFormPage(page, uiSchema, schema) {
 export function startNewAppointmentFlow() {
   return {
     type: STARTED_NEW_APPOINTMENT_FLOW,
+  };
+}
+
+export function clickUpdateAddressButton() {
+  return {
+    type: CLICKED_UPDATE_ADDRESS_BUTTON,
   };
 }
 
@@ -293,8 +301,8 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId) {
-        siteId = getSiteIdFromOrganization(
-          parentFacilities.find(parent => parent.id === parentId),
+        siteId = parseFakeFHIRId(
+          getIdOfRootOrganization(parentFacilities, parentId),
         );
       }
 
@@ -512,7 +520,7 @@ export function openClinicPage(page, uiSchema, schema) {
   };
 }
 
-export function getAppointmentSlots(startDate, endDate) {
+export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const rootOrgId = getRootIdForChosenFacility(state);
@@ -520,17 +528,21 @@ export function getAppointmentSlots(startDate, endDate) {
     const availableSlots = newAppointment.availableSlots || [];
     const { data } = newAppointment;
 
-    const fetchedAppointmentSlotMonths = [
-      ...newAppointment.fetchedAppointmentSlotMonths,
-    ];
-
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
 
-    const fetchedStartMonth = fetchedAppointmentSlotMonths.includes(
-      startDateMonth,
-    );
-    const fetchedEndMonth = fetchedAppointmentSlotMonths.includes(endDateMonth);
+    let fetchedAppointmentSlotMonths = [];
+    let fetchedStartMonth = false;
+    let fetchedEndMonth = false;
+
+    if (!forceFetch) {
+      fetchedAppointmentSlotMonths = [
+        ...newAppointment.fetchedAppointmentSlotMonths,
+      ];
+
+      fetchedStartMonth = fetchedAppointmentSlotMonths.includes(startDateMonth);
+      fetchedEndMonth = fetchedAppointmentSlotMonths.includes(endDateMonth);
+    }
 
     if (!fetchedStartMonth || !fetchedEndMonth) {
       let mappedSlots = [];

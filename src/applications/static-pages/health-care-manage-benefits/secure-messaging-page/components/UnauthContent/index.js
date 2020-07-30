@@ -1,5 +1,8 @@
 // Node modules.
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
@@ -284,7 +287,7 @@ export const UnauthContent = () => (
               <p>
                 Or contact the My HealtheVet help desk at{' '}
                 <a href="tel:+18773270022">877-327-0022</a> (TTY:{' '}
-                <a href="tel:+18008778339">800-877-8339</a>. We&apos;re here
+                <Telephone contact={CONTACTS.HELP_TTY} />. We&apos;re here
                 Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
               </p>
               <p>

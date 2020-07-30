@@ -38,7 +38,10 @@ class AddressValidationView extends React.Component {
       isPendingTransaction(this.props.transaction) &&
       !isPendingTransaction(prevProps.transaction)
     ) {
-      this.interval = window.setInterval(this.props.refreshTransaction, 1000);
+      this.interval = window.setInterval(
+        this.props.refreshTransaction,
+        window.VetsGov.pollTimeout || 1000,
+      );
     }
   }
 
@@ -175,7 +178,6 @@ class AddressValidationView extends React.Component {
         {isFirstOptionOrEnabled &&
           hasConfirmedSuggestions && (
             <input
-              className="address-validation-input"
               type="radio"
               id={id}
               onChange={() => {

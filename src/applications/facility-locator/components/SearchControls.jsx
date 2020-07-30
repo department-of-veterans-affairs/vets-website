@@ -185,7 +185,7 @@ class SearchControls extends Component {
                   {this.renderServiceTypeDropdown()}
                 </div>
                 <div className="columns medium-1-2">
-                  <input type="submit" value="Search" />
+                  <input id="facility-search" type="submit" value="Search" />
                 </div>
               </div>
             </div>

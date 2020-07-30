@@ -4,7 +4,7 @@ import { checkKeepAlive } from 'platform/user/authentication/actions';
 import {
   ssoeInbound,
   hasCheckedKeepAlive,
-  isAuthenticatedWithSSOe,
+  ssoeTransactionId,
 } from 'platform/user/authentication/selectors';
 import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 import { checkAutoSession } from 'platform/utilities/sso';
@@ -14,7 +14,7 @@ function AutoSSO(props) {
   const {
     useInboundSSOe,
     hasCalledKeepAlive,
-    authenticatedWithSSOe,
+    transactionId,
     loggedIn,
     profileLoading,
   } = props;
@@ -35,7 +35,7 @@ function AutoSSO(props) {
     !profileLoading &&
     !hasCalledKeepAlive
   ) {
-    checkAutoSession(loggedIn, authenticatedWithSSOe).then(() => {
+    checkAutoSession(loggedIn, transactionId).then(() => {
       props.checkKeepAlive();
     });
   }
@@ -44,7 +44,7 @@ function AutoSSO(props) {
 }
 
 const mapStateToProps = state => ({
-  authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+  transactionId: ssoeTransactionId(state),
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
   profileLoading: isProfileLoading(state),
   loggedIn: isLoggedIn(state),

@@ -54,7 +54,7 @@ function fillOutAndSubmitBankInfoForm(view) {
   const accountNumberField = view.getByLabelText(/account number/i);
   const routingNumberField = view.getByLabelText(/routing/i);
   const accountTypeSelect = view.getByLabelText(/account type/i);
-  const submitButton = view.getByRole('button', { name: /update/i });
+  const submitButton = view.getByText('Update', { selector: 'button' });
 
   userEvent.type(accountNumberField, '123123123');
   userEvent.type(routingNumberField, '456456456');
@@ -63,25 +63,23 @@ function fillOutAndSubmitBankInfoForm(view) {
 }
 
 function findSetUpBankInfoButton(view) {
-  return view.queryByRole('button', {
-    name: /please add your bank information/i,
+  return view.queryByText(/please add your bank information/i, {
+    selector: 'button',
   });
 }
 
 function findEditBankInfoButton(view) {
-  return view.getByRole('button', {
-    name: /edit your direct deposit bank information/i,
+  return view.getByText('Edit', {
+    selector: 'button',
   });
 }
 
 function findPaymentHistoryLink(view) {
-  return view.queryByRole('link', { name: /view your payment history/i });
+  return view.queryByText('/view your payment history/i', { selector: 'a' });
 }
 
 function findCancelEditButton(view) {
-  return view.getByRole('button', {
-    name: /cancel/i,
-  });
+  return view.getByText('Cancel', { selector: 'button' });
 }
 
 describe('DirectDepositContent', () => {
@@ -143,13 +141,13 @@ describe('DirectDepositContent', () => {
       });
     });
     it('should not show the view payment history link', () => {
-      expect(findPaymentHistoryLink(view)).to.be.null;
+      expect(findPaymentHistoryLink(view)).not.to.exist;
     });
     it('should not show bank info', () => {
       expect(view.queryByText(paymentAccount.financialInstitutionName)).to.be
         .null;
-      expect(view.queryByText(paymentAccount.accountNumber)).to.be.null;
-      expect(view.queryByText(paymentAccount.accountType)).to.be.null;
+      expect(view.queryByText(paymentAccount.accountNumber)).not.to.exist;
+      expect(view.queryByText(paymentAccount.accountType)).not.to.exist;
       expect(view.getByText(/been the victim of bank fraud/i)).to.exist;
     });
     it('should allow entering and exiting edit mode', async () => {
@@ -161,22 +159,26 @@ describe('DirectDepositContent', () => {
       userEvent.click(findCancelEditButton(view));
 
       // ensure that the edit form was removed
-      expect(view.queryByRole('form')).to.be.null;
+      expect(view.queryByLabelText(/account number/i)).not.to.exist;
     });
     it('should handle adding bank info', async () => {
       userEvent.click(findSetUpBankInfoButton(view));
 
-      expect(await view.findByRole('form')).to.exist;
+      expect(await view.findByLabelText(/account number/i)).to.exist;
 
       // fill out form info
       fillOutAndSubmitBankInfoForm(view);
 
-      await waitForElementToBeRemoved(() => view.queryByRole('form'));
+      await waitForElementToBeRemoved(() =>
+        view.queryByLabelText(/account number/i),
+      );
 
       // shows a save succeeded alert
-      expect(view.getByRole('alert')).to.contain.text(
-        'We’ve saved your direct deposit information',
-      );
+      expect(
+        view.findByRole('alert', {
+          name: /we’ve saved your direct deposit information/i,
+        }),
+      ).to.exist;
 
       // and the bank info from the mocked call should be shown
       expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))
@@ -204,7 +206,7 @@ describe('DirectDepositContent', () => {
       expect(view.getByText(paymentAccount.accountType, { exact: false })).to
         .exist;
       expect(view.getByText(/been the victim of bank fraud/i)).to.exist;
-      expect(findSetUpBankInfoButton(view)).to.be.null;
+      expect(findSetUpBankInfoButton(view)).not.to.exist;
     });
     it('should handle a successful bank info update', async () => {
       userEvent.click(findEditBankInfoButton(view));
@@ -212,12 +214,16 @@ describe('DirectDepositContent', () => {
       // fill out form info
       fillOutAndSubmitBankInfoForm(view);
 
-      await waitForElementToBeRemoved(() => view.queryByRole('form'));
+      await waitForElementToBeRemoved(() =>
+        view.queryByLabelText(/account number/i),
+      );
 
       // shows a save succeeded alert
-      expect(view.getByRole('alert')).to.contain.text(
-        'We’ve saved your direct deposit information',
-      );
+      expect(
+        view.findByRole('alert', {
+          name: /we’ve saved your direct deposit information/i,
+        }),
+      ).to.exist;
 
       // and the bank info from the mocked call should be shown
       expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))

@@ -57,6 +57,18 @@ const ConfirmationPage = asyncLoader(() =>
 const ExpressCareList = asyncLoader(() =>
   import(/* webpackChunkName: "express-care" */ './components/ExpressCareList'),
 );
+const NewExpressCareRequestLayout = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/NewExpressCareRequestLayout'),
+);
+const ExpressCareInfoPage = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareInfoPage'),
+);
+const ExpressCareFormPage = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareFormPage'),
+);
+const ExpressCareConfirmationPage = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareConfirmationPage'),
+);
 
 export default function createRoutesWithStore(store) {
   return (
@@ -97,6 +109,14 @@ export default function createRoutesWithStore(store) {
         <Route path="reason-appointment" component={ReasonForAppointmentPage} />
         <Route path="review" component={ReviewPage} />
         <Route path="confirmation" component={ConfirmationPage} />
+      </Route>
+      <Route
+        path="new-express-care-request"
+        component={NewExpressCareRequestLayout}
+      >
+        <IndexRoute component={ExpressCareInfoPage} />
+        <Route path="form" component={ExpressCareFormPage} />
+        <Route path="confirmation" component={ExpressCareConfirmationPage} />
       </Route>
     </Route>
   );

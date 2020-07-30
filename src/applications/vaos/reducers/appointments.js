@@ -17,13 +17,12 @@ import {
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
 } from '../actions/appointments';
 
-import { FORM_SUBMIT_SUCCEEDED } from '../actions/sitewide';
-
 import {
-  sortFutureConfirmedAppointments,
-  sortFutureRequests,
-  sortMessages,
-} from '../services/appointment';
+  FORM_SUBMIT_SUCCEEDED,
+  EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED,
+} from '../actions/sitewide';
+
+import { sortMessages } from '../services/appointment';
 import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,
@@ -42,6 +41,14 @@ const initialState = {
   facilityData: {},
   requestMessages: {},
   systemClinicToFacilityMap: {},
+  expressCare: {
+    windowsStatus: FETCH_STATUS.notStarted,
+    hasWindow: false,
+    allowRequests: false,
+    localWindowString: null,
+    minStart: null,
+    maxEnd: null,
+  },
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -54,14 +61,9 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
       const [bookedAppointments, requests] = action.data;
 
-      const confirmedFilteredAndSorted = [...bookedAppointments].sort(
-        sortFutureConfirmedAppointments,
-      );
-      const requestsFilteredAndSorted = [...requests].sort(sortFutureRequests);
-
       return {
         ...state,
-        future: [...confirmedFilteredAndSorted, ...requestsFilteredAndSorted],
+        future: [...bookedAppointments, ...requests],
         futureStatus: FETCH_STATUS.succeeded,
       };
     }
@@ -186,6 +188,7 @@ export default function appointmentsReducer(state = initialState, action) {
         appointmentToCancel: null,
         cancelAppointmentStatus: FETCH_STATUS.notStarted,
       };
+    case EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED:
     case FORM_SUBMIT_SUCCEEDED:
       return {
         ...state,

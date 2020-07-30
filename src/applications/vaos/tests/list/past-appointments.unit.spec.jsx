@@ -164,7 +164,7 @@ describe('VAOS integration: past appointments', () => {
     };
     mockFacilitiesFetch('vha_442GC', [facility]);
 
-    const { findByText, baseElement, getByText } = renderInReduxProvider(
+    const { findByText, baseElement } = renderInReduxProvider(
       <PastAppointmentsList />,
       {
         initialState,
@@ -179,7 +179,7 @@ describe('VAOS integration: past appointments', () => {
       ),
     );
 
-    expect(getByText(/directions/i)).to.have.attribute(
+    expect(await findByText(/directions/i)).to.have.attribute(
       'href',
       'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
     );
