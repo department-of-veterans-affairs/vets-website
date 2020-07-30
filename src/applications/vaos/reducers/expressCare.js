@@ -28,6 +28,7 @@ const initialState = {
   maxEnd: null,
   data: {},
   submitStatus: FETCH_STATUS.notStarted,
+  submitErrorReason: null,
   successfulRequest: null,
 };
 
@@ -151,6 +152,7 @@ export default function expressCareReducer(state = initialState, action) {
       return {
         ...state,
         submitStatus: FETCH_STATUS.failed,
+        submitErrorReason: action.errorReason,
       };
     default:
       return state;

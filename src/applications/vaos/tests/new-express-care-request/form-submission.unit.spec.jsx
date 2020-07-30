@@ -1,9 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import moment from 'moment';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONFailure,
+} from 'platform/testing/unit/helpers';
+import environment from 'platform/utilities/environment';
 
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
@@ -42,7 +48,6 @@ describe('VAOS integration: Express Care form submission', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
-  it('should show error page on failure', () => {});
   it('should show confirmation page on success', async () => {
     mockParentSites(['983'], [parentSite983]);
     mockSupportedFacilities({
@@ -175,6 +180,118 @@ describe('VAOS integration: Express Care form submission', () => {
     expect(screen.baseElement.textContent).to.not.be.ok;
     expect(router.replace.firstCall.args[0]).to.equal(
       '/new-express-care-request',
+    );
+  });
+  it('should show generic error on submit failure', async () => {
+    mockParentSites(['983'], [parentSite983]);
+    mockSupportedFacilities({
+      siteId: 983,
+      parentId: 983,
+      typeOfCareId: 'CR1',
+      data: [
+        {
+          attributes: {
+            expressTimes: {
+              start: '00:00',
+              end: '23:59',
+              timezone: 'UTC',
+              offsetUtc: '-00:00',
+            },
+          },
+        },
+      ],
+    });
+    const store = createTestStore({
+      ...initialState,
+      // Remove this mocking when we get a real page set up
+      expressCare: {
+        windowsStatus: FETCH_STATUS.notStarted,
+        windows: null,
+        localWindowString: null,
+        minStart: null,
+        maxEnd: null,
+        data: {},
+        submitStatus: FETCH_STATUS.notStarted,
+        successfulRequest: null,
+      },
+    });
+    store.dispatch(fetchExpressCareWindows());
+    setFetchJSONFailure(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointment_requests?type=va`,
+      ),
+      { errors: [] },
+    );
+
+    const screen = renderInReduxProvider(<ExpressCareFormPage />, {
+      store,
+    });
+
+    fireEvent.click(await screen.findByText(/submit express care/i));
+    expect(screen.baseElement).to.contain.text(
+      'Submitting your Express Care request',
+    );
+    await screen.findByRole('alert');
+    expect(screen.baseElement).to.contain.text(
+      'Your request didn’t go through',
+    );
+  });
+
+  it('should show message when submitting outside of EC window', async () => {
+    mockParentSites(['983'], [parentSite983]);
+    mockSupportedFacilities({
+      siteId: 983,
+      parentId: 983,
+      typeOfCareId: 'CR1',
+      data: [
+        {
+          attributes: {
+            expressTimes: {
+              start: moment
+                .utc()
+                .subtract(2, 'hours')
+                .format('HH:mm'),
+              end: moment
+                .utc()
+                .subtract(1, 'hours')
+                .format('HH:mm'),
+              timezone: 'UTC',
+              offsetUtc: '-00:00',
+            },
+          },
+        },
+      ],
+    });
+    const store = createTestStore({
+      ...initialState,
+      // Remove this mocking when we get a real page set up
+      expressCare: {
+        windowsStatus: FETCH_STATUS.notStarted,
+        windows: null,
+        localWindowString: null,
+        minStart: null,
+        maxEnd: null,
+        data: {},
+        submitStatus: FETCH_STATUS.notStarted,
+        successfulRequest: null,
+      },
+    });
+    store.dispatch(fetchExpressCareWindows());
+    setFetchJSONFailure(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointment_requests?type=va`,
+      ),
+      { errors: [] },
+    );
+
+    const screen = renderInReduxProvider(<ExpressCareFormPage />, {
+      store,
+    });
+
+    fireEvent.click(await screen.findByText(/submit express care/i));
+    await screen.findByRole('alert');
+    expect(screen.baseElement).to.contain.text(
+      'Express Care isn’t available right now',
     );
   });
 });

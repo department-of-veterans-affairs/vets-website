@@ -461,6 +461,10 @@ export function selectActiveExpressCareFacility(state, nowUTCMoment) {
     nowUTCMoment.isBetween(ecWindow.utcStart, ecWindow.utcEnd),
   );
 
+  if (!activeWindow) {
+    return null;
+  }
+
   return {
     name: activeWindow.authoritativeName,
     facilityId: activeWindow.id,
