@@ -72,26 +72,29 @@ const uiSchema = {
 const pageKey = 'reasonForAppointment';
 
 export class ReasonForAppointmentPage extends React.Component {
-  componentDidMount() {
-    const isCommunityCare = this.isCommunityCare();
-    const reasonUiSchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
-    const reasonInitialSchema = isCommunityCare
+  constructor(props) {
+    super(props);
+
+    this.isCommunityCare =
+      this.props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+    this.uiSchema = this.isCommunityCare ? uiSchema.cc : uiSchema.default;
+    this.initialSchema = this.isCommunityCare
       ? initialSchema.cc
       : initialSchema.default;
-
-    this.props.openReasonForAppointment(
-      pageKey,
-      reasonUiSchema,
-      reasonInitialSchema,
-    );
-
-    document.title = `${this.getPageTitle(isCommunityCare)} | Veterans Affairs`;
-    scrollAndFocus();
   }
 
-  isCommunityCare = () =>
-    this.props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+  componentDidMount() {
+    this.props.openReasonForAppointment(
+      pageKey,
+      this.uiSchema,
+      this.initialSchema,
+    );
 
+    document.title = `${this.getPageTitle(
+      this.isCommunityCare,
+    )} | Veterans Affairs`;
+    scrollAndFocus();
+  }
   getPageTitle = isCommunityCare =>
     isCommunityCare
       ? 'Tell us the reason for this appointment'
@@ -107,12 +110,6 @@ export class ReasonForAppointmentPage extends React.Component {
 
   render() {
     const { schema, data, pageChangeInProgress } = this.props;
-    const isCommunityCare = this.isCommunityCare();
-    const reasonUiSchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
-    const reasonInitialSchema = isCommunityCare
-      ? initialSchema.cc
-      : initialSchema.default;
-
     return (
       <div>
         <h1 className="vads-u-font-size--h2">
@@ -121,13 +118,13 @@ export class ReasonForAppointmentPage extends React.Component {
         <SchemaForm
           name="Reason for appointment"
           title="Reason for appointment"
-          schema={schema || reasonInitialSchema}
-          uiSchema={reasonUiSchema}
+          schema={schema || this.initialSchema}
+          uiSchema={this.uiSchema}
           onSubmit={this.goForward}
           onChange={newData =>
             this.props.updateReasonForAppointmentData(
               pageKey,
-              reasonUiSchema,
+              this.uiSchema,
               newData,
             )
           }

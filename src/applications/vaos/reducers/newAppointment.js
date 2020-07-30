@@ -563,7 +563,6 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
-      const uiSchema = { ...action.uiSchema };
       const formData = state.data;
       let reasonMaxChars = REASON_MAX_CHARS.request;
 
@@ -594,7 +593,11 @@ export default function formReducer(state = initialState, action) {
         );
       }
 
-      const { data, schema } = setupFormData(formData, reasonSchema, uiSchema);
+      const { data, schema } = setupFormData(
+        formData,
+        reasonSchema,
+        action.uiSchema,
+      );
 
       return {
         ...state,
