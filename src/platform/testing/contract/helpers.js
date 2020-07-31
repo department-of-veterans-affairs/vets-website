@@ -2,49 +2,23 @@ import { Matchers } from '@pact-foundation/pact';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-const { integer, iso8601DateTimeWithMillis, term } = Matchers;
+const { integer, iso8601DateTimeWithMillis } = Matchers;
 
 import { saveFormApi } from 'platform/forms/save-in-progress/api';
 import { submitForm } from 'platform/forms-system/src/js/actions';
 
-export const setupFormSubmitTest = (formConfig, formData) => {
-  // Actual request expects string, but interaction request expects object.
-  const requestBody = JSON.parse(
-    formConfig.transformForSubmit(formConfig, formData),
-  );
+export const testFormSubmit = async (formConfig, formData) => {
+  const dispatch = sinon.spy();
+  await submitForm(formConfig, formData)(dispatch);
 
-  const responseBody = {
-    id: integer(12345),
-    type: 'health_care_applications',
-    attributes: {
-      state: term({
-        matcher: 'success|error|failed|pending',
-        generate: 'pending',
-      }),
-      formSubmissionId: integer(67890),
-      timestamp: iso8601DateTimeWithMillis('2020-07-29T14:16:30.527Z'),
-    },
-  };
+  const [firstAction] = dispatch.firstCall.args;
+  expect(firstAction.type).to.eq('SET_SUBMISSION');
+  expect(firstAction.field).to.eq('status');
+  expect(firstAction.value).to.eq('submitPending');
 
-  const testFormSubmit = async () => {
-    const dispatch = sinon.spy();
-    await submitForm(formConfig, formData)(dispatch);
-
-    const [firstAction] = dispatch.firstCall.args;
-    expect(firstAction.type).to.eq('SET_SUBMISSION');
-    expect(firstAction.field).to.eq('status');
-    expect(firstAction.value).to.eq('submitPending');
-
-    const [secondAction] = dispatch.secondCall.args;
-    expect(secondAction.type).to.eq('SET_SUBMITTED');
-    expect(secondAction.response.attributes.state).to.eq('pending');
-  };
-
-  return {
-    requestBody,
-    responseBody,
-    testFormSubmit,
-  };
+  const [secondAction] = dispatch.secondCall.args;
+  expect(secondAction.type).to.eq('SET_SUBMITTED');
+  expect(secondAction.response.attributes.state).to.eq('pending');
 };
 
 export const testSaveInProgress = (mockApi, formConfig, formData) => {
@@ -106,7 +80,8 @@ export const testSaveInProgress = (mockApi, formConfig, formData) => {
         trackingPrefix,
       );
 
-      expect(response.data.attributes.formData).to.eql(formData);
+      expect(response.data.type).to.eql('in_progress_forms');
+      expect(response.data.attributes.formId).to.eql(formId);
     });
 
     /*

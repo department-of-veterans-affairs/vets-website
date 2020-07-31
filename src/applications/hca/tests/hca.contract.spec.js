@@ -1,22 +1,21 @@
+import { Matchers } from '@pact-foundation/pact';
+
 import contractTest from 'platform/testing/contract';
+
 import {
-  setupFormSubmitTest,
+  testFormSubmit,
   testSaveInProgress,
 } from 'platform/testing/contract/helpers';
 
 import formConfig from '../config/form';
 import formData from './schema/maximal-test.json';
 
+const { integer, iso8601DateTimeWithMillis, term } = Matchers;
+
 contractTest('HCA', 'VA.gov API', mockApi => {
   describe('POST /v0/health_care_applications', () => {
     context('without attachments', () => {
       it('responds with success', async () => {
-        const {
-          requestBody,
-          responseBody,
-          testFormSubmit,
-        } = setupFormSubmitTest(formConfig, formData);
-
         await mockApi.addInteraction({
           state: 'enrollment service is up',
           uponReceiving: 'a request to submit a health care application',
@@ -27,15 +26,30 @@ contractTest('HCA', 'VA.gov API', mockApi => {
               'Content-Type': 'application/json',
               'X-Key-Inflection': 'camel',
             },
-            body: requestBody,
+            body: JSON.parse(
+              formConfig.transformForSubmit(formConfig, formData),
+            ),
           },
           willRespondWith: {
             status: 200,
-            body: responseBody,
+            body: {
+              id: integer(12345),
+              type: 'health_care_applications',
+              attributes: {
+                state: term({
+                  matcher: 'success|error|failed|pending',
+                  generate: 'pending',
+                }),
+                formSubmissionId: integer(67890),
+                timestamp: iso8601DateTimeWithMillis(
+                  '2020-07-29T14:16:30.527Z',
+                ),
+              },
+            },
           },
         });
 
-        await testFormSubmit();
+        await testFormSubmit(formConfig, formData);
       });
     });
 
