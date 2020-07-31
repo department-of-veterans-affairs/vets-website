@@ -7,7 +7,7 @@ import WizardContainer from '../../wizard/containers/WizardContainer';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
-} from '../../../static-pages/wizard';
+} from 'applications/static-pages/wizard';
 
 export class IntroductionPage extends React.Component {
   constructor(props) {
