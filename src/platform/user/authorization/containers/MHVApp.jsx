@@ -6,6 +6,9 @@ import appendQuery from 'append-query';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 import { mhvAccessError } from '../../../static-data/error-messages';
 import backendServices from '../../profile/constants/backendServices';
 import { selectProfile } from '../../selectors';
@@ -71,9 +74,7 @@ const INELIGIBLE_MESSAGES = {
         </p>
         <p>
           Please call the My HealtheVet Help Desk at 877-327-0022 (TTY:
-          <a href="tel:8008773399" aria-label="8 0 0. 8 7 7. 3 3 9 9.">
-            800-877-3399
-          </a>
+          <Telephone contact={CONTACTS.HELP_TTY} />
           ), 7:00 a.m. - 7:00 p.m. CT, and ask for help to activate your
           disabled account.
         </p>
@@ -94,9 +95,7 @@ const INELIGIBLE_MESSAGES = {
         </p>
         <p>
           Please call the My HealtheVet Help Desk at 877-327-0022 (TTY:
-          <a href="tel:8008773399" aria-label="8 0 0. 8 7 7. 3 3 9 9.">
-            800-877-3399
-          </a>
+          <Telephone contact={CONTACTS.HELP_TTY} />
           ), 7:00 a.m. - 7:00 p.m. CT, and ask for help to delete any extra
           accounts in the system.
         </p>

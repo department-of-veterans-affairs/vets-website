@@ -46,6 +46,7 @@ import {
   REASON_MAX_CHARS,
   PURPOSE_TEXT,
   VHA_FHIR_ID,
+  FACILITY_TYPES,
 } from '../../utils/constants';
 
 import { transformParentFacilities } from '../../services/organization/transformers';
@@ -773,20 +774,52 @@ describe('VAOS reducer: newAppointment', () => {
           .title,
       ).to.equal(REASON_ADDITIONAL_INFO_TITLES.request);
     });
+  });
 
-    it('page open should set max characters', async () => {
-      const currentState = {
-        ...defaultState,
-        flowType: FLOW_TYPES.DIRECT,
-        data: {
-          reasonForAppointment: 'other',
+  it('page open should set max characters', async () => {
+    const currentState = {
+      ...defaultState,
+      flowType: FLOW_TYPES.DIRECT,
+      data: {
+        reasonForAppointment: 'other',
+      },
+    };
+
+    const action = {
+      type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+      page: 'reasonForAppointment',
+      schema: {
+        type: 'object',
+        properties: {
+          reasonAdditionalInfo: {
+            type: 'string',
+          },
         },
-      };
+      },
+      uiSchema: {},
+    };
 
-      const action = {
-        type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
-        page: 'reasonForAppointment',
-        schema: {
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(
+      newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+        .maxLength,
+    ).to.equal(
+      REASON_MAX_CHARS.direct -
+        PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
+        2,
+    );
+  });
+
+  it('change should set max characters', async () => {
+    const currentState = {
+      ...defaultState,
+      flowType: FLOW_TYPES.DIRECT,
+      data: {
+        reasonForAppointment: 'medication-concern',
+      },
+      pages: {
+        reasonForAppointment: {
           type: 'object',
           properties: {
             reasonAdditionalInfo: {
@@ -794,60 +827,28 @@ describe('VAOS reducer: newAppointment', () => {
             },
           },
         },
-        uiSchema: {},
-      };
+      },
+    };
 
-      const newState = newAppointmentReducer(currentState, action);
+    const action = {
+      type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
+      page: 'reasonForAppointment',
+      uiSchema: {},
+      data: {
+        reasonForAppointment: 'other',
+      },
+    };
 
-      expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
-          .maxLength,
-      ).to.equal(
-        REASON_MAX_CHARS.direct -
-          PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
-          2,
-      );
-    });
+    const newState = newAppointmentReducer(currentState, action);
 
-    it('change should set max characters', async () => {
-      const currentState = {
-        ...defaultState,
-        flowType: FLOW_TYPES.DIRECT,
-        data: {
-          reasonForAppointment: 'medication-concern',
-        },
-        pages: {
-          reasonForAppointment: {
-            type: 'object',
-            properties: {
-              reasonAdditionalInfo: {
-                type: 'string',
-              },
-            },
-          },
-        },
-      };
-
-      const action = {
-        type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
-        page: 'reasonForAppointment',
-        uiSchema: {},
-        data: {
-          reasonForAppointment: 'other',
-        },
-      };
-
-      const newState = newAppointmentReducer(currentState, action);
-
-      expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
-          .maxLength,
-      ).to.equal(
-        REASON_MAX_CHARS.direct -
-          PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
-          2,
-      );
-    });
+    expect(
+      newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+        .maxLength,
+    ).to.equal(
+      REASON_MAX_CHARS.direct -
+        PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
+        2,
+    );
   });
 
   describe('CC preferences page', () => {
