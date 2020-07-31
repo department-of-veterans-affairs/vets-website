@@ -61,7 +61,6 @@ describe('the Education Benefits Wizard', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
       target: { value: 'new' },
@@ -87,7 +86,6 @@ describe('the Education Benefits Wizard', () => {
     expect(wrapper.state('pageHistory')[3].state).to.deep.equal({
       selected: 'yes',
     });
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.find('WarningAlert').exists()).to.equal(false);
     const benefit = sessionStorage.getItem('benefitReferred');
     expect(benefit).to.equal(formIdSuffixes.FORM_ID_1990E);
@@ -102,7 +100,6 @@ describe('the Education Benefits Wizard', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
       target: { value: 'new' },
@@ -142,7 +139,6 @@ describe('the Education Benefits Wizard', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
       target: { value: 'new' },
@@ -175,7 +171,6 @@ describe('the Education Benefits Wizard', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
       target: { value: 'new' },
@@ -214,7 +209,6 @@ describe('the Education Benefits Wizard', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
       target: { value: 'new' },
@@ -253,7 +247,6 @@ describe('the Education Benefits Wizard', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
       target: { value: 'new' },
@@ -287,7 +280,6 @@ describe('the Education Benefits Wizard', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-1').invoke('onChange')({
       target: { value: 'update' },
@@ -314,7 +306,6 @@ describe('the Education Benefits Wizard', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-1').invoke('onChange')({
       target: { value: 'update' },
@@ -341,7 +332,6 @@ describe('the Education Benefits Wizard', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-1').invoke('onChange')({
       target: { value: 'update' },
@@ -368,7 +358,6 @@ describe('the Education Benefits Wizard', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
-    // eslint-disable-next-line no-unused-expressions
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-1').invoke('onChange')({
       target: { value: 'extend' },
