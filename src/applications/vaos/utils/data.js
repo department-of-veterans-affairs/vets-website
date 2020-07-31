@@ -2,6 +2,7 @@ import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import {
   PURPOSE_TEXT,
+  CC_PURPOSE,
   TYPE_OF_VISIT,
   LANGUAGES,
   EXPRESS_CARE,
@@ -196,9 +197,7 @@ export function transformFormToCCRequest(state) {
       facilityCode: siteId,
       parentSiteCode: siteId,
     },
-    purposeOfVisit: PURPOSE_TEXT.find(
-      purpose => purpose.id === data.reasonForAppointment,
-    )?.id,
+    purposeOfVisit: CC_PURPOSE,
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
     // The bad camel casing here is intentional, to match downstream
