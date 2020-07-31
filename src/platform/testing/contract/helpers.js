@@ -2,10 +2,12 @@ import { Matchers } from '@pact-foundation/pact';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-const { integer, iso8601DateTimeWithMillis } = Matchers;
+const { integer, iso8601DateTimeWithMillis, like } = Matchers;
 
+import { fetchInProgressForm } from 'platform/forms/save-in-progress/actions';
 import { saveFormApi } from 'platform/forms/save-in-progress/api';
 import { submitForm } from 'platform/forms-system/src/js/actions';
+import { createFormPageList } from 'platform/forms-system/src/js/helpers';
 
 export const testFormSubmit = async (formConfig, formData) => {
   const dispatch = sinon.spy();
@@ -25,6 +27,52 @@ export const testSaveInProgress = (mockApi, formConfig, formData) => {
   const returnUrl = '/form-url/review-and-submit';
   const savedAt = 1595954803670;
   const { formId, trackingPrefix, version } = formConfig;
+
+  describe('GET /v0/in_progress_forms', () => {
+    it('responds with 200', async () => {
+      await mockApi.addInteraction({
+        state: 'a saved form exists',
+        uponReceiving: 'a request to get an in-progress form',
+        withRequest: {
+          method: 'GET',
+          path: `/v0/in_progress_forms/${formId}`,
+          headers: {
+            'X-Key-Inflection': 'camel',
+          },
+        },
+        willRespondWith: {
+          status: 200,
+          body: {
+            formData: like(formData.data || formData),
+            metadata: {
+              lastUpdated: integer(1596032190),
+              returnUrl,
+              savedAt,
+              expiresAt: integer(1601216190),
+              version,
+            },
+          },
+        },
+      });
+
+      const dispatch = sinon.spy();
+      const pages = createFormPageList(formConfig);
+      const getState = sinon.stub().returns({
+        form: {
+          trackingPrefix,
+          pages,
+        },
+      });
+
+      await fetchInProgressForm(formId)(dispatch, getState);
+
+      const [firstAction] = dispatch.firstCall.args;
+      expect(firstAction.type).to.eq('SET_FETCH_FORM_PENDING');
+
+      const [secondAction] = dispatch.secondCall.args;
+      expect(secondAction.type).to.eq('SET_IN_PROGRESS_FORM');
+    });
+  });
 
   describe('PUT /v0/in_progress_forms', () => {
     it('responds with 200', async () => {
