@@ -13,12 +13,15 @@ module.exports = {
     fieldAlertDismissable: { type: 'boolean' },
     fieldAlertEmailUpdatesButton: { type: 'boolean' },
     fieldAlertFindFacilitiesCta: { type: 'boolean' },
-    fieldAlertInheritanceSubpages: { type: 'boolean' },
+    fieldAlertInheritanceSubpages: { type: ['boolean', 'null'] },
     fieldAlertOperatingStatusCta: { type: 'boolean' },
     fieldAlertType: { type: 'string' },
-    fieldBannerAlertComputdvalues: { type: 'string' },
+    fieldBannerAlertComputdvalues: { type: ['boolean', 'null'] },
     fieldBannerAlertVamcs: {
-      $ref: 'output/node-vamc_operating_status_and_alerts',
+      oneOf: [
+        { $ref: 'output/node-vamc_operating_status_and_alerts' },
+        { type: 'null' },
+      ],
     },
     fieldBody: { type: 'string' },
     fieldOperatingStatusSendemail: { type: 'boolean' },
