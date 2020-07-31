@@ -27,12 +27,13 @@ export const testSaveInProgress = (mockApi, formConfig, formData) => {
   const { formId, trackingPrefix, version } = formConfig;
 
   describe('PUT /v0/in_progress_forms', () => {
-    it('responds with success', async () => {
-      const interaction = {
+    it('responds with 200', async () => {
+      await mockApi.addInteraction({
+        state: 'user is authenticated',
         uponReceiving: 'a request to save an in-progress form',
         withRequest: {
           method: 'PUT',
-          path: `/v0/in_progress_forms/${formConfig.formId}`,
+          path: `/v0/in_progress_forms/${formId}`,
           headers: {
             'Content-Type': 'application/json',
             'X-Key-Inflection': 'camel',
@@ -56,7 +57,7 @@ export const testSaveInProgress = (mockApi, formConfig, formData) => {
                 updatedAt: iso8601DateTimeWithMillis(
                   '2020-07-29T14:16:30.527Z',
                 ),
-                metaData: {
+                metadata: {
                   lastUpdated: integer(1596032190),
                   returnUrl,
                   savedAt,
@@ -67,9 +68,7 @@ export const testSaveInProgress = (mockApi, formConfig, formData) => {
             },
           },
         },
-      };
-
-      await mockApi.addInteraction(interaction);
+      });
 
       const response = await saveFormApi(
         formId,
@@ -83,10 +82,5 @@ export const testSaveInProgress = (mockApi, formConfig, formData) => {
       expect(response.data.type).to.eql('in_progress_forms');
       expect(response.data.attributes.formId).to.eql(formId);
     });
-
-    /*
-    it('responds with failure', async () => {
-    });
-    */
   });
 };
