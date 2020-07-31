@@ -2,7 +2,7 @@ import React from 'react';
 import Wizard, {
   formIdSuffixes,
   WIZARD_STATUS_COMPLETE,
-} from '../../../wizard';
+} from 'applications/static-pages/wizard';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import pages from 'applications/edu-benefits/wizard/pages';
