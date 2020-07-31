@@ -58,7 +58,7 @@ function editEmailAddress() {
 
 // When the update happens while the Edit View is still active
 async function testQuickSuccess() {
-  server.use(...mocks.editEmailAddressTransactionSuccess);
+  server.use(...mocks.transactionSucceeded);
 
   const { emailAddressInput } = editEmailAddress();
 
@@ -77,7 +77,7 @@ async function testQuickSuccess() {
 // When the update happens but not until after the Edit View has exited and the
 // user returned to the read-only view
 async function testSlowSuccess() {
-  server.use(...mocks.editEmailAddressTransactionPending);
+  server.use(...mocks.transactionPending);
 
   const { emailAddressInput } = editEmailAddress();
 
@@ -90,7 +90,7 @@ async function testSlowSuccess() {
   );
   expect(savingMessage).to.exist;
 
-  server.use(...mocks.editEmailAddressTransactionSuccess);
+  server.use(...mocks.transactionSucceeded);
 
   await waitForElementToBeRemoved(savingMessage);
 
@@ -109,10 +109,7 @@ async function testSlowSuccess() {
 
 // When the initial transaction creation request fails
 async function testTransactionCreationFails() {
-  server.use(
-    ...mocks.updateEmailAddressCreateTransactionFailure,
-    ...mocks.addEmailAddressCreateTransactionFailure,
-  );
+  server.use(...mocks.createTransactionFailure);
 
   editEmailAddress();
 
@@ -126,7 +123,7 @@ async function testTransactionCreationFails() {
 
 // When the update fails while the Edit View is still active
 async function testQuickFailure() {
-  server.use(...mocks.editEmailAddressTransactionFailure);
+  server.use(...mocks.transactionFailed);
 
   editEmailAddress();
 
@@ -141,7 +138,7 @@ async function testQuickFailure() {
 // When the update fails but not until after the Edit View has exited and the
 // user returned to the read-only view
 async function testSlowFailure() {
-  server.use(...mocks.editEmailAddressTransactionPending);
+  server.use(...mocks.transactionPending);
 
   const { emailAddressInput } = editEmailAddress();
 
@@ -154,7 +151,7 @@ async function testSlowFailure() {
   );
   expect(savingMessage).to.exist;
 
-  server.use(...mocks.editEmailAddressTransactionFailure);
+  server.use(...mocks.transactionFailed);
 
   await waitForElementToBeRemoved(savingMessage);
 
@@ -167,7 +164,7 @@ async function testSlowFailure() {
 
   // and the new email address should not exist in the DOM
   expect(view.queryByText(newEmailAddress)).not.to.exist;
-  // and the add email button should be back
+  // and the add/edit email button should be back
   expect(getEditButton()).to.exist;
 }
 
