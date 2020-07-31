@@ -9,7 +9,7 @@ import {
   NO_BENEFIT_REFERRED,
 } from 'applications/static-pages/wizard';
 
-describe('WizardContainer', () => {
+describe('the Wizard Container', () => {
   const mockStore = {
     sessionStorage: {},
   };
