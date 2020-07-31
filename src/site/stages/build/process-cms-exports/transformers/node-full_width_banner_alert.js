@@ -30,7 +30,7 @@ const transform = entity => ({
   fieldBannerAlertComputdvalues: getDrupalValue(
     entity.fieldBannerAlertComputdvalues,
   ),
-  fieldBannerAlertVamcs: entity.fieldBannerAlertVamcs,
+  fieldBannerAlertVamcs: entity.fieldBannerAlertVamcs[0] || null,
   fieldBody: getDrupalValue(entity.fieldBody),
   fieldOperatingStatusSendemail: getDrupalValue(
     entity.fieldOperatingStatusSendemail,

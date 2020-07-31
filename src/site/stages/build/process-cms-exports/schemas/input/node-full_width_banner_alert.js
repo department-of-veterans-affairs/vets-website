@@ -20,7 +20,11 @@ module.exports = {
     field_alert_operating_status_cta: { $ref: 'GenericNestedBoolean' },
     field_alert_type: { $ref: 'GenericNestedString' },
     field_banner_alert_computdvalues: { $ref: 'GenericNestedString' },
-    field_banner_alert_vamcs: { $ref: 'EntityReferenceArray' },
+    field_banner_alert_vamcs: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'EntityReference' },
+    },
     field_body: { $ref: 'GenericNestedString' },
     field_operating_status_sendemail: { $ref: 'GenericNestedBoolean' },
     field_situation_updates: { $ref: 'EntityReferenceArray' },
