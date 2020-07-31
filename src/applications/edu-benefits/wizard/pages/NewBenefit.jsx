@@ -1,7 +1,7 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
-import { formIdSuffixes } from '../../../static-pages/wizard';
+import { formIdSuffixes } from 'applications/static-pages/wizard/';
 
 const newBenefitOptions = [
   { label: 'Applying for a new benefit', value: 'new' },

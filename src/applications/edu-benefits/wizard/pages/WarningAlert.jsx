@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { formIdSuffixes } from '../../../static-pages/wizard';
+import { formIdSuffixes } from 'applications/static-pages/wizard/';
 
 const WarningAlert = ({
   setPageState,
