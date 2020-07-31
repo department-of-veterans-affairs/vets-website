@@ -2,12 +2,17 @@ import { Matchers } from '@pact-foundation/pact';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-const { integer, iso8601DateTimeWithMillis, like } = Matchers;
-
 import { fetchInProgressForm } from 'platform/forms/save-in-progress/actions';
-import { saveFormApi } from 'platform/forms/save-in-progress/api';
+
+import {
+  removeFormApi,
+  saveFormApi,
+} from 'platform/forms/save-in-progress/api';
+
 import { submitForm } from 'platform/forms-system/src/js/actions';
 import { createFormPageList } from 'platform/forms-system/src/js/helpers';
+
+const { integer, iso8601DateTimeWithMillis, like } = Matchers;
 
 export const testFormSubmit = async (formConfig, formData) => {
   const dispatch = sinon.spy();
@@ -71,6 +76,27 @@ export const testSaveInProgress = (mockApi, formConfig, formData) => {
 
       const [secondAction] = dispatch.secondCall.args;
       expect(secondAction.type).to.eq('SET_IN_PROGRESS_FORM');
+    });
+  });
+
+  describe('DELETE /v0/in_progress_forms', () => {
+    it('responds with 200', async () => {
+      await mockApi.addInteraction({
+        state: 'a saved form exists',
+        uponReceiving: 'a request to delete an in-progress form',
+        withRequest: {
+          method: 'DELETE',
+          path: `/v0/in_progress_forms/${formId}`,
+          headers: {
+            'X-Key-Inflection': 'camel',
+          },
+        },
+        willRespondWith: {
+          status: 200,
+        },
+      });
+
+      await removeFormApi(formId);
     });
   });
 
