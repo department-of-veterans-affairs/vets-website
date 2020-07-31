@@ -110,14 +110,12 @@ export async function getEligibilityData(
     eligibility.hasMatchingClinics = eligibility.clinics.some(
       clinic =>
         !!eligibility.pastAppointments.find(appt => {
-          if (useVSP)
-            return (
-              clinic.identifier[0].value ===
-              `urn:va:healthcareservice:${appt.facilityId}:${appt.sta6aid}:${
-                appt.clinicId
-              }`
-            );
-          else return clinic.id === `var${appt.facilityId}_${appt.clinicId}`;
+          return (
+            clinic.identifier[0].value ===
+            `urn:va:healthcareservice:${appt.facilityId}:${appt.sta6aid}:${
+              appt.clinicId
+            }`
+          );
         }),
     );
 
