@@ -11,7 +11,10 @@ import Telephone, {
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { authnSettings } from 'platform/user/authentication/utilities';
+import {
+  authnSettings,
+  externalRedirects,
+} from 'platform/user/authentication/utilities';
 import {
   hasSession,
   setupProfileSession,
@@ -130,11 +133,20 @@ export class AuthApp extends React.Component {
     const authMetrics = new AuthMetrics(type, payload);
     authMetrics.run();
     setupProfileSession(authMetrics.userProfile);
-    this.redirect();
+    this.redirect(authMetrics.userProfile);
   };
 
-  redirect = () => {
+  redirect = userProfile => {
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
+
+    // Enforce LOA3 for external redirects to My VA Health
+    if (
+      returnUrl.includes(externalRedirects.myvahealth) &&
+      !userProfile.verified
+    ) {
+      window.location.replace('/sign-in/verify');
+    }
+
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
     const postAuthUrl =

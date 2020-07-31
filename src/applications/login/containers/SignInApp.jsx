@@ -34,7 +34,7 @@ class SignInPage extends React.Component {
       application === 'myvahealth'
     ) {
       this.props.router.push(
-        appendQuery('/verify', { next: window.location.href }),
+        appendQuery('/verify', window.location.search.slice(1)),
       );
     }
   }
