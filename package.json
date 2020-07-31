@@ -96,6 +96,10 @@
       "**/*.spec.jsx"
     ]
   },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": false,
+    "stepDefinitions" : "/Users/brangi/vets-website/src/applications/facility-locator/tests/cucumber"
+  },
   "sasslintConfig": "config/sass-lint.yml",
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "browserslist": [
@@ -163,6 +167,7 @@
     "cors": "^2.7.1",
     "css-loader": "^0.28.10",
     "cypress": "^4.8.0",
+    "cypress-cucumber-preprocessor": "^2.5.4",
     "cypress-axe": "^0.8.1",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -335,6 +340,8 @@
     "**/js-yaml": "^3.13.1",
     "**/jpeg-js": "^0.4.0",
     "**/dot-prop": "^5.1.1",
+    "set-value": "^3.0.1",
+    "chokidar": "^3.4.0",
     "cypress": "^4.8.0"
   }
 }
