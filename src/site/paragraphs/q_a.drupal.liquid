@@ -15,6 +15,26 @@
     ]
   }
 {% endcomment %}
+
+<script type="application/ld+json">
+  {% capture answerText %}
+    {% for answer in entity.fieldAnswer %}
+      {% assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
+      {% include {{ bundleComponent }} with entity = answer.entity %}
+    {% endfor %}
+  {% endcapture %}
+
+  {
+    "@context": "https://schema.org",
+    "@type": "Question",
+    "name": "{{ entity.fieldQuestion }}",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "{{ answerText | strip_newlines | escape }}"
+    }
+  }
+</script>
+
 {% if entity.parentFieldName == "field_questions" %}
   {% if sectionHeader == blank %}
     {% assign header = "h2" %}
