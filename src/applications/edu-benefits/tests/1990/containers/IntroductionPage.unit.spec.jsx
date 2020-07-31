@@ -8,7 +8,7 @@ import {
   getWizardStatus,
 } from 'applications/static-pages/wizard';
 
-describe('Edu 1990 <IntroductionPage>', () => {
+describe('the Edu-Benefit 1990 Introduction Page', () => {
   const mockStore = {
     sessionStorage: {},
   };
