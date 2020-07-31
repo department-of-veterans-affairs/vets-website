@@ -6,7 +6,7 @@ import Wizard, {
   WIZARD_STATUS_COMPLETE,
   formIdSuffixes,
   NO_BENEFIT_REFERRED,
-} from '../../../static-pages/wizard';
+} from 'applications/static-pages/wizard';
 import pages from '../pages';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 

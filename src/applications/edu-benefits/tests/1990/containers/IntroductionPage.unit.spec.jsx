@@ -1,12 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { IntroductionPage } from '../../../1990/containers/IntroductionPage';
+import { IntroductionPage } from 'applications/edu-benefits/1990/containers/IntroductionPage';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
   getWizardStatus,
-} from '../../../../static-pages/wizard';
+} from 'applications/static-pages/wizard';
 
 describe('Edu 1990 <IntroductionPage>', () => {
   const mockStore = {

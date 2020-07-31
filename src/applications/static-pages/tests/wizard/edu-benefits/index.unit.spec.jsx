@@ -5,8 +5,8 @@ import Wizard, {
 } from '../../../wizard';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
-import pages from '../../../../edu-benefits/wizard/pages';
-import { pageNames } from '../../../../edu-benefits/wizard/pages/pageList';
+import pages from 'applications/edu-benefits/wizard/pages';
+import { pageNames } from 'applications/edu-benefits/wizard/pages/pageList';
 
 describe('the Education Benefits Wizard', () => {
   const mockStore = {

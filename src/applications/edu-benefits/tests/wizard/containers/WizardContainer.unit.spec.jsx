@@ -1,5 +1,5 @@
 import React from 'react';
-import WizardContainer from '../../../wizard/containers/WizardContainer';
+import WizardContainer from 'applications/edu-benefits/wizard/containers/WizardContainer';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import {
@@ -7,7 +7,7 @@ import {
   getWizardStatus,
   WIZARD_STATUS_COMPLETE,
   NO_BENEFIT_REFERRED,
-} from '../../../../static-pages/wizard';
+} from 'applications/static-pages/wizard';
 
 describe('WizardContainer', () => {
   const mockStore = {
