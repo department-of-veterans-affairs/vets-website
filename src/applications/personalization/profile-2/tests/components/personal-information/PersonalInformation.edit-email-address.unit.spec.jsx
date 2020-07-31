@@ -109,7 +109,10 @@ async function testSlowSuccess() {
 
 // When the initial transaction creation request fails
 async function testTransactionCreationFails() {
-  server.use(...mocks.updateEmailAddressCreateTransactionFailure);
+  server.use(
+    ...mocks.updateEmailAddressCreateTransactionFailure,
+    ...mocks.addEmailAddressCreateTransactionFailure,
+  );
 
   editEmailAddress();
 
@@ -175,6 +178,8 @@ describe('Editing email address', () => {
     resetFetch();
     server = setupServer(...mocks.editEmailAddressSuccess());
     server.listen();
+  });
+  beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
   });
   afterEach(() => {
@@ -195,19 +200,19 @@ describe('Editing email address', () => {
     });
 
     it('should handle a transaction that succeeds quickly', async () => {
-      testQuickSuccess();
+      await testQuickSuccess();
     });
     it('should handle a transaction that does not succeed until after the edit view exits', async () => {
-      testSlowSuccess();
+      await testSlowSuccess();
     });
     it('should show an error if the transaction cannot be created', async () => {
-      testTransactionCreationFails();
+      await testTransactionCreationFails();
     });
     it('should show an error if the transaction fails quickly', async () => {
-      testQuickFailure();
+      await testQuickFailure();
     });
     it('should show an error if the transaction fails after the edit view exits', async () => {
-      testSlowFailure();
+      await testSlowFailure();
     });
   });
 
@@ -221,19 +226,19 @@ describe('Editing email address', () => {
     });
 
     it('should handle a transaction that succeeds quickly', async () => {
-      testQuickSuccess();
+      await testQuickSuccess();
     });
     it('should handle a transaction that does not succeed until after the edit view exits', async () => {
-      testSlowSuccess();
+      await testSlowSuccess();
     });
     it('should show an error if the transaction cannot be created', async () => {
-      testTransactionCreationFails();
+      await testTransactionCreationFails();
     });
     it('should show an error if the transaction fails quickly', async () => {
-      testQuickFailure();
+      await testQuickFailure();
     });
     it('should show an error if the transaction fails after the edit view exits', async () => {
-      testSlowFailure();
+      await testSlowFailure();
     });
   });
 });
