@@ -14,7 +14,7 @@ import {
 import { getExpressCareFormPageInfo } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { EXPRESS_CARE_REASONS } from '../utils/constants';
-import RadioTextAreaWidget from '../components/RadioTextAreaWidget';
+import ExpressCareReasonField from '../components/ExpressCareReasonField';
 
 const pageKey = 'reason';
 
@@ -22,6 +22,10 @@ const initialSchema = {
   type: 'object',
   required: ['reasonForRequest', 'phone', 'email'],
   properties: {
+    'view:textObject': {
+      type: 'object',
+      properties: {},
+    },
     reasonForRequest: {
       type: 'object',
       required: ['reason'],
@@ -33,6 +37,10 @@ const initialSchema = {
           type: 'string',
         },
       },
+    },
+    'view:textObject2': {
+      type: 'object',
+      properties: {},
     },
     phone: {
       type: 'string',
@@ -46,8 +54,19 @@ const initialSchema = {
 };
 
 const uiSchema = {
+  'view:textObject': {
+    'ui:description': (
+      <>
+        <h2>Tell us about your health concern</h2>
+        <p>
+          Please select a concern from the list the best fits your needs today.
+          <span className="schemaform-required-span">(*Required)</span>
+        </p>
+      </>
+    ),
+  },
   reasonForRequest: {
-    'ui:field': RadioTextAreaWidget,
+    'ui:field': ExpressCareReasonField,
     'ui:description': <h3>text</h3>,
     options: {
       items: EXPRESS_CARE_REASONS.map((r, index) => ({
@@ -58,10 +77,20 @@ const uiSchema = {
       })),
     },
   },
+  'view:textObject2': {
+    'ui:description': (
+      <>
+        <h2>Share your contact information</h2>
+        <p>
+          Please confirm your phone number and email address so a VA health care
+          provider can contact you.{' '}
+        </p>
+      </>
+    ),
+  },
   phone: phoneUI('Phone number'),
   email: {
     'ui:title': 'Email address',
-    'ui:description': <h3>text</h3>,
   },
 };
 
