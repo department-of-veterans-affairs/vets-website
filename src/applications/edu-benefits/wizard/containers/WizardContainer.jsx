@@ -57,9 +57,8 @@ const WizardContainer = ({ setWizardStatus }) => {
         Click on the link below to go to our online application without
         answering the questions above.
       </p>
-      <a
-        href="#"
-        className="vads-u-display--inline-block vads-u-margin-bottom--3 skip-wizard-link"
+      <button
+        className="va-button-link vads-u-display--inline-block vads-u-margin-bottom--3 skip-wizard-link"
         onClick={e => {
           e.preventDefault();
           setReferredBenefit(currentFormIdSuffix);
@@ -67,7 +66,7 @@ const WizardContainer = ({ setWizardStatus }) => {
         }}
       >
         Apply online with VA Form {currentVAFormId}
-      </a>
+      </button>
     </div>
   );
 };
