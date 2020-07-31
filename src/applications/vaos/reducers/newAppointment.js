@@ -591,6 +591,8 @@ export default function formReducer(state = initialState, action) {
           additionalInfoTitle,
           reasonSchema,
         );
+      } else {
+        delete formData.reasonForAppointment;
       }
 
       const { data, schema } = setupFormData(
