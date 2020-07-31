@@ -65,10 +65,10 @@ module.exports = {
       .setValue('#root_communityCareProvider_phone', '1234567890')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('#root_reasonForAppointment_0', Timeouts.slow);
+      .waitForElementPresent('#root_reasonAdditionalInfo', Timeouts.slow);
   },
   'Reason for appointment': client => {
-    VAOSHelpers.appointmentReasonTest(client, '#root_phoneNumber');
+    VAOSHelpers.appointmentReasonCommunityCareTest(client, '#root_phoneNumber');
   },
   'Contact information': client => {
     VAOSHelpers.contactInformationTest(client, '.vaos-review__header');
