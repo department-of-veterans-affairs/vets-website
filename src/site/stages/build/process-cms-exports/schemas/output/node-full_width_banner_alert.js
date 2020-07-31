@@ -16,7 +16,7 @@ module.exports = {
     fieldAlertInheritanceSubpages: { type: ['boolean', 'null'] },
     fieldAlertOperatingStatusCta: { type: 'boolean' },
     fieldAlertType: { type: 'string' },
-    fieldBannerAlertComputdvalues: { type: ['boolean', 'null'] },
+    fieldBannerAlertComputdvalues: { type: ['string', 'null'] },
     fieldBannerAlertVamcs: {
       oneOf: [
         { $ref: 'output/node-vamc_operating_status_and_alerts' },
