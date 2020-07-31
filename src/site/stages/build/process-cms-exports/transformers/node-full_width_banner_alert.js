@@ -8,6 +8,7 @@ const transform = entity => ({
   entityType: 'node',
   entityBundle: 'full_width_banner_alert',
   title: getDrupalValue(entity.title),
+  created: utcToEpochTime(getDrupalValue(entity.created)),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   path: getDrupalValue(entity.path),
@@ -40,6 +41,7 @@ const transform = entity => ({
 module.exports = {
   filter: [
     'title',
+    'created',
     'changed',
     'metatag',
     'path',

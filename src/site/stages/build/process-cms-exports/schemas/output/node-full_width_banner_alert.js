@@ -5,6 +5,7 @@ module.exports = {
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['full_width_banner_alert'] },
     title: { type: 'string' },
+    created: { type: 'number' },
     changed: { type: 'number' },
     entityUrl: { $ref: 'EntityUrl' },
     entityMetatags: { $ref: 'MetaTags' },
@@ -30,6 +31,7 @@ module.exports = {
   },
   required: [
     'title',
+    'created',
     'changed',
     'entityUrl',
     'entityMetatags',

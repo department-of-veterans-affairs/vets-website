@@ -4,6 +4,7 @@ module.exports = {
   type: 'object',
   properties: {
     title: { $ref: 'GenericNestedString' },
+    created: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
@@ -26,6 +27,7 @@ module.exports = {
   },
   required: [
     'title',
+    'created',
     'changed',
     'metatag',
     'path',
