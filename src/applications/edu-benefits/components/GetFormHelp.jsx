@@ -10,8 +10,9 @@ function GetFormHelp() {
     <div>
       <p className="help-talk">
         Call us at <Telephone contact={CONTACTS.VA_BENEFITS} />. We’re here
-        Monday through Friday, 8:00 am to 9:00 pm ET. If you have hearing loss,
-        call TTY: <Telephone contact={CONTACTS[711]} pattern={PATTERNS[911]} />.
+        Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing
+        loss, call TTY:{' '}
+        <Telephone contact={CONTACTS[711]} pattern={PATTERNS[911]} />.
       </p>
     </div>
   );
