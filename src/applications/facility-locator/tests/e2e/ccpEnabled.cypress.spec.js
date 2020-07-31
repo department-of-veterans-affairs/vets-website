@@ -3,7 +3,7 @@ import mockFeatureTogglesEnabled from '../fixtures/toggle-ccp-enabled.json';
 import { facilityTypesOptions } from '../../config';
 import { LocationType } from '../../constants';
 
-describe('Facility Search - CCP (community care providers) disabled', () => {
+describe('Facility Search - CCP (community care providers) enabled', () => {
   before(() => {
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
@@ -17,8 +17,7 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
-  // facilitiesPpmsSuppressCommunityCare flag non existent
-  it('Does render community care option in the dropdown by default', () => {
+  it('Does render community care option in the dropdown by default, flag does not exist', () => {
     cy.route('GET', '/v0/feature_toggles*', []);
     cy.visit('/find-locations/');
 
@@ -29,20 +28,13 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
       .should('exist');
     cy.get('#facility-type-dropdown option').then(options => {
       const optionsWithoutCCP = [...options].map(o => o.text);
-      expect(
-        optionsWithoutCCP.includes(
-          facilityTypesOptions[LocationType.CC_PROVIDER],
-        ),
-      ).to.eq(true);
-    });
-    cy.get('#facility-type-dropdown option').then(options => {
-      const optionsWithoutCCP = [...options].map(o => o.value);
-      expect(optionsWithoutCCP.includes(LocationType.CC_PROVIDER)).to.eq(true);
+      expect(optionsWithoutCCP).to.include(
+        facilityTypesOptions[LocationType.CC_PROVIDER],
+      );
     });
   });
 
-  // facilitiesPpmsSuppressCommunityCare flag set to false
-  it('Does render community care option in the dropdown by default', () => {
+  it('Does render community care option in the dropdown when flat set to false', () => {
     cy.route('GET', '/v0/feature_toggles*', [mockFeatureTogglesEnabled]);
     cy.visit('/find-locations/');
 
@@ -53,15 +45,9 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
       .should('exist');
     cy.get('#facility-type-dropdown option').then(options => {
       const optionsWithoutCCP = [...options].map(o => o.text);
-      expect(
-        optionsWithoutCCP.includes(
-          facilityTypesOptions[LocationType.CC_PROVIDER],
-        ),
-      ).to.eq(true);
-    });
-    cy.get('#facility-type-dropdown option').then(options => {
-      const optionsWithoutCCP = [...options].map(o => o.value);
-      expect(optionsWithoutCCP.includes(LocationType.CC_PROVIDER)).to.eq(true);
+      expect(optionsWithoutCCP).to.include(
+        facilityTypesOptions[LocationType.CC_PROVIDER],
+      );
     });
   });
 });

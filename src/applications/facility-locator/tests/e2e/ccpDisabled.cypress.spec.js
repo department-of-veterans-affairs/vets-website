@@ -18,8 +18,7 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
-  // facilitiesPpmsSuppressCommunityCare flag set to true
-  it('Does not render community care option in the dropdown', () => {
+  it('Does not render community care option in the dropdown, flag set to true', () => {
     cy.visit('/find-locations/');
 
     cy.injectAxe();
@@ -27,15 +26,9 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
 
     cy.get('#facility-type-dropdown option').then(options => {
       const optionsWithoutCCP = [...options].map(o => o.text);
-      expect(
-        optionsWithoutCCP.includes(
-          facilityTypesOptions[LocationType.CC_PROVIDER],
-        ),
-      ).to.eq(false);
-    });
-    cy.get('#facility-type-dropdown option').then(options => {
-      const optionsWithoutCCP = [...options].map(o => o.value);
-      expect(optionsWithoutCCP.includes(LocationType.CC_PROVIDER)).to.eq(false);
+      expect(optionsWithoutCCP).to.not.include(
+        facilityTypesOptions[LocationType.CC_PROVIDER],
+      );
     });
   });
 });
