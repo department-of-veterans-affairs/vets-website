@@ -1,6 +1,12 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
-import { PURPOSE_TEXT, TYPE_OF_VISIT, LANGUAGES } from './constants';
+import {
+  PURPOSE_TEXT,
+  CC_PURPOSE,
+  TYPE_OF_VISIT,
+  LANGUAGES,
+  EXPRESS_CARE,
+} from './constants';
 import { getSiteIdFromOrganization } from '../services/organization';
 import {
   getTypeOfCare,
@@ -10,11 +16,12 @@ import {
   getSiteIdForChosenFacility,
   getChosenParentInfo,
   getChosenSlot,
+  selectActiveExpressCareFacility,
+  selectExpressCareData,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
 import {
-  transformAvailableClinic,
   findCharacteristic,
   getClinicIdentifier,
   getSiteCode,
@@ -95,6 +102,47 @@ export function transformFormToVARequest(state) {
   };
 }
 
+export function transformFormToExpressCareRequest(state) {
+  const data = selectExpressCareData(state);
+  const { facilityId, siteId, name } = selectActiveExpressCareFacility(
+    state,
+    moment.utc(),
+  );
+
+  return {
+    typeOfCare: EXPRESS_CARE,
+    typeOfCareId: EXPRESS_CARE,
+    appointmentType: 'Express Care',
+    facility: {
+      name,
+      facilityCode: facilityId,
+      parentSiteCode: siteId,
+    },
+    reasonForVisit: data.reasonForVisit,
+    additionalInformation: data.additionalInformation,
+    phoneNumber: data.phoneNumber,
+    verifyPhoneNumber: data.phoneNumber,
+    emailPreferences: {
+      emailAddress: data.email,
+      // defaulted values
+      notificationFrequency: 'Each new message',
+      emailAllowed: true,
+      textMsgAllowed: false,
+      textMsgPhNumber: '',
+    },
+    email: data.email,
+    // defaulted values
+    status: 'Submitted',
+    schedulingMethod: 'clerk',
+    requestedPhoneCall: false,
+    providerId: '0',
+    providerOption: '',
+    // The bad camel casing here is intentional, to match downstream
+    // system
+    bestTimetoCall: [],
+  };
+}
+
 export function transformFormToCCRequest(state) {
   const data = getFormData(state);
   let preferredProviders = [];
@@ -153,9 +201,7 @@ export function transformFormToCCRequest(state) {
       facilityCode: siteId,
       parentSiteCode: siteId,
     },
-    purposeOfVisit: PURPOSE_TEXT.find(
-      purpose => purpose.id === data.reasonForAppointment,
-    )?.id,
+    purposeOfVisit: CC_PURPOSE,
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
     // The bad camel casing here is intentional, to match downstream
