@@ -16,16 +16,13 @@ export const LegacyContent = () => (
     >
       <div className="usa-alert-body">
         <h3 className="usa-alert-heading" id="due-to-covid-19-you-can-only-r">
-          Due to COVID-19, you can only request an appointment online
+          Due to COVID-19, we&apos;ll need to contact you to confirm your
+          appointment
         </h3>
         <p>
-          You can’t directly schedule an appointment online at this time. Once
-          you request your appointment, a scheduler will get back to you to
-          confirm your request.
-        </p>
-        <p>
-          To help us address the most urgent needs first, we ask that you don’t
-          request routine appointments right now.
+          You can still use our online appointments tool to request an
+          appointment. We&apos;ll then contact you to confirm the date, time,
+          and location.
         </p>
       </div>
     </div>
