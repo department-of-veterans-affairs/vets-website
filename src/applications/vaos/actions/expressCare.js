@@ -1,5 +1,10 @@
 import moment from 'moment';
 
+import {
+  selectVet360EmailAddress,
+  selectVet360HomePhoneString,
+  selectVet360MobilePhoneString,
+} from 'platform/user/selectors';
 import newExpressCareRequestFlow from '../newExpressCareRequestFlow';
 import { selectSystemIds } from '../utils/selectors';
 import { captureError } from '../utils/error';
@@ -24,6 +29,8 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
+export const FORM_REASON_FOR_REQUEST_PAGE_OPENED =
+  'expressCare/FORM_REASON_FOR_REQUEST_PAGE_OPENED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -40,6 +47,24 @@ export function updateFormData(page, uiSchema, data) {
     page,
     uiSchema,
     data,
+  };
+}
+
+export function openReasonForRequestPage(page, uiSchema, schema) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const email = selectVet360EmailAddress(state);
+    const homePhone = selectVet360HomePhoneString(state);
+    const mobilePhone = selectVet360MobilePhoneString(state);
+    const phoneNumber = mobilePhone || homePhone;
+    dispatch({
+      type: FORM_REASON_FOR_REQUEST_PAGE_OPENED,
+      page,
+      uiSchema,
+      schema,
+      email,
+      phoneNumber,
+    });
   };
 }
 

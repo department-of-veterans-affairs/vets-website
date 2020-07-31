@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
+import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import FormButtons from '../components/FormButtons';
 import {
-  openFormPage,
+  openReasonForRequestPage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -20,7 +21,7 @@ const pageKey = 'reason';
 
 const initialSchema = {
   type: 'object',
-  required: ['reasonForRequest', 'phone', 'email'],
+  required: ['reasonForRequest', 'phoneNumber', 'email'],
   properties: {
     'view:textObject': {
       type: 'object',
@@ -42,7 +43,7 @@ const initialSchema = {
       type: 'object',
       properties: {},
     },
-    phone: {
+    phoneNumber: {
       type: 'string',
       pattern: '^[0-9]{10}$',
     },
@@ -88,7 +89,7 @@ const uiSchema = {
       </>
     ),
   },
-  phone: phoneUI('Phone number'),
+  phoneNumber: phoneUI('Phone number'),
   email: {
     'ui:title': 'Email address',
   },
@@ -96,7 +97,7 @@ const uiSchema = {
 
 class ReasonForExpressCareRequestPage extends React.Component {
   componentDidMount() {
-    this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    this.props.openReasonForRequestPage(pageKey, uiSchema, initialSchema);
     scrollAndFocus();
   }
 
@@ -142,7 +143,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  openFormPage,
+  openReasonForRequestPage,
   updateFormData,
 };
 

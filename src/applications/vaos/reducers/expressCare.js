@@ -11,6 +11,7 @@ import {
   FETCH_EXPRESS_CARE_WINDOWS,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+  FORM_REASON_FOR_REQUEST_PAGE_OPENED,
 } from '../actions/expressCare';
 
 import { FETCH_STATUS } from '../utils/constants';
@@ -139,7 +140,32 @@ export default function expressCareReducer(state = initialState, action) {
         ...initialState,
         windowsStatus: FETCH_STATUS.failed,
       };
+    case FORM_REASON_FOR_REQUEST_PAGE_OPENED: {
+      const newRequest = { ...state.newRequest };
+      const prefilledData = {
+        ...newRequest.data,
+        phoneNumber: newRequest.data.phoneNumber || action.phoneNumber,
+        email: newRequest.data.email || action.email,
+      };
 
+      const { data, schema } = setupFormData(
+        prefilledData,
+        action.schema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        newRequest: {
+          ...newRequest,
+          data,
+          pages: {
+            ...newRequest.pages,
+            [action.page]: schema,
+          },
+        },
+      };
+    }
     default:
       return {
         ...state,
