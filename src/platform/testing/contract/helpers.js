@@ -2,7 +2,7 @@ import { Matchers } from '@pact-foundation/pact';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-const { boolean, integer, iso8601DateTimeWithMillis, string } = Matchers;
+const { integer, iso8601DateTimeWithMillis, term } = Matchers;
 
 import { saveFormApi } from 'platform/forms/save-in-progress/api';
 import { submitForm } from 'platform/forms-system/src/js/actions';
@@ -14,12 +14,15 @@ export const setupFormSubmitTest = (formConfig, formData) => {
   );
 
   const responseBody = {
-    id: integer(123456789),
+    id: integer(12345),
     type: 'health_care_applications',
     attributes: {
-      state: 'pending',
-      formSubmissionId: integer(123456789),
-      timestamp: iso8601DateTimeWithMillis(),
+      state: term({
+        matcher: 'success|error|failed|pending',
+        generate: 'pending',
+      }),
+      formSubmissionId: integer(67890),
+      timestamp: iso8601DateTimeWithMillis('2020-07-29T14:16:30.527Z'),
     },
   };
 
@@ -46,7 +49,7 @@ export const setupFormSubmitTest = (formConfig, formData) => {
 
 export const testSaveInProgress = (mockApi, formConfig, formData) => {
   const returnUrl = '/form-url/review-and-submit';
-  const savedAt = Date.now();
+  const savedAt = 1595954803670;
   const { formId, trackingPrefix, version } = formConfig;
 
   describe('PUT /v0/in_progress_forms', () => {
@@ -69,12 +72,22 @@ export const testSaveInProgress = (mockApi, formConfig, formData) => {
           status: 200,
           body: {
             data: {
+              id: integer(123),
+              type: 'in_progress_forms',
               attributes: {
-                formData,
+                formId,
+                createdAt: iso8601DateTimeWithMillis(
+                  '2020-07-29T14:16:30.510Z',
+                ),
+                updatedAt: iso8601DateTimeWithMillis(
+                  '2020-07-29T14:16:30.527Z',
+                ),
                 metaData: {
-                  prefill: boolean(true),
-                  returnUrl: string('/veteran-information'),
-                  version: integer(formConfig.version),
+                  lastUpdated: integer(1596032190),
+                  returnUrl,
+                  savedAt,
+                  expiresAt: integer(1601216190),
+                  version,
                 },
               },
             },
