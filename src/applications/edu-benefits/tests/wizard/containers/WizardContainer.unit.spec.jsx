@@ -8,25 +8,14 @@ import {
   WIZARD_STATUS_COMPLETE,
   NO_BENEFIT_REFERRED,
 } from 'applications/static-pages/wizard';
+import { sessionStorageSetup } from '../../utils';
 
 describe('the Wizard Container', () => {
-  const mockStore = {
-    sessionStorage: {},
-  };
+  let mockStore = {};
   let setWizardStatus;
 
   before(() => {
-    global.sessionStorage = {
-      getItem: key =>
-        key in mockStore.sessionStorage ? mockStore.sessionStorage[key] : null,
-      setItem: (key, value) => {
-        mockStore.sessionStorage[key] = `${value}`;
-      },
-      removeItem: key => delete mockStore.sessionStorage[key],
-      clear: () => {
-        mockStore.sessionStorage = {};
-      },
-    };
+    mockStore = sessionStorageSetup(mockStore);
   });
 
   beforeEach(() => {

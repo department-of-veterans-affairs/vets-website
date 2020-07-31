@@ -7,26 +7,14 @@ import {
   WIZARD_STATUS_COMPLETE,
   getWizardStatus,
 } from 'applications/static-pages/wizard';
+import { sessionStorageSetup } from '../../utils';
 
 describe('the Edu-Benefit 1990 Introduction Page', () => {
-  const mockStore = {
-    sessionStorage: {},
-  };
-
+  let mockStore = {};
   let defaultProps;
 
   before(() => {
-    global.sessionStorage = {
-      getItem: key =>
-        key in mockStore.sessionStorage ? mockStore.sessionStorage[key] : null,
-      setItem: (key, value) => {
-        mockStore.sessionStorage[key] = `${value}`;
-      },
-      removeItem: key => delete mockStore.sessionStorage[key],
-      clear: () => {
-        mockStore.sessionStorage = {};
-      },
-    };
+    mockStore = sessionStorageSetup(mockStore);
   });
 
   beforeEach(() => {

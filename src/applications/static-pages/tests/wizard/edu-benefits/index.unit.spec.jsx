@@ -7,26 +7,16 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import pages from 'applications/edu-benefits/wizard/pages';
 import { pageNames } from 'applications/edu-benefits/wizard/pages/pageList';
+import { sessionStorageSetup } from '../../utils';
 
 describe('the Education Benefits Wizard', () => {
-  const mockStore = {
-    sessionStorage: {},
-  };
+  let mockStore = {};
+  let defaultProps;
 
   before(() => {
-    global.sessionStorage = {
-      getItem: key =>
-        key in mockStore.sessionStorage ? mockStore.sessionStorage[key] : null,
-      setItem: (key, value) => {
-        mockStore.sessionStorage[key] = `${value}`;
-      },
-      removeItem: key => delete mockStore.sessionStorage[key],
-      clear: () => {
-        mockStore.sessionStorage = {};
-      },
-    };
+    mockStore = sessionStorageSetup(mockStore);
   });
-  let defaultProps;
+
   beforeEach(() => {
     defaultProps = {
       pages,
