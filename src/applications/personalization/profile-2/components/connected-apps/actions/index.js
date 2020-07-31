@@ -22,6 +22,7 @@ const grantsUrl = '/profile/connected_applications';
 
 export function loadConnectedApps() {
   return async dispatch => {
+    recordEvent({ event: 'profile-get-connected-apps-started' });
     dispatch({ type: LOADING_CONNECTED_APPS });
 
     // Locally we cannot call the endpoint
@@ -40,13 +41,15 @@ export function loadConnectedApps() {
         const hasConnectedApps = data && deletedApps?.length !== data?.length;
 
         recordEvent({
+          event: 'profile-get-connected-apps-retrieved',
           'user-has-connected-apps': hasConnectedApps,
         });
         dispatch({ type: FINISHED_LOADING_CONNECTED_APPS, data });
       })
-      .catch(({ errors }) =>
-        dispatch({ type: ERROR_LOADING_CONNECTED_APPS, errors }),
-      );
+      .catch(({ errors }) => {
+        recordEvent({ event: 'profile-get-connected-apps-failure' });
+        dispatch({ type: ERROR_LOADING_CONNECTED_APPS, errors });
+      });
   };
 }
 

@@ -124,4 +124,26 @@ DebtDetails.propTypes = {
   selectedDebt: PropTypes.object.isRequired,
 };
 
+DebtDetails.propTypes = {
+  selectedDebt: PropTypes.shape({
+    currentAr: PropTypes.number,
+    debtHistory: PropTypes.arrayOf(
+      PropTypes.shape({
+        date: PropTypes.string,
+      }),
+    ),
+    deductionCode: PropTypes.string,
+    originalAr: PropTypes.number,
+  }),
+};
+
+DebtDetails.defaultProps = {
+  selectedDebt: {
+    currentAr: 0,
+    debtHistory: [{ date: '' }],
+    deductionCode: '',
+    originalAr: 0,
+  },
+};
+
 export default connect(mapStateToProps)(DebtDetails);

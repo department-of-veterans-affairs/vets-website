@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
@@ -431,6 +432,26 @@ export const selectPastAppointments = createSelector(
   },
 );
 
+export function selectExpressCare(state) {
+  const nowUTC = moment.utc();
+  const expressCare = state.expressCare;
+  return {
+    ...expressCare,
+    allowRequests:
+      expressCare.windows?.length &&
+      nowUTC.isBetween(
+        expressCare.minStart?.utcStart,
+        expressCare.maxEnd?.utcEnd,
+      ),
+    enabled: vaosExpressCare(state),
+    useNewFlow: vaosExpressCareNew(state),
+    hasWindow: !!expressCare.windows?.length,
+    hasRequests:
+      vaosExpressCare(state) &&
+      state.appointments.future?.some(appt => appt.vaos.isExpressCare),
+  };
+}
+
 export function getExpressCareNewRequest(state) {
   return state.expressCare.newRequest;
 }
@@ -439,19 +460,26 @@ export function getExpressCareFormData(state) {
   return getExpressCareNewRequest(state).data;
 }
 
-export const selectExpressCare = state => ({
-  ...state.expressCare,
-  enabled: vaosExpressCare(state),
-  useNewFlow: vaosExpressCareNew(state),
-  hasRequests:
-    vaosExpressCare(state) &&
-    state.appointments.future?.some(appt => appt.vaos.isExpressCare),
-});
-
 export function getExpressCareFormPageInfo(state, pageKey) {
   return {
     schema: getExpressCareNewRequest(state).pages[pageKey],
     data: getExpressCareFormData(state),
     pageChangeInProgress: getExpressCareFormData(state).pageChangeInProgress,
+  };
+}
+
+export function selectActiveExpressCareFacility(state, nowUTCMoment) {
+  const activeWindow = state.expressCare.windows?.find(ecWindow =>
+    nowUTCMoment.isBetween(ecWindow.utcStart, ecWindow.utcEnd),
+  );
+
+  if (!activeWindow) {
+    return null;
+  }
+
+  return {
+    name: activeWindow.authoritativeName,
+    facilityId: activeWindow.id,
+    siteId: activeWindow.rootStationCode,
   };
 }

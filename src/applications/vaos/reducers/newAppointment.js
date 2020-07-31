@@ -55,6 +55,7 @@ import {
 } from '../actions/sitewide';
 
 import {
+  FACILITY_TYPES,
   FLOW_TYPES,
   REASON_ADDITIONAL_INFO_TITLES,
   REASON_MAX_CHARS,
@@ -562,11 +563,12 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
+      const formData = state.data;
       let reasonMaxChars = REASON_MAX_CHARS.request;
 
       if (state.flowType === FLOW_TYPES.DIRECT) {
         const prependText = PURPOSE_TEXT.find(
-          purpose => purpose.id === state.data.reasonForAppointment,
+          purpose => purpose.id === formData.reasonForAppointment,
         )?.short;
         reasonMaxChars =
           REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2;
@@ -578,16 +580,21 @@ export default function formReducer(state = initialState, action) {
         action.schema,
       );
 
-      reasonSchema = set(
-        'properties.reasonAdditionalInfo.title',
-        state.flowType === FLOW_TYPES.DIRECT
-          ? REASON_ADDITIONAL_INFO_TITLES.direct
-          : REASON_ADDITIONAL_INFO_TITLES.request,
-        reasonSchema,
-      );
+      if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
+        const additionalInfoTitle =
+          state.flowType === FLOW_TYPES.DIRECT
+            ? REASON_ADDITIONAL_INFO_TITLES.direct
+            : REASON_ADDITIONAL_INFO_TITLES.request;
+
+        reasonSchema = set(
+          'properties.reasonAdditionalInfo.title',
+          additionalInfoTitle,
+          reasonSchema,
+        );
+      }
 
       const { data, schema } = setupFormData(
-        state.data,
+        formData,
         reasonSchema,
         action.uiSchema,
       );
@@ -747,7 +754,8 @@ export default function formReducer(state = initialState, action) {
           initialSchema,
         );
         initialSchema.properties.communityCareSystemId.enumNames = systems.map(
-          system => `${system.address?.city}, ${system.address?.state}`,
+          system =>
+            `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
         );
         initialSchema.required.push('communityCareSystemId');
       }

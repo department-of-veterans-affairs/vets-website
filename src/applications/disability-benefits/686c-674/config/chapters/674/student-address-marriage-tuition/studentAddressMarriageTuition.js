@@ -44,7 +44,7 @@ export const uiSchema = {
       ...currentOrPastDateUI('Date of marriage'),
       ...{
         'ui:required': formData =>
-          formData.studentAddressMarriageTuition.wasMarried,
+          formData?.studentAddressMarriageTuition?.wasMarried,
         'ui:options': {
           expandUnder: 'wasMarried',
           expandUnderCondition: true,
@@ -60,7 +60,7 @@ export const uiSchema = {
     },
     agencyName: {
       'ui:required': formData =>
-        formData.studentAddressMarriageTuition.tuitionIsPaidByGovAgency,
+        formData?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
       'ui:title': 'Agency name',
       'ui:options': {
         expandUnder: 'tuitionIsPaidByGovAgency',
@@ -75,7 +75,7 @@ export const uiSchema = {
       ...currentOrPastDateUI('Date payments began'),
       ...{
         'ui:required': formData =>
-          formData.studentAddressMarriageTuition.tuitionIsPaidByGovAgency,
+          formData?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
         'ui:options': {
           expandUnder: 'tuitionIsPaidByGovAgency',
           expandUnderCondition: true,

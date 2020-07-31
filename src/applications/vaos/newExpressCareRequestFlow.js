@@ -5,10 +5,10 @@ export default {
   info: {
     url: '/new-express-care-request',
     previous: 'home',
-    next: 'reason',
+    next: 'form',
   },
-  reason: {
-    url: '/new-express-care-request/choose-reason',
+  form: {
+    url: '/new-express-care-request/form',
     previous: 'info',
     next: '',
   },

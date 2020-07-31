@@ -60,17 +60,7 @@ const LocationInfoBlock = ({ location, from, query }) => {
       {isProvider ? (
         <span>
           <ProviderServiceDescription provider={location} query={query} />
-          {query.facilityType === 'cc_pharmacy' ||
-          query.serviceType === 'NonVAUrgentCare' ||
-          query.serviceType === CLINIC_URGENTCARE_SERVICE ? (
-            <p>
-              <span>
-                <strong>{name}</strong>
-              </span>
-            </p>
-          ) : (
-            <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
-          )}
+          <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
           {location.attributes.orgName && (
             <h6>{location.attributes.orgName}</h6>
           )}
@@ -84,12 +74,12 @@ const LocationInfoBlock = ({ location, from, query }) => {
           />
           {isVADomain(website) ? (
             <a href={website}>
-              <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
+              <h3 className="vads-u-font-size--h5 no-marg-top">{name}</h3>
             </a>
           ) : (
-            <h2 className="vads-u-font-size--h5 no-marg-top">
+            <h3 className="vads-u-font-size--h5 no-marg-top">
               <Link to={`facility/${location.id}`}>{name}</Link>
-            </h2>
+            </h3>
           )}
         </span>
       )}

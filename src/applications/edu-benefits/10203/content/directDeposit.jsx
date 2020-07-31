@@ -66,7 +66,7 @@ export const bankInfoHelpText = (
         </li>
         <li>
           {' '}
-          call{' '}
+          Call{' '}
           <a className="help-phone-number-link" href="tel:1-800-333-1795">
             1-800-333-1795
           </a>
@@ -74,7 +74,7 @@ export const bankInfoHelpText = (
       </ul>
     </p>
     <p>
-      If you choose not to enroll, you’ll need to call the Department of
+      If you choose not to enroll, you’ll need to call the Department of the
       Treasury at{' '}
       <a className="help-phone-number-link" href="tel:1-888-224-2950">
         1-888-224-2950
