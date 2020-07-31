@@ -14,9 +14,13 @@ export const setupFormSubmitTest = (formConfig, formData) => {
   );
 
   const responseBody = {
-    success: true,
-    formSubmissionId: integer(3806115661),
-    timestamp: iso8601DateTimeWithMillis(),
+    id: integer(123456789),
+    type: 'health_care_applications',
+    attributes: {
+      state: 'pending',
+      formSubmissionId: integer(123456789),
+      timestamp: iso8601DateTimeWithMillis(),
+    },
   };
 
   const testFormSubmit = async () => {
@@ -30,7 +34,7 @@ export const setupFormSubmitTest = (formConfig, formData) => {
 
     const [secondAction] = dispatch.secondCall.args;
     expect(secondAction.type).to.eq('SET_SUBMITTED');
-    expect(secondAction.response.success).to.be.true;
+    expect(secondAction.response.attributes.state).to.eq('pending');
   };
 
   return {
