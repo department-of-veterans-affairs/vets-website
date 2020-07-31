@@ -1,5 +1,7 @@
 import path from 'path';
 import mockFeatureTogglesEnabled from '../fixtures/toggle-ccp-enabled.json';
+import { facilityTypesOptions } from '../../config';
+import { LocationType } from '../../constants';
 
 describe('Facility Search - CCP (community care providers) disabled', () => {
   before(() => {
@@ -15,7 +17,7 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
-  // Flag non existent
+  // facilitiesPpmsSuppressCommunityCare flag non existent
   it('Does render community care option in the dropdown by default', () => {
     cy.route('GET', '/v0/feature_toggles*', []);
     cy.visit('/find-locations/');
@@ -23,11 +25,23 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
     cy.injectAxe();
     cy.axeCheck();
     cy.get('#facility-type-dropdown')
-      .select('Community providers (in VA’s network)')
+      .select(facilityTypesOptions[LocationType.CC_PROVIDER])
       .should('exist');
+    cy.get('#facility-type-dropdown option').then(options => {
+      const optionsWithoutCCP = [...options].map(o => o.text);
+      expect(
+        optionsWithoutCCP.includes(
+          facilityTypesOptions[LocationType.CC_PROVIDER],
+        ),
+      ).to.eq(true);
+    });
+    cy.get('#facility-type-dropdown option').then(options => {
+      const optionsWithoutCCP = [...options].map(o => o.value);
+      expect(optionsWithoutCCP.includes(LocationType.CC_PROVIDER)).to.eq(true);
+    });
   });
 
-  // facilitiesPpmsSuppressCommunityCare flag set to fa;se
+  // facilitiesPpmsSuppressCommunityCare flag set to false
   it('Does render community care option in the dropdown by default', () => {
     cy.route('GET', '/v0/feature_toggles*', [mockFeatureTogglesEnabled]);
     cy.visit('/find-locations/');
@@ -35,7 +49,19 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
     cy.injectAxe();
     cy.axeCheck();
     cy.get('#facility-type-dropdown')
-      .select('Community providers (in VA’s network)')
+      .select(facilityTypesOptions[LocationType.CC_PROVIDER])
       .should('exist');
+    cy.get('#facility-type-dropdown option').then(options => {
+      const optionsWithoutCCP = [...options].map(o => o.text);
+      expect(
+        optionsWithoutCCP.includes(
+          facilityTypesOptions[LocationType.CC_PROVIDER],
+        ),
+      ).to.eq(true);
+    });
+    cy.get('#facility-type-dropdown option').then(options => {
+      const optionsWithoutCCP = [...options].map(o => o.value);
+      expect(optionsWithoutCCP.includes(LocationType.CC_PROVIDER)).to.eq(true);
+    });
   });
 });
