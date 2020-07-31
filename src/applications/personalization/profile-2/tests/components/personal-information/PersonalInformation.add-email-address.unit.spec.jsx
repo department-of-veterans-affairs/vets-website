@@ -14,6 +14,7 @@ import {
   createBasicInitialState,
   renderWithProfileReducers,
 } from '../../unit-test-helpers';
+import { beforeEach } from 'mocha';
 
 const newEmailAddress = 'new-address@domain.com';
 const ui = (
@@ -55,6 +56,7 @@ function editEmailAddress() {
   return { emailAddressInput };
 }
 
+// When the update happens while the Edit View is still active
 async function testQuickSuccess() {
   server.use(...mocks.editEmailAddressTransactionSuccess);
 
@@ -72,6 +74,8 @@ async function testQuickSuccess() {
     .exist;
 }
 
+// When the update happens but not until after the Edit View has exited and the
+// user returned to the read-only view
 async function testSlowSuccess() {
   server.use(...mocks.editEmailAddressTransactionPending);
 
@@ -103,6 +107,7 @@ async function testSlowSuccess() {
     .exist;
 }
 
+// When the initial transaction creation request fails
 async function testTransactionCreationFails() {
   server.use(...mocks.updateEmailAddressCreateTransactionFailure);
 
@@ -116,6 +121,7 @@ async function testTransactionCreationFails() {
   );
 }
 
+// When the update fails while the Edit View is still active
 async function testQuickFailure() {
   server.use(...mocks.editEmailAddressTransactionFailure);
 
@@ -129,6 +135,8 @@ async function testQuickFailure() {
   );
 }
 
+// When the update fails but not until after the Edit View has exited and the
+// user returned to the read-only view
 async function testSlowFailure() {
   server.use(...mocks.editEmailAddressTransactionPending);
 
@@ -160,22 +168,14 @@ async function testSlowFailure() {
   expect(getEditButton()).to.exist;
 }
 
-describe('Adding email address', () => {
+describe('Editing email address', () => {
   before(() => {
     // before we can use msw, we need to make sure that global.fetch has been
     // restored and is no longer a sinon stub.
     resetFetch();
     server = setupServer(...mocks.editEmailAddressSuccess());
     server.listen();
-  });
-  beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
-    const initialState = createBasicInitialState();
-    initialState.user.profile.vet360.email = null;
-
-    view = renderWithProfileReducers(ui, {
-      initialState,
-    });
   });
   afterEach(() => {
     server.resetHandlers();
@@ -184,59 +184,56 @@ describe('Adding email address', () => {
     server.close();
   });
 
-  it('should handle a transaction that succeeds quickly', async () => {
-    testQuickSuccess();
-  });
-  it('should handle a transaction that does not succeed until after the edit view exits', async () => {
-    testSlowSuccess();
-  });
-  it('should show an error if the transaction cannot be created', async () => {
-    testTransactionCreationFails();
-  });
-  it('should show an error if the transaction fails quickly', async () => {
-    testQuickFailure();
-  });
-  it('should show an error if the transaction fails after the edit view exits', async () => {
-    testSlowFailure();
-  });
-});
+  describe('when an address does not exist yet', () => {
+    beforeEach(() => {
+      const initialState = createBasicInitialState();
+      initialState.user.profile.vet360.email = null;
 
-describe('Editing an existing email address', () => {
-  before(() => {
-    // before we can use msw, we need to make sure that global.fetch has been
-    // restored and is no longer a sinon stub.
-    resetFetch();
-    server = setupServer(...mocks.editEmailAddressSuccess());
-    server.listen();
-  });
-  beforeEach(() => {
-    window.VetsGov = { pollTimeout: 1 };
-    const initialState = createBasicInitialState();
+      view = renderWithProfileReducers(ui, {
+        initialState,
+      });
+    });
 
-    view = renderWithProfileReducers(ui, {
-      initialState,
+    it('should handle a transaction that succeeds quickly', async () => {
+      testQuickSuccess();
+    });
+    it('should handle a transaction that does not succeed until after the edit view exits', async () => {
+      testSlowSuccess();
+    });
+    it('should show an error if the transaction cannot be created', async () => {
+      testTransactionCreationFails();
+    });
+    it('should show an error if the transaction fails quickly', async () => {
+      testQuickFailure();
+    });
+    it('should show an error if the transaction fails after the edit view exits', async () => {
+      testSlowFailure();
     });
   });
-  afterEach(() => {
-    server.resetHandlers();
-  });
-  after(() => {
-    server.close();
-  });
 
-  it('should handle a transaction that succeeds quickly', async () => {
-    testQuickSuccess();
-  });
-  it('should handle a transaction that does not succeed until after the edit view exits', async () => {
-    testSlowSuccess();
-  });
-  it('should show an error if the transaction cannot be created', async () => {
-    testTransactionCreationFails();
-  });
-  it('should show an error if the transaction fails quickly', async () => {
-    testQuickFailure();
-  });
-  it('should show an error if the transaction fails after the edit view exits', async () => {
-    testSlowFailure();
+  describe('when an address already exists', () => {
+    beforeEach(() => {
+      const initialState = createBasicInitialState();
+
+      view = renderWithProfileReducers(ui, {
+        initialState,
+      });
+    });
+
+    it('should handle a transaction that succeeds quickly', async () => {
+      testQuickSuccess();
+    });
+    it('should handle a transaction that does not succeed until after the edit view exits', async () => {
+      testSlowSuccess();
+    });
+    it('should show an error if the transaction cannot be created', async () => {
+      testTransactionCreationFails();
+    });
+    it('should show an error if the transaction fails quickly', async () => {
+      testQuickFailure();
+    });
+    it('should show an error if the transaction fails after the edit view exits', async () => {
+      testSlowFailure();
+    });
   });
 });
