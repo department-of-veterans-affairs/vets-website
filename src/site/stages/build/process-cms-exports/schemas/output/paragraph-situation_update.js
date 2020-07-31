@@ -7,7 +7,6 @@ module.exports = {
       properties: {
         entityType: { type: 'string' },
         entityBundle: { type: 'string' },
-        // fieldDateAndTime: { type: 'string' },
         fieldDateAndTime: {
           type: 'object',
           // These properties are strings resembling dates
