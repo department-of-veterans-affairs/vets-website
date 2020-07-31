@@ -23,6 +23,10 @@ describe('VAOS <NeedHelp>', () => {
     expect(links.at(2).text()).to.equal(
       'Leave feedback about this application',
     );
+
+    const telephoneLinks = tree.find('Telephone');
+    expect(telephoneLinks.length).to.equal(2);
+
     tree.unmount();
   });
   it('should have aria labels to hide from screen reader', () => {

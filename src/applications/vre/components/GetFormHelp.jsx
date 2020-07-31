@@ -1,4 +1,7 @@
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export default function GetFormHelp() {
   return (
@@ -10,9 +13,10 @@ export default function GetFormHelp() {
         </a>
         <br />
         TTY:{' '}
-        <a className="help-phone-number-link" href="tel:+18008778339">
-          800-877-8339
-        </a>
+        <Telephone
+          className="help-phone-number-link"
+          contact={CONTACTS.HELP_TTY}
+        />
         <br />
         Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
       </p>

@@ -1,4 +1,8 @@
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 import CallToActionAlert from './../../CallToActionAlert';
 
 const NotFound = () => {
@@ -18,7 +22,8 @@ const NotFound = () => {
         <p>
           Please call us at <a href="tel:800-827-1000">800-827-1000</a>. We’re
           here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have
-          hearing loss, call TTY: 711.
+          hearin g loss, call g loss, call{' '}
+          <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
         </p>
         <p>
           When the system prompts you to give a reason for your call, say,

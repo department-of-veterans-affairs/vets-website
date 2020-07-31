@@ -13,6 +13,8 @@ describe('DebtLettersSummary', () => {
       },
       debtLetters: {
         isFetching: false,
+        isError: false,
+        isVBMSError: false,
         debts: [
           {
             adamKey: '1',
@@ -165,12 +167,7 @@ describe('DebtLettersSummary', () => {
     expect(wrapper.length).to.equal(1);
     wrapper.unmount();
   });
-  it('renders correct number of debt crds', () => {
-    const wrapper = shallow(<DebtLettersSummary store={fakeStore} />);
-    expect(wrapper.dive().find(`Connect(DebtLetterCard)`).length).to.equal(4);
-    wrapper.unmount();
-  });
-  it('renders correct empty state', () => {
+  it('renders correct error state', () => {
     const fakeStoreEmptyState = {
       getState: () => ({
         user: {
@@ -180,6 +177,8 @@ describe('DebtLettersSummary', () => {
         },
         debtLetters: {
           isFetching: false,
+          isVBMSError: true,
+          isError: true,
           debts: [],
         },
       }),
@@ -191,19 +190,17 @@ describe('DebtLettersSummary', () => {
     expect(
       wrapper
         .dive()
-        .find('h4')
+        .find('h3')
         .text(),
-    ).to.equal(
-      "You don't have any current Education or Compensation & Pension Debts",
-    );
+    ).to.equal("We're sorry. Something went wrong on our end.");
     expect(
       wrapper
         .dive()
         .find('p')
-        .at(1)
+        .at(2)
         .text(),
     ).to.equal(
-      'If you believe that you have a debt with the VA or would like to get information about your debts that have been resolved, call the Debt Management Center at 800-827-0648',
+      'If you need help resolving debt, or you would like to get information about a debt that has been resolved, call the Debt Management Center at 800-827-0648.',
     );
     wrapper.unmount();
   });

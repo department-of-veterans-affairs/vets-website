@@ -1,5 +1,9 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export default function PaymentInformationBlocked() {
   return (
@@ -23,7 +27,8 @@ export default function PaymentInformationBlocked() {
         >
           855-574-7286
         </a>{' '}
-        (TTY: 711). We’re here Monday &#8211; Friday, 8 a.m. &#8211; 8 p.m. ET.
+        (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        ). We’re here Monday &#8211; Friday, 8 a.m. &#8211; 8 p.m. ET.
       </p>
     </AlertBox>
   );

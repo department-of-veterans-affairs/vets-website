@@ -17,7 +17,10 @@ import {
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
 } from '../actions/appointments';
 
-import { FORM_SUBMIT_SUCCEEDED } from '../actions/sitewide';
+import {
+  FORM_SUBMIT_SUCCEEDED,
+  EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED,
+} from '../actions/sitewide';
 
 import { sortMessages } from '../services/appointment';
 import {
@@ -38,6 +41,14 @@ const initialState = {
   facilityData: {},
   requestMessages: {},
   systemClinicToFacilityMap: {},
+  expressCare: {
+    windowsStatus: FETCH_STATUS.notStarted,
+    hasWindow: false,
+    allowRequests: false,
+    localWindowString: null,
+    minStart: null,
+    maxEnd: null,
+  },
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -177,6 +188,7 @@ export default function appointmentsReducer(state = initialState, action) {
         appointmentToCancel: null,
         cancelAppointmentStatus: FETCH_STATUS.notStarted,
       };
+    case EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED:
     case FORM_SUBMIT_SUCCEEDED:
       return {
         ...state,

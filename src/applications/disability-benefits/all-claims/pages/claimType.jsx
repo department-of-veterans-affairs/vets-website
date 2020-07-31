@@ -1,5 +1,6 @@
 import React from 'react';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import { hasRatedDisabilities } from '../utils';
 
 const filingClaimContent = <strong>I’m filing a claim for:</strong>;
 
