@@ -1,5 +1,4 @@
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
 import {
@@ -7,6 +6,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/expressCare';
 import FormButtons from '../components/FormButtons';
+import { selectExpressCare } from '../utils/selectors';
 
 const pageKey = 'info';
 
@@ -20,12 +20,7 @@ class ExpressCareInfo extends React.Component {
   };
 
   render() {
-    const time = `${moment
-      .parseZone(this.props.minStart?.start)
-      .format('h:mm')} and ${moment
-      .parseZone(this.props.minStart?.end)
-      .format('h:mm a')} ${this.props.minStart?.timeZone}`;
-
+    const { localWindowString } = this.props;
     return (
       <div>
         <h1>How Express Care Works</h1>
@@ -35,7 +30,8 @@ class ExpressCareInfo extends React.Component {
               <p className="vads-u-font-size--h4 vads-u-font-family--serif vads-u-padding-y--0p25 vads-u-font-weight--bold">
                 Submit an Express Care request online
               </p>
-              You can request Express Care between {time}. You don’t need to
+              You can request Express Care between{' '}
+              {localWindowString?.replace(' to ', ' and ')}. You don’t need to
               have an assigned Patient Aligned Care Team (PACT) to use Express
               Care.
             </li>
@@ -114,16 +110,12 @@ class ExpressCareInfo extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return state.expressCare;
-}
-
 const mapDispatchToProps = {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 };
 
 export default connect(
-  mapStateToProps,
+  selectExpressCare,
   mapDispatchToProps,
 )(ExpressCareInfo);

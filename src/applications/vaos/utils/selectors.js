@@ -2,10 +2,17 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
+import { titleCase } from './formatters';
+
+import {
+  getTimezoneBySystemId,
+  stripDST,
+  getTimezoneDescBySystemId,
+  getTimezoneAbbrBySystemId,
+} from './timezone';
 
 import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
-import { getTimezoneDescBySystemId } from './timezone';
 import {
   FACILITY_TYPES,
   TYPES_OF_CARE,
@@ -432,42 +439,119 @@ export const selectPastAppointments = createSelector(
   },
 );
 
-export function selectExpressCare(state) {
-  const nowUTC = moment.utc();
-  const expressCare = state.expressCare;
-  return {
-    ...expressCare,
-    allowRequests:
-      expressCare.windows?.length &&
-      nowUTC.isBetween(
-        expressCare.minStart?.utcStart,
-        expressCare.maxEnd?.utcEnd,
-      ),
-    enabled: vaosExpressCare(state),
-    useNewFlow: vaosExpressCareNew(state),
-    hasWindow: !!expressCare.windows?.length,
-    hasRequests:
-      vaosExpressCare(state) &&
-      state.appointments.future?.some(appt => appt.vaos.isExpressCare),
-  };
-}
-
 export function selectExpressCareData(state) {
   return state.expressCare.newRequest.data;
 }
 
-export function selectActiveExpressCareFacility(state, nowUTCMoment) {
-  const activeWindow = state.expressCare.windows?.find(ecWindow =>
-    nowUTCMoment.isBetween(ecWindow.utcStart, ecWindow.utcEnd),
-  );
+export function selectActiveExpressCareWindows(state, nowMoment) {
+  const nowUtc = (nowMoment || moment).utc();
+  return state.expressCare.supportedFacilities
+    ?.map(({ days, facilityId }) => {
+      const siteId = facilityId.substring(0, 3);
+      const { timezone } = getTimezoneBySystemId(siteId);
+      const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
+      const currentDayOfWeek = nowUtc
+        .tz(timezone)
+        .format('dddd')
+        .toUpperCase();
+      const activeDay = days.find(day => day.day === currentDayOfWeek);
 
-  if (!activeWindow) {
+      if (!activeDay) {
+        return null;
+      }
+
+      const start = moment.tz(activeDay.startTime, 'hh:mm', timezone);
+      const end = moment.tz(activeDay.endTime, 'hh:mm', timezone);
+
+      if (!nowUtc.isBetween(start, end)) {
+        return null;
+      }
+
+      return {
+        facilityId,
+        siteId,
+        timezone,
+        timezoneAbbreviation,
+        start,
+        end,
+      };
+    })
+    .filter(win => !!win);
+}
+
+export function selectLocalExpressCareWindowString(state, nowMoment) {
+  const current = selectActiveExpressCareWindows(state, nowMoment);
+
+  if (!current?.length) {
+    return null;
+  }
+
+  return `${current[0].start.format('h:mm a')} to ${current[0].end.format(
+    'h:mm a',
+  )} ${current[0].timezoneAbbreviation}`;
+}
+
+export function selectActiveExpressCareFacility(state, nowMoment) {
+  const current = selectActiveExpressCareWindows(state, nowMoment);
+
+  if (!current?.length) {
     return null;
   }
 
   return {
-    name: activeWindow.authoritativeName,
-    facilityId: activeWindow.id,
-    siteId: activeWindow.rootStationCode,
+    facilityId: current[0].facilityId,
+    siteId: current[0].facilityId.substring(0, 3),
+  };
+}
+
+export function selectExpressCareHours(state) {
+  if (!state.expressCare.supportedFacilities?.length) {
+    return null;
+  }
+
+  const facility = state.expressCare.supportedFacilities[0];
+  const siteId = facility.facilityId.substring(0, 3);
+  const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
+
+  const windows = new Map();
+  facility.days.forEach(day => {
+    const key = `${day.startTime}_${day.endTime}`;
+    if (windows.has(key)) {
+      windows.get(key).push(day.day);
+    } else {
+      windows.set(key, [day.day]);
+    }
+  });
+
+  const segments = Array.from(windows.entries());
+
+  return segments
+    .map(([hours, days]) => {
+      const [start, end] = hours.split('_');
+      return `${days.map(titleCase).join(', ')} from ${moment(
+        start,
+        'hh:mm',
+      ).format('h:mm a')} to ${moment(end, 'hh:mm').format(
+        'h:mm a',
+      )} ${timezoneAbbreviation}`;
+    })
+    .join(', ');
+}
+
+export function selectExpressCare(state) {
+  const expressCare = state.expressCare;
+  const activeWindows = selectActiveExpressCareWindows(state);
+  return {
+    ...expressCare,
+    activeWindows,
+    localWindowString: selectLocalExpressCareWindowString(state),
+    localHoursString: selectExpressCareHours(state),
+    allowRequests: !!activeWindows?.length,
+    enabled: vaosExpressCare(state),
+    useNewFlow: vaosExpressCareNew(state),
+    hasWindow: !!expressCare.supportedFacilities?.length,
+    hasRequests:
+      vaosExpressCare(state) &&
+      state.appointments.future?.some(appt => appt.vaos.isExpressCare),
   };
 }
