@@ -6,6 +6,7 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
+  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import { changeDropdown } from '../helpers/index';
 import formConfig from '../../config/form';
@@ -83,6 +84,33 @@ describe('686 report dependent death additional information', () => {
     fillData(form, 'input#root_dateYear', '2000');
     changeDropdown(form, 'select#root_dateMonth', 1);
     changeDropdown(form, 'select#root_location_state', 'CA');
+    fillData(form, 'input#root_location_city', 'Someplace');
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should submit a form with a location of death outside US', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+        data={formData}
+        pagePerItemIndex={0}
+        arrayPath={arrayPath}
+      />,
+    );
+    changeDropdown(form, 'select#root_dateMonth', 1);
+    changeDropdown(form, 'select#root_dateDay', 1);
+    fillData(form, 'input#root_dateYear', '2000');
+    changeDropdown(form, 'select#root_dateMonth', 1);
+    selectCheckbox(form, 'root_location_isOutsideUS', true);
+    changeDropdown(form, 'select#root_location_country', 'AFG');
     fillData(form, 'input#root_location_city', 'Someplace');
 
     form.find('form').simulate('submit');
