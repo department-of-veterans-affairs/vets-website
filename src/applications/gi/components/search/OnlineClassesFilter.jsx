@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 function OnlineClassesFilter({
   showModal,
@@ -11,19 +12,10 @@ function OnlineClassesFilter({
   handleInputFocus,
   gibctFilterEnhancement,
 }) {
-  const [expanded, expandContent] = useState(false);
-
   if (gibctFilterEnhancement) {
     return (
       <div>
-        <button
-          aria-expanded={expanded ? 'true' : 'false'}
-          className="usa-accordion-button search-results-collapsible"
-          onClick={() => expandContent(!expanded)}
-        >
-          <p>Your housing allowance</p>
-        </button>
-        {expanded && (
+        <AdditionalInfo triggerText="Your housing allowance">
           <RadioButtons
             label={renderLearnMoreLabel({
               text: 'How do you want to take classes?',
@@ -42,7 +34,7 @@ function OnlineClassesFilter({
             onChange={onChange}
             onFocus={handleInputFocus}
           />
-        )}
+        </AdditionalInfo>
       </div>
     );
   }

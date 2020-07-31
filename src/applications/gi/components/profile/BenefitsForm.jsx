@@ -7,6 +7,7 @@ import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 export class BenefitsForm extends React.Component {
   state = { showYourMilitaryDetails: false };
@@ -253,19 +254,9 @@ export class BenefitsForm extends React.Component {
   render() {
     if (this.props.gibctFilterEnhancement) {
       return (
-        <div className="eligibility-form">
-          <button
-            aria-expanded={
-              this.state.showYourMilitaryDetails ? 'true' : 'false'
-            }
-            className="usa-accordion-button search-results-collapsible"
-            onClick={() => this.handleMilitaryDetailsClick()}
-          >
-            <p>Your military details</p>
-          </button>
-          {this.state.showYourMilitaryDetails &&
-            this.renderYourMilitaryDetails()}
-        </div>
+        <AdditionalInfo triggerText="Your military details">
+          {this.renderYourMilitaryDetails()}
+        </AdditionalInfo>
       );
     }
 
