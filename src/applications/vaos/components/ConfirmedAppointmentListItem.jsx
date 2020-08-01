@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from '../utils/moment-tz';
 import { formatFacilityAddress } from '../utils/formatters';
@@ -11,7 +11,16 @@ import AppointmentInstructions from './AppointmentInstructions';
 import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from './AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
-import { getVARFacilityId } from '../services/appointment';
+import {
+  getVARFacilityId,
+  getVAAppointmentLocationId,
+  isVideoAppointment,
+} from '../services/appointment';
+import AdditionalInfoRow from './AdditionalInfoRow';
+import {
+  getVideoInstructionText,
+  VideoVisitInstructions,
+} from './VideoInstructions';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -34,12 +43,12 @@ export default function ConfirmedAppointmentListItem({
   showCancelButton,
   facility,
 }) {
+  const [showMoreOpen, setShowMoreOpen] = useState(false);
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
   const isCommunityCare = appointment.vaos.isCommunityCare;
-  const isInPersonVAAppointment =
-    !appointment.vaos.videoType && !isCommunityCare;
-  const isVideoAppointment = !!appointment.vaos.videoType;
+  const isVideo = isVideoAppointment(appointment);
+  const isInPersonVAAppointment = !isVideo && !isCommunityCare;
 
   const showInstructions =
     isCommunityCare ||
@@ -47,6 +56,13 @@ export default function ConfirmedAppointmentListItem({
       PURPOSE_TEXT.some(purpose =>
         appointment?.comment?.startsWith(purpose.short),
       ));
+
+  let instructionText;
+  if (showInstructions) {
+    instructionText = appointment.comment;
+  } else if (isVideo && appointment.comment) {
+    instructionText = getVideoInstructionText(appointment.comment);
+  }
 
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -59,7 +75,7 @@ export default function ConfirmedAppointmentListItem({
 
   let header;
   let location;
-  if (isVideoAppointment) {
+  if (isVideo) {
     header = 'VA Video Connect';
     location = 'Video conference';
   } else if (isCommunityCare) {
@@ -78,11 +94,7 @@ export default function ConfirmedAppointmentListItem({
       aria-labelledby={`card-${index}-type card-${index}-status`}
       className={itemClasses}
       data-request-id={appointment.id}
-      data-is-cancelable={
-        !appointment.isCommunityCare && !appointment.videoType
-          ? 'true'
-          : 'false'
-      }
+      data-is-cancelable={!isCommunityCare && !isVideo ? 'true' : 'false'}
     >
       <div
         id={`card-${index}-type`}
@@ -107,12 +119,13 @@ export default function ConfirmedAppointmentListItem({
           {isCommunityCare && (
             <ConfirmedCommunityCareLocation appointment={appointment} />
           )}
-          {isVideoAppointment && (
-            <VideoVisitSection appointment={appointment} />
-          )}
+          {isVideo && <VideoVisitSection appointment={appointment} />}
           {isInPersonVAAppointment && (
             <VAFacilityLocation
               facility={facility}
+              facilityId={parseFakeFHIRId(
+                getVAAppointmentLocationId(appointment),
+              )}
               clinicName={appointment.participant[0].actor.display}
             />
           )}
@@ -131,10 +144,23 @@ export default function ConfirmedAppointmentListItem({
 
       {!cancelled &&
         !isPastAppointment && (
-          <div className="vads-u-margin-top--2">
+          <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
+            {isVideo &&
+              appointment.comment && (
+                <AdditionalInfoRow
+                  id={appointment.id}
+                  open={showMoreOpen}
+                  triggerText="Prepare for video visit"
+                  onClick={() => setShowMoreOpen(!showMoreOpen)}
+                >
+                  <VideoVisitInstructions
+                    instructionsType={appointment.comment}
+                  />
+                </AdditionalInfoRow>
+              )}
             <AddToCalendar
               summary={header}
-              description={showInstructions ? appointment.comment : ''}
+              description={instructionText}
               location={location}
               duration={appointment.minutesDuration}
               startDateTime={appointment.start}
@@ -153,6 +179,7 @@ export default function ConfirmedAppointmentListItem({
                 </span>
               </button>
             )}
+            <div className="vaos-flex-break" />
           </div>
         )}
     </li>

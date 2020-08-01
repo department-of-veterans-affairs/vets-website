@@ -1,31 +1,41 @@
 import { connect } from 'react-redux';
-import URLSearchParams from 'url-search-params';
 
-import { isLoggedIn } from 'platform/user/selectors';
 import { checkKeepAlive } from 'platform/user/authentication/actions';
 import {
-  ssoe,
   ssoeInbound,
   hasCheckedKeepAlive,
+  ssoeTransactionId,
 } from 'platform/user/authentication/selectors';
+import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 import { checkAutoSession } from 'platform/utilities/sso';
-import {
-  setForceAuth,
-  removeForceAuth,
-} from 'platform/utilities/sso/forceAuth';
+import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
 function AutoSSO(props) {
-  const { useSSOe, useInboundSSOe, hasCalledKeepAlive, userLoggedIn } = props;
-  const params = new URLSearchParams(window.location.search);
+  const {
+    useInboundSSOe,
+    hasCalledKeepAlive,
+    transactionId,
+    loggedIn,
+    profileLoading,
+  } = props;
 
-  if (userLoggedIn) {
-    removeForceAuth();
-  } else if (params.get('auth') !== 'success') {
-    setForceAuth();
+  if (loggedIn) {
+    removeLoginAttempted();
   }
 
-  if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
-    checkAutoSession().then(() => {
+  const badPaths = ['auth/login/callback', 'logout'];
+  const isValidPath = !badPaths.some(path =>
+    window.location.pathname.includes(path),
+  );
+
+  if (
+    // avoid race condition where hasSession hasn't been set
+    isValidPath &&
+    useInboundSSOe &&
+    !profileLoading &&
+    !hasCalledKeepAlive
+  ) {
+    checkAutoSession(loggedIn, transactionId).then(() => {
       props.checkKeepAlive();
     });
   }
@@ -34,10 +44,11 @@ function AutoSSO(props) {
 }
 
 const mapStateToProps = state => ({
-  useSSOe: ssoe(state),
-  useInboundSSOe: ssoeInbound(state),
+  transactionId: ssoeTransactionId(state),
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
-  userLoggedIn: isLoggedIn(state),
+  profileLoading: isProfileLoading(state),
+  loggedIn: isLoggedIn(state),
+  useInboundSSOe: ssoeInbound(state),
 });
 
 const mapDispatchToProps = {

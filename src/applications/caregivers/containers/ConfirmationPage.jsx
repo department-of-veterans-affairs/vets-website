@@ -66,15 +66,16 @@ const ConfirmationPage = props => {
   return (
     <section className="caregiver-confirmation">
       <AlertBox
+        level={2}
         headline="You’ve successfully submitted your application."
         content="Once we’ve reviewed your application, a Caregiver Support Coordinator will contact you to discuss next steps."
         status="success"
       />
       <div className="inset vads-u-margin-top--4">
-        <h4 className="insert-title">
+        <h3 className="insert-title vads-u-font-size--h4">
           Application for the Program of Comprehensive Assistance for Family
           Caregivers (VA Form 10-10CG)
-        </h4>
+        </h3>
 
         <span>
           For Veteran: {name.first} {name.middle} {name.last} {name.suffix}

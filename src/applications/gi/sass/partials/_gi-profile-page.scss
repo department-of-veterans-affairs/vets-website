@@ -124,16 +124,8 @@
     }
 
     button {
-      margin: 0.5em 0;
+      margin: 0.75em 0 0 0;
       padding: 1rem 2rem;
-    }
-
-    .form-expanding-group-open {
-      margin-bottom: 3rem;
-      @media screen and (min-width: $small-screen) {
-        border-left: none;
-        padding-left: 0;
-      }
     }
 
     .calculator-result {
@@ -144,6 +136,11 @@
 
     li.section-item button.usa-accordion-button {
       padding-right: 4rem;
+    }
+
+    .calculate-button:disabled {
+      color: $color-white;
+      background-color: $color-gray-lighter;
     }
   }
 
@@ -164,6 +161,10 @@
 
     hr {
       border: 1px solid $color-primary-darkest;
+    }
+    .eyb-value-header {
+      margin-top: 22.5px;
+      margin-bottom: 7.5px;
     }
   }
 
@@ -368,10 +369,6 @@
     }
   }
 
-  #estimated-benefits {
-    outline: none;
-  }
-
   .eyb-sheet {
     background-color: $color-gray-lightest;
     position: fixed;
@@ -442,5 +439,14 @@
 
   .secondary-sco-list {
     padding-left: 0;
+  }
+
+  .eyb-skip-link {
+    position: absolute;
+    top: -100rem;
+
+    &:focus {
+      top: auto;
+    }
   }
 }

@@ -4,7 +4,7 @@ import { resolveParamsWithUrl } from '../config';
 
 describe('Locator url and parameters builder', () => {
   const page = 1;
-
+  // TODO update tests with v1 once fully migrated to v1 API
   /**
    * Urgent care - Non-VA urgent care
    */
@@ -49,6 +49,7 @@ describe('Locator url and parameters builder', () => {
       undefined, // PrimaryCare
       page,
       [-118.9939, 33.3044, -117.4939, 34.8044],
+      0,
     );
     let test = `${result.url}?${result.params}`;
     expect(test).to.eql(
@@ -77,6 +78,7 @@ describe('Locator url and parameters builder', () => {
       'UrgentCare',
       page,
       bounds,
+      0,
     );
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
@@ -88,6 +90,7 @@ describe('Locator url and parameters builder', () => {
       undefined,
       page,
       bounds,
+      0,
     );
     const test2 = `${result2.url}?${result2.params}`;
     expect(test2).to.eql(
@@ -115,6 +118,7 @@ describe('Locator url and parameters builder', () => {
       'VAHomeLoanAssistance',
       page,
       [-98.52, 29.74, -97.02, 31.24],
+      0,
     );
     test = `${result.url}?${result.params}`;
     expect(test).to.eql(
@@ -126,6 +130,7 @@ describe('Locator url and parameters builder', () => {
       'ApplyingForBenefits',
       page,
       [-98.52, 29.74, -97.02, 31.24],
+      0,
     );
     test = `${result.url}?${result.params}`;
     expect(test).to.eql(
@@ -143,6 +148,7 @@ describe('Locator url and parameters builder', () => {
       undefined,
       page,
       [-98.52, 29.74, -97.02, 31.24],
+      0,
     );
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(

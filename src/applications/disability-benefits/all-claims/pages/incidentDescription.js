@@ -3,7 +3,9 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { PtsdNameTitle } from '../content/ptsdClassification';
 
-const incidentDescriptionInstructions = <h3>Event description</h3>;
+const incidentDescriptionInstructions = (
+  <h3 className="vads-u-font-size--h5">Event description</h3>
+);
 
 const { incidentDescription } = fullSchema.definitions.ptsdIncident.properties;
 

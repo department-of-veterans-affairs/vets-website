@@ -5,6 +5,15 @@
 
   .va-modal-inner {
     max-width: 60rem;
+
+    button {
+      height: 37px;
+      width: fit-content;
+    }
+  }
+
+  ul {
+    margin: 0 0 0 1.25em;
   }
 
   .border-box {
@@ -25,15 +34,27 @@
     }
   }
 
+  .connected-apps-intro {
+    ul {
+      list-style: none;
+    }
+  }
+
   .form-expanding-group,
   .form-expanding-group-open,
   .form-expanding-group-closed {
     border-left: none;
     padding-left: 20px;
+  }
 
-    @media (max-width: $medium-screen) {
-      margin-left: -60px;
-      padding-left: 0;
+  .connected-app {
+    .form-expanding-group,
+    .form-expanding-group-open,
+    .form-expanding-group-closed {
+
+      @media (max-width: $medium-screen) {
+        margin-left: -60px;
+      }
     }
   }
 }

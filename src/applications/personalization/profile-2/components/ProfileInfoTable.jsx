@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+import Verified from './Verified';
 
 const ProfileInfoTable = ({
   data,
@@ -49,10 +50,24 @@ const ProfileInfoTable = ({
     ['margin-bottom--0', 'margin-right--2'],
     'medium',
   );
-  const tableRowDataClasses = prefixUtilityClasses([
+
+  const tableRowValueClasses = prefixUtilityClasses([
     'margin--0',
     'width--full',
   ]);
+
+  const tableRowValueClassesMedium = prefixUtilityClasses(
+    ['padding-left--5'],
+    'medium',
+  );
+
+  const dataContainsVerified = data.some(row => row.verified === true);
+
+  // When a table includes a 'Verified' checkmark in any of its rows, we need to add left padding to its values
+  // so that the data lines up correctly
+  const computedTableRowValueClasses = dataContainsVerified
+    ? [...tableRowValueClasses, ...tableRowValueClassesMedium].join(' ')
+    : [...tableRowValueClasses].join(' ');
 
   // an object where each value is a string of space-separated class names that
   // can be passed directly to a `className` attribute
@@ -66,29 +81,35 @@ const ProfileInfoTable = ({
       ...tableRowTitleClasses,
       ...tableRowTitleClassesMedium,
     ].join(' '),
-    tableRowData: [...tableRowDataClasses].join(' '),
   };
-
-  const dlAttributes = list ? { role: 'list' } : null;
-  const dtAttributes = list ? { role: 'listitem' } : null;
 
   return (
     <section className={classes.table}>
       {title && <h3 className={classes.title}>{title}</h3>}
-      <dl className="vads-u-margin--0" {...dlAttributes}>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ol className="vads-u-margin--0 vads-u-padding--0" role="list">
         {data
           .map(
             element => (dataTransformer ? dataTransformer(element) : element),
           )
           .map((row, index) => (
-            <div key={index} className={classes.tableRow}>
-              <dt className={classes.tableRowTitle} {...dtAttributes}>
-                {row.title}
-              </dt>
-              <dd className={classes.tableRowData}>{row.value}</dd>
-            </div>
+            // eslint-disable-next-line jsx-a11y/no-redundant-roles
+            <li key={index} className={classes.tableRow} role="listitem">
+              {row.title && (
+                <dfn className={classes.tableRowTitle}>{row.title}</dfn>
+              )}
+
+              {/* In Account Security, we have some rows that need a checkmark when verified  */}
+              {row.verified && row.value}
+
+              {!row.verified && (
+                <span className={computedTableRowValueClasses}>
+                  {row.value}
+                </span>
+              )}
+            </li>
           ))}
-      </dl>
+      </ol>
     </section>
   );
 };

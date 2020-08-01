@@ -1,3 +1,5 @@
+import moment from 'moment';
+import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
 
@@ -20,9 +22,13 @@ import {
 } from '../services/organization';
 import { getParentOfLocation } from '../services/location';
 import {
-  getVARFacilityId,
-  getVARClinicId,
   getVideoAppointmentLocation,
+  getVAAppointmentLocationId,
+  isVideoAppointment,
+  isUpcomingAppointmentOrRequest,
+  isValidPastAppointment,
+  sortByDateDescending,
+  sortUpcoming,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -290,7 +296,7 @@ export function getChosenClinicInfo(state) {
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
     clinics[`${data.vaFacility}_${typeOfCareId}`]?.find(
-      clinic => clinic.clinicId === data.clinicId,
+      clinic => clinic.id === data.clinicId,
     ) || null
   );
 }
@@ -327,29 +333,26 @@ export function getCancelInfo(state) {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
+    cancelAppointmentStatusVaos400,
     facilityData,
-    systemClinicToFacilityMap,
   } = state.appointments;
 
+  const isVideo = appointmentToCancel
+    ? isVideoAppointment(appointmentToCancel)
+    : false;
+
   let facility = null;
-  if (
-    appointmentToCancel?.status === APPOINTMENT_STATUS.booked &&
-    !appointmentToCancel?.vaos?.videoType
-  ) {
+  if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
     // Confirmed in person VA appts
-    facility =
-      systemClinicToFacilityMap[
-        `${parseFakeFHIRId(
-          getVARFacilityId(appointmentToCancel),
-        )}_${getVARClinicId(appointmentToCancel)}`
-      ];
+    const locationId = getVAAppointmentLocationId(appointmentToCancel);
+    facility = facilityData[getRealFacilityId(locationId)];
   } else if (appointmentToCancel?.facility) {
     // Requests
     facility =
       facilityData[
         `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
       ];
-  } else if (appointmentToCancel?.vaos?.videoType) {
+  } else if (isVideo) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];
@@ -360,6 +363,7 @@ export function getCancelInfo(state) {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
+    cancelAppointmentStatusVaos400,
     cernerFacilities,
   };
 }
@@ -391,6 +395,10 @@ export const vaosPastAppts = state =>
   toggleValues(state).vaOnlineSchedulingPast;
 export const vaosVSPAppointmentNew = state =>
   toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
+export const vaosExpressCare = state =>
+  toggleValues(state).vaOnlineSchedulingExpressCare;
+export const vaosExpressCareNew = state =>
+  toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 
 export const isWelcomeModalDismissed = state =>
@@ -400,3 +408,66 @@ export const isWelcomeModalDismissed = state =>
 
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
+
+export const selectExpressCareRequests = createSelector(
+  state => state.appointments.future,
+  future =>
+    future?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
+);
+
+export const selectFutureAppointments = createSelector(
+  vaosExpressCare,
+  state => state.appointments.future,
+  (showExpressCare, future) =>
+    future
+      ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
+      ?.filter(isUpcomingAppointmentOrRequest)
+      .sort(sortUpcoming),
+);
+
+export const selectPastAppointments = createSelector(
+  state => state.appointments.past,
+  past => {
+    return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
+  },
+);
+
+export function selectExpressCare(state) {
+  const nowUTC = moment.utc();
+  const expressCare = state.expressCare;
+  return {
+    ...expressCare,
+    allowRequests:
+      expressCare.windows?.length &&
+      nowUTC.isBetween(
+        expressCare.minStart?.utcStart,
+        expressCare.maxEnd?.utcEnd,
+      ),
+    enabled: vaosExpressCare(state),
+    useNewFlow: vaosExpressCareNew(state),
+    hasWindow: !!expressCare.windows?.length,
+    hasRequests:
+      vaosExpressCare(state) &&
+      state.appointments.future?.some(appt => appt.vaos.isExpressCare),
+  };
+}
+
+export function selectExpressCareData(state) {
+  return state.expressCare.newRequest.data;
+}
+
+export function selectActiveExpressCareFacility(state, nowUTCMoment) {
+  const activeWindow = state.expressCare.windows?.find(ecWindow =>
+    nowUTCMoment.isBetween(ecWindow.utcStart, ecWindow.utcEnd),
+  );
+
+  if (!activeWindow) {
+    return null;
+  }
+
+  return {
+    name: activeWindow.authoritativeName,
+    facilityId: activeWindow.id,
+    siteId: activeWindow.rootStationCode,
+  };
+}

@@ -223,22 +223,22 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '323',
             vaFacility: '688GB',
-            clinicId: '124',
+            clinicId: 'var688GB_124',
           },
           clinics: {
             '688GB_323': [
               {
-                clinicId: '123',
+                id: 'var688GB_123',
               },
               {
-                clinicId: '124',
+                id: 'var688GB_124',
               },
             ],
           },
         },
       };
       const clinic = getChosenClinicInfo(state);
-      expect(clinic.clinicId).to.equal(state.newAppointment.data.clinicId);
+      expect(clinic.id).to.equal(state.newAppointment.data.clinicId);
     });
   });
 
@@ -475,7 +475,6 @@ describe('VAOS selectors', () => {
             status: 'booked',
             vaos: {
               appointmentType: APPOINTMENT_TYPES.vaAppointment,
-              videoType: null,
             },
             participant: [
               {
@@ -484,13 +483,16 @@ describe('VAOS selectors', () => {
                   display: 'Test',
                 },
               },
+              {
+                actor: {
+                  reference: 'Location/var123',
+                  display: 'Facility name',
+                },
+              },
             ],
           },
           facilityData: {
             var123: {},
-          },
-          systemClinicToFacilityMap: {
-            '123_456': {},
           },
         },
       };
@@ -498,7 +500,7 @@ describe('VAOS selectors', () => {
       const cancelInfo = getCancelInfo(state);
 
       expect(cancelInfo.facility).to.equal(
-        state.appointments.systemClinicToFacilityMap['123_456'],
+        state.appointments.facilityData.var123,
       );
     });
     it('should fetch facility from video appointment', () => {
@@ -513,13 +515,16 @@ describe('VAOS selectors', () => {
             status: 'booked',
             vaos: {
               appointmentType: APPOINTMENT_TYPES.vaAppointment,
-              videoType: VIDEO_TYPES.videoConnect,
             },
             contained: [
               {
                 location: {
                   reference: 'Location/var123',
                 },
+              },
+              {
+                resourceType: 'HealthcareService',
+                characteristic: [{ coding: VIDEO_TYPES.videoConnect }],
               },
             ],
           },

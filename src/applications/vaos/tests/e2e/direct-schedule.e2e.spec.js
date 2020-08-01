@@ -47,7 +47,7 @@ module.exports = {
   },
   'What is your preferred clinic?': client => {
     client
-      .selectRadio('root_clinicId', '308')
+      .selectRadio('root_clinicId', 'var983_308')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('#root_preferredDateMonth', Timeouts.normal);

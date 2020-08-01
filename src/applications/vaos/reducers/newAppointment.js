@@ -46,6 +46,7 @@ import {
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
+  CLICKED_UPDATE_ADDRESS_BUTTON,
 } from '../actions/newAppointment';
 
 import {
@@ -54,6 +55,7 @@ import {
 } from '../actions/sitewide';
 
 import {
+  FACILITY_TYPES,
   FLOW_TYPES,
   REASON_ADDITIONAL_INFO_TITLES,
   REASON_MAX_CHARS,
@@ -89,6 +91,7 @@ const initialState = {
   fetchedAppointmentSlotMonths: [],
   submitStatus: FETCH_STATUS.notStarted,
   isCCEligible: false,
+  hideUpdateAddressAlert: false,
 };
 
 function getFacilities(state, typeOfCareId, vaParent) {
@@ -196,10 +199,9 @@ export default function formReducer(state = initialState, action) {
         ...initialState,
         parentFacilities: state.parentFacilities,
         facilities: state.facilities,
-        clinics: state.clinics,
-        eligibility: state.eligibility,
         pastAppointments: state.pastAppointments,
         submitStatus: FETCH_STATUS.notStarted,
+        hideUpdateAddressAlert: state.hideUpdateAddressAlert,
       };
     }
     case FORM_PAGE_CHANGE_STARTED: {
@@ -264,6 +266,12 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         showTypeOfCareUnavailableModal: false,
+      };
+    }
+    case CLICKED_UPDATE_ADDRESS_BUTTON: {
+      return {
+        ...state,
+        hideUpdateAddressAlert: true,
       };
     }
     case FORM_UPDATE_FACILITY_TYPE: {
@@ -555,11 +563,12 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
+      const formData = state.data;
       let reasonMaxChars = REASON_MAX_CHARS.request;
 
       if (state.flowType === FLOW_TYPES.DIRECT) {
         const prependText = PURPOSE_TEXT.find(
-          purpose => purpose.id === state.data.reasonForAppointment,
+          purpose => purpose.id === formData.reasonForAppointment,
         )?.short;
         reasonMaxChars =
           REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2;
@@ -571,16 +580,21 @@ export default function formReducer(state = initialState, action) {
         action.schema,
       );
 
-      reasonSchema = set(
-        'properties.reasonAdditionalInfo.title',
-        state.flowType === FLOW_TYPES.DIRECT
-          ? REASON_ADDITIONAL_INFO_TITLES.direct
-          : REASON_ADDITIONAL_INFO_TITLES.request,
-        reasonSchema,
-      );
+      if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
+        const additionalInfoTitle =
+          state.flowType === FLOW_TYPES.DIRECT
+            ? REASON_ADDITIONAL_INFO_TITLES.direct
+            : REASON_ADDITIONAL_INFO_TITLES.request;
+
+        reasonSchema = set(
+          'properties.reasonAdditionalInfo.title',
+          additionalInfoTitle,
+          reasonSchema,
+        );
+      }
 
       const { data, schema } = setupFormData(
-        state.data,
+        formData,
         reasonSchema,
         action.uiSchema,
       );
@@ -649,7 +663,8 @@ export default function formReducer(state = initialState, action) {
         });
 
         clinics = clinics.filter(clinic =>
-          pastAppointmentDateMap.has(clinic.clinicId),
+          // Get clinic portion of id
+          pastAppointmentDateMap.has(clinic.id?.split('_')[1]),
         );
       }
 
@@ -660,9 +675,10 @@ export default function formReducer(state = initialState, action) {
           properties: {
             clinicId: {
               type: 'string',
-              title: `Would you like to make an appointment at ${clinic.clinicFriendlyLocationName ||
-                clinic.clinicName}?`,
-              enum: [clinic.clinicId, 'NONE'],
+              title: `Would you like to make an appointment at ${
+                clinic.serviceName
+              }?`,
+              enum: [clinic.id, 'NONE'],
               enumNames: [
                 'Yes, make my appointment here',
                 'No, I need a different clinic',
@@ -678,12 +694,9 @@ export default function formReducer(state = initialState, action) {
               type: 'string',
               title:
                 'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
-              enum: clinics.map(clinic => clinic.clinicId).concat('NONE'),
+              enum: clinics.map(clinic => clinic.id).concat('NONE'),
               enumNames: clinics
-                .map(
-                  clinic =>
-                    clinic.clinicFriendlyLocationName || clinic.clinicName,
-                )
+                .map(clinic => clinic.serviceName)
                 .concat('I need a different clinic'),
             },
           },
@@ -741,7 +754,8 @@ export default function formReducer(state = initialState, action) {
           initialSchema,
         );
         initialSchema.properties.communityCareSystemId.enumNames = systems.map(
-          system => `${system.address?.city}, ${system.address?.state}`,
+          system =>
+            `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
         );
         initialSchema.required.push('communityCareSystemId');
       }
@@ -771,11 +785,13 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         submitStatus: FETCH_STATUS.succeeded,
+        submitStatusVaos400: false,
       };
     case FORM_SUBMIT_FAILED:
       return {
         ...state,
         submitStatus: FETCH_STATUS.failed,
+        submitStatusVaos400: action.isVaos400Error,
       };
     case FORM_UPDATE_CC_ELIGIBILITY: {
       return {

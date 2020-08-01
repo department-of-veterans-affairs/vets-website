@@ -103,7 +103,7 @@ const ProfileHeader = ({
   };
 
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.wrapper} data-testid="profile-header">
       <div className={classes.innerWrapper}>
         <div className={classes.serviceBadge}>
           {showBadgeImage && (
@@ -111,8 +111,6 @@ const ProfileHeader = ({
               src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
               alt={`${latestBranchOfService} seal`}
               className="profile-service-badge vads-u-padding-right--3"
-              aria-hidden="true"
-              role="presentation"
             />
           )}
         </div>
@@ -158,6 +156,7 @@ ProfileHeader.defaultProps = {
 };
 
 ProfileHeader.propTypes = {
+  showBadgeImage: PropTypes.bool,
   userFullName: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -118,7 +117,10 @@ export class SearchPage extends React.Component {
     });
 
     this.props.institutionFilterChange(institutionFilter);
-    this.props.fetchInstitutionSearchResults(query);
+    this.props.fetchInstitutionSearchResults(
+      query,
+      this.props.gibctSearchEnhancements,
+    );
   };
 
   autocomplete = (value, version) => {
@@ -271,6 +273,7 @@ export class SearchPage extends React.Component {
         eligibilityChange={this.props.eligibilityChange}
         gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
         hideModal={this.props.hideModal}
+        gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
       />
     </div>
   );
@@ -312,6 +315,12 @@ const mapStateToProps = state => ({
   gibctEstimateYourBenefits: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
   ],
+  gibctSearchEnhancements: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSearchEnhancements
+  ],
+  gibctCh33BenefitRateUpdate: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
+  ],
 });
 
 const mapDispatchToProps = {
@@ -329,9 +338,7 @@ const mapDispatchToProps = {
   hideModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SearchPage),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchPage);

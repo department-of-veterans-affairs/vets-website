@@ -1,16 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import * as forceAuth from 'platform/utilities/sso/forceAuth';
-
 import {
   login,
   mfa,
   verify,
   logout,
   signup,
-  autoLogin,
-  autoLogout,
+  standaloneRedirect,
+  externalRedirects,
 } from '../../authentication/utilities';
 
 let oldSessionStorage;
@@ -31,6 +29,7 @@ const fakeWindow = () => {
         global.window.location = value;
       },
       pathname: '',
+      search: '',
     },
   };
 };
@@ -63,36 +62,10 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
-  it('should add query params for "to" if "application" is present', () => {
-    login('idme', 'v1', 'someApplication', '/path/to/app');
-    expect(global.window.location).to.include(
-      '/v1/sessions/idme/new?application=someApplication&to=%2Fpath%2Fto%2Fapp',
-    );
-  });
-
-  it('should redirect for login v1 with application', () => {
-    login('idme', 'v1', 'my-app');
-    expect(global.window.location).to.include(
-      '/v1/sessions/idme/new?application=my-app',
-    );
-  });
-
-  it('should redirect for login v1 with force auth', () => {
-    const stub = sinon.stub(forceAuth, 'getForceAuth').callsFake(() => true);
-    login('idme', 'v1');
-    stub.restore();
-    expect(global.window.location).to.include(
-      '/v1/sessions/idme/new?force=true',
-    );
-  });
-
-  it('should redirect for login v1 with application and force auth', () => {
-    const stub = sinon.stub(forceAuth, 'getForceAuth').callsFake(() => true);
-    login('idme', 'v1', 'my-app');
-    stub.restore();
-    expect(global.window.location).to.include(
-      '/v1/sessions/idme/new?application=my-app&force=true',
-    );
+  it('should redirect for login with custom event', () => {
+    login('idme', 'v1', {}, 'custom-event');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+    expect(global.window.dataLayer[0].event).to.eq('custom-event');
   });
 
   it('should redirect for logout', () => {
@@ -103,6 +76,12 @@ describe('authentication URL helpers', () => {
   it('should redirect for logout v1', () => {
     logout('v1');
     expect(global.window.location).to.include('/v1/sessions/slo/new');
+  });
+
+  it('should redirect for logout with custom event', () => {
+    logout('v1', 'custom-event');
+    expect(global.window.location).to.include('/v1/sessions/slo/new');
+    expect(global.window.dataLayer[0].event).to.eq('custom-event');
   });
 
   it('should redirect for MFA', () => {
@@ -124,14 +103,34 @@ describe('authentication URL helpers', () => {
     verify('v1');
     expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
+});
 
-  it.skip('should redirect for SSO auto-login', () => {
-    autoLogin();
-    expect(global.window.location).to.include('/v1/sessions/idme/new');
+describe('standaloneRedirect', () => {
+  beforeEach(fakeWindow);
+  afterEach(() => {
+    global.window = oldWindow;
   });
 
-  it.skip('should redirect for SSO auto-logout', () => {
-    autoLogout();
-    expect(global.window.location).to.include('/v1/sessions/slo/new');
+  it('should return null when an application param is not provided', () => {
+    global.window.location.search = '';
+    expect(standaloneRedirect()).to.be.null;
+  });
+
+  it('should return null when an application redirect is not found', () => {
+    global.window.location.search = '?application=unmappedapplication';
+    expect(standaloneRedirect()).to.be.null;
+  });
+
+  it('should return an plain url when no "to" search query is provided', () => {
+    global.window.location.search = '?application=myvahealth';
+    expect(standaloneRedirect()).to.equal(externalRedirects.myvahealth);
+  });
+
+  it('should strip any CRLF characters from the "to" parameter', () => {
+    global.window.location.search =
+      '?application=myvahealth&to=/some/sub/route\r\n';
+    expect(standaloneRedirect()).to.equal(
+      `${externalRedirects.myvahealth}some/sub/route`,
+    );
   });
 });

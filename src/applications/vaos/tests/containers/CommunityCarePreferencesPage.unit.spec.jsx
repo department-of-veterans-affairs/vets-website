@@ -82,6 +82,19 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     form.unmount();
   });
 
+  it('should display link to facility locator', () => {
+    const form = mount(<CommunityCarePreferencesPageTester />);
+    selectRadio(form, 'root_hasCommunityCareProvider', 'Y');
+    const facilityLocatorLink = form.find('a');
+    expect(facilityLocatorLink.props().href).to.equal(
+      '/find-locations/?facilityType=cc_provider',
+    );
+    expect(form.text()).contains(
+      'Use the facility locator to find your preferred community care provider. Copy and paste their name and address below.',
+    );
+    form.unmount();
+  });
+
   it('should submit with valid data', () => {
     const routeToNextAppointmentPage = sinon.spy();
 

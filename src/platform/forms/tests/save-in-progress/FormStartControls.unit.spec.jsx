@@ -10,8 +10,22 @@ import { FormStartControls } from '../../save-in-progress/FormStartControls';
 
 describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';
-
   const oldDataLayer = global.window.dataLayer;
+  let defaultRoutes;
+
+  beforeEach(() => {
+    defaultRoutes = [
+      'dummyProp',
+      {
+        formConfig: {
+          customText: {
+            startNewAppButtonText: '',
+            continueAppButtonText: '',
+          },
+        },
+      },
+    ];
+  });
 
   afterEach(() => {
     global.window.dataLayer = oldDataLayer;
@@ -30,6 +44,7 @@ describe('Schemaform <FormStartControls>', () => {
         startPage={startPage}
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
       />,
     );
 
@@ -48,6 +63,7 @@ describe('Schemaform <FormStartControls>', () => {
         startPage={startPage}
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
       />,
     );
 
@@ -67,6 +83,7 @@ describe('Schemaform <FormStartControls>', () => {
         startPage={startPage}
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
       />,
     );
     expect(tree.everySubTree('ProgressButton').length).to.equal(3);
@@ -84,6 +101,7 @@ describe('Schemaform <FormStartControls>', () => {
         startPage={startPage}
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
       />,
     );
 
@@ -105,6 +123,7 @@ describe('Schemaform <FormStartControls>', () => {
         startPage={startPage}
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
       />,
     );
     const findDOM = findDOMNode(tree);
@@ -126,6 +145,7 @@ describe('Schemaform <FormStartControls>', () => {
         startPage={startPage}
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
       />,
     );
     const findDOM = findDOMNode(tree);
@@ -147,6 +167,7 @@ describe('Schemaform <FormStartControls>', () => {
         startPage={startPage}
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
       />,
     );
     const findDOM = findDOMNode(tree);
@@ -168,6 +189,7 @@ describe('Schemaform <FormStartControls>', () => {
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
         prefillAvailable
+        routes={defaultRoutes}
       />,
     );
     const formDOM = getFormDOM(tree);
@@ -189,6 +211,7 @@ describe('Schemaform <FormStartControls>', () => {
         formSaved
         removeInProgressForm={fetchSpy}
         prefillAvailable
+        routes={defaultRoutes}
       />,
     );
     const formDOM = getFormDOM(tree);
@@ -218,6 +241,7 @@ describe('Schemaform <FormStartControls>', () => {
         fetchInProgressForm={fetchSpy}
         gaStartEventName={null}
         prefillAvailable
+        routes={defaultRoutes}
       />,
     );
     const formDOM = getFormDOM(tree);
@@ -240,6 +264,7 @@ describe('Schemaform <FormStartControls>', () => {
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
         prefillAvailable
+        routes={defaultRoutes}
       />,
     );
     const formDOM = getFormDOM(tree);
@@ -267,6 +292,7 @@ describe('Schemaform <FormStartControls>', () => {
         fetchInProgressForm={fetchSpy}
         gaStartEventName="testing, testing"
         prefillAvailable
+        routes={defaultRoutes}
       />,
     );
     const formDOM = getFormDOM(tree);
@@ -277,5 +303,72 @@ describe('Schemaform <FormStartControls>', () => {
         event: 'testing, testing',
       },
     ]);
+  });
+
+  it('should display the startNewAppButtonText', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const startNewMsgRoute = [
+      defaultRoutes[0],
+      {
+        formConfig: {
+          customText: {
+            startNewAppButtonText: 'A custom starting new app message',
+            continueAppButtonText: '',
+          },
+        },
+      },
+    ];
+    const tree = SkinDeep.shallowRender(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        formSaved
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        routes={startNewMsgRoute}
+        resumeOnly={false}
+        isExpired
+      />,
+    );
+    expect(
+      tree.dive(['ProgressButton', '.usa-button-primary']).text(),
+    ).to.include('A custom starting new app message');
+  });
+  it('should display the continueAppButtonText', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const startNewMsgRoute = [
+      defaultRoutes[0],
+      {
+        formConfig: {
+          customText: {
+            startNewAppButtonText: '',
+            continueAppButtonText: 'A custom continue app message',
+          },
+        },
+      },
+    ];
+    const tree = SkinDeep.shallowRender(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        formSaved
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        routes={startNewMsgRoute}
+        resumeOnly
+        isExpired={false}
+      />,
+    );
+    expect(
+      tree.dive(['ProgressButton', '.usa-button-primary']).text(),
+    ).to.include('A custom continue app message');
   });
 });

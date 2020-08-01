@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
 
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+
+import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
@@ -72,18 +74,35 @@ class VAPProfileField extends React.Component {
 
   static defaultProps = {
     fieldName: '',
+    hasUnsavedEdits: false,
   };
 
+  state = {
+    showCannotEditModal: false,
+    showConfirmCancelModal: false,
+  };
+
+  closeModalTimeoutID = null;
+
   componentDidUpdate(prevProps) {
-    // Just close the edit modal if it takes more than 5 seconds for the update
-    // transaction to resolve. ie, give it 5 seconds before reverting to the old
-    // behavior of showing the "we're saving your new information..." message on
-    // the Profile page
+    // Exit the edit view if it takes more than 5 seconds for the update/save
+    // transaction to resolve. If the transaction has not resolved after 5
+    // seconds we will show a "we're saving your new information..." message on
+    // the Profile
     if (!prevProps.transaction && this.props.transaction) {
-      setTimeout(() => this.props.openModal(), 5000);
+      this.closeModalTimeoutID = setTimeout(
+        () => this.closeModal(),
+        // Using 50ms as the unit test timeout before exiting edit view while
+        // waiting for an update to happen. Being too aggressive, like 5ms,
+        // results in exiting the edit view before Redux has had time to do
+        // everything it needs to do. In that situation we see the "we're saving
+        // your..." message while Redux is processing everything.
+        window.VetsGov.pollTimeout ? 50 : 5000,
+      );
     }
 
     if (this.justClosedModal(prevProps, this.props)) {
+      clearTimeout(this.closeModalTimeoutID);
       if (this.props.transaction) {
         focusElement(`div#${this.props.fieldName}-transaction-status`);
       }
@@ -98,7 +117,13 @@ class VAPProfileField extends React.Component {
 
   onCancel = () => {
     this.captureEvent('cancel-button');
-    this.closeModal();
+
+    if (!this.props.hasUnsavedEdits) {
+      this.closeModal();
+      return;
+    }
+
+    this.setState({ showConfirmCancelModal: true });
   };
 
   onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
@@ -183,7 +208,11 @@ class VAPProfileField extends React.Component {
   };
 
   openEditModal = () => {
-    this.props.openModal(this.props.fieldName);
+    if (this.props.blockEditMode) {
+      this.setState({ showCannotEditModal: true });
+    } else {
+      this.props.openModal(this.props.fieldName);
+    }
   };
 
   refreshTransaction = () => {
@@ -205,7 +234,7 @@ class VAPProfileField extends React.Component {
 
   render() {
     const {
-      analyticsSectionName,
+      activeEditView,
       ContentView,
       EditView,
       fieldName,
@@ -217,6 +246,8 @@ class VAPProfileField extends React.Component {
       transactionRequest,
       ValidationView,
     } = this.props;
+
+    const activeSection = VET360.FIELD_TITLES[activeEditView]?.toLowerCase();
 
     const childProps = {
       ...this.props,
@@ -230,8 +261,23 @@ class VAPProfileField extends React.Component {
       refreshTransaction: this.refreshTransaction,
     };
 
+    const wrapInTransaction = children => {
+      return (
+        <Vet360Transaction
+          isModalOpen={showEditView || showValidationView}
+          id={`${fieldName}-transaction-status`}
+          title={title}
+          transaction={transaction}
+          transactionRequest={transactionRequest}
+          refreshTransaction={this.refreshTransaction}
+        >
+          {children}
+        </Vet360Transaction>
+      );
+    };
+
     // default the content to the read-view
-    let content = (
+    let content = wrapInTransaction(
       <div className={classes.wrapper}>
         <ContentView data={this.props.data} />
         {this.isEditLinkVisible() && (
@@ -242,28 +288,35 @@ class VAPProfileField extends React.Component {
             className={classes.editButton}
           />
         )}
-      </div>
+      </div>,
     );
 
     if (isEmpty) {
-      content = (
+      content = wrapInTransaction(
         <button
           type="button"
           onClick={this.onAdd}
           className="va-button-link va-profile-btn"
+          id={`${this.props.fieldName}-edit-link`}
         >
           Please add your {title.toLowerCase()}
-        </button>
+        </button>,
       );
     }
 
     if (showEditView) {
-      content = <EditView {...childProps} />;
+      content = (
+        <EditView
+          refreshTransaction={this.refreshTransaction}
+          {...childProps}
+        />
+      );
     }
 
     if (showValidationView) {
       content = (
         <ValidationView
+          refreshTransaction={this.refreshTransaction}
           transaction={transaction}
           transactionRequest={transactionRequest}
           title={title}
@@ -274,16 +327,58 @@ class VAPProfileField extends React.Component {
 
     return (
       <div className="vet360-profile-field" data-field-name={fieldName}>
-        <Vet360Transaction
-          isModalOpen={showEditView || showValidationView}
-          id={`${fieldName}-transaction-status`}
-          title={title}
-          transaction={transaction}
-          transactionRequest={transactionRequest}
-          refreshTransaction={this.refreshTransaction}
+        <Modal
+          title={'Are you sure?'}
+          status="warning"
+          visible={this.state.showConfirmCancelModal}
+          onClose={() => {
+            this.setState({ showConfirmCancelModal: false });
+          }}
         >
-          {content}
-        </Vet360Transaction>
+          <p>
+            {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won't be saved.`}
+          </p>
+          <button
+            className="usa-button-secondary"
+            onClick={() => {
+              this.setState({ showConfirmCancelModal: false });
+            }}
+          >
+            Continue Editing
+          </button>
+          <button
+            onClick={() => {
+              this.setState({ showConfirmCancelModal: false });
+              this.closeModal();
+            }}
+          >
+            Cancel
+          </button>
+        </Modal>
+
+        <Modal
+          title={`You’re currently editing your ${activeSection}`}
+          status="warning"
+          visible={this.state.showCannotEditModal}
+          onClose={() => {
+            this.setState({ showCannotEditModal: false });
+          }}
+        >
+          <p>
+            Please go back and save or cancel your work before editing a new
+            section of your profile. If you cancel, your in-progress work won’t
+            be saved.
+          </p>
+          <button
+            onClick={() => {
+              this.setState({ showCannotEditModal: false });
+            }}
+          >
+            OK
+          </button>
+        </Modal>
+
+        {content}
       </div>
     );
   }
@@ -298,14 +393,28 @@ export const mapStateToProps = (state, ownProps) => {
   const data = selectVet360Field(state, fieldName);
   const isEmpty = !data;
   const addressValidationType = selectAddressValidationType(state);
+  const activeEditView = selectCurrentlyOpenEditModal(state);
   const showValidationView =
     ownProps.ValidationView &&
     addressValidationType === fieldName &&
     // TODO: use a constant for 'addressValidation'
-    selectCurrentlyOpenEditModal(state) === 'addressValidation';
+    activeEditView === 'addressValidation';
 
   return {
+    hasUnsavedEdits: state.vet360.hasUnsavedEdits,
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
+    blockEditMode: !!activeEditView,
+    /*
+    This ternary is to deal with an edge case: if the user is currently viewing
+    the address validation view we need to handle things differently or text in
+    the modal would be inaccurate. This is an unfortunate hack to get around an
+    existing hack we've been using to determine if we need to show the address
+    validation view or not.
+    */
+    activeEditView:
+      activeEditView === 'addressValidation'
+        ? addressValidationType
+        : activeEditView,
     data,
     fieldName,
     field: selectEditedFormField(state, fieldName),
@@ -349,6 +458,7 @@ Vet360ProfileFieldContainer.propTypes = {
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
+  hasUnsavedEdits: PropTypes.bool,
 };
 
 export default Vet360ProfileFieldContainer;

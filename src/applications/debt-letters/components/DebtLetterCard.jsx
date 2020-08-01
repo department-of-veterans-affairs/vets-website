@@ -1,59 +1,66 @@
 import React from 'react';
 import last from 'lodash/last';
 import moment from 'moment';
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { deductionCodes } from '../const';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-class DebtLetterCard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      panelOpen: false,
-    };
-  }
-  render() {
-    const { debt } = this.props;
-    const mostRecentHistory = last(debt.debtHistory);
-    return (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--1">
-        <h4 className="vads-u-margin--0">
-          {deductionCodes[debt.deductionCode]}
-        </h4>
-        <p>
-          <strong>Status:</strong> {mostRecentHistory.status}
+const DebtLetterCard = ({ debt }) => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  });
+  const mostRecentHistory = last(debt.debtHistory);
+  return (
+    <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2p5">
+      <h3 className="vads-u-margin--0">
+        {deductionCodes[debt.deductionCode]} debt
+      </h3>
+      {mostRecentHistory && (
+        <p className="vads-u-margin-top--0p5">
+          Received on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
         </p>
-        <p>
-          <strong>Last updated:</strong>{' '}
-          {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
-        </p>
-        <button
-          onClick={() => {
-            this.setState({
-              panelOpen: !this.state.panelOpen,
-            });
-          }}
-        >
-          View History
-        </button>
+      )}
+      <p className="vads-u-margin-bottom--2 vads-u-font-size--md vads-u-font-family--sans">
+        <strong>Amount owed: </strong>
+        {formatter.format(parseFloat(debt.currentAr))}
+      </p>
+      <AdditionalInfo triggerText="Why might I have this debt?">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aperiam
+        culpa debitis deleniti earum explicabo fuga fugit libero magnam
+        molestiae non, omnis porro qui, quod voluptatibus. Natus perspiciatis
+        quibusdam recusandae?
+      </AdditionalInfo>
+    </div>
+  );
+};
 
-        <ExpandingGroup open={this.state.panelOpen}>
-          {this.state.panelOpen && <h5>Debt History:</h5>}
-          <div className="vads-u-display--flex vads-u-flex-direction--column">
-            {debt.debtHistory.map((debtEntry, index) => (
-              <div
-                className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
-                key={`${debtEntry.letterCode}-${index}`}
-              >
-                <span>{debtEntry.date}</span>
-                <span>{debtEntry.status}</span>
-                <span>{debtEntry.description}</span>
-              </div>
-            ))}
-          </div>
-        </ExpandingGroup>
-      </div>
-    );
-  }
-}
+DebtLetterCard.propTypes = {
+  debt: PropTypes.shape({
+    currentAr: PropTypes.number,
+    debtHistory: PropTypes.arrayOf(
+      PropTypes.shape({
+        date: PropTypes.string,
+      }),
+    ),
+    deductionCode: PropTypes.string,
+    originalAr: PropTypes.number,
+  }),
+};
 
-export default DebtLetterCard;
+DebtLetterCard.defaultProps = {
+  debt: {
+    currentAr: 0,
+    debtHistory: [{ date: '' }],
+    deductionCode: '',
+    originalAr: 0,
+  },
+};
+
+const mapStateToProps = state => ({
+  selectedDebt: state.debtLetters.selectedDebt,
+});
+
+export default connect(mapStateToProps)(DebtLetterCard);

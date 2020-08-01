@@ -5,8 +5,10 @@ import manifest from './manifest.json';
 
 // Base URL to be used in API requests.
 export const api = {
-  baseUrl: `${environment.API_URL}/v0/facilities`,
-  url: `${environment.API_URL}/v0/facilities/va`,
+  baseUrlV0: `${environment.API_URL}/v0/facilities`,
+  urlV0: `${environment.API_URL}/v0/facilities/va`,
+  baseUrl: `${environment.API_URL}/v1/facilities`,
+  url: `${environment.API_URL}/v1/facilities/va`,
   ccUrl: `${environment.API_URL}/v0/facilities/ccp`,
   settings: {
     credentials: 'include',
@@ -40,6 +42,7 @@ export const resolveParamsWithUrl = (
   serviceType,
   page,
   bounds,
+  apiVersion,
 ) => {
   const filterableLocations = ['health', 'benefits', 'cc_provider'];
   let facility;
@@ -50,7 +53,7 @@ export const resolveParamsWithUrl = (
       if (!serviceType || serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
-        url = api.url;
+        url = apiVersion === 1 ? api.url : api.urlV0;
       }
       if (serviceType === 'NonVAUrgentCare') {
         facility = 'cc_urgent_care';
@@ -66,7 +69,7 @@ export const resolveParamsWithUrl = (
     default:
       facility = locationType;
       service = serviceType;
-      url = api.url;
+      url = apiVersion === 1 ? api.url : api.urlV0;
   }
 
   return {
@@ -85,6 +88,9 @@ export const resolveParamsWithUrl = (
   };
 };
 
+// Please use sentence case for all of these
+// except 'Vet Centers' and acronyms like IDES.
+
 export const facilityTypes = {
   [FacilityType.VA_HEALTH_FACILITY]: 'VA health',
   [FacilityType.URGENT_CARE]: 'Urgent care',
@@ -101,11 +107,11 @@ export const facilityTypes = {
 
 export const healthServices = {
   All: 'All VA health services',
-  PrimaryCare: 'Primary Care',
-  MentalHealthCare: 'Mental Health Care',
-  DentalServices: 'Dental Services',
-  UrgentCare: 'Urgent Care',
-  EmergencyCare: 'Emergency Care',
+  PrimaryCare: 'Primary care',
+  MentalHealthCare: 'Mental health care',
+  DentalServices: 'Dental services',
+  UrgentCare: 'Urgent care',
+  EmergencyCare: 'Emergency care',
   Audiology: 'Audiology',
   Cardiology: 'Cardiology',
   Dermatology: 'Dermatology',
@@ -115,7 +121,7 @@ export const healthServices = {
   Optometry: 'Optometry',
   Orthopedics: 'Orthopedics',
   Urology: 'Urology',
-  WomensHealth: "Women's Health",
+  WomensHealth: "Women's health",
 };
 
 export const ccUrgentCareLabels = {
@@ -138,7 +144,7 @@ export const benefitsServices = {
   EducationClaimAssistance: 'Education claim help',
   FamilyMemberClaimAssistance: 'Family member claim help',
   HomelessAssistance: 'Help for homeless Veterans',
-  VAHomeLoanAssistance: 'VA Home Loan help',
+  VAHomeLoanAssistance: 'VA home loan help',
   InsuranceClaimAssistanceAndFinancialCounseling:
     'Insurance claim help and financial counseling',
   IntegratedDisabilityEvaluationSystemAssistance:
@@ -148,7 +154,7 @@ export const benefitsServices = {
   TransitionAssistance: 'Transition help',
   UpdatingDirectDepositInformation: 'Updating direct deposit information',
   VocationalRehabilitationAndEmploymentAssistance:
-    'Vocational Rehabilitation and Employment (VR&E) help',
+    'Vocational rehabilitation and employment help',
 };
 
 export const vetCenterServices = [
@@ -166,7 +172,9 @@ export const facilityTypesOptions = {
   [LocationType.HEALTH]: 'VA health',
   [LocationType.URGENT_CARE]: 'Urgent care',
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
+  [LocationType.URGENT_CARE_FARMACIES]:
+    'Urgent care pharmacies (in VA’s network)',
   [LocationType.BENEFITS]: 'VA benefits',
   [LocationType.CEMETARY]: 'VA cemeteries',
-  [LocationType.VET_CENTER]: 'Vet centers',
+  [LocationType.VET_CENTER]: 'Vet Centers',
 };

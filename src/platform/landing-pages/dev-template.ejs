@@ -5,9 +5,10 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
 
     <script>
-      {% include "src/site/assets/js/record-event.js" %}
+      <%= inlineScripts['record-event.js'] %>
     </script>
 
 
@@ -29,13 +30,9 @@
     <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/generated/style.css">
-    <link rel="stylesheet" href="/generated/<%= entryName %>.css">
+    <%= modifyStyleTags(htmlWebpackPlugin.tags.headTags) %>
 
-
-    <script defer nomodule src="/generated/polyfills.entry.js"></script>
-    <script defer src="/generated/vendor.entry.js"></script>
-    <script defer src="/generated/<%= entryName %>.entry.js"></script>
+    <%= modifyScriptTags(htmlWebpackPlugin.tags.bodyTags) %>
 
     <script type="text/javascript">
       window.VetsGov = window.VetsGov || {};
@@ -121,15 +118,32 @@
       </div>
     </header>
 
-    <!-- TODO: Add breadcrumbs -->
-
     <script type="text/javascript">
     (function() {
       var module = {};
-      {% include "src/site/assets/js/incompatible-browser.js" %}
+      <%= inlineScripts['incompatible-browser.js'] %>
       checkBrowserCompatibility();
     })();
     </script>
+
+    <!-- TODO: Add breadcrumbs -->
+    <% if (includeBreadcrumbs) { %>
+    <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
+      <ul id="va-breadcrumbs-list" class="row va-nav-breadcrumbs-list columns" tabindex="-1">
+      <% breadcrumbs_override.forEach(({ name, path }, index) => { %>
+        <li>
+          <a 
+            <% if (index === breadcrumbs_override.length - 1) { %>
+            aria-current="page"
+            <% } %>
+            href="<%= path %>">
+            <%= name %>
+          </a>
+        </li>
+      <% }) %>
+      </ul>
+    </nav>
+    <% } %>
 
     <!-- React root -->
     <div id="content">
@@ -138,7 +152,7 @@
           <div id="react-root">
             <div class="vads-u-margin-y--5">
               <div class="loading-indicator-container">
-                <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" tabIndex="0">
+                <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" tabindex="0">
                 </div>
                 <%= loadingMessage %>
               </div>
@@ -159,15 +173,15 @@
         - Abraham Lincoln
       -->
 
-    <!--
+    <% if (entryName === 'static-pages') { %>
     <script type="text/javascript">
       (function() {
       var module = {};
-      {% include "src/site/assets/js/static-page-widgets.js" %}
+      <%= inlineScripts['static-page-widgets.js'] %>
       mountWidgets(document.querySelectorAll('[data-widget-type]'), 6000);
       })();
     </script>
-    -->
+    <% } %>
 
 
   </body>

@@ -10,6 +10,7 @@ import './wysiwyg-analytics-setup';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startSideNav from './side-nav';
+import startBanners from './banners';
 import startMobileMenuButton from './mobile-menu-button';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
@@ -46,6 +47,7 @@ export default function startSitewideComponents(commonStore) {
   startAnnouncementWidget(commonStore);
   startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
   startSideNav(window.sideNav, commonStore);
+  startBanners();
   startMobileMenuButton(commonStore);
   startVAFooter(
     window.VetsGov.headerFooter.footerData,

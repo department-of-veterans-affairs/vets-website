@@ -35,25 +35,15 @@ describe('ProfileInfoTable', () => {
   it('should render an h3 tag as the first child element', () => {
     expect(wrapper.childAt(0).type()).to.equal('h3');
   });
-  it('does not set a role on the description list', () => {
-    const dl = wrapper.find('dl');
-    expect(dl.props().role).to.be.undefined;
-  });
-  it("does not set a role on each row's dt element", () => {
-    const tableRows = wrapper.find('dl > div.table-row');
-    tableRows.forEach(row => {
-      expect(row.find('dt').props.role).to.be.undefined;
-    });
-  });
-  it('renders a table row div for each entry in the data prop', () => {
-    const tableRows = wrapper.find('dl > div.table-row');
+  it('renders a table row li for each entry in the data prop', () => {
+    const tableRows = wrapper.find('ol > li.table-row');
     expect(tableRows.length).to.equal(props.data.length);
   });
   it('calls the dataTransformer once for each row of data', () => {
     expect(dataTransformerSpy.callCount).to.equal(props.data.length);
   });
-  it("renders each data object's title and value in a `div.table-row`", () => {
-    const tableRows = wrapper.find('dl > div.table-row');
+  it("renders each data object's title and value in a `li.table-row`", () => {
+    const tableRows = wrapper.find('ol > li.table-row');
     expect(tableRows.length).to.equal(props.data.length);
     tableRows.forEach((row, index) => {
       const { title, value } = props.data[index];
@@ -79,9 +69,9 @@ describe('ProfileInfoTable', () => {
       const h3 = wrapper.find('h3');
       expect(h3.length).to.equal(0);
     });
-    it('should render a description list as its first child', () => {
+    it('should render an ordered list as its first child', () => {
       const firstChild = wrapper.childAt(0);
-      expect(firstChild.type()).to.equal('dl');
+      expect(firstChild.type()).to.equal('ol');
     });
   });
   describe('when the `list` prop is set', () => {
@@ -96,13 +86,13 @@ describe('ProfileInfoTable', () => {
     afterEach(() => {
       wrapper.unmount();
     });
-    it('adds a `roll="list"` attribute to the description list', () => {
-      const dl = wrapper.find('dl');
-      expect(dl.props().role).to.equal('list');
+    it('adds a `roll="list"` attribute to the ordered list', () => {
+      const ol = wrapper.find('ol');
+      expect(ol.props().role).to.equal('list');
     });
-    it('adds a `role="listitem"` attribute to each row\'s dt element', () => {
-      const dt = wrapper.find('dl dt');
-      expect(dt.props().role).to.equal('listitem');
+    it('adds a `role="listitem"` attribute to each row\'s li element', () => {
+      const li = wrapper.find('li');
+      expect(li.props().role).to.equal('listitem');
     });
   });
 });

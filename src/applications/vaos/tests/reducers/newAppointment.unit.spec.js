@@ -46,6 +46,7 @@ import {
   REASON_MAX_CHARS,
   PURPOSE_TEXT,
   VHA_FHIR_ID,
+  FACILITY_TYPES,
 } from '../../utils/constants';
 
 import { transformParentFacilities } from '../../services/organization/transformers';
@@ -566,18 +567,19 @@ describe('VAOS reducer: newAppointment', () => {
           {
             clinicId: '455',
             facilityId: '983',
+            startDate: '',
           },
         ],
         clinics: {
           // eslint-disable-next-line camelcase
           var983_323: [
             {
-              clinicId: '455',
-              facilityId: '983',
+              id: 'var983_455',
+              resourceType: 'HealthcareService',
             },
             {
-              clinicId: '456',
-              facilityId: '983',
+              id: 'var983_456',
+              resourceType: 'HealthcareService',
             },
           ],
         },
@@ -605,7 +607,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       expect(
         newState.pages.clinicChoice.properties.clinicId.enum,
-      ).to.deep.equal(['455', 'NONE']);
+      ).to.deep.equal(['var983_455', 'NONE']);
       expect(
         newState.pages.clinicChoice.properties.clinicId.enumNames,
       ).to.deep.equal([
@@ -620,24 +622,26 @@ describe('VAOS reducer: newAppointment', () => {
           {
             clinicId: '455',
             facilityId: '983',
+            startDate: '',
           },
           {
             clinicId: '456',
             facilityId: '983',
+            startDate: '',
           },
         ],
         clinics: {
           // eslint-disable-next-line camelcase
           var983_323: [
             {
-              clinicId: '455',
-              facilityId: '983',
-              clinicFriendlyLocationName: 'Testing',
+              id: 'var983_455',
+              resourceType: 'HealthcareService',
+              serviceName: 'Testing',
             },
             {
-              clinicId: '456',
-              facilityId: '983',
-              clinicName: 'Testing real name',
+              id: 'var983_456',
+              resourceType: 'HealthcareService',
+              serviceName: 'Testing real name',
             },
           ],
         },
@@ -665,7 +669,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       expect(
         newState.pages.clinicChoice.properties.clinicId.enum,
-      ).to.deep.equal(['455', '456', 'NONE']);
+      ).to.deep.equal(['var983_455', 'var983_456', 'NONE']);
       expect(
         newState.pages.clinicChoice.properties.clinicId.enumNames,
       ).to.deep.equal([
@@ -770,20 +774,52 @@ describe('VAOS reducer: newAppointment', () => {
           .title,
       ).to.equal(REASON_ADDITIONAL_INFO_TITLES.request);
     });
+  });
 
-    it('page open should set max characters', async () => {
-      const currentState = {
-        ...defaultState,
-        flowType: FLOW_TYPES.DIRECT,
-        data: {
-          reasonForAppointment: 'other',
+  it('page open should set max characters', async () => {
+    const currentState = {
+      ...defaultState,
+      flowType: FLOW_TYPES.DIRECT,
+      data: {
+        reasonForAppointment: 'other',
+      },
+    };
+
+    const action = {
+      type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+      page: 'reasonForAppointment',
+      schema: {
+        type: 'object',
+        properties: {
+          reasonAdditionalInfo: {
+            type: 'string',
+          },
         },
-      };
+      },
+      uiSchema: {},
+    };
 
-      const action = {
-        type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
-        page: 'reasonForAppointment',
-        schema: {
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(
+      newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+        .maxLength,
+    ).to.equal(
+      REASON_MAX_CHARS.direct -
+        PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
+        2,
+    );
+  });
+
+  it('change should set max characters', async () => {
+    const currentState = {
+      ...defaultState,
+      flowType: FLOW_TYPES.DIRECT,
+      data: {
+        reasonForAppointment: 'medication-concern',
+      },
+      pages: {
+        reasonForAppointment: {
           type: 'object',
           properties: {
             reasonAdditionalInfo: {
@@ -791,60 +827,28 @@ describe('VAOS reducer: newAppointment', () => {
             },
           },
         },
-        uiSchema: {},
-      };
+      },
+    };
 
-      const newState = newAppointmentReducer(currentState, action);
+    const action = {
+      type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
+      page: 'reasonForAppointment',
+      uiSchema: {},
+      data: {
+        reasonForAppointment: 'other',
+      },
+    };
 
-      expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
-          .maxLength,
-      ).to.equal(
-        REASON_MAX_CHARS.direct -
-          PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
-          2,
-      );
-    });
+    const newState = newAppointmentReducer(currentState, action);
 
-    it('change should set max characters', async () => {
-      const currentState = {
-        ...defaultState,
-        flowType: FLOW_TYPES.DIRECT,
-        data: {
-          reasonForAppointment: 'medication-concern',
-        },
-        pages: {
-          reasonForAppointment: {
-            type: 'object',
-            properties: {
-              reasonAdditionalInfo: {
-                type: 'string',
-              },
-            },
-          },
-        },
-      };
-
-      const action = {
-        type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
-        page: 'reasonForAppointment',
-        uiSchema: {},
-        data: {
-          reasonForAppointment: 'other',
-        },
-      };
-
-      const newState = newAppointmentReducer(currentState, action);
-
-      expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
-          .maxLength,
-      ).to.equal(
-        REASON_MAX_CHARS.direct -
-          PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
-          2,
-      );
-    });
+    expect(
+      newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+        .maxLength,
+    ).to.equal(
+      REASON_MAX_CHARS.direct -
+        PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
+        2,
+    );
   });
 
   describe('CC preferences page', () => {
@@ -959,6 +963,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer({}, action);
       expect(newState.submitStatus).to.equal(FETCH_STATUS.succeeded);
+      expect(newState.submitStatusVaos400).to.equal(false);
     });
     it('should set error', () => {
       const action = {
@@ -967,8 +972,21 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer({}, action);
       expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.submitStatusVaos400).to.equal(undefined);
+    });
+
+    it('should set vaos 400 error', () => {
+      const action = {
+        type: FORM_SUBMIT_FAILED,
+        isVaos400Error: true,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.submitStatusVaos400).to.equal(true);
     });
   });
+
   it('should open the type of care page and prefill contact info', () => {
     const currentState = {
       data: {},
@@ -1069,6 +1087,8 @@ describe('VAOS reducer: newAppointment', () => {
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.data).to.deep.equal({});
+    expect(newState.eligibility).to.deep.equal({});
+    expect(newState.clinics).to.deep.equal({});
     expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.notStarted);
     expect(newState.eligibilityStatus).to.equal(FETCH_STATUS.notStarted);
   });

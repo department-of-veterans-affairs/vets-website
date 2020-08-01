@@ -30,6 +30,9 @@ import {
   servedAfter911,
   viewifyFields,
   activeServicePeriods,
+  formatDate,
+  formatDateRange,
+  isBDD,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -871,6 +874,7 @@ describe('526 v2 depends functions', () => {
       'view:claimingIncrease': true,
       'view:claimingNew': false,
     },
+    ratedDisabilities: [{}],
   };
   const newOnlyData = {
     'view:claimType': {
@@ -883,6 +887,7 @@ describe('526 v2 depends functions', () => {
       'view:claimingIncrease': true,
       'view:claimingNew': true,
     },
+    ratedDisabilities: [{}],
   };
   // Shouldn't be possible, but worth testing anyhow
   const noneSelected = {
@@ -890,6 +895,47 @@ describe('526 v2 depends functions', () => {
       'view:claimingIncrease': false,
       'view:claimingNew': false,
     },
+  };
+  const isBDDTrueData = {
+    serviceInformation: {
+      servicePeriods: [
+        {
+          dateRange: {
+            to: moment().format('YYYY-MM-DD'),
+          },
+        },
+        {
+          dateRange: {
+            to: moment()
+              .add(90, 'days')
+              .format('YYYY-MM-DD'),
+          },
+        },
+      ],
+    },
+  };
+  const isBDDLessThan90Data = {
+    serviceInformation: {
+      servicePeriods: [
+        {
+          dateRange: {
+            to: moment().format('YYYY-MM-DD'),
+          },
+        },
+        {
+          dateRange: {
+            to: moment()
+              .add(89, 'days')
+              .format('YYYY-MM-DD'),
+          },
+        },
+      ],
+    },
+  };
+
+  const empty = {
+    ratedDisabilities: [{}, {}],
+    'view:claimType': {},
   };
   describe('newOnly', () => {
     it('should return true if only new conditions are claimed', () => {
@@ -901,6 +947,7 @@ describe('526 v2 depends functions', () => {
     });
     it('should return false if no claim type is selected', () => {
       expect(newConditionsOnly(noneSelected)).to.be.false;
+      expect(newConditionsOnly(empty)).to.be.false;
     });
   });
   describe('increaseOnly', () => {
@@ -913,6 +960,45 @@ describe('526 v2 depends functions', () => {
     });
     it('should return false if no claim type is selected', () => {
       expect(increaseOnly(noneSelected)).to.be.false;
+      expect(increaseOnly(empty)).to.be.false;
+    });
+  });
+
+  describe('format date & date range', () => {
+    it('should format dates with full month names', () => {
+      expect(formatDate(true)).to.be.null;
+      expect(formatDate('foobar')).to.be.null;
+      expect(formatDate('2020-02-31')).to.be.null;
+      expect(formatDate('2020-01-31')).to.equal('January 31, 2020');
+      expect(formatDate('2020-04-05')).to.equal('April 5, 2020');
+      expect(formatDate('2020-05-05')).to.equal('May 5, 2020');
+      expect(formatDate('2020-06-15')).to.equal('June 15, 2020');
+      expect(formatDate('2020-07-25')).to.equal('July 25, 2020');
+      expect(formatDate('2020-08-05')).to.equal('August 5, 2020');
+      expect(formatDate('2020-12-05')).to.equal('December 5, 2020');
+    });
+    it('should format dates ranges', () => {
+      expect(
+        formatDateRange({ from: '2020-01-31', to: '2020-02-14' }),
+      ).to.equal('January 31, 2020 to February 14, 2020');
+      expect(
+        formatDateRange({ from: '2020-04-05', to: '2020-05-05' }),
+      ).to.equal('April 5, 2020 to May 5, 2020');
+      expect(
+        formatDateRange({ from: '2020-06-15', to: '2020-12-31' }),
+      ).to.equal('June 15, 2020 to December 31, 2020');
+    });
+  });
+
+  describe('isBDD', () => {
+    it('should return true if the most recent service period has a separation date 90 to 180 days from today', () => {
+      expect(isBDD(isBDDTrueData)).to.be.true;
+    });
+    it('should return false if the most recent service period has a separation before 90 days from today', () => {
+      expect(isBDD(isBDDLessThan90Data)).to.be.false;
+    });
+    it('should return false if no service period is provided with a separation date', () => {
+      expect(isBDD(null)).to.be.false;
     });
   });
 });

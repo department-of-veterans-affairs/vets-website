@@ -21,7 +21,9 @@ export async function getOrganizations({ siteIds, useVSP = false }) {
     try {
       const parentFacilities = await getParentFacilities(siteIds);
 
-      return transformParentFacilities(parentFacilities);
+      return transformParentFacilities(parentFacilities).sort(
+        (a, b) => (a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1),
+      );
     } catch (e) {
       if (e.errors) {
         throw mapToFHIRErrors(e.errors);
@@ -32,10 +34,11 @@ export async function getOrganizations({ siteIds, useVSP = false }) {
   }
 
   return fhirSearch({
-    query: `Organization?identifier=${siteIds.join(',')}`,
+    query: `Organization?identifier=${siteIds.join(',')}&_sort=name`,
     mock: () => import('./mock.json'),
   });
 }
+
 /**
  * Pulls the VistA id from an Organization resource
  *

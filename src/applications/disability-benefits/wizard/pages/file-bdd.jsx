@@ -3,7 +3,7 @@ import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
 import { BDD_INFO_URL } from '../../constants';
-import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
+import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
 
 function alertContent(getPageStateFromPageName) {
   const stateBDD = getPageStateFromPageName('bdd');
@@ -19,6 +19,10 @@ function alertContent(getPageStateFromPageName) {
     dateDischarge.diff(dateToday, 'days') + 1;
 
   const daysRemainingToFileBDD = differenceBetweenDatesInDays - 90;
+  const isLastDayToFileBDD = daysRemainingToFileBDD === 0;
+  const dateOfLastBDDEligibility = moment()
+    .add(daysRemainingToFileBDD, 'days')
+    .format('MMM D, YYYY');
 
   return (
     <>
@@ -28,14 +32,26 @@ function alertContent(getPageStateFromPageName) {
         disability benefits prior to separation.
       </p>
       <p>
-        {daysRemainingToFileBDD === 0 ? (
-          <>This is your last day</>
+        {isLastDayToFileBDD ? (
+          <>
+            This is your <b>last day</b>
+          </>
         ) : (
           <>
             You have <b>{daysRemainingToFileBDD}</b> day(s) left
           </>
         )}{' '}
-        to file a BDD claim.
+        to file a BDD claim.{' '}
+        {isLastDayToFileBDD ? (
+          <>
+            You have until <b>11:59 p.m. CST</b>
+          </>
+        ) : (
+          <>
+            You have until <b>{dateOfLastBDDEligibility} at 11:59 p.m. CST</b>
+          </>
+        )}{' '}
+        to complete and submit the form.
       </p>
       <p>
         Please be aware that you will need to be available for 45 days after you
@@ -47,7 +63,7 @@ function alertContent(getPageStateFromPageName) {
         </a>
       </p>
       <a
-        href={`${BDD_FORM_ROOT_URL}/introduction`}
+        href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
         className="usa-button-primary va-button-primary"
       >
         File a Benefits Delivery at Discharge claim

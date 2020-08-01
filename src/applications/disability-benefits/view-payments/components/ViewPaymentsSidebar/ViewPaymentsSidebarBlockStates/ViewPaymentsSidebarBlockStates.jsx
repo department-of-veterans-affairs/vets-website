@@ -7,8 +7,8 @@ export const firstSidebarBlock = {
       <p>
         You can sign in to VA.gov and change your address and other contact
         information. This will update your information across disability
-        compensation, pension benefits, claims and appeals, Vocational
-        Rehabilitation & Employment (VR&E), and VA health care.
+        compensation, pension benefits, claims and appeals, Veteran Readiness
+        and Employment (VR&E), and VA health care.
       </p>
       <a href="/profile">Link to profile page</a>
     </>

@@ -19,19 +19,6 @@ import omit from 'platform/utilities/data/omit';
  *
  * For use on a schema of type 'object' or 'array'.
  * Intended to wrap objects or arrays to avoid duplicate functionality here.
- *
- * ui:options available:
- *   viewComponent - ReactNode that should be shown instead of edit fields
- *                   It's passed the same formData the field is
- *   startInEdit   - Either a function or a value that will be evaluated as truthy or not
- *                   If a function is used, it's passed the formData and expects a boolean return value
- *   volatileData  - If this is truthy, the component pattern changes slightly so only completely new
- *                   data can be entered, but not edited.
- *                   This is useful for bank account information.
- *   reviewTitle   - The title shown on the review card. Defaults to ui:title
- *   editTitle     - The title shown on the edit card. Defaults to ui:title
- *   itemName      - The name of the set of data in the card. This shows up on the "New X" button if
- *                   volatileData is set to true.
  */
 export default class ReviewCardField extends React.Component {
   static defaultProps = {
@@ -428,10 +415,54 @@ export default class ReviewCardField extends React.Component {
 ReviewCardField.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
+      /**
+       * ReactNode that should be shown instead of edit fields It's passed the
+       * same formData the field is
+       */
       viewComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
         .isRequired,
+
+      /**
+       * Either a function or a value that will be evaluated as truthy or not. If
+       * a function is used, it's passed the formData and expects a boolean
+       * return value
+       */
+      startInEdit: PropTypes.oneOfType([PropTypes.func, PropTypes.any]),
+
+      /**
+       * If this is truthy, the component pattern changes slightly so only
+       * completely new data can be entered, but not edited. This is useful for
+       * displaying partial bank account information while requiring any new
+       * data to be filled in completely.
+       */
+      volatileData: PropTypes.bool,
+
+      /**
+       * The title shown on the review card. Defaults to ui:title.
+       */
+      reviewTitle: PropTypes.string,
+
+      /**
+       * The title shown on the edit card. Defaults to ui:title.
+       */
+      editTitle: PropTypes.string,
+
+      /**
+       * The name of the set of data in the card. This shows up on the "New X"
+       * button if volatileData is set to true.
+       */
+      itemName: PropTypes.string,
+
+      /**
+       * Replaces the "New" in "New X" when volatileData is true. For example,
+       * if set to "Update", the button for entering new bank account
+       * information would say something like "Update Bank Account" instead of
+       * "New Bank Account"
+       */
+      itemNameAction: PropTypes.string,
     }).isRequired,
     'ui:description': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    'ui:title': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     saveClickTrackEvent: PropTypes.object,
   }).isRequired,

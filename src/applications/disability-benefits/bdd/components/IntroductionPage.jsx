@@ -38,19 +38,21 @@ class IntroductionPage extends React.Component {
           retentionPeriod="1 year"
           downtime={this.props.route.formConfig.downtime}
         />
-        <h4>Follow the steps below to file a BDD claim.</h4>
+        <h2 className="vads-u-font-size--h4">
+          Follow the steps below to file a BDD claim.
+        </h2>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
               <div>
-                <h5>Prepare</h5>
+                <h3 className="vads-u-font-size--h5">Prepare</h3>
               </div>
               <div>
-                <h6>
+                <h4 className="vads-u-font-size--h6">
                   When you file a disability claim, you’ll have a chance to
                   provide evidence to support your claim. Evidence could
                   include:
-                </h6>
+                </h4>
               </div>
               <ul>
                 <li>
@@ -70,6 +72,10 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <p>
+                Please be aware that you will need to be available for 45 days
+                after you file in order to complete VA exams during this period.
+              </p>
+              <p>
                 If you need help filing a disability claim, you can contact a VA
                 regional office and ask to speak to a counselor. To find the
                 nearest regional office, please call{' '}
@@ -88,13 +94,13 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <div>
-                <h5>Apply</h5>
+                <h3 className="vads-u-font-size--h5">Apply</h3>
               </div>
               <div>
-                <h6>
+                <h4 className="vads-u-font-size--h6">
                   Complete the Benefits Delivery at Discharge form. These are
                   the steps you can expect:
-                </h6>
+                </h4>
               </div>
               <ul>
                 <li>Provide your Service Member information</li>
@@ -110,7 +116,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div>
-                <h5>VA Review</h5>
+                <h3 className="vads-u-font-size--h5">VA Review</h3>
               </div>
               <p>
                 We process applications in the order we receive them. The amount
@@ -121,7 +127,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div>
-                <h5>Decision</h5>
+                <h3 className="vads-u-font-size--h5">Decision</h3>
               </div>
               <p>
                 Once we’ve processed your claim, you’ll get a notice in the mail

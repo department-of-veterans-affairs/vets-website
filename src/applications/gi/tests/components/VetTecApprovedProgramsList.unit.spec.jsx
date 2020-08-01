@@ -5,31 +5,31 @@ import createCommonStore from 'platform/startup/store';
 
 import VetTecApprovedProgramsList from '../../components/vet-tec/VetTecApprovedProgramsList';
 
-const institution = {
-  programs: [
-    {
-      description: 'Program Name 1',
-      schoolLocale: 'City',
-      providerWebsite: 'https://galvanize.edu',
-      phoneAreaCode: '843',
-      phoneNumber: '333-3333',
-    },
-    {
-      description: 'Program Name 2',
-      schoolLocale: 'City',
-      providerWebsite: 'https://galvanize.edu',
-      phoneAreaCode: '843',
-      phoneNumber: '333-3333',
-    },
-  ],
+const programs = [
+  {
+    description: 'Program Name 1',
+    schoolLocale: 'City',
+    providerWebsite: 'https://galvanize.edu',
+    phoneAreaCode: '843',
+    phoneNumber: '333-3333',
+  },
+  {
+    description: 'Program Name 2',
+    schoolLocale: 'City',
+    providerWebsite: 'https://galvanize.edu',
+    phoneAreaCode: '843',
+    phoneNumber: '333-3333',
+  },
+];
+
+const defaultProps = {
+  store: createCommonStore(),
+  programs,
+  selectedProgram: 'Program Name 1',
 };
 
 describe('<VetTecApprovedProgramsList>', () => {
   it('should render', () => {
-    const defaultProps = {
-      store: createCommonStore(),
-      institution,
-    };
     const wrapper = shallow(<VetTecApprovedProgramsList {...defaultProps} />);
     const vdom = wrapper.html();
     expect(vdom).to.not.be.undefined;
@@ -37,32 +37,32 @@ describe('<VetTecApprovedProgramsList>', () => {
   });
 
   it('should display 0 hours as TBD', () => {
-    const defaultProps = {
-      store: createCommonStore(),
-      institution: {
-        ...institution,
-        programs: [
-          {
-            ...institution.programs[0],
-            lengthInHours: '0',
-          },
-        ],
-      },
+    const props = {
+      ...defaultProps,
+      programs: [
+        {
+          ...programs[0],
+          lengthInHours: '0',
+        },
+      ],
     };
-    const wrapper = mount(<VetTecApprovedProgramsList {...defaultProps} />);
-    expect(wrapper.find('.program-length').length).to.eq(1);
-    expect(wrapper.find('.program-length').text()).to.eq('TBD');
+    const wrapper = mount(<VetTecApprovedProgramsList {...props} />);
+    expect(
+      wrapper.find('.vet-tec-programs-table .program-length').length,
+    ).to.eq(1);
+    expect(
+      wrapper.find('.vet-tec-programs-table .program-length').text(),
+    ).to.eq('TBD');
     wrapper.unmount();
   });
 
-  it('should display check icon for selected program', () => {
-    const defaultProps = {
-      store: createCommonStore(),
-      institution,
+  it('should display (Your selected program) for selected program', () => {
+    const props = {
+      ...defaultProps,
       selectedProgram: 'Program Name 2',
     };
-    const wrapper = mount(<VetTecApprovedProgramsList {...defaultProps} />);
-    expect(wrapper.find('.sr-only').length).to.eq(1);
+    const wrapper = mount(<VetTecApprovedProgramsList {...props} />);
+    expect(wrapper.find('.vads-u-font-weight--bold').length).to.eq(2);
     wrapper.unmount();
   });
 });

@@ -90,17 +90,46 @@ describe('VAOS <ReviewPage>', () => {
         facilityDetails={{}}
       />,
     );
+    const alertBox = tree.find('AlertBox');
 
     expect(tree.find('LoadingButton').props().isLoading).to.be.false;
-    expect(tree.find('AlertBox').props().status).to.equal('error');
+    expect(alertBox.props().status).to.equal('error');
     expect(
-      tree
-        .find('AlertBox')
+      alertBox
         .dive()
         .find('FacilityAddress')
         .exists(),
     ).to.be.true;
+    expect(alertBox.dive().text()).contain('Something went wrong');
+    tree.unmount();
+  });
 
+  it('should render submit error with facility', () => {
+    const flowType = FLOW_TYPES.REQUEST;
+    const data = {};
+
+    const tree = shallow(
+      <ReviewPage
+        submitStatus={FETCH_STATUS.failed}
+        submitStatusVaos400
+        flowType={flowType}
+        data={data}
+        facilityDetails={{}}
+      />,
+    );
+    const alertBox = tree.find('AlertBox');
+
+    expect(tree.find('LoadingButton').props().isLoading).to.be.false;
+    expect(alertBox.props().status).to.equal('error');
+    expect(
+      alertBox
+        .dive()
+        .find('FacilityAddress')
+        .exists(),
+    ).to.be.true;
+    expect(alertBox.dive().text()).contain(
+      'We’re sorry. You can’t schedule your appointment on the VA appointments tool.',
+    );
     tree.unmount();
   });
 

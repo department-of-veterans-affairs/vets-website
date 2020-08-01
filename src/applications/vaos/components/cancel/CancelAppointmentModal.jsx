@@ -7,14 +7,22 @@ import CancelAppointmentSucceededModal from './CancelAppointmentSucceededModal';
 import CancelAppointmentConfirmationModal from './CancelAppointmentConfirmationModal';
 import CancelCernerAppointmentModal from './CancelCernerAppointmentModal';
 
-import { getVARFacilityId } from '../../services/appointment';
-import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
+import {
+  getVARFacilityId,
+  isVideoAppointment,
+} from '../../services/appointment';
+import {
+  FETCH_STATUS,
+  APPOINTMENT_TYPES,
+  APPOINTMENT_STATUS,
+} from '../../utils/constants';
 
 export default function CancelAppointmentModal(props) {
   const {
     showCancelModal,
     appointmentToCancel,
     cancelAppointmentStatus,
+    cancelAppointmentStatusVaos400,
     onClose,
     onConfirm,
     facility,
@@ -25,7 +33,10 @@ export default function CancelAppointmentModal(props) {
     return null;
   }
 
-  if (appointmentToCancel.vaos?.videoType) {
+  if (
+    isVideoAppointment(appointmentToCancel) &&
+    appointmentToCancel.status === APPOINTMENT_STATUS.booked
+  ) {
     return (
       <CancelVideoAppointmentModal onClose={onClose} facility={facility} />
     );
@@ -60,6 +71,8 @@ export default function CancelAppointmentModal(props) {
     return (
       <CancelAppointmentFailedModal
         appointment={appointmentToCancel}
+        status={cancelAppointmentStatus}
+        isBadRequest={cancelAppointmentStatusVaos400}
         facility={facility}
         onClose={onClose}
       />

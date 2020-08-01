@@ -10,18 +10,18 @@ const fakeStore = {
         supplies: [
           {
             productName: 'DOME',
-            productGroup: 'hearing aid accessories',
-            productId: '3',
+            productGroup: 'Accessory',
+            productId: 3,
             availableForReorder: true,
-            lastOrderDate: '2019-06-30',
-            nextAvailabilityDate: '2019-12-15',
+            lastOrderDate: '2020-03-30',
+            nextAvailabilityDate: '2020-12-15',
             quantity: 10,
             size: '6mm',
           },
           {
             productName: 'fake name 1',
-            productGroup: 'hearing aid accessories',
-            productId: '4',
+            productGroup: 'Accessory',
+            productId: 4,
             availableForReorder: true,
             lastOrderDate: '2020-01-18',
             nextAvailabilityDate: '2019-12-15',
@@ -30,15 +30,64 @@ const fakeStore = {
           },
           {
             productName: 'fake name 2',
-            productGroup: 'hearing aid accessories',
-            productId: '9',
+            productGroup: 'Accessory',
+            productId: 9,
             availableForReorder: false,
             lastOrderDate: '2020-03-02',
             nextAvailabilityDate: '2999-12-15',
             quantity: 2,
           },
         ],
-        selectedProducts: [{ productId: '3' }],
+        selectedProducts: [{ productId: 3 }],
+        eligibility: {
+          accessories: true,
+        },
+      },
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
+
+const fakeStoreNoEligibility2Years = {
+  getState: () => ({
+    form: {
+      data: {
+        supplies: [
+          {
+            productName: 'DOME',
+            productGroup: 'Accessory',
+            productId: 3,
+            availableForReorder: true,
+            lastOrderDate: '2015-06-30',
+            nextAvailabilityDate: '2099-12-15',
+            quantity: 10,
+            size: '6mm',
+          },
+          {
+            productName: 'fake name 1',
+            productGroup: 'Accessory',
+            productId: 4,
+            availableForReorder: true,
+            lastOrderDate: '2014-01-18',
+            nextAvailabilityDate: '2099-10-19',
+            quantity: 5,
+            size: '3mm',
+          },
+          {
+            productName: 'fake name 2',
+            productGroup: 'Accessory',
+            productId: 9,
+            availableForReorder: false,
+            lastOrderDate: '2016-03-02',
+            nextAvailabilityDate: '2999-08-03',
+            quantity: 2,
+          },
+        ],
+        selectedProducts: [{ productId: 3 }],
+        eligibility: {
+          accessories: false,
+        },
       },
     },
   }),
@@ -69,7 +118,7 @@ describe('Accessories', () => {
   });
   it('should display the last order date of the accessories', () => {
     const wrapper = mount(<Accessories store={fakeStore} />);
-    expect(wrapper.text()).to.include('Last order date:  06/30/2019');
+    expect(wrapper.text()).to.include('Last order date:  03/30/2020');
     expect(wrapper.text()).to.include('Last order date:  01/18/2020');
     expect(wrapper.text()).to.include('Last order date:  03/02/2020');
     wrapper.unmount();
@@ -88,9 +137,11 @@ describe('Accessories', () => {
     ).to.equal(3);
     wrapper.unmount();
   });
-  it('should display an alert box if the Veteran cannot order accessories', () => {
-    const wrapper = mount(<Accessories store={fakeStore} />);
-    expect(wrapper.find('AlertBox').length).to.equal(1);
+  it('should display an alert box if the Veteran is not eligible to order accessories and has not ordered in the last 2 years', () => {
+    const wrapper = mount(<Accessories store={fakeStoreNoEligibility2Years} />);
+    expect(wrapper.find('.accessories-two-year-alert-content').length).to.equal(
+      1,
+    );
     wrapper.unmount();
   });
 });

@@ -17,8 +17,9 @@ export default function OnState() {
             <p>
               You and the Veteran will need to apply together and participate in
               an application process&nbsp;to determine if you’re eligible for
-              the program. You'll both need to sign and date the application,
-              and answer all questions for your role.
+              the Program of Comprehensive Assistance for Family Caregivers.
+              You'll both need to sign and date the application, and answer all
+              questions for your role.
             </p>
 
             <p>
@@ -28,7 +29,11 @@ export default function OnState() {
                 className="usa-button-primary va-button-primary"
                 href={caregiverFormUrl}
               >
-                Apply for comprehensive caregiver assistance
+                Apply for{' '}
+                <span className="vads-u-visibility--screen-reader">
+                  the program of comprehensive
+                </span>{' '}
+                caregiver assistance
               </a>
             </p>
 

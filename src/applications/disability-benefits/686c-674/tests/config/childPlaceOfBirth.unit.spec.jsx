@@ -6,7 +6,9 @@ import {
   DefinitionTester,
   fillData,
   selectCheckbox,
+  selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
+import { changeDropdown } from '../helpers/index';
 
 import formConfig from '../../config/form';
 
@@ -62,7 +64,7 @@ describe('686 add child - child place of birth', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -80,10 +82,10 @@ describe('686 add child - child place of birth', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_placeOfBirth_state', 'California');
+    changeDropdown(form, 'select#root_placeOfBirth_state', 'CA');
     fillData(form, 'input#root_placeOfBirth_city', 'Someplace');
     selectCheckbox(form, 'root_childStatus_biological', true);
-
+    selectRadio(form, 'root_previouslyMarried', 'No');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

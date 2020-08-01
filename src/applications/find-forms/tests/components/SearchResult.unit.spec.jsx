@@ -25,6 +25,7 @@ describe('Find VA Forms <FindVaForms>', () => {
       'Information for Pre-Complaint Processing',
       'VA10192',
       '12-22-2020',
+      'Form last updated',
     ].forEach(text => {
       expect(treeText).to.include(text);
     });

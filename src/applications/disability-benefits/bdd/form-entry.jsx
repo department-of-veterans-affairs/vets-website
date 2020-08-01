@@ -1,5 +1,6 @@
 import 'platform/polyfills';
 import '../all-claims/sass/disability-benefits.scss';
+import './sass/bdd.scss';
 
 import startApp from 'platform/startup';
 

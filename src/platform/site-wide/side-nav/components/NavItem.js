@@ -6,7 +6,13 @@ import classNames from 'classnames';
 import NavItemRow from './NavItemRow';
 import { NavItemPropTypes } from '../prop-types';
 
-const NavItem = ({ depth, item, renderChildItems, toggleItemExpanded }) => {
+const NavItem = ({
+  depth,
+  item,
+  renderChildItems,
+  trackEvents,
+  navExpanded,
+}) => {
   // Derive the item properties.
   const { expanded, hasChildren, id, isSelected } = item;
 
@@ -32,15 +38,12 @@ const NavItem = ({ depth, item, renderChildItems, toggleItemExpanded }) => {
       className={classNames(`va-sidenav-level-${depth}`, {
         active: isSelected,
         selected: shouldHaveSelectedClassName,
+        'vads-u-display--none': !navExpanded,
       })}
       key={id}
     >
       {/* Nav Item Row */}
-      <NavItemRow
-        depth={depth}
-        item={item}
-        toggleItemExpanded={toggleItemExpanded}
-      />
+      <NavItemRow depth={depth} item={item} trackEvents={trackEvents} />
 
       {/* Child Items */}
       {(expanded || depth >= 3) &&
@@ -55,14 +58,15 @@ NavItem.propTypes = {
   index: PropTypes.number.isRequired,
   renderChildItems: PropTypes.func.isRequired,
   sortedNavItems: PropTypes.arrayOf(NavItemPropTypes).isRequired,
-  toggleItemExpanded: PropTypes.func.isRequired,
+  trackEvents: PropTypes.func.isRequired,
+  navExpanded: PropTypes.bool,
 };
 
 NavItem.defaultProps = {
   item: {},
   renderChildItems: () => {},
   sortedNavItems: [],
-  toggleItemExpanded: () => {},
+  trackEvents: () => {},
 };
 
 export default NavItem;

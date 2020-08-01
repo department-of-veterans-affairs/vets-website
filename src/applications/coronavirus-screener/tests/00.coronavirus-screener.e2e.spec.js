@@ -1,15 +1,31 @@
-const Timeouts = require('../../../platform/testing/e2e/timeouts');
-const E2eHelpers = require('../../../platform/testing/e2e/helpers');
-const manifest = require('../manifest.json');
+import { normal } from 'platform/testing/e2e/timeouts';
+import { createE2eTest, baseUrl } from 'platform/testing/e2e/helpers';
+import {
+  testQuestionScenario,
+  visitorPass,
+  visitorScreening,
+  staffPass,
+  staffScreening,
+} from './question-scenario-helper';
 
-module.exports = E2eHelpers.createE2eTest(client => {
+// test scenarios for visitors and staff
+export default createE2eTest(client => {
   client
-    .url(`${E2eHelpers.baseUrl}/covid19screen`)
-    .waitForElementVisible('body', Timeouts.normal)
+    .url(`${baseUrl}/covid19screen`)
+    .waitForElementVisible('body', normal)
+    .assert.visible('div[id=question-isStaff]')
+    .assert.visible('div[class*=covid-screener-results-incomplete]')
     .axeCheck('.main');
 
-  client.end();
-});
+  // visitor passing answers
+  testQuestionScenario({ scenario: visitorPass, client });
 
-module.exports['@disabled'] =
-  !manifest.production || __BUILDTYPE__ !== 'production';
+  // visitor needs more screening
+  testQuestionScenario({ scenario: visitorScreening, client });
+
+  // staff passing answers
+  testQuestionScenario({ scenario: staffPass, client });
+
+  // staff needs more screening
+  testQuestionScenario({ scenario: staffScreening, client });
+});

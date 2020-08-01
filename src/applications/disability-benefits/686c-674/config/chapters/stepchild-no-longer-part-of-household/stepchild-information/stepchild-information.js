@@ -27,6 +27,8 @@ export const uiSchema = {
       supportingStepchild: {
         'ui:widget': 'yesNo',
         'ui:title': 'Are you still supporting this stepchild?',
+        'ui:required': formData =>
+          isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
       },
       livingExpensesPaid: {
         'ui:widget': 'radio',
@@ -36,6 +38,8 @@ export const uiSchema = {
           expandUnderCondition: true,
           keepInPageOnReview: true,
         },
+        'ui:required': (formData, index) =>
+          formData?.stepChildren[`${index}`]?.supportingStepchild,
       },
       whoDoesTheStepchildLiveWith: {
         'ui:title': 'Who does this stepchild live with?',

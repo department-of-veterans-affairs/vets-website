@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import {
   clearAutocompleteSuggestions,
@@ -128,9 +127,17 @@ export class LandingPage extends React.Component {
   };
 
   render() {
+    const buttonLabel = this.props.gibctSearchEnhancements
+      ? 'Search'
+      : 'Search Schools';
+
+    const searchLabel = this.props.gibctSearchEnhancements
+      ? 'Enter a school, location, or employer name'
+      : 'Enter a city, school or employer name';
+
     return (
       <span className="landing-page">
-        <div className="row">
+        <div className="row vads-u-margin--0">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <h1>GI Bill® Comparison Tool</h1>
             <p className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-color--gray-dark">
@@ -144,6 +151,9 @@ export class LandingPage extends React.Component {
                   {...this.props.eligibility}
                   hideModal={this.props.hideModal}
                   showModal={this.props.showModal}
+                  gibctCh33BenefitRateUpdate={
+                    this.props.gibctCh33BenefitRateUpdate
+                  }
                 />
               ) : (
                 <EligibilityForm
@@ -166,6 +176,7 @@ export class LandingPage extends React.Component {
               )}
               {!isVetTecSelected(this.props.filters) && (
                 <KeywordSearch
+                  label={searchLabel}
                   autocomplete={this.props.autocomplete}
                   location={this.props.location}
                   onClearAutocompleteSuggestions={
@@ -185,7 +196,7 @@ export class LandingPage extends React.Component {
                 type="submit"
                 id="search-button"
               >
-                <span>Search Schools</span>
+                <span>{buttonLabel}</span>
               </button>
             </form>
           </div>
@@ -207,6 +218,12 @@ const mapStateToProps = state => ({
   gibctEstimateYourBenefits: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
   ],
+  gibctSearchEnhancements: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSearchEnhancements
+  ],
+  gibctCh33BenefitRateUpdate: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
+  ],
 });
 
 const mapDispatchToProps = {
@@ -220,9 +237,7 @@ const mapDispatchToProps = {
   hideModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(LandingPage),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LandingPage);

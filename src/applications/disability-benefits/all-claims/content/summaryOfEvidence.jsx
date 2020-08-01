@@ -10,16 +10,30 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     formData,
     [],
   );
+  const serviceTreatmentRecordsUploads = _.get(
+    'serviceTreatmentRecordsAttachments',
+    formData,
+    [],
+  );
   const layEvidenceUploads = _.get('additionalDocuments', formData, []);
   const evidenceLength = !!vaEvidence.concat(
     privateEvidence,
     privateEvidenceUploads,
+    serviceTreatmentRecordsUploads,
     layEvidenceUploads,
   ).length;
   const selectedEvidence = _.get('view:hasEvidence', formData, false);
+  const serviceTreatmentRecordsSelected = _.get(
+    'view:uploadServiceTreatmentRecordsQualifier.view:hasServiceTreatmentRecordsToUpload',
+    formData,
+    false,
+  );
   // Evidence isn't always properly cleared out from form data if removed so
   // need to also check that 'no evidence' was explicitly selected
-  if (!evidenceLength || !selectedEvidence) {
+  if (
+    !evidenceLength ||
+    (!selectedEvidence && !serviceTreatmentRecordsSelected)
+  ) {
     return (
       <p>
         You haven’t uploaded any evidence. This may delay us processing your
@@ -33,6 +47,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   let privateContent = null;
   let layContent = null;
   let privateEvidenceContent = null;
+  let serviceTreatmentRecordsContent = null;
 
   const vaEvidenceSelected = _.get(DATA_PATHS.hasVAEvidence, formData, false);
   const privateEvidenceSelected = _.get(
@@ -98,6 +113,21 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     );
   }
 
+  if (
+    serviceTreatmentRecordsUploads.length &&
+    serviceTreatmentRecordsSelected
+  ) {
+    const serviceTreatmentRecordsUploadsList = serviceTreatmentRecordsUploads.map(
+      upload => <li key={upload.name}>{upload.name}</li>,
+    );
+    serviceTreatmentRecordsContent = (
+      <div>
+        <p>We'll submit the below service treatment records you uploaded:</p>
+        <ul>{serviceTreatmentRecordsUploadsList}</ul>
+      </div>
+    );
+  }
+
   if (layEvidenceUploads.length && additionalEvidenceSelected) {
     const layEvidenceUploadsList = layEvidenceUploads.map(upload => (
       <li key={upload.name}>{upload.name}</li>
@@ -115,6 +145,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
       {vaContent}
       {privateContent}
       {privateEvidenceContent}
+      {serviceTreatmentRecordsContent}
       {layContent}
     </div>
   );

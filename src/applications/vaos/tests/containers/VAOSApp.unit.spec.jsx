@@ -144,7 +144,7 @@ describe('VAOS <VAOSApp>', () => {
     expect(window.location.replace.firstCall.args[0]).to.contain('verify');
     expect(tree.find('RequiredLoginView').exists()).to.be.true;
 
-    window.location.replace = oldLocation;
+    window.location = oldLocation;
     tree.unmount();
   });
 });

@@ -59,7 +59,7 @@ describe('ErrorMessage', () => {
     const fakeStore = {
       getState: () => ({
         mdot: {
-          errorCode: 'MDOT_DECEASED_VETERAN',
+          errorCode: 'MDOT_DECEASED',
           pending: false,
           nextAvailabilityDate: '2019-04-01',
         },
@@ -92,7 +92,7 @@ describe('ErrorMessage', () => {
     const fakeStore = {
       getState: () => ({
         mdot: {
-          errorCode: 'MDOT_VETERAN_NOT_FOUND',
+          errorCode: 'MDOT_INVALID',
           nextAvailabilityDate: '2019-04-01',
         },
       }),
@@ -154,6 +154,21 @@ describe('ErrorMessage', () => {
     ).to.equal(
       'If you need to place an order, call the DLC Customer Service Section at 303-273-6200 or email dalc.css@va.gov.',
     );
+    errorMessage.unmount();
+  });
+  it('should render server error content', () => {
+    const fakeStore = {
+      getState: () => ({
+        mdot: {
+          errorCode: 'MDOT_SERVER_ERROR',
+          nextAvailabilityDate: '',
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const errorMessage = mount(<ErrorMessage store={fakeStore} />);
+    expect(errorMessage.find('.mdot-server-error-alert')).length.to.be(1);
     errorMessage.unmount();
   });
 });

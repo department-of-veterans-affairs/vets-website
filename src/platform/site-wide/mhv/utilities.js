@@ -4,7 +4,7 @@ import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
 const eauthPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
 const mhvPrefix = environment.isProduction() ? 'www' : 'mhv-syst';
 
-// TODO: Add labs-and-tests route
+// TODO: Update labs-and-tests route once deep link is provided
 const mhvToEauthRoutes = {
   'download-my-data': 'eauth?deeplinking=download_my_data',
   'web/myhealthevet/refill-prescriptions':
@@ -12,15 +12,16 @@ const mhvToEauthRoutes = {
   'secure-messaging': 'eauth?deeplinking=secure_messaging',
   appointments: 'eauth?deeplinking=appointments',
   home: 'eauth',
+  'labs-tests': 'eauth',
 };
 
 // An MHV URL is a function of the following parameters:
 // 1. Whether this is a production or staging environment
-// 2. Whether SSOe is in use (enabled site wide, and for this particular user)
+// 2. Whether the current user is authenticated with SSOe
 // 3. The specific MHV path being accessed
-function mhvUrl(useSSOe, path) {
+function mhvUrl(authenticatedWithSSOe, path) {
   const normPath = path.startsWith('/') ? path.substring(1) : path;
-  if (useSSOe) {
+  if (authenticatedWithSSOe) {
     const eauthDeepLink = mhvToEauthRoutes[normPath];
     return `https://${eauthPrefix}eauth.va.gov/mhv-portal-web/${eauthDeepLink}`;
   }

@@ -58,8 +58,9 @@ const BankInfoForm = ({
   onClose,
 }) => (
   <SchemaForm
-    // name and title are used internally by the SchemaForm
+    addNameAttribute
     name="Direct Deposit Information"
+    // title is required by the SchemaForm and used internally
     title="Direct Deposit Information"
     schema={schema}
     uiSchema={uiSchema}

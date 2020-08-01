@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { countries } from 'vets-json-schema/dist/constants.json';
 
 const getField = (formData, possibilities) =>
   possibilities.reduce((value, field) => {
@@ -15,8 +14,6 @@ const addLine = line => line && [line, <br key={line} />];
 const AddressViewField = ({ formData }) => {
   // unchanged address variable names
   const { city, state, postalCode, country } = formData;
-  const fullCountryName =
-    countries.find(countryObj => countryObj.value === country)?.label || '';
   // this should cover all current address use cases
   // street, line2, line3, postalCode = platform address schema
   // addressLine1, addressLine2, addressLine3 = 526 & HLR
@@ -30,8 +27,8 @@ const AddressViewField = ({ formData }) => {
   const province = getField(formData, ['province']);
 
   const getAddressFormat = () => {
-    if (fullCountryName) {
-      return fullCountryName === 'United States' ? 'domestic' : 'international';
+    if (country) {
+      return country === 'United States' ? 'domestic' : 'international';
     }
     return undefined;
   };
@@ -47,7 +44,7 @@ const AddressViewField = ({ formData }) => {
   /* eslint-enable no-unused-vars */
 
   const isAddressMissing = Object.values(alteredAddress).every(prop => !prop);
-  const isBaseAddressDataValid = street && fullCountryName && city;
+  const isBaseAddressDataValid = street && country && city;
   const isDomesticAddressValid =
     addressFormat === 'domestic' && state && postalCode;
   const isInternationalAddressValid =
@@ -78,7 +75,7 @@ const AddressViewField = ({ formData }) => {
                 {isDomesticAddressValid && `${city}, ${state} ${postalString}`}
                 {isInternationalAddressValid &&
                   `${city}, ${province} ${internationalPostalCode}`}
-                <span className="vads-u-display--block">{fullCountryName}</span>
+                <span className="vads-u-display--block">{country}</span>
               </>
             )}
           </p>
@@ -101,7 +98,7 @@ AddressViewField.defaultProps = {
 
 AddressViewField.propTypes = {
   formData: PropTypes.shape({
-    fullCountryName: PropTypes.string,
+    country: PropTypes.string,
     city: PropTypes.string,
     state: PropTypes.string,
 

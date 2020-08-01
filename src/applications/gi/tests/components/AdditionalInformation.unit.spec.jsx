@@ -10,7 +10,6 @@ describe('<AdditionalInformation>', () => {
     institution: { type: 'PUBLIC' },
     constants: { FISCALYEAR: moment().format('YYYY') },
     onShowModal: () => {},
-    eduSection103: false,
   };
 
   it('renders', () => {
@@ -22,7 +21,6 @@ describe('<AdditionalInformation>', () => {
   describe('section 103 info', () => {
     const props = {
       ...defaultProps,
-      eduSection103: true,
       institution: {
         ...defaultProps.institution,
         section103Message: 'Test message',

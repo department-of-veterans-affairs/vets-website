@@ -1,5 +1,4 @@
 import React from 'react';
-
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 
@@ -9,7 +8,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants.js';
 import recordEvent from 'platform/monitoring/record-event';
 
 import hcaManifest from 'applications/hca/manifest.json';
-import dependentStatusManifest from 'applications/disability-benefits/686/manifest.json';
+import dependentStatusManifest from 'applications/disability-benefits/686c-674/manifest.json';
 import feedbackManifest from 'applications/edu-benefits/feedback-tool/manifest.json';
 import burialsManifest from 'applications/burials/manifest.json';
 import edu1990Manifest from 'applications/edu-benefits/1990/manifest.json';
@@ -23,11 +22,11 @@ import edu0994Manifest from 'applications/edu-benefits/0994/manifest.json';
 import preneedManifest from 'applications/pre-need/manifest.json';
 import pensionManifest from 'applications/pensions/manifest.json';
 import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
-import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
 import hlrManifest from 'applications/disability-benefits/996/manifest.json';
+import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 
 import hcaConfig from 'applications/hca/config/form.js';
-import dependentStatusConfig from 'applications/disability-benefits/686/config/form';
+import dependentStatusConfig from 'applications/disability-benefits/686c-674/config/form';
 import feedbackConfig from 'applications/edu-benefits/feedback-tool/config/form.js';
 import burialsConfig from 'applications/burials/config/form.js';
 import edu1990Config from 'applications/edu-benefits/1990/config/form.js';
@@ -40,14 +39,13 @@ import edu0993Config from 'applications/edu-benefits/0993/config/form.js';
 import edu0994Config from 'applications/edu-benefits/0994/config/form.js';
 import preneedConfig from 'applications/pre-need/config/form.jsx';
 import pensionConfig from 'applications/pensions/config/form.js';
-import disability526Config from 'applications/disability-benefits/526EZ/config/form.js';
-import bddConfig from 'applications/disability-benefits/bdd/config/form.js';
+import disability526Config from 'applications/disability-benefits/all-claims/config/form.js';
 import hlrConfig from 'applications/disability-benefits/996/config/form';
+import mdotConfig from 'applications/disability-benefits/2346/config/form';
 
 export const formConfigs = {
   [VA_FORM_IDS.FORM_10_10EZ]: hcaConfig,
   [VA_FORM_IDS.FORM_21_526EZ]: disability526Config,
-  [VA_FORM_IDS.FORM_21_526EZ_BDD]: bddConfig,
   [VA_FORM_IDS.FORM_21_686C]: dependentStatusConfig,
   [VA_FORM_IDS.FORM_21P_527EZ]: pensionConfig,
   [VA_FORM_IDS.FORM_21P_530]: burialsConfig,
@@ -62,11 +60,11 @@ export const formConfigs = {
   [VA_FORM_IDS.FORM_40_10007]: preneedConfig,
   [VA_FORM_IDS.FEEDBACK_TOOL]: feedbackConfig,
   [VA_FORM_IDS.FORM_20_0996]: hlrConfig,
+  [VA_FORM_IDS.FORM_VA_2346A]: mdotConfig,
 };
 
 export const formBenefits = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
-  [VA_FORM_IDS.FORM_21_526EZ_BDD]: 'Benefits Delivery at Discharge',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'Veterans pension benefits',
   [VA_FORM_IDS.FORM_21P_530]: 'burial benefits',
   [VA_FORM_IDS.FORM_10_10EZ]: 'health care benefits',
@@ -83,6 +81,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
+  [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
@@ -111,16 +110,17 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
     } else {
       formNumber = `(${key})`;
     }
-    const formDescription = `${formBenefits[key]} application ${formNumber}`;
-    descriptions[key] = formDescription; // eslint-disable-line no-param-reassign
-    return descriptions;
+    let formDescription = `${formBenefits[key]} application ${formNumber}`;
+    if (key === VA_FORM_IDS.FORM_VA_2346A) {
+      formDescription = `${formBenefits[key]} ${formNumber}`;
+    }
+    return { ...descriptions, [key]: formDescription };
   },
   {},
 );
 
 export const formLinks = {
   [VA_FORM_IDS.FORM_21_526EZ]: `${DISABILITY_526_V2_ROOT_URL}/`,
-  [VA_FORM_IDS.FORM_21_526EZ_BDD]: `${BDD_FORM_ROOT_URL}/`,
   [VA_FORM_IDS.FORM_21P_527EZ]: `${pensionManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21P_530]: `${burialsManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_10_10EZ]: `${hcaManifest.rootUrl}/`,
@@ -136,11 +136,11 @@ export const formLinks = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${feedbackManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21_686C]: `${dependentStatusManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_20_0996]: `${hlrManifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_VA_2346A]: `${mdotManifest.rootUrl}/`,
 };
 
 export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability-526EZ-',
-  [VA_FORM_IDS.FORM_21_526EZ_BDD]: 'disability-526EZ-bdd-',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'pensions-527EZ-',
   [VA_FORM_IDS.FORM_21P_530]: 'burials-530-',
   [VA_FORM_IDS.FORM_10_10EZ]: 'hca-',
@@ -155,14 +155,14 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_40_10007]: 'preneed-',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
   [VA_FORM_IDS.FORM_21_686C]: '686-',
-  [VA_FORM_IDS.FORM_20_0996]: 'hlr-0996-',
+  [VA_FORM_IDS.FORM_20_0996]: 'decision-reviews-va20-0996-',
+  [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
 };
 
 export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_10_10EZ,
   VA_FORM_IDS.FORM_21_686C,
   VA_FORM_IDS.FORM_21_526EZ,
-  VA_FORM_IDS.FORM_21_526EZ_BDD,
   VA_FORM_IDS.FORM_21P_527EZ,
   VA_FORM_IDS.FORM_21P_530,
   VA_FORM_IDS.FORM_22_0993,
@@ -176,6 +176,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.FORM_20_0996,
+  VA_FORM_IDS.FORM_VA_2346A,
 ]);
 
 // A dict of presentable form IDs. Generally this is just the form ID itself

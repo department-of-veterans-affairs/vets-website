@@ -1,11 +1,26 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-.covid-screener-results {
-  background-color: $color-gray-dark;
-  &.covid-screener-results-pass {
-    i {font-size: 500%;}
-    background-color: $color-primary;
+.covid-screener {
+  *:not(.fas) {
+    font-family: Source Sans Pro,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
   }
-  text-align: center;
-  color: #fff;
+  .covid-screener-date {
+    margin: 2em 0 2em 0;
+    h2,h3,h4 { margin: 0; }
+    h4 { font-size: 150%; }
+  }
+  .covid-screener-results {
+    h3 { font-size: 300%; }
+    background-color: $color-primary-alt-lightest;
+    p {
+      font-weight: bold !important;
+    }
+    text-align: center;
+    color: $color-primary-darkest;
+  }
+  .covid-screener-results-pass {
+    i {font-size: 10em;}
+    background-color: $color-primary;
+    color: $color-white;
+  }
 }

@@ -1,9 +1,6 @@
-import environment from 'platform/utilities/environment';
-
 import addJumplinkListeners from './addJumpLinkListeners';
 import addQaSectionListeners from './addQaSectionListeners';
 import addTeaserListeners from './addTeaserListeners';
-import addHomepageBannerListeners from './addHomepageBannerListeners';
 import addButtonLinkListeners from './addButtonLinkListeners';
 
 /**
@@ -18,20 +15,21 @@ PAGE_EVENT_LISTENERS.set('/coronavirus-veteran-frequently-asked-questions/', [
   addQaSectionListeners,
 ]);
 
-PAGE_EVENT_LISTENERS.set('/', [addHomepageBannerListeners]);
-
 function attachAnalytics() {
-  const specialListeners = PAGE_EVENT_LISTENERS.get(document.location.pathname);
+  try {
+    const specialListeners = PAGE_EVENT_LISTENERS.get(
+      document.location.pathname,
+    );
 
-  if (specialListeners) {
-    specialListeners.forEach(f => f());
-  }
+    if (specialListeners) {
+      specialListeners.forEach(f => f());
+    }
 
-  // Global listeners
-  addTeaserListeners();
-
-  if (!environment.isProduction()) {
+    // Global listeners
+    addTeaserListeners();
     addButtonLinkListeners();
+  } catch (error) {
+    // Catch any error that might occur while trying to attach listeners.
   }
 }
 

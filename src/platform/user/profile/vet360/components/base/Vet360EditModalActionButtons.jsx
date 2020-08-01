@@ -81,9 +81,6 @@ class Vet360EditModalActionButtons extends React.Component {
   render() {
     const alertContent = (
       <div>
-        <h3 tabIndex="-1" id="deleteConfirmationHeading">
-          Are you sure?
-        </h3>
         <p>
           This will delete your {toLower(this.props.title)} across many VA
           records. You can always come back to your profile later if you'd like
@@ -108,7 +105,18 @@ class Vet360EditModalActionButtons extends React.Component {
     );
 
     if (this.state.deleteInitiated) {
-      return <AlertBox isVisible status="warning" content={alertContent} />;
+      return (
+        <AlertBox
+          isVisible
+          status="warning"
+          headline={
+            <span tabIndex="-1" id="deleteConfirmationHeading">
+              Are you sure?
+            </span>
+          }
+          content={alertContent}
+        />
+      );
     }
 
     return (

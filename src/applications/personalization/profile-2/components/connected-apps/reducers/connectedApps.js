@@ -1,7 +1,7 @@
 import {
   LOADING_CONNECTED_APPS,
-  FINISHED_CONNECTED_APPS,
-  ERROR_CONNECTED_APPS,
+  FINISHED_LOADING_CONNECTED_APPS,
+  ERROR_LOADING_CONNECTED_APPS,
   DELETING_CONNECTED_APP,
   ERROR_DELETING_CONNECTED_APP,
   FINISHED_DELETING_CONNECTED_APP,
@@ -10,19 +10,19 @@ import {
 
 const initialState = {
   apps: [],
-  loading: false,
   errors: [],
+  loading: false,
 };
 
-function connectedApps(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case LOADING_CONNECTED_APPS:
       return { ...state, loading: true };
 
-    case FINISHED_CONNECTED_APPS:
+    case FINISHED_LOADING_CONNECTED_APPS:
       return { ...state, apps: action.data, loading: false, errors: [] };
 
-    case ERROR_CONNECTED_APPS:
+    case ERROR_LOADING_CONNECTED_APPS:
       return { ...state, loading: false, errors: action.errors };
 
     case DELETING_CONNECTED_APP: {
@@ -32,7 +32,7 @@ function connectedApps(state = initialState, action) {
         }
         return app;
       });
-      return { ...state, apps };
+      return { ...state, apps, errors: [] };
     }
 
     case ERROR_DELETING_CONNECTED_APP: {
@@ -63,6 +63,4 @@ function connectedApps(state = initialState, action) {
     default:
       return state;
   }
-}
-
-export default connectedApps;
+};

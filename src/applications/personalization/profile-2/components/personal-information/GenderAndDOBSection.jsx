@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
@@ -20,6 +21,7 @@ const renderDOB = dob => (dob ? moment(dob).format('LL') : notSetText);
 const GenderAndDOBSection = ({ gender, dob, className }) => (
   <div className={className}>
     <ProfileInfoTable
+      title="Personal information"
       data={[
         { title: 'Date of birth', value: renderDOB(dob) },
         { title: 'Gender', value: renderGender(gender) },
@@ -51,6 +53,12 @@ const GenderAndDOBSection = ({ gender, dob, className }) => (
     </AdditionalInfo>
   </div>
 );
+
+GenderAndDOBSection.propTypes = {
+  className: PropTypes.string,
+  gender: PropTypes.string.isRequired,
+  dob: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = state => ({
   gender: state.vaProfile?.personalInformation?.gender,

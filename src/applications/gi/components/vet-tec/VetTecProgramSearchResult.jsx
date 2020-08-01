@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import appendQuery from 'append-query';
 
 import environment from 'platform/utilities/environment';
 import {
@@ -15,7 +16,7 @@ import {
 } from '../../utils/render';
 
 function VetTecProgramSearchResult(props) {
-  const { version, result, constants, id, handleLinkClick } = props;
+  const { version, result, constants, id } = props;
   const {
     facilityCode,
     description,
@@ -37,28 +38,22 @@ function VetTecProgramSearchResult(props) {
 
   const displayHours = lengthInHours === '0' ? 'TBD' : `${lengthInHours} hours`;
 
-  const linkTo = {
-    pathname: `profile/${facilityCode}/${description}`,
-    query: version ? { version } : {},
-  };
-
-  const handleLinkClickEvent = event => {
-    event.preventDefault();
-    handleLinkClick(facilityCode, description);
-  };
+  const linkTo = environment.isProduction()
+    ? {
+        pathname: `/profile/${facilityCode}/${description}`,
+        query: version ? { version } : {},
+      }
+    : appendQuery(`/profile/${facilityCode}/${description}`, { version });
 
   return (
     <div id={`search-result-${createId(id)}`} className="search-result">
       <div className="outer">
         <div className="inner">
           <div className="row vads-u-padding-top--1p5">
-            <div className="small-12 medium-7 columns">
+            <div className="small-12 medium-6 columns">
               <h2>
                 <Link
                   to={linkTo}
-                  onClick={
-                    environment.isProduction ? () => {} : handleLinkClickEvent
-                  }
                   aria-label={`${description} ${locationInfo(
                     city,
                     state,
@@ -129,14 +124,7 @@ function VetTecProgramSearchResult(props) {
               {isPresent(lengthInHours) && (
                 <div className="info-flag">{displayHours}</div>
               )}
-              <Link
-                onClick={
-                  environment.isProduction ? () => {} : handleLinkClickEvent
-                }
-                to={linkTo}
-              >
-                View details ›
-              </Link>
+              <Link to={linkTo}>View details ›</Link>
             </div>
           </div>
         </div>

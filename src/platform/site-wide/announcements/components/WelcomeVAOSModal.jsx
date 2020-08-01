@@ -12,19 +12,20 @@ export default function WelcomeVAOSModal({ dismiss }) {
         />
       </div>
       <h1 className="vads-u-font-size--h3 vads-u-margin-top--2">
-        Welcome to the new VA.gov online scheduling tool
+        Welcome to the new VA online scheduling tool
       </h1>
       <p>
-        The VA appointments tool has been redesigned based on feedback from
-        Veterans like you. You can now view, schedule, and cancel all your
-        appointments in one place on VA.gov.
+        Things may look a little different than the last time you scheduled a
+        health appointment online. Based on feedback from Veterans like you,
+        we’ve redesigned the VA online scheduling tool. You can now schedule,
+        cancel, and view your future and past appointments all in one place.
       </p>
       <p>
-        If you want to go back to the old appointments tool, you’ll find a link
-        to that scheduling tool at the bottom of the page in the new tool.
+        If you like to send us feedback about the new experience, you’ll find a
+        feedback link at the bottom of the page in the tool.
       </p>
       <button type="button" onClick={dismiss}>
-        Continue to your VA appointments
+        Go to your VA appointments
       </button>
     </Modal>
   );

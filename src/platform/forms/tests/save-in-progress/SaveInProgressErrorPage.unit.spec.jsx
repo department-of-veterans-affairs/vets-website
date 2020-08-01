@@ -19,7 +19,15 @@ const teardown = () => {
 };
 
 describe('<SaveInProgressErrorPage>', () => {
-  beforeEach(setup);
+  let formConfigDefaultData;
+  beforeEach(() => {
+    setup();
+    formConfigDefaultData = {
+      customText: {
+        continueAppButtonText: '',
+      },
+    };
+  });
   afterEach(teardown);
 
   const route = {
@@ -46,6 +54,7 @@ describe('<SaveInProgressErrorPage>', () => {
         loginUrls={mockLoginUrl}
         route={route}
         loadedStatus={LOAD_STATUSES.noAuth}
+        formConfig={formConfigDefaultData}
       />,
     );
     const findDOM = findDOMNode(tree);
@@ -69,6 +78,7 @@ describe('<SaveInProgressErrorPage>', () => {
         loginUrls={mockLoginUrl}
         route={route}
         loadedStatus={LOAD_STATUSES.notFound}
+        formConfig={formConfigDefaultData}
       />,
     );
     const findDOM = findDOMNode(tree);
@@ -89,6 +99,7 @@ describe('<SaveInProgressErrorPage>', () => {
         loginUrls={mockLoginUrl}
         route={route}
         loadedStatus={LOAD_STATUSES.failure}
+        formConfig={formConfigDefaultData}
       />,
     );
     const findDOM = findDOMNode(tree);
@@ -100,7 +111,7 @@ describe('<SaveInProgressErrorPage>', () => {
       findDOM.querySelector('.usa-button-secondary').textContent,
     ).to.contain('Back');
     expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain(
-      'Continue Your Application',
+      'Continue your application',
     );
   });
   it('should render the forbidden failure error', () => {
@@ -112,6 +123,7 @@ describe('<SaveInProgressErrorPage>', () => {
         loginUrls={mockLoginUrl}
         route={route}
         loadedStatus={LOAD_STATUSES.forbidden}
+        formConfig={formConfigDefaultData}
       />,
     );
     const findDOM = findDOMNode(tree);
@@ -131,6 +143,7 @@ describe('<SaveInProgressErrorPage>', () => {
         loginUrls={mockLoginUrl}
         route={route}
         loadedStatus={LOAD_STATUSES.noAuth}
+        formConfig={formConfigDefaultData}
       />,
     );
     const findDOM = findDOMNode(tree);
@@ -150,6 +163,7 @@ describe('<SaveInProgressErrorPage>', () => {
         route={route}
         loadedStatus={LOAD_STATUSES.failure}
         fetchInProgressForm={fetchSpy}
+        formConfig={formConfigDefaultData}
       />,
     );
     const findDOM = findDOMNode(tree);
@@ -171,6 +185,7 @@ describe('<SaveInProgressErrorPage>', () => {
         loadedStatus={LOAD_STATUSES.failure}
         removeInProgressForm={removeSpy}
         fetchInProgressForm={fetchSpy}
+        formConfig={formConfigDefaultData}
       />,
     );
     const findDOM = findDOMNode(tree);
@@ -178,5 +193,30 @@ describe('<SaveInProgressErrorPage>', () => {
     ReactTestUtils.Simulate.click(button);
     expect(fetchSpy.called).to.be.false;
     expect(removeSpy.called).to.be.true;
+  });
+  it('should display custom continueAppButtonText', () => {
+    const continueAppButtonTextFormConfigData = {
+      customText: {
+        continueAppButtonText: 'Custom message telling you to continue the app',
+      },
+    };
+    const tree = ReactTestUtils.renderIntoDocument(
+      <SaveInProgressErrorPage
+        updateLogInUrls={f => f}
+        isLoggedIn
+        router={router}
+        loginUrls={mockLoginUrl}
+        route={route}
+        loadedStatus={LOAD_STATUSES.failure}
+        formConfig={continueAppButtonTextFormConfigData}
+      />,
+    );
+    const findDOM = findDOMNode(tree);
+    const continueAppMessageButton = findDOM.querySelector(
+      '.usa-button-primary',
+    );
+    expect(continueAppMessageButton.textContent).to.equal(
+      'Custom message telling you to continue the app',
+    );
   });
 });

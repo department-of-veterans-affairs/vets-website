@@ -21,7 +21,7 @@ function Vet360Transaction(props) {
     transactionRequest,
   } = props;
 
-  const method = transactionRequest ? transactionRequest.method : 'PUT';
+  const method = transactionRequest?.method || 'PUT';
   const hasError = isFailedTransaction(transaction);
   const classes = classNames('vet360-profile-field-content', {
     'usa-input-error': hasError,
@@ -37,7 +37,7 @@ function Vet360Transaction(props) {
             refreshTransaction={refreshTransaction}
             method={method}
           >
-            {/* if this field's modal is open, pass in the children so prevent
+            {/* if this field's modal is open, pass in the children to prevent
                the `Vet360TransactionPending` component from rendering the
                "we're saving your info..." message */}
             {isModalOpen && children}

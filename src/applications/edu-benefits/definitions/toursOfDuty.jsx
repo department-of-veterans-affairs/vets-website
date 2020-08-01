@@ -98,11 +98,11 @@ export const uiSchema = {
     'view:disclaimer': {
       'ui:description': (
         <div>
-          <p>
+          <p className="vads-u-background-color--white vads-u-color--gray-dark">
             A single period of service may not be applied toward more than one
             benefit.
           </p>
-          <p>
+          <p className="vads-u-background-color--white vads-u-color--gray-dark">
             There is one exception: If your period of service began before
             August 1, 2011, you may use it to establish eligibility to Chapter
             33 even if it has already been used to establish eligibility to a

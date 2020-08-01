@@ -37,7 +37,8 @@ export default class CalendarWidget extends Component {
     this.currentDate = currentDate;
   }
 
-  componentWillMount() {
+  /* eslint-disable camelcase */
+  UNSAFE_componentWillMount() {
     const { monthsToShowAtOnce, startMonth } = this.props;
 
     // Updates months to show at once if > default setting

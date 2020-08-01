@@ -8,16 +8,13 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { login, signup } from 'platform/user/authentication/utilities';
 import environment from 'platform/utilities/environment';
 
+import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
 import LogoutAlert from '../components/LogoutAlert';
 import downtimeBanners from '../utilities/downtimeBanners';
 
-function loginHandler(loginType, application = null, redirect = null) {
+function loginHandler(loginType) {
   recordEvent({ event: `login-attempted-${loginType}` });
-  login(loginType, 'v1', application, redirect);
-}
-
-function signupHandler(application = null, redirect = null) {
-  signup('v1', application, redirect);
+  login(loginType, 'v1');
 }
 
 const vaGovFullDomain = environment.BASE_URL;
@@ -60,11 +57,10 @@ class SignInPage extends React.Component {
     const { globalDowntime } = this.state;
     const { query } = this.props.location;
     const loggedOut = query.auth === 'logged_out';
-    const application = query.application;
-    const redirect = query.to;
 
     return (
       <main className="login">
+        <AutoSSO />
         <div className="container">
           <div className="row">
             {loggedOut && <LogoutAlert />}
@@ -107,9 +103,7 @@ class SignInPage extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="dslogon"
-                      onClick={() =>
-                        loginHandler('dslogon', application, redirect)
-                      }
+                      onClick={() => loginHandler('dslogon')}
                     >
                       <img
                         alt="DS Logon"
@@ -120,7 +114,7 @@ class SignInPage extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="mhv"
-                      onClick={() => loginHandler('mhv', application, redirect)}
+                      onClick={() => loginHandler('mhv')}
                     >
                       <img
                         alt="My HealtheVet"
@@ -131,9 +125,7 @@ class SignInPage extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="usa-button-primary va-button-primary"
-                      onClick={() =>
-                        loginHandler('idme', application, redirect)
-                      }
+                      onClick={() => loginHandler('idme')}
                     >
                       <img
                         alt="ID.me"
@@ -147,7 +139,7 @@ class SignInPage extends React.Component {
                       <button
                         disabled={globalDowntime}
                         className="idme-create usa-button usa-button-secondary"
-                        onClick={() => signupHandler(application, redirect)}
+                        onClick={() => signup('v1')}
                       >
                         <img
                           alt="ID.me"

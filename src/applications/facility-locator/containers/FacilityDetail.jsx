@@ -15,11 +15,15 @@ import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
 import { OperatingStatus, FacilityType } from '../constants';
+import { facilityLocatorFeUseV1 } from '../utils/selectors';
+import VABenefitsCall from '../components/VABenefitsCall';
 
 class FacilityDetail extends Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
-    this.props.fetchVAFacility(this.props.params.id);
+    const { useAPIv1 } = this.props;
+    const apiVersion = useAPIv1 ? 1 : 0;
+    this.props.fetchVAFacility(this.props.params.id, null, apiVersion);
     window.scrollTo(0, 0);
   }
 
@@ -107,12 +111,13 @@ class FacilityDetail extends Component {
       facilityType,
     } = facility.attributes;
 
+    const isVBA = facilityType === FacilityType.VA_BENEFITS_FACILITY;
     return (
       <div>
         <h1>{name}</h1>
         {this.showOperationStatus(operatingStatus, website, facilityType)}
         <div className="p1">
-          <FacilityTypeDescription location={facility} />
+          <FacilityTypeDescription from="FacilityDetail" location={facility} />
           <LocationAddress location={facility} />
         </div>
         <div>
@@ -131,12 +136,14 @@ class FacilityDetail extends Component {
           <LocationDirectionsLink location={facility} from={'FacilityDetail'} />
         </div>
         {phone &&
-          phone.main && (
+          phone.main &&
+          !isVBA && (
             <p className="p1">
               Planning to visit? Please call first as information on this page
               may change.
             </p>
           )}
+        {isVBA && <VABenefitsCall />}
       </div>
     );
   }
@@ -192,6 +199,7 @@ function mapStateToProps(state) {
   return {
     facility: state.searchResult.selectedResult,
     currentQuery: state.searchQuery,
+    useAPIv1: facilityLocatorFeUseV1(state),
   };
 }
 

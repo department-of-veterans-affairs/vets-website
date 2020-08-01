@@ -6,7 +6,10 @@ import {
   CANCELLED_APPOINTMENT_SET,
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
+  PURPOSE_TEXT,
   VIDEO_TYPES,
+  EXPRESS_CARE,
+  UNABLE_TO_REACH_VETERAN_DETCODE,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
 
@@ -20,7 +23,7 @@ import { getTimezoneBySystemId } from '../../utils/timezone';
 function getAppointmentType(appt) {
   if (appt.typeOfCareId?.startsWith('CC')) {
     return APPOINTMENT_TYPES.ccRequest;
-  } else if (appt.optionDate1) {
+  } else if (appt.typeOfCareId) {
     return APPOINTMENT_TYPES.request;
   } else if (appt.clinicId || appt.vvsAppointments) {
     return APPOINTMENT_TYPES.vaAppointment;
@@ -100,41 +103,58 @@ function getVistaStatus(appointment) {
 }
 
 /**
- *  Returns an appointment status
+ *  Maps FHIR appointment statuses to statuses from var-resources requests
  *
- * @param {Object} appointment A VAR appointment object
- * @param {Boolean} isPastAppointment Whether or not appointment's date is before now
+ * @param {Object} appointment A VAR request object
+ * @param {Boolean} isExpressCare Whether or not the request is for express care
  * @returns {String} Appointment status
  */
-function getStatus(appointment, isPast) {
-  switch (getAppointmentType(appointment)) {
-    case APPOINTMENT_TYPES.ccAppointment:
-      return APPOINTMENT_STATUS.booked;
-    case APPOINTMENT_TYPES.ccRequest:
-    case APPOINTMENT_TYPES.request: {
-      return appointment.status === 'Cancelled'
-        ? APPOINTMENT_STATUS.cancelled
-        : APPOINTMENT_STATUS.pending;
+function getRequestStatus(request, isExpressCare) {
+  if (isExpressCare) {
+    if (request.status === 'Submitted') {
+      return APPOINTMENT_STATUS.proposed;
+    } else if (request.status === 'Cancelled') {
+      return APPOINTMENT_STATUS.cancelled;
+    } else if (request.status.startsWith('Escalated')) {
+      return APPOINTMENT_STATUS.pending;
     }
-    case APPOINTMENT_TYPES.vaAppointment: {
-      const currentStatus = getVistaStatus(appointment);
 
-      if (
-        (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
-        (!isPast && FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
-      ) {
-        return null;
-      }
-
-      const cancelled = CANCELLED_APPOINTMENT_SET.has(currentStatus);
-
-      return cancelled
-        ? APPOINTMENT_STATUS.cancelled
-        : APPOINTMENT_STATUS.booked;
-    }
-    default:
-      return APPOINTMENT_STATUS.booked;
+    return APPOINTMENT_STATUS.fulfilled;
   }
+
+  if (request.status === 'Booked' || request.status === 'Resolved') {
+    return APPOINTMENT_STATUS.booked;
+  } else if (request.status === 'Cancelled') {
+    return APPOINTMENT_STATUS.cancelled;
+  }
+
+  return APPOINTMENT_STATUS.proposed;
+}
+
+/**
+ *  Maps FHIR appointment statuses to statuses from var-resources requests
+ *
+ * @param {Object} appointment A MAS or CC appointment object
+ * @param {Boolean} isPast Whether or not the appointment is prior to today's date
+ * @returns {String} Appointment status
+ */
+function getConfirmedStatus(appointment, isPast) {
+  if (getAppointmentType(appointment) === APPOINTMENT_TYPES.ccAppointment) {
+    return APPOINTMENT_STATUS.booked;
+  }
+
+  const currentStatus = getVistaStatus(appointment);
+
+  if (
+    (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
+    (!isPast && FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
+  ) {
+    return null;
+  }
+
+  const cancelled = CANCELLED_APPOINTMENT_SET.has(currentStatus);
+
+  return cancelled ? APPOINTMENT_STATUS.cancelled : APPOINTMENT_STATUS.booked;
 }
 /**
  * Finds the datetime of the appointment depending on the appointment type
@@ -164,8 +184,9 @@ function getMomentConfirmedDate(appt) {
  *  +60 min or +240 min in the case of video
  * @param {*} appt VAR appointment object
  */
-export function isPastAppointment(appt, videoType) {
-  const threshold = videoType ? 240 : 60;
+export function isPastAppointment(appt) {
+  const isVideo = isVideoVisit(appt);
+  const threshold = isVideo ? 240 : 60;
   const apptDateTime = moment(getMomentConfirmedDate(appt));
   return apptDateTime.add(threshold, 'minutes').isBefore(moment());
 }
@@ -184,7 +205,7 @@ function getVideoVisitLink(appt) {
  * Returns appointment duration in minutes. The default is 60 minutes.
  *
  * @param {Object} appt VAR appointment object
- * @returns
+ * @returns {Number} appointment duration in minutes
  */
 function getAppointmentDuration(appt) {
   const appointmentLength = parseInt(
@@ -196,6 +217,68 @@ function getAppointmentDuration(appt) {
 }
 
 /**
+ * Gets a purpose of visit that matches our array of purpose constant
+ *
+ * @param {Object} appt VAR appointment object
+ * @returns {String} purpose of visit string
+ */
+function getPurposeOfVisit(appt) {
+  switch (getAppointmentType(appt)) {
+    case APPOINTMENT_TYPES.ccRequest:
+      return PURPOSE_TEXT.find(purpose => purpose.id === appt.purposeOfVisit)
+        ?.short;
+    case APPOINTMENT_TYPES.request:
+      if (appt.typeOfCareId === EXPRESS_CARE) {
+        return appt.reasonForVisit;
+      }
+
+      return PURPOSE_TEXT.find(
+        purpose => purpose.serviceName === appt.purposeOfVisit,
+      )?.short;
+    default:
+      return appt.purposeOfVisit;
+  }
+}
+
+/**
+ * Returns sorted user requested periods. For now we don't know how VSP will handle the
+ * AM/PM periods, so using 00:00:00.000Z to symbolize AM and 12:00:00.000Z to symbolize
+ * PM for now.
+ *
+ * @param {Object} appt VAR appointment object
+ * @returns {Array} returns formatted date options
+ */
+function getRequestedPeriods(appt) {
+  const requestedPeriods = [];
+  const format = 'MM/DD/YYYY';
+
+  for (let x = 1; x <= 3; x += 1) {
+    const optionTime = appt[`optionTime${x}`];
+
+    // Since 'No Date Selected' and 'No Time Selected' are possible values but
+    // invalid dates and times, don't add the start and end attributes.
+    //
+    // NOTE: FHIR Spec says...
+    // If the start element is missing, the start of the period is not known.
+    // If the end element is missing, it means that the period is ongoing,
+    // or the start may be in the past, and the end date in the future,
+    // which means that period is expected / planned to end at the specified time.
+    if (moment(appt[`optionDate${x}`]).isValid() && optionTime) {
+      const momentDate = moment(appt[`optionDate${x}`], format).format(
+        'YYYY-MM-DD',
+      );
+      const isAM = optionTime === 'AM';
+      requestedPeriods.push({
+        start: `${momentDate}T${isAM ? '00:00:00.000' : `12:00:00.000`}`,
+        end: `${momentDate}T${isAM ? '11:59:59.999' : `23:59:59.999`}`,
+      });
+    }
+  }
+
+  return requestedPeriods.sort((a, b) => (a.start < b.start ? -1 : 1));
+}
+
+/**
  * Builds participant and contained arrays for FHIR Appointment object which usually
  * contain Location (Facility) and HealthcareService (Clinic) or video conference info
  *
@@ -203,8 +286,36 @@ function getAppointmentDuration(appt) {
  * @returns {Array} Array of participants of FHIR appointment
  */
 function setParticipant(appt) {
-  if (!isVideoVisit(appt)) {
-    if (isCommunityCare(appt)) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.vaAppointment: {
+      if (!isVideoVisit(appt)) {
+        const participant = [];
+        participant.push({
+          actor: {
+            reference: `HealthcareService/var${appt.facilityId}_${
+              appt.clinicId
+            }`,
+            display:
+              appt.clinicFriendlyName ||
+              appt.vdsAppointments?.[0]?.clinic?.name,
+          },
+        });
+
+        if (appt.sta6aid) {
+          participant.push({
+            actor: {
+              reference: `Location/var${appt.sta6aid}`,
+            },
+          });
+        }
+
+        return participant;
+      }
+      return null;
+    }
+    case APPOINTMENT_TYPES.ccAppointment: {
       if (!!appt.name?.firstName && !!appt.name?.lastName) {
         return [
           {
@@ -217,79 +328,157 @@ function setParticipant(appt) {
       }
       return null;
     }
+    case APPOINTMENT_TYPES.ccRequest:
+    case APPOINTMENT_TYPES.request: {
+      const hasName =
+        appt.patient?.displayName ||
+        (!!appt.patient?.firstName && !!appt.patient?.lastName);
 
-    return [
-      {
-        actor: {
-          reference: `HealthcareService/var${appt.facilityId}_${appt.clinicId}`,
-          display:
-            appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
+      const participant = [
+        {
+          actor: {
+            reference: 'Patient/PATIENT_ID',
+            display: hasName
+              ? appt.patient?.displayName ||
+                `${appt.patient?.firstName} ${appt.patient?.lastName}`
+              : null,
+            telecom: [
+              {
+                system: 'phone',
+                value: appt.phoneNumber,
+              },
+              {
+                system: 'email',
+                value: appt.email,
+              },
+            ],
+          },
         },
-      },
-    ];
-  }
+      ];
 
-  return null;
+      if (appt.facility) {
+        participant.push({
+          actor: {
+            reference: `Location/var${appt.facility.facilityCode}`,
+            display: appt.friendlyLocationName || appt.facility?.name,
+          },
+        });
+      }
+
+      return participant;
+    }
+    default:
+      return null;
+  }
 }
 
 /**
- * Builds contained array and populates with video conference info
+ * Builds contained array and populates with video conference info and facility info if available
  *
  * @param {Object} appt  VAR appointment object
  * @returns {Array} Array of contained objects of FHIR appointment containing video conference info
  */
 function setContained(appt) {
-  if (isVideoVisit(appt)) {
-    return [
-      {
-        resourceType: 'HealthcareService',
-        id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
-        type: [
+  switch (getAppointmentType(appt)) {
+    case APPOINTMENT_TYPES.vaAppointment: {
+      if (isVideoVisit(appt)) {
+        return [
           {
-            text: 'Patient Virtual Meeting Room',
+            resourceType: 'HealthcareService',
+            id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
+            type: [
+              {
+                text: 'Patient Virtual Meeting Room',
+              },
+            ],
+            location: {
+              reference: `Location/var${appt.facilityId}`,
+            },
+            characteristic: [
+              {
+                coding: getVideoType(appt),
+              },
+            ],
+            telecom: [
+              {
+                system: 'url',
+                value: getVideoVisitLink(appt),
+                period: {
+                  start: getMomentConfirmedDate(appt).format(),
+                },
+              },
+            ],
           },
-        ],
-        location: {
-          reference: `Location/var${appt.facilityId}`,
-        },
-        telecom: [
+        ];
+      }
+
+      return null;
+    }
+    case APPOINTMENT_TYPES.request: {
+      if (appt.visitType === 'Video Conference') {
+        return [
           {
-            system: 'url',
-            value: getVideoVisitLink(appt),
-            period: {
-              start: getMomentConfirmedDate(appt).format(),
-            },
+            resourceType: 'HealthcareService',
+            characteristic: [
+              {
+                coding: getVideoType(appt),
+              },
+            ],
           },
-        ],
-      },
-    ];
-  }
-
-  if (isCommunityCare(appt)) {
-    const address = appt.address;
-
-    return [
-      {
-        actor: {
-          name: appt.providerPractice,
-          address: {
-            line: [address?.street],
-            city: address?.city,
-            state: address?.state,
-            postalCode: address?.zipCode,
+        ];
+      }
+      return null;
+    }
+    case APPOINTMENT_TYPES.ccRequest: {
+      return appt.ccAppointmentRequest.preferredProviders.map(provider => {
+        const participant = {
+          actor: {
+            name: provider.practiceName,
+            // TODO: Map to participant.actor.Practitioner field.
+            firstName: provider.firstName,
+            lastName: provider.lastName,
           },
-          telecom: [
-            {
-              system: 'phone',
-              value: appt.providerPhone,
+        };
+
+        if (provider.address) {
+          const address = {
+            line: [provider.address?.street],
+            city: provider.address?.city,
+            state: provider.address?.state,
+            postalCode: provider.address?.zipCode,
+          };
+          participant.actor.address = address;
+        }
+
+        return participant;
+      });
+    }
+    case APPOINTMENT_TYPES.ccAppointment: {
+      const address = appt.address;
+
+      return [
+        {
+          actor: {
+            name: appt.providerPractice,
+            address: {
+              line: [address?.street],
+              city: address?.city,
+              state: address?.state,
+              postalCode: address?.zipCode,
             },
-          ],
+            telecom: [
+              {
+                system: 'phone',
+                value: appt.providerPhone,
+              },
+            ],
+          },
         },
-      },
-    ];
+      ];
+    }
+    default:
+      return null;
   }
-
-  return null;
 }
 
 /**
@@ -301,12 +490,12 @@ function setContained(appt) {
 function setLegacyVAR(appt) {
   return {
     apiData: appt,
+    bestTimeToCall: appt.bestTimetoCall,
   };
 }
 
 /**
- * Transforms /facilities/va/vha_983 to
- * /Location/var983
+ * Transforms VAR appointment to FHIR appointment resource
  *
  * @export
  * @param {Array} appointments An array of appointments from the VA facilities api
@@ -316,30 +505,76 @@ export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => {
     const minutesDuration = getAppointmentDuration(appt);
     const start = getMomentConfirmedDate(appt).format();
-    const videoType = getVideoType(appt);
-    const isPast = isPastAppointment(appt, videoType);
+    const isPast = isPastAppointment(appt);
     const isCC = isCommunityCare(appt);
 
     return {
       resourceType: 'Appointment',
       id: `var${appt.id}`,
-      status: getStatus(appt, isPast),
+      status: getConfirmedStatus(appt, isPast),
       description: getVistaStatus(appt),
       start,
       minutesDuration,
       comment:
         appt.instructionsToVeteran ||
         appt.vdsAppointments?.[0]?.bookingNote ||
-        appt.vvsAppointments?.[0]?.bookingNotes,
+        appt.vvsAppointments?.[0]?.instructionsTitle,
       participant: setParticipant(appt),
       contained: setContained(appt),
       legacyVAR: setLegacyVAR(appt),
       vaos: {
         isPastAppointment: isPast,
         appointmentType: getAppointmentType(appt),
-        videoType,
         isCommunityCare: isCC,
         timeZone: isCC ? appt.timeZone : null,
+      },
+    };
+  });
+}
+
+/**
+ * Transforms VAR appointment request to FHIR appointment resource
+ *
+ * @export
+ * @param {Array} appointments An array of appointments from the VA facilities api
+ * @returns {Array} An array of FHIR Appointment resource
+ */
+export function transformPendingAppointments(requests) {
+  return requests.map(appt => {
+    const isCC = isCommunityCare(appt);
+    const isExpressCare = appt.typeOfCareId === EXPRESS_CARE;
+    const requestedPeriod = getRequestedPeriods(appt);
+    const unableToReachVeteran = appt.appointmentRequestDetailCode?.some(
+      detail => detail.detailCode?.code === UNABLE_TO_REACH_VETERAN_DETCODE,
+    );
+
+    return {
+      resourceType: 'Appointment',
+      id: `var${appt.id}`,
+      status: getRequestStatus(appt, isExpressCare),
+      cancelationReason: unableToReachVeteran
+        ? { text: UNABLE_TO_REACH_VETERAN_DETCODE }
+        : null,
+      requestedPeriod,
+      start: isExpressCare ? appt.date : undefined,
+      minutesDuration: 60,
+      type: {
+        coding: [
+          {
+            code: appt.typeOfCareId,
+            display: appt.appointmentType,
+          },
+        ],
+      },
+      reason: getPurposeOfVisit(appt),
+      participant: setParticipant(appt),
+      contained: setContained(appt),
+      legacyVAR: setLegacyVAR(appt),
+      comment: appt.additionalInformation,
+      vaos: {
+        appointmentType: getAppointmentType(appt),
+        isCommunityCare: isCC,
+        isExpressCare,
       },
     };
   });

@@ -6,7 +6,7 @@ import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { ssoe } from 'platform/user/authentication/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { logout, verify, mfa } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -21,7 +21,6 @@ import {
 } from 'platform/user/profile/actions';
 
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
-import titleCase from 'platform/utilities/data/titleCase';
 
 import {
   widgetTypes,
@@ -54,15 +53,13 @@ import VAOnlineScheduling from './components/messages/VAOnlineScheduling';
 export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
-    const { appId, useSSOe } = props;
-    const { url, redirect } = toolUrl(appId, useSSOe);
+    const { appId } = props;
 
-    this._hasRedirect = redirect;
     this._popup = null;
     this._requiredServices = requiredServices(appId);
     this._serviceDescription = serviceDescription(appId);
     this._mhvToolName = mhvToolName(appId);
-    this._toolUrl = url;
+    this._toolUrl = null;
     this._gaPrefix = 'register-mhv';
   }
 
@@ -82,7 +79,10 @@ export class CallToActionWidget extends React.Component {
     }
 
     if (this.isAccessible()) {
-      if (this._hasRedirect && !this._popup) this.goToTool();
+      const { appId, authenticatedWithSSOe } = this.props;
+      const { url, redirect } = toolUrl(appId, authenticatedWithSSOe);
+      this._toolUrl = url;
+      if (redirect && !this._popup) this.goToTool();
     } else if (this.isHealthTool()) {
       const { accountLevel, accountState, loading } = this.props.mhvAccount;
 
@@ -170,13 +170,13 @@ export class CallToActionWidget extends React.Component {
   };
 
   getHealthToolContent = () => {
-    const { mhvAccount, useSSOe } = this.props;
+    const { mhvAccount, authenticatedWithSSOe } = this.props;
 
     if (this.hasMVIError()) {
       return this.getMviErrorContent();
     }
 
-    if (useSSOe) {
+    if (authenticatedWithSSOe) {
       const errorContent = this.getInaccessibleHealthToolContentSSOe();
       if (errorContent) return errorContent;
       return (
@@ -209,7 +209,11 @@ export class CallToActionWidget extends React.Component {
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
-        return <NotAuthorized useSSOe={this.props.useSSOe} />;
+        return (
+          <NotAuthorized
+            authenticatedWithSSOe={this.props.authenticatedWithSSOe}
+          />
+        );
       case 'NOT_FOUND':
         return <NotFound />;
       default:
@@ -412,7 +416,7 @@ export class CallToActionWidget extends React.Component {
   };
 
   authVersion() {
-    return this.props.useSSOe ? 'v1' : 'v0';
+    return this.props.authenticatedWithSSOe ? 'v1' : 'v0';
   }
 
   signOut = () => {
@@ -444,6 +448,10 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
+    const { appId, authenticatedWithSSOe } = this.props;
+    const { url } = toolUrl(appId, authenticatedWithSSOe);
+    this._toolUrl = url;
+
     const content = this.getContent();
 
     if (content) return content;
@@ -456,9 +464,14 @@ export class CallToActionWidget extends React.Component {
       : '';
     const target = isInternalLink ? '_self' : '_blank';
 
+    const buttonText = [
+      this._serviceDescription[0].toUpperCase(),
+      this._serviceDescription.slice(1),
+    ].join('');
+
     return (
       <a className={buttonClass} href={this._toolUrl} target={target}>
-        {titleCase(this._serviceDescription)}
+        {buttonText}
       </a>
     );
   }
@@ -486,7 +499,7 @@ const mapStateToProps = state => {
     mhvAccount,
     mviStatus: status,
     featureToggles: state.featureToggles,
-    useSSOe: ssoe(state),
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     isVaPatient: vaPatient,
     mhvAccountIdState: mhvAccountState,
   };

@@ -22,15 +22,15 @@ describe('MHVTermsAndConditionsStatus', () => {
         wrapper.unmount();
       });
 
-      it('should render a <Verified> component', () => {
-        expect(wrapper.type()).to.equal(Verified);
+      it('should render a <Verified> component as its first child', () => {
+        const firstChild = wrapper.childAt(0);
+        expect(firstChild.type()).to.equal(Verified);
         expect(
-          wrapper
-            .at(0)
+          firstChild
             .dive()
             .text()
             .includes(
-              'You’ve accepted the latest Terms and Conditions for Medical Information',
+              'You’ve accepted the terms and conditions for using VA.gov health tools.',
             ),
         ).to.be.true;
       });
@@ -67,7 +67,7 @@ describe('MHVTermsAndConditionsStatus', () => {
           p
             .text()
             .includes(
-              'To get started using our health tools, you’ll need to read and agree to the Terms and Conditions for Medical Information. This will give us your permission to show you your VA medical information on this site.',
+              'Before using our health tools, you’ll need to read and agree to the terms and conditions for medical information. This will give us permission to share your VA medical information with you. Once you do this, you can use the tools to refill your VA prescriptions or download your VA health records.',
             ),
         ).to.be.true;
       });
@@ -80,7 +80,7 @@ describe('MHVTermsAndConditionsStatus', () => {
         expect(
           link
             .text()
-            .includes('Go to the Terms and Conditions for Health Tools'),
+            .includes('Go to the terms and conditions for medical information'),
         ).to.be.true;
       });
     });

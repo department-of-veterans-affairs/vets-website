@@ -41,6 +41,33 @@ function getContentModelType(entity) {
   return [entity.baseType, subType].filter(x => x).join('-');
 }
 
+/**
+ * Add common properties to the entity. Does not mutate `entity`; instead,
+ * returns a new object.
+ * @param {Object} entity - The entity to add the common properties to
+ * @param {String} baseType - The type of entity; corresponds to the name of
+ *                            the file.
+ * @param {String} uuid - The UUID of the entity; corresponds to the name of
+ *                        the file.
+ * @returns {Object} - The new entity with the added properties
+ */
+function addCommonProperties(entity, baseType, uuid) {
+  const newEntity = Object.assign({}, entity, {
+    baseType,
+    uuid,
+  });
+  // getContentModelType uses baseType
+  const contentModelType = getContentModelType(newEntity);
+  const entityBundle = contentModelType.includes('-')
+    ? contentModelType.split('-')[1]
+    : contentModelType;
+  Object.assign(newEntity, {
+    contentModelType,
+    entityBundle,
+  });
+  return newEntity;
+}
+
 module.exports = {
   defaultCMSExportContentDir,
   typeProperties,
@@ -51,8 +78,10 @@ module.exports = {
    * and put them into an object indexed by filename
    *
    * @param {String} dir - The directory to import all files from
-   * @param {String} prop - The name of the exported property to put into the dict
-   * @return {Object} - The dict of filenam -> exported prop mappings
+   * @param {String} [prop] - The name of the exported property to put into the
+   *                          dict. If undefined, the default export will be
+   *                          used.
+   * @return {Object} - The dict of filename -> exported prop mappings
    */
   getAllImportsFrom(dir, prop) {
     return fs
@@ -60,8 +89,9 @@ module.exports = {
       .filter(name => name.endsWith('.js'))
       .reduce((t, fileName) => {
         const contentModelType = path.parse(fileName).name;
+        const exp = require(path.join(dir, fileName));
         // eslint-disable-next-line no-param-reassign
-        t[contentModelType] = require(path.join(dir, fileName))[prop];
+        t[contentModelType] = prop ? exp[prop] : exp;
         return t;
       }, {});
   },
@@ -108,12 +138,7 @@ module.exports = {
         .readFileSync(path.join(dir, `${baseType}.${uuid}.json`))
         .toString('utf8'),
     );
-    // Add what we already know about the entity
-    entity.baseType = baseType;
-    // Overrides the UUID property in the contents of the entity
-    entity.uuid = uuid;
-    entity.contentModelType = getContentModelType(entity);
-    return entity;
+    return addCommonProperties(entity, baseType, uuid);
   },
 
   /**

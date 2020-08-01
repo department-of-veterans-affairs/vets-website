@@ -23,6 +23,7 @@ const international = {
   addressLine2: 'Line2',
   addressLine3: 'Line3',
   city: 'Paris',
+  stateCode: null,
   province: 'Ile-de-France',
   internationalPostalCode: '75000',
 };

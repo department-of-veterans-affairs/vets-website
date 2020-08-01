@@ -36,6 +36,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .assert.isActiveElement('a.show-on-focus')
     .keys(ENTER)
     .keys(TAB)
+    .keys(TAB)
+    .keys(TAB)
     .assert.isActiveElement('.va-nav-breadcrumbs-list > li > a');
 
   // Move on to the form

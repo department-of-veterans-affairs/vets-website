@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
+import { isVideoGFE } from '../services/appointment';
 import { VIDEO_TYPES } from '../utils/constants';
 
 export default function VideoVisitSection({ appointment }) {
@@ -11,7 +12,7 @@ export default function VideoVisitSection({ appointment }) {
     return <span>Video conference</span>;
   }
 
-  if (appointment.vaos.videoType === VIDEO_TYPES.gfe) {
+  if (isVideoGFE(appointment)) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
     );
@@ -20,7 +21,7 @@ export default function VideoVisitSection({ appointment }) {
       ?.value
   ) {
     const url = appointment.contained?.[0]?.telecom?.[0]?.value;
-    const diff = moment(appointment.start).diff(moment(), 'minutes');
+    const diff = moment().diff(moment(appointment.start), 'minutes');
 
     // Button is enabled 30 minutes prior to start time, until 4 hours after start time
     const disableVideoLink = diff < -30 || diff > 240;

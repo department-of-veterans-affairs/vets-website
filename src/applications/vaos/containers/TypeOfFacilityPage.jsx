@@ -93,6 +93,7 @@ export class TypeOfFacilityPage extends React.Component {
           <FormButtons
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
           />
         </SchemaForm>
       </div>

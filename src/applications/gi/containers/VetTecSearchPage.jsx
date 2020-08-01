@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -26,6 +25,8 @@ import { renderVetTecLogo, renderSearchResultsHeader } from '../utils/render';
 import ServiceError from '../components/ServiceError';
 import { isMobileView } from '../utils/helpers';
 import environment from 'platform/utilities/environment';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -120,17 +121,11 @@ export class VetTecSearchPage extends React.Component {
     const queryFilterFields = this.getQueryFilterFields();
     if (!_.isEqual(this.props.search.query, queryFilterFields.query)) {
       this.props.institutionFilterChange(queryFilterFields.institutionFilter);
-      this.props.fetchProgramSearchResults(queryFilterFields.query);
+      this.props.fetchProgramSearchResults(
+        queryFilterFields.query,
+        this.props.gibctSearchEnhancements,
+      );
     }
-  };
-
-  handleSearchLinkClick = (facilityCode, description) => {
-    const version = this.props.location.query.version;
-    const query = version ? { version } : {};
-    this.props.router.push({
-      pathname: `profile/${facilityCode}/${description}`,
-      query,
-    });
   };
 
   handlePageSelect = page => {
@@ -234,7 +229,6 @@ export class VetTecSearchPage extends React.Component {
                 key={`${result.facilityCode}-${result.description}`}
                 result={result}
                 constants={this.props.constants}
-                handleLinkClick={this.handleSearchLinkClick}
               />
             ))}
           </div>
@@ -305,6 +299,7 @@ export class VetTecSearchPage extends React.Component {
               eligibility={this.props.eligibility}
               showModal={this.props.showModal}
               eligibilityChange={this.props.eligibilityChange}
+              gibctSearchEnhancements={this.props.gibctSearchEnhancements}
             />
           </div>
         )}
@@ -321,6 +316,9 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
+  gibctSearchEnhancements: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSearchEnhancements
+  ],
 });
 
 const mapDispatchToProps = {
@@ -335,9 +333,7 @@ const mapDispatchToProps = {
   showModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(VetTecSearchPage),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VetTecSearchPage);

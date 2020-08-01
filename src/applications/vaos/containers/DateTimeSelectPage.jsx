@@ -88,6 +88,7 @@ export class DateTimeSelectPage extends React.Component {
         .add(1, 'months')
         .endOf('month')
         .format('YYYY-MM-DD'),
+      true,
     );
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -220,6 +221,7 @@ export class DateTimeSelectPage extends React.Component {
           onSubmit={this.goForward}
           disabled={appointmentSlotsStatus === FETCH_STATUS.failed}
           pageChangeInProgress={pageChangeInProgress}
+          loadingText="Page change in progress"
         />
       </div>
     );

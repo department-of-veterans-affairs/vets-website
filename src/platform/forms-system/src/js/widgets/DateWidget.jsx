@@ -87,7 +87,6 @@ export default class DateWidget extends React.Component {
             Month
           </label>
           <select
-            aria-describedby={`${this.props.id}-label`}
             name={`${id}Month`}
             id={`${id}Month`}
             value={month}
@@ -107,7 +106,6 @@ export default class DateWidget extends React.Component {
               Day
             </label>
             <select
-              aria-describedby={`${this.props.id}-label`}
               name={`${id}Day`}
               id={`${id}Day`}
               value={day}
@@ -128,7 +126,6 @@ export default class DateWidget extends React.Component {
             Year
           </label>
           <input
-            aria-describedby={`${this.props.id}-label`}
             type="number"
             autoComplete={options.autocomplete}
             name={`${id}Year`}

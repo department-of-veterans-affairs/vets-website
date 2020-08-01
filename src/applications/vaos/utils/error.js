@@ -37,3 +37,7 @@ export function captureError(
     console.error(err);
   }
 }
+
+export function getErrorCodes(error) {
+  return error?.errors?.map(e => e.code) || [];
+}

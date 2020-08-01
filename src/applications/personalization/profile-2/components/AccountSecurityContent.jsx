@@ -11,7 +11,7 @@ import {
   selectProfile,
 } from 'platform/user/selectors';
 import {
-  ssoe as ssoeSelector,
+  isAuthenticatedWithSSOe as authenticatedWithSSOeSelector,
   signInServiceName as signInServiceNameSelector,
 } from 'platform/user/authentication/selectors';
 
@@ -28,29 +28,27 @@ export const AccountSecurityContent = ({
   isMultifactorEnabled,
   mhvAccount,
   showMHVTermsAndConditions,
-  useSSOe,
+  isAuthenticatedWithSSOe,
   signInServiceName,
   isInMVI,
 }) => {
   const securitySections = [
     {
       title: '2-factor authentication',
+      verified: isMultifactorEnabled,
       value: (
         <TwoFactorAuthorizationStatus
           isMultifactorEnabled={isMultifactorEnabled}
-          useSSOe={useSSOe}
+          isAuthenticatedWithSSOe={isAuthenticatedWithSSOe}
         />
       ),
     },
-    {
-      title: 'Sign-in email address',
-      value: <EmailAddressNotification signInServiceName={signInServiceName} />,
-    },
   ];
 
-  if (isIdentityVerified) {
+  if (isIdentityVerified && isInMVI) {
     securitySections.unshift({
       title: 'Identity verification',
+      verified: true,
       value: <Verified>We’ve verified your identity.</Verified>,
     });
   }
@@ -58,9 +56,15 @@ export const AccountSecurityContent = ({
   if (showMHVTermsAndConditions) {
     securitySections.push({
       title: 'Terms and conditions',
+      verified: mhvAccount.termsAndConditionsAccepted,
       value: <MHVTermsAndConditionsStatus mhvAccount={mhvAccount} />,
     });
   }
+
+  securitySections.push({
+    title: 'Sign-in email address',
+    value: <EmailAddressNotification signInServiceName={signInServiceName} />,
+  });
 
   return (
     <>
@@ -82,9 +86,9 @@ export const AccountSecurityContent = ({
           href="/sign-in-faq/"
           onClick={() =>
             recordEvent({
-              event: 'account-navigation',
-              'account-action': 'view-link',
-              'account-section': 'vets-faqs',
+              event: 'profile-navigation',
+              'profile-action': 'view-link',
+              'profile-section': 'vets-faqs',
             })
           }
         >
@@ -97,10 +101,18 @@ export const AccountSecurityContent = ({
 
 AccountSecurityContent.propTypes = {
   isIdentityVerified: PropTypes.bool.isRequired,
+  isInMVI: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
-  mhvAccount: PropTypes.object,
+  mhvAccount: PropTypes.shape({
+    accountLevel: PropTypes.string,
+    accountState: PropTypes.string,
+    errors: PropTypes.array,
+    loading: PropTypes.bool,
+    termsAndConditionsAccepted: PropTypes.bool.isRequired,
+  }),
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
-  useSSOe: PropTypes.bool.isRequired,
+  signInServiceName: PropTypes.string.isRequired,
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
 };
 
 export const mapStateToProps = state => {
@@ -111,12 +123,12 @@ export const mapStateToProps = state => {
 
   return {
     isIdentityVerified: isLOA3Selector(state),
+    isInMVI: isInMVISelector(state),
     isMultifactorEnabled: isMultifactorEnabledSelector(state),
     mhvAccount,
     showMHVTermsAndConditions,
-    useSSOe: ssoeSelector(state),
-    isInMVI: isInMVISelector(state),
     signInServiceName: signInServiceNameSelector(state),
+    isAuthenticatedWithSSOe: authenticatedWithSSOeSelector(state),
   };
 };
 
