@@ -2,7 +2,6 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { verify } from 'platform/user/authentication/utilities';
-import recordEvent from 'platform/monitoring/record-event';
 
 export default function VerifyPage() {
   return (
@@ -19,10 +18,7 @@ export default function VerifyPage() {
               can give you access to your personal health information.
             </p>
             <button
-              onClick={() => {
-                recordEvent({ event: 'verify-link-clicked' });
-                verify('v1');
-              }}
+              onClick={() => verify('v1')}
               className="usa-button-primary va-button-primary"
             >
               Verify your identity
