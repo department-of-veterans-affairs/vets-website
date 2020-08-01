@@ -6,7 +6,7 @@ import IconSearch from '@department-of-veterans-affairs/formation-react/IconSear
 
 import { focusElement } from 'platform/utilities/ui';
 
-import './typeahead.scss';
+import '../sass/typeahead.scss';
 
 export default class SearchTypeAhead extends Component {
   constructor(props) {
