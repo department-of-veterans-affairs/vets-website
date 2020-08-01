@@ -1,8 +1,10 @@
 import _ from 'lodash';
 
 // import test from 'vets-json-schema/dist/'
-// import fullSchema1 from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
-import fullSchema from '../schema/covid-vaccine-trial-schema.json';
+// import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
+import fullSchema from '../schema/covid-vaccine-trial-schema_temp.json';
+import uiSchemaDefinitions from '../schema/covid-vaccine-trial-ui-schema.json';
+
 import definitions from 'vets-json-schema/dist/definitions.json';
 
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
@@ -31,8 +33,6 @@ export function validatePhone(errors, pageData) {
     errors.phone.addError('Please enter a valid 10-digit phone number');
   }
 }
-// console.log('Testing ');
-
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/api',
@@ -57,29 +57,15 @@ const formConfig = {
           path: 'covid-vaccine-trial',
           title: 'Personal Information - Page 1',
           uiSchema: {
-            'ui:description': fullSchema.descriptionText, // todo - figure out how to get this to use formatting
-            diagnosed: {
-              'ui:title': fullSchema.yesNoQuestions.diagnosed,
-              'ui:widget': 'yesNo',
-            },
-            hospitalized: {
-              'ui:title': fullSchema.yesNoQuestions.hospitalized,
-              'ui:widget': 'yesNo',
-            },
-            smokeOrVape: {
-              'ui:title': fullSchema.yesNoQuestions.smokeOrVape,
-              'ui:widget': 'yesNo',
-            },
-            healthHistory:
-              fullSchema.multiQuestions.healthHistory.healthHistoryUISchema,
-            employmentStatus:
-              fullSchema.multiQuestions.employmentStatus
-                .employmentStatusUISchema,
-            transportation:
-              fullSchema.multiQuestions.transportation.transportationUISchema,
-            residents: fullSchema.multiQuestions.residents.residentsUISchema,
-            closeContact:
-              fullSchema.multiQuestions.closeContact.closeContactUISchema,
+            'ui:description': uiSchemaDefinitions.descriptionText, // todo - figure out how to get this to use formatting
+            diagnosed: uiSchemaDefinitions.diagnosed,
+            hospitalized: uiSchemaDefinitions.hospitalized,
+            smokeOrVape: uiSchemaDefinitions.smokeOrVape,
+            healthHistory: uiSchemaDefinitions.healthHistory,
+            employmentStatus: uiSchemaDefinitions.employmentStatus,
+            transportation: uiSchemaDefinitions.transportation,
+            residents: uiSchemaDefinitions.residents,
+            closeContact: uiSchemaDefinitions.closeContact,
             'view:contactInfoDescription': {
               'ui:description':
                 'Your contact information (all fields required)',
@@ -117,16 +103,11 @@ const formConfig = {
               smokeOrVape: {
                 type: 'boolean',
               },
-              healthHistory:
-                fullSchema.multiQuestions.healthHistory.healthHistorySchema,
-              employmentStatus:
-                fullSchema.multiQuestions.employmentStatus
-                  .employmentStatusSchema,
-              transportation:
-                fullSchema.multiQuestions.transportation.transportationSchema,
-              residents: fullSchema.multiQuestions.residents.residentsSchema,
-              closeContact:
-                fullSchema.multiQuestions.closeContact.closeContactSchema,
+              healthHistory: fullSchema.properties.healthHistory,
+              employmentStatus: fullSchema.properties.employmentStatus,
+              transportation: fullSchema.properties.transportation,
+              residents: fullSchema.properties.residentsInHome,
+              closeContact: fullSchema.properties.closeContact,
               'view:contactInfoDescription': {
                 type: 'object',
                 properties: {},

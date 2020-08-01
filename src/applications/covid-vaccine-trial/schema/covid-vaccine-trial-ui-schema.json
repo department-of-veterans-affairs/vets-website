@@ -1,0 +1,111 @@
+{
+  "descriptionText": "Thank you for your interest in volunteering for COVID-19 research. If you’re a U.S. Veteran, please answer the questions below and we’ll add you to our VA volunteer registry. If we think you may meet the criteria for a research study, we’ll contact you for a phone interview.  Note: We won’t share your information with anyone outside of VA. If you're not a  Veteran, you can volunteer through the  COVID-19 Prevention Network.",
+  "diagnosed": {
+    "ui:title": "Have ever been diagnosed with COVID-19?",
+    "ui:widget": "yesNo"
+  },
+  "hospitalized": {
+    "ui:title": "Have you been hospitalized at any time in the past 6 months?",
+    "ui:widget": "yesNo"
+  },
+  "smokeOrVape": {
+    "ui:title": "Do you smoke or vape, or do you have a past history of smoking or vaping?",
+    "ui:widget": "yesNo"
+  },
+
+  "healthHistory": {
+    "description": "Do you have a history of any of the health issues listed below?",
+    "ui:title": "Do you have a history of any of the health issues listed below?",
+    "ui:description": "Please check all that apply.",
+    "ALLERGY_VACCINE": {
+      "ui:title": "Allergy to any vaccines"
+    },
+    "AUTOIMMUNE_DISEASE": {
+      "ui:title": "Autoimmune disease"
+    },
+    "CANCER": {
+      "ui:title": "Cancer"
+    },
+    "DIABETES": {
+      "ui:title": "Diabetes (type 1 or 2)"
+    },
+    "HEART_DISEASE": {
+      "ui:title": "Heart disease"
+    },
+    "HIGH_BLOOD_PRESSURE": {
+      "ui:title": "High blood pressure"
+    },
+    "IMMUNOCOMPROMISED": {
+      "ui:title": "Immunocompromised (including HIV/AIDS)"
+    },
+    "KIDNEY_LIVER_DISEASE": {
+      "ui:title": "Kidney or liver disease"
+    },
+    "LUNG_DISEASE": {
+      "ui:title": "Lung disease"
+    },
+    "STROKE": {
+      "ui:title": "Stroke"
+    },
+    "ANOTHER_SERIOUS_CHRONIC_ILLNESS": {
+      "ui:title": "Another serious chronic (long-term) illness"
+    }
+  },
+  "employmentStatus": {
+    "description": "Which work situation best describes you?",
+    "ui:title": "Which work situation best describes you?",
+    "ui:description": "Please check all that apply.",
+    "EMPLOYED_HOME": {
+      "ui:title": "Employed (working from home)"
+    },
+    "EMPLOYED_OUTSIDE_OF_HOME": {
+      "ui:title": "Employed (working outside the home)"
+    },
+    "FRONTLINE_WORKER": {
+      "ui:title": "Frontline health care provider"
+    },
+    "FURLOUGHED_UNEMPLOYED": {
+      "ui:title": "Furloughed or unemployed"
+    },
+    "RETIRED": {
+      "ui:title": "Retired"
+    },
+    "STUDENT": {
+      "ui:title": "Student"
+    },
+    "NONE_OF_ABOVE": {
+      "ui:title": "None of the above"
+    }
+  },
+  "transportation": {
+    "ui:title": "How do you get to work?",
+    "ui:description": "Please check all that apply.",
+    "CAR": {
+      "ui:title": "CAR"
+    },
+    "FREQUENT_AIR_TRAVEL": {
+      "ui:title": "Frequent air travel"
+    },
+    "PUBLIC_TRANSPORT": {
+      "ui:title": "Public transporation (bus, train, subway)"
+    },
+    "WALK_BIKE": {
+      "ui:title": "Walk or bike"
+    },
+    "WORK_FROM_HOME": {
+      "ui:title": "Work from home"
+    },
+    "NONE_OF_ABOVE": {
+      "ui:title": "None of the above"
+    }
+  },
+  "residents": {
+    "ui:title": "How many people live in your home?",
+    "ui:widget": "radio"
+  },
+  "closeContact": {
+    "ui:title": "On most days, how many people do you have close contact with outside of those who live in your home?",
+    "ui:description": "We define close contact as being within 6 feet of a person.",
+    "ui:widget": "radio"
+  }
+}

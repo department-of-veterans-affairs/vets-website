@@ -1,0 +1,173 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Covid Vaccine Trial",
+  "type": "object",
+  "additionalProperties": false,
+  "definitions": {
+    "email": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 80,
+      "format": "email"
+    },
+    "fullName": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "middle": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "suffix": {
+          "type": "string",
+          "enum": ["Jr.", "Sr.", "II", "III", "IV"]
+        }
+      },
+      "required": ["first", "last"]
+    },
+    "gender": {
+      "type": "string",
+      "enum": ["F", "M"]
+    },
+    "date": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "residentsInHome": {
+      "type": "string",
+      "enum": ["ONE_TWO", "THREE_FIVE", "SIX_TEN", "MORE_THAN_TEN"],
+      "enumNames": ["1 to 2", "3 to 5", "6 to 10", "More than 10"]
+    },
+    "healthHistory": {
+      "type": "object",
+      "properties": {
+        "ALLERGY_VACCINE": {
+          "type": "boolean"
+        },
+        "AUTOIMMUNE_DISEASE": {
+          "type": "boolean"
+        },
+        "CANCER": {
+          "type": "boolean"
+        },
+        "DIABETES": {
+          "type": "boolean"
+        },
+        "HEART_DISEASE": {
+          "type": "boolean"
+        },
+        "HIGH_BLOOD_PRESSURE": {
+          "type": "boolean"
+        },
+        "IMMUNOCOMPROMISED": {
+          "type": "boolean"
+        },
+        "KIDNEY_LIVER_DISEASE": {
+          "type": "boolean"
+        },
+        "LUNG_DISEASE": {
+          "type": "boolean"
+        },
+        "STROKE": {
+          "type": "boolean"
+        },
+        "ANOTHER_SERIOUS_CHRONIC_ILLNESS": {
+          "type": "boolean"
+        }
+      }
+    },
+    "diagnosed": {
+      "type": "boolean"
+    },
+    "hospitalized": {
+      "type": "boolean"
+    },
+    "smokeOrVape": {
+      "type": "boolean"
+    },
+    "employmentStatus": {
+      "description": "Which work situation best describes you?",
+      "type": "object",
+      "properties": {
+        "EMPLOYED_HOME": {
+          "type": "boolean"
+        },
+        "EMPLOYED_OUTSIDE_OF_HOME": {
+          "type": "boolean"
+        },
+        "FRONTLINE_WORKER": {
+          "type": "boolean"
+        },
+        "FURLOUGHED_UNEMPLOYED": {
+          "type": "boolean"
+        },
+        "RETIRED": {
+          "type": "boolean"
+        },
+        "STUDENT": {
+          "type": "boolean"
+        },
+        "NONE_OF_ABOVE": {
+          "type": "boolean"
+        }
+      }
+    },
+    "transportation": {
+      "type": "object",
+      "properties": {
+        "CAR": {
+          "type": "boolean"
+        },
+        "FREQUENT_AIR_TRAVEL": {
+          "type": "boolean"
+        },
+        "PUBLIC_TRANSPORT": {
+          "type": "boolean"
+        },
+        "WALK_BIKE": {
+          "type": "boolean"
+        },
+        "WORK_FROM_HOME": {
+          "type": "boolean"
+        },
+        "NONE_OF_ABOVE": {
+          "type": "boolean"
+        }
+      }
+    },
+    "closeContact": {
+      "type": "string",
+      "enum": [
+        "ZERO",
+        "ONE_TEN",
+        "ELEVEN_THIRTY",
+        "THIRTYONE_FIFTY",
+        "MORE_THAN_FIFTY"
+      ],
+      "enumNames": ["0", "1 to 10", "11 to 30", "31 to 50", "More than 50"]
+    },
+    "vetEmail": {
+      "$ref": "#/definitions/email"
+    },
+    "fullName": {
+      "$ref": "#/definitions/fullName"
+    },
+    "gender": {
+      "$ref": "#/definitions/gender"
+    },
+    "dateOfBirth": {
+      "$ref": "#/definitions/date"
+    }
+  },
+  "required": ["fullName"]
+}
