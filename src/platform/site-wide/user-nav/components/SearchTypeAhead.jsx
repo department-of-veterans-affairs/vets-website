@@ -34,11 +34,10 @@ export default class SearchTypeAhead extends Component {
 
     if (input?.length < 2) return;
 
-    const secret = '________SECRET_KEY________';
+    const encodedInput = encodeURIComponent(input);
+
     const response = await fetch(
-      `https://search.usa.gov/sayt?api_key=${secret}=&name=va&q=${encodeURIComponent(
-        input,
-      )}`,
+      `https://search.usa.gov/sayt?=&name=va&q=${encodedInput}`,
     );
 
     const suggestions = await response.json();
