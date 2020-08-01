@@ -136,7 +136,7 @@ export class AuthApp extends React.Component {
     this.redirect(authMetrics.userProfile);
   };
 
-  redirect = userProfile => {
+  redirect = (userProfile = {}) => {
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
 
     // Enforce LOA3 for external redirects to My VA Health

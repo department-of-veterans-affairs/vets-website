@@ -85,9 +85,10 @@ export function standaloneRedirect() {
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
-  const returnUrl = window.location.pathname.includes('/sign-in/')
-    ? standaloneRedirect() || window.location.origin
-    : window.location;
+  const returnUrl =
+    window.location.pathname === '/sign-in/'
+      ? standaloneRedirect() || window.location.origin
+      : window.location;
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
@@ -114,7 +115,20 @@ export function mfa(version = 'v0') {
 }
 
 export function verify(version = 'v0') {
-  return redirect(sessionTypeUrl('verify', version), 'verify-link-clicked');
+  // For first-time users attempting to navigate to My VA Health, The user must
+  // be LOA3. If they aren't, they will get prompted to verify with a valid redirect URL in sessionStorage.
+  // In that case, preserve the existing redirect and return
+  if (
+    sessionStorage.getItem(authnSettings.RETURN_URL) &&
+    sessionStorage
+      .getItem(authnSettings.RETURN_URL)
+      .includes(externalRedirects.myvahealth)
+  ) {
+    recordEvent({ event: 'verify-link-clicked' });
+    window.location = sessionTypeUrl('verify', version);
+  } else {
+    redirect(sessionTypeUrl('verify', version), 'verify-link-clicked');
+  }
 }
 
 export function logout(
