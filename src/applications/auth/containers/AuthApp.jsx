@@ -145,6 +145,7 @@ export class AuthApp extends React.Component {
       !userProfile.verified
     ) {
       window.location.replace('/sign-in/verify');
+      return;
     }
 
     sessionStorage.removeItem(authnSettings.RETURN_URL);
