@@ -118,12 +118,9 @@ export function verify(version = 'v0') {
   // For first-time users attempting to navigate to My VA Health, The user must
   // be LOA3. If they aren't, they will get prompted to verify with a valid redirect URL in sessionStorage.
   // In that case, preserve the existing redirect and return
-  if (
-    sessionStorage.getItem(authnSettings.RETURN_URL) &&
-    sessionStorage
-      .getItem(authnSettings.RETURN_URL)
-      .includes(externalRedirects.myvahealth)
-  ) {
+  const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL);
+
+  if (returnUrl && returnUrl.includes(externalRedirects.myvahealth)) {
     recordEvent({ event: 'verify-link-clicked' });
     window.location = sessionTypeUrl('verify', version);
   } else {
