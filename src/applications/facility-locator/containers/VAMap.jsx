@@ -704,13 +704,18 @@ class VAMap extends Component {
   };
 
   render() {
-    const chatbotLink = (
+    const coronavirusUpdate = (
       <>
-        For questions about how COVID-19 may affect your health appointments,
-        benefits, and services, use our{' '}
-        <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
+        Please call first to confirm services or ask about getting help by phone
+        or video. We require everyone entering a VA facility to wear a{' '}
+        <a href="/coronavirus-veteran-frequently-asked-questions/">
+          cloth face covering.
+        </a>{' '}
+        Get answers to questions about COVID-19 and VA benefits and services
+        with our <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
       </>
     );
+
     return (
       <div>
         <div className="title-section">
@@ -724,15 +729,7 @@ class VAMap extends Component {
             health care providers.
           </p>
           <p>
-            <strong>Coronavirus update:</strong> {chatbotLink} Many locations
-            have changing hours and services. For your safety, please call
-            before visiting to ask about getting help by phone or video. We
-            require everyone entering a VA facility to wear a cloth face
-            covering.{' '}
-            <a href="/coronavirus-veteran-frequently-asked-questions/">
-              Learn more about this requirement
-            </a>
-            .
+            <strong>Coronavirus update:</strong> {coronavirusUpdate}
           </p>
           <p>
             <strong>Need same-day care for a minor illness or injury?</strong>{' '}

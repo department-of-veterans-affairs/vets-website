@@ -89,7 +89,6 @@ describe('PersonalInformation', () => {
     expect(
       view.getByText(/please add your fax number/i, { selector: 'button' }),
     ).to.exist;
-    expect(view.getByText(/please add your email/i, { selector: 'button' })).to
-      .exist;
+    expect(view.getByText('me@me.com')).to.exist;
   });
 });
