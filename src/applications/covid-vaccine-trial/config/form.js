@@ -1,8 +1,9 @@
 import _ from 'lodash';
 
-// import fullSchema from 'vets-json-schema/dist/covid-vaccine-trial-schema.json';
+// import test from 'vets-json-schema/dist/'
+// import fullSchema1 from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
 import fullSchema from '../schema/covid-vaccine-trial-schema.json';
-import schemaDefinitions from 'vets-json-schema/dist/definitions.json';
+import definitions from 'vets-json-schema/dist/definitions.json';
 
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
@@ -15,7 +16,7 @@ import dataUtils from 'platform/utilities/data/index';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-const { fullName } = schemaDefinitions;
+const { fullName } = definitions;
 const { get, omit, set } = dataUtils;
 
 export function validateEmailsMatch(errors, pageData) {
@@ -30,6 +31,7 @@ export function validatePhone(errors, pageData) {
     errors.phone.addError('Please enter a valid 10-digit phone number');
   }
 }
+// console.log('Testing ');
 
 const formConfig = {
   urlPrefix: '/',
