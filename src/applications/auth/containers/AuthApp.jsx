@@ -5,6 +5,9 @@ import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
@@ -318,13 +321,7 @@ export class AuthApp extends React.Component {
                   Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re
                   here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
                   have hearing loss, call TTY:{' '}
-                  <a
-                    href="tel:800-877-3399"
-                    aria-label="8 0 0. 8 7 7. 3 3 9 9."
-                  >
-                    800-877-3399
-                  </a>
-                  .
+                  <Telephone contact={CONTACTS.FEDERAL_RELAY_SERVICE} />.
                 </p>
                 <p>
                   Tell the representative that you tried to sign in to VA.gov,

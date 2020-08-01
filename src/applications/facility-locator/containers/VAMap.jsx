@@ -37,6 +37,7 @@ import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
+import SearchResultsHeader from '../components/SearchResultsHeader';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -181,9 +182,15 @@ class VAMap extends Component {
     const { currentQuery: prevQuery } = prevProps;
     const updatedQuery = this.props.currentQuery;
 
-    const shouldZoomOut = // ToTriggerNewSearch
-      !updatedQuery.searchBoundsInProgress &&
-      prevQuery.searchBoundsInProgress && // search completed
+    const searchCompleted =
+      !updatedQuery.searchBoundsInProgress && prevQuery.searchBoundsInProgress;
+
+    if (searchCompleted && this.searchResultTitle.current) {
+      setFocus(this.searchResultTitle.current);
+    }
+
+    const shouldZoomOut =
+      searchCompleted &&
       isEmpty(this.props.results) &&
       updatedQuery.bounds &&
       parseInt(updatedQuery.zoomLevel, 10) > 2 &&
@@ -511,6 +518,15 @@ class VAMap extends Component {
     return mapMarkers;
   };
 
+  renderResultsHeader = (results, facilityType, queryContext) => (
+    <SearchResultsHeader
+      results={results}
+      facilityType={facilityType}
+      context={queryContext}
+      inProgress={this.props.currentQuery.inProgress}
+    />
+  );
+
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
@@ -522,6 +538,9 @@ class VAMap extends Component {
       pagination: { currentPage, totalPages },
     } = this.props;
     const facilityLocatorMarkers = this.renderMapMarkers();
+    const facilityType = currentQuery.facilityType;
+    const queryContext = currentQuery.context;
+
     return (
       <div>
         <div className="columns small-12">
@@ -533,22 +552,9 @@ class VAMap extends Component {
             isMobile
           />
           <div>{showDialogUrgCare(currentQuery)}</div>
-          {/* <div ref={this.searchResultTitle}>
-            {results.length > 0 ? (
-              <p className="search-result-title">
-                <strong>{totalEntries} results</strong>
-                {` for `}
-                <strong>
-                  {facilityTypes[this.props.currentQuery.facilityType]}
-                </strong>
-                {` near `}
-                <strong>“{this.props.currentQuery.context}”</strong>
-              </p>
-            ) : (
-              <br />
-            )}
-          </div> */}
-          <br />
+          <div ref={this.searchResultTitle}>
+            {this.renderResultsHeader(results, facilityType, queryContext)}
+          </div>
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -571,7 +577,6 @@ class VAMap extends Component {
               )}
             </TabPanel>
             <TabPanel>
-              {otherToolsLink}
               <Map
                 ref="map"
                 center={position}
@@ -606,6 +611,7 @@ class VAMap extends Component {
               )}
             </TabPanel>
           </Tabs>
+          {otherToolsLink}
         </div>
       </div>
     );
@@ -620,6 +626,9 @@ class VAMap extends Component {
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
+    const facilityType = currentQuery.facilityType;
+    const queryContext = currentQuery.context;
+
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderMapMarkers();
@@ -635,22 +644,9 @@ class VAMap extends Component {
           />
         </div>
         <div>{showDialogUrgCare(currentQuery)}</div>
-        {/* <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
-          {results.length > 0 ? (
-            <p className="search-result-title">
-              <strong>{totalEntries} results</strong>
-              {` for `}
-              <strong>
-                {facilityTypes[this.props.currentQuery.facilityType]}
-              </strong>
-              {` near `}
-              <strong>“{this.props.currentQuery.context}”</strong>
-            </p>
-          ) : (
-            <br >
-          )}
-        </div> */}
-        <br />
+        <div ref={this.searchResultTitle}>
+          {this.renderResultsHeader(results, facilityType, queryContext)}
+        </div>
         <div className="row">
           <div
             className="columns usa-width-one-third medium-4 small-12"
@@ -670,7 +666,6 @@ class VAMap extends Component {
             className="columns usa-width-two-thirds medium-8 small-12"
             style={{ minHeight: '75vh', paddingLeft: '0px' }}
           >
-            {otherToolsLink}
             <Map
               ref="map"
               center={position}
@@ -693,6 +688,7 @@ class VAMap extends Component {
                 </FeatureGroup>
               )}
             </Map>
+            {otherToolsLink}
           </div>
         </div>
         {currentPage &&
@@ -708,13 +704,18 @@ class VAMap extends Component {
   };
 
   render() {
-    const chatbotLink = (
+    const coronavirusUpdate = (
       <>
-        For questions about how COVID-19 may affect your health appointments,
-        benefits, and services, use our{' '}
-        <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
+        Please call first to confirm services or ask about getting help by phone
+        or video. We require everyone entering a VA facility to wear a{' '}
+        <a href="/coronavirus-veteran-frequently-asked-questions/">
+          cloth face covering.
+        </a>{' '}
+        Get answers to questions about COVID-19 and VA benefits and services
+        with our <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
       </>
     );
+
     return (
       <div>
         <div className="title-section">
@@ -728,15 +729,7 @@ class VAMap extends Component {
             health care providers.
           </p>
           <p>
-            <strong>Coronavirus update:</strong> {chatbotLink} Many locations
-            have changing hours and services. For your safety, please call
-            before visiting to ask about getting help by phone or video. We
-            require everyone entering a VA facility to wear a cloth face
-            covering.{' '}
-            <a href="/coronavirus-veteran-frequently-asked-questions/">
-              Learn more about this requirement
-            </a>
-            .
+            <strong>Coronavirus update:</strong> {coronavirusUpdate}
           </p>
           <p>
             <strong>Need same-day care for a minor illness or injury?</strong>{' '}
