@@ -10,6 +10,8 @@ describe('Common Row component', () => {
     const tree = render(<Row testId="12345" />);
 
     expect(tree.getByTestId('12345')).to.not.be.null;
+    expect(tree.container.innerHTML).to.matchSnapshot();
+
     tree.unmount();
   });
 
@@ -19,6 +21,8 @@ describe('Common Row component', () => {
     const tree = render(<Row>{childComponent}</Row>);
 
     expect(tree.getByTestId('12345')).to.not.be.null;
+    expect(tree.container.innerHTML).to.matchSnapshot();
+
     tree.unmount();
   });
 
@@ -28,6 +32,8 @@ describe('Common Row component', () => {
     const tree = render(<Row classNames={classNames} testId="12345" />);
 
     expect(tree.getByTestId('12345')).to.have.class(classNames);
+    expect(tree.container.innerHTML).to.matchSnapshot();
+
     tree.unmount();
   });
 
@@ -37,6 +43,8 @@ describe('Common Row component', () => {
     const tree = render(<Row role={role} testId="12345" />);
 
     expect(tree.getByTestId('12345')).to.not.be.null;
+    expect(tree.container.innerHTML).to.matchSnapshot();
+
     tree.unmount();
   });
 });

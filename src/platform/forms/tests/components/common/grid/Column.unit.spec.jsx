@@ -10,6 +10,8 @@ describe('Common Column component', () => {
     const tree = render(<Column testId="12345" />);
 
     expect(tree.getByTestId('12345')).to.not.be.null;
+    expect(tree.container.innerHTML).to.matchSnapshot();
+
     tree.unmount();
   });
 
@@ -19,6 +21,8 @@ describe('Common Column component', () => {
     const tree = render(<Column>{childComponent}</Column>);
 
     expect(tree.getByTestId('12345')).to.not.be.null;
+    expect(tree.container.innerHTML).to.matchSnapshot();
+
     tree.unmount();
   });
 
@@ -28,6 +32,8 @@ describe('Common Column component', () => {
     const tree = render(<Column classNames={classNames} />);
 
     expect(tree.container.firstChild).to.have.class(classNames);
+    expect(tree.container.innerHTML).to.matchSnapshot();
+
     tree.unmount();
   });
 
@@ -37,6 +43,8 @@ describe('Common Column component', () => {
     const tree = render(<Column role={role} testId="12345" />);
 
     expect(tree.getByTestId('12345')).to.have.attribute('role', role);
+    expect(tree.container.innerHTML).to.matchSnapshot();
+
     tree.unmount();
   });
 });
