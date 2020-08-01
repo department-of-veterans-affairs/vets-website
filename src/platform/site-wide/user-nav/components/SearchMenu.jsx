@@ -3,12 +3,15 @@ import React from 'react';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
+import environment from 'platform/utilities/environment';
 
 import SearchTypeAhead from './SearchTypeAhead';
 
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
+
+const isTypeaheadEnabled = !environment.isProduction();
 
 class SearchMenu extends React.Component {
   constructor(props) {
@@ -18,6 +21,51 @@ class SearchMenu extends React.Component {
       userInput: '',
     };
   }
+
+  componentDidUpdate() {
+    if (!isTypeaheadEnabled) {
+      this.refs.searchField.focus();
+    }
+  }
+
+  handleInputChange = e => {
+    this.setState({ userInput: e.target.value });
+  };
+
+  makeForm = () => {
+    const validUserInput =
+      this.state.userInput &&
+      this.state.userInput.replace(/\s/g, '').length > 0;
+
+    return (
+      <form
+        acceptCharset="UTF-8"
+        action={this.state.searchAction}
+        id="search"
+        method="get"
+      >
+        <label htmlFor="query" className="usa-sr-only">
+          Search:
+        </label>
+
+        <div className="va-flex">
+          <input
+            autoComplete="off"
+            ref="searchField"
+            className="usagov-search-autocomplete"
+            id="query"
+            name="query"
+            type="text"
+            onChange={this.handleInputChange}
+          />
+          <button type="submit" disabled={!validUserInput}>
+            <IconSearch color="#fff" />
+            <span className="usa-sr-only">Search</span>
+          </button>
+        </div>
+      </form>
+    );
+  };
 
   render() {
     const buttonClasses = classNames(
@@ -38,7 +86,11 @@ class SearchMenu extends React.Component {
         icon={icon}
         isOpen={this.props.isOpen}
       >
-        <SearchTypeAhead isVisible={this.props.isOpen} />
+        {isTypeaheadEnabled ? (
+          <SearchTypeAhead isVisible={this.props.isOpen} />
+        ) : (
+          this.makeForm()
+        )}
       </DropDownPanel>
     );
   }
