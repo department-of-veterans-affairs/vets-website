@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-// import test from 'vets-json-schema/dist/'
 // import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
 import fullSchema from '../schema/covid-vaccine-trial-schema_temp.json';
 import uiSchemaDefinitions from '../schema/covid-vaccine-trial-ui-schema.json';
@@ -18,8 +17,25 @@ import dataUtils from 'platform/utilities/data/index';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+const {
+  healthHeaderText,
+  diagnosed,
+  closeContactPositive,
+  hospitalized,
+  smokeOrVape,
+  healthHistory,
+  exposureRiskText,
+  employmentStatus,
+  transportation,
+  residents,
+  closeContact,
+  contactInfoText,
+  thankYouText,
+  closingText,
+} = uiSchemaDefinitions;
+
 const { fullName } = definitions;
-const { get, omit, set } = dataUtils;
+const { set } = dataUtils;
 
 export function validateEmailsMatch(errors, pageData) {
   const { email, confirmEmail } = pageData;
@@ -58,18 +74,20 @@ const formConfig = {
           title: 'Personal Information - Page 1',
           uiSchema: {
             'ui:description': uiSchemaDefinitions.descriptionText, // todo - figure out how to get this to use formatting
-            diagnosed: uiSchemaDefinitions.diagnosed,
-            hospitalized: uiSchemaDefinitions.hospitalized,
-            smokeOrVape: uiSchemaDefinitions.smokeOrVape,
-            healthHistory: uiSchemaDefinitions.healthHistory,
-            employmentStatus: uiSchemaDefinitions.employmentStatus,
-            transportation: uiSchemaDefinitions.transportation,
-            residents: uiSchemaDefinitions.residents,
-            closeContact: uiSchemaDefinitions.closeContact,
-            'view:contactInfoDescription': {
-              'ui:description':
-                'Your contact information (all fields required)',
-            },
+            healthHeaderText,
+            diagnosed,
+            closeContactPositive,
+            hospitalized,
+            smokeOrVape,
+            healthHistory,
+            exposureRiskText,
+            employmentStatus,
+            transportation,
+            residents,
+            closeContact,
+            contactInfoText,
+            thankYouText,
+            closingText,
             'ui:validations': [validateEmailsMatch, validatePhone],
             fullName: _.merge(fullNameUI, {
               first: {
@@ -94,24 +112,18 @@ const formConfig = {
             required: ['phone'],
             type: 'object',
             properties: {
-              diagnosed: {
-                type: 'boolean',
-              },
-              hospitalized: {
-                type: 'boolean',
-              },
-              smokeOrVape: {
-                type: 'boolean',
-              },
+              healthHeaderText: fullSchema.properties.healthHeaderText,
+              diagnosed: fullSchema.properties.diagnosed,
+              closeContactPositive: fullSchema.properties.closeContactPositive,
+              hospitalized: fullSchema.properties.hospitalized,
+              smokeOrVape: fullSchema.properties.smokeOrVape,
               healthHistory: fullSchema.properties.healthHistory,
+              exposureRiskText: fullSchema.properties.exposureRiskText,
               employmentStatus: fullSchema.properties.employmentStatus,
               transportation: fullSchema.properties.transportation,
               residents: fullSchema.properties.residentsInHome,
               closeContact: fullSchema.properties.closeContact,
-              'view:contactInfoDescription': {
-                type: 'object',
-                properties: {},
-              },
+              contactInfoText: fullSchema.properties.contactInfoText,
               fullName: set('required', ['first', 'last'], fullName),
               email: {
                 type: 'string',
@@ -124,6 +136,8 @@ const formConfig = {
               phone: {
                 type: 'string',
               },
+              thankYouText: fullSchema.properties.thankYouText,
+              closingText: fullSchema.properties.closingText,
             },
           },
         },

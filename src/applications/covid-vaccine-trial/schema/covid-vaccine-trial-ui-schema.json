@@ -1,11 +1,23 @@
 {
   "descriptionText": "Thank you for your interest in volunteering for COVID-19 research. If you’re a U.S. Veteran, please answer the questions below and we’ll add you to our VA volunteer registry. If we think you may meet the criteria for a research study, we’ll contact you for a phone interview.  Note: We won’t share your information with anyone outside of VA. If you're not a  Veteran, you can volunteer through the  COVID-19 Prevention Network.",
   "diagnosed": {
-    "ui:title": "Have ever been diagnosed with COVID-19?",
+    "ui:title": "Have ever been tested for and diagnosed with COVID-19?",
     "ui:widget": "yesNo"
   },
+  "closeContactPositive": {
+    "ui:title": "In the past month, have you been in close contact with anyone who tested positive for COVID-19?",
+    "ui:description": "We define close contact as being within 6 feet of a person.",
+    "ui:widget": "radio",
+    "ui:options": {
+      "labels": {
+        "YES": "Yes",
+        "NO": "No",
+        "UNSURE": "I don't know"
+      }
+    }
+  },
   "hospitalized": {
-    "ui:title": "Have you been hospitalized at any time in the past 6 months?",
+    "ui:title": "In the past 6 months, have you been hospitalized at any time?",
     "ui:widget": "yesNo"
   },
   "smokeOrVape": {
@@ -21,13 +33,13 @@
       "ui:title": "Allergy to any vaccines"
     },
     "AUTOIMMUNE_DISEASE": {
-      "ui:title": "Autoimmune disease"
+      "ui:title": "Autoimmune disease (like rheumatoid arthritis or lupus)"
     },
     "CANCER": {
       "ui:title": "Cancer"
     },
     "DIABETES": {
-      "ui:title": "Diabetes (type 1 or 2)"
+      "ui:title": "Diabetes (Type 1 or 2)"
     },
     "HEART_DISEASE": {
       "ui:title": "Heart disease"
@@ -36,7 +48,7 @@
       "ui:title": "High blood pressure"
     },
     "IMMUNOCOMPROMISED": {
-      "ui:title": "Immunocompromised (including HIV/AIDS)"
+      "ui:title": "Compromised immune system (including due to HIV/AIDS)"
     },
     "KIDNEY_LIVER_DISEASE": {
       "ui:title": "Kidney or liver disease"
@@ -101,11 +113,43 @@
   },
   "residents": {
     "ui:title": "How many people live in your home?",
-    "ui:widget": "radio"
+    "ui:widget": "radio",
+    "ui:options": {
+      "labels": {
+        "ONE_TWO": "1 to 2",
+        "THREE_FIVE": "3 to 5",
+        "SIX_TEN": "6 to 10",
+        "MORE_THAN_TEN": "More than 10"
+      }
+    }
   },
   "closeContact": {
     "ui:title": "On most days, how many people do you have close contact with outside of those who live in your home?",
     "ui:description": "We define close contact as being within 6 feet of a person.",
-    "ui:widget": "radio"
+    "ui:widget": "radio",
+    "ui:options": {
+      "labels": {
+        "ZERO": "0",
+        "ONE_TEN": "1 to 10",
+        "ELEVEN_THIRTY": "11 to 30",
+        "THIRTYONE_FIFTY": "31 to 50",
+        "MORE_THAN_FIFTY": "More than 50"
+      }
+    }
+  },
+  "contactInfoText": {
+    "ui:description": "Your contact and personal information (all fields required)"
+  },
+  "healthHeaderText": {
+    "ui:description": "Help us understand your health"
+  },
+  "exposureRiskText": {
+    "ui:description": "Help us understand your COVID-19 exposure risk"
+  },
+  "thankYouText": {
+    "ui:description": "Thank you for volunteering for COVID-19 research.  We appreciate your commitment to helping others through this important research effort."
+  },
+  "closingText": {
+    "ui:description": "If we think you may be eligible for a research study..."
   }
 }
