@@ -447,13 +447,14 @@ export function selectExpressCareData(state) {
  * Selects any EC windows that we're in at the current (or provided) time
  */
 export function selectActiveExpressCareWindows(state, nowMoment) {
-  const now = (nowMoment || moment).utc();
+  const now = nowMoment || moment();
   return state.expressCare.supportedFacilities
     ?.map(({ days, facilityId }) => {
       const siteId = facilityId.substring(0, 3);
       const { timezone } = getTimezoneBySystemId(siteId);
       const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
       const currentDayOfWeek = now
+        .clone()
         .tz(timezone)
         .format('dddd')
         .toUpperCase();
@@ -463,8 +464,8 @@ export function selectActiveExpressCareWindows(state, nowMoment) {
         return null;
       }
 
-      const start = moment.tz(activeDay.startTime, 'hh:mm', timezone);
-      const end = moment.tz(activeDay.endTime, 'hh:mm', timezone);
+      const start = moment.tz(activeDay.startTime, 'HH:mm', timezone);
+      const end = moment.tz(activeDay.endTime, 'HH:mm', timezone);
 
       if (!now.isBetween(start, end)) {
         return null;
@@ -552,8 +553,8 @@ export function selectExpressCareHours(state) {
       const [start, end] = hours.split('_');
       return `${days.map(titleCase).join(', ')} from ${moment(
         start,
-        'hh:mm',
-      ).format('h:mm a')} to ${moment(end, 'hh:mm').format(
+        'HH:mm',
+      ).format('h:mm a')} to ${moment(end, 'HH:mm').format(
         'h:mm a',
       )} ${timezoneAbbreviation}`;
     })

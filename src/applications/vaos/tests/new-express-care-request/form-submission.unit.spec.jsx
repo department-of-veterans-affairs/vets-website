@@ -50,12 +50,12 @@ describe('VAOS integration: Express Care form submission', () => {
           .clone()
           .subtract('30', 'minutes')
           .tz('America/Denver')
-          .format('hh:mm'),
+          .format('HH:mm'),
         endTime: today
           .clone()
           .add('15', 'minutes')
           .tz('America/Denver')
-          .format('hh:mm'),
+          .format('HH:mm'),
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
@@ -187,12 +187,12 @@ describe('VAOS integration: Express Care form submission', () => {
           .clone()
           .subtract('30', 'minutes')
           .tz('America/Denver')
-          .format('hh:mm'),
+          .format('HH:mm'),
         endTime: today
           .clone()
           .add('15', 'minutes')
           .tz('America/Denver')
-          .format('hh:mm'),
+          .format('HH:mm'),
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
@@ -248,12 +248,12 @@ describe('VAOS integration: Express Care form submission', () => {
           .clone()
           .subtract('30', 'minutes')
           .tz('America/Denver')
-          .format('hh:mm'),
+          .format('HH:mm'),
         endTime: today
           .clone()
           .subtract('15', 'minutes')
           .tz('America/Denver')
-          .format('hh:mm'),
+          .format('HH:mm'),
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);

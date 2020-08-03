@@ -41,8 +41,8 @@ describe('VAOS integration: Express Care info page', () => {
           .format('dddd')
           .toUpperCase(),
         canSchedule: true,
-        startTime: startTime.format('hh:mm'),
-        endTime: endTime.format('hh:mm'),
+        startTime: startTime.format('HH:mm'),
+        endTime: endTime.format('HH:mm'),
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
@@ -91,12 +91,12 @@ describe('VAOS integration: Express Care info page', () => {
           .clone()
           .subtract('30', 'minutes')
           .tz('America/Denver')
-          .format('hh:mm'),
+          .format('HH:mm'),
         endTime: today
           .clone()
           .subtract('15', 'minutes')
           .tz('America/Denver')
-          .format('hh:mm'),
+          .format('HH:mm'),
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);

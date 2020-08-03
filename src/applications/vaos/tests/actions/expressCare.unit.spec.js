@@ -57,12 +57,12 @@ describe('VAOS Express Care actions', () => {
           .clone()
           .subtract('30', 'minutes')
           .tz('America/Denver')
-          .format('hh:mm'),
+          .format('HH:mm'),
         endTime: today
           .clone()
           .add('15', 'minutes')
           .tz('America/Denver')
-          .format('hh:mm'),
+          .format('HH:mm'),
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
