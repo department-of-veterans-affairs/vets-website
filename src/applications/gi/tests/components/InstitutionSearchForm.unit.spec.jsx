@@ -2,11 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { expect } from 'chai';
 
-// import createCommonStore from 'platform/startup/store';
-
-// import { Provider } from 'react-redux';
-
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import InstitutionSearchForm from '../../components/search/InstitutionSearchForm';
 
