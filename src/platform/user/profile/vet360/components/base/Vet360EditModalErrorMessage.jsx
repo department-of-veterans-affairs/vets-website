@@ -58,7 +58,6 @@ export default function Vet360EditModalErrorMessage({
       isVisible
       onCloseAlert={clearErrors}
       scrollOnShow
-      scrollPosition="end"
       status="error"
     />
   );
