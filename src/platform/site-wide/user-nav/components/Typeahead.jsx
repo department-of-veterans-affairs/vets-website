@@ -21,7 +21,7 @@ export default class Typeahead extends React.Component {
 
   async getSuggestions() {
     const input = this.props.userInput;
-    if (input?.length < 2) return;
+    if (input?.length <= 2) return;
 
     const encodedInput = encodeURIComponent(input);
     const response = await fetch(
