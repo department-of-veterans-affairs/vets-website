@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -14,6 +15,7 @@ import ExpressCareReasonField from '../components/ExpressCareReasonField';
 import * as actions from '../actions/expressCare';
 
 const pageKey = 'form';
+const pageTitle = 'Select a reason for your Express Care request';
 
 const initialSchema = {
   type: 'object',
@@ -106,6 +108,8 @@ function ExpressCareFormPage({
   updateFormData,
 }) {
   useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
     openReasonForRequestPage(pageKey, uiSchema, initialSchema);
   }, []);
 
@@ -113,7 +117,7 @@ function ExpressCareFormPage({
 
   return (
     <div>
-      <h1>Select a reason for your Express Care request</h1>
+      <h1>{pageTitle}</h1>
       <SchemaForm
         name="Type of appointment"
         title="Type of appointment"
