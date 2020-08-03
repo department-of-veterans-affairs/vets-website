@@ -16,29 +16,27 @@
   }
 {% endcomment %}
 
-<div data-template="paragraphs/q_a.collapsible_panel" class="usa-accordion">
-  <ul class="usa-unstyled-list">
-      {% for accordionItem in questions %}
-        {% assign item = accordionItem.entity %}
-        <li itemscope="" itemtype="http://schema.org/Question">
-          <button
-            class="usa-accordion-button usa-button-unstyled"
-            aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
-            itemprop="name"
-          >
-            {{ item.fieldQuestion }}
-          </button>
-          <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
-            <div itemprop="text">
-
-              {% for answer in item.fieldAnswer %}
-
-                {%  assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
+<div data-template="paragraphs/q_a.collapsible_panel" >
+  <div class="usa-accordion">
+    <ul class="usa-unstyled-list">
+        {% for accordionItem in questions %}
+          {% assign item = accordionItem.entity %}
+          <li>
+          <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <button class="usa-accordion-button usa-button-unstyled" aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
+              <span itemprop="name">{{ item.fieldQuestion }}</span>
+            </button>
+            <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content">
+              <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
+                {% for answer in item.fieldAnswer %}
+                  {%  assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
                   {% include {{ bundleComponent }} with entity = answer.entity %}
-              {%  endfor %}
+                {% endfor %}
+              </div>
             </div>
-          </div>
-        </li>
-      {% endfor %}
-  </ul>
+            </div>
+          </li>
+        {% endfor %}
+    </ul>
+  </div>
 </div>

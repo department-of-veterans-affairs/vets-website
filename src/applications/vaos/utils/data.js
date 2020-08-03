@@ -21,7 +21,11 @@ import {
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
-import { findCharacteristic } from '../services/healthcare-service/transformers';
+import {
+  findCharacteristic,
+  getClinicIdentifier,
+  getSiteCode,
+} from '../services/healthcare-service/transformers';
 
 function getRequestedDates(data) {
   return data.calendarData.selectedDates.reduce(
@@ -239,8 +243,8 @@ export function transformFormToAppointment(state) {
   return {
     appointmentType: getTypeOfCare(data).name,
     clinic: {
-      siteCode: clinic.id.split('_')[0].replace('var', ''),
-      clinicId: clinic.id.split('_')[1],
+      siteCode: getSiteCode(clinic),
+      clinicId: getClinicIdentifier(clinic),
       clinicName: clinic.serviceName,
       clinicFriendlyLocationName: findCharacteristic(
         clinic,
@@ -257,7 +261,7 @@ export function transformFormToAppointment(state) {
     duration: appointmentLength,
     bookingNotes: purpose,
     preferredEmail: data.email,
-    timeZone: facility.legacyVAR.institutionTimezone,
+    timeZone: facility.legacyVAR?.institutionTimezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',

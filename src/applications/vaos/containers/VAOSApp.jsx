@@ -18,6 +18,7 @@ import {
 import NoRegistrationMessage from '../components/NoRegistrationMessage';
 import AppUnavailable from '../components/AppUnavailable';
 import ErrorMessage from '../components/ErrorMessage';
+import DowntimeMessage from '../components/DowntimeMessage';
 
 export class VAOSApp extends React.Component {
   constructor(props) {
@@ -79,8 +80,11 @@ export class VAOSApp extends React.Component {
         {!loadingFeatureToggles &&
           showApplication && (
             <DowntimeNotification
-              appTitle="VA online scheduling"
+              appTitle="VA online scheduling tool"
               dependencies={[externalServices.mvi, externalServices.vaos]}
+              render={(props, childContent) => (
+                <DowntimeMessage {...props}>{childContent}</DowntimeMessage>
+              )}
             >
               {!hasRegisteredSystems && (
                 <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">

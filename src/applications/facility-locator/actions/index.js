@@ -162,8 +162,7 @@ export const searchWithBounds = ({
       },
     });
 
-    if (needsAddress.includes(facilityType) && ccLocatorEnabled()) {
-      // Remove Feature-flag when going live. ^^^
+    if (needsAddress.includes(facilityType)) {
       reverseGeocodeBox(bounds).then(address => {
         if (!address) {
           dispatch({
