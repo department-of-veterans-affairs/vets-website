@@ -15,35 +15,48 @@ export default function ExpressCareReasonField({
   const hasError =
     formContext.submitted && errorSchema.reason.__errors.length > 0;
 
-  const fieldsetClasses = classNames({
+  const radioGroupClasses = classNames({
     'usa-input-error': hasError,
   });
 
   return (
     <>
-      <fieldset className={fieldsetClasses}>
-        {hasError && (
-          <span className="usa-input-error-message" role="alert">
-            <span className="sr-only">Error</span> Please select a symptom
-          </span>
-        )}
-        {uiSchema.options.items.map((option, index) => {
-          const checked = option.value === reason;
-          const divClasses = classNames('vads-u-padding-left--1', {
-            'vads-u-padding-bottom--1': checked,
-            'vads-u-border-color--primary-alt-light': checked,
-            'vads-u-border-color--white': !checked,
-            'vads-u-border-left--7px': !hasError,
-            'vads-u-margin-left--neg2': !hasError,
-          });
+      <h2>Tell us about your health concern</h2>
+      <fieldset>
+        <legend
+          id="vaos-express-care__radiogroup-label"
+          className="vads-u-font-size--base vads-u-color--gray-dark vads-u-font-weight--normal"
+        >
+          Please select a concern from the list the best fits your needs today.
+          <span className="schemaform-required-span">(*Required)</span>
+        </legend>
+        <div
+          className={radioGroupClasses}
+          aria-labelledby="vaos-express-care__radiogroup-label"
+        >
+          {hasError && (
+            <span className="usa-input-error-message" role="alert">
+              <span className="sr-only">Error</span> Please select a symptom
+            </span>
+          )}
+          {uiSchema.options.items.map((option, index) => {
+            const checked = option.value === reason;
+            const divClasses = classNames('vads-u-padding-left--1', {
+              'vads-u-padding-bottom--1': checked,
+              'vads-u-border-color--primary-alt-light': checked,
+              'vads-u-border-color--white': !checked,
+              'vads-u-border-left--7px': !hasError,
+              'vads-u-margin-left--neg2': !hasError,
+            });
 
-          return (
-            <div key={`reason-radio-${index}`} className={divClasses}>
-              <div>
+            return (
+              <div key={`reason-radio-${index}`} className={divClasses}>
                 <input
                   type="radio"
                   id={`vaos-express-care__radio-${option.id}`}
+                  name="vaos-express-care__radio"
                   checked={checked}
+                  aria-checked={checked}
                   value={option.value}
                   onChange={_ =>
                     onChange({ ...formData, reason: option.value })
@@ -67,33 +80,33 @@ export default function ExpressCareReasonField({
                     )}
                   </div>
                 </label>
-              </div>
 
-              {checked && (
-                <div className="vaos-express-care__reason-textarea-container">
-                  <label
-                    htmlFor={`vaos-express-care__textarea-${option.id}`}
-                    className="vads-u-margin-top--2"
-                  >
-                    Please provide additional details about your symptoms
-                    (optional)
-                  </label>
-                  <textarea
-                    id={`vaos-express-care__textarea-${option.id}`}
-                    className="vads-u-margin-top--0p5"
-                    value={additionalInformation}
-                    onChange={e =>
-                      onChange({
-                        ...formData,
-                        additionalInformation: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              )}
-            </div>
-          );
-        })}
+                {checked && (
+                  <div className="vaos-express-care__reason-textarea-container">
+                    <label
+                      htmlFor={`vaos-express-care__textarea-${option.id}`}
+                      className="vads-u-margin-top--2"
+                    >
+                      Please provide additional details about your symptoms
+                      (optional)
+                    </label>
+                    <textarea
+                      id={`vaos-express-care__textarea-${option.id}`}
+                      className="vads-u-margin-top--0p5"
+                      value={additionalInformation}
+                      onChange={e =>
+                        onChange({
+                          ...formData,
+                          additionalInformation: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </fieldset>
       <AlertBox
         status="info"

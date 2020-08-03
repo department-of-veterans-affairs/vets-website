@@ -151,8 +151,10 @@ export default function expressCareReducer(state = initialState, action) {
       const newRequest = { ...state.newRequest };
       const prefilledData = {
         ...newRequest.data,
-        phoneNumber: newRequest.data.phoneNumber || action.phoneNumber,
-        email: newRequest.data.email || action.email,
+        contactInfo: {
+          phoneNumber: newRequest.data.phoneNumber || action.phoneNumber,
+          email: newRequest.data.email || action.email,
+        },
       };
 
       const { data, schema } = setupFormData(

@@ -19,7 +19,6 @@ const pageTitle = 'Select a reason for your Express Care request';
 
 const initialSchema = {
   type: 'object',
-  required: ['reasonForRequest', 'phoneNumber', 'email'],
   properties: {
     'view:textObject': {
       type: 'object',
@@ -41,29 +40,24 @@ const initialSchema = {
       type: 'object',
       properties: {},
     },
-    phoneNumber: {
-      type: 'string',
-      pattern: '^[0-9]{10}$',
-    },
-    email: {
-      type: 'string',
-      format: 'email',
+    contactInfo: {
+      type: 'object',
+      required: ['phoneNumber', 'email'],
+      properties: {
+        phoneNumber: {
+          type: 'string',
+          pattern: '^[0-9]{10}$',
+        },
+        email: {
+          type: 'string',
+          format: 'email',
+        },
+      },
     },
   },
 };
 
 const uiSchema = {
-  'view:textObject': {
-    'ui:description': (
-      <>
-        <h2>Tell us about your health concern</h2>
-        <p>
-          Please select a concern from the list the best fits your needs today.
-          <span className="schemaform-required-span">(*Required)</span>
-        </p>
-      </>
-    ),
-  },
   reasonForRequest: {
     'ui:field': ExpressCareReasonField,
     'ui:description': <h3>text</h3>,
@@ -76,20 +70,22 @@ const uiSchema = {
       })),
     },
   },
-  'view:textObject2': {
-    'ui:description': (
-      <>
-        <h2>Share your contact information</h2>
-        <p>
-          Please confirm your phone number and email address so a VA health care
-          provider can contact you.{' '}
-        </p>
-      </>
+  contactInfo: {
+    'ui:title': (
+      <h2 className="vads-u-color--gray-dark">
+        Share your contact information
+      </h2>
     ),
-  },
-  phoneNumber: phoneUI('Phone number'),
-  email: {
-    'ui:title': 'Email address',
+    'ui:description': (
+      <p>
+        Please confirm your phone number and email address so a VA health care
+        provider can contact you.{' '}
+      </p>
+    ),
+    phoneNumber: phoneUI('Phone number'),
+    email: {
+      'ui:title': 'Email address',
+    },
   },
 };
 
@@ -134,7 +130,6 @@ function ExpressCareFormPage({
           disabled={submitStatus === FETCH_STATUS.failed}
           loadingText="Submitting your Express Care request"
           onBack={() => routeToPreviousAppointmentPage(router, 'form')}
-          onSubmit={() => submitExpressCareRequest(router)}
         />
         {submitStatus === FETCH_STATUS.failed && (
           <>

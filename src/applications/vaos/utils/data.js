@@ -116,8 +116,8 @@ export function transformFormToExpressCareRequest(state) {
     },
     reasonForVisit: data.reasonForRequest.reason,
     additionalInformation: data.reasonForRequest.additionalInformation,
-    phoneNumber: data.phoneNumber,
-    verifyPhoneNumber: data.phoneNumber,
+    phoneNumber: data.contactInfo.phoneNumber,
+    verifyPhoneNumber: data.contactInfo.phoneNumber,
     emailPreferences: {
       emailAddress: data.email,
       // defaulted values
@@ -126,7 +126,7 @@ export function transformFormToExpressCareRequest(state) {
       textMsgAllowed: false,
       textMsgPhNumber: '',
     },
-    email: data.email,
+    email: data.contactInfo.email,
     // defaulted values
     status: 'Submitted',
     schedulingMethod: 'clerk',
