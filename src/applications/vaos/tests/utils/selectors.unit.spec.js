@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import moment from '../../utils/moment-tz';
 
 import {
   getChosenClinicInfo,
@@ -18,6 +19,8 @@ import {
   getCCEType,
   isWelcomeModalDismissed,
   selectCernerFacilities,
+  selectLocalExpressCareWindowString,
+  selectExpressCareHours,
 } from '../../utils/selectors';
 
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
@@ -644,6 +647,41 @@ describe('VAOS selectors', () => {
       };
 
       expect(selectCernerFacilities(state).length).to.be.equal(0);
+    });
+  });
+
+  describe('selectLocalExpressCareWindowString', () => {
+    it('should return currently active hours', () => {
+      const today = moment();
+      const startTime = today
+        .clone()
+        .subtract('30', 'minutes')
+        .tz('America/Denver');
+      const endTime = today
+        .clone()
+        .add('15', 'minutes')
+        .tz('America/Denver');
+      const state = {
+        expressCare: {
+          supportedFacilities: [
+            {
+              facilityId: '983',
+              days: [
+                {
+                  day: today.format('dddd').toUpperCase(),
+                  canSchedule: true,
+                  startTime: startTime.format('hh:mm'),
+                  endTime: endTime.format('hh:mm'),
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      expect(selectLocalExpressCareWindowString(state, today)).to.equal(
+        `${startTime.format('h:mm a')} to ${endTime.format('h:mm a')} MT`,
+      );
     });
   });
 });

@@ -79,13 +79,18 @@ export default function expressCareReducer(state = initialState, action) {
       };
     case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
       const { settings } = action;
+      // We're only parsing out facilities in here, since the rest
+      // of the logic is very dependent on the current time and we may want
+      // to re-check if EC is available without re-fecthing
       const supportedFacilities = settings
+        // This grabs just the facilities where EC is supported
         .filter(
           facility =>
             facility.customRequestSettings?.find(
               setting => setting.id === EXPRESS_CARE,
             )?.supported,
         )
+        // This makes sure we only pull the days where EC is open
         .map(facility => ({
           facilityId: facility.id,
           days: facility.customRequestSettings

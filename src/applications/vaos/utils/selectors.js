@@ -443,14 +443,17 @@ export function selectExpressCareData(state) {
   return state.expressCare.newRequest.data;
 }
 
+/*
+ * Selects any EC windows that we're in at the current (or provided) time
+ */
 export function selectActiveExpressCareWindows(state, nowMoment) {
-  const nowUtc = (nowMoment || moment).utc();
+  const now = (nowMoment || moment).utc();
   return state.expressCare.supportedFacilities
     ?.map(({ days, facilityId }) => {
       const siteId = facilityId.substring(0, 3);
       const { timezone } = getTimezoneBySystemId(siteId);
       const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
-      const currentDayOfWeek = nowUtc
+      const currentDayOfWeek = now
         .tz(timezone)
         .format('dddd')
         .toUpperCase();
@@ -463,7 +466,7 @@ export function selectActiveExpressCareWindows(state, nowMoment) {
       const start = moment.tz(activeDay.startTime, 'hh:mm', timezone);
       const end = moment.tz(activeDay.endTime, 'hh:mm', timezone);
 
-      if (!nowUtc.isBetween(start, end)) {
+      if (!now.isBetween(start, end)) {
         return null;
       }
 
@@ -479,6 +482,12 @@ export function selectActiveExpressCareWindows(state, nowMoment) {
     .filter(win => !!win);
 }
 
+/*
+ * Gets the formatted hours string of the current window, chosen based on the
+ * provided time.
+ * 
+ * Note: we're picking the first active window, there could be more than one
+ */
 export function selectLocalExpressCareWindowString(state, nowMoment) {
   const current = selectActiveExpressCareWindows(state, nowMoment);
 
@@ -491,6 +500,12 @@ export function selectLocalExpressCareWindowString(state, nowMoment) {
   )} ${current[0].timezoneAbbreviation}`;
 }
 
+/*
+ * Gets the facility info for the current window, chosen based on the
+ * provided time.
+ * 
+ * Note: we're picking the first active window, there could be more than one
+ */
 export function selectActiveExpressCareFacility(state, nowMoment) {
   const current = selectActiveExpressCareWindows(state, nowMoment);
 
@@ -504,6 +519,11 @@ export function selectActiveExpressCareFacility(state, nowMoment) {
   };
 }
 
+/*
+ * Gets the formatted days and hours string of the first support facility.
+ * 
+ * Note: we're picking the first facility, there could be more than one
+ */
 export function selectExpressCareHours(state) {
   if (!state.expressCare.supportedFacilities?.length) {
     return null;
@@ -513,6 +533,7 @@ export function selectExpressCareHours(state) {
   const siteId = facility.facilityId.substring(0, 3);
   const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
 
+  // Trying to group days with the same times together
   const windows = new Map();
   facility.days.forEach(day => {
     const key = `${day.startTime}_${day.endTime}`;
@@ -525,6 +546,7 @@ export function selectExpressCareHours(state) {
 
   const segments = Array.from(windows.entries());
 
+  // Formatting each segment as 'day, day from x to y'
   return segments
     .map(([hours, days]) => {
       const [start, end] = hours.split('_');
