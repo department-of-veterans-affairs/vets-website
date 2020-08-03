@@ -10,7 +10,7 @@ import SearchTypeahead from './SearchTypeahead';
 import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
 
-const isTypeaheadEnabled = !environment.isProduction();
+const isTypeaheadEnabled = false; // !environment.isProduction();
 
 export default function SearchMenu({ cssClass, clickHandler, isOpen }) {
   const buttonClasses = classNames(
