@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 
+import { formatServiceName } from '../utils/formatServiceName';
+
 /**
  * VA Facility Appointments
  */
@@ -24,11 +26,6 @@ export default class AppointmentInfo extends Component {
         typeof accessAttrs[key][category] !== 'undefined' &&
         accessAttrs[key][category] !== null,
     );
-  }
-
-  hasPrimaryCare(accessAttrs, category) {
-    const value = get(accessAttrs, ['primaryCare', category]);
-    return value || value === 0;
   }
 
   render() {
@@ -61,7 +58,7 @@ export default class AppointmentInfo extends Component {
         const dayString = value === 1 ? 'day' : 'days';
         return (
           <li key={label} className={sublist ? 'sublist' : null}>
-            {label}:{' '}
+            {formatServiceName(label)}:{' '}
             <strong>
               {value.toFixed(0)} {dayString}
             </strong>
@@ -71,72 +68,71 @@ export default class AppointmentInfo extends Component {
       return null;
     };
 
-    const renderSpecialtyTimes = (existing = false) => {
-      const specialtyKeys = healthAccessAttrs && Object.keys(healthAccessAttrs);
-      pull(specialtyKeys, 'primaryCare', 'effectiveDate');
-      specialtyKeys.sort();
-
-      if (specialtyKeys && specialtyKeys.length === 0) {
-        return null;
-      }
-
-      const firstThree = specialtyKeys.slice(0, 3);
-      const lastToEnd = specialtyKeys.slice(3);
-      let showHideKey;
-
-      if (existing) {
-        showHideKey = 'newPatientTimesExpanded';
-      } else {
-        showHideKey = 'existingPatientTimesExpanded';
-      }
-
-      const onClick = () => {
-        recordEvent({ event: 'fl-show-waittimes' });
-        this.setState({
-          [showHideKey]: !this.state[showHideKey],
-        });
-      };
-
-      const seeMoreClasses = classNames({
-        'va-button-link': true,
-        seeMore: true,
-        expanded: this.state[showHideKey],
-      });
-
-      const renderMoreTimes = () =>
-        this.state[showHideKey] &&
-        lastToEnd.map(k =>
-          renderStat(
-            startCase(k.replace(/([A-Z])/g, ' $1')),
-            healthAccessAttrs[k][existing ? 'established' : 'new'],
-            true,
-          ),
+    const renderPrimaryCare = (accessAttrs, category) => {
+      if (Array.isArray(accessAttrs)) {
+        // V1
+        const value = accessAttrs.find(
+          k => k.service === 'PrimaryCare' && k[category],
         );
+        if (value) {
+          return renderStat('Primary Care', value[category]);
+        }
+      } else {
+        // V0 legacy structure TODO: remove when fully migrated to V1
+        const value = get(accessAttrs, ['primaryCare', category]);
+        if (value) {
+          return renderStat('Primary Care', value);
+        }
+      }
+      return null;
+    };
 
-      return (
-        <li key="specialty-care">
-          Specialty care:
-          <ul className="vads-u-margin-top--1">
-            {firstThree.map(k =>
-              renderStat(
-                startCase(k.replace(/([A-Z])/g, ' $1')),
-                healthAccessAttrs[k][existing ? 'established' : 'new'],
-                true,
-              ),
-            )}
-            {lastToEnd.length > 0 && renderMoreTimes()}
-            <li key="show-more" className="show-more">
-              <button
-                onClick={onClick}
-                className={seeMoreClasses}
-                aria-expanded={this.state[showHideKey] ? 'true' : 'false'}
-              >
-                See {this.state[showHideKey] ? 'less' : 'more'}
-              </button>
-            </li>
-          </ul>
-        </li>
-      );
+    const renderSpecialtyTimes = (existing = false) => {
+      if (Array.isArray(healthAccessAttrs)) {
+        // V1
+        const healthAccessSpecialty = healthAccessAttrs.filter(
+          acc => acc.service !== 'PrimaryCare',
+        );
+        return (
+          <li key="specialty-care">
+            Specialty care:
+            <ul className="vads-u-margin-top--1">
+              {healthAccessSpecialty.map(k =>
+                renderStat(
+                  k.service,
+                  k.established ? k.established : k.new,
+                  true,
+                ),
+              )}
+            </ul>
+          </li>
+        );
+      } else {
+        // V0 legacy structure TODO: remove when fully migrated to V1
+        const specialtyKeys =
+          healthAccessAttrs && Object.keys(healthAccessAttrs);
+        pull(specialtyKeys, 'primaryCare', 'effectiveDate');
+        specialtyKeys.sort();
+
+        if (specialtyKeys && specialtyKeys.length === 0) {
+          return null;
+        }
+
+        return (
+          <li key="specialty-care">
+            Specialty care:
+            <ul className="vads-u-margin-top--1">
+              {specialtyKeys.map(k =>
+                renderStat(
+                  k,
+                  healthAccessAttrs[k][existing ? 'established' : 'new'],
+                  true,
+                ),
+              )}
+            </ul>
+          </li>
+        );
+      }
     };
 
     return (
@@ -146,7 +142,7 @@ export default class AppointmentInfo extends Component {
           Current as of{' '}
           <strong>
             {moment(effectiveDate || healthAccessAttrs.effectiveDate).format(
-              'YYYY-MM-DD',
+              'LL',
             )}
           </strong>
         </p>
@@ -158,8 +154,7 @@ export default class AppointmentInfo extends Component {
               location has to wait for a non-urgent appointment
             </p>
             <ul>
-              {this.hasPrimaryCare(healthAccessAttrs, 'new') &&
-                renderStat('Primary Care', healthAccessAttrs.primaryCare.new)}
+              {renderPrimaryCare(healthAccessAttrs, 'new')}
               {renderSpecialtyTimes()}
             </ul>
           </div>
@@ -172,11 +167,7 @@ export default class AppointmentInfo extends Component {
               location has to wait for a non-urgent appointment.
             </p>
             <ul>
-              {this.hasPrimaryCare(healthAccessAttrs, 'established') &&
-                renderStat(
-                  'Primary Care',
-                  healthAccessAttrs.primaryCare.established,
-                )}
+              {renderPrimaryCare(healthAccessAttrs, 'established')}
               {renderSpecialtyTimes(true)}
             </ul>
           </div>
