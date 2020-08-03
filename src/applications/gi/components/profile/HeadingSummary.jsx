@@ -7,6 +7,7 @@ import { formatNumber, locationInfo } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import CautionFlagHeading from './CautionFlagHeading';
 import SchoolClosingHeading from './SchoolClosingHeading';
+import ScorecardTags from '../ScorecardTags';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -113,6 +114,8 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </div>
           </div>
+
+          <ScorecardTags styling={'info-flag'} it={this.props.institution} />
         </div>
         <AdditionalResources />
       </div>
