@@ -21,7 +21,7 @@ export default function SearchMenu({ cssClass, clickHandler, isOpen }) {
 
   const icon = <IconSearch color="#fff" role="presentation" />;
   const searchInput = isTypeaheadEnabled ? (
-    <SearchTypeAhead isVisible={isOpen} />
+    <SearchTypeahead isVisible={isOpen} />
   ) : (
     <SearchForm />
   );
