@@ -17,7 +17,7 @@ import {
   getChosenParentInfo,
   getChosenSlot,
   selectActiveExpressCareFacility,
-  selectExpressCareData,
+  selectExpressCareFormData,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
@@ -103,7 +103,7 @@ export function transformFormToVARequest(state) {
 }
 
 export function transformFormToExpressCareRequest(state) {
-  const data = selectExpressCareData(state);
+  const data = selectExpressCareFormData(state);
   const { facilityId, siteId, name } = selectActiveExpressCareFacility(
     state,
     moment.utc(),
@@ -118,10 +118,10 @@ export function transformFormToExpressCareRequest(state) {
       facilityCode: facilityId,
       parentSiteCode: siteId,
     },
-    reasonForVisit: data.reasonForVisit,
-    additionalInformation: data.additionalInformation,
-    phoneNumber: data.phoneNumber,
-    verifyPhoneNumber: data.phoneNumber,
+    reasonForVisit: data.reasonForRequest.reason,
+    additionalInformation: data.reasonForRequest.additionalInformation,
+    phoneNumber: data.contactInfo.phoneNumber,
+    verifyPhoneNumber: data.contactInfo.phoneNumber,
     emailPreferences: {
       emailAddress: data.email,
       // defaulted values
@@ -130,7 +130,7 @@ export function transformFormToExpressCareRequest(state) {
       textMsgAllowed: false,
       textMsgPhNumber: '',
     },
-    email: data.email,
+    email: data.contactInfo.email,
     // defaulted values
     status: 'Submitted',
     schedulingMethod: 'clerk',
