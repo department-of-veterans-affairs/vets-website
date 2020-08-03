@@ -438,7 +438,7 @@ export const selectPastAppointments = createSelector(
   },
 );
 
-export function selectExpressCareData(state) {
+export function selectExpressCareFormData(state) {
   return state.expressCare.newRequest.data;
 }
 

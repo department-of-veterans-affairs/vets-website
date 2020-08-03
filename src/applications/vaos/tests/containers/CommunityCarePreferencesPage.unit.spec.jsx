@@ -154,4 +154,17 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     expect(routeToNextAppointmentPage.called).to.be.false;
     form.unmount();
   });
+
+  it('should render alert message when user has preferred provider', () => {
+    const form = mount(
+      <CommunityCarePreferencesPageTester
+        data={{ hasCommunityCareProvider: true }}
+        parentFacilitiesStatus={FETCH_STATUS.succeeded}
+      />,
+    );
+
+    expect(form.text()).contains('We’ll try to schedule your appointment');
+    expect(form.text()).contains('Mailing address line 1');
+    form.unmount();
+  });
 });

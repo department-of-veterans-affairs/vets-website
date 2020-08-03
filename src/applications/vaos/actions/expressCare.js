@@ -1,6 +1,11 @@
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 
+import {
+  selectVet360EmailAddress,
+  selectVet360HomePhoneString,
+  selectVet360MobilePhoneString,
+} from 'platform/user/selectors';
 import newExpressCareRequestFlow from '../newExpressCareRequestFlow';
 import {
   getPreferences,
@@ -48,6 +53,8 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
+export const FORM_REASON_FOR_REQUEST_PAGE_OPENED =
+  'expressCare/FORM_REASON_FOR_REQUEST_PAGE_OPENED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -64,6 +71,24 @@ export function updateFormData(page, uiSchema, data) {
     page,
     uiSchema,
     data,
+  };
+}
+
+export function openReasonForRequestPage(page, uiSchema, schema) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const email = selectVet360EmailAddress(state);
+    const homePhone = selectVet360HomePhoneString(state);
+    const mobilePhone = selectVet360MobilePhoneString(state);
+    const phoneNumber = mobilePhone || homePhone;
+    dispatch({
+      type: FORM_REASON_FOR_REQUEST_PAGE_OPENED,
+      page,
+      uiSchema,
+      schema,
+      email,
+      phoneNumber,
+    });
   };
 }
 
@@ -134,15 +159,18 @@ export function routeToPreviousAppointmentPage(router, current) {
   );
 }
 
-async function buildPreferencesDataAndUpdate(expressCare) {
+async function buildPreferencesDataAndUpdate(data) {
   const preferenceData = await getPreferences();
-  const preferenceBody = createPreferenceBody(preferenceData, expressCare.data);
+  const preferenceBody = createPreferenceBody(preferenceData, data);
   return updatePreferences(preferenceBody);
 }
 
 export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
     const expressCare = getState().expressCare;
+    const formData = expressCare.newRequest.data;
+    const { reasonForRequest, phoneNumber, email } = formData;
+
     const activeFacility = selectActiveExpressCareFacility(
       getState(),
       moment.utc(),
@@ -167,7 +195,7 @@ export function submitExpressCareRequest(router) {
       const responseData = await submitRequest('va', requestBody);
 
       try {
-        await buildPreferencesDataAndUpdate(expressCare);
+        await buildPreferencesDataAndUpdate(formData);
       } catch (error) {
         // These are ancillary updates, the request went through if the first submit
         // succeeded
