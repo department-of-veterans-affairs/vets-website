@@ -6,6 +6,7 @@ function SearchResultTypeOfInstitutionFilter({
   category,
   onChange,
   handleInputFocus,
+  gibctFilterEnhancement,
 }) {
   const options = [
     {
@@ -24,7 +25,11 @@ function SearchResultTypeOfInstitutionFilter({
 
   return (
     <RadioButtons
-      label="Type of institution"
+      label={
+        gibctFilterEnhancement
+          ? 'Select an institution type'
+          : 'Type of institution'
+      }
       name="category"
       options={options}
       value={category}
