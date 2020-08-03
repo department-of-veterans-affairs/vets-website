@@ -1254,10 +1254,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/formation-react@5.4.7":
-  version "5.4.7"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.4.7.tgz#84ae911211190051ee2731e421c98fb32c43df38"
-  integrity sha512-J6VVxpBYBxPkTnDVKchcbZMOEEEln4qmjhWfapKkg1E5pZLhz+hLvOKKrdxrkBHojsorW3luIimuhJ3K7sN1Xg==
+"@department-of-veterans-affairs/formation-react@5.4.8":
+  version "5.4.8"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.4.8.tgz#f1c0b5ac1b634aaff314aeee4d6f8feb85653460"
+  integrity sha512-0c1ur35RjMCTDGf6oRjnlkve9s4aUE8krH+fLxPCnj1lbZspE5cFWHay+lmWhuZhROke6+ruk4sgYy1hTeWl8w==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
@@ -17075,9 +17075,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#86f6211def250399a2f3e16eedfd7b4e8c7b02be":
-  version "6.4.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#86f6211def250399a2f3e16eedfd7b4e8c7b02be"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#abff81fc0a078e81a51a8a33d042cf234a14f187":
+  version "6.5.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#abff81fc0a078e81a51a8a33d042cf234a14f187"
 
 vinyl-file@^2.0.0:
   version "2.0.0"

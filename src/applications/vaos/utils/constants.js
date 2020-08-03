@@ -354,6 +354,62 @@ export const FREE_BUSY_TYPES = {
 
 export const UNABLE_TO_REACH_VETERAN_DETCODE = 'DETCODE23';
 
+export const EXPRESS_CARE_REASONS = [
+  {
+    reason: 'Back pain',
+  },
+  {
+    reason: 'Cough',
+  },
+  {
+    reason: 'Ear, nose, sinus, throat, and mouth problems',
+  },
+  {
+    reason: 'Fever, loss of appetite, overall weakness',
+  },
+  {
+    reason: 'Headache',
+    secondaryLabel: 'that is not sudden and severe',
+  },
+  {
+    reason: 'High or low blood sugar, blood pressure, heart rate',
+  },
+  {
+    reason: 'Joint/muscle pain',
+    secondaryLabel: 'such as knee, shoulder, hip, ankle or foot pain',
+  },
+  {
+    reason: 'Medication questions, clarifications, side effects',
+  },
+  {
+    reason: 'Minor injuries',
+    secondaryLabel: 'such as twisted ankle, cat/dog bite, abrasions, cuts',
+  },
+  {
+    reason: 'Minor wounds',
+  },
+  {
+    reason: 'Neck pain',
+  },
+  {
+    reason: 'Red or weeping eye',
+    secondaryLabel: 'without vision loss',
+  },
+  {
+    reason: 'Skin lesion or rash',
+  },
+  {
+    reason: 'Stomach and bowel problems',
+    secondaryLabel:
+      'such as diarrhea, constipation, nausea, vomiting, heartburn',
+  },
+  {
+    reason: 'Urinary problems',
+    secondaryLabel:
+      'such as pain with urination, frequent urination, blood in urine',
+  },
+];
+
 export const EXPRESS_CARE_ERROR_REASON = {
   error: 'error',
   noActiveFacility: 'noActiveFacility',

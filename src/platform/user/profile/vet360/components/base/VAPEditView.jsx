@@ -119,7 +119,10 @@ class VAPEditView extends Component {
     return (
       <>
         {error && (
-          <div className="vads-u-margin-bottom--1">
+          <div
+            className="vads-u-margin-bottom--1"
+            data-testid="edit-error-alert"
+          >
             <Vet360EditModalErrorMessage
               title={title}
               error={error}

@@ -17,11 +17,15 @@ import {
   getChosenParentInfo,
   getChosenSlot,
   selectActiveExpressCareFacility,
-  selectExpressCareData,
+  selectExpressCareFormData,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
-import { findCharacteristic } from '../services/healthcare-service/transformers';
+import {
+  findCharacteristic,
+  getClinicIdentifier,
+  getSiteCode,
+} from '../services/healthcare-service/transformers';
 
 function getRequestedDates(data) {
   return data.calendarData.selectedDates.reduce(
@@ -99,7 +103,7 @@ export function transformFormToVARequest(state) {
 }
 
 export function transformFormToExpressCareRequest(state) {
-  const data = selectExpressCareData(state);
+  const data = selectExpressCareFormData(state);
   const { facilityId, siteId, name } = selectActiveExpressCareFacility(
     state,
     moment.utc(),
@@ -114,10 +118,10 @@ export function transformFormToExpressCareRequest(state) {
       facilityCode: facilityId,
       parentSiteCode: siteId,
     },
-    reasonForVisit: data.reasonForVisit,
-    additionalInformation: data.additionalInformation,
-    phoneNumber: data.phoneNumber,
-    verifyPhoneNumber: data.phoneNumber,
+    reasonForVisit: data.reasonForRequest.reason,
+    additionalInformation: data.reasonForRequest.additionalInformation,
+    phoneNumber: data.contactInfo.phoneNumber,
+    verifyPhoneNumber: data.contactInfo.phoneNumber,
     emailPreferences: {
       emailAddress: data.email,
       // defaulted values
@@ -126,7 +130,7 @@ export function transformFormToExpressCareRequest(state) {
       textMsgAllowed: false,
       textMsgPhNumber: '',
     },
-    email: data.email,
+    email: data.contactInfo.email,
     // defaulted values
     status: 'Submitted',
     schedulingMethod: 'clerk',
@@ -239,8 +243,8 @@ export function transformFormToAppointment(state) {
   return {
     appointmentType: getTypeOfCare(data).name,
     clinic: {
-      siteCode: clinic.id.split('_')[0].replace('var', ''),
-      clinicId: clinic.id.split('_')[1],
+      siteCode: getSiteCode(clinic),
+      clinicId: getClinicIdentifier(clinic),
       clinicName: clinic.serviceName,
       clinicFriendlyLocationName: findCharacteristic(
         clinic,
@@ -257,7 +261,7 @@ export function transformFormToAppointment(state) {
     duration: appointmentLength,
     bookingNotes: purpose,
     preferredEmail: data.email,
-    timeZone: facility.legacyVAR.institutionTimezone,
+    timeZone: facility.legacyVAR?.institutionTimezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',
