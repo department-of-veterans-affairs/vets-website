@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import ResponsiveTable from '../../../components/responsive-table/ResponsiveTable.jsx';
