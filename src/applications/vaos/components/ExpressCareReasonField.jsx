@@ -64,8 +64,8 @@ export default function ExpressCareReasonField({
                   }
                 />
                 <label
-                  name={`vaos-express-care__radio-label-${option.id}`}
-                  htmlFor={`vaos-express-care__radio-${option.id}`}
+                  name={`root_reasonForRequest_reason_label_${option.id}`}
+                  htmlFor={`root_reasonForRequest_reason_${option.id}`}
                   className="vaos-express-care__reason-radio-label vads-u-margin-top--2p5 vads-u-display--flex"
                 >
                   <div className="vads-u-margin-top--0p5">
