@@ -5,7 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 
 import SearchForm from './SearchForm';
-import SearchTypeAhead from './SearchTypeAhead';
+import SearchTypeahead from './SearchTypeahead';
 
 import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
