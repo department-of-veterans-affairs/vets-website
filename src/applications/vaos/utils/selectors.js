@@ -2,11 +2,10 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
-import { titleCase } from './formatters';
+import { titleCase, joinWithAnd } from './formatters';
 
 import {
   getTimezoneBySystemId,
-  stripDST,
   getTimezoneDescBySystemId,
   getTimezoneAbbrBySystemId,
 } from './timezone';
@@ -548,8 +547,8 @@ export function selectExpressCareHours(state) {
   const segments = Array.from(windows.entries());
 
   // Formatting each segment as 'day, day from x to y'
-  return segments
-    .map(([hours, days]) => {
+  return joinWithAnd(
+    segments.map(([hours, days]) => {
       const [start, end] = hours.split('_');
       return `${days.map(titleCase).join(', ')} from ${moment(
         start,
@@ -557,8 +556,8 @@ export function selectExpressCareHours(state) {
       ).format('h:mm a')} to ${moment(end, 'HH:mm').format(
         'h:mm a',
       )} ${timezoneAbbreviation}`;
-    })
-    .join(', ');
+    }),
+  );
 }
 
 export function selectExpressCare(state) {

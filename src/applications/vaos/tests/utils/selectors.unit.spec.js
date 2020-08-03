@@ -749,7 +749,7 @@ describe('VAOS selectors', () => {
       };
 
       expect(selectExpressCareHours(state)).to.equal(
-        'Monday, Tuesday from 3:30 p.m. to 4:40 p.m. MT, Saturday from 5:30 a.m. to 4:40 p.m. MT',
+        'Monday, Tuesday from 3:30 p.m. to 4:40 p.m. MT and Saturday from 5:30 a.m. to 4:40 p.m. MT',
       );
     });
 
