@@ -1,7 +1,9 @@
 import React from 'react';
 import environment from 'platform/utilities/environment';
 
-export const isTypeaheadEnabled = !environment.isProduction();
+export const isTypeaheadEnabled =
+  !environment.isProduction() && document.location.pathname === '/';
+
 export const typeaheadListId = 'onsite-search-typeahead';
 
 export default class Typeahead extends React.Component {
