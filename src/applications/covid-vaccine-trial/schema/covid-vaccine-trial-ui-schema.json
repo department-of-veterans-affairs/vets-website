@@ -1,8 +1,34 @@
 {
-  "descriptionText": "Thank you for your interest in volunteering for COVID-19 research. If you’re a U.S. Veteran, please answer the questions below and we’ll add you to our VA volunteer registry. If we think you may meet the criteria for a research study, we’ll contact you for a phone interview.  Note: We won’t share your information with anyone outside of VA. If you're not a  Veteran, you can volunteer through the  COVID-19 Prevention Network.",
+  "descriptionText": {
+    "view:descriptionText": {
+      "ui:description": "Thank you for your interest in volunteering for COVID-19 research. If you’re a U.S. Veteran, please answer the questions below and we’ll add you to our VA volunteer registry. If we think you may meet the criteria for a research study, we’ll contact you for a phone interview.",
+      "ui:options": {
+        "classNames": ""
+      }
+    }
+  },
+  "infoSharingText": {
+    "view:infoSharingText": {
+      "ui:description": "Note: We won’t share your information with anyone outside of VA. If you're not a  Veteran, you can volunteer through the  COVID-19 Prevention Network.",
+      "ui:options": {
+        "classNames": ""
+      }
+    }
+  },
+  "healthHeaderText": {
+    "view:healthText": {
+      "ui:description": "Help us understand your health",
+      "ui:options": {
+        "classNames": "schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2"
+      }
+    }
+  },
   "diagnosed": {
     "ui:title": "Have ever been tested for and diagnosed with COVID-19?",
-    "ui:widget": "yesNo"
+    "ui:widget": "yesNo",
+    "ui:options": {
+      "classNames": "schemaform-block-title schemaform-block-subtitle"
+    }
   },
   "closeContactPositive": {
     "ui:title": "In the past month, have you been in close contact with anyone who tested positive for COVID-19?",
@@ -13,20 +39,26 @@
         "YES": "Yes",
         "NO": "No",
         "UNSURE": "I don't know"
-      }
+      },
+      "classNames": "schemaform-block-title schemaform-block-subtitle"
     }
   },
   "hospitalized": {
     "ui:title": "In the past 6 months, have you been hospitalized at any time?",
-    "ui:widget": "yesNo"
+    "ui:widget": "yesNo",
+    "ui:options": {
+      "classNames": "schemaform-block-title schemaform-block-subtitle"
+    }
   },
   "smokeOrVape": {
     "ui:title": "Do you smoke or vape, or do you have a past history of smoking or vaping?",
-    "ui:widget": "yesNo"
+    "ui:widget": "yesNo",
+    "ui:options": {
+      "classNames": "schemaform-block-title schemaform-block-subtitle"
+    }
   },
 
   "healthHistory": {
-    "description": "Do you have a history of any of the health issues listed below?",
     "ui:title": "Do you have a history of any of the health issues listed below?",
     "ui:description": "Please check all that apply.",
     "ALLERGY_VACCINE": {
@@ -63,8 +95,15 @@
       "ui:title": "Another serious chronic (long-term) illness"
     }
   },
+  "exposureRiskHeaderText": {
+    "view:exposureRiskText": {
+      "ui:description": "Help us understand your COVID-19 exposure risk",
+      "ui:options": {
+        "classNames": "schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2"
+      }
+    }
+  },
   "employmentStatus": {
-    "description": "Which work situation best describes you?",
     "ui:title": "Which work situation best describes you?",
     "ui:description": "Please check all that apply.",
     "EMPLOYED_HOME": {
@@ -93,7 +132,7 @@
     "ui:title": "How do you get to work?",
     "ui:description": "Please check all that apply.",
     "CAR": {
-      "ui:title": "CAR"
+      "ui:title": "Car"
     },
     "FREQUENT_AIR_TRAVEL": {
       "ui:title": "Frequent air travel"
@@ -120,7 +159,8 @@
         "THREE_FIVE": "3 to 5",
         "SIX_TEN": "6 to 10",
         "MORE_THAN_TEN": "More than 10"
-      }
+      },
+      "classNames": "schemaform-block-title schemaform-block-subtitle"
     }
   },
   "closeContact": {
@@ -134,22 +174,175 @@
         "ELEVEN_THIRTY": "11 to 30",
         "THIRTYONE_FIFTY": "31 to 50",
         "MORE_THAN_FIFTY": "More than 50"
+      },
+      "classNames": "schemaform-block-title schemaform-block-subtitle"
+    }
+  },
+  "contactHeaderText": {
+    "view:contactText": {
+      "ui:description": "Your contact and personal information",
+      "ui:options": {
+        "classNames": "schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2"
       }
     }
   },
-  "contactInfoText": {
-    "ui:description": "Your contact and personal information (all fields required)"
+  "zipCode": {
+    "ui:title": "Zip code",
+    "ui:errorMessages": {
+      "required": "Please enter a zip code",
+      "pattern": "Please enter a valid 5- or 9-digit zip code (dashes allowed)"
+    },
+    "ui:options": {
+      "classNames": ""
+    }
   },
-  "healthHeaderText": {
-    "ui:description": "Help us understand your health"
+  "height": {
+    "ui:title": "Height",
+    "heightFeet": {
+      "ui:title": "ft.",
+      "ui:options": {
+        "labels": {
+          "TWO": "2",
+          "THREE": "3",
+          "FOUR": "4",
+          "FIVE": "5",
+          "SIX": "6",
+          "SEVEN": "7",
+          "EIGHT": "8",
+          "NINE": "9"
+        },
+        "classNames": ""
+      }
+    },
+    "heightInches": {
+      "ui:title": "in.",
+      "ui:options": {
+        "labels": {
+          "ZERO": "0",
+          "ONE": "1",
+          "TWO": "2",
+          "THREE": "3",
+          "FOUR": "4",
+          "FIVE": "5",
+          "SIX": "6",
+          "SEVEN": "7",
+          "EIGHT": "8",
+          "NINE": "9",
+          "TEN": "10",
+          "ELEVEN": "11",
+          "TWELVE": "12"
+        },
+        "classNames": ""
+      }
+    },
+    "ui:options": {
+      "classNames": " "
+    }
   },
-  "exposureRiskText": {
-    "ui:description": "Help us understand your COVID-19 exposure risk"
+  "weight": {
+    "ui:title": "Weight",
+    "ui:options": {
+      "classNames": " "
+    }
   },
-  "thankYouText": {
-    "ui:description": "Thank you for volunteering for COVID-19 research.  We appreciate your commitment to helping others through this important research effort."
+  "gender": {
+    "ui:title": "Current gender identity (please check all that apply)",
+    "ui:description": "Note: We ask for this information to help make sure we include a diverse range of people in our research studies.",
+    "FEMALE": {
+      "ui:title": "Female"
+    },
+    "MALE": {
+      "ui:title": "Male"
+    },
+    "TRANSGENDER_FEMALE": {
+      "ui:title": "Transgender female"
+    },
+    "TRANSGENDER_MALE": {
+      "ui:title": "Transgender male"
+    },
+    "GENDER_VARIENT": {
+      "ui:title": "Gender variant/nonbinary (neither exclusively female nor male)"
+    },
+    "SELF_IDENTIFY": {
+      "ui:title": "Prefer to self-identify"
+    },
+    "PREFER_NO_ANSWER": {
+      "ui:title": "Prefer not to answer"
+    }
+  },
+  "raceEthnicityOrigin": {
+    "ui:title": "Race, ethnicity, and origin (please check all that apply)",
+    "ui:description": "Note: We ask for this information to help make sure we include a diverse range of people in our research studies.",
+    "AMERICAN_INDIAN_ALASKA_NATIVE": {
+      "ui:title": "American Indian or Alaska Native"
+    },
+    "ASIAN": {
+      "ui:title": "Asian"
+    },
+    "BLACK_AFRICAN_AMERICAN": {
+      "ui:title": "Black or African American"
+    },
+    "HISPANIC_LATINO_SPANISH_ORIGIN": {
+      "ui:title": "Hispanic, Latino, or Spanish origin"
+    },
+    "HAWAIIAN_PACIFIC_ISLANDER": {
+      "ui:title": "Native Hawaiian or other Pacific Islander"
+    },
+    "WHITE": {
+      "ui:title": "White"
+    },
+    "OTHER_RACE_ETHNICITY": {
+      "ui:title": "Another race or ethnicity"
+    },
+    "PREFER_NO_ANSWER": {
+      "ui:title": "Prefer not to answer"
+    }
   },
   "closingText": {
-    "ui:description": "If we think you may be eligible for a research study..."
+    "view:thankYouText": {
+      "ui:description": "Thank you for volunteering for COVID-19 research",
+      "ui:options": {
+        "classNames": "schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2"
+      }
+    },
+    "view:textDetail": {
+      "ui:description": "We appreciate your commitment to helping others through this important research effort.",
+      "ui:options": {
+        "classNames": ""
+      }
+    },
+    "view:eligibilityTextHeader": {
+      "ui:description": "If we think you may meet the criteria for a research study",
+      "ui:options": {
+        "classNames": "schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2"
+      }
+    },
+    "view:eligibileTextDetail": {
+      "ui:description": "Please understand that some studies have specific requirements and it may be weeks or months before there is an opening in a study for which you might qualify.  If we think there is a study you might qualify for, we will contact you.  This depends on available studies",
+      "ui:options": {
+        "classNames": ""
+      }
+    },
+    "view:eligibileTextNote": {
+      "ui:description": "Note: We’ll never ask for an ID number or for your financial, credit, or bank account information over the phone.",
+      "ui:options": {
+        "classNames": ""
+      }
+    },
+    "view:notEligibileTextHeader": {
+      "ui:description": "If we don’t think you meet the criteria for any studies",
+      "ui:options": {
+        "classNames": "schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2"
+      }
+    },
+    "view:notEligibileTextDetail": {
+      "ui:description": "We won’t contact you. But we will keep your information in case new studies become available that you are eligible to join.",
+      "ui:options": {
+        "classNames": ""
+      }
+    },
+    "ui:options": {
+      "classNames": ""
+    }
   }
 }

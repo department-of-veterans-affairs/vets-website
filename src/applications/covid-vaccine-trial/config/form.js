@@ -12,34 +12,41 @@ import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNu
 import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import dataUtils from 'platform/utilities/data/index';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
+import dataUtils from 'platform/utilities/data/index';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
+  descriptionText,
+  infoSharingText,
   healthHeaderText,
   diagnosed,
   closeContactPositive,
   hospitalized,
   smokeOrVape,
   healthHistory,
-  exposureRiskText,
+  exposureRiskHeaderText,
   employmentStatus,
   transportation,
   residents,
   closeContact,
-  contactInfoText,
-  thankYouText,
-  closingText,
+  contactHeaderText,
+  zipCode,
+  height,
+  weight,
+  gender,
+  raceEthnicityOrigin,
+  // closingText,
 } = uiSchemaDefinitions;
 
-const { fullName } = definitions;
+const { fullName, email, usaPhone, date } = definitions;
 const { set } = dataUtils;
 
 export function validateEmailsMatch(errors, pageData) {
-  const { email, confirmEmail } = pageData;
-  if (email !== confirmEmail) {
+  const { primaryEmail, confirmEmail } = pageData;
+  if (primaryEmail !== confirmEmail) {
     errors.confirmEmail.addError('Please ensure your entries match');
   }
 }
@@ -51,7 +58,7 @@ export function validatePhone(errors, pageData) {
 }
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: '/covid-vaccine/screener/create',
   trackingPrefix: 'covid-vaccine-trial-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -63,7 +70,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for vaccine trial participation.',
   },
-  title: 'Covid Vaccine Trial',
+  title: 'Volunteer for COVID-19 research',
   defaultDefinitions: {},
   chapters: {
     chapter1: {
@@ -73,71 +80,79 @@ const formConfig = {
           path: 'covid-vaccine-trial',
           title: 'Personal Information - Page 1',
           uiSchema: {
-            'ui:description': uiSchemaDefinitions.descriptionText, // todo - figure out how to get this to use formatting
+            descriptionText,
+            infoSharingText,
             healthHeaderText,
             diagnosed,
             closeContactPositive,
             hospitalized,
             smokeOrVape,
             healthHistory,
-            exposureRiskText,
+            exposureRiskHeaderText,
             employmentStatus,
             transportation,
             residents,
             closeContact,
-            contactInfoText,
-            thankYouText,
-            closingText,
+            contactHeaderText,
+            // closingText,
             'ui:validations': [validateEmailsMatch, validatePhone],
             fullName: _.merge(fullNameUI, {
               first: {
-                'ui:title': 'Your first name',
+                'ui:title': 'First name',
               },
               last: {
-                'ui:title': 'Your last name',
+                'ui:title': 'Last name',
               },
               middle: {
-                'ui:title': 'Your middle name',
+                'ui:title': 'Middle name',
               },
               suffix: {
-                'ui:title': 'Your suffix',
+                'ui:title': 'Suffix',
               },
               'ui:order': ['first', 'middle', 'last', 'suffix'],
             }),
-            email: emailUI(),
+            primaryEmail: emailUI(),
             confirmEmail: emailUI('Confirm email address'),
+            zipCode,
             phone: phoneUI(),
+            dateOfBirth: currentOrPastDateUI(
+              'Date of birth (Note: You must be at least 18 years old to participate in research.)',
+            ),
+            height,
+            weight,
+            gender,
+            raceEthnicityOrigin,
           },
           schema: {
             required: ['phone'],
             type: 'object',
             properties: {
+              descriptionText: fullSchema.properties.descriptionText,
+              infoSharingText: fullSchema.properties.infoSharingText,
               healthHeaderText: fullSchema.properties.healthHeaderText,
               diagnosed: fullSchema.properties.diagnosed,
               closeContactPositive: fullSchema.properties.closeContactPositive,
               hospitalized: fullSchema.properties.hospitalized,
               smokeOrVape: fullSchema.properties.smokeOrVape,
               healthHistory: fullSchema.properties.healthHistory,
-              exposureRiskText: fullSchema.properties.exposureRiskText,
+              exposureRiskHeaderText:
+                fullSchema.properties.exposureRiskHeaderText,
               employmentStatus: fullSchema.properties.employmentStatus,
               transportation: fullSchema.properties.transportation,
               residents: fullSchema.properties.residentsInHome,
               closeContact: fullSchema.properties.closeContact,
-              contactInfoText: fullSchema.properties.contactInfoText,
+              contactHeaderText: fullSchema.properties.contactHeaderText,
               fullName: set('required', ['first', 'last'], fullName),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              confirmEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phone: {
-                type: 'string',
-              },
-              thankYouText: fullSchema.properties.thankYouText,
-              closingText: fullSchema.properties.closingText,
+              primaryEmail: email,
+              confirmEmail: email,
+              phone: usaPhone,
+              zipCode: fullSchema.properties.zipCode,
+              dateOfBirth: date,
+              height: fullSchema.properties.height,
+              weight: fullSchema.properties.weight,
+              gender: fullSchema.properties.gender,
+              raceEthnicityOrigin: fullSchema.properties.raceEthnicityOrigin,
+              // closingText: fullSchema.properties.closingText,
             },
           },
         },

@@ -33,29 +33,43 @@
       },
       "required": ["first", "last"]
     },
-    "gender": {
-      "type": "string",
-      "enum": ["F", "M"]
-    },
     "date": {
       "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
       "type": "string"
     }
   },
   "properties": {
-    "healthHeaderText": {
+    "descriptionText": {
       "type": "object",
       "properties": {
-        "view:textObject": {
+        "view:descriptionText": {
           "type": "object",
           "properties": {}
         }
       }
     },
-    "exposureRiskText": {
+    "infoSharingText": {
       "type": "object",
       "properties": {
-        "view:textObject": {
+        "view:infoSharingText": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    },
+    "healthHeaderText": {
+      "type": "object",
+      "properties": {
+        "view:healthText": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    },
+    "exposureRiskHeaderText": {
+      "type": "object",
+      "properties": {
+        "view:exposureRiskText": {
           "type": "object",
           "properties": {}
         }
@@ -117,7 +131,6 @@
       "type": "boolean"
     },
     "employmentStatus": {
-      "description": "Which work situation best describes you?",
       "type": "object",
       "properties": {
         "EMPLOYED_HOME": {
@@ -176,43 +189,153 @@
         "MORE_THAN_FIFTY"
       ]
     },
-    "contactInfoText": {
+    "contactHeaderText": {
       "type": "object",
       "properties": {
-        "view:textObject": {
+        "view:contactText": {
           "type": "object",
           "properties": {}
         }
       }
     },
-    "thankYouText": {
+    "zipCode": {
+      "type": "string",
+      "pattern": "^(\\d{5})(?:[-](\\d{4}))?$"
+    },
+    "height": {
       "type": "object",
       "properties": {
-        "view:textObject": {
-          "type": "object",
-          "properties": {}
+        "heightFeet": {
+          "type": "string",
+          "enum": [
+            "TWO",
+            "THREE",
+            "FOUR",
+            "FIVE",
+            "SIX",
+            "SEVEN",
+            "EIGHT",
+            "NINE"
+          ]
+        },
+        "heightInches": {
+          "type": "string",
+          "enum": [
+            "ZERO",
+            "ONE",
+            "TWO",
+            "THREE",
+            "FOUR",
+            "FIVE",
+            "SIX",
+            "SEVEN",
+            "EIGHT",
+            "NINE",
+            "TEN",
+            "ELEVEN",
+            "TWELVE"
+          ]
+        }
+      }
+    },
+    "weight": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "object",
+      "properties": {
+        "FEMALE": {
+          "type": "boolean"
+        },
+        "MALE": {
+          "type": "boolean"
+        },
+        "TRANSGENDER_FEMALE": {
+          "type": "boolean"
+        },
+        "TRANSGENDER_MALE": {
+          "type": "boolean"
+        },
+        "GENDER_VARIANT": {
+          "type": "boolean"
+        },
+        "SELF_IDENTIFY": {
+          "type": "boolean"
+        },
+        "PREFER_NO_ANSWER": {
+          "type": "boolean"
+        }
+      }
+    },
+    "raceEthnicityOrigin": {
+      "type": "object",
+      "properties": {
+        "AMERICAN_INDIAN_ALASKA_NATIVE": {
+          "type": "boolean"
+        },
+        "ASIAN": {
+          "type": "boolean"
+        },
+        "BLACK_AFRICAN_AMERICAN": {
+          "type": "boolean"
+        },
+        "HISPANIC_LATINO_SPANISH_ORIGIN": {
+          "type": "boolean"
+        },
+        "HAWAIIAN_PACIFIC_ISLANDER": {
+          "type": "boolean"
+        },
+        "WHITE": {
+          "type": "boolean"
+        },
+        "OTHER_RACE_ETHNICITY": {
+          "type": "boolean"
+        },
+        "PREFER_NO_ANSWER": {
+          "type": "boolean"
         }
       }
     },
     "closingText": {
       "type": "object",
       "properties": {
-        "view:textObject": {
+        "view:thankYouText": {
+          "type": "object",
+          "properties": {}
+        },
+        "view:textDetail": {
+          "type": "object",
+          "properties": {}
+        },
+        "view:eligibilityTextHeader": {
+          "type": "object",
+          "properties": {}
+        },
+        "view:eligibileTextDetail": {
+          "type": "object",
+          "properties": {}
+        },
+        "view:eligibileTextNote": {
+          "type": "object",
+          "properties": {}
+        },
+        "view:notEligibileTextHeader": {
+          "type": "object",
+          "properties": {}
+        },
+        "view:notEligibileTextDetail": {
           "type": "object",
           "properties": {}
         }
       }
     },
-    "vetEmail": {
+    "email": {
       "$ref": "#/definitions/email"
     },
     "fullName": {
       "$ref": "#/definitions/fullName"
     },
-    "gender": {
-      "$ref": "#/definitions/gender"
-    },
-    "dateOfBirth": {
+    "date": {
       "$ref": "#/definitions/date"
     }
   },
