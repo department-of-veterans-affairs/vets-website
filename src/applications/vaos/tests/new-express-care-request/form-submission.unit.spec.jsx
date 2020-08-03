@@ -48,6 +48,52 @@ describe('VAOS integration: Express Care form submission', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
+  it('should not allow submission of an empty form', async () => {
+    mockParentSites(['983'], [parentSite983]);
+    mockSupportedFacilities({
+      siteId: 983,
+      parentId: 983,
+      typeOfCareId: 'CR1',
+      data: [
+        {
+          id: '983',
+          attributes: {
+            authoritativeName: 'Testing',
+            rootStationCode: '983',
+            expressTimes: {
+              start: '00:00',
+              end: '23:59',
+              timezone: 'UTC',
+              offsetUtc: '-00:00',
+            },
+          },
+        },
+      ],
+    });
+    const store = createTestStore({
+      ...initialState,
+    });
+    store.dispatch(fetchExpressCareWindows());
+
+    const router = {
+      push: sinon.spy(),
+    };
+    const screen = renderInReduxProvider(
+      <ExpressCareFormPage router={router} />,
+      {
+        store,
+      },
+    );
+
+    fireEvent.click(await screen.findByText(/submit express care/i));
+    expect(await screen.findByText('Please select a symptom')).to.contain.text(
+      'Please select a symptom',
+    );
+    expect(screen.baseElement).not.to.contain.text(
+      'Submitting your Express Care request',
+    );
+  });
+
   it('should show confirmation page on success', async () => {
     mockParentSites(['983'], [parentSite983]);
     mockSupportedFacilities({
@@ -72,24 +118,6 @@ describe('VAOS integration: Express Care form submission', () => {
     });
     const store = createTestStore({
       ...initialState,
-      // Remove this mocking when we get a real page set up
-      expressCare: {
-        windowsStatus: FETCH_STATUS.notStarted,
-        windows: null,
-        localWindowString: null,
-        minStart: null,
-        maxEnd: null,
-        newRequest: {
-          data: {
-            email: 'test@va.gov',
-            phoneNumber: '5555555555',
-            reasonForVisit: 'cough',
-            additionalInformation: 'Whatever',
-          },
-        },
-        submitStatus: FETCH_STATUS.notStarted,
-        successfulRequest: null,
-      },
     });
     store.dispatch(fetchExpressCareWindows());
     const requestData = {
@@ -98,7 +126,7 @@ describe('VAOS integration: Express Care form submission', () => {
         typeOfCareId: 'CR1',
         email: 'test@va.gov',
         phoneNumber: '5555555555',
-        reasonForVisit: 'cough',
+        reasonForVisit: 'Cough',
         additionalInformation: 'Whatever',
         status: 'Submitted',
       },
@@ -115,6 +143,18 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     );
 
+    const baseElement = screen.baseElement;
+    fireEvent.click(await screen.getByLabelText('Cough'));
+    fireEvent.change(
+      await screen.getByLabelText(/please provide additional/i),
+      { target: { value: requestData.attributes.additionalInformation } },
+    );
+    fireEvent.change(await screen.getByLabelText(/phone number/i), {
+      target: { value: requestData.attributes.phoneNumber },
+    });
+    fireEvent.change(await screen.getByLabelText(/email address/i), {
+      target: { value: requestData.attributes.email },
+    });
     fireEvent.click(await screen.findByText(/submit express care/i));
     expect(screen.baseElement).to.contain.text(
       'Submitting your Express Care request',
@@ -184,6 +224,7 @@ describe('VAOS integration: Express Care form submission', () => {
       '/new-express-care-request',
     );
   });
+
   it('should show generic error on submit failure', async () => {
     mockParentSites(['983'], [parentSite983]);
     mockSupportedFacilities({
@@ -205,19 +246,6 @@ describe('VAOS integration: Express Care form submission', () => {
     });
     const store = createTestStore({
       ...initialState,
-      // Remove this mocking when we get a real page set up
-      expressCare: {
-        windowsStatus: FETCH_STATUS.notStarted,
-        windows: null,
-        localWindowString: null,
-        minStart: null,
-        maxEnd: null,
-        newRequest: {
-          data: {},
-        },
-        submitStatus: FETCH_STATUS.notStarted,
-        successfulRequest: null,
-      },
     });
     store.dispatch(fetchExpressCareWindows());
     setFetchJSONFailure(
@@ -230,15 +258,18 @@ describe('VAOS integration: Express Care form submission', () => {
     const screen = renderInReduxProvider(<ExpressCareFormPage />, {
       store,
     });
-
+    fireEvent.click(await screen.getByLabelText('Cough'));
+    fireEvent.change(await screen.getByLabelText(/phone number/i), {
+      target: { value: '9737790338' },
+    });
+    fireEvent.change(await screen.getByLabelText(/email address/i), {
+      target: { value: 'judy.morrison@va.gov' },
+    });
     fireEvent.click(await screen.findByText(/submit express care/i));
     expect(screen.baseElement).to.contain.text(
       'Submitting your Express Care request',
     );
-    await screen.findByRole('alert');
-    expect(screen.baseElement).to.contain.text(
-      'Your request didn’t go through',
-    );
+    await screen.findByText(/your request didn’t go through/i);
   });
 
   it('should show message when submitting outside of EC window', async () => {
@@ -268,19 +299,6 @@ describe('VAOS integration: Express Care form submission', () => {
     });
     const store = createTestStore({
       ...initialState,
-      // Remove this mocking when we get a real page set up
-      expressCare: {
-        windowsStatus: FETCH_STATUS.notStarted,
-        windows: null,
-        localWindowString: null,
-        minStart: null,
-        maxEnd: null,
-        newRequest: {
-          data: {},
-        },
-        submitStatus: FETCH_STATUS.notStarted,
-        successfulRequest: null,
-      },
     });
     store.dispatch(fetchExpressCareWindows());
     setFetchJSONFailure(
@@ -294,10 +312,14 @@ describe('VAOS integration: Express Care form submission', () => {
       store,
     });
 
+    fireEvent.click(await screen.getByLabelText('Cough'));
+    fireEvent.change(await screen.getByLabelText(/phone number/i), {
+      target: { value: '9737790338' },
+    });
+    fireEvent.change(await screen.getByLabelText(/email address/i), {
+      target: { value: 'judy.morrison@va.gov' },
+    });
     fireEvent.click(await screen.findByText(/submit express care/i));
-    await screen.findByRole('alert');
-    expect(screen.baseElement).to.contain.text(
-      'Express Care isn’t available right now',
-    );
+    await screen.findByText(/express care isn’t available right now/i);
   });
 });

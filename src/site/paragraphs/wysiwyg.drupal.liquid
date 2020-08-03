@@ -10,6 +10,8 @@
 {% endcomment %}
 
 <div data-template="paragraphs/wysiwyg" data-entity-id="{{ entity.entityId }}" class="processed-content">
+  <div itemprop="text">
     {{ entity.fieldWysiwyg.processed | drupalToVaPath | outputLinks }}
+  </div>
 </div>
 

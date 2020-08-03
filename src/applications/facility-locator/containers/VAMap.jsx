@@ -29,11 +29,10 @@ import {
 } from '../constants';
 import { areGeocodeEqual, setFocus, showDialogUrgCare } from '../utils/helpers';
 import {
-  facilityLocatorShowCommunityCares,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorFeUseV1,
+  facilitiesPpmsSuppressCommunityCare,
 } from '../utils/selectors';
-import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
@@ -533,7 +532,7 @@ class VAMap extends Component {
     const {
       currentQuery,
       selectedResult,
-      showCommunityCares,
+      suppressCCP,
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
@@ -548,7 +547,7 @@ class VAMap extends Component {
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
-            showCommunityCares={showCommunityCares}
+            suppressCCP={suppressCCP}
             isMobile
           />
           <div>{showDialogUrgCare(currentQuery)}</div>
@@ -621,7 +620,7 @@ class VAMap extends Component {
     // defaults to White House coordinates initially
     const {
       currentQuery,
-      showCommunityCares,
+      suppressCCP,
       suppressPharmacies,
       results,
       pagination: { currentPage, totalPages },
@@ -639,7 +638,7 @@ class VAMap extends Component {
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
-            showCommunityCares={showCommunityCares}
+            suppressCCP={suppressCCP}
             suppressPharmacies={suppressPharmacies}
           />
         </div>
@@ -750,9 +749,8 @@ VAMap.contextTypes = {
 function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
-    showCommunityCares:
-      isProduction(state) || facilityLocatorShowCommunityCares(state),
     suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
+    suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
     useAPIv1: facilityLocatorFeUseV1(state),
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
