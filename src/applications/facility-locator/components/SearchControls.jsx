@@ -50,13 +50,13 @@ class SearchControls extends Component {
   };
 
   renderFacilityTypeDropdown = () => {
-    const { showCommunityCares, suppressPharmacies } = this.props;
+    const { suppressCCP, suppressPharmacies } = this.props;
     const { facilityType } = this.props.currentQuery;
     const locationOptions = facilityTypesOptions;
     if (suppressPharmacies) {
       delete locationOptions.cc_pharmacy;
     }
-    if (!showCommunityCares) {
+    if (suppressCCP) {
       delete locationOptions.cc_provider;
     }
     const options = Object.keys(locationOptions).map(facility => (
