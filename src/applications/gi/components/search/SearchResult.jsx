@@ -9,6 +9,10 @@ import {
   renderCautionAlert,
   renderSchoolClosingAlert,
 } from '../../utils/render';
+import { religiousAffiliations } from '../../utils/data/religiousAffiliations';
+
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 export class SearchResult extends React.Component {
   estimate = ({ qualifier, value }) => {
@@ -116,6 +120,26 @@ export class SearchResult extends React.Component {
                 </div>
               </div>
             </div>
+            {this.props.gibctFilterEnhancement && (
+              <div className="tag-container">
+                {this.props.womenonly === 1 && (
+                  <div className="search-result-tag">Women only</div>
+                )}
+                {this.props.menonly === 1 && (
+                  <div className="search-result-tag">Men only</div>
+                )}
+                {religiousAffiliations[this.props.relaffil] && (
+                  <div className="search-result-tag">
+                    {religiousAffiliations[this.props.relaffil]}
+                  </div>
+                )}
+                {this.props.hbcu === 1 && (
+                  <div className="search-result-tag">
+                    Historically Black Colleges and Universities
+                  </div>
+                )}
+              </div>
+            )}
             <div className="row">
               <div className="view-details columns">
                 <Link to={linkTo}>View details ›</Link>
@@ -130,6 +154,9 @@ export class SearchResult extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   estimated: estimatedBenefits(state, props),
+  gibctFilterEnhancement: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctFilterEnhancement
+  ],
 });
 
 const mapDispatchToProps = {};

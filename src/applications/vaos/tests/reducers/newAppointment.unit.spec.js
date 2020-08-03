@@ -51,6 +51,8 @@ import {
 
 import { transformParentFacilities } from '../../services/organization/transformers';
 import { transformDSFacilities } from '../../services/location/transformers';
+import { getTypeOfCare } from '../../utils/selectors';
+import { name } from 'file-loader';
 
 const parentFacilitiesParsed = transformParentFacilities(
   parentFacilities.data.map(item => ({
@@ -869,6 +871,9 @@ describe('VAOS reducer: newAppointment', () => {
           type: 'object',
           required: [],
           properties: {
+            hasCommunityCareProvider: {
+              type: 'boolean',
+            },
             communityCareSystemId: { type: 'string' },
           },
         },
@@ -890,6 +895,9 @@ describe('VAOS reducer: newAppointment', () => {
         ...defaultState,
         parentFacilitiesStatus: FETCH_STATUS.loading,
         ccEnabledSystems: ['983'],
+        data: {
+          typeOfCareId: '323',
+        },
       };
 
       const newState = newAppointmentReducer(state, action);
@@ -909,6 +917,9 @@ describe('VAOS reducer: newAppointment', () => {
           required: [],
           properties: {
             communityCareSystemId: { type: 'string' },
+            hasCommunityCareProvider: {
+              type: 'boolean',
+            },
           },
         },
         uiSchema: {},
@@ -919,6 +930,9 @@ describe('VAOS reducer: newAppointment', () => {
         ...defaultState,
         parentFacilitiesStatus: FETCH_STATUS.loading,
         ccEnabledSystems: ['983', '984'],
+        data: {
+          typeOfCareId: '323',
+        },
       };
 
       const newState = newAppointmentReducer(state, action);
