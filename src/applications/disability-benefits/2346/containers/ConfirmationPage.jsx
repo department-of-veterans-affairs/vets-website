@@ -89,7 +89,11 @@ const ConfirmationPage = ({
               Please print this page for your records.
             </p>
             <AlertBox
-              headline="Your order has been submitted"
+              headline={
+                <h2 className="vads-u-font-size--h3">
+                  Your order has been been submitted
+                </h2>
+              }
               className="order-submission-alert"
               content={
                 <p>
