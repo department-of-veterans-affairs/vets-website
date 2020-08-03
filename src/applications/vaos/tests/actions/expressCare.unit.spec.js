@@ -55,12 +55,12 @@ describe('VAOS Express Care actions', () => {
         canSchedule: true,
         startTime: today
           .clone()
-          .subtract('30', 'minutes')
+          .subtract('2', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
         endTime: today
           .clone()
-          .add('15', 'minutes')
+          .add('1', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
       },

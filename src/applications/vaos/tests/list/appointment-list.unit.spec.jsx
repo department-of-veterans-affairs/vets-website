@@ -219,12 +219,12 @@ describe('VAOS integration: appointment list', () => {
         canSchedule: true,
         startTime: today
           .clone()
-          .subtract('30', 'minutes')
+          .subtract('2', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
         endTime: today
           .clone()
-          .add('30', 'minutes')
+          .add('1', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
       },
@@ -288,12 +288,12 @@ describe('VAOS integration: appointment list', () => {
         canSchedule: true,
         startTime: today
           .clone()
-          .subtract('30', 'minutes')
+          .subtract('2', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
         endTime: today
           .clone()
-          .subtract('15', 'minutes')
+          .subtract('1', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
       },
@@ -374,12 +374,12 @@ describe('VAOS integration: appointment list', () => {
         canSchedule: true,
         startTime: today
           .clone()
-          .subtract('30', 'minutes')
+          .subtract('2', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
         endTime: today
           .clone()
-          .add('15', 'minutes')
+          .add('1', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
       },
