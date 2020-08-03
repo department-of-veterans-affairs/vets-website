@@ -12,17 +12,17 @@ describe('Secure Messaging Page <AuthContent>', () => {
     const text = wrapper.text();
     expect(text).to.include('CernerCallToAction');
     expect(text).to.include(
-      'How can VA Secure Messaging help me manage my health care?',
+      'How can VA secure messaging help me manage my health care?',
     );
-    expect(text).to.include('Am I eligible to use Secure Messaging?');
+    expect(text).to.include('Am I eligible to use secure messaging?');
     expect(text).to.include(
-      'How does Secure Messaging work within My HealtheVet?',
-    );
-    expect(text).to.include(
-      'Can I use Secure Messaging for medical emergencies or urgent needs?',
+      'How does secure messaging work?',
     );
     expect(text).to.include(
-      'Can I use Secure Messaging to communicate with non-VA providers?',
+      'Can I use secure messaging for medical emergencies or urgent needs?',
+    );
+    expect(text).to.include(
+      'Can I use secure messaging with community (non-VA) providers?',
     );
     expect(text).to.include(
       'Will my personal health information be protected?',
