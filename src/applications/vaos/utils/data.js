@@ -114,8 +114,8 @@ export function transformFormToExpressCareRequest(state) {
       facilityCode: facilityId,
       parentSiteCode: siteId,
     },
-    reasonForVisit: data.reasonForVisit,
-    additionalInformation: data.additionalInformation,
+    reasonForVisit: data.reasonForRequest.reason,
+    additionalInformation: data.reasonForRequest.additionalDetails,
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
     emailPreferences: {

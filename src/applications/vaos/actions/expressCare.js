@@ -193,72 +193,77 @@ export function routeToPreviousAppointmentPage(router, current) {
   );
 }
 
-async function buildPreferencesDataAndUpdate(expressCare) {
+async function buildPreferencesDataAndUpdate(data) {
   const preferenceData = await getPreferences();
-  const preferenceBody = createPreferenceBody(preferenceData, expressCare.data);
+  const preferenceBody = createPreferenceBody(preferenceData, data);
   return updatePreferences(preferenceBody);
 }
 
 export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
     const expressCare = getState().expressCare;
-    const activeFacility = selectActiveExpressCareFacility(
-      getState(),
-      moment.utc(),
-    );
+    const formData = expressCare.newRequest.data;
+    const { reasonForRequest, phoneNumber, email } = formData;
 
-    dispatch({
-      type: FORM_SUBMIT,
-    });
+    if (!!reasonForRequest?.reason && !!phoneNumber && !!email) {
+      const activeFacility = selectActiveExpressCareFacility(
+        getState(),
+        moment.utc(),
+      );
 
-    let requestBody;
+      dispatch({
+        type: FORM_SUBMIT,
+      });
 
-    recordEvent({
-      event: `${GA_PREFIX}-express-care-submission`,
-    });
+      let requestBody;
 
-    try {
-      if (!activeFacility) {
-        throw new Error('No facilities available for Express Care request');
-      }
-
-      requestBody = transformFormToExpressCareRequest(getState());
-      const responseData = await submitRequest('va', requestBody);
+      recordEvent({
+        event: `${GA_PREFIX}-express-care-submission`,
+      });
 
       try {
-        await buildPreferencesDataAndUpdate(expressCare);
+        if (!activeFacility) {
+          throw new Error('No facilities available for Express Care request');
+        }
+
+        requestBody = transformFormToExpressCareRequest(getState());
+        const responseData = await submitRequest('va', requestBody);
+
+        try {
+          await buildPreferencesDataAndUpdate(formData);
+        } catch (error) {
+          // These are ancillary updates, the request went through if the first submit
+          // succeeded
+          captureError(error, false, 'Express Care preferences error');
+        }
+
+        dispatch({
+          type: FORM_SUBMIT_SUCCEEDED,
+          responseData,
+        });
+
+        recordEvent({
+          event: `${GA_PREFIX}-express-care-submission-successful`,
+        });
+        resetDataLayer();
+        router.push('/new-express-care-request/confirmation');
       } catch (error) {
-        // These are ancillary updates, the request went through if the first submit
-        // succeeded
-        captureError(error, false, 'Express Care preferences error');
+        const errorReason = !activeFacility
+          ? EXPRESS_CARE_ERROR_REASON.noActiveFacility
+          : EXPRESS_CARE_ERROR_REASON.error;
+        captureError(error, true, 'Express Care submission failure', {
+          errorReason,
+        });
+        dispatch({
+          type: FORM_SUBMIT_FAILED,
+          errorReason,
+        });
+
+        recordEvent({
+          event: `${GA_PREFIX}-express-care-submission-failed`,
+        });
+        resetDataLayer();
       }
-
-      dispatch({
-        type: FORM_SUBMIT_SUCCEEDED,
-        responseData,
-      });
-
-      recordEvent({
-        event: `${GA_PREFIX}-express-care-submission-successful`,
-      });
-      resetDataLayer();
-      router.push('/new-express-care-request/confirmation');
-    } catch (error) {
-      const errorReason = !activeFacility
-        ? EXPRESS_CARE_ERROR_REASON.noActiveFacility
-        : EXPRESS_CARE_ERROR_REASON.error;
-      captureError(error, true, 'Express Care submission failure', {
-        errorReason,
-      });
-      dispatch({
-        type: FORM_SUBMIT_FAILED,
-        errorReason,
-      });
-
-      recordEvent({
-        event: `${GA_PREFIX}-express-care-submission-failed`,
-      });
-      resetDataLayer();
     }
   };
 }
