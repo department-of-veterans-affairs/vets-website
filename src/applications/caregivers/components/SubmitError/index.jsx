@@ -15,7 +15,7 @@ const SubmitError = () => {
       <section>
         <p>
           We’re sorry. Something went wrong when you tried to submit your
-          application.
+          application. You won't be able to resubmit the form online.
         </p>
 
         <div>
