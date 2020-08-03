@@ -719,7 +719,7 @@ class VAMap extends Component {
     return (
       <div>
         <div className="title-section">
-          <h1>Find VA Locations</h1>
+          <h1>Find VA locations</h1>
         </div>
 
         <div className="facility-introtext">
