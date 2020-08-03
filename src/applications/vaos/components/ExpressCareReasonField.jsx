@@ -11,7 +11,7 @@ export default function ExpressCareReasonField({
   formContext,
   onError,
 }) {
-  const { reason, additionalDetails } = formData;
+  const { reason, additionalInformation } = formData;
   const hasError =
     formContext.submitted && errorSchema.reason.__errors.length > 0;
 
@@ -24,7 +24,7 @@ export default function ExpressCareReasonField({
       <fieldset className={fieldsetClasses}>
         {hasError && (
           <span className="usa-input-error-message" role="alert">
-            <span className="sr-only">Error</span> Please select a concern
+            <span className="sr-only">Error</span> Please select a symptom
           </span>
         )}
         {uiSchema.options.items.map((option, index) => {
@@ -81,11 +81,11 @@ export default function ExpressCareReasonField({
                   <textarea
                     id={`vaos-express-care__textarea-${option.id}`}
                     className="vads-u-margin-top--0p5"
-                    value={additionalDetails}
+                    value={additionalInformation}
                     onChange={e =>
                       onChange({
                         ...formData,
-                        additionalDetails: e.target.value,
+                        additionalInformation: e.target.value,
                       })
                     }
                   />

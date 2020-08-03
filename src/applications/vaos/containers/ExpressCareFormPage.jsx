@@ -30,7 +30,7 @@ const initialSchema = {
         reason: {
           type: 'string',
         },
-        additionalDetails: {
+        additionalInformation: {
           type: 'string',
         },
       },
