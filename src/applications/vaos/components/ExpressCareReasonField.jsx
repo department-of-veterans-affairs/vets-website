@@ -32,6 +32,7 @@ export default function ExpressCareReasonField({
         </legend>
         <div
           className={radioGroupClasses}
+          role="radiogroup"
           aria-labelledby="vaos-express-care__radiogroup-label"
         >
           {hasError && (
