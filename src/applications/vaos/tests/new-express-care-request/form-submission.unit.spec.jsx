@@ -72,19 +72,6 @@ describe('VAOS integration: Express Care form submission', () => {
     });
     const store = createTestStore({
       ...initialState,
-      // Remove this mocking when we get a real page set up
-      expressCare: {
-        windowsStatus: FETCH_STATUS.notStarted,
-        windows: null,
-        localWindowString: null,
-        minStart: null,
-        maxEnd: null,
-        newRequest: {
-          data: {},
-        },
-        submitStatus: FETCH_STATUS.notStarted,
-        successfulRequest: null,
-      },
     });
     store.dispatch(fetchExpressCareWindows());
 
@@ -131,19 +118,6 @@ describe('VAOS integration: Express Care form submission', () => {
     });
     const store = createTestStore({
       ...initialState,
-      // Remove this mocking when we get a real page set up
-      expressCare: {
-        windowsStatus: FETCH_STATUS.notStarted,
-        windows: null,
-        localWindowString: null,
-        minStart: null,
-        maxEnd: null,
-        newRequest: {
-          data: {},
-        },
-        submitStatus: FETCH_STATUS.notStarted,
-        successfulRequest: null,
-      },
     });
     store.dispatch(fetchExpressCareWindows());
     const requestData = {
@@ -272,19 +246,6 @@ describe('VAOS integration: Express Care form submission', () => {
     });
     const store = createTestStore({
       ...initialState,
-      // Remove this mocking when we get a real page set up
-      expressCare: {
-        windowsStatus: FETCH_STATUS.notStarted,
-        windows: null,
-        localWindowString: null,
-        minStart: null,
-        maxEnd: null,
-        newRequest: {
-          data: {},
-        },
-        submitStatus: FETCH_STATUS.notStarted,
-        successfulRequest: null,
-      },
     });
     store.dispatch(fetchExpressCareWindows());
     setFetchJSONFailure(
@@ -338,19 +299,6 @@ describe('VAOS integration: Express Care form submission', () => {
     });
     const store = createTestStore({
       ...initialState,
-      // Remove this mocking when we get a real page set up
-      expressCare: {
-        windowsStatus: FETCH_STATUS.notStarted,
-        windows: null,
-        localWindowString: null,
-        minStart: null,
-        maxEnd: null,
-        newRequest: {
-          data: {},
-        },
-        submitStatus: FETCH_STATUS.notStarted,
-        successfulRequest: null,
-      },
     });
     store.dispatch(fetchExpressCareWindows());
     setFetchJSONFailure(
