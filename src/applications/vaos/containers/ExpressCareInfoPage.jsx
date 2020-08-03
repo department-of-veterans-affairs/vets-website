@@ -7,10 +7,18 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/expressCare';
 import FormButtons from '../components/FormButtons';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 const pageKey = 'info';
+const pageTitle = 'How Express Care works';
 
-class ExpressCareInfo extends React.Component {
+class ExpressCareInfoPage extends React.Component {
+  componentDidMount() {
+    document.title = `${pageTitle} | Veterans Affairs`;
+
+    scrollAndFocus();
+  }
+
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
@@ -23,12 +31,12 @@ class ExpressCareInfo extends React.Component {
     const time = `${moment
       .parseZone(this.props.minStart?.start)
       .format('h:mm')} and ${moment
-      .parseZone(this.props.minStart?.end)
+      .parseZone(this.props.maxEnd?.end)
       .format('h:mm a')} ${this.props.minStart?.timeZone}`;
 
     return (
       <div>
-        <h1>How Express Care Works</h1>
+        <h1>{pageTitle}</h1>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -126,4 +134,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ExpressCareInfo);
+)(ExpressCareInfoPage);

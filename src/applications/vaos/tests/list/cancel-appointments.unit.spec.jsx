@@ -96,7 +96,7 @@ describe('VAOS integration appointment cancellation:', () => {
     await findByText(/VA Video Connect appointments can’t be canceled online/i);
     const modal = getByRole('alertdialog');
 
-    expect(modal).to.contain.text('Cheyenne VA Medical Center');
+    await findByText(/Cheyenne VA Medical Center/);
     expect(modal).to.contain.text('307-778-7550');
   });
 
