@@ -460,14 +460,6 @@ export function getExpressCareFormData(state) {
   return getExpressCareNewRequest(state).data;
 }
 
-export function getExpressCareFormPageInfo(state, pageKey) {
-  return {
-    schema: getExpressCareNewRequest(state).pages[pageKey],
-    data: getExpressCareFormData(state),
-    pageChangeInProgress: getExpressCareFormData(state).pageChangeInProgress,
-  };
-}
-
 export function selectActiveExpressCareFacility(state, nowUTCMoment) {
   const activeWindow = state.expressCare.windows?.find(ecWindow =>
     nowUTCMoment.isBetween(ecWindow.utcStart, ecWindow.utcEnd),
