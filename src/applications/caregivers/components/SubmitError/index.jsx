@@ -43,10 +43,12 @@ const SubmitError = () => {
         </div>
 
         <div>
-          If you have trouble downloading your application, call our{' '}
-          <a href="VA.gov">VA.gov</a> help desk at{' '}
-          <Telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711). We’re here
-          Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          If you have trouble downloading your application, call our
+          <a className="vads-u-margin-x--0p5" href="VA.gov">
+            VA.gov
+          </a>
+          help desk at <Telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711).
+          We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </div>
       </section>
     );
