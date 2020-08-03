@@ -114,8 +114,16 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </div>
           </div>
-
-          <ScorecardTags styling={'info-flag'} it={this.props.institution} />
+          {this.props.gibctFilterEnhancement && (
+            <div className="row vads-u-padding-top--1p5">
+              <div className="view-details columns vads-u-display--inline-block">
+                <ScorecardTags
+                  styling={'info-flag'}
+                  it={this.props.institution}
+                />
+              </div>
+            </div>
+          )}
         </div>
         <AdditionalResources />
       </div>

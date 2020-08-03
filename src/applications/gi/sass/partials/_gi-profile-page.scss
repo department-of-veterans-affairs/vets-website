@@ -4,12 +4,13 @@
     margin-top: 0;
   }
   .info-flag {
-    color: $color-gray-dark;
-    background-color: $color-gray-lighter;
+    color: #323a45;
+    background-color: #d6d7d9;
     font-size: 0.9em;
     display: inline-block;
     padding: 0.1em 0.5em;
-    margin-right: 1em;
+    margin-right: 0.5em;
+    //margin-top: 1em;
   }
 
   .profile-accordion-list {
@@ -367,13 +368,13 @@
   }
 
   .eyb-button {
-    &.usa-accordion-button[aria-expanded='false'] {
-      background-image: url('/img/arrow-up.png');
-      background-image: url('/img/arrow-up.svg');
+    &.usa-accordion-button[aria-expanded="false"] {
+      background-image: url("/img/arrow-up.png");
+      background-image: url("/img/arrow-up.svg");
     }
-    &.usa-accordion-button[aria-expanded='true'] {
-      background-image: url('/img/arrow-down.png');
-      background-image: url('/img/arrow-down.svg');
+    &.usa-accordion-button[aria-expanded="true"] {
+      background-image: url("/img/arrow-down.png");
+      background-image: url("/img/arrow-down.svg");
     }
   }
 
