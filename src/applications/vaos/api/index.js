@@ -573,7 +573,7 @@ export function getRequestEligibilityCriteria(sites) {
   } else {
     promise = vaosApiRequest(
       `/v0/request_eligibility_criteria?${sites
-        .map(site => `parent_sites[]=${site.facilityId})}`)
+        .map(site => `parent_sites[]=${site}`)
         .join('&')}`,
     );
   }

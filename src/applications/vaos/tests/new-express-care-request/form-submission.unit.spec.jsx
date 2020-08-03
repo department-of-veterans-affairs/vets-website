@@ -13,12 +13,11 @@ import environment from 'platform/utilities/environment';
 
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import { getParentSiteMock } from '../mocks/v0';
+import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
 import { createTestStore } from '../mocks/setup';
 import {
-  mockParentSites,
-  mockSupportedFacilities,
   mockRequestSubmit,
+  mockRequestEligibilityCriteria,
 } from '../mocks/helpers';
 import { FETCH_STATUS } from '../../utils/constants';
 import ExpressCareFormPage from '../../containers/ExpressCareFormPage';
@@ -33,43 +32,33 @@ const initialState = {
   },
 };
 
-const parentSite983 = {
-  id: '983',
-  attributes: {
-    ...getParentSiteMock().attributes,
-    institutionCode: '983',
-    authoritativeName: 'Some VA facility',
-    rootStationCode: '983',
-    parentStationCode: '983',
-  },
-};
-
 describe('VAOS integration: Express Care form submission', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
   it('should show confirmation page on success', async () => {
-    mockParentSites(['983'], [parentSite983]);
-    mockSupportedFacilities({
-      siteId: 983,
-      parentId: 983,
-      typeOfCareId: 'CR1',
-      data: [
-        {
-          id: '983',
-          attributes: {
-            authoritativeName: 'Testing',
-            rootStationCode: '983',
-            expressTimes: {
-              start: '00:00',
-              end: '23:59',
-              timezone: 'UTC',
-              offsetUtc: '-00:00',
-            },
-          },
-        },
-      ],
-    });
+    const today = moment();
+    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: today
+          .clone()
+          .subtract('30', 'minutes')
+          .tz('America/Denver')
+          .format('hh:mm'),
+        endTime: today
+          .clone()
+          .add('15', 'minutes')
+          .tz('America/Denver')
+          .format('hh:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
     const store = createTestStore({
       ...initialState,
       // Remove this mocking when we get a real page set up
@@ -138,7 +127,7 @@ describe('VAOS integration: Express Care form submission', () => {
       facility: {
         facilityCode: '983',
         parentSiteCode: '983',
-        name: 'Testing',
+        name: '',
       },
     });
 
@@ -185,24 +174,28 @@ describe('VAOS integration: Express Care form submission', () => {
     );
   });
   it('should show generic error on submit failure', async () => {
-    mockParentSites(['983'], [parentSite983]);
-    mockSupportedFacilities({
-      siteId: 983,
-      parentId: 983,
-      typeOfCareId: 'CR1',
-      data: [
-        {
-          attributes: {
-            expressTimes: {
-              start: '00:00',
-              end: '23:59',
-              timezone: 'UTC',
-              offsetUtc: '-00:00',
-            },
-          },
-        },
-      ],
-    });
+    const today = moment();
+    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: today
+          .clone()
+          .subtract('30', 'minutes')
+          .tz('America/Denver')
+          .format('hh:mm'),
+        endTime: today
+          .clone()
+          .add('15', 'minutes')
+          .tz('America/Denver')
+          .format('hh:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
     const store = createTestStore({
       ...initialState,
       // Remove this mocking when we get a real page set up
@@ -242,30 +235,28 @@ describe('VAOS integration: Express Care form submission', () => {
   });
 
   it('should show message when submitting outside of EC window', async () => {
-    mockParentSites(['983'], [parentSite983]);
-    mockSupportedFacilities({
-      siteId: 983,
-      parentId: 983,
-      typeOfCareId: 'CR1',
-      data: [
-        {
-          attributes: {
-            expressTimes: {
-              start: moment
-                .utc()
-                .subtract(2, 'hours')
-                .format('HH:mm'),
-              end: moment
-                .utc()
-                .subtract(1, 'hours')
-                .format('HH:mm'),
-              timezone: 'UTC',
-              offsetUtc: '-00:00',
-            },
-          },
-        },
-      ],
-    });
+    const today = moment();
+    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: today
+          .clone()
+          .subtract('30', 'minutes')
+          .tz('America/Denver')
+          .format('hh:mm'),
+        endTime: today
+          .clone()
+          .subtract('15', 'minutes')
+          .tz('America/Denver')
+          .format('hh:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
     const store = createTestStore({
       ...initialState,
       // Remove this mocking when we get a real page set up
