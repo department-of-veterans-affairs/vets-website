@@ -47,7 +47,7 @@ function setupFormData(data, schema, uiSchema) {
 export default function expressCareReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
-      const newRequest = { ...state.newRequest };
+      const newRequest = state.newRequest;
       const { data, schema } = setupFormData(
         newRequest.data,
         action.schema,
@@ -67,7 +67,7 @@ export default function expressCareReducer(state = initialState, action) {
       };
     }
     case FORM_DATA_UPDATED: {
-      const newRequest = { ...state.newRequest };
+      const newRequest = state.newRequest;
       const { data, schema } = updateSchemaAndData(
         newRequest.pages[action.page],
         action.uiSchema,

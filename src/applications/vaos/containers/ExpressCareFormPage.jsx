@@ -20,10 +20,6 @@ const pageTitle = 'Select a reason for your Express Care request';
 const initialSchema = {
   type: 'object',
   properties: {
-    'view:textObject': {
-      type: 'object',
-      properties: {},
-    },
     reasonForRequest: {
       type: 'object',
       required: ['reason'],
@@ -35,10 +31,6 @@ const initialSchema = {
           type: 'string',
         },
       },
-    },
-    'view:textObject2': {
-      type: 'object',
-      properties: {},
     },
     contactInfo: {
       type: 'object',

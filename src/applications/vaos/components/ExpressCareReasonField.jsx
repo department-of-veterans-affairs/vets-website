@@ -54,8 +54,8 @@ export default function ExpressCareReasonField({
               <div key={`reason-radio-${index}`} className={divClasses}>
                 <input
                   type="radio"
-                  id={`vaos-express-care__radio-${option.id}`}
-                  name="vaos-express-care__radio"
+                  id={`root_reasonForRequest_reason_${option.id}`}
+                  name="root_reasonForRequest_reason"
                   checked={checked}
                   aria-checked={checked}
                   value={option.value}
