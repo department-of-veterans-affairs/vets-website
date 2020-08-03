@@ -61,7 +61,9 @@ export const updateDirectDepositFailure = [
   }),
 ];
 
-// response when successfully creating a transaction request
+// Response when successfully creating a transaction request. This body mentions
+// `email` in a couple of places but for testing purposes I'm reusing this body
+// for _all_ transaction creation requests.
 const createTransactionRequestSuccessBody = {
   id: '',
   type: 'async_transaction_vet360_email_transactions',
@@ -73,6 +75,9 @@ const createTransactionRequestSuccessBody = {
   },
 };
 
+// Error object when transaction fails to be created. This mentions `email` in a
+// couple of places but for testing purposes I'm reusing this body for _all_
+// transaction creation requests.
 const createTransactionRequestFailedError = {
   title: 'Check Email Domain',
   code: 'VET360_EMAIL304',
@@ -80,7 +85,7 @@ const createTransactionRequestFailedError = {
   status: '400',
 };
 
-// When creating a transaction request fails
+// Response when transaction fails to be created.
 export const createTransactionFailure = [
   rest.post(`${prefix}/v0/profile/*`, (req, res, ctx) => {
     return res(
@@ -111,7 +116,9 @@ export const createTransactionFailure = [
   }),
 ];
 
-// When a transaction has not resolved or failed
+// When a transaction has not resolved or failed. This mentions `email` in a
+// couple of places but for testing purposes I'm reusing this body for _all_
+// transaction.
 export const transactionPending = [
   rest.get(`${prefix}/v0/profile/status/:id`, (req, res, ctx) => {
     return res(
@@ -131,7 +138,9 @@ export const transactionPending = [
   }),
 ];
 
-// When the transaction fails to resolve
+// When the transaction fails to resolve. This mentions `email` and `address`
+// but for testing purposes I'm reusing body for _all_ transactions since the
+// metadata does not matter for the cases we are testing.
 export const transactionFailed = [
   rest.get(`${prefix}/v0/profile/status/:id`, (req, res, ctx) => {
     return res(
@@ -163,7 +172,9 @@ export const transactionFailed = [
   }),
 ];
 
-// When the transaction resolves
+// When the transaction resolves. This mentions `email` but for testing purposes
+// I'm reusing this for _all_ transactions since the metadata does not matter
+// for the cases we are testing.
 export const transactionSucceeded = [
   rest.get(`${prefix}/v0/profile/status/:id`, (req, res, ctx) => {
     return res(
@@ -183,6 +194,9 @@ export const transactionSucceeded = [
   }),
 ];
 
+// Sets up the responses needed to mack a successful email update. In particular
+// it mocks the `GET user/` response so that the updated email address matches
+// the email address that was entered in the Edit Email Address view.
 export const editEmailAddressSuccess = () => {
   // store the email address that's passed in via the POST or PUT call so we can
   // return it with the GET user/ response
@@ -436,6 +450,9 @@ export const editEmailAddressSuccess = () => {
   ];
 };
 
+// Sets up the responses needed to mack a successful email deletion. In
+// particular it mocks the `GET user/` response so that the email address no
+// longer exists
 export const deleteEmailAddressSuccess = [
   rest.delete(`${prefix}/v0/profile/*`, (req, res, ctx) => {
     return res(
@@ -664,6 +681,9 @@ export const deleteEmailAddressSuccess = [
   }),
 ];
 
+// Sets up the responses needed to mack a successful phone number update. In
+// particular it mocks the `GET user/` response so that _all_ of the phone
+// numbers match the phone number that was entered in the Edit Phone view.
 export const editPhoneNumberSuccess = () => {
   // store the phone number that's passed in via the POST or PUT call so we can
   // return it with the GET user/ response
