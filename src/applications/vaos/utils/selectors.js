@@ -452,12 +452,8 @@ export function selectExpressCare(state) {
   };
 }
 
-export function getExpressCareNewRequest(state) {
-  return state.expressCare.newRequest;
-}
-
-export function getExpressCareFormData(state) {
-  return getExpressCareNewRequest(state).data;
+export function selectExpressCareFormData(state) {
+  return state.expressCare.newRequest.data;
 }
 
 export function selectActiveExpressCareFacility(state, nowUTCMoment) {

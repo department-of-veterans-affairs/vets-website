@@ -17,7 +17,7 @@ import {
   getChosenParentInfo,
   getChosenSlot,
   selectActiveExpressCareFacility,
-  getExpressCareFormData,
+  selectExpressCareFormData,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
@@ -99,7 +99,7 @@ export function transformFormToVARequest(state) {
 }
 
 export function transformFormToExpressCareRequest(state) {
-  const data = getExpressCareFormData(state);
+  const data = selectExpressCareFormData(state);
   const { facilityId, siteId, name } = selectActiveExpressCareFacility(
     state,
     moment.utc(),
