@@ -24,7 +24,18 @@ export function renderWithProfileReducers(
 // Creates a good baseline value for the user.profile.vet360 part of Redux
 export function getBasicContactInfoState() {
   return {
-    email: null,
+    email: {
+      createdAt: '2020-07-30T23:38:04.000+00:00',
+      emailAddress: 'me@me.com',
+      effectiveEndDate: null,
+      effectiveStartDate: '2020-07-30T23:38:03.000+00:00',
+      id: 115097,
+      sourceDate: '2020-07-30T23:38:03.000+00:00',
+      sourceSystemUser: null,
+      transactionId: '604abf55-422b-4f51-b33d-9fb38b4daad1',
+      updatedAt: '2020-07-30T23:38:04.000+00:00',
+      vet360Id: '1273780',
+    },
     residentialAddress: {
       addressLine1: '34 Blanchard Rd',
       addressLine2: null,
