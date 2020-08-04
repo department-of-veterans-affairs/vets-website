@@ -34,11 +34,16 @@ describe('Facility smoke test', () => {
   });
 
   it('should render breadcrumbs ', () => {
-    cy.visit(
-      '/find-locations/?address=new%20york&context=New%20York%2C%20New%20York%2C%20United%20States&facilityType=health&location=40.7648%2C-73.9808',
-    );
+    cy.visit('/find-locations/');
+
     cy.injectAxe();
     cy.axeCheck();
+
+    cy.get('#street-city-state-zip').type('Seattle, WA');
+    cy.get('#facility-type-dropdown').select(
+      facilityTypesOptions[LocationType.HEALTH],
+    );
+    cy.get('#facility-search').click();
 
     cy.get('.facility-result a').should('exist');
 

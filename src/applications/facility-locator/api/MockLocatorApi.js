@@ -2,7 +2,6 @@
 // It uses setTimeout to simulate the delay of an AJAX call.
 // All calls return promises.
 import compact from 'lodash/compact';
-import { facilityData } from '../constants/mock-facilities-data';
 import providerServices from '../constants/mock-provider-services.json';
 import facilityDataJson from '../constants/mock-facility-data.json';
 
@@ -35,7 +34,6 @@ class MockLocatorApi {
     serviceType,
     page,
   ) {
-    const data = facilityData(locationType, serviceType);
     const filterableLocations = ['health', 'benefits', 'cc_provider'];
     const params = compact([
       address ? `address=${address}` : null,
@@ -54,7 +52,7 @@ class MockLocatorApi {
             reject('Random failure due to fail flag being set');
           }
 
-          const locations = { ...data };
+          const locations = { ...facilityDataJson };
           const locationsData = locations.data.filter(
             loc =>
               loc.attributes.facilityType === testFacilityTypes[locationType],

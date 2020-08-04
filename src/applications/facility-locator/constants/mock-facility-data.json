@@ -1,55 +1,6 @@
 {
   "data": [
     {
-      "id": "nca_s1130",
-      "type": "va_facilities",
-      "attributes": {
-        "uniqueId": "s1130",
-        "name": "Washington State Veterans Cemetery Medical Lake",
-        "facilityType": "va_cemetery",
-        "classification": "State Cemetery",
-        "operatingStatus": {
-          "code": "NOTICE",
-          "additionalInfo": "Some additional NOTICE"
-        },
-        "website": "http://www.dva.wa.gov/cemetery",
-        "lat": 47.5862341059396,
-        "long": -117.713961630042,
-        "address": {
-          "physical": {
-            "address1": "21702 W Espanola Rd",
-            "address2": null,
-            "address3": null,
-            "city": "Medical Lake",
-            "state": "WA",
-            "zip": "99022"
-          },
-          "mailing": {}
-        },
-        "phone": {
-          "main": "509-299-6280",
-          "fax": ""
-        },
-        "hours": {
-          "monday": "Sunrise - Sunset",
-          "tuesday": "Sunrise - Sunset",
-          "wednesday": "Sunrise - Sunset",
-          "thursday": "Sunrise - Sunset",
-          "friday": "Sunrise - Sunset",
-          "saturday": "Sunrise - Sunset",
-          "sunday": "Sunrise - Sunset"
-        },
-        "services": {
-          "benefits": {
-            "other": "",
-            "standard": []
-          }
-        },
-        "feedback": {},
-        "access": {}
-      }
-    },
-    {
       "id": "vha_438GE",
       "type": "va_facilities",
       "attributes": {
@@ -259,6 +210,55 @@
             "effectiveDate": "2017-08-14"
           }
         }
+      }
+    },
+    {
+      "id": "nca_s1130",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "s1130",
+        "name": "Washington State Veterans Cemetery Medical Lake",
+        "facilityType": "va_cemetery",
+        "classification": "State Cemetery",
+        "operatingStatus": {
+          "code": "NOTICE",
+          "additionalInfo": "Some additional NOTICE"
+        },
+        "website": "http://www.dva.wa.gov/cemetery",
+        "lat": 47.5862341059396,
+        "long": -117.713961630042,
+        "address": {
+          "physical": {
+            "address1": "21702 W Espanola Rd",
+            "address2": null,
+            "address3": null,
+            "city": "Medical Lake",
+            "state": "WA",
+            "zip": "99022"
+          },
+          "mailing": {}
+        },
+        "phone": {
+          "main": "509-299-6280",
+          "fax": ""
+        },
+        "hours": {
+          "monday": "Sunrise - Sunset",
+          "tuesday": "Sunrise - Sunset",
+          "wednesday": "Sunrise - Sunset",
+          "thursday": "Sunrise - Sunset",
+          "friday": "Sunrise - Sunset",
+          "saturday": "Sunrise - Sunset",
+          "sunday": "Sunrise - Sunset"
+        },
+        "services": {
+          "benefits": {
+            "other": "",
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
       }
     },
     {
@@ -885,148 +885,6 @@
         },
         "feedback": {},
         "access": {}
-      }
-    },
-    {
-      "id": "ccp_1",
-      "type": "cc_provider",
-      "attributes": {
-        "uniqueId": "1",
-        "name": "Smith, Jones MD",
-        "orgName": "Jones Family Medicine",
-        "specialty": [
-          {
-            "name": "Family Medicine",
-            "desc": "Family Medicine is the medical specialty which is concerned with the total health care of the individual and the family. It is the specialty in breadth which integrates the biological, clinical, and behavioral sciences. The scope of family medicine is not limited by age, sex, organ system, or disease entity."
-          }
-        ],
-        "address": {
-          "street": "820 Chesapeake Street, Southeast",
-          "appt": "",
-          "city": "Washington",
-          "state": "DC",
-          "zip": "20032-3428",
-          "full": "820 Chesapeake Street, Southeast, Washington, DC 20032-3428"
-        },
-        "email": "jones.smith@docs.gov",
-        "phone": "202-745-8685",
-        "schedPhone": "202-745-8000",
-        "fax": "202-562-8789",
-        "website": "http://example.com",
-        "prefContact": "phone",
-        "accNewPatients": true,
-        "gender": "Female",
-        "distance": 0.5,
-        "network": "TriWest",
-        "lat": 38.8292075900001,
-        "long": -76.99237091
-      }
-    },
-    {
-      "id": "ccp_2",
-      "type": "cc_provider",
-      "attributes": {
-        "uniqueId": "2",
-        "name": "Franklin Street Dentist",
-        "orgName": null,
-        "specialty": [
-          {
-            "name": "Dentistry",
-            "desc": "A dentist is a person qualified by a doctorate in dental surgery (D.D.S.) or dental medicine (D.M.D.), licensed by the state to practice dentistry, and practicing within the scope of that license. There is no difference between the two degrees: dentists who have a DMD or DDS have the same education. Universities have the prerogative to determine what degree is awarded. Both degrees use the same curriculum requirements set by the American Dental Association's Commission on Dental Accreditation. Generally, three or more years of undergraduate education plus four years of dental school is required to graduate and become a general dentist. State licensing boards accept either degree as equivalent, and both degrees allow licensed individuals to practice the same scope of general dentistry. Additional post-graduate training is required to become a dental specialist."
-          },
-          {
-            "name": "Orthodontist",
-            "desc": "That area of dentistry concerned with the supervision, guidance and correction of the growing or mature dentofacial structures, including those conditions that require movement of teeth or correction of malrelationships and malformations of their related structures and the adjustment of relationships between and among teeth and facial bones by the application of forces and/or the stimulation and redirection of functional forces within the craniofacial complex. Major responsibilities of orthodontic practice include the diagnosis, prevention, interception and treatment of all forms of malocclusion of the teeth and associated alterations in their surrounding structures; the design, application and control of functional and corrective appliances; and the guidance of the dentition and its supporting structures to attain and maintain optimum occlusal relations in physiologic and esthetic harmony among facial and cranial structures."
-          }
-        ],
-        "address": {
-          "street": "1500 Franklin Street Northeast",
-          "appt": "",
-          "city": "Washington",
-          "state": "DC",
-          "zip": "20018-2000",
-          "full": "1500 Franklin Street Northeast, Washington, DC 20018-2000"
-        },
-        "email": "franklin@dentist.med",
-        "phone": "202-636-7660",
-        "fax": "202-636-7661",
-        "website": "http://example.com",
-        "prefContact": "phone",
-        "accNewPatients": true,
-        "gender": "Male",
-        "distance": 5.15,
-        "network": "TriWest",
-        "lat": 38.925828,
-        "long": -76.9835070199999
-      }
-    },
-    {
-      "id": "ccp_3",
-      "type": "cc_provider",
-      "attributes": {
-        "uniqueId": "3",
-        "name": "University of Maryland Clinic",
-        "specialty": [
-          {
-            "name": "Vaccines",
-            "desc": "...shots..."
-          },
-          {
-            "name": "Check-ups",
-            "desc": "Physicals and whatnot..."
-          }
-        ],
-        "address": {
-          "street": "3511 University Blvd. East",
-          "appt": "",
-          "city": "Adelphi",
-          "state": "DC",
-          "zip": "20783",
-          "full": "3511 University Blvd. East, Adelphi, MD 20783"
-        },
-        "email": "clinic@uom.edu",
-        "phone": "240-684-2555",
-        "schedPhone": "866-606-8198",
-        "fax": "240-684-2301",
-        "website": "http://example.com",
-        "prefContact": "phone",
-        "accNewPatients": true,
-        "gender": "Male",
-        "distance": 5.15,
-        "network": "TriWest",
-        "lat": 38.9857684400001,
-        "long": -76.95675965
-      }
-    },
-    {
-      "id": "ccp_4",
-      "type": "cc_provider",
-      "attributes": {
-        "uniqueId": "4",
-        "name": "University of Broken Data",
-        "specialty": [
-          {
-            "name": "Bad Data",
-            "desc": "...b0rk..."
-          },
-          {
-            "name": "Eyyy Lmao",
-            "desc": "LUL IceCold..."
-          }
-        ],
-        "address": {},
-        "email": "b0rkb0rk@br0k.edu",
-        "phone": "240-123-0199",
-        "schedPhone": "866-606-8198",
-        "fax": "240-123-0198",
-        "website": "http://b0rk.org",
-        "prefContact": "phone",
-        "accNewPatients": true,
-        "gender": "Male",
-        "distance": 3.65,
-        "network": "LHASNRM",
-        "lat": 38.9857684400001,
-        "long": -76.95675965
       }
     }
   ],
