@@ -31,9 +31,7 @@ const ConfirmationPage = ({
         Order hearing aid batteries and accessories
       </h1>
       <span>Form 2346A</span>
-      <h2 className="vads-u-font-size--h4">
-        Your order has been been submitted
-      </h2>
+      <h2 className="vads-u-font-size--h4">Your order has been submitted</h2>
       <p>
         We'll send you an email confirming your order to{' '}
         <strong>{vetEmail}</strong>.
