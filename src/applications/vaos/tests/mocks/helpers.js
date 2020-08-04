@@ -101,6 +101,15 @@ export function mockFacilitiesFetch(ids, facilities) {
   );
 }
 
+export function mockFacilityFetch(facility) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/v1/facilities/va/${facility.id}`,
+    ),
+    { data: facility },
+  );
+}
+
 export function mockVACancelFetches(id, reasons) {
   setFetchJSONResponse(
     global.fetch.withArgs(

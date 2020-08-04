@@ -13,11 +13,15 @@ import environment from 'platform/utilities/environment';
 
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
+import {
+  getExpressCareRequestCriteriaMock,
+  getVAFacilityMock,
+} from '../mocks/v0';
 import { createTestStore } from '../mocks/setup';
 import {
   mockRequestSubmit,
   mockRequestEligibilityCriteria,
+  mockFacilityFetch,
 } from '../mocks/helpers';
 import ExpressCareFormPage from '../../containers/ExpressCareFormPage';
 import ExpressCareConfirmationPage from '../../containers/ExpressCareConfirmationPage';
@@ -82,7 +86,7 @@ describe('VAOS integration: Express Care form submission', () => {
     );
   });
 
-  it('should show confirmation page on success', async () => {
+  it('should submit form and show confirmation page on success', async () => {
     const today = moment();
     const requestCriteria = getExpressCareRequestCriteriaMock('983', [
       {
@@ -105,6 +109,14 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
+    const facility = getVAFacilityMock();
+    facility.id = 'vha_442';
+    facility.attributes = {
+      ...facility.attributes,
+      uniqueId: '442',
+      name: 'Facility name',
+    };
+    mockFacilityFetch(facility);
     const store = createTestStore({
       ...initialState,
     });
@@ -132,7 +144,6 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     );
 
-    const baseElement = screen.baseElement;
     fireEvent.click(await screen.getByLabelText('Cough'));
     fireEvent.change(
       await screen.getByLabelText(/please provide additional/i),
@@ -167,7 +178,7 @@ describe('VAOS integration: Express Care form submission', () => {
       facility: {
         facilityCode: '983',
         parentSiteCode: '983',
-        name: '',
+        name: 'Facility name',
       },
       optionDate1: moment().format('MM/DD/YYYY'),
       visitType: 'Express Care',

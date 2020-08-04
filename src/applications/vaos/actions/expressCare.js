@@ -37,6 +37,7 @@ import {
 } from '../utils/constants';
 import { resetDataLayer } from '../utils/events';
 import { EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED } from './sitewide';
+import { getLocation } from '../services/location';
 
 export const FORM_PAGE_OPENED = 'expressCare/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
@@ -191,7 +192,15 @@ export function submitExpressCareRequest(router) {
         throw new Error('No facilities available for Express Care request');
       }
 
-      requestBody = transformFormToExpressCareRequest(getState());
+      const facilityDetail = await getLocation({
+        facilityId: activeFacility.facilityId,
+      });
+      activeFacility.name = facilityDetail.name;
+
+      requestBody = transformFormToExpressCareRequest(
+        getState(),
+        activeFacility,
+      );
       const responseData = await submitRequest('va', requestBody);
 
       try {
