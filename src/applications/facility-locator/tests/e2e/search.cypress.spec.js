@@ -2,7 +2,7 @@ import path from 'path';
 import { facilityTypesOptions } from '../../config';
 import { LocationType } from '../../constants';
 
-describe('Facility smoke test', () => {
+describe('Facility search', () => {
   before(() => {
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
@@ -11,15 +11,11 @@ describe('Facility smoke test', () => {
 
   beforeEach(() => {
     cy.server();
-    cy.route('GET', '/v0/feature_toggles?*', []);
-    cy.route('GET', '/v0/maintenance_windows', []);
-    cy.route('GET', '/v0/facilities/va?*', 'fx:constants/mock-facility-data');
-    cy.route('GET', '/v0/facilities/va/*', 'fx:constants/mock-facility-data');
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
   it('does a simple search and finds a result on the list', () => {
-    cy.visit('/find-locations/');
+    cy.visit('https://staging.va.gov/find-locations/'); // can we make it real e2e?, with live data
 
     cy.injectAxe();
     cy.axeCheck();
@@ -35,7 +31,7 @@ describe('Facility smoke test', () => {
   });
 
   it('should render breadcrumbs ', () => {
-    cy.visit('/find-locations/');
+    cy.visit('https://staging.va.gov/find-locations/');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -80,7 +76,7 @@ describe('Facility smoke test', () => {
   });
 
   it('does not show search result header if no results are found', () => {
-    cy.visit('/find-locations?fail=true');
+    cy.visit('https://staging.va.gov/find-locations?fail=true');
     cy.injectAxe();
     cy.axeCheck();
 
