@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import set from 'platform/utilities/data/set';
 
-export default class Wizard extends React.Component {
+import { connect } from 'react-redux';
+import { form526BDDFeature } from '../../disability-benefits/all-claims/config/selectors';
+
+class Wizard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -86,6 +89,7 @@ export default class Wizard extends React.Component {
                     this.setPageState(index, newState, nextPageName)
                   }
                   state={page.state}
+                  allowBDD={this.props.allowBDD}
                 />
               );
             })}
@@ -113,3 +117,9 @@ Wizard.defaultProps = {
   buttonText: 'Find your form',
   expander: true,
 };
+
+const mapStateToProps = state => ({
+  allowBDD: form526BDDFeature(state),
+});
+
+export default connect(mapStateToProps)(Wizard);
