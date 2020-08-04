@@ -8,7 +8,6 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import environment from 'platform/utilities/environment';
 import connect from 'react-redux';
 import { eduBenefits1990EWizard } from '../../selectors/educationWizard';
 
@@ -18,7 +17,6 @@ export class IntroductionPage extends React.Component {
     this.state = {
       wizardStatus:
         sessionStorage.getItem('wizardStatus') || WIZARD_STATUS_NOT_STARTED,
-      isProd: environment.isProduction(),
     };
     this.setWizardStatus = this.setWizardStatus.bind(this);
   }
@@ -32,10 +30,12 @@ export class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { wizardStatus, isProd } = this.state;
+    const { wizardStatus } = this.state;
+    const { eduBenefits1990Ewizard } = this.props;
     const shouldSubwayMapShow =
-      isProd || wizardStatus === WIZARD_STATUS_COMPLETE;
-    const shouldWizardShow = !isProd && wizardStatus !== WIZARD_STATUS_COMPLETE;
+      eduBenefits1990Ewizard || wizardStatus === WIZARD_STATUS_COMPLETE;
+    const shouldWizardShow =
+      !eduBenefits1990Ewizard && wizardStatus !== WIZARD_STATUS_COMPLETE;
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply to use transferred education benefits" />
