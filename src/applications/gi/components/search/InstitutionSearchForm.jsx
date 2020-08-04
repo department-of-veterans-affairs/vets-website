@@ -68,6 +68,7 @@ function InstitutionSearchForm(props) {
               showHeader
               handleInputFocus={handleInstitutionSearchInputFocus}
               gibctFilterEnhancement={props.gibctFilterEnhancement}
+              gibctCh33BenefitRateUpdate={props.gibctCh33BenefitRateUpdate}
             />
           ) : (
             <EligibilityForm
