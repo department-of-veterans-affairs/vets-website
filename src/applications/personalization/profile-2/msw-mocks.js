@@ -1,6 +1,21 @@
 import { rest } from 'msw';
 import environment from 'platform/utilities/environment';
 
+import mockPaymentInfoSuccess from './tests/fixtures/payment-information/direct-deposit-is-set-up.json';
+
+import mockMHVHasAccepted from './tests/fixtures/mhv-has-accepted.json';
+
+import mockFullNameSuccess from './tests/fixtures/full-name-success.json';
+
+import mockPersonalInfoSuccess from './tests/fixtures/personal-information-success.json';
+import mockPersonalInfoError from './tests/fixtures/personal-information-502.json';
+
+import mockServiceHistorySuccess from './tests/fixtures/service-history-success.json';
+import mockServiceHistoryError from './tests/fixtures/service-history-502.json';
+
+import mock401 from './tests/fixtures/401.json';
+import mock500 from './tests/fixtures/500.json';
+
 export const newPaymentAccount = {
   accountType: 'Savings',
   financialInstitutionName: 'COMERICA BANK',
@@ -980,3 +995,45 @@ export const editPhoneNumberSuccess = () => {
     }),
   ];
 };
+
+export const allProfileEndpointsLoaded = [
+  rest.get(`${prefix}/v0/mhv_account`, (req, res, ctx) => {
+    return res(ctx.json(mockMHVHasAccepted));
+  }),
+  rest.get(`${prefix}/v0/profile/full_name`, (req, res, ctx) => {
+    return res(ctx.json(mockFullNameSuccess));
+  }),
+  rest.get(`${prefix}/v0/profile/personal_information`, (req, res, ctx) => {
+    return res(ctx.json(mockPersonalInfoSuccess));
+  }),
+  rest.get(`${prefix}/v0/profile/service_history`, (req, res, ctx) => {
+    return res(ctx.json(mockServiceHistorySuccess));
+  }),
+  rest.get(`${prefix}/v0/ppiu/payment_information`, (req, res, ctx) => {
+    return res(ctx.json(mockPaymentInfoSuccess));
+  }),
+];
+
+export const getFullNameFailure = [
+  rest.get(`${prefix}/v0/profile/full_name`, (req, res, ctx) => {
+    return res(ctx.status(401), ctx.json(mock401));
+  }),
+];
+
+export const getPersonalInformationFailure = [
+  rest.get(`${prefix}/v0/profile/personal_information`, (req, res, ctx) => {
+    return res(ctx.status(500), ctx.json(mock500));
+  }),
+];
+
+export const getServiceHistoryFailure = [
+  rest.get(`${prefix}/v0/profile/service_history`, (req, res, ctx) => {
+    return res(ctx.status(500), ctx.json(mock500));
+  }),
+];
+
+export const getPaymentInformationFailure = [
+  rest.get(`${prefix}/v0/ppiu/payment_information`, (req, res, ctx) => {
+    return res(ctx.status(401), ctx.json(mock401));
+  }),
+];

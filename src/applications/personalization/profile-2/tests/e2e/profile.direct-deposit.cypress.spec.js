@@ -50,6 +50,11 @@ describe('Direct Deposit', () => {
 
     // TODO: add test to make sure that GET payment_information is not called?
 
+    // I attempted to do this based on [this
+    // example](https://github.com/cypress-io/cypress-example-recipes/blob/master/examples/stubbing-spying__window-fetch/cypress/integration/spy-on-fetch-spec.js)
+    // but was unable to get even this simple assertion to work:
+    // `cy.window().its('fetch').should('be.called')`
+
     confirmDirectDepositIsBlocked();
     cy.findByRole('alert').should('not.exist');
   });
