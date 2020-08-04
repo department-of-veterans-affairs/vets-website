@@ -14,7 +14,7 @@ const Form686CTA = props => {
   } else if (props.showContent === false) {
     content = (
       <EbenefitsLink
-        path="ebenefits/about/feature?=dependent-compensation"
+        path="ebenefits/about/feature?feature=dependent-compensation"
         className="usa-button"
       >
         Go to eBenefits to add or modify a dependent
