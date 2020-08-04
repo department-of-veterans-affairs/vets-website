@@ -2,7 +2,6 @@ import React from 'react';
 import last from 'lodash/last';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import { deductionCodes } from '../const';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
