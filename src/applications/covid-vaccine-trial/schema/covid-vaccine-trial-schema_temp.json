@@ -205,6 +205,14 @@
     "height": {
       "type": "object",
       "properties": {
+        "heightFeetText": {
+          "type": "string",
+          "pattern": "^[0-9]{9}$"
+        },
+        "heightInchesText": {
+          "type": "string",
+          "pattern": "^([0-11]{1})$"
+        },
         "heightFeet": {
           "type": "string",
           "enum": [

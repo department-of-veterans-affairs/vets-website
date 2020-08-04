@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import environment from 'platform/utilities/environment';
 
 // import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
 import fullSchema from '../schema/covid-vaccine-trial-schema_temp.json';
@@ -58,7 +59,7 @@ export function validatePhone(errors, pageData) {
 }
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/covid-vaccine/screener/create',
+  submitUrl: `${environment.API_URL}/covid-vaccine/screener/create`,
   trackingPrefix: 'covid-vaccine-trial-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

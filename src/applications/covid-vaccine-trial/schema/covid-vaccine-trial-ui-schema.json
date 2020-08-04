@@ -198,6 +198,16 @@
   },
   "height": {
     "ui:title": "Height",
+    "heightFeetText": {
+      "ui:options": {
+        "classNames": " "
+      }
+    },
+    "heightInchesText": {
+      "ui:options": {
+        "classNames": " "
+      }
+    },
     "heightFeet": {
       "ui:title": "ft.",
       "ui:options": {
