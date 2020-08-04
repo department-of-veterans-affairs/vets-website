@@ -8,7 +8,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 describe('526 all claims schema tests', () => {
   const v = new Validator();
-  const dataDirPath = path.join(__dirname, '../data/');
+  const dataDirPath = path.join(__dirname, '../fixtures/data/');
   const files = fs.readdirSync(dataDirPath);
   files.filter(file => file.endsWith('json')).forEach(file => {
     it(`should validate ${file}`, () => {
