@@ -91,6 +91,7 @@ const ConfirmationPage = ({
             <AlertBox
               headline="Your order has been been submitted"
               className="order-submission-alert"
+              level="2"
               content={
                 <p>
                   We'll send you an email confirming your order to{' '}
@@ -185,6 +186,7 @@ const ConfirmationPage = ({
         isEmptyOrder && (
           <AlertBox
             headline="We're sorry. Your order wasn't submitted."
+            level="2"
             className="vads-u-margin-bottom--4"
             content={
               <div className="empty-state-alert">
@@ -224,6 +226,7 @@ const ConfirmationPage = ({
         isPartiallySubmittedOrder && (
           <AlertBox
             headline="We're sorry. Part of your order wasn't submitted."
+            level="2"
             className="vads-u-margin-bottom--4"
             content={
               <div className="partial-submit-alert">
@@ -270,6 +273,7 @@ const ConfirmationPage = ({
           <div className="submission-error-alert">
             <AlertBox
               headline="We're sorry. Your order wasn't submitted."
+              level="2"
               className="vads-u-margin-bottom--4"
               content={
                 <>
