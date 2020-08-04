@@ -180,6 +180,10 @@ describe('VAOS integration: Express Care form submission', () => {
         parentSiteCode: '983',
         name: 'Testing',
       },
+      optionDate1: moment().format('MM/DD/YYYY'),
+      visitType: 'Express Care',
+      purposeOfVisit: 'Express Care Request',
+      bestTimetoCall: ['Morning', 'Afternoon', 'Evening'],
     });
 
     screen = renderInReduxProvider(

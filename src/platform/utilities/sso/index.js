@@ -52,10 +52,13 @@ export async function checkAutoSession(
       // the user is on the standalone signin page, but already logged in with SSOe
       // redirect them back to their return url
       window.location = standaloneRedirect() || window.location.origin;
-    } else if (ttl === 0 || transactionid !== ssoeTransactionId) {
-      // Having a user session is not enough. We also need to make sure when
-      // the user authenticated that they used SSOe, otherwise we can't auto logout.
-      // Explicitly check to see if the TTL for the SSOe session is 0, as it
+    } else if (
+      ttl === 0 ||
+      (transactionid && transactionid !== ssoeTransactionId)
+    ) {
+      // having a user session is not enough, we also need to make sure when
+      // the user authenticated they used SSOe, otherwise we can't auto logout
+      // explicitly check to see if the TTL for the SSOe session is 0, as it
       // could also be null if we failed to get a response from the SSOe server,
       // in which case we don't want to logout the user, because we don't know their SSOe status.
       // Additionally, compare the transaction id from the keepalive endpoint
