@@ -1,31 +1,20 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import { IntroductionPage } from 'applications/edu-benefits/1990/containers/IntroductionPage';
 import {
-  IntroductionPage,
+  WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
-} from '../../../1990e/containers/IntroductionPage';
+  getWizardStatus,
+} from 'applications/static-pages/wizard';
+import { sessionStorageSetup } from '../../utils';
 
-describe('Edu 1990E <IntroductionPage>', () => {
-  const mockStore = {
-    sessionStorage: {},
-  };
-
-  let sessionStorage;
+describe('the Edu-Benefit 1990E Introduction Page', () => {
+  let mockStore = {};
   let defaultProps;
 
   before(() => {
-    global.sessionStorage = {
-      getItem: key =>
-        key in mockStore.sessionStorage ? mockStore.sessionStorage[key] : null,
-      setItem: (key, value) => {
-        mockStore.sessionStorage[key] = `${value}`;
-      },
-      removeItem: key => delete mockStore.sessionStorage[key],
-      clear: () => {
-        mockStore.sessionStorage = {};
-      },
-    };
+    mockStore = sessionStorageSetup(mockStore);
   });
 
   beforeEach(() => {
@@ -48,28 +37,21 @@ describe('Edu 1990E <IntroductionPage>', () => {
     global.sessionStorage.clear();
   });
 
-  it('should show the wizard on initial render with no education-benefits sessionStorage keys', () => {
+  it('should show the wizard on initial render', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
-    expect(wrapper.exists('.wizard-container')).to.equal(true);
+    expect(wrapper.exists('WizardContainer')).to.equal(true);
     expect(wrapper.exists('.subway-map')).to.equal(false);
-    expect(mockStore.sessionStorage).to.be.empty;
     wrapper.unmount();
   });
-  it('should display the wizard when the button is clicked', () => {
-    const wrapper = shallow(<IntroductionPage {...defaultProps} />);
-    wrapper.find('.wizard-button').simulate('click');
-    expect(wrapper.exists('#wizardOptions')).to.equal(true);
-    wrapper.unmount();
-  });
-  it('should display the subway map when the wizard is completed', () => {
+  it('should show the subway map if the wizard was completed', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const instance = wrapper.instance();
-    wrapper.find('.wizard-button').simulate('click');
-    instance.setState({
-      wizardCompletionStatus: WIZARD_STATUS_COMPLETE,
+    instance.setWizardStatus(WIZARD_STATUS_COMPLETE);
+    const wizardStatus = getWizardStatus().then(() => {
+      expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
     });
+    expect(wrapper.exists('WizardContainer')).to.equal(false);
     expect(wrapper.exists('.subway-map')).to.equal(true);
-    expect(wrapper.exists('.wizard-container')).to.equal(false);
     wrapper.unmount();
   });
 });
