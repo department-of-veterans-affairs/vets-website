@@ -9,6 +9,8 @@ import {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 import environment from 'platform/utilities/environment';
+import connect from 'react-redux';
+import { eduBenefits1990EWizard } from '../../selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
   constructor(props) {
@@ -155,4 +157,8 @@ export class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+const mapStateToProps = state => ({
+  eduBenefits1990EWizard: eduBenefits1990EWizard(state),
+});
+
+export default connect(mapStateToProps)(IntroductionPage);
