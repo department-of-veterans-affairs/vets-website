@@ -30,7 +30,12 @@ const transform = entity => ({
   fieldBannerAlertComputdvalues: getDrupalValue(
     entity.fieldBannerAlertComputdvalues,
   ),
-  fieldBannerAlertVamcs: entity.fieldBannerAlertVamcs[0] || null,
+  fieldBannerAlertVamcs: entity.fieldBannerAlertVamcs.map(n => ({
+    entity: {
+      fieldOffice: n.fieldOffice,
+      entityUrl: n.entityUrl,
+    },
+  })),
   fieldBody: getDrupalValue(entity.fieldBody),
   fieldOperatingStatusSendemail: getDrupalValue(
     entity.fieldOperatingStatusSendemail,

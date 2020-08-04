@@ -262,7 +262,10 @@ const entityAssemblerFactory = contentDir => {
     // Mutates transformedEntity
     addCommonProperties(transformedEntity, entity);
 
-    validateOutput(entity, transformedEntity);
+    // Only run output schema validation on root entities
+    if (ancestors.length === 0) {
+      validateOutput(entity, transformedEntity);
+    }
 
     return transformedEntity;
   };

@@ -1,3 +1,6 @@
+const { usePartialSchema } = require('../../transformers/helpers');
+const alertsSchema = require('./node-vamc_operating_status_and_alerts');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -18,10 +21,11 @@ module.exports = {
     fieldAlertType: { type: 'string' },
     fieldBannerAlertComputdvalues: { type: ['string', 'null'] },
     fieldBannerAlertVamcs: {
-      oneOf: [
-        { $ref: 'output/node-vamc_operating_status_and_alerts' },
-        { type: 'null' },
-      ],
+      type: 'array',
+      items: {
+        /* eslint-disable react-hooks/rules-of-hooks */
+        entity: usePartialSchema(alertsSchema, ['fieldOffice', 'entityUrl']),
+      },
     },
     fieldBody: { type: 'string' },
     fieldOperatingStatusSendemail: { type: 'boolean' },
