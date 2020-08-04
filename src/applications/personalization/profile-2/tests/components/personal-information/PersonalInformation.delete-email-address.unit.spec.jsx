@@ -76,7 +76,7 @@ describe('Deleting email address', () => {
   });
 
   it('should handle a deletion that succeeds quickly', async () => {
-    server.use(...mocks.editEmailAddressTransactionSuccess);
+    server.use(...mocks.transactionSucceeded);
 
     const { emailAddressInput } = deleteEmailAddress();
 
@@ -93,7 +93,7 @@ describe('Deleting email address', () => {
       .exist;
   });
   it('should handle a deletion that does not succeed until after the edit view exits', async () => {
-    server.use(...mocks.editEmailAddressTransactionPending);
+    server.use(...mocks.transactionPending);
 
     const { emailAddressInput } = deleteEmailAddress();
 
@@ -106,7 +106,7 @@ describe('Deleting email address', () => {
     );
     expect(deletingMessage).to.exist;
 
-    server.use(...mocks.editEmailAddressTransactionSuccess);
+    server.use(...mocks.transactionSucceeded);
 
     await waitForElementToBeRemoved(deletingMessage);
 
@@ -120,7 +120,7 @@ describe('Deleting email address', () => {
       .exist;
   });
   it('should show an error if the transaction cannot be created', async () => {
-    server.use(...mocks.deleteEmailAddressCreateTransactionFailure);
+    server.use(...mocks.createTransactionFailure);
 
     deleteEmailAddress();
 
@@ -132,7 +132,7 @@ describe('Deleting email address', () => {
     );
   });
   it('should show an error if the deletion fails quickly', async () => {
-    server.use(...mocks.editEmailAddressTransactionFailure);
+    server.use(...mocks.transactionFailed);
 
     deleteEmailAddress();
 
@@ -144,7 +144,7 @@ describe('Deleting email address', () => {
     );
   });
   it('should show an error if the deletion fails after the edit view exits', async () => {
-    server.use(...mocks.editEmailAddressTransactionPending);
+    server.use(...mocks.transactionPending);
 
     const { emailAddressInput } = deleteEmailAddress();
 
@@ -157,7 +157,7 @@ describe('Deleting email address', () => {
     );
     expect(deletingMessage).to.exist;
 
-    server.use(...mocks.editEmailAddressTransactionFailure);
+    server.use(...mocks.transactionFailed);
 
     await waitForElementToBeRemoved(deletingMessage);
 
