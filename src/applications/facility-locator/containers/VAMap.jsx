@@ -362,7 +362,7 @@ class VAMap extends Component {
         bounds._northEast.lat,
       ];
     }
-
+    if (!currentQuery.facilityType) return;
     this.props.updateSearchQuery({
       bounds: boundsArray,
       position: {
