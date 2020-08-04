@@ -110,10 +110,10 @@ const ReviewPageSupplies = ({
 const mapStateToProps = (state, ownProps) => {
   const supplies = state.form?.data?.supplies;
   const batterySupplies = supplies
-    ?.filter(battery => battery.productGroup?.includes('BATTERIES'))
+    ?.filter(battery => battery.productGroup?.includes('Battery'))
     .filter(battery => moment().diff(battery.nextAvailabilityDate) >= 0);
   const accessorySupplies = supplies
-    ?.filter(accessory => accessory.productGroup?.includes('ACCESSORIES'))
+    ?.filter(accessory => accessory.productGroup?.includes('Accessory'))
     .filter(accessory => moment().diff(accessory.nextAvailabilityDate) >= 0);
 
   const order = state.form?.data?.order;

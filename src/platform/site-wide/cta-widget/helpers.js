@@ -1,6 +1,8 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { rootUrl as hearingAidSuppliesFormUrl } from 'applications/disability-benefits/2346/manifest.json';
+import { rootUrl as viewDependentsAppUrl } from 'applications/personalization/view-dependents/manifest.json';
+import { rootUrl as form686FormUrl } from 'applications/disability-benefits/686c-674/manifest.json';
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when
@@ -16,12 +18,15 @@ export const widgetTypes = {
   HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
   LAB_AND_TEST_RESULTS: 'lab-and-test-results',
   LETTERS: 'letters',
+  MANAGE_VA_DEBT: 'manage-va-debt',
   MESSAGING: 'messaging',
   RX: 'rx',
   SCHEDULE_APPOINTMENTS: 'schedule-appointments',
   VET_TEC: 'vet-tec',
   VETERAN_ID_CARD: 'vic',
   VIEW_APPOINTMENTS: 'view-appointments',
+  VIEW_DEPENDENTS: 'view-dependents',
+  ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
 };
 
 const HEALTH_TOOLS = [
@@ -78,36 +83,39 @@ export const mhvToolName = appId => {
   return null;
 };
 
-export const toolUrl = (appId, useSSOe = false) => {
+export const toolUrl = (appId, authenticatedWithSSOe = false) => {
   switch (appId) {
     case widgetTypes.HEALTH_RECORDS:
       return {
-        url: mhvUrl(useSSOe, 'download-my-data'),
+        url: mhvUrl(authenticatedWithSSOe, 'download-my-data'),
         redirect: false,
       };
 
     case widgetTypes.RX:
       return {
-        url: mhvUrl(useSSOe, 'web/myhealthevet/refill-prescriptions'),
+        url: mhvUrl(
+          authenticatedWithSSOe,
+          'web/myhealthevet/refill-prescriptions',
+        ),
         redirect: false,
       };
 
     case widgetTypes.MESSAGING:
       return {
-        url: mhvUrl(useSSOe, 'secure-messaging'),
+        url: mhvUrl(authenticatedWithSSOe, 'secure-messaging'),
         redirect: false,
       };
 
     case widgetTypes.VIEW_APPOINTMENTS:
     case widgetTypes.SCHEDULE_APPOINTMENTS:
       return {
-        url: mhvUrl(useSSOe, 'appointments'),
+        url: mhvUrl(authenticatedWithSSOe, 'appointments'),
         redirect: false,
       };
 
     case widgetTypes.LAB_AND_TEST_RESULTS:
       return {
-        url: mhvUrl(useSSOe, 'labs-tests'),
+        url: mhvUrl(authenticatedWithSSOe, 'labs-tests'),
         redirect: false,
       };
 
@@ -163,6 +171,24 @@ export const toolUrl = (appId, useSSOe = false) => {
     case widgetTypes.HEARING_AID_SUPPLIES:
       return {
         url: hearingAidSuppliesFormUrl,
+        redirect: false,
+      };
+
+    case widgetTypes.VIEW_DEPENDENTS:
+      return {
+        url: viewDependentsAppUrl,
+        redirect: false,
+      };
+
+    case widgetTypes.MANAGE_VA_DEBT:
+      return {
+        url: '/manage-va-debt/debt-letters',
+        redirect: false,
+      };
+
+    case widgetTypes.ADD_REMOVE_DEPENDENTS:
+      return {
+        url: form686FormUrl,
         redirect: false,
       };
 
@@ -257,6 +283,15 @@ export const serviceDescription = appId => {
 
     case widgetTypes.HEARING_AID_SUPPLIES:
       return 'order hearing aid supplies';
+
+    case widgetTypes.VIEW_DEPENDENTS:
+      return 'view current dependents';
+
+    case widgetTypes.MANAGE_VA_DEBT:
+      return 'manage your VA debt';
+
+    case widgetTypes.ADD_REMOVE_DEPENDENTS:
+      return 'add or remove dependents';
 
     default:
       return 'use this service';

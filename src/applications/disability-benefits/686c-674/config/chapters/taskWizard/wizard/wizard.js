@@ -29,12 +29,16 @@ export const uiSchema = {
     'ui:title': 'What would you like to do? Check all that apply.',
     'ui:options': { showFieldLabel: true },
     'ui:validations': [validateAtLeastOneSelected],
+    addSpouse: {
+      'ui:title': 'Claim benefits for a spouse',
+      'ui:reviewField': OptionsReviewField,
+    },
     addChild: {
       'ui:title': AddChildTitle,
       'ui:reviewField': OptionsReviewField,
     },
-    addSpouse: {
-      'ui:title': 'Claim benefits for a spouse',
+    report674: {
+      'ui:title': Student674Title,
       'ui:reviewField': OptionsReviewField,
     },
     reportDivorce: {
@@ -56,10 +60,6 @@ export const uiSchema = {
     reportChild18OrOlderIsNotAttendingSchool: {
       'ui:title':
         'Report that a child 18 to 23 years old has stopped attending school',
-      'ui:reviewField': OptionsReviewField,
-    },
-    report674: {
-      'ui:title': Student674Title,
       'ui:reviewField': OptionsReviewField,
     },
   },

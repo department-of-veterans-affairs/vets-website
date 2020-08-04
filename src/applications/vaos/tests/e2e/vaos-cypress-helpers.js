@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
 import moment from 'moment';
 
-import pact from '../../api/pact.json';
 import confirmedVA from '../../api/confirmed_va.json';
 import confirmedCC from '../../api/confirmed_cc.json';
 import requests from '../../api/requests.json';
 import cancelReasons from '../../api/cancel_reasons.json';
 import supportedSites from '../../api/sites-supporting-var.json';
+import { getVAAppointmentMock } from '../mocks/v0';
 
 function updateConfirmedVADates(data) {
   data.data.forEach(item => {
@@ -45,6 +45,40 @@ function updateRequestDates(data) {
   });
   return data;
 }
+
+export function createPastVAAppointments() {
+  const appointments = [];
+  let appointment = getVAAppointmentMock();
+  appointment.attributes = {
+    ...appointment.attributes,
+    startDate: moment()
+      .add(-3, 'days')
+      .format(),
+    clinicFriendlyName: 'Three day clinic name',
+    facilityId: '983',
+    sta6aid: '983GC',
+  };
+  appointment.attributes.vdsAppointments[0].currentStatus = 'CHECKED OUT';
+  appointments.push(appointment);
+
+  appointment = getVAAppointmentMock();
+  appointment.attributes = {
+    ...appointment.attributes,
+    startDate: moment()
+      .add(-4, 'months')
+      .format(),
+    clinicFriendlyName: 'Four month clinic name',
+    facilityId: '983',
+    sta6aid: '983GC',
+  };
+  appointment.attributes.vdsAppointments[0].currentStatus = 'CHECKED OUT';
+  appointments.push(appointment);
+
+  return {
+    data: appointments,
+  };
+}
+
 export function initAppointmentListMock() {
   cy.server();
   cy.login();

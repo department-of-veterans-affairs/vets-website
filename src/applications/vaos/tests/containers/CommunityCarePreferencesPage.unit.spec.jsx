@@ -82,6 +82,19 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     form.unmount();
   });
 
+  it('should display link to facility locator', () => {
+    const form = mount(<CommunityCarePreferencesPageTester />);
+    selectRadio(form, 'root_hasCommunityCareProvider', 'Y');
+    const facilityLocatorLink = form.find('a');
+    expect(facilityLocatorLink.props().href).to.equal(
+      '/find-locations/?facilityType=cc_provider',
+    );
+    expect(form.text()).contains(
+      'Use the facility locator to find your preferred community care provider. Copy and paste their name and address below.',
+    );
+    form.unmount();
+  });
+
   it('should submit with valid data', () => {
     const routeToNextAppointmentPage = sinon.spy();
 
@@ -139,6 +152,19 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(routeToNextAppointmentPage.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should render alert message when user has preferred provider', () => {
+    const form = mount(
+      <CommunityCarePreferencesPageTester
+        data={{ hasCommunityCareProvider: true }}
+        parentFacilitiesStatus={FETCH_STATUS.succeeded}
+      />,
+    );
+
+    expect(form.text()).contains('We’ll try to schedule your appointment');
+    expect(form.text()).contains('Mailing address line 1');
     form.unmount();
   });
 });

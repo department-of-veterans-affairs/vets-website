@@ -5,7 +5,6 @@ import formConfig from '../config/form';
 
 export default function Form0996App({ location, children }) {
   // Add data-location attribute to allow styling specific pages
-  // (e.g. opt-out page)
   return (
     <article id="form-0996" data-location={`${location?.pathname?.slice(1)}`}>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>

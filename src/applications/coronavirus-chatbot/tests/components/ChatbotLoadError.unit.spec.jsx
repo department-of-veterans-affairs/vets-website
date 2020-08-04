@@ -14,7 +14,7 @@ describe('ChatbotLoadError <ChatbotLoadError>', () => {
       'If it still doesn’t work, you may need to clear your internet browser’s history (sometimes called “cached data”). You can find how to do this within your browser’s privacy and security settings.';
 
     expect(alertBox.length).to.equal(1);
-    expect(alertBox.prop('headline')).to.equal('We can’t load the chatbot');
+    expect(alertBox.prop('headline')).to.equal("We can't load the chatbot");
     expect(alertMessageContent.children[0].props.children).to.equal(
       alertMessageParagraphOne,
     );

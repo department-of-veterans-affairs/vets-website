@@ -124,7 +124,7 @@ function mapStateToProps(state) {
     fullName: state.user.profile.userFullName,
     disabilities: selectAllDisabilityNames(state),
     submittedAt: state.form.submission.submittedAt,
-    jobId: state.form.submission.response.attributes.jobId,
+    jobId: state.form.submission.response?.attributes?.jobId,
   };
 }
 

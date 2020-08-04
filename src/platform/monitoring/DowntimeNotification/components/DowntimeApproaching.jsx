@@ -17,11 +17,13 @@ class DowntimeApproaching extends React.Component {
       children,
       content,
       messaging = {},
+      className = 'row-padded',
     } = this.props;
     const close = () => dismissDowntimeWarning(appTitle);
     return (
       <DowntimeNotificationWrapper
         status={externalServiceStatus.downtimeApproaching}
+        className={className}
       >
         <Modal
           id="downtime-approaching-modal"

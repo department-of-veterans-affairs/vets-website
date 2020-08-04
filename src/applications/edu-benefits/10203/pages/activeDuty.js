@@ -1,7 +1,7 @@
-import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
+import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import { housingPaymentInfo } from '../content/activeDuty';
 
-const { isActiveDuty } = fullSchema1995.properties;
+const { isActiveDuty } = fullSchema10203.properties;
 
 export const uiSchema = {
   isActiveDuty: {

@@ -1,8 +1,29 @@
 // Node modules.
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
+import { getCernerURL } from 'platform/utilities/cerner';
+
+const callToActions = [
+  {
+    deriveHeaderText: facilityNames =>
+      `Manage appointments with ${facilityNames}`,
+    href: getCernerURL('/pages/scheduling/upcoming'),
+    label: 'Go to My VA Health',
+  },
+  {
+    deriveHeaderText: () =>
+      `Manage appointments at all other VA medical centers`,
+    href:
+      'https://staging.va.gov/health-care/schedule-view-va-appointments/appointments',
+    label: 'Go to My HealtheVet',
+  },
+];
 
 export const AuthContent = () => (
   <>
@@ -38,7 +59,7 @@ export const AuthContent = () => (
         View, schedule, or cancel a VA appointment&nbsp;online
       </h2>
     </div>
-    <CallToActionWidget appId="view-appointments" setFocus={false} />
+    <CernerCallToAction callToActions={callToActions} type="these" />
     <div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-can-va-appointment-tools-h">
@@ -299,7 +320,7 @@ export const AuthContent = () => (
               <p>
                 Or contact the My HealtheVet help desk at{' '}
                 <a href="tel:+18773270022">877-327-0022</a> (TTY:{' '}
-                <a href="tel:+18008778339">800-877-8339</a>. We&apos;re here
+                <Telephone contact={CONTACTS.HELP_TTY} />. We&apos;re here
                 Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
               </p>
               <p>

@@ -45,4 +45,28 @@ describe('<InstitutionFilterForm>', () => {
     expect(getStateNameForCode(stateCode)).to.eq('ZZ');
     wrapper.unmount();
   });
+
+  it('Should display enhanced filter components', () => {
+    const props = {
+      search: {
+        facets: {
+          category: { school: 17, employer: 0 },
+          type: { 'for profit': 1, private: 16 },
+          state: { ZZ: 1 },
+          country: [{ name: 'USA', count: 17 }],
+        },
+      },
+      filters: {},
+      handleFilterChange: () => {},
+      showModal: () => {},
+      gibctFilterEnhancement: true,
+    };
+    const wrapper = mount(<InstitutionFilterForm {...props} />);
+
+    expect(wrapper.text().includes('Gender')).to.be.true;
+    expect(wrapper.text().includes('Specialized mission')).to.be.true;
+    expect(wrapper.text().includes('Religious affiliation')).to.be.true;
+
+    wrapper.unmount();
+  });
 });

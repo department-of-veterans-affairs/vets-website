@@ -8,7 +8,10 @@ class Vet360TransactionPending extends React.Component {
   };
 
   componentDidMount() {
-    this.interval = window.setInterval(this.props.refreshTransaction, 1000);
+    this.interval = window.setInterval(
+      this.props.refreshTransaction,
+      window.VetsGov.pollTimeout || 1000,
+    );
   }
 
   componentWillUnmount() {

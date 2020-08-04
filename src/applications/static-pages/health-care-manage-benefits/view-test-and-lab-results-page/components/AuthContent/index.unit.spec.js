@@ -10,6 +10,7 @@ describe('View Test + Lab Results Page <AuthContent>', () => {
     const wrapper = shallow(<AuthContent />);
 
     const text = wrapper.text();
+    expect(text).to.include('CernerCallToAction');
     expect(text).to.not.include(
       'How can this tool help me manage my health care?',
     );

@@ -96,7 +96,7 @@ yarn build
 ## Running tests
 
 ### Unit tests
-To **run all unit tests,** use:
+To **run all unit tests**, use:
 
 ``` sh
 yarn test:unit
@@ -114,8 +114,59 @@ To **run all tests in a directory**, you can use a glob pattern:
 yarn test:unit src/applications/path/to/tests/**/*.unit.spec.js*
 ```
 
-### Browser tests
-To **run all browser tests**, you first need two things:
+### End-to-end (E2E) / Browser tests
+- E2E or browser tests primarily run in Cypress.
+- Some older, existing tests run in Nightwatch, but those are deprecated.
+
+To **open the Cypress test runner UI and run any tests within it**:
+
+```sh
+yarn cy:open
+```
+
+To **run Cypress tests from the command line**:
+
+```sh
+yarn cy:run
+```
+
+To **run specific Cypress tests from the command line**:
+
+```sh
+# Running one specific test.
+yarn cy:run --spec "path/to/test-file.cypress.spec.js"
+
+# Running multiple specific tests.
+yarn cy:run --spec "path/to/test-a.cypress.spec.js,path/to/test-b.cypress.spec.js"
+
+# Running tests that match a glob pattern.
+yarn cy:run --spec "src/applications/my-app/tests/*"
+yarn cy:run --spec "src/applications/my-app/tests/**/*"
+
+# Running tests that match multiple glob patterns.
+yarn cy:run --spec "src/applications/a/tests/**/*,src/applications/b/tests/**/*"
+```
+
+To **run Cypress tests from the command line on a specific browser**:
+
+```sh
+yarn cy:run --headless --browser chrome
+yarn cy:run --headless --browser firefox
+
+# Without --headless, the test runner will open and run the test.
+yarn cy:run --browser chrome
+yarn cy:run --browser firefox
+```
+
+**For other options with `yarn cy:run`,** [the same options for `cypress run` are applicable](https://docs.cypress.io/guides/guides/command-line.html#Commands).
+
+To **run Nightwatch tests**, you first need three things:
+1. Install the Java JDK on MacOS (if needed):
+    ```
+    brew update
+    brew tap adoptopenjdk/openjdk
+    brew cask install adoptopenjdk8
+    ```
 1. `vets-website` served locally on port 3001
     - You can do this with `yarn watch`
 1. `vets-api` to **NOT** be running
@@ -171,6 +222,7 @@ for doing very specific things.
 | build the production site (dev features disabled).                                                          | `NODE_ENV=production yarn build --buildtype vagovprod`                                                                                                                                                                       |
 | fetch the latest content cache from S3                                                                      | `yarn fetch-drupal-cache` (does not require SOCKS proxy access)                                                                                                                                                              |
 | reset local environment (clean out node modules and runs npm install)                                       | `yarn reset:env`                                                                                                                                                                                                             |
+| run only the app pages on the site for local development without building content.                          | `yarn watch --env.scaffold`                                                                                                                                                                                                  |
 | run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps | `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env.buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow.                                |
 | run the site for local development with automatic rebuilding of code and styles for specific **apps**       | `yarn watch --env.entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName`                                                                                       |
 | run the site for local development with automatic rebuilding of code and styles for static **content**      | `yarn watch:static`                                                                                                                                                                                                          |

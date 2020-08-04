@@ -179,7 +179,7 @@ describe('<ClaimsListItemV2>', () => {
       },
     };
     const tree = shallow(<ClaimsListItemV2 claim={claim} />);
-    expect(tree.find('h3').text()).to.contain('updated on August 20, 2019');
+    expect(tree.find('h2').text()).to.contain('updated on August 20, 2019');
     expect(
       tree
         .find('p')

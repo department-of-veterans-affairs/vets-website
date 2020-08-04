@@ -16,6 +16,7 @@ import {
 } from '../actions/newAppointment.js';
 import { getFormPageInfo } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const initialSchema = {
   type: 'object',
@@ -51,6 +52,10 @@ const initialSchema = {
           minLength: 10,
           pattern: '^[0-9]{10}$',
         },
+        'view:textObject': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   },
@@ -68,8 +73,6 @@ const uiSchema = {
   },
   hasCommunityCareProvider: {
     'ui:widget': 'yesNo',
-    'ui:title':
-      'Do you have a referral or preferred Community Care provider for this appointment?',
     'ui:options': {
       labels: {
         N: "No/I don't know",
@@ -81,6 +84,20 @@ const uiSchema = {
     'ui:options': {
       expandUnder: 'hasCommunityCareProvider',
     },
+    'ui:description': (
+      <p className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1">
+        Use the{' '}
+        <a
+          href="/find-locations/?facilityType=cc_provider"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          facility locator
+        </a>{' '}
+        to find your preferred community care provider. Copy and paste their
+        name and address below.
+      </p>
+    ),
     practiceName: {
       'ui:title': 'Practice name',
     },
@@ -96,7 +113,12 @@ const uiSchema = {
       ...addressUISchema,
       street: {
         ...addressUISchema.street,
+        'ui:title': 'Mailing address line 1',
         'ui:required': data => data.hasCommunityCareProvider,
+      },
+      street2: {
+        ...addressUISchema.street2,
+        'ui:title': 'Mailing address line 2',
       },
       city: {
         ...addressUISchema.city,
@@ -114,6 +136,18 @@ const uiSchema = {
     phone: {
       ...phoneUI(),
       'ui:required': data => data.hasCommunityCareProvider,
+    },
+    'view:textObject': {
+      'ui:description': (
+        <AlertBox
+          status="info"
+          headline="We’ll try to schedule your appointment with your preferred community provider"
+        >
+          If we aren’t able to schedule this appointment with your preferred
+          provider, we’ll make every effort to schedule your appointment with
+          another community provider closest to your home.
+        </AlertBox>
+      ),
     },
   },
 };

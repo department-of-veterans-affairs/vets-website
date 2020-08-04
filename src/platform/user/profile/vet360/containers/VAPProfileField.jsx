@@ -74,10 +74,12 @@ class VAPProfileField extends React.Component {
 
   static defaultProps = {
     fieldName: '',
+    hasUnsavedEdits: false,
   };
 
   state = {
     showCannotEditModal: false,
+    showConfirmCancelModal: false,
   };
 
   closeModalTimeoutID = null;
@@ -88,7 +90,15 @@ class VAPProfileField extends React.Component {
     // seconds we will show a "we're saving your new information..." message on
     // the Profile
     if (!prevProps.transaction && this.props.transaction) {
-      this.closeModalTimeoutID = setTimeout(() => this.closeModal(), 5000);
+      this.closeModalTimeoutID = setTimeout(
+        () => this.closeModal(),
+        // Using 50ms as the unit test timeout before exiting edit view while
+        // waiting for an update to happen. Being too aggressive, like 5ms,
+        // results in exiting the edit view before Redux has had time to do
+        // everything it needs to do. In that situation we see the "we're saving
+        // your..." message while Redux is processing everything.
+        window.VetsGov.pollTimeout ? 50 : 5000,
+      );
     }
 
     if (this.justClosedModal(prevProps, this.props)) {
@@ -107,7 +117,13 @@ class VAPProfileField extends React.Component {
 
   onCancel = () => {
     this.captureEvent('cancel-button');
-    this.closeModal();
+
+    if (!this.props.hasUnsavedEdits) {
+      this.closeModal();
+      return;
+    }
+
+    this.setState({ showConfirmCancelModal: true });
   };
 
   onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
@@ -231,6 +247,8 @@ class VAPProfileField extends React.Component {
       ValidationView,
     } = this.props;
 
+    const activeSection = VET360.FIELD_TITLES[activeEditView]?.toLowerCase();
+
     const childProps = {
       ...this.props,
       clearErrors: this.clearErrors,
@@ -243,8 +261,23 @@ class VAPProfileField extends React.Component {
       refreshTransaction: this.refreshTransaction,
     };
 
+    const wrapInTransaction = children => {
+      return (
+        <Vet360Transaction
+          isModalOpen={showEditView || showValidationView}
+          id={`${fieldName}-transaction-status`}
+          title={title}
+          transaction={transaction}
+          transactionRequest={transactionRequest}
+          refreshTransaction={this.refreshTransaction}
+        >
+          {children}
+        </Vet360Transaction>
+      );
+    };
+
     // default the content to the read-view
-    let content = (
+    let content = wrapInTransaction(
       <div className={classes.wrapper}>
         <ContentView data={this.props.data} />
         {this.isEditLinkVisible() && (
@@ -255,28 +288,35 @@ class VAPProfileField extends React.Component {
             className={classes.editButton}
           />
         )}
-      </div>
+      </div>,
     );
 
     if (isEmpty) {
-      content = (
+      content = wrapInTransaction(
         <button
           type="button"
           onClick={this.onAdd}
           className="va-button-link va-profile-btn"
+          id={`${this.props.fieldName}-edit-link`}
         >
           Please add your {title.toLowerCase()}
-        </button>
+        </button>,
       );
     }
 
     if (showEditView) {
-      content = <EditView {...childProps} />;
+      content = (
+        <EditView
+          refreshTransaction={this.refreshTransaction}
+          {...childProps}
+        />
+      );
     }
 
     if (showValidationView) {
       content = (
         <ValidationView
+          refreshTransaction={this.refreshTransaction}
           transaction={transaction}
           transactionRequest={transactionRequest}
           title={title}
@@ -288,9 +328,36 @@ class VAPProfileField extends React.Component {
     return (
       <div className="vet360-profile-field" data-field-name={fieldName}>
         <Modal
-          title={`You’re currently editing your ${VET360.FIELD_TITLES[
-            activeEditView
-          ]?.toLowerCase()}`}
+          title={'Are you sure?'}
+          status="warning"
+          visible={this.state.showConfirmCancelModal}
+          onClose={() => {
+            this.setState({ showConfirmCancelModal: false });
+          }}
+        >
+          <p>
+            {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won't be saved.`}
+          </p>
+          <button
+            className="usa-button-secondary"
+            onClick={() => {
+              this.setState({ showConfirmCancelModal: false });
+            }}
+          >
+            Continue Editing
+          </button>
+          <button
+            onClick={() => {
+              this.setState({ showConfirmCancelModal: false });
+              this.closeModal();
+            }}
+          >
+            Cancel
+          </button>
+        </Modal>
+
+        <Modal
+          title={`You’re currently editing your ${activeSection}`}
           status="warning"
           visible={this.state.showCannotEditModal}
           onClose={() => {
@@ -310,16 +377,8 @@ class VAPProfileField extends React.Component {
             OK
           </button>
         </Modal>
-        <Vet360Transaction
-          isModalOpen={showEditView || showValidationView}
-          id={`${fieldName}-transaction-status`}
-          title={title}
-          transaction={transaction}
-          transactionRequest={transactionRequest}
-          refreshTransaction={this.refreshTransaction}
-        >
-          {content}
-        </Vet360Transaction>
+
+        {content}
       </div>
     );
   }
@@ -342,6 +401,7 @@ export const mapStateToProps = (state, ownProps) => {
     activeEditView === 'addressValidation';
 
   return {
+    hasUnsavedEdits: state.vet360.hasUnsavedEdits,
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     blockEditMode: !!activeEditView,
     /*
@@ -398,6 +458,7 @@ Vet360ProfileFieldContainer.propTypes = {
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
+  hasUnsavedEdits: PropTypes.bool,
 };
 
 export default Vet360ProfileFieldContainer;

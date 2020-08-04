@@ -3,8 +3,10 @@ import { SERVICE_CONNECTION_TYPES, disabilityActionTypes } from './constants';
 import { viewifyFields } from './utils';
 
 // ****************************************
-// This entire file _may_ be obsolete once
-// form 526EZ v1 is no longer supported
+// This entire file _may_ be obsolete once form 526EZ v1 is no longer supported
+// Update: 7/2020 - v1 removed; but leaving this code in place a little longer
+// since I don't know the impact of completely removing it will have; and
+// leaving it in place doesn't hurt anything
 // ****************************************
 export const filterServiceConnected = (disabilities = []) =>
   disabilities.filter(

@@ -24,11 +24,6 @@ const filters = getAllImportsFrom(filtersDir, 'filter');
  */
 const ignoreList = typeProperties.concat([
   'roles',
-  'field_facility_location',
-  'field_regional_health_service',
-  'field_region_page',
-  'field_office',
-  'field_banner_alert', // Hrm...
   // All attributes which reference the user
   'owner_id',
   'revision_uid',

@@ -18,19 +18,16 @@ const initialState = {
 describe('VAOS integration: upcoming video appointments', () => {
   it('should show info and disabled link when ad hoc', async () => {
     const appointment = getVideoAppointmentMock();
+    const startDate = moment.utc().add(3, 'days');
     appointment.attributes = {
       ...appointment.attributes,
       facilityId: '983',
       clinicId: null,
-      startDate: moment()
-        .add(3, 'days')
-        .format(),
+      startDate: startDate.format(),
     };
     appointment.attributes.vvsAppointments[0] = {
       ...appointment.attributes.vvsAppointments[0],
-      dateTime: moment()
-        .add(3, 'days')
-        .format(),
+      dateTime: startDate.format(),
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
@@ -49,10 +46,7 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     const dateHeader = await findByText(
       new RegExp(
-        moment()
-          .tz('America/Denver')
-          .add(3, 'days')
-          .format('dddd, MMMM D, YYYY'),
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm'),
         'i',
       ),
     );
@@ -68,6 +62,8 @@ describe('VAOS integration: upcoming video appointments', () => {
     );
 
     expect(dateHeader).to.have.tagName('h3');
+    expect(dateHeader).to.contain.text('MT');
+    expect(dateHeader).to.contain.text('Mountain time');
     expect(baseElement).not.to.contain.text('Some random note');
     expect(getByText(/add to calendar/i)).to.have.tagName('a');
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
@@ -89,6 +85,64 @@ describe('VAOS integration: upcoming video appointments', () => {
         .add(30, 'minutes')
         .format(),
       bookingNotes: 'Some random note',
+      appointmentKind: 'ADHOC',
+      status: { description: 'F', code: 'FUTURE' },
+      patients: [
+        {
+          virtualMeetingRoom: {
+            url: 'http://videourl.va.gov',
+          },
+        },
+      ],
+    };
+    mockAppointmentInfo({ va: [appointment] });
+
+    const { findByText, getByText, queryByText } = renderInReduxProvider(
+      <FutureAppointmentsList />,
+      {
+        initialState,
+        reducers,
+      },
+    );
+
+    await findByText(
+      new RegExp(
+        moment()
+          .tz('America/Denver')
+          .add(30, 'minutes')
+          .format('dddd, MMMM D, YYYY'),
+        'i',
+      ),
+    );
+
+    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
+
+    expect(getByText(/join session/i)).to.have.attribute(
+      'aria-disabled',
+      'false',
+    );
+
+    expect(getByText(/join session/i)).to.have.attribute(
+      'href',
+      'http://videourl.va.gov',
+    );
+  });
+
+  it('should show active link less than 30 minutes in the future', async () => {
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: moment()
+        .add(20, 'minutes')
+        .format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: moment()
+        .add(20, 'minutes')
+        .format(),
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
       patients: [
@@ -190,6 +244,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       'http://videourl.va.gov',
     );
   });
+
   it('should show message about when to join if mobile gfe', async () => {
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
@@ -235,6 +290,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       'Join the video session from the device provided by the VA',
     );
   });
+
   it('should reveal medication review instructions', async () => {
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
@@ -324,5 +380,57 @@ describe('VAOS integration: upcoming video appointments', () => {
     fireEvent.click(getByText(/prepare for video visit/i));
 
     return expect(findByText('Before your appointment:')).to.eventually.be.ok;
+  });
+
+  it('should display canceled appointment', async () => {
+    const appointment = getVideoAppointmentMock();
+    const startDate = moment.utc().add(3, 'days');
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: startDate.format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: startDate.format(),
+      bookingNotes: 'Some random note',
+      appointmentKind: 'ADHOC',
+      status: { description: 'F', code: 'CANCELLED BY PATIENT' },
+    };
+    mockAppointmentInfo({ va: [appointment] });
+
+    const {
+      findByText,
+      baseElement,
+      getByText,
+      queryByText,
+    } = renderInReduxProvider(<FutureAppointmentsList />, {
+      initialState,
+      reducers,
+    });
+
+    const dateHeader = await findByText(
+      new RegExp(
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm'),
+        'i',
+      ),
+    );
+
+    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(baseElement).to.contain.text('VA Video Connect');
+    expect(baseElement).to.contain.text('Canceled');
+    expect(baseElement).to.contain('.fa-exclamation-circle');
+
+    expect(getByText(/join session/i)).to.have.attribute(
+      'aria-disabled',
+      'true',
+    );
+
+    expect(dateHeader).to.have.tagName('h3');
+    expect(dateHeader).to.contain.text('MT');
+    expect(dateHeader).to.contain.text('Mountain time');
+    expect(baseElement).not.to.contain.text('Some random note');
+    expect(queryByText(/cancel appointment/i)).not.to.exist;
   });
 });

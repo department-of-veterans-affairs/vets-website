@@ -14,7 +14,6 @@ import titleCase from 'platform/utilities/data/titleCase';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import disability526Manifest from 'applications/disability-benefits/526EZ/manifest.json';
 import {
   validateMilitaryCity,
   validateMilitaryState,
@@ -714,21 +713,31 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
   </span>
 );
 
-const isClaimingIncrease = formData =>
-  _.get('view:claimType.view:claimingIncrease', formData, false);
+export const hasRatedDisabilities = formData =>
+  formData.ratedDisabilities && formData.ratedDisabilities.length;
+
 const isClaimingNew = formData =>
-  _.get('view:claimType.view:claimingNew', formData, false);
+  _.get(
+    'view:claimType.view:claimingNew',
+    formData,
+    // force default to true if user has no rated disabilities
+    !hasRatedDisabilities(formData),
+  ) || _.get('view:newDisabilities', formData, false);
+
+const isClaimingIncrease = formData =>
+  hasRatedDisabilities(formData) &&
+  _.get('view:claimType.view:claimingIncrease', formData, false);
 
 export const increaseOnly = formData =>
-  isClaimingIncrease(formData) && !isClaimingNew(formData);
+  (isClaimingIncrease(formData) && !isClaimingNew(formData)) || false;
 export const newConditionsOnly = formData =>
-  !isClaimingIncrease(formData) && isClaimingNew(formData);
+  (!isClaimingIncrease(formData) && isClaimingNew(formData)) || false;
 export const newAndIncrease = formData =>
-  isClaimingNew(formData) && isClaimingIncrease(formData);
+  (isClaimingNew(formData) && isClaimingIncrease(formData)) || false;
 
 // Shouldn't be possible, but just in case this requirement is lifted later...
 export const noClaimTypeSelected = formData =>
-  !isClaimingNew(formData) && !isClaimingIncrease(formData);
+  (!isClaimingNew(formData) && !isClaimingIncrease(formData)) || false;
 
 export const hasNewDisabilities = formData =>
   formData['view:newDisabilities'] === true;
@@ -739,7 +748,7 @@ export const hasNewDisabilities = formData =>
  * @enum {String}
  */
 export const urls = {
-  v1: disability526Manifest.rootUrl,
+  v1: DISABILITY_526_V2_ROOT_URL,
   v2: DISABILITY_526_V2_ROOT_URL,
 };
 
@@ -783,18 +792,20 @@ export const directToCorrectForm = ({
 };
 
 export const claimingRated = formData =>
-  formData.ratedDisabilities &&
-  formData.ratedDisabilities.some(d => d['view:selected']);
+  (isClaimingIncrease(formData) &&
+    formData.ratedDisabilities &&
+    formData.ratedDisabilities.some(d => d['view:selected'])) ||
+  false;
 
 // TODO: Rename this to avoid collision with `isClaimingNew` above
 export const claimingNew = formData =>
-  formData.newDisabilities && formData.newDisabilities.some(d => d.condition);
+  (formData.newDisabilities &&
+    formData.newDisabilities.some(d => d.condition)) ||
+  false;
 
 export const hasClaimedConditions = formData =>
-  claimingNew(formData) || claimingRated(formData);
-
-export const hasRatedDisabilities = formData =>
-  formData.ratedDisabilities && formData.ratedDisabilities.length;
+  (isClaimingIncrease(formData) && claimingRated(formData)) ||
+  (isClaimingNew(formData) && claimingNew(formData));
 
 /**
  * Finds active service periods—those without end dates or end dates
@@ -821,4 +832,24 @@ export const DISABILITY_SHARED_CONFIG = {
     path: 'new-disabilities/add',
     depends: hasNewDisabilities,
   },
+};
+
+export const isBDD = formData => {
+  const servicePeriods = formData?.serviceInformation?.servicePeriods;
+
+  if (!servicePeriods || !Array.isArray(servicePeriods)) {
+    return false;
+  }
+
+  const mostRecentDate = servicePeriods
+    .filter(({ dateRange }) => dateRange?.to)
+    .map(({ dateRange }) => moment(dateRange.to))
+    .sort((dateA, dateB) => dateB - dateA)[0];
+
+  if (!mostRecentDate) {
+    return false;
+  }
+
+  // not checking for less than 180 days as we validate that in militaryHistory
+  return mostRecentDate.isAfter(moment().add(89, 'days'));
 };

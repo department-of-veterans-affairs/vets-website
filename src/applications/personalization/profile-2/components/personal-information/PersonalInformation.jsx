@@ -5,26 +5,32 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
-import { directDepositLoadError } from 'applications/personalization/profile360/selectors';
+import PaymentInformationBlocked from 'applications/personalization/profile360/components/PaymentInformationBlocked';
+import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
+import {
+  directDepositIsBlocked,
+  directDepositLoadError,
+} from 'applications/personalization/profile360/selectors';
 
 import PersonalInformationContent from './PersonalInformationContent';
 
 const MyAlert = () => (
   <AlertBox
     status="warning"
-    headline="We can’t access your direct deposit information right now"
+    headline="We can’t access your contact information"
     className="vads-u-margin-bottom--4"
   >
-    <p>
-      We’re sorry. Something went wrong on our end. Please refresh this page or
-      try again later.
-    </p>
+    <p>We’re sorry. Something went wrong on our end. Please try again later.</p>
   </AlertBox>
 );
 
 const PersonalInformation = ({
+  showDirectDepositBlockedError,
   showNotAllDataAvailableError,
   hasUnsavedEdits,
 }) => {
@@ -58,18 +64,26 @@ const PersonalInformation = ({
       >
         Personal and contact information
       </h2>
-      {showNotAllDataAvailableError && <MyAlert />}
-      <PersonalInformationContent />
+      <DowntimeNotification
+        render={handleDowntimeForSection('personal and contact')}
+        dependencies={[externalServices.mvi, externalServices.vet360]}
+      >
+        {showDirectDepositBlockedError && <PaymentInformationBlocked />}
+        {showNotAllDataAvailableError && <MyAlert />}
+        <PersonalInformationContent />
+      </DowntimeNotification>
     </>
   );
 };
 
 PersonalInformation.propTypes = {
+  showDirectDepositBlockedError: PropTypes.bool.isRequired,
   showNotAllDataAvailableError: PropTypes.bool.isRequired,
   hasUnsavedEdits: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
+  showDirectDepositBlockedError: !!directDepositIsBlocked(state),
   showNotAllDataAvailableError: !!directDepositLoadError(state),
   hasUnsavedEdits: state.vet360.hasUnsavedEdits,
 });

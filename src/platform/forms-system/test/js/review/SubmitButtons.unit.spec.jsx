@@ -55,6 +55,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     );
 
     expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
+    expect(tree.everySubTree('div', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('a').length).to.equal(2);
   });
   it('should render validation error', () => {
@@ -69,6 +70,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain(
       'Some information in your application is missing or not valid',
     );
+    expect(tree.everySubTree('div', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
   });
   it('should render error in prod mode', () => {
@@ -83,6 +85,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     );
 
     expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
+    expect(tree.everySubTree('div', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('a').length).to.equal(1);
 
     // Reset buildtype
@@ -115,6 +118,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain(
       'too many requests',
     );
+    expect(tree.everySubTree('div', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
   });
   it('should render client error', () => {
@@ -129,6 +133,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain(
       'Internet connection',
     );
+    expect(tree.everySubTree('div', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
   });
 });

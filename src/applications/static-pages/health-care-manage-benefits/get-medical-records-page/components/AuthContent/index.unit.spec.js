@@ -10,6 +10,7 @@ describe('Get Medical Records Page <AuthContent>', () => {
     const wrapper = shallow(<AuthContent />);
 
     const text = wrapper.text();
+    expect(text).to.include('CernerCallToAction');
     expect(text).to.include(
       "What's VA Blue Button, and how can it help me manage my health care?",
     );

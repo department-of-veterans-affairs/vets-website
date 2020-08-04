@@ -90,9 +90,9 @@ export class ProfilePage extends React.Component {
             calculator={this.props.calculator}
             eligibility={this.props.eligibility}
             version={this.props.location.query.version}
-            eduSection103={this.props.eduSection103}
             gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
             gibctEybBottomSheet={this.props.gibctEybBottomSheet}
+            gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
           />
         );
       }
@@ -121,12 +121,14 @@ const mapStateToProps = state => {
     profile,
     calculator,
     eligibility,
-    eduSection103: toggleValues(state)[FEATURE_FLAG_NAMES.eduSection103],
     gibctEstimateYourBenefits: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
     ],
     gibctEybBottomSheet: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctEybBottomSheet
+    ],
+    gibctCh33BenefitRateUpdate: toggleValues(state)[
+      FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
     ],
   };
 };

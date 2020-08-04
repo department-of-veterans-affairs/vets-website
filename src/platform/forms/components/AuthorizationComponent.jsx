@@ -32,7 +32,9 @@ class AuthorizationComponent extends React.Component {
 
   renderDowntime = (downtime, children) => {
     if (downtime.status === externalServiceStatus.down) {
-      const Message = this.props.downtime?.message || DowntimeMessage;
+      const Message = this.props.downtime?.message || (
+        <DowntimeMessage formConfig={this.props.formConfig} />
+      );
 
       return (
         <Message isAfterSteps={this.props.buttonOnly} downtime={downtime} />
@@ -90,6 +92,7 @@ class AuthorizationComponent extends React.Component {
           appTitle={formConfig.formId}
           render={this.renderDowntime}
           dependencies={formConfig.downtime.dependencies}
+          customText={formConfig.customText}
         >
           {content}
         </DowntimeNotification>

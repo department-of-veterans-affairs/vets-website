@@ -1,14 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import { isWideScreen } from 'platform/utilities/accessibility/index';
 
 import ProfileHeader from './ProfileHeader';
-import ProfileSideNav from './ProfileSideNav';
-import MobileMenuTrigger from './MobileMenuTrigger';
+import ProfileSubNav from './ProfileSubNav';
+import ProfileMobileSubNav from './ProfileMobileSubNav';
+import { PROFILE_PATHS } from '../constants';
+import { isEmpty } from 'lodash';
 
-const Profile2 = ({ children, routes }) => {
+const Profile2Wrapper = ({ children, routes, isLOA3, isInMVI, hero }) => {
   const location = useLocation();
   const createBreadCrumbAttributes = () => {
     const activeLocation = location?.pathname;
@@ -21,7 +24,11 @@ const Profile2 = ({ children, routes }) => {
 
   // We do not want to display 'Profile' on the mobile personal-information route
   const onPersonalInformationMobile =
-    activeLocation === '/profile/personal-information' && !isWideScreen();
+    activeLocation === PROFILE_PATHS.PERSONAL_INFORMATION && !isWideScreen();
+
+  // Without a verified identity, we want to show 'Home - Account Security'
+  const showLOA1BreadCrumb =
+    (!isLOA3 || !isInMVI) && activeLocation === PROFILE_PATHS.ACCOUNT_SECURITY;
 
   return (
     <>
@@ -29,19 +36,31 @@ const Profile2 = ({ children, routes }) => {
       <div data-testid="breadcrumbs">
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
           <a href="/">Home</a>
-          {!onPersonalInformationMobile && <Link to="/">Your profile</Link>}
-          <a href={activeLocation}>{activeRouteName}</a>
+
+          {showLOA1BreadCrumb && (
+            <Link to="/">Your profile - Account security</Link>
+          )}
+
+          {!showLOA1BreadCrumb &&
+            !onPersonalInformationMobile && <Link to="/">Your profile</Link>}
+
+          {!showLOA1BreadCrumb && (
+            <a href={activeLocation}>{activeRouteName}</a>
+          )}
         </Breadcrumbs>
       </div>
 
-      <MobileMenuTrigger />
+      {isEmpty(hero.errors) && <ProfileHeader />}
 
-      <div className="mobile-fixed-spacer" />
-      <ProfileHeader />
+      <div className="medium-screen:vads-u-display--none">
+        <ProfileMobileSubNav routes={routes} />
+      </div>
 
       <div className="usa-grid usa-grid-full">
         <div className="usa-width-one-fourth">
-          <ProfileSideNav routes={routes} />
+          <div className="vads-u-display--none medium-screen:vads-u-display--block">
+            <ProfileSubNav routes={routes} />
+          </div>
         </div>
         <div className="usa-width-two-thirds vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-u-padding--0 medium-screen:vads-u-padding-bottom--6">
           {/* children will be passed in from React Router one level up */}
@@ -52,9 +71,14 @@ const Profile2 = ({ children, routes }) => {
   );
 };
 
-Profile2.propTypes = {
+const mapStateToProps = state => ({
+  hero: state.vaProfile?.hero,
+});
+
+Profile2Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object,
+  hero: PropTypes.object,
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       component: PropTypes.func.isRequired,
@@ -66,4 +90,4 @@ Profile2.propTypes = {
   ).isRequired,
 };
 
-export default Profile2;
+export default connect(mapStateToProps)(Profile2Wrapper);

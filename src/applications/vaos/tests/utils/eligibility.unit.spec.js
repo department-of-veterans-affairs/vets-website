@@ -20,11 +20,8 @@ import { VHA_FHIR_ID } from '../../utils/constants';
 
 describe('VAOS scheduling eligibility logic', () => {
   describe('getEligibilityData', () => {
-    before(() => {
-      mockFetch();
-    });
-
     beforeEach(() => {
+      mockFetch();
       setFetchJSONResponse(global.fetch, clinics);
       setFetchJSONResponse(global.fetch.onCall(4), confirmed);
       setFetchJSONResponse(global.fetch.onCall(5), confirmed);

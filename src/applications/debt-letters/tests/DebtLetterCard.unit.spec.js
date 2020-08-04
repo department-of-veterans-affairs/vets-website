@@ -14,8 +14,8 @@ describe('DebtLetterCard', () => {
       benefitType: 'CH35 EDU',
       amountOverpaid: 16000.0,
       amountWithheld: 0.0,
-      originalAR: '13000',
-      currentAR: '10000',
+      originalAr: '13000',
+      currentAr: '10000',
       debtHistory: [
         {
           date: '09/18/2012',
@@ -88,24 +88,16 @@ describe('DebtLetterCard', () => {
     expect(
       wrapper
         .dive()
-        .find('h4')
+        .find('h3')
         .text(),
-    ).to.equal('Deduction Code 44 updated December 19, 2014');
+    ).to.equal('CH35 EDU');
     expect(
       wrapper
         .dive()
         .find('p')
         .at(1)
         .text(),
-    ).to.equal('$10,000.00');
-    expect(
-      wrapper
-        .dive()
-        .find('p')
-        .at(3)
-        .text(),
-    ).to.equal('Returned From Cross Servicing - At TOP');
-
+    ).to.equal('Amount owed: $10,000.00');
     wrapper.unmount();
   });
 });

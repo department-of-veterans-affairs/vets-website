@@ -72,6 +72,14 @@
     background-image: none;
   }
 
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    select:disabled {
+      background-color: $color-gray-lightest;
+    }
+  }
+
   .search-result {
     i.fa {
       background: initial;
@@ -123,12 +131,12 @@
     @include media($small-screen) {
       display: flex;
     }
-    padding-left: .50rem;
+    padding-left: 0.5rem;
   }
 
   .program-description {
-    margin-top: 1.0rem;
-    margin-bottom: 1.0rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     label {
       margin-left: 1.7rem;
     }
@@ -143,7 +151,7 @@
     padding-top: 0.188em;
 
     .section-button {
-      border: 2px solid #AEB0B5 !important;
+      border: 2px solid #aeb0b5 !important;
       margin: 0px;
     }
 

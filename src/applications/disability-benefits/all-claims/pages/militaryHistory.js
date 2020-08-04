@@ -1,8 +1,18 @@
 import moment from 'moment';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import environment from 'platform/utilities/environment';
+import AutosuggestField from 'platform/forms-system/src/js/fields/AutosuggestField';
+import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
+import { isBDD } from '../utils';
+import {
+  SeparationLocationTitle,
+  SeparationLocationDescription,
+} from '../content/militaryHistory';
+import { checkSeparationLocation } from '../validations';
+import separationLocations from '../content/separationLocations';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -24,14 +34,27 @@ const validateAge = (
   }
 };
 
+const validateSeparationDate = (errors, dateString) => {
+  const isProduction = environment.isProduction();
+  if (isProduction && moment(dateString).isAfter(moment())) {
+    errors.addError('Your separation date must be in the past');
+  } else if (
+    !isProduction &&
+    moment(dateString).isAfter(moment().add(180, 'days'))
+  ) {
+    errors.addError('Your separation date must be before 180 days from today');
+  }
+};
+
 dateRangeUISchema.from['ui:validations'].push(validateAge);
+dateRangeUISchema.to['ui:validations'].push(validateSeparationDate);
 
 export const uiSchema = {
   serviceInformation: {
     servicePeriods: {
       'ui:title': 'Military service history',
       'ui:description':
-        'This is the military service history we have on file for you.',
+        'Please add or update your military service history details below.',
       'ui:options': {
         itemName: 'Service Period',
         viewField: ValidatedServicePeriodView,
@@ -45,6 +68,32 @@ export const uiSchema = {
         'ui:options': {
           ariaLabelForEditButtonOnReview: 'Edit Military service history',
         },
+      },
+    },
+    'view:separationLocation': {
+      'ui:title': SeparationLocationTitle,
+      'ui:description': SeparationLocationDescription,
+      'ui:options': {
+        hideIf: formData => environment.isProduction() || !isBDD(formData),
+      },
+    },
+    // Not using autosuggest.uiSchema; validations not set?
+    separationLocation: {
+      'ui:title': 'Enter a location',
+      'ui:field': AutosuggestField,
+      'ui:required': formData => !environment.isProduction() && isBDD(formData),
+      'ui:validations': [checkSeparationLocation],
+      'ui:options': {
+        hideIf: formData => environment.isProduction() || !isBDD(formData),
+        showFieldLabel: 'label',
+        maxOptions: 20,
+        getOptions: () =>
+          Promise.resolve().then(() =>
+            separationLocations.map(({ code, description }) => ({
+              id: code,
+              label: description,
+            })),
+          ),
       },
     },
   },
@@ -63,6 +112,11 @@ export const schema = {
           type: 'object',
           properties: {},
         },
+        'view:separationLocation': {
+          type: 'object',
+          properties: {},
+        },
+        separationLocation: autosuggest.schema,
       },
     },
   },
