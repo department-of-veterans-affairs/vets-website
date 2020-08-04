@@ -318,13 +318,13 @@ Function that performs setup before each test in the suite. Can be thought of as
 
 Cypress aliases and routes should get created here instead of `setup`, since those are reset before each test.
 
-Before `setupPerTest` runs, the form tester will have automatically started `cy.server()` and stubbed the `GET /v0/maintenance_windows` request to return `[]`.
+Before `setupPerTest` runs, the shared Cypress setup will have automatically started `cy.server()` and stubbed the `GET /v0/maintenance_windows` and `GET /v0/feature_toggles` requests to return empty arrays.
 
-Default stubs (like the maintenance windows request) can be overriden simply by setting up another `cy.route` on the same endpoint.
+Default stubs (like the maintenance windows and feature toggles requests) can be overriden by setting up another `cy.route` on the same endpoint.
 
 This is also generally the place to set anything in `localStorage` and `sessionStorage` before the test runs.
 
-Authenticated sessions are typically set up here as well with `cy.login()`. This is a custom command that sets the `hasSession` flag in `localStorage` and stubs the `GET v0/user` endpoint.
+Authenticated sessions are typically set up here as well with `cy.login()`. This is a custom command that sets the `hasSession` flag in `localStorage` and stubs the `GET /v0/user` endpoint.
 
 If your test requires a specific `localStorage` or `sessionStorage` state or authenticated session at a later point in the test, as in the middle instead of the beginning, you may set those in a page hook, but you **may need to reload the page (`cy.reload()`) to see the effects**.
 

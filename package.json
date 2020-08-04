@@ -209,6 +209,7 @@
     "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^2.0.0",
+    "mocha-snapshots": "^4.2.0",
     "mocker-api": "^2.1.0",
     "moment-timezone": "^0.5.31",
     "morgan": "^1.10.0",
@@ -260,8 +261,8 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "6.9.3",
-    "@department-of-veterans-affairs/formation-react": "5.3.0",
+    "@department-of-veterans-affairs/formation": "6.9.5",
+    "@department-of-veterans-affairs/formation-react": "5.4.8",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.10.0",
@@ -287,7 +288,7 @@
     "leaflet": "^1.6.0",
     "leaflet-control-geocoder": "^1.13.0",
     "local-storage-fallback": "^4.1.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "markdown-it": "^11.0.0",
     "markdown-it-link-attributes": "^3.0.0",
     "metalsmith": "^2.1.0",
@@ -326,12 +327,14 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0f7d93fdcff0139345998d95a80c2cfd1cb65f7a",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#abff81fc0a078e81a51a8a33d042cf234a14f187",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
     "**/lodash": "4.17.15",
     "**/js-yaml": "^3.13.1",
+    "**/jpeg-js": "^0.4.0",
+    "**/dot-prop": "^5.1.1",
     "cypress": "^4.8.0"
   }
 }

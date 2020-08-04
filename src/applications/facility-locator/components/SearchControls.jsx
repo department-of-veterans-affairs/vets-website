@@ -50,13 +50,13 @@ class SearchControls extends Component {
   };
 
   renderFacilityTypeDropdown = () => {
-    const { showCommunityCares, suppressPharmacies } = this.props;
+    const { suppressCCP, suppressPharmacies } = this.props;
     const { facilityType } = this.props.currentQuery;
     const locationOptions = facilityTypesOptions;
     if (suppressPharmacies) {
       delete locationOptions.cc_pharmacy;
     }
-    if (!showCommunityCares) {
+    if (suppressCCP) {
       delete locationOptions.cc_provider;
     }
     const options = Object.keys(locationOptions).map(facility => (
@@ -185,7 +185,7 @@ class SearchControls extends Component {
                   {this.renderServiceTypeDropdown()}
                 </div>
                 <div className="columns medium-1-2">
-                  <input type="submit" value="Search" />
+                  <input id="facility-search" type="submit" value="Search" />
                 </div>
               </div>
             </div>

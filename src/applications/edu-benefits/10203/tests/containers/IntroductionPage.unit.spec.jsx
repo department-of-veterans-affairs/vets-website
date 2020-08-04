@@ -39,13 +39,18 @@ describe('Edu 10203 <IntroductionPage>', () => {
         remainingEntitlement={remainingEntitlementGreaterThan180}
         getRemainingEntitlement={() => {}}
         route={{
-          formConfig: {},
+          formConfig: {
+            prefillEnabled: false,
+            savedFormMessages: '',
+          },
+          pageList: [],
         }}
       />,
     );
-    expect(tree.find('.usa-alert-warning').exists()).to.be.true;
+    expect(tree.find('#entitlement-remaining-alert').exists()).to.be.true;
     tree.unmount();
   });
+
   it('should not show entitlement remaining alert', () => {
     const remainingEntitlementLessThan180 = { months: 1, days: 3 };
 
@@ -55,11 +60,15 @@ describe('Edu 10203 <IntroductionPage>', () => {
         remainingEntitlement={remainingEntitlementLessThan180}
         getRemainingEntitlement={() => {}}
         route={{
-          formConfig: {},
+          formConfig: {
+            prefillEnabled: false,
+            savedFormMessages: '',
+          },
+          pageList: [],
         }}
       />,
     );
-    expect(tree.find('.usa-alert-warning').exists()).to.be.false;
+    expect(tree.find('#entitlement-remaining-alert').exists()).to.be.false;
     tree.unmount();
   });
 });

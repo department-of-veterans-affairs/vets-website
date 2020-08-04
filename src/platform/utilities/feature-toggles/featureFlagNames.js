@@ -1,8 +1,9 @@
 export default Object.freeze({
   preEntryCovid19Screener: 'preEntryCovid19Screener',
   dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
-  facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
+  facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
+  facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
   facilityLocatorFeUseV1: 'facilityLocatorFeUseV1',
   profileShowProfile2: 'profile_show_profile_2.0',
   vaOnlineScheduling: 'vaOnlineScheduling',
@@ -33,4 +34,7 @@ export default Object.freeze({
   routeStLouisRPOtoBuffaloRPO: 'routeStLouisRPOtoBuffaloRPO',
   gibctSearchEnhancements: 'gibctSearchEnhancements',
   form996HigherLevelReview: 'form996HigherLevelReview',
+  gibctFilterEnhancement: 'gibctFilterEnhancement',
+  debtLettersShowLetters: 'debtLettersShowLetters',
+  gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
 });

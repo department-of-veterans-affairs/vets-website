@@ -1157,7 +1157,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('cumulativeService')}
       >
         <h3>Cumulative Post-9/11 service</h3>
-        {environment.isProduction() ? (
+        {!this.props.gibctCh33BenefitRateUpdate ? (
           <div>
             {' '}
             <p>
@@ -1190,20 +1190,13 @@ export class Modals extends React.Component {
         ) : (
           <div>
             <p>
-              The{' '}
-              <a
-                href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Post-9/11 GI Bill
-              </a>{' '}
-              education benefits you receive depend on how much active duty
-              service you’ve completed since September 10, 2001. We calculate
-              the amount based on the total (cumulative) time you’ve spent on
-              active duty. If you’re a Purple Heart or Fry Scholarship
-              recipient, or have a service-connected discharge, you’ll receive
-              100% of the benefits.
+              The Post-9/11 GI Bill provides financial support for education and
+              a housing allowance. To qualify for this program, you must have
+              served after September 10, 2001 for at least 90 days or, if you
+              were discharged with a service-connected disability, for at least
+              30 days. The service period for these benefits doesn't include
+              your entry and initial skill training. You also need to have
+              received an honorable discharge.
             </p>
           </div>
         )}
@@ -1326,6 +1319,7 @@ export class Modals extends React.Component {
 }
 
 const mapStateToProps = state => state;
+
 const mapDispatchToProps = dispatch => ({
   showModal: name => {
     dispatch(actions.showModal(name));

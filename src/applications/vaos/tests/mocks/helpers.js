@@ -38,7 +38,6 @@ export function mockAppointmentInfo({ va = [], cc = [], requests = [] }) {
 
 export function mockPastAppointmentInfo({ va = [], cc = [] }) {
   mockFetch();
-  setFetchJSONResponse(global.fetch, { data: [] });
   const vaUrl = `${
     environment.API_URL
   }/vaos/v0/appointments?start_date=${moment()
@@ -53,9 +52,10 @@ export function mockPastAppointmentInfo({ va = [], cc = [] }) {
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
         .add(-3, 'months')
-        .format('YYYY-MM-DD')}&end_date=${moment().format(
-        'YYYY-MM-DD',
-      )}&type=cc`,
+        .startOf('day')
+        .format()}&end_date=${moment()
+        .startOf('day')
+        .format()}&type=cc`,
     ),
     { data: cc },
   );
@@ -219,15 +219,20 @@ export function mockEligibilityFetches({
     },
   );
 
-  const appointment = getVAAppointmentMock();
-  appointment.attributes = {
-    ...appointment.attributes,
-    startDate: moment().format(),
-    facilityId: siteId,
-    sta6aid: facilityId,
-    clinicId: clinics[0]?.id,
-  };
-  appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+  const pastAppointments = clinics.map(clinic => {
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: moment().format(),
+      facilityId: siteId,
+      sta6aid: facilityId,
+      clinicId: clinic.id,
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+
+    return appointment;
+  });
+
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
@@ -237,7 +242,7 @@ export function mockEligibilityFetches({
         .startOf('day')
         .toISOString()}&type=va`,
     ),
-    { data: pastClinics && clinics.length ? [appointment] : [] },
+    { data: pastClinics ? pastAppointments : [] },
   );
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -274,5 +279,64 @@ export function mockEligibilityFetches({
         .toISOString()}&type=va`,
     ),
     { data: [] },
+  );
+}
+
+export function mockAppointmentSlotFetch({
+  siteId,
+  typeOfCareId,
+  preferredDate,
+  length = '20',
+  clinicId,
+  slots,
+}) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/facilities/${siteId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}` +
+        `&start_date=${preferredDate
+          .clone()
+          .startOf('month')
+          .format('YYYY-MM-DD')}` +
+        `&end_date=${preferredDate
+          .clone()
+          .add(1, 'month')
+          .endOf('month')
+          .format('YYYY-MM-DD')}`,
+    ),
+    {
+      data: [
+        {
+          id: clinicId,
+          type: 'availability',
+          attributes: {
+            clinicId,
+            clinicName: 'Fake',
+            appointmentLength: length,
+            clinicDisplayStartTime: '9',
+            displayIncrements: '3',
+            stopCode: 'fake',
+            askForCheckIn: false,
+            maxOverbooksPerDay: 3,
+            hasUserAccessToClinic: true,
+            primaryStopCode: 'fake',
+            secondaryStopCode: '',
+            listSize: slots.length,
+            empty: slots.length === 0,
+            appointmentTimeSlot: slots,
+          },
+        },
+      ],
+    },
+  );
+}
+
+export function mockRequestSubmit(type, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/appointment_requests?type=${type}`,
+    ),
+    { data },
   );
 }

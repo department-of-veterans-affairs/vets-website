@@ -6,6 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { find, filter, get, map, orderBy } from 'lodash';
 // Relative
 import NavItem from './NavItem';
+import debounce from 'platform/utilities/data/debounce';
 
 class SideNav extends Component {
   static propTypes = {
@@ -14,10 +15,28 @@ class SideNav extends Component {
 
   constructor(props) {
     super(props);
+    this.debouncedResize = debounce(250, this.setIsDesktop);
     this.state = {
       active: false,
+      isDesktop: this.getDesktop(), // adding this to trigger re-render on window resize
       navItemsLookup: props.navItemsLookup,
     };
+  }
+
+  getDesktop = () => {
+    return window.innerWidth > 768;
+  };
+
+  setIsDesktop = () => {
+    this.setState({ isDesktop: this.getDesktop() });
+  };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.debouncedResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.debouncedResize);
   }
 
   trackEvents = id => {
@@ -85,6 +104,7 @@ class SideNav extends Component {
         renderChildItems={this.renderChildItems}
         sortedNavItems={sortedNavItems}
         trackEvents={this.trackEvents}
+        navExpanded={this.state.isDesktop ? true : !!this.state.active}
       />
     ));
   };

@@ -8,7 +8,7 @@ import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import VAFacilityPage from '../../containers/VAFacilityPage';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { getParentSiteMock, getFacilityMock } from '../mocks/v0';
-import { createTestStore, setTypeOfCare } from '../mocks/form';
+import { createTestStore, setTypeOfCare } from '../mocks/setup';
 import {
   mockEligibilityFetches,
   mockParentSites,
@@ -104,7 +104,17 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
   });
 
   it('should show alert when only one facility is supported', async () => {
-    mockParentSites(['983'], [parentSite983]);
+    const parentSite5digit = {
+      id: '983GC',
+      attributes: {
+        ...getParentSiteMock().attributes,
+        institutionCode: '983GC',
+        authoritativeName: 'Some VA facility',
+        rootStationCode: '983',
+        parentStationCode: '983GC',
+      },
+    };
+    mockParentSites(['983'], [parentSite5digit]);
     const facilities = [
       {
         id: '983GC',
@@ -115,14 +125,14 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
           stateAbbrev: 'MT',
           authoritativeName: 'Belgrade VA clinic',
           rootStationCode: '983',
-          parentStationCode: '983',
+          parentStationCode: '983GC',
           requestSupported: true,
         },
       },
     ];
     mockSupportedFacilities({
       siteId: '983',
-      parentId: '983',
+      parentId: '983GC',
       typeOfCareId: '323',
       data: facilities,
     });

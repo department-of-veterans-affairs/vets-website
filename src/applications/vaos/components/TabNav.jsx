@@ -4,7 +4,8 @@ import { focusElement } from 'platform/utilities/ui';
 
 import TabItem from './TabItem';
 
-export function TabNav({ location, router }) {
+export function TabNav({ location, router, hasExpressCareRequests }) {
+  const isExpressCareTab = location.pathname === '/express-care';
   return (
     <ul className="va-tabs vaos-appts__tabs" role="tablist">
       <TabItem
@@ -16,7 +17,7 @@ export function TabNav({ location, router }) {
           router.push('/past');
           focusElement('#tabpast');
         }}
-        title="Upcoming appointments"
+        title={hasExpressCareRequests ? 'Upcoming' : 'Upcoming appointments'}
       />
       <TabItem
         id="past"
@@ -26,8 +27,26 @@ export function TabNav({ location, router }) {
           router.push('/');
           focusElement('#tabupcoming');
         }}
-        title="Past appointments"
+        onNextTab={() => {
+          if (hasExpressCareRequests || isExpressCareTab) {
+            router.push('/express-care');
+            focusElement('#tabexpress-care');
+          }
+        }}
+        title={hasExpressCareRequests ? 'Past' : 'Past appointments'}
       />
+      {(hasExpressCareRequests || isExpressCareTab) && (
+        <TabItem
+          id="express-care"
+          tabpath="/express-care"
+          isActive={isExpressCareTab}
+          onPreviousTab={() => {
+            router.push('/past');
+            focusElement('#tabpast');
+          }}
+          title="Express Care"
+        />
+      )}
     </ul>
   );
 }

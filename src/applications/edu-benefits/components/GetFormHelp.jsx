@@ -1,30 +1,18 @@
 import React from 'react';
 import CallHRC from 'platform/static-data/CallHRC';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 function GetFormHelp() {
   return (
     <div>
       <p className="help-talk">
-        For help filling out this form,
-        <br />
-        ask the Education Call Center:
-      </p>
-      <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:1-888-442-4551">
-          888-442-4551 (888-GI-BILL-1)
-        </a>
-        <br />
-        Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET
-        <br />
-        <a
-          className="help-phone-number-link"
-          href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
-        >
-          Submit a question to Education Service
-        </a>
-      </p>
-      <p className="help-talk">
-        If this form isn't working right for you, please <CallHRC />
+        Call us at <Telephone contact={CONTACTS.VA_BENEFITS} />. We’re here
+        Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing
+        loss, call TTY:{' '}
+        <Telephone contact={CONTACTS[711]} pattern={PATTERNS[911]} />.
       </p>
     </div>
   );

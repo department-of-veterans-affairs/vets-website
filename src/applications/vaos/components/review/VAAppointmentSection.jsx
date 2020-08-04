@@ -13,7 +13,6 @@ export default function VAAppointmentSection({ data, facility }) {
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <h3 className="vaos-appts__block-label">{facility.name}</h3>
       {facility.address?.city}, {facility.address?.state}
-      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <div className="vads-l-grid-container vads-u-padding--0">

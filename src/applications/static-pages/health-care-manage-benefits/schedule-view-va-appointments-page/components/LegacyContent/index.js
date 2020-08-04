@@ -1,5 +1,8 @@
 // Node modules.
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
@@ -13,16 +16,13 @@ export const LegacyContent = () => (
     >
       <div className="usa-alert-body">
         <h3 className="usa-alert-heading" id="due-to-covid-19-you-can-only-r">
-          Due to COVID-19, you can only request an appointment online
+          Due to COVID-19, we&apos;ll need to contact you to confirm your
+          appointment
         </h3>
         <p>
-          You can’t directly schedule an appointment online at this time. Once
-          you request your appointment, a scheduler will get back to you to
-          confirm your request.
-        </p>
-        <p>
-          To help us address the most urgent needs first, we ask that you don’t
-          request routine appointments right now.
+          You can still use our online appointments tool to request an
+          appointment. We&apos;ll then contact you to confirm the date, time,
+          and location.
         </p>
       </div>
     </div>
@@ -444,10 +444,7 @@ export const LegacyContent = () => (
                 <a aria-label="8 7 7. 3 2 7. 0 0 2 2." href="tel:18773270022">
                   877-327-0022
                 </a>{' '}
-                (TTY:{' '}
-                <a aria-label="8 0 0. 8 7 7. 8 3 3 9." href="tel:18008778339">
-                  800-877-8339
-                </a>
+                (TTY: <Telephone contact={CONTACTS.HELP_TTY} />
                 ). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
               </p>
             </div>

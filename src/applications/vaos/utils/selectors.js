@@ -1,3 +1,5 @@
+import moment from 'moment';
+import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
 
@@ -23,6 +25,10 @@ import {
   getVideoAppointmentLocation,
   getVAAppointmentLocationId,
   isVideoAppointment,
+  isUpcomingAppointmentOrRequest,
+  isValidPastAppointment,
+  sortByDateDescending,
+  sortUpcoming,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -402,3 +408,66 @@ export const isWelcomeModalDismissed = state =>
 
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
+
+export const selectExpressCareRequests = createSelector(
+  state => state.appointments.future,
+  future =>
+    future?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
+);
+
+export const selectFutureAppointments = createSelector(
+  vaosExpressCare,
+  state => state.appointments.future,
+  (showExpressCare, future) =>
+    future
+      ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
+      ?.filter(isUpcomingAppointmentOrRequest)
+      .sort(sortUpcoming),
+);
+
+export const selectPastAppointments = createSelector(
+  state => state.appointments.past,
+  past => {
+    return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
+  },
+);
+
+export function selectExpressCare(state) {
+  const nowUTC = moment.utc();
+  const expressCare = state.expressCare;
+  return {
+    ...expressCare,
+    allowRequests:
+      expressCare.windows?.length &&
+      nowUTC.isBetween(
+        expressCare.minStart?.utcStart,
+        expressCare.maxEnd?.utcEnd,
+      ),
+    enabled: vaosExpressCare(state),
+    useNewFlow: vaosExpressCareNew(state),
+    hasWindow: !!expressCare.windows?.length,
+    hasRequests:
+      vaosExpressCare(state) &&
+      state.appointments.future?.some(appt => appt.vaos.isExpressCare),
+  };
+}
+
+export function selectExpressCareFormData(state) {
+  return state.expressCare.newRequest.data;
+}
+
+export function selectActiveExpressCareFacility(state, nowUTCMoment) {
+  const activeWindow = state.expressCare.windows?.find(ecWindow =>
+    nowUTCMoment.isBetween(ecWindow.utcStart, ecWindow.utcEnd),
+  );
+
+  if (!activeWindow) {
+    return null;
+  }
+
+  return {
+    name: activeWindow.authoritativeName,
+    facilityId: activeWindow.id,
+    siteId: activeWindow.rootStationCode,
+  };
+}

@@ -11,7 +11,7 @@ import {
   selectProfile,
 } from 'platform/user/selectors';
 import {
-  ssoe as ssoeSelector,
+  isAuthenticatedWithSSOe as authenticatedWithSSOeSelector,
   signInServiceName as signInServiceNameSelector,
 } from 'platform/user/authentication/selectors';
 
@@ -28,17 +28,18 @@ export const AccountSecurityContent = ({
   isMultifactorEnabled,
   mhvAccount,
   showMHVTermsAndConditions,
-  useSSOe,
+  isAuthenticatedWithSSOe,
   signInServiceName,
   isInMVI,
 }) => {
   const securitySections = [
     {
       title: '2-factor authentication',
+      verified: isMultifactorEnabled,
       value: (
         <TwoFactorAuthorizationStatus
           isMultifactorEnabled={isMultifactorEnabled}
-          useSSOe={useSSOe}
+          isAuthenticatedWithSSOe={isAuthenticatedWithSSOe}
         />
       ),
     },
@@ -47,6 +48,7 @@ export const AccountSecurityContent = ({
   if (isIdentityVerified && isInMVI) {
     securitySections.unshift({
       title: 'Identity verification',
+      verified: true,
       value: <Verified>We’ve verified your identity.</Verified>,
     });
   }
@@ -54,6 +56,7 @@ export const AccountSecurityContent = ({
   if (showMHVTermsAndConditions) {
     securitySections.push({
       title: 'Terms and conditions',
+      verified: mhvAccount.termsAndConditionsAccepted,
       value: <MHVTermsAndConditionsStatus mhvAccount={mhvAccount} />,
     });
   }
@@ -83,9 +86,9 @@ export const AccountSecurityContent = ({
           href="/sign-in-faq/"
           onClick={() =>
             recordEvent({
-              event: 'account-navigation',
-              'account-action': 'view-link',
-              'account-section': 'vets-faqs',
+              event: 'profile-navigation',
+              'profile-action': 'view-link',
+              'profile-section': 'vets-faqs',
             })
           }
         >
@@ -109,7 +112,7 @@ AccountSecurityContent.propTypes = {
   }),
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
   signInServiceName: PropTypes.string.isRequired,
-  useSSOe: PropTypes.bool.isRequired,
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
 };
 
 export const mapStateToProps = state => {
@@ -125,7 +128,7 @@ export const mapStateToProps = state => {
     mhvAccount,
     showMHVTermsAndConditions,
     signInServiceName: signInServiceNameSelector(state),
-    useSSOe: ssoeSelector(state),
+    isAuthenticatedWithSSOe: authenticatedWithSSOeSelector(state),
   };
 };
 
