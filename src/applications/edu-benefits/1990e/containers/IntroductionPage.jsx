@@ -33,10 +33,10 @@ class IntroductionPage extends React.Component {
     const { wizardStatus } = this.state;
     const { shouldEduBenefits1990EWizardShow } = this.props;
     const shouldSubwayMapShow =
-      shouldEduBenefits1990EWizardShow ||
+      !shouldEduBenefits1990EWizardShow ||
       wizardStatus === WIZARD_STATUS_COMPLETE;
     const shouldWizardShow =
-      !shouldEduBenefits1990EWizardShow &&
+      shouldEduBenefits1990EWizardShow &&
       wizardStatus !== WIZARD_STATUS_COMPLETE;
     return (
       <div className="schemaform-intro">
