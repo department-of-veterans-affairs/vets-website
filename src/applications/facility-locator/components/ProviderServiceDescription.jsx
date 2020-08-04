@@ -1,5 +1,6 @@
 import React from 'react';
 import { facilityTypes, ccUrgentCareLabels } from '../config';
+import get from 'platform/utilities/data/get';
 
 export const urgentCareProviderNames = posCodes => {
   if (posCodes && parseInt(posCodes, 10) === 17) {
@@ -7,7 +8,7 @@ export const urgentCareProviderNames = posCodes => {
   } else if (posCodes && parseInt(posCodes, 10) === 20) {
     return ccUrgentCareLabels.UrgentCare;
   } else {
-    return facilityTypes.cc_provider.toUpperCase();
+    return facilityTypes.provider.toUpperCase();
   }
 };
 
@@ -53,16 +54,20 @@ const ProviderServiceDescription = ({ provider, query, details = false }) => {
     );
   }
 
-  const services = provider.attributes.specialty.map(s => s.name.trim());
+  const specialties = get(
+    ['attributes', 'relationships', 'specialties'],
+    provider,
+    [],
+  ).map(s => s.name.trim());
   const { posCodes } = provider.attributes;
 
   return (
     <div>
       <p>{providerName(query, posCodes)}</p>
-      {services.length >= 1 && (
+      {specialties.length >= 1 && (
         <p>
           <span>
-            <strong>Services:</strong> {services.join(', ')}
+            <strong>Services:</strong> {specialties.join(', ')}
           </span>
         </p>
       )}

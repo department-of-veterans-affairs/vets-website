@@ -17,13 +17,9 @@ import ProviderDetailBlock from '../components/ProviderDetailBlock';
  * (currently Routed at /facilities/provider/{id})
  */
 class ProviderDetail extends Component {
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     this.props.fetchProviderDetail(this.props.params.id);
     window.scrollTo(0, 0);
-  }
-
-  componentDidMount() {
     focusElement('.va-nav-breadcrumbs');
   }
 

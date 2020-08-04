@@ -4,8 +4,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 export const facilitiesPpmsSuppressPharmacies = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesPpmsSuppressPharmacies];
 
-export const facilityLocatorFeUseV1 = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorFeUseV1];
+export const facilityLocatorFeUseV1 = () => true;
 
 export const facilitiesPpmsSuppressCommunityCare = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesPpmsSuppressCommunityCare];

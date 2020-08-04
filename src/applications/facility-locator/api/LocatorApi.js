@@ -63,7 +63,7 @@ class LocatorApi {
    * @param {string} id The ID of the CC Provider
    */
   static fetchProviderDetail(id) {
-    const url = `${api.baseUrlV0}/ccp/${id}`;
+    const url = `${api.baseUrl}/ccp/${id}`;
 
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
@@ -73,14 +73,17 @@ class LocatorApi {
   }
 
   /**
-   * Get all known services available from all CC Providers.
+   * Get all known specialties available from all CC Providers.
    */
-  static getProviderSvcs() {
-    const url = `${api.baseUrlV0}/services`;
+  static getProviderSpecialties() {
+    const url = `${api.baseUrl}/ccp/specialties`;
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
         .then(res => res.json())
-        .then(data => resolve(data), error => reject(error));
+        .then(
+          data => resolve(data.data.map(specialty => specialty.attributes)),
+          error => reject(error),
+        );
     });
   }
 }

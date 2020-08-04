@@ -5,11 +5,10 @@ import manifest from './manifest.json';
 
 // Base URL to be used in API requests.
 export const api = {
-  baseUrlV0: `${environment.API_URL}/v0/facilities`,
   urlV0: `${environment.API_URL}/v0/facilities/va`,
   baseUrl: `${environment.API_URL}/v1/facilities`,
   url: `${environment.API_URL}/v1/facilities/va`,
-  ccUrl: `${environment.API_URL}/v0/facilities/ccp`,
+  ccUrl: `${environment.API_URL}/v1/facilities/ccp`,
   settings: {
     credentials: 'include',
     headers: {
@@ -35,10 +34,12 @@ export const resolveParamsWithUrl = (
   bounds,
   apiVersion,
 ) => {
-  const filterableLocations = ['health', 'benefits', 'cc_provider'];
+  const filterableLocations = ['health', 'benefits', 'provider'];
   let facility;
   let service;
   let url;
+  let perPage = 20;
+
   switch (locationType) {
     case 'urgent_care':
       if (!serviceType || serviceType === 'UrgentCare') {
@@ -52,10 +53,11 @@ export const resolveParamsWithUrl = (
       }
       break;
     case 'cc_pharmacy':
-    case 'cc_provider':
+    case 'provider':
       facility = locationType;
       service = serviceType;
       url = api.ccUrl;
+      perPage = 10; // because the PPMS back end requires a separate request for each facility
       break;
     default:
       facility = locationType;
@@ -70,10 +72,10 @@ export const resolveParamsWithUrl = (
       ...bounds.map(c => `bbox[]=${c}`),
       facility ? `type=${facility}` : null,
       filterableLocations.includes(facility) && service
-        ? `services[]=${service}`
+        ? `specialties[]=${service}`
         : null,
       `page=${page}`,
-      `per_page=20`,
+      `per_page=${perPage}`,
       url === api.ccUrl ? `trim=true` : null,
     ]).join('&'),
   };

@@ -57,7 +57,7 @@ class SearchControls extends Component {
       delete locationOptions.cc_pharmacy;
     }
     if (suppressCCP) {
-      delete locationOptions.cc_provider;
+      delete locationOptions.provider;
     }
     const options = Object.keys(locationOptions).map(facility => (
       <option key={facility} value={facility}>

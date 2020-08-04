@@ -4,7 +4,7 @@
 export const LocationType = {
   NONE: '',
   VA_FACILITIES: 'va_facilities',
-  CC_PROVIDER: 'cc_provider',
+  CC_PROVIDER: 'provider',
   // Subtypes of VA_FACILITIES
   HEALTH: 'health',
   BENEFITS: 'benefits',

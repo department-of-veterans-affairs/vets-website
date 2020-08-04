@@ -37,6 +37,7 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
+import get from 'platform/utilities/data/get';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -449,6 +450,12 @@ class VAMap extends Component {
         markerText: markers.next().value,
       };
 
+      const specialties = get(
+        ['attributes', 'relationships', 'specialties'],
+        r,
+        [],
+      );
+
       const popupContent = (
         <div>
           {r.type === LocationType.CC_PROVIDER ? (
@@ -463,7 +470,7 @@ class VAMap extends Component {
               <p>
                 Services:{' '}
                 <strong>
-                  {r.attributes.specialty.map(s => s.name.trim()).join(', ')}
+                  {specialties.map(s => s.name.trim()).join(', ')}
                 </strong>
               </p>
             </div>

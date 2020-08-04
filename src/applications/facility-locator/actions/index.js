@@ -6,14 +6,13 @@ import {
   SEARCH_FAILED,
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
-  FETCH_SERVICES,
-  FETCH_SERVICES_DONE,
-  FETCH_SERVICES_FAILED,
+  FETCH_SPECIALTIES,
+  FETCH_SPECIALTIES_DONE,
+  FETCH_SPECIALTIES_FAILED,
   CLEAR_SEARCH_RESULTS,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
-import { ccLocatorEnabled } from '../config';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import recordEvent from 'platform/monitoring/record-event';
@@ -284,20 +283,20 @@ export const genBBoxFromAddress = query => {
  * Preloads all services available from CC Providers
  * for the type-ahead component.
  */
-export const getProviderSvcs = () => async dispatch => {
-  dispatch({ type: FETCH_SERVICES });
+export const getProviderSpecialties = () => async dispatch => {
+  dispatch({ type: FETCH_SPECIALTIES });
 
   try {
-    const data = await LocatorApi.getProviderSvcs();
+    const data = await LocatorApi.getProviderSpecialties();
     if (data.errors) {
-      dispatch({ type: FETCH_SERVICES_FAILED, error: data.errors });
+      dispatch({ type: FETCH_SPECIALTIES_FAILED, error: data.errors });
       return [];
     }
     // Great Success!
-    dispatch({ type: FETCH_SERVICES_DONE });
+    dispatch({ type: FETCH_SPECIALTIES_DONE });
     return data;
   } catch (error) {
-    dispatch({ type: FETCH_SERVICES_FAILED, error });
+    dispatch({ type: FETCH_SPECIALTIES_FAILED, error });
     return ['Services Temporarily Unavailable'];
   }
 };
