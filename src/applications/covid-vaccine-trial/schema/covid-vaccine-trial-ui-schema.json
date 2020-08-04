@@ -297,52 +297,5 @@
     "PREFER_NO_ANSWER": {
       "ui:title": "Prefer not to answer"
     }
-  },
-  "closingText": {
-    "view:thankYouText": {
-      "ui:description": "Thank you for volunteering for COVID-19 research",
-      "ui:options": {
-        "classNames": "schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2"
-      }
-    },
-    "view:textDetail": {
-      "ui:description": "We appreciate your commitment to helping others through this important research effort.",
-      "ui:options": {
-        "classNames": ""
-      }
-    },
-    "view:eligibilityTextHeader": {
-      "ui:description": "If we think you may meet the criteria for a research study",
-      "ui:options": {
-        "classNames": "schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2"
-      }
-    },
-    "view:eligibileTextDetail": {
-      "ui:description": "Please understand that some studies have specific requirements and it may be weeks or months before there is an opening in a study for which you might qualify.  If we think there is a study you might qualify for, we will contact you.  This depends on available studies",
-      "ui:options": {
-        "classNames": ""
-      }
-    },
-    "view:eligibileTextNote": {
-      "ui:description": "Note: We’ll never ask for an ID number or for your financial, credit, or bank account information over the phone.",
-      "ui:options": {
-        "classNames": ""
-      }
-    },
-    "view:notEligibileTextHeader": {
-      "ui:description": "If we don’t think you meet the criteria for any studies",
-      "ui:options": {
-        "classNames": "schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2"
-      }
-    },
-    "view:notEligibileTextDetail": {
-      "ui:description": "We won’t contact you. But we will keep your information in case new studies become available that you are eligible to join.",
-      "ui:options": {
-        "classNames": ""
-      }
-    },
-    "ui:options": {
-      "classNames": ""
-    }
   }
 }

@@ -296,46 +296,13 @@
         }
       }
     },
-    "closingText": {
-      "type": "object",
-      "properties": {
-        "view:thankYouText": {
-          "type": "object",
-          "properties": {}
-        },
-        "view:textDetail": {
-          "type": "object",
-          "properties": {}
-        },
-        "view:eligibilityTextHeader": {
-          "type": "object",
-          "properties": {}
-        },
-        "view:eligibileTextDetail": {
-          "type": "object",
-          "properties": {}
-        },
-        "view:eligibileTextNote": {
-          "type": "object",
-          "properties": {}
-        },
-        "view:notEligibileTextHeader": {
-          "type": "object",
-          "properties": {}
-        },
-        "view:notEligibileTextDetail": {
-          "type": "object",
-          "properties": {}
-        }
-      }
-    },
     "email": {
       "$ref": "#/definitions/email"
     },
-    "fullName": {
+    "veteranFullName": {
       "$ref": "#/definitions/fullName"
     },
-    "date": {
+    "veteranDateOfBirth": {
       "$ref": "#/definitions/date"
     }
   },
