@@ -100,119 +100,6 @@
       }
     },
     {
-      "id": "vha_691GE",
-      "type": "va_facilities",
-      "attributes": {
-        "uniqueId": "691GE",
-        "name": "Los Angeles VA Clinic",
-        "facilityType": "va_health_facility",
-        "classification": "Multi-Specialty CBOC",
-        "operatingStatus": {
-          "code": "CLOSED",
-          "additionalInfo": "Some additional CLOSED"
-        },
-        "website": null,
-        "lat": 34.05171284,
-        "long": -118.23874096,
-        "address": {
-          "physical": {
-            "address1": "351 East Temple Street",
-            "address2": null,
-            "address3": null,
-            "city": "Los Angeles",
-            "state": "CA",
-            "zip": "90012-3328"
-          },
-          "mailing": {}
-        },
-        "phone": {
-          "main": "213-253-5000 x",
-          "fax": "213-253-5510 x",
-          "afterHours": "877-252-4866 x",
-          "patientAdvocate": "213-253-2677 x24111",
-          "enrollmentCoordinator": "213-253-2677 x24033",
-          "pharmacy": "800-952-4852 x",
-          "mentalHealthClinic": "310-268-4449"
-        },
-        "hours": {
-          "monday": "700AM-530PM",
-          "tuesday": "700AM-530PM",
-          "wednesday": "700AM-530PM",
-          "thursday": "700AM-530PM",
-          "friday": "700AM-530PM",
-          "saturday": "-",
-          "sunday": "-"
-        },
-        "services": {
-          "lastUpdated": "2017-07-24",
-          "health": [
-            {
-              "sl1": [
-                "DentalServices"
-              ],
-              "sl2": []
-            },
-            {
-              "sl1": [
-                "MentalHealthCare"
-              ],
-              "sl2": []
-            },
-            {
-              "sl1": [
-                "PrimaryCare"
-              ],
-              "sl2": []
-            }
-          ]
-        },
-        "feedback": {
-          "health": {
-            "primaryCareUrgent": "0.78",
-            "primaryCareRoutine": "0.77",
-            "effectiveDate": "2017-03-24"
-          }
-        },
-        "access": {
-          "health": {
-            "primaryCare": {
-              "new": 15,
-              "established": 3
-            },
-            "mentalHealth": {
-              "new": 12,
-              "established": 2
-            },
-            "womensHealth": {
-              "new": null,
-              "established": 9
-            },
-            "audiology": {
-              "new": 48,
-              "established": 0
-            },
-            "gastroenterology": {
-              "new": 7,
-              "established": null
-            },
-            "opthalmology": {
-              "new": 9,
-              "established": 6
-            },
-            "optometry": {
-              "new": 14,
-              "established": 5
-            },
-            "urologyClinic": {
-              "new": 23,
-              "established": 3
-            },
-            "effectiveDate": "2017-08-14"
-          }
-        }
-      }
-    },
-    {
       "id": "nca_s1130",
       "type": "va_facilities",
       "attributes": {
@@ -885,6 +772,119 @@
         },
         "feedback": {},
         "access": {}
+      }
+    },
+    {
+      "id": "vha_691GE",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "691GE",
+        "name": "Los Angeles VA Clinic",
+        "facilityType": "va_health_facility",
+        "classification": "Multi-Specialty CBOC",
+        "operatingStatus": {
+          "code": "CLOSED",
+          "additionalInfo": "Some additional CLOSED"
+        },
+        "website": null,
+        "lat": 34.05171284,
+        "long": -118.23874096,
+        "address": {
+          "physical": {
+            "address1": "351 East Temple Street",
+            "address2": null,
+            "address3": null,
+            "city": "Los Angeles",
+            "state": "CA",
+            "zip": "90012-3328"
+          },
+          "mailing": {}
+        },
+        "phone": {
+          "main": "213-253-5000 x",
+          "fax": "213-253-5510 x",
+          "afterHours": "877-252-4866 x",
+          "patientAdvocate": "213-253-2677 x24111",
+          "enrollmentCoordinator": "213-253-2677 x24033",
+          "pharmacy": "800-952-4852 x",
+          "mentalHealthClinic": "310-268-4449"
+        },
+        "hours": {
+          "monday": "700AM-530PM",
+          "tuesday": "700AM-530PM",
+          "wednesday": "700AM-530PM",
+          "thursday": "700AM-530PM",
+          "friday": "700AM-530PM",
+          "saturday": "-",
+          "sunday": "-"
+        },
+        "services": {
+          "lastUpdated": "2017-07-24",
+          "health": [
+            {
+              "sl1": [
+                "DentalServices"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "MentalHealthCare"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "PrimaryCare"
+              ],
+              "sl2": []
+            }
+          ]
+        },
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": "0.78",
+            "primaryCareRoutine": "0.77",
+            "effectiveDate": "2017-03-24"
+          }
+        },
+        "access": {
+          "health": {
+            "primaryCare": {
+              "new": 15,
+              "established": 3
+            },
+            "mentalHealth": {
+              "new": 12,
+              "established": 2
+            },
+            "womensHealth": {
+              "new": null,
+              "established": 9
+            },
+            "audiology": {
+              "new": 48,
+              "established": 0
+            },
+            "gastroenterology": {
+              "new": 7,
+              "established": null
+            },
+            "opthalmology": {
+              "new": 9,
+              "established": 6
+            },
+            "optometry": {
+              "new": 14,
+              "established": 5
+            },
+            "urologyClinic": {
+              "new": 23,
+              "established": 3
+            },
+            "effectiveDate": "2017-08-14"
+          }
+        }
       }
     }
   ],
