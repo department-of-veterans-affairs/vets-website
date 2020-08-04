@@ -145,10 +145,13 @@
       color: #323a45;
       background-color: $color-white;
       font-size: 0.9em;
-      font-weight: bold;
       display: inline-block;
       padding: 0.1em 0.5em;
       margin-right: 1em;
+    }
+
+    .tag-margin{
+      margin-top: -28px;
     }
 
     .caution-flag {
