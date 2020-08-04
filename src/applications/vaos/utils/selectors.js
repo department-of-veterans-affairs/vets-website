@@ -452,7 +452,7 @@ export function selectExpressCare(state) {
   };
 }
 
-export function selectExpressCareData(state) {
+export function selectExpressCareFormData(state) {
   return state.expressCare.newRequest.data;
 }
 
