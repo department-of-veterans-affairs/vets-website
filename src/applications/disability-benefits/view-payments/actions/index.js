@@ -1,4 +1,4 @@
-// import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 // import { isServerError, isClientError } from '../config/utilities';
 // import { getData, isServerError, isClientError } from '../util';
 
