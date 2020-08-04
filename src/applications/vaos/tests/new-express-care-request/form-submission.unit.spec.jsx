@@ -15,17 +15,20 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import {
   getExpressCareRequestCriteriaMock,
-  getVAFacilityMock,
+  getParentSiteMock,
+  getFacilityMock,
 } from '../mocks/v0';
 import { createTestStore } from '../mocks/setup';
 import {
   mockRequestSubmit,
   mockRequestEligibilityCriteria,
-  mockFacilityFetch,
+  mockParentSites,
+  mockSupportedFacilities,
 } from '../mocks/helpers';
 import ExpressCareFormPage from '../../containers/ExpressCareFormPage';
 import ExpressCareConfirmationPage from '../../containers/ExpressCareConfirmationPage';
 import { fetchExpressCareWindows } from '../../actions/expressCare';
+import { EXPRESS_CARE } from '../../utils/constants';
 
 const initialState = {
   user: {
@@ -88,6 +91,17 @@ describe('VAOS integration: Express Care form submission', () => {
 
   it('should submit form and show confirmation page on success', async () => {
     const today = moment();
+    const parentSite = {
+      id: '983',
+      attributes: {
+        ...getParentSiteMock().attributes,
+        institutionCode: '983',
+        authoritativeName: 'Some VA facility',
+        rootStationCode: '983',
+        parentStationCode: '983',
+      },
+    };
+    mockParentSites(['983'], [parentSite]);
     const requestCriteria = getExpressCareRequestCriteriaMock('983', [
       {
         day: today
@@ -109,14 +123,6 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
-    const facility = getVAFacilityMock();
-    facility.id = 'vha_442';
-    facility.attributes = {
-      ...facility.attributes,
-      uniqueId: '442',
-      name: 'Facility name',
-    };
-    mockFacilityFetch(facility);
     const store = createTestStore({
       ...initialState,
     });
@@ -178,7 +184,7 @@ describe('VAOS integration: Express Care form submission', () => {
       facility: {
         facilityCode: '983',
         parentSiteCode: '983',
-        name: 'Facility name',
+        name: 'Some VA facility',
       },
       optionDate1: moment().format('MM/DD/YYYY'),
       visitType: 'Express Care',
@@ -278,6 +284,114 @@ describe('VAOS integration: Express Care form submission', () => {
       'Submitting your Express Care request',
     );
     await screen.findByText(/your request didn’t go through/i);
+  });
+
+  it('should grab facility name from child if not using parent facility', async () => {
+    const today = moment();
+    const parentSite = {
+      id: '983',
+      attributes: {
+        ...getParentSiteMock().attributes,
+        institutionCode: '983',
+        authoritativeName: 'Some VA facility',
+        rootStationCode: '983',
+        parentStationCode: '983',
+      },
+    };
+    mockParentSites(['983'], [parentSite]);
+    const facility = {
+      id: '983GD',
+      attributes: {
+        ...getFacilityMock().attributes,
+        institutionCode: '983GD',
+        authoritativeName: 'Bozeman VA medical center',
+        rootStationCode: '983',
+        parentStationCode: '983',
+      },
+    };
+    mockSupportedFacilities({
+      siteId: '983',
+      parentId: '983',
+      typeOfCareId: EXPRESS_CARE,
+      data: [facility],
+    });
+    const requestCriteria = getExpressCareRequestCriteriaMock('983GD', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: today
+          .clone()
+          .subtract('2', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+        endTime: today
+          .clone()
+          .add('1', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    const store = createTestStore({
+      ...initialState,
+    });
+    store.dispatch(fetchExpressCareWindows());
+    const requestData = {
+      id: 'testing',
+      attributes: {
+        typeOfCareId: 'CR1',
+        email: 'test@va.gov',
+        phoneNumber: '5555555555',
+        reasonForVisit: 'Cough',
+        additionalInformation: 'Whatever',
+        status: 'Submitted',
+      },
+    };
+    mockRequestSubmit('va', requestData);
+
+    const router = {
+      push: sinon.spy(),
+    };
+    const screen = renderInReduxProvider(
+      <ExpressCareFormPage router={router} />,
+      {
+        store,
+      },
+    );
+
+    fireEvent.click(await screen.getByLabelText('Cough'));
+    fireEvent.change(await screen.getByLabelText(/phone number/i), {
+      target: { value: requestData.attributes.phoneNumber },
+    });
+    fireEvent.change(await screen.getByLabelText(/email address/i), {
+      target: { value: requestData.attributes.email },
+    });
+    fireEvent.click(await screen.findByText(/submit express care/i));
+
+    await waitFor(() => expect(router.push.called).to.be.true);
+    expect(router.push.firstCall.args[0]).to.equal(
+      '/new-express-care-request/confirmation',
+    );
+    await cleanup();
+
+    const responseData = JSON.parse(
+      global.fetch
+        .getCalls()
+        .find(call => call.args[0].includes('appointment_requests')).args[1]
+        .body,
+    );
+
+    expect(responseData).to.deep.include({
+      facility: {
+        facilityCode: '983GD',
+        parentSiteCode: '983',
+        name: 'Bozeman VA medical center',
+      },
+    });
   });
 
   it('should show message when submitting outside of EC window', async () => {

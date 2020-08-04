@@ -13,6 +13,7 @@ import {
   getFacilitiesBySystemAndTypeOfCare,
   submitRequest,
   getRequestEligibilityCriteria,
+  getParentFacilities,
 } from '../api';
 
 import {
@@ -166,11 +167,34 @@ async function buildPreferencesDataAndUpdate(data) {
   return updatePreferences(preferenceBody);
 }
 
+async function getFacilityName(id) {
+  const systemId = id.substring(0, 3);
+  const parents = await getParentFacilities([systemId]);
+
+  const matchingParent = parents.find(parent => parent.institutionCode === id);
+  if (matchingParent) {
+    return matchingParent.authoritativeName;
+  }
+
+  const facilityLists = await Promise.all(
+    parents.map(parent =>
+      getFacilitiesBySystemAndTypeOfCare(
+        systemId,
+        parent.institutionCode,
+        EXPRESS_CARE,
+      ),
+    ),
+  );
+
+  return []
+    .concat(...facilityLists)
+    .find(facility => facility.institutionCode === id)?.authoritativeName;
+}
+
 export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
     const expressCare = getState().expressCare;
     const formData = expressCare.newRequest.data;
-    const { reasonForRequest, phoneNumber, email } = formData;
 
     const activeFacility = selectActiveExpressCareFacility(
       getState(),
@@ -192,10 +216,8 @@ export function submitExpressCareRequest(router) {
         throw new Error('No facilities available for Express Care request');
       }
 
-      const facilityDetail = await getLocation({
-        facilityId: activeFacility.facilityId,
-      });
-      activeFacility.name = facilityDetail.name;
+      const facilityName = await getFacilityName(activeFacility.facilityId);
+      activeFacility.name = facilityName;
 
       requestBody = transformFormToExpressCareRequest(
         getState(),
