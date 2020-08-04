@@ -454,7 +454,7 @@ export const editEmailAddressSuccess = () => {
 // particular it mocks the `GET user/` response so that the email address no
 // longer exists
 export const deleteEmailAddressSuccess = [
-  rest.delete(`${prefix}/v0/profile/*`, (req, res, ctx) => {
+  rest.delete(`${prefix}/v0/profile/email_addresses`, (req, res, ctx) => {
     return res(
       ctx.json({
         data: createTransactionRequestSuccessBody,
