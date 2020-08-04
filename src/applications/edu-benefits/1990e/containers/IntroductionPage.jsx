@@ -36,9 +36,10 @@ export class IntroductionPage extends React.Component {
     const shouldWizardShow = !isProd && wizardStatus !== WIZARD_STATUS_COMPLETE;
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for VA Education Benefits" />
+        <FormTitle title="Apply to use transferred education benefits" />
         <p>
-          Equal to VA Form 22-1990E (Application for VA Education Benefits).
+          Equal to VA Form 22-1990E (Application for Family Member to Use
+          Transferred Benefits).
         </p>
         {shouldWizardShow && (
           <WizardContainer setWizardStatus={this.setWizardStatus} />
