@@ -38,7 +38,7 @@ class ExpressCareInfoPage extends React.Component {
               <p className="vads-u-font-size--h4 vads-u-font-family--serif vads-u-padding-y--0p25 vads-u-font-weight--bold">
                 Submit an Express Care request online
               </p>
-              You can request Express Care between{' '}
+              You can request Express Care today between{' '}
               {localWindowString?.replace(' to ', ' and ')}. You don’t need to
               have an assigned Patient Aligned Care Team (PACT) to use Express
               Care.

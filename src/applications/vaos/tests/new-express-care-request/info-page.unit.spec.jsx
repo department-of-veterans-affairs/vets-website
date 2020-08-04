@@ -63,7 +63,7 @@ describe('VAOS integration: Express Care info page', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `You can request Express Care between ${startTime.format(
+          `You can request Express Care today between ${startTime.format(
             'h:mm a',
           )} and ${endTime.format('h:mm a')} MT`,
           'i',

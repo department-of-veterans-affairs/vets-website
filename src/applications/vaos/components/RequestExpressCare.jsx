@@ -29,7 +29,7 @@ export default function RequestExpressCare({
         <p>
           Talk to VA health care staff today about a condition or symptom that’s
           not urgent and doesn’t need emergency care. This new Express Care
-          option is available from {localWindowString}.
+          option is available today from {localWindowString}.
         </p>
         {useNewFlow ? (
           <Link className="usa-button" to="/new-express-care-request">
