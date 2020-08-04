@@ -89,6 +89,9 @@ export class SearchPage extends React.Component {
       'preferredProvider',
       'excludeWarnings',
       'excludeCautionFlags',
+      'womenonly',
+      'menonly',
+      'hbcu',
     ];
 
     const stringFilterParams = [
@@ -97,6 +100,7 @@ export class SearchPage extends React.Component {
       'country',
       'state',
       'type',
+      'relaffil',
     ];
 
     const stringSearchParams = ['page', 'name'];
@@ -142,7 +146,7 @@ export class SearchPage extends React.Component {
 
   handleFilterChange = (field, value) => {
     // Translate form selections to query params.
-    const query = {
+    let query = {
       ...this.props.location.query,
       [field]: value,
       name: value === undefined ? field : this.props.autocomplete.searchTerm,
@@ -161,11 +165,27 @@ export class SearchPage extends React.Component {
 
     const shouldRemoveFilter =
       !value ||
-      ((field === 'country' || field === 'state' || field === 'type') &&
+      ((field === 'country' ||
+        field === 'state' ||
+        field === 'type' ||
+        field === 'relaffil') &&
         value === 'ALL');
 
     if (shouldRemoveFilter) {
       delete query[field];
+    }
+
+    if (field === 'gender') {
+      delete query?.menonly;
+      delete query?.womenonly;
+      if (value === 'womenonly') {
+        query = { ...query, womenonly: 'true' };
+      }
+      if (value === 'menonly') {
+        query = { ...query, menonly: 'true' };
+      }
+
+      delete query?.gender;
     }
     this.props.router.push({ ...this.props.location, query });
   };
@@ -235,6 +255,10 @@ export class SearchPage extends React.Component {
                 yr={result.yr}
                 poe={result.poe}
                 eightKeys={result.eightKeys}
+                womenonly={result.womenonly}
+                menonly={result.menonly}
+                relaffil={result.relaffil}
+                hbcu={result.hbcu}
               />
             ))}
           </div>
@@ -273,6 +297,7 @@ export class SearchPage extends React.Component {
         eligibilityChange={this.props.eligibilityChange}
         gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
         hideModal={this.props.hideModal}
+        gibctFilterEnhancement={this.props.gibctFilterEnhancement}
         gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
       />
     </div>
@@ -317,6 +342,9 @@ const mapStateToProps = state => ({
   ],
   gibctSearchEnhancements: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSearchEnhancements
+  ],
+  gibctFilterEnhancement: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctFilterEnhancement
   ],
   gibctCh33BenefitRateUpdate: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate

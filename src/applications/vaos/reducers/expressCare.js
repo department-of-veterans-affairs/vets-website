@@ -16,6 +16,7 @@ import {
   FETCH_EXPRESS_CARE_WINDOWS,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+  FORM_REASON_FOR_REQUEST_PAGE_OPENED,
 } from '../actions/expressCare';
 
 import { FETCH_STATUS } from '../utils/constants';
@@ -46,34 +47,42 @@ function setupFormData(data, schema, uiSchema) {
 export default function expressCareReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
+      const newRequest = state.newRequest;
       const { data, schema } = setupFormData(
-        state.data,
+        newRequest.data,
         action.schema,
         action.uiSchema,
       );
 
       return {
         ...state,
-        data,
-        pages: {
-          ...state.pages,
-          [action.page]: schema,
+        newRequest: {
+          ...newRequest,
+          data,
+          pages: {
+            ...newRequest.pages,
+            [action.page]: schema,
+          },
         },
       };
     }
     case FORM_DATA_UPDATED: {
+      const newRequest = state.newRequest;
       const { data, schema } = updateSchemaAndData(
-        state.pages[action.page],
+        newRequest.pages[action.page],
         action.uiSchema,
         action.data,
       );
 
       return {
         ...state,
-        data,
-        pages: {
-          ...state.pages,
-          [action.page]: schema,
+        newRequest: {
+          ...newRequest,
+          data,
+          pages: {
+            ...newRequest.pages,
+            [action.page]: schema,
+          },
         },
       };
     }
@@ -138,6 +147,34 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         windowsStatus: FETCH_STATUS.failed,
       };
+    case FORM_REASON_FOR_REQUEST_PAGE_OPENED: {
+      const newRequest = { ...state.newRequest };
+      const prefilledData = {
+        ...newRequest.data,
+        contactInfo: {
+          phoneNumber: newRequest.data.phoneNumber || action.phoneNumber,
+          email: newRequest.data.email || action.email,
+        },
+      };
+
+      const { data, schema } = setupFormData(
+        prefilledData,
+        action.schema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        newRequest: {
+          ...newRequest,
+          data,
+          pages: {
+            ...newRequest.pages,
+            [action.page]: schema,
+          },
+        },
+      };
+    }
     case FORM_SUBMIT:
       return {
         ...state,
@@ -148,7 +185,9 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         submitStatus: FETCH_STATUS.succeeded,
         successfulRequest: action.responseData,
-        newRequest: {},
+        newRequest: {
+          data: {},
+        },
       };
     case FORM_SUBMIT_FAILED:
       return {

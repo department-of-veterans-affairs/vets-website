@@ -2,7 +2,6 @@ import React from 'react';
 import last from 'lodash/last';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import { deductionCodes } from '../const';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -15,9 +14,7 @@ const DebtLetterCard = ({ debt }) => {
   const mostRecentHistory = last(debt.debtHistory);
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2p5">
-      <h3 className="vads-u-margin--0">
-        {deductionCodes[debt.deductionCode]} debt
-      </h3>
+      <h3 className="vads-u-margin--0">{debt.benefitType}</h3>
       {mostRecentHistory && (
         <p className="vads-u-margin-top--0p5">
           Received on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}

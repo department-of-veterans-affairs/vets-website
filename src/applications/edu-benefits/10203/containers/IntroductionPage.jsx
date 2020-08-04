@@ -220,7 +220,11 @@ export class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the education application"
         />
-        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+        <div
+          className="omb-info--container"
+          style={{ paddingLeft: '0px' }}
+          id="omb-info-container"
+        >
           <OMBInfo resBurden={15} ombNumber="2900-0878" expDate="06/30/2023" />
         </div>
       </div>

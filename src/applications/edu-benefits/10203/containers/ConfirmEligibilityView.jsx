@@ -62,8 +62,13 @@ export class ConfirmEligibilityView extends React.Component {
   renderEnrolledCheck = () => {
     const { isEnrolledStem, isPursuingTeachingCert } = this.props;
     const check = isEnrolledStem || isPursuingTeachingCert;
-    const text =
-      'Are enrolled in a bachelor’s degree program for science, technology, engineering, or math (STEM), or have already earned a STEM bachelor’s degree and are pursuing a teaching certification';
+    const text = (
+      <div>
+        Are enrolled in a bachelor’s degree program for science, technology,
+        engineering, or math (STEM), <b>or</b> have already earned a STEM
+        bachelor’s degree and are pursuing a teaching certification
+      </div>
+    );
     const title = this.iconText(check);
     const iconTitle = `${title} ${text}`;
 
@@ -73,7 +78,7 @@ export class ConfirmEligibilityView extends React.Component {
   renderChecks = () => (
     <div>
       <div className="vads-u-margin-top--neg2p5">
-        <h3>Based on your responses, you may not be eligible</h3>
+        <h4>Based on your responses, you may not be eligible</h4>
       </div>
       <div className="vads-u-margin-right--neg7 vads-u-padding-top--1p5">
         <b>Your responses:</b>
@@ -104,7 +109,7 @@ export class ConfirmEligibilityView extends React.Component {
 
   renderConfirmEligibility = () => {
     return (
-      <div className={'vads-u-padding-bottom--2'}>
+      <div>
         {this.props.remainingEntitlement &&
           this.props.remainingEntitlement.totalDays > 180 && (
             <div>
@@ -147,8 +152,8 @@ export class ConfirmEligibilityView extends React.Component {
       );
     }
     return (
-      <div>
-        <h4>Rogers STEM Scholarship eligibility summary</h4>
+      <div className="vads-u-padding-bottom--1">
+        <h3>Rogers STEM Scholarship eligibility summary</h3>
       </div>
     );
   };
