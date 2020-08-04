@@ -6,7 +6,7 @@ function SearchResultGenderFilter({ gender, onChange, handleInputFocus }) {
   const options = [
     {
       value: 'Any',
-      label: 'All',
+      label: 'Any',
     },
     {
       value: 'womenonly',
