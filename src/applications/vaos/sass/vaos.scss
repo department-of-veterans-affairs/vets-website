@@ -107,9 +107,16 @@
 
 .vaos-form__facility-type {
   legend {
-    margin-bottom: 30px;
     max-width: none;
   }
+}
+
+.vaos-express-care__reason-radio-label::before {
+  margin-top: 10px;
+}
+
+.vaos-express-care__reason-textarea-container {
+  margin-left: 30px;
 }
 
 .vaos-calendar__loading {

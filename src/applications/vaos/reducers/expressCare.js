@@ -10,20 +10,29 @@ import { stripDST } from '../utils/timezone';
 import {
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
+  FORM_SUBMIT,
+  FORM_SUBMIT_FAILED,
+  FORM_SUBMIT_SUCCEEDED,
   FETCH_EXPRESS_CARE_WINDOWS,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+  FORM_REASON_FOR_REQUEST_PAGE_OPENED,
 } from '../actions/expressCare';
 
 import { FETCH_STATUS } from '../utils/constants';
 
 const initialState = {
   windowsStatus: FETCH_STATUS.notStarted,
-  hasWindow: false,
-  allowRequests: false,
+  windows: null,
   localWindowString: null,
   minStart: null,
   maxEnd: null,
+  newRequest: {
+    data: {},
+  },
+  submitStatus: FETCH_STATUS.notStarted,
+  submitErrorReason: null,
+  successfulRequest: null,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -38,34 +47,42 @@ function setupFormData(data, schema, uiSchema) {
 export default function expressCareReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
+      const newRequest = state.newRequest;
       const { data, schema } = setupFormData(
-        state.data,
+        newRequest.data,
         action.schema,
         action.uiSchema,
       );
 
       return {
         ...state,
-        data,
-        pages: {
-          ...state.pages,
-          [action.page]: schema,
+        newRequest: {
+          ...newRequest,
+          data,
+          pages: {
+            ...newRequest.pages,
+            [action.page]: schema,
+          },
         },
       };
     }
     case FORM_DATA_UPDATED: {
+      const newRequest = state.newRequest;
       const { data, schema } = updateSchemaAndData(
-        state.pages[action.page],
+        newRequest.pages[action.page],
         action.uiSchema,
         action.data,
       );
 
       return {
         ...state,
-        data,
-        pages: {
-          ...state.pages,
-          [action.page]: schema,
+        newRequest: {
+          ...newRequest,
+          data,
+          pages: {
+            ...newRequest.pages,
+            [action.page]: schema,
+          },
         },
       };
     }
@@ -76,55 +93,52 @@ export default function expressCareReducer(state = initialState, action) {
       };
     case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
       const { facilityData, nowUtc } = action;
-      const times = []
+      const windows = []
         .concat(...facilityData)
         .filter(f => !!f.expressTimes)
-        .map(({ expressTimes, authoritativeName, id }) => {
+        .map(({ expressTimes, authoritativeName, rootStationCode, id }) => {
           const { start, end, offsetUtc, timezone } = expressTimes;
           const today = nowUtc.format('YYYY-MM-DD');
           const startString = `${today}T${start}${offsetUtc}`;
           const endString = `${today}T${end}${offsetUtc}`;
 
           return {
-            utcStart: moment.utc(startString).format(),
-            utcEnd: moment.utc(endString).format(),
-            start: moment.parseZone(startString).format(),
-            end: moment.parseZone(endString).format(),
+            utcStart: moment.utc(startString),
+            utcEnd: moment.utc(endString),
+            start: moment.parseZone(startString),
+            end: moment.parseZone(endString),
             offset: offsetUtc,
             timeZone: stripDST(timezone),
-            name: authoritativeName,
+            authoritativeName,
+            rootStationCode,
             id,
           };
         })
-        .sort((a, b) => (a.utcStart < b.utcStart ? -1 : 1));
+        .sort((a, b) => (a.utcStart.format() < b.utcStart.format() ? -1 : 1));
 
       let minStart;
       let maxEnd;
 
-      if (times.length) {
-        const timesReverseSorted = times.sort(
-          (a, b) => (a.utcEnd > b.utcEnd ? -1 : 1),
+      if (windows.length) {
+        const windowsReverseSorted = windows.sort(
+          (a, b) => (a.utcEnd.format() > b.utcEnd.format() ? -1 : 1),
         );
 
-        minStart = times?.[0];
-        maxEnd = timesReverseSorted?.[0];
+        minStart = windows?.[0];
+        maxEnd = windowsReverseSorted?.[0];
       }
 
       return {
         ...state,
         windowsStatus: FETCH_STATUS.succeeded,
-        hasWindow: !!times.length,
-        allowRequests:
-          times.length && nowUtc.isBetween(minStart?.utcStart, maxEnd?.utcEnd),
         minStart,
         maxEnd,
+        windows,
         localWindowString:
           minStart && maxEnd
-            ? `${moment
-                .parseZone(minStart.start)
-                .format('h:mm a')} to ${moment
-                .parseZone(maxEnd.end)
-                .format('h:mm a')} ${minStart.timeZone}`
+            ? `${minStart.start.format('h:mm a')} to ${maxEnd.end.format(
+                'h:mm a',
+              )} ${minStart.timeZone}`
             : null,
       };
     }
@@ -133,7 +147,52 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         windowsStatus: FETCH_STATUS.failed,
       };
+    case FORM_REASON_FOR_REQUEST_PAGE_OPENED: {
+      const newRequest = { ...state.newRequest };
+      const prefilledData = {
+        ...newRequest.data,
+        contactInfo: {
+          phoneNumber: newRequest.data.phoneNumber || action.phoneNumber,
+          email: newRequest.data.email || action.email,
+        },
+      };
 
+      const { data, schema } = setupFormData(
+        prefilledData,
+        action.schema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        newRequest: {
+          ...newRequest,
+          data,
+          pages: {
+            ...newRequest.pages,
+            [action.page]: schema,
+          },
+        },
+      };
+    }
+    case FORM_SUBMIT:
+      return {
+        ...state,
+        submitStatus: FETCH_STATUS.loading,
+      };
+    case FORM_SUBMIT_SUCCEEDED:
+      return {
+        ...state,
+        submitStatus: FETCH_STATUS.succeeded,
+        successfulRequest: action.responseData,
+        newRequest: {},
+      };
+    case FORM_SUBMIT_FAILED:
+      return {
+        ...state,
+        submitStatus: FETCH_STATUS.failed,
+        submitErrorReason: action.errorReason,
+      };
     default:
       return state;
   }

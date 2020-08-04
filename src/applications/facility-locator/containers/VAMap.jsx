@@ -29,11 +29,10 @@ import {
 } from '../constants';
 import { areGeocodeEqual, setFocus, showDialogUrgCare } from '../utils/helpers';
 import {
-  facilityLocatorShowCommunityCares,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorFeUseV1,
+  facilitiesPpmsSuppressCommunityCare,
 } from '../utils/selectors';
-import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
@@ -533,7 +532,7 @@ class VAMap extends Component {
     const {
       currentQuery,
       selectedResult,
-      showCommunityCares,
+      suppressCCP,
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
@@ -548,7 +547,7 @@ class VAMap extends Component {
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
-            showCommunityCares={showCommunityCares}
+            suppressCCP={suppressCCP}
             isMobile
           />
           <div>{showDialogUrgCare(currentQuery)}</div>
@@ -621,7 +620,7 @@ class VAMap extends Component {
     // defaults to White House coordinates initially
     const {
       currentQuery,
-      showCommunityCares,
+      suppressCCP,
       suppressPharmacies,
       results,
       pagination: { currentPage, totalPages },
@@ -639,7 +638,7 @@ class VAMap extends Component {
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
-            showCommunityCares={showCommunityCares}
+            suppressCCP={suppressCCP}
             suppressPharmacies={suppressPharmacies}
           />
         </div>
@@ -704,13 +703,18 @@ class VAMap extends Component {
   };
 
   render() {
-    const chatbotLink = (
+    const coronavirusUpdate = (
       <>
-        For questions about how COVID-19 may affect your health appointments,
-        benefits, and services, use our{' '}
-        <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
+        Please call first to confirm services or ask about getting help by phone
+        or video. We require everyone entering a VA facility to wear a{' '}
+        <a href="/coronavirus-veteran-frequently-asked-questions/">
+          cloth face covering.
+        </a>{' '}
+        Get answers to questions about COVID-19 and VA benefits and services
+        with our <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
       </>
     );
+
     return (
       <div>
         <div className="title-section">
@@ -724,15 +728,7 @@ class VAMap extends Component {
             health care providers.
           </p>
           <p>
-            <strong>Coronavirus update:</strong> {chatbotLink} Many locations
-            have changing hours and services. For your safety, please call
-            before visiting to ask about getting help by phone or video. We
-            require everyone entering a VA facility to wear a cloth face
-            covering.{' '}
-            <a href="/coronavirus-veteran-frequently-asked-questions/">
-              Learn more about this requirement
-            </a>
-            .
+            <strong>Coronavirus update:</strong> {coronavirusUpdate}
           </p>
           <p>
             <strong>Need same-day care for a minor illness or injury?</strong>{' '}
@@ -753,9 +749,8 @@ VAMap.contextTypes = {
 function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
-    showCommunityCares:
-      isProduction(state) || facilityLocatorShowCommunityCares(state),
     suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
+    suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
     useAPIv1: facilityLocatorFeUseV1(state),
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,

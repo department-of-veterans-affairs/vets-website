@@ -2,19 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
+import CallToActionWidget from 'platform/site-wide/cta-widget';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { CallToActionWidget } from 'platform/site-wide/cta-widget';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 const Form686CTA = props => {
-  let content = <></>;
+  let content;
   if (props.showContent === undefined) {
     content = <LoadingIndicator message="Loading..." />;
   } else if (props.showContent === false) {
     content = (
       <EbenefitsLink
-        path="ebenefits/about/feature?=dependent-compensation"
+        path="ebenefits/about/feature?feature=dependent-compensation"
         className="usa-button"
       >
         Go to eBenefits to add or modify a dependent

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import moment from 'moment';
 
 import { expect } from 'chai';
 
@@ -25,6 +26,18 @@ import {
 } from '../constants';
 
 describe('transform', () => {
+  const servicePeriodsBDD = [
+    {
+      serviceBranch: 'Air Force Reserve',
+      dateRange: {
+        from: '2001-03-21',
+        to: moment()
+          .add(90, 'days')
+          .format('YYYY-MM-DD'),
+      },
+    },
+  ];
+
   // Read all the data files
   const dataDir = path.join(__dirname, './data/');
   fs.readdirSync(dataDir)
@@ -50,8 +63,15 @@ describe('transform', () => {
           );
           throw new Error(`Could not find transformed data for ${fileName}`);
         }
+        transformedData = JSON.parse(transformedData);
+
+        if (fileName.includes('bdd')) {
+          rawData.data.serviceInformation.servicePeriods = servicePeriodsBDD;
+          transformedData.form526.serviceInformation.servicePeriods = servicePeriodsBDD;
+        }
+
         expect(JSON.parse(transform(formConfig, rawData))).to.deep.equal(
-          JSON.parse(transformedData),
+          transformedData,
         );
       });
     });

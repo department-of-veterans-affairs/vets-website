@@ -186,7 +186,7 @@ export const toolUrl = (appId, authenticatedWithSSOe = false) => {
         redirect: false,
       };
 
-    case widgetTypes.ADD_MODIFY_DEPENDENTS:
+    case widgetTypes.ADD_REMOVE_DEPENDENTS:
       return {
         url: form686FormUrl,
         redirect: false,
@@ -290,7 +290,7 @@ export const serviceDescription = appId => {
     case widgetTypes.MANAGE_VA_DEBT:
       return 'manage your VA debt';
 
-    case widgetTypes.FORM_686_CTA:
+    case widgetTypes.ADD_REMOVE_DEPENDENTS:
       return 'add or remove dependents';
 
     default:

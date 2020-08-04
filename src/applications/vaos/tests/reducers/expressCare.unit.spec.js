@@ -50,7 +50,6 @@ describe('express care window', () => {
     expect(newState.windowsStatus).to.equal(FETCH_STATUS.succeeded);
     expect('allowRequests' in newState).to.equal(true);
     expect(newState.localWindowString).to.equal('12:00 a.m. to 11:59 p.m. MT');
-    expect(newState.hasWindow).to.be.true;
   });
 
   it('should set windowsStatus to failed', () => {
