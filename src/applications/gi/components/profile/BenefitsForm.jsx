@@ -183,7 +183,11 @@ export class BenefitsForm extends React.Component {
                 ariaLabel: ariaLabels.learnMore.post911Chapter33,
               })}
               name="cumulativeService"
-              options={this.updatedCumulativeServiceOptions()}
+              options={
+                gibctCh33BenefitRateUpdate
+                  ? this.updatedCumulativeServiceOptions()
+                  : this.cumulativeServiceOptions()
+              }
               value={this.props.cumulativeService}
               alt="Cumulative Post-9/11 active-duty service"
               visible={this.props.giBillChapter === '33'}
