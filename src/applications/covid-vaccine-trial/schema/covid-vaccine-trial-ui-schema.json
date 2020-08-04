@@ -11,7 +11,7 @@
     "view:infoSharingText": {
       "ui:description": "Note: We won’t share your information with anyone outside of VA. If you're not a  Veteran, you can volunteer through the  COVID-19 Prevention Network.",
       "ui:options": {
-        "classNames": ""
+        "classNames": "usa-alert usa-alert-info background-color-only"
       }
     }
   },

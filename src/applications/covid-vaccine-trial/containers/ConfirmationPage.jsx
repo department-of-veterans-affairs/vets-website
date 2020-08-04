@@ -27,33 +27,39 @@ export class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <h2 className="confirmation-page-title">
+          Thank you for volunteering for COVID-19 research
+        </h2>
         <p>
-          We usually process claims within <strong>a week</strong>.
-        </p>
-        <p>
-          We may contact you for more information or documents.
-          <br />
-          <i>Please print this page for your records.</i>
+          We appreciate your commitment to helping others through this important
+          research effort.
         </p>
         <div className="inset">
-          <h4>
-            Covid Vaccine Trial Claim{' '}
-            <span className="additional">(Form 12345)</span>
-          </h4>
-          <span>
-            for {name.first} {name.middle} {name.last} {name.suffix}
-          </span>
-
-          {response && (
-            <ul className="claim-list">
-              <li>
-                <strong>Date received</strong>
-                <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
-              </li>
-            </ul>
-          )}
+          <h2>If we think you may be eligible for a research study</h2>
+          <p>
+            We’ll contact you to tell you more about it so you can decide if you
+            want to join.
+          </p>
+          <p>
+            Please understand that some studies have specific requirements. So
+            it may be weeks or months before there’s a study that you may be
+            eligible to join.
+          </p>
+          <p>
+            <strong>Note:</strong> We’ll never ask for an ID number or for your
+            financial, credit, or bank account information over the phone. For
+            tips on how to avoid coronavirus-related scams, visit the{' '}
+            <a href="https://www.ftc.gov/coronavirus/scams-consumer-advice">
+              Federal Trade Commission (FTC) website
+            </a>
+          </p>
+        </div>
+        <div className="inset">
+          <h2>If we don’t think you may be eligible for any studies</h2>
+          <p>
+            We won’t contact you. But we’ll keep your information on file for
+            future studies you may be eligible to join.
+          </p>
         </div>
       </div>
     );
