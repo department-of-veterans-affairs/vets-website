@@ -130,13 +130,21 @@ export function transformFormToExpressCareRequest(state) {
     email: data.contactInfo.email,
     // defaulted values
     status: 'Submitted',
+    purposeOfVisit: 'Express Care Request',
+    visitType: 'Express Care',
+    optionDate1: moment().format('MM/DD/YYYY'),
+    optionTime1: 'No Time Selected',
+    optionDate2: 'No Date Selected',
+    optionTime2: 'No Time Selected',
+    optionDate3: 'No Date Selected',
+    optionTime3: 'No Time Selected',
     schedulingMethod: 'clerk',
     requestedPhoneCall: false,
     providerId: '0',
     providerOption: '',
     // The bad camel casing here is intentional, to match downstream
     // system
-    bestTimetoCall: [],
+    bestTimetoCall: ['Morning', 'Afternoon', 'Evening'],
   };
 }
 

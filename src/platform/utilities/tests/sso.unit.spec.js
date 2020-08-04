@@ -143,7 +143,7 @@ describe('checkAutoSession', () => {
   it('should not auto logout if user is logged in and we dont know if they have a SSOe session', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({});
     const auto = sandbox.stub(authUtils, 'logout');
-    await checkAutoSession();
+    await checkAutoSession(true, 'Y');
 
     sinon.assert.notCalled(auto);
   });

@@ -156,7 +156,9 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         submitStatus: FETCH_STATUS.succeeded,
         successfulRequest: action.responseData,
-        newRequest: {},
+        newRequest: {
+          data: {},
+        },
       };
     case FORM_SUBMIT_FAILED:
       return {
