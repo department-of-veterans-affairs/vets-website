@@ -10,8 +10,12 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
+import PaymentInformationBlocked from 'applications/personalization/profile360/components/PaymentInformationBlocked';
 import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
-import { directDepositLoadError } from 'applications/personalization/profile360/selectors';
+import {
+  directDepositIsBlocked,
+  directDepositLoadError,
+} from 'applications/personalization/profile360/selectors';
 
 import PersonalInformationContent from './PersonalInformationContent';
 
@@ -26,6 +30,7 @@ const MyAlert = () => (
 );
 
 const PersonalInformation = ({
+  showDirectDepositBlockedError,
   showNotAllDataAvailableError,
   hasUnsavedEdits,
 }) => {
@@ -63,6 +68,7 @@ const PersonalInformation = ({
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vet360]}
       >
+        {showDirectDepositBlockedError && <PaymentInformationBlocked />}
         {showNotAllDataAvailableError && <MyAlert />}
         <PersonalInformationContent />
       </DowntimeNotification>
@@ -71,11 +77,13 @@ const PersonalInformation = ({
 };
 
 PersonalInformation.propTypes = {
+  showDirectDepositBlockedError: PropTypes.bool.isRequired,
   showNotAllDataAvailableError: PropTypes.bool.isRequired,
   hasUnsavedEdits: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
+  showDirectDepositBlockedError: !!directDepositIsBlocked(state),
   showNotAllDataAvailableError: !!directDepositLoadError(state),
   hasUnsavedEdits: state.vet360.hasUnsavedEdits,
 });

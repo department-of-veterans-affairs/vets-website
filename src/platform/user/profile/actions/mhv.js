@@ -22,7 +22,7 @@ export function fetchMHVAccount() {
 
     apiRequest(baseUrl)
       .then(({ data }) => dispatch({ type: FETCH_MHV_ACCOUNT_SUCCESS, data }))
-      .catch(({ errors }) =>
+      .catch(({ errors = {} }) =>
         dispatch({ type: FETCH_MHV_ACCOUNT_FAILURE, errors }),
       );
   };

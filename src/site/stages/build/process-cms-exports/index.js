@@ -218,7 +218,7 @@ const entityAssemblerFactory = contentDir => {
 
     // Handle circular references
     const a = findCircularReference(entity, ancestors);
-    if (a) return a;
+    if (a) return a.entity;
 
     validateInput(entity);
 
@@ -262,7 +262,10 @@ const entityAssemblerFactory = contentDir => {
     // Mutates transformedEntity
     addCommonProperties(transformedEntity, entity);
 
-    validateOutput(entity, transformedEntity);
+    // Only run output schema validation on root entities
+    if (ancestors.length === 0) {
+      validateOutput(entity, transformedEntity);
+    }
 
     return transformedEntity;
   };

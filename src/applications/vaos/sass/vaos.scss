@@ -1,4 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "../../../platform/forms/sass/m-schemaform";
 
 .vaos-appts__tabs {
@@ -106,9 +107,16 @@
 
 .vaos-form__facility-type {
   legend {
-    margin-bottom: 30px;
     max-width: none;
   }
+}
+
+.vaos-express-care__reason-radio-label::before {
+  margin-top: 10px;
+}
+
+.vaos-express-care__reason-textarea-container {
+  margin-left: 30px;
 }
 
 .vaos-calendar__loading {

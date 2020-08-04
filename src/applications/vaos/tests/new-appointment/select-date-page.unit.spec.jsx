@@ -14,7 +14,7 @@ import {
   setVAFacility,
   setClinic,
   setPreferredDate,
-} from '../mocks/form';
+} from '../mocks/setup';
 import {
   mockEligibilityFetches,
   mockAppointmentSlotFetch,

@@ -66,6 +66,7 @@ const mockUser = {
 
 /**
  * Simulates a logged in session.
+ * @param {Object} [userData] - Custom response stub for the user endpoint.
  */
 Cypress.Commands.add('login', (userData = mockUser) => {
   window.localStorage.setItem('hasSession', true);

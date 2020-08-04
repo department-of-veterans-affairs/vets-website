@@ -57,15 +57,16 @@ describe('checkAutoSession', () => {
   });
 
   it('should redirect user to cerner if logged in via SSOe and on the standalone sign in page', async () => {
-    sandbox
-      .stub(keepAliveMod, 'keepAlive')
-      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      sessionAlive: true,
+      ttl: 900,
+      authn: 'dslogon',
+      transactionid: 'X',
+    });
     global.window.location.origin = 'http://localhost';
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=myvahealth';
-    const loggedIn = true;
-    const authenticatedWithSSOe = true;
-    await checkAutoSession(loggedIn, authenticatedWithSSOe);
+    await checkAutoSession(true, 'X');
 
     expect(global.window.location).to.eq(
       'https://ehrm-va-test.patientportal.us.healtheintent.com/',
@@ -73,16 +74,17 @@ describe('checkAutoSession', () => {
   });
 
   it('should redirect user to home page if logged in via SSOe and on the standalone sign in page', async () => {
-    sandbox
-      .stub(keepAliveMod, 'keepAlive')
-      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      sessionAlive: true,
+      ttl: 900,
+      authn: 'dslogon',
+      transactionid: 'X',
+    });
     global.window.location.origin = 'http://localhost';
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '';
 
-    const loggedIn = true;
-    const authenticatedWithSSOe = true;
-    await checkAutoSession(loggedIn, authenticatedWithSSOe);
+    await checkAutoSession(true, 'X');
 
     expect(global.window.location).to.eq('http://localhost');
   });
@@ -93,9 +95,7 @@ describe('checkAutoSession', () => {
       .returns({ sessionAlive: false, ttl: 0, authn: undefined });
     const auto = sandbox.stub(authUtils, 'logout');
 
-    const loggedIn = true;
-    const authenticatedWithSSOe = true;
-    await checkAutoSession(loggedIn, authenticatedWithSSOe);
+    await checkAutoSession(true, 'X');
 
     sinon.assert.calledOnce(auto);
     sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout', {
@@ -108,21 +108,34 @@ describe('checkAutoSession', () => {
       .stub(keepAliveMod, 'keepAlive')
       .returns({ sessionAlive: false, ttl: 0, authn: undefined });
     const auto = sandbox.stub(authUtils, 'logout');
-    const loggedIn = true;
-    const authenticatedWithSSOe = undefined;
-    await checkAutoSession(loggedIn, authenticatedWithSSOe);
+
+    await checkAutoSession(true, undefined);
 
     sinon.assert.notCalled(auto);
   });
 
-  it('should not auto logout if user is logged in and they have a SSOe session', async () => {
-    sandbox
-      .stub(keepAliveMod, 'keepAlive')
-      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
+  it('should auto logout if user is logged in and they have a mismatched SSOe session', async () => {
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      sessionAlive: true,
+      ttl: 900,
+      authn: 'dslogon',
+      transactionid: 'X',
+    });
     const auto = sandbox.stub(authUtils, 'logout');
-    const loggedIn = true;
-    const authenticatedWithSSOe = true;
-    await checkAutoSession(loggedIn, authenticatedWithSSOe);
+    await checkAutoSession(true, 'Y');
+
+    sinon.assert.calledOnce(auto);
+  });
+
+  it('should not auto logout if user is logged in and they have a matched SSOe session', async () => {
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      sessionAlive: true,
+      ttl: 900,
+      authn: 'dslogon',
+      transactionid: 'Y',
+    });
+    const auto = sandbox.stub(authUtils, 'logout');
+    await checkAutoSession(true, 'Y');
 
     sinon.assert.notCalled(auto);
   });
@@ -130,7 +143,7 @@ describe('checkAutoSession', () => {
   it('should not auto logout if user is logged in and we dont know if they have a SSOe session', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({});
     const auto = sandbox.stub(authUtils, 'logout');
-    await checkAutoSession();
+    await checkAutoSession(true, 'Y');
 
     sinon.assert.notCalled(auto);
   });
@@ -164,9 +177,12 @@ describe('checkAutoSession', () => {
   });
 
   it('should auto login if user is logged out, they have an mhv SSOe session, dont need to force auth', async () => {
-    sandbox
-      .stub(keepAliveMod, 'keepAlive')
-      .returns({ sessionAlive: true, ttl: 900, authn: 'myhealthevet' });
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      sessionAlive: true,
+      ttl: 900,
+      authn: 'myhealthevet',
+      transactionid: 'X',
+    });
     sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
@@ -182,9 +198,12 @@ describe('checkAutoSession', () => {
   });
 
   it('should not auto login if user is logged out, they have a PIV SSOe session and dont need to force auth', async () => {
-    sandbox
-      .stub(keepAliveMod, 'keepAlive')
-      .returns({ sessionAlive: true, ttl: 900, authn: null });
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      sessionAlive: true,
+      ttl: 900,
+      authn: null,
+      transactionid: 'X',
+    });
     sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
@@ -193,9 +212,12 @@ describe('checkAutoSession', () => {
   });
 
   it('should not auto login if user is logged out, they dont have a SSOe session and dont need to force auth', async () => {
-    sandbox
-      .stub(keepAliveMod, 'keepAlive')
-      .returns({ sessionAlive: false, ttl: 0, authn: undefined });
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      sessionAlive: false,
+      ttl: 0,
+      authn: undefined,
+      transactionid: undefined,
+    });
     sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
@@ -204,9 +226,12 @@ describe('checkAutoSession', () => {
   });
 
   it('should not auto login if user is logged out, they have a SSOe session and need to force auth', async () => {
-    sandbox
-      .stub(keepAliveMod, 'keepAlive')
-      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      sessionAlive: true,
+      ttl: 900,
+      authn: 'dslogon',
+      transactionid: 'X',
+    });
     sandbox.stub(loginAttempted, 'getLoginAttempted').returns(true);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();

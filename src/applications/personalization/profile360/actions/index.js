@@ -1,8 +1,8 @@
 import { getData } from '../util';
-import environment from 'platform/utilities/environment';
-import { asyncFetchMilitaryInformation } from '../../profile-2/helpers';
 
+export const FETCH_HERO = 'FETCH_HERO';
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
+export const FETCH_HERO_FAILED = 'FETCH_HERO_FAILED';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS =
   'FETCH_PERSONAL_INFORMATION_SUCCESS';
 export const FETCH_MILITARY_INFORMATION_SUCCESS =
@@ -12,12 +12,15 @@ export const FETCH_ADDRESS_CONSTANTS_SUCCESS =
 
 export function fetchHero() {
   return async dispatch => {
-    dispatch({
-      type: FETCH_HERO_SUCCESS,
-      hero: {
-        userFullName: await getData('/profile/full_name'),
-      },
-    });
+    dispatch({ type: FETCH_HERO });
+    const response = await getData('/profile/full_name');
+
+    if (response.errors || response.error) {
+      dispatch({ type: FETCH_HERO_FAILED, hero: { errors: response } });
+      return;
+    }
+
+    dispatch({ type: FETCH_HERO_SUCCESS, hero: { userFullName: response } });
   };
 }
 
@@ -35,9 +38,7 @@ export function fetchMilitaryInformation() {
     dispatch({
       type: FETCH_MILITARY_INFORMATION_SUCCESS,
       militaryInformation: {
-        serviceHistory: environment.isLocalhost()
-          ? await asyncFetchMilitaryInformation()
-          : await getData('/profile/service_history'),
+        serviceHistory: await getData('/profile/service_history'),
       },
     });
   };

@@ -27,4 +27,30 @@ describe('authentication selectors', () => {
       expect(selectors.isAuthenticatedWithSSOe(state)).to.be.undefined;
     });
   });
+
+  describe('ssoeTransactionId', () => {
+    it('pulls out state.profile.signin.transactionid', () => {
+      const state = {
+        user: {
+          profile: {
+            signIn: {
+              transactionid: 'X',
+            },
+          },
+        },
+      };
+
+      expect(selectors.ssoeTransactionId(state)).to.eq('X');
+    });
+    it('returns undefined when the transactionid is not present', () => {
+      const state = {
+        user: {
+          profile: {
+            signIn: {},
+          },
+        },
+      };
+      expect(selectors.ssoeTransactionId(state)).to.be.undefined;
+    });
+  });
 });

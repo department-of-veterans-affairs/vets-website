@@ -22,12 +22,13 @@ describe('FacilityTypeDescription', () => {
   it('should render with facility type VA benefits in facility page', () => {
     const wrapper = shallow(
       <FacilityTypeDescription
+        from="FacilityDetail"
         location={vaBenefitsLocation}
         query={queryBenefits}
       />,
     );
-    expect(wrapper.find('strong').text()).to.equal('Facility type:');
-    expect(wrapper.find('p').text()).to.equal('Facility type: Benefits');
+    expect(wrapper.find('strong').text()).to.equal('Facility type: ');
+    expect(wrapper.find('div').text()).to.equal('Facility type: Benefits');
     wrapper.unmount();
   });
 
@@ -39,9 +40,7 @@ describe('FacilityTypeDescription', () => {
         from={'SearchResult'}
       />,
     );
-    expect(wrapper.find('p').text()).to.equal(
-      LocationType.BENEFITS.toUpperCase(),
-    );
+    expect(wrapper.find('div').text()).to.equal('Benefits');
     wrapper.unmount();
   });
 
@@ -54,7 +53,7 @@ describe('FacilityTypeDescription', () => {
         from={'SearchResult'}
       />,
     );
-    expect(wrapper.find('p').text()).to.equal('VA URGENT CARE');
+    expect(wrapper.find('div').text()).to.equal('VA URGENT CARE');
     wrapper.unmount();
   });
 
@@ -62,12 +61,13 @@ describe('FacilityTypeDescription', () => {
     const queryUrgentCare = { facilityType: FacilityType.VA_HEALTH_FACILITY };
     const wrapper = shallow(
       <FacilityTypeDescription
+        from="FacilityDetail"
         location={vaLocationUrgentCare}
         query={queryUrgentCare}
       />,
     );
-    expect(wrapper.find('strong').text()).to.equal('Facility type:');
-    expect(wrapper.find('p').text()).to.equal('Facility type: VA health');
+    expect(wrapper.find('strong').text()).to.equal('Facility type: ');
+    expect(wrapper.find('div').text()).to.equal('Facility type: VA health');
     wrapper.unmount();
   });
 });
