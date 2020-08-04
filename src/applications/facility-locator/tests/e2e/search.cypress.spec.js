@@ -1,19 +1,7 @@
-import path from 'path';
 import { facilityTypesOptions } from '../../config';
 import { LocationType } from '../../constants';
 
 describe('Facility search', () => {
-  before(() => {
-    cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
-    });
-  });
-
-  beforeEach(() => {
-    cy.server();
-    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
-  });
-
   it('does a simple search and finds a result on the list', () => {
     cy.visit('https://staging.va.gov/find-locations/'); // can we make it real e2e?, with live data
 
