@@ -224,8 +224,8 @@ describe('VAOS integration: appointment list', () => {
             expressTimes: {
               start: '00:00',
               end: '23:59',
-              timezone: 'MDT',
-              offsetUtc: '-06:00',
+              timezone: 'UTC',
+              offsetUtc: '+00:00',
             },
           },
         },
@@ -278,7 +278,7 @@ describe('VAOS integration: appointment list', () => {
 
   it('should not show express care action when outside of express care window', async () => {
     mockAppointmentInfo({});
-    const now = moment().utcOffset('-06:00');
+    const now = moment.utc();
     mockParentSites(['983'], [parentSite983]);
     mockSupportedFacilities({
       siteId: 983,
@@ -296,8 +296,8 @@ describe('VAOS integration: appointment list', () => {
                 .clone()
                 .subtract(2, 'minutes')
                 .format('HH:mm'),
-              timezone: 'MDT',
-              offsetUtc: '-06:00',
+              timezone: 'UTC',
+              offsetUtc: '+00:00',
             },
           },
         },
@@ -378,8 +378,8 @@ describe('VAOS integration: appointment list', () => {
             expressTimes: {
               start: '00:00',
               end: '23:59',
-              timezone: 'MDT',
-              offsetUtc: '-06:00',
+              timezone: 'UTC',
+              offsetUtc: '+00:00',
             },
           },
         },
