@@ -8,10 +8,10 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import connect from 'react-redux';
-import { eduBenefits1990EWizard } from '../../selectors/educationWizard';
+import { connect } from 'react-redux';
+import { showEduBenefits1990EWizard } from '../../selectors/educationWizard';
 
-export class IntroductionPage extends React.Component {
+class IntroductionPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,11 +31,13 @@ export class IntroductionPage extends React.Component {
 
   render() {
     const { wizardStatus } = this.state;
-    const { eduBenefits1990Ewizard } = this.props;
+    const { shouldEduBenefits1990EWizardShow } = this.props;
     const shouldSubwayMapShow =
-      eduBenefits1990Ewizard || wizardStatus === WIZARD_STATUS_COMPLETE;
+      shouldEduBenefits1990EWizardShow ||
+      wizardStatus === WIZARD_STATUS_COMPLETE;
     const shouldWizardShow =
-      !eduBenefits1990Ewizard && wizardStatus !== WIZARD_STATUS_COMPLETE;
+      !shouldEduBenefits1990EWizardShow &&
+      wizardStatus !== WIZARD_STATUS_COMPLETE;
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply to use transferred education benefits" />
@@ -158,7 +160,7 @@ export class IntroductionPage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  eduBenefits1990EWizard: eduBenefits1990EWizard(state),
+  shouldEduBenefits1990EWizardShow: showEduBenefits1990EWizard(state),
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
