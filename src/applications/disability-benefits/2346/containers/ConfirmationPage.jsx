@@ -87,7 +87,7 @@ const ConfirmationPage = ({
               Please print this page for your records.
             </p>
             <AlertBox
-              headline="Your order has been been submitted"
+              headline="Your order has been submitted"
               className="order-submission-alert"
               level="2"
               content={
