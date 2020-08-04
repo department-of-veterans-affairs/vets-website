@@ -668,7 +668,11 @@ describe('VAOS selectors', () => {
               facilityId: '983',
               days: [
                 {
-                  day: today.format('dddd').toUpperCase(),
+                  day: today
+                    .clone()
+                    .tz('America/Denver')
+                    .format('dddd')
+                    .toUpperCase(),
                   canSchedule: true,
                   startTime: startTime.format('HH:mm'),
                   endTime: endTime.format('HH:mm'),

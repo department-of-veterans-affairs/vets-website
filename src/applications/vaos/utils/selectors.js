@@ -452,19 +452,22 @@ export function selectActiveExpressCareWindows(state, nowMoment) {
       const siteId = facilityId.substring(0, 3);
       const { timezone } = getTimezoneBySystemId(siteId);
       const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
-      const currentDayOfWeek = now
-        .clone()
-        .tz(timezone)
-        .format('dddd')
-        .toUpperCase();
+      const nowFacilityTime = now.clone().tz(timezone);
+      const currentDayOfWeek = nowFacilityTime.format('dddd').toUpperCase();
       const activeDay = days.find(day => day.day === currentDayOfWeek);
 
       if (!activeDay) {
         return null;
       }
 
-      const start = moment.tz(activeDay.startTime, 'HH:mm', timezone);
-      const end = moment.tz(activeDay.endTime, 'HH:mm', timezone);
+      const start = moment.tz(
+        `${nowFacilityTime.format('YYYY-MM-DD')}T${activeDay.startTime}:00`,
+        timezone,
+      );
+      const end = moment.tz(
+        `${nowFacilityTime.format('YYYY-MM-DD')}T${activeDay.endTime}:00`,
+        timezone,
+      );
 
       if (!now.isBetween(start, end)) {
         return null;
