@@ -4,7 +4,7 @@ import {
   UNABLE_TO_REACH_VETERAN_DETCODE,
 } from '../utils/constants';
 
-export default function ExpressCareStatus({ appointment, index }) {
+export default function ExpressCareStatus({ appointment }) {
   let iconClass = null;
   let content = null;
   const status = appointment.status;
@@ -16,7 +16,7 @@ export default function ExpressCareStatus({ appointment, index }) {
       iconClass = 'fa-exclamation-triangle';
       content = (
         <>
-          <strong id={`card-${index}-status`}>Next step</strong>{' '}
+          <strong id={`card-${appointment.id}-status`}>Next step</strong>{' '}
           <div className="vads-u-font-weight--normal">
             A VA health care provider will contact you today about your request.
           </div>
@@ -28,7 +28,7 @@ export default function ExpressCareStatus({ appointment, index }) {
       iconClass = 'fa-exclamation-triangle';
       content = (
         <>
-          <strong id={`card-${index}-status`}>Next step</strong>{' '}
+          <strong id={`card-${appointment.id}-status`}>Next step</strong>{' '}
           <div className="vads-u-font-weight--normal">
             A VA health care provider will follow up with you today.
           </div>
@@ -40,7 +40,7 @@ export default function ExpressCareStatus({ appointment, index }) {
       iconClass = 'fa-check-circle';
       content = (
         <>
-          <strong id={`card-${index}-status`}>Complete</strong>{' '}
+          <strong id={`card-${appointment.id}-status`}>Complete</strong>{' '}
           <div className="vads-u-font-weight--normal">
             We’ve completed your screening. Thank you for using Express Care.
           </div>
@@ -52,7 +52,7 @@ export default function ExpressCareStatus({ appointment, index }) {
       iconClass = 'fa-exclamation-circle';
       content = (
         <>
-          <strong id={`card-${index}-status`}>
+          <strong id={`card-${appointment.id}-status`}>
             Canceled
             {unableToReachVeteran && <> – Could not reach Veteran</>}
           </strong>{' '}

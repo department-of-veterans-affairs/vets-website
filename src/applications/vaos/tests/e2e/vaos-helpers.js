@@ -114,6 +114,20 @@ function appointmentReasonTest(client, nextElement) {
   return client;
 }
 
+function appointmentReasonCommunityCareTest(client, nextElement) {
+  client
+    .waitForElementPresent(
+      'textarea#root_reasonAdditionalInfo',
+      Timeouts.normal,
+    )
+    .setValue('textarea#root_reasonAdditionalInfo', 'Additonal information')
+    .axeCheck('.main')
+    .click('.rjsf [type="submit"]')
+    .waitForElementPresent(nextElement, Timeouts.normal);
+
+  return client;
+}
+
 function howToBeSeenTest(client, nextElement) {
   client
     .click('input#root_visitType_0')
@@ -459,6 +473,7 @@ module.exports = {
   newAppointmentTest,
   appointmentDateTimeTest,
   appointmentReasonTest,
+  appointmentReasonCommunityCareTest,
   howToBeSeenTest,
   contactInformationTest,
   reviewAppointmentTest,

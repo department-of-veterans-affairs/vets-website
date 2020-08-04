@@ -89,6 +89,7 @@ export async function getEligibilityData(
       facilityId,
       typeOfCareId,
       systemId,
+      useVSP,
     }).catch(createErrorHandler('direct', 'direct-available-clinics-error'));
     eligibilityChecks.pastAppointments = getLongTermAppointmentHistory().catch(
       createErrorHandler('direct', 'direct-no-matching-past-clinics-error'),
@@ -108,9 +109,14 @@ export async function getEligibilityData(
   if (directSchedulingAvailable && eligibility.clinics?.length) {
     eligibility.hasMatchingClinics = eligibility.clinics.some(
       clinic =>
-        !!eligibility.pastAppointments.find(
-          appt => clinic.id === `var${appt.facilityId}_${appt.clinicId}`,
-        ),
+        !!eligibility.pastAppointments.find(appt => {
+          return (
+            clinic.identifier[0].value ===
+            `urn:va:healthcareservice:${appt.facilityId}:${appt.sta6aid}:${
+              appt.clinicId
+            }`
+          );
+        }),
     );
 
     if (!eligibility.hasMatchingClinics) {

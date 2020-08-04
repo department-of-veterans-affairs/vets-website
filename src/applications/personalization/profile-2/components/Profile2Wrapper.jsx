@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
@@ -8,8 +9,9 @@ import ProfileHeader from './ProfileHeader';
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
+import { isEmpty } from 'lodash';
 
-const Profile2 = ({ children, routes, isLOA3, isInMVI }) => {
+const Profile2Wrapper = ({ children, routes, isLOA3, isInMVI, hero }) => {
   const location = useLocation();
   const createBreadCrumbAttributes = () => {
     const activeLocation = location?.pathname;
@@ -48,7 +50,7 @@ const Profile2 = ({ children, routes, isLOA3, isInMVI }) => {
         </Breadcrumbs>
       </div>
 
-      <ProfileHeader />
+      {isEmpty(hero.errors) && <ProfileHeader />}
 
       <div className="medium-screen:vads-u-display--none">
         <ProfileMobileSubNav routes={routes} />
@@ -69,9 +71,14 @@ const Profile2 = ({ children, routes, isLOA3, isInMVI }) => {
   );
 };
 
-Profile2.propTypes = {
+const mapStateToProps = state => ({
+  hero: state.vaProfile?.hero,
+});
+
+Profile2Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object,
+  hero: PropTypes.object,
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       component: PropTypes.func.isRequired,
@@ -83,4 +90,4 @@ Profile2.propTypes = {
   ).isRequired,
 };
 
-export default Profile2;
+export default connect(mapStateToProps)(Profile2Wrapper);

@@ -189,8 +189,6 @@ const formConfig = {
           uiSchema: claimType.uiSchema,
           schema: claimType.schema,
           onContinue: captureEvents.claimType,
-          // set newDisabilities value from claimType
-          updateFormData: claimType.updateFormData,
         },
         servedInCombatZone: {
           title: 'Combat status',
@@ -267,10 +265,7 @@ const formConfig = {
         newDisabilities: {
           title: 'New disabilities',
           path: 'new-disabilities',
-          depends: formData =>
-            // Don't show new disability question if claimType already selected
-            !formData['view:claimType']?.['view:claimingNew'] &&
-            !increaseOnly(formData),
+          depends: formData => !increaseOnly(formData),
           uiSchema: newDisabilities.uiSchema,
           schema: newDisabilities.schema,
         },
@@ -477,6 +472,11 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Additional disability benefits',
             'ui:description': ancillaryFormsWizardDescription,
+            'view:ancillaryFormsWizard': {
+              'ui:title':
+                'Would you like to learn more about additional benefits?',
+              'ui:widget': 'yesNo',
+            },
           },
           schema: {
             type: 'object',
@@ -485,24 +485,30 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              'view:ancillaryFormsWizard': {
+                type: 'boolean',
+              },
             },
           },
         },
         adaptiveBenefits: {
           title: 'Automobile allowance and adaptive benefits',
           path: 'adaptive-benefits',
+          depends: formData => formData['view:ancillaryFormsWizard'],
           uiSchema: adaptiveBenefits.uiSchema,
           schema: adaptiveBenefits.schema,
         },
         aidAndAttendance: {
           title: 'Aid and attendance benefits',
           path: 'aid-and-attendance',
+          depends: formData => formData['view:ancillaryFormsWizard'],
           uiSchema: aidAndAttendance.uiSchema,
           schema: aidAndAttendance.schema,
         },
         individualUnemployability: {
           title: 'Individual Unemployability',
           path: 'individual-unemployability',
+          depends: formData => formData['view:ancillaryFormsWizard'],
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
         },

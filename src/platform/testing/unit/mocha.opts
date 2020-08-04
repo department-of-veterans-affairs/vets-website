@@ -4,6 +4,7 @@
 --require @babel/polyfill
 --require blob-polyfill
 --require isomorphic-fetch
+--require mocha-snapshots
 --compilers js:@babel/register,jsx:@babel/register
 --prof
 --reporter progress

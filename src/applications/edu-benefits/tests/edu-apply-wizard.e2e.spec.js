@@ -7,7 +7,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .openUrl(`${E2eHelpers.baseUrl}/education/how-to-apply/`)
     .waitForElementVisible('body', Timeouts.normal)
-    .waitForElementVisible('.wizard-container', Timeouts.normal)
+    // uncomment when in production
+    // .waitForElementVisible('.wizard-container', Timeouts.normal)
     .click('.wizard-button')
     .waitForElementVisible('label[for="newBenefit-0"]', Timeouts.normal)
     .axeCheck('.main');

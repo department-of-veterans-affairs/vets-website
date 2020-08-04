@@ -47,7 +47,10 @@ class VAPEditView extends Component {
       isPendingTransaction(this.props.transaction) &&
       !isPendingTransaction(prevProps.transaction)
     ) {
-      this.interval = window.setInterval(this.props.refreshTransaction, 1000);
+      this.interval = window.setInterval(
+        this.props.refreshTransaction,
+        window.VetsGov.pollTimeout || 1000,
+      );
     }
   }
 
@@ -116,7 +119,10 @@ class VAPEditView extends Component {
     return (
       <>
         {error && (
-          <div className="vads-u-margin-bottom--1">
+          <div
+            className="vads-u-margin-bottom--1"
+            data-testid="edit-error-alert"
+          >
             <Vet360EditModalErrorMessage
               title={title}
               error={error}

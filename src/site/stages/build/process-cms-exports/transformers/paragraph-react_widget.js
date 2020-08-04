@@ -14,7 +14,7 @@ const transform = entity => ({
       ? omit(['format'], entity.fieldErrorMessage[0])
       : null,
     fieldLoadingMessage: getDrupalValue(entity.fieldLoadingMessage),
-    fieldTimeout: getDrupalValue(entity.fieldTimeout),
+    fieldTimeout: getDrupalValue(entity.fieldTimeout) || 0,
     fieldWidgetType: getDrupalValue(entity.fieldWidgetType),
   },
 });

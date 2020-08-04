@@ -1,6 +1,7 @@
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import DebtCardsList from './DebtCardsList';
@@ -75,5 +76,15 @@ const mapStateToProps = state => ({
   isVBMSError: state.debtLetters.isVBMSError,
   isError: state.debtLetters.isError,
 });
+
+DebtLettersSummary.propTypes = {
+  isVBMSError: PropTypes.bool.isRequired,
+  isError: PropTypes.bool.isRequired,
+};
+
+DebtLettersSummary.defaultProps = {
+  isVBMSError: false,
+  isError: false,
+};
 
 export default connect(mapStateToProps)(DebtLettersSummary);
