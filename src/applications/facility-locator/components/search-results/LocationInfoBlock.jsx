@@ -8,7 +8,6 @@ import {
 } from '../../constants';
 import LocationAddress from './LocationAddress';
 import FacilityTypeDescription from '../FacilityTypeDescription';
-import ProviderServiceDescription from '../ProviderServiceDescription';
 import { isVADomain } from '../../utils/helpers';
 
 const showOperationStatus = operatingStatus => {
@@ -59,7 +58,6 @@ const LocationInfoBlock = ({ location, from, query }) => {
         )}
       {isProvider ? (
         <span>
-          <ProviderServiceDescription provider={location} query={query} />
           <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
           {location.attributes.orgName && (
             <h6>{location.attributes.orgName}</h6>
