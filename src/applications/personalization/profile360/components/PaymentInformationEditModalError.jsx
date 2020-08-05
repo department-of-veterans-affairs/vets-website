@@ -165,6 +165,7 @@ export default function PaymentInformationEditModalError({
       headline={headline}
       isVisible
       className={className}
+      scrollOnShow
     >
       {content}
     </AlertBox>

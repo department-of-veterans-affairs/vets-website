@@ -90,6 +90,17 @@ ul.original-disability-list {
   }
 }
 
+// Supporting evidence legend (matches h4 style)
+#root_privateMedicalRecordAttachments-label {
+  font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+
+  .schemaform-required-span {
+    display: none;
+  }
+}
+
 // removes gap when using multiple widget-outlines
 .widget-outline-group {
   &:last-child {

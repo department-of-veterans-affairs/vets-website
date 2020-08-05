@@ -13,7 +13,6 @@ export default function CommunityCareSection(props) {
         data={props.data}
         vaCityState={props.vaCityState}
       />
-      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={props.data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ContactDetailSection data={props.data} />
