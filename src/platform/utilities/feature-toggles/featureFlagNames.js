@@ -37,6 +37,7 @@ export default Object.freeze({
   gibctFilterEnhancement: 'gibctFilterEnhancement',
   debtLettersShowLetters: 'debtLettersShowLetters',
   gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
+  showEduBenefits5490Wizard: 'showEduBenefits5490Wizard',
   showEduBenefits1990Wizard: 'showEduBenefits1990Wizard',
   showEduBenefits1990EWizard: 'showEduBenefits1990EWizard',
 });
