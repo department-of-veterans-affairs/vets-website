@@ -38,4 +38,5 @@ export default Object.freeze({
   debtLettersShowLetters: 'debtLettersShowLetters',
   gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
   showEduBenefits1990Wizard: 'showEduBenefits1990Wizard',
+  showEduBenefits1990EWizard: 'showEduBenefits1990EWizard',
 });

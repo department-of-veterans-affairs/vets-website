@@ -334,6 +334,7 @@ export const DirectDepositContent = ({
               status="success"
               backgroundOnly
               className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+              scrollOnShow
             >
               We’ve saved your direct deposit information.
             </AlertBox>

@@ -340,3 +340,16 @@ export function mockRequestSubmit(type, data) {
     { data },
   );
 }
+
+export function mockRequestEligibilityCriteria(parentSites, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/request_eligibility_criteria?${parentSites
+        .map(site => `parent_sites[]=${site}`)
+        .join('&')}`,
+    ),
+    { data },
+  );
+}
