@@ -57,7 +57,9 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
             <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
               <thead>
                 <tr>
-                  <th className="vads-u-border--0">Date</th>
+                  <th className="vads-u-border--0 vads-u-padding-left--3">
+                    Date
+                  </th>
                   <th className="vads-u-border--0">Type</th>
                   <th className="vads-u-border--0">Action</th>
                 </tr>
@@ -68,7 +70,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                     key={debtLetter.documentId}
                     className="vads-u-border-top--1px vads-u-border-bottom--1px"
                   >
-                    <td className="vads-u-border--0">
+                    <td className="vads-u-border--0 vads-u-padding-left--3">
                       {moment(debtLetter.receivedAt).format('MMM D, YYYY')}
                     </td>
                     <td className="vads-u-border--0">
@@ -107,7 +109,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                           {moment(debtLetter.receivedAt).format('MMM D, YYYY')}`
                         </span>{' '}
                         <dfn>
-                          <abbr title="Portable Document Format">PDF</abbr>
+                          <abbr title="Portable Document Format">(PDF)</abbr>
                         </dfn>
                       </a>
                     </td>

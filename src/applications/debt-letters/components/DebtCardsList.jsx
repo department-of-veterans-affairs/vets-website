@@ -37,7 +37,7 @@ const DebtCardsList = ({ debts, isError }) => {
   return (
     <>
       <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-        Your current debts
+        Current debts
       </h2>
       {isError && renderAlert()}
       {!isError &&
