@@ -5,6 +5,23 @@ const {
   isPublished,
 } = require('./helpers');
 
+const reverseFields = reverseFieldList => ({
+  entities: reverseFieldList
+    .filter(
+      reverseField =>
+        reverseField.entityBundle === 'event' && reverseField.status,
+    )
+    .map(reverseField => ({
+      title: reverseField.title,
+      entityUrl: reverseField.entityUrl,
+      uid: reverseField.uid,
+      fieldFeatured: reverseField.fieldFeatured,
+      fieldDate: reverseField.fieldDate,
+      fieldDescription: reverseField.fieldDescription,
+      fieldLocationHumanreadable: reverseField.fieldLocationHumanreadable,
+    })),
+});
+
 const transform = entity => ({
   entityType: 'node',
   entityBundle: 'event_listing',
@@ -18,18 +35,8 @@ const transform = entity => ({
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
   fieldOffice: entity.fieldOffice[0],
-  reverseFieldListingNode: { entities: entity.reverseFieldList },
-  pastEvents: {
-    entities: entity.reverseFieldList.map(reverseField => ({
-      title: reverseField.title,
-      entityUrl: reverseField.entityUrl,
-      uid: reverseField.uid,
-      fieldFeatured: reverseField.fieldFeatured,
-      fieldDate: reverseField.fieldDate,
-      fieldDescription: reverseField.fieldDescription,
-      fieldLocationHumanreadable: reverseField.fieldLocationHumanreadable,
-    })),
-  },
+  reverseFieldListingNode: reverseFields(entity.reverseFieldList),
+  pastEvents: reverseFields(entity.reverseFieldList),
 });
 module.exports = {
   filter: [
