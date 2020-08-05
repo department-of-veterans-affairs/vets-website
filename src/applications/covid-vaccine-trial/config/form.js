@@ -7,9 +7,6 @@ import uiSchemaDefinitions from '../schema/covid-vaccine-trial-ui-schema.json';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
 
-import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
-
 import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
@@ -35,26 +32,19 @@ const {
   closeContact,
   contactHeaderText,
   zipCode,
-  height,
+  // height,
   weight,
   gender,
   raceEthnicityOrigin,
-  // closingText,
 } = uiSchemaDefinitions;
 
-const { fullName, email, usaPhone, date } = definitions;
+const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 const { set } = dataUtils;
 
 export function validateEmailsMatch(errors, pageData) {
   const { primaryEmail, confirmEmail } = pageData;
   if (primaryEmail !== confirmEmail) {
     errors.confirmEmail.addError('Please ensure your entries match');
-  }
-}
-export function validatePhone(errors, pageData) {
-  const { phone } = pageData;
-  if (phone && !/\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{4}$/.test(phone)) {
-    errors.phone.addError('Please enter a valid 10-digit phone number');
   }
 }
 const formConfig = {
@@ -95,8 +85,6 @@ const formConfig = {
             residents,
             closeContact,
             contactHeaderText,
-            // closingText,
-            'ui:validations': [validateEmailsMatch, validatePhone],
             fullName: _.merge(fullNameUI, {
               first: {
                 'ui:title': 'First name',
@@ -119,10 +107,11 @@ const formConfig = {
             dateOfBirth: currentOrPastDateUI(
               'Date of birth (Note: You must be at least 18 years old to participate in research.)',
             ),
-            height,
+            // height,
             weight,
             gender,
             raceEthnicityOrigin,
+            'ui:validations': [validateEmailsMatch],
           },
           schema: {
             required: ['phone'],
@@ -147,13 +136,12 @@ const formConfig = {
               primaryEmail: email,
               confirmEmail: email,
               phone: usaPhone,
-              zipCode: fullSchema.properties.zipCode,
+              zipCode: usaPostalCode,
               dateOfBirth: date,
-              height: fullSchema.properties.height,
+              // height: fullSchema.properties.height,
               weight: fullSchema.properties.weight,
               gender: fullSchema.properties.gender,
               raceEthnicityOrigin: fullSchema.properties.raceEthnicityOrigin,
-              // closingText: fullSchema.properties.closingText,
             },
           },
         },

@@ -199,60 +199,41 @@
   "height": {
     "ui:title": "Height",
     "heightFeetText": {
+      "ui:title": " ",
+      "ui:options": {
+        "classNames": ""
+      }
+    },
+    "view:heightFtLabel": {
+      "ui:description": "ft.",
       "ui:options": {
         "classNames": " "
       }
     },
     "heightInchesText": {
+      "ui:title": " ",
       "ui:options": {
-        "classNames": " "
+        "classNames": "  "
       }
     },
-    "heightFeet": {
-      "ui:title": "ft.",
+    "view:heightInLabel": {
+      "ui:description": "in.",
       "ui:options": {
-        "labels": {
-          "TWO": "2",
-          "THREE": "3",
-          "FOUR": "4",
-          "FIVE": "5",
-          "SIX": "6",
-          "SEVEN": "7",
-          "EIGHT": "8",
-          "NINE": "9"
-        },
-        "classNames": ""
-      }
-    },
-    "heightInches": {
-      "ui:title": "in.",
-      "ui:options": {
-        "labels": {
-          "ZERO": "0",
-          "ONE": "1",
-          "TWO": "2",
-          "THREE": "3",
-          "FOUR": "4",
-          "FIVE": "5",
-          "SIX": "6",
-          "SEVEN": "7",
-          "EIGHT": "8",
-          "NINE": "9",
-          "TEN": "10",
-          "ELEVEN": "11",
-          "TWELVE": "12"
-        },
         "classNames": ""
       }
     },
     "ui:options": {
-      "classNames": " "
+      "classNames": ""
     }
   },
   "weight": {
     "ui:title": "Weight",
     "ui:options": {
       "classNames": " "
+    },
+    "ui:errorMessages": {
+      "required": "Please enter your weight",
+      "pattern": "Please enter a valid weight (decimals allowed)"
     }
   },
   "gender": {
