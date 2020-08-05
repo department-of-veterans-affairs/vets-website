@@ -112,7 +112,7 @@ export const isOutsideListLoopReturn = (
   formChapter,
 ) => {
   return {
-    'ui:title': 'Where were you married?',
+    'ui:title': uiTitle,
     isOutsideUS: {
       'ui:title': 'This occurred outside the US',
     },
