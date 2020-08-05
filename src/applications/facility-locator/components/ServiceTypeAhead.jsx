@@ -45,11 +45,7 @@ class ServiceTypeAhead extends Component {
   getSpecialtyName = specialty => {
     if (!specialty) return null;
 
-    const specialization = specialty.specialization
-      ? ` - ${specialty.specialization}`
-      : '';
-
-    return specialty.classification + specialization;
+    return specialty.name;
   };
 
   shouldShow = (input, specialty) => {
