@@ -41,6 +41,13 @@ const transformedMaximalDataActual = {
     state: 'TN',
     postalCode: '22312',
   },
+  toursOfDuty: [
+    {
+      serviceBranch: 'Army',
+      dateRange: { from: '1995-01-01', to: '1996-01-01' },
+    },
+    { serviceBranch: 'Navy' },
+  ],
   email: 'test2@test1.net',
   homePhone: '4445551212',
   mobilePhone: '4445551213',
@@ -69,6 +76,11 @@ const transformedMaximalDataActual = {
     suffix: 'IV',
   },
   veteranSocialSecurityNumber: '123333333',
+  serviceBefore1977: {
+    married: true,
+    haveDependents: false,
+    parentDependent: false,
+  },
   privacyAgreementAccepted: true,
   newSchool: {
     name: 'Test',
