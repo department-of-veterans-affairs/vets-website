@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { showEduBenefits1990EWizard } from '../../selectors/educationWizard';
 
-class IntroductionPage extends React.Component {
+export class IntroductionPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
