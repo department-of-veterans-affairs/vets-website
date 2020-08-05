@@ -113,12 +113,7 @@ describe('ReviewPageSupplies', () => {
 
   it('verify batteries heading content', () => {
     const reviewPageSupplies = mount(<ReviewPageSupplies store={fakeStore} />);
-    expect(
-      reviewPageSupplies
-        .find('h5')
-        .at(0)
-        .text(),
-    ).to.equal('OMEGAX d3241');
+    expect(reviewPageSupplies.text()).to.include('OMEGAX d3241');
     reviewPageSupplies.unmount();
   });
 
