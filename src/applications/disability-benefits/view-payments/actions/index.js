@@ -1,5 +1,5 @@
 import recordEvent from 'platform/monitoring/record-event';
-// import { isServerError, isClientError } from '../config/utilities';
+import { isServerError, isClientError } from '../utils';
 // import { getData, isServerError, isClientError } from '../util';
 
 export const PAYMENTS_RECEIVED_SUCCEEDED = 'PAYMENTS_RECEIVED_SUCCEEDED';
@@ -19,13 +19,17 @@ function resolveAfter2Seconds() {
 export const getAllPayments = () => async dispatch => {
   const response = await resolveAfter2Seconds();
   if (response.errors) {
-    // TODO: fire off analytics event when endpoint is wired up.
-    //   const errCode = res.errors[0].code;
-    //   isServerError(errCode) ? recordEvent({}) : recordEvent({})
-    recordEvent({
-      event: `disability-view-dependents-load-failed`,
-      'error-key': `${response.errors[0].status}_description_of_error`,
-    });
+    if (isServerError(response.errors[0].status)) {
+      recordEvent({
+        event: `disability-view-dependents-load-failed`,
+        'error-key': `${response.errors[0].status}_503_server_error`,
+      });
+    } else if (isClientError(response.errors)) {
+      recordEvent({
+        event: `disability-view-dependents-load-failed`,
+        'error-key': `${response.errors[0].status}_404_client_error`,
+      });
+    }
     dispatch({ type: PAYMENTS_RECEIVED_FAILED, response });
   } else {
     recordEvent({
