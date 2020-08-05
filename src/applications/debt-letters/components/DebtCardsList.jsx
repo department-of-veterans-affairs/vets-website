@@ -37,7 +37,7 @@ const DebtCardsList = ({ debts, isError }) => {
   return (
     <>
       <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-        Your current debts
+        Current debts
       </h2>
       {isError && renderAlert()}
       {!isError &&
@@ -67,18 +67,22 @@ const DebtCardsList = ({ debts, isError }) => {
         )}
       {!isError &&
         debts.length < 1 && (
-          <div className="vads-u-background-color--gray-lightest vads-u-padding--3">
+          <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
             <h4 className="vads-u-font-family--serif vads-u-margin-top--0">
-              You don't have any current Education or Compensation & Pension
-              Debts
+              Our records show that you don't have any current debts
             </h4>
-            <p className="vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-font-family--sans">
-              If you believe that you have a debt with the VA or would like to
-              get information about your debts that have been resolved, call the
-              Debt Management Center at{' '}
+            <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+              If you believe that you have a debt with the VA, call the Debt
+              Management Center at{' '}
               <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
                 800-827-0648
               </a>
+              {'.'}
+            </p>
+            <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+              For medical copayment debts, visit{' '}
+              <a href="/health-care/pay-copay-bill/">Pay your VA copay bill</a>{' '}
+              to learn about your payment options.
             </p>
           </div>
         )}

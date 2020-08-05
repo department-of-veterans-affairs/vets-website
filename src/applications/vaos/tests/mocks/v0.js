@@ -267,3 +267,26 @@ export function getAppointmentSlotMock() {
     availability: true,
   };
 }
+
+export function getExpressCareRequestCriteriaMock(id, schedulingDays) {
+  return [
+    {
+      id,
+      type: 'request_eligibility_criteria',
+      attributes: {
+        id,
+        requestSettings: [],
+        customRequestSettings: [
+          {
+            id: 'CR1',
+            typeOfCare: 'Express Care',
+            submittedRequestLimit: 2,
+            enterpriseSubmittedRequestLimit: 2,
+            supported: !!schedulingDays,
+            schedulingDays: schedulingDays || [],
+          },
+        ],
+      },
+    },
+  ];
+}

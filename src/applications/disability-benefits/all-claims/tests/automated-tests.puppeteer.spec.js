@@ -7,14 +7,10 @@ const getTestDataSets = require('platform/testing/e2e/form-tester/util')
   .getTestDataSets;
 const PageHelpers = require('./disability-benefits-helpers');
 
-const testData = getTestDataSets(join(__dirname, 'data'), {
+const testData = getTestDataSets(join(__dirname, 'fixtures/data'), {
   extension: 'json',
-  ignore: [
-    'minimal-ptsd-form-upload-test.json',
-    'maximal-bdd-test.json',
-    'minimal-bdd-test.json',
-  ],
-  // only: ['minimal-test.json'],
+  // only run minimal since Cypress is doing all the work now
+  only: ['minimal-test.json'],
 });
 
 const testConfig = {
