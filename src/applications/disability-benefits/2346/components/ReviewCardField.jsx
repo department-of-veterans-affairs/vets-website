@@ -426,7 +426,7 @@ class ReviewCardField extends React.Component {
                 />
                 <label
                   className={classnames({
-                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto': true,
+                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto vads-u-text-align--left vads-u-padding-x--2': true,
                     'vads-u-color--white':
                       this.props.name === this.props['view:currentAddress'],
                     'vads-u-background-color--white vads-u-color--primary':
