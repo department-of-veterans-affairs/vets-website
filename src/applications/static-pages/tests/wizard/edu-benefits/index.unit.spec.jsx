@@ -10,11 +10,10 @@ import { pageNames } from 'applications/edu-benefits/wizard/pages/pageList';
 import { sessionStorageSetup } from '../../utils';
 
 describe('the Education Benefits Wizard', () => {
-  let mockStore = {};
   let defaultProps;
 
   before(() => {
-    mockStore = sessionStorageSetup(mockStore);
+    sessionStorageSetup();
   });
 
   beforeEach(() => {
