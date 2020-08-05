@@ -61,18 +61,6 @@ export const ServerErrorAlert = (
   </>
 );
 
-export const stateTitle = (
-  <>
-    State (<strong>or</strong> Country if outside the U.S.)
-  </>
-);
-
-export const cityTitle = (
-  <>
-    City <strong>or</strong> county
-  </>
-);
-
 export const isInsideListLoopReturn = (
   chapter,
   outerField,
@@ -126,7 +114,7 @@ export const isOutsideListLoopReturn = (
   return {
     'ui:title': 'Where were you married?',
     isOutsideUS: {
-      'ui:title': 'This occurred outsite the US',
+      'ui:title': 'This occurred outside the US',
     },
     country: {
       'ui:title': 'Country',
