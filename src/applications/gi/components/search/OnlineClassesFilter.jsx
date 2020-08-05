@@ -14,7 +14,7 @@ function OnlineClassesFilter({
 }) {
   if (gibctFilterEnhancement) {
     return (
-      <div className="filter-additional-info">
+      <div className="filter-additional-info vads-u-margin-bottom--4">
         <AdditionalInfo triggerText="Your housing allowance">
           <RadioButtons
             label={renderLearnMoreLabel({

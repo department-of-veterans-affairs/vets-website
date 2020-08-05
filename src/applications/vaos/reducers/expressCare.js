@@ -1,11 +1,9 @@
-import moment from 'moment';
+import moment from '../utils/moment-tz';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
   updateSchemaAndData,
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
-
-import { stripDST } from '../utils/timezone';
 
 import {
   FORM_PAGE_OPENED,
@@ -19,14 +17,11 @@ import {
   FORM_REASON_FOR_REQUEST_PAGE_OPENED,
 } from '../actions/expressCare';
 
-import { FETCH_STATUS } from '../utils/constants';
+import { FETCH_STATUS, EXPRESS_CARE } from '../utils/constants';
 
 const initialState = {
   windowsStatus: FETCH_STATUS.notStarted,
-  windows: null,
-  localWindowString: null,
-  minStart: null,
-  maxEnd: null,
+  supportedFacilities: null,
   newRequest: {
     data: {},
   },
@@ -92,54 +87,30 @@ export default function expressCareReducer(state = initialState, action) {
         windowsStatus: FETCH_STATUS.loading,
       };
     case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
-      const { facilityData, nowUtc } = action;
-      const windows = []
-        .concat(...facilityData)
-        .filter(f => !!f.expressTimes)
-        .map(({ expressTimes, authoritativeName, rootStationCode, id }) => {
-          const { start, end, offsetUtc, timezone } = expressTimes;
-          const today = nowUtc.format('YYYY-MM-DD');
-          const startString = `${today}T${start}${offsetUtc}`;
-          const endString = `${today}T${end}${offsetUtc}`;
-
-          return {
-            utcStart: moment.utc(startString),
-            utcEnd: moment.utc(endString),
-            start: moment.parseZone(startString),
-            end: moment.parseZone(endString),
-            offset: offsetUtc,
-            timeZone: stripDST(timezone),
-            authoritativeName,
-            rootStationCode,
-            id,
-          };
-        })
-        .sort((a, b) => (a.utcStart.format() < b.utcStart.format() ? -1 : 1));
-
-      let minStart;
-      let maxEnd;
-
-      if (windows.length) {
-        const windowsReverseSorted = windows.sort(
-          (a, b) => (a.utcEnd.format() > b.utcEnd.format() ? -1 : 1),
-        );
-
-        minStart = windows?.[0];
-        maxEnd = windowsReverseSorted?.[0];
-      }
+      const { settings } = action;
+      // We're only parsing out facilities in here, since the rest
+      // of the logic is very dependent on the current time and we may want
+      // to re-check if EC is available without re-fecthing
+      const supportedFacilities = settings
+        // This grabs just the facilities where EC is supported
+        .filter(
+          facility =>
+            facility.customRequestSettings?.find(
+              setting => setting.id === EXPRESS_CARE,
+            )?.supported,
+        )
+        // This makes sure we only pull the days where EC is open
+        .map(facility => ({
+          facilityId: facility.id,
+          days: facility.customRequestSettings
+            .find(setting => setting.id === EXPRESS_CARE)
+            .schedulingDays.filter(day => day.canSchedule),
+        }));
 
       return {
         ...state,
         windowsStatus: FETCH_STATUS.succeeded,
-        minStart,
-        maxEnd,
-        windows,
-        localWindowString:
-          minStart && maxEnd
-            ? `${minStart.start.format('h:mm a')} to ${maxEnd.end.format(
-                'h:mm a',
-              )} ${minStart.timeZone}`
-            : null,
+        supportedFacilities,
       };
     }
     case FETCH_EXPRESS_CARE_WINDOWS_FAILED:
@@ -185,7 +156,9 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         submitStatus: FETCH_STATUS.succeeded,
         successfulRequest: action.responseData,
-        newRequest: {},
+        newRequest: {
+          data: {},
+        },
       };
     case FORM_SUBMIT_FAILED:
       return {

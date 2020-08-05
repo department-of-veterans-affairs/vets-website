@@ -17,7 +17,7 @@ const initialState = {
   maxEnd: null,
 };
 
-describe('express care window', () => {
+describe('VAOS express care reducer', () => {
   it('should set windowsStatus to loading', () => {
     const action = {
       type: FETCH_EXPRESS_CARE_WINDOWS,
@@ -27,29 +27,48 @@ describe('express care window', () => {
     expect(newState.windowsStatus).to.equal(FETCH_STATUS.loading);
   });
 
-  it('should fetch and format express care window and update windowsStatus', () => {
-    const window = {
-      start: '00:00',
-      end: '23:59',
-      timezone: 'MDT',
-      offsetUtc: '-06:00',
-    };
+  it('should filter out facilities without EC and set status on success', () => {
     const action = {
       type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
-      facilityData: [
-        [
-          {
-            expressTimes: window,
-          },
-        ],
+      settings: [
+        {
+          id: '983',
+          customRequestSettings: [
+            {
+              id: 'CR1',
+              typeOfCare: 'Express Care',
+              supported: true,
+              schedulingDays: [
+                {
+                  day: 'MONDAY',
+                  canSchedule: true,
+                },
+                {
+                  day: 'TUESDAY',
+                  canSchedule: false,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '984',
+          customRequestSettings: [
+            {
+              id: 'CR1',
+              typeOfCare: 'Express Care',
+              supported: false,
+              schedulingDays: [],
+            },
+          ],
+        },
       ],
-      nowUtc: moment.utc(),
     };
 
     const newState = expressCareReducer(initialState, action);
     expect(newState.windowsStatus).to.equal(FETCH_STATUS.succeeded);
-    expect('allowRequests' in newState).to.equal(true);
-    expect(newState.localWindowString).to.equal('12:00 a.m. to 11:59 p.m. MT');
+    expect(newState.supportedFacilities.length).to.equal(1);
+    expect(newState.supportedFacilities[0].days.length).to.equal(1);
   });
 
   it('should set windowsStatus to failed', () => {
