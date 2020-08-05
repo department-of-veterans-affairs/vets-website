@@ -7,6 +7,7 @@ import ReviewPageSupplies from '../components/ReviewPageSupplies';
 import VeteranInfoBox from '../components/VeteranInfoBox';
 import { schemaFields } from '../constants';
 import { addressUISchema } from './address-schema';
+import StringField from 'platform/forms-system/src/js/review/StringField';
 
 const { permanentAddressField, temporaryAddressField } = schemaFields;
 
@@ -160,8 +161,8 @@ export default {
       'ui:title': 'Select the hearing aid batteries and accessories you need.',
       'ui:description':
         'You can only order each hearing aid battery and accessory once every 5 months.',
-      'ui:field': 'StringField',
-      'ui:widget': BatteriesAndAccessories,
+      'ui:field': BatteriesAndAccessories,
+      'ui:reviewField': props => <StringField {...props} />,
       'ui:reviewWidget': ReviewPageSupplies,
       'ui:options': {
         keepInPageOnReview: true,
