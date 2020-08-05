@@ -43,7 +43,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
   };
   return (
     <div>
-      <h2 className="vads-u-margin-top--1p5 vads-u-margin-bottom--2">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
         Your debt letters
       </h2>
       {isVBMSError && renderAlert()}
