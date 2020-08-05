@@ -174,7 +174,7 @@ function getIdentifierToken(clinic, index) {
  * @param {Object} clinic
  * @returns {String} The clinic id or empty string.
  */
-export function getClinicIdentifier(clinic) {
+export function getClinicId(clinic) {
   return getIdentifierToken(clinic, 5);
 }
 

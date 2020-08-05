@@ -69,7 +69,10 @@ import { getTypeOfCare } from '../utils/selectors';
 import {
   getOrganizationBySiteId,
   getIdOfRootOrganization,
+  getRootOrganization,
+  getSiteIdFromOrganization,
 } from '../services/organization';
+import { getClinicId } from '../services/healthcare-service/transformers';
 
 const initialState = {
   pages: {},
@@ -652,12 +655,16 @@ export default function formReducer(state = initialState, action) {
           state.parentFacilities,
           state.data.vaParent,
         );
+
+        const org = getRootOrganization(state.parentFacilities, rootOrgId);
+        const siteId = getSiteIdFromOrganization(org);
+
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
           const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
           if (
             // Remove parse function when converting the past appointment call to FHIR service
-            appt.facilityId === parseFakeFHIRId(rootOrgId) &&
+            appt.facilityId === siteId &&
             (!latestApptTime || latestApptTime > apptTime)
           ) {
             pastAppointmentDateMap.set(appt.clinicId, apptTime);
@@ -666,7 +673,7 @@ export default function formReducer(state = initialState, action) {
 
         clinics = clinics.filter(clinic =>
           // Get clinic portion of id
-          pastAppointmentDateMap.has(clinic.id?.split('_')[1]),
+          pastAppointmentDateMap.has(getClinicId(clinic)),
         );
       }
 
