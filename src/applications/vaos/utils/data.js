@@ -102,12 +102,9 @@ export function transformFormToVARequest(state) {
   };
 }
 
-export function transformFormToExpressCareRequest(state) {
+export function transformFormToExpressCareRequest(state, facility) {
   const data = selectExpressCareFormData(state);
-  const { facilityId, siteId, name } = selectActiveExpressCareFacility(
-    state,
-    moment.utc(),
-  );
+  const { facilityId, siteId, name } = facility;
 
   return {
     typeOfCare: EXPRESS_CARE,

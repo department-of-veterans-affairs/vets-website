@@ -17,7 +17,7 @@ import {
   filterServicePeriods,
 } from '../submit-transformer';
 
-import maximalData from './data/maximal-test.json';
+import maximalData from './fixtures/data/maximal-test.json';
 
 import {
   PTSD_INCIDENT_ITERATION,
@@ -39,7 +39,7 @@ describe('transform', () => {
   ];
 
   // Read all the data files
-  const dataDir = path.join(__dirname, './data/');
+  const dataDir = path.join(__dirname, './fixtures/data/');
   fs.readdirSync(dataDir)
     .filter(fileName => fileName.endsWith('.json'))
     .forEach(fileName => {
