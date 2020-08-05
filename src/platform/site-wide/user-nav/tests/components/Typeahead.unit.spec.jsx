@@ -40,10 +40,10 @@ describe('<Typeahead>', () => {
   });
 
   it('shows suggestions', async () => {
-    const wrapper = shallow(<Typeahead />);
+    const wrapper = shallow(<Typeahead debounceRate={1} />);
     wrapper.setProps({ userInput: 'test' });
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise(resolve => setTimeout(resolve, 2));
 
     expect(global.fetch.called).to.be.true;
     expect(wrapper.find('option')).to.have.lengthOf(4);
