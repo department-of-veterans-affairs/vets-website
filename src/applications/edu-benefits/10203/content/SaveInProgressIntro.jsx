@@ -68,7 +68,7 @@ class SaveInProgressIntro extends React.Component {
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-item-metadata">
-                    Your {formDescriptions[formId]} is in progress.
+                    Your Rogers STEM Scholarship application is in progress.
                   </span>
                   <br />
                   <span className="saved-form-item-metadata">
