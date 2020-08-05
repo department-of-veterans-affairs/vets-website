@@ -8,6 +8,7 @@ import { Link } from 'react-router';
 import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
 
+// This could probably be its own component ?
 const showOperationStatus = operatingStatus => {
   let infoMsg;
   let classNameAlert;
@@ -39,6 +40,15 @@ const showOperationStatus = operatingStatus => {
   );
 };
 
+/**
+ *
+ * Va facility component for:
+ *
+ * VA health
+ * Va benefits
+ * Vet Centers
+ * Va cemeteries
+ */
 const VaFacilityResult = ({ location, query }) => {
   const { name, website, operatingStatus } = location.attributes;
   const distance = location.distance;

@@ -17,6 +17,7 @@ import { updateSearchQuery, searchWithBounds } from '../actions';
 import SearchResult from './SearchResult';
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import VaFacilityResult from './search-results-items/VaFacilityResult';
+import CCProviderResult from './search-results-items/CCProviderResult';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -57,7 +58,8 @@ class ResultsList extends Component {
           item = <VaFacilityResult location={r} query={query} />;
           break;
         case 'provider':
-          item = <SearchResult result={r} query={query} />;
+        case 'cc_provider':
+          item = <CCProviderResult provider={r} query={query} />;
           break;
         default:
           item = <SearchResult result={r} query={query} />;
