@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { buildAddressArray } from '../../utils/facilityAddress';
+import { buildAddressArray } from '../../../utils/facilityAddress';
 
 function LocationDirectionsLink({ location, from }) {
   let address = buildAddressArray(location);

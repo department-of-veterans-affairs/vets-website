@@ -17,7 +17,7 @@ const facilityName = (query, location) => {
 
 const FacilityTypeDescription = ({ location, from, query }) => (
   <div className="vads-u-margin-bottom--1">
-    {from === 'FacilityDetail' && <strong>Facility type: </strong>}
+    {from && from === 'FacilityDetail' && <strong>Facility type: </strong>}
     {facilityName(query, location)}
   </div>
 );

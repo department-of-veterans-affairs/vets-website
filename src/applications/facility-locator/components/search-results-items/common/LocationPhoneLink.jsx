@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
-import { LocationType, CLINIC_URGENTCARE_SERVICE } from '../../constants';
-import { parsePhoneNumber } from '../../utils/phoneNumbers';
+import { LocationType, CLINIC_URGENTCARE_SERVICE } from '../../../constants';
+import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 
 const renderPhoneNumber = (title, subTitle = null, phone, from) => {
   if (!phone) {
