@@ -53,7 +53,7 @@ const formConfig = {
   trackingPrefix: 'covid-vaccine-trial-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '12345',
+  formId: 'COVID-VACCINE-TRIAL',
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
