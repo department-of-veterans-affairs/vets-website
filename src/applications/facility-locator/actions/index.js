@@ -280,7 +280,7 @@ export const genBBoxFromAddress = query => {
 };
 
 /**
- * Preloads all services available from CC Providers
+ * Preloads all specialties available from CC Providers
  * for the type-ahead component.
  */
 export const getProviderSpecialties = () => async dispatch => {

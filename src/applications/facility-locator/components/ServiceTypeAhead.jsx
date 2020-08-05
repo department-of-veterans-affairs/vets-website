@@ -117,10 +117,6 @@ class ServiceTypeAhead extends Component {
                           role: 'option',
                           'aria-selected': index === highlightedIndex,
                         })}
-                        style={{
-                          fontWeight:
-                            selectedItem === specialty ? 'bold' : 'normal',
-                        }}
                       >
                         {this.getSpecialtyName(specialty)}
                       </div>
