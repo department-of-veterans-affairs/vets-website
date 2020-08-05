@@ -198,9 +198,7 @@ describe('DebtLettersSummary', () => {
         .dive()
         .find('h4')
         .text(),
-    ).to.equal(
-      "You don't have any current Education or Compensation & Pension Debts",
-    );
+    ).to.equal("Our records show that you don't have any current debts");
     wrapper.unmount();
   });
 });
