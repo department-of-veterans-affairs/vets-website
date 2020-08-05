@@ -33,8 +33,7 @@ export const AuthContent = () => (
     <div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-can-the-va-prescription-re">
-          How can the VA Prescription Refill and Tracking tools help me manage
-          my health care?
+          How can VA's prescription tools help me manage my health care?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -44,9 +43,8 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                The Prescription Refill and Tracking tools on My HealtheVet and
-                My HealtheVet are web-based services that help you manage your
-                VA prescriptions online.
+                These web- and mobile-based services help you manage your VA
+                prescriptions online.
               </p>
               <p>
                 <strong>With these tools, you can:</strong>
@@ -99,9 +97,9 @@ export const AuthContent = () => (
                   <strong>and</strong>
                 </li>
                 <li>
-                  Have a refillable prescription from a VA doctor that you’ve
-                  filled at a VA pharmacy and that’s being handled by the VA
-                  Mail Order Pharmacy
+                  Have a refillable prescription from a VA doctor that
+                  you&apos;ve filled at a VA pharmacy and that&apos;s being
+                  handled by the VA Mail Order Pharmacy
                 </li>
               </ul>
               <p>
@@ -116,7 +114,7 @@ export const AuthContent = () => (
                 <li>
                   A{' '}
                   <a
-                    href="https://www.myhealth.va.gov/mhv-portal-web/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication"
+                    href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount"
                     rel="noreferrer noopener"
                   >
                     Premium <strong>My HealtheVet account</strong>
@@ -128,8 +126,13 @@ export const AuthContent = () => (
                   eBenefits and milConnect), <strong>or</strong>
                 </li>
                 <li>
-                  A verified <strong>ID.me</strong> account that you can create
-                  here on VA.gov
+                  A verified <strong>ID.me</strong> account that you can{' '}
+                  <a
+                    href="https://api.id.me/en/registration/new"
+                    rel="noreferrer noopener"
+                  >
+                    create here on VA.gov
+                  </a>
                 </li>
               </ul>
             </div>
@@ -138,7 +141,7 @@ export const AuthContent = () => (
       </div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="once-im-signed-in-how-do-i-get">
-          Once I’m signed in, how do I get started?
+          Once I&apos;m signed in, how do I get started?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -147,46 +150,51 @@ export const AuthContent = () => (
         >
           <div itemProp="text">
             <div className="processed-content">
+              <h3>
+                If you&apos;re refilling and tracking prescriptions on My
+                HealtheVet
+              </h3>
               <p>
-                <strong>
-                  If you&apos;re refilling and tracking prescriptions on My VA
-                  Health
-                </strong>
-              </p>
-              <p>
-                In the navigation menu, you&apos;ll see a section titled
-                &quot;Pharmacy.&quot; Within that section, you&apos;ll see these
-                options:
+                On your Welcome page, you&apos;ll find a module for
+                <strong>Pharmacy</strong>. Within that module, you&apos;ll find
+                these 3 options:
               </p>
               <ul>
-                <li>&quot;View current medications&quot;</li>
-                <li>&quot;View comprehensive medications&quot;</li>
+                <li>
+                  <strong>Refill VA Prescriptions</strong>
+                </li>
+                <li>
+                  <strong>Track Delivery</strong>
+                </li>
+                <li>
+                  <strong>Medications List</strong>
+                </li>
               </ul>
               <p>
-                Click into the medication list you want, and you&apos;ll see the
-                right medication list. For each medication, you will see options
-                to refill and renew.
+                Click on the link you want. You&apos;ll get instructions on the
+                next page to get started.
               </p>
 
+              <h3>
+                If you&apos;re refilling and tracking prescriptions on My VA
+                Health
+              </h3>
               <p>
-                <strong>
-                  If you&apos;re refilling and tracking prescriptions on My
-                  HealtheVet
-                </strong>
-              </p>
-              <p>
-                On your Welcome page, you&apos;ll see a module for
-                &quot;Pharmacy.&quot; Within that module, you&apos;ll see these
-                options:
+                In the navigation menu, you&apos;ll find a section titled
+                <strong>Pharmacy</strong>. Within that section, you&apos;ll find
+                these 2 options:
               </p>
               <ul>
-                <li>&quot;Refill VA Prescriptions&quot;</li>
-                <li>&quot;Track Delivery&quot;</li>
-                <li>&quot;Medications List&quot;</li>
+                <li>
+                  <strong>View current medications</strong>
+                </li>
+                <li>
+                  <strong>View comprehensive medications</strong>
+                </li>
               </ul>
               <p>
-                Click on the link you want, and you&apos;ll get instructions on
-                the next page to get started.
+                Choose the medication list you want. For each medication,
+                you&apos;ll then find options to refill and renew.
               </p>
             </div>
           </div>
@@ -194,7 +202,7 @@ export const AuthContent = () => (
       </div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="can-i-use-this-tool-to-refill-">
-          Can I use this tool to refill and track all my VA prescriptions?
+          Can I use these tools to refill and track all my VA prescriptions?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -215,7 +223,7 @@ export const AuthContent = () => (
                 </strong>
               </p>
               <ul>
-                <li>VA medicines that were refilled or renewed</li>
+                <li>VA medicines that you&apos;ve refilled or renewed</li>
                 <li>Wound care supplies</li>
                 <li>Diabetic supplies</li>
                 <li>
@@ -225,15 +233,16 @@ export const AuthContent = () => (
               </ul>
               <p>
                 Your VA health care team may decide not to ship medicines that
-                you don’t need right away, medicines that are not commonly
-                prescribed, or those that require you to be closely monitored.
-                In these cases, you’ll need to pick up your prescription from
-                the VA health facility where you get care.
+                you don&apos;t need right away, medicines that aren&apos;t
+                commonly prescribed, or those that require you to be closely
+                monitored. In these cases, you&apos;ll need to pick up your
+                prescription from the VA health facility where you get care.
               </p>
               <p>
-                You can’t refill some medicines, like certain pain medication
-                and narcotics. You’ll need to get a new prescription from your
-                VA provider each time you need more of these medicines.
+                You can&apos;t refill some medicines, like certain pain
+                medications and narcotics. You&apos;ll need to get a new
+                prescription from your VA provider each time you need more of
+                these medicines.
               </p>
             </div>
           </div>
@@ -253,26 +262,46 @@ export const AuthContent = () => (
               <p>
                 Our mail order pharmacy will send your prescriptions to the
                 address we have on file for you. We ship to all addresses in the
-                United States and its territories. We don’t ship prescriptions
-                to foreign countries.
+                United States and its territories. We don&apos;t ship
+                prescriptions to foreign countries.
               </p>
               <p>
-                <strong>Important note:</strong> If you change your address
-                within My HealtheVet or My VA Health, it does{' '}
-                <strong>not</strong> change your address for prescription
-                shipments. Please contact the VA health facility where you get
-                care to have them update your address on file.
-                <br />
-                <a href="/find-locations/">Find your VA health facility</a>
+                <strong>Important note:</strong> Changing your address within My
+                HealtheVet or My VA Health doesn&apos;t change your address for
+                prescription shipments.
               </p>
+              <p>
+                <strong>
+                  To change your address on file with VA for prescription
+                  shipments:
+                </strong>
+              </p>
+              <ul>
+                <li>
+                  Go to your <a href="/profile/">VA.gov profile</a>.<br />
+                  Click <strong>Edit</strong> next to each address you'd like to
+                  change, including your mailing and home address. Or if you
+                  haven't yet added an address, click on the link to add your
+                  address. Then fill out the form and click{' '}
+                  <strong>Update</strong> to save your changes. You can also add
+                  or edit other contact, personal, and military service
+                  information.
+                </li>
+
+                <li>
+                  Or contact the VA health facility where you get care to have
+                  them update your address on file.
+                  <br />
+                  <a href="/find-locations/">Find your VA health facility</a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-long-will-my-prescriptions">
-          How long will my prescriptions take to arrive, and when should I
-          reorder?
+          When will I get my prescriptions, and when should I reorder?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -282,15 +311,13 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                Prescriptions usually arrive within 3 to 5 days. But you’ll be
-                able to find specific information about your order on the
-                website of the delivery service shown in My HealtheVet or My VA
-                Health.
+                Prescriptions usually arrive within 3 to 5 days. You can find
+                specific information about your order on the website of the
+                delivery service shown in My HealtheVet or My VA Health.
               </p>
               <p>
-                To make sure you have your medicine in time, you’ll want to
-                request your refill at least 10 days before you’ll run out of
-                your current prescription.
+                To make sure you have your medicine in time, please request your
+                refill at least 10 days before you need more medicine.
               </p>
             </div>
           </div>
@@ -308,14 +335,14 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                Yes. This is a secure website. We follow strict security
-                policies and practices to protect your personal health
-                information.
+                Yes. Our health management portals are secure websites. We
+                follow strict security policies and practices to protect your
+                personal health information.
               </p>
               <p>
                 If you print or download anything from the website (like
-                prescription details), you’ll need to take responsibility for
-                protecting that information.
+                prescription details), you&apos;ll need to take responsibility
+                for protecting that information.
                 <br />
                 <a
                   href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
@@ -340,55 +367,38 @@ export const AuthContent = () => (
         >
           <div itemProp="text">
             <div className="processed-content">
+              <h3>For My HealtheVet questions</h3>
+              <p>You can:</p>
+              <ul>
+                <li>
+                  Read the{' '}
+                  <a rel="noreferrer noopener" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#PrescriptionRefill">
+                    prescription refill FAQs
+                  </a>{' '}
+                  on the My HealtheVet web portal
+                </li>
+                <li>
+                  Call the My HealtheVet help desk at{' '}
+                  <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
+                    877-327-0022
+                  </a>{' '}
+                  (TTY <Telephone contact={CONTACTS.HELP_TTY} />
+                  ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
+                  ET.
+                </li>
+                <li>
+                  Or{' '}
+                  <a rel="noreferrer noopener" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv">
+                    contact us online
+                  </a>
+                </li>
+              </ul>
+              <h3>For My VA Health questions</h3>
               <p>
-                <strong>
-                  If you have questions about VA Presecription Refill and
-                  Tracking on MyHealtheVet
-                </strong>
-                , please go to the{' '}
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#PrescriptionRefill"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Prescription Refills FAQs
-                </a>{' '}
-                on the My HealtheVet web portal.
-              </p>
-              <p>
-                Or contact the My HealtheVet help desk at{' '}
-                <a href="tel:+18773270022">877-327-0022</a> (TTY:{' '}
-                <Telephone contact={CONTACTS.HELP_TTY} />. We&apos;re here
-                Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
-              </p>
-              <p>
-                You can also{' '}
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  contact us online
-                </a>
-                .
-              </p>
-              <p>
-                <strong>
-                  If you have questions about VA Prescription Refill and
-                  Tracking on My VA Health
-                </strong>
-                , you can call the My VA Health help desk at{' '}
-                <a aria-label="1 8 0 0 9 6 2 1 0 2 4" href="tel:18009621024">
-                  1-800-962-1024
-                </a>
-                . You can also{' '}
-                <a
-                  className="vads-u-color--secondary vads-u-text-decoration--none"
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  [contact us online]
+                Call My VA Health support anytime at{' '}
+                <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
+                  {' '}
+                  800-962-1024
                 </a>
                 .
               </p>
