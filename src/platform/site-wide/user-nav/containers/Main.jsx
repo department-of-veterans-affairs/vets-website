@@ -66,11 +66,7 @@ export class Main extends React.Component {
       redirectUrl && !window.location.pathname.includes('verify');
 
     if (shouldRedirect) {
-      window.location.replace(
-        !environment.isProduction()
-          ? appendQuery(redirectUrl, 'postLogin=true')
-          : redirectUrl,
-      );
+      window.location.replace(appendQuery(redirectUrl, 'postLogin=true'));
     }
   }
 
