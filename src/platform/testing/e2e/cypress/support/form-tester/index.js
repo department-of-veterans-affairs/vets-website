@@ -306,9 +306,7 @@ Cypress.Commands.add('enterData', field => {
         .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .then(element => {
           // Get the autocomplete menu out of the way.
-          if (element.attr('role') === 'combobox') {
-            cy.wrap(element).type('{downarrow}{enter}');
-          }
+          if (element.attr('role') === 'combobox') element.blur();
         });
       break;
     }
