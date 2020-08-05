@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import environment from 'platform/utilities/environment';
 
-// import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
-import fullSchema from '../schema/covid-vaccine-trial-schema_temp.json';
+import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
+// import fullSchema from '../schema/covid-vaccine-trial-schema_temp.json';
 import uiSchemaDefinitions from '../schema/covid-vaccine-trial-ui-schema.json';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
