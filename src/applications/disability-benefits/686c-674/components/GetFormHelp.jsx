@@ -13,7 +13,7 @@ const GetFormHelp = () => (
     </a>
     .<br />
     <br />
-    If you have hearin g loss, call{' '}
+    If you have hearing loss, call{' '}
     <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
   </p>
 );
