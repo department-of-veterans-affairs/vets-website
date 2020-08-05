@@ -3,13 +3,15 @@ import { object } from 'prop-types';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { vetCenterServices } from '../config';
+import { formatServiceName } from '../utils/formatServiceName';
+import { FacilityType } from '../constants';
 
 /**
  * VA Facility-specific Services Component
  */
 class ServicesAtFacility extends Component {
   renderService(service) {
-    const label = service.replace(/([A-Z])/g, ' $1');
+    const label = formatServiceName(service);
 
     return (
       <li key={service} className="service-block">
@@ -18,53 +20,15 @@ class ServicesAtFacility extends Component {
     );
   }
 
-  renderServiceBlock(serviceArray) {
-    const subServicesList = subServices => {
-      if (subServices.length > 0) {
-        return (
-          <ul>
-            {subServices.map((ss, i) => (
-              <li key={i}>{ss.replace(/([A-Z])/g, ' $1')}</li>
-            ))}
-          </ul>
-        );
-      }
-      return null;
-    };
-
-    return (
-      <div key={serviceArray[0]} className="mb2">
-        <h5>{serviceArray[0].replace(/([A-Z])/g, ' $1')}</h5>
-        {subServicesList(serviceArray[1])}
-      </div>
-    );
-  }
-
-  // TODO: Use this method to render separate lists for each L1 service
-  renderServiceLists() {
-    const {
-      facility: {
-        attributes: { services },
-      },
-    } = this.props;
-
-    if (!services) {
-      return null;
-    }
-
-    return <div>{services.map(this.renderServiceBlock)}</div>;
-  }
-
   renderServices() {
     const { facility } = this.props;
 
-    // TODO: Swap out the magic-strings
     switch (facility.attributes.facilityType) {
-      case 'va_health_facility':
+      case FacilityType.VA_HEALTH_FACILITY:
         return this.renderHealthServices();
-      case 'va_benefits_facility':
+      case FacilityType.VA_BENEFITS_FACILITY:
         return this.renderBenefitsServices();
-      case 'vet_center':
+      case FacilityType.VET_CENTER:
         return this.renderVetCenterServices();
       default:
         return null;
@@ -136,9 +100,7 @@ class ServicesAtFacility extends Component {
       <div>
         <p style={{ margin: '0 0 0.5em' }}>
           Services current as of&nbsp;
-          <strong>
-            {moment(services.last_updated).format('MMMM D, YYYY')}
-          </strong>
+          <strong>{moment(services.last_updated).format('LL')}</strong>
         </p>
 
         <div className="mb2">

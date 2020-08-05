@@ -46,10 +46,13 @@ import {
   REASON_MAX_CHARS,
   PURPOSE_TEXT,
   VHA_FHIR_ID,
+  FACILITY_TYPES,
 } from '../../utils/constants';
 
 import { transformParentFacilities } from '../../services/organization/transformers';
 import { transformDSFacilities } from '../../services/location/transformers';
+import { getTypeOfCare } from '../../utils/selectors';
+import { name } from 'file-loader';
 
 const parentFacilitiesParsed = transformParentFacilities(
   parentFacilities.data.map(item => ({
@@ -773,20 +776,81 @@ describe('VAOS reducer: newAppointment', () => {
           .title,
       ).to.equal(REASON_ADDITIONAL_INFO_TITLES.request);
     });
+  });
 
-    it('page open should set max characters', async () => {
-      const currentState = {
-        ...defaultState,
-        flowType: FLOW_TYPES.DIRECT,
-        data: {
-          reasonForAppointment: 'other',
+  it('should unset reasonForAppointment if CC appointment', () => {
+    const state = {
+      ...defaultState,
+      data: {
+        ...defaultState.data,
+        reasonForAppointment: 'other',
+        facilityType: FACILITY_TYPES.COMMUNITY_CARE,
+      },
+    };
+
+    const action = {
+      type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+      page: 'reasonForAppointment',
+      schema: {
+        type: 'object',
+        properties: {
+          reasonAdditionalInfo: {
+            type: 'string',
+          },
         },
-      };
+      },
+      uiSchema: {},
+    };
 
-      const action = {
-        type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
-        page: 'reasonForAppointment',
-        schema: {
+    const newState = newAppointmentReducer(state, action);
+
+    expect(newState.data.reasonForAppointment).to.equal(undefined);
+  });
+
+  it('page open should set max characters', async () => {
+    const currentState = {
+      ...defaultState,
+      flowType: FLOW_TYPES.DIRECT,
+      data: {
+        reasonForAppointment: 'other',
+      },
+    };
+
+    const action = {
+      type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+      page: 'reasonForAppointment',
+      schema: {
+        type: 'object',
+        properties: {
+          reasonAdditionalInfo: {
+            type: 'string',
+          },
+        },
+      },
+      uiSchema: {},
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(
+      newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+        .maxLength,
+    ).to.equal(
+      REASON_MAX_CHARS.direct -
+        PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
+        2,
+    );
+  });
+
+  it('change should set max characters', async () => {
+    const currentState = {
+      ...defaultState,
+      flowType: FLOW_TYPES.DIRECT,
+      data: {
+        reasonForAppointment: 'medication-concern',
+      },
+      pages: {
+        reasonForAppointment: {
           type: 'object',
           properties: {
             reasonAdditionalInfo: {
@@ -794,60 +858,28 @@ describe('VAOS reducer: newAppointment', () => {
             },
           },
         },
-        uiSchema: {},
-      };
+      },
+    };
 
-      const newState = newAppointmentReducer(currentState, action);
+    const action = {
+      type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
+      page: 'reasonForAppointment',
+      uiSchema: {},
+      data: {
+        reasonForAppointment: 'other',
+      },
+    };
 
-      expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
-          .maxLength,
-      ).to.equal(
-        REASON_MAX_CHARS.direct -
-          PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
-          2,
-      );
-    });
+    const newState = newAppointmentReducer(currentState, action);
 
-    it('change should set max characters', async () => {
-      const currentState = {
-        ...defaultState,
-        flowType: FLOW_TYPES.DIRECT,
-        data: {
-          reasonForAppointment: 'medication-concern',
-        },
-        pages: {
-          reasonForAppointment: {
-            type: 'object',
-            properties: {
-              reasonAdditionalInfo: {
-                type: 'string',
-              },
-            },
-          },
-        },
-      };
-
-      const action = {
-        type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
-        page: 'reasonForAppointment',
-        uiSchema: {},
-        data: {
-          reasonForAppointment: 'other',
-        },
-      };
-
-      const newState = newAppointmentReducer(currentState, action);
-
-      expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
-          .maxLength,
-      ).to.equal(
-        REASON_MAX_CHARS.direct -
-          PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
-          2,
-      );
-    });
+    expect(
+      newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+        .maxLength,
+    ).to.equal(
+      REASON_MAX_CHARS.direct -
+        PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
+        2,
+    );
   });
 
   describe('CC preferences page', () => {
@@ -868,6 +900,9 @@ describe('VAOS reducer: newAppointment', () => {
           type: 'object',
           required: [],
           properties: {
+            hasCommunityCareProvider: {
+              type: 'boolean',
+            },
             communityCareSystemId: { type: 'string' },
           },
         },
@@ -889,6 +924,9 @@ describe('VAOS reducer: newAppointment', () => {
         ...defaultState,
         parentFacilitiesStatus: FETCH_STATUS.loading,
         ccEnabledSystems: ['983'],
+        data: {
+          typeOfCareId: '323',
+        },
       };
 
       const newState = newAppointmentReducer(state, action);
@@ -908,6 +946,9 @@ describe('VAOS reducer: newAppointment', () => {
           required: [],
           properties: {
             communityCareSystemId: { type: 'string' },
+            hasCommunityCareProvider: {
+              type: 'boolean',
+            },
           },
         },
         uiSchema: {},
@@ -918,6 +959,9 @@ describe('VAOS reducer: newAppointment', () => {
         ...defaultState,
         parentFacilitiesStatus: FETCH_STATUS.loading,
         ccEnabledSystems: ['983', '984'],
+        data: {
+          typeOfCareId: '323',
+        },
       };
 
       const newState = newAppointmentReducer(state, action);

@@ -1,3 +1,4 @@
+import moment from '../../utils/moment-tz';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -12,10 +13,10 @@ import {
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
 } from '../../actions/expressCare';
-import { mockParentSites, mockSupportedFacilities } from '../mocks/helpers';
-import { getParentSiteMock } from '../mocks/v0';
+import { mockRequestEligibilityCriteria } from '../mocks/helpers';
+import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
 
-describe('express care', () => {
+describe('VAOS Express Care actions', () => {
   beforeEach(() => {
     mockFetch();
   });
@@ -43,41 +44,29 @@ describe('express care', () => {
         future: [{ facilityId: '442' }],
       },
     });
-    const data = {
-      data: [],
-    };
-    mockParentSites(
-      ['983'],
-      [
-        {
-          id: '983',
-          attributes: {
-            ...getParentSiteMock().attributes,
-            institutionCode: '983',
-            authoritativeName: 'Some VA facility',
-            rootStationCode: '983',
-            parentStationCode: '983',
-          },
-        },
-      ],
-    );
-    mockSupportedFacilities({
-      siteId: 983,
-      parentId: 983,
-      typeOfCareId: 'CR1',
-      data: [
-        {
-          attributes: {
-            expressTimes: {
-              start: '18:00',
-              end: '23:00',
-              timezone: 'MDT',
-              offsetUtc: '-06:00',
-            },
-          },
-        },
-      ],
-    });
+    const today = moment();
+    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: today
+          .clone()
+          .subtract('2', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+        endTime: today
+          .clone()
+          .add('1', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
+
     const thunk = fetchExpressCareWindows();
     const dispatchSpy = sinon.spy();
     await thunk(dispatchSpy, getState);

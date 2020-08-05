@@ -3,6 +3,29 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import set from 'platform/utilities/data/set';
 
+export const NO_BENEFIT_REFERRED = 'no benefit was referred';
+export const WIZARD_STATUS_NOT_STARTED = 'not started';
+export const WIZARD_STATUS_COMPLETE = 'complete';
+export const WIZARD_STATUS_APPLY_NOW = 'awaiting click on apply button';
+export const WIZARD_STATUS_IN_PROGRESS = 'in progress';
+export const WIZARD_STATUS_UPDATING = 'updating';
+export const formIdSuffixes = {
+  FORM_ID_1990: '1990',
+  FORM_ID_10203: '10203',
+  FORM_ID_1995: '1995',
+  FORM_ID_0994: '0994',
+  FORM_ID_5495: '5495',
+  FORM_ID_5490: '5490',
+  FORM_ID_1990E: '1990E',
+  FORM_ID_1990N: '1990N',
+};
+
+export const getReferredBenefit = async () =>
+  (await sessionStorage.getItem('benefitReferred')) || NO_BENEFIT_REFERRED;
+
+export const getWizardStatus = async () =>
+  (await sessionStorage.getItem('wizardStatus')) || WIZARD_STATUS_NOT_STARTED;
+
 export default class Wizard extends React.Component {
   constructor(props) {
     super(props);
@@ -10,9 +33,10 @@ export default class Wizard extends React.Component {
       pageHistory: [props.pages[0]],
       currentPageIndex: 0,
       expanded: !props.expander,
+      benefitReferred: getReferredBenefit(),
+      wizardStatus: getWizardStatus(),
     };
   }
-
   get currentPage() {
     const { pageHistory, currentPageIndex } = this.state;
     return pageHistory[currentPageIndex];
@@ -49,6 +73,12 @@ export default class Wizard extends React.Component {
   };
 
   render() {
+    const {
+      setReferredBenefit,
+      setWizardStatus,
+      expander,
+      buttonText,
+    } = this.props;
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
       'va-button-primary': !this.state.expanded,
     });
@@ -59,38 +89,41 @@ export default class Wizard extends React.Component {
         'wizard-content-closed': !this.state.expanded,
       },
     );
-
     return (
       <div>
-        {this.props.expander && (
+        {expander && (
           <button
             aria-expanded={this.state.expanded ? 'true' : 'false'}
             aria-controls="wizardOptions"
             className={buttonClasses}
             onClick={() => this.setState({ expanded: !this.state.expanded })}
           >
-            {this.props.buttonText}
+            {buttonText}
           </button>
         )}
-        <div className={contentClasses} id="wizardOptions">
-          <div className="wizard-content-inner">
-            {this.state.pageHistory.map((page, index) => {
-              const Page = page.component;
-              return (
-                <Page
-                  key={`${page.name}_${index}`}
-                  getPageStateFromPageName={pageName =>
-                    this.getPageStateFromPageName(pageName)
-                  }
-                  setPageState={(newState, nextPageName) =>
-                    this.setPageState(index, newState, nextPageName)
-                  }
-                  state={page.state}
-                />
-              );
-            })}
+        {this.state.expanded && (
+          <div className={contentClasses} id="wizardOptions">
+            <div className="wizard-content-inner">
+              {this.state.pageHistory.map((page, index) => {
+                const Page = page.component;
+                return (
+                  <Page
+                    key={`${page.name}_${index}`}
+                    getPageStateFromPageName={pageName =>
+                      this.getPageStateFromPageName(pageName)
+                    }
+                    setPageState={(newState, nextPageName) =>
+                      this.setPageState(index, newState, nextPageName)
+                    }
+                    state={page.state}
+                    setWizardStatus={setWizardStatus}
+                    setReferredBenefit={setReferredBenefit}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
@@ -107,9 +140,13 @@ Wizard.propTypes = {
   ),
   buttonText: PropTypes.string,
   expander: PropTypes.bool,
+  setWizardStatus: PropTypes.func,
+  setReferredBenefit: PropTypes.func,
 };
 
 Wizard.defaultProps = {
   buttonText: 'Find your form',
   expander: true,
+  setWizardStatus: () => {},
+  setReferredBenefit: () => {},
 };

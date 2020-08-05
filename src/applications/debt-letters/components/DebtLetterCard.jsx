@@ -2,25 +2,24 @@ import React from 'react';
 import last from 'lodash/last';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import { deductionCodes } from '../const';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const DebtLetterCard = props => {
+const DebtLetterCard = ({ debt }) => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
   });
-  const { debt } = props;
   const mostRecentHistory = last(debt.debtHistory);
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2p5">
-      <h3 className="vads-u-margin--0">
-        {deductionCodes[debt.deductionCode]} debt
-      </h3>
-      <p className="vads-u-margin-top--0p5">
-        Received on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
-      </p>
+      <h3 className="vads-u-margin--0">{debt.benefitType}</h3>
+      {mostRecentHistory && (
+        <p className="vads-u-margin-top--0p5">
+          Received on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
+        </p>
+      )}
       <p className="vads-u-margin-bottom--2 vads-u-font-size--md vads-u-font-family--sans">
         <strong>Amount owed: </strong>
         {formatter.format(parseFloat(debt.currentAr))}
@@ -33,6 +32,28 @@ const DebtLetterCard = props => {
       </AdditionalInfo>
     </div>
   );
+};
+
+DebtLetterCard.propTypes = {
+  debt: PropTypes.shape({
+    currentAr: PropTypes.number,
+    debtHistory: PropTypes.arrayOf(
+      PropTypes.shape({
+        date: PropTypes.string,
+      }),
+    ),
+    deductionCode: PropTypes.string,
+    originalAr: PropTypes.number,
+  }),
+};
+
+DebtLetterCard.defaultProps = {
+  debt: {
+    currentAr: 0,
+    debtHistory: [{ date: '' }],
+    deductionCode: '',
+    originalAr: 0,
+  },
 };
 
 const mapStateToProps = state => ({

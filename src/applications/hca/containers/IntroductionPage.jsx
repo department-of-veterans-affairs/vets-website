@@ -6,6 +6,9 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import HealthcareModalContent from 'platform/forms/components/OMBInfoModalContent/HealthcareModalContent';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
@@ -61,10 +64,8 @@ const VerificationRequiredAlert = () => (
           <li>
             Or call us at <a href="tel:+18772228387">877-222-8387</a>. If you
             have hearing loss, call TTY:{' '}
-            <a href="tel:8008778339" aria-label="8 0 0. 8 7 7. 8 3 3 9.">
-              800-877-8339
-            </a>
-            . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+            <Telephone contact={CONTACTS.HELP_TTY} />. We’re here Monday through
+            Friday, 8:00 a.m. to 8:00 p.m. ET.
           </li>
         </ul>
         <p>

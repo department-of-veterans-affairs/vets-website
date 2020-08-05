@@ -293,7 +293,7 @@ export function getRequestLimits(facilityId, typeOfCareId) {
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   let promise;
   if (USE_MOCK_DATA) {
-    if (facilityId === '983A6') {
+    if (facilityId === '983') {
       promise = import('./clinicList983.json').then(
         module => (module.default ? module.default : module),
       );
@@ -478,12 +478,28 @@ export function updateRequest(req) {
 export function submitRequest(type, request) {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve({
-      data: {
-        id: 'testing',
-        attributes: {},
-      },
-    });
+    if (request.typeOfCareId === EXPRESS_CARE) {
+      promise = Promise.resolve({
+        data: {
+          id: 'testing',
+          attributes: {
+            email: request.email,
+            phoneNumber: request.phoneNumber,
+            typeOfCareId: request.typeOfCareId,
+            reasonForVisit: request.reasonForVisit,
+            additionalInformation: request.additionalInformation,
+            status: 'Submitted',
+          },
+        },
+      });
+    } else {
+      promise = Promise.resolve({
+        data: {
+          id: 'testing',
+          attributes: {},
+        },
+      });
+    }
   } else {
     promise = vaosApiRequest(`/v0/appointment_requests?type=${type}`, {
       method: 'POST',
@@ -546,4 +562,21 @@ export function updatePreferences(data) {
   }
 
   return promise.then(resp => resp.data.attributes);
+}
+
+export function getRequestEligibilityCriteria(sites) {
+  let promise;
+  if (USE_MOCK_DATA) {
+    promise = import('./request_eligibility_criteria.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    promise = vaosApiRequest(
+      `/v0/request_eligibility_criteria?${sites
+        .map(site => `parent_sites[]=${site}`)
+        .join('&')}`,
+    );
+  }
+
+  return promise.then(resp => resp.data.map(data => data.attributes));
 }

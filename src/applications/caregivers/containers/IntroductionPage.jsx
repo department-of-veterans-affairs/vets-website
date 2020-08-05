@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
@@ -25,6 +28,7 @@ const IntroductionPage = ({ route, router }) => {
         Follow the steps below to apply for the Program of Comprehensive
         Assistance for Family Caregivers:
       </h2>
+
       <div className="process schemaform-process">
         <ol>
           {/* Prepare */}
@@ -36,6 +40,7 @@ const IntroductionPage = ({ route, router }) => {
               caregiver applicant will need to provide specific information.
               You’ll need:
             </p>
+
             <ul className="process-lists">
               <li>Address</li>
               <li>Telephone number</li>
@@ -64,13 +69,10 @@ const IntroductionPage = ({ route, router }) => {
               <ul className="process-lists">
                 <li>
                   Call us at
-                  <a
-                    href={links.VAHelpLine.label}
-                    aria-label={links.VAHelpLine.phoneAriaLabel}
+                  <Telephone
+                    contact={CONTACTS['222_VETS']}
                     className="vads-u-margin-x--0p5"
-                  >
-                    877-222-8387
-                  </a>
+                  />
                   and ask for help filling out the form
                 </li>
                 <li>
@@ -86,15 +88,8 @@ const IntroductionPage = ({ route, router }) => {
                   to find a coordinator at your nearest VA health care facility
                 </li>
                 <li>
-                  Contact the National Caregiver Support Line at
-                  <a
-                    className="vads-u-margin-x--0p5"
-                    href={links.nationalCaregiversSupport.link}
-                    aria-label={links.nationalCaregiversSupport.phoneAriaLabel}
-                  >
-                    855-260-3274
-                  </a>
-                  or a
+                  Contact the National Caregiver Support Line at{' '}
+                  <Telephone contact={CONTACTS.CAREGIVER} /> or a
                   <a
                     className="vads-u-margin-x--0p5"
                     href="https://www.va.gov/disability/get-help-filing-claim/"
@@ -157,13 +152,10 @@ const IntroductionPage = ({ route, router }) => {
               If you aren’t eligible for PCAFC you may be eligible for the
               Program of General Caregiver Support Services (PGCSS). To find out
               more, contact VA’s Caregiver Support Line at
-              <a
-                href={links.caregiverHelp.phoneLink}
-                aria-label={links.caregiverHelp.phoneAriaLabel}
+              <Telephone
+                contact={CONTACTS.CAREGIVER}
                 className="vads-u-margin-left--0p5"
-              >
-                {links.caregiverHelp.phoneLabel}
-              </a>
+              />
               , visit
               <a
                 target="_blank"

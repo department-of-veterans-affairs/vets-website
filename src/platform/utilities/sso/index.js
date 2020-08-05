@@ -44,7 +44,10 @@ export async function checkAutoSession(loggedIn, ssoeTransactionId) {
       // the user is on the standalone signin page, but already logged in with SSOe
       // redirect them back to their return url
       window.location = standaloneRedirect() || window.location.origin;
-    } else if (ttl === 0 || transactionid !== ssoeTransactionId) {
+    } else if (
+      ttl === 0 ||
+      (transactionid && transactionid !== ssoeTransactionId)
+    ) {
       // having a user session is not enough, we also need to make sure when
       // the user authenticated they used SSOe, otherwise we can't auto logout
       // explicitly check to see if the TTL for the SSOe session is 0, as it

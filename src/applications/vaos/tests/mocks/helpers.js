@@ -331,3 +331,25 @@ export function mockAppointmentSlotFetch({
     },
   );
 }
+
+export function mockRequestSubmit(type, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/appointment_requests?type=${type}`,
+    ),
+    { data },
+  );
+}
+
+export function mockRequestEligibilityCriteria(parentSites, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/request_eligibility_criteria?${parentSites
+        .map(site => `parent_sites[]=${site}`)
+        .join('&')}`,
+    ),
+    { data },
+  );
+}

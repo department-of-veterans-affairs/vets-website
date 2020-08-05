@@ -14,6 +14,10 @@
       margin-top: 1.5em;
     }
 
+    .filter-additional-info {
+      margin: 15px 0px 15px 0px;
+    }
+
     @include media-maxwidth($small-screen) {
       background: $color-white;
       display: none;
@@ -172,6 +176,23 @@
         margin-right: 0.4em;
       }
     }
+  }
+
+  .tag-container {
+    margin-top: -34px;
+    padding: 4px 0px;
+    @include media-maxwidth($medium-screen) {
+      margin-top: 10px;
+    }
+  }
+
+  .search-result-tag {
+    background-color: $color-white;
+    color: $color-gray-dark;
+    display: inline-block;
+    margin: 0px 8px 8px 0px;
+    padding: 0px 4px;
+    font-size: 14px;
   }
 
   .vettec-logo-container {
