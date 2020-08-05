@@ -442,6 +442,8 @@ Cypress.Commands.add('fillPage', () => {
 
       fillAvailableFields();
     });
+
+  Cypress.log();
 });
 
 /**
