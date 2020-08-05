@@ -38,4 +38,10 @@ export default Object.freeze({
   debtLettersShowLetters: 'debtLettersShowLetters',
   gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
   showEduBenefits5495Wizard: 'showEduBenefits5495Wizard',
+  showEduBenefits1995Wizard: 'showEduBenefits1995Wizard',
+  showEduBenefits1990NWizard: 'showEduBenefits1990NWizard',
+  showEduBenefits0994Wizard: 'showEduBenefits0994Wizard',
+  showEduBenefits5490Wizard: 'showEduBenefits5490Wizard',
+  showEduBenefits1990Wizard: 'showEduBenefits1990Wizard',
+  showEduBenefits1990EWizard: 'showEduBenefits1990EWizard',
 });
