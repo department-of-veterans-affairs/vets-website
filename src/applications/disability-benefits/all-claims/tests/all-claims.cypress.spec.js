@@ -29,14 +29,16 @@ const testConfig = createTestConfig(
     },
 
     pageHooks: {
-      introduction: () => {
-        cy.axeCheck();
-        // Hit the start button
-        cy.findAllByText(/start/i, { selector: 'button' })
-          .first()
-          .click();
+      introduction: ({ afterHook }) => {
+        afterHook(() => {
+          // Hit the start button
+          cy.findAllByText(/start/i, { selector: 'button' })
+            .first()
+            .click();
+        });
+      },
 
-        cy.axeCheck();
+      'veteran-information': () => {
         // Click past the ITF message
         cy.findByText(/continue/i, { selector: 'button' }).click();
       },
@@ -54,13 +56,10 @@ const testConfig = createTestConfig(
             cy.get('input[name$="_dateRange_toYear"]')
               .clear()
               .type(date[0]);
-            cy.get('.additional-info-button[aria-expanded="false"]').click();
             cy.get('input[name$="_separationLocation"]')
               .type(data.serviceInformation.separationLocation)
               .blur();
           }
-          cy.axeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
 
@@ -71,8 +70,6 @@ const testConfig = createTestConfig(
               cy.get(`input[name="root_ratedDisabilities_${index}"]`).click();
             }
           });
-          cy.axeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
 
@@ -87,8 +84,6 @@ const testConfig = createTestConfig(
             cy.fillPage();
             cy.findByText(/save/i, { selector: 'button' }).click();
           }
-          cy.axeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
     },
