@@ -1,4 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
+import _ from 'platform/utilities/data';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import {
   filterInactivePageData,
@@ -32,6 +33,41 @@ const validateName = (errors, pageData) => {
   validateWhiteSpace(errors.last, last);
 };
 
+/**
+ * Mostly copied from the platform provided stringifyFormReplacer, with the removal of the address check. We don't need it here for our location use.
+ */
+const customFormReplacer = (key, value) => {
+  // clean up empty objects, which we have no reason to send
+  if (typeof value === 'object') {
+    const fields = Object.keys(value);
+    if (
+      fields.length === 0 ||
+      fields.every(field => value[field] === undefined)
+    ) {
+      return undefined;
+    }
+
+    // autosuggest widgets save value and label info, but we should just return the value
+    if (value.widget === 'autosuggest') {
+      return value.id;
+    }
+
+    // Exclude file data
+    if (value.confirmationCode && value.file) {
+      return _.omit('file', value);
+    }
+  }
+
+  // Clean up empty objects in arrays
+  if (Array.isArray(value)) {
+    const newValues = value.filter(v => !!stringifyFormReplacer(key, v));
+    // If every item in the array is cleared, remove the whole array
+    return newValues.length > 0 ? newValues : undefined;
+  }
+
+  return value;
+};
+
 const {
   optionSelection,
   veteranInformation,
@@ -61,11 +97,7 @@ export {
   isClientError,
 };
 
-export function customTransformForSubmit(
-  formConfig,
-  form,
-  replacer = stringifyFormReplacer,
-) {
+export function customTransformForSubmit(formConfig, form) {
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     form.data,
@@ -77,5 +109,5 @@ export function customTransformForSubmit(
     activePages,
     form,
   );
-  return JSON.stringify(withoutInactivePages, replacer) || '{}';
+  return JSON.stringify(withoutInactivePages, customFormReplacer) || '{}';
 }
