@@ -18,7 +18,6 @@ import {
 } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import get from 'platform/utilities/data/get';
-import environment from 'platform/utilities/environment';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(
   ['/auth/login/callback', '/session-expired'].join('|'),
@@ -137,10 +136,9 @@ export class AuthApp extends React.Component {
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
-    const postAuthUrl =
-      returnUrl && !environment.isProduction()
-        ? appendQuery(returnUrl, 'postLogin=true')
-        : returnUrl;
+    const postAuthUrl = returnUrl
+      ? appendQuery(returnUrl, 'postLogin=true')
+      : returnUrl;
 
     const redirectUrl =
       (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';

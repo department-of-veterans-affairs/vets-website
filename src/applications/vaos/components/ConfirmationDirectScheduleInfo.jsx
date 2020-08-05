@@ -38,7 +38,7 @@ export default function ConfirmationDirectScheduleInfo({
           VA Appointment
         </div>
         <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-x--0">
-          {momentDate.format('MMMM D, YYYY [at] hh:mm a')}
+          {momentDate.format('MMMM D, YYYY [at] h:mm a')}
           {` ${getTimezoneAbbrBySystemId(systemId)}`}
         </h2>
         <div className="vads-u-margin-top--2">
