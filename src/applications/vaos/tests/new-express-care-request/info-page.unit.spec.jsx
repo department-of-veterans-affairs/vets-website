@@ -8,8 +8,8 @@ import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
 import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
 import { createTestStore } from '../mocks/setup';
-import { getParentSiteMock } from '../mocks/v0';
-import { mockParentSites, mockSupportedFacilities } from '../mocks/helpers';
+import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
+import { mockRequestEligibilityCriteria } from '../mocks/helpers';
 
 const initialState = {
   user: {
@@ -19,44 +19,33 @@ const initialState = {
   },
 };
 
-const parentSite983 = {
-  id: '983',
-  attributes: {
-    ...getParentSiteMock().attributes,
-    institutionCode: '983',
-    authoritativeName: 'Some VA facility',
-    rootStationCode: '983',
-    parentStationCode: '983',
-  },
-};
-
 describe('VAOS integration: Express Care info page', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
   it('should render info page when there are active windows', async () => {
-    mockParentSites(['983'], [parentSite983]);
-    mockSupportedFacilities({
-      siteId: 983,
-      parentId: 983,
-      typeOfCareId: 'CR1',
-      data: [
-        {
-          id: '983',
-          attributes: {
-            rootStationCode: '983',
-            institutionCode: '983',
-            parentSiteCode: '983',
-            expressTimes: {
-              start: '00:00',
-              end: '23:59',
-              timezone: 'UTC',
-              offsetUtc: '-00:00',
-            },
-          },
-        },
-      ],
-    });
+    const today = moment();
+    const startTime = today
+      .clone()
+      .subtract('2', 'minutes')
+      .tz('America/Denver');
+    const endTime = today
+      .clone()
+      .add('1', 'minutes')
+      .tz('America/Denver');
+    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: startTime.format('HH:mm'),
+        endTime: endTime.format('HH:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
     const router = {
       push: sinon.spy(),
     };
@@ -73,7 +62,12 @@ describe('VAOS integration: Express Care info page', () => {
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     expect(
       screen.getByText(
-        /You can request Express Care between 12:00 and 11:59 p.m. UTC./i,
+        new RegExp(
+          `You can request Express Care today between ${startTime.format(
+            'h:mm a',
+          )} and ${endTime.format('h:mm a')} MT`,
+          'i',
+        ),
       ),
     ).to.exist;
     fireEvent.click(screen.getByText('Cancel'));
@@ -84,28 +78,28 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should redirect home when there is not an active window', async () => {
-    mockParentSites(['983'], [parentSite983]);
-    mockSupportedFacilities({
-      siteId: 983,
-      parentId: 983,
-      typeOfCareId: 'CR1',
-      data: [
-        {
-          id: '983',
-          attributes: {
-            rootStationCode: '983',
-            institutionCode: '983',
-            parentSiteCode: '983',
-            expressTimes: {
-              start: moment.utc().subtract(1, 'hours'),
-              end: moment.utc().subtract(2, 'hours'),
-              timezone: 'UTC',
-              offsetUtc: '-00:00',
-            },
-          },
-        },
-      ],
-    });
+    const today = moment();
+    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: today
+          .clone()
+          .subtract('2', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+        endTime: today
+          .clone()
+          .subtract('1', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
     const router = {
       push: sinon.spy(),
     };
