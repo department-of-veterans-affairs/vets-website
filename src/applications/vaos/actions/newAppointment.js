@@ -525,7 +525,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const state = getState();
     const rootOrgId = getRootIdForChosenFacility(state);
     const newAppointment = getNewAppointment(state);
-    const availableSlots = newAppointment.availableSlots || [];
     const { data } = newAppointment;
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
@@ -534,6 +533,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
     let fetchedEndMonth = false;
+    let availableSlots = [];
 
     if (!forceFetch) {
       fetchedAppointmentSlotMonths = [
@@ -542,6 +542,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
       fetchedStartMonth = fetchedAppointmentSlotMonths.includes(startDateMonth);
       fetchedEndMonth = fetchedAppointmentSlotMonths.includes(endDateMonth);
+      availableSlots = newAppointment.availableSlots || [];
     }
 
     if (!fetchedStartMonth || !fetchedEndMonth) {

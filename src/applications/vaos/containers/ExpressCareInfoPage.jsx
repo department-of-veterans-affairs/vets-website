@@ -1,5 +1,4 @@
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
 import {
@@ -7,10 +6,19 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/expressCare';
 import FormButtons from '../components/FormButtons';
+import { selectExpressCare } from '../utils/selectors';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 const pageKey = 'info';
+const pageTitle = 'How Express Care works';
 
-class ExpressCareInfo extends React.Component {
+class ExpressCareInfoPage extends React.Component {
+  componentDidMount() {
+    document.title = `${pageTitle} | Veterans Affairs`;
+
+    scrollAndFocus();
+  }
+
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
@@ -20,22 +28,18 @@ class ExpressCareInfo extends React.Component {
   };
 
   render() {
-    const time = `${moment
-      .parseZone(this.props.minStart?.start)
-      .format('h:mm')} and ${moment
-      .parseZone(this.props.minStart?.end)
-      .format('h:mm a')} ${this.props.minStart?.timeZone}`;
-
+    const { localWindowString } = this.props;
     return (
       <div>
-        <h1>How Express Care Works</h1>
+        <h1>{pageTitle}</h1>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
               <p className="vads-u-font-size--h4 vads-u-font-family--serif vads-u-padding-y--0p25 vads-u-font-weight--bold">
                 Submit an Express Care request online
               </p>
-              You can request Express Care between {time}. You don’t need to
+              You can request Express Care today between{' '}
+              {localWindowString?.replace(' to ', ' and ')}. You don’t need to
               have an assigned Patient Aligned Care Team (PACT) to use Express
               Care.
             </li>
@@ -114,16 +118,12 @@ class ExpressCareInfo extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return state.expressCare;
-}
-
 const mapDispatchToProps = {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 };
 
 export default connect(
-  mapStateToProps,
+  selectExpressCare,
   mapDispatchToProps,
-)(ExpressCareInfo);
+)(ExpressCareInfoPage);

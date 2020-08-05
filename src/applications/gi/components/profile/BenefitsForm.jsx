@@ -7,8 +7,11 @@ import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 export class BenefitsForm extends React.Component {
+  state = { showYourMilitaryDetails: false };
+
   static propTypes = {
     showModal: PropTypes.func,
     hideModal: PropTypes.func,
@@ -16,6 +19,7 @@ export class BenefitsForm extends React.Component {
     showHeader: PropTypes.bool,
     handleInputFocus: PropTypes.func,
     giBillChapterOpen: PropTypes.arrayOf(PropTypes.bool),
+    yourMilitaryDetails: PropTypes.bool,
     gibctCh33BenefitRateUpdate: PropTypes.bool,
   };
 
@@ -23,6 +27,7 @@ export class BenefitsForm extends React.Component {
     showGbBenefit: false,
     showHeader: false,
     giBillChapterOpen: [],
+    yourMilitaryDetails: true,
   };
 
   cumulativeServiceOptions = () => [
@@ -66,12 +71,16 @@ export class BenefitsForm extends React.Component {
       component: this,
     });
 
-  render() {
-    const { gibctCh33BenefitRateUpdate } = this.props;
+  handleMilitaryDetailsClick = () => {
+    this.setState({
+      showYourMilitaryDetails: !this.state.showYourMilitaryDetails,
+    });
+  };
 
+  renderYourMilitaryDetails() {
+    const { gibctCh33BenefitRateUpdate } = this.props;
     return (
-      <div className="eligibility-form">
-        {this.props.showHeader && <h2>Your benefits</h2>}
+      <div>
         <ExpandingGroup open={this.props.militaryStatus === 'spouse'}>
           <Dropdown
             label="What's your military status?"
@@ -238,6 +247,25 @@ export class BenefitsForm extends React.Component {
             {this.props.children}
           </div>
         </ExpandingGroup>
+      </div>
+    );
+  }
+
+  render() {
+    if (this.props.gibctFilterEnhancement) {
+      return (
+        <div className="filter-additional-info">
+          <AdditionalInfo triggerText="Your military details">
+            {this.renderYourMilitaryDetails()}
+          </AdditionalInfo>
+        </div>
+      );
+    }
+
+    return (
+      <div className="eligibility-form">
+        {this.props.showHeader && <h2>Your benefits</h2>}
+        {this.renderYourMilitaryDetails()}
       </div>
     );
   }

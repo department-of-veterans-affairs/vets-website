@@ -591,6 +591,8 @@ export default function formReducer(state = initialState, action) {
           additionalInfoTitle,
           reasonSchema,
         );
+      } else {
+        delete formData.reasonForAppointment;
       }
 
       const { data, schema } = setupFormData(
@@ -729,7 +731,14 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED: {
       let formData = state.data;
-      let initialSchema = action.schema;
+      const typeOfCare = getTypeOfCare(formData);
+      let initialSchema = set(
+        'properties.hasCommunityCareProvider.title',
+        `Do you have a preferred VA-approved community care provider for this ${
+          typeOfCare.name
+        } appointment?`,
+        action.schema,
+      );
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
       if (state.ccEnabledSystems?.length === 1) {

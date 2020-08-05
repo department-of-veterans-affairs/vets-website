@@ -5,7 +5,6 @@ import compact from 'lodash/compact';
 import { LocationType } from '../constants';
 import { facilityData } from '../constants/mock-facilities-data';
 import providerServices from '../constants/mock-provider-services.json';
-import { ccLocatorEnabled } from '../config';
 import facilityDataJson from '../constants/mock-facility-data.json';
 
 // Immitate network delay
@@ -51,16 +50,8 @@ class MockLocatorApi {
             reject('Random failure due to fail flag being set');
           }
 
-          let locations = {};
-          // Feature Flag
-          if (ccLocatorEnabled()) {
-            locations = { ...data };
-          } else {
-            const nonProviders = data.filter(
-              loc => loc.type !== LocationType.CC_PROVIDER,
-            );
-            locations = { ...data, data: nonProviders };
-          }
+          const locations = { ...data };
+
           resolve(locations);
         } else {
           reject('Invalid URL or query sent to API!');

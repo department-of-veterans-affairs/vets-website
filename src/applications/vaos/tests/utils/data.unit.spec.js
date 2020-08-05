@@ -576,6 +576,12 @@ describe('VAOS data transformation', () => {
             {
               id: 'var983_308',
               resourceType: 'HealthcareService',
+              identifier: [
+                {
+                  system: 'http://med.va.gov/fhir/urn',
+                  value: 'urn:va:healthcareservice:983:983:308',
+                },
+              ],
               serviceName: 'CHY PC KILPATRICK',
               characteristic: [
                 {

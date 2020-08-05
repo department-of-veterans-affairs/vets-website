@@ -1,5 +1,6 @@
 {
     "data": {
+      "view:isBddData": true,
       "view:claimType": {
         "view:claimingIncrease": true
       },
@@ -35,10 +36,16 @@
         },
         "servicePeriods": [
           {
-            "serviceBranch": "Air Force Reserve",
+            "serviceBranch": "Air Force",
             "dateRange": {
               "from": "2001-03-21",
               "to": "2014-07-21"
+            }
+          },
+          {
+            "serviceBranch": "Air Force Reserve",
+            "dateRange": {
+              "from": "2014-07-22"
             }
           }
         ],
@@ -137,4 +144,3 @@
       }
     }
   }
-  
