@@ -13,8 +13,7 @@ describe('the Edu-Benefit 1990E Introduction Page', () => {
   let defaultProps;
 
   before(() => {
-    let sessionStorage = {};
-    sessionStorage = sessionStorageSetup(sessionStorage);
+    sessionStorageSetup();
   });
 
   beforeEach(() => {
@@ -35,7 +34,7 @@ describe('the Edu-Benefit 1990E Introduction Page', () => {
   });
 
   afterEach(() => {
-    global.sessionStorage.clear();
+    sessionStorage.clear();
   });
 
   it('should show the wizard on initial render if shouldEduBenefits1990EWizardShow is set to true', () => {
