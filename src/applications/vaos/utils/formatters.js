@@ -56,3 +56,9 @@ export function formatFacilityAddress(facility) {
     facility.address?.state
   } ${facility.address?.postalCode}`;
 }
+
+export function joinWithAnd(items) {
+  const start = items.slice(0, items.length - 1);
+
+  return `${start.join(', ')} and ${items[items.length - 1]}`;
+}

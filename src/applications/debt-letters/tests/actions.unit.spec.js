@@ -14,27 +14,6 @@ describe('fetchDebtLetters', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(DEBTS_FETCH_SUCCESS);
       expect(dispatch.secondCall.args[0].debts).to.deep.equal([
         {
-          adamKey: '1',
-          fileNumber: '000000009',
-          payeeNumber: '00',
-          personEntitled: 'STUB_M',
-          deductionCode: '21',
-          benefitType: 'Loan Guaranty (Principal + Interest)',
-          amountOverpaid: 0.0,
-          amountWithheld: 0.0,
-          originalAr: 11599,
-          currentAr: 0,
-          debtHistory: [
-            {
-              date: '03/05/2004',
-              letterCode: '914',
-              status: 'Paid In Full',
-              description:
-                'Account balance cleared via offset, not including TOP.',
-            },
-          ],
-        },
-        {
           adamKey: '2',
           fileNumber: '000000009',
           payeeNumber: '00',
