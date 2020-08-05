@@ -30,7 +30,6 @@ import {
 import { areGeocodeEqual, setFocus, showDialogUrgCare } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
-  facilityLocatorFeUseV1,
   facilitiesPpmsSuppressCommunityCare,
 } from '../utils/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
@@ -99,7 +98,6 @@ class VAMap extends Component {
         facilityType: currentQuery.facilityType,
         serviceType: currentQuery.serviceType,
         page: currentQuery.currentPage,
-        apiVersion: this.props.useAPIv1 ? 1 : 0,
       });
     }
   }
@@ -758,7 +756,6 @@ function mapStateToProps(state) {
     currentQuery: state.searchQuery,
     suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
     suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
-    useAPIv1: facilityLocatorFeUseV1(state),
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,

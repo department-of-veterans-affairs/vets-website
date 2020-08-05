@@ -5,7 +5,6 @@ import manifest from './manifest.json';
 
 // Base URL to be used in API requests.
 export const api = {
-  urlV0: `${environment.API_URL}/v0/facilities/va`,
   baseUrl: `${environment.API_URL}/v1/facilities`,
   url: `${environment.API_URL}/v1/facilities/va`,
   ccUrl: `${environment.API_URL}/v1/facilities/ccp`,
@@ -37,7 +36,7 @@ export const resolveParamsWithUrl = (
   const filterableLocations = ['health', 'benefits', 'provider'];
   let facility;
   let service;
-  let url;
+  let url = api.url;
   let perPage = 20;
 
   switch (locationType) {
@@ -45,14 +44,13 @@ export const resolveParamsWithUrl = (
       if (!serviceType || serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
-        url = apiVersion === 1 ? api.url : api.urlV0;
       }
       if (serviceType === 'NonVAUrgentCare') {
         facility = 'cc_urgent_care';
         url = api.ccUrl;
       }
       break;
-    case 'cc_pharmacy':
+    case 'pharmacy':
     case 'provider':
       facility = locationType;
       service = serviceType;
@@ -62,7 +60,6 @@ export const resolveParamsWithUrl = (
     default:
       facility = locationType;
       service = serviceType;
-      url = apiVersion === 1 ? api.url : api.urlV0;
   }
 
   return {

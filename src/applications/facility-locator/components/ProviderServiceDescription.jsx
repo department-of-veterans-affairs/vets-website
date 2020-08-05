@@ -15,8 +15,8 @@ export const urgentCareProviderNames = posCodes => {
 const providerName = (query, posCodes) => {
   let name;
   switch (query.facilityType) {
-    case 'cc_pharmacy':
-      name = facilityTypes.cc_pharmacy.toUpperCase();
+    case 'pharmacy':
+      name = facilityTypes.pharmacy.toUpperCase();
       break;
     case 'urgent_care':
       name = urgentCareProviderNames(posCodes);

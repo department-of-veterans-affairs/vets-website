@@ -13,7 +13,6 @@ class LocatorApi {
    * @param {string} locationType What kind of location? (i.e. facilityType or Provider)
    * @param {string} serviceType What services should the location provide?
    * @param {number} page Which page of results to start with?
-   * @param {number} api version number
    * @returns {Promise} Promise object
    */
   static searchWithBounds(
@@ -22,7 +21,6 @@ class LocatorApi {
     locationType,
     serviceType,
     page,
-    apiVersion,
   ) {
     const { params, url } = resolveParamsWithUrl(
       address,
@@ -30,7 +28,6 @@ class LocatorApi {
       serviceType,
       page,
       bounds,
-      apiVersion,
     );
 
     return new Promise((resolve, reject) => {
@@ -44,11 +41,9 @@ class LocatorApi {
    * Get one VA Facililty's details.
    *
    * @param {string} id The ID of the Facility
-   * @param {number} api version number
    */
-  static fetchVAFacility(id, apiVersion) {
-    const apiUrl = apiVersion === 1 ? api.url : api.urlV0;
-    const url = `${apiUrl}/${id}`;
+  static fetchVAFacility(id) {
+    const url = `${api.url}/${id}`;
 
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
