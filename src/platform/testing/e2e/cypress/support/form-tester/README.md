@@ -273,11 +273,11 @@ pageHooks: {
 },
 ```
 
-The functions all have access to a context object as a first argument, which currently provides two things:
+The functions **all have access to a context object as a first argument**, which currently provides two things:
 
 1. `pathname`: a convenient reference to the full pathname that got matched for this page hook.
 
-2. `afterHook`, a helper function that takes a function and invokes it at the end of the page processing.
+2. `afterHook`: a helper function that takes a function and uses it to **override the usual end-of-page behavior**.
 
    Typically, the standard flow for processing a page follows these steps:
 
@@ -287,19 +287,18 @@ The functions all have access to a context object as a first argument, which cur
    4. Expand any accordions and run the end-of-page aXe check.
    5. Run the post hook.
 
-   The default "post hook" for a page is to just click the 'Continue' button to proceed to the next page.
-   - For the review page, the post hook checks the privacy agreement box if there is one and then submits the form.
-   - If the page follows the default "post hook" behavior, this helper is not needed at all.
+   The default "post hook" for a page is to just click the 'Continue' button to proceed to the next page. For the review page, the post hook checks the privacy agreement box if there is one and then submits the form.
 
-   The function passed to `afterHook` will override what is normally run for that post hook in step 5.
 
-   It can be considered an override that does the job of **moving from the current page to the next**.
+   The function passed to `afterHook` will override what is normally run for that post hook in step 5. It can be considered an override that does the job of **moving from the current page to the next**. If the page follows the default post hook behavior, this helper is not needed at all.
 
-   The **most common use** would be to pass a function that simply clicks the appropriate button to proceed to the next page.
-   - Note that the second aXe check is still guaranteed to run before this override.
+   The **most common usage for the after hook** would be to pass a function that simply clicks the appropriate button to proceed to the next page.
    - This is useful if the that button does not match the standard button in the default post hook (e.g., the text doesn't say 'Continue').
-   - This is essentially mandatory for the introduction page, where the flow to start a form can vary between forms.
+   - This is practically **mandatory for the introduction page**, where the flow to start a form can vary between forms.
+   - Note that the second aXe check is still guaranteed to run before this override.
 
+   ##### Examples for using the after hook
+   
    ```js
    pageHooks: {
     introduction: ({ afterHook }) => {
@@ -311,7 +310,7 @@ The functions all have access to a context object as a first argument, which cur
     },
 
     'some-other-page': ({ afterHook, pathname }) => {
-      // Do whatever you need in the "main body" of the hook,
+      // Do whatever you need to in the "main body" of the hook,
       // which replaces the default autofilling behavior.
       cy.log(`Look, I'm on ${pathname}!`);
 
@@ -323,6 +322,8 @@ The functions all have access to a context object as a first argument, which cur
     },
    },
    ```
+
+##### Common usage for page hooks
 
 There are various use cases for the `pageHooks` setting, but a couple of common ones are:
 
