@@ -162,7 +162,7 @@ class Accessories extends Component {
                   <label
                     htmlFor={accessorySupply.productId}
                     className={classnames({
-                      'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary': true,
+                      'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-text-align--left vads-u-padding-x--2': true,
                       'vads-u-color--white': isAccessorySelected(
                         accessorySupply.productId,
                       ),
