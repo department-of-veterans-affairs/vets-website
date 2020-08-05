@@ -87,29 +87,4 @@ describe('Schemaform <StringField>', () => {
 
     expect(tree.props.value).to.equal(formData);
   });
-  it('should render ui:options widget', () => {
-    const registry = {
-      widgets: {},
-    };
-    const schema = {
-      type: 'string',
-    };
-    const uiSchema = {
-      'ui:options': {
-        widget: () => <span />,
-      },
-    };
-    const formData = 'test123';
-
-    const tree = SkinDeep.shallowRender(
-      <StringField
-        registry={registry}
-        schema={schema}
-        uiSchema={uiSchema}
-        formData={formData}
-      />,
-    );
-
-    expect(tree.props.value).to.equal(formData);
-  });
 });
