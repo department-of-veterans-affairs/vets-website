@@ -29,7 +29,7 @@ export const getReferredBenefit = async () =>
 export const getWizardStatus = async () =>
   (await sessionStorage.getItem('wizardStatus')) || WIZARD_STATUS_NOT_STARTED;
 
-class Wizard extends React.Component {
+export class Wizard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
