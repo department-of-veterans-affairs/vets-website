@@ -10,11 +10,11 @@ import {
 import { sessionStorageSetup } from '../../utils';
 
 describe('the Edu-Benefit 1990E Introduction Page', () => {
-  let mockStore = {};
   let defaultProps;
 
   before(() => {
-    mockStore = sessionStorageSetup(mockStore);
+    let sessionStorage = {};
+    sessionStorage = sessionStorageSetup(sessionStorage);
   });
 
   beforeEach(() => {
