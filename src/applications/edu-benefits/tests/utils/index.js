@@ -1,21 +1,19 @@
 /**
- * @param {object} mockStore An object that holds your test data
+ * @param {object} sessionStorage An object that holds your sessionStorage data
  * @returns {object} A mock store that has session storage functionality
  */
-export const sessionStorageSetup = mockStore => {
-  const updatedMockStore = mockStore;
-  updatedMockStore.sessionStorage = {};
+export const sessionStorageSetup = sessionStorage => {
+  let newSessionStorage = sessionStorage;
   global.sessionStorage = {
     getItem: key =>
-      key in updatedMockStore.sessionStorage
-        ? updatedMockStore.sessionStorage[key]
-        : null,
+      key in global.sessionStorage ? newSessionStorage[key] : null,
     setItem: (key, value) => {
-      updatedMockStore.sessionStorage[key] = value;
+      newSessionStorage[key] = value;
     },
-    removeItem: key => delete updatedMockStore.sessionStorage[key],
+    removeItem: key => delete newSessionStorage[key],
     clear: () => {
-      updatedMockStore.sessionStorage = {};
+      newSessionStorage = {};
     },
   };
+  return newSessionStorage;
 };
