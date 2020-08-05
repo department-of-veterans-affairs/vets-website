@@ -15,7 +15,7 @@
     }
 
     .filter-additional-info {
-      margin: 30px 0px 0px 0px;
+      margin: 15px 0px 15px 0px;
     }
 
     @include media-maxwidth($small-screen) {
@@ -192,6 +192,7 @@
     display: inline-block;
     margin: 0px 8px 8px 0px;
     padding: 0px 4px;
+    font-size: 14px;
   }
 
   .vettec-logo-container {

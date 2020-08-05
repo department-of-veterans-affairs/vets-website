@@ -36,7 +36,7 @@ function NewExpressCareRequestLayout({
   );
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
+    <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
       <Breadcrumbs>
         <Link to="new-express-care-request">Express Care request</Link>
       </Breadcrumbs>

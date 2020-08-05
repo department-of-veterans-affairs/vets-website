@@ -20,6 +20,9 @@ export const uiSchema = {
       viewComponent: PaymentView,
       reviewTitle: 'Payment information',
       editTitle: 'Add new bank account',
+      // Force ObjectField to wrap the account info in a `div` instead of a `dl`
+      // otherwise this breaks the axe check on the review page
+      customTitle: ' ',
       itemName: 'account',
       startInEdit: formData => !formData['view:hasPrefilledBank'],
       volatileData: true,

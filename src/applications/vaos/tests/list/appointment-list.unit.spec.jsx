@@ -5,18 +5,21 @@ import moment from 'moment';
 import { createMemoryHistory } from 'history';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
-import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import {
+  setFetchJSONFailure,
+  mockFetch,
+  resetFetch,
+} from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
   getVideoAppointmentMock,
   getVAAppointmentMock,
   getCCAppointmentMock,
-  getParentSiteMock,
+  getExpressCareRequestCriteriaMock,
 } from '../mocks/v0';
 import {
   mockAppointmentInfo,
-  mockSupportedFacilities,
-  mockParentSites,
+  mockRequestEligibilityCriteria,
 } from '../mocks/helpers';
 
 import reducers from '../../reducers';
@@ -32,6 +35,9 @@ const initialState = {
 };
 
 describe('VAOS integration: appointment list', () => {
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
+
   it('should sort appointments by date, with requests at the end', async () => {
     const firstDate = moment().add(3, 'days');
     const secondDate = moment().add(4, 'days');
@@ -192,17 +198,6 @@ describe('VAOS integration: appointment list', () => {
     },
   };
 
-  const parentSite983 = {
-    id: '983',
-    attributes: {
-      ...getParentSiteMock().attributes,
-      institutionCode: '983',
-      authoritativeName: 'Some VA facility',
-      rootStationCode: '983',
-      parentStationCode: '983',
-    },
-  };
-
   it('should show express care button and tab when flag is on and within express care window', async () => {
     const request = getVARequestMock();
     request.attributes = {
@@ -213,24 +208,28 @@ describe('VAOS integration: appointment list', () => {
     mockAppointmentInfo({
       requests: [request],
     });
-    mockParentSites(['983'], [parentSite983]);
-    mockSupportedFacilities({
-      siteId: 983,
-      parentId: 983,
-      typeOfCareId: 'CR1',
-      data: [
-        {
-          attributes: {
-            expressTimes: {
-              start: '00:00',
-              end: '23:59',
-              timezone: 'MDT',
-              offsetUtc: '-06:00',
-            },
-          },
-        },
-      ],
-    });
+    const today = moment();
+    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: today
+          .clone()
+          .subtract('2', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+        endTime: today
+          .clone()
+          .add('1', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -278,31 +277,28 @@ describe('VAOS integration: appointment list', () => {
 
   it('should not show express care action when outside of express care window', async () => {
     mockAppointmentInfo({});
-    const now = moment().utcOffset('-06:00');
-    mockParentSites(['983'], [parentSite983]);
-    mockSupportedFacilities({
-      siteId: 983,
-      parentId: 983,
-      typeOfCareId: 'CR1',
-      data: [
-        {
-          attributes: {
-            expressTimes: {
-              start: now
-                .clone()
-                .subtract(3, 'minutes')
-                .format('HH:mm'),
-              end: now
-                .clone()
-                .subtract(2, 'minutes')
-                .format('HH:mm'),
-              timezone: 'MDT',
-              offsetUtc: '-06:00',
-            },
-          },
-        },
-      ],
-    });
+    const today = moment();
+    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: today
+          .clone()
+          .subtract('2', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+        endTime: today
+          .clone()
+          .subtract('1', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -367,24 +363,28 @@ describe('VAOS integration: appointment list', () => {
 
   it('should show express care action but not tab when flag is on and no requests', async () => {
     mockAppointmentInfo({});
-    mockParentSites(['983'], [parentSite983]);
-    mockSupportedFacilities({
-      siteId: 983,
-      parentId: 983,
-      typeOfCareId: 'CR1',
-      data: [
-        {
-          attributes: {
-            expressTimes: {
-              start: '00:00',
-              end: '23:59',
-              timezone: 'MDT',
-              offsetUtc: '-06:00',
-            },
-          },
-        },
-      ],
-    });
+    const today = moment();
+    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: today
+          .clone()
+          .subtract('2', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+        endTime: today
+          .clone()
+          .add('1', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
