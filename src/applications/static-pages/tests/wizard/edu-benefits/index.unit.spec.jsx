@@ -1,5 +1,6 @@
 import React from 'react';
-import Wizard, {
+import {
+  Wizard,
   formIdSuffixes,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';

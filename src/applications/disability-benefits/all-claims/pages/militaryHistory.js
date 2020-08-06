@@ -1,7 +1,6 @@
 import moment from 'moment';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import environment from 'platform/utilities/environment';
 import AutosuggestField from 'platform/forms-system/src/js/fields/AutosuggestField';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
@@ -34,12 +33,20 @@ const validateAge = (
   }
 };
 
-const validateSeparationDate = (errors, dateString) => {
-  const isProduction = environment.isProduction();
-  if (isProduction && moment(dateString).isAfter(moment())) {
+const validateSeparationDate = (
+  errors,
+  dateString,
+  formData,
+  schema,
+  uiSchema,
+  currentIndex,
+  appStateData,
+) => {
+  const allowBDD = appStateData.allowBDD;
+  if (!allowBDD && moment(dateString).isAfter(moment())) {
     errors.addError('Your separation date must be in the past');
   } else if (
-    !isProduction &&
+    allowBDD &&
     moment(dateString).isAfter(moment().add(180, 'days'))
   ) {
     errors.addError('Your separation date must be before 180 days from today');
@@ -74,17 +81,17 @@ export const uiSchema = {
       'ui:title': SeparationLocationTitle,
       'ui:description': SeparationLocationDescription,
       'ui:options': {
-        hideIf: formData => environment.isProduction() || !isBDD(formData),
+        hideIf: formData => !isBDD(formData),
       },
     },
     // Not using autosuggest.uiSchema; validations not set?
     separationLocation: {
       'ui:title': 'Enter a location',
       'ui:field': AutosuggestField,
-      'ui:required': formData => !environment.isProduction() && isBDD(formData),
+      'ui:required': formData => isBDD(formData),
       'ui:validations': [checkSeparationLocation],
       'ui:options': {
-        hideIf: formData => environment.isProduction() || !isBDD(formData),
+        hideIf: formData => !isBDD(formData),
         showFieldLabel: 'label',
         maxOptions: 20,
         getOptions: () =>
