@@ -74,7 +74,6 @@ describe('VAOS integration: Express Care form', () => {
     expect(screen.getByText(/go to your profile/i).href).to.equal('/profile');
     screen.getByLabelText(/phone number/i);
     screen.getByLabelText(/email address/i);
-    screen.getByText(/back/i);
     screen.getByText(/submit express care request/i);
   });
 });
