@@ -45,9 +45,10 @@ const showOperationStatus = operatingStatus => {
  * Va facility component for:
  *
  * VA health
- * Va benefits
+ * VA benefits
  * Vet Centers
- * Va cemeteries
+ * VA cemeteries
+ * VA Urgent care
  */
 const VaFacilityResult = ({ location, query }) => {
   const { name, website, operatingStatus } = location.attributes;

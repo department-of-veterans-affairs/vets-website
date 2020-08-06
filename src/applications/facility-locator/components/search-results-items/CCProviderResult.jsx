@@ -11,19 +11,18 @@ import ProviderServiceDescription from '../ProviderServiceDescription';
  */
 const CCProviderResult = ({ provider, query }) => {
   const { name } = provider.attributes;
-  const distance = location.distance;
+  const distance = provider.distance;
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <div>
-        {distance &&
-          location.resultItem && (
-            <p>
-              <span className="i-pin-card-map">{provider.markerText}</span>
-              <span className="vads-u-margin-left--1">
-                <strong>{distance.toFixed(1)} miles</strong>
-              </span>
-            </p>
-          )}
+        {distance && (
+          <p>
+            <span className="i-pin-card-map">{provider.markerText}</span>
+            <span className="vads-u-margin-left--1">
+              <strong>{distance.toFixed(1)} miles</strong>
+            </span>
+          </p>
+        )}
         <span>
           <ProviderServiceDescription provider={provider} query={query} />
           <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>

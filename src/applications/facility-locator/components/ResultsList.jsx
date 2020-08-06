@@ -7,7 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import { facilityTypes } from '../config';
-import { MARKER_LETTERS } from '../constants';
+import { MARKER_LETTERS, CLINIC_URGENTCARE_SERVICE } from '../constants';
 
 import { distBetween } from '../utils/facilityDistance';
 import { setFocus } from '../utils/helpers';
@@ -18,6 +18,8 @@ import SearchResult from './SearchResult';
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import VaFacilityResult from './search-results-items/VaFacilityResult';
 import CCProviderResult from './search-results-items/CCProviderResult';
+import PharmacyResult from './search-results-items/PharmacyResult';
+import UrgentCareResult from './search-results-items/UrgentCareResult';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -59,10 +61,30 @@ class ResultsList extends Component {
           break;
         case 'provider':
         case 'cc_provider':
-          item = <CCProviderResult provider={r} query={query} />;
+          // Support non va urgent care search through ccp option
+          if (query.serviceType === CLINIC_URGENTCARE_SERVICE) {
+            item = <UrgentCareResult provider={r} query={query} />;
+          } else {
+            item = <CCProviderResult provider={r} query={query} />;
+          }
+          break;
+        case 'pharmacy':
+        case 'cc_pharmacy':
+          item = <PharmacyResult provider={r} query={query} />;
+          break;
+        case 'urgent_care':
+          if (query.serviceType === 'NonVAUrgentCare') {
+            item = <UrgentCareResult provider={r} query={query} />;
+          } else if (query.serviceType === 'UrgentCare') {
+            item = <VaFacilityResult location={r} query={query} />;
+          } else if (query.serviceType === 'All') {
+            // New option
+            // All mash up
+            item = <UrgentCareResult provider={r} query={query} />;
+          }
           break;
         default:
-          item = <SearchResult result={r} query={query} />;
+          item = null;
       }
       item = isMobile ? (
         <div key={r.id} className="mobile-search-result">
