@@ -27,6 +27,8 @@ module.exports = {
       items: { $ref: 'EntityReference' },
       maxItems: 1,
     },
+    // Needed for filtering reverse fields in other transformers
+    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
@@ -40,6 +42,7 @@ module.exports = {
     'field_image_caption',
     'field_intro_text',
     'field_media',
+    'status',
     // Apparently this isn't always there
     // 'field_office',
   ],

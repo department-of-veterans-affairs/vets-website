@@ -22,6 +22,7 @@ const transform = entity => ({
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMedia: entity.fieldMedia[0] || null,
   fieldOffice: (entity.fieldOffice && entity.fieldOffice[0]) || null,
+  status: getDrupalValue(entity.status),
 });
 module.exports = {
   filter: [
@@ -37,6 +38,7 @@ module.exports = {
     'field_intro_text',
     'field_media',
     'field_office',
+    'status',
   ],
   transform,
 };

@@ -23,6 +23,7 @@ module.exports = {
         { type: 'null' },
       ],
     },
+    status: { type: 'boolean' },
   },
   required: [
     'title',
@@ -37,5 +38,6 @@ module.exports = {
     'fieldIntroText',
     'fieldMedia',
     'fieldOffice',
+    'status',
   ],
 };
