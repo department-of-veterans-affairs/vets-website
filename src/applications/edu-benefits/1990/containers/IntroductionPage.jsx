@@ -8,32 +8,32 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import environment from 'platform/utilities/environment';
+import { connect } from 'react-redux';
+import { showEduBenefits1990Wizard } from '../../selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      wizardStatus:
-        sessionStorage.getItem('wizardStatus') || WIZARD_STATUS_NOT_STARTED,
-      isProd: environment.isProduction(),
-    };
-    this.setWizardStatus = this.setWizardStatus.bind(this);
-  }
+  state = {
+    wizardStatus:
+      sessionStorage.getItem('wizardStatus') || WIZARD_STATUS_NOT_STARTED,
+  };
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
-  setWizardStatus(value) {
+  setWizardStatus = value => {
     sessionStorage.setItem('wizardStatus', value);
     this.setState({ wizardStatus: value });
-  }
+  };
 
   render() {
-    const { wizardStatus, isProd } = this.state;
+    const { wizardStatus } = this.state;
+    const { shouldEduBenefits1990WizardShow } = this.props;
     const shouldSubwayMapShow =
-      isProd || wizardStatus === WIZARD_STATUS_COMPLETE;
-    const shouldWizardShow = !isProd && wizardStatus !== WIZARD_STATUS_COMPLETE;
+      !shouldEduBenefits1990WizardShow ||
+      wizardStatus === WIZARD_STATUS_COMPLETE;
+    const shouldWizardShow =
+      shouldEduBenefits1990WizardShow &&
+      wizardStatus !== WIZARD_STATUS_COMPLETE;
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for VA Education Benefits" />
@@ -153,4 +153,8 @@ export class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+const mapStateToProps = state => ({
+  shouldEduBenefits1990WizardShow: showEduBenefits1990Wizard(state),
+});
+
+export default connect(mapStateToProps)(IntroductionPage);
