@@ -40,28 +40,30 @@ export default function StringField(props) {
   }
 
   if (isRoot && (schema.type === 'object' || schema.type === 'array')) {
-    let title = formContext.pageTitle;
-    if (!formContext.hideTitle && typeof title === 'function') {
-      title = title(formData, formContext);
-    }
+    const { pageTitle, hideTitle, hideHeaderRow, onEdit } = formContext;
+
     const editLabel =
-      uiOptions.ariaLabelForEditButtonOnReview || `Edit ${title}`;
+      uiOptions.ariaLabelForEditButtonOnReview || typeof pageTitle === 'string'
+        ? `Edit ${pageTitle}`
+        : null;
 
     return (
       <>
-        {!formContext.hideHeaderRow && (
+        {!hideHeaderRow && (
           <div className="form-review-panel-page-header-row vads-u-margin-bottom--3">
-            {title?.trim() &&
-              !formContext.hideTitle && (
+            {pageTitle?.trim() &&
+              !hideTitle && (
                 <h3 className="form-review-panel-page-header vads-u-font-size--h5">
-                  {title}
+                  {typeof pageTitle === 'function'
+                    ? pageTitle(formData, formContext)
+                    : pageTitle}
                 </h3>
               )}
             <button
               type="button"
               className="edit-btn primary-outline"
               aria-label={editLabel}
-              onClick={() => formContext.onEdit()}
+              onClick={() => onEdit()}
             >
               Edit
             </button>
