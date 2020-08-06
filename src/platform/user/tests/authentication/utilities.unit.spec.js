@@ -91,6 +91,11 @@ describe('authentication URL helpers', () => {
     expect(global.window.dataLayer[0].event).to.eq('custom-event');
   });
 
+  it('should redirect for logout with explicit logout policy', () => {
+    logout('v1', '', 'logout');
+    expect(global.window.location).to.include('/v1/sessions/logout/new');
+  });
+
   it('should redirect for MFA', () => {
     mfa();
     expect(global.window.location).to.include('/sessions/mfa/new');
