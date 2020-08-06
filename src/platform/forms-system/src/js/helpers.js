@@ -703,6 +703,7 @@ export function transformForSubmit(
 }
 
 /**
+ * This function accepts a uiSchema object and returns its closest child object that contains the uiSchema entries
  * @param {Object} uiSchema A nested `uiSchema`
  * @returns {Object} The closest `uiSchema` object that holds the `uiSchema` keys
  */
