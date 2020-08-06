@@ -2,7 +2,6 @@ import _ from 'lodash';
 import environment from 'platform/utilities/environment';
 
 import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
-// import fullSchema from '../schema/covid-vaccine-trial-schema_temp.json';
 import uiSchemaDefinitions from '../schema/covid-vaccine-trial-ui-schema.json';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
@@ -31,6 +30,7 @@ const {
   residents,
   closeContact,
   contactHeaderText,
+  confirmationEmailUI,
   zipCode,
   // height,
   weight,
@@ -38,15 +38,23 @@ const {
   raceEthnicityOrigin,
 } = uiSchemaDefinitions;
 
+confirmationEmailUI['ui:validations'] = [
+  {
+    validator: (errors, fieldData, formData) => {
+      const emailMatcher = () => formData.email === fieldData;
+      const doesEmailMatch = emailMatcher();
+      if (!doesEmailMatch) {
+        errors.addError(
+          'This email does not match your previously entered email',
+        );
+      }
+    },
+  },
+];
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 const { set } = dataUtils;
+const viewConfirmationEmailField = 'view:confirmEmail';
 
-export function validateEmailsMatch(errors, pageData) {
-  const { primaryEmail, confirmEmail } = pageData;
-  if (primaryEmail !== confirmEmail) {
-    errors.confirmEmail.addError('Please ensure your entries match');
-  }
-}
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/covid-vaccine/screener/create`,
@@ -57,7 +65,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for vaccine trial participation.',
+    notFound: 'Please start over to volunteer for vaccine trial participation.',
     noAuth:
       'Please sign in again to continue your application for vaccine trial participation.',
   },
@@ -85,7 +93,7 @@ const formConfig = {
             residents,
             closeContact,
             contactHeaderText,
-            fullName: _.merge(fullNameUI, {
+            veteranFullName: _.merge(fullNameUI, {
               first: {
                 'ui:title': 'First name',
               },
@@ -100,8 +108,8 @@ const formConfig = {
               },
               'ui:order': ['first', 'middle', 'last', 'suffix'],
             }),
-            primaryEmail: emailUI(),
-            confirmEmail: emailUI('Confirm email address'),
+            email: emailUI(),
+            [viewConfirmationEmailField]: confirmationEmailUI,
             zipCode,
             phone: phoneUI(),
             dateOfBirth: currentOrPastDateUI(
@@ -111,7 +119,6 @@ const formConfig = {
             weight,
             gender,
             raceEthnicityOrigin,
-            'ui:validations': [validateEmailsMatch],
           },
           schema: {
             required: ['phone'],
@@ -132,9 +139,9 @@ const formConfig = {
               residents: fullSchema.properties.residentsInHome,
               closeContact: fullSchema.properties.closeContact,
               contactHeaderText: fullSchema.properties.contactHeaderText,
-              fullName: set('required', ['first', 'last'], fullName),
-              primaryEmail: email,
-              confirmEmail: email,
+              veteranFullName: set('required', ['first', 'last'], fullName),
+              email,
+              [viewConfirmationEmailField]: email,
               phone: usaPhone,
               zipCode: usaPostalCode,
               dateOfBirth: date,

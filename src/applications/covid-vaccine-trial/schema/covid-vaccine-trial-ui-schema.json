@@ -196,6 +196,20 @@
       "classNames": ""
     }
   },
+  "confirmationEmailUI": {
+    "ui:title": "Re-enter email address",
+    "ui:widget": "email",
+    "ui:errorMessages": {
+      "pattern": "Please enter an email address using this format: X@X.com",
+      "required": "Please enter an email address"
+    },
+    "ui:options": {
+      "widgetClassNames": "va-input-large",
+      "inputType": "email",
+      "hideOnReview": true,
+      "useDlWrap": true
+    }
+  },
   "height": {
     "ui:title": "Height",
     "heightFeetText": {
