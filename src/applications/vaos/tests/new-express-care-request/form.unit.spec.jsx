@@ -71,7 +71,7 @@ describe('VAOS integration: Express Care form', () => {
     expect(screen.baseElement).to.contain.text(
       'Please provide your phone number and email address where VA health care staff can contact you',
     );
-    expect(screen.getByText(/go to your profile/i).href).to.equal('/profile');
+    expect(screen.getByText(/go to your profile/i).href).to.include('/profile');
     screen.getByLabelText(/phone number/i);
     screen.getByLabelText(/email address/i);
     screen.getByText(/submit express care request/i);
