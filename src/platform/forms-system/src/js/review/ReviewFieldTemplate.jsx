@@ -6,16 +6,16 @@ import { getNestedUISchema } from '../helpers';
  */
 
 export default function ReviewFieldTemplate(props) {
-  const { children, uiSchema, schema } = props;
-  const realUISchema = getNestedUISchema(uiSchema);
-  const label = realUISchema['ui:title'] || props.label;
-  const description = realUISchema['ui:description'];
+  const { children, uiSchema: startingUISchema, schema } = props;
+  const uiSchema = getNestedUISchema(startingUISchema);
+  const label = uiSchema['ui:title'] || props.label;
+  const description = uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
   const DescriptionField =
-    typeof description === 'function' ? realUISchema['ui:description'] : null;
+    typeof description === 'function' ? uiSchema['ui:description'] : null;
 
-  if (realUISchema?.['ui:reviewField']) {
-    return realUISchema['ui:reviewField'](props);
+  if (uiSchema?.['ui:reviewField']) {
+    return uiSchema['ui:reviewField'](props);
   }
   if (schema.type === 'object' || schema.type === 'array') {
     return children;
@@ -23,7 +23,7 @@ export default function ReviewFieldTemplate(props) {
 
   // The custom reviewField should handle empty values
   // `hideEmptyValueInReview` option is ignored if a 'ui:reviewField' is defined
-  if (realUISchema?.['ui:options']?.hideEmptyValueInReview) {
+  if (uiSchema?.['ui:options']?.hideEmptyValueInReview) {
     let value = children;
     if (typeof children !== 'undefined') {
       if ('props' in children) {
@@ -36,7 +36,7 @@ export default function ReviewFieldTemplate(props) {
       return null;
     }
   }
-  const Tag = realUISchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
+  const Tag = uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
 
   return (
     <Tag className="review-row">
@@ -44,7 +44,7 @@ export default function ReviewFieldTemplate(props) {
         {label}
         {textDescription && <p>{textDescription}</p>}
         {DescriptionField && (
-          <DescriptionField options={realUISchema['ui:options']} />
+          <DescriptionField options={uiSchema['ui:options']} />
         )}
         {!textDescription && !DescriptionField && description}
       </dt>
