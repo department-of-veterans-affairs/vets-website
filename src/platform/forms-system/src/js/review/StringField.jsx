@@ -28,7 +28,7 @@ export default function StringField(props) {
   const labels = uiOptions.labels || {};
   const enumOptions = Array.isArray(schema.enum) && optionsList(schema);
   const isRoot = id === 'root';
-  let Widget = _.get('ui:reviewWidget', realUiSchema);
+  let Widget = realUiSchema['ui:reviewWidget'];
 
   if (!Widget) {
     if (schema.type !== 'object' && schema.type !== 'array') {
