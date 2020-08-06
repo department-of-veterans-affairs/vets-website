@@ -6,6 +6,7 @@ module.exports = {
     title: { $ref: 'GenericNestedString' },
     created: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
+    moderation_state: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_administration: {
@@ -26,6 +27,7 @@ module.exports = {
     'title',
     'created',
     'changed',
+    'moderation_state',
     'metatag',
     'path',
     'field_administration',
