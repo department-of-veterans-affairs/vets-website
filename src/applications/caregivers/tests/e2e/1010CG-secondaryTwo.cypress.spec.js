@@ -8,25 +8,22 @@ import manifest from '../../manifest.json';
 
 const veteranLabel = `Enter Veteran's or service member\u2019s full name`;
 const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';
-// const secondaryOneLabel = 'Enter Secondary Family Caregiver\u2019s full name';
-// const secondaryTwoLabel =
-//   'Enter Secondary Family Caregiver\u2019s (2) full name';
+const secondaryOneLabel = 'Enter Secondary Family Caregiver\u2019s full name';
+const secondaryTwoLabel =
+  'Enter Secondary Family Caregiver\u2019s (2) full name';
 
-const testConfig = createTestConfig(
+const testSecondaryTwo = createTestConfig(
   {
     dataPrefix: 'data',
-
-    dataSets: ['requiredOnly.json'],
-
+    dataSets: ['twoSecondaryCaregivers.json'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
 
     setupPerTest: () => {
-      cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
+      cy.route('GET', '/v0/feature_toggles?*', 'fx:mocks/feature-toggles');
     },
-
     pageHooks: {
       introduction: () => {
         // Hit the start button
@@ -55,8 +52,30 @@ const testConfig = createTestConfig(
           .first()
           .type('Mini Mouse');
 
-        // check  checkbox as primary caregiver
+        // check  checkbox as secondaryOne caregiver
         cy.get(`[data-test-id="${primaryLabel}-signature-input"]`)
+          .find('[type="checkbox"]')
+          .check();
+
+        // sign signature as secondaryOne caregiver
+        cy.get(`[data-test-id="${secondaryOneLabel}-signature-input"]`)
+          .find('input')
+          .first()
+          .type('George Geef Goofus');
+
+        // check  checkbox as primary caregiver
+        cy.get(`[data-test-id="${secondaryOneLabel}-signature-input"]`)
+          .find('[type="checkbox"]')
+          .check();
+
+        // sign signature as secondaryTwo caregiver
+        cy.get(`[data-test-id="${secondaryTwoLabel}-signature-input"]`)
+          .find('input')
+          .first()
+          .type('Donald Duck');
+
+        // check  checkbox as secondaryTwo caregiver
+        cy.get(`[data-test-id="${secondaryTwoLabel}-signature-input"]`)
           .find('[type="checkbox"]')
           .check();
 
@@ -87,4 +106,4 @@ const testConfig = createTestConfig(
   formConfig,
 );
 
-testForm(testConfig);
+testForm(testSecondaryTwo);
