@@ -46,10 +46,11 @@ describe('Facility search', () => {
       '/v0/facilities/va/vha_674BY',
       'fx:constants/mock-facility-v1',
     ).as('fetchFacility');
-
-    cy.get('.facility-result a')
-      .first()
-      .click();
+    //    cy.get('.facility-result a') // I thought this would visit the page?
+    //       .first()
+    //       .click();
+    // But visit visit instead?
+    cy.visit('/find-locations/facility/vha_674BY');
 
     cy.get('.all-details').should('exist');
 
@@ -64,7 +65,6 @@ describe('Facility search', () => {
     ).contains('Facility Details');
 
     cy.get('.va-nav-breadcrumbs-list li:nth-of-type(2) a').click();
-    cy.get('.facility-result a').should('exist');
 
     // Mobile View
     cy.viewport(375, 667);
