@@ -706,7 +706,7 @@ export function transformForSubmit(
  * @param {Object} uiSchema A nested `uiSchema`
  * @returns {Object} The closest `uiSchema` object that holds the `uiSchema` keys
  */
-export const checkForNestedUISchema = uiSchema => {
+export const getNestedUISchema = uiSchema => {
   const uiSchemaKeys = Object.keys(uiSchema);
   const isThisAUISchemaObj = !!uiSchemaKeys.find(uiSchemaKey =>
     uiSchemaKey.includes('ui:'),
@@ -714,7 +714,7 @@ export const checkForNestedUISchema = uiSchema => {
   for (const uiSchemaKey of uiSchemaKeys) {
     if (isThisAUISchemaObj) break;
     const nestedUISchema = uiSchema[uiSchemaKey];
-    return checkForNestedUISchema(nestedUISchema);
+    return getNestedUISchema(nestedUISchema);
   }
   return uiSchema;
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
-import { checkForNestedUISchema } from '../helpers';
+import { getNestedUISchema } from '../helpers';
 import {
   getUiOptions,
   getWidget,
@@ -23,7 +23,7 @@ export default function StringField(props) {
     formContext,
     id,
   } = props;
-  const realUiSchema = checkForNestedUISchema(uiSchema);
+  const realUiSchema = getNestedUISchema(uiSchema);
   const uiOptions = getUiOptions(realUiSchema);
   const labels = uiOptions.labels || {};
   const enumOptions = Array.isArray(schema.enum) && optionsList(schema);

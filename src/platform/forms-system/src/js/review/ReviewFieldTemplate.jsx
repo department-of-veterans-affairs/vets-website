@@ -1,5 +1,5 @@
 import React from 'react';
-import { checkForNestedUISchema } from '../helpers';
+import { getNestedUISchema } from '../helpers';
 
 /*
  * This is the template for each field (which in the schema library means label + widget)
@@ -7,7 +7,7 @@ import { checkForNestedUISchema } from '../helpers';
 
 export default function ReviewFieldTemplate(props) {
   const { children, uiSchema, schema } = props;
-  const realUISchema = checkForNestedUISchema(uiSchema);
+  const realUISchema = getNestedUISchema(uiSchema);
   const label = realUISchema['ui:title'] || props.label;
   const description = realUISchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
