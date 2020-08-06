@@ -41,10 +41,11 @@ export class NewAppointmentLayout extends React.Component {
 
   onBeforeUnload = e => {
     const expirationDate = localStorage.getItem('sessionExpiration');
+    const expirationDateSSO = localStorage.getItem('sessionExpirationSSO');
 
     // If there's no expiration date, then the session has already expired
     // and keeping a person on the form won't save their data
-    if (expirationDate) {
+    if (expirationDate || expirationDateSSO) {
       e.preventDefault();
       e.returnValue =
         'Are you sure you wish to leave this application? All progress will be lost.';
