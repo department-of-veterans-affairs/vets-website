@@ -45,8 +45,7 @@ export default function StringField(props) {
       title = title(formData, formContext);
     }
     const editLabel =
-      _.get('ui:options.ariaLabelForEditButtonOnReview', realUiSchema) ||
-      `Edit ${title}`;
+      uiOptions.ariaLabelForEditButtonOnReview || `Edit ${title}`;
 
     return (
       <>
