@@ -578,10 +578,22 @@ describe('VAOS reducer: newAppointment', () => {
             {
               id: 'var983_455',
               resourceType: 'HealthcareService',
+              identifier: [
+                {
+                  system: 'http://med.va.gov/fhir/urn',
+                  value: 'urn:va:healthcareservice:983:983:455',
+                },
+              ],
             },
             {
               id: 'var983_456',
               resourceType: 'HealthcareService',
+              identifier: [
+                {
+                  system: 'http://med.va.gov/fhir/urn',
+                  value: 'urn:va:healthcareservice:983:983:456',
+                },
+              ],
             },
           ],
         },
@@ -638,11 +650,23 @@ describe('VAOS reducer: newAppointment', () => {
             {
               id: 'var983_455',
               resourceType: 'HealthcareService',
+              identifier: [
+                {
+                  system: 'http://med.va.gov/fhir/urn',
+                  value: 'urn:va:healthcareservice:983:983:455',
+                },
+              ],
               serviceName: 'Testing',
             },
             {
               id: 'var983_456',
               resourceType: 'HealthcareService',
+              identifier: [
+                {
+                  system: 'http://med.va.gov/fhir/urn',
+                  value: 'urn:va:healthcareservice:983:983:456',
+                },
+              ],
               serviceName: 'Testing real name',
             },
           ],

@@ -23,7 +23,7 @@ import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
 import {
   findCharacteristic,
-  getClinicIdentifier,
+  getClinicId,
   getSiteCode,
 } from '../services/healthcare-service/transformers';
 
@@ -249,7 +249,7 @@ export function transformFormToAppointment(state) {
     appointmentType: getTypeOfCare(data).name,
     clinic: {
       siteCode: getSiteCode(clinic),
-      clinicId: getClinicIdentifier(clinic),
+      clinicId: getClinicId(clinic),
       clinicName: clinic.serviceName,
       clinicFriendlyLocationName: findCharacteristic(
         clinic,
