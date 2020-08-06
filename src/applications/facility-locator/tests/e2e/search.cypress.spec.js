@@ -1,13 +1,21 @@
-import testMockDataSearchResponse from '../fixtures/mock-data-v1.json';
-import testMockDataFetch from '../../constants/mock-facility-v1.json';
-import testGeoCodingDataAustin from '../../constants/mock-geocoding-data.json';
+import path from 'path';
 
 describe('Facility search', () => {
+  before(() => {
+    cy.syncFixtures({
+      constants: path.join(__dirname, '..', '..', 'constants'),
+    });
+  });
   beforeEach(() => {
     cy.server();
     cy.route('GET', '/v0/feature_toggles?*', []);
     cy.route('GET', '/v0/maintenance_windows', []);
-    cy.route('GET', '/geocoding/**/*', testGeoCodingDataAustin);
+    cy.route(
+      'GET',
+      '/v1/facilities/va?*',
+      'fx:constants/mock-facility-data-v1',
+    );
+    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
   it('does a simple search and finds a result on the list', () => {
@@ -18,7 +26,6 @@ describe('Facility search', () => {
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select('VA health');
-    cy.route('GET', '/v1/facilities/va?*', testMockDataSearchResponse);
     cy.get('#facility-search').click();
     cy.get('#facility-search-results').should('exist');
     cy.get('.facility-result a').should('exist');
@@ -32,11 +39,9 @@ describe('Facility search', () => {
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select('VA health');
-    cy.route('GET', '/v1/facilities/va?*', testMockDataSearchResponse);
     cy.get('#facility-search').click();
     cy.get('.facility-result a').should('exist');
 
-    cy.route('GET', '/v1/facilities/va/vha_674BY', testMockDataFetch);
     cy.get('.facility-result a')
       .first()
       .click();
