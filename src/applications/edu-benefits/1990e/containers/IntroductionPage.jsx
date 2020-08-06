@@ -12,22 +12,19 @@ import { connect } from 'react-redux';
 import { showEduBenefits1990EWizard } from '../../selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      wizardStatus:
-        sessionStorage.getItem('wizardStatus') || WIZARD_STATUS_NOT_STARTED,
-    };
-    this.setWizardStatus = this.setWizardStatus.bind(this);
-  }
+  state = {
+    wizardStatus:
+      sessionStorage.getItem('wizardStatus') || WIZARD_STATUS_NOT_STARTED,
+  };
+
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
-  setWizardStatus(value) {
+  setWizardStatus = value => {
     sessionStorage.setItem('wizardStatus', value);
     this.setState({ wizardStatus: value });
-  }
+  };
 
   render() {
     const { wizardStatus } = this.state;
