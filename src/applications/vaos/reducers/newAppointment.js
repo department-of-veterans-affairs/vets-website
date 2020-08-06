@@ -331,7 +331,7 @@ export default function formReducer(state = initialState, action) {
 
       let eligibility = state.eligibility;
       let clinics = state.clinics;
-      let pastAppointments;
+      let pastAppointments = state.pastAppointments;
 
       if (action.eligibilityData) {
         const facilityEligibility = getEligibilityChecks(
