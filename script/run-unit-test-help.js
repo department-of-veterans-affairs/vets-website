@@ -13,11 +13,11 @@ const helpSections = [
         example: '$ yarn test:unit',
       },
       {
-        desc: '2. Run tests for a specific folder ',
-        example: '$ yarn test:unit src/applications/vaos',
+        desc: '2. Run tests for a specific app folder ',
+        example: '$ yarn test:unit --app-folder vaos',
       },
       {
-        desc: '2. Run tests with extra error logging for a specific file',
+        desc: '3. Run tests with extra error logging for a specific file',
         example:
           '$ yarn test:unit --log-level debug src/applications/vaos/tests/components/ExpressCareListItem.jsx',
       },
@@ -38,6 +38,13 @@ const helpSections = [
         typeLabel: '{underline boolean}',
         description:
           'Runs the unit tests with code coverage metrics, and outputs the results to an html report in coverage/',
+      },
+      {
+        name: 'app-folder',
+        typeLabel: '{underline folder name}',
+        description:
+          'Run all tests in the specified folder in src/applications',
+        defaultOption: true,
       },
       {
         name: 'path',

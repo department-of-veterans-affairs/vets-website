@@ -4,6 +4,7 @@
  * If you're looking to add polyfills for all unit tests, this is the place.
  */
 
+import os from 'os';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';
@@ -22,9 +23,9 @@ chai.use(chaiDOM);
 
 function filterStackTrace(trace) {
   return trace
-    .split('\n')
+    .split(os.EOL)
     .filter(line => !line.includes('node_modules'))
-    .join('\n');
+    .join(os.EOL);
 }
 /**
  * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.

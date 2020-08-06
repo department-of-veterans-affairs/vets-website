@@ -2,18 +2,32 @@ const printUnitTestHelp = require('./run-unit-test-help.js');
 const commandLineArgs = require('command-line-args');
 const { runCommand } = require('./utils');
 
+const defaultPath = './src/**/*.unit.spec.js?(x)';
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'log' },
+  { name: 'app-folder', type: String, defaultValue: null },
   { name: 'coverage', type: Boolean, defaultValue: false },
   { name: 'help', alias: 'h', type: Boolean, defaultValue: false },
   {
     name: 'path',
     type: String,
     defaultOption: true,
-    defaultValue: './src/**/*.unit.spec.js?(x)',
+    multiple: true,
+    defaultValue: [defaultPath],
   },
 ];
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
+
+if (
+  options['app-folder'] &&
+  options.path[0] === defaultPath &&
+  options.path.length === 1
+) {
+  options.path[0] = options.path[0].replace(
+    '/src/',
+    `/src/applications/${options['app-folder']}/`,
+  );
+}
 
 if (options.help) {
   printUnitTestHelp();
@@ -31,7 +45,8 @@ const mochaOpts =
 runCommand(
   `LOG_LEVEL=${options[
     'log-level'
-  ].toLowerCase()} ${testRunner} --opts ${mochaOpts} --recursive '${
-    options.path
-  }'`,
+  ].toLowerCase()} ${testRunner} --opts ${mochaOpts} --recursive ${options.path
+    .map(p => `'${p}'`)
+    .join(' ')}`,
+  options.coverage ? null : 0,
 );
