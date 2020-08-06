@@ -44,7 +44,7 @@ import {
   stepchildInformation,
 } from './chapters/stepchild-no-longer-part-of-household';
 import {
-  studentNameAndSSN,
+  studentNameAndSsn,
   studentAddressMarriageTuition,
   studentSchoolAddress,
   studentTermDates,
@@ -236,13 +236,13 @@ const formConfig = {
     report674: {
       title: 'Information needed to add a student 18 to 23 years old',
       pages: {
-        studentNameAndSSN: {
+        studentNameAndSsn: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
           title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674',
-          uiSchema: studentNameAndSSN.uiSchema,
-          schema: studentNameAndSSN.schema,
+          uiSchema: studentNameAndSsn.uiSchema,
+          schema: studentNameAndSsn.schema,
         },
         studentAddressMarriageTuition: {
           depends: formData =>

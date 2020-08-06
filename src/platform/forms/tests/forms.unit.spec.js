@@ -81,6 +81,7 @@ const excludedForms = new Set([
   'vaMedicalFacilities',
   '22-10203',
   'caregiverProgramFacilities',
+  'COVID-VACCINE-TRIAL',
 ]);
 
 describe('form:', () => {
