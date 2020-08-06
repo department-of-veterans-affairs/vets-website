@@ -65,7 +65,7 @@ export async function checkAutoSession(
       // with the existing transaction id. If they don't match, it means we might
       // have a different user logged in. Thus, we should auto log out the user,
       // and immediately log them back in to make sure the users match.
-      logout('v1', 'sso-automatic-logout', { 'auto-logout': 'true' });
+      logout('v1', 'sso-automatic-logout', 'logout');
     }
   } else if (!loggedIn && ttl > 0 && !getLoginAttempted() && authn) {
     // only attempt an auto login if the user is

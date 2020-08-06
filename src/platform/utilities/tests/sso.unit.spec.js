@@ -118,9 +118,7 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X');
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout', {
-      'auto-logout': 'true',
-    });
+    sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout', 'logout');
   });
 
   it('should not auto logout if user is logged without SSOe and they do not have a SSOe session', async () => {
