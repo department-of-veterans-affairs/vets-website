@@ -35,7 +35,9 @@ export default function setupJSDom() {
   /* eslint-enable no-console */
 
   // setup the simplest document possible
-  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  const dom = new JSDOM('<!doctype html><html><body></body></html>', {
+    url: 'http://localhost',
+  });
 
   // get the window object out of the document
   const win = dom.window;
