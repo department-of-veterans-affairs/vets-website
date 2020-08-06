@@ -43,7 +43,8 @@ const config = {
     },
     {
       name: 'single-sign-on-intro',
-      paths: /(.)/,
+      // display for everything except the sign-in page and subroutes
+      paths: /^(?!.*\/sign-in\/).*$/,
       component: SingleSignOnInfoModal,
     },
   ],
