@@ -10,7 +10,7 @@ import {
 import formConfig from '../config/form';
 import formData from './schema/maximal-test.json';
 
-const { integer, iso8601DateTimeWithMillis, term } = Matchers;
+const { integer, iso8601DateTimeWithMillis, string, term } = Matchers;
 
 contractTest('HCA', 'VA.gov API', mockApi => {
   describe('POST /v0/health_care_applications', () => {
@@ -34,7 +34,7 @@ contractTest('HCA', 'VA.gov API', mockApi => {
             status: 200,
             body: {
               data: {
-                id: integer(12345),
+                id: string(12345),
                 type: 'health_care_applications',
                 attributes: {
                   state: term({
