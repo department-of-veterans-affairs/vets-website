@@ -886,7 +886,142 @@
           }
         }
       }
-    }
+    },
+    {    "id": "vha_674BY",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": null,
+              "established": 0.714285
+            },
+            {
+              "service": "Dermatology",
+              "new": 6.294117,
+              "established": 8.69014
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 4.076923,
+              "established": 0
+            },
+            {
+              "service": "Gynecology",
+              "new": 65,
+              "established": 2.285714
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 1.612903,
+              "established": 4.621164
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 5,
+              "established": 7.301204
+            },
+            {
+              "service": "Optometry",
+              "new": 7.85,
+              "established": 4.489361
+            },
+            {
+              "service": "Orthopedics",
+              "new": 8.4,
+              "established": 1.34375
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 7.468085,
+              "established": 1.543234
+            },
+            {
+              "service": "SpecialtyCare",
+              "new": 5.631205,
+              "established": 7.435233
+            },
+            {
+              "service": "WomensHealth",
+              "new": 65,
+              "established": 2.285714
+            }
+          ],
+          "effectiveDate": "2020-07-27"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "78744-3111",
+            "city": "Austin",
+            "state": "TX",
+            "address1": "7901 Metropolis Drive",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "Multi-Specialty CBOC",
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.550000011920929,
+            "primaryCareRoutine": 0.8700000047683716
+          },
+          "effectiveDate": "2020-04-16"
+        },
+        "hours": {
+          "monday": "800AM-430PM",
+          "tuesday": "800AM-430PM",
+          "wednesday": "800AM-430PM",
+          "thursday": "800AM-430PM",
+          "friday": "800AM-430PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "id": "vha_674BY",
+        "lat": 30.205656,
+        "long": -97.6903515,
+        "mobile": false,
+        "name": "Austin VA Clinic",
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "512-823-4125",
+          "main": "800-423-2111",
+          "pharmacy": "800-423-2111",
+          "afterHours": "254-778-4811",
+          "patientAdvocate": "512-823-4540",
+          "mentalHealthClinic": "512-823-4040",
+          "enrollmentCoordinator": "254-743-2420"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "DentalServices",
+            "Dermatology",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2020-07-27"
+        },
+        "uniqueId": "674BY",
+        "visn": "17",
+        "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
+      }}
+
   ],
   "links": {
     "self": "http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1",

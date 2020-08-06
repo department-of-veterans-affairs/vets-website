@@ -1,36 +1,40 @@
-import { facilityTypesOptions } from '../../config';
-import { LocationType } from '../../constants';
+import testMockDataSearchResponse from '../fixtures/mock-data-v1.json';
+import testMockDataFetch from '../../constants/mock-facility-v1.json';
 
 describe('Facility search', () => {
+  beforeEach(() => {
+    cy.server();
+    cy.route('GET', '/v1/facilities/va?*', testMockDataSearchResponse);
+  });
+
   it('does a simple search and finds a result on the list', () => {
-    cy.visit('https://staging.va.gov/find-locations/'); // can we make it real e2e?, with live data
+    cy.visit('find-locations');
 
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('#street-city-state-zip').type('Seattle, WA');
+    cy.get('#street-city-state-zip').type('Austin, TX');
 
-    cy.get('#facility-type-dropdown').select(
-      facilityTypesOptions[LocationType.HEALTH],
-    );
+    cy.get('#facility-type-dropdown').select('VA health');
     cy.get('#facility-search').click();
     cy.get('#facility-search-results').should('exist');
     cy.get('.facility-result a').should('exist');
   });
 
   it('should render breadcrumbs ', () => {
-    cy.visit('https://staging.va.gov/find-locations/');
+    cy.visit('find-locations/');
 
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('#street-city-state-zip').type('Seattle, WA');
-    cy.get('#facility-type-dropdown').select(
-      facilityTypesOptions[LocationType.HEALTH],
-    );
+    cy.get('#street-city-state-zip').type('Austin, TX');
+
+    cy.get('#facility-type-dropdown').select('VA health');
     cy.get('#facility-search').click();
 
     cy.get('.facility-result a').should('exist');
+
+    cy.route('GET', '/v1/facilities/va/vha_674BY', testMockDataFetch);
 
     cy.get('.facility-result a')
       .first()
@@ -64,7 +68,7 @@ describe('Facility search', () => {
   });
 
   it('does not show search result header if no results are found', () => {
-    cy.visit('https://staging.va.gov/find-locations?fail=true');
+    cy.visit('find-locations?fail=true');
     cy.injectAxe();
     cy.axeCheck();
 
