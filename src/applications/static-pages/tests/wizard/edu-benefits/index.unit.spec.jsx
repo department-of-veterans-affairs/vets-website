@@ -28,7 +28,7 @@ describe('the Education Benefits Wizard', () => {
   });
 
   afterEach(() => {
-    global.sessionStorage.clear();
+    sessionStorage.clear();
   });
 
   it('should render the wizard start button if the expander prop is true', () => {
