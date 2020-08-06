@@ -14,12 +14,7 @@ describe('Facility search', () => {
       'GET',
       '/v0/facilities/va?*',
       'fx:constants/mock-facility-data-v1',
-    );
-    cy.route(
-      'GET',
-      '/v0/facilities/va/vha_674BY',
-      'fx:constants/mock-facility-v1',
-    );
+    ).as('searchFacilities');
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
@@ -46,6 +41,12 @@ describe('Facility search', () => {
     cy.get('#facility-type-dropdown').select('VA health');
     cy.get('#facility-search').click();
     cy.get('.facility-result a').should('exist');
+    cy.route(
+      'GET',
+      '/v0/facilities/va/vha_674BY',
+      'fx:constants/mock-facility-v1',
+    ).as('fetchFacility');
+
     cy.get('.facility-result a')
       .first()
       .click();
