@@ -57,6 +57,9 @@ class ResultsList extends Component {
       let item;
       switch (query.facilityType) {
         case 'health':
+        case 'cemetery':
+        case 'benefits':
+        case 'vet_center':
           item = <VaFacilityResult location={r} query={query} />;
           break;
         case 'provider':
