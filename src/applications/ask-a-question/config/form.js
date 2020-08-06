@@ -26,15 +26,7 @@ import { directDepositWarning } from '../helpers';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import { findAllByDisplayValue } from '@testing-library/dom';
 
-const {
-  fullName,
-  ssn,
-  date,
-  dateRange,
-  usaPhone,
-  bankAccount,
-  toursOfDuty,
-} = commonDefinitions;
+const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
 // Define all the fields in the form to aid reuse
 const formFields = {
