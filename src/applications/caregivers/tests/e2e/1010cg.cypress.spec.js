@@ -5,8 +5,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-// import featureToggleMocks from './fixtures/mocks/feature-toggles.json';
-// import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 
 const veteranLabel = `Enter Veteran's or service member\u2019s full name`;
 const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';

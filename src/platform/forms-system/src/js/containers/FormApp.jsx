@@ -30,6 +30,7 @@ class FormApp extends React.Component {
 
   render() {
     const { currentLocation, formConfig, children, formData } = this.props;
+    console.log('formData', JSON.stringify(formData, null, 2));
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const lastPathComponent = currentLocation.pathname.split('/').pop();
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
