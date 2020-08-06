@@ -21,12 +21,12 @@ export const getAllPayments = () => async dispatch => {
   if (response.errors) {
     if (isServerError(response.errors[0].status)) {
       recordEvent({
-        event: `disability-view-dependents-load-failed`,
+        event: `view-payment-history-failed`,
         'error-key': `${response.errors[0].status}_server_error`,
       });
     } else if (isClientError(response.errors)) {
       recordEvent({
-        event: `disability-view-dependents-load-failed`,
+        event: `view-payment-history-failed`,
         'error-key': `${response.errors[0].status}_client_error`,
       });
     }
