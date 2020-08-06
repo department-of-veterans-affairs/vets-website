@@ -1,3 +1,7 @@
+/**
+ * This function sets up sessionStorage for your unit tests
+ */
+
 export const sessionStorageSetup = () => {
   let storage = {};
   global.sessionStorage = {
