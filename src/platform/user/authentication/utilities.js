@@ -22,7 +22,7 @@ export const ssoKeepAliveEndpoint = () => {
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
-function sessionTypeUrl(type = '', version = 'v0', queryParams = {}) {
+export function sessionTypeUrl(type = '', version = 'v0', queryParams = {}) {
   const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
