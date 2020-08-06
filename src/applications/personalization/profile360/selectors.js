@@ -45,5 +45,5 @@ export const personalInformationLoadError = state => {
 };
 
 export const militaryInformationLoadError = state => {
-  return state.vaProfile?.militaryInformation?.errors;
+  return state.vaProfile?.militaryInformation?.serviceHistory?.error;
 };

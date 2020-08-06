@@ -1026,9 +1026,15 @@ export const getPersonalInformationFailure = [
   }),
 ];
 
-export const getServiceHistoryFailure = [
+export const getServiceHistory500 = [
   rest.get(`${prefix}/v0/profile/service_history`, (req, res, ctx) => {
     return res(ctx.status(500), ctx.json(mock500));
+  }),
+];
+
+export const getServiceHistory401 = [
+  rest.get(`${prefix}/v0/profile/service_history`, (req, res, ctx) => {
+    return res(ctx.status(401), ctx.json(mock401));
   }),
 ];
 

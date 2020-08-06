@@ -58,9 +58,14 @@ export function fetchMilitaryInformation() {
     const response = await getData('/profile/service_history');
 
     if (response.errors || response.error) {
+      const error = response.error || response.errors;
       dispatch({
         type: FETCH_MILITARY_INFORMATION_FAILED,
-        militaryInformation: { errors: response },
+        militaryInformation: {
+          serviceHistory: {
+            error,
+          },
+        },
       });
       return;
     }

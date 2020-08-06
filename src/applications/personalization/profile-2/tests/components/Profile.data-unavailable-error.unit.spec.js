@@ -1,6 +1,5 @@
 import React from 'react';
 
-import sinon from 'sinon';
 import { waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
@@ -13,6 +12,8 @@ import { renderWithProfileReducers as render } from '../unit-test-helpers';
 
 import Profile2Router from '../../components/Profile2Router';
 import { PROFILE_PATH_NAMES } from '../../constants';
+
+const ALERT_ID = 'not-all-data-available-error';
 
 // Returns the Redux state needed by the Profile2Router and its child components
 function createBasicInitialState() {
@@ -71,7 +72,6 @@ async function errorAppearsOnAllPages(
     PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
   ],
 ) {
-  const ALERT_ID = 'not-all-data-available-error';
   const initialState = createBasicInitialState();
   const view = render(<Profile2Router isLOA3 isInMVI />, {
     initialState,
@@ -114,7 +114,7 @@ describe('Profile "Not all data available" error', () => {
     });
     const spinner = view.queryByRole('progressbar');
     await waitForElementToBeRemoved(spinner);
-    expect(view.queryByTestId('not-all-data-available-error')).not.to.exist;
+    expect(view.queryByTestId(ALERT_ID)).not.to.exist;
   });
 
   it('should be shown on all pages if there is an error with the `GET full_name` endpoint', async () => {
@@ -129,15 +129,16 @@ describe('Profile "Not all data available" error', () => {
     await errorAppearsOnAllPages();
   });
 
-  it('should be shown on all pages if there is an error with the `GET service_history` endpoint', async () => {
-    server.use(...mocks.getServiceHistoryFailure);
+  it('should be shown on all pages if there is a 500 error with the `GET service_history` endpoint', async () => {
+    server.use(...mocks.getServiceHistory500);
 
-    // don't check for the error on the military info page since that page is unavailable when the `GET service_history` endpoint fails
-    await errorAppearsOnAllPages([
-      PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
-      PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
-      PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
-    ]);
+    await errorAppearsOnAllPages();
+  });
+
+  it('should be shown on all pages if there is a 401 error with the `GET service_history` endpoint', async () => {
+    server.use(...mocks.getServiceHistory401);
+
+    await errorAppearsOnAllPages();
   });
 
   it('should be shown on all pages if there is an error with the `GET payment_information` endpoint`', async () => {

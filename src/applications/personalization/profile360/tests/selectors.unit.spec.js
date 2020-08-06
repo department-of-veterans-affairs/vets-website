@@ -312,7 +312,9 @@ describe('profile360 selectors', () => {
       const state = {
         vaProfile: {
           militaryInformation: {
-            errors,
+            serviceHistory: {
+              error: errors,
+            },
           },
         },
       };
@@ -323,7 +325,9 @@ describe('profile360 selectors', () => {
     it('should return undefined if there are no errors', () => {
       const state = {
         vaProfile: {
-          militaryInformation: {},
+          militaryInformation: {
+            serviceHistory: {},
+          },
         },
       };
       expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
