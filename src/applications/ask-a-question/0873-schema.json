@@ -1,9 +1,58 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Ask a Question (0873)",
+  "title": "IRIS Ask a Question",
   "type": "object",
-  "additionalProperties": false,
   "definitions": {
+    "fullName": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "middle": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "suffix": {
+          "type": "string",
+          "enum": [
+            "Jr.",
+            "Sr.",
+            "II",
+            "III",
+            "IV"
+          ]
+        }
+      },
+      "required": [
+        "first",
+        "last"
+      ]
+    },
+    "preferredContactMethod": {
+      "type": "string",
+      "enum": [
+        "mail",
+        "email",
+        "phone"
+      ]
+    },
+    "email": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 80,
+      "format": "email"
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 10
+    },
     "address": {
       "type": "object",
       "oneOf": [
@@ -211,6 +260,77 @@
           "maxLength": 51
         }
       }
+    },
+    "privacyAgreementAccepted": {
+      "type": "boolean",
+      "enum": [
+        true
+      ]
     }
-  }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "topic": {
+      "type": "string",
+      "enum": [
+        "Policy Questions",
+        "Question about Women Veterans Programs"
+      ]
+    },
+    "inquiryType": {
+      "type": "string",
+      "enum": [
+        "Question",
+        "Compliment",
+        "Service Complaint",
+        "Suggestion",
+        "Status of Claim",
+        "Status of Appeal at a Local VA Office",
+        "Status of Appeals at BVA, Wash DC"
+      ]
+    },
+    "query": {
+      "type": "string"
+    },
+    "fullName": {
+      "$ref": "#/definitions/fullName"
+    },
+    "preferredContactMethod": {
+      "$ref": "#/definitions/preferredContactMethod"
+    },
+    "email": {
+      "$ref": "#/definitions/email"
+    },
+    "phone": {
+      "$ref": "#/definitions/phone"
+    },
+    "address": {
+      "$ref": "#/definitions/address"
+    },
+    "privacyAgreementAccepted": {
+      "$ref": "#/definitions/privacyAgreementAccepted"
+    }
+  },
+  "anyOf": [
+    {
+      "required": [
+        "email"
+      ]
+    },
+    {
+      "required": [
+        "phone"
+      ]
+    },
+    {
+      "required": [
+        "address"
+      ]
+    }
+  ],
+  "required": [
+    "privacyAgreementAccepted",
+    "fullName",
+    "preferredContactMethod"
+  ]
 }

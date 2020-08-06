@@ -18,15 +18,19 @@ import * as address from 'platform/forms-system/src/js/definitions/address';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
+const { topic, inquiryType, query } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
 
-import { directDepositWarning } from '../helpers';
-import toursOfDutyUI from '../definitions/toursOfDuty';
-import { findAllByDisplayValue } from '@testing-library/dom';
-
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+const {
+  fullName,
+  ssn,
+  date,
+  dateRange,
+  usaPhone,
+  email,
+  preferredContactMethod,
+} = commonDefinitions;
 
 // Define all the fields in the form to aid reuse
 const formFields = {
@@ -57,14 +61,6 @@ const formPages = {
   whoAmI: 'whoAmI',
   contactInformation: 'contactInformation',
   serviceInformation: 'serviceInformation',
-};
-
-const conditionalPhoneUI = () => {
-  const response = phoneUI('Daytime phone');
-  response['ui:required'] = (formData, index) =>
-    formData.preferredResponseType === 'Telephone';
-  response['ui:title'] = 'Daytime phone';
-  return response;
 };
 
 const formConfig = {
@@ -116,128 +112,109 @@ const formConfig = {
               formFields.query,
             ],
             properties: {
-              [formFields.topic]: {
-                type: 'string',
-                enum: [
-                  'Policy Questions',
-                  'Question about Women Veterans Programs',
-                ],
-              },
-              [formFields.inquiryType]: {
-                type: 'string',
-                enum: [
-                  'Question',
-                  'Compliment',
-                  'Service Complaint',
-                  'Suggestion',
-                  'Status of Claim',
-                  'Status of Appeal at a Local VA Office',
-                  'Status of Appeals at BVA, Wash DC',
-                ],
-              },
-              [formFields.query]: {
-                type: 'string',
-              },
+              [formFields.topic]: topic,
+              [formFields.inquiryType]: inquiryType,
+              [formFields.query]: query,
             },
           },
         },
       },
     },
-    veteranRelationshipChapter: {
-      title: 'Veteran Relationship',
-      pages: {
-        [formPages.whoAmI]: {
-          path: 'veteran-relationship',
-          title: 'How does a Veteran relate to your Question?',
-          uiSchema: {
-            [formFields.veteranStatus]: {
-              'ui:title': 'I am asking about benefits/services:',
-            },
-            [formFields.isDependent]: {
-              'ui:title': 'Are you the Dependant?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                expandUnder: formFields.veteranStatus,
-                expandUnderCondition: 'for the Dependent of a Veteran',
-              },
-              'ui:required': (formData, index) =>
-                formData.veteranStatus === 'for the Dependent of a Veteran',
-            },
-            [formFields.veteranRelationship]: {
-              'ui:title': 'Your Relationship to Veteran',
-              'ui:options': {
-                expandUnder: formFields.veteranStatus,
-                expandUnderCondition: status =>
-                  status === 'for, about, or on behalf of a Veteran' ||
-                  status === 'for the Dependent of a Veteran',
-              },
-              'ui:required': (formData, index) =>
-                formData.veteranStatus ===
-                  'for, about, or on behalf of a Veteran' ||
-                formData.veteranStatus === 'for the Dependent of a Veteran',
-            },
-            [formFields.isVeteranDeceased]: {
-              'ui:title': 'Is Veteran Deceased?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                expandUnder: formFields.veteranStatus,
-                expandUnderCondition: status =>
-                  status === 'for, about, or on behalf of a Veteran' ||
-                  status === 'for the Dependent of a Veteran',
-              },
-              'ui:required': (formData, index) =>
-                formData.veteranStatus ===
-                  'for, about, or on behalf of a Veteran' ||
-                formData.veteranStatus === 'for the Dependent of a Veteran',
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [formFields.veteranStatus],
-            properties: {
-              [formFields.veteranStatus]: {
-                type: 'string',
-                enum: [
-                  'for Myself as a Veteran (I am the Vet)',
-                  'for, about, or on behalf of a Veteran',
-                  'for the Dependent of a Veteran',
-                  'a General Question (Vet Info Not Needed)',
-                ],
-              },
-              [formFields.isDependent]: {
-                type: 'boolean',
-              },
-              [formFields.veteranRelationship]: {
-                type: 'string',
-                enum: [
-                  'Spouse',
-                  'Surviving Spouse',
-                  'Ex-spouse',
-                  'Authorized 3rd Party',
-                  'Guardian/Fiduciary',
-                  'Attorney',
-                  'VSO',
-                  'Father',
-                  'Mother',
-                  'Son',
-                  'Daughter',
-                  'Sibiling',
-                  'Dependent Child',
-                  'Helpless Child',
-                  'Veteran',
-                  'Funeral Director',
-                  'Other',
-                  'General Question; Not Applicable',
-                ],
-              },
-              [formFields.isVeteranDeceased]: {
-                type: 'boolean',
-              },
-            },
-          },
-        },
-      },
-    },
+    // veteranRelationshipChapter: {
+    //   title: 'Veteran Relationship',
+    //   pages: {
+    //     [formPages.whoAmI]: {
+    //       path: 'veteran-relationship',
+    //       title: 'How does a Veteran relate to your Question?',
+    //       uiSchema: {
+    //         [formFields.veteranStatus]: {
+    //           'ui:title': 'I am asking about benefits/services:',
+    //         },
+    //         [formFields.isDependent]: {
+    //           'ui:title': 'Are you the Dependant?',
+    //           'ui:widget': 'yesNo',
+    //           'ui:options': {
+    //             expandUnder: formFields.veteranStatus,
+    //             expandUnderCondition: 'for the Dependent of a Veteran',
+    //           },
+    //           'ui:required': (formData, index) =>
+    //             formData.veteranStatus === 'for the Dependent of a Veteran',
+    //         },
+    //         [formFields.veteranRelationship]: {
+    //           'ui:title': 'Your Relationship to Veteran',
+    //           'ui:options': {
+    //             expandUnder: formFields.veteranStatus,
+    //             expandUnderCondition: status =>
+    //               status === 'for, about, or on behalf of a Veteran' ||
+    //               status === 'for the Dependent of a Veteran',
+    //           },
+    //           'ui:required': (formData, index) =>
+    //             formData.veteranStatus ===
+    //               'for, about, or on behalf of a Veteran' ||
+    //             formData.veteranStatus === 'for the Dependent of a Veteran',
+    //         },
+    //         [formFields.isVeteranDeceased]: {
+    //           'ui:title': 'Is Veteran Deceased?',
+    //           'ui:widget': 'yesNo',
+    //           'ui:options': {
+    //             expandUnder: formFields.veteranStatus,
+    //             expandUnderCondition: status =>
+    //               status === 'for, about, or on behalf of a Veteran' ||
+    //               status === 'for the Dependent of a Veteran',
+    //           },
+    //           'ui:required': (formData, index) =>
+    //             formData.veteranStatus ===
+    //               'for, about, or on behalf of a Veteran' ||
+    //             formData.veteranStatus === 'for the Dependent of a Veteran',
+    //         },
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         required: [formFields.veteranStatus],
+    //         properties: {
+    //           [formFields.veteranStatus]: {
+    //             type: 'string',
+    //             enum: [
+    //               'for Myself as a Veteran (I am the Vet)',
+    //               'for, about, or on behalf of a Veteran',
+    //               'for the Dependent of a Veteran',
+    //               'a General Question (Vet Info Not Needed)',
+    //             ],
+    //           },
+    //           [formFields.isDependent]: {
+    //             type: 'boolean',
+    //           },
+    //           [formFields.veteranRelationship]: {
+    //             type: 'string',
+    //             enum: [
+    //               'Spouse',
+    //               'Surviving Spouse',
+    //               'Ex-spouse',
+    //               'Authorized 3rd Party',
+    //               'Guardian/Fiduciary',
+    //               'Attorney',
+    //               'VSO',
+    //               'Father',
+    //               'Mother',
+    //               'Son',
+    //               'Daughter',
+    //               'Sibiling',
+    //               'Dependent Child',
+    //               'Helpless Child',
+    //               'Veteran',
+    //               'Funeral Director',
+    //               'Other',
+    //               'General Question; Not Applicable',
+    //             ],
+    //           },
+    //           [formFields.isVeteranDeceased]: {
+    //             type: 'boolean',
+    //           },
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
     contactInformationChapter: {
       title: 'Contact Information',
       pages: {
@@ -252,24 +229,29 @@ const formConfig = {
             [formFields.email]: {
               'ui:title': 'Email Address',
               'ui:required': (formData, index) =>
-                formData.preferredResponseType === 'Email',
+                formData.preferredResponseType === 'email',
             },
-            [formFields.phoneNumber]: conditionalPhoneUI,
-            [formFields.address]: address.uiSchema('Mailing address'),
+            [formFields.phoneNumber]: {
+              'ui:title': 'Daytime Phone',
+              'ui:required': (formData, index) =>
+                formData.preferredResponseType === 'phone',
+            },
+            [formFields.address]: address.uiSchema(
+              'Mailing address',
+              false,
+              (formData, index) => {
+                return formData.preferredResponseType === 'mail';
+              },
+              false,
+            ),
           },
           schema: {
             type: 'object',
             required: [formFields.preferredResponseType, formFields.fullName],
             properties: {
-              [formFields.preferredResponseType]: {
-                type: 'string',
-                enum: ['Email', 'Telephone', 'US Mail'],
-              },
+              [formFields.preferredResponseType]: preferredContactMethod,
               [formFields.fullName]: fullName,
-              [formFields.email]: {
-                type: 'string',
-                format: 'email',
-              },
+              [formFields.email]: email,
               [formFields.phoneNumber]: usaPhone,
               [formFields.address]: address.schema(fullSchema, true),
             },
