@@ -5,7 +5,6 @@ import testGeoCodingDataAustin from '../../constants/mock-geocoding-data.json';
 describe('Facility search', () => {
   beforeEach(() => {
     cy.server();
-    cy.route('GET', '/v1/facilities/va?*', testMockDataSearchResponse);
     cy.route('GET', '/geocoding/**/*', testGeoCodingDataAustin);
   });
 
@@ -16,8 +15,8 @@ describe('Facility search', () => {
     cy.axeCheck();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-
     cy.get('#facility-type-dropdown').select('VA health');
+    cy.route('GET', '/v1/facilities/va?*', testMockDataSearchResponse);
     cy.get('#facility-search').click();
     cy.get('#facility-search-results').should('exist');
     cy.get('.facility-result a').should('exist');
@@ -30,14 +29,12 @@ describe('Facility search', () => {
     cy.axeCheck();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-
     cy.get('#facility-type-dropdown').select('VA health');
+    cy.route('GET', '/v1/facilities/va?*', testMockDataSearchResponse);
     cy.get('#facility-search').click();
-
     cy.get('.facility-result a').should('exist');
 
     cy.route('GET', '/v1/facilities/va/vha_674BY', testMockDataFetch);
-
     cy.get('.facility-result a')
       .first()
       .click();
