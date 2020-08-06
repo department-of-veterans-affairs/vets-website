@@ -158,7 +158,7 @@ export const toolUrl = (appId, authenticatedWithSSOe = false) => {
 
     case widgetTypes.DIRECT_DEPOSIT:
       return {
-        url: '/profile',
+        url: '/profile/direct-deposit',
         redirect: false,
       };
 
