@@ -31,9 +31,7 @@ const ConfirmationPage = ({
         Order hearing aid batteries and accessories
       </h1>
       <span>Form 2346A</span>
-      <h2 className="vads-u-font-size--h4">
-        Your order has been been submitted
-      </h2>
+      <h2 className="vads-u-font-size--h4">Your order has been submitted</h2>
       <p>
         We'll send you an email confirming your order to{' '}
         <strong>{vetEmail}</strong>.
@@ -91,6 +89,7 @@ const ConfirmationPage = ({
             <AlertBox
               headline="Your order has been submitted"
               className="order-submission-alert"
+              level="2"
               content={
                 <p>
                   We'll send you an email confirming your order to{' '}
@@ -185,6 +184,7 @@ const ConfirmationPage = ({
         isEmptyOrder && (
           <AlertBox
             headline="We're sorry. Your order wasn't submitted."
+            level="2"
             className="vads-u-margin-bottom--4"
             content={
               <div className="empty-state-alert">
@@ -224,6 +224,7 @@ const ConfirmationPage = ({
         isPartiallySubmittedOrder && (
           <AlertBox
             headline="We're sorry. Part of your order wasn't submitted."
+            level="2"
             className="vads-u-margin-bottom--4"
             content={
               <div className="partial-submit-alert">
@@ -270,6 +271,7 @@ const ConfirmationPage = ({
           <div className="submission-error-alert">
             <AlertBox
               headline="We're sorry. Your order wasn't submitted."
+              level="2"
               className="vads-u-margin-bottom--4"
               content={
                 <>

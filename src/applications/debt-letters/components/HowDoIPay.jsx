@@ -3,7 +3,7 @@ import React from 'react';
 const HowDoIPay = () => (
   <div className="vads-u-font-family--sans">
     <h3 className="right-heading vads-u-margin-top--0">
-      How do I pay my debt?
+      How do I pay my VA debt?
     </h3>
     <p>
       You can pay your debt online, by phone, or by mail. If you can't pay the

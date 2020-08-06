@@ -24,7 +24,7 @@ describe('686 report a divorce', () => {
     },
     reportDivorce: {
       location: {
-        isOutsideUS: false,
+        isOutsideUs: false,
       },
     },
   };
@@ -184,7 +184,7 @@ describe('686 report a divorce', () => {
     });
     fillData(form, 'input#root_reportDivorce_dateYear', '2010');
     // location
-    selectCheckbox(form, 'root_reportDivorce_location_isOutsideUS', true);
+    selectCheckbox(form, 'root_reportDivorce_location_isOutsideUs', true);
     changeDropdown(form, 'select#root_reportDivorce_location_country', 'AFG');
     fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
     // is void

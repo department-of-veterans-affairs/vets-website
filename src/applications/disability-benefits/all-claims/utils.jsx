@@ -850,6 +850,8 @@ export const isBDD = formData => {
     return false;
   }
 
-  // not checking for less than 180 days as we validate that in militaryHistory
-  return mostRecentDate.isAfter(moment().add(89, 'days'));
+  return (
+    mostRecentDate.isAfter(moment().add(89, 'days')) &&
+    !mostRecentDate.isAfter(moment().add(180, 'days'))
+  );
 };

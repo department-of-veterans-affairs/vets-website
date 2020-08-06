@@ -12,6 +12,8 @@ import {
   updatePreferences,
   getFacilitiesBySystemAndTypeOfCare,
   submitRequest,
+  getRequestEligibilityCriteria,
+  getParentFacilities,
 } from '../api';
 
 import {
@@ -36,6 +38,7 @@ import {
 } from '../utils/constants';
 import { resetDataLayer } from '../utils/events';
 import { EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED } from './sitewide';
+import { getLocation } from '../services/location';
 
 export const FORM_PAGE_OPENED = 'expressCare/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
@@ -98,50 +101,15 @@ export function fetchExpressCareWindows() {
     });
 
     const initialState = getState();
-    const appointments = initialState.appointments;
-    let parentFacilities = appointments.parentFacilities;
     const userSiteIds = selectSystemIds(initialState);
 
     try {
-      if (!parentFacilities) {
-        parentFacilities = await getOrganizations({
-          siteIds: userSiteIds,
-          useVSP: false,
-        });
-        if (parentFacilities.length) {
-          const ids = parentFacilities.map(parent => parent.id);
-          const facilityData = [];
-
-          if (ids.length < 20) {
-            const paramsArray = parentFacilities.map(parent => {
-              const rootOrg = getRootOrganization(parentFacilities, parent.id);
-              return {
-                siteId: getSiteIdFromOrganization(rootOrg || parent),
-                parentId: parent.id.replace('var', ''),
-                typeOfCareId: EXPRESS_CARE,
-              };
-            });
-
-            facilityData.push(
-              ...(await Promise.all(
-                paramsArray.map(p =>
-                  getFacilitiesBySystemAndTypeOfCare(
-                    p.siteId,
-                    p.parentId,
-                    p.typeOfCareId,
-                  ),
-                ),
-              )),
-            );
-          }
-
-          dispatch({
-            type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
-            facilityData,
-            nowUtc: moment.utc(),
-          });
-        }
-      }
+      const settings = await getRequestEligibilityCriteria(userSiteIds);
+      dispatch({
+        type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+        settings,
+        nowUtc: moment.utc(),
+      });
     } catch (error) {
       captureError(error);
       dispatch({
@@ -193,17 +161,40 @@ export function routeToPreviousAppointmentPage(router, current) {
   );
 }
 
-async function buildPreferencesDataAndUpdate(data) {
+async function buildPreferencesDataAndUpdate(email) {
   const preferenceData = await getPreferences();
-  const preferenceBody = createPreferenceBody(preferenceData, data);
+  const preferenceBody = createPreferenceBody(preferenceData, email);
   return updatePreferences(preferenceBody);
+}
+
+async function getFacilityName(id) {
+  const systemId = id.substring(0, 3);
+  const parents = await getParentFacilities([systemId]);
+
+  const matchingParent = parents.find(parent => parent.institutionCode === id);
+  if (matchingParent) {
+    return matchingParent.authoritativeName;
+  }
+
+  const facilityLists = await Promise.all(
+    parents.map(parent =>
+      getFacilitiesBySystemAndTypeOfCare(
+        systemId,
+        parent.institutionCode,
+        EXPRESS_CARE,
+      ),
+    ),
+  );
+
+  return []
+    .concat(...facilityLists)
+    .find(facility => facility.institutionCode === id)?.authoritativeName;
 }
 
 export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
     const expressCare = getState().expressCare;
     const formData = expressCare.newRequest.data;
-    const { reasonForRequest, phoneNumber, email } = formData;
 
     const activeFacility = selectActiveExpressCareFacility(
       getState(),
@@ -225,11 +216,17 @@ export function submitExpressCareRequest(router) {
         throw new Error('No facilities available for Express Care request');
       }
 
-      requestBody = transformFormToExpressCareRequest(getState());
+      const facilityName = await getFacilityName(activeFacility.facilityId);
+      activeFacility.name = facilityName;
+
+      requestBody = transformFormToExpressCareRequest(
+        getState(),
+        activeFacility,
+      );
       const responseData = await submitRequest('va', requestBody);
 
       try {
-        await buildPreferencesDataAndUpdate(formData);
+        await buildPreferencesDataAndUpdate(formData.contactInfo.email);
       } catch (error) {
         // These are ancillary updates, the request went through if the first submit
         // succeeded
