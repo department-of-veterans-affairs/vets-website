@@ -31,7 +31,7 @@ describe('Facility search', () => {
     cy.get('.facility-result a').should('exist');
   });
 
-  it.skip('should render breadcrumbs ', () => {
+  it('should render breadcrumbs ', () => {
     cy.visit('/find-locations');
 
     cy.injectAxe();
@@ -50,7 +50,10 @@ describe('Facility search', () => {
     //       .first()
     //       .click();
     // But visit visit instead?
-    cy.visit('/find-locations/facility/vha_674BY');
+
+    cy.findByText(/austin va clinic/i, { selector: 'a' })
+      .first()
+      .click();
 
     cy.get('.all-details').should('exist');
 
