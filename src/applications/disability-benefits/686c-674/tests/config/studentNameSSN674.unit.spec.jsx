@@ -14,7 +14,7 @@ describe('Report 674 student personal information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.studentNameAndSSN;
+  } = formConfig.chapters.report674.pages.studentNameAndSsn;
   const formData = {
     'view:selectable686Options': {
       report674: true,
@@ -63,12 +63,12 @@ describe('Report 674 student personal information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_studentNameAndSSN_fullName_first', 'Bill');
-    fillData(form, 'input#root_studentNameAndSSN_fullName_last', 'Bob');
-    fillData(form, 'input#root_studentNameAndSSN_ssn', '555-55-5551');
-    changeDropdown(form, 'select#root_studentNameAndSSN_birthDateMonth', 1);
-    changeDropdown(form, 'select#root_studentNameAndSSN_birthDateDay', 1);
-    fillData(form, 'input#root_studentNameAndSSN_birthDateYear', '2002');
+    fillData(form, 'input#root_studentNameAndSsn_fullName_first', 'Bill');
+    fillData(form, 'input#root_studentNameAndSsn_fullName_last', 'Bob');
+    fillData(form, 'input#root_studentNameAndSsn_ssn', '555-55-5551');
+    changeDropdown(form, 'select#root_studentNameAndSsn_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_studentNameAndSsn_birthDateDay', 1);
+    fillData(form, 'input#root_studentNameAndSsn_birthDateYear', '2002');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

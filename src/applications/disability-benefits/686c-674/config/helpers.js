@@ -69,16 +69,16 @@ export const isInsideListLoopReturn = (
 ) => {
   return {
     'ui:title': uiTitle,
-    isOutsideUS: {
+    isOutsideUs: {
       'ui:title': 'This occurred outside the US',
     },
     country: {
       'ui:title': 'Country',
       'ui:required': (formData, index) =>
-        formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUS,
+        formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
       'ui:options': {
         hideIf: (formData, index) => {
-          if (!formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUS) {
+          if (!formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs) {
             return true;
           }
           return false;
@@ -88,10 +88,10 @@ export const isInsideListLoopReturn = (
     state: {
       'ui:title': 'State',
       'ui:required': (formData, index) =>
-        !formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUS,
+        !formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
       'ui:options': {
         hideIf: (formData, index) => {
-          if (formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUS) {
+          if (formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs) {
             return true;
           }
           return false;
@@ -113,15 +113,15 @@ export const isOutsideListLoopReturn = (
 ) => {
   return {
     'ui:title': uiTitle,
-    isOutsideUS: {
+    isOutsideUs: {
       'ui:title': 'This occurred outside the US',
     },
     country: {
       'ui:title': 'Country',
-      'ui:required': formData => formData?.[chapter]?.[outerField]?.isOutsideUS,
+      'ui:required': formData => formData?.[chapter]?.[outerField]?.isOutsideUs,
       'ui:options': {
         hideIf: formData => {
-          if (!formData?.[chapter]?.[outerField]?.isOutsideUS) {
+          if (!formData?.[chapter]?.[outerField]?.isOutsideUs) {
             return true;
           }
           return false;
@@ -131,10 +131,10 @@ export const isOutsideListLoopReturn = (
     state: {
       'ui:title': 'State',
       'ui:required': formData =>
-        !formData?.[chapter]?.[outerField]?.isOutsideUS,
+        !formData?.[chapter]?.[outerField]?.isOutsideUs,
       'ui:options': {
         hideIf: formData => {
-          if (formData?.[chapter]?.[outerField]?.isOutsideUS) {
+          if (formData?.[chapter]?.[outerField]?.isOutsideUs) {
             return true;
           }
           return false;

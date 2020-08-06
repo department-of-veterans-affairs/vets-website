@@ -7,12 +7,12 @@ import { NotificationText } from './helpers';
 export const schema = {
   type: 'object',
   properties: {
-    studentNameAndSSN: report674.properties.studentNameAndSSN,
+    studentNameAndSsn: report674.properties.studentNameAndSsn,
   },
 };
 
 export const uiSchema = {
-  studentNameAndSSN: {
+  studentNameAndSsn: {
     'view:674Information': {
       'ui:description': NotificationText,
     },
