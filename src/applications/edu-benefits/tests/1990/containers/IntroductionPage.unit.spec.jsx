@@ -10,15 +10,15 @@ import {
 import { sessionStorageSetup } from '../../utils';
 
 describe('the Edu-Benefit 1990 Introduction Page', () => {
+  let mockStore = {};
   let defaultProps;
 
   before(() => {
-    sessionStorageSetup();
+    mockStore = sessionStorageSetup(mockStore);
   });
 
   beforeEach(() => {
     defaultProps = {
-      shouldEduBenefits1990WizardShow: true,
       route: {
         formConfig: {},
       },
@@ -34,23 +34,13 @@ describe('the Edu-Benefit 1990 Introduction Page', () => {
   });
 
   afterEach(() => {
-    sessionStorage.clear();
+    global.sessionStorage.clear();
   });
 
-  it('should show the wizard on initial render if shouldEduBenefits1990WizardShow is set to true', () => {
+  it('should show the wizard on initial render', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     expect(wrapper.exists('WizardContainer')).to.equal(true);
     expect(wrapper.exists('.subway-map')).to.equal(false);
-    wrapper.unmount();
-  });
-  it('should show the subway map on initial render if shouldEduBenefits1990WizardShow is set to false', () => {
-    const props = {
-      ...defaultProps,
-      shouldEduBenefits1990WizardShow: false,
-    };
-    const wrapper = shallow(<IntroductionPage {...props} />);
-    expect(wrapper.exists('WizardContainer')).to.equal(false);
-    expect(wrapper.exists('.subway-map')).to.equal(true);
     wrapper.unmount();
   });
   it('should show the subway map if the wizard was completed', () => {
