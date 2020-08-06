@@ -69,7 +69,6 @@ import { getTypeOfCare } from '../utils/selectors';
 import {
   getOrganizationBySiteId,
   getIdOfRootOrganization,
-  getRootOrganization,
   getSiteIdFromOrganization,
 } from '../services/organization';
 import { getClinicId } from '../services/healthcare-service/transformers';
@@ -656,7 +655,9 @@ export default function formReducer(state = initialState, action) {
           state.data.vaParent,
         );
 
-        const org = getRootOrganization(state.parentFacilities, rootOrgId);
+        const org = state.parentFacilities.find(
+          parent => parent.id === state.data.vaParent,
+        );
         const siteId = getSiteIdFromOrganization(org);
 
         state.pastAppointments.forEach(appt => {
