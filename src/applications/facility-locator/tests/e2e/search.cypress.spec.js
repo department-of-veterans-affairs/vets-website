@@ -31,7 +31,7 @@ describe('Facility search', () => {
     cy.get('.facility-result a').should('exist');
   });
 
-  it('should render breadcrumbs ', () => {
+  it.skip('should render breadcrumbs ', () => {
     cy.visit('/find-locations');
 
     cy.injectAxe();
