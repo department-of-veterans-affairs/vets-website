@@ -15,7 +15,7 @@ module.exports = {
     entityPublished: { type: 'boolean' },
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
     fieldDescription: { type: 'string' },
-    fieldIntroText: { type: 'string' },
+    fieldIntroText: { type: ['string', 'null'] },
     fieldMetaTitle: { type: 'string' },
     fieldOffice: {
       oneOf: [
