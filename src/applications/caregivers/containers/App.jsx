@@ -15,8 +15,6 @@ const App = ({ loading, isFormAvailable, location, children }) => {
     return <LoadingIndicator />;
   }
 
-  console.log('isFormAvailable', isFormAvailable);
-
   if (!isFormAvailable) {
     return document.location.replace('/');
   }

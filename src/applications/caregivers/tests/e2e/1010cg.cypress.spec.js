@@ -25,10 +25,11 @@ const testConfig = createTestConfig(
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
 
+    setupPerTest: () => {
+      cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
+    },
+
     pageHooks: {
-      setup: () => {
-        cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
-      },
       introduction: () => {
         // Hit the start button
         cy.findAllByText(/start/i, { selector: 'button' })
