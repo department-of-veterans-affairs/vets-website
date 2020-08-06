@@ -1,14 +1,16 @@
 import testMockDataSearchResponse from '../fixtures/mock-data-v1.json';
 import testMockDataFetch from '../../constants/mock-facility-v1.json';
+import testGeoCodingDataAustin from '../../constants/mock-geocoding-data.json';
 
 describe('Facility search', () => {
   beforeEach(() => {
     cy.server();
     cy.route('GET', '/v1/facilities/va?*', testMockDataSearchResponse);
+    cy.route('GET', '/geocoding/**/*', testGeoCodingDataAustin);
   });
 
   it('does a simple search and finds a result on the list', () => {
-    cy.visit('find-locations');
+    cy.visit('/find-locations');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -22,7 +24,7 @@ describe('Facility search', () => {
   });
 
   it('should render breadcrumbs ', () => {
-    cy.visit('find-locations/');
+    cy.visit('/find-locations');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -68,7 +70,7 @@ describe('Facility search', () => {
   });
 
   it('does not show search result header if no results are found', () => {
-    cy.visit('find-locations?fail=true');
+    cy.visit('/find-locations?fail=true');
     cy.injectAxe();
     cy.axeCheck();
 
