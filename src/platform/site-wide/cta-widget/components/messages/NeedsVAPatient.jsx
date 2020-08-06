@@ -23,7 +23,7 @@ const NeedsVAPatient = () => {
         <p>
           Call VA311 (<a href="tel:844-698-2311">844-698-2311</a>
           ), and select 3 to reach your nearest VA medical center. If you have
-          hearin g loss, call g loss, call{' '}
+          hearing loss, call{' '}
           <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
         </p>
         <p>

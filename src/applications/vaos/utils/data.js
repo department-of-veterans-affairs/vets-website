@@ -281,10 +281,10 @@ export function transformFormToAppointment(state) {
   };
 }
 
-export function createPreferenceBody(preferences, data) {
+export function createPreferenceBody(preferences, emailAddress) {
   return {
     ...preferences,
-    emailAddress: data.email,
+    emailAddress,
     notificationFrequency: 'Each new message',
     emailAllowed: true,
   };

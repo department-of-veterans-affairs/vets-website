@@ -653,14 +653,14 @@ export default function formReducer(state = initialState, action) {
         const org = state.parentFacilities.find(
           parent => parent.id === state.data.vaParent,
         );
-        const parentSiteId = getSiteIdFromOrganization(org);
+        const siteId = getSiteIdFromOrganization(org).substring(0, 3);
 
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
           const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
           if (
             // Remove parse function when converting the past appointment call to FHIR service
-            appt.sta6aid === parentSiteId &&
+            appt.facilityId === siteId &&
             (!latestApptTime || latestApptTime > apptTime)
           ) {
             pastAppointmentDateMap.set(appt.clinicId, apptTime);

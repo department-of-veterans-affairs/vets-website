@@ -65,6 +65,8 @@ module.exports = {
     },
     field_location_humanreadable: { $ref: 'GenericNestedString' },
     field_media: { $ref: 'EntityReferenceArray' },
+    // Needed for filtering reverse fields in other transformers
+    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
@@ -84,5 +86,6 @@ module.exports = {
     'field_link',
     'field_location_humanreadable',
     'field_media',
+    'status',
   ],
 };

@@ -3,7 +3,6 @@ import moment from 'moment';
 import ErrorableDate from '@department-of-veterans-affairs/formation-react/ErrorableDate';
 import { pageNames } from './pageList';
 
-import environment from 'platform/utilities/environment';
 import unableToFileBDDProduction from './unable-to-file-bdd-production';
 
 // Figure out which page to go to based on the date entered
@@ -51,8 +50,8 @@ const isDateInFuture = date =>
     year: date.year.value,
   }).diff(moment()) > 0;
 
-const BDDPage = ({ setPageState, state = defaultState }) => {
-  if (environment.isProduction()) {
+const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
+  if (!allowBDD) {
     return <unableToFileBDDProduction.component />;
   }
 
