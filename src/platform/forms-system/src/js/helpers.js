@@ -712,9 +712,9 @@ export const getNestedUISchema = uiSchema => {
     uiSchemaKey.includes('ui:'),
   );
   for (const uiSchemaKey of uiSchemaKeys) {
-    if (isThisAUISchemaObj) break;
-    const nestedUISchema = uiSchema[uiSchemaKey];
-    return getNestedUISchema(nestedUISchema);
+    if (!isThisAUISchemaObj) {
+      return getNestedUISchema(uiSchema[uiSchemaKey]);
+    }
   }
   return uiSchema;
 };
