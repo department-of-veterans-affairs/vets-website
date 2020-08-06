@@ -1,5 +1,6 @@
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import HowDoIPay from './HowDoIPay';
@@ -58,6 +59,25 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
     </div>
   );
 
+
+  const bannerContent = (
+    <>
+      <p>
+        VA is extending debt relief to those impacted by COVID-19 to the end of
+        2020. This includes suspension of debt collection or extending repayment
+        terms on preexisting VA debts
+      </p>
+      <p>
+        If you are impacted by COVID-19 and need temporary financial relief for
+        a VA debt, please contact DMC at{' '}
+        <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
+          800-827-0648
+        </a>{' '}
+        to request assistance
+      </p>
+    </>
+  );
+
   const allDebtsFetchFailure = isVBMSError && isError;
   const allDebtsEmpty =
     !allDebtsFetchFailure && debts.length === 0 && debtLinks.length === 0;
@@ -74,7 +94,7 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
         </h1>
         <div className="vads-u-display--flex vads-u-flex-direction--row">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-            <h2 className="vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--3">
+            <h2 className="vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--2">
               Download your debt letters, learn your payment options, or find
               out how to get help with your VA debts.
             </h2>
@@ -87,6 +107,19 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
                   <DebtLettersList />
                 </>
               )}
+            {!allDebtsFetchFailure && (
+              <>
+                <AlertBox
+                  className="vads-u-margin-bottom--2"
+                  headline="Certain debt collection is suspended to the end of 2020"
+                  content={bannerContent}
+                  status="info"
+                  isVisible
+                />
+                <DebtCardsList />
+                <DebtLettersList />
+              </>
+            )}
           </div>
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
             <HowDoIPay />
