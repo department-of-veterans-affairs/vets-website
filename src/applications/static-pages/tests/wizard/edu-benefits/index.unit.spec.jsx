@@ -7,7 +7,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import pages from 'applications/edu-benefits/wizard/pages';
 import { pageNames } from 'applications/edu-benefits/wizard/pages/pageList';
-import { sessionStorageSetup } from '../../utils';
+import { sessionStorageSetup } from 'platform/testing/utilities';
 
 describe('the Education Benefits Wizard', () => {
   let defaultProps;
