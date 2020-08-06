@@ -3,7 +3,7 @@
  * a FHIR resource request
  */
 import { getAvailableSlots } from '../../api';
-import { mapToFHIRErrors } from '../../utils/fhir';
+import { fhirSearch, mapToFHIRErrors } from '../utils';
 import { transformSlots } from './transformers';
 
 /*
@@ -30,22 +30,30 @@ export async function getSlots({
   clinicId,
   startDate,
   endDate,
+  useVSP,
 }) {
-  try {
-    const data = await getAvailableSlots(
-      parseId(siteId),
-      typeOfCareId,
-      clinicId.split('_')[1],
-      startDate,
-      endDate,
-    );
+  if (useVSP) {
+    return fhirSearch({
+      query: `Slot?schedule.actor=HealthcareService/${clinicId}&start=lt${endDate}&start=ge${startDate}`,
+      mock: () => import('./mock_slots.json'),
+    });
+  } else {
+    try {
+      const data = await getAvailableSlots(
+        parseId(siteId),
+        typeOfCareId,
+        clinicId.split('_')[1],
+        startDate,
+        endDate,
+      );
 
-    return transformSlots(data[0]?.appointmentTimeSlot || []);
-  } catch (e) {
-    if (e.errors) {
-      throw mapToFHIRErrors(e.errors);
+      return transformSlots(data[0]?.appointmentTimeSlot || []);
+    } catch (e) {
+      if (e.errors) {
+        throw mapToFHIRErrors(e.errors);
+      }
+
+      throw e;
     }
-
-    throw e;
   }
 }

@@ -523,6 +523,7 @@ export function openClinicPage(page, uiSchema, schema) {
 export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
+    const useVSP = vaosVSPAppointmentNew(state);
     const rootOrgId = getRootIdForChosenFacility(state);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
@@ -567,6 +568,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          useVSP,
         });
 
         const now = moment();
