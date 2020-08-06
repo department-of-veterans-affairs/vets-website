@@ -22,12 +22,12 @@ export const getAllPayments = () => async dispatch => {
     if (isServerError(response.errors[0].status)) {
       recordEvent({
         event: `disability-view-dependents-load-failed`,
-        'error-key': `${response.errors[0].status}_503_server_error`,
+        'error-key': `${response.errors[0].status}_server_error`,
       });
     } else if (isClientError(response.errors)) {
       recordEvent({
         event: `disability-view-dependents-load-failed`,
-        'error-key': `${response.errors[0].status}_404_client_error`,
+        'error-key': `${response.errors[0].status}_client_error`,
       });
     }
     dispatch({ type: PAYMENTS_RECEIVED_FAILED, response });
