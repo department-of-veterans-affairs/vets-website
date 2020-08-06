@@ -70,7 +70,7 @@ export default function StringField(props) {
           </div>
         )}
         <Widget
-          options={_.assign(uiOptions, { enumOptions, labels })}
+          options={Object.assign(uiOptions, { enumOptions, labels })}
           value={formData}
           {...props}
         />
