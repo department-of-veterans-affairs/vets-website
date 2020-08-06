@@ -752,11 +752,11 @@ export function submitAppointmentOrRequest(router) {
         }
 
         try {
-          const requestMessage = newAppointment.data.reasonAdditionalInfo;
+          const requestMessage = data.reasonAdditionalInfo;
           if (requestMessage) {
             await sendRequestMessage(requestData.id, requestMessage);
           }
-          await buildPreferencesDataAndUpdate(newAppointment);
+          await buildPreferencesDataAndUpdate(data.email);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
