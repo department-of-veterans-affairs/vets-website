@@ -33,17 +33,19 @@ contractTest('HCA', 'VA.gov API', mockApi => {
           willRespondWith: {
             status: 200,
             body: {
-              id: integer(12345),
-              type: 'health_care_applications',
-              attributes: {
-                state: term({
-                  matcher: 'success|error|failed|pending',
-                  generate: 'pending',
-                }),
-                formSubmissionId: integer(67890),
-                timestamp: iso8601DateTimeWithMillis(
-                  '2020-07-29T14:16:30.527Z',
-                ),
+              data: {
+                id: integer(12345),
+                type: 'health_care_applications',
+                attributes: {
+                  state: term({
+                    matcher: 'success|error|failed|pending',
+                    generate: 'pending',
+                  }),
+                  formSubmissionId: integer(67890),
+                  timestamp: iso8601DateTimeWithMillis(
+                    '2020-07-29T14:16:30.527Z',
+                  ),
+                },
               },
             },
           },
