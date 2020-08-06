@@ -33,7 +33,7 @@ const VerificationFailed = () => {
           <p>
             Please call us at <a href="tel:800-827-1000">800-827-1000</a>. We’re
             here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have
-            hearin g loss, call g loss, call{' '}
+            hearing loss, call{' '}
             <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
           </p>
           <p>
