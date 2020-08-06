@@ -51,6 +51,8 @@ import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import facilityReducer from './facilities/reducers';
 import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
+import createTheWizard from '../vre/28-1900/wizard/app';
+
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 
 // School resources widgets
@@ -160,6 +162,8 @@ createViewTestAndLabResultsPage(
   store,
   widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
 );
+
+createTheWizard(store, widgetTypes.CHAPTER_31_WIZARD);
 
 // homepage widgets
 if (location.pathname === '/') {
