@@ -34,7 +34,7 @@ describe('the Edu-Benefit 1990 Introduction Page', () => {
   });
 
   afterEach(() => {
-    global.sessionStorage.clear();
+    sessionStorage.clear();
   });
 
   it('should show the wizard on initial render if shouldEduBenefits1990WizardShow is set to true', () => {
