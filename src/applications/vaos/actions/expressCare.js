@@ -161,9 +161,9 @@ export function routeToPreviousAppointmentPage(router, current) {
   );
 }
 
-async function buildPreferencesDataAndUpdate(data) {
+async function buildPreferencesDataAndUpdate(email) {
   const preferenceData = await getPreferences();
-  const preferenceBody = createPreferenceBody(preferenceData, data);
+  const preferenceBody = createPreferenceBody(preferenceData, email);
   return updatePreferences(preferenceBody);
 }
 
@@ -226,7 +226,7 @@ export function submitExpressCareRequest(router) {
       const responseData = await submitRequest('va', requestBody);
 
       try {
-        await buildPreferencesDataAndUpdate(formData);
+        await buildPreferencesDataAndUpdate(formData.contactInfo.email);
       } catch (error) {
         // These are ancillary updates, the request went through if the first submit
         // succeeded

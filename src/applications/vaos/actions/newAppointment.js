@@ -656,12 +656,9 @@ export function updateCCEligibility(isEligible) {
   };
 }
 
-async function buildPreferencesDataAndUpdate(newAppointment) {
+async function buildPreferencesDataAndUpdate(email) {
   const preferenceData = await getPreferences();
-  const preferenceBody = createPreferenceBody(
-    preferenceData,
-    newAppointment.data,
-  );
+  const preferenceBody = createPreferenceBody(preferenceData, email);
   return updatePreferences(preferenceBody);
 }
 
@@ -694,7 +691,7 @@ export function submitAppointmentOrRequest(router) {
         await submitAppointment(appointmentBody);
 
         try {
-          await buildPreferencesDataAndUpdate(newAppointment);
+          await buildPreferencesDataAndUpdate(data.email);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
@@ -755,11 +752,11 @@ export function submitAppointmentOrRequest(router) {
         }
 
         try {
-          const requestMessage = newAppointment.data.reasonAdditionalInfo;
+          const requestMessage = data.reasonAdditionalInfo;
           if (requestMessage) {
             await sendRequestMessage(requestData.id, requestMessage);
           }
-          await buildPreferencesDataAndUpdate(newAppointment);
+          await buildPreferencesDataAndUpdate(data.email);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
