@@ -13,6 +13,7 @@ import {
   formatReviewDate,
   expandArrayPages,
   omitRequired,
+  getNestedUISchema,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -1041,6 +1042,46 @@ describe('Schemaform helpers:', () => {
         },
       };
       expect(omitRequired(schema)).to.eql(expected);
+    });
+  });
+  describe('getNestedUISchema', () => {
+    it('should return a uiSchema object if a nested uiSchema is passed in', () => {
+      const nestedUiSchema = {
+        parentObj: {
+          childObj1: {
+            childObj2: {
+              childObj3: {
+                childObj4: {
+                  'ui:title': 'Test UI Schema',
+                  'ui:description': 'This is a test UI Schema',
+                  'ui:subtitle': 'This is a subtitle of the UI Schema',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const uiSchema = getNestedUISchema(nestedUiSchema);
+
+      expect(uiSchema).to.deep.equal({
+        'ui:title': 'Test UI Schema',
+        'ui:description': 'This is a test UI Schema',
+        'ui:subtitle': 'This is a subtitle of the UI Schema',
+      });
+    });
+    it('should return a uiSchema object if a flat uiSchema is passed in', () => {
+      const flatUISchema = {
+        'ui:title': 'Test UI Schema',
+        'ui:description': 'This is a test UI Schema',
+        'ui:subtitle': 'This is a subtitle of the UI Schema',
+      };
+      const uiSchema = getNestedUISchema(flatUISchema);
+      expect(uiSchema).to.deep.equal({
+        'ui:title': 'Test UI Schema',
+        'ui:description': 'This is a test UI Schema',
+        'ui:subtitle': 'This is a subtitle of the UI Schema',
+      });
     });
   });
 });
