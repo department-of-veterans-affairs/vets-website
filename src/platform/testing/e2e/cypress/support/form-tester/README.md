@@ -338,9 +338,6 @@ There are various use cases for the `pageHooks` setting, but a couple of common 
      '/some-form-app-url/some-page': () => {
        cy.get('.expand-button').click();
        cy.fillPage();
-       cy.findAllByText(/continue/i)
-         .first()
-         .click();
      },
    },
    ```
