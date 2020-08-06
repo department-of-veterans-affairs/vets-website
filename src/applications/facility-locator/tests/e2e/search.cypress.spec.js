@@ -5,6 +5,8 @@ import testGeoCodingDataAustin from '../../constants/mock-geocoding-data.json';
 describe('Facility search', () => {
   beforeEach(() => {
     cy.server();
+    cy.route('GET', '/v0/feature_toggles?*', []);
+    cy.route('GET', '/v0/maintenance_windows', []);
     cy.route('GET', '/geocoding/**/*', testGeoCodingDataAustin);
   });
 
