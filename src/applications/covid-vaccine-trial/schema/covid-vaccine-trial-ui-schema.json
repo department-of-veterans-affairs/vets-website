@@ -93,6 +93,9 @@
     },
     "ANOTHER_SERIOUS_CHRONIC_ILLNESS": {
       "ui:title": "Another serious chronic (long-term) illness"
+    },
+    "NONE_OF_ABOVE": {
+      "ui:title": "None of the above"
     }
   },
   "exposureRiskHeaderText": {
@@ -150,7 +153,7 @@
       "ui:title": "None of the above"
     }
   },
-  "residents": {
+  "residentsInHome": {
     "ui:title": "How many people live in your home?",
     "ui:widget": "radio",
     "ui:options": {

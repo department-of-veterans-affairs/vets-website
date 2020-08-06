@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import environment from 'platform/utilities/environment';
-
-import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
+import fullSchema from '../schema/schemaTemp.json';
+// import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
 import uiSchemaDefinitions from '../schema/covid-vaccine-trial-ui-schema.json';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
@@ -27,7 +27,7 @@ const {
   exposureRiskHeaderText,
   employmentStatus,
   transportation,
-  residents,
+  residentsInHome,
   closeContact,
   contactHeaderText,
   confirmationEmailUI,
@@ -51,6 +51,14 @@ confirmationEmailUI['ui:validations'] = [
     },
   },
 ];
+// confirmationEmailUI['ui:required'] = [
+//   {
+//     function(formData, index) {
+//       console.log('tyest required function ');
+//       return true;
+//     },
+//   },
+// ];
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 const { set } = dataUtils;
 const viewConfirmationEmailField = 'view:confirmEmail';
@@ -67,7 +75,7 @@ const formConfig = {
   savedFormMessages: {
     notFound: 'Please start over to volunteer for vaccine trial participation.',
     noAuth:
-      'Please sign in again to continue your application for vaccine trial participation.',
+      'Please sign in again to continue to volunteer for vaccine trial participation.',
   },
   title: 'Volunteer for COVID-19 research',
   defaultDefinitions: {},
@@ -90,7 +98,7 @@ const formConfig = {
             exposureRiskHeaderText,
             employmentStatus,
             transportation,
-            residents,
+            residentsInHome,
             closeContact,
             contactHeaderText,
             veteranFullName: _.merge(fullNameUI, {
@@ -112,7 +120,7 @@ const formConfig = {
             [viewConfirmationEmailField]: confirmationEmailUI,
             zipCode,
             phone: phoneUI(),
-            dateOfBirth: currentOrPastDateUI(
+            veteranDateOfBirth: currentOrPastDateUI(
               'Date of birth (Note: You must be at least 18 years old to participate in research.)',
             ),
             // height,
@@ -121,7 +129,7 @@ const formConfig = {
             raceEthnicityOrigin,
           },
           schema: {
-            required: ['phone'],
+            required: fullSchema.required,
             type: 'object',
             properties: {
               descriptionText: fullSchema.properties.descriptionText,
@@ -136,15 +144,16 @@ const formConfig = {
                 fullSchema.properties.exposureRiskHeaderText,
               employmentStatus: fullSchema.properties.employmentStatus,
               transportation: fullSchema.properties.transportation,
-              residents: fullSchema.properties.residentsInHome,
+              residentsInHome: fullSchema.properties.residentsInHome,
               closeContact: fullSchema.properties.closeContact,
               contactHeaderText: fullSchema.properties.contactHeaderText,
-              veteranFullName: set('required', ['first', 'last'], fullName),
+              // veteranFullName: set('required', ['first', 'last'], fullName),
+              veteranFullName: fullName,
               email,
               [viewConfirmationEmailField]: email,
               phone: usaPhone,
               zipCode: usaPostalCode,
-              dateOfBirth: date,
+              veteranDateOfBirth: date,
               // height: fullSchema.properties.height,
               weight: fullSchema.properties.weight,
               gender: fullSchema.properties.gender,
