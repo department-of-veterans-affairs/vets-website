@@ -59,7 +59,6 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
     </div>
   );
 
-
   const bannerContent = (
     <>
       <p>
@@ -103,23 +102,17 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
             {!allDebtsFetchFailure &&
               !allDebtsEmpty && (
                 <>
+                  <AlertBox
+                    className="vads-u-margin-bottom--2"
+                    headline="Certain debt collection is suspended to the end of 2020"
+                    content={bannerContent}
+                    status="info"
+                    isVisible
+                  />
                   <DebtCardsList />
                   <DebtLettersList />
                 </>
               )}
-            {!allDebtsFetchFailure && (
-              <>
-                <AlertBox
-                  className="vads-u-margin-bottom--2"
-                  headline="Certain debt collection is suspended to the end of 2020"
-                  content={bannerContent}
-                  status="info"
-                  isVisible
-                />
-                <DebtCardsList />
-                <DebtLettersList />
-              </>
-            )}
           </div>
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
             <HowDoIPay />
