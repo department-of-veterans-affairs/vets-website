@@ -5,6 +5,9 @@ const Edu5490Helpers = require('./edu-5490-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 
+import manifest from '../../5490/manifest.json';
+import environments from 'site/constants/environments';
+
 module.exports = E2eHelpers.createE2eTest(client => {
   EduHelpers.initApplicationSubmitMock('5490');
 
@@ -16,10 +19,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
       }/education/apply-for-education-benefits/application/5490`,
     )
     .waitForElementVisible('body', Timeouts.normal)
-    // uncomment when in production
-    // .waitForElementVisible('.wizard-container', Timeouts.normal)
-    // .waitForElementVisible('.skip-wizard-link', Timeouts.normal)
-    // .click('.skip-wizard-link')
+    .waitForElementVisible('.wizard-container', Timeouts.normal)
+    .waitForElementVisible('.skip-wizard-link', Timeouts.normal)
+    .click('.skip-wizard-link')
     .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
     .axeCheck('.main')
     .click('.schemaform-start-button');
@@ -208,3 +210,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
   client.axeCheck('.main').end();
 });
+
+module.exports['@disabled'] =
+  manifest.e2eTestsDisabled && process.env.BUILDTYPE === environments.VAGOVPROD;
