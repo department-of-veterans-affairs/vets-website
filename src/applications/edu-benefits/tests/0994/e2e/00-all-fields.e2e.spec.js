@@ -21,6 +21,8 @@ import {
   completeReviewAndSubmit,
   returnToBeginning,
 } from './vet-tec-helpers';
+import manifest from '../../../0994/manifest.json';
+import environments from 'site/constants/environments';
 
 const dirName = path.join(__dirname, '../schema/');
 const startUrl =
@@ -44,6 +46,10 @@ const authentication = client => {
 };
 
 const e2eTests = (client, formData) => {
+  client
+    .waitForElementVisible('.wizard-container', Timeouts.normal)
+    .waitForElementVisible('.skip-wizard-link', Timeouts.normal)
+    .click('.skip-wizard-link');
   // Benefits eligibility
   // Personal Information
   completeFormPage(
@@ -142,3 +148,5 @@ const runTest = E2eHelpers.createE2eTest(client => {
 });
 
 module.exports = runTest;
+module.exports['@disabled'] =
+  manifest.e2eTestsDisabled && process.env.BUILDTYPE === environments.VAGOVPROD;
