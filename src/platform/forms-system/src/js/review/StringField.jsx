@@ -39,10 +39,7 @@ export default function StringField(props) {
     }
   }
 
-  if (
-    (isRoot && schema.type === 'object') ||
-    (isRoot && schema.type === 'array')
-  ) {
+  if (isRoot && (schema.type === 'object' || schema.type === 'array')) {
     let title = formContext.pageTitle;
     if (!formContext.hideTitle && typeof title === 'function') {
       title = title(formData, formContext);
