@@ -141,7 +141,6 @@ export class ConnectedApps extends Component {
             Have more questions about connected apps?
           </h3>
           <p>
-            Visit our{' '}
             <a
               className="vads-u-color--primary-alt-darkest"
               onClick={() =>
@@ -153,9 +152,8 @@ export class ConnectedApps extends Component {
               }
               href="/sign-in-faq/"
             >
-              frequently asked questions
+              Go to FAQs about signing in to VA.gov
             </a>
-            .
           </p>
         </div>
       </div>
