@@ -22,6 +22,7 @@ module.exports = {
       items: { $ref: 'EntityReference' },
     },
     field_press_release_blurb: { $ref: 'GenericNestedString' },
+    reverse_field_list: { $ref: 'EntityReferenceArray' },
   },
   required: [
     'title',
@@ -35,5 +36,6 @@ module.exports = {
     'field_meta_title',
     'field_office',
     'field_press_release_blurb',
+    'reverse_field_list',
   ],
 };

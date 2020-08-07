@@ -4,6 +4,23 @@ const {
   utcToEpochTime,
 } = require('./helpers');
 
+const reverseFields = reverseFieldList => ({
+  entities: reverseFieldList
+    .filter(
+      reverseField =>
+        reverseField.entityBundle === 'press_release' && reverseField.status,
+    )
+    .map(reverseField => ({
+      entityId: reverseField.entityId,
+      title: reverseField.title,
+      fieldReleaseDate: reverseField.fieldReleaseDate,
+      entityUrl: reverseField.entityUrl,
+      promote: reverseField.promote,
+      created: reverseField.created,
+      fieldIntroText: reverseField.fieldIntroText,
+    })),
+});
+
 const transform = entity => ({
   entityType: 'node',
   entityBundle: 'press_releases_listing',
@@ -17,6 +34,7 @@ const transform = entity => ({
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
   fieldOffice: entity.fieldOffice[0],
   fieldPressReleaseBlurb: getDrupalValue(entity.fieldPressReleaseBlurb),
+  reverseFieldListingNode: reverseFields(entity.reverseFieldList),
 });
 
 module.exports = {
@@ -32,6 +50,7 @@ module.exports = {
     'field_meta_title',
     'field_office',
     'field_press_release_blurb',
+    'reverse_field_list',
   ],
   transform,
 };
