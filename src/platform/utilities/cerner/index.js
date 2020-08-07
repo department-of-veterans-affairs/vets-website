@@ -1,7 +1,7 @@
 // Relative imports.
 import environment from 'platform/utilities/environment';
 
-export const CERNER_FACILITY_IDS = ['668', '757'];
+export const CERNER_FACILITY_IDS = ['668'];
 export const isCernerLive = !environment.isProduction();
 
 export const getCernerURL = path => {

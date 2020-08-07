@@ -107,19 +107,21 @@ export class CernerCallToAction extends Component {
           <h3 className="usa-alert-heading">
             Your VA health care team may be using our new My VA Health portal
           </h3>
-          <h4>Our records show that you&apos;re registered at:</h4>
+          <h4 className="vads-u-margin-y--3">
+            Our records show that you&apos;re registered at:
+          </h4>
 
           {/* List of user's facilities */}
           {map(facilities, facility => {
             // Derive facility properties.
-            const id = facility?.attributes?.id;
+            const id = facility?.id;
             const name = facility?.attributes?.name;
-            const isCerner = CERNER_FACILITY_IDS.inclues(
+            const isCerner = CERNER_FACILITY_IDS.includes(
               id?.replace('vha_', ''),
             );
 
             return (
-              <p key={id}>
+              <p className="usa-alert-text vads-u-margin-bottom--2" key={id}>
                 <strong>{name}</strong>{' '}
                 {isCerner
                   ? '(Now using My VA Health)'
@@ -128,7 +130,7 @@ export class CernerCallToAction extends Component {
             );
           })}
 
-          <p>
+          <p className="usa-alert-text">
             Please choose a health management portal below, depending on your
             provider&apos;s facility. You may need to disable your
             browser&apos;s pop-up blocker to open the portal. If you&apos;re
@@ -136,32 +138,46 @@ export class CernerCallToAction extends Component {
             on VA.gov.
           </p>
 
-          <h4>{linksHeaderText}</h4>
+          <h4 className="vads-u-margin-y--3">{linksHeaderText}</h4>
 
           {/* List of user's facility links */}
           {map(facilities, facility => {
             // Derive facility properties.
-            const id = facility?.attributes?.id;
+            const id = facility?.id;
             const name = facility?.attributes?.name;
-            const isCerner = CERNER_FACILITY_IDS.inclues(
+            const isCerner = CERNER_FACILITY_IDS.includes(
               id?.replace('vha_', ''),
             );
 
             return (
-              <>
-                <p>
+              <div key={`${id}-cta-link`}>
+                <p className="vads-u-margin-bottom--1">
                   <strong>{name}</strong>
                 </p>
                 <a
+                  className="usa-button vads-u-color--white vads-u-margin-top--0 vads-u-margin-bottom--4"
                   href={isCerner ? myVAHealthLink : myHealtheVetLink}
                   rel="noreferrer noopener"
                   target="_blank"
                 >
                   {isCerner ? 'Use My VA Health' : 'Use My HealtheVet'}
                 </a>
-              </>
+              </div>
             );
           })}
+          <div>
+            <p className="vads-u-margin-bottom--1">
+              <strong>Another VA health facility</strong>
+            </p>
+            <a
+              className="usa-button usa-button-secondary vads-u-color--primary vads-u-margin-top--0 vads-u-margin-bottom--2"
+              href={myHealtheVetLink}
+              rel="noreferrer noopener"
+              target="_blank"
+            >
+              Use My HealtheVet
+            </a>
+          </div>
         </div>
       </div>
     );
