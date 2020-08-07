@@ -177,7 +177,9 @@ export class ConfirmEligibilityView extends React.Component {
           <div>
             <div className="vads-u-margin-top--neg2">
               <a
-                className={'usa-button-primary wizard-button va-button-primary'}
+                className={
+                  'usa-button-primary wizard-button-10203 va-button-primary'
+                }
                 href="/education/about-gi-bill-benefits/"
                 target="self"
               >
