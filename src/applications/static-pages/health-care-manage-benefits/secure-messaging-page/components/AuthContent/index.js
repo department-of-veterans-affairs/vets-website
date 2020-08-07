@@ -4,30 +4,17 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
-import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import { getCernerURL } from 'platform/utilities/cerner';
-
-const callToActions = [
-  {
-    deriveHeaderText: facilityNames => `Secure Message ${facilityNames}`,
-    href: getCernerURL('/pages/messaging/inbox'),
-    label: 'Secure Message on My VA Health',
-  },
-  {
-    deriveHeaderText: () =>
-      `Secure Message a provider at another VA Medical Center`,
-    href:
-      'https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging',
-    label: 'Secure Message on My HealtheVet',
-  },
-];
 
 export const AuthContent = () => (
   <>
     <h2 id="send-or-receive-secure-mess">Send or receive a secure message</h2>
-    <CernerCallToAction callToActions={callToActions} type="Secure Messaging" />
+    <CernerCallToAction
+      linksHeaderText="Send a secure message to a provider at:"
+      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging"
+      myVAHealthLink={getCernerURL('/pages/messaging/inbox')}
+    />
     <div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-can-va-secure-messaging-he">

@@ -4,31 +4,15 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
-
-const callToActions = [
-  {
-    deriveHeaderText: facilityNames =>
-      `Refill prescriptions from ${facilityNames}`,
-    href: getCernerURL('/pages/medications/current'),
-    label: 'Refill prescriptions on My VA Health',
-  },
-  {
-    deriveHeaderText: () =>
-      `Refill prescriptions from another VA Medical Center`,
-    href:
-      'https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=prescription_refill',
-    label: 'Refill prescriptions on My HealtheVet',
-  },
-];
 
 export const AuthContent = () => (
   <>
     <CernerCallToAction
-      callToActions={callToActions}
-      type="VA Prescription Refill and Tracking"
+      linksHeaderText="Refill prescriptions from:"
+      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=prescription_refill"
+      myVAHealthLink={getCernerURL('/pages/medications/current')}
     />
     <div>
       <div itemScope itemType="http://schema.org/Question">
@@ -372,7 +356,10 @@ export const AuthContent = () => (
               <ul>
                 <li>
                   Read the{' '}
-                  <a rel="noreferrer noopener" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#PrescriptionRefill">
+                  <a
+                    rel="noreferrer noopener"
+                    href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#PrescriptionRefill"
+                  >
                     prescription refill FAQs
                   </a>{' '}
                   on the My HealtheVet web portal
@@ -388,7 +375,10 @@ export const AuthContent = () => (
                 </li>
                 <li>
                   Or{' '}
-                  <a rel="noreferrer noopener" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv">
+                  <a
+                    rel="noreferrer noopener"
+                    href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
+                  >
                     contact us online
                   </a>
                 </li>

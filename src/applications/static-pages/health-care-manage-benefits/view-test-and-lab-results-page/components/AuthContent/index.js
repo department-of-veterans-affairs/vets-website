@@ -4,31 +4,15 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
-import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
-
-const callToActions = [
-  {
-    deriveHeaderText: facilityNames =>
-      `View lab and test results from ${facilityNames}`,
-    href: getCernerURL('/pages/health_record/results/labs'),
-    label: 'View results on My VA Health',
-  },
-  {
-    deriveHeaderText: () =>
-      `View lab and test results from another VA Medical Center`,
-    href: 'https://sqa.eauth.va.gov/mhv-portal-web/eauth',
-    label: 'View results on My HealtheVet',
-  },
-];
 
 export const AuthContent = () => (
   <>
     <CernerCallToAction
-      callToActions={callToActions}
-      type="lab and test results"
+      linksHeaderText="View lab and test results from:"
+      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth"
+      myVAHealthLink={getCernerURL('/pages/health_record/results/labs')}
     />
     <div>
       <div itemScope itemType="http://schema.org/Question">

@@ -12,15 +12,9 @@ import { CERNER_FACILITY_IDS, getCernerURL } from 'platform/utilities/cerner';
 
 export class CernerCallToAction extends Component {
   static propTypes = {
-    callToActions: PropTypes.arrayOf(
-      PropTypes.shape({
-        deriveHeaderText: PropTypes.func.isRequired,
-        href: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-      }),
-    ),
-    type: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    linksHeaderText: PropTypes.string.isRequired,
+    myVAHealthLink: PropTypes.string.isRequired,
+    myHealtheVetLink: PropTypes.string.isRequired,
     // From mapStateToProps.
     facilities: PropTypes.arrayOf(
       PropTypes.shape({
@@ -44,6 +38,7 @@ export class CernerCallToAction extends Component {
 
     // Escape early if there are no facilities.
     if (isEmpty(facilities)) {
+      this.setState({ fetching: false });
       return;
     }
 
@@ -86,7 +81,7 @@ export class CernerCallToAction extends Component {
   };
 
   render() {
-    const { callToActions, text, type } = this.props;
+    const { linksHeaderText, myVAHealthLink, myHealtheVetLink } = this.props;
     const { error, fetching, facilities } = this.state;
 
     // Escape early if we are fetching.
@@ -106,47 +101,63 @@ export class CernerCallToAction extends Component {
       );
     }
 
-    // Derive the Cerner facility names.
-    const facilityNames = map(
-      facilities,
-      facility => facility?.attributes?.name || 'unknown facility name',
-    );
-    const joinedFacilityNames =
-      facilityNames.join(', ') || 'Cerner facility(s)';
-
     return (
       <div className="usa-alert usa-alert-warning">
         <div className="usa-alert-body">
           <h3 className="usa-alert-heading">
-            According to our records, you are registered at a clinic within{' '}
-            {joinedFacilityNames}. VA providers at this facility and its clinics
-            are using the new My VA Health portal.
+            Your VA health care team may be using our new My VA Health portal
           </h3>
-          <p className="usa-alert-text vads-u-margin-y--4">
-            You may need to sign in again to view your VA lab and test results.
-            If you do, please sign in with the same account you used to sign in
-            here on VA.gov. You also may need to disable your browser&apos;s
-            pop-up blocker so that {type} tools are able to open.
-          </p>
-          {map(callToActions, callToAction => {
-            // Derive callToAction properties.
-            const headerText = callToAction?.deriveHeaderText(
-              joinedFacilityNames,
+          <h4>Our records show that you&apos;re registered at:</h4>
+
+          {/* List of user's facilities */}
+          {map(facilities, facility => {
+            // Derive facility properties.
+            const id = facility?.attributes?.id;
+            const name = facility?.attributes?.name;
+            const isCerner = CERNER_FACILITY_IDS.inclues(
+              id?.replace('vha_', ''),
             );
-            const href = callToAction?.href;
-            const label = callToAction?.label;
+
+            return (
+              <p key={id}>
+                <strong>{name}</strong>{' '}
+                {isCerner
+                  ? '(Now using My VA Health)'
+                  : '(Using My HealtheVet)'}
+              </p>
+            );
+          })}
+
+          <p>
+            Please choose a health management portal below, depending on your
+            provider&apos;s facility. You may need to disable your
+            browser&apos;s pop-up blocker to open the portal. If you&apos;re
+            prompted to sign in again, use the same account you used to sign in
+            on VA.gov.
+          </p>
+
+          <h4>{linksHeaderText}</h4>
+
+          {/* List of user's facility links */}
+          {map(facilities, facility => {
+            // Derive facility properties.
+            const id = facility?.attributes?.id;
+            const name = facility?.attributes?.name;
+            const isCerner = CERNER_FACILITY_IDS.inclues(
+              id?.replace('vha_', ''),
+            );
 
             return (
               <>
-                {headerText && (
-                  <h3 className="usa-alert-heading">{headerText}</h3>
-                )}
+                <p>
+                  <strong>{name}</strong>
+                </p>
                 <a
-                  className="usa-button vads-u-color--white"
-                  href={href}
-                  rel="noopener noreferrer"
+                  href={isCerner ? myVAHealthLink : myHealtheVetLink}
+                  rel="noreferrer noopener"
+                  target="_blank"
                 >
-                  {label}
+                  {isCerner ? 'Use My VA Health' : 'Use My HealtheVet'}
                 </a>
               </>
             );

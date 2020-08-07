@@ -4,25 +4,8 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
-
-const callToActions = [
-  {
-    deriveHeaderText: facilityNames =>
-      `Get your medical record from ${facilityNames}`,
-    href: getCernerURL('/pages/health_record/clinical_documents/sharing'),
-    label: 'Get record on My VA Health',
-  },
-  {
-    deriveHeaderText: () =>
-      `Get your medical record from another VA Medical Center`,
-    href:
-      'https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data',
-    label: 'Get record on My HealtheVet',
-  },
-];
 
 const AuthContent = () => (
   <>
@@ -34,7 +17,13 @@ const AuthContent = () => (
     <h2>
       <a id="va-blue-button">My HealtheVet (VA Blue Button) and My VA Health</a>
     </h2>
-    <CernerCallToAction callToActions={callToActions} type="medical records" />
+    <CernerCallToAction
+      linksHeaderText="Get your medical records from:"
+      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data"
+      myVAHealthLink={getCernerURL(
+        '/pages/health_record/clinical_documents/sharing',
+      )}
+    />
     <h3>What are My HealtheVet and My VA Health, and which will I use?</h3>
     <p>
       My HealtheVet and My VA Health are both VA health management portals

@@ -5,26 +5,9 @@ import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import { getCernerURL } from 'platform/utilities/cerner';
-
-const callToActions = [
-  {
-    deriveHeaderText: facilityNames =>
-      `Manage appointments with ${facilityNames}`,
-    href: getCernerURL('/pages/scheduling/upcoming'),
-    label: 'Go to My VA Health',
-  },
-  {
-    deriveHeaderText: () =>
-      `Manage appointments at all other VA medical centers`,
-    href:
-      'https://staging.va.gov/health-care/schedule-view-va-appointments/appointments',
-    label: 'Go to My HealtheVet',
-  },
-];
 
 export const AuthContent = () => (
   <>
@@ -60,7 +43,11 @@ export const AuthContent = () => (
         View, schedule, or cancel a VA appointment&nbsp;online
       </h2>
     </div>
-    <CernerCallToAction callToActions={callToActions} type="these" />
+    <CernerCallToAction
+      linksHeaderText="Manage appointments at:"
+      myHealtheVetLink="https://staging.va.gov/health-care/schedule-view-va-appointments/appointments"
+      myVAHealthLink={getCernerURL('/pages/scheduling/upcoming')}
+    />
     <h2>How can these appointment tools help me manage my care?</h2>
     <p>
       These tools offer a secure, online way to schedule, view, and organize
