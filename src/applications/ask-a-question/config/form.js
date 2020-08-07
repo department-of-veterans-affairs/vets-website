@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 
 // Example of an imported schema:
 import fullSchema from '../0873-schema.json';
@@ -8,7 +9,6 @@ import fullSchema from '../0873-schema.json';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -108,16 +108,16 @@ const formConfig = {
               'ui:title': 'Preferred Response Type',
             },
             [formFields.fullName]: fullNameUI,
-            [formFields.email]: {
-              'ui:title': 'Email Address',
-              'ui:required': (formData, index) =>
-                formData.preferredResponseType === 'email',
-            },
-            [formFields.phoneNumber]: {
-              'ui:title': 'Daytime Phone',
-              'ui:required': (formData, index) =>
-                formData.preferredResponseType === 'phone',
-            },
+            [formFields.email]: set(
+              'ui:required',
+              (formData, index) => formData.preferredResponseType === 'email',
+              emailUI(),
+            ),
+            [formFields.phoneNumber]: set(
+              'ui:required',
+              (formData, index) => formData.preferredResponseType === 'phone',
+              phoneUI(),
+            ),
             [formFields.address]: address.uiSchema(
               'Mailing address',
               false,
