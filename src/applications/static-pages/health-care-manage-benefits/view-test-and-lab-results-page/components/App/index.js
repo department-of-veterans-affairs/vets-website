@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
-import environment from 'platform/utilities/environment';
-import { CERNER_FACILITY_IDS } from 'platform/utilities/cerner';
+import { isCernerLive } from 'platform/utilities/cerner';
+import { selectIsCernerPatient } from 'platform/user/selectors';
 
 export const App = ({ isCernerPatient }) => {
-  if (environment.isProduction()) {
+  if (isCernerLive) {
     return <LegacyContent />;
   }
 
@@ -27,9 +27,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isCernerPatient: state?.user?.profile?.facilities?.some(facility =>
-    CERNER_FACILITY_IDS.includes(facility?.facilityId),
-  ),
+  isCernerPatient: selectIsCernerPatient(state),
 });
 
 export default connect(
