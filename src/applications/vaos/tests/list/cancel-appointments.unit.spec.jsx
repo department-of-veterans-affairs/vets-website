@@ -1,7 +1,8 @@
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import moment from 'moment';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
 import {
@@ -490,5 +491,62 @@ describe('VAOS integration appointment cancellation:', () => {
 
     expect(queryByRole('alertdialog')).to.not.be.ok;
     expect(baseElement).to.contain.text('Canceled');
+  });
+
+  it('va appointments at Cerner site should direct users to portal', async () => {
+    const appointment = getVAAppointmentMock();
+    const appointmentTime = moment();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: appointmentTime.format(),
+      clinicId: '308',
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '668',
+      sta6aid: '668GC',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+
+    mockAppointmentInfo({ va: [appointment] });
+
+    const screen = renderInReduxProvider(
+      <AppointmentsPage>
+        <FutureAppointmentsList />
+      </AppointmentsPage>,
+      {
+        initialState: {
+          ...initialState,
+          user: {
+            profile: {
+              facilities: [
+                { facilityId: '983', isCerner: false },
+                { facilityId: '668', isCerner: true },
+              ],
+            },
+          },
+        },
+        reducers,
+      },
+    );
+
+    await screen.findByText(/cancel appointment/i);
+    expect(screen.baseElement).not.to.contain.text('Canceled');
+
+    fireEvent.click(screen.getByText(/cancel appointment/i));
+
+    await screen.findByRole('alertdialog');
+
+    await screen.findByText(
+      /You can’t cancel this appointment on the VA appointments tool/i,
+    );
+
+    const oldWindow = global.window;
+
+    global.window = {
+      open: sinon.spy(),
+    };
+    fireEvent.click(screen.getByText('Go to My VA Health'));
+    waitFor(() => expect(global.window.open.called).to.be.true);
+    waitFor(() => expect(screen.queryByRole('alertdialog')).to.not.exist);
+    global.window = oldWindow;
   });
 });

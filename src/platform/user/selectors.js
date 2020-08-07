@@ -12,11 +12,12 @@ export const isLOA1 = state => selectProfile(state).loa.current === 1;
 export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state)?.services;
 export const selectPatientFacilities = state =>
-  selectProfile(state)?.facilities?.map(({ facilityId }) => ({
+  selectProfile(state)?.facilities?.map(({ facilityId, isCerner }) => ({
     facilityId,
     // This overrides the MPI isCerner flag in favor of the list maintained
     // in vets-website
-    isCerner: isCernerLive && CERNER_FACILITY_IDS.includes(facilityId),
+    isCerner:
+      isCernerLive && (isCerner || CERNER_FACILITY_IDS.includes(facilityId)),
   })) || null;
 export const selectVet360 = state => selectProfile(state).vet360;
 export const selectVet360EmailAddress = state =>
