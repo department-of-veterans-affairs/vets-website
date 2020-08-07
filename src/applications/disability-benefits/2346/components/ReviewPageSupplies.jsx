@@ -48,9 +48,9 @@ const ReviewPageSupplies = ({
               key={`${product.productId}_${index}`}
               className="vads-u-background-color--gray-light-alt vads-u-width--full vads-u-padding--4 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
             >
-              <h5 className="vads-u-font-size--h4 vads-u-margin-top--0">
+              <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
                 {product.deviceName}
-              </h5>
+              </h3>
               <span>
                 {product.productName} batteries (Quantity: {product.quantity})
               </span>
@@ -96,9 +96,9 @@ const ReviewPageSupplies = ({
                 key={`${product.productId}_${index}`}
                 className="vads-u-background-color--gray-light-alt vads-u-width--full vads-u-padding--4 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
               >
-                <h5 className="vads-u-font-size--h4 vads-u-margin-top--0">
+                <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
                   {product.productName}
-                </h5>
+                </h3>
                 <span>Quantity: {product.quantity}</span>
               </dd>
             ))}

@@ -9,6 +9,11 @@ import { urgentCareServices } from '../config';
 
 // Immitate network delay
 const delay = 0;
+const testFacilityTypes = {
+  health: 'va_health_facility',
+  cemetery: 'va_cemetery',
+  benefits: 'va_benefits_facility',
+};
 
 // Map facility type to attribute type
 const testVAFacilityTypes = {

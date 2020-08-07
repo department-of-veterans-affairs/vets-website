@@ -58,6 +58,7 @@ const transform = entity => ({
   fieldLink: createLink(entity.fieldLink, ['url']),
   fieldLocationHumanreadable: getDrupalValue(entity.fieldLocationHumanreadable),
   fieldMedia: entity.fieldMedia[0] || null,
+  status: getDrupalValue(entity.status),
 });
 
 module.exports = {
@@ -80,6 +81,7 @@ module.exports = {
     'field_media',
     'metatag',
     'moderation_state',
+    'status',
   ],
   transform,
 };

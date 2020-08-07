@@ -11,14 +11,16 @@ import Telephone, {
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { authnSettings } from 'platform/user/authentication/utilities';
+import {
+  authnSettings,
+  externalRedirects,
+} from 'platform/user/authentication/utilities';
 import {
   hasSession,
   setupProfileSession,
 } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import get from 'platform/utilities/data/get';
-import environment from 'platform/utilities/environment';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(
   ['/auth/login/callback', '/session-expired'].join('|'),
@@ -130,17 +132,26 @@ export class AuthApp extends React.Component {
     const authMetrics = new AuthMetrics(type, payload);
     authMetrics.run();
     setupProfileSession(authMetrics.userProfile);
-    this.redirect();
+    this.redirect(authMetrics.userProfile);
   };
 
-  redirect = () => {
+  redirect = (userProfile = {}) => {
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
+
+    // Enforce LOA3 for external redirects to My VA Health
+    if (
+      returnUrl.includes(externalRedirects.myvahealth) &&
+      !userProfile.verified
+    ) {
+      window.location.replace('/sign-in/verify');
+      return;
+    }
+
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
-    const postAuthUrl =
-      returnUrl && !environment.isProduction()
-        ? appendQuery(returnUrl, 'postLogin=true')
-        : returnUrl;
+    const postAuthUrl = returnUrl
+      ? appendQuery(returnUrl, 'postLogin=true')
+      : returnUrl;
 
     const redirectUrl =
       (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';

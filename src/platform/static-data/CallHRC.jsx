@@ -9,7 +9,7 @@ export default function CallHRC({ startSentence }) {
     <span>
       {startSentence ? 'Call' : 'call'} us at{' '}
       <a href="tel:18555747286">855-574-7286</a>.<br />
-      If you have hearin g loss, call{' '}
+      If you have hearing loss, call{' '}
       <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
     </span>
   );

@@ -109,7 +109,7 @@ describe('686 report dependent death additional information', () => {
     changeDropdown(form, 'select#root_dateDay', 1);
     fillData(form, 'input#root_dateYear', '2000');
     changeDropdown(form, 'select#root_dateMonth', 1);
-    selectCheckbox(form, 'root_location_isOutsideUS', true);
+    selectCheckbox(form, 'root_location_isOutsideUs', true);
     changeDropdown(form, 'select#root_location_country', 'AFG');
     fillData(form, 'input#root_location_city', 'Someplace');
 
