@@ -2,13 +2,24 @@
 // It uses setTimeout to simulate the delay of an AJAX call.
 // All calls return promises.
 import compact from 'lodash/compact';
-import { LocationType } from '../constants';
-import { facilityData } from '../constants/mock-facilities-data';
 import providerServices from '../constants/mock-provider-services.json';
 import facilityDataJson from '../constants/mock-facility-data.json';
 
 // Immitate network delay
 const delay = 0;
+
+// Map facility type to attribute type
+const testVAFacilityTypes = {
+  health: 'va_health_facility',
+  cemetery: 'va_cemetery',
+  benefits: 'va_benefits_facility',
+  // eslint-disable-next-line camelcase
+  vet_center: 'vet_center',
+};
+
+const pharmacyTypes = ['pharmacy', 'cc_pharmacy'];
+
+const ccProviderTypes = ['cc_provider', 'provider'];
 
 class MockLocatorApi {
   /**
@@ -31,7 +42,6 @@ class MockLocatorApi {
     serviceType,
     page,
   ) {
-    const data = facilityData(locationType, serviceType);
     const filterableLocations = ['health', 'benefits', 'cc_provider'];
     const params = compact([
       address ? `address=${address}` : null,
@@ -50,7 +60,13 @@ class MockLocatorApi {
             reject('Random failure due to fail flag being set');
           }
 
-          const locations = { ...data };
+          const locations = { ...facilityDataJson };
+          const locationsData = locations.data.filter(
+            loc =>
+              loc.attributes.facilityType === testVAFacilityTypes[locationType],
+          );
+
+          locations.data = locationsData;
 
           resolve(locations);
         } else {
