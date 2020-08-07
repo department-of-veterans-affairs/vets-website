@@ -10,7 +10,7 @@ import { isCernerLive } from 'platform/utilities/cerner';
 import { selectIsCernerPatient } from 'platform/user/selectors';
 
 export const App = ({ isCernerPatient }) => {
-  if (isCernerLive) {
+  if (!isCernerLive) {
     return <LegacyContent />;
   }
 
