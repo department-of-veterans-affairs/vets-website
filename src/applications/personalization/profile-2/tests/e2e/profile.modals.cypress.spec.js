@@ -38,7 +38,6 @@ describe('Users', () => {
     cy.login(mockUser);
     // login() calls cy.server() so we can now mock routes
     cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
-
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     // should show a loading indicator
@@ -59,6 +58,16 @@ describe('Users', () => {
   it('when editing residential address', () => {
     tryEditSectionWhileEditing('residentialAddress', 'mailingAddress', 'root_addressLine3', 'home address')
     cancelEdit('residentialAddress', 'root_addressLine3', 'home address')
+  });
+
+  it('when editing home phone', () => {
+    tryEditSectionWhileEditing('homePhone', 'mailingAddress', 'root_extension', 'home phone number')
+    cancelEdit('homePhone', 'root_extension', 'home phone number')
+  });
+
+  it('when editing mobile phone', () => {
+    tryEditSectionWhileEditing('mobilePhone', 'mailingAddress', 'root_extension', 'mobile phone number')
+    cancelEdit('mobilePhone', 'root_extension', 'mobile phone number')
   });
 });
 
