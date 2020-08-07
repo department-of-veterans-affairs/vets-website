@@ -42,6 +42,8 @@ const {
 const { contactInfoTitle } = definitions.sharedItems;
 const { secondaryCaregiversUI } = definitions;
 
+const test = null;
+
 /* Chapters
  * 1 - Vet/Service Member (required)
  * 2 - Primary Family Caregiver (required)
