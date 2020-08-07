@@ -8,6 +8,8 @@ import environment from 'platform/utilities/environment';
 import {
   setFetchJSONResponse,
   setFetchJSONFailure,
+  mockFetch,
+  resetFetch,
 } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
@@ -34,6 +36,8 @@ const initialState = {
 };
 
 describe('VAOS integration appointment cancellation:', () => {
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
   it('video appointments should display modal with facility information', async () => {
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
@@ -75,12 +79,7 @@ describe('VAOS integration appointment cancellation:', () => {
     };
     mockFacilitiesFetch('vha_442', [facility]);
 
-    const {
-      getByRole,
-      getByText,
-      findAllByText,
-      findByText,
-    } = renderInReduxProvider(
+    const { getByRole, findByText } = renderInReduxProvider(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -90,9 +89,7 @@ describe('VAOS integration appointment cancellation:', () => {
       },
     );
 
-    await findAllByText(/va video connect/i);
-
-    fireEvent.click(getByText(/cancel appointment/i));
+    fireEvent.click(await findByText(/cancel appointment/i));
 
     await findByText(/VA Video Connect appointments can’t be canceled online/i);
     const modal = getByRole('alertdialog');
@@ -124,7 +121,6 @@ describe('VAOS integration appointment cancellation:', () => {
     const {
       getByText,
       getByRole,
-      findAllByText,
       findByText,
       queryByRole,
     } = renderInReduxProvider(
@@ -137,9 +133,7 @@ describe('VAOS integration appointment cancellation:', () => {
       },
     );
 
-    await findAllByText(/community care appointment/i);
-
-    fireEvent.click(getByText(/cancel appointment/i));
+    fireEvent.click(await findByText(/cancel appointment/i));
 
     await findByText(/Community Care appointments can’t be canceled online/i);
 
