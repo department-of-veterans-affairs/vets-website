@@ -17,7 +17,7 @@ describe('Locator url and parameters builder', () => {
     );
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/ccp?address=14713%20Calaveras%20Drive,%20Austin,%20Texas%2078717,%20United%20States&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=cc_urgent_care&page=1&per_page=20&trim=true',
+      'https://dev-api.va.gov/v1/facilities/ccp?address=14713%20Calaveras%20Drive,%20Austin,%20Texas%2078717,%20United%20States&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=urgent_care&page=1&per_page=20&trim=true',
     );
   });
 
