@@ -4,6 +4,7 @@
 import compact from 'lodash/compact';
 import providerServices from '../constants/mock-provider-services.json';
 import facilityDataJson from '../constants/mock-facility-data.json';
+import urgentCareData from '../constants/mock-urgent-care-mashup-data.json';
 
 // Immitate network delay
 const delay = 0;
@@ -20,6 +21,8 @@ const testVAFacilityTypes = {
 const pharmacyTypes = ['pharmacy', 'cc_pharmacy'];
 
 const ccProviderTypes = ['cc_provider', 'provider'];
+
+const urgentCareType = 'urgent_care';
 
 class MockLocatorApi {
   /**
@@ -60,11 +63,17 @@ class MockLocatorApi {
             reject('Random failure due to fail flag being set');
           }
 
+          let locationsData;
           const locations = { ...facilityDataJson };
-          const locationsData = locations.data.filter(
-            loc =>
-              loc.attributes.facilityType === testVAFacilityTypes[locationType],
-          );
+          if (locationType === urgentCareType) {
+            locationsData = urgentCareData.data;
+          } else {
+            locationsData = locations.data.filter(
+              loc =>
+                loc.attributes.facilityType ===
+                testVAFacilityTypes[locationType],
+            );
+          }
 
           locations.data = locationsData;
 

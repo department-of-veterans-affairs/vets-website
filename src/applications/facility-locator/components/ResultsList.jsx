@@ -78,7 +78,9 @@ class ResultsList extends Component {
         case 'urgent_care':
           if (query.serviceType === 'NonVAUrgentCare') {
             item = <UrgentCareResult provider={r} query={query} />;
-          } else if (query.serviceType === 'UrgentCare') {
+          } else if (!query.serviceType || query.serviceType === 'UrgentCare') {
+            // this is probably going to change, it should default to All,
+            // currently the logic is if serviceType null, the result is VA urgent care
             item = <VaFacilityResult location={r} query={query} />;
           } else if (query.serviceType === 'All') {
             // New option
