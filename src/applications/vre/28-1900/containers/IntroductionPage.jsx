@@ -13,8 +13,10 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="28-1900 Vocational Rehabilitation" />
-        <p>Equal to VA Form 21-1900 (28-1900 Vocational Rehabilitation).</p>
+        <FormTitle title="28-1900 Veteran Readiness and Employment" />
+        <p>
+          Equal to VA Form 21-1900 (28-1900 Veteran Readiness and Employment).
+        </p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
@@ -24,7 +26,9 @@ class IntroductionPage extends React.Component {
           Please complete the 21-1900 form to apply for Vocational
           Rehabilitation.
         </SaveInProgressIntro>
-        <h4>Follow the steps below to apply for Vocational Rehabilitation.</h4>
+        <h4>
+          Follow the steps below to apply for Veteran Readiness and Employment.
+        </h4>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -44,7 +48,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <h5>Apply</h5>
-              <p>Complete this Vocational Rehabilitation form.</p>
+              <p>Complete this Veteran Readiness and Employment form.</p>
               <p>
                 After submitting the form, you’ll get a confirmation message.
                 You can print this for your records.

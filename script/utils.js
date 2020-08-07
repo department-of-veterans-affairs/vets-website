@@ -1,9 +1,10 @@
 const { spawn } = require('child_process');
 
-const runCommand = cmd => {
-  const child = spawn(cmd, [], { shell: true });
-  child.stdout.pipe(process.stdout);
-  child.stderr.pipe(process.stderr);
+const runCommand = (cmd, forcedExitCode = null) => {
+  const child = spawn(cmd, [], { shell: true, stdio: 'inherit' });
+  child.on('exit', code => {
+    process.exit(forcedExitCode === null ? code : forcedExitCode);
+  });
 };
 
 module.exports = {
