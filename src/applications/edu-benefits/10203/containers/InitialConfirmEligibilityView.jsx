@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import captureEvents from '../analytics-functions';
 
 function InitialConfirmEligibilityView(props) {
   if (props.onReviewPage) {
@@ -32,6 +33,7 @@ function InitialConfirmEligibilityView(props) {
           className={'usa-button-primary wizard-button va-button-primary'}
           href="/education/"
           target="_self"
+          onClick={captureEvents.exitApplication()}
         >
           Exit application
         </a>
