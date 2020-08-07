@@ -16,7 +16,7 @@ export const selectPatientFacilities = state =>
     facilityId,
     // This overrides the MPI isCerner flag in favor of the list maintained
     // in vets-website
-    isCerner: facilityId === '983', // isCernerLive && CERNER_FACILITY_IDS.includes(facilityId),
+    isCerner: isCernerLive && CERNER_FACILITY_IDS.includes(facilityId),
   })) || null;
 export const selectVet360 = state => selectProfile(state).vet360;
 export const selectVet360EmailAddress = state =>

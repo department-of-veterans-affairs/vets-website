@@ -26,10 +26,7 @@ import {
   getSiteIdFromOrganization,
   getIdOfRootOrganization,
 } from '../services/organization';
-import {
-  getParentOfLocation,
-  getFacilityIdFromLocation,
-} from '../services/location';
+import { getParentOfLocation } from '../services/location';
 import {
   getVideoAppointmentLocation,
   getVAAppointmentLocationId,
@@ -258,11 +255,11 @@ export function hasSingleValidVALocation(state) {
 }
 
 export function selectCernerOrgIds(state) {
-  const cernerSites = selectPatientFacilities(state).filter(f => f.isCerner);
+  const cernerSites = selectPatientFacilities(state)?.filter(f => f.isCerner);
   return getNewAppointment(state)
-    .parentFacilities?.filter(facility => {
-      const facilityId = getFacilityIdFromLocation(facility);
-      return cernerSites.some(cernerSite =>
+    .parentFacilities?.filter(parent => {
+      const facilityId = getSiteIdFromOrganization(parent);
+      return cernerSites?.some(cernerSite =>
         facilityId.startsWith(cernerSite.facilityId),
       );
     })
@@ -377,7 +374,7 @@ export function getCancelInfo(state) {
   if (appointmentToCancel) {
     const facilityId = getVARFacilityId(appointmentToCancel);
     isCerner = selectPatientFacilities(state)
-      .filter(f => f.isCerner)
+      ?.filter(f => f.isCerner)
       .some(cernerSite => facilityId?.startsWith(cernerSite.facilityId));
   }
 
