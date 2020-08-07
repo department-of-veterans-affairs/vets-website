@@ -23,12 +23,12 @@ export default {
       benefitLeft,
     } = data;
     const enrolledStemAndTeaching = isEnrolledStem || isPursuingTeachingCert;
-    const benefitLeftCheck = benefitLeft !== 'moreThanSixMonths';
     recordEvent({
       event: 'edu-stem-scholarship-ineligibility-alert',
       'edu-eligibility-criteria-post911-met': isChapter33,
       'edu-eligibility-criteria-stem-or-teaching-met': enrolledStemAndTeaching,
-      'edu-eligibility-criteria-used-all-benefits-met': benefitLeftCheck,
+      'edu-eligibility-criteria-used-all-benefits-met':
+        benefitLeft !== 'moreThanSixMonths',
       'edu-eligibilty-criteria-months-remaining-for-use': benefitLeft,
     });
   },
