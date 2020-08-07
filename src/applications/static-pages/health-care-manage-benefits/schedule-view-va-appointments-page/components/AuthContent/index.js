@@ -40,7 +40,7 @@ export const AuthContent = () => (
         </a>
       </p>
       <h2 id="view-schedule-or-cancel-a-va-a">
-        View, schedule, or cancel a VA appointment&nbsp;online
+        View, schedule, or cancel a VA appointment online
       </h2>
     </div>
     <CernerCallToAction

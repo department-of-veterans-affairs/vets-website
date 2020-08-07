@@ -47,7 +47,7 @@ describe('<CernerCallToAction>', () => {
 
     const text = wrapper.text();
     expect(text).to.include(
-      "According to our records, you are registered at a clinic within Example Facility 1, Example Facility 2. VA providers at this facility and its clinics are using the new My VA Health portal.You may need to sign in again to view your VA lab and test results. If you do, please sign in with the same account you used to sign in here on VA.gov. You also may need to disable your browser's pop-up blocker so that  tools are able to open.",
+      'Please choose a health management portal below, depending on your provider',
     );
 
     wrapper.unmount();

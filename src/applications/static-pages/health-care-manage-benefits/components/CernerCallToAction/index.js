@@ -38,7 +38,6 @@ export class CernerCallToAction extends Component {
 
     // Escape early if there are no facilities.
     if (isEmpty(facilities)) {
-      this.setState({ fetching: false });
       return;
     }
 

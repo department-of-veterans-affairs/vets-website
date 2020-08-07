@@ -14,9 +14,7 @@ const AuthContent = () => (
       My HealtheVet (VA Blue Button) and My VA Health{' '}
     </a>
     <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
-    <h2>
-      <a id="va-blue-button">My HealtheVet (VA Blue Button) and My VA Health</a>
-    </h2>
+    <h2 id="va-blue-button">My HealtheVet (VA Blue Button) and My VA Health</h2>
     <CernerCallToAction
       linksHeaderText="Get your medical records from:"
       myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data"
