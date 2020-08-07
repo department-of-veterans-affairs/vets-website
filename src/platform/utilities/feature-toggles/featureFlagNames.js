@@ -39,7 +39,7 @@ export default Object.freeze({
   gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
   form526BDD: 'form526BenefitsDeliveryAtDischarge',
   showEduBenefits5495Wizard: 'showEduBenefits5495Wizard',
-  showEduBenefits1995Wizard: 'showEduBenefits1995Wizard',
+  showEduBenefits1995Wizard: 'show_edu_benefits_1995_wizard',
   showEduBenefits1990NWizard: 'showEduBenefits1990NWizard',
   showEduBenefits0994Wizard: 'showEduBenefits0994Wizard',
   showEduBenefits5490Wizard: 'showEduBenefits5490Wizard',
