@@ -7,7 +7,7 @@ const tryEditSectionWhileEditing = (editButtonId, otherSectionEditButtonId, edit
   // Open edit view
   cy.get(`#${editButtonId}-edit-link`).click();
   // Make an edit
-  cy.get(`#${editLineId}`).click().type('Test text');
+  cy.get(`#${editLineId}`).click().type('test');
   // Click on a different section to edit
   cy.get(`#${otherSectionEditButtonId}-edit-link`).click();
 
@@ -68,6 +68,11 @@ describe('Users', () => {
   it('when editing mobile phone', () => {
     tryEditSectionWhileEditing('mobilePhone', 'mailingAddress', 'root_extension', 'mobile phone number')
     cancelEdit('mobilePhone', 'root_extension', 'mobile phone number')
+  });
+
+  it('when editing email address', () => {
+    tryEditSectionWhileEditing('email', 'mailingAddress', 'root_emailAddress', 'email address')
+    cancelEdit('email', 'root_emailAddress', 'email address')
   });
 });
 
