@@ -26,7 +26,10 @@ import {
   getSiteIdFromOrganization,
   getIdOfRootOrganization,
 } from '../services/organization';
-import { getParentOfLocation } from '../services/location';
+import {
+  getParentOfLocation,
+  getFacilityIdFromLocation,
+} from '../services/location';
 import {
   getVideoAppointmentLocation,
   getVAAppointmentLocationId,
@@ -35,6 +38,7 @@ import {
   isValidPastAppointment,
   sortByDateDescending,
   sortUpcoming,
+  getVARFacilityId,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -66,11 +70,6 @@ export function getFormPageInfo(state, pageKey) {
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
   };
 }
-
-export const selectCernerFacilities = state =>
-  selectPatientFacilities(state)
-    ?.filter(f => f.isCerner)
-    .map(f => f.facilityId) || [];
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -258,6 +257,18 @@ export function hasSingleValidVALocation(state) {
   );
 }
 
+export function selectCernerOrgIds(state) {
+  const cernerSites = selectPatientFacilities(state).filter(f => f.isCerner);
+  return getNewAppointment(state)
+    .parentFacilities?.filter(facility => {
+      const facilityId = getFacilityIdFromLocation(facility);
+      return cernerSites.some(cernerSite =>
+        facilityId.startsWith(cernerSite.facilityId),
+      );
+    })
+    .map(facility => facility.id);
+}
+
 export function getFacilityPageInfo(state) {
   const formInfo = getFormPageInfo(state, 'vaFacility');
   const data = getFormData(state);
@@ -291,7 +302,7 @@ export function getFacilityPageInfo(state) {
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     parentOfChosenFacility: getParentOfChosenFacility(state),
-    cernerFacilities: selectCernerFacilities(state),
+    cernerOrgIds: selectCernerOrgIds(state),
     siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
   };
 }
@@ -334,7 +345,6 @@ export function getClinicPageInfo(state, pageKey) {
 }
 
 export function getCancelInfo(state) {
-  const cernerFacilities = selectCernerFacilities(state);
   const {
     appointmentToCancel,
     showCancelModal,
@@ -363,6 +373,13 @@ export function getCancelInfo(state) {
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];
   }
+  let isCerner = null;
+  if (appointmentToCancel) {
+    const facilityId = getVARFacilityId(appointmentToCancel);
+    isCerner = selectPatientFacilities(state)
+      .filter(f => f.isCerner)
+      .some(cernerSite => facilityId?.startsWith(cernerSite.facilityId));
+  }
 
   return {
     facility,
@@ -370,7 +387,7 @@ export function getCancelInfo(state) {
     showCancelModal,
     cancelAppointmentStatus,
     cancelAppointmentStatusVaos400,
-    cernerFacilities,
+    isCerner,
   };
 }
 
