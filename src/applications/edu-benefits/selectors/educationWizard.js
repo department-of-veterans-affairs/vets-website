@@ -4,3 +4,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 export const educationWizard10203 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.eduBenefitsStemScholarship];
+
+export const showEduBenefits1990EWizard = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.showEduBenefits1990EWizard];

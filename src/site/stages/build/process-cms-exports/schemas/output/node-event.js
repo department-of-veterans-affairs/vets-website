@@ -66,6 +66,7 @@ module.exports = {
     },
     fieldLocationHumanreadable: { type: ['string', 'null'] },
     fieldMedia: { $ref: 'Media' },
+    status: { type: 'boolean' },
   },
   required: [
     'title',
@@ -86,5 +87,6 @@ module.exports = {
     'fieldLink',
     'fieldLocationHumanreadable',
     'fieldMedia',
+    'status',
   ],
 };
