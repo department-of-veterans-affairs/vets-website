@@ -1,19 +1,19 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
-import { pageNames } from './pageList';
+import { pageNames } from '../pageList';
 
 const options = [
-  { value: pageNames.disabilityRating, label: 'Yes' },
-  { value: pageNames.amServiceMember, label: 'No' },
+  { value: pageNames.yesActiveDutySeparation, label: 'Yes' },
+  { value: pageNames.noActiveDutySeparation, label: 'No' },
 ];
 
-const yesHonorableDischarge = ({ setPageState, state = {} }) => (
+const disabilityRating = ({ setPageState, state = {} }) => (
   <ErrorableRadioButtons
     name={`${pageNames.start}-option`}
     label={
       <p>
-        Do you have a service-connected disability rating of
-        <strong>10% or higher</strong>?
+        Are you <strong>within 12 years</strong> of separation from active duty
+        or first disability rating?
       </p>
     }
     id={`${pageNames.start}-option`}
@@ -24,6 +24,6 @@ const yesHonorableDischarge = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.yesHonorableDischarge,
-  component: yesHonorableDischarge,
+  name: pageNames.disabilityRating,
+  component: disabilityRating,
 };

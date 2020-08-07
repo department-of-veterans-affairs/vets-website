@@ -1,9 +1,9 @@
 import React from 'react';
-import { pageNames } from './pageList';
+import { pageNames } from '../pageList';
 
 const options = [
   { value: pageNames.amVeteran, label: 'Yes' },
-  { value: pageNames.amServiceMember, label: 'No' },
+  { value: pageNames.notWithin12Years, label: 'No' },
 ];
 
 const noHonorableDischarge = ({ setPageState, state = {} }) => (
