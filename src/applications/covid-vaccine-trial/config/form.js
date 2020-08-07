@@ -10,6 +10,10 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import {
+  validateMatch,
+  validateBooleanGroup,
+} from 'platform/forms-system/src/js/validation';
 
 import dataUtils from 'platform/utilities/data/index';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -34,35 +38,53 @@ const {
   zipCode,
   // height,
   weight,
+  genderNoteText,
+  genderTitleText,
   gender,
   raceEthnicityOrigin,
 } = uiSchemaDefinitions;
 
-confirmationEmailUI['ui:validations'] = [
-  {
-    validator: (errors, fieldData, formData) => {
-      const emailMatcher = () => formData.email === fieldData;
-      const doesEmailMatch = emailMatcher();
-      if (!doesEmailMatch) {
-        errors.addError(
-          'This email does not match your previously entered email',
-        );
-      }
-    },
-  },
-];
-// confirmationEmailUI['ui:required'] = [
-//   {
-//     function(formData, index) {
-//       console.log('tyest required function ');
-//       return true;
-//     },
-//   },
-// ];
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 const { set } = dataUtils;
-const viewConfirmationEmailField = 'view:confirmEmail';
+const selectBoxGroupConfig = {
+  'ui:validations': [validateBooleanGroup],
+  'ui:options': {
+    showFieldLabel: true,
+    classNames: 'schemaform-block-title schemaform-block-subtitle',
+    updateSchema: (form, pageSchema) => {
+      const newForm = form;
+      const NONE_OF_ABOVE = 'NONE_OF_ABOVE';
 
+      const name = pageSchema.name;
+      const selectedCount = Object.keys(form[name]).filter(
+        val => form[name][val] === true,
+      ).length;
+
+      // edge case fails with two items selected one of them NONE
+
+      if (selectedCount === 2) {
+        newForm[name][NONE_OF_ABOVE] = false;
+      } else if (selectedCount > 2 && form[name][NONE_OF_ABOVE] === true) {
+        Object.keys(form[name]).map((key, val) => {
+          newForm[name][key] = false;
+          newForm[name][NONE_OF_ABOVE] = true;
+          return newForm;
+        });
+      }
+      return newForm;
+    },
+  },
+  'ui:errorMessages': {
+    atLeastOne: 'Please select at least one',
+  },
+};
+
+function updateData(oldForm, newForm) {
+  // console.log('Old Form Data: ', oldForm);
+  // console.log('New Form Data: ', newForm);
+
+  return newForm;
+}
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/covid-vaccine/screener/create`,
@@ -86,6 +108,7 @@ const formConfig = {
         page1: {
           path: 'covid-vaccine-trial',
           title: 'Personal Information - Page 1',
+          updateFormData: updateData,
           uiSchema: {
             descriptionText,
             infoSharingText,
@@ -94,10 +117,19 @@ const formConfig = {
             closeContactPositive,
             hospitalized,
             smokeOrVape,
-            healthHistory,
+            healthHistory: {
+              ...healthHistory,
+              ...selectBoxGroupConfig,
+            },
             exposureRiskHeaderText,
-            employmentStatus,
-            transportation,
+            employmentStatus: {
+              ...employmentStatus,
+              ...selectBoxGroupConfig,
+            },
+            transportation: {
+              ...transportation,
+              ...selectBoxGroupConfig,
+            },
             residentsInHome,
             closeContact,
             contactHeaderText,
@@ -117,7 +149,7 @@ const formConfig = {
               'ui:order': ['first', 'middle', 'last', 'suffix'],
             }),
             email: emailUI(),
-            [viewConfirmationEmailField]: confirmationEmailUI,
+            'view:confirmEmail': emailUI('Re-enter email address'),
             zipCode,
             phone: phoneUI(),
             veteranDateOfBirth: currentOrPastDateUI(
@@ -125,8 +157,17 @@ const formConfig = {
             ),
             // height,
             weight,
-            gender,
-            raceEthnicityOrigin,
+            genderTitleText,
+            genderNoteText,
+            gender: {
+              ...gender,
+              ...selectBoxGroupConfig,
+            },
+            raceEthnicityOrigin: {
+              ...raceEthnicityOrigin,
+              ...selectBoxGroupConfig,
+            },
+            'ui:validations': [validateMatch('email', 'view:confirmEmail')],
           },
           schema: {
             required: fullSchema.required,
@@ -150,12 +191,19 @@ const formConfig = {
               // veteranFullName: set('required', ['first', 'last'], fullName),
               veteranFullName: fullName,
               email,
-              [viewConfirmationEmailField]: email,
+              // [viewConfirmationEmailField]: email,
+              'view:confirmEmail': email,
               phone: usaPhone,
               zipCode: usaPostalCode,
               veteranDateOfBirth: date,
               // height: fullSchema.properties.height,
               weight: fullSchema.properties.weight,
+              'view:genderTitleText': {
+                type: 'object',
+                properties: {},
+              },
+              genderTitleText: fullSchema.properties.genderTitleText,
+              genderNoteText: fullSchema.properties.genderNoteText,
               gender: fullSchema.properties.gender,
               raceEthnicityOrigin: fullSchema.properties.raceEthnicityOrigin,
             },

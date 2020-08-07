@@ -88,6 +88,7 @@
     },
     "healthHistory": {
       "type": "object",
+      "name": "healthHistory",
       "properties": {
         "ALLERGY_VACCINE": {
           "type": "boolean"
@@ -123,7 +124,8 @@
           "type": "boolean"
         },
         "NONE_OF_ABOVE": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true
         }
       }
     },
@@ -142,6 +144,7 @@
     },
     "employmentStatus": {
       "type": "object",
+      "name": "employmentStatus",
       "properties": {
         "EMPLOYED_HOME": {
           "type": "boolean"
@@ -162,12 +165,14 @@
           "type": "boolean"
         },
         "NONE_OF_ABOVE": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true
         }
       }
     },
     "transportation": {
       "type": "object",
+      "name": "transportation",
       "properties": {
         "CAR": {
           "type": "boolean"
@@ -185,7 +190,8 @@
           "type": "boolean"
         },
         "NONE_OF_ABOVE": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true
         }
       }
     },
@@ -233,8 +239,27 @@
       "type": "string",
       "pattern": "^([1-9]\\d*)(\\.(\\d{1}|\\d{2}))?$"
     },
+    "genderTitleText": {
+      "type": "object",
+      "properties": {
+        "view:genderTitle": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    },
+    "genderNoteText": {
+      "type": "object",
+      "properties": {
+        "view:genderNote": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    },
     "gender": {
       "type": "object",
+      "name": "gender",
       "properties": {
         "FEMALE": {
           "type": "boolean"
@@ -254,13 +279,15 @@
         "SELF_IDENTIFY": {
           "type": "boolean"
         },
-        "PREFER_NO_ANSWER": {
-          "type": "boolean"
+        "NONE_OF_ABOVE": {
+          "type": "boolean",
+          "default": true
         }
       }
     },
     "raceEthnicityOrigin": {
       "type": "object",
+      "name": "raceEthnicityOrigin",
       "properties": {
         "AMERICAN_INDIAN_ALASKA_NATIVE": {
           "type": "boolean"
@@ -283,8 +310,9 @@
         "OTHER_RACE_ETHNICITY": {
           "type": "boolean"
         },
-        "PREFER_NO_ANSWER": {
-          "type": "boolean"
+        "NONE_OF_ABOVE": {
+          "type": "boolean",
+          "default": true
         }
       }
     },
@@ -320,7 +348,6 @@
     "transportation",
     "closeContact",
     "weight",
-    "gender",
     "raceEthnicityOrigin"
   ]
 }
