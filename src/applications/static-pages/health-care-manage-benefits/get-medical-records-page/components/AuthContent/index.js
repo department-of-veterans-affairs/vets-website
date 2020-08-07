@@ -26,512 +26,302 @@ const callToActions = [
 
 const AuthContent = () => (
   <>
-    <div className="processed-content">
-      <h2 id="get-your-va-medical-records-online">
-        Get your VA medical records online
-      </h2>
-    </div>
+    <h2>On this page:</h2>
+    <a href="#va-blue-button">
+      My HealtheVet (VA Blue Button) and My VA Health{' '}
+    </a>
+    <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
+    <h2>
+      <a id="va-blue-button">My HealtheVet (VA Blue Button) and My VA Health</a>
+    </h2>
     <CernerCallToAction callToActions={callToActions} type="medical records" />
-    <div>
-      <h2 id="how-are-my-va-health-and-va-blue">
-        How are My VA Health and VA Blue Button different?
-      </h2>
-      <p>
-        Where you receive care and the types of results you want to access will
-        determine whether you&apos;ll be able to get your online medical record
-        on My VA Health or My HealtheVet. If you receive care at both
-        Mann-Grandstaff VA medical center and another VA facility, you may need
-        to use both web portals.
-      </p>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="what-is-my-va-health-and-how-can-it">
-          What is My VA Health, and how can it help me manage my health care?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                My VA Health is a health management portal. It lets you view and
-                print information from your VA medical record at Mann-Grandstaff
-                VA Medical Center.
-              </p>
-
-              <p>
-                <strong>With My VA Health Records tool, you can:</strong>
-              </p>
-              <ul>
-                <li>
-                  View and print your health profile, lab and test results,
-                  health conditions, and procedures.
-                </li>
-                <li>View, download, and share clinical documents</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="whats-va-blue-button-and-how-c">
-          What's VA Blue Button, and how can it help me manage my health care?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                VA Blue Button is a feature of the health management portal
-                within My HealtheVet. It lets you view, print, save, download,
-                and share information from your VA medical record and personal
-                health record. With this tool, you can better manage your health
-                needs and communicate with your health care team.
-              </p>
-              <p>
-                <strong>With VA Blue Button, you can:</strong>
-              </p>
-              <ul>
-                <li>
-                  Download a customized Blue Button report with information from
-                  your VA medical records, personal health record, and in some
-                  cases your military service record
-                </li>
-                <li>
-                  Download a Health Summary that includes specific information
-                  from your VA medical record (like your known allergies,
-                  medications, and recent lab results)
-                </li>
-                <li>
-                  Build your own personal health record that includes
-                  information like your self-entered medical history, emergency
-                  contacts, and medicines
-                </li>
-                <li>
-                  Monitor your vital signs and track your diet and exercise with
-                  our online journals
-                </li>
-                <li>
-                  Share a digital copy of the personal health information you
-                  entered yourself with your VA health care team through Secure
-                  Messaging
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="am-i-eligible-to-use-all-the-f">
-          Once I&apos;m signed in, how do I access my medical record?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                <strong>
-                  If you&apos;re viewing your record on My HealtheVet
-                </strong>
-              </p>
-              <p>
-                In the navigation panel, click on &quot;Health Record.&quot;
-                You&apos;ll go to a new page.
-              </p>
-              <p>
-                From here, you can choose to access your health profile, lab and
-                test results, health conditions, procedures, or clinical
-                documents.
-              </p>
-              <br />
-              <p>
-                <strong>
-                  If you&apos;re viewing your record on My HealtheVet
-                </strong>
-              </p>
-              <p>
-                In the navigation panel, click on &quot;Health Record.&quot;
-                You&apos;ll go to a new page.
-              </p>
-              <p>
-                From here, you can choose to access your health profile, lab and
-                test results, health conditions, procedures, or clinical
-                documents.
-              </p>
-              <p>
-                If you&apos;d like to add information to your personal health
-                record, click on &quot;Track Health&quot; in the blue navigation
-                menu at the top of the page. You&apos;ll go to a new page where
-                you can choose to record information like your vital signs,
-                health history, goals, and food and exercise efforts.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="am-i-eligible-to-use-these-tools">
-          Am I eligible to use these tools?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                You can use these tools to view your VA lab and test results and
-                information you enter yourself if you meet all of the
-                requirements listed below.
-              </p>
-              <p>
-                <strong>Both of these must be true. You:</strong>
-              </p>
-              <ul>
-                <li>
-                  Are enrolled in VA health care, <strong>and</strong>
-                </li>
-                <li>Are registered as a patient in a VA health facility</li>
-              </ul>
-              <p>
-                <a href="/health-care/how-to-apply/">
-                  Find out how to apply for VA health care
-                </a>
-              </p>
-              <p>
-                <strong>And you must have one of these free accounts:</strong>
-              </p>
-              <ul>
-                <li>
-                  A{' '}
-                  <a href="">
-                    Premium <strong>My HealtheVet account</strong>
-                  </a>
-                  , <strong>or</strong>
-                </li>
-                <li>
-                  A Premium <strong>DS Logon</strong> account (used for
-                  eBenefits and milConnect), <strong>or</strong>
-                </li>
-                <li>
-                  A verified <strong>ID.me</strong> account that you can create
-                  here on VA.gov
-                </li>
-              </ul>
-              <p>
-                <strong>Note:</strong> If you sign in with a Basic or Advanced
-                account, you&apos;ll see only the results you&apos;ve entered
-                yourself.
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Learn about the 3 different My HealtheVet account types
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="will-my-personal-health-inform">
-          Will my personal health information be protected?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                Yes. This is a secure website. We follow strict security
-                policies and practices to protect your personal health
-                information.
-              </p>
-              <p>
-                If you print or download anything from the website, you’ll need
-                to take responsibility for protecting that information.
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Get tips for protecting your personal health information
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="what-if-i-have-more-questions">
-          What if I have more questions?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                You can get answers to frequently asked questions about VA Blue
-                Button and related tools within My HealtheVet.
-              </p>
-              <p>
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#bbtop"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Read VA Blue Button FAQs
-                </a>
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/faqs#CCD"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Read VA Health Summary FAQs
-                </a>
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/faqs#VAMIR"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Read VA Medical Images and Reports FAQs
-                </a>
-              </p>
-              <p>
-                You can also contact the My HealtheVet help desk.
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Find out how to contact us online
-                </a>
-              </p>
-              <p>
-                Or call us at <a href="tel:+18773270022">877-327-0022</a> (TTY:{' '}
-                <Telephone contact={CONTACTS.HELP_TTY} />
-                ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-              </p>
-              <p>
-                <strong>
-                  If you have questions about medical records on My VA Health
-                </strong>
-                , you can call the My VA Health help desk at{' '}
-                <a aria-label="1 8 0 0 9 6 2 1 0 2 4" href="tel:18009621024">
-                  1-800-962-1024
-                </a>
-                . You can also{' '}
-                <a
-                  className="vads-u-color--secondary vads-u-text-decoration--none"
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  [contact us online]
-                </a>
-                .
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <h2 id="the-veterans-health-informatio">
-        The Veterans Health Information Exchange
-      </h2>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="whats-the-veterans-health-info">
-          What is the Veterans Health Information Exchange (VHIE), and how can
-          it help me manage my health care?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                The Veterans Health Information Exchange (VHIE) program lets us
-                share your health information with participating community care
-                providers and the Department of Defense. For example, when you
-                leave activey-duty service, retire, or leave the Reserves and
-                then get health care at VA or a VA-approved community care
-                provider, your health record would electronically follow you.
-              </p>
-              <p>
-                This program is voluntary, and you can choose not to share your
-                information. If you choose not to share your information but
-                change your mind later, you can opt back in to sharing your
-                information at any time.
-              </p>
-              <p>
-                <strong>The sharing of health information:</strong>
-              </p>
-              <ul>
-                <li>
-                  Helps your VA and non-VA providers better coordinate your
-                  care.
-                </li>
-                <li>Keeps your personal health information more secure.</li>
-                <li>
-                  Improves your care by helping your providers make mroe
-                  informed decisions.
-                </li>
-                <li>
-                  Ensures your providers have up-to-date information, like your
-                  current medications and allergies.
-                </li>
-                <li>Saves you time and money.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="vhie-sharing-options">
-          Can I opt out of sharing my information?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>Yes. You can opt out of sharing by mail or in person.</p>
-              <h4>To opt out by mail</h4>
-              <p>
-                Fill out, sign, and date VA Form 10-10164 (Opt Out of Sharing
-                Protected Health Information).
-              </p>
-              <p>
-                <a href="https://va.gov/vaforms/medical/pdf/10-10164-fill.pdf">
-                  Download VA Form 10-10164 (PDF)
-                </a>
-              </p>
-              <br />
-              <p>
-                Mail the completed form to the Release of Information (ROI)
-                office at your nearest VA medical center.
-              </p>
-              <p>
-                <a href="">
-                  Find the address for your nearest VA medical center
-                </a>
-              </p>
-              <h4>To opt out in person</h4>
-              <p>Visit your VA medical center&apos;s ROI office.</p>
-              <p>
-                Bring a completed VA Form 10-10164 with you, or ask for a copy
-                to fill out in the office. Give your completed, signed form to
-                an office staff member.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="can-i-change-my-mind-share-information-later">
-          Can I change my mind if I want to share my information later?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                Yes. If you change your mind and want to share your health
-                information, complete and submit VA Form 10-10163 (Request for
-                and Permission to Participate in Sharing Protected Health
-                Information).
-              </p>
-              <p>
-                <a href="https://va.gov/vaforms/medical/pdf/10-10163-fill.pdf">
-                  Download VA Form 10-10163 (PDF)
-                </a>
-              </p>
-              <p>
-                Mail or take this form in person to the Release of Information
-                (ROI) office at your nearest VA medical center.
-              </p>
-              <p>
-                <a href="/find-locations">
-                  Find the address of your nearest VA medical center
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3
-          itemProp="name"
-          id="will-my-personal-health-information-be-protected"
-        >
-          Will my personal health information be protected?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                Yes. The Veterans Health Information Exchange uses secure
-                technology to share information between VA and participating
-                community health care providers who treat you. We share
-                information only with community care providers and organizations
-                that have partnership agreements with us and are part of our
-                approved, trusted network.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div itemScope itemType="http://schema.org/Question">
-        <h3 itemProp="name" id="what-if-i-have-more-questions">
-          What if I have more questions?
-        </h3>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                Call us toll-free at <a href="tel:+18446982311">844-698-2311</a>
-                .
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <h3>What are My HealtheVet and My VA Health, and which will I use?</h3>
+    <p>
+      My HealtheVet and My VA Health are both VA health management portals
+      designed to help you manage your care. My VA Health is our new portal that
+      providers at select facilities have started to use.
+    </p>
+    <p>
+      Each portal offers a tool to help you manage your medical records. The
+      portal you’ll use will depend on where you receive care. If you receive
+      care at both Mann-Grandstaff VA Medical Center and another VA facility,
+      you may need to use both portals.
+    </p>
+    <h3>How can My HealtheVet’s VA Blue Button tool help me manage my care?</h3>
+    <p>
+      This tool lets you review, print, save, download, and share information
+      from your VA medical records and personal health record. With this tool,
+      you can better manage your health needs and communicate with your health
+      care team.
+    </p>
+    <p>
+      <strong>With My HealtheVet’s VA Blue Button tool, you can:</strong>
+    </p>
+    <ul>
+      <li>
+        Download a customized Blue Button report with information from your VA
+        medical records, personal health record, and in some cases your military
+        service record
+      </li>
+      <li>
+        Download a Health Summary that includes specific information from your
+        VA medical records (like your known allergies, medications, and recent
+        lab results)
+      </li>
+      <li>
+        Build your own personal health record that includes information like
+        your self-entered medical history, emergency contacts, and medicines
+      </li>
+      <li>
+        Monitor your vital signs and track your diet and exercise with our
+        online journals
+      </li>
+      <li>
+        Share a digital copy of the personal health information you entered
+        yourself with your VA health care team through secure messaging
+      </li>
+    </ul>
+    <h3>How can My VA Health’s Health Records tool help me manage my care?</h3>
+    <p>
+      This tool lets you review and print information from your VA medical
+      records at Mann-Grandstaff VA Medical Center.
+    </p>
+    <p>
+      <strong>With My VA Health’s Health Records tool, you can:</strong>
+    </p>
+    <ul>
+      <li>
+        Review and print your health profile, lab and test results, health
+        conditions, and procedures
+      </li>
+      <li>Review, download, and share clinical documents</li>
+    </ul>
+    <h3>Am I eligible to use these tools?</h3>
+    <p>
+      You can use these tools to get your VA medical records if you meet all of
+      the requirements listed below.
+    </p>
+    <p>
+      <strong>Both of these must be true. You’re:</strong>
+    </p>
+    <ul>
+      <li>
+        Enrolled in VA health care, <strong>and</strong>
+      </li>
+      <li>Registered as a patient in a VA health facility</li>
+    </ul>
+    <a href="/health-care/how-to-apply/">
+      Find out how to apply for VA health care
+    </a>
+    <p>
+      <strong>And you must have one of these free accounts:</strong>
+    </p>
+    <ul>
+      <li>
+        A{' '}
+        <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount">
+          Premium <strong>My HealtheVet</strong> account
+        </a>
+        , <strong>or</strong>
+      </li>
+      <li>
+        A Premium <strong>DS Logon</strong> account (used for eBenefits and
+        milConnect), <strong>or</strong>
+      </li>
+      <li>
+        A verified
+        <strong> ID.me </strong>
+        account that you can{' '}
+        <a href="https://api.id.me/en/registration/new">
+          create here on VA.gov
+        </a>
+      </li>
+    </ul>
+    <h3>Once I’m signed in, how do I access my medical records?</h3>
+    <h4>If you’re accessing your records on My HealtheVet</h4>
+    <p>
+      Go to your welcome page dashboard, and click on{' '}
+      <strong>Health Records</strong>. You’ll go to a new page.
+    </p>
+    <p>From here, you can choose to access your VA:</p>
+    <ul>
+      <li>Blue Button report</li>
+      <li>Health summary, or</li>
+      <li>Medical images and reports</li>
+    </ul>
+    <h5>If you’d like to add information to your personal health record</h5>
+    <p>
+      Go the blue navigation menu at the top of the page, and click on{' '}
+      <strong>Track Health</strong>. You’ll go to a new page where you can
+      choose to record information like your vital signs, health history, goals,
+      and food and exercise efforts.
+    </p>
+    <h4>If you’re accessing your records on My VA Health</h4>
+    <p>
+      In the navigation panel, click on <strong>Health Record</strong> You’ll go
+      to a new page.
+    </p>
+    <p>From here, you can choose to access your:</p>
+    <ul>
+      <li>Health profile</li>
+      <li>Lab and test results</li>
+      <li>Health conditions</li>
+      <li>Procedures</li>
+      <li>Clinical documents</li>
+    </ul>
+    <h3>Will my personal health information be protected?</h3>
+    <p>
+      Yes. Our health management portals are secure websites. We follow strict
+      security policies and practices to protect your personal health
+      information.
+    </p>
+    <p>
+      If you print or download anything from the website, you’ll need to take
+      responsibility for protecting that information.
+    </p>
+    <a
+      rel="noreferrer noopener"
+      href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
+    >
+      Get tips for protecting your personal health information
+    </a>
+    <h3>What if I have more questions?</h3>
+    <h4>For My HealtheVet questions</h4>
+    <p>You can:</p>
+    <ul>
+      <li>
+        Read the FAQs pages on the My HealtheVet web portal
+        <br />
+        <br />
+        <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#bbtop">
+          VA Blue Button FAQs
+        </a>
+        <br />
+        <br />
+        <a href="https://www.myhealth.va.gov/mhv-portal-web/faqs#CCD">
+          VA health summary FAQs
+        </a>
+        <br />
+        <br />
+        <a href="https://www.myhealth.va.gov/mhv-portal-web/faqs#VAMIR">
+          VA medical images and reports FAQs
+        </a>
+      </li>
+      <li>
+        Call the My HealtheVet help desk at{' '}
+        <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
+          877-327-0022
+        </a>{' '}
+        (TTY: <Telephone contact={CONTACTS.HELP_TTY} />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </li>
+      <li>
+        Or{' '}
+        <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv">
+          contact us online
+        </a>
+      </li>
+    </ul>
+    <h4>For My VA Health questions</h4>
+    <p>
+      Call My VA Health support anytime at{' '}
+      <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
+        {' '}
+        800-962-1024
+      </a>
+      .
+    </p>
+    <h2>The Veterans Health Information Exchange</h2>
+    <p>
+      The Veterans Health Information Exchange (VHIE) program lets us
+      automatically and securely share your health information with
+      participating community care providers as well as the Department of
+      Defense.
+    </p>
+    <h3>What's VHIE, and how can it help me manage my health?</h3>
+    <p>
+      VHIE gives your health care providers a more complete view of your health
+      record to help them make more informed treatment decisions. Through VHIE,
+      community providers who are a part of your care team can safely and
+      securely receive your VA health information electronically.
+    </p>
+    <p>
+      VHIE helps improve continuity of your care, reduce test duplication, and
+      avoid clinical error. That's because you can see all your health care
+      providers from different practices or networks in one place. Our secure
+      system also eliminates the need to send paper medical records by mail, and
+      to carry your records to appointments with community providers.
+    </p>
+    <p>
+      We share your health information only with participating community
+      providers via VHIE when they're treating you. Visit the{' '}
+      <a href="/VHIE/">VHIE page</a> to learn more about how the program helps
+      your providers better understand your health history and develop safer,
+      more effective treatment plans.
+    </p>
+    <h4>VHIE sharing options</h4>
+    <p>
+      If you don't want your community providers to receive your information via
+      VHIE, you may opt out of electronic sharing at any time. And if you
+      previously opted out but want to resume secure, seamless sharing, you may
+      opt back in. Visit the{' '}
+      <a href="/VHIE/VHIE_Sharing_Options.asp">VHIE Sharing Options page</a> to
+      learn more.
+    </p>
+    <h3>How do I opt out?</h3>
+    <p>
+      If you would prefer to opt out of sharing your health information
+      electronically, you can do so at any time. You must complete and submit{' '}
+      <a href="/vaforms/medical/pdf/10-10164-fill.pdf">
+        VA Form 10-10164 (PDF)
+      </a>{' '}
+      to your facility’s Release of Information Office (ROI). You may also opt
+      out via{' '}
+      <a
+        rel="noreferrer noopener"
+        href="https://www.myhealth.va.gov/mhv-portal-web/home"
+      >
+        My HealtheVet
+      </a>
+      .
+    </p>
+    <p>
+      <strong>Note:</strong> If you haven't already done so, you'll need to
+      upgrade your My HealtheVet account to Premium status to opt out. Visit{' '}
+      <a href="https://www.myhealth.va.gov/mhv-portal-web/home">
+        My HealtheVet
+      </a>{' '}
+      to learn more.
+    </p>
+    <p>
+      Choosing to opt out will not affect your access to care from community
+      providers. However, if you opt out, your community providers may not
+      receive your medical records before you receive treatment. This may put
+      you at risk. Also, if you visit any emergency room, your information may
+      still be shared via VHIE so that you can receive the care you need.
+    </p>
+    <h3>If I opt out, how can I opt back in?</h3>
+    <p>
+      If you previously opted out, but want to resume secure, seamless sharing,
+      you may do so at any time. Simply complete{' '}
+      <a href="/vaforms/medical/pdf/10-10163-fill.pdf">
+        VA Form 10-10163 (PDF)
+      </a>{' '}
+      and return it to your VA facility's ROI office, or submit it online though{' '}
+      <a
+        rel="noreferrrer noopener"
+        href="https://www.myhealth.va.gov/mhv-portal-web/home"
+      >
+        My HealtheVet
+      </a>
+      .
+    </p>
+    <h3>Can I check my sharing preference status?</h3>
+    <p>
+      Yes. Please contact your VA facility's ROI office. If you've already
+      submitted your form to opt out, or to opt back in, to the electronic
+      sharing program, your request may be in process.
+    </p>
   </>
 );
 
