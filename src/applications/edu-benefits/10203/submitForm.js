@@ -6,17 +6,10 @@ const submitForm = (form, formConfig) => {
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
-  const selectedBenefits = _.get(form.data, 'view:benefit', {});
-  let concatenatedBenefits = '';
-  Object.keys(selectedBenefits).forEach(function(key) {
-    if (selectedBenefits[key]) {
-      if (concatenatedBenefits === '') {
-        concatenatedBenefits = key;
-      } else {
-        concatenatedBenefits += ` ${key}`;
-      }
-    }
-  });
+  const benefits = form.data['view:benefit'];
+  const concatenatedBenefits = Object.keys(benefits)
+    .filter(b => benefits[b] === true)
+    .join(' ');
   const eventData = {
     'edu-benefits-currently-used': concatenatedBenefits,
     'edu-currently-enrolled': form.data.isEnrolledStem ? 'Yes' : 'No',

@@ -1,20 +1,19 @@
 import recordEvent from 'platform/monitoring/record-event';
-import _ from 'lodash';
 
 export default {
   currentlyUsedBenefits: formData => {
-    const selectedBenefits = _.get(formData, 'view:benefit', {});
-    Object.keys(selectedBenefits).forEach(function(key) {
-      if (selectedBenefits[key]) {
+    const benefits = formData['view:benefit'];
+    Object.keys(benefits)
+      .filter(b => benefits[b] === true)
+      .forEach(function(value) {
         recordEvent({
           event: 'edu-form-change',
           'edu-form-field':
             'Which benefit have you used or are you currently using?',
-          'edu-form-value': selectedBenefits[key],
+          'edu-form-value': value,
           'edu-form-action': 'clicked',
         });
-      }
-    });
+      });
   },
   ineligibilityAlert: data => {
     const {
