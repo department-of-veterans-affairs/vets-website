@@ -5,10 +5,6 @@ import fullSchema from '../0873-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/0873-schema.json';
 
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -20,9 +16,12 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 const { topic, inquiryType, query } = fullSchema.properties;
 
-// const { } = fullSchema.definitions;
-
-const { fullName, usaPhone, email, preferredContactMethod } = commonDefinitions;
+const {
+  fullName,
+  phone,
+  email,
+  preferredContactMethod,
+} = fullSchema.definitions;
 
 // Define all the fields in the form to aid reuse
 const formFields = {
@@ -62,7 +61,7 @@ const formConfig = {
   title: 'Ask a Question',
   defaultDefinitions: {
     fullName,
-    usaPhone,
+    phone,
   },
   chapters: {
     topicChapter: {
@@ -135,7 +134,7 @@ const formConfig = {
               [formFields.preferredResponseType]: preferredContactMethod,
               [formFields.fullName]: fullName,
               [formFields.email]: email,
-              [formFields.phoneNumber]: usaPhone,
+              [formFields.phoneNumber]: phone,
               [formFields.address]: address.schema(fullSchema, true),
             },
           },
