@@ -1,6 +1,3 @@
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
 export const directDepositInformation = state =>
   state.vaProfile?.paymentInformation;
 
@@ -37,4 +34,16 @@ export const directDepositIsBlocked = state => {
     !controlInfo.noFiduciaryAssignedIndicator ||
     !controlInfo.notDeceasedIndicator
   );
+};
+
+export const fullNameLoadError = state => {
+  return state.vaProfile?.hero?.errors;
+};
+
+export const personalInformationLoadError = state => {
+  return state.vaProfile?.personalInformation?.errors;
+};
+
+export const militaryInformationLoadError = state => {
+  return state.vaProfile?.militaryInformation?.serviceHistory?.error;
 };
