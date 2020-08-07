@@ -24,6 +24,7 @@ module.exports = {
       ],
     },
     status: { type: 'boolean' },
+    fieldFeatured: { type: 'boolean' },
   },
   required: [
     'title',
@@ -39,5 +40,6 @@ module.exports = {
     'fieldMedia',
     'fieldOffice',
     'status',
+    'fieldFeatured',
   ],
 };

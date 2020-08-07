@@ -29,6 +29,7 @@ module.exports = {
     },
     // Needed for filtering reverse fields in other transformers
     status: { $ref: 'GenericNestedBoolean' },
+    field_featured: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
@@ -43,6 +44,7 @@ module.exports = {
     'field_intro_text',
     'field_media',
     'status',
+    'field_featured',
     // Apparently this isn't always there
     // 'field_office',
   ],

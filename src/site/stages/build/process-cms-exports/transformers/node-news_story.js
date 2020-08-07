@@ -22,7 +22,9 @@ const transform = entity => ({
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMedia: entity.fieldMedia[0] || null,
   fieldOffice: (entity.fieldOffice && entity.fieldOffice[0]) || null,
+  // Needed for filtering reverse fields in other transformers
   status: getDrupalValue(entity.status),
+  fieldFeatured: getDrupalValue(entity.fieldFeatured),
 });
 module.exports = {
   filter: [
@@ -39,6 +41,7 @@ module.exports = {
     'field_media',
     'field_office',
     'status',
+    'field_featured',
   ],
   transform,
 };
