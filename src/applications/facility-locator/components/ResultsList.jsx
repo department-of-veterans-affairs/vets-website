@@ -14,7 +14,6 @@ import { setFocus } from '../utils/helpers';
 
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
-import SearchResult from './SearchResult';
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import VaFacilityResult from './search-results-items/VaFacilityResult';
 import CCProviderResult from './search-results-items/CCProviderResult';
@@ -79,10 +78,10 @@ class ResultsList extends Component {
           if (query.serviceType === 'NonVAUrgentCare') {
             item = <UrgentCareResult provider={r} query={query} />;
           } else if (!query.serviceType || query.serviceType === 'UrgentCare') {
-            // this is probably going to change, it should default to All,
+            // !query.serviceType -  probably going to change, it should default to AllUrgentCare,
             // currently the logic is if serviceType null, the result is VA urgent care
             item = <VaFacilityResult location={r} query={query} />;
-          } else if (query.serviceType === 'All') {
+          } else if (query.serviceType === 'AllUrgentCare') {
             // New option
             // All mash up
             item = <UrgentCareResult provider={r} query={query} />;

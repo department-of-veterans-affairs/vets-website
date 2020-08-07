@@ -5,6 +5,7 @@ import compact from 'lodash/compact';
 import providerServices from '../constants/mock-provider-services.json';
 import facilityDataJson from '../constants/mock-facility-data.json';
 import urgentCareData from '../constants/mock-urgent-care-mashup-data.json';
+import { urgentCareServices } from '../config';
 
 // Immitate network delay
 const delay = 0;
@@ -66,7 +67,22 @@ class MockLocatorApi {
           let locationsData;
           const locations = { ...facilityDataJson };
           if (locationType === urgentCareType) {
-            locationsData = urgentCareData.data;
+            if (
+              !serviceType ||
+              serviceType === Object.keys(urgentCareServices)[0]
+            ) {
+              locationsData = urgentCareData.data;
+            }
+            if (serviceType === Object.keys(urgentCareServices)[1]) {
+              locationsData = urgentCareData.data.filter(
+                loc => loc.type === 'facility',
+              );
+            }
+            if (serviceType === Object.keys(urgentCareServices)[2]) {
+              locationsData = urgentCareData.data.filter(
+                loc => loc.type === 'cc_provider',
+              );
+            }
           } else {
             locationsData = locations.data.filter(
               loc =>

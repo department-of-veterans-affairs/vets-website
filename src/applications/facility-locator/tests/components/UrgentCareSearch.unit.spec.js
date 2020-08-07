@@ -1,8 +1,10 @@
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { urgentCareCall } from '../../components/SearchResult';
+import {
+  urgentCareCall,
+  posProviderName,
+} from '../../components/search-results-items/UrgentCareResult';
 import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../../constants';
-import { posProviderName } from '../../components/search-results-items/UrgentCareResult';
 
 describe('UrgentCareSearch', () => {
   it('Should not render urgent care call.', () => {
