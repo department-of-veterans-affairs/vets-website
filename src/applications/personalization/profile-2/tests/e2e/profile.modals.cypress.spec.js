@@ -3,23 +3,28 @@ import { PROFILE_PATHS } from '../../constants';
 import mockUser from '../fixtures/users/user-36.json';
 import mockFeatureToggles from '../fixtures/feature-toggles.json';
 
-const tryEditSectionWhileEditing = (options) => {
+const tryEditSectionWhileEditing = options => {
   const { editButtonId, otherSectionEditButtonId, editLineId, sectionName } = options;
   // Open edit view
-  cy.get(`#${editButtonId}-edit-link`).click();
+  cy.get(`#${editButtonId}-edit-link`)
+    .click();
   // Make an edit
-  cy.get(`#${editLineId}`).click().type('test');
+  cy.get(`#${editLineId}`)
+    .click().type('test');
   // Click on a different section to edit
-  cy.get(`#${otherSectionEditButtonId}-edit-link`).click();
+  cy.get(`#${otherSectionEditButtonId}-edit-link`)
+    .click();
 
   // Modal appears
   cy.get('.va-modal').within(() => {
-    cy.contains(`You’re currently editing your ${sectionName}`).should('exist');
+    cy.contains(`You’re currently editing your ${sectionName}`).should(
+      'exist',
+    );
     cy.findByRole('button', { name: /OK/i }).click();
   });
 }
 
-const cancelEdit = (options) => {
+const cancelEdit = options => {
   const { editButtonId, editLineId, sectionName } = options;
   // Click on cancel in the current section
   cy.findByRole('button', { name: /Cancel/i }).click();
@@ -57,12 +62,12 @@ describe('Users', () => {
       otherSectionEditButtonId: 'residentialAddress',
       editLineId: 'root_addressLine3',
       sectionName: 'mailing address',
-    })
+    });
     cancelEdit({
       editButtonId: 'mailingAddress',
       editLineId: 'root_addressLine3',
       sectionName: 'mailing address',
-    })
+    });
   });
 
   it('when editing residential address', () => {
@@ -71,12 +76,12 @@ describe('Users', () => {
       otherSectionEditButtonId: 'mailingAddress',
       editLineId: 'root_addressLine3',
       sectionName: 'home address',
-    })
+    });
     cancelEdit({
       editButtonId: 'residentialAddress',
       editLineId: 'root_addressLine3',
       sectionName: 'home address',
-    })
+    });
   });
 
   it('when editing home phone', () => {
@@ -85,12 +90,12 @@ describe('Users', () => {
       otherSectionEditButtonId: 'mailingAddress',
       editLineId: 'root_extension',
       sectionName: 'home phone number',
-    })
+    });
     cancelEdit({
       editButtonId: 'homePhone',
       editLineId: 'root_extension',
       sectionName: 'home phone number',
-    })
+    });
   });
 
   it('when editing mobile phone', () => {
@@ -99,12 +104,12 @@ describe('Users', () => {
       otherSectionEditButtonId: 'mailingAddress',
       editLineId: 'root_extension',
       sectionName: 'mobile phone number',
-    })
+    });
     cancelEdit({
       editButtonId: 'mobilePhone',
       editLineId: 'root_extension',
       sectionName: 'mobile phone number',
-    })
+    });
   });
 
   it('when editing email address', () => {
@@ -113,16 +118,11 @@ describe('Users', () => {
       otherSectionEditButtonId: 'mailingAddress',
       editLineId: 'root_emailAddress',
       sectionName: 'email address',
-    })
+    });
     cancelEdit({
       editButtonId: 'email',
       editLineId: 'root_emailAddress',
       sectionName: 'email address',
-    })
+    });
   });
 });
-
-
-    // const stub = cy.stub()
-    // cy.on('window:confirm', stub)
-    // cy.contains('Are you sure you want to leave?')
