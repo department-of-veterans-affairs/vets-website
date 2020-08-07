@@ -3,7 +3,8 @@ import { PROFILE_PATHS } from '../../constants';
 import mockUser from '../fixtures/users/user-36.json';
 import mockFeatureToggles from '../fixtures/feature-toggles.json';
 
-const tryEditSectionWhileEditing = (editButtonId, otherSectionEditButtonId, editLineId, sectionName) => {
+const tryEditSectionWhileEditing = (options) => {
+  const { editButtonId, otherSectionEditButtonId, editLineId, sectionName } = options;
   // Open edit view
   cy.get(`#${editButtonId}-edit-link`).click();
   // Make an edit
@@ -18,7 +19,8 @@ const tryEditSectionWhileEditing = (editButtonId, otherSectionEditButtonId, edit
   });
 }
 
-const cancelEdit = (editButtonId, editLineId, sectionName) => {
+const cancelEdit = (options) => {
+  const { editButtonId, editLineId, sectionName } = options;
   // Click on cancel in the current section
   cy.findByRole('button', { name: /Cancel/i }).click();
 
@@ -47,32 +49,76 @@ describe('Users', () => {
     // and then the loading indicator should be removed
     cy.findByRole('progressbar').should('not.exist');
     cy.findByText(/loading your information/i).should('not.exist');
-
-    cy.wait(5000)
   });
+
   it('when editing mailing address', () => {
-    tryEditSectionWhileEditing('mailingAddress', 'residentialAddress', 'root_addressLine3', 'mailing address')
-    cancelEdit('mailingAddress', 'root_addressLine3', 'mailing address')
+    tryEditSectionWhileEditing({
+      editButtonId: 'mailingAddress',
+      otherSectionEditButtonId: 'residentialAddress',
+      editLineId: 'root_addressLine3',
+      sectionName: 'mailing address',
+    })
+    cancelEdit({
+      editButtonId: 'mailingAddress',
+      editLineId: 'root_addressLine3',
+      sectionName: 'mailing address',
+    })
   });
 
   it('when editing residential address', () => {
-    tryEditSectionWhileEditing('residentialAddress', 'mailingAddress', 'root_addressLine3', 'home address')
-    cancelEdit('residentialAddress', 'root_addressLine3', 'home address')
+    tryEditSectionWhileEditing({
+      editButtonId: 'residentialAddress',
+      otherSectionEditButtonId: 'mailingAddress',
+      editLineId: 'root_addressLine3',
+      sectionName: 'home address',
+    })
+    cancelEdit({
+      editButtonId: 'residentialAddress',
+      editLineId: 'root_addressLine3',
+      sectionName: 'home address',
+    })
   });
 
   it('when editing home phone', () => {
-    tryEditSectionWhileEditing('homePhone', 'mailingAddress', 'root_extension', 'home phone number')
-    cancelEdit('homePhone', 'root_extension', 'home phone number')
+    tryEditSectionWhileEditing({
+      editButtonId: 'homePhone',
+      otherSectionEditButtonId: 'mailingAddress',
+      editLineId: 'root_extension',
+      sectionName: 'home phone number',
+    })
+    cancelEdit({
+      editButtonId: 'homePhone',
+      editLineId: 'root_extension',
+      sectionName: 'home phone number',
+    })
   });
 
   it('when editing mobile phone', () => {
-    tryEditSectionWhileEditing('mobilePhone', 'mailingAddress', 'root_extension', 'mobile phone number')
-    cancelEdit('mobilePhone', 'root_extension', 'mobile phone number')
+    tryEditSectionWhileEditing({
+      editButtonId: 'mobilePhone',
+      otherSectionEditButtonId: 'mailingAddress',
+      editLineId: 'root_extension',
+      sectionName: 'mobile phone number',
+    })
+    cancelEdit({
+      editButtonId: 'mobilePhone',
+      editLineId: 'root_extension',
+      sectionName: 'mobile phone number',
+    })
   });
 
   it('when editing email address', () => {
-    tryEditSectionWhileEditing('email', 'mailingAddress', 'root_emailAddress', 'email address')
-    cancelEdit('email', 'root_emailAddress', 'email address')
+    tryEditSectionWhileEditing({
+      editButtonId: 'email',
+      otherSectionEditButtonId: 'mailingAddress',
+      editLineId: 'root_emailAddress',
+      sectionName: 'email address',
+    })
+    cancelEdit({
+      editButtonId: 'email',
+      editLineId: 'root_emailAddress',
+      sectionName: 'email address',
+    })
   });
 });
 
