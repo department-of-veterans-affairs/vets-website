@@ -13,7 +13,7 @@ const submitForm = (form, formConfig) => {
       if (concatenatedBenefits === '') {
         concatenatedBenefits = key;
       } else {
-        concatenatedBenefits += `, ${key}`;
+        concatenatedBenefits += ` ${key}`;
       }
     }
   });
