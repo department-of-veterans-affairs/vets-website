@@ -1,8 +1,8 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
-import { veteranPathPageNames } from '../pageList';
+import { serviceMemberPathPageNames } from '../pageList';
 
-const notInterestedInEmploymentHelp = ({ setPageState, state = {} }) => (
+const notInterestedInHelp = ({ setPageState, state = {} }) => (
   <div className="feature">
     <p>
       You can start this application whenever you are ready. For more info
@@ -13,6 +13,6 @@ const notInterestedInEmploymentHelp = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: veteranPathPageNames.notInterestedInEmploymentHelp,
-  component: notInterestedInEmploymentHelp,
+  name: serviceMemberPathPageNames.notInterestedInHelp,
+  component: notInterestedInHelp,
 };

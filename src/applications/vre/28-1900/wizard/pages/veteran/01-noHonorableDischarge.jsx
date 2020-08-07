@@ -1,10 +1,5 @@
 import React from 'react';
-import { pageNames } from '../pageList';
-
-const options = [
-  { value: pageNames.amVeteran, label: 'Yes' },
-  { value: pageNames.notWithin12Years, label: 'No' },
-];
+import { veteranPathPageNames } from '../pageList';
 
 const noHonorableDischarge = ({ setPageState, state = {} }) => (
   <div className="feature">
@@ -17,6 +12,6 @@ const noHonorableDischarge = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.noHonorableDischarge,
+  name: veteranPathPageNames.noHonorableDischarge,
   component: noHonorableDischarge,
 };

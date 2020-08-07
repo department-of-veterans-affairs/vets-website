@@ -1,6 +1,6 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
-import { pageNames } from '../pageList';
+import { veteranPathPageNames } from '../pageList';
 
 const noActiveDutySeparation = ({ setPageState, state = {} }) => (
   <div className="feature">
@@ -13,6 +13,6 @@ const noActiveDutySeparation = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.noActiveDutySeparation,
+  name: veteranPathPageNames.noActiveDutySeparation,
   component: noActiveDutySeparation,
 };

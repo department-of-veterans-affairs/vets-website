@@ -1,11 +1,6 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
-import { pageNames } from '../pageList';
-
-const options = [
-  { value: pageNames.amVeteran, label: 'Yes' },
-  { value: pageNames.amServiceMember, label: 'No' },
-];
+import { veteranPathPageNames } from '../pageList';
 
 const noDisabilityRating = ({ setPageState, state = {} }) => (
   <div className="feature">
@@ -18,6 +13,6 @@ const noDisabilityRating = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.noDisabilityRating,
+  name: veteranPathPageNames.noDisabilityRating,
   component: noDisabilityRating,
 };

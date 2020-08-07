@@ -1,18 +1,25 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
-import { pageNames } from './pageList';
+import {
+  startingPageName,
+  veteranPathPageNames,
+  serviceMemberPathPageNames,
+} from './pageList';
 
 const options = [
-  { value: pageNames.amVeteran, label: 'Veteran' },
-  { value: pageNames.amServiceMember, label: 'Current service member' },
-  { value: pageNames.amOther, label: 'Neither of these' },
+  { value: veteranPathPageNames.amVeteran, label: 'Veteran' },
+  {
+    value: serviceMemberPathPageNames.amServiceMember,
+    label: 'Current service member',
+  },
+  // { value: pageNames.amOther, label: 'Neither of these' },
 ];
 
 const StartPage = ({ setPageState, state = {} }) => (
   <ErrorableRadioButtons
-    name={`${pageNames.start}-option`}
+    name={`${startingPageName.start}-option`}
     label="Which of these describes you?"
-    id={`${pageNames.start}-option`}
+    id={`${startingPageName.start}-option`}
     options={options}
     onValueChange={({ value }) => setPageState({ selected: value }, value)}
     value={{ value: state.selected }}
@@ -20,6 +27,6 @@ const StartPage = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.start,
+  name: startingPageName.start,
   component: StartPage,
 };

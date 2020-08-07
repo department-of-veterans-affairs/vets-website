@@ -1,5 +1,8 @@
-export const pageNames = {
+export const startingPageName = {
   start: 'start',
+};
+
+export const veteranPathPageNames = {
   amVeteran: 'amVeteran',
   amServiceMember: 'amServiceMember',
   amOther: 'amOther',
@@ -10,5 +13,16 @@ export const pageNames = {
   yesActiveDutySeparation: 'yesActiveDutySeparation',
   interestedInEmploymentHelp: 'interestedInEmploymentHelp',
   notInterestedInEmploymentHelp: 'notInterestedInEmploymentHelp',
-  notWithin12Years: 'notWithin12Years',
+};
+
+export const serviceMemberPathPageNames = {
+  amServiceMember: 'amServiceMember',
+  noHonorableDischargeSM: 'noHonorableDischargeSM',
+  yesHonorableDischargeSM: 'yesHonorableDischargeSM',
+  noVaMemorandum: 'noVaMemorandum',
+  yesVaMemorandum: 'yesVaMemorandum',
+  notInterestedInHelp: 'notInterestedInHelp',
+  yesInterestedInHelp: 'yesInterestedInHelp',
+  noIDES: 'noIDES',
+  yesIDES: 'yesIDES',
 };
