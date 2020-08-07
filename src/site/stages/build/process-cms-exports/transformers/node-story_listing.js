@@ -29,6 +29,8 @@ const transform = entity => ({
         title: reverseField.title,
         fieldFeatured: reverseField.fieldFeatured,
         entityUrl: reverseField.entityUrl,
+        // Ignoring for now since some uids are missing from the export
+        // uid: reverseField.uid,
         promote: reverseField.promote,
         created: reverseField.created,
         fieldAuthor: reverseField.fieldAuthor,

@@ -30,9 +30,16 @@ module.exports = {
     // Needed for filtering reverse fields in other transformers
     status: { $ref: 'GenericNestedBoolean' },
     field_featured: { $ref: 'GenericNestedBoolean' },
+    // Ignoring while non existent uids are referenced in the export
+    // uid: {
+    //   type: 'array',
+    //   items: { $ref: 'EntityReference' },
+    //   maxItems: 1,
+    // },
   },
   required: [
     'title',
+    // 'uid',
     'created',
     'promote',
     'moderation_state',

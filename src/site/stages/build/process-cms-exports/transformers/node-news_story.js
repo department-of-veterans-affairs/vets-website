@@ -10,6 +10,8 @@ const transform = entity => ({
   entityType: 'node',
   entityBundle: 'news_story',
   title: getDrupalValue(entity.title),
+  // Ignoring this for now as uid is causing issues
+  // uid: entity.uid[0],
   created: utcToEpochTime(getDrupalValue(entity.created)),
   promote: getDrupalValue(entity.promote),
   entityMetatags: createMetaTagArray(entity.metatag.value),
@@ -29,6 +31,7 @@ const transform = entity => ({
 module.exports = {
   filter: [
     'title',
+    // 'uid',
     'created',
     'promote',
     'moderation_state',

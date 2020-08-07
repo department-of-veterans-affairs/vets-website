@@ -25,6 +25,10 @@ module.exports = {
     },
     status: { type: 'boolean' },
     fieldFeatured: { type: 'boolean' },
+    // uid is present in GraphQL output, but some uids don't exist ignoring for now
+    // uid: {
+    //   oneOf: [{ type: 'null' }, { $ref: 'output/user' }],
+    // },
   },
   required: [
     'title',
@@ -41,5 +45,6 @@ module.exports = {
     'fieldOffice',
     'status',
     'fieldFeatured',
+    // 'uid',
   ],
 };
