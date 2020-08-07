@@ -11,7 +11,7 @@ import { getCernerURL } from 'platform/utilities/cerner';
 
 const callToActions = [
   {
-    deriveHeaderText: (facilityNames) => `Secure Message ${facilityNames}`,
+    deriveHeaderText: facilityNames => `Secure Message ${facilityNames}`,
     href: getCernerURL('/pages/messaging/inbox'),
     label: 'Secure Message on My VA Health',
   },
@@ -303,7 +303,10 @@ export const AuthContent = () => (
         <ul>
           <li>
             Read the{' '}
-            <a rel="noreferrer noopener" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#smGeneralFAQ">
+            <a
+              rel="noreferrer noopener"
+              href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#smGeneralFAQ"
+            >
               secure messaging FAQs
             </a>{' '}
             on the My HealtheVet web portal
@@ -324,13 +327,22 @@ export const AuthContent = () => (
           </li>
           <li>
             Or{' '}
-            <a rel="noreferrer noopener" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv">
+            <a
+              rel="noreferrer noopener"
+              href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
+            >
               contact us online
             </a>
           </li>
         </ul>
         <h3>For My VA Health questions</h3>
-        <p>Call My VA Health support anytime at <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">800-962-1024</a>.</p>
+        <p>
+          Call My VA Health support anytime at{' '}
+          <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
+            800-962-1024
+          </a>
+          .
+        </p>
       </div>
     </div>
   </>
