@@ -18,6 +18,27 @@ const transform = entity => ({
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
   fieldOffice: entity.fieldOffice[0],
+  reverseFieldListingNode: {
+    entities: entity.reverseFieldList
+      .filter(
+        reverseField =>
+          reverseField.entityBundle === 'news_story' && reverseField.status,
+      )
+      .map(reverseField => ({
+        entityId: reverseField.entityId,
+        title: reverseField.title,
+        fieldFeatured: reverseField.fieldFeatured,
+        entityUrl: reverseField.entityUrl,
+        promote: reverseField.promote,
+        created: reverseField.created,
+        fieldAuthor: reverseField.fieldAuthor,
+        fieldImageCaption: reverseField.fieldImageCaption,
+        fieldIntroText: reverseField.fieldIntroText,
+        fieldMedia: reverseField.fieldMedia,
+        fieldFullStory: reverseField.fieldFullStory,
+      }))
+      .sort((a, b) => b.created - a.created),
+  },
 });
 
 module.exports = {
@@ -33,6 +54,7 @@ module.exports = {
     'field_intro_text',
     'field_meta_title',
     'field_office',
+    'reverse_field_list',
   ],
   transform,
 };

@@ -1,3 +1,6 @@
+const { usePartialSchema } = require('../../transformers/helpers');
+const newsStorySchema = require('./node-news_story');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -13,6 +16,29 @@ module.exports = {
     fieldIntroText: { type: 'string' },
     fieldMetaTitle: { type: 'string' },
     fieldOffice: { $ref: 'output/node-health_care_region_page' },
+    reverseFieldListingNode: {
+      type: 'object',
+      properties: {
+        entities: {
+          type: 'array',
+          items: {
+            /* eslint-disable react-hooks/rules-of-hooks */
+            entity: usePartialSchema(newsStorySchema, [
+              'title',
+              'fieldFeatured',
+              'entityUrl',
+              'promote',
+              'created',
+              'fieldAuthor',
+              'fieldImageCaption',
+              'fieldIntroText',
+              'fieldMedia',
+              'fieldFullStory',
+            ]),
+          },
+        },
+      },
+    },
   },
   required: [
     'title',
