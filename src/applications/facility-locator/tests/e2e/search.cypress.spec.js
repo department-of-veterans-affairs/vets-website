@@ -46,10 +46,6 @@ describe('Facility search', () => {
       '/v0/facilities/va/vha_674BY',
       'fx:constants/mock-facility-v1',
     ).as('fetchFacility');
-    //    cy.get('.facility-result a') // I thought this would visit the page?
-    //       .first()
-    //       .click();
-    // But visit visit instead?
 
     cy.findByText(/austin va clinic/i, { selector: 'a' })
       .first()
