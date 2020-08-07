@@ -578,10 +578,22 @@ describe('VAOS reducer: newAppointment', () => {
             {
               id: 'var983_455',
               resourceType: 'HealthcareService',
+              identifier: [
+                {
+                  system: 'http://med.va.gov/fhir/urn',
+                  value: 'urn:va:healthcareservice:983:983:455',
+                },
+              ],
             },
             {
               id: 'var983_456',
               resourceType: 'HealthcareService',
+              identifier: [
+                {
+                  system: 'http://med.va.gov/fhir/urn',
+                  value: 'urn:va:healthcareservice:983:983:456',
+                },
+              ],
             },
           ],
         },
@@ -638,11 +650,23 @@ describe('VAOS reducer: newAppointment', () => {
             {
               id: 'var983_455',
               resourceType: 'HealthcareService',
+              identifier: [
+                {
+                  system: 'http://med.va.gov/fhir/urn',
+                  value: 'urn:va:healthcareservice:983:983:455',
+                },
+              ],
               serviceName: 'Testing',
             },
             {
               id: 'var983_456',
               resourceType: 'HealthcareService',
+              identifier: [
+                {
+                  system: 'http://med.va.gov/fhir/urn',
+                  value: 'urn:va:healthcareservice:983:983:456',
+                },
+              ],
               serviceName: 'Testing real name',
             },
           ],
@@ -776,6 +800,35 @@ describe('VAOS reducer: newAppointment', () => {
           .title,
       ).to.equal(REASON_ADDITIONAL_INFO_TITLES.request);
     });
+  });
+
+  it('should unset reasonForAppointment if CC appointment', () => {
+    const state = {
+      ...defaultState,
+      data: {
+        ...defaultState.data,
+        reasonForAppointment: 'other',
+        facilityType: FACILITY_TYPES.COMMUNITY_CARE,
+      },
+    };
+
+    const action = {
+      type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+      page: 'reasonForAppointment',
+      schema: {
+        type: 'object',
+        properties: {
+          reasonAdditionalInfo: {
+            type: 'string',
+          },
+        },
+      },
+      uiSchema: {},
+    };
+
+    const newState = newAppointmentReducer(state, action);
+
+    expect(newState.data.reasonForAppointment).to.equal(undefined);
   });
 
   it('page open should set max characters', async () => {

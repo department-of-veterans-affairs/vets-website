@@ -23,7 +23,7 @@ import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
 import {
   findCharacteristic,
-  getClinicIdentifier,
+  getClinicId,
   getSiteCode,
 } from '../services/healthcare-service/transformers';
 
@@ -102,12 +102,9 @@ export function transformFormToVARequest(state) {
   };
 }
 
-export function transformFormToExpressCareRequest(state) {
+export function transformFormToExpressCareRequest(state, facility) {
   const data = selectExpressCareFormData(state);
-  const { facilityId, siteId, name } = selectActiveExpressCareFacility(
-    state,
-    moment.utc(),
-  );
+  const { facilityId, siteId, name } = facility;
 
   return {
     typeOfCare: EXPRESS_CARE,
@@ -252,7 +249,7 @@ export function transformFormToAppointment(state) {
     appointmentType: getTypeOfCare(data).name,
     clinic: {
       siteCode: getSiteCode(clinic),
-      clinicId: getClinicIdentifier(clinic),
+      clinicId: getClinicId(clinic),
       clinicName: clinic.serviceName,
       clinicFriendlyLocationName: findCharacteristic(
         clinic,
@@ -284,10 +281,10 @@ export function transformFormToAppointment(state) {
   };
 }
 
-export function createPreferenceBody(preferences, data) {
+export function createPreferenceBody(preferences, emailAddress) {
   return {
     ...preferences,
-    emailAddress: data.email,
+    emailAddress,
     notificationFrequency: 'Each new message',
     emailAllowed: true,
   };

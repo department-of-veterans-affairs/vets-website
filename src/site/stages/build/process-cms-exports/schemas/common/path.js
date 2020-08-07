@@ -6,6 +6,8 @@ module.exports = {
     type: 'object',
     properties: {
       alias: { type: ['string', 'null'] },
+      langcode: { type: 'string' },
+      pathauto: { type: 'number' },
     },
     required: ['alias'],
   },

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import moment from '../../utils/moment-tz';
 
 import {
   getChosenClinicInfo,
@@ -18,6 +19,8 @@ import {
   getCCEType,
   isWelcomeModalDismissed,
   selectCernerFacilities,
+  selectLocalExpressCareWindowString,
+  selectExpressCareHours,
 } from '../../utils/selectors';
 
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
@@ -644,6 +647,124 @@ describe('VAOS selectors', () => {
       };
 
       expect(selectCernerFacilities(state).length).to.be.equal(0);
+    });
+  });
+
+  describe('selectLocalExpressCareWindowString', () => {
+    it('should return currently active hours', () => {
+      const today = moment();
+      const startTime = today
+        .clone()
+        .subtract('2', 'minutes')
+        .tz('America/Denver');
+      const endTime = today
+        .clone()
+        .add('1', 'minutes')
+        .tz('America/Denver');
+      const state = {
+        expressCare: {
+          supportedFacilities: [
+            {
+              facilityId: '983',
+              days: [
+                {
+                  day: today
+                    .clone()
+                    .tz('America/Denver')
+                    .format('dddd')
+                    .toUpperCase(),
+                  canSchedule: true,
+                  startTime: startTime.format('HH:mm'),
+                  endTime: endTime.format('HH:mm'),
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      expect(selectLocalExpressCareWindowString(state, today)).to.equal(
+        `${startTime.format('h:mm a')} to ${endTime.format('h:mm a')} MT`,
+      );
+    });
+
+    it('should be empty when not active', () => {
+      const today = moment();
+      const startTime = today
+        .clone()
+        .subtract('2', 'minutes')
+        .tz('America/Denver');
+      const endTime = today
+        .clone()
+        .subtract('1', 'minutes')
+        .tz('America/Denver');
+      const state = {
+        expressCare: {
+          supportedFacilities: [
+            {
+              facilityId: '983',
+              days: [
+                {
+                  day: today.format('dddd').toUpperCase(),
+                  canSchedule: true,
+                  startTime: startTime.format('HH:mm'),
+                  endTime: endTime.format('HH:mm'),
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      expect(selectLocalExpressCareWindowString(state, today)).not.to.exist;
+    });
+  });
+
+  describe('selectExpressCareHours', () => {
+    it('should return days and hours string', () => {
+      const state = {
+        expressCare: {
+          supportedFacilities: [
+            {
+              facilityId: '983',
+              days: [
+                {
+                  day: 'MONDAY',
+                  canSchedule: true,
+                  startTime: '15:30',
+                  endTime: '16:40',
+                },
+                {
+                  day: 'TUESDAY',
+                  canSchedule: true,
+                  startTime: '15:30',
+                  endTime: '16:40',
+                },
+                {
+                  day: 'SATURDAY',
+                  canSchedule: true,
+                  startTime: '05:30',
+                  endTime: '16:40',
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      expect(selectExpressCareHours(state)).to.equal(
+        'Monday, Tuesday from 3:30 p.m. to 4:40 p.m. MT and Saturday from 5:30 a.m. to 4:40 p.m. MT',
+      );
+    });
+
+    it('should be empty when no facilities', () => {
+      const state = {
+        expressCare: {
+          supportedFacilities: [],
+        },
+      };
+
+      expect(selectExpressCareHours(state)).not.to.exist;
     });
   });
 });

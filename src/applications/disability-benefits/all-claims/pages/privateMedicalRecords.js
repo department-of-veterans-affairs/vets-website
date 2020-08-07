@@ -11,7 +11,7 @@ import { DATA_PATHS } from '../constants';
 const { privateMedicalRecordAttachments } = fullSchema.properties;
 
 const fileUploadUi = ancillaryFormUploadUi(
-  'to your private medical records',
+  'Upload your private medical records',
   ' ',
   {
     attachmentId: '',
