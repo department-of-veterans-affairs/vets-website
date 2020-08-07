@@ -5,7 +5,7 @@ import AutosuggestField from 'platform/forms-system/src/js/fields/AutosuggestFie
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
-import { isBDD } from '../utils';
+import { isBDD, showSeparationLocation } from '../utils';
 import {
   SeparationLocationTitle,
   SeparationLocationDescription,
@@ -81,17 +81,17 @@ export const uiSchema = {
       'ui:title': SeparationLocationTitle,
       'ui:description': SeparationLocationDescription,
       'ui:options': {
-        hideIf: formData => !isBDD(formData),
+        hideIf: formData => !showSeparationLocation(formData),
       },
     },
     // Not using autosuggest.uiSchema; validations not set?
     separationLocation: {
       'ui:title': 'Enter a location',
       'ui:field': AutosuggestField,
-      'ui:required': formData => isBDD(formData),
+      'ui:required': formData => showSeparationLocation(formData),
       'ui:validations': [checkSeparationLocation],
       'ui:options': {
-        hideIf: formData => !isBDD(formData),
+        hideIf: formData => !showSeparationLocation(formData),
         showFieldLabel: 'label',
         maxOptions: 20,
         getOptions: () =>
