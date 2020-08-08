@@ -44,7 +44,9 @@
               },
               {
                 "day": "SATURDAY",
-                "canSchedule": false
+                "canSchedule": true,
+                "startTime": "08:58",
+                "endTime": "23:59"
               },
               {
                 "day": "SUNDAY",

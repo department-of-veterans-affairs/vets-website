@@ -1,9 +1,11 @@
+import React from 'react';
 import moment from '../utils/moment-tz';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
   updateSchemaAndData,
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
+import set from 'platform/utilities/data/set';
 
 import {
   FORM_PAGE_OPENED,
@@ -14,7 +16,7 @@ import {
   FETCH_EXPRESS_CARE_WINDOWS,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
-  FORM_REASON_FOR_REQUEST_PAGE_OPENED,
+  FORM_ADDITIONAL_DETAILS_PAGE_OPENED,
 } from '../actions/expressCare';
 
 import { FETCH_STATUS, EXPRESS_CARE } from '../utils/constants';
@@ -24,6 +26,7 @@ const initialState = {
   supportedFacilities: null,
   newRequest: {
     data: {},
+    pages: {},
   },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
@@ -118,7 +121,7 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         windowsStatus: FETCH_STATUS.failed,
       };
-    case FORM_REASON_FOR_REQUEST_PAGE_OPENED: {
+    case FORM_ADDITIONAL_DETAILS_PAGE_OPENED: {
       const newRequest = { ...state.newRequest };
       const prefilledData = {
         ...newRequest.data,
@@ -128,9 +131,15 @@ export default function expressCareReducer(state = initialState, action) {
         },
       };
 
+      const newSchema = set(
+        'properties.additionalInformation.title.props.children',
+        `Tell us about your ${newRequest.data.reason.toLowerCase()}`,
+        action.schema,
+      );
+
       const { data, schema } = setupFormData(
         prefilledData,
-        action.schema,
+        newSchema,
         action.uiSchema,
       );
 
@@ -158,6 +167,7 @@ export default function expressCareReducer(state = initialState, action) {
         successfulRequest: action.responseData,
         newRequest: {
           data: {},
+          pages: {},
         },
       };
     case FORM_SUBMIT_FAILED:
