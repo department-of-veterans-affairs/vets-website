@@ -74,7 +74,8 @@ describe('VAOS integration: Express Care info page', () => {
     expect(router.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
-    expect(router.push.calledWith('/new-express-care-request/form')).to.be.true;
+    expect(router.push.calledWith('/new-express-care-request/select-reason')).to
+      .be.true;
   });
 
   it('should redirect home when there is not an active window', async () => {
