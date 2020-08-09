@@ -33,10 +33,6 @@ function NewExpressCareRequestLayout({
       // or if they try to go directly to the middle of the form
       if (windowsStatus === FETCH_STATUS.succeeded && !allowRequests) {
         router.push('/');
-      } else if (
-        router.getCurrentLocation().pathname.endsWith('additional-details')
-      ) {
-        router.replace('/new-express-care-request');
       }
     },
     [router, windowsStatus, allowRequests],
