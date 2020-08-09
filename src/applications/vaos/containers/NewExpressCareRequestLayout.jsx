@@ -11,7 +11,6 @@ import ErrorMessage from '../components/ErrorMessage';
 
 function NewExpressCareRequestLayout({
   router,
-  location,
   children,
   windowsStatus,
   allowRequests,
@@ -29,8 +28,6 @@ function NewExpressCareRequestLayout({
 
   useEffect(
     () => {
-      // Re-route user to homepage if there are no Express Care windows open
-      // or if they try to go directly to the middle of the form
       if (windowsStatus === FETCH_STATUS.succeeded && !allowRequests) {
         router.push('/');
       }
