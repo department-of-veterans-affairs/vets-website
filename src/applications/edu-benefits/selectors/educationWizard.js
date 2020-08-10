@@ -8,6 +8,9 @@ export const educationWizard10203 = state =>
 export const showEduBenefits1990EWizard = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.showEduBenefits1990EWizard];
 
+export const showEduBenefits1990Wizard = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.showEduBenefits1990Wizard];
+
 export const showEduBenefits0994Wizard = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.showEduBenefits0994Wizard];
 
