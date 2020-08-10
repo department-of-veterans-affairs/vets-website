@@ -11,7 +11,7 @@ const transform = entity => ({
   title: getDrupalValue(entity.title),
   created: utcToEpochTime(getDrupalValue(entity.created)),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: getDrupalValue(entity.status),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   fieldAdministration: entity.fieldAdministration[0],
   fieldDescription: getDrupalValue(entity.fieldDescription),
@@ -60,6 +60,7 @@ module.exports = {
     'field_meta_title',
     'field_office',
     'reverse_field_list',
+    'status',
   ],
   transform,
 };
