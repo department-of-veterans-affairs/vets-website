@@ -26,3 +26,7 @@ export const serviceMemberPathPageNames = {
   noIDES: 'noIDES',
   yesIDES: 'yesIDES',
 };
+
+export const otherPathPageNames = {
+  amOther: 'amOther',
+};

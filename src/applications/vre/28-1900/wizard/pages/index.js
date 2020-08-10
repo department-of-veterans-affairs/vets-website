@@ -22,13 +22,13 @@ import noIDES from './service-member/03-noIDES';
 import yesIDES from './service-member/03-yesIDES';
 
 // Other Path Imports
-// import amOther from './amOther';
+import amOther from './other/amOther';
 
 export default [
   start,
   amVeteran,
   amServiceMember,
-  // amOther,
+  amOther,
   noHonorableDischarge,
   yesHonorableDischarge,
   disabilityRating,
