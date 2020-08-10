@@ -13,7 +13,7 @@ import {
 const INITIAL_STATE = {
   searchString: '',
   serviceType: null,
-  facilityType: 'health', // default to VA Health
+  facilityType: null,
   position: {
     latitude: 40.17887331434698,
     longitude: -99.27246093750001,
