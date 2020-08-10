@@ -8,17 +8,19 @@ import {
 } from 'platform/testing/contract/helpers';
 
 import formConfig from '../config/form';
-import formData from './schema/maximal-test.json';
+import minimalTestData from './schema/minimal-test.json';
+import maximalTestData from './schema/maximal-test.json';
 
 const { integer, iso8601DateTimeWithMillis, string, term } = Matchers;
 
 contractTest('HCA', 'VA.gov API', mockApi => {
   describe('POST /v0/health_care_applications', () => {
-    context('without attachments', () => {
+    context('unauthenticated with email', () => {
       it('responds with success', async () => {
         await mockApi.addInteraction({
           state: 'enrollment service is up',
-          uponReceiving: 'a request to submit a health care application',
+          uponReceiving:
+            'a request to submit a health care application with email',
           withRequest: {
             method: 'POST',
             path: '/v0/health_care_applications',
@@ -27,7 +29,47 @@ contractTest('HCA', 'VA.gov API', mockApi => {
               'X-Key-Inflection': 'camel',
             },
             body: JSON.parse(
-              formConfig.transformForSubmit(formConfig, formData),
+              formConfig.transformForSubmit(formConfig, maximalTestData),
+            ),
+          },
+          willRespondWith: {
+            status: 200,
+            body: {
+              data: {
+                id: string(12345),
+                type: 'health_care_applications',
+                attributes: {
+                  state: term({
+                    matcher: 'success|error|failed|pending',
+                    generate: 'pending',
+                  }),
+                  formSubmissionId: null,
+                  timestamp: null,
+                },
+              },
+            },
+          },
+        });
+
+        await testFormSubmit(formConfig, maximalTestData);
+      });
+    });
+
+    context('unauthenticated without email', () => {
+      it('responds with success', async () => {
+        await mockApi.addInteraction({
+          state: 'enrollment service is up',
+          uponReceiving:
+            'a request to submit a health care application without email',
+          withRequest: {
+            method: 'POST',
+            path: '/v0/health_care_applications',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Key-Inflection': 'camel',
+            },
+            body: JSON.parse(
+              formConfig.transformForSubmit(formConfig, minimalTestData),
             ),
           },
           willRespondWith: {
@@ -51,12 +93,10 @@ contractTest('HCA', 'VA.gov API', mockApi => {
           },
         });
 
-        await testFormSubmit(formConfig, formData);
+        await testFormSubmit(formConfig, minimalTestData);
       });
     });
-
-    // context('with attachments', () => {});
   });
 
-  testSaveInProgress(mockApi, formConfig, formData);
+  testSaveInProgress(mockApi, formConfig, maximalTestData);
 });
