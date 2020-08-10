@@ -18,6 +18,7 @@ import {
 } from '../actions/expressCare';
 
 import { FETCH_STATUS, EXPRESS_CARE } from '../utils/constants';
+import { STARTED_NEW_EXPRESS_CARE_FLOW } from '../actions/sitewide';
 
 const initialState = {
   windowsStatus: FETCH_STATUS.notStarted,
@@ -166,6 +167,13 @@ export default function expressCareReducer(state = initialState, action) {
         submitStatus: FETCH_STATUS.failed,
         submitErrorReason: action.errorReason,
       };
+    case STARTED_NEW_EXPRESS_CARE_FLOW: {
+      return {
+        ...initialState,
+        windowsStatus: state.windowsStatus,
+        supportedFacilities: state.supportedFacilities,
+      };
+    }
     default:
       return state;
   }

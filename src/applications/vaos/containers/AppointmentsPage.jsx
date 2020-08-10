@@ -13,7 +13,10 @@ import {
   startNewAppointmentFlow,
   fetchFutureAppointments,
 } from '../actions/appointments';
-import { fetchExpressCareWindows } from '../actions/expressCare';
+import {
+  fetchExpressCareWindows,
+  startNewExpressCareFlow,
+} from '../actions/expressCare';
 import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
@@ -72,6 +75,13 @@ export class AppointmentsPage extends Component {
     this.props.startNewAppointmentFlow();
   };
 
+  startNewExpressCareFlow = () => {
+    recordEvent({
+      event: `${GA_PREFIX}-express-care-request-button-clicked`,
+    });
+    this.props.startNewExpressCareFlow();
+  };
+
   render() {
     const {
       cancelInfo,
@@ -117,7 +127,10 @@ export class AppointmentsPage extends Component {
                 )}
                 {!isLoading && (
                   <>
-                    <RequestExpressCare {...expressCare} />
+                    <RequestExpressCare
+                      {...expressCare}
+                      startNewExpressCareFlow={this.startNewExpressCareFlow}
+                    />
                     {expressCare.hasRequests && (
                       <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
                         View your upcoming, past, and Express Care appointments
@@ -174,6 +187,7 @@ const mapDispatchToProps = {
   closeCancelAppointment,
   confirmCancelAppointment,
   startNewAppointmentFlow,
+  startNewExpressCareFlow,
   fetchFutureAppointments,
 };
 

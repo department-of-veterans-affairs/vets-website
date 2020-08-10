@@ -37,7 +37,10 @@ import {
   EXPRESS_CARE_ERROR_REASON,
 } from '../utils/constants';
 import { resetDataLayer } from '../utils/events';
-import { EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED } from './sitewide';
+import {
+  EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED,
+  STARTED_NEW_EXPRESS_CARE_FLOW,
+} from './sitewide';
 import { getLocation } from '../services/location';
 
 export const FORM_PAGE_OPENED = 'expressCare/FORM_PAGE_OPENED';
@@ -207,8 +210,13 @@ export function submitExpressCareRequest(router) {
 
     let requestBody;
 
+    const additionalEventData = {
+      'health-expressCareReason': formData.reasonForRequest.reason,
+    };
+
     recordEvent({
       event: `${GA_PREFIX}-express-care-submission`,
+      ...additionalEventData,
     });
 
     try {
@@ -240,6 +248,7 @@ export function submitExpressCareRequest(router) {
 
       recordEvent({
         event: `${GA_PREFIX}-express-care-submission-successful`,
+        ...additionalEventData,
       });
       resetDataLayer();
       router.push('/new-express-care-request/confirmation');
@@ -257,8 +266,15 @@ export function submitExpressCareRequest(router) {
 
       recordEvent({
         event: `${GA_PREFIX}-express-care-submission-failed`,
+        ...additionalEventData,
       });
       resetDataLayer();
     }
+  };
+}
+
+export function startNewExpressCareFlow() {
+  return {
+    type: STARTED_NEW_EXPRESS_CARE_FLOW,
   };
 }
