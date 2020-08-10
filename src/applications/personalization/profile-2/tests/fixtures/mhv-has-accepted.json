@@ -1,0 +1,11 @@
+{
+  "data": {
+    "id": "",
+    "type": "mhv_accounts",
+    "attributes": {
+      "accountLevel": null,
+      "accountState": "no_account",
+      "termsAndConditionsAccepted": true
+    }
+  }
+}
