@@ -34,7 +34,6 @@ const ProviderServiceDescription = ({ provider, query, details = false }) => {
     provider,
     [],
   ).map(s => s.name.trim());
-  const { posCodes } = provider.attributes;
 
   return (
     <div>
