@@ -8,7 +8,7 @@ import {
   WIZARD_STATUS_COMPLETE,
   NO_BENEFIT_REFERRED,
 } from 'applications/static-pages/wizard';
-import { sessionStorageSetup } from '../../utils';
+import { sessionStorageSetup } from 'platform/testing/utilities';
 
 describe('the Wizard Container', () => {
   let mockStore = {};
