@@ -11,6 +11,7 @@ import { waitFor } from '@testing-library/dom';
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
 import { createTestStore } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
+import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
 import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
 import { fetchExpressCareWindows } from '../../actions/expressCare';
 import { EXPRESS_CARE } from '../../utils/constants';
@@ -84,5 +85,38 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     screen.getByLabelText(/phone number/i);
     screen.getByLabelText(/email address/i);
     screen.getByText(/submit express care request/i);
+  });
+
+  it('should redirect to info page when there is no reason in data', async () => {
+    const store = createTestStore({
+      ...initialState,
+      expressCare: {
+        newRequest: {
+          data: {},
+          pages: {},
+        },
+      },
+    });
+    store.dispatch(fetchExpressCareWindows());
+
+    const router = {
+      replace: sinon.spy(),
+    };
+    const screen = renderInReduxProvider(
+      <NewExpressCareRequestLayout
+        router={router}
+        location={{ pathname: '/additional-details' }}
+      >
+        <ExpressCareDetailsPage router={router} />
+      </NewExpressCareRequestLayout>,
+      {
+        store,
+      },
+    );
+
+    await waitFor(() => expect(router.replace.called).to.be.true);
+    expect(router.replace.firstCall.args[0]).to.equal(
+      '/new-express-care-request',
+    );
   });
 });

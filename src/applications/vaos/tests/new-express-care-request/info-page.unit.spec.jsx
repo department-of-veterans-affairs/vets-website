@@ -19,6 +19,10 @@ const initialState = {
   },
 };
 
+const location = {
+  pathname: '/new-express-care-request',
+};
+
 describe('VAOS integration: Express Care info page', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
@@ -51,7 +55,7 @@ describe('VAOS integration: Express Care info page', () => {
     };
     const store = createTestStore(initialState);
     const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout>
+      <NewExpressCareRequestLayout location={location}>
         <ExpressCareInfoPage router={router} />
       </NewExpressCareRequestLayout>,
       {
@@ -106,7 +110,7 @@ describe('VAOS integration: Express Care info page', () => {
     };
     const store = createTestStore(initialState);
     const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router}>
+      <NewExpressCareRequestLayout router={router} location={location}>
         <ExpressCareInfoPage router={router} />
       </NewExpressCareRequestLayout>,
       {
