@@ -8,40 +8,6 @@ import LocationPhoneLink from './common/LocationPhoneLink';
 import { ccUrgentCareLabels } from '../../config';
 import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../../constants';
 
-export const urgentCareCall = query => {
-  const content = () => (
-    <p>
-      {' '}
-      Before going to a clinic for urgent care, please call the facility to
-      confirm that it's open and able to provide the care you need.{' '}
-    </p>
-  );
-
-  if (
-    query.facilityType === LocationType.URGENT_CARE &&
-    query.serviceType === 'NonVAUrgentCare'
-  ) {
-    return content();
-  }
-  if (
-    query.facilityType === LocationType.CC_PROVIDER &&
-    query.serviceType === CLINIC_URGENTCARE_SERVICE
-  ) {
-    return content();
-  }
-
-  return null;
-};
-
-export const posProviderName = posCodes => {
-  if (posCodes && parseInt(posCodes, 10) === 17) {
-    return ccUrgentCareLabels.WalkIn;
-  } else if (posCodes && parseInt(posCodes, 10) === 20) {
-    return ccUrgentCareLabels.UrgentCare;
-  }
-  return null;
-};
-
 /**
  *
  * Urgent care
@@ -56,6 +22,41 @@ export const posProviderName = posCodes => {
 const UrgentCareResult = ({ provider, query }) => {
   const { name, posCodes } = provider.attributes;
   const distance = provider.distance;
+
+  const urgentCareCall = resultQuery => {
+    const content = () => (
+      <p>
+        {' '}
+        Before going to a clinic for urgent care, please call the facility to
+        confirm that it's open and able to provide the care you need.{' '}
+      </p>
+    );
+
+    if (
+      resultQuery.facilityType === LocationType.URGENT_CARE &&
+      resultQuery.serviceType === 'NonVAUrgentCare'
+    ) {
+      return content();
+    }
+    if (
+      resultQuery.facilityType === LocationType.CC_PROVIDER &&
+      resultQuery.serviceType === CLINIC_URGENTCARE_SERVICE
+    ) {
+      return content();
+    }
+
+    return null;
+  };
+
+  const posProviderName = pc => {
+    if (pc && parseInt(pc, 10) === 17) {
+      return ccUrgentCareLabels.WalkIn;
+    } else if (pc && parseInt(pc, 10) === 20) {
+      return ccUrgentCareLabels.UrgentCare;
+    }
+    return null;
+  };
+
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <div>

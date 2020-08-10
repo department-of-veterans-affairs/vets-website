@@ -7,38 +7,7 @@ import { isVADomain } from '../../utils/helpers';
 import { Link } from 'react-router';
 import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
-
-// This could probably be its own component ?
-const showOperationStatus = operatingStatus => {
-  let infoMsg;
-  let classNameAlert;
-  let iconType;
-  if (operatingStatus.code === OperatingStatus.NOTICE) {
-    infoMsg = 'Facility notice';
-    classNameAlert = 'usa-alert-info';
-    iconType = 'circle';
-  }
-  if (operatingStatus.code === OperatingStatus.LIMITED) {
-    infoMsg = 'Limited services and hours';
-    classNameAlert = 'usa-alert-warning';
-    iconType = 'triangle';
-  }
-  if (operatingStatus.code === OperatingStatus.CLOSED) {
-    infoMsg = 'Facility Closed';
-    classNameAlert = 'usa-alert-error';
-    iconType = 'circle';
-  }
-  return (
-    <div
-      className={`usa-alert ${classNameAlert} background-color-only notice-marg-pad`}
-    >
-      <i
-        className={`fa fa-exclamation-${iconType} vads-u-margin-top--1 icon-base`}
-      />
-      <div className="usa-alert-body">{infoMsg}</div>
-    </div>
-  );
-};
+import LocationOperationStatus from './common/LocationOperationStatus';
 
 /**
  *
@@ -78,8 +47,9 @@ const VaFacilityResult = ({ location, query }) => {
           )}
         </span>
         {operatingStatus &&
-          operatingStatus.code !== OperatingStatus.NORMAL &&
-          showOperationStatus(operatingStatus)}
+          operatingStatus.code !== OperatingStatus.NORMAL && (
+            <LocationOperationStatus operatingStatus={operatingStatus} />
+          )}
         <p>
           <LocationAddress location={location} />
         </p>
