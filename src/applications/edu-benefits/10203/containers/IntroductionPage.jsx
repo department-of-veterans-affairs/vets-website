@@ -77,7 +77,7 @@ export class IntroductionPage extends React.Component {
         <FormTitle title="Apply for the Rogers STEM Scholarship" />
         <p itemProp="description">
           Equal to VA Form 22-10203 (Application for Edith Nourse Rogers STEM
-          Scholarship)
+          Scholarship).
         </p>
         {this.entitlementRemainingAlert()}
         <h4>Follow the steps below to apply for this scholarship</h4>
