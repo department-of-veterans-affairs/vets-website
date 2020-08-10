@@ -4,16 +4,19 @@ import mockUser from '../fixtures/users/user-36.json';
 import mockFeatureToggles from '../fixtures/feature-toggles.json';
 
 const tryEditSectionWhileEditing = options => {
-  const { editButtonId, otherSectionEditButtonId, editLineId, sectionName } = options;
+  const {
+    editButtonId,
+    otherSectionEditButtonId,
+    editLineId,
+    sectionName,
+  } = options;
+
   // Open edit view
-  cy.get(`#${editButtonId}-edit-link`)
-    .click();
+  cy.get(`#${editButtonId}-edit-link`).click();
   // Make an edit
-  cy.get(`#${editLineId}`)
-    .click().type('test');
+  cy.get(`#${editLineId}`).click().type('test');
   // Click on a different section to edit
-  cy.get(`#${otherSectionEditButtonId}-edit-link`)
-    .click();
+  cy.get(`#${otherSectionEditButtonId}-edit-link`).click();
 
   // Modal appears
   cy.get('.va-modal').within(() => {
@@ -22,7 +25,7 @@ const tryEditSectionWhileEditing = options => {
     );
     cy.findByRole('button', { name: /OK/i }).click();
   });
-}
+};
 
 const cancelEdit = options => {
   const { editButtonId, editLineId, sectionName } = options;
@@ -31,10 +34,12 @@ const cancelEdit = options => {
 
   // Confirmation modal appears, confirm cancel
   cy.get('.va-modal').within(() => {
-    cy.contains(`You haven’t finished editing your ${sectionName}.`).should('exist');
+    cy.contains(`You haven’t finished editing your ${sectionName}.`).should(
+      'exist'
+    );
     cy.findByRole('button', { name: /Cancel/i }).click();
   });
-}
+};
 
 describe('Users', () => {
   beforeEach(() => {
