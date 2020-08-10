@@ -34,9 +34,6 @@ const authentication = client => {
   // Ensure introduction page renders.
   client.assert
     .title('Apply for education benefits | Veterans Affairs')
-    .waitForElementVisible('.wizard-container', Timeouts.normal)
-    .waitForElementVisible('.skip-wizard-link', Timeouts.normal)
-    .click('.skip-wizard-link')
     .waitForElementVisible('.schemaform-start-button', Timeouts.verySlow)
     .axeCheck('.main')
     .click('.schemaform-start-button');
