@@ -522,10 +522,11 @@ class VAMap extends Component {
     return mapMarkers;
   };
 
-  renderResultsHeader = (results, facilityType, queryContext) => (
+  renderResultsHeader = (results, facilityType, serviceType, queryContext) => (
     <SearchResultsHeader
       results={results}
       facilityType={facilityType}
+      serviceType={serviceType}
       context={queryContext}
       inProgress={this.props.currentQuery.inProgress}
     />
@@ -543,6 +544,7 @@ class VAMap extends Component {
     } = this.props;
     const facilityLocatorMarkers = this.renderMapMarkers();
     const facilityType = currentQuery.facilityType;
+    const serviceType = currentQuery.serviceType;
     const queryContext = currentQuery.context;
 
     return (
@@ -557,7 +559,12 @@ class VAMap extends Component {
           />
           <div>{showDialogUrgCare(currentQuery)}</div>
           <div ref={this.searchResultTitle}>
-            {this.renderResultsHeader(results, facilityType, queryContext)}
+            {this.renderResultsHeader(
+              results,
+              facilityType,
+              serviceType,
+              queryContext,
+            )}
           </div>
           <Tabs onSelect={this.centerMap}>
             <TabList>
@@ -631,6 +638,7 @@ class VAMap extends Component {
       pagination: { currentPage, totalPages },
     } = this.props;
     const facilityType = currentQuery.facilityType;
+    const serviceType = currentQuery.serviceType;
     const queryContext = currentQuery.context;
 
     const coords = this.props.currentQuery.position;
@@ -649,7 +657,12 @@ class VAMap extends Component {
         </div>
         <div>{showDialogUrgCare(currentQuery)}</div>
         <div ref={this.searchResultTitle}>
-          {this.renderResultsHeader(results, facilityType, queryContext)}
+          {this.renderResultsHeader(
+            results,
+            facilityType,
+            serviceType,
+            queryContext,
+          )}
         </div>
         <div className="row">
           <div
