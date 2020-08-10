@@ -53,12 +53,9 @@ function disconnectApps(mobile = false) {
   cy.wait('@connectedAppDelete1');
 
   // Check for the presence of the disconnect success alert
-  cy.findByRole('alert').should('have.class', 'usa-alert-success');
-  cy.findByRole('alert').within(() => {
-    cy.findByText(
-      /This app can’t access any new information from your VA.gov profile/i,
-    ).should('exist');
-  });
+  cy.findByText(
+    /This app can’t access any new information from your VA.gov profile/i,
+  ).should('exist');
 
   // One of the two apps should now be removed
   cy.get('.connected-app').should('have.length', 1);
