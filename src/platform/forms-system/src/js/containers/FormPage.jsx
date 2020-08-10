@@ -13,7 +13,7 @@ import { getNextPagePath, getPreviousPagePath } from '../routing';
 import { focusElement } from '../utilities/ui';
 
 function focusForm() {
-  focusElement('.nav-header');
+  focusElement('.nav-header h2');
 }
 
 const scroller = Scroll.scroller;
