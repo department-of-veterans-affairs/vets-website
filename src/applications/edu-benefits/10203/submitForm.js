@@ -23,7 +23,11 @@ const submitForm = (form, formConfig) => {
     'edu-school-state': form.data.schoolState,
     'active-duty': form.data.isActiveDuty ? 'Yes' : 'No',
     'contact-method-preference': form.data.preferredContactMethod,
-    'direct-deposit-account-type': _.get(form.data, 'accountType', 'none'),
+    'direct-deposit-account-type': _.get(
+      form.data.bankAccount,
+      'accountType',
+      'none',
+    ),
   };
 
   return submitToUrl(
