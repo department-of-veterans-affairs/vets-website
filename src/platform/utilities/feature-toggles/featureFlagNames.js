@@ -43,6 +43,6 @@ export default Object.freeze({
   showEduBenefits1990NWizard: 'showEduBenefits1990NWizard',
   showEduBenefits0994Wizard: 'showEduBenefits0994Wizard',
   showEduBenefits5490Wizard: 'showEduBenefits5490Wizard',
-  showEduBenefits1990Wizard: 'showEduBenefits1990Wizard',
+  showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
   showEduBenefits1990EWizard: 'showEduBenefits1990EWizard',
 });
