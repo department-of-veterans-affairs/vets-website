@@ -231,7 +231,10 @@ export function getDateTimeSelect(state, pageKey) {
     new Set(availableSlots?.map(slot => slot.start.split('T')[0])),
   );
 
-  const timezone = systemId ? getTimezoneDescBySystemId(systemId) : null;
+  const timezoneDescription = systemId
+    ? getTimezoneDescBySystemId(systemId)
+    : null;
+  const { timezone = null } = systemId ? getTimezoneBySystemId(systemId) : {};
   const typeOfCareId = getTypeOfCare(data)?.id;
 
   return {
@@ -243,6 +246,7 @@ export function getDateTimeSelect(state, pageKey) {
     appointmentSlotsStatus,
     preferredDate: data.preferredDate,
     timezone,
+    timezoneDescription,
     typeOfCareId,
   };
 }

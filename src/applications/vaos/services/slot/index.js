@@ -3,8 +3,9 @@
  * a FHIR resource request
  */
 import { getAvailableSlots } from '../../api';
-import { mapToFHIRErrors } from '../../utils/fhir';
+import { fhirSearch, mapToFHIRErrors } from '../utils';
 import { transformSlots } from './transformers';
+import { generateMockFHIRSlots } from '../../utils/calendar';
 
 /*
  * This is used to parse the fake FHIR ids we create for organizations
@@ -30,22 +31,35 @@ export async function getSlots({
   clinicId,
   startDate,
   endDate,
+  useVSP,
 }) {
-  try {
-    const data = await getAvailableSlots(
-      parseId(siteId),
-      typeOfCareId,
-      clinicId.split('_')[1],
-      startDate,
-      endDate,
-    );
+  if (useVSP) {
+    return fhirSearch({
+      query: `Slot?schedule.actor=HealthcareService/${clinicId}&start=lt${endDate}&start=ge${startDate}`,
+      mock: async () => {
+        const mod = await import('./mock_slots.json');
+        const slotData = mod.default ? mod.default : mod;
+        slotData.entry = generateMockFHIRSlots();
+        return slotData;
+      },
+    });
+  } else {
+    try {
+      const data = await getAvailableSlots(
+        parseId(siteId),
+        typeOfCareId,
+        clinicId.split('_')[1],
+        startDate,
+        endDate,
+      );
 
-    return transformSlots(data[0]?.appointmentTimeSlot || []);
-  } catch (e) {
-    if (e.errors) {
-      throw mapToFHIRErrors(e.errors);
+      return transformSlots(data[0]?.appointmentTimeSlot || []);
+    } catch (e) {
+      if (e.errors) {
+        throw mapToFHIRErrors(e.errors);
+      }
+
+      throw e;
     }
-
-    throw e;
   }
 }

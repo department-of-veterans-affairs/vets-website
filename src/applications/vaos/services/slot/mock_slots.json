@@ -1,0 +1,119 @@
+{
+  "resourceType": "Bundle",
+  "id": "aeb8ef91-2cae-4b6a-b0e0-81a92192fbeb",
+  "meta": { "lastUpdated": "2020-08-06T15:03:33.553+00:00" },
+  "type": "searchset",
+  "total": 4,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://veteran.apps-staging.va.gov/vsp/v1/Slot?schedule.actor=HealthcareService%2F3938333A3938333A333038&start=2020-08-07T00%3A00%3A00Z"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/Slot/3938333A3A3330383A313539363833303430303A31353936383331363030",
+      "resource": {
+        "resourceType": "Slot",
+        "id": "3938333A3A3330383A313539363833303430303A31353936383331363030",
+        "extension": [
+          {
+            "url": "https://fhir-ehr.cerner.com/dstu2/StructureDefinition/scheduling-location",
+            "valueReference": { "reference": "Location/393833" }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:slot:983::308:1596830400:1596831600"
+          }
+        ],
+        "schedule": {
+          "reference": "Schedule/3938333A3938333A3330383A32303230303830373A3230323030383038"
+        },
+        "freeBusyType": "free",
+        "start": "2020-08-07T20:00:00Z",
+        "end": "2020-08-07T20:20:00Z",
+        "overbooked": false
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/Slot/3938333A3A3330383A313539363833313630303A31353936383332383030",
+      "resource": {
+        "resourceType": "Slot",
+        "id": "3938333A3A3330383A313539363833313630303A31353936383332383030",
+        "extension": [
+          {
+            "url": "https://fhir-ehr.cerner.com/dstu2/StructureDefinition/scheduling-location",
+            "valueReference": { "reference": "Location/393833" }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:slot:983::308:1596831600:1596832800"
+          }
+        ],
+        "schedule": {
+          "reference": "Schedule/3938333A3938333A3330383A32303230303830373A3230323030383038"
+        },
+        "freeBusyType": "free",
+        "start": "2020-08-07T20:20:00Z",
+        "end": "2020-08-07T20:40:00Z",
+        "overbooked": false
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/Slot/3938333A3A3330383A313539363833323830303A31353936383334303030",
+      "resource": {
+        "resourceType": "Slot",
+        "id": "3938333A3A3330383A313539363833323830303A31353936383334303030",
+        "extension": [
+          {
+            "url": "https://fhir-ehr.cerner.com/dstu2/StructureDefinition/scheduling-location",
+            "valueReference": { "reference": "Location/393833" }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:slot:983::308:1596832800:1596834000"
+          }
+        ],
+        "schedule": {
+          "reference": "Schedule/3938333A3938333A3330383A32303230303830373A3230323030383038"
+        },
+        "freeBusyType": "free",
+        "start": "2020-08-07T20:40:00Z",
+        "end": "2020-08-07T21:00:00Z",
+        "overbooked": false
+      }
+    },
+    {
+      "fullUrl": "https://veteran.apps-staging.va.gov/vsp/v1/Slot/3938333A3A3330383A313539363833343030303A31353936383434383030",
+      "resource": {
+        "resourceType": "Slot",
+        "id": "3938333A3A3330383A313539363833343030303A31353936383434383030",
+        "extension": [
+          {
+            "url": "https://fhir-ehr.cerner.com/dstu2/StructureDefinition/scheduling-location",
+            "valueReference": { "reference": "Location/393833" }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn",
+            "value": "urn:va:slot:983::308:1596834000:1596844800"
+          }
+        ],
+        "schedule": {
+          "reference": "Schedule/3938333A3938333A3330383A32303230303830373A3230323030383038"
+        },
+        "freeBusyType": "free",
+        "start": "2020-08-07T21:00:00Z",
+        "end": "2020-08-08T00:00:00Z",
+        "overbooked": false
+      }
+    }
+  ]
+}
