@@ -2,6 +2,7 @@ import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 import { displayConfirmEligibility, isChapter33 } from '../helpers';
+import captureEvents from '../analytics-functions';
 
 import {
   activeDuty,
@@ -37,6 +38,7 @@ export const chapters = {
         path: 'benefits/eligibility',
         uiSchema: benefitSelection.uiSchema,
         schema: benefitSelection.schema,
+        onContinue: captureEvents.currentlyUsedBenefits,
       },
       initialConfirmEligibility: {
         title: '',
