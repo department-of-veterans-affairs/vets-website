@@ -3,7 +3,7 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import WizardContainer from '../../wizard/containers/WizardContainer';
+import WizardContainer from 'applications/edu-benefits/wizard/containers/WizardContainer';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
