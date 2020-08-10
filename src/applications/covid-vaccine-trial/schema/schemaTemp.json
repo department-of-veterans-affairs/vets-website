@@ -46,42 +46,6 @@
     }
   },
   "properties": {
-    "descriptionText": {
-      "type": "object",
-      "properties": {
-        "view:descriptionText": {
-          "type": "object",
-          "properties": {}
-        }
-      }
-    },
-    "infoSharingText": {
-      "type": "object",
-      "properties": {
-        "view:infoSharingText": {
-          "type": "object",
-          "properties": {}
-        }
-      }
-    },
-    "healthHeaderText": {
-      "type": "object",
-      "properties": {
-        "view:healthText": {
-          "type": "object",
-          "properties": {}
-        }
-      }
-    },
-    "exposureRiskHeaderText": {
-      "type": "object",
-      "properties": {
-        "view:exposureRiskText": {
-          "type": "object",
-          "properties": {}
-        }
-      }
-    },
     "residentsInHome": {
       "type": "string",
       "enum": ["ONE_TWO", "THREE_FIVE", "SIX_TEN", "MORE_THAN_TEN"]
@@ -124,8 +88,7 @@
           "type": "boolean"
         },
         "NONE_OF_ABOVE": {
-          "type": "boolean",
-          "default": true
+          "type": "boolean"
         }
       }
     },
@@ -165,8 +128,7 @@
           "type": "boolean"
         },
         "NONE_OF_ABOVE": {
-          "type": "boolean",
-          "default": true
+          "type": "boolean"
         }
       }
     },
@@ -190,8 +152,7 @@
           "type": "boolean"
         },
         "NONE_OF_ABOVE": {
-          "type": "boolean",
-          "default": true
+          "type": "boolean"
         }
       }
     },
@@ -204,15 +165,6 @@
         "THIRTYONE_FIFTY",
         "MORE_THAN_FIFTY"
       ]
-    },
-    "contactHeaderText": {
-      "type": "object",
-      "properties": {
-        "view:contactText": {
-          "type": "object",
-          "properties": {}
-        }
-      }
     },
     "height": {
       "type": "object",
@@ -236,8 +188,9 @@
       }
     },
     "weight": {
-      "type": "string",
-      "pattern": "^([1-9]\\d*)(\\.(\\d{1}|\\d{2}))?$"
+      "type": "number",
+      "min": 0,
+      "multipleOf": 0.01
     },
     "genderTitleText": {
       "type": "object",
@@ -280,8 +233,7 @@
           "type": "boolean"
         },
         "NONE_OF_ABOVE": {
-          "type": "boolean",
-          "default": true
+          "type": "boolean"
         }
       }
     },
@@ -311,8 +263,7 @@
           "type": "boolean"
         },
         "NONE_OF_ABOVE": {
-          "type": "boolean",
-          "default": true
+          "type": "boolean"
         }
       }
     },
@@ -348,6 +299,7 @@
     "transportation",
     "closeContact",
     "weight",
+    "gender",
     "raceEthnicityOrigin"
   ]
 }

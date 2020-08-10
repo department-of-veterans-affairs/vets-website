@@ -2,104 +2,84 @@ import _ from 'lodash';
 import environment from 'platform/utilities/environment';
 import fullSchema from '../schema/schemaTemp.json';
 // import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
-import uiSchemaDefinitions from '../schema/covid-vaccine-trial-ui-schema.json';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
 
-import fullNameUI from 'platform/forms/definitions/fullName';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import {
-  validateMatch,
-  validateBooleanGroup,
-} from 'platform/forms-system/src/js/validation';
-
-import dataUtils from 'platform/utilities/data/index';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-const {
-  descriptionText,
-  infoSharingText,
-  healthHeaderText,
-  diagnosed,
-  closeContactPositive,
-  hospitalized,
-  smokeOrVape,
-  healthHistory,
-  exposureRiskHeaderText,
-  employmentStatus,
-  transportation,
-  residentsInHome,
-  closeContact,
-  contactHeaderText,
-  confirmationEmailUI,
-  zipCode,
-  // height,
-  weight,
-  genderNoteText,
-  genderTitleText,
-  gender,
-  raceEthnicityOrigin,
-} = uiSchemaDefinitions;
+import { uiSchema } from '../pages/covidResearchUISchema';
 
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
-const { set } = dataUtils;
-const selectBoxGroupConfig = {
-  'ui:validations': [validateBooleanGroup],
-  'ui:options': {
-    showFieldLabel: true,
-    classNames: 'schemaform-block-title schemaform-block-subtitle',
-    updateSchema: (form, pageSchema) => {
-      const newForm = form;
-      const NONE_OF_ABOVE = 'NONE_OF_ABOVE';
 
-      const name = pageSchema.name;
-      const selectedCount = Object.keys(form[name]).filter(
-        val => form[name][val] === true,
-      ).length;
+const checkBoxElements = [
+  'healthHistory',
+  'transportation',
+  'employmentStatus',
+  'gender',
+  'raceEthnicityOrigin',
+];
+const NONE_OF_ABOVE = 'NONE_OF_ABOVE';
 
-      // edge case fails with two items selected one of them NONE
-
-      if (selectedCount === 2) {
-        newForm[name][NONE_OF_ABOVE] = false;
-      } else if (selectedCount > 2 && form[name][NONE_OF_ABOVE] === true) {
-        Object.keys(form[name]).map((key, val) => {
-          newForm[name][key] = false;
-          newForm[name][NONE_OF_ABOVE] = true;
-          return newForm;
-        });
-      }
-      return newForm;
-    },
-  },
-  'ui:errorMessages': {
-    atLeastOne: 'Please select at least one',
-  },
+export const setNoneOfAbove = (form, elementName) => {
+  const updatedForm = form;
+  Object.keys(updatedForm[elementName]).map((key, val) => {
+    updatedForm[elementName][key] = false;
+    updatedForm[elementName][NONE_OF_ABOVE] = true;
+    return updatedForm;
+  });
 };
-
 function updateData(oldForm, newForm) {
-  // console.log('Old Form Data: ', oldForm);
-  // console.log('New Form Data: ', newForm);
+  const updatedForm = newForm;
+  checkBoxElements.forEach(elementName => {
+    // For each checkBoxGroup in the form, get the number of selected elements before and after the current event
+    const oldSelectedCount = Object.keys(oldForm[elementName]).filter(
+      val => oldForm[elementName][val] === true,
+    ).length;
+    const newSelectedCount = Object.keys(newForm[elementName]).filter(
+      val => newForm[elementName][val] === true,
+    ).length;
 
-  return newForm;
+    // TODO: this could probably be done in a better way
+    // if no change just return
+    if (oldSelectedCount === newSelectedCount) return;
+    if (newSelectedCount === 0) updatedForm[elementName][NONE_OF_ABOVE] = true;
+    // When there are 2 selected, need to know if the user just selected NONE_OF_ABOVE of a new selection
+    else if (newSelectedCount === 2) {
+      const oldNoResp = oldForm[elementName][NONE_OF_ABOVE];
+      const newNoResp = newForm[elementName][NONE_OF_ABOVE];
+      if (oldNoResp !== newNoResp) {
+        setNoneOfAbove(updatedForm, elementName);
+      } else {
+        updatedForm[elementName][NONE_OF_ABOVE] = false;
+      }
+    } else if (
+      // if NONE_OF_ABOVE is selected clear out all others
+      newSelectedCount > 2 &&
+      newForm[elementName][NONE_OF_ABOVE] === true
+    ) {
+      setNoneOfAbove(updatedForm, elementName);
+    }
+  });
+  return updatedForm;
 }
+
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/covid-vaccine/screener/create`,
-  trackingPrefix: 'covid-vaccine-trial-',
+  submitUrl: `${environment.API_URL}/covid-research/volunteer/create`,
+  trackingPrefix: 'covid-research-volunteer-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'COVID-VACCINE-TRIAL',
+  formId: 'COVID-RESEARCH-VOLUNTEER',
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to volunteer for vaccine trial participation.',
+    notFound:
+      'Please start over to sign up for our COVID-19 research volunteer list.',
     noAuth:
-      'Please sign in again to continue to volunteer for vaccine trial participation.',
+      'Please sign in again to continue to sign up for our COVID-19 research volunteer list.',
   },
-  title: 'Volunteer for COVID-19 research',
+  title: 'Sign up for our COVID-19 research volunteer list',
   defaultDefinitions: {},
   chapters: {
     chapter1: {
@@ -109,101 +89,74 @@ const formConfig = {
           path: 'covid-vaccine-trial',
           title: 'Personal Information - Page 1',
           updateFormData: updateData,
-          uiSchema: {
-            descriptionText,
-            infoSharingText,
-            healthHeaderText,
-            diagnosed,
-            closeContactPositive,
-            hospitalized,
-            smokeOrVape,
-            healthHistory: {
-              ...healthHistory,
-              ...selectBoxGroupConfig,
-            },
-            exposureRiskHeaderText,
-            employmentStatus: {
-              ...employmentStatus,
-              ...selectBoxGroupConfig,
-            },
-            transportation: {
-              ...transportation,
-              ...selectBoxGroupConfig,
-            },
-            residentsInHome,
-            closeContact,
-            contactHeaderText,
-            veteranFullName: _.merge(fullNameUI, {
-              first: {
-                'ui:title': 'First name',
-              },
-              last: {
-                'ui:title': 'Last name',
-              },
-              middle: {
-                'ui:title': 'Middle name',
-              },
-              suffix: {
-                'ui:title': 'Suffix',
-              },
-              'ui:order': ['first', 'middle', 'last', 'suffix'],
-            }),
-            email: emailUI(),
-            'view:confirmEmail': emailUI('Re-enter email address'),
-            zipCode,
-            phone: phoneUI(),
-            veteranDateOfBirth: currentOrPastDateUI(
-              'Date of birth (Note: You must be at least 18 years old to participate in research.)',
-            ),
-            // height,
-            weight,
-            genderTitleText,
-            genderNoteText,
-            gender: {
-              ...gender,
-              ...selectBoxGroupConfig,
-            },
-            raceEthnicityOrigin: {
-              ...raceEthnicityOrigin,
-              ...selectBoxGroupConfig,
-            },
-            'ui:validations': [validateMatch('email', 'view:confirmEmail')],
-          },
+          uiSchema,
           schema: {
             required: fullSchema.required,
             type: 'object',
             properties: {
-              descriptionText: fullSchema.properties.descriptionText,
-              infoSharingText: fullSchema.properties.infoSharingText,
-              healthHeaderText: fullSchema.properties.healthHeaderText,
+              descriptionText: {
+                type: 'object',
+                properties: {
+                  'view:descriptionText': {
+                    type: 'object',
+                    properties: {},
+                  },
+                },
+              },
+              formCompleteTimeText: {
+                type: 'object',
+                properties: {
+                  'view:formCompleteTimeText': {
+                    type: 'object',
+                    properties: {},
+                  },
+                },
+              },
+              healthHeaderText: {
+                type: 'object',
+                properties: {
+                  'view:healthText': {
+                    type: 'object',
+                    properties: {},
+                  },
+                },
+              },
               diagnosed: fullSchema.properties.diagnosed,
               closeContactPositive: fullSchema.properties.closeContactPositive,
               hospitalized: fullSchema.properties.hospitalized,
               smokeOrVape: fullSchema.properties.smokeOrVape,
               healthHistory: fullSchema.properties.healthHistory,
-              exposureRiskHeaderText:
-                fullSchema.properties.exposureRiskHeaderText,
+              exposureRiskHeaderText: {
+                type: 'object',
+                properties: {
+                  'view:exposureRiskText': {
+                    type: 'object',
+                    properties: {},
+                  },
+                },
+              },
               employmentStatus: fullSchema.properties.employmentStatus,
               transportation: fullSchema.properties.transportation,
               residentsInHome: fullSchema.properties.residentsInHome,
               closeContact: fullSchema.properties.closeContact,
-              contactHeaderText: fullSchema.properties.contactHeaderText,
-              // veteranFullName: set('required', ['first', 'last'], fullName),
+              // contactHeaderText: fullSchema.properties.contactHeaderText,
+              contactHeaderText: {
+                type: 'object',
+                properties: {
+                  'view:contactText': {
+                    type: 'object',
+                    properties: {},
+                  },
+                },
+              },
               veteranFullName: fullName,
               email,
-              // [viewConfirmationEmailField]: email,
               'view:confirmEmail': email,
               phone: usaPhone,
               zipCode: usaPostalCode,
               veteranDateOfBirth: date,
               // height: fullSchema.properties.height,
               weight: fullSchema.properties.weight,
-              'view:genderTitleText': {
-                type: 'object',
-                properties: {},
-              },
-              genderTitleText: fullSchema.properties.genderTitleText,
-              genderNoteText: fullSchema.properties.genderNoteText,
               gender: fullSchema.properties.gender,
               raceEthnicityOrigin: fullSchema.properties.raceEthnicityOrigin,
             },
