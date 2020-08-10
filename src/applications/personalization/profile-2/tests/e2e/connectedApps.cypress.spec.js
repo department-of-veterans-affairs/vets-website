@@ -44,7 +44,9 @@ function disconnectApps(mobile = false) {
   );
 
   // Click on the disconnect button of the first app
-  cy.findByTestId('disconnect-app-0oa3s6dlvxgsZr62p2p7').click();
+  cy.findByTestId('disconnect-app-0oa3s6dlvxgsZr62p2p7').click({
+    force: true,
+  });
   // Click in disconnect in the confirmation modal
   cy.findByTestId('confirm-disconnect-Apple Health').click({
     force: true,
