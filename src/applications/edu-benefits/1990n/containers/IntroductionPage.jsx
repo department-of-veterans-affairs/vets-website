@@ -9,7 +9,7 @@ import {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
-import { showEduBenefits1990NWizard } from '../../selectors/educationWizard';
+import { showEduBenefits1990NWizard } from 'applications/edu-benefits/selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -154,4 +154,8 @@ export class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+const mapStateToProps = state => ({
+  shouldEduBenefits1990NWizardShow: showEduBenefits1990NWizard(state),
+});
+
+export default connect(mapStateToProps)(IntroductionPage);
