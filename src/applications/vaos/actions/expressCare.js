@@ -77,26 +77,22 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-export function openAdditionalDetailsPage(page, uiSchema, schema, router) {
+export function openAdditionalDetailsPage(page, uiSchema, schema) {
   return (dispatch, getState) => {
     const state = getState();
     const data = selectExpressCareFormData(state);
-    if (!data.reason) {
-      router.replace('/new-express-care-request');
-    } else {
-      const email = selectVet360EmailAddress(state);
-      const homePhone = selectVet360HomePhoneString(state);
-      const mobilePhone = selectVet360MobilePhoneString(state);
-      const phoneNumber = mobilePhone || homePhone;
-      dispatch({
-        type: FORM_ADDITIONAL_DETAILS_PAGE_OPENED,
-        page,
-        uiSchema,
-        schema,
-        email,
-        phoneNumber,
-      });
-    }
+    const email = selectVet360EmailAddress(state);
+    const homePhone = selectVet360HomePhoneString(state);
+    const mobilePhone = selectVet360MobilePhoneString(state);
+    const phoneNumber = mobilePhone || homePhone;
+    dispatch({
+      type: FORM_ADDITIONAL_DETAILS_PAGE_OPENED,
+      page,
+      uiSchema,
+      schema,
+      email,
+      phoneNumber,
+    });
   };
 }
 

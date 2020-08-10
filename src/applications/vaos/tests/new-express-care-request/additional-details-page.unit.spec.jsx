@@ -85,32 +85,4 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     screen.getByLabelText(/email address/i);
     screen.getByText(/submit express care request/i);
   });
-
-  it('should redirect to info page when there is no reason in data', async () => {
-    const store = createTestStore({
-      ...initialState,
-      expressCare: {
-        newRequest: {
-          data: {},
-          pages: {},
-        },
-      },
-    });
-    store.dispatch(fetchExpressCareWindows());
-
-    const router = {
-      replace: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(
-      <ExpressCareDetailsPage router={router} />,
-      {
-        store,
-      },
-    );
-
-    await waitFor(() => expect(router.replace.called).to.be.true);
-    expect(router.replace.firstCall.args[0]).to.equal(
-      '/new-express-care-request',
-    );
-  });
 });
