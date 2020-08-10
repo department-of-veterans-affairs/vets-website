@@ -37,5 +37,12 @@ export default Object.freeze({
   gibctFilterEnhancement: 'gibctFilterEnhancement',
   debtLettersShowLetters: 'debtLettersShowLetters',
   gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
-  showEduBenefits1990EWizard: 'showEduBenefits1990EWizard',
+  form526BDD: 'form526BenefitsDeliveryAtDischarge',
+  showEduBenefits1995Wizard: 'show_edu_benefits_1995_wizard',
+  showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
+  showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
+  showEduBenefits1990NWizard: 'show_edu_benefits_1990n_wizard',
+  showEduBenefits5490Wizard: 'show_edu_benefits_5490_wizard',
+  showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
+  showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
 });

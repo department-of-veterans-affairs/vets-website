@@ -160,6 +160,7 @@ export const vetCenterServices = [
 ];
 
 export const facilityTypesOptions = {
+  [LocationType.NONE]: 'Choose a facility type',
   [LocationType.HEALTH]: 'VA health',
   [LocationType.URGENT_CARE]: 'Urgent care',
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',

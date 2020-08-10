@@ -850,6 +850,30 @@ export const isBDD = formData => {
     return false;
   }
 
-  // not checking for less than 180 days as we validate that in militaryHistory
-  return mostRecentDate.isAfter(moment().add(89, 'days'));
+  return (
+    mostRecentDate.isAfter(moment().add(89, 'days')) &&
+    !mostRecentDate.isAfter(moment().add(180, 'days'))
+  );
+};
+
+export const showSeparationLocation = formData => {
+  const servicePeriods = formData?.serviceInformation?.servicePeriods;
+
+  if (!servicePeriods || !Array.isArray(servicePeriods)) {
+    return false;
+  }
+
+  const mostRecentDate = servicePeriods
+    .filter(({ dateRange }) => dateRange?.to)
+    .map(({ dateRange }) => moment(dateRange.to))
+    .sort((dateA, dateB) => dateB - dateA)[0];
+
+  if (!mostRecentDate) {
+    return false;
+  }
+
+  return (
+    mostRecentDate.isAfter(moment()) &&
+    !mostRecentDate.isAfter(moment().add(180, 'days'))
+  );
 };
