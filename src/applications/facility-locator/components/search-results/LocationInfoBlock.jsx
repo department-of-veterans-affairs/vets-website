@@ -65,11 +65,6 @@ const LocationInfoBlock = ({ location, from, query }) => {
         </span>
       ) : (
         <span>
-          <FacilityTypeDescription
-            location={location}
-            from={from}
-            query={query}
-          />
           {isVADomain(website) ? (
             <a href={website}>
               <h3 className="vads-u-font-size--h5 no-marg-top">{name}</h3>
