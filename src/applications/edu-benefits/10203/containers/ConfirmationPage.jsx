@@ -101,7 +101,9 @@ class ConfirmationPage extends React.Component {
           <h4 className="confirmation-guidance-heading">
             What happens after I apply?
           </h4>
-          <p>We usually decide on applications within 30 days.</p>
+          <p className="confirmation-guidance-message">
+            We usually decide on applications within 30 days.
+          </p>
 
           <p>
             You’ll get a Certificate of Eligibility (COE), or award letter, in
