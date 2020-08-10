@@ -19,6 +19,7 @@ import edu5490Manifest from 'applications/edu-benefits/5490/manifest.json';
 import edu5495Manifest from 'applications/edu-benefits/5495/manifest.json';
 import edu0993Manifest from 'applications/edu-benefits/0993/manifest.json';
 import edu0994Manifest from 'applications/edu-benefits/0994/manifest.json';
+import edu10203Manifest from 'applications/edu-benefits/10203/manifest.json';
 import preneedManifest from 'applications/pre-need/manifest.json';
 import pensionManifest from 'applications/pensions/manifest.json';
 import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
@@ -37,6 +38,7 @@ import edu5490Config from 'applications/edu-benefits/5490/config/form.js';
 import edu5495Config from 'applications/edu-benefits/5495/config/form.js';
 import edu0993Config from 'applications/edu-benefits/0993/config/form.js';
 import edu0994Config from 'applications/edu-benefits/0994/config/form.js';
+import edu10203Config from 'applications/edu-benefits/10203/config/form.js';
 import preneedConfig from 'applications/pre-need/config/form.jsx';
 import pensionConfig from 'applications/pensions/config/form.js';
 import disability526Config from 'applications/disability-benefits/all-claims/config/form.js';
@@ -57,6 +59,7 @@ export const formConfigs = {
   [VA_FORM_IDS.FORM_22_1995]: edu1995Config,
   [VA_FORM_IDS.FORM_22_5490]: edu5490Config,
   [VA_FORM_IDS.FORM_22_5495]: edu5495Config,
+  [VA_FORM_IDS.FORM_22_10203]: edu10203Config,
   [VA_FORM_IDS.FORM_40_10007]: preneedConfig,
   [VA_FORM_IDS.FEEDBACK_TOOL]: feedbackConfig,
   [VA_FORM_IDS.FORM_20_0996]: hlrConfig,
@@ -133,6 +136,7 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_22_1995]: `${edu1995Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_5490]: `${edu5490Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_5495]: `${edu5495Manifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_22_10203]: `${edu10203Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_40_10007]: `${preneedManifest.rootUrl}/`,
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${feedbackManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21_686C]: `${dependentStatusManifest.rootUrl}/`,
@@ -153,6 +157,7 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_22_1995]: 'edu-1995-',
   [VA_FORM_IDS.FORM_22_5490]: 'edu-5490-',
   [VA_FORM_IDS.FORM_22_5495]: 'edu-5495-',
+  [VA_FORM_IDS.FORM_22_10203]: 'edu-10203-',
   [VA_FORM_IDS.FORM_40_10007]: 'preneed-',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
   [VA_FORM_IDS.FORM_21_686C]: '686-',
@@ -174,6 +179,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_22_1995,
   VA_FORM_IDS.FORM_22_5490,
   VA_FORM_IDS.FORM_22_5495,
+  VA_FORM_IDS.FORM_22_10203,
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.FORM_20_0996,
