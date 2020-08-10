@@ -340,6 +340,7 @@ class VAMap extends Component {
 
   handleBoundsChanged = () => {
     const { currentQuery } = this.props;
+    if (!currentQuery.facilityType) return;
     const { position } = currentQuery;
     const { leafletElement } = this.refs.map;
 
@@ -362,7 +363,6 @@ class VAMap extends Component {
         bounds._northEast.lat,
       ];
     }
-
     this.props.updateSearchQuery({
       bounds: boundsArray,
       position: {
@@ -718,7 +718,7 @@ class VAMap extends Component {
     return (
       <div>
         <div className="title-section">
-          <h1>Find VA Locations</h1>
+          <h1>Find VA locations</h1>
         </div>
 
         <div className="facility-introtext">

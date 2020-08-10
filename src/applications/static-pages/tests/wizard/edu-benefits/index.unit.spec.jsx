@@ -8,14 +8,13 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import pages from 'applications/edu-benefits/wizard/pages';
 import { pageNames } from 'applications/edu-benefits/wizard/pages/pageList';
-import { sessionStorageSetup } from '../../utils';
+import { sessionStorageSetup } from 'platform/testing/utilities';
 
 describe('the Education Benefits Wizard', () => {
-  let mockStore = {};
   let defaultProps;
 
   before(() => {
-    mockStore = sessionStorageSetup(mockStore);
+    sessionStorageSetup();
   });
 
   beforeEach(() => {
@@ -30,7 +29,7 @@ describe('the Education Benefits Wizard', () => {
   });
 
   afterEach(() => {
-    global.sessionStorage.clear();
+    sessionStorage.clear();
   });
 
   it('should render the wizard start button if the expander prop is true', () => {

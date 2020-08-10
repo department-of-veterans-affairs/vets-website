@@ -13,7 +13,7 @@ describe('<AppointmentInfo>', () => {
   });
 
   it('Should render appointment info snapshot v1', () => {
-    const wrapper = shallow(<AppointmentInfo location={testFacilityV1} />);
+    const wrapper = shallow(<AppointmentInfo location={testFacilityV1.data} />);
     expect(wrapper).to.matchSnapshot();
     wrapper.unmount();
   });
