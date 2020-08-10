@@ -4,14 +4,14 @@
 export const LocationType = {
   NONE: '',
   VA_FACILITIES: 'va_facilities',
-  CC_PROVIDER: 'cc_provider',
+  CC_PROVIDER: 'provider',
   // Subtypes of VA_FACILITIES
   HEALTH: 'health',
   BENEFITS: 'benefits',
   CEMETARY: 'cemetery',
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
-  URGENT_CARE_FARMACIES: 'cc_pharmacy',
+  URGENT_CARE_FARMACIES: 'pharmacy',
 };
 
 /**
@@ -23,7 +23,7 @@ export const FacilityType = {
   VA_BENEFITS_FACILITY: 'va_benefits_facility',
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
-  URGENT_CARE_FARMACIES: 'cc_pharmacy',
+  URGENT_CARE_FARMACIES: 'pharmacy',
 };
 
 /**
