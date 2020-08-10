@@ -2,7 +2,7 @@
  * Enum for the type attribute of a Facility/Provider search result
  */
 export const LocationType = {
-  ALL: 'all',
+  NONE: '',
   VA_FACILITIES: 'va_facilities',
   CC_PROVIDER: 'cc_provider',
   // Subtypes of VA_FACILITIES
