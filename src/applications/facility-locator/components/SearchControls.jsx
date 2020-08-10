@@ -54,10 +54,10 @@ class SearchControls extends Component {
     const { facilityType } = this.props.currentQuery;
     const locationOptions = facilityTypesOptions;
     if (suppressPharmacies) {
-      delete locationOptions.cc_pharmacy;
+      delete locationOptions.pharmacy;
     }
     if (suppressCCP) {
-      delete locationOptions.cc_provider;
+      delete locationOptions.provider;
     }
     const options = Object.keys(locationOptions).map(facility => (
       <option key={facility} value={facility}>
