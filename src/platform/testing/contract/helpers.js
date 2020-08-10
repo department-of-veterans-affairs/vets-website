@@ -12,7 +12,7 @@ import {
 import { submitForm } from 'platform/forms-system/src/js/actions';
 import { createFormPageList } from 'platform/forms-system/src/js/helpers';
 
-const { integer, iso8601DateTimeWithMillis, like } = Matchers;
+const { integer, iso8601DateTimeWithMillis, like, string } = Matchers;
 
 export const testFormSubmit = async (formConfig, formData) => {
   const dispatch = sinon.spy();
@@ -121,7 +121,7 @@ export const testSaveInProgress = (mockApi, formConfig, formData) => {
           status: 200,
           body: {
             data: {
-              id: integer(123),
+              id: string('12345'),
               type: 'in_progress_forms',
               attributes: {
                 formId,
