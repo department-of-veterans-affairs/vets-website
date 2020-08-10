@@ -9,11 +9,6 @@ import { urgentCareServices } from '../config';
 
 // Immitate network delay
 const delay = 0;
-const testFacilityTypes = {
-  health: 'va_health_facility',
-  cemetery: 'va_cemetery',
-  benefits: 'va_benefits_facility',
-};
 
 // Map facility type to attribute type
 const testVAFacilityTypes = {
@@ -26,7 +21,7 @@ const testVAFacilityTypes = {
 
 const pharmacyTypes = ['pharmacy', 'cc_pharmacy'];
 
-const ccProviderTypes = ['cc_provider', 'provider'];
+const ccProviderType = 'provider';
 
 const urgentCareType = 'urgent_care';
 
@@ -85,7 +80,7 @@ class MockLocatorApi {
             }
             if (serviceType === Object.keys(urgentCareServices)[2]) {
               locationsData = urgentCareData.data.filter(
-                loc => loc.type === 'cc_provider',
+                loc => loc.type === ccProviderType,
               );
             }
           } else {

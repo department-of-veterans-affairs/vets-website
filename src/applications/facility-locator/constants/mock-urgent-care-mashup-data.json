@@ -434,7 +434,7 @@
     },
     {
       "id": "ccp_5cae942081050162cd3917d91a04cc7a2ca303f05274d0a2c2bcdc6ae0255b07",
-      "type": "cc_provider",
+      "type": "provider",
       "attributes": {
         "accNewPatients": "false",
         "address": {
@@ -459,7 +459,7 @@
     },
     {
       "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-      "type": "cc_provider",
+      "type": "provider",
       "attributes": {
         "accNewPatients": "false",
         "address": {
@@ -484,7 +484,7 @@
     },
     {
       "id": "ccp_222196a93173f5ea6cd64c16d5e986a48571a201848dddbc4e313a6185bb0774",
-      "type": "cc_provider",
+      "type": "provider",
       "attributes": {
         "accNewPatients": "false",
         "address": {

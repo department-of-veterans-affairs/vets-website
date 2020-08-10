@@ -23,7 +23,7 @@ function LocationDirectionsLink({ location, from }) {
         target="_blank"
       >
         {from === 'FacilityDetail' && <i className="fa fa-road" />}
-        Directions
+        Get directions
         <span className="sr-only">to {location.attributes.name}</span>
       </a>
     </span>

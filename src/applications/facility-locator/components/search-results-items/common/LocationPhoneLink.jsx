@@ -47,12 +47,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
     const { caresitePhone: phone } = location.attributes;
     return (
       <div>
-        {renderPhoneNumber(
-          isCCProvider ? 'If you have a referral' : null,
-          isCCProvider ? 'Call this facility at' : null,
-          phone,
-          true,
-        )}
+        {renderPhoneNumber('Main number', null, phone, true)}
         {isCCProvider && (
           <p>
             If you don’t have a referral, contact your local VA medical center.

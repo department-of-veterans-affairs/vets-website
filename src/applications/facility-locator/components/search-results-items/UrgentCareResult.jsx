@@ -9,7 +9,6 @@ import { ccUrgentCareLabels } from '../../config';
 import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../../constants';
 
 /**
- *
  * Urgent care
  * - All urgent care
  * - VA urgent care
@@ -18,12 +17,11 @@ import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../../constants';
  * Community providers (in VA’s network)
  *  - Clinic/Center - Urgent Care
  */
-
 const UrgentCareResult = ({ provider, query }) => {
   const { name, posCodes } = provider.attributes;
   const distance = provider.distance;
 
-  const urgentCareCall = resultQuery => {
+  const urgentCareCall = (prov, resultQuery) => {
     const content = () => (
       <p>
         {' '}
@@ -45,10 +43,17 @@ const UrgentCareResult = ({ provider, query }) => {
       return content();
     }
 
+    if (
+      prov.type === LocationType.CC_PROVIDER &&
+      (!resultQuery.serviceType || resultQuery.serviceType === 'AllUrgentCare')
+    ) {
+      return <p>Call to confirm services and hours</p>;
+    }
     return null;
   };
 
-  const posProviderName = pc => {
+  const posProviderName = (pc, qry) => {
+    if (!qry.serviceType || qry.serviceType === 'AllUrgentCare') return null;
     if (pc && parseInt(pc, 10) === 17) {
       return ccUrgentCareLabels.WalkIn;
     } else if (pc && parseInt(pc, 10) === 20) {
@@ -70,7 +75,7 @@ const UrgentCareResult = ({ provider, query }) => {
         )}
         <span>
           <div>
-            <p>{posProviderName(posCodes)}</p>
+            <p>{posProviderName(posCodes, query)}</p>
           </div>
           <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
           {provider.attributes.orgName && (
@@ -90,7 +95,7 @@ const UrgentCareResult = ({ provider, query }) => {
           from={'SearchResult'}
           query={query}
         />
-        {urgentCareCall(query)}
+        {urgentCareCall(provider, query)}
       </div>
     </div>
   );
