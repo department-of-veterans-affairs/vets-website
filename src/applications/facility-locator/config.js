@@ -5,11 +5,9 @@ import manifest from './manifest.json';
 
 // Base URL to be used in API requests.
 export const api = {
-  baseUrlV0: `${environment.API_URL}/v0/facilities`,
-  urlV0: `${environment.API_URL}/v0/facilities/va`,
   baseUrl: `${environment.API_URL}/v1/facilities`,
   url: `${environment.API_URL}/v1/facilities/va`,
-  ccUrl: `${environment.API_URL}/v0/facilities/ccp`,
+  ccUrl: `${environment.API_URL}/v1/facilities/ccp`,
   settings: {
     credentials: 'include',
     headers: {
@@ -35,32 +33,33 @@ export const resolveParamsWithUrl = (
   bounds,
   apiVersion,
 ) => {
-  const filterableLocations = ['health', 'benefits', 'cc_provider'];
+  const filterableLocations = ['health', 'benefits', 'provider'];
   let facility;
   let service;
-  let url;
+  let url = api.url;
+  let perPage = 20;
+
   switch (locationType) {
     case 'urgent_care':
       if (!serviceType || serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
-        url = apiVersion === 1 ? api.url : api.urlV0;
       }
       if (serviceType === 'NonVAUrgentCare') {
-        facility = 'cc_urgent_care';
+        facility = 'urgent_care';
         url = api.ccUrl;
       }
       break;
-    case 'cc_pharmacy':
-    case 'cc_provider':
+    case 'pharmacy':
+    case 'provider':
       facility = locationType;
       service = serviceType;
       url = api.ccUrl;
+      perPage = 10; // because the PPMS back end requires a separate request for each facility
       break;
     default:
       facility = locationType;
       service = serviceType;
-      url = apiVersion === 1 ? api.url : api.urlV0;
   }
 
   return {
@@ -70,10 +69,10 @@ export const resolveParamsWithUrl = (
       ...bounds.map(c => `bbox[]=${c}`),
       facility ? `type=${facility}` : null,
       filterableLocations.includes(facility) && service
-        ? `services[]=${service}`
+        ? `specialties[]=${service}`
         : null,
       `page=${page}`,
-      `per_page=20`,
+      `per_page=${perPage}`,
       url === api.ccUrl ? `trim=true` : null,
     ]).join('&'),
   };
@@ -160,6 +159,7 @@ export const vetCenterServices = [
 ];
 
 export const facilityTypesOptions = {
+  [LocationType.NONE]: 'Choose a facility type',
   [LocationType.HEALTH]: 'VA health',
   [LocationType.URGENT_CARE]: 'Urgent care',
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',

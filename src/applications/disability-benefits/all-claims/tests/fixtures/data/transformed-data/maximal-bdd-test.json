@@ -1,5 +1,6 @@
 {
     "form526": {
+      "isVaEmployee": true,
       "standardClaim": false,
       "bankAccountType": "Checking",
       "bankAccountNumber": "1233",
@@ -9,6 +10,7 @@
         "primaryPhone": "4445551212",
         "emailAddress": "test2@test1.net"
       },
+      "servedInCombatZonePost911": true,
       "mailingAddress": {
         "country": "USA",
         "addressLine1": "123 Main",

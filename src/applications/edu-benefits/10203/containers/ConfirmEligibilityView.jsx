@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { isChapter33 } from '../helpers';
+import captureEvents from '../analytics-functions';
 
 export class ConfirmEligibilityView extends React.Component {
   onChange = property => {
@@ -159,6 +160,7 @@ export class ConfirmEligibilityView extends React.Component {
   };
 
   render() {
+    captureEvents.ineligibilityAlert(this.props);
     return (
       <div>
         {this.renderHeader()}
@@ -177,9 +179,10 @@ export class ConfirmEligibilityView extends React.Component {
           <div>
             <div className="vads-u-margin-top--neg2">
               <a
-                className={'usa-button-primary wizard-button va-button-primary'}
+                className={'usa-button-primary va-button-primary'}
                 href="/education/about-gi-bill-benefits/"
                 target="self"
+                onClick={captureEvents.exitApplication()}
               >
                 Exit application
               </a>

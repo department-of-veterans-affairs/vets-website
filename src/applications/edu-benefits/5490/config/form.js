@@ -253,7 +253,8 @@ const formConfig = {
                 'ui:title': 'Dependents’ Indemnity Compensation (DIC)',
               },
               chapter31: {
-                'ui:title': 'Vocational Rehabilitation benefits (Chapter 31)',
+                'ui:title':
+                  'Veteran Readiness and Employment benefits (Chapter 31)',
               },
               'view:ownServiceBenefits': {
                 'ui:title':
