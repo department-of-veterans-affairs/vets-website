@@ -19,11 +19,13 @@ const testConfig = createTestConfig(
     },
 
     pageHooks: {
-      introduction: () => {
-        // Hit the start button
-        cy.findAllByText(/start/i, { selector: 'button' })
-          .first()
-          .click();
+      introduction: ({ afterHook }) => {
+        afterHook(() => {
+          // Hit the start button
+          cy.findAllByText(/start/i, { selector: 'button' })
+            .first()
+            .click();
+        });
       },
     },
 

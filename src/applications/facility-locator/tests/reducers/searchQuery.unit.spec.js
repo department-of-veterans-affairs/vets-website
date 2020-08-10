@@ -5,9 +5,9 @@ import {
   SEARCH_QUERY_UPDATED,
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
-  FETCH_SERVICES,
-  FETCH_SERVICES_DONE,
-  FETCH_SERVICES_FAILED,
+  FETCH_SPECIALTIES,
+  FETCH_SPECIALTIES_DONE,
+  FETCH_SPECIALTIES_FAILED,
 } from '../../utils/actionTypes';
 import { SearchQueryReducer } from '../../reducers/searchQuery';
 
@@ -104,7 +104,7 @@ describe('search query reducer', () => {
 
   it('should handle fetching services', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
-      type: FETCH_SERVICES,
+      type: FETCH_SPECIALTIES,
     });
 
     expect(state.error).to.eql(false);
@@ -113,7 +113,7 @@ describe('search query reducer', () => {
 
   it('should handle provider services fetched', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
-      type: FETCH_SERVICES_DONE,
+      type: FETCH_SPECIALTIES_DONE,
     });
 
     expect(state.error).to.eql(false);
@@ -122,7 +122,7 @@ describe('search query reducer', () => {
 
   it('should handle failed fetching provider services', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
-      type: FETCH_SERVICES_FAILED,
+      type: FETCH_SPECIALTIES_FAILED,
     });
 
     expect(state.error).to.eql(true);
