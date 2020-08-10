@@ -31,7 +31,7 @@ export function fhirSearch({ query, mock }) {
     promise = vaosFHIRRequest(query);
   }
 
-  return promise.then(resp => resp.entry.map(item => item.resource));
+  return promise.then(resp => resp.entry?.map(item => item.resource) || []);
 }
 
 /**

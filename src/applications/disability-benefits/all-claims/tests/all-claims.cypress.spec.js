@@ -15,9 +15,9 @@ const testConfig = createTestConfig(
     dataSets: [
       'full-781-781a-8940-test.json',
       'maximal-test',
-      // 'maximal-bdd-test',
+      'maximal-bdd-test',
       'minimal-test',
-      // 'minimal-bdd-test',
+      'minimal-bdd-test',
       'newOnly-test',
       'secondary-new-test.json',
       'upload-781-781a-8940-test.json',
@@ -29,14 +29,16 @@ const testConfig = createTestConfig(
     },
 
     pageHooks: {
-      introduction: () => {
-        cy.axeCheck();
-        // Hit the start button
-        cy.findAllByText(/start/i, { selector: 'button' })
-          .first()
-          .click();
+      introduction: ({ afterHook }) => {
+        afterHook(() => {
+          // Hit the start button
+          cy.findAllByText(/start/i, { selector: 'button' })
+            .first()
+            .click();
+        });
+      },
 
-        cy.axeCheck();
+      'veteran-information': () => {
         // Click past the ITF message
         cy.findByText(/continue/i, { selector: 'button' }).click();
       },
@@ -54,13 +56,10 @@ const testConfig = createTestConfig(
             cy.get('input[name$="_dateRange_toYear"]')
               .clear()
               .type(date[0]);
-            cy.get('.additional-info-button[aria-expanded="false"]').click();
             cy.get('input[name$="_separationLocation"]')
               .type(data.serviceInformation.separationLocation)
               .blur();
           }
-          cy.axeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
 
@@ -71,8 +70,6 @@ const testConfig = createTestConfig(
               cy.get(`input[name="root_ratedDisabilities_${index}"]`).click();
             }
           });
-          cy.axeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
 
@@ -87,8 +84,6 @@ const testConfig = createTestConfig(
             cy.fillPage();
             cy.findByText(/save/i, { selector: 'button' }).click();
           }
-          cy.axeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
     },
@@ -152,6 +147,8 @@ const testConfig = createTestConfig(
         });
       });
     },
+
+    skip: ['maximal-bdd-test', 'minimal-bdd-test'],
   },
   manifest,
   formConfig,
