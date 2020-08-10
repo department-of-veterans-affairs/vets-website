@@ -1,4 +1,4 @@
-const { getDrupalValue } = require('./helpers');
+const { getDrupalValue, isPublished, utcToEpochTime } = require('./helpers');
 
 const transform = entity => ({
   entityType: 'node',
@@ -6,6 +6,7 @@ const transform = entity => ({
   title: `${getDrupalValue(entity.fieldNameFirst)} ${getDrupalValue(
     entity.fieldLastName,
   )}`,
+  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
   fieldBody: getDrupalValue(entity.fieldBody),
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldEmailAddress: getDrupalValue(entity.fieldEmailAddress),
@@ -22,6 +23,12 @@ const transform = entity => ({
     : null,
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
   fieldSuffix: getDrupalValue(entity.fieldSuffix),
+  // Used for reverse fields in other transformers
+  fieldIntroText: getDrupalValue(entity.fieldIntroText),
+  fieldPhotoAllowHiresDownload: getDrupalValue(
+    entity.fieldPhotoAllowHiresDownload,
+  ),
+  changed: utcToEpochTime(getDrupalValue(entity.changed)),
 });
 module.exports = {
   filter: [
@@ -35,6 +42,10 @@ module.exports = {
     'field_office',
     'field_phone_number',
     'field_suffix',
+    'field_intro_text',
+    'field_photo_allow_hires_download',
+    'changed',
+    'moderation_state',
   ],
   transform,
 };

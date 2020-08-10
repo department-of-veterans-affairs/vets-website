@@ -1,3 +1,6 @@
+const { usePartialSchema } = require('../../transformers/helpers');
+const personProfileSchema = require('./node-person_profile');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -27,12 +30,36 @@ module.exports = {
         },
         fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
         entityMetaTags: { $ref: 'MetaTags' },
+        fieldLeadership: {
+          type: 'array',
+          items: {
+            /* eslint-disable react-hooks/rules-of-hooks */
+            entity: usePartialSchema(personProfileSchema, [
+              'entityPublished',
+              'title',
+              'fieldNameFirst',
+              'fieldLastName',
+              'fieldSuffix',
+              'fieldEmailAddress',
+              'fieldPhoneNumber',
+              'fieldDescription',
+              'fieldOffice',
+              'fieldIntroText',
+              'fieldPhotoAllowHiresDownload',
+              'fieldMedia',
+              'fieldBody',
+              'changed',
+              'entityUrl',
+            ]),
+          },
+        },
       },
       required: [
         'title',
         'fieldNicknameForThisFacility',
         'fieldLinkFacilityEmergList',
         'fieldPressReleaseBlurb',
+        'fieldLeadership',
       ],
     },
   },
