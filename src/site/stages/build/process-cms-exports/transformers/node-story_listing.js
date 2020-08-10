@@ -20,26 +20,29 @@ const transform = entity => ({
   fieldOffice: entity.fieldOffice[0],
   reverseFieldListingNode: {
     entities: entity.reverseFieldList
-      .filter(
-        reverseField =>
-          reverseField.entityBundle === 'news_story' && reverseField.status,
-      )
-      .map(reverseField => ({
-        entityId: reverseField.entityId,
-        title: reverseField.title,
-        fieldFeatured: reverseField.fieldFeatured,
-        entityUrl: reverseField.entityUrl,
-        // Ignoring for now since some uids are missing from the export
-        // uid: reverseField.uid,
-        promote: reverseField.promote,
-        created: reverseField.created,
-        fieldAuthor: reverseField.fieldAuthor,
-        fieldImageCaption: reverseField.fieldImageCaption,
-        fieldIntroText: reverseField.fieldIntroText,
-        fieldMedia: reverseField.fieldMedia,
-        fieldFullStory: reverseField.fieldFullStory,
-      }))
-      .sort((a, b) => b.created - a.created),
+      ? entity.reverseFieldList
+          .filter(
+            reverseField =>
+              reverseField.entityBundle === 'news_story' &&
+              reverseField.isPublished,
+          )
+          .map(reverseField => ({
+            entityId: reverseField.entityId,
+            title: reverseField.title,
+            fieldFeatured: reverseField.fieldFeatured,
+            entityUrl: reverseField.entityUrl,
+            // Ignoring for now since some uids are missing from the export
+            // uid: reverseField.uid,
+            promote: reverseField.promote,
+            created: reverseField.created,
+            fieldAuthor: reverseField.fieldAuthor,
+            fieldImageCaption: reverseField.fieldImageCaption,
+            fieldIntroText: reverseField.fieldIntroText,
+            fieldMedia: reverseField.fieldMedia,
+            fieldFullStory: reverseField.fieldFullStory,
+          }))
+          .sort((a, b) => b.created - a.created)
+      : [],
   },
 });
 
