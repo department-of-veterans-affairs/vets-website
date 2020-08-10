@@ -9,7 +9,7 @@ import {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
-import { showEduBenefits1990Wizard } from '../../selectors/educationWizard';
+import { showEduBenefits1990Wizard } from 'applications/edu-benefits/selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
   state = {
