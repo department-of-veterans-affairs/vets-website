@@ -28,7 +28,6 @@ export const widgetTypes = {
   VIEW_DEPENDENTS: 'view-dependents',
   ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
   CHANGE_ADDRESS: 'change-address',
-  CHANGE_ADDRESS_PROFILE_2: 'change-address',
 };
 
 const HEALTH_TOOLS = [
@@ -196,12 +195,6 @@ export const toolUrl = (appId, authenticatedWithSSOe = false) => {
 
     case widgetTypes.CHANGE_ADDRESS:
       return {
-        url: '/profile/',
-        redirect: false,
-      };
-
-    case widgetTypes.CHANGE_ADDRESS_PROFILE_2:
-      return {
         url: '/profile/personal-information',
         redirect: false,
       };
@@ -308,7 +301,6 @@ export const serviceDescription = appId => {
       return 'add or remove dependents';
 
     case widgetTypes.CHANGE_ADDRESS:
-    case widgetTypes.CHANGE_ADDRESS_PROFILE_2:
       return 'change your address';
 
     default:
