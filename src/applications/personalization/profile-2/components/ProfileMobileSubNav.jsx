@@ -9,6 +9,7 @@ import {
   isReverseTab,
   isTab,
 } from 'platform/utilities/accessibility';
+import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
 import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 
@@ -37,6 +38,12 @@ const getElementHeight = el => {
       .reduce((dimension, sum) => sum + dimension, 0)
   );
 };
+
+const menuButtonClasses = prefixUtilityClasses([
+  'font-size--base',
+  'font-family--sans',
+  'display--inline',
+]).join(' ');
 
 const ProfileMobileSubNav = ({
   openMenu,
@@ -185,14 +192,18 @@ const ProfileMobileSubNav = ({
               type="button"
               onClick={openMenu}
             >
-              <strong>Your profile menu</strong>
+              <strong>
+                <h1 className={menuButtonClasses}>Your profile</h1> menu
+              </strong>
               <i className="fa fa-bars" aria-hidden="true" role="img" />
             </button>
           )}
           {isMenuOpen && (
             <>
               <div className="menu-header vads-u-display--flex">
-                <strong className="vads-u-flex--auto">Your profile menu</strong>
+                <strong className="vads-u-flex--auto">
+                  <h1 className={menuButtonClasses}>Your profile</h1> menu
+                </strong>
                 <button
                   ref={closeMenuButton}
                   className="close-menu vads-u-flex--auto"
