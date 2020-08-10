@@ -76,6 +76,7 @@ class SearchControls extends Component {
           className="bor-rad"
           onChange={this.handleFacilityTypeChange}
           style={{ fontWeight: 'bold' }}
+          required
         >
           {options}
         </select>
@@ -127,7 +128,7 @@ class SearchControls extends Component {
         <label htmlFor="service-type-dropdown">Choose a service type</label>
         <select
           id="service-type-dropdown"
-          disabled={disabled}
+          disabled={disabled || !facilityType}
           value={serviceType || ''}
           className="bor-rad"
           onChange={this.handleServiceTypeChange}

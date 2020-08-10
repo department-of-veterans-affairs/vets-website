@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { bindActionCreators } from 'redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -17,7 +16,17 @@ class DebtLettersWrapper extends Component {
   }
 
   render() {
-    const { isPending, isPendingVBMS, children, showDebtLetters } = this.props;
+    const {
+      isPending,
+      isPendingVBMS,
+      children,
+      showDebtLetters,
+      isLoggedIn,
+    } = this.props;
+
+    if (!isLoggedIn) {
+      return window.location.replace('/manage-va-debt');
+    }
 
     if (showDebtLetters === false) {
       return window.location.replace('/');
@@ -31,9 +40,7 @@ class DebtLettersWrapper extends Component {
       <>
         {showDebtLetters ? (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--4 vads-u-margin-top--2 vads-u-font-family--serif">
-            <CallToActionWidget appId="debt-letters">
-              {children}
-            </CallToActionWidget>
+            {children}
           </div>
         ) : (
           <div />
