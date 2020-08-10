@@ -15,7 +15,8 @@ const tryEditSectionWhileEditing = options => {
   cy.get(`#${editButtonId}-edit-link`).click();
   // Make an edit
   cy.get(`#${editLineId}`)
-    .click().type('test');
+    .click()
+    .type('test');
   // Click on a different section to edit
   cy.get(`#${otherSectionEditButtonId}-edit-link`).click();
 
