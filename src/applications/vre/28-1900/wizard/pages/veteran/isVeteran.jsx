@@ -7,15 +7,15 @@ const options = [
   { value: veteranPathPageNames.noHonorableDischarge, label: 'No' },
 ];
 
-const amVeteran = ({ setPageState, state = {} }) => (
+const isVeteran = ({ setPageState, state = {} }) => (
   <ErrorableRadioButtons
-    name={`${veteranPathPageNames.amVeteran}-option`}
+    name={`${veteranPathPageNames.isVeteran}-option`}
     label={
       <p>
         Did you receive an <strong>other than</strong> dishonorable discharge?
       </p>
     }
-    id={`${veteranPathPageNames.amVeteran}-option`}
+    id={`${veteranPathPageNames.isVeteran}-option`}
     options={options}
     onValueChange={({ value }) => setPageState({ selected: value }, value)}
     value={{ value: state.selected }}
@@ -23,6 +23,6 @@ const amVeteran = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: veteranPathPageNames.amVeteran,
-  component: amVeteran,
+  name: veteranPathPageNames.isVeteran,
+  component: isVeteran,
 };

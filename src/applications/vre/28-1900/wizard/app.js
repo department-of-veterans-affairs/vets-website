@@ -2,13 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-export default function createTheWizard(store, widgetType) {
+export default function createChapter31Wizard(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
   if (root) {
-    console.log('hey there');
     import(/* webpackChunkName: "Form686CTA" */
-    './theWizard.jsx').then(module => {
+    './chapter31Wizard.jsx').then(module => {
       const Chapter31Wizard = module.default;
       ReactDOM.render(
         <Provider store={store}>

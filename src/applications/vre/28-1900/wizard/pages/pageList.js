@@ -3,8 +3,7 @@ export const startingPageName = {
 };
 
 export const veteranPathPageNames = {
-  amVeteran: 'amVeteran',
-  amServiceMember: 'amServiceMember',
+  isVeteran: 'isVeteran',
   amOther: 'amOther',
   noHonorableDischarge: 'noHonorableDischarge',
   yesHonorableDischarge: 'yesHonorableDischarge',
@@ -16,7 +15,7 @@ export const veteranPathPageNames = {
 };
 
 export const serviceMemberPathPageNames = {
-  amServiceMember: 'amServiceMember',
+  isServiceMember: 'isServiceMember',
   noHonorableDischargeSM: 'noHonorableDischargeSM',
   yesHonorableDischargeSM: 'yesHonorableDischargeSM',
   noVaMemorandum: 'noVaMemorandum',
@@ -28,5 +27,5 @@ export const serviceMemberPathPageNames = {
 };
 
 export const otherPathPageNames = {
-  amOther: 'amOther',
+  isOther: 'isOther',
 };

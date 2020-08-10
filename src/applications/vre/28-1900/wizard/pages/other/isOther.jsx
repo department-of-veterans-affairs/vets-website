@@ -7,12 +7,12 @@ import {
 } from '../pageList';
 
 const options = [
-  { value: veteranPathPageNames.amVeteran, label: 'Veteran' },
+  { value: veteranPathPageNames.isVeteran, label: 'Veteran' },
   {
-    value: serviceMemberPathPageNames.amServiceMember,
+    value: serviceMemberPathPageNames.isServiceMember,
     label: 'Current service member',
   },
-  { value: otherPathPageNames.amOther, label: 'Neither of these' },
+  { value: otherPathPageNames.isOther, label: 'Neither of these' },
 ];
 
 const amOther = ({ setPageState, state = {} }) => (
@@ -26,6 +26,6 @@ const amOther = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: otherPathPageNames.amOther,
+  name: otherPathPageNames.isOther,
   component: amOther,
 };

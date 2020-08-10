@@ -1,7 +1,7 @@
 import start from './start';
 
 // Veteran Path Imports
-import amVeteran from './veteran/amVeteran';
+import isVeteran from './veteran/isVeteran';
 import noHonorableDischarge from './veteran/01-noHonorableDischarge';
 import yesHonorableDischarge from './veteran/01-yesHonorableDischarge';
 import disabilityRating from './veteran/02-disabilityRating';
@@ -11,7 +11,7 @@ import notInterestedInEmploymentHelp from './veteran/04-notInterestedInEmploymen
 import interestedInEmploymentHelp from './veteran/04-yesInterestedInEmploymentHelp';
 
 // Service Member Path Imports
-import amServiceMember from './service-member/amServiceMember';
+import isServiceMember from './service-member/isServiceMember';
 import noHonorableDischargeSM from './service-member/01-noHonorableDischarge';
 import yesHonorableDischargeSM from './service-member/01-yesHonorableDischarge';
 import noVaMemorandum from './service-member/02-noVaMemorandum';
@@ -22,13 +22,13 @@ import noIDES from './service-member/03-noIDES';
 import yesIDES from './service-member/03-yesIDES';
 
 // Other Path Imports
-import amOther from './other/amOther';
+import isOther from './other/isOther';
 
 export default [
   start,
-  amVeteran,
-  amServiceMember,
-  amOther,
+  isVeteran,
+  isServiceMember,
+  isOther,
   noHonorableDischarge,
   yesHonorableDischarge,
   disabilityRating,

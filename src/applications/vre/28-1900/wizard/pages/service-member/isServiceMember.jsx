@@ -7,11 +7,11 @@ const options = [
   { value: serviceMemberPathPageNames.noHonorableDischargeSM, label: 'No' },
 ];
 
-const amServiceMember = ({ setPageState, state = {} }) => (
+const isServiceMember = ({ setPageState, state = {} }) => (
   <ErrorableRadioButtons
-    name={`${serviceMemberPathPageNames.amServiceMember}-option`}
+    name={`${serviceMemberPathPageNames.isServiceMember}-option`}
     label="Do you expect to receive an honorable discharge?"
-    id={`${serviceMemberPathPageNames.amServiceMember}-option`}
+    id={`${serviceMemberPathPageNames.isServiceMember}-option`}
     options={options}
     onValueChange={({ value }) => setPageState({ selected: value }, value)}
     value={{ value: state.selected }}
@@ -19,6 +19,6 @@ const amServiceMember = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: serviceMemberPathPageNames.amServiceMember,
-  component: amServiceMember,
+  name: serviceMemberPathPageNames.isServiceMember,
+  component: isServiceMember,
 };
