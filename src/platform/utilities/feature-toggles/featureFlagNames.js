@@ -40,7 +40,7 @@ export default Object.freeze({
   form526BDD: 'form526BenefitsDeliveryAtDischarge',
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
   showEduBenefits1995Wizard: 'showEduBenefits1995Wizard',
-  showEduBenefits1990NWizard: 'showEduBenefits1990NWizard',
+  showEduBenefits1990NWizard: 'show_edu_benefits_1990n_wizard',
   showEduBenefits0994Wizard: 'showEduBenefits0994Wizard',
   showEduBenefits5490Wizard: 'showEduBenefits5490Wizard',
   showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
