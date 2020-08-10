@@ -15,11 +15,12 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for Vocational Rehabilitation.',
+    notFound:
+      'Please start over to apply for Veteran Readiness and Employment.',
     noAuth:
-      'Please sign in again to continue your application for Vocational Rehabilitation.',
+      'Please sign in again to continue your application for Vocational Readiness and Employment.',
   },
-  title: '28-1900 Vocational Rehabilitation',
+  title: '28-1900 Vocational Readiness and Employment',
   defaultDefinitions: {},
   chapters: {
     veteranInformation: {
