@@ -5,6 +5,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { Link } from 'react-router';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import { getExpressCareFormPageInfo } from '../utils/selectors';
 import {
   FETCH_STATUS,
   EXPRESS_CARE_REASONS,
@@ -59,16 +60,13 @@ const uiSchema = {
 let form;
 
 function ExpressCareReasonPage({
-  newRequest,
-  localWindowString,
+  data,
   openFormPage,
+  pageChangeInProgress,
   router,
-  routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
   schema,
-  submitErrorReason,
-  submitExpressCareRequest,
-  submitStatus,
   updateFormData,
 }) {
   useEffect(() => {
@@ -76,8 +74,6 @@ function ExpressCareReasonPage({
     scrollAndFocus();
     openFormPage(pageKey, uiSchema, initialSchema);
   }, []);
-
-  const { data } = newRequest;
 
   return (
     <div>
@@ -112,6 +108,7 @@ function ExpressCareReasonPage({
         <FormButtons
           backButtonText="Back"
           nextButtonText="Continue"
+          pageChangeInProgress={pageChangeInProgress}
           onBack={() => routeToPreviousAppointmentPage(router, pageKey)}
         />
       </SchemaForm>
@@ -128,7 +125,7 @@ const mapDispatchToProps = {
 };
 
 function mapStateToProps(state) {
-  return state.expressCare;
+  return getExpressCareFormPageInfo(state);
 }
 
 export default connect(

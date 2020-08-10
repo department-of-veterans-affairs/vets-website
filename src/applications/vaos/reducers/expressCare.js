@@ -8,15 +8,17 @@ import {
 import set from 'platform/utilities/data/set';
 
 import {
-  FORM_PAGE_OPENED,
-  FORM_DATA_UPDATED,
-  FORM_SUBMIT,
-  FORM_SUBMIT_FAILED,
-  FORM_SUBMIT_SUCCEEDED,
-  FETCH_EXPRESS_CARE_WINDOWS,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+  FETCH_EXPRESS_CARE_WINDOWS,
   FORM_ADDITIONAL_DETAILS_PAGE_OPENED,
+  FORM_DATA_UPDATED,
+  FORM_PAGE_CHANGE_COMPLETED,
+  FORM_PAGE_CHANGE_STARTED,
+  FORM_PAGE_OPENED,
+  FORM_SUBMIT_FAILED,
+  FORM_SUBMIT_SUCCEEDED,
+  FORM_SUBMIT,
 } from '../actions/expressCare';
 
 import { FETCH_STATUS, EXPRESS_CARE } from '../utils/constants';
@@ -27,6 +29,7 @@ const initialState = {
   newRequest: {
     data: {},
     pages: {},
+    pageChangeInProgress: false,
   },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
@@ -81,6 +84,24 @@ export default function expressCareReducer(state = initialState, action) {
             ...newRequest.pages,
             [action.page]: schema,
           },
+        },
+      };
+    }
+    case FORM_PAGE_CHANGE_STARTED: {
+      return {
+        ...state,
+        newRequest: {
+          ...state.newRequest,
+          pageChangeInProgress: true,
+        },
+      };
+    }
+    case FORM_PAGE_CHANGE_COMPLETED: {
+      return {
+        ...state,
+        newRequest: {
+          ...state.newRequest,
+          pageChangeInProgress: false,
         },
       };
     }
@@ -166,8 +187,7 @@ export default function expressCareReducer(state = initialState, action) {
         submitStatus: FETCH_STATUS.succeeded,
         successfulRequest: action.responseData,
         newRequest: {
-          data: {},
-          pages: {},
+          ...initialState.newRequest,
         },
       };
     case FORM_SUBMIT_FAILED:

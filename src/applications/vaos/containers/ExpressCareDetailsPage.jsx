@@ -24,7 +24,9 @@ const initialSchema = {
   properties: {
     additionalInformation: {
       title: (
-        <h2 className="vads-u-color--gray-dark">Tell us about your symptom</h2>
+        <span className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--xl">
+          Tell us about your symptom
+        </span>
       ),
       type: 'string',
       maxLength: 256,
@@ -63,9 +65,11 @@ const uiSchema = {
   },
   contactInfo: {
     'ui:title': (
-      <h2 className="vads-u-color--gray-dark">
-        Share your contact information
-      </h2>
+      <>
+        <span className="vads-u-color--gray-dark vads-u-font-size--xl">
+          Share your contact information
+        </span>
+      </>
     ),
     'ui:description': (
       <div className="vads-u-margin-bottom--3">
@@ -87,8 +91,6 @@ const uiSchema = {
     },
   },
 };
-
-let form;
 
 function ExpressCareDetailsPage({
   data,
