@@ -198,7 +198,7 @@ const formConfig = {
         servedInCombatZone: {
           title: 'Combat status',
           path: 'review-veteran-details/combat-status',
-          depends: formData => servedAfter911(formData) && !isBDD(formData),
+          depends: servedAfter911,
           uiSchema: servedInCombatZone.uiSchema,
           schema: servedInCombatZone.schema,
         },
@@ -207,8 +207,7 @@ const formConfig = {
           path:
             'review-veteran-details/military-service-history/reserves-national-guard',
           depends: formData =>
-            hasGuardOrReservePeriod(formData.serviceInformation) &&
-            !isBDD(formData),
+            hasGuardOrReservePeriod(formData.serviceInformation),
           uiSchema: reservesNationalGuardService.uiSchema,
           schema: reservesNationalGuardService.schema,
         },
@@ -650,7 +649,6 @@ const formConfig = {
         vaEmployee: {
           title: 'VA employee',
           path: 'va-employee',
-          depends: formData => !isBDD(formData),
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
         },
