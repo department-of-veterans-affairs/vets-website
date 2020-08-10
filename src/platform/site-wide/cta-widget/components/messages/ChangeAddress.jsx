@@ -5,7 +5,7 @@ import { selectShowProfile2 } from 'applications/personalization/profile-2/selec
 import CallToActionAlert from '../CallToActionAlert';
 
 function goToOriginalProfile() {
-  window.location = '/profile';
+  window.location = '/profile/';
 }
 
 const ChangeAddress = ({
