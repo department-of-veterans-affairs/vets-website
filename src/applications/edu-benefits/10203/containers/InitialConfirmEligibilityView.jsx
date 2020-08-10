@@ -29,7 +29,7 @@ function InitialConfirmEligibilityView(props) {
       <br />
       <div>
         <a
-          className={'usa-button-primary wizard-button va-button-primary'}
+          className={'usa-button-primary va-button-primary'}
           href="/education/"
           target="_self"
         >
