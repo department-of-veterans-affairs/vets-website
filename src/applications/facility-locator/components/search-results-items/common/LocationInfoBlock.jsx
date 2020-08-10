@@ -59,7 +59,6 @@ const LocationInfoBlock = ({ location, from, query }) => {
         )}
       {isProvider ? (
         <span>
-          <ProviderServiceDescription provider={location} query={query} />
           <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
           {location.attributes.orgName && (
             <h6>{location.attributes.orgName}</h6>
@@ -67,11 +66,6 @@ const LocationInfoBlock = ({ location, from, query }) => {
         </span>
       ) : (
         <span>
-          <FacilityTypeDescription
-            location={location}
-            from={from}
-            query={query}
-          />
           {isVADomain(website) ? (
             <a href={website}>
               <h3 className="vads-u-font-size--h5 no-marg-top">{name}</h3>

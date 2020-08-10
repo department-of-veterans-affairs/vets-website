@@ -8,7 +8,7 @@ export const eligiblePrograms = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        See eligible Programs
+        See eligible programs
       </a>{' '}
     </div>
   );

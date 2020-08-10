@@ -1,15 +1,48 @@
 import React from 'react';
 import { facilityTypes } from '../config';
+import get from 'platform/utilities/data/get';
 
-const ProviderServiceDescription = ({ provider }) => {
-  const services = provider.attributes.specialty.map(s => s.name.trim());
+/**
+ * Description block for a CC Provider
+ *
+ * @param {{provider: object, details?: boolean}} props
+ *   `provider` is the specific CCProvider search result object.
+ *
+ *   `details` is a flag as to whether or not this component is being
+ *      used on the `/facilities/provider/{id}` details page as the
+ *      PPMS provided description of each specialty/service is included
+ *      on the details output.
+ */
+const ProviderServiceDescription = ({ provider, query, details = false }) => {
+  if (details) {
+    const { specialty } = provider.attributes;
+    if (specialty && specialty.length < 1) return null;
+
+    return (
+      <ul className="vads-u-margin-top--1">
+        {specialty.map(s => (
+          <li key={s.name}>
+            <u>{s.name}</u>: {s.desc}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  const specialties = get(
+    ['attributes', 'relationships', 'specialties'],
+    provider,
+    [],
+  ).map(s => s.name.trim());
+  const { posCodes } = provider.attributes;
+
   return (
     <div>
       <p>{facilityTypes.cc_provider.toUpperCase()}</p>
-      {services.length >= 1 && (
+      {specialties.length >= 1 && (
         <p>
           <span>
-            <strong>Services:</strong> {services.join(', ')}
+            <strong>Services:</strong> {specialties.join(', ')}
           </span>
         </p>
       )}

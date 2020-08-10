@@ -6,13 +6,14 @@ describe('Facility search', () => {
       constants: path.join(__dirname, '..', '..', 'constants'),
     });
   });
+
   beforeEach(() => {
     cy.server();
     cy.route('GET', '/v0/feature_toggles?*', []);
     cy.route('GET', '/v0/maintenance_windows', []);
     cy.route(
       'GET',
-      '/v0/facilities/va?*',
+      '/v1/facilities/va?*',
       'fx:constants/mock-facility-data-v1',
     ).as('searchFacilities');
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
@@ -43,7 +44,7 @@ describe('Facility search', () => {
     cy.get('.facility-result a').should('exist');
     cy.route(
       'GET',
-      '/v0/facilities/va/vha_674BY',
+      '/v1/facilities/va/vha_674BY',
       'fx:constants/mock-facility-v1',
     ).as('fetchFacility');
 

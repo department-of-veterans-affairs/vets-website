@@ -30,13 +30,13 @@ import {
 import { areGeocodeEqual, setFocus, showDialogUrgCare } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
-  facilityLocatorFeUseV1,
   facilitiesPpmsSuppressCommunityCare,
 } from '../utils/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
+import get from 'platform/utilities/data/get';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -98,7 +98,6 @@ class VAMap extends Component {
         facilityType: currentQuery.facilityType,
         serviceType: currentQuery.serviceType,
         page: currentQuery.currentPage,
-        apiVersion: this.props.useAPIv1 ? 1 : 0,
       });
     }
   }
@@ -449,6 +448,12 @@ class VAMap extends Component {
         markerText: markers.next().value,
       };
 
+      const specialties = get(
+        ['attributes', 'relationships', 'specialties'],
+        r,
+        [],
+      );
+
       const popupContent = (
         <div>
           {r.type === LocationType.CC_PROVIDER ? (
@@ -463,7 +468,7 @@ class VAMap extends Component {
               <p>
                 Services:{' '}
                 <strong>
-                  {r.attributes.specialty.map(s => s.name.trim()).join(', ')}
+                  {specialties.map(s => s.name.trim()).join(', ')}
                 </strong>
               </p>
             </div>
@@ -751,7 +756,6 @@ function mapStateToProps(state) {
     currentQuery: state.searchQuery,
     suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
     suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
-    useAPIv1: facilityLocatorFeUseV1(state),
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,
