@@ -569,6 +569,7 @@ describe('VAOS reducer: newAppointment', () => {
           {
             clinicId: '455',
             facilityId: '983',
+            sta6aid: '983',
             startDate: '',
           },
         ],
@@ -636,11 +637,13 @@ describe('VAOS reducer: newAppointment', () => {
           {
             clinicId: '455',
             facilityId: '983',
+            sta6aid: '983',
             startDate: '',
           },
           {
             clinicId: '456',
             facilityId: '983',
+            sta6aid: '983',
             startDate: '',
           },
         ],
