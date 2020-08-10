@@ -10,7 +10,7 @@ describe('UrgentCareSearch', () => {
     expect(urgentCallNotReturn).to.equal(null);
   });
 
-  it('Should render urgentCareCall in result item - cc_provider, urgent_care_service ', () => {
+  it('Should render urgentCareCall in result item - provider, urgent_care_service ', () => {
     const urgentCall = urgentCareCall({
       facilityType: LocationType.CC_PROVIDER,
       serviceType: CLINIC_URGENTCARE_SERVICE,
