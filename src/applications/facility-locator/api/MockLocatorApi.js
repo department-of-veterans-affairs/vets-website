@@ -4,6 +4,8 @@
 import compact from 'lodash/compact';
 import providerServices from '../constants/mock-provider-services.json';
 import facilityDataJson from '../constants/mock-facility-data.json';
+import urgentCareData from '../constants/mock-urgent-care-mashup-data.json';
+import { urgentCareServices } from '../config';
 
 // Immitate network delay
 const delay = 0;
@@ -12,6 +14,21 @@ const testFacilityTypes = {
   cemetery: 'va_cemetery',
   benefits: 'va_benefits_facility',
 };
+
+// Map facility type to attribute type
+const testVAFacilityTypes = {
+  health: 'va_health_facility',
+  cemetery: 'va_cemetery',
+  benefits: 'va_benefits_facility',
+  // eslint-disable-next-line camelcase
+  vet_center: 'vet_center',
+};
+
+const pharmacyTypes = ['pharmacy', 'cc_pharmacy'];
+
+const ccProviderTypes = ['cc_provider', 'provider'];
+
+const urgentCareType = 'urgent_care';
 
 class MockLocatorApi {
   /**
@@ -52,11 +69,33 @@ class MockLocatorApi {
             reject('Random failure due to fail flag being set');
           }
 
+          let locationsData;
           const locations = { ...facilityDataJson };
-          const locationsData = locations.data.filter(
-            loc =>
-              loc.attributes.facilityType === testFacilityTypes[locationType],
-          );
+          if (locationType === urgentCareType) {
+            if (
+              !serviceType ||
+              serviceType === Object.keys(urgentCareServices)[0]
+            ) {
+              locationsData = urgentCareData.data;
+            }
+            if (serviceType === Object.keys(urgentCareServices)[1]) {
+              locationsData = urgentCareData.data.filter(
+                loc => loc.type === 'facility',
+              );
+            }
+            if (serviceType === Object.keys(urgentCareServices)[2]) {
+              locationsData = urgentCareData.data.filter(
+                loc => loc.type === 'cc_provider',
+              );
+            }
+          } else {
+            locationsData = locations.data.filter(
+              loc =>
+                loc.attributes.facilityType ===
+                testVAFacilityTypes[locationType],
+            );
+          }
+
           locations.data = locationsData;
 
           resolve(locations);

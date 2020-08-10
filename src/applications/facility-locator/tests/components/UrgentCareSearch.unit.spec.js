@@ -1,8 +1,10 @@
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { urgentCareCall } from '../../components/SearchResult';
+import {
+  urgentCareCall,
+  posProviderName,
+} from '../../components/search-results-items/UrgentCareResult';
 import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../../constants';
-import { urgentCareProviderNames } from '../../components/ProviderServiceDescription';
 
 describe('UrgentCareSearch', () => {
   it('Should not render urgent care call.', () => {
@@ -45,11 +47,9 @@ describe('UrgentCareSearch', () => {
   });
 
   it('Should return correct labels for urgent care (UrgentCare, WalkIn)', () => {
-    const walkIn = urgentCareProviderNames(17);
-    const urgentCare1 = urgentCareProviderNames(20);
+    const walkIn = posProviderName(17);
+    const urgentCare1 = posProviderName(20);
     expect(walkIn).to.equal('RETAIL/WALK-IN CARE');
     expect(urgentCare1).to.equal('URGENT CARE');
-    const urgentCare2 = urgentCareProviderNames(undefined);
-    expect(urgentCare2).to.equal('COMMUNITY PROVIDERS (IN VA’S NETWORK)');
   });
 });
