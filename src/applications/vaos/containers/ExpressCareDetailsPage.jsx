@@ -63,18 +63,17 @@ const uiSchema = {
   },
   contactInfo: {
     'ui:title': (
-      <h2 className="vads-u-color--gray-dark">Your contact information</h2>
+      <h2 className="vads-u-color--gray-dark">
+        Share your contact information
+      </h2>
     ),
     'ui:description': (
       <div className="vads-u-margin-bottom--3">
         <p>
           Please provide your phone number and email address where VA health
           care staff can contact you. This contact information will be used just
-          for Express Care and won’t be updated in your VA profile.
-        </p>
-        <p className="vads-u-margin-top--1">
-          If you want to update your contact information for all your accounts,
-          please{' '}
+          for Express Care and won’t be updated in your VA profile. If you want
+          to update your contact information for all your accounts, please{' '}
           <a href="/profile" target="_blank" rel="noopener noreferrer">
             go to your profile page
           </a>
