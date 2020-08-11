@@ -147,6 +147,7 @@ describe('VAOS integration: express care requests', () => {
         additionalInformation: 'Need help ASAP',
       };
       appointment.id = '1234';
+      // We want the EC tab to display even if there's an error fetching appointments
       mockAppointmentInfo({ requests: [appointment], vaError: true });
 
       const { baseElement, findByText, getByText } = renderFromRoutes({

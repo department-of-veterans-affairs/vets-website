@@ -126,7 +126,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 }
 
 export function fetchFutureAppointments() {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
     });

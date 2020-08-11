@@ -5,7 +5,6 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
-  FETCH_PENDING_APPOINTMENTS,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
   FETCH_PENDING_APPOINTMENTS_FAILED,
   FETCH_PAST_APPOINTMENTS,
@@ -26,11 +25,7 @@ import {
 } from '../actions/sitewide';
 
 import { sortMessages } from '../services/appointment';
-import {
-  FETCH_STATUS,
-  APPOINTMENT_TYPES,
-  APPOINTMENT_STATUS,
-} from '../utils/constants';
+import { FETCH_STATUS, APPOINTMENT_STATUS } from '../utils/constants';
 
 const initialState = {
   pending: null,
@@ -149,7 +144,7 @@ export default function appointmentsReducer(state = initialState, action) {
         cancelAppointmentStatus: FETCH_STATUS.loading,
       };
     case CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED: {
-      const confirmed = state.confirmed.map(appt => {
+      const confirmed = state.confirmed?.map(appt => {
         if (appt !== state.appointmentToCancel) {
           return appt;
         }
@@ -163,7 +158,7 @@ export default function appointmentsReducer(state = initialState, action) {
 
         return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
       });
-      const pending = state.pending.map(appt => {
+      const pending = state.pending?.map(appt => {
         if (appt !== state.appointmentToCancel) {
           return appt;
         }
