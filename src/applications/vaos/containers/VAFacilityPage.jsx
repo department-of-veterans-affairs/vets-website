@@ -108,7 +108,7 @@ export class VAFacilityPage extends React.Component {
       hasDataFetchingError,
       hasEligibilityError,
       parentOfChosenFacility,
-      cernerFacilities,
+      cernerOrgIds,
       siteId,
     } = this.props;
 
@@ -214,7 +214,7 @@ export class VAFacilityPage extends React.Component {
             typeOfCare,
             facilityDetailsStatus,
             parentDetails,
-            cernerFacilities,
+            cernerOrgIds,
           }}
           data={data}
         >

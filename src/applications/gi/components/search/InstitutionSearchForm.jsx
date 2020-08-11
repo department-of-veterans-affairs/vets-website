@@ -30,7 +30,7 @@ function InstitutionSearchForm(props) {
     }
   }
 
-  const header = props.gibctFilterEnhancement ? 'Refine Search' : 'Keywords';
+  const header = props.gibctFilterEnhancement ? 'Refine search' : 'Keywords';
   const keywordSearchLabel = props.gibctFilterEnhancement
     ? 'Enter a school, location, or employer name'
     : 'City, school, or employer';
