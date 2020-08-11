@@ -41,10 +41,6 @@ const VaFacilityResult = ({ location, query }) => {
             </h3>
           )}
         </span>
-        {operatingStatus &&
-          operatingStatus.code !== OperatingStatus.NORMAL && (
-            <LocationOperationStatus operatingStatus={operatingStatus} />
-          )}
         <p>
           <LocationAddress location={location} />
         </p>
@@ -59,6 +55,10 @@ const VaFacilityResult = ({ location, query }) => {
           query={query}
         />
       </div>
+      {operatingStatus &&
+        operatingStatus.code !== OperatingStatus.NORMAL && (
+          <LocationOperationStatus operatingStatus={operatingStatus} />
+        )}
     </div>
   );
 };

@@ -507,7 +507,43 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
               },
               "_store": {}
             },
-            null
+            null,
+            {
+              "type": "div",
+              "props": {
+                "className": "usa usa background notice",
+                "children": [
+                  {
+                    "type": "i",
+                    "props": {
+                      "className": "fa fa vads- icon"
+                    },
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "props": {
+                      "className": "usa",
+                      "children": {
+                        "type": "a",
+                        "props": {
+                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                          "target": "_/blank",
+                          "onClick": "onClick",
+                          "children": [
+                            "In-network urgent care benefit",
+                            " "
+                          ]
+                        },
+                        "_store": {}
+                      }
+                    },
+                    "_store": {}
+                  }
+                ]
+              },
+              "_store": {}
+            }
           ]
         },
         "_store": {}
@@ -1017,7 +1053,43 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
             },
             "_store": {}
           },
-          null
+          null,
+          {
+            "type": "div",
+            "props": {
+              "className": "usa usa background notice",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "_store": {}
+          }
         ]
       },
       "rendered": [
@@ -1687,7 +1759,89 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
             }
           }
         },
-        null
+        null,
+        {
+          "nodeType": "host",
+          "type": "div",
+          "props": {
+            "className": "usa usa background notice",
+            "children": [
+              {
+                "type": "i",
+                "props": {
+                  "className": "fa fa vads- icon"
+                },
+                "_store": {}
+              },
+              {
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "_store": {}
+              }
+            ]
+          },
+          "rendered": [
+            {
+              "nodeType": "host",
+              "type": "i",
+              "props": {
+                "className": "fa fa vads- icon"
+              }
+            },
+            {
+              "nodeType": "host",
+              "type": "div",
+              "props": {
+                "className": "usa",
+                "children": {
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "_store": {}
+                }
+              },
+              "rendered": {
+                "nodeType": "host",
+                "type": "a",
+                "props": {
+                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                  "target": "_/blank",
+                  "onClick": "onClick",
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                },
+                "rendered": [
+                  "In-network urgent care benefit",
+                  " "
+                ]
+              }
+            }
+          ]
+        }
       ]
     }
   },
@@ -2201,7 +2355,43 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
               },
               "_store": {}
             },
-            null
+            null,
+            {
+              "type": "div",
+              "props": {
+                "className": "usa usa background notice",
+                "children": [
+                  {
+                    "type": "i",
+                    "props": {
+                      "className": "fa fa vads- icon"
+                    },
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "props": {
+                      "className": "usa",
+                      "children": {
+                        "type": "a",
+                        "props": {
+                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                          "target": "_/blank",
+                          "onClick": "onClick",
+                          "children": [
+                            "In-network urgent care benefit",
+                            " "
+                          ]
+                        },
+                        "_store": {}
+                      }
+                    },
+                    "_store": {}
+                  }
+                ]
+              },
+              "_store": {}
+            }
           ]
         },
         "rendered": [
@@ -2871,7 +3061,89 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
               }
             }
           },
-          null
+          null,
+          {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa usa background notice",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "className": "fa fa vads- icon"
+                }
+              },
+              {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              }
+            ]
+          }
         ]
       },
       "type": "div",
@@ -4198,6 +4470,183 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
               "serviceType": "UrgentCare"
             }
           }
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa usa background notice",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "className": "fa fa vads- icon"
+                }
+              },
+              {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              }
+            ]
+          },
+          "type": "div",
+          "props": {
+            "className": "usa usa background notice"
+          },
+          "children": [
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "className": "fa fa vads- icon"
+                }
+              },
+              "type": "i",
+              "props": {
+                "className": "fa fa vads- icon"
+              }
+            },
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              },
+              "type": "div",
+              "props": {
+                "className": "usa"
+              },
+              "children": [
+                {
+                  "node": {
+                    "nodeType": "host",
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "rendered": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick"
+                  },
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     }
@@ -4339,6 +4788,42 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
                 ]
               },
               "_store": {}
+            },
+            {
+              "type": "div",
+              "props": {
+                "className": "usa usa background notice",
+                "children": [
+                  {
+                    "type": "i",
+                    "props": {
+                      "className": "fa fa vads- icon"
+                    },
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "props": {
+                      "className": "usa",
+                      "children": {
+                        "type": "a",
+                        "props": {
+                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                          "target": "_/blank",
+                          "onClick": "onClick",
+                          "children": [
+                            "In-network urgent care benefit",
+                            " "
+                          ]
+                        },
+                        "_store": {}
+                      }
+                    },
+                    "_store": {}
+                  }
+                ]
+              },
+              "_store": {}
             }
           ]
         },
@@ -4472,6 +4957,42 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
                 " ",
                 "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
                 " "
+              ]
+            },
+            "_store": {}
+          },
+          {
+            "type": "div",
+            "props": {
+              "className": "usa usa background notice",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
               ]
             },
             "_store": {}
@@ -4648,6 +5169,88 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
             " "
           ]
+        },
+        {
+          "nodeType": "host",
+          "type": "div",
+          "props": {
+            "className": "usa usa background notice",
+            "children": [
+              {
+                "type": "i",
+                "props": {
+                  "className": "fa fa vads- icon"
+                },
+                "_store": {}
+              },
+              {
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "_store": {}
+              }
+            ]
+          },
+          "rendered": [
+            {
+              "nodeType": "host",
+              "type": "i",
+              "props": {
+                "className": "fa fa vads- icon"
+              }
+            },
+            {
+              "nodeType": "host",
+              "type": "div",
+              "props": {
+                "className": "usa",
+                "children": {
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "_store": {}
+                }
+              },
+              "rendered": {
+                "nodeType": "host",
+                "type": "a",
+                "props": {
+                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                  "target": "_/blank",
+                  "onClick": "onClick",
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                },
+                "rendered": [
+                  "In-network urgent care benefit",
+                  " "
+                ]
+              }
+            }
+          ]
         }
       ]
     }
@@ -4785,6 +5388,42 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
                   " ",
                   "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
                   " "
+                ]
+              },
+              "_store": {}
+            },
+            {
+              "type": "div",
+              "props": {
+                "className": "usa usa background notice",
+                "children": [
+                  {
+                    "type": "i",
+                    "props": {
+                      "className": "fa fa vads- icon"
+                    },
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "props": {
+                      "className": "usa",
+                      "children": {
+                        "type": "a",
+                        "props": {
+                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                          "target": "_/blank",
+                          "onClick": "onClick",
+                          "children": [
+                            "In-network urgent care benefit",
+                            " "
+                          ]
+                        },
+                        "_store": {}
+                      }
+                    },
+                    "_store": {}
+                  }
                 ]
               },
               "_store": {}
@@ -4960,6 +5599,88 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               " ",
               "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
               " "
+            ]
+          },
+          {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa usa background notice",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "className": "fa fa vads- icon"
+                }
+              },
+              {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              }
             ]
           }
         ]
@@ -5288,6 +6009,183 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             " ",
             "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
             " "
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa usa background notice",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "className": "fa fa vads- icon"
+                }
+              },
+              {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              }
+            ]
+          },
+          "type": "div",
+          "props": {
+            "className": "usa usa background notice"
+          },
+          "children": [
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "className": "fa fa vads- icon"
+                }
+              },
+              "type": "i",
+              "props": {
+                "className": "fa fa vads- icon"
+              }
+            },
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              },
+              "type": "div",
+              "props": {
+                "className": "usa"
+              },
+              "children": [
+                {
+                  "node": {
+                    "nodeType": "host",
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "rendered": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick"
+                  },
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              ]
+            }
           ]
         }
       ]

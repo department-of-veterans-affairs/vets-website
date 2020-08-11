@@ -5,8 +5,8 @@ import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
 
-import { ccUrgentCareLabels } from '../../config';
 import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../../constants';
+import recordEvent from 'platform/monitoring/record-event';
 
 /**
  * Urgent care
@@ -18,7 +18,7 @@ import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../../constants';
  *  - Clinic/Center - Urgent Care
  */
 const UrgentCareResult = ({ provider, query }) => {
-  const { name, posCodes } = provider.attributes;
+  const { name } = provider.attributes;
   const distance = provider.distance;
 
   const urgentCareCall = (prov, resultQuery) => {
@@ -83,6 +83,27 @@ const UrgentCareResult = ({ provider, query }) => {
           query={query}
         />
         {urgentCareCall(provider, query)}
+        <div
+          className={`usa-alert usa-alert-info background-color-only notice-marg-pad`}
+        >
+          <i
+            className={`fa fa-exclamation-circle vads-u-margin-top--1 icon-base`}
+          />
+          <div className="usa-alert-body">
+            <a
+              href={
+                'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp'
+              }
+              target={'_/blank'}
+              onClick={() => {
+                // Record event
+                recordEvent({ event: 'cta-primary-button-click' });
+              }}
+            >
+              In-network urgent care benefit{' '}
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
