@@ -3,12 +3,13 @@ const {
   getWysiwygString,
   createMetaTagArray,
   uriToUrl,
+  isPublished,
 } = require('./helpers');
 
 const transform = ({
   title,
   path,
-  moderationState,
+  status,
   metatag: { value: metaTags },
   fieldNicknameForThisFacility,
   fieldRelatedLinks,
@@ -18,7 +19,7 @@ const transform = ({
   entity: {
     entityType: 'node',
     entityBundle: 'health_care_region_page',
-    entityPublished: getDrupalValue(moderationState) === 'published',
+    entityPublished: isPublished(getDrupalValue(status)),
     entityLabel: getDrupalValue(title),
     title: getDrupalValue(title),
     fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
@@ -41,7 +42,7 @@ const transform = ({
 module.exports = {
   filter: [
     'title',
-    'moderation_state',
+    'status',
     'path',
     'field_nickname_for_this_facility',
     'field_link_facility_emerg_list',
