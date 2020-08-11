@@ -16,9 +16,9 @@ const testSecondaryTwo = createTestConfig(
   {
     dataPrefix: 'data',
     dataSets: [
-      'requiredOnly.json',
-      'oneSecondaryCaregivers.json',
-      'twoSecondaryCaregivers.json',
+      'requiredOnly',
+      'oneSecondaryCaregivers',
+      'twoSecondaryCaregivers',
     ],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -38,7 +38,7 @@ const testSecondaryTwo = createTestConfig(
       'review-and-submit': () => {
         cy.get('@testKey').then(testKey => {
           switch (testKey) {
-            case 'oneSecondaryCaregivers.json':
+            case 'oneSecondaryCaregivers':
               // sign signature as veteran
               cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
                 .find('input')
@@ -69,7 +69,7 @@ const testSecondaryTwo = createTestConfig(
                 .find('[type="checkbox"]')
                 .check();
               break;
-            case 'twoSecondaryCaregivers.json':
+            case 'twoSecondaryCaregivers':
               cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
                 .find('input')
                 .first()
@@ -155,7 +155,7 @@ const testSecondaryTwo = createTestConfig(
     },
 
     // disable all tests until 1010CG is in production
-    skip: true,
+    skip: false,
   },
   manifest,
   formConfig,
