@@ -420,19 +420,52 @@ export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
 export const selectExpressCareRequests = createSelector(
-  state => state.appointments.future,
-  future =>
-    future?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
+  state => state.appointments.pending,
+  pending =>
+    pending?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
 );
+
+export function selectFutureStatus(state) {
+  const { pendingStatus, confirmedStatus } = state.appointments;
+  if (
+    pendingStatus === FETCH_STATUS.failed ||
+    confirmedStatus === FETCH_STATUS.failed
+  ) {
+    return FETCH_STATUS.failed;
+  }
+
+  if (
+    pendingStatus === FETCH_STATUS.loading ||
+    confirmedStatus === FETCH_STATUS.loading
+  ) {
+    return FETCH_STATUS.loading;
+  }
+
+  if (
+    pendingStatus === FETCH_STATUS.succeeded &&
+    confirmedStatus === FETCH_STATUS.succeeded
+  ) {
+    return FETCH_STATUS.succeeded;
+  }
+
+  return FETCH_STATUS.notStarted;
+}
 
 export const selectFutureAppointments = createSelector(
   vaosExpressCare,
-  state => state.appointments.future,
-  (showExpressCare, future) =>
-    future
-      ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
-      ?.filter(isUpcomingAppointmentOrRequest)
-      .sort(sortUpcoming),
+  state => state.appointments.pending,
+  state => state.appointments.confirmed,
+  (showExpressCare, pending, confirmed) => {
+    if (!confirmed || !pending) {
+      return null;
+    }
+
+    return confirmed
+      .concat(...pending)
+      .filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
+      .filter(isUpcomingAppointmentOrRequest)
+      .sort(sortUpcoming);
+  },
 );
 
 export const selectPastAppointments = createSelector(
@@ -581,6 +614,6 @@ export function selectExpressCare(state) {
     hasWindow: !!expressCare.supportedFacilities?.length,
     hasRequests:
       vaosExpressCare(state) &&
-      state.appointments.future?.some(appt => appt.vaos.isExpressCare),
+      state.appointments.pending?.some(appt => appt.vaos.isExpressCare),
   };
 }
