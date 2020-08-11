@@ -84,7 +84,7 @@ const UrgentCareResult = ({ provider, query }) => {
         />
         {urgentCareCall(provider, query)}
         <div
-          className={`usa-alert usa-alert-info background-color-only notice-marg-pad`}
+          className={`usa-alert usa-alert-info background-color-only vads-u-padding--1  vads-u-font-weight--bold`}
         >
           <i
             className={`fa fa-exclamation-circle vads-u-margin-top--1 icon-base`}

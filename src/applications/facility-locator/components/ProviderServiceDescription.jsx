@@ -1,6 +1,7 @@
 import React from 'react';
 import { facilityTypes } from '../config';
 import get from 'platform/utilities/data/get';
+import { LocationType } from '../constants';
 
 /**
  * Description block for a CC Provider
@@ -37,7 +38,6 @@ const ProviderServiceDescription = ({ provider, query, details = false }) => {
 
   return (
     <div>
-      <p>{facilityTypes.cc_provider.toUpperCase()}</p>
       {specialties.length >= 1 && (
         <p>
           <span>

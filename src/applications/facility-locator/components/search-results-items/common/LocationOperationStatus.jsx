@@ -23,7 +23,7 @@ const LocationOperationStatus = ({ operatingStatus }) => {
   }
   return (
     <div
-      className={`usa-alert ${classNameAlert} background-color-only notice-marg-pad`}
+      className={`usa-alert ${classNameAlert} background-color-only  vads-u-padding--1  vads-u-font-weight--bold`}
     >
       <i
         className={`fa fa-exclamation-${iconType} vads-u-margin-top--1 icon-base`}

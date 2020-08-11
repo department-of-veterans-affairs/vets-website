@@ -4,6 +4,7 @@
 import compact from 'lodash/compact';
 import providerServices from '../constants/mock-provider-services.json';
 import facilityDataJson from '../constants/mock-facility-data.json';
+import providersDataJson from '../constants/mock-facility-data-v1.json';
 import urgentCareData from '../constants/mock-urgent-care-mashup-data.json';
 import { urgentCareServices } from '../config';
 
@@ -19,7 +20,7 @@ const testVAFacilityTypes = {
   vet_center: 'vet_center',
 };
 
-const pharmacyTypes = ['pharmacy', 'cc_pharmacy'];
+const pharmacyTypes = ['pharmacy'];
 
 const ccProviderType = 'provider';
 
@@ -83,6 +84,8 @@ class MockLocatorApi {
                 loc => loc.type === ccProviderType,
               );
             }
+          } else if (locationType === ccProviderType) {
+            locationsData = [providersDataJson.data[10]];
           } else {
             locationsData = locations.data.filter(
               loc =>
@@ -137,11 +140,11 @@ class MockLocatorApi {
     });
   }
 
-  static getProviderSvcs(shouldFail = false) {
+  static getProviderSpecialties(shouldFail = false) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (!shouldFail) {
-          resolve(providerServices);
+          resolve(providerServices.map(specialty => specialty.attributes));
         } else {
           reject('Fail condition set, likely for testing reasons.');
         }
