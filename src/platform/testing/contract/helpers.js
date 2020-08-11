@@ -17,15 +17,6 @@ const { integer, iso8601DateTimeWithMillis, like, string } = Matchers;
 export const testFormSubmit = async (formConfig, formData) => {
   const dispatch = sinon.spy();
   await submitForm(formConfig, formData)(dispatch);
-
-  const [firstAction] = dispatch.firstCall.args;
-  expect(firstAction.type).to.eq('SET_SUBMISSION');
-  expect(firstAction.field).to.eq('status');
-  expect(firstAction.value).to.eq('submitPending');
-
-  const [secondAction] = dispatch.secondCall.args;
-  expect(secondAction.type).to.eq('SET_SUBMITTED');
-  expect(secondAction.response.attributes.state).to.eq('pending');
 };
 
 export const testSaveInProgress = (mockApi, formConfig, formData) => {

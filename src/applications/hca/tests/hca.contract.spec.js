@@ -11,7 +11,7 @@ import formConfig from '../config/form';
 import minimalTestData from './schema/minimal-test.json';
 import maximalTestData from './schema/maximal-test.json';
 
-const { integer, iso8601DateTimeWithMillis, string, term } = Matchers;
+const { boolean, integer, iso8601DateTimeWithMillis, string, term } = Matchers;
 
 contractTest('HCA', 'VA.gov API', mockApi => {
   describe('POST /v0/health_care_applications', () => {
@@ -75,20 +75,9 @@ contractTest('HCA', 'VA.gov API', mockApi => {
           willRespondWith: {
             status: 200,
             body: {
-              data: {
-                id: string(12345),
-                type: 'health_care_applications',
-                attributes: {
-                  state: term({
-                    matcher: 'success|error|failed|pending',
-                    generate: 'pending',
-                  }),
-                  formSubmissionId: integer(67890),
-                  timestamp: iso8601DateTimeWithMillis(
-                    '2020-07-29T14:16:30.527Z',
-                  ),
-                },
-              },
+              success: boolean(true),
+              formSubmissionId: integer(67890),
+              timestamp: iso8601DateTimeWithMillis('2020-07-29T14:16:30.527Z'),
             },
           },
         });
