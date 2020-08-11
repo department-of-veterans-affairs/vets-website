@@ -4,33 +4,28 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import {
-  FETCH_STATUS,
-  EXPRESS_CARE_REASONS,
-  EXPRESS_CARE_ERROR_REASON,
-} from '../utils/constants';
+import { FETCH_STATUS, EXPRESS_CARE_ERROR_REASON } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
-import ExpressCareReasonField from '../components/ExpressCareReasonField';
+import TextareaWidget from '../components/TextareaWidget';
+import { validateWhiteSpace } from 'platform/forms/validations';
+import { getExpressCareFormPageInfo } from '../utils/selectors';
 
 import * as actions from '../actions/expressCare';
 
-const pageKey = 'form';
-const pageTitle = 'Select a reason for your Express Care request';
+const pageKey = 'details';
+const pageTitle = 'Express Care request details';
 
 const initialSchema = {
   type: 'object',
   properties: {
-    reasonForRequest: {
-      type: 'object',
-      required: ['reason'],
-      properties: {
-        reason: {
-          type: 'string',
-        },
-        additionalInformation: {
-          type: 'string',
-        },
-      },
+    additionalInformation: {
+      title: (
+        <span className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--xl">
+          Tell us about your symptom
+        </span>
+      ),
+      type: 'string',
+      maxLength: 256,
     },
     contactInfo: {
       type: 'object',
@@ -50,32 +45,35 @@ const initialSchema = {
 };
 
 const uiSchema = {
-  reasonForRequest: {
-    'ui:field': ExpressCareReasonField,
-    'ui:description': <h3>text</h3>,
-    options: {
-      items: EXPRESS_CARE_REASONS.map((r, index) => ({
-        id: `express-care-reason-${index}`,
-        value: r.reason,
-        label: r.reason,
-        secondaryLabel: r.secondaryLabel,
-      })),
+  additionalInformation: {
+    'ui:description': (
+      <p>
+        Please provide additional details about your symptoms. (For example,
+        when did they start? How long have you been feeling this way? Are you
+        experiencing any other symptoms?)
+      </p>
+    ),
+    'ui:widget': TextareaWidget,
+    'ui:options': {
+      rows: 5,
     },
+    'ui:validations': [validateWhiteSpace],
   },
   contactInfo: {
     'ui:title': (
-      <h2 className="vads-u-color--gray-dark">Your contact information</h2>
+      <>
+        <span className="vads-u-color--gray-dark vads-u-font-size--xl">
+          Share your contact information
+        </span>
+      </>
     ),
     'ui:description': (
       <div className="vads-u-margin-bottom--3">
         <p>
           Please provide your phone number and email address where VA health
           care staff can contact you. This contact information will be used just
-          for Express Care and won’t be updated in your VA profile.
-        </p>
-        <p className="vads-u-margin-top--1">
-          If you want to update your contact information for all your accounts,
-          please{' '}
+          for Express Care and won’t be updated in your VA profile. If you want
+          to update your contact information for all your accounts, please{' '}
           <a href="/profile" target="_blank" rel="noopener noreferrer">
             go to your profile page
           </a>
@@ -90,12 +88,10 @@ const uiSchema = {
   },
 };
 
-let form;
-
-function ExpressCareFormPage({
-  newRequest,
+function ExpressCareDetailsPage({
+  data,
   localWindowString,
-  openReasonForRequestPage,
+  openAdditionalDetailsPage,
   router,
   routeToPreviousAppointmentPage,
   schema,
@@ -107,10 +103,13 @@ function ExpressCareFormPage({
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    openReasonForRequestPage(pageKey, uiSchema, initialSchema);
-  }, []);
 
-  const { data } = newRequest;
+    if (!data.reason) {
+      router.replace('/new-express-care-request');
+    } else {
+      openAdditionalDetailsPage(pageKey, uiSchema, initialSchema, router);
+    }
+  }, []);
 
   return (
     <div>
@@ -130,7 +129,7 @@ function ExpressCareFormPage({
           pageChangeInProgress={submitStatus === FETCH_STATUS.loading}
           disabled={submitStatus === FETCH_STATUS.failed}
           loadingText="Submitting your Express Care request"
-          onBack={() => routeToPreviousAppointmentPage(router, 'form')}
+          onBack={() => routeToPreviousAppointmentPage(router, pageKey)}
         />
         {submitStatus === FETCH_STATUS.failed && (
           <>
@@ -169,17 +168,20 @@ function ExpressCareFormPage({
 }
 
 const mapDispatchToProps = {
-  openReasonForRequestPage: actions.openReasonForRequestPage,
+  openAdditionalDetailsPage: actions.openAdditionalDetailsPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   submitExpressCareRequest: actions.submitExpressCareRequest,
   updateFormData: actions.updateFormData,
 };
 
 function mapStateToProps(state) {
-  return state.expressCare;
+  return {
+    ...state.expressCare,
+    ...getExpressCareFormPageInfo(state, pageKey),
+  };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ExpressCareFormPage);
+)(ExpressCareDetailsPage);

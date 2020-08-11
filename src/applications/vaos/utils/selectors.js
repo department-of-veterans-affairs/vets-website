@@ -456,8 +456,12 @@ export const selectPastAppointments = createSelector(
   },
 );
 
+export function selectExpressCareNewRequest(state) {
+  return state.expressCare.newRequest;
+}
+
 export function selectExpressCareFormData(state) {
-  return state.expressCare.newRequest.data;
+  return selectExpressCareNewRequest(state).data;
 }
 
 /*
@@ -596,5 +600,14 @@ export function selectExpressCare(state) {
     hasRequests:
       vaosExpressCare(state) &&
       state.appointments.future?.some(appt => appt.vaos.isExpressCare),
+  };
+}
+
+export function getExpressCareFormPageInfo(state, pageKey) {
+  const newRequest = selectExpressCareNewRequest(state);
+  return {
+    schema: newRequest.pages[pageKey],
+    data: newRequest.data,
+    pageChangeInProgress: newRequest.pageChangeInProgress,
   };
 }
