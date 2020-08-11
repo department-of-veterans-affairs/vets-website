@@ -498,7 +498,7 @@
   {
     "appName": "22-10203 Education benefits form",
     "entryName": "10203-edu-benefits",
-    "rootUrl": "/education/apply-for-education-benefits/application/10203",
+    "rootUrl": "/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203",
     "template": {
       "vagovprod": false,
       "title": "Apply for the Rogers STEM Scholarship",
@@ -515,11 +515,11 @@
         },
         {
           "name": "How to apply",
-          "path": "education/how-to-apply/"
+          "path": "education/other-va-education-benefits/"
         },
         {
           "name": "Apply for education benefits",
-          "path": "education/apply-for-education-benefits/application/10203"
+          "path": "education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203"
         }
       ]
     }
