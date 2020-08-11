@@ -40,93 +40,93 @@ const testSecondaryTwo = createTestConfig(
           switch (testKey) {
             case 'oneSecondaryCaregivers':
               // sign signature as veteran
-              cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
+              cy.findByTestId(veteranLabel)
                 .find('input')
                 .first()
                 .type('Micky Mouse');
 
-              cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
+              cy.findByTestId(veteranLabel)
                 .find('[type="checkbox"]')
                 .check();
 
               // sign signature as primary caregiver
-              cy.get(`[data-test-id="${primaryLabel}-signature-input"]`)
+              cy.findByTestId(primaryLabel)
                 .find('input')
                 .first()
                 .type('Mini Mouse');
 
-              cy.get(`[data-test-id="${primaryLabel}-signature-input"]`)
+              cy.findByTestId(primaryLabel)
                 .find('[type="checkbox"]')
                 .check();
 
               // sign signature as secondaryOne caregiver
-              cy.get(`[data-test-id="${secondaryOneLabel}-signature-input"]`)
+              cy.findByTestId(secondaryOneLabel)
                 .find('input')
                 .first()
                 .type('George Geef Goofus');
 
-              cy.get(`[data-test-id="${secondaryOneLabel}-signature-input"]`)
+              cy.findByTestId(secondaryOneLabel)
                 .find('[type="checkbox"]')
                 .check();
               break;
             case 'twoSecondaryCaregivers':
-              cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
+              cy.findByTestId(veteranLabel)
                 .find('input')
                 .first()
                 .type('Micky Mouse');
 
-              cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
+              cy.findByTestId(veteranLabel)
                 .find('[type="checkbox"]')
                 .check();
 
               // sign signature as primary caregiver
-              cy.get(`[data-test-id="${primaryLabel}-signature-input"]`)
+              cy.findByTestId(primaryLabel)
                 .find('input')
                 .first()
                 .type('Mini Mouse');
 
-              cy.get(`[data-test-id="${primaryLabel}-signature-input"]`)
+              cy.findByTestId(primaryLabel)
                 .find('[type="checkbox"]')
                 .check();
 
               // sign signature as secondaryOne caregiver
-              cy.get(`[data-test-id="${secondaryOneLabel}-signature-input"]`)
+              cy.findByTestId(secondaryOneLabel)
                 .find('input')
                 .first()
                 .type('George Geef Goofus');
 
-              cy.get(`[data-test-id="${secondaryOneLabel}-signature-input"]`)
+              cy.findByTestId(secondaryOneLabel)
                 .find('[type="checkbox"]')
                 .check();
 
               // sign signature as secondaryTwo caregiver
-              cy.get(`[data-test-id="${secondaryTwoLabel}-signature-input"]`)
+              cy.findByTestId(secondaryTwoLabel)
                 .find('input')
                 .first()
                 .type('Donald Duck');
 
-              cy.get(`[data-test-id="${secondaryTwoLabel}-signature-input"]`)
+              cy.findByTestId(secondaryTwoLabel)
                 .find('[type="checkbox"]')
                 .check();
               break;
             default:
-              cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
+              cy.findByTestId(veteranLabel)
                 .find('input')
                 .first()
                 .type('Micky Mouse');
 
               // check  checkbox as a veteran
-              cy.get(`[data-test-id="${veteranLabel}-signature-input"]`)
+              cy.findByTestId(veteranLabel)
                 .find('[type="checkbox"]')
                 .check();
 
               // sign signature as primary caregiver
-              cy.get(`[data-test-id="${primaryLabel}-signature-input"]`)
+              cy.findByTestId(primaryLabel)
                 .find('input')
                 .first()
                 .type('Mini Mouse');
 
-              cy.get(`[data-test-id="${primaryLabel}-signature-input"]`)
+              cy.findByTestId(primaryLabel)
                 .find('[type="checkbox"]')
                 .check();
               break;
