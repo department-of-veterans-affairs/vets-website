@@ -74,9 +74,6 @@ const UrgentCareResult = ({ provider, query }) => {
           </p>
         )}
         <span>
-          <div>
-            <p>{posProviderName(posCodes, query)}</p>
-          </div>
           <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
           {provider.attributes.orgName && (
             <h6>{provider.attributes.orgName}</h6>

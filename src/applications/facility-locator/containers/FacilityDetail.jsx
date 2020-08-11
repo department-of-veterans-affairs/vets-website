@@ -13,7 +13,6 @@ import LocationPhoneLink from '../components/search-results-items/common/Locatio
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
-import FacilityTypeDescription from '../components/FacilityTypeDescription';
 import { OperatingStatus, FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
 
@@ -114,7 +113,6 @@ class FacilityDetail extends Component {
         <h1>{name}</h1>
         {this.showOperationStatus(operatingStatus, website, facilityType)}
         <div className="p1">
-          <FacilityTypeDescription from="FacilityDetail" location={facility} />
           <LocationAddress location={facility} />
         </div>
         <div>

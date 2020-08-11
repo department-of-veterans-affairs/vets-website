@@ -7,7 +7,6 @@ import {
   OperatingStatus,
 } from '../../../constants';
 import LocationAddress from './LocationAddress';
-import FacilityTypeDescription from '../../FacilityTypeDescription';
 import ProviderServiceDescription from '../../ProviderServiceDescription';
 import { isVADomain } from '../../../utils/helpers';
 

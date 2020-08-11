@@ -14,17 +14,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
               "props": {
                 "children": [
                   {
-                    "type": "div",
-                    "props": {
-                      "children": {
-                        "type": "p",
-                        "props": {},
-                        "_store": {}
-                      }
-                    },
-                    "_store": {}
-                  },
-                  {
                     "type": "h2",
                     "props": {
                       "className": "vads- no",
@@ -152,7 +141,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                         "mobile": false,
                         "name": "Overton Brooks Veterans' Administration Medical Center",
                         "operatingStatus": {
-                          "code": "NORMAL"
+                          "code": "CLOSED"
                         },
                         "phone": {
                           "fax": "318-990-5552",
@@ -310,7 +299,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                     "mobile": false,
                     "name": "Overton Brooks Veterans' Administration Medical Center",
                     "operatingStatus": {
-                      "code": "NORMAL"
+                      "code": "CLOSED"
                     },
                     "phone": {
                       "fax": "318-990-5552",
@@ -470,7 +459,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                     "mobile": false,
                     "name": "Overton Brooks Veterans' Administration Medical Center",
                     "operatingStatus": {
-                      "code": "NORMAL"
+                      "code": "CLOSED"
                     },
                     "phone": {
                       "fax": "318-990-5552",
@@ -534,17 +523,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
             "type": "span",
             "props": {
               "children": [
-                {
-                  "type": "div",
-                  "props": {
-                    "children": {
-                      "type": "p",
-                      "props": {},
-                      "_store": {}
-                    }
-                  },
-                  "_store": {}
-                },
                 {
                   "type": "h2",
                   "props": {
@@ -673,7 +651,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                       "mobile": false,
                       "name": "Overton Brooks Veterans' Administration Medical Center",
                       "operatingStatus": {
-                        "code": "NORMAL"
+                        "code": "CLOSED"
                       },
                       "phone": {
                         "fax": "318-990-5552",
@@ -831,7 +809,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                   "mobile": false,
                   "name": "Overton Brooks Veterans' Administration Medical Center",
                   "operatingStatus": {
-                    "code": "NORMAL"
+                    "code": "CLOSED"
                   },
                   "phone": {
                     "fax": "318-990-5552",
@@ -991,7 +969,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                   "mobile": false,
                   "name": "Overton Brooks Veterans' Administration Medical Center",
                   "operatingStatus": {
-                    "code": "NORMAL"
+                    "code": "CLOSED"
                   },
                   "phone": {
                     "fax": "318-990-5552",
@@ -1050,17 +1028,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
           "props": {
             "children": [
               {
-                "type": "div",
-                "props": {
-                  "children": {
-                    "type": "p",
-                    "props": {},
-                    "_store": {}
-                  }
-                },
-                "_store": {}
-              },
-              {
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
@@ -1072,22 +1039,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
             ]
           },
           "rendered": [
-            {
-              "nodeType": "host",
-              "type": "div",
-              "props": {
-                "children": {
-                  "type": "p",
-                  "props": {},
-                  "_store": {}
-                }
-              },
-              "rendered": {
-                "nodeType": "host",
-                "type": "p",
-                "props": {}
-              }
-            },
             {
               "nodeType": "host",
               "type": "h2",
@@ -1216,7 +1167,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                     "mobile": false,
                     "name": "Overton Brooks Veterans' Administration Medical Center",
                     "operatingStatus": {
-                      "code": "NORMAL"
+                      "code": "CLOSED"
                     },
                     "phone": {
                       "fax": "318-990-5552",
@@ -1373,7 +1324,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                   "mobile": false,
                   "name": "Overton Brooks Veterans' Administration Medical Center",
                   "operatingStatus": {
-                    "code": "NORMAL"
+                    "code": "CLOSED"
                   },
                   "phone": {
                     "fax": "318-990-5552",
@@ -1529,7 +1480,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                 "mobile": false,
                 "name": "Overton Brooks Veterans' Administration Medical Center",
                 "operatingStatus": {
-                  "code": "NORMAL"
+                  "code": "CLOSED"
                 },
                 "phone": {
                   "fax": "318-990-5552",
@@ -1689,7 +1640,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                 "mobile": false,
                 "name": "Overton Brooks Veterans' Administration Medical Center",
                 "operatingStatus": {
-                  "code": "NORMAL"
+                  "code": "CLOSED"
                 },
                 "phone": {
                   "fax": "318-990-5552",
@@ -1756,17 +1707,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
               "type": "span",
               "props": {
                 "children": [
-                  {
-                    "type": "div",
-                    "props": {
-                      "children": {
-                        "type": "p",
-                        "props": {},
-                        "_store": {}
-                      }
-                    },
-                    "_store": {}
-                  },
                   {
                     "type": "h2",
                     "props": {
@@ -1895,7 +1835,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                         "mobile": false,
                         "name": "Overton Brooks Veterans' Administration Medical Center",
                         "operatingStatus": {
-                          "code": "NORMAL"
+                          "code": "CLOSED"
                         },
                         "phone": {
                           "fax": "318-990-5552",
@@ -2053,7 +1993,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                     "mobile": false,
                     "name": "Overton Brooks Veterans' Administration Medical Center",
                     "operatingStatus": {
-                      "code": "NORMAL"
+                      "code": "CLOSED"
                     },
                     "phone": {
                       "fax": "318-990-5552",
@@ -2213,7 +2153,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                     "mobile": false,
                     "name": "Overton Brooks Veterans' Administration Medical Center",
                     "operatingStatus": {
-                      "code": "NORMAL"
+                      "code": "CLOSED"
                     },
                     "phone": {
                       "fax": "318-990-5552",
@@ -2272,17 +2212,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
             "props": {
               "children": [
                 {
-                  "type": "div",
-                  "props": {
-                    "children": {
-                      "type": "p",
-                      "props": {},
-                      "_store": {}
-                    }
-                  },
-                  "_store": {}
-                },
-                {
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
@@ -2294,22 +2223,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
               ]
             },
             "rendered": [
-              {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "children": {
-                    "type": "p",
-                    "props": {},
-                    "_store": {}
-                  }
-                },
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "p",
-                  "props": {}
-                }
-              },
               {
                 "nodeType": "host",
                 "type": "h2",
@@ -2438,7 +2351,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                       "mobile": false,
                       "name": "Overton Brooks Veterans' Administration Medical Center",
                       "operatingStatus": {
-                        "code": "NORMAL"
+                        "code": "CLOSED"
                       },
                       "phone": {
                         "fax": "318-990-5552",
@@ -2595,7 +2508,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                     "mobile": false,
                     "name": "Overton Brooks Veterans' Administration Medical Center",
                     "operatingStatus": {
-                      "code": "NORMAL"
+                      "code": "CLOSED"
                     },
                     "phone": {
                       "fax": "318-990-5552",
@@ -2751,7 +2664,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                   "mobile": false,
                   "name": "Overton Brooks Veterans' Administration Medical Center",
                   "operatingStatus": {
-                    "code": "NORMAL"
+                    "code": "CLOSED"
                   },
                   "phone": {
                     "fax": "318-990-5552",
@@ -2911,7 +2824,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                   "mobile": false,
                   "name": "Overton Brooks Veterans' Administration Medical Center",
                   "operatingStatus": {
-                    "code": "NORMAL"
+                    "code": "CLOSED"
                   },
                   "phone": {
                     "fax": "318-990-5552",
@@ -2971,17 +2884,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
             "props": {
               "children": [
                 {
-                  "type": "div",
-                  "props": {
-                    "children": {
-                      "type": "p",
-                      "props": {},
-                      "_store": {}
-                    }
-                  },
-                  "_store": {}
-                },
-                {
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
@@ -2993,22 +2895,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
               ]
             },
             "rendered": [
-              {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "children": {
-                    "type": "p",
-                    "props": {},
-                    "_store": {}
-                  }
-                },
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "p",
-                  "props": {}
-                }
-              },
               {
                 "nodeType": "host",
                 "type": "h2",
@@ -3024,37 +2910,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
           "type": "span",
           "props": {},
           "children": [
-            {
-              "node": {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "children": {
-                    "type": "p",
-                    "props": {},
-                    "_store": {}
-                  }
-                },
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "p",
-                  "props": {}
-                }
-              },
-              "type": "div",
-              "props": {},
-              "children": [
-                {
-                  "node": {
-                    "nodeType": "host",
-                    "type": "p",
-                    "props": {}
-                  },
-                  "type": "p",
-                  "props": {}
-                }
-              ]
-            },
             {
               "node": {
                 "nodeType": "host",
@@ -3192,7 +3047,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                       "mobile": false,
                       "name": "Overton Brooks Veterans' Administration Medical Center",
                       "operatingStatus": {
-                        "code": "NORMAL"
+                        "code": "CLOSED"
                       },
                       "phone": {
                         "fax": "318-990-5552",
@@ -3349,7 +3204,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                     "mobile": false,
                     "name": "Overton Brooks Veterans' Administration Medical Center",
                     "operatingStatus": {
-                      "code": "NORMAL"
+                      "code": "CLOSED"
                     },
                     "phone": {
                       "fax": "318-990-5552",
@@ -3509,7 +3364,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                       "mobile": false,
                       "name": "Overton Brooks Veterans' Administration Medical Center",
                       "operatingStatus": {
-                        "code": "NORMAL"
+                        "code": "CLOSED"
                       },
                       "phone": {
                         "fax": "318-990-5552",
@@ -3662,7 +3517,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                     "mobile": false,
                     "name": "Overton Brooks Veterans' Administration Medical Center",
                     "operatingStatus": {
-                      "code": "NORMAL"
+                      "code": "CLOSED"
                     },
                     "phone": {
                       "fax": "318-990-5552",
@@ -3820,7 +3675,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                   "mobile": false,
                   "name": "Overton Brooks Veterans' Administration Medical Center",
                   "operatingStatus": {
-                    "code": "NORMAL"
+                    "code": "CLOSED"
                   },
                   "phone": {
                     "fax": "318-990-5552",
@@ -3978,7 +3833,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                 "mobile": false,
                 "name": "Overton Brooks Veterans' Administration Medical Center",
                 "operatingStatus": {
-                  "code": "NORMAL"
+                  "code": "CLOSED"
                 },
                 "phone": {
                   "fax": "318-990-5552",
@@ -4139,7 +3994,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                   "mobile": false,
                   "name": "Overton Brooks Veterans' Administration Medical Center",
                   "operatingStatus": {
-                    "code": "NORMAL"
+                    "code": "CLOSED"
                   },
                   "phone": {
                     "fax": "318-990-5552",
@@ -4297,7 +4152,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult VA(0)"] = {
                 "mobile": false,
                 "name": "Overton Brooks Veterans' Administration Medical Center",
                 "operatingStatus": {
-                  "code": "NORMAL"
+                  "code": "CLOSED"
                 },
                 "phone": {
                   "fax": "318-990-5552",
@@ -4364,19 +4219,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               "type": "span",
               "props": {
                 "children": [
-                  {
-                    "type": "div",
-                    "props": {
-                      "children": {
-                        "type": "p",
-                        "props": {
-                          "children": "URGENT CARE"
-                        },
-                        "_store": {}
-                      }
-                    },
-                    "_store": {}
-                  },
                   {
                     "type": "h2",
                     "props": {
@@ -4514,19 +4356,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             "props": {
               "children": [
                 {
-                  "type": "div",
-                  "props": {
-                    "children": {
-                      "type": "p",
-                      "props": {
-                        "children": "URGENT CARE"
-                      },
-                      "_store": {}
-                    }
-                  },
-                  "_store": {}
-                },
-                {
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
@@ -4657,19 +4486,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
           "props": {
             "children": [
               {
-                "type": "div",
-                "props": {
-                  "children": {
-                    "type": "p",
-                    "props": {
-                      "children": "URGENT CARE"
-                    },
-                    "_store": {}
-                  }
-                },
-                "_store": {}
-              },
-              {
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
@@ -4681,27 +4497,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             ]
           },
           "rendered": [
-            {
-              "nodeType": "host",
-              "type": "div",
-              "props": {
-                "children": {
-                  "type": "p",
-                  "props": {
-                    "children": "URGENT CARE"
-                  },
-                  "_store": {}
-                }
-              },
-              "rendered": {
-                "nodeType": "host",
-                "type": "p",
-                "props": {
-                  "children": "URGENT CARE"
-                },
-                "rendered": "URGENT CARE"
-              }
-            },
             {
               "nodeType": "host",
               "type": "h2",
@@ -4874,19 +4669,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               "props": {
                 "children": [
                   {
-                    "type": "div",
-                    "props": {
-                      "children": {
-                        "type": "p",
-                        "props": {
-                          "children": "URGENT CARE"
-                        },
-                        "_store": {}
-                      }
-                    },
-                    "_store": {}
-                  },
-                  {
                     "type": "h2",
                     "props": {
                       "className": "vads- no",
@@ -5017,19 +4799,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             "props": {
               "children": [
                 {
-                  "type": "div",
-                  "props": {
-                    "children": {
-                      "type": "p",
-                      "props": {
-                        "children": "URGENT CARE"
-                      },
-                      "_store": {}
-                    }
-                  },
-                  "_store": {}
-                },
-                {
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
@@ -5041,27 +4810,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               ]
             },
             "rendered": [
-              {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "children": {
-                    "type": "p",
-                    "props": {
-                      "children": "URGENT CARE"
-                    },
-                    "_store": {}
-                  }
-                },
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "p",
-                  "props": {
-                    "children": "URGENT CARE"
-                  },
-                  "rendered": "URGENT CARE"
-                }
-              },
               {
                 "nodeType": "host",
                 "type": "h2",
@@ -5226,19 +4974,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             "props": {
               "children": [
                 {
-                  "type": "div",
-                  "props": {
-                    "children": {
-                      "type": "p",
-                      "props": {
-                        "children": "URGENT CARE"
-                      },
-                      "_store": {}
-                    }
-                  },
-                  "_store": {}
-                },
-                {
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
@@ -5250,27 +4985,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               ]
             },
             "rendered": [
-              {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "children": {
-                    "type": "p",
-                    "props": {
-                      "children": "URGENT CARE"
-                    },
-                    "_store": {}
-                  }
-                },
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "p",
-                  "props": {
-                    "children": "URGENT CARE"
-                  },
-                  "rendered": "URGENT CARE"
-                }
-              },
               {
                 "nodeType": "host",
                 "type": "h2",
@@ -5286,48 +5000,6 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
           "type": "span",
           "props": {},
           "children": [
-            {
-              "node": {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "children": {
-                    "type": "p",
-                    "props": {
-                      "children": "URGENT CARE"
-                    },
-                    "_store": {}
-                  }
-                },
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "p",
-                  "props": {
-                    "children": "URGENT CARE"
-                  },
-                  "rendered": "URGENT CARE"
-                }
-              },
-              "type": "div",
-              "props": {},
-              "children": [
-                {
-                  "node": {
-                    "nodeType": "host",
-                    "type": "p",
-                    "props": {
-                      "children": "URGENT CARE"
-                    },
-                    "rendered": "URGENT CARE"
-                  },
-                  "type": "p",
-                  "props": {},
-                  "children": [
-                    "URGENT CARE"
-                  ]
-                }
-              ]
-            },
             {
               "node": {
                 "nodeType": "host",
