@@ -164,18 +164,24 @@ export class SignInModal extends React.Component {
               <div className="top-banner">
                 <div>
                   <img
+                    aria-hidden="true"
+                    role="presentation"
                     alt="ID.me"
                     src={`${vaGovFullDomain}/img/signin/lock-icon.svg`}
                   />{' '}
                   Secured & powered by{' '}
                   <img
+                    aria-hidden="true"
+                    role="presentation"
                     alt="ID.me"
                     src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
                   />
                 </div>
               </div>
               <div className="signin-actions">
-                <h5>Sign in with an existing account</h5>
+                <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
+                  Sign in with an existing account
+                </h2>
                 <div>
                   <button
                     disabled={globalDowntime}
@@ -183,6 +189,8 @@ export class SignInModal extends React.Component {
                     onClick={this.loginHandler('dslogon')}
                   >
                     <img
+                      aria-hidden="true"
+                      role="presentation"
                       alt="DS Logon"
                       src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
                     />
@@ -194,6 +202,8 @@ export class SignInModal extends React.Component {
                     onClick={this.loginHandler('mhv')}
                   >
                     <img
+                      aria-hidden="true"
+                      role="presentation"
                       alt="My HealtheVet"
                       src={`${vaGovFullDomain}/img/signin/mhv-icon.svg`}
                     />
@@ -205,6 +215,8 @@ export class SignInModal extends React.Component {
                     onClick={this.loginHandler('idme')}
                   >
                     <img
+                      aria-hidden="true"
+                      role="presentation"
                       alt="ID.me"
                       src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
                     />
@@ -212,13 +224,17 @@ export class SignInModal extends React.Component {
                   </button>
                   <span className="sidelines">OR</span>
                   <div className="alternate-signin">
-                    <h5>Don't have those accounts?</h5>
+                    <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
+                      Don't have those accounts?
+                    </h2>
                     <button
                       disabled={globalDowntime}
                       className="idme-create usa-button usa-button-secondary"
                       onClick={this.signupHandler}
                     >
                       <img
+                        aria-hidden="true"
+                        role="presentation"
                         alt="ID.me"
                         src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
                       />
@@ -252,9 +268,10 @@ export class SignInModal extends React.Component {
                 </li>
                 <li>...and more</li>
               </ul>
-              <p>
-                <strong>A secure account powered by ID.me</strong>
-                <br />
+              <h3 className="vads-u-font-size--base vads-u-margin-top--2">
+                A secure account powered by ID.me
+              </h3>
+              <p className="vads-u-margin-top--0">
                 ID.me is our trusted technology partner in helping to keep your
                 personal information safe. They specialize in digital identity
                 protection and help us make sure you're you—and not someone
@@ -272,7 +289,9 @@ export class SignInModal extends React.Component {
         <div className="row">
           <div className="columns small-12">
             <div className="help-info">
-              <h4>Having trouble signing in?</h4>
+              <h2 className="vads-u-font-size--md">
+                Having trouble signing in?
+              </h2>
               <p>
                 <a href="/sign-in-faq/" target="_blank">
                   Get answers to Frequently Asked Questions
