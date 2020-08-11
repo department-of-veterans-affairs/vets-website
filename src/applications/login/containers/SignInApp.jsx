@@ -83,7 +83,7 @@ class SignInPage extends React.Component {
           </div>
         </div>
         <div className="row medium-screen:vads-u-display--none mobile-explanation">
-          <div className="va-introtext columns small-12">
+          <div className="columns small-12">
             <h2>
               One sign in. A lifetime of benefits and services at your
               fingertips.
