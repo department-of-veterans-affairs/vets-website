@@ -430,4 +430,61 @@ describe('VAOS integration: appointment list', () => {
       queryByText(/View your upcoming, past, and Express Care appointments/i),
     ).not.to.exist;
   });
+
+  it('should show Cerner portal link when user is only registered at Cerner sites', async () => {
+    mockAppointmentInfo({});
+    const today = moment();
+    const requestCriteria = getExpressCareRequestCriteriaMock('668', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: today
+          .clone()
+          .subtract('2', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+        endTime: today
+          .clone()
+          .add('1', 'minutes')
+          .tz('America/Denver')
+          .format('HH:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['668'], requestCriteria);
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+      },
+      user: {
+        profile: {
+          facilities: [{ facilityId: '668', isCerner: true }],
+        },
+      },
+    };
+    const memoryHistory = createMemoryHistory();
+
+    // Mocking a route here so that components using withRouter don't fail
+    const screen = renderInReduxProvider(
+      <Router history={memoryHistory}>
+        <Route path="/" component={AppointmentsPage} />
+      </Router>,
+      {
+        initialState: initialStateWithExpressCare,
+        reducers,
+      },
+    );
+
+    await screen.findByText(
+      'You can schedule a VA appointment through My VA Health.',
+    );
+    expect(screen.queryAllByText(/express care/i)).to.be.empty;
+    expect(screen.queryByText('Schedule an appointment')).to.not.exist;
+
+    expect(screen.getByText('Go to My VA Health')).to.have.tagName('a');
+  });
 });

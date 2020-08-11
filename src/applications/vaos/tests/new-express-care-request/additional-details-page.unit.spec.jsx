@@ -6,11 +6,13 @@ import moment from 'moment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
+import { waitFor } from '@testing-library/dom';
 
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
 import { createTestStore } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
-import ExpressCareFormPage from '../../containers/ExpressCareFormPage';
+import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
+import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
 import { fetchExpressCareWindows } from '../../actions/expressCare';
 import { EXPRESS_CARE } from '../../utils/constants';
 
@@ -20,9 +22,17 @@ const initialState = {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   },
+  expressCare: {
+    newRequest: {
+      data: {
+        reason: 'Cough',
+      },
+      pages: {},
+    },
+  },
 };
 
-describe('VAOS integration: Express Care form', () => {
+describe('VAOS integration: Express Care form - Additional Details Page', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
@@ -58,16 +68,16 @@ describe('VAOS integration: Express Care form', () => {
       push: sinon.spy(),
     };
     const screen = renderInReduxProvider(
-      <ExpressCareFormPage router={router} />,
+      <ExpressCareDetailsPage router={router} />,
       {
         store,
       },
     );
 
-    screen.getByLabelText('Cough');
     expect(screen.baseElement).to.contain.text(
-      'Tell us about your health concern',
+      'Please provide additional details about your symptoms',
     );
+    expect(screen.baseElement).to.contain.text('Tell us about your cough');
     expect(screen.baseElement).to.contain.text(
       'Please provide your phone number and email address where VA health care staff can contact you',
     );
@@ -75,5 +85,38 @@ describe('VAOS integration: Express Care form', () => {
     screen.getByLabelText(/phone number/i);
     screen.getByLabelText(/email address/i);
     screen.getByText(/submit express care request/i);
+  });
+
+  it('should redirect to info page when there is no reason in data', async () => {
+    const store = createTestStore({
+      ...initialState,
+      expressCare: {
+        newRequest: {
+          data: {},
+          pages: {},
+        },
+      },
+    });
+    store.dispatch(fetchExpressCareWindows());
+
+    const router = {
+      replace: sinon.spy(),
+    };
+    const screen = renderInReduxProvider(
+      <NewExpressCareRequestLayout
+        router={router}
+        location={{ pathname: '/additional-details' }}
+      >
+        <ExpressCareDetailsPage router={router} />
+      </NewExpressCareRequestLayout>,
+      {
+        store,
+      },
+    );
+
+    await waitFor(() => expect(router.replace.called).to.be.true);
+    expect(router.replace.firstCall.args[0]).to.equal(
+      '/new-express-care-request',
+    );
   });
 });

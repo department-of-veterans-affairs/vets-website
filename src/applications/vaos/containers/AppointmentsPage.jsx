@@ -127,10 +127,12 @@ export class AppointmentsPage extends Component {
                 )}
                 {!isLoading && (
                   <>
-                    <RequestExpressCare
-                      {...expressCare}
-                      startNewExpressCareFlow={this.startNewExpressCareFlow}
-                    />
+                    {!isCernerOnlyPatient && (
+                      <RequestExpressCare
+                        {...expressCare}
+                        startNewExpressCareFlow={this.startNewExpressCareFlow}
+                      />
+                    )}
                     {expressCare.hasRequests && (
                       <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
                         View your upcoming, past, and Express Care appointments

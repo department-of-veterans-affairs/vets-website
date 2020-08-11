@@ -17,6 +17,7 @@ module.exports = {
         required: ['__typename', 'key', 'value'],
       },
     },
+    entityPublished: { type: 'boolean' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldAddress: { $ref: 'Address' },
     fieldIntroText: { type: 'string' },
@@ -51,6 +52,7 @@ module.exports = {
   },
   required: [
     'title',
+    'entityPublished',
     'entityUrl',
     'fieldAddress',
     'fieldIntroText',

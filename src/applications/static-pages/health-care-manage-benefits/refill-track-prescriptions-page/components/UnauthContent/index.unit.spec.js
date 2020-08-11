@@ -11,7 +11,7 @@ describe('Prescriptions Page <UnauthContent>', () => {
 
     const text = wrapper.text();
     expect(text).to.include(
-      'How can the VA Prescription Refill and Tracking tool help me manage my',
+      'How can VA’s prescription tool help me manage my health care?',
     );
     expect(text).to.include('Am I eligible to use this tool?');
     expect(text).to.include('Once I’m signed in, how do I get started?');
@@ -20,7 +20,7 @@ describe('Prescriptions Page <UnauthContent>', () => {
     );
     expect(text).to.include('Where will VA send my prescriptions?');
     expect(text).to.include(
-      'How long will my prescriptions take to arrive, and when should I',
+      'When will I get my prescriptions, and when should I reorder?',
     );
     expect(text).to.include(
       'Will my personal health information be protected?',

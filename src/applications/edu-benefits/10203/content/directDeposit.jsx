@@ -25,7 +25,8 @@ const gaBankInfoHelpText = () => {
 };
 
 export const directDepositAlert = () => (
-  <div className="vads-u-padding-top--1p5" role="alert">
+  // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+  <div className="vads-u-padding-top--1p5" tabIndex="0">
     <p>
       <b>Note:</b> Any bank account information you enter here will apply to
       your other Veteran benefits, including compensation, pension, and Benefits

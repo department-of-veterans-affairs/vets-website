@@ -11,22 +11,22 @@ describe('Scheduling Page <AuthContent>', () => {
 
     const text = wrapper.text();
     expect(text).to.include('CernerCallToAction');
+    expect(text).to.include(
+      'Due to COVID-19, you can only request an appointment online',
+    );
     expect(text).to.include('View, schedule, or cancel a VA appointment');
     expect(text).to.include(
-      'How can VA appointment tools help me manage my health care?',
+      'How can these appointment tools help me manage my care?',
     );
-    expect(text).to.include('Am I eligible to use the VA appointment tools?');
+    expect(text).to.include('Am I eligible to use these tools?');
     expect(text).to.include(
       'How do I know if my VA health facility uses online scheduling?',
     );
-    expect(text).to.not.include(
-      'What types of medical appointments can I schedule online?',
+    expect(text).to.include(
+      'Can I use these tools to schedule community (non-VA) appointments?',
     );
     expect(text).to.include(
-      'Can I use this tool to schedule non-VA appointments?',
-    );
-    expect(text).to.include(
-      'Can I schedule appointments through VA Secure Messaging?',
+      'Can I schedule appointments through VA secure messaging?',
     );
     expect(text).to.include(
       'Will my personal health information be protected?',

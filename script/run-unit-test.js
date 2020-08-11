@@ -45,7 +45,7 @@ const mochaOpts =
 runCommand(
   `LOG_LEVEL=${options[
     'log-level'
-  ].toLowerCase()} ${testRunner} --opts ${mochaOpts} --recursive ${options.path
+  ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --opts ${mochaOpts} --recursive ${options.path
     .map(p => `'${p}'`)
     .join(' ')}`,
   options.coverage ? null : 0,
