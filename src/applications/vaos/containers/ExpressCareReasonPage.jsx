@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { Link } from 'react-router';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import recordEvent from 'platform/monitoring/record-event';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getExpressCareFormPageInfo } from '../utils/selectors';
-import { EXPRESS_CARE_REASONS } from '../utils/constants';
+import { EXPRESS_CARE_REASONS, GA_PREFIX } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
 import * as actions from '../actions/expressCare';
 
@@ -52,6 +53,18 @@ const uiSchema = {
   },
 };
 
+function recordNewAppointmentEvent() {
+  recordEvent({
+    event: `${GA_PREFIX}-express-care-new-appointment-clicked`,
+  });
+}
+
+function recordFacilitiesLinkEvent() {
+  recordEvent({
+    event: `${GA_PREFIX}-express-care-facilities-link-clicked`,
+  });
+}
+
 function ExpressCareReasonPage({
   data,
   openFormPage,
@@ -87,14 +100,21 @@ function ExpressCareReasonPage({
         >
           <p>
             If you need a same day mental health appointment, you can{' '}
-            <a href="/find-locations?facilityType=health&serviceType=MentalHealthCare">
+            <a
+              onClick={recordFacilitiesLinkEvent}
+              href="/find-locations?facilityType=health&serviceType=MentalHealthCare"
+            >
               call your VA medical center
             </a>{' '}
             and request a "same day mental health appointment".
           </p>
           <p>
             Don't see your symptoms listed?{' '}
-            <Link id="new-appointment" to="/new-appointment">
+            <Link
+              onClick={recordNewAppointmentEvent}
+              id="new-appointment"
+              to="/new-appointment"
+            >
               Schedule an appointment here
             </Link>
             .
