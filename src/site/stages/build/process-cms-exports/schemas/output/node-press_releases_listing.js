@@ -30,6 +30,7 @@ module.exports = {
               'promote',
               'created',
               'fieldIntroText',
+              'entityPublished',
             ]),
           },
         },

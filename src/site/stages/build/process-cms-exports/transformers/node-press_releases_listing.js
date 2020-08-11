@@ -24,7 +24,7 @@ const transform = entity => ({
           .filter(
             reverseField =>
               reverseField.entityBundle === 'press_release' &&
-              reverseField.isPublished,
+              reverseField.entityPublished,
           )
           .map(reverseField => ({
             entityId: reverseField.entityId,
@@ -34,6 +34,7 @@ const transform = entity => ({
             promote: reverseField.promote,
             created: reverseField.created,
             fieldIntroText: reverseField.fieldIntroText,
+            entityPublished: reverseField.entityPublished,
           }))
           .sort((a, b) => b.created - a.created)
       : [],
