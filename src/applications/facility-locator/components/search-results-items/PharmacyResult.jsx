@@ -7,7 +7,6 @@ import { facilityTypes } from '../../config';
 
 /**
  * Urgent care pharmacies (in VA’s network)
- *
  */
 const PharmacyResult = ({ provider, query }) => {
   const { name } = provider.attributes;

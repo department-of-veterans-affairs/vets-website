@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
-import FacilityTypeDescription from '../FacilityTypeDescription';
 import { isVADomain } from '../../utils/helpers';
 import { Link } from 'react-router';
 import { OperatingStatus } from '../../constants';
@@ -10,9 +9,6 @@ import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
 
 /**
- *
- * Va facility component for:
- *
  * VA health
  * VA benefits
  * Vet Centers
@@ -35,7 +31,6 @@ const VaFacilityResult = ({ location, query }) => {
             </p>
           )}
         <span>
-          <FacilityTypeDescription location={location} query={query} />
           {isVADomain(website) ? (
             <a href={website}>
               <h3 className="vads-u-font-size--h5 no-marg-top">{name}</h3>

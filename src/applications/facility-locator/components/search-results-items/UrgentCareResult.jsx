@@ -52,16 +52,6 @@ const UrgentCareResult = ({ provider, query }) => {
     return null;
   };
 
-  const posProviderName = (pc, qry) => {
-    if (!qry.serviceType || qry.serviceType === 'AllUrgentCare') return null;
-    if (pc && parseInt(pc, 10) === 17) {
-      return ccUrgentCareLabels.WalkIn;
-    } else if (pc && parseInt(pc, 10) === 20) {
-      return ccUrgentCareLabels.UrgentCare;
-    }
-    return null;
-  };
-
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <div>
