@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
+
 import fullNameUI from 'platform/forms/definitions/fullName';
+import HeightWidget from '../widgets/HeightWidget';
 
 import {
   validateMatch,
@@ -17,15 +19,15 @@ export const uiSchema = {
     'view:descriptionText': {
       'ui:description': (
         <span>
-          Thank you for your interest in volunteering for COVID-19 research. If
-          you’re a U.S. Veteran, please answer the questions below and we’ll add
-          you to our VA volunteer registry. If we think you may meet the
-          criteria for a research study, we’ll contact you for a phone
-          interview.
+          Thank you for your interest in volunteering for COVID-19 research at
+          VA. Please answer the questions below, and we’ll add you to our
+          volunteer registry. If we think you may be eligible for a study, we’ll
+          contact you to tell you more about it so you can decide if you want to
+          join. You don’t need to be a Veteran to volunteer.
           <p>
             <b>Note:</b> We won’t share your information with anyone outside of
-            VA. If you're not a Veteran, you can volunteer through the COVID-19
-            Prevention Network.
+            VA. To learn more before volunteering, read about frequently asked
+            questions about COVID-19 research at VA.
           </p>
         </span>
       ),
@@ -119,8 +121,8 @@ export const uiSchema = {
         <strong>
           Do you have a history of any of the health issues listed below?
         </strong>
+        (Please check all that apply)
         <br />
-        Please check all that apply.
       </span>
     ),
     ALLERGY_VACCINE: {
@@ -176,11 +178,9 @@ export const uiSchema = {
     },
     'ui:title': (
       <span>
-        <strong>
-          Which work situation describes you? (Please check all that apply)
-        </strong>
+        <strong>Which work situation describes you?</strong> (Please check all
+        that apply)
         <br />
-        Please check all that apply.
       </span>
     ),
     EMPLOYED_HOME: {
@@ -212,9 +212,8 @@ export const uiSchema = {
     },
     'ui:title': (
       <span>
-        <strong>How do you get to work?</strong>
+        <strong>How do you get to work?</strong> (Please check all that apply)
         <br />
-        Please check all that apply.
       </span>
     ),
     CAR: {
@@ -319,6 +318,10 @@ export const uiSchema = {
       classNames: '',
     },
   },
+  height: {
+    'ui:title': 'Height',
+    'ui:widget': HeightWidget,
+  },
   weight: {
     'ui:title': 'Weight',
     'ui:options': {
@@ -336,14 +339,12 @@ export const uiSchema = {
     },
     'ui:title': (
       <span>
-        <strong>Current gender identity</strong>
+        <strong>Current gender identity</strong> (Please check all that apply)
         <br />
         <br />
         <strong>Note:</strong> We ask for this information to help make sure we
         include a diverse range of people in our research studies.
         <br />
-        <br />
-        please check all that apply
       </span>
     ),
     FEMALE: {

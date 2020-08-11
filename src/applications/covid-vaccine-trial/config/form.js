@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import environment from 'platform/utilities/environment';
-import fullSchema from '../schema/schemaTemp.json';
-// import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
+import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
 
@@ -40,7 +39,7 @@ function updateData(oldForm, newForm) {
       val => newForm[elementName][val] === true,
     ).length;
 
-    // TODO: this could probably be done in a better way
+    // TODO: Refactor - this could probably be done in a better way
     // if no change just return
     if (oldSelectedCount === newSelectedCount) return;
     if (newSelectedCount === 0) updatedForm[elementName][NONE_OF_ABOVE] = true;
@@ -83,11 +82,11 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     chapter1: {
-      title: 'Personal Information',
+      title: 'Volunteer Information',
       pages: {
         page1: {
           path: 'covid-vaccine-trial',
-          title: 'Personal Information - Page 1',
+          title: 'Volunteer Information - Page 1',
           updateFormData: updateData,
           uiSchema,
           schema: {
@@ -139,7 +138,6 @@ const formConfig = {
               transportation: fullSchema.properties.transportation,
               residentsInHome: fullSchema.properties.residentsInHome,
               closeContact: fullSchema.properties.closeContact,
-              // contactHeaderText: fullSchema.properties.contactHeaderText,
               contactHeaderText: {
                 type: 'object',
                 properties: {
