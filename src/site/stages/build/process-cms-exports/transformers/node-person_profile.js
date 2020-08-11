@@ -1,6 +1,6 @@
 const { getDrupalValue, isPublished, utcToEpochTime } = require('./helpers');
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'person_profile',
   title: `${getDrupalValue(entity.fieldNameFirst)} ${getDrupalValue(
@@ -13,14 +13,18 @@ const transform = entity => ({
   fieldLastName: getDrupalValue(entity.fieldLastName),
   fieldMedia: entity.fieldMedia.length > 0 ? entity.fieldMedia[0] : null,
   fieldNameFirst: getDrupalValue(entity.fieldNameFirst),
-  fieldOffice: entity.fieldOffice[0]
-    ? {
-        entity: {
-          entityLabel: entity.fieldOffice[0].entity.entityLabel,
-          entityType: entity.fieldOffice[0].entity.entityType,
-        },
-      }
-    : null,
+  // Check if fieldOffice is an ancestor of this entity
+  // If so, ignore it, because we'll ignore it in parent transformer
+  fieldOffice:
+    entity.fieldOffice[0] &&
+    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+      ? {
+          entity: {
+            entityLabel: entity.fieldOffice[0].entity.entityLabel,
+            entityType: entity.fieldOffice[0].entity.entityType,
+          },
+        }
+      : null,
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
   fieldSuffix: getDrupalValue(entity.fieldSuffix),
   // Used for reverse fields in other transformers
