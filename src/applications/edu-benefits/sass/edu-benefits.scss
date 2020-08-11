@@ -168,3 +168,9 @@
     display: none;
   }
 }
+
+div[data-chapter="benefitSelection"]{
+  .form-review-panel-page {
+    margin-bottom:0px;
+  }
+}

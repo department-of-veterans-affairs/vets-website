@@ -114,11 +114,11 @@ async function testTransactionCreationFails() {
   editEmailAddress();
 
   // expect an error to be shown
-  const alert = await view.findByRole('alert');
-  expect(alert).to.have.class('usa-alert-error');
-  expect(alert).to.contain.text(
-    'We’re sorry. We couldn’t update your email address. Please try again.',
-  );
+  expect(
+    await view.findByText(
+      'We’re sorry. We couldn’t update your email address. Please try again.',
+    ),
+  ).to.exist;
 }
 
 // When the update fails while the Edit View is still active
@@ -128,11 +128,11 @@ async function testQuickFailure() {
   editEmailAddress();
 
   // expect an error to be shown
-  const alert = await view.findByRole('alert');
-  expect(alert).to.have.class('usa-alert-error');
-  expect(alert).to.contain.text(
-    'We’re sorry. We couldn’t update your email address. Please try again.',
-  );
+  expect(
+    await view.findByText(
+      'We’re sorry. We couldn’t update your email address. Please try again.',
+    ),
+  ).to.exist;
 }
 
 // When the update fails but not until after the Edit View has exited and the
