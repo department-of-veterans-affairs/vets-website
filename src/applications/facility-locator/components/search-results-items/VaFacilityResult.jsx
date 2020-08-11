@@ -44,11 +44,7 @@ const VaFacilityResult = ({ location, query }) => {
         <p>
           <LocationAddress location={location} />
         </p>
-        <LocationDirectionsLink
-          location={location}
-          from={'SearchResult'}
-          query={query}
-        />
+        <LocationDirectionsLink location={location} from={'SearchResult'} />
         <LocationPhoneLink
           location={location}
           from={'SearchResult'}

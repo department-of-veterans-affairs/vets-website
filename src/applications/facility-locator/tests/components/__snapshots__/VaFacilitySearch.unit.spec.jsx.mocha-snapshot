@@ -1,3 +1,1778 @@
+exports["VaFacilitySearch/Should render VaFacility VA, facility type benefits(0)"] = {
+  "node": {
+    "nodeType": "host",
+    "type": "div",
+    "props": {
+      "className": "facility",
+      "id": "vba_343z",
+      "children": [
+        {
+          "type": "div",
+          "props": {
+            "children": [
+              null,
+              {
+                "type": "span",
+                "props": {
+                  "children": {
+                    "type": "h3",
+                    "props": {
+                      "className": "vads- no",
+                      "children": {
+                        "type": "[function]",
+                        "props": {
+                          "to": "facility/vba_343z",
+                          "children": "VetSuccess on Campus at Los Angeles City College",
+                          "onlyActiveOnIndex": false,
+                          "style": {}
+                        },
+                        "_store": {}
+                      }
+                    },
+                    "_store": {}
+                  }
+                },
+                "_store": {}
+              },
+              {
+                "type": "p",
+                "props": {
+                  "children": {
+                    "type": "LocationAddress",
+                    "props": {
+                      "location": {
+                        "id": "vba_343z",
+                        "type": "va_facilities",
+                        "attributes": {
+                          "uniqueId": "343z",
+                          "name": "VetSuccess on Campus at Los Angeles City College",
+                          "facilityType": "va_benefits_facility",
+                          "classification": "VETSUCCESS ON CAMPUS",
+                          "website": "https//va.gov",
+                          "operatingStatus": {
+                            "code": "NORMAL",
+                            "additionalInfo": "Some additional CLOSED"
+                          },
+                          "lat": 34.08751109,
+                          "long": -118.2917626,
+                          "address": {
+                            "physical": {
+                              "address1": "855 North Vermont",
+                              "address2": "",
+                              "city": "Los Angeles",
+                              "state": "CA",
+                              "zip": "90029"
+                            },
+                            "mailing": {}
+                          },
+                          "phone": {
+                            "main": "323-953-4000 Ext 1253",
+                            "fax": ""
+                          },
+                          "hours": {
+                            "monday": "Closed",
+                            "tuesday": "Closed",
+                            "wednesday": "9:00AM-4:00PM",
+                            "thursday": "Closed",
+                            "friday": "Closed",
+                            "saturday": "Closed",
+                            "sunday": "Closed"
+                          },
+                          "services": {
+                            "benefits": {
+                              "other": "",
+                              "standard": []
+                            }
+                          },
+                          "feedback": {},
+                          "access": {}
+                        }
+                      }
+                    },
+                    "_store": {}
+                  }
+                },
+                "_store": {}
+              },
+              {
+                "type": "LocationDirectionsLink",
+                "props": {
+                  "location": {
+                    "id": "vba_343z",
+                    "type": "va_facilities",
+                    "attributes": {
+                      "uniqueId": "343z",
+                      "name": "VetSuccess on Campus at Los Angeles City College",
+                      "facilityType": "va_benefits_facility",
+                      "classification": "VETSUCCESS ON CAMPUS",
+                      "website": "https//va.gov",
+                      "operatingStatus": {
+                        "code": "NORMAL",
+                        "additionalInfo": "Some additional CLOSED"
+                      },
+                      "lat": 34.08751109,
+                      "long": -118.2917626,
+                      "address": {
+                        "physical": {
+                          "address1": "855 North Vermont",
+                          "address2": "",
+                          "city": "Los Angeles",
+                          "state": "CA",
+                          "zip": "90029"
+                        },
+                        "mailing": {}
+                      },
+                      "phone": {
+                        "main": "323-953-4000 Ext 1253",
+                        "fax": ""
+                      },
+                      "hours": {
+                        "monday": "Closed",
+                        "tuesday": "Closed",
+                        "wednesday": "9:00AM-4:00PM",
+                        "thursday": "Closed",
+                        "friday": "Closed",
+                        "saturday": "Closed",
+                        "sunday": "Closed"
+                      },
+                      "services": {
+                        "benefits": {
+                          "other": "",
+                          "standard": []
+                        }
+                      },
+                      "feedback": {},
+                      "access": {}
+                    }
+                  },
+                  "from": "SearchResult"
+                },
+                "_store": {}
+              },
+              {
+                "type": "LocationPhoneLink",
+                "props": {
+                  "location": {
+                    "id": "vba_343z",
+                    "type": "va_facilities",
+                    "attributes": {
+                      "uniqueId": "343z",
+                      "name": "VetSuccess on Campus at Los Angeles City College",
+                      "facilityType": "va_benefits_facility",
+                      "classification": "VETSUCCESS ON CAMPUS",
+                      "website": "https//va.gov",
+                      "operatingStatus": {
+                        "code": "NORMAL",
+                        "additionalInfo": "Some additional CLOSED"
+                      },
+                      "lat": 34.08751109,
+                      "long": -118.2917626,
+                      "address": {
+                        "physical": {
+                          "address1": "855 North Vermont",
+                          "address2": "",
+                          "city": "Los Angeles",
+                          "state": "CA",
+                          "zip": "90029"
+                        },
+                        "mailing": {}
+                      },
+                      "phone": {
+                        "main": "323-953-4000 Ext 1253",
+                        "fax": ""
+                      },
+                      "hours": {
+                        "monday": "Closed",
+                        "tuesday": "Closed",
+                        "wednesday": "9:00AM-4:00PM",
+                        "thursday": "Closed",
+                        "friday": "Closed",
+                        "saturday": "Closed",
+                        "sunday": "Closed"
+                      },
+                      "services": {
+                        "benefits": {
+                          "other": "",
+                          "standard": []
+                        }
+                      },
+                      "feedback": {},
+                      "access": {}
+                    }
+                  },
+                  "from": "SearchResult",
+                  "query": {
+                    "facilityType": "benefits"
+                  }
+                },
+                "_store": {}
+              }
+            ]
+          },
+          "_store": {}
+        },
+        false
+      ]
+    },
+    "key": "vba_343z",
+    "rendered": [
+      {
+        "nodeType": "host",
+        "type": "div",
+        "props": {
+          "children": [
+            null,
+            {
+              "type": "span",
+              "props": {
+                "children": {
+                  "type": "h3",
+                  "props": {
+                    "className": "vads- no",
+                    "children": {
+                      "type": "[function]",
+                      "props": {
+                        "to": "facility/vba_343z",
+                        "children": "VetSuccess on Campus at Los Angeles City College",
+                        "onlyActiveOnIndex": false,
+                        "style": {}
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": {
+                  "type": "LocationAddress",
+                  "props": {
+                    "location": {
+                      "id": "vba_343z",
+                      "type": "va_facilities",
+                      "attributes": {
+                        "uniqueId": "343z",
+                        "name": "VetSuccess on Campus at Los Angeles City College",
+                        "facilityType": "va_benefits_facility",
+                        "classification": "VETSUCCESS ON CAMPUS",
+                        "website": "https//va.gov",
+                        "operatingStatus": {
+                          "code": "NORMAL",
+                          "additionalInfo": "Some additional CLOSED"
+                        },
+                        "lat": 34.08751109,
+                        "long": -118.2917626,
+                        "address": {
+                          "physical": {
+                            "address1": "855 North Vermont",
+                            "address2": "",
+                            "city": "Los Angeles",
+                            "state": "CA",
+                            "zip": "90029"
+                          },
+                          "mailing": {}
+                        },
+                        "phone": {
+                          "main": "323-953-4000 Ext 1253",
+                          "fax": ""
+                        },
+                        "hours": {
+                          "monday": "Closed",
+                          "tuesday": "Closed",
+                          "wednesday": "9:00AM-4:00PM",
+                          "thursday": "Closed",
+                          "friday": "Closed",
+                          "saturday": "Closed",
+                          "sunday": "Closed"
+                        },
+                        "services": {
+                          "benefits": {
+                            "other": "",
+                            "standard": []
+                          }
+                        },
+                        "feedback": {},
+                        "access": {}
+                      }
+                    }
+                  },
+                  "_store": {}
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationDirectionsLink",
+              "props": {
+                "location": {
+                  "id": "vba_343z",
+                  "type": "va_facilities",
+                  "attributes": {
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
+                    "address": {
+                      "physical": {
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
+                    },
+                    "phone": {
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
+                    },
+                    "hours": {
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
+                    },
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
+                    "feedback": {},
+                    "access": {}
+                  }
+                },
+                "from": "SearchResult"
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationPhoneLink",
+              "props": {
+                "location": {
+                  "id": "vba_343z",
+                  "type": "va_facilities",
+                  "attributes": {
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
+                    "address": {
+                      "physical": {
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
+                    },
+                    "phone": {
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
+                    },
+                    "hours": {
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
+                    },
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
+                    "feedback": {},
+                    "access": {}
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "benefits"
+                }
+              },
+              "_store": {}
+            }
+          ]
+        },
+        "rendered": [
+          null,
+          {
+            "nodeType": "host",
+            "type": "span",
+            "props": {
+              "children": {
+                "type": "h3",
+                "props": {
+                  "className": "vads- no",
+                  "children": {
+                    "type": "[function]",
+                    "props": {
+                      "to": "facility/vba_343z",
+                      "children": "VetSuccess on Campus at Los Angeles City College",
+                      "onlyActiveOnIndex": false,
+                      "style": {}
+                    },
+                    "_store": {}
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "host",
+              "type": "h3",
+              "props": {
+                "className": "vads- no",
+                "children": {
+                  "type": "[function]",
+                  "props": {
+                    "to": "facility/vba_343z",
+                    "children": "VetSuccess on Campus at Los Angeles City College",
+                    "onlyActiveOnIndex": false,
+                    "style": {}
+                  },
+                  "_store": {}
+                }
+              },
+              "rendered": {
+                "nodeType": "class",
+                "type": "[function]",
+                "props": {
+                  "to": "facility/vba_343z",
+                  "children": "VetSuccess on Campus at Los Angeles City College",
+                  "onlyActiveOnIndex": false,
+                  "style": {}
+                },
+                "rendered": "VetSuccess on Campus at Los Angeles City College"
+              }
+            }
+          },
+          {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": {
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "vba_343z",
+                    "type": "va_facilities",
+                    "attributes": {
+                      "uniqueId": "343z",
+                      "name": "VetSuccess on Campus at Los Angeles City College",
+                      "facilityType": "va_benefits_facility",
+                      "classification": "VETSUCCESS ON CAMPUS",
+                      "website": "https//va.gov",
+                      "operatingStatus": {
+                        "code": "NORMAL",
+                        "additionalInfo": "Some additional CLOSED"
+                      },
+                      "lat": 34.08751109,
+                      "long": -118.2917626,
+                      "address": {
+                        "physical": {
+                          "address1": "855 North Vermont",
+                          "address2": "",
+                          "city": "Los Angeles",
+                          "state": "CA",
+                          "zip": "90029"
+                        },
+                        "mailing": {}
+                      },
+                      "phone": {
+                        "main": "323-953-4000 Ext 1253",
+                        "fax": ""
+                      },
+                      "hours": {
+                        "monday": "Closed",
+                        "tuesday": "Closed",
+                        "wednesday": "9:00AM-4:00PM",
+                        "thursday": "Closed",
+                        "friday": "Closed",
+                        "saturday": "Closed",
+                        "sunday": "Closed"
+                      },
+                      "services": {
+                        "benefits": {
+                          "other": "",
+                          "standard": []
+                        }
+                      },
+                      "feedback": {},
+                      "access": {}
+                    }
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "function",
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "vba_343z",
+                  "type": "va_facilities",
+                  "attributes": {
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
+                    "address": {
+                      "physical": {
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
+                    },
+                    "phone": {
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
+                    },
+                    "hours": {
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
+                    },
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
+                    "feedback": {},
+                    "access": {}
+                  }
+                }
+              }
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "vba_343z",
+                "type": "va_facilities",
+                "attributes": {
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
+                  "address": {
+                    "physical": {
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
+                  },
+                  "phone": {
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
+                  },
+                  "hours": {
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
+                  },
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
+                  "feedback": {},
+                  "access": {}
+                }
+              },
+              "from": "SearchResult"
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "vba_343z",
+                "type": "va_facilities",
+                "attributes": {
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
+                  "address": {
+                    "physical": {
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
+                  },
+                  "phone": {
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
+                  },
+                  "hours": {
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
+                  },
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
+                  "feedback": {},
+                  "access": {}
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "benefits"
+              }
+            }
+          }
+        ]
+      },
+      false
+    ]
+  },
+  "type": "div",
+  "props": {
+    "className": "facility",
+    "id": "vba_343z",
+    "key": "vba_343z"
+  },
+  "children": [
+    {
+      "node": {
+        "nodeType": "host",
+        "type": "div",
+        "props": {
+          "children": [
+            null,
+            {
+              "type": "span",
+              "props": {
+                "children": {
+                  "type": "h3",
+                  "props": {
+                    "className": "vads- no",
+                    "children": {
+                      "type": "[function]",
+                      "props": {
+                        "to": "facility/vba_343z",
+                        "children": "VetSuccess on Campus at Los Angeles City College",
+                        "onlyActiveOnIndex": false,
+                        "style": {}
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": {
+                  "type": "LocationAddress",
+                  "props": {
+                    "location": {
+                      "id": "vba_343z",
+                      "type": "va_facilities",
+                      "attributes": {
+                        "uniqueId": "343z",
+                        "name": "VetSuccess on Campus at Los Angeles City College",
+                        "facilityType": "va_benefits_facility",
+                        "classification": "VETSUCCESS ON CAMPUS",
+                        "website": "https//va.gov",
+                        "operatingStatus": {
+                          "code": "NORMAL",
+                          "additionalInfo": "Some additional CLOSED"
+                        },
+                        "lat": 34.08751109,
+                        "long": -118.2917626,
+                        "address": {
+                          "physical": {
+                            "address1": "855 North Vermont",
+                            "address2": "",
+                            "city": "Los Angeles",
+                            "state": "CA",
+                            "zip": "90029"
+                          },
+                          "mailing": {}
+                        },
+                        "phone": {
+                          "main": "323-953-4000 Ext 1253",
+                          "fax": ""
+                        },
+                        "hours": {
+                          "monday": "Closed",
+                          "tuesday": "Closed",
+                          "wednesday": "9:00AM-4:00PM",
+                          "thursday": "Closed",
+                          "friday": "Closed",
+                          "saturday": "Closed",
+                          "sunday": "Closed"
+                        },
+                        "services": {
+                          "benefits": {
+                            "other": "",
+                            "standard": []
+                          }
+                        },
+                        "feedback": {},
+                        "access": {}
+                      }
+                    }
+                  },
+                  "_store": {}
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationDirectionsLink",
+              "props": {
+                "location": {
+                  "id": "vba_343z",
+                  "type": "va_facilities",
+                  "attributes": {
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
+                    "address": {
+                      "physical": {
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
+                    },
+                    "phone": {
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
+                    },
+                    "hours": {
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
+                    },
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
+                    "feedback": {},
+                    "access": {}
+                  }
+                },
+                "from": "SearchResult"
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationPhoneLink",
+              "props": {
+                "location": {
+                  "id": "vba_343z",
+                  "type": "va_facilities",
+                  "attributes": {
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
+                    "address": {
+                      "physical": {
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
+                    },
+                    "phone": {
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
+                    },
+                    "hours": {
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
+                    },
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
+                    "feedback": {},
+                    "access": {}
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "benefits"
+                }
+              },
+              "_store": {}
+            }
+          ]
+        },
+        "rendered": [
+          null,
+          {
+            "nodeType": "host",
+            "type": "span",
+            "props": {
+              "children": {
+                "type": "h3",
+                "props": {
+                  "className": "vads- no",
+                  "children": {
+                    "type": "[function]",
+                    "props": {
+                      "to": "facility/vba_343z",
+                      "children": "VetSuccess on Campus at Los Angeles City College",
+                      "onlyActiveOnIndex": false,
+                      "style": {}
+                    },
+                    "_store": {}
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "host",
+              "type": "h3",
+              "props": {
+                "className": "vads- no",
+                "children": {
+                  "type": "[function]",
+                  "props": {
+                    "to": "facility/vba_343z",
+                    "children": "VetSuccess on Campus at Los Angeles City College",
+                    "onlyActiveOnIndex": false,
+                    "style": {}
+                  },
+                  "_store": {}
+                }
+              },
+              "rendered": {
+                "nodeType": "class",
+                "type": "[function]",
+                "props": {
+                  "to": "facility/vba_343z",
+                  "children": "VetSuccess on Campus at Los Angeles City College",
+                  "onlyActiveOnIndex": false,
+                  "style": {}
+                },
+                "rendered": "VetSuccess on Campus at Los Angeles City College"
+              }
+            }
+          },
+          {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": {
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "vba_343z",
+                    "type": "va_facilities",
+                    "attributes": {
+                      "uniqueId": "343z",
+                      "name": "VetSuccess on Campus at Los Angeles City College",
+                      "facilityType": "va_benefits_facility",
+                      "classification": "VETSUCCESS ON CAMPUS",
+                      "website": "https//va.gov",
+                      "operatingStatus": {
+                        "code": "NORMAL",
+                        "additionalInfo": "Some additional CLOSED"
+                      },
+                      "lat": 34.08751109,
+                      "long": -118.2917626,
+                      "address": {
+                        "physical": {
+                          "address1": "855 North Vermont",
+                          "address2": "",
+                          "city": "Los Angeles",
+                          "state": "CA",
+                          "zip": "90029"
+                        },
+                        "mailing": {}
+                      },
+                      "phone": {
+                        "main": "323-953-4000 Ext 1253",
+                        "fax": ""
+                      },
+                      "hours": {
+                        "monday": "Closed",
+                        "tuesday": "Closed",
+                        "wednesday": "9:00AM-4:00PM",
+                        "thursday": "Closed",
+                        "friday": "Closed",
+                        "saturday": "Closed",
+                        "sunday": "Closed"
+                      },
+                      "services": {
+                        "benefits": {
+                          "other": "",
+                          "standard": []
+                        }
+                      },
+                      "feedback": {},
+                      "access": {}
+                    }
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "function",
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "vba_343z",
+                  "type": "va_facilities",
+                  "attributes": {
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
+                    "address": {
+                      "physical": {
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
+                    },
+                    "phone": {
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
+                    },
+                    "hours": {
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
+                    },
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
+                    "feedback": {},
+                    "access": {}
+                  }
+                }
+              }
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "vba_343z",
+                "type": "va_facilities",
+                "attributes": {
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
+                  "address": {
+                    "physical": {
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
+                  },
+                  "phone": {
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
+                  },
+                  "hours": {
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
+                  },
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
+                  "feedback": {},
+                  "access": {}
+                }
+              },
+              "from": "SearchResult"
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "vba_343z",
+                "type": "va_facilities",
+                "attributes": {
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
+                  "address": {
+                    "physical": {
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
+                  },
+                  "phone": {
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
+                  },
+                  "hours": {
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
+                  },
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
+                  "feedback": {},
+                  "access": {}
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "benefits"
+              }
+            }
+          }
+        ]
+      },
+      "type": "div",
+      "props": {},
+      "children": [
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "span",
+            "props": {
+              "children": {
+                "type": "h3",
+                "props": {
+                  "className": "vads- no",
+                  "children": {
+                    "type": "[function]",
+                    "props": {
+                      "to": "facility/vba_343z",
+                      "children": "VetSuccess on Campus at Los Angeles City College",
+                      "onlyActiveOnIndex": false,
+                      "style": {}
+                    },
+                    "_store": {}
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "host",
+              "type": "h3",
+              "props": {
+                "className": "vads- no",
+                "children": {
+                  "type": "[function]",
+                  "props": {
+                    "to": "facility/vba_343z",
+                    "children": "VetSuccess on Campus at Los Angeles City College",
+                    "onlyActiveOnIndex": false,
+                    "style": {}
+                  },
+                  "_store": {}
+                }
+              },
+              "rendered": {
+                "nodeType": "class",
+                "type": "[function]",
+                "props": {
+                  "to": "facility/vba_343z",
+                  "children": "VetSuccess on Campus at Los Angeles City College",
+                  "onlyActiveOnIndex": false,
+                  "style": {}
+                },
+                "rendered": "VetSuccess on Campus at Los Angeles City College"
+              }
+            }
+          },
+          "type": "span",
+          "props": {},
+          "children": [
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "h3",
+                "props": {
+                  "className": "vads- no",
+                  "children": {
+                    "type": "[function]",
+                    "props": {
+                      "to": "facility/vba_343z",
+                      "children": "VetSuccess on Campus at Los Angeles City College",
+                      "onlyActiveOnIndex": false,
+                      "style": {}
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "class",
+                  "type": "[function]",
+                  "props": {
+                    "to": "facility/vba_343z",
+                    "children": "VetSuccess on Campus at Los Angeles City College",
+                    "onlyActiveOnIndex": false,
+                    "style": {}
+                  },
+                  "rendered": "VetSuccess on Campus at Los Angeles City College"
+                }
+              },
+              "type": "h3",
+              "props": {
+                "className": "vads- no"
+              },
+              "children": [
+                {
+                  "node": {
+                    "nodeType": "class",
+                    "type": "[function]",
+                    "props": {
+                      "to": "facility/vba_343z",
+                      "children": "VetSuccess on Campus at Los Angeles City College",
+                      "onlyActiveOnIndex": false,
+                      "style": {}
+                    },
+                    "rendered": "VetSuccess on Campus at Los Angeles City College"
+                  },
+                  "type": "Link",
+                  "props": {
+                    "to": "facility/vba_343z",
+                    "onlyActiveOnIndex": false,
+                    "style": {}
+                  },
+                  "children": [
+                    "VetSuccess on Campus at Los Angeles City College"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": {
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "vba_343z",
+                    "type": "va_facilities",
+                    "attributes": {
+                      "uniqueId": "343z",
+                      "name": "VetSuccess on Campus at Los Angeles City College",
+                      "facilityType": "va_benefits_facility",
+                      "classification": "VETSUCCESS ON CAMPUS",
+                      "website": "https//va.gov",
+                      "operatingStatus": {
+                        "code": "NORMAL",
+                        "additionalInfo": "Some additional CLOSED"
+                      },
+                      "lat": 34.08751109,
+                      "long": -118.2917626,
+                      "address": {
+                        "physical": {
+                          "address1": "855 North Vermont",
+                          "address2": "",
+                          "city": "Los Angeles",
+                          "state": "CA",
+                          "zip": "90029"
+                        },
+                        "mailing": {}
+                      },
+                      "phone": {
+                        "main": "323-953-4000 Ext 1253",
+                        "fax": ""
+                      },
+                      "hours": {
+                        "monday": "Closed",
+                        "tuesday": "Closed",
+                        "wednesday": "9:00AM-4:00PM",
+                        "thursday": "Closed",
+                        "friday": "Closed",
+                        "saturday": "Closed",
+                        "sunday": "Closed"
+                      },
+                      "services": {
+                        "benefits": {
+                          "other": "",
+                          "standard": []
+                        }
+                      },
+                      "feedback": {},
+                      "access": {}
+                    }
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "function",
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "vba_343z",
+                  "type": "va_facilities",
+                  "attributes": {
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
+                    "address": {
+                      "physical": {
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
+                    },
+                    "phone": {
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
+                    },
+                    "hours": {
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
+                    },
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
+                    "feedback": {},
+                    "access": {}
+                  }
+                }
+              }
+            }
+          },
+          "type": "p",
+          "props": {},
+          "children": [
+            {
+              "node": {
+                "nodeType": "function",
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "vba_343z",
+                    "type": "va_facilities",
+                    "attributes": {
+                      "uniqueId": "343z",
+                      "name": "VetSuccess on Campus at Los Angeles City College",
+                      "facilityType": "va_benefits_facility",
+                      "classification": "VETSUCCESS ON CAMPUS",
+                      "website": "https//va.gov",
+                      "operatingStatus": {
+                        "code": "NORMAL",
+                        "additionalInfo": "Some additional CLOSED"
+                      },
+                      "lat": 34.08751109,
+                      "long": -118.2917626,
+                      "address": {
+                        "physical": {
+                          "address1": "855 North Vermont",
+                          "address2": "",
+                          "city": "Los Angeles",
+                          "state": "CA",
+                          "zip": "90029"
+                        },
+                        "mailing": {}
+                      },
+                      "phone": {
+                        "main": "323-953-4000 Ext 1253",
+                        "fax": ""
+                      },
+                      "hours": {
+                        "monday": "Closed",
+                        "tuesday": "Closed",
+                        "wednesday": "9:00AM-4:00PM",
+                        "thursday": "Closed",
+                        "friday": "Closed",
+                        "saturday": "Closed",
+                        "sunday": "Closed"
+                      },
+                      "services": {
+                        "benefits": {
+                          "other": "",
+                          "standard": []
+                        }
+                      },
+                      "feedback": {},
+                      "access": {}
+                    }
+                  }
+                }
+              },
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "vba_343z",
+                  "type": "va_facilities",
+                  "attributes": {
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
+                    "address": {
+                      "physical": {
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
+                    },
+                    "phone": {
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
+                    },
+                    "hours": {
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
+                    },
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
+                    "feedback": {},
+                    "access": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "vba_343z",
+                "type": "va_facilities",
+                "attributes": {
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
+                  "address": {
+                    "physical": {
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
+                  },
+                  "phone": {
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
+                  },
+                  "hours": {
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
+                  },
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
+                  "feedback": {},
+                  "access": {}
+                }
+              },
+              "from": "SearchResult"
+            }
+          },
+          "type": "LocationDirectionsLink",
+          "props": {
+            "location": {
+              "id": "vba_343z",
+              "type": "va_facilities",
+              "attributes": {
+                "uniqueId": "343z",
+                "name": "VetSuccess on Campus at Los Angeles City College",
+                "facilityType": "va_benefits_facility",
+                "classification": "VETSUCCESS ON CAMPUS",
+                "website": "https//va.gov",
+                "operatingStatus": {
+                  "code": "NORMAL",
+                  "additionalInfo": "Some additional CLOSED"
+                },
+                "lat": 34.08751109,
+                "long": -118.2917626,
+                "address": {
+                  "physical": {
+                    "address1": "855 North Vermont",
+                    "address2": "",
+                    "city": "Los Angeles",
+                    "state": "CA",
+                    "zip": "90029"
+                  },
+                  "mailing": {}
+                },
+                "phone": {
+                  "main": "323-953-4000 Ext 1253",
+                  "fax": ""
+                },
+                "hours": {
+                  "monday": "Closed",
+                  "tuesday": "Closed",
+                  "wednesday": "9:00AM-4:00PM",
+                  "thursday": "Closed",
+                  "friday": "Closed",
+                  "saturday": "Closed",
+                  "sunday": "Closed"
+                },
+                "services": {
+                  "benefits": {
+                    "other": "",
+                    "standard": []
+                  }
+                },
+                "feedback": {},
+                "access": {}
+              }
+            },
+            "from": "SearchResult"
+          }
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "vba_343z",
+                "type": "va_facilities",
+                "attributes": {
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
+                  "address": {
+                    "physical": {
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
+                  },
+                  "phone": {
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
+                  },
+                  "hours": {
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
+                  },
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
+                  "feedback": {},
+                  "access": {}
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "benefits"
+              }
+            }
+          },
+          "type": "LocationPhoneLink",
+          "props": {
+            "location": {
+              "id": "vba_343z",
+              "type": "va_facilities",
+              "attributes": {
+                "uniqueId": "343z",
+                "name": "VetSuccess on Campus at Los Angeles City College",
+                "facilityType": "va_benefits_facility",
+                "classification": "VETSUCCESS ON CAMPUS",
+                "website": "https//va.gov",
+                "operatingStatus": {
+                  "code": "NORMAL",
+                  "additionalInfo": "Some additional CLOSED"
+                },
+                "lat": 34.08751109,
+                "long": -118.2917626,
+                "address": {
+                  "physical": {
+                    "address1": "855 North Vermont",
+                    "address2": "",
+                    "city": "Los Angeles",
+                    "state": "CA",
+                    "zip": "90029"
+                  },
+                  "mailing": {}
+                },
+                "phone": {
+                  "main": "323-953-4000 Ext 1253",
+                  "fax": ""
+                },
+                "hours": {
+                  "monday": "Closed",
+                  "tuesday": "Closed",
+                  "wednesday": "9:00AM-4:00PM",
+                  "thursday": "Closed",
+                  "friday": "Closed",
+                  "saturday": "Closed",
+                  "sunday": "Closed"
+                },
+                "services": {
+                  "benefits": {
+                    "other": "",
+                    "standard": []
+                  }
+                },
+                "feedback": {},
+                "access": {}
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "benefits"
+            }
+          }
+        }
+      ]
+    }
+  ]
+};
+
 exports["VaFacilitySearch/Should render VaFacility, facility type health(0)"] = {
   "node": {
     "nodeType": "host",
@@ -315,10 +2090,7 @@ exports["VaFacilitySearch/Should render VaFacility, facility type health(0)"] = 
                       "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
                     }
                   },
-                  "from": "SearchResult",
-                  "query": {
-                    "facilityType": "health"
-                  }
+                  "from": "SearchResult"
                 },
                 "_store": {}
               },
@@ -784,10 +2556,7 @@ exports["VaFacilitySearch/Should render VaFacility, facility type health(0)"] = 
                     "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
                   }
                 },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "health"
-                }
+                "from": "SearchResult"
               },
               "_store": {}
             },
@@ -1410,10 +3179,7 @@ exports["VaFacilitySearch/Should render VaFacility, facility type health(0)"] = 
                   "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "health"
-              }
+              "from": "SearchResult"
             }
           },
           {
@@ -1882,10 +3648,7 @@ exports["VaFacilitySearch/Should render VaFacility, facility type health(0)"] = 
                     "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
                   }
                 },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "health"
-                }
+                "from": "SearchResult"
               },
               "_store": {}
             },
@@ -2508,10 +4271,7 @@ exports["VaFacilitySearch/Should render VaFacility, facility type health(0)"] = 
                   "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "health"
-              }
+              "from": "SearchResult"
             }
           },
           {
@@ -3482,10 +5242,7 @@ exports["VaFacilitySearch/Should render VaFacility, facility type health(0)"] = 
                   "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "health"
-              }
+              "from": "SearchResult"
             }
           },
           "type": "LocationDirectionsLink",
@@ -3623,10 +5380,7 @@ exports["VaFacilitySearch/Should render VaFacility, facility type health(0)"] = 
                 "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
               }
             },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "health"
-            }
+            "from": "SearchResult"
           }
         },
         {
@@ -3919,1802 +5673,6 @@ exports["VaFacilitySearch/Should render VaFacility, facility type health(0)"] = 
   ]
 };
 
-exports["VaFacilitySearch/Should render VaFacility VA, facility type benefits(0)"] = {
-  "node": {
-    "nodeType": "host",
-    "type": "div",
-    "props": {
-      "className": "facility",
-      "id": "vba_343z",
-      "children": [
-        {
-          "type": "div",
-          "props": {
-            "children": [
-              null,
-              {
-                "type": "span",
-                "props": {
-                  "children": {
-                    "type": "h3",
-                    "props": {
-                      "className": "vads- no",
-                      "children": {
-                        "type": "[function]",
-                        "props": {
-                          "to": "facility/vba_343z",
-                          "children": "VetSuccess on Campus at Los Angeles City College",
-                          "onlyActiveOnIndex": false,
-                          "style": {}
-                        },
-                        "_store": {}
-                      }
-                    },
-                    "_store": {}
-                  }
-                },
-                "_store": {}
-              },
-              {
-                "type": "p",
-                "props": {
-                  "children": {
-                    "type": "LocationAddress",
-                    "props": {
-                      "location": {
-                        "id": "vba_343z",
-                        "type": "va_facilities",
-                        "attributes": {
-                          "uniqueId": "343z",
-                          "name": "VetSuccess on Campus at Los Angeles City College",
-                          "facilityType": "va_benefits_facility",
-                          "classification": "VETSUCCESS ON CAMPUS",
-                          "website": "https//va.gov",
-                          "operatingStatus": {
-                            "code": "NORMAL",
-                            "additionalInfo": "Some additional CLOSED"
-                          },
-                          "lat": 34.08751109,
-                          "long": -118.2917626,
-                          "address": {
-                            "physical": {
-                              "address1": "855 North Vermont",
-                              "address2": "",
-                              "city": "Los Angeles",
-                              "state": "CA",
-                              "zip": "90029"
-                            },
-                            "mailing": {}
-                          },
-                          "phone": {
-                            "main": "323-953-4000 Ext 1253",
-                            "fax": ""
-                          },
-                          "hours": {
-                            "monday": "Closed",
-                            "tuesday": "Closed",
-                            "wednesday": "9:00AM-4:00PM",
-                            "thursday": "Closed",
-                            "friday": "Closed",
-                            "saturday": "Closed",
-                            "sunday": "Closed"
-                          },
-                          "services": {
-                            "benefits": {
-                              "other": "",
-                              "standard": []
-                            }
-                          },
-                          "feedback": {},
-                          "access": {}
-                        }
-                      }
-                    },
-                    "_store": {}
-                  }
-                },
-                "_store": {}
-              },
-              {
-                "type": "LocationDirectionsLink",
-                "props": {
-                  "location": {
-                    "id": "vba_343z",
-                    "type": "va_facilities",
-                    "attributes": {
-                      "uniqueId": "343z",
-                      "name": "VetSuccess on Campus at Los Angeles City College",
-                      "facilityType": "va_benefits_facility",
-                      "classification": "VETSUCCESS ON CAMPUS",
-                      "website": "https//va.gov",
-                      "operatingStatus": {
-                        "code": "NORMAL",
-                        "additionalInfo": "Some additional CLOSED"
-                      },
-                      "lat": 34.08751109,
-                      "long": -118.2917626,
-                      "address": {
-                        "physical": {
-                          "address1": "855 North Vermont",
-                          "address2": "",
-                          "city": "Los Angeles",
-                          "state": "CA",
-                          "zip": "90029"
-                        },
-                        "mailing": {}
-                      },
-                      "phone": {
-                        "main": "323-953-4000 Ext 1253",
-                        "fax": ""
-                      },
-                      "hours": {
-                        "monday": "Closed",
-                        "tuesday": "Closed",
-                        "wednesday": "9:00AM-4:00PM",
-                        "thursday": "Closed",
-                        "friday": "Closed",
-                        "saturday": "Closed",
-                        "sunday": "Closed"
-                      },
-                      "services": {
-                        "benefits": {
-                          "other": "",
-                          "standard": []
-                        }
-                      },
-                      "feedback": {},
-                      "access": {}
-                    }
-                  },
-                  "from": "SearchResult",
-                  "query": {
-                    "facilityType": "benefits"
-                  }
-                },
-                "_store": {}
-              },
-              {
-                "type": "LocationPhoneLink",
-                "props": {
-                  "location": {
-                    "id": "vba_343z",
-                    "type": "va_facilities",
-                    "attributes": {
-                      "uniqueId": "343z",
-                      "name": "VetSuccess on Campus at Los Angeles City College",
-                      "facilityType": "va_benefits_facility",
-                      "classification": "VETSUCCESS ON CAMPUS",
-                      "website": "https//va.gov",
-                      "operatingStatus": {
-                        "code": "NORMAL",
-                        "additionalInfo": "Some additional CLOSED"
-                      },
-                      "lat": 34.08751109,
-                      "long": -118.2917626,
-                      "address": {
-                        "physical": {
-                          "address1": "855 North Vermont",
-                          "address2": "",
-                          "city": "Los Angeles",
-                          "state": "CA",
-                          "zip": "90029"
-                        },
-                        "mailing": {}
-                      },
-                      "phone": {
-                        "main": "323-953-4000 Ext 1253",
-                        "fax": ""
-                      },
-                      "hours": {
-                        "monday": "Closed",
-                        "tuesday": "Closed",
-                        "wednesday": "9:00AM-4:00PM",
-                        "thursday": "Closed",
-                        "friday": "Closed",
-                        "saturday": "Closed",
-                        "sunday": "Closed"
-                      },
-                      "services": {
-                        "benefits": {
-                          "other": "",
-                          "standard": []
-                        }
-                      },
-                      "feedback": {},
-                      "access": {}
-                    }
-                  },
-                  "from": "SearchResult",
-                  "query": {
-                    "facilityType": "benefits"
-                  }
-                },
-                "_store": {}
-              }
-            ]
-          },
-          "_store": {}
-        },
-        false
-      ]
-    },
-    "key": "vba_343z",
-    "rendered": [
-      {
-        "nodeType": "host",
-        "type": "div",
-        "props": {
-          "children": [
-            null,
-            {
-              "type": "span",
-              "props": {
-                "children": {
-                  "type": "h3",
-                  "props": {
-                    "className": "vads- no",
-                    "children": {
-                      "type": "[function]",
-                      "props": {
-                        "to": "facility/vba_343z",
-                        "children": "VetSuccess on Campus at Los Angeles City College",
-                        "onlyActiveOnIndex": false,
-                        "style": {}
-                      },
-                      "_store": {}
-                    }
-                  },
-                  "_store": {}
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "p",
-              "props": {
-                "children": {
-                  "type": "LocationAddress",
-                  "props": {
-                    "location": {
-                      "id": "vba_343z",
-                      "type": "va_facilities",
-                      "attributes": {
-                        "uniqueId": "343z",
-                        "name": "VetSuccess on Campus at Los Angeles City College",
-                        "facilityType": "va_benefits_facility",
-                        "classification": "VETSUCCESS ON CAMPUS",
-                        "website": "https//va.gov",
-                        "operatingStatus": {
-                          "code": "NORMAL",
-                          "additionalInfo": "Some additional CLOSED"
-                        },
-                        "lat": 34.08751109,
-                        "long": -118.2917626,
-                        "address": {
-                          "physical": {
-                            "address1": "855 North Vermont",
-                            "address2": "",
-                            "city": "Los Angeles",
-                            "state": "CA",
-                            "zip": "90029"
-                          },
-                          "mailing": {}
-                        },
-                        "phone": {
-                          "main": "323-953-4000 Ext 1253",
-                          "fax": ""
-                        },
-                        "hours": {
-                          "monday": "Closed",
-                          "tuesday": "Closed",
-                          "wednesday": "9:00AM-4:00PM",
-                          "thursday": "Closed",
-                          "friday": "Closed",
-                          "saturday": "Closed",
-                          "sunday": "Closed"
-                        },
-                        "services": {
-                          "benefits": {
-                            "other": "",
-                            "standard": []
-                          }
-                        },
-                        "feedback": {},
-                        "access": {}
-                      }
-                    }
-                  },
-                  "_store": {}
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "LocationDirectionsLink",
-              "props": {
-                "location": {
-                  "id": "vba_343z",
-                  "type": "va_facilities",
-                  "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
-                    "address": {
-                      "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
-                      }
-                    },
-                    "feedback": {},
-                    "access": {}
-                  }
-                },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "benefits"
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "LocationPhoneLink",
-              "props": {
-                "location": {
-                  "id": "vba_343z",
-                  "type": "va_facilities",
-                  "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
-                    "address": {
-                      "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
-                      }
-                    },
-                    "feedback": {},
-                    "access": {}
-                  }
-                },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "benefits"
-                }
-              },
-              "_store": {}
-            }
-          ]
-        },
-        "rendered": [
-          null,
-          {
-            "nodeType": "host",
-            "type": "span",
-            "props": {
-              "children": {
-                "type": "h3",
-                "props": {
-                  "className": "vads- no",
-                  "children": {
-                    "type": "[function]",
-                    "props": {
-                      "to": "facility/vba_343z",
-                      "children": "VetSuccess on Campus at Los Angeles City College",
-                      "onlyActiveOnIndex": false,
-                      "style": {}
-                    },
-                    "_store": {}
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "host",
-              "type": "h3",
-              "props": {
-                "className": "vads- no",
-                "children": {
-                  "type": "[function]",
-                  "props": {
-                    "to": "facility/vba_343z",
-                    "children": "VetSuccess on Campus at Los Angeles City College",
-                    "onlyActiveOnIndex": false,
-                    "style": {}
-                  },
-                  "_store": {}
-                }
-              },
-              "rendered": {
-                "nodeType": "class",
-                "type": "[function]",
-                "props": {
-                  "to": "facility/vba_343z",
-                  "children": "VetSuccess on Campus at Los Angeles City College",
-                  "onlyActiveOnIndex": false,
-                  "style": {}
-                },
-                "rendered": "VetSuccess on Campus at Los Angeles City College"
-              }
-            }
-          },
-          {
-            "nodeType": "host",
-            "type": "p",
-            "props": {
-              "children": {
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "vba_343z",
-                    "type": "va_facilities",
-                    "attributes": {
-                      "uniqueId": "343z",
-                      "name": "VetSuccess on Campus at Los Angeles City College",
-                      "facilityType": "va_benefits_facility",
-                      "classification": "VETSUCCESS ON CAMPUS",
-                      "website": "https//va.gov",
-                      "operatingStatus": {
-                        "code": "NORMAL",
-                        "additionalInfo": "Some additional CLOSED"
-                      },
-                      "lat": 34.08751109,
-                      "long": -118.2917626,
-                      "address": {
-                        "physical": {
-                          "address1": "855 North Vermont",
-                          "address2": "",
-                          "city": "Los Angeles",
-                          "state": "CA",
-                          "zip": "90029"
-                        },
-                        "mailing": {}
-                      },
-                      "phone": {
-                        "main": "323-953-4000 Ext 1253",
-                        "fax": ""
-                      },
-                      "hours": {
-                        "monday": "Closed",
-                        "tuesday": "Closed",
-                        "wednesday": "9:00AM-4:00PM",
-                        "thursday": "Closed",
-                        "friday": "Closed",
-                        "saturday": "Closed",
-                        "sunday": "Closed"
-                      },
-                      "services": {
-                        "benefits": {
-                          "other": "",
-                          "standard": []
-                        }
-                      },
-                      "feedback": {},
-                      "access": {}
-                    }
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "function",
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "vba_343z",
-                  "type": "va_facilities",
-                  "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
-                    "address": {
-                      "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
-                      }
-                    },
-                    "feedback": {},
-                    "access": {}
-                  }
-                }
-              }
-            }
-          },
-          {
-            "nodeType": "function",
-            "type": "LocationDirectionsLink",
-            "props": {
-              "location": {
-                "id": "vba_343z",
-                "type": "va_facilities",
-                "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
-                  "address": {
-                    "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
-                    }
-                  },
-                  "feedback": {},
-                  "access": {}
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "benefits"
-              }
-            }
-          },
-          {
-            "nodeType": "function",
-            "type": "LocationPhoneLink",
-            "props": {
-              "location": {
-                "id": "vba_343z",
-                "type": "va_facilities",
-                "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
-                  "address": {
-                    "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
-                    }
-                  },
-                  "feedback": {},
-                  "access": {}
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "benefits"
-              }
-            }
-          }
-        ]
-      },
-      false
-    ]
-  },
-  "type": "div",
-  "props": {
-    "className": "facility",
-    "id": "vba_343z",
-    "key": "vba_343z"
-  },
-  "children": [
-    {
-      "node": {
-        "nodeType": "host",
-        "type": "div",
-        "props": {
-          "children": [
-            null,
-            {
-              "type": "span",
-              "props": {
-                "children": {
-                  "type": "h3",
-                  "props": {
-                    "className": "vads- no",
-                    "children": {
-                      "type": "[function]",
-                      "props": {
-                        "to": "facility/vba_343z",
-                        "children": "VetSuccess on Campus at Los Angeles City College",
-                        "onlyActiveOnIndex": false,
-                        "style": {}
-                      },
-                      "_store": {}
-                    }
-                  },
-                  "_store": {}
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "p",
-              "props": {
-                "children": {
-                  "type": "LocationAddress",
-                  "props": {
-                    "location": {
-                      "id": "vba_343z",
-                      "type": "va_facilities",
-                      "attributes": {
-                        "uniqueId": "343z",
-                        "name": "VetSuccess on Campus at Los Angeles City College",
-                        "facilityType": "va_benefits_facility",
-                        "classification": "VETSUCCESS ON CAMPUS",
-                        "website": "https//va.gov",
-                        "operatingStatus": {
-                          "code": "NORMAL",
-                          "additionalInfo": "Some additional CLOSED"
-                        },
-                        "lat": 34.08751109,
-                        "long": -118.2917626,
-                        "address": {
-                          "physical": {
-                            "address1": "855 North Vermont",
-                            "address2": "",
-                            "city": "Los Angeles",
-                            "state": "CA",
-                            "zip": "90029"
-                          },
-                          "mailing": {}
-                        },
-                        "phone": {
-                          "main": "323-953-4000 Ext 1253",
-                          "fax": ""
-                        },
-                        "hours": {
-                          "monday": "Closed",
-                          "tuesday": "Closed",
-                          "wednesday": "9:00AM-4:00PM",
-                          "thursday": "Closed",
-                          "friday": "Closed",
-                          "saturday": "Closed",
-                          "sunday": "Closed"
-                        },
-                        "services": {
-                          "benefits": {
-                            "other": "",
-                            "standard": []
-                          }
-                        },
-                        "feedback": {},
-                        "access": {}
-                      }
-                    }
-                  },
-                  "_store": {}
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "LocationDirectionsLink",
-              "props": {
-                "location": {
-                  "id": "vba_343z",
-                  "type": "va_facilities",
-                  "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
-                    "address": {
-                      "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
-                      }
-                    },
-                    "feedback": {},
-                    "access": {}
-                  }
-                },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "benefits"
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "LocationPhoneLink",
-              "props": {
-                "location": {
-                  "id": "vba_343z",
-                  "type": "va_facilities",
-                  "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
-                    "address": {
-                      "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
-                      }
-                    },
-                    "feedback": {},
-                    "access": {}
-                  }
-                },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "benefits"
-                }
-              },
-              "_store": {}
-            }
-          ]
-        },
-        "rendered": [
-          null,
-          {
-            "nodeType": "host",
-            "type": "span",
-            "props": {
-              "children": {
-                "type": "h3",
-                "props": {
-                  "className": "vads- no",
-                  "children": {
-                    "type": "[function]",
-                    "props": {
-                      "to": "facility/vba_343z",
-                      "children": "VetSuccess on Campus at Los Angeles City College",
-                      "onlyActiveOnIndex": false,
-                      "style": {}
-                    },
-                    "_store": {}
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "host",
-              "type": "h3",
-              "props": {
-                "className": "vads- no",
-                "children": {
-                  "type": "[function]",
-                  "props": {
-                    "to": "facility/vba_343z",
-                    "children": "VetSuccess on Campus at Los Angeles City College",
-                    "onlyActiveOnIndex": false,
-                    "style": {}
-                  },
-                  "_store": {}
-                }
-              },
-              "rendered": {
-                "nodeType": "class",
-                "type": "[function]",
-                "props": {
-                  "to": "facility/vba_343z",
-                  "children": "VetSuccess on Campus at Los Angeles City College",
-                  "onlyActiveOnIndex": false,
-                  "style": {}
-                },
-                "rendered": "VetSuccess on Campus at Los Angeles City College"
-              }
-            }
-          },
-          {
-            "nodeType": "host",
-            "type": "p",
-            "props": {
-              "children": {
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "vba_343z",
-                    "type": "va_facilities",
-                    "attributes": {
-                      "uniqueId": "343z",
-                      "name": "VetSuccess on Campus at Los Angeles City College",
-                      "facilityType": "va_benefits_facility",
-                      "classification": "VETSUCCESS ON CAMPUS",
-                      "website": "https//va.gov",
-                      "operatingStatus": {
-                        "code": "NORMAL",
-                        "additionalInfo": "Some additional CLOSED"
-                      },
-                      "lat": 34.08751109,
-                      "long": -118.2917626,
-                      "address": {
-                        "physical": {
-                          "address1": "855 North Vermont",
-                          "address2": "",
-                          "city": "Los Angeles",
-                          "state": "CA",
-                          "zip": "90029"
-                        },
-                        "mailing": {}
-                      },
-                      "phone": {
-                        "main": "323-953-4000 Ext 1253",
-                        "fax": ""
-                      },
-                      "hours": {
-                        "monday": "Closed",
-                        "tuesday": "Closed",
-                        "wednesday": "9:00AM-4:00PM",
-                        "thursday": "Closed",
-                        "friday": "Closed",
-                        "saturday": "Closed",
-                        "sunday": "Closed"
-                      },
-                      "services": {
-                        "benefits": {
-                          "other": "",
-                          "standard": []
-                        }
-                      },
-                      "feedback": {},
-                      "access": {}
-                    }
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "function",
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "vba_343z",
-                  "type": "va_facilities",
-                  "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
-                    "address": {
-                      "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
-                      }
-                    },
-                    "feedback": {},
-                    "access": {}
-                  }
-                }
-              }
-            }
-          },
-          {
-            "nodeType": "function",
-            "type": "LocationDirectionsLink",
-            "props": {
-              "location": {
-                "id": "vba_343z",
-                "type": "va_facilities",
-                "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
-                  "address": {
-                    "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
-                    }
-                  },
-                  "feedback": {},
-                  "access": {}
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "benefits"
-              }
-            }
-          },
-          {
-            "nodeType": "function",
-            "type": "LocationPhoneLink",
-            "props": {
-              "location": {
-                "id": "vba_343z",
-                "type": "va_facilities",
-                "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
-                  "address": {
-                    "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
-                    }
-                  },
-                  "feedback": {},
-                  "access": {}
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "benefits"
-              }
-            }
-          }
-        ]
-      },
-      "type": "div",
-      "props": {},
-      "children": [
-        {
-          "node": {
-            "nodeType": "host",
-            "type": "span",
-            "props": {
-              "children": {
-                "type": "h3",
-                "props": {
-                  "className": "vads- no",
-                  "children": {
-                    "type": "[function]",
-                    "props": {
-                      "to": "facility/vba_343z",
-                      "children": "VetSuccess on Campus at Los Angeles City College",
-                      "onlyActiveOnIndex": false,
-                      "style": {}
-                    },
-                    "_store": {}
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "host",
-              "type": "h3",
-              "props": {
-                "className": "vads- no",
-                "children": {
-                  "type": "[function]",
-                  "props": {
-                    "to": "facility/vba_343z",
-                    "children": "VetSuccess on Campus at Los Angeles City College",
-                    "onlyActiveOnIndex": false,
-                    "style": {}
-                  },
-                  "_store": {}
-                }
-              },
-              "rendered": {
-                "nodeType": "class",
-                "type": "[function]",
-                "props": {
-                  "to": "facility/vba_343z",
-                  "children": "VetSuccess on Campus at Los Angeles City College",
-                  "onlyActiveOnIndex": false,
-                  "style": {}
-                },
-                "rendered": "VetSuccess on Campus at Los Angeles City College"
-              }
-            }
-          },
-          "type": "span",
-          "props": {},
-          "children": [
-            {
-              "node": {
-                "nodeType": "host",
-                "type": "h3",
-                "props": {
-                  "className": "vads- no",
-                  "children": {
-                    "type": "[function]",
-                    "props": {
-                      "to": "facility/vba_343z",
-                      "children": "VetSuccess on Campus at Los Angeles City College",
-                      "onlyActiveOnIndex": false,
-                      "style": {}
-                    },
-                    "_store": {}
-                  }
-                },
-                "rendered": {
-                  "nodeType": "class",
-                  "type": "[function]",
-                  "props": {
-                    "to": "facility/vba_343z",
-                    "children": "VetSuccess on Campus at Los Angeles City College",
-                    "onlyActiveOnIndex": false,
-                    "style": {}
-                  },
-                  "rendered": "VetSuccess on Campus at Los Angeles City College"
-                }
-              },
-              "type": "h3",
-              "props": {
-                "className": "vads- no"
-              },
-              "children": [
-                {
-                  "node": {
-                    "nodeType": "class",
-                    "type": "[function]",
-                    "props": {
-                      "to": "facility/vba_343z",
-                      "children": "VetSuccess on Campus at Los Angeles City College",
-                      "onlyActiveOnIndex": false,
-                      "style": {}
-                    },
-                    "rendered": "VetSuccess on Campus at Los Angeles City College"
-                  },
-                  "type": "Link",
-                  "props": {
-                    "to": "facility/vba_343z",
-                    "onlyActiveOnIndex": false,
-                    "style": {}
-                  },
-                  "children": [
-                    "VetSuccess on Campus at Los Angeles City College"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "node": {
-            "nodeType": "host",
-            "type": "p",
-            "props": {
-              "children": {
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "vba_343z",
-                    "type": "va_facilities",
-                    "attributes": {
-                      "uniqueId": "343z",
-                      "name": "VetSuccess on Campus at Los Angeles City College",
-                      "facilityType": "va_benefits_facility",
-                      "classification": "VETSUCCESS ON CAMPUS",
-                      "website": "https//va.gov",
-                      "operatingStatus": {
-                        "code": "NORMAL",
-                        "additionalInfo": "Some additional CLOSED"
-                      },
-                      "lat": 34.08751109,
-                      "long": -118.2917626,
-                      "address": {
-                        "physical": {
-                          "address1": "855 North Vermont",
-                          "address2": "",
-                          "city": "Los Angeles",
-                          "state": "CA",
-                          "zip": "90029"
-                        },
-                        "mailing": {}
-                      },
-                      "phone": {
-                        "main": "323-953-4000 Ext 1253",
-                        "fax": ""
-                      },
-                      "hours": {
-                        "monday": "Closed",
-                        "tuesday": "Closed",
-                        "wednesday": "9:00AM-4:00PM",
-                        "thursday": "Closed",
-                        "friday": "Closed",
-                        "saturday": "Closed",
-                        "sunday": "Closed"
-                      },
-                      "services": {
-                        "benefits": {
-                          "other": "",
-                          "standard": []
-                        }
-                      },
-                      "feedback": {},
-                      "access": {}
-                    }
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "function",
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "vba_343z",
-                  "type": "va_facilities",
-                  "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
-                    "address": {
-                      "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
-                      }
-                    },
-                    "feedback": {},
-                    "access": {}
-                  }
-                }
-              }
-            }
-          },
-          "type": "p",
-          "props": {},
-          "children": [
-            {
-              "node": {
-                "nodeType": "function",
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "vba_343z",
-                    "type": "va_facilities",
-                    "attributes": {
-                      "uniqueId": "343z",
-                      "name": "VetSuccess on Campus at Los Angeles City College",
-                      "facilityType": "va_benefits_facility",
-                      "classification": "VETSUCCESS ON CAMPUS",
-                      "website": "https//va.gov",
-                      "operatingStatus": {
-                        "code": "NORMAL",
-                        "additionalInfo": "Some additional CLOSED"
-                      },
-                      "lat": 34.08751109,
-                      "long": -118.2917626,
-                      "address": {
-                        "physical": {
-                          "address1": "855 North Vermont",
-                          "address2": "",
-                          "city": "Los Angeles",
-                          "state": "CA",
-                          "zip": "90029"
-                        },
-                        "mailing": {}
-                      },
-                      "phone": {
-                        "main": "323-953-4000 Ext 1253",
-                        "fax": ""
-                      },
-                      "hours": {
-                        "monday": "Closed",
-                        "tuesday": "Closed",
-                        "wednesday": "9:00AM-4:00PM",
-                        "thursday": "Closed",
-                        "friday": "Closed",
-                        "saturday": "Closed",
-                        "sunday": "Closed"
-                      },
-                      "services": {
-                        "benefits": {
-                          "other": "",
-                          "standard": []
-                        }
-                      },
-                      "feedback": {},
-                      "access": {}
-                    }
-                  }
-                }
-              },
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "vba_343z",
-                  "type": "va_facilities",
-                  "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
-                    "address": {
-                      "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
-                      }
-                    },
-                    "feedback": {},
-                    "access": {}
-                  }
-                }
-              }
-            }
-          ]
-        },
-        {
-          "node": {
-            "nodeType": "function",
-            "type": "LocationDirectionsLink",
-            "props": {
-              "location": {
-                "id": "vba_343z",
-                "type": "va_facilities",
-                "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
-                  "address": {
-                    "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
-                    }
-                  },
-                  "feedback": {},
-                  "access": {}
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "benefits"
-              }
-            }
-          },
-          "type": "LocationDirectionsLink",
-          "props": {
-            "location": {
-              "id": "vba_343z",
-              "type": "va_facilities",
-              "attributes": {
-                "uniqueId": "343z",
-                "name": "VetSuccess on Campus at Los Angeles City College",
-                "facilityType": "va_benefits_facility",
-                "classification": "VETSUCCESS ON CAMPUS",
-                "website": "https//va.gov",
-                "operatingStatus": {
-                  "code": "NORMAL",
-                  "additionalInfo": "Some additional CLOSED"
-                },
-                "lat": 34.08751109,
-                "long": -118.2917626,
-                "address": {
-                  "physical": {
-                    "address1": "855 North Vermont",
-                    "address2": "",
-                    "city": "Los Angeles",
-                    "state": "CA",
-                    "zip": "90029"
-                  },
-                  "mailing": {}
-                },
-                "phone": {
-                  "main": "323-953-4000 Ext 1253",
-                  "fax": ""
-                },
-                "hours": {
-                  "monday": "Closed",
-                  "tuesday": "Closed",
-                  "wednesday": "9:00AM-4:00PM",
-                  "thursday": "Closed",
-                  "friday": "Closed",
-                  "saturday": "Closed",
-                  "sunday": "Closed"
-                },
-                "services": {
-                  "benefits": {
-                    "other": "",
-                    "standard": []
-                  }
-                },
-                "feedback": {},
-                "access": {}
-              }
-            },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "benefits"
-            }
-          }
-        },
-        {
-          "node": {
-            "nodeType": "function",
-            "type": "LocationPhoneLink",
-            "props": {
-              "location": {
-                "id": "vba_343z",
-                "type": "va_facilities",
-                "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
-                  "address": {
-                    "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
-                    }
-                  },
-                  "feedback": {},
-                  "access": {}
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "benefits"
-              }
-            }
-          },
-          "type": "LocationPhoneLink",
-          "props": {
-            "location": {
-              "id": "vba_343z",
-              "type": "va_facilities",
-              "attributes": {
-                "uniqueId": "343z",
-                "name": "VetSuccess on Campus at Los Angeles City College",
-                "facilityType": "va_benefits_facility",
-                "classification": "VETSUCCESS ON CAMPUS",
-                "website": "https//va.gov",
-                "operatingStatus": {
-                  "code": "NORMAL",
-                  "additionalInfo": "Some additional CLOSED"
-                },
-                "lat": 34.08751109,
-                "long": -118.2917626,
-                "address": {
-                  "physical": {
-                    "address1": "855 North Vermont",
-                    "address2": "",
-                    "city": "Los Angeles",
-                    "state": "CA",
-                    "zip": "90029"
-                  },
-                  "mailing": {}
-                },
-                "phone": {
-                  "main": "323-953-4000 Ext 1253",
-                  "fax": ""
-                },
-                "hours": {
-                  "monday": "Closed",
-                  "tuesday": "Closed",
-                  "wednesday": "9:00AM-4:00PM",
-                  "thursday": "Closed",
-                  "friday": "Closed",
-                  "saturday": "Closed",
-                  "sunday": "Closed"
-                },
-                "services": {
-                  "benefits": {
-                    "other": "",
-                    "standard": []
-                  }
-                },
-                "feedback": {},
-                "access": {}
-              }
-            },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "benefits"
-            }
-          }
-        }
-      ]
-    }
-  ]
-};
-
 exports["VaFacilitySearch/Should render VaFacility VA, facility type Vet Center(0)"] = {
   "node": {
     "nodeType": "host",
@@ -5838,10 +5796,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type Vet Center(
                       "access": {}
                     }
                   },
-                  "from": "SearchResult",
-                  "query": {
-                    "facilityType": "vet_center"
-                  }
+                  "from": "SearchResult"
                 },
                 "_store": {}
               },
@@ -6016,10 +5971,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type Vet Center(
                     "access": {}
                   }
                 },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "vet_center"
-                }
+                "from": "SearchResult"
               },
               "_store": {}
             },
@@ -6254,10 +6206,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type Vet Center(
                   "access": {}
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "vet_center"
-              }
+              "from": "SearchResult"
             }
           },
           {
@@ -6435,10 +6384,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type Vet Center(
                     "access": {}
                   }
                 },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "vet_center"
-                }
+                "from": "SearchResult"
               },
               "_store": {}
             },
@@ -6673,10 +6619,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type Vet Center(
                   "access": {}
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "vet_center"
-              }
+              "from": "SearchResult"
             }
           },
           {
@@ -7065,10 +7008,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type Vet Center(
                   "access": {}
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "vet_center"
-              }
+              "from": "SearchResult"
             }
           },
           "type": "LocationDirectionsLink",
@@ -7109,10 +7049,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type Vet Center(
                 "access": {}
               }
             },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "vet_center"
-            }
+            "from": "SearchResult"
           }
         },
         {
@@ -7356,10 +7293,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type cemetery(0)
                       "access": {}
                     }
                   },
-                  "from": "SearchResult",
-                  "query": {
-                    "facilityType": "cemetery"
-                  }
+                  "from": "SearchResult"
                 },
                 "_store": {}
               },
@@ -7576,10 +7510,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type cemetery(0)
                     "access": {}
                   }
                 },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "cemetery"
-                }
+                "from": "SearchResult"
               },
               "_store": {}
             },
@@ -7858,10 +7789,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type cemetery(0)
                   "access": {}
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "cemetery"
-              }
+              "from": "SearchResult"
             }
           },
           {
@@ -8081,10 +8009,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type cemetery(0)
                     "access": {}
                   }
                 },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "cemetery"
-                }
+                "from": "SearchResult"
               },
               "_store": {}
             },
@@ -8363,10 +8288,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type cemetery(0)
                   "access": {}
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "cemetery"
-              }
+              "from": "SearchResult"
             }
           },
           {
@@ -8821,10 +8743,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type cemetery(0)
                   "access": {}
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "cemetery"
-              }
+              "from": "SearchResult"
             }
           },
           "type": "LocationDirectionsLink",
@@ -8876,10 +8795,7 @@ exports["VaFacilitySearch/Should render VaFacility VA, facility type cemetery(0)
                 "access": {}
               }
             },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "cemetery"
-            }
+            "from": "SearchResult"
           }
         },
         {

@@ -144,11 +144,7 @@ exports["CCProviderSearch/Should render UrgentCareResult non VA(0)"] = {
                     }
                   }
                 },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "provider",
-                  "serviceType": "122300000X"
-                }
+                "from": "SearchResult"
               },
               "_store": {}
             },
@@ -340,11 +336,7 @@ exports["CCProviderSearch/Should render UrgentCareResult non VA(0)"] = {
                   }
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "provider",
-                "serviceType": "122300000X"
-              }
+              "from": "SearchResult"
             },
             "_store": {}
           },
@@ -620,11 +612,7 @@ exports["CCProviderSearch/Should render UrgentCareResult non VA(0)"] = {
                 }
               }
             },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "provider",
-              "serviceType": "122300000X"
-            }
+            "from": "SearchResult"
           }
         },
         {
@@ -819,11 +807,7 @@ exports["CCProviderSearch/Should render UrgentCareResult non VA(0)"] = {
                     }
                   }
                 },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "provider",
-                  "serviceType": "122300000X"
-                }
+                "from": "SearchResult"
               },
               "_store": {}
             },
@@ -1099,11 +1083,7 @@ exports["CCProviderSearch/Should render UrgentCareResult non VA(0)"] = {
                   }
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "provider",
-                "serviceType": "122300000X"
-              }
+              "from": "SearchResult"
             }
           },
           {
@@ -1564,11 +1544,7 @@ exports["CCProviderSearch/Should render UrgentCareResult non VA(0)"] = {
                   }
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "provider",
-                "serviceType": "122300000X"
-              }
+              "from": "SearchResult"
             }
           },
           "type": "LocationDirectionsLink",
@@ -1604,11 +1580,7 @@ exports["CCProviderSearch/Should render UrgentCareResult non VA(0)"] = {
                 }
               }
             },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "provider",
-              "serviceType": "122300000X"
-            }
+            "from": "SearchResult"
           }
         },
         {

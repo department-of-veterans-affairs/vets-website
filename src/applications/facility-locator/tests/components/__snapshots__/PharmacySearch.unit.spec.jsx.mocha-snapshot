@@ -101,10 +101,7 @@ exports["PharmacySearch/Should render PharmacyResult(0)"] = {
                     }
                   }
                 },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "pharmacy"
-                }
+                "from": "SearchResult"
               },
               "_store": {}
             },
@@ -251,10 +248,7 @@ exports["PharmacySearch/Should render PharmacyResult(0)"] = {
                   }
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "pharmacy"
-              }
+              "from": "SearchResult"
             },
             "_store": {}
           },
@@ -443,10 +437,7 @@ exports["PharmacySearch/Should render PharmacyResult(0)"] = {
                 }
               }
             },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "pharmacy"
-            }
+            "from": "SearchResult"
           }
         },
         {
@@ -596,10 +587,7 @@ exports["PharmacySearch/Should render PharmacyResult(0)"] = {
                     }
                   }
                 },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "pharmacy"
-                }
+                "from": "SearchResult"
               },
               "_store": {}
             },
@@ -788,10 +776,7 @@ exports["PharmacySearch/Should render PharmacyResult(0)"] = {
                   }
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "pharmacy"
-              }
+              "from": "SearchResult"
             }
           },
           {
@@ -1082,10 +1067,7 @@ exports["PharmacySearch/Should render PharmacyResult(0)"] = {
                   }
                 }
               },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "pharmacy"
-              }
+              "from": "SearchResult"
             }
           },
           "type": "LocationDirectionsLink",
@@ -1120,10 +1102,7 @@ exports["PharmacySearch/Should render PharmacyResult(0)"] = {
                 }
               }
             },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "pharmacy"
-            }
+            "from": "SearchResult"
           }
         },
         {

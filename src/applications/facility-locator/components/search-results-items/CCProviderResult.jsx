@@ -33,11 +33,7 @@ const CCProviderResult = ({ provider, query }) => {
         <p>
           <LocationAddress location={provider} />
         </p>
-        <LocationDirectionsLink
-          location={provider}
-          from={'SearchResult'}
-          query={query}
-        />
+        <LocationDirectionsLink location={provider} from={'SearchResult'} />
         <LocationPhoneLink
           location={provider}
           from={'SearchResult'}

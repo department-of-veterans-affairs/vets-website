@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
-import { facilityTypes } from '../../config';
 
 /**
  * Urgent care pharmacies (in VA’s network)
@@ -31,11 +30,7 @@ const PharmacyResult = ({ provider, query }) => {
         <p>
           <LocationAddress location={provider} />
         </p>
-        <LocationDirectionsLink
-          location={provider}
-          from={'SearchResult'}
-          query={query}
-        />
+        <LocationDirectionsLink location={provider} from={'SearchResult'} />
         <LocationPhoneLink
           location={provider}
           from={'SearchResult'}
