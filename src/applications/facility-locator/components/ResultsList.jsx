@@ -117,7 +117,7 @@ class ResultsList extends Component {
     }
 
     if (!results || results.length < 1) {
-      if (this.props.facilityTypeName === facilityTypes.cc_provider) {
+      if (this.props.facilityTypeName === facilityTypes.provider) {
         return (
           <div
             className="search-result-title facility-result"

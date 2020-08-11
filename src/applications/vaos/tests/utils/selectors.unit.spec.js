@@ -405,7 +405,8 @@ describe('VAOS selectors', () => {
       };
 
       const data = getDateTimeSelect(state, 'selectDateTime');
-      expect(data.timezone).to.equal('Mountain time (MT)');
+      expect(data.timezone).to.equal('America/Denver');
+      expect(data.timezoneDescription).to.equal('Mountain time (MT)');
       expect(data.availableDates).to.eql(['2019-10-24']);
       expect(data.availableSlots).to.eql(availableSlots);
     });

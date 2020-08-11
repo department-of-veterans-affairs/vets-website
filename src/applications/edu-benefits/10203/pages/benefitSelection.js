@@ -1,7 +1,4 @@
-import {
-  benefitSelectionDescription,
-  benefitsLabels,
-} from '../content/benefitSelection';
+import { benefitsLabels } from '../content/benefitSelection';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 const uiSchemaCheckboxes = () => {
@@ -21,10 +18,13 @@ const schemaCheckboxes = () => {
 
 export const uiSchema = {
   'view:benefit': {
-    'ui:description': benefitSelectionDescription,
+    'ui:title': 'Which benefit have you used or are currently using?',
     'ui:validations': [validateBooleanGroup],
     'ui:errorMessages': {
-      atLeastOne: 'Please select at least one',
+      atLeastOne: 'Please select at least one benefit',
+    },
+    'ui:options': {
+      showFieldLabel: true,
     },
     ...uiSchemaCheckboxes(),
   },

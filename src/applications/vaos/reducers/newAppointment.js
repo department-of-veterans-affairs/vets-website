@@ -331,7 +331,7 @@ export default function formReducer(state = initialState, action) {
 
       let eligibility = state.eligibility;
       let clinics = state.clinics;
-      let pastAppointments;
+      let pastAppointments = state.pastAppointments;
 
       if (action.eligibilityData) {
         const facilityEligibility = getEligibilityChecks(
@@ -650,15 +650,10 @@ export default function formReducer(state = initialState, action) {
 
       if (state.pastAppointments) {
         const pastAppointmentDateMap = new Map();
-        const rootOrgId = getIdOfRootOrganization(
-          state.parentFacilities,
-          state.data.vaParent,
-        );
-
         const org = state.parentFacilities.find(
           parent => parent.id === state.data.vaParent,
         );
-        const siteId = getSiteIdFromOrganization(org);
+        const siteId = getSiteIdFromOrganization(org).substring(0, 3);
 
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
