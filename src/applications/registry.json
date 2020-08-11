@@ -846,8 +846,8 @@
   },
   {
     "appName": "Covid Vaccine Trial",
-    "entryName": "covid-vaccine-trial",
-    "rootUrl": "/covid-vaccine-trial",
+    "entryName": "covid-research-volunteer",
+    "rootUrl": "/covid-research-volunteer",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"

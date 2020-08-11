@@ -7,7 +7,7 @@ const route = {
   component: App,
   // indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
   indexRoute: {
-    onEnter: (nextState, replace) => replace('/covid-vaccine-trial'),
+    onEnter: (nextState, replace) => replace('/covid-research-volunteer'),
   },
 
   childRoutes: createRoutesWithSaveInProgress(formConfig),

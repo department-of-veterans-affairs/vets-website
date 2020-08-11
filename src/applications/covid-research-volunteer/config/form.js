@@ -85,7 +85,7 @@ const formConfig = {
       title: 'Volunteer Information',
       pages: {
         page1: {
-          path: 'covid-vaccine-trial',
+          path: 'covid-research-volunteer',
           title: 'Volunteer Information - Page 1',
           updateFormData: updateData,
           uiSchema,

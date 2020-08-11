@@ -17,7 +17,7 @@ import fullSchema686 from 'applications/disability-benefits/686c-674/config/form
 import fullSchemaFeedbackTool from 'applications/edu-benefits/feedback-tool/config/form';
 import fullSchema1010CG from 'applications/caregivers/config/form';
 import fullSchemaMDOT from 'applications/disability-benefits/2346/config/form';
-import fullSchemaCVT from 'applications/covid-vaccine-trial/config/form';
+import fullSchemaCVT from 'applications/covid-research-volunteer/config/form';
 
 import { VA_FORM_IDS } from 'platform/forms/constants';
 

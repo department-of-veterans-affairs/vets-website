@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/covid-vaccine-trial.scss';
+import './sass/covid-research-volunteer.scss';
 
 import startApp from 'platform/startup';
 
