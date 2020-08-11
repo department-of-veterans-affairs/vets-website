@@ -29,7 +29,7 @@ describe('VAOS <VAFacilityPage>', () => {
         loadingParentFacilities
         data={defaultData}
         openFacilityPage={openFormPage}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -45,7 +45,7 @@ describe('VAOS <VAFacilityPage>', () => {
         data={defaultData}
         noValidVAParentFacilities
         openFacilityPage={openFormPage}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -61,7 +61,7 @@ describe('VAOS <VAFacilityPage>', () => {
         singleValidVALocation
         data={{}}
         openFacilityPage={openFormPage}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -79,7 +79,7 @@ describe('VAOS <VAFacilityPage>', () => {
         singleValidVALocation
         data={{}}
         openFacilityPage={openFormPage}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -107,7 +107,7 @@ describe('VAOS <VAFacilityPage>', () => {
         loadingFacilities
         schema={schema}
         openFacilityPage={openFormPage}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -131,7 +131,7 @@ describe('VAOS <VAFacilityPage>', () => {
         noValidVAParentFacilities
         schema={schema}
         openFacilityPage={openFormPage}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -147,7 +147,7 @@ describe('VAOS <VAFacilityPage>', () => {
         data={{}}
         schema={defaultSchema}
         openFacilityPage={openFormPage}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -165,7 +165,7 @@ describe('VAOS <VAFacilityPage>', () => {
         schema={defaultSchema}
         openFacilityPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -190,7 +190,7 @@ describe('VAOS <VAFacilityPage>', () => {
           vaParent: '983',
           vaFacility: '983',
         }}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -216,7 +216,7 @@ describe('VAOS <VAFacilityPage>', () => {
           vaParent: '983',
           vaFacility: '983',
         }}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -244,7 +244,7 @@ describe('VAOS <VAFacilityPage>', () => {
           vaParent: '983',
           vaFacility: '983',
         }}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -263,7 +263,7 @@ describe('VAOS <VAFacilityPage>', () => {
         data={{}}
         schema={defaultSchema}
         openFacilityPage={openFormPage}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -279,7 +279,7 @@ describe('VAOS <VAFacilityPage>', () => {
         data={defaultData}
         hasDataFetchingError
         openFacilityPage={openFormPage}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 
@@ -297,7 +297,7 @@ describe('VAOS <VAFacilityPage>', () => {
         schema={defaultSchema}
         hasEligibilityError
         openFacilityPage={openFormPage}
-        cernerFacilities={[]}
+        cernerOrgIds={[]}
       />,
     );
 

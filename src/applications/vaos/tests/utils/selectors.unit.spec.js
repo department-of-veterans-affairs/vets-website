@@ -18,7 +18,6 @@ import {
   getCancelInfo,
   getCCEType,
   isWelcomeModalDismissed,
-  selectCernerFacilities,
   selectLocalExpressCareWindowString,
   selectExpressCareHours,
 } from '../../utils/selectors';
@@ -108,7 +107,7 @@ describe('VAOS selectors', () => {
           },
           facilities: {},
           eligibility: {},
-          parentFacilities: [{}],
+          parentFacilities: [{ identifier: [] }],
           facilityDetails: {},
         },
       };
@@ -133,7 +132,7 @@ describe('VAOS selectors', () => {
           },
           facilities: {},
           eligibility: {},
-          parentFacilities: [{}],
+          parentFacilities: [{ identifier: [] }],
           facilityDetails: {},
           eligibilityStatus: 'failed',
         },
@@ -147,7 +146,7 @@ describe('VAOS selectors', () => {
         user: {
           profile: {
             facilities: [
-              { facilityId: '123', isCerner: true },
+              { facilityId: '668', isCerner: true },
               { facilityId: '124', isCerner: false },
             ],
           },
@@ -157,18 +156,23 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '160',
             facilityType: 'vamc',
-            vaParent: '983',
+            vaParent: 'some_id',
           },
           facilities: {},
           eligibility: {},
-          parentFacilities: [{}],
+          parentFacilities: [
+            {
+              id: 'some_id',
+              identifier: [{ system: VHA_FHIR_ID, value: '668' }],
+            },
+          ],
           facilityDetails: {},
           eligibilityStatus: 'failed',
         },
       };
 
       const newState = getFacilityPageInfo(state);
-      expect(newState.cernerFacilities).to.deep.equal(['123']);
+      expect(newState.cernerOrgIds).to.deep.equal(['some_id']);
     });
   });
 
@@ -517,6 +521,7 @@ describe('VAOS selectors', () => {
         appointments: {
           appointmentToCancel: {
             status: 'booked',
+            legacyVAR: { apiData: { facilityId: '123' } },
             vaos: {
               appointmentType: APPOINTMENT_TYPES.vaAppointment,
             },
@@ -598,7 +603,7 @@ describe('VAOS selectors', () => {
       const state = {
         user: {
           profile: {
-            facilities: [{ facilityId: '123', isCerner: true }],
+            facilities: [{ facilityId: '668', isCerner: true }],
           },
         },
       };
@@ -609,45 +614,13 @@ describe('VAOS selectors', () => {
         user: {
           profile: {
             facilities: [
-              { facilityId: '123', isCerner: true },
+              { facilityId: '668', isCerner: true },
               { facilityId: '124', isCerner: false },
             ],
           },
         },
       };
       expect(selectIsCernerOnlyPatient(state)).to.be.false;
-    });
-  });
-
-  describe('selectCernerFacilities', () => {
-    it('should return collection of cerner facilities', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [
-              { facilityId: '123', isCerner: true },
-              { facilityId: '124', isCerner: false },
-            ],
-          },
-        },
-      };
-
-      expect(selectCernerFacilities(state).length).to.be.equal(1);
-    });
-
-    it('should return empty collection of cerner facilities', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [
-              { facilityId: '123', isCerner: false },
-              { facilityId: '124', isCerner: false },
-            ],
-          },
-        },
-      };
-
-      expect(selectCernerFacilities(state).length).to.be.equal(0);
     });
   });
 
