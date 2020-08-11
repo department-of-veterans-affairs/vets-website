@@ -1,3 +1,6 @@
+const { usePartialSchema } = require('../../transformers/helpers');
+const personProfileSchema = require('./node-person_profile');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -13,6 +16,31 @@ module.exports = {
     fieldLeadership: { $ref: 'output/node-person_profile' },
     fieldMetaTitle: { type: 'string' },
     fieldOffice: { $ref: 'output/node-health_care_region_page' },
+    reverseFieldListingNode: {
+      type: 'object',
+      properties: {
+        entities: {
+          type: 'array',
+          items: {
+            /* eslint-disable react-hooks/rules-of-hooks */
+            entity: usePartialSchema(personProfileSchema, [
+              'title',
+              'fieldNameFirst',
+              'fieldLastName',
+              'fieldSuffix',
+              'fieldDescription',
+              'fieldOffice',
+              'fieldIntroText',
+              'fieldPhotoAllowHiresDownload',
+              'fieldBody',
+              'changed',
+              'entityUrl',
+              'fieldMedia',
+            ]),
+          },
+        },
+      },
+    },
   },
   required: [
     'title',

@@ -2,6 +2,7 @@ const {
   createMetaTagArray,
   getDrupalValue,
   utcToEpochTime,
+  isPublished,
 } = require('./helpers');
 
 const transform = entity => ({
@@ -17,6 +18,32 @@ const transform = entity => ({
   fieldLeadership: entity.fieldLeadership[0],
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
   fieldOffice: entity.fieldOffice[0],
+  reverseFieldListingNode: {
+    entities: entity.reverseFieldList
+      ? entity.reverseFieldList
+          .filter(
+            reverseField =>
+              reverseField.entityBundle === 'person_profile' &&
+              reverseField.isPublished,
+          )
+          .map(reverseField => ({
+            title: reverseField.title,
+            fieldNameFirst: reverseField.fieldNameFirst,
+            fieldLastName: reverseField.fieldLastName,
+            fieldSuffix: reverseField.fieldSuffix,
+            fieldDescription: reverseField.fieldDescription,
+            fieldOffice: reverseField.fieldOffice,
+            fieldIntroText: reverseField.fieldIntroText,
+            fieldPhotoAllowHiresDownload:
+              reverseField.fieldPhotoAllowHiresDownload,
+            fieldBody: reverseField.fieldBody,
+            changed: reverseField.changed,
+            entityUrl: reverseField.entityUrl,
+            fieldMedia: reverseField.fieldMedia,
+          }))
+          .sort((a, b) => b.created - a.created)
+      : [],
+  },
 });
 
 module.exports = {
@@ -31,6 +58,7 @@ module.exports = {
     'field_leadership',
     'field_meta_title',
     'field_office',
+    'reverse_field_list',
   ],
   transform,
 };
