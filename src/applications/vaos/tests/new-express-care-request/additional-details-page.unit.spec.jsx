@@ -77,7 +77,9 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     expect(screen.baseElement).to.contain.text(
       'Please provide additional details about your symptoms',
     );
-    expect(screen.baseElement).to.contain.text('Tell us about your cough');
+    await waitFor(() =>
+      expect(screen.baseElement).to.contain.text('Tell us about your cough'),
+    );
     expect(screen.baseElement).to.contain.text(
       'Please provide your phone number and email address where VA health care staff can contact you',
     );
