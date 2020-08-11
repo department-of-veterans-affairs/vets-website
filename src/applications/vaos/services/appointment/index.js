@@ -123,7 +123,7 @@ export function getVARFacilityId(appointment) {
       ?.split('_')?.[0];
 
     if (id) {
-      return id;
+      return id.replace('var', '');
     }
 
     return null;
