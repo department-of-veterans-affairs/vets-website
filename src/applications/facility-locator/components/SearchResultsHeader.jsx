@@ -4,7 +4,7 @@ import { facilityTypes, urgentCareServices, healthServices } from '../config';
 import { LocationType } from '../constants';
 import { connect } from 'react-redux';
 
-const SearchResultsHeader = ({
+export const SearchResultsHeader = ({
   results,
   facilityType,
   serviceType,
