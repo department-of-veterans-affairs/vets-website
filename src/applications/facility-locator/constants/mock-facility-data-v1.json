@@ -528,6 +528,143 @@
         "visn": "17",
         "website": "https://www.southtexas.va.gov/locations/NCFC.asp"
       }
+    },
+    {
+      "id": "vba_343z",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "343z",
+        "name": "VetSuccess on Campus at Los Angeles City College",
+        "facilityType": "va_benefits_facility",
+        "classification": "VETSUCCESS ON CAMPUS",
+        "website": "https//va.gov",
+        "operatingStatus": {
+          "code": "NORMAL",
+          "additionalInfo": "Some additional CLOSED"
+        },
+        "lat": 34.08751109,
+        "long": -118.2917626,
+        "address": {
+          "physical": {
+            "address1": "855 North Vermont",
+            "address2": "",
+            "address3": null,
+            "city": "Los Angeles",
+            "state": "CA",
+            "zip": "90029"
+          },
+          "mailing": {}
+        },
+        "phone": {
+          "main": "323-953-4000 Ext 1253",
+          "fax": ""
+        },
+        "hours": {
+          "monday": "Closed",
+          "tuesday": "Closed",
+          "wednesday": "9:00AM-4:00PM",
+          "thursday": "Closed",
+          "friday": "Closed",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "services": {
+          "benefits": {
+            "other": "",
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "nca_s1130",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "s1130",
+        "name": "Washington State Veterans Cemetery Medical Lake",
+        "facilityType": "va_cemetery",
+        "classification": "State Cemetery",
+        "operatingStatus": {
+          "code": "NOTICE",
+          "additionalInfo": "Some additional NOTICE"
+        },
+        "website": "http://www.dva.wa.gov/cemetery",
+        "lat": 47.5862341059396,
+        "long": -117.713961630042,
+        "address": {
+          "physical": {
+            "address1": "21702 W Espanola Rd",
+            "address2": null,
+            "address3": null,
+            "city": "Medical Lake",
+            "state": "WA",
+            "zip": "99022"
+          },
+          "mailing": {}
+        },
+        "phone": {
+          "main": "509-299-6280",
+          "fax": ""
+        },
+        "hours": {
+          "monday": "Sunrise - Sunset",
+          "tuesday": "Sunrise - Sunset",
+          "wednesday": "Sunrise - Sunset",
+          "thursday": "Sunrise - Sunset",
+          "friday": "Sunrise - Sunset",
+          "saturday": "Sunrise - Sunset",
+          "sunday": "Sunrise - Sunset"
+        },
+        "services": {
+          "benefits": {
+            "other": "",
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "vc_0228V",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "0228V",
+        "name": "Alexandria Vet Center",
+        "facilityType": "vet_center",
+        "classification": null,
+        "website": null,
+        "lat": 38.7678970200001,
+        "long": -77.11909822,
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "22310",
+            "city": "Alexandria",
+            "state": "VA",
+            "address1": "6940 South Kings Highway",
+            "address2": "Suite 204",
+            "address3": null
+          }
+        },
+        "phone": {
+          "main": "703-360-8633 x"
+        },
+        "hours": {
+          "friday": "800AM-430PM",
+          "monday": "800AM-730PM",
+          "sunday": "-",
+          "tuesday": "800AM-330PM",
+          "saturday": "-",
+          "thursday": "800AM-730PM",
+          "wednesday": "800AM-730PM"
+        },
+        "services": {},
+        "feedback": {},
+        "access": {}
+      }
     }
   ],
   "meta": {
