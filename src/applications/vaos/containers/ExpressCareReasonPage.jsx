@@ -4,13 +4,8 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { Link } from 'react-router';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { getExpressCareFormPageInfo } from '../utils/selectors';
-import {
-  FETCH_STATUS,
-  EXPRESS_CARE_REASONS,
-  EXPRESS_CARE_ERROR_REASON,
-} from '../utils/constants';
+import { EXPRESS_CARE_REASONS } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
 import * as actions from '../actions/expressCare';
 
@@ -56,8 +51,6 @@ const uiSchema = {
     },
   },
 };
-
-let form;
 
 function ExpressCareReasonPage({
   data,

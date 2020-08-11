@@ -4,11 +4,7 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import {
-  FETCH_STATUS,
-  EXPRESS_CARE_REASONS,
-  EXPRESS_CARE_ERROR_REASON,
-} from '../utils/constants';
+import { FETCH_STATUS, EXPRESS_CARE_ERROR_REASON } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
 import TextareaWidget from '../components/TextareaWidget';
 import { validateWhiteSpace } from 'platform/forms/validations';
@@ -103,12 +99,16 @@ function ExpressCareDetailsPage({
   submitExpressCareRequest,
   submitStatus,
   updateFormData,
-  windowsStatus,
 }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    openAdditionalDetailsPage(pageKey, uiSchema, initialSchema, router);
+
+    if (!data.reason) {
+      router.replace('/new-express-care-request');
+    } else {
+      openAdditionalDetailsPage(pageKey, uiSchema, initialSchema, router);
+    }
   }, []);
 
   return (

@@ -17,21 +17,14 @@ import {
 } from '../api';
 
 import {
-  getOrganizations,
-  getRootOrganization,
-  getSiteIdFromOrganization,
-} from '../services/organization';
-
-import {
   transformFormToExpressCareRequest,
   createPreferenceBody,
 } from '../utils/data';
 import {
   selectSystemIds,
   selectActiveExpressCareFacility,
-  selectExpressCareFormData,
 } from '../utils/selectors';
-import { captureError, getErrorCodes } from '../utils/error';
+import { captureError } from '../utils/error';
 import {
   EXPRESS_CARE,
   GA_PREFIX,
@@ -39,7 +32,6 @@ import {
 } from '../utils/constants';
 import { resetDataLayer } from '../utils/events';
 import { EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED } from './sitewide';
-import { getLocation } from '../services/location';
 
 export const FORM_PAGE_OPENED = 'expressCare/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
@@ -80,7 +72,6 @@ export function updateFormData(page, uiSchema, data) {
 export function openAdditionalDetailsPage(page, uiSchema, schema) {
   return (dispatch, getState) => {
     const state = getState();
-    const data = selectExpressCareFormData(state);
     const email = selectVet360EmailAddress(state);
     const homePhone = selectVet360HomePhoneString(state);
     const mobilePhone = selectVet360MobilePhoneString(state);

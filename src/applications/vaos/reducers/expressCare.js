@@ -1,5 +1,3 @@
-import React from 'react';
-import moment from '../utils/moment-tz';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
   updateSchemaAndData,
@@ -184,11 +182,12 @@ export default function expressCareReducer(state = initialState, action) {
     case FORM_SUBMIT_SUCCEEDED:
       return {
         ...state,
+        newRequest: {
+          ...state.newRequest,
+          data: {},
+        },
         submitStatus: FETCH_STATUS.succeeded,
         successfulRequest: action.responseData,
-        newRequest: {
-          ...initialState.newRequest,
-        },
       };
     case FORM_SUBMIT_FAILED:
       return {
