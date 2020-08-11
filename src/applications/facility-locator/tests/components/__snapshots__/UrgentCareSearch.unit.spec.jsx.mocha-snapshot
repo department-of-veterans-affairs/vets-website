@@ -4398,7 +4398,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
                   "props": {
                     "location": {
                       "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                      "type": "cc_provider",
+                      "type": "provider",
                       "attributes": {
                         "accNewPatients": "false",
                         "address": {
@@ -4428,7 +4428,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               "props": {
                 "location": {
                   "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "cc_provider",
+                  "type": "provider",
                   "attributes": {
                     "accNewPatients": "false",
                     "address": {
@@ -4460,7 +4460,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               "props": {
                 "location": {
                   "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "cc_provider",
+                  "type": "provider",
                   "attributes": {
                     "accNewPatients": "false",
                     "address": {
@@ -4547,7 +4547,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
                 "props": {
                   "location": {
                     "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                    "type": "cc_provider",
+                    "type": "provider",
                     "attributes": {
                       "accNewPatients": "false",
                       "address": {
@@ -4577,7 +4577,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             "props": {
               "location": {
                 "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "cc_provider",
+                "type": "provider",
                 "attributes": {
                   "accNewPatients": "false",
                   "address": {
@@ -4609,7 +4609,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             "props": {
               "location": {
                 "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "cc_provider",
+                "type": "provider",
                 "attributes": {
                   "accNewPatients": "false",
                   "address": {
@@ -4723,7 +4723,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               "props": {
                 "location": {
                   "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "cc_provider",
+                  "type": "provider",
                   "attributes": {
                     "accNewPatients": "false",
                     "address": {
@@ -4752,7 +4752,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             "props": {
               "location": {
                 "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "cc_provider",
+                "type": "provider",
                 "attributes": {
                   "accNewPatients": "false",
                   "address": {
@@ -4780,7 +4780,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
           "props": {
             "location": {
               "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-              "type": "cc_provider",
+              "type": "provider",
               "attributes": {
                 "accNewPatients": "false",
                 "address": {
@@ -4812,7 +4812,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
           "props": {
             "location": {
               "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-              "type": "cc_provider",
+              "type": "provider",
               "attributes": {
                 "accNewPatients": "false",
                 "address": {
@@ -4907,7 +4907,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
                   "props": {
                     "location": {
                       "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                      "type": "cc_provider",
+                      "type": "provider",
                       "attributes": {
                         "accNewPatients": "false",
                         "address": {
@@ -4937,7 +4937,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               "props": {
                 "location": {
                   "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "cc_provider",
+                  "type": "provider",
                   "attributes": {
                     "accNewPatients": "false",
                     "address": {
@@ -4969,7 +4969,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               "props": {
                 "location": {
                   "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "cc_provider",
+                  "type": "provider",
                   "attributes": {
                     "accNewPatients": "false",
                     "address": {
@@ -5083,7 +5083,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
                 "props": {
                   "location": {
                     "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                    "type": "cc_provider",
+                    "type": "provider",
                     "attributes": {
                       "accNewPatients": "false",
                       "address": {
@@ -5112,7 +5112,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               "props": {
                 "location": {
                   "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "cc_provider",
+                  "type": "provider",
                   "attributes": {
                     "accNewPatients": "false",
                     "address": {
@@ -5140,7 +5140,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             "props": {
               "location": {
                 "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "cc_provider",
+                "type": "provider",
                 "attributes": {
                   "accNewPatients": "false",
                   "address": {
@@ -5172,7 +5172,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             "props": {
               "location": {
                 "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "cc_provider",
+                "type": "provider",
                 "attributes": {
                   "accNewPatients": "false",
                   "address": {
@@ -5358,7 +5358,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
                 "props": {
                   "location": {
                     "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                    "type": "cc_provider",
+                    "type": "provider",
                     "attributes": {
                       "accNewPatients": "false",
                       "address": {
@@ -5387,7 +5387,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               "props": {
                 "location": {
                   "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "cc_provider",
+                  "type": "provider",
                   "attributes": {
                     "accNewPatients": "false",
                     "address": {
@@ -5419,7 +5419,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
                 "props": {
                   "location": {
                     "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                    "type": "cc_provider",
+                    "type": "provider",
                     "attributes": {
                       "accNewPatients": "false",
                       "address": {
@@ -5444,7 +5444,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
               "props": {
                 "location": {
                   "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "cc_provider",
+                  "type": "provider",
                   "attributes": {
                     "accNewPatients": "false",
                     "address": {
@@ -5474,7 +5474,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             "props": {
               "location": {
                 "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "cc_provider",
+                "type": "provider",
                 "attributes": {
                   "accNewPatients": "false",
                   "address": {
@@ -5504,7 +5504,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
           "props": {
             "location": {
               "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-              "type": "cc_provider",
+              "type": "provider",
               "attributes": {
                 "accNewPatients": "false",
                 "address": {
@@ -5537,7 +5537,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
             "props": {
               "location": {
                 "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "cc_provider",
+                "type": "provider",
                 "attributes": {
                   "accNewPatients": "false",
                   "address": {
@@ -5567,7 +5567,7 @@ exports["UrgentCareSearch/Should render UrgentCareResult non VA(0)"] = {
           "props": {
             "location": {
               "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-              "type": "cc_provider",
+              "type": "provider",
               "attributes": {
                 "accNewPatients": "false",
                 "address": {
