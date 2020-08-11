@@ -26,6 +26,7 @@ const LocationOperationStatus = ({ operatingStatus }) => {
       className={`usa-alert ${classNameAlert} background-color-only  vads-u-padding--1  vads-u-font-weight--bold`}
     >
       <i
+        aria-hidden="true"
         className={`fa fa-exclamation-${iconType} vads-u-margin-top--1 icon-base`}
       />
       <div className="usa-alert-body">{infoMsg}</div>

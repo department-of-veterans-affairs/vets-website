@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import PharmacyResult from '../../components/search-results-items/PharmacyResult';
 import testData from '../../constants/mock-facility-data-v1.json';
 
-describe('PharmacySearch', () => {
+describe('PharmacyResult', () => {
   it('Should render PharmacyResult', () => {
     const query = {
       facilityType: 'pharmacy',

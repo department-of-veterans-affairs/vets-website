@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import CCProviderResult from '../../components/search-results-items/CCProviderResult';
 import testData from '../../constants/mock-facility-data-v1.json';
 
-describe('CCProviderSearch', () => {
-  it('Should render UrgentCareResult non VA', () => {
+describe('CCProviderResult', () => {
+  it('Should render CCProviderResult, serviceType Dentist', () => {
     const query = {
       facilityType: 'provider',
       serviceType: '122300000X', // Dentist

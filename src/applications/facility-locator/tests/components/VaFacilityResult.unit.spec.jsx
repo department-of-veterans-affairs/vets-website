@@ -5,8 +5,8 @@ import VaFacilityResult from '../../components/search-results-items/VaFacilityRe
 import testData from '../../constants/mock-facility-data-v1.json';
 import { LocationType } from '../../constants';
 
-describe('VaFacilitySearch', () => {
-  it('Should render VaFacility, facility type health', () => {
+describe('VaFacilityResult', () => {
+  it('Should render VaFacilityResult, facility type health', () => {
     const query = {
       facilityType: LocationType.HEALTH,
     };
@@ -17,7 +17,7 @@ describe('VaFacilitySearch', () => {
     wrapper.unmount();
   });
 
-  it('Should render VaFacility VA, facility type benefits', () => {
+  it('Should render VaFacilityResult, facility type benefits', () => {
     const query = {
       facilityType: LocationType.BENEFITS,
     };

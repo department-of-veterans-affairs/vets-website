@@ -49,6 +49,7 @@ const UrgentCareResult = ({ provider, query }) => {
     ) {
       return <p>Call to confirm services and hours</p>;
     }
+
     return null;
   };
 
@@ -87,6 +88,7 @@ const UrgentCareResult = ({ provider, query }) => {
           className={`usa-alert usa-alert-info background-color-only vads-u-padding--1  vads-u-font-weight--bold`}
         >
           <i
+            aria-hidden="true"
             className={`fa fa-exclamation-circle vads-u-margin-top--1 icon-base`}
           />
           <div className="usa-alert-body">

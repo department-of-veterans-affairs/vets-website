@@ -1,4 +1,4 @@
-exports["PharmacySearch/Should render PharmacyResult(0)"] = {
+exports["PharmacyResult/Should render PharmacyResult(0)"] = {
   "node": {
     "nodeType": "host",
     "type": "div",

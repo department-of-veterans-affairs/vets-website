@@ -1,4 +1,4 @@
-exports["CCProviderSearch/Should render UrgentCareResult non VA(0)"] = {
+exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)"] = {
   "node": {
     "nodeType": "host",
     "type": "div",

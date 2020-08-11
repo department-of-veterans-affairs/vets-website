@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import UrgentCareResult from '../../components/search-results-items/UrgentCareResult';
 import testData from '../../constants/mock-urgent-care-mashup-data.json';
 
-describe('UrgentCareSearch', () => {
+describe('UrgentCareResult', () => {
   it('Should render UrgentCareResult non VA', () => {
     const query = {
       facilityType: 'urgent_care',
@@ -16,6 +16,7 @@ describe('UrgentCareSearch', () => {
     expect(wrapper).to.matchSnapshot();
     wrapper.unmount();
   });
+
   it('Should render UrgentCareResult VA', () => {
     const query = {
       facilityType: 'urgent_care',
