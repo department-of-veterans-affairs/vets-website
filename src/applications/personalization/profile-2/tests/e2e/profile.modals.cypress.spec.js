@@ -3,7 +3,30 @@ import { PROFILE_PATHS } from '../../constants';
 import mockUser from '../fixtures/users/user-36.json';
 import mockFeatureToggles from '../fixtures/feature-toggles.json';
 
-const tryEditSectionWhileEditing = options => {
+const setup = (mobile = false) => {
+  window.localStorage.setItem(
+    'DISMISSED_ANNOUNCEMENTS',
+    JSON.stringify(['single-sign-on-intro']),
+  );
+
+  if (mobile) {
+    cy.viewport('iphone-4');
+  }
+
+  cy.login(mockUser);
+  cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
+  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+
+  // should show a loading indicator
+  cy.findByRole('progressbar').should('exist');
+  cy.findByText(/loading your information/i).should('exist');
+
+  // and then the loading indicator should be removed
+  cy.findByText(/loading your information/i).should('not.exist');
+  cy.findByRole('progressbar').should('not.exist');
+}
+
+const checkModals = options => {
   const {
     editButtonId,
     otherSectionEditButtonId,
@@ -12,121 +35,143 @@ const tryEditSectionWhileEditing = options => {
   } = options;
 
   // Open edit view
-  cy.get(`#${editButtonId}-edit-link`).click();
+  cy.get(`#${editButtonId}-edit-link`).click({
+    force: true,
+  });
   // Make an edit
   cy.get(`#${editLineId}`)
     .click()
     .type('test');
   // Click on a different section to edit
-  cy.get(`#${otherSectionEditButtonId}-edit-link`).click();
+  cy.get(`#${otherSectionEditButtonId}-edit-link`).click({
+    force: true,
+  });
 
   // Modal appears
   cy.get('.va-modal').within(() => {
     cy.contains(`You’re currently editing your ${sectionName}`).should('exist');
-    cy.findByRole('button', { name: /OK/i }).click();
+    cy.findByRole('button', { name: /OK/i }).click({
+      force: true,
+    });
   });
-};
 
-const cancelEdit = options => {
-  const { editButtonId, editLineId, sectionName } = options;
   // Click on cancel in the current section
-  cy.findByRole('button', { name: /Cancel/i }).click();
+  cy.findByRole('button', { name: /Cancel/i }).click({
+    force: true,
+  });
 
   // Confirmation modal appears, confirm cancel
   cy.get('.va-modal').within(() => {
     cy.contains(`You haven’t finished editing your ${sectionName}.`).should(
       'exist',
     );
-    cy.findByRole('button', { name: /Cancel/i }).click();
+    cy.findByRole('button', { name: /Cancel/i }).click({
+      force: true,
+    });
   });
 };
 
 describe('Modals on the personal information and content page', () => {
-  beforeEach(() => {
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      JSON.stringify(['single-sign-on-intro']),
-    );
-    cy.login(mockUser);
-    cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
-    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    // should show a loading indicator
-    cy.findByRole('progressbar').should('exist');
-    cy.findByText(/loading your information/i).should('exist');
-
-    // and then the loading indicator should be removed
-    cy.findByRole('progressbar').should('not.exist');
-    cy.findByText(/loading your information/i).should('not.exist');
-  });
-
-  it('should appear when editing mailing address', () => {
-    tryEditSectionWhileEditing({
-      editButtonId: 'mailingAddress',
-      otherSectionEditButtonId: 'residentialAddress',
-      editLineId: 'root_addressLine3',
-      sectionName: 'mailing address',
+  describe('on Desktop', () => {
+    beforeEach(() => {
+      setup();
     });
-    cancelEdit({
-      editButtonId: 'mailingAddress',
-      editLineId: 'root_addressLine3',
-      sectionName: 'mailing address',
-    });
-  });
 
-  it('should appear when editing residential address', () => {
-    tryEditSectionWhileEditing({
-      editButtonId: 'residentialAddress',
-      otherSectionEditButtonId: 'mailingAddress',
-      editLineId: 'root_addressLine3',
-      sectionName: 'home address',
+    it('should appear when editing mailing address', () => {
+      checkModals({
+        editButtonId: 'mailingAddress',
+        otherSectionEditButtonId: 'residentialAddress',
+        editLineId: 'root_addressLine3',
+        sectionName: 'mailing address',
+      });
     });
-    cancelEdit({
-      editButtonId: 'residentialAddress',
-      editLineId: 'root_addressLine3',
-      sectionName: 'home address',
-    });
-  });
 
-  it('should appear when editing home phone number', () => {
-    tryEditSectionWhileEditing({
-      editButtonId: 'homePhone',
-      otherSectionEditButtonId: 'mailingAddress',
-      editLineId: 'root_extension',
-      sectionName: 'home phone number',
+    it('should appear when editing residential address', () => {
+      checkModals({
+        editButtonId: 'residentialAddress',
+        otherSectionEditButtonId: 'mailingAddress',
+        editLineId: 'root_addressLine3',
+        sectionName: 'home address',
+      });
     });
-    cancelEdit({
-      editButtonId: 'homePhone',
-      editLineId: 'root_extension',
-      sectionName: 'home phone number',
+
+    it('should appear when editing home phone number', () => {
+      checkModals({
+        editButtonId: 'homePhone',
+        otherSectionEditButtonId: 'mailingAddress',
+        editLineId: 'root_extension',
+        sectionName: 'home phone number',
+      });
+    });
+
+    it('should appear when editing mobile phone number', () => {
+      checkModals({
+        editButtonId: 'mobilePhone',
+        otherSectionEditButtonId: 'mailingAddress',
+        editLineId: 'root_extension',
+        sectionName: 'mobile phone number',
+      });
+
+    });
+
+    it('should appear when editing email address', () => {
+      checkModals({
+        editButtonId: 'email',
+        otherSectionEditButtonId: 'mailingAddress',
+        editLineId: 'root_emailAddress',
+        sectionName: 'email address',
+      });
     });
   });
 
-  it('should appear when editing mobile phone number', () => {
-    tryEditSectionWhileEditing({
-      editButtonId: 'mobilePhone',
-      otherSectionEditButtonId: 'mailingAddress',
-      editLineId: 'root_extension',
-      sectionName: 'mobile phone number',
+  describe('on Mobile', () => {
+    beforeEach(() => {
+      setup(true);
     });
-    cancelEdit({
-      editButtonId: 'mobilePhone',
-      editLineId: 'root_extension',
-      sectionName: 'mobile phone number',
-    });
-  });
 
-  it('should appear when editing email address', () => {
-    tryEditSectionWhileEditing({
-      editButtonId: 'email',
-      otherSectionEditButtonId: 'mailingAddress',
-      editLineId: 'root_emailAddress',
-      sectionName: 'email address',
+    it('should appear when editing mailing address', () => {
+      checkModals({
+        editButtonId: 'mailingAddress',
+        otherSectionEditButtonId: 'residentialAddress',
+        editLineId: 'root_addressLine3',
+        sectionName: 'mailing address',
+      });
     });
-    cancelEdit({
-      editButtonId: 'email',
-      editLineId: 'root_emailAddress',
-      sectionName: 'email address',
+
+    it('should appear when editing residential address', () => {
+      checkModals({
+        editButtonId: 'residentialAddress',
+        otherSectionEditButtonId: 'mailingAddress',
+        editLineId: 'root_addressLine3',
+        sectionName: 'home address',
+      });
+    });
+
+    it('should appear when editing home phone number', () => {
+      checkModals({
+        editButtonId: 'homePhone',
+        otherSectionEditButtonId: 'mailingAddress',
+        editLineId: 'root_extension',
+        sectionName: 'home phone number',
+      });
+    });
+
+    it('should appear when editing mobile phone number', () => {
+      checkModals({
+        editButtonId: 'mobilePhone',
+        otherSectionEditButtonId: 'mailingAddress',
+        editLineId: 'root_extension',
+        sectionName: 'mobile phone number',
+      });
+    });
+
+    it('should appear when editing email address', () => {
+      checkModals({
+        editButtonId: 'email',
+        otherSectionEditButtonId: 'mailingAddress',
+        editLineId: 'root_emailAddress',
+        sectionName: 'email address',
+      });
     });
   });
 });
