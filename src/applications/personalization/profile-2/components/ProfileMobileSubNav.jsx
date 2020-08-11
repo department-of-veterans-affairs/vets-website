@@ -10,6 +10,7 @@ import {
   isTab,
 } from 'platform/utilities/accessibility';
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+import { focusElement } from 'platform/utilities/ui';
 
 import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 
@@ -22,7 +23,11 @@ import {
   unpinMenuTrigger as unpinMenuTriggerAction,
 } from '../actions';
 
-import { selectIsSideNavOpen, selectIsMenuTriggerPinned } from '../selectors';
+import {
+  selectFocusTriggerButton,
+  selectIsSideNavOpen,
+  selectIsMenuTriggerPinned,
+} from '../selectors';
 
 import { BREAKPOINTS } from '../constants';
 
@@ -48,6 +53,7 @@ const menuButtonClasses = prefixUtilityClasses([
 const ProfileMobileSubNav = ({
   openMenu,
   closeMenu,
+  isTriggerButtonFocused,
   isLOA3,
   isMenuPinned,
   isMenuOpen,
@@ -87,6 +93,11 @@ const ProfileMobileSubNav = ({
     placeholder.current.style.height = `${menuButtonHeight}px`;
     setTriggerPosition(placeholder.current.offsetTop);
     setIsMobile(window.innerWidth < BREAKPOINTS.medium);
+  }, []);
+
+  // on first render, set the focus to the h1
+  useEffect(() => {
+    focusElement('#mobile-subnav-header');
   }, []);
 
   // pin/unpin the mobile menu on scroll and resize
@@ -147,7 +158,8 @@ const ProfileMobileSubNav = ({
       const closeOnEscape = e => {
         if (isEscape(e)) {
           e.preventDefault();
-          closeMenu();
+          // close menu and set focus to the trigger button
+          closeMenu(true);
         }
       };
       if (isMenuOpen) {
@@ -162,7 +174,12 @@ const ProfileMobileSubNav = ({
         lastMenuItem.current.addEventListener('keydown', overrideTab);
       } else {
         document.removeEventListener('keydown', closeOnEscape);
-        openMenuButton.current.focus();
+        // Only set the focus on the menu trigger button if the call to the
+        // `closeSideNav` action creator passed in the `focusTriggerButton`
+        // argument
+        if (isTriggerButtonFocused) {
+          openMenuButton.current.focus();
+        }
         if (closeMenuButton.current) {
           closeMenuButton.current.removeEventListener(
             'keydown',
@@ -174,7 +191,7 @@ const ProfileMobileSubNav = ({
         }
       }
     },
-    [closeMenu, isMenuOpen],
+    [closeMenu, isMenuOpen, isTriggerButtonFocused],
   );
 
   const menuClasses = classnames('the-menu', {
@@ -193,7 +210,10 @@ const ProfileMobileSubNav = ({
               onClick={openMenu}
             >
               <strong>
-                <h1 className={menuButtonClasses}>Your profile</h1> menu
+                <h1 id="mobile-subnav-header" className={menuButtonClasses}>
+                  Your profile
+                </h1>{' '}
+                menu
               </strong>
               <i className="fa fa-bars" aria-hidden="true" role="img" />
             </button>
@@ -208,7 +228,10 @@ const ProfileMobileSubNav = ({
                   ref={closeMenuButton}
                   className="close-menu vads-u-flex--auto"
                   type="button"
-                  onClick={closeMenu}
+                  onClick={() => {
+                    // close menu and set focus to the trigger button
+                    closeMenu(true);
+                  }}
                 >
                   <span>Close</span>
                   <i className="fa fa-times" aria-hidden="true" role="img" />
@@ -237,6 +260,7 @@ export { ProfileMobileSubNav };
 
 ProfileMobileSubNav.propTypes = {
   closeMenu: PropTypes.func.isRequired,
+  isTriggerButtonFocused: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
   isMenuPinned: PropTypes.bool.isRequired,
   openMenu: PropTypes.func.isRequired,
@@ -245,6 +269,7 @@ ProfileMobileSubNav.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  isTriggerButtonFocused: selectFocusTriggerButton(state),
   isLOA3: isLOA3Selector(state),
   isMenuPinned: selectIsMenuTriggerPinned(state),
   isMenuOpen: selectIsSideNavOpen(state),
