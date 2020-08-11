@@ -71,8 +71,9 @@ describe('VAOS integration: Express Care form', () => {
     const radio = screen.getByLabelText('Cough');
     fireEvent.click(radio);
     expect(radio.checked).to.be.true;
-    const alert = await screen.findByRole('alert');
-    expect(alert).to.contain.text('Same-day mental health appointments');
+    expect(screen.baseElement).to.contain.text(
+      'Same-day mental health appointments',
+    );
     await screen.getByRole('button', { name: /back/i });
     await screen.getByRole('button', { name: /continue/i });
   });
