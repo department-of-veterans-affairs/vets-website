@@ -37,7 +37,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
   focusOnPage(key) {
     const name = `${key.replace(/:/g, '\\:')}`;
     // legend & label target array type form elements
-    focusOnChange(name, 'p, legend, label');
+    focusOnChange(name, 'input, select, textarea');
   }
 
   handleEdit(key, editing, index = null) {
