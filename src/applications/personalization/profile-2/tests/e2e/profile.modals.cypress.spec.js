@@ -24,7 +24,7 @@ const setup = (mobile = false) => {
   // and then the loading indicator should be removed
   cy.findByText(/loading your information/i).should('not.exist');
   cy.findByRole('progressbar').should('not.exist');
-}
+};
 
 const checkModals = options => {
   const {
@@ -111,7 +111,6 @@ describe('Modals on the personal information and content page', () => {
         editLineId: 'root_extension',
         sectionName: 'mobile phone number',
       });
-
     });
 
     it('should appear when editing email address', () => {
