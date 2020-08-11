@@ -10,6 +10,7 @@ import {
   loadConnectedApps,
 } from 'applications/personalization/profile-2/components/connected-apps/actions';
 import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 import { AdditionalInfoSections } from './AdditionalInfoSections';
 import { AppDeletedAlert } from './AppDeletedAlert';
 import availableConnectedApps from './availableConnectedApps';
@@ -17,7 +18,14 @@ import { ConnectedApp } from './ConnectedApp';
 
 export class ConnectedApps extends Component {
   componentDidMount() {
+    focusElement('[data-focus-target]');
     this.props.loadConnectedApps();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.loading && !this.props.loading) {
+      focusElement('[data-focus-target]');
+    }
   }
 
   confirmDelete = appId => {
