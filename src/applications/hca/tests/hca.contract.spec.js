@@ -36,7 +36,7 @@ contractTest('HCA', 'VA.gov API', mockApi => {
             status: 200,
             body: {
               data: {
-                id: string(12345),
+                id: string('12345'),
                 type: 'health_care_applications',
                 attributes: {
                   state: term({
