@@ -41,9 +41,10 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 
   handleEdit(key, editing, index = null) {
+    const chapterName = `${key}${index === null ? '' : index}`;
     this.props.onEdit(key, editing, index);
-    this.scrollToPage(`${key}${index === null ? '' : index}`);
-    this.focusOnPage(`${key}${index === null ? '' : index}`);
+    this.scrollToPage(chapterName);
+    this.focusOnPage(chapterName);
   }
 
   handleSubmit = (formData, key, path = null, index = null) => {
