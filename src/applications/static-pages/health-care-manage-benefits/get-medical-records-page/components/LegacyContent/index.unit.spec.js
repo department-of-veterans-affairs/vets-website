@@ -10,6 +10,8 @@ describe('Get Medical Records Page <LegacyContent>', () => {
     const wrapper = shallow(<LegacyContent />);
 
     const text = wrapper.text();
+    expect(text).to.include('VA Blue Button');
+    expect(text).to.include('More about VA Blue Button');
     expect(text).to.include(
       "What's VA Blue Button, and how can it help me manage my health care?",
     );
@@ -23,14 +25,13 @@ describe('Get Medical Records Page <LegacyContent>', () => {
       'Will my personal health information be protected?',
     );
     expect(text).to.include('What if I have more questions?');
-    expect(text).to.not.include(
-      'What is the Veterans Health Information Exchange (VHIE), and how can',
+    expect(text).to.include(
+      "What's the Veterans Health Information Exchange (VHIE), and how can it",
     );
-    expect(text).to.not.include('Can I opt out of sharing my information?');
-    expect(text).to.not.include(
-      'Can I change my mind if I want to share my information later?',
-    );
-    expect(text).to.include('What if I have more questions?');
+    expect(text).to.include('VHIE sharing options');
+    expect(text).to.include('How do I opt out?');
+    expect(text).to.include('If I opt out, how can I opt back in?');
+    expect(text).to.include('Can I check my sharing preference status?');
 
     wrapper.unmount();
   });
