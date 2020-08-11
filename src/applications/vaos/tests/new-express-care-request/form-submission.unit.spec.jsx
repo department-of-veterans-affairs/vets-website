@@ -118,7 +118,7 @@ describe('VAOS integration: Express Care form submission', () => {
           .format('HH:mm'),
         endTime: today
           .clone()
-          .add('1', 'minutes')
+          .add('2', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
       },
