@@ -59,35 +59,24 @@ class ResultsList extends Component {
         case 'cemetery':
         case 'benefits':
         case 'vet_center':
-          item = <VaFacilityResult location={r} query={query} />;
+          item = <VaFacilityResult location={r} query={query} key={r.id} />;
           break;
         case 'provider':
           // Support non va urgent care search through ccp option
           if (query.serviceType === CLINIC_URGENTCARE_SERVICE) {
-            item = <UrgentCareResult provider={r} query={query} />;
+            item = <UrgentCareResult provider={r} query={query} key={r.id} />;
           } else {
-            item = <CCProviderResult provider={r} query={query} />;
+            item = <CCProviderResult provider={r} query={query} key={r.id} />;
           }
           break;
         case 'pharmacy':
-          item = <PharmacyResult provider={r} query={query} />;
+          item = <PharmacyResult provider={r} query={query} key={r.id} />;
           break;
         case 'urgent_care':
-          if (query.serviceType === 'NonVAUrgentCare') {
-            item = <UrgentCareResult provider={r} query={query} />;
-          } else if (query.serviceType === 'UrgentCare') {
-            item = <VaFacilityResult location={r} query={query} />;
-          } else if (
-            !query.serviceType ||
-            query.serviceType === 'AllUrgentCare'
-          ) {
-            // New option
-            // All mash up
-            if (r.type === LocationType.CC_PROVIDER) {
-              item = <UrgentCareResult provider={r} query={query} />;
-            } else {
-              item = <VaFacilityResult location={r} query={query} />;
-            }
+          if (r.type === LocationType.CC_PROVIDER) {
+            item = <UrgentCareResult provider={r} query={query} key={r.id} />;
+          } else {
+            item = <VaFacilityResult location={r} query={query} key={r.id} />;
           }
           break;
         default:
@@ -95,7 +84,7 @@ class ResultsList extends Component {
       }
       item = isMobile ? (
         <div key={r.id} className="mobile-search-result">
-          item
+          {item}
         </div>
       ) : (
         item
