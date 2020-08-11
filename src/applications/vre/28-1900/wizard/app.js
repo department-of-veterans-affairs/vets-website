@@ -6,7 +6,7 @@ export default function createChapter31Wizard(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
   if (root) {
-    import(/* webpackChunkName: "Form686CTA" */
+    import(/* webpackChunkName: "chapter31Wizard" */
     './chapter31Wizard.jsx').then(module => {
       const Chapter31Wizard = module.default;
       ReactDOM.render(
