@@ -25,6 +25,7 @@ module.exports = {
       items: { $ref: 'EntityReference' },
     },
     field_table_of_contents_boolean: { $ref: 'GenericNestedBoolean' },
+    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
@@ -37,5 +38,6 @@ module.exports = {
     'field_office',
     'field_related_links',
     'field_table_of_contents_boolean',
+    'status',
   ],
 };

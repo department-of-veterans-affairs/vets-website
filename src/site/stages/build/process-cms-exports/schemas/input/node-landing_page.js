@@ -58,6 +58,7 @@ module.exports = {
     field_support_services: { $ref: 'EntityReferenceArray' },
     field_title_icon: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
+    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
@@ -75,6 +76,6 @@ module.exports = {
     'field_support_services',
     'field_title_icon',
     'metatag',
-    'moderation_state',
+    'status',
   ],
 };

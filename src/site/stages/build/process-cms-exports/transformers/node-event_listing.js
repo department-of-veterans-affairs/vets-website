@@ -7,19 +7,21 @@ const {
 
 const reverseFields = reverseFieldList => ({
   entities: reverseFieldList
-    .filter(
-      reverseField =>
-        reverseField.entityBundle === 'event' && reverseField.status,
-    )
-    .map(reverseField => ({
-      title: reverseField.title,
-      entityUrl: reverseField.entityUrl,
-      uid: reverseField.uid,
-      fieldFeatured: reverseField.fieldFeatured,
-      fieldDate: reverseField.fieldDate,
-      fieldDescription: reverseField.fieldDescription,
-      fieldLocationHumanreadable: reverseField.fieldLocationHumanreadable,
-    })),
+    ? reverseFieldList
+        .filter(
+          reverseField =>
+            reverseField.entityBundle === 'event' && reverseField.status,
+        )
+        .map(reverseField => ({
+          title: reverseField.title,
+          entityUrl: reverseField.entityUrl,
+          uid: reverseField.uid,
+          fieldFeatured: reverseField.fieldFeatured,
+          fieldDate: reverseField.fieldDate,
+          fieldDescription: reverseField.fieldDescription,
+          fieldLocationHumanreadable: reverseField.fieldLocationHumanreadable,
+        }))
+    : [],
 });
 
 const transform = entity => ({
@@ -29,7 +31,7 @@ const transform = entity => ({
   created: utcToEpochTime(getDrupalValue(entity.created)),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldAdministration: entity.fieldAdministration[0],
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
@@ -44,7 +46,7 @@ module.exports = {
     'created',
     'changed',
     'metatag',
-    'moderation_state',
+    'status',
     'field_administration',
     'field_description',
     'field_intro_text',
