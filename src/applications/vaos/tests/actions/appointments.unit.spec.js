@@ -156,13 +156,7 @@ describe('VAOS actions: appointments', () => {
     setFetchJSONFailure(global.fetch.onCall(3), {});
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
-    const getState = () => ({
-      appointments: {
-        futureStatus: 'notStarted',
-        future: [{ facilityId: '983', clinicId: '455' }],
-      },
-    });
-    await thunk(dispatchSpy, getState);
+    await thunk(dispatchSpy);
     expect(dispatchSpy.firstCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS,
     );
