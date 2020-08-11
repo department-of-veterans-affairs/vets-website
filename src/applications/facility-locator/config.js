@@ -31,7 +31,6 @@ export const resolveParamsWithUrl = (
   serviceType,
   page,
   bounds,
-  apiVersion,
 ) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
   let facility;
@@ -69,7 +68,7 @@ export const resolveParamsWithUrl = (
       ...bounds.map(c => `bbox[]=${c}`),
       facility ? `type=${facility}` : null,
       filterableLocations.includes(facility) && service
-        ? `specialties[]=${service}`
+        ? `${url === api.ccUrl ? 'specialties' : 'services'}[]=${service}`
         : null,
       `page=${page}`,
       `per_page=${perPage}`,
