@@ -23,9 +23,6 @@ const PharmacyResult = ({ provider, query }) => {
           </p>
         )}
         <span>
-          <div>
-            <p>{facilityTypes.cc_pharmacy.toUpperCase()}</p>
-          </div>
           <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
           {provider.attributes.orgName && (
             <h6>{provider.attributes.orgName}</h6>

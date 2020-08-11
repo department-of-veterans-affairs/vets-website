@@ -665,6 +665,74 @@
         "feedback": {},
         "access": {}
       }
+    },
+    {
+      "id": "1700017886",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "true",
+        "address": {
+          "street": "208 S AKARD ST # PC08",
+          "city": "DALLAS",
+          "state": "TX",
+          "zip": "75202"
+        },
+        "caresitePhone": "2147414912",
+        "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 32.77948,
+        "long": -96.798505,
+        "name": "CVS",
+        "phone": null,
+        "posCodes": null,
+        "prefContact": null,
+        "uniqueId": "1700017886"
+      },
+      "relationships": {
+        "specialties": {
+          "data": [
+            {
+              "id": "3336C0003X",
+              "type": "specialty"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1326340985",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "true",
+        "address": {
+          "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+          "city": "AUSTIN",
+          "state": "TX",
+          "zip": "78748"
+        },
+        "caresitePhone": "512-291-4500",
+        "email": "manager0441@dentalonepartners.com",
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 30.159468,
+        "long": -97.792193,
+        "name": "BADEA, LUANA",
+        "phone": "512-291-4500",
+        "posCodes": null,
+        "prefContact": null,
+        "uniqueId": "1326340985"
+      },
+      "relationships": {
+        "specialties": {
+          "data": [
+            {
+              "id": "122300000X",
+              "type": "specialty"
+            }
+          ]
+        }
+      }
     }
   ],
   "meta": {

@@ -1,0 +1,1212 @@
+exports["PharmacySearch/Should render PharmacyResult(0)"] = {
+  "node": {
+    "nodeType": "host",
+    "type": "div",
+    "props": {
+      "className": "facility",
+      "children": {
+        "type": "div",
+        "props": {
+          "children": [
+            null,
+            {
+              "type": "span",
+              "props": {
+                "children": [
+                  {
+                    "type": "h2",
+                    "props": {
+                      "className": "vads- no",
+                      "children": "CVS"
+                    },
+                    "_store": {}
+                  },
+                  null
+                ]
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": {
+                  "type": "LocationAddress",
+                  "props": {
+                    "location": {
+                      "id": "1700017886",
+                      "type": "provider",
+                      "attributes": {
+                        "accNewPatients": "true",
+                        "address": {
+                          "street": "208 S AKARD ST # PC08",
+                          "city": "DALLAS",
+                          "state": "TX",
+                          "zip": "75202"
+                        },
+                        "caresitePhone": "2147414912",
+                        "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                        "gender": "NotSpecified",
+                        "lat": 32.77948,
+                        "long": -96.798505,
+                        "name": "CVS",
+                        "uniqueId": "1700017886"
+                      },
+                      "relationships": {
+                        "specialties": {
+                          "data": [
+                            {
+                              "id": "3336C0003X",
+                              "type": "specialty"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "_store": {}
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationDirectionsLink",
+              "props": {
+                "location": {
+                  "id": "1700017886",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "true",
+                    "address": {
+                      "street": "208 S AKARD ST # PC08",
+                      "city": "DALLAS",
+                      "state": "TX",
+                      "zip": "75202"
+                    },
+                    "caresitePhone": "2147414912",
+                    "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                    "gender": "NotSpecified",
+                    "lat": 32.77948,
+                    "long": -96.798505,
+                    "name": "CVS",
+                    "uniqueId": "1700017886"
+                  },
+                  "relationships": {
+                    "specialties": {
+                      "data": [
+                        {
+                          "id": "3336C0003X",
+                          "type": "specialty"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "pharmacy"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationPhoneLink",
+              "props": {
+                "location": {
+                  "id": "1700017886",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "true",
+                    "address": {
+                      "street": "208 S AKARD ST # PC08",
+                      "city": "DALLAS",
+                      "state": "TX",
+                      "zip": "75202"
+                    },
+                    "caresitePhone": "2147414912",
+                    "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                    "gender": "NotSpecified",
+                    "lat": 32.77948,
+                    "long": -96.798505,
+                    "name": "CVS",
+                    "uniqueId": "1700017886"
+                  },
+                  "relationships": {
+                    "specialties": {
+                      "data": [
+                        {
+                          "id": "3336C0003X",
+                          "type": "specialty"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "pharmacy"
+                }
+              },
+              "_store": {}
+            }
+          ]
+        },
+        "_store": {}
+      }
+    },
+    "rendered": {
+      "nodeType": "host",
+      "type": "div",
+      "props": {
+        "children": [
+          null,
+          {
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "CVS"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "_store": {}
+          },
+          {
+            "type": "p",
+            "props": {
+              "children": {
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "1700017886",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "true",
+                      "address": {
+                        "street": "208 S AKARD ST # PC08",
+                        "city": "DALLAS",
+                        "state": "TX",
+                        "zip": "75202"
+                      },
+                      "caresitePhone": "2147414912",
+                      "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                      "gender": "NotSpecified",
+                      "lat": 32.77948,
+                      "long": -96.798505,
+                      "name": "CVS",
+                      "uniqueId": "1700017886"
+                    },
+                    "relationships": {
+                      "specialties": {
+                        "data": [
+                          {
+                            "id": "3336C0003X",
+                            "type": "specialty"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "_store": {}
+          },
+          {
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "1700017886",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "true",
+                  "address": {
+                    "street": "208 S AKARD ST # PC08",
+                    "city": "DALLAS",
+                    "state": "TX",
+                    "zip": "75202"
+                  },
+                  "caresitePhone": "2147414912",
+                  "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                  "gender": "NotSpecified",
+                  "lat": 32.77948,
+                  "long": -96.798505,
+                  "name": "CVS",
+                  "uniqueId": "1700017886"
+                },
+                "relationships": {
+                  "specialties": {
+                    "data": [
+                      {
+                        "id": "3336C0003X",
+                        "type": "specialty"
+                      }
+                    ]
+                  }
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "pharmacy"
+              }
+            },
+            "_store": {}
+          },
+          {
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "1700017886",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "true",
+                  "address": {
+                    "street": "208 S AKARD ST # PC08",
+                    "city": "DALLAS",
+                    "state": "TX",
+                    "zip": "75202"
+                  },
+                  "caresitePhone": "2147414912",
+                  "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                  "gender": "NotSpecified",
+                  "lat": 32.77948,
+                  "long": -96.798505,
+                  "name": "CVS",
+                  "uniqueId": "1700017886"
+                },
+                "relationships": {
+                  "specialties": {
+                    "data": [
+                      {
+                        "id": "3336C0003X",
+                        "type": "specialty"
+                      }
+                    ]
+                  }
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "pharmacy"
+              }
+            },
+            "_store": {}
+          }
+        ]
+      },
+      "rendered": [
+        null,
+        {
+          "nodeType": "host",
+          "type": "span",
+          "props": {
+            "children": [
+              {
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "CVS"
+                },
+                "_store": {}
+              },
+              null
+            ]
+          },
+          "rendered": [
+            {
+              "nodeType": "host",
+              "type": "h2",
+              "props": {
+                "className": "vads- no",
+                "children": "CVS"
+              },
+              "rendered": "CVS"
+            },
+            null
+          ]
+        },
+        {
+          "nodeType": "host",
+          "type": "p",
+          "props": {
+            "children": {
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "1700017886",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "true",
+                    "address": {
+                      "street": "208 S AKARD ST # PC08",
+                      "city": "DALLAS",
+                      "state": "TX",
+                      "zip": "75202"
+                    },
+                    "caresitePhone": "2147414912",
+                    "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                    "gender": "NotSpecified",
+                    "lat": 32.77948,
+                    "long": -96.798505,
+                    "name": "CVS",
+                    "uniqueId": "1700017886"
+                  },
+                  "relationships": {
+                    "specialties": {
+                      "data": [
+                        {
+                          "id": "3336C0003X",
+                          "type": "specialty"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "_store": {}
+            }
+          },
+          "rendered": {
+            "nodeType": "function",
+            "type": "LocationAddress",
+            "props": {
+              "location": {
+                "id": "1700017886",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "true",
+                  "address": {
+                    "street": "208 S AKARD ST # PC08",
+                    "city": "DALLAS",
+                    "state": "TX",
+                    "zip": "75202"
+                  },
+                  "caresitePhone": "2147414912",
+                  "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                  "gender": "NotSpecified",
+                  "lat": 32.77948,
+                  "long": -96.798505,
+                  "name": "CVS",
+                  "uniqueId": "1700017886"
+                },
+                "relationships": {
+                  "specialties": {
+                    "data": [
+                      {
+                        "id": "3336C0003X",
+                        "type": "specialty"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationDirectionsLink",
+          "props": {
+            "location": {
+              "id": "1700017886",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "true",
+                "address": {
+                  "street": "208 S AKARD ST # PC08",
+                  "city": "DALLAS",
+                  "state": "TX",
+                  "zip": "75202"
+                },
+                "caresitePhone": "2147414912",
+                "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                "gender": "NotSpecified",
+                "lat": 32.77948,
+                "long": -96.798505,
+                "name": "CVS",
+                "uniqueId": "1700017886"
+              },
+              "relationships": {
+                "specialties": {
+                  "data": [
+                    {
+                      "id": "3336C0003X",
+                      "type": "specialty"
+                    }
+                  ]
+                }
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "pharmacy"
+            }
+          }
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationPhoneLink",
+          "props": {
+            "location": {
+              "id": "1700017886",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "true",
+                "address": {
+                  "street": "208 S AKARD ST # PC08",
+                  "city": "DALLAS",
+                  "state": "TX",
+                  "zip": "75202"
+                },
+                "caresitePhone": "2147414912",
+                "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                "gender": "NotSpecified",
+                "lat": 32.77948,
+                "long": -96.798505,
+                "name": "CVS",
+                "uniqueId": "1700017886"
+              },
+              "relationships": {
+                "specialties": {
+                  "data": [
+                    {
+                      "id": "3336C0003X",
+                      "type": "specialty"
+                    }
+                  ]
+                }
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "pharmacy"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "type": "div",
+  "props": {
+    "className": "facility"
+  },
+  "children": [
+    {
+      "node": {
+        "nodeType": "host",
+        "type": "div",
+        "props": {
+          "children": [
+            null,
+            {
+              "type": "span",
+              "props": {
+                "children": [
+                  {
+                    "type": "h2",
+                    "props": {
+                      "className": "vads- no",
+                      "children": "CVS"
+                    },
+                    "_store": {}
+                  },
+                  null
+                ]
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": {
+                  "type": "LocationAddress",
+                  "props": {
+                    "location": {
+                      "id": "1700017886",
+                      "type": "provider",
+                      "attributes": {
+                        "accNewPatients": "true",
+                        "address": {
+                          "street": "208 S AKARD ST # PC08",
+                          "city": "DALLAS",
+                          "state": "TX",
+                          "zip": "75202"
+                        },
+                        "caresitePhone": "2147414912",
+                        "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                        "gender": "NotSpecified",
+                        "lat": 32.77948,
+                        "long": -96.798505,
+                        "name": "CVS",
+                        "uniqueId": "1700017886"
+                      },
+                      "relationships": {
+                        "specialties": {
+                          "data": [
+                            {
+                              "id": "3336C0003X",
+                              "type": "specialty"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "_store": {}
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationDirectionsLink",
+              "props": {
+                "location": {
+                  "id": "1700017886",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "true",
+                    "address": {
+                      "street": "208 S AKARD ST # PC08",
+                      "city": "DALLAS",
+                      "state": "TX",
+                      "zip": "75202"
+                    },
+                    "caresitePhone": "2147414912",
+                    "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                    "gender": "NotSpecified",
+                    "lat": 32.77948,
+                    "long": -96.798505,
+                    "name": "CVS",
+                    "uniqueId": "1700017886"
+                  },
+                  "relationships": {
+                    "specialties": {
+                      "data": [
+                        {
+                          "id": "3336C0003X",
+                          "type": "specialty"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "pharmacy"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationPhoneLink",
+              "props": {
+                "location": {
+                  "id": "1700017886",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "true",
+                    "address": {
+                      "street": "208 S AKARD ST # PC08",
+                      "city": "DALLAS",
+                      "state": "TX",
+                      "zip": "75202"
+                    },
+                    "caresitePhone": "2147414912",
+                    "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                    "gender": "NotSpecified",
+                    "lat": 32.77948,
+                    "long": -96.798505,
+                    "name": "CVS",
+                    "uniqueId": "1700017886"
+                  },
+                  "relationships": {
+                    "specialties": {
+                      "data": [
+                        {
+                          "id": "3336C0003X",
+                          "type": "specialty"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "pharmacy"
+                }
+              },
+              "_store": {}
+            }
+          ]
+        },
+        "rendered": [
+          null,
+          {
+            "nodeType": "host",
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "CVS"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "CVS"
+                },
+                "rendered": "CVS"
+              },
+              null
+            ]
+          },
+          {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": {
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "1700017886",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "true",
+                      "address": {
+                        "street": "208 S AKARD ST # PC08",
+                        "city": "DALLAS",
+                        "state": "TX",
+                        "zip": "75202"
+                      },
+                      "caresitePhone": "2147414912",
+                      "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                      "gender": "NotSpecified",
+                      "lat": 32.77948,
+                      "long": -96.798505,
+                      "name": "CVS",
+                      "uniqueId": "1700017886"
+                    },
+                    "relationships": {
+                      "specialties": {
+                        "data": [
+                          {
+                            "id": "3336C0003X",
+                            "type": "specialty"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "function",
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "1700017886",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "true",
+                    "address": {
+                      "street": "208 S AKARD ST # PC08",
+                      "city": "DALLAS",
+                      "state": "TX",
+                      "zip": "75202"
+                    },
+                    "caresitePhone": "2147414912",
+                    "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                    "gender": "NotSpecified",
+                    "lat": 32.77948,
+                    "long": -96.798505,
+                    "name": "CVS",
+                    "uniqueId": "1700017886"
+                  },
+                  "relationships": {
+                    "specialties": {
+                      "data": [
+                        {
+                          "id": "3336C0003X",
+                          "type": "specialty"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "1700017886",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "true",
+                  "address": {
+                    "street": "208 S AKARD ST # PC08",
+                    "city": "DALLAS",
+                    "state": "TX",
+                    "zip": "75202"
+                  },
+                  "caresitePhone": "2147414912",
+                  "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                  "gender": "NotSpecified",
+                  "lat": 32.77948,
+                  "long": -96.798505,
+                  "name": "CVS",
+                  "uniqueId": "1700017886"
+                },
+                "relationships": {
+                  "specialties": {
+                    "data": [
+                      {
+                        "id": "3336C0003X",
+                        "type": "specialty"
+                      }
+                    ]
+                  }
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "pharmacy"
+              }
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "1700017886",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "true",
+                  "address": {
+                    "street": "208 S AKARD ST # PC08",
+                    "city": "DALLAS",
+                    "state": "TX",
+                    "zip": "75202"
+                  },
+                  "caresitePhone": "2147414912",
+                  "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                  "gender": "NotSpecified",
+                  "lat": 32.77948,
+                  "long": -96.798505,
+                  "name": "CVS",
+                  "uniqueId": "1700017886"
+                },
+                "relationships": {
+                  "specialties": {
+                    "data": [
+                      {
+                        "id": "3336C0003X",
+                        "type": "specialty"
+                      }
+                    ]
+                  }
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "pharmacy"
+              }
+            }
+          }
+        ]
+      },
+      "type": "div",
+      "props": {},
+      "children": [
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "CVS"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "CVS"
+                },
+                "rendered": "CVS"
+              },
+              null
+            ]
+          },
+          "type": "span",
+          "props": {},
+          "children": [
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "CVS"
+                },
+                "rendered": "CVS"
+              },
+              "type": "h2",
+              "props": {
+                "className": "vads- no"
+              },
+              "children": [
+                "CVS"
+              ]
+            }
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": {
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "1700017886",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "true",
+                      "address": {
+                        "street": "208 S AKARD ST # PC08",
+                        "city": "DALLAS",
+                        "state": "TX",
+                        "zip": "75202"
+                      },
+                      "caresitePhone": "2147414912",
+                      "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                      "gender": "NotSpecified",
+                      "lat": 32.77948,
+                      "long": -96.798505,
+                      "name": "CVS",
+                      "uniqueId": "1700017886"
+                    },
+                    "relationships": {
+                      "specialties": {
+                        "data": [
+                          {
+                            "id": "3336C0003X",
+                            "type": "specialty"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "function",
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "1700017886",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "true",
+                    "address": {
+                      "street": "208 S AKARD ST # PC08",
+                      "city": "DALLAS",
+                      "state": "TX",
+                      "zip": "75202"
+                    },
+                    "caresitePhone": "2147414912",
+                    "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                    "gender": "NotSpecified",
+                    "lat": 32.77948,
+                    "long": -96.798505,
+                    "name": "CVS",
+                    "uniqueId": "1700017886"
+                  },
+                  "relationships": {
+                    "specialties": {
+                      "data": [
+                        {
+                          "id": "3336C0003X",
+                          "type": "specialty"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "type": "p",
+          "props": {},
+          "children": [
+            {
+              "node": {
+                "nodeType": "function",
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "1700017886",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "true",
+                      "address": {
+                        "street": "208 S AKARD ST # PC08",
+                        "city": "DALLAS",
+                        "state": "TX",
+                        "zip": "75202"
+                      },
+                      "caresitePhone": "2147414912",
+                      "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                      "gender": "NotSpecified",
+                      "lat": 32.77948,
+                      "long": -96.798505,
+                      "name": "CVS",
+                      "uniqueId": "1700017886"
+                    },
+                    "relationships": {
+                      "specialties": {
+                        "data": [
+                          {
+                            "id": "3336C0003X",
+                            "type": "specialty"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "1700017886",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "true",
+                    "address": {
+                      "street": "208 S AKARD ST # PC08",
+                      "city": "DALLAS",
+                      "state": "TX",
+                      "zip": "75202"
+                    },
+                    "caresitePhone": "2147414912",
+                    "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                    "gender": "NotSpecified",
+                    "lat": 32.77948,
+                    "long": -96.798505,
+                    "name": "CVS",
+                    "uniqueId": "1700017886"
+                  },
+                  "relationships": {
+                    "specialties": {
+                      "data": [
+                        {
+                          "id": "3336C0003X",
+                          "type": "specialty"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "1700017886",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "true",
+                  "address": {
+                    "street": "208 S AKARD ST # PC08",
+                    "city": "DALLAS",
+                    "state": "TX",
+                    "zip": "75202"
+                  },
+                  "caresitePhone": "2147414912",
+                  "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                  "gender": "NotSpecified",
+                  "lat": 32.77948,
+                  "long": -96.798505,
+                  "name": "CVS",
+                  "uniqueId": "1700017886"
+                },
+                "relationships": {
+                  "specialties": {
+                    "data": [
+                      {
+                        "id": "3336C0003X",
+                        "type": "specialty"
+                      }
+                    ]
+                  }
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "pharmacy"
+              }
+            }
+          },
+          "type": "LocationDirectionsLink",
+          "props": {
+            "location": {
+              "id": "1700017886",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "true",
+                "address": {
+                  "street": "208 S AKARD ST # PC08",
+                  "city": "DALLAS",
+                  "state": "TX",
+                  "zip": "75202"
+                },
+                "caresitePhone": "2147414912",
+                "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                "gender": "NotSpecified",
+                "lat": 32.77948,
+                "long": -96.798505,
+                "name": "CVS",
+                "uniqueId": "1700017886"
+              },
+              "relationships": {
+                "specialties": {
+                  "data": [
+                    {
+                      "id": "3336C0003X",
+                      "type": "specialty"
+                    }
+                  ]
+                }
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "pharmacy"
+            }
+          }
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "1700017886",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "true",
+                  "address": {
+                    "street": "208 S AKARD ST # PC08",
+                    "city": "DALLAS",
+                    "state": "TX",
+                    "zip": "75202"
+                  },
+                  "caresitePhone": "2147414912",
+                  "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                  "gender": "NotSpecified",
+                  "lat": 32.77948,
+                  "long": -96.798505,
+                  "name": "CVS",
+                  "uniqueId": "1700017886"
+                },
+                "relationships": {
+                  "specialties": {
+                    "data": [
+                      {
+                        "id": "3336C0003X",
+                        "type": "specialty"
+                      }
+                    ]
+                  }
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "pharmacy"
+              }
+            }
+          },
+          "type": "LocationPhoneLink",
+          "props": {
+            "location": {
+              "id": "1700017886",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "true",
+                "address": {
+                  "street": "208 S AKARD ST # PC08",
+                  "city": "DALLAS",
+                  "state": "TX",
+                  "zip": "75202"
+                },
+                "caresitePhone": "2147414912",
+                "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                "gender": "NotSpecified",
+                "lat": 32.77948,
+                "long": -96.798505,
+                "name": "CVS",
+                "uniqueId": "1700017886"
+              },
+              "relationships": {
+                "specialties": {
+                  "data": [
+                    {
+                      "id": "3336C0003X",
+                      "type": "specialty"
+                    }
+                  ]
+                }
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "pharmacy"
+            }
+          }
+        }
+      ]
+    }
+  ]
+};
+

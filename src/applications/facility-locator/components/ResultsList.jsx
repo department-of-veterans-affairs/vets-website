@@ -51,10 +51,6 @@ class ResultsList extends Component {
    * @param results array list
    * @returns [] list of results
    */
-  // this approach is to refactor result items to components of its own kind and use common components when needed
-  // reason is that we have been getting requirements to modify result elements on a regular basis (add notices, delete sentences, update copy)
-  // and the checks are getting too repetitive to do it in each components of the SearchResult.jsx file
-  // eventually we can remove SearchResult.jsx completely and handle render logic here
   renderResultItems(isMobile, query, results) {
     return results.map(r => {
       let item;
