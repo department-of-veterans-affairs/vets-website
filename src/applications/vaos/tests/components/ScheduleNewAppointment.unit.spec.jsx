@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
+import ScheduleNewAppointment from '../../features/appointments/ScheduleNewAppointment';
 
 describe('VAOS <ScheduleNewAppointment>', () => {
   it('should render schedule button', () => {

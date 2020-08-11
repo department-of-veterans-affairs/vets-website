@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/Alerts/ErrorMessage';
 
 describe('VAOS <ErrorMessage>', () => {
   it('should render', () => {

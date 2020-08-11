@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { ClinicChoicePage } from '../../containers/ClinicChoicePage';
+import { ClinicChoicePage } from '../../features/appointments/ClinicChoicePage';
 import { FETCH_STATUS } from '../../utils/constants';
 
 describe('VAOS <ClinicChoicePage>', () => {

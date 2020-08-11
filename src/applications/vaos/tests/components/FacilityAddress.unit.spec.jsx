@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import FacilityAddress from '../../components/FacilityAddress';
+import FacilityAddress from '../../components/Address/FacilityAddress';
 
 const facility = {
   id: 'var377c',

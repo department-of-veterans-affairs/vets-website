@@ -7,7 +7,7 @@ import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import useFormPageTester from '../useFormPageTester';
 import { FETCH_STATUS } from '../../utils/constants';
 
-import { CommunityCarePreferencesPage } from '../../containers/CommunityCarePreferencesPage';
+import { CommunityCarePreferencesPage } from '../../features/appointments/CommunityCarePreferencesPage';
 
 function CommunityCarePreferencesPageTester(props) {
   const formProps = useFormPageTester(

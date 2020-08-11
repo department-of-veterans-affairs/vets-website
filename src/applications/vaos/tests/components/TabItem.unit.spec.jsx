@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import TabItem from '../../components/TabItem';
+import TabItem from '../../components/Tabs/TabItem';
 
 describe('<TabItem>', () => {
   it('should render tab', () => {

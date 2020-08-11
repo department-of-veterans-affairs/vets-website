@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import AppUnavailable from '../../components/AppUnavailable';
+import AppUnavailable from '../../components/Alerts/AppUnavailable';
 
 describe('VAOS <AppUnavailable>', () => {
   it('should render', () => {

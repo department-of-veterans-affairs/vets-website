@@ -2,10 +2,10 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import AppointmentDate from '../../components/review/AppointmentDate';
-import ReviewDirectScheduleInfo from '../../components/review/ReviewDirectScheduleInfo';
-import ReasonForAppointmentSection from '../../components/review/ReasonForAppointmentSection';
-import ContactDetailSection from '../../components/review/ContactDetailSection';
+import AppointmentDate from '../../features/appointments/ReviewPage/AppointmentDate';
+import ReviewDirectScheduleInfo from '../../features/appointments/ReviewPage/ReviewDirectScheduleInfo';
+import ReasonForAppointmentSection from '../../features/appointments/ReviewPage/ReasonForAppointmentSection';
+import ContactDetailSection from '../../features/appointments/ReviewPage/ContactDetailSection';
 import { VHA_FHIR_ID } from '../../utils/constants';
 
 const defaultData = {

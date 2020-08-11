@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfVisitPage } from '../../containers/TypeOfVisitPage';
+import { TypeOfVisitPage } from '../../features/appointments/TypeOfVisitPage';
 
 describe('VAOS <TypeOfVisitPage>', () => {
   it('should render', () => {

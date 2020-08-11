@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { FETCH_STATUS } from '../../utils/constants';
 
-import NoValidVAFacilities from '../../components/NoValidVAFacilities';
+import NoValidVAFacilities from '../../components/Alerts/NoValidVAFacilities';
 
 const parentDetails = {
   name: 'Cheyenne VA Medical Center',

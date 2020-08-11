@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import FacilityDirectionsLink from '../../components/FacilityDirectionsLink';
+import FacilityDirectionsLink from '../../components/Address/FacilityDirectionsLink';
 
 const location = {
   id: 'var377c',

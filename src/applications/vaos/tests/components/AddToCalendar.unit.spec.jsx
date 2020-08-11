@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import moment from '../../utils/moment-tz.js';
 
-import AddToCalendar from '../../components/AddToCalendar';
+import AddToCalendar from '../../components/Buttons/AddToCalendar';
 
 describe('VAOS <AddToCalendar>', () => {
   describe('Add VA appointment to calendar', () => {

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { FLOW_TYPES, FETCH_STATUS } from '../../utils/constants';
 
-import { ReviewPage } from '../../containers/ReviewPage';
+import { ReviewPage } from '../../features/appointments/ReviewPage/ReviewPage';
 
 describe('VAOS <ReviewPage>', () => {
   it('should render direct schedule view', () => {

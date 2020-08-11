@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import FacilityHours from '../../components/FacilityHours';
+import FacilityHours from '../../components/Alerts/FacilityHours';
 
 const hoursOfOperation = [
   {

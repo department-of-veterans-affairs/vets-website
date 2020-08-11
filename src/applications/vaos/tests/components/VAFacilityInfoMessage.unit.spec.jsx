@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import VAFacilityInfoMessage from '../../components/VAFacilityInfoMessage';
+import VAFacilityInfoMessage from '../../components/Alerts/VAFacilityInfoMessage';
 
 describe('<VAFacilityInfoMessage>', () => {
   it('should display facility alert', () => {

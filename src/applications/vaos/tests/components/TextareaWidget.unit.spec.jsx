@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import TextareaWidget from '../../components/TextareaWidget';
+import TextareaWidget from '../../components/Textarea/TextareaWidget';
 
 describe('VAOS <TextareaWidget>', () => {
   it('should render character limit', () => {

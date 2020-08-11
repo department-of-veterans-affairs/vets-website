@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import CancelAppointmentModal from '../../../components/cancel/CancelAppointmentModal';
+import CancelAppointmentModal from '../../../components/Modals/CancelAppointmentModal';
 import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,

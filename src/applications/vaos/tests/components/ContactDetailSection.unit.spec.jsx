@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import ContactDetailSection from '../../components/review/ContactDetailSection';
+import ContactDetailSection from '../../features/appointments/ReviewPage/ContactDetailSection';
 
 const data = {
   email: 'joeblow@gmail.com',

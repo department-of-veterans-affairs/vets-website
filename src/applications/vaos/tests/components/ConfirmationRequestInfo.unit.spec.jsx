@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import ConfirmationRequestInfo from '../../components/ConfirmationRequestInfo';
+import ConfirmationRequestInfo from '../../features/appointments/ConfirmationPage/ConfirmationRequestInfo';
 
 describe('VAOS <ConfirmationRequestInfo>', () => {
   it('should render VA request', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import SingleFacilityEligibilityCheckMessage from '../../components/SingleFacilityEligibilityCheckMessage';
+import SingleFacilityEligibilityCheckMessage from '../../components/Alerts/SingleFacilityEligibilityCheckMessage';
 
 describe('VAOS <SingleFacilityEligibilityCheckMessage>', () => {
   it('should render past visit message', () => {

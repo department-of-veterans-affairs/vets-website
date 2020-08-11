@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
-import VAFacilityPage from '../../containers/VAFacilityPage';
+import VAFacilityPage from '../../features/appointments/VAFacilityPage';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { getParentSiteMock, getFacilityMock } from '../mocks/v0';
 import { createTestStore, setTypeOfCare } from '../mocks/setup';

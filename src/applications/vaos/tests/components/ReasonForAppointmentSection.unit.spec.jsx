@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import ReasonForAppointmentSection from '../../components/review/ReasonForAppointmentSection';
+import ReasonForAppointmentSection from '../../features/appointments/ReviewPage/ReasonForAppointmentSection';
 
 const data = {
   reasonForAppointment: 'routine-follow-up',

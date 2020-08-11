@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { FETCH_STATUS } from '../../../utils/constants';
 
-import CancelAppointmentFailedModal from '../../../components/cancel/CancelAppointmentFailedModal';
+import CancelAppointmentFailedModal from '../../../components/Modals/CancelAppointmentFailedModal';
 
 describe('VAOS <CancelAppointmentFailedModal>', () => {
   it('should render', () => {

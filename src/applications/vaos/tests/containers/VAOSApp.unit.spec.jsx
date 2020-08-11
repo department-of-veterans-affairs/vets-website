@@ -11,7 +11,7 @@ import environment from 'platform/utilities/environment';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { createTestStore } from '../mocks/setup';
-import VAOSApp from '../../containers/VAOSApp';
+import VAOSApp from '../../VAOSApp';
 import moment from 'moment';
 
 const initialState = {

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import NoVASystems from '../../components/NoVASystems';
+import NoVASystems from '../../components/Alerts/NoVASystems';
 
 describe('VAOS <NoVASystems>', () => {
   it('should render alert message', () => {

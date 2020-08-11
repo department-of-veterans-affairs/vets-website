@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import PreferredDatesSection from '../../components/review/PreferredDatesSection';
+import PreferredDatesSection from '../../features/appointments/ReviewPage/PreferredDatesSection';
 
 const data = {
   calendarData: {

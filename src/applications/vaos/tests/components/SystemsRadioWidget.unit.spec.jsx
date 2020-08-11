@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import SystemsRadioWidget from '../../components/SystemsRadioWidget';
+import SystemsRadioWidget from '../../components/RadioButton/SystemsRadioWidget';
 
 describe('Schemaform <SystemsRadioWidget>', () => {
   it('should render', () => {

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { PreferredDatePage } from '../../containers/PreferredDatePage';
+import { PreferredDatePage } from '../../features/appointments/PreferredDatePage';
 
 describe('VAOS <PreferredDatePage>', () => {
   it('should render', () => {

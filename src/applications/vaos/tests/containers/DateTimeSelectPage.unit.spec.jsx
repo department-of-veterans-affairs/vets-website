@@ -7,7 +7,7 @@ import moment from 'moment';
 import {
   DateTimeSelectPage,
   getOptionsByDate,
-} from '../../containers/DateTimeSelectPage';
+} from '../../features/appointments/DateTimeSelectPage';
 import { FETCH_STATUS } from '../../utils/constants';
 
 const availableDates = ['2019-10-29'];

@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfFacilityPage } from '../../containers/TypeOfFacilityPage';
+import { TypeOfFacilityPage } from '../../features/appointments/TypeOfFacilityPage';
 import { FACILITY_TYPES } from '../../utils/constants';
 
 describe('VAOS <TypeOfFacilityPage>', () => {

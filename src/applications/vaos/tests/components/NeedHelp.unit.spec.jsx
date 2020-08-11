@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import NeedHelp from '../../components/NeedHelp';
+import NeedHelp from '../../components/NeedHelp/NeedHelp';
 
 describe('VAOS <NeedHelp>', () => {
   it('should render', () => {

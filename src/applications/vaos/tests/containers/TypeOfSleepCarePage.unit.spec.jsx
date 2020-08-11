@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfSleepCarePage } from '../../containers/TypeOfSleepCarePage';
+import { TypeOfSleepCarePage } from '../../features/appointments/TypeOfSleepCarePage';
 
 describe('VAOS <TypeOfSleepCarePage>', () => {
   it('should render', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import AppointmentInstructions from '../../components/AppointmentInstructions';
+import AppointmentInstructions from '../../features/components/AppointmentInstructions';
 
 describe('VAOS <AppointmentInstructions>', () => {
   it('should return instructions', () => {

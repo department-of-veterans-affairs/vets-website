@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import { TabNav } from '../../components/TabNav';
+import { TabNav } from '../../components/Tabs/TabNav';
 
 describe('<TabNav>', () => {
   it('should render two tabs', () => {
