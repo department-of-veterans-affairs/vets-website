@@ -191,28 +191,28 @@ export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
     const expressCare = getState().expressCare;
     const formData = expressCare.newRequest.data;
-
-    const activeFacility = selectActiveExpressCareFacility(
-      getState(),
-      moment.utc(),
-    );
-
-    dispatch({
-      type: FORM_SUBMIT,
-    });
-
-    let requestBody;
-
-    const additionalEventData = {
-      'health-expressCareReason': formData.reasonForRequest.reason,
-    };
-
-    recordEvent({
-      event: `${GA_PREFIX}-express-care-submission`,
-      ...additionalEventData,
-    });
+    let activeFacility;
+    let additionalEventData = {};
 
     try {
+      activeFacility = selectActiveExpressCareFacility(
+        getState(),
+        moment.utc(),
+      );
+
+      dispatch({
+        type: FORM_SUBMIT,
+      });
+
+      additionalEventData = {
+        'health-expressCareReason': formData.reason,
+      };
+
+      recordEvent({
+        event: `${GA_PREFIX}-express-care-submission`,
+        ...additionalEventData,
+      });
+
       if (!activeFacility) {
         throw new Error('No facilities available for Express Care request');
       }
@@ -220,7 +220,7 @@ export function submitExpressCareRequest(router) {
       const facilityName = await getFacilityName(activeFacility.facilityId);
       activeFacility.name = facilityName;
 
-      requestBody = transformFormToExpressCareRequest(
+      const requestBody = transformFormToExpressCareRequest(
         getState(),
         activeFacility,
       );

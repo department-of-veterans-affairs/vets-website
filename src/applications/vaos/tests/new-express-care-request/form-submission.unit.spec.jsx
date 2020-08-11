@@ -387,7 +387,6 @@ describe('VAOS integration: Express Care form submission', () => {
     expect(router.push.firstCall.args[0]).to.equal(
       '/new-express-care-request/confirmation',
     );
-    await cleanup();
 
     const responseData = JSON.parse(
       global.fetch
