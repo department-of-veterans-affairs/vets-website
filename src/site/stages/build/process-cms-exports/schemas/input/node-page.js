@@ -45,17 +45,7 @@ module.exports = {
     metatag: {
       type: 'object',
     },
-    path: {
-      type: 'array',
-      maxItems: 1,
-      items: {
-        type: 'object',
-        properties: {
-          alias: { type: 'string' },
-        },
-        required: ['alias'],
-      },
-    },
+    path: { $res: 'RawPath' },
   },
   required: getFilter('node-page'),
 };
