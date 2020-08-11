@@ -15,7 +15,7 @@ module.exports = {
     fieldIntroText: { type: 'string' },
     fieldMetaTitle: { type: 'string' },
     fieldOffice: { $ref: 'output/node-health_care_region_page' },
-    fieldPressReleaseBlurb: { type: 'string' },
+    fieldPressReleaseBlurb: { type: ['string', 'null'] },
     reverseFieldListingNode: {
       type: 'object',
       properties: {
