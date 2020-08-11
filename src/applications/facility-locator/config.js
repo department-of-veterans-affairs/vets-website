@@ -8,6 +8,7 @@ export const api = {
   baseUrl: `${environment.API_URL}/v1/facilities`,
   url: `${environment.API_URL}/v1/facilities/va`,
   ccUrl: `${environment.API_URL}/v1/facilities/ccp`,
+  allUrgentCareUrl: `${environment.API_URL}/v1/facilities/va_ccp/urgent_care`,
   settings: {
     credentials: 'include',
     headers: {
@@ -40,13 +41,14 @@ export const resolveParamsWithUrl = (
 
   switch (locationType) {
     case 'urgent_care':
-      if (!serviceType || serviceType === 'UrgentCare') {
+      if (serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
-      }
-      if (serviceType === 'NonVAUrgentCare') {
+      } else if (serviceType === 'NonVAUrgentCare') {
         facility = 'urgent_care';
         url = api.ccUrl;
+      } else {
+        // MashUp coming up
       }
       break;
     case 'pharmacy':
