@@ -7,10 +7,7 @@ import CancelAppointmentSucceededModal from './CancelAppointmentSucceededModal';
 import CancelAppointmentConfirmationModal from './CancelAppointmentConfirmationModal';
 import CancelCernerAppointmentModal from './CancelCernerAppointmentModal';
 
-import {
-  getVARFacilityId,
-  isVideoAppointment,
-} from '../../services/appointment';
+import { isVideoAppointment } from '../../services/appointment';
 import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,
@@ -26,7 +23,7 @@ export default function CancelAppointmentModal(props) {
     onClose,
     onConfirm,
     facility,
-    cernerFacilities,
+    isCerner,
   } = props;
 
   if (!showCancelModal) {
@@ -53,10 +50,6 @@ export default function CancelAppointmentModal(props) {
       />
     );
   }
-
-  const isCerner = cernerFacilities?.some(facilityId =>
-    `var${facilityId}`.startsWith(getVARFacilityId(props.appointmentToCancel)),
-  );
 
   if (isCerner) {
     return (

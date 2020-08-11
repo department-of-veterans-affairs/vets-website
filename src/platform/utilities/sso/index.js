@@ -2,6 +2,7 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSession, hasSessionSSO } from '../../user/profile/utilities';
+import { loginAppUrlRE } from 'applications/login/utilities/paths';
 
 import {
   standaloneRedirect,
@@ -45,11 +46,11 @@ export async function checkAutoSession(
 
   if (loggedIn && ssoeTransactionId) {
     if (
-      window.location.pathname === '/sign-in/' &&
+      loginAppUrlRE.test(window.location.pathname) &&
       ttl > 0 &&
       profile.verified
     ) {
-      // the user is on the standalone signin page, but already logged in with SSOe
+      // the user is in the login app, but already logged in with SSOe
       // redirect them back to their return url
       window.location = standaloneRedirect() || window.location.origin;
     } else if (

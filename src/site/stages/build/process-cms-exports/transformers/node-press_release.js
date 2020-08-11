@@ -40,7 +40,7 @@ const transform = entity => ({
       .utc(getDrupalValue(entity.fieldReleaseDate))
       .format('YYYY-MM-DD HH:mm:ss z'),
   },
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   status: getDrupalValue(entity.status),
 });
 module.exports = {
@@ -60,7 +60,6 @@ module.exports = {
     'field_press_release_downloads',
     'field_press_release_fulltext',
     'field_release_date',
-    'moderation_state',
     'status',
   ],
   transform,

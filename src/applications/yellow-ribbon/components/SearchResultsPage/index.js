@@ -32,7 +32,7 @@ export const SearchResultsPage = ({
         {/* Pre-form content */}
         <p className="vads-l-col--12 medium-screen:vads-l-col--9">
           Information for participating schools is for the current academic
-          year, August 2019 through July 2020.
+          year, August 2020 through July 2021.
         </p>
       </div>
 

@@ -11,17 +11,10 @@ import { resetDataLayer } from '../utils/events';
 
 import {
   getCancelReasons,
-  getFacilitiesBySystemAndTypeOfCare,
   getRequestMessages,
   updateAppointment,
   updateRequest,
 } from '../api';
-
-import {
-  getOrganizations,
-  getRootOrganization,
-  getSiteIdFromOrganization,
-} from '../services/organization';
 
 import { getLocations } from '../services/location';
 
@@ -34,8 +27,6 @@ import {
   getVideoAppointmentLocation,
   isVideoAppointment,
 } from '../services/appointment';
-
-import { selectSystemIds, vaosVSPAppointmentNew } from '../utils/selectors';
 
 import { captureError, getErrorCodes } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
@@ -277,7 +268,7 @@ export function confirmCancelAppointment() {
           appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
-        const facilityId = getVARFacilityId(appointment).replace('var', '');
+        const facilityId = getVARFacilityId(appointment);
 
         const cancelData = {
           appointmentTime: moment

@@ -101,7 +101,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                         />
                         Download
                         <span className="sr-only">
-                          ` ${debtLetter.typeDescription} `
+                          {debtLetter.typeDescription}
                         </span>{' '}
                         letter{' '}
                         <span className="sr-only">
