@@ -49,6 +49,7 @@ export const resolveParamsWithUrl = (
         url = api.ccUrl;
       } else {
         // MashUp coming up
+        url = api.allUrgentCareUrl;
       }
       break;
     case 'pharmacy':
@@ -61,6 +62,18 @@ export const resolveParamsWithUrl = (
     default:
       facility = locationType;
       service = serviceType;
+  }
+
+  if (url === api.allUrgentCareUrl) {
+    return {
+      url,
+      params: compact([
+        address ? `address=${address}` : null,
+        ...bounds.map(c => `bbox[]=${c}`),
+        `page=${page}`,
+        `per_page=${perPage}`,
+      ]).join('&'),
+    };
   }
 
   return {
