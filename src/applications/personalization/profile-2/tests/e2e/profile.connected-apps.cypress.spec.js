@@ -32,7 +32,7 @@ function disconnectApps(mobile = false) {
   cy.findByRole('progressbar').should('exist');
   cy.findByText(/loading your information/i).should('exist');
   cy.findByText(/loading your information/i).should('not.exist');
-  cy.findByRole('progressbar').should('not.exist')
+  cy.findByRole('progressbar').should('not.exist');
 
   cy.get('.connected-app').should('have.length', 2);
 
