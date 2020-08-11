@@ -248,9 +248,11 @@ export class SignInModal extends React.Component {
           </div>
           <div className="usa-width-one-half">
             <div className="explanation-content">
-              <div className="vads-u-display--none medium-screen:vads-u-display--block usa-font-lead">
-                One site. A lifetime of benefits and services at your
-                fingertips.
+              <div className="vads-u-display--none medium-screen:vads-u-display--block">
+                <h2 className="usa-font-lead vads-u-margin-top--0">
+                  One site. A lifetime of benefits and services at your
+                  fingertips.
+                </h2>
               </div>
               <p>
                 You spoke. We listened. VA.gov is the direct result of what you
