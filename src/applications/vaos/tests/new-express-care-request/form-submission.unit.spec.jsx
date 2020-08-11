@@ -24,6 +24,7 @@ import {
   mockRequestEligibilityCriteria,
   mockParentSites,
   mockSupportedFacilities,
+  mockPreferences,
 } from '../mocks/helpers';
 import ExpressCareFormPage from '../../containers/ExpressCareFormPage';
 import ExpressCareConfirmationPage from '../../containers/ExpressCareConfirmationPage';
@@ -123,6 +124,7 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
+    mockPreferences('old.email@va.gov');
     const store = createTestStore({
       ...initialState,
     });
@@ -177,6 +179,14 @@ describe('VAOS integration: Express Care form submission', () => {
         .find(call => call.args[0].includes('appointment_requests')).args[1]
         .body,
     );
+
+    const preferencesData = JSON.parse(
+      global.fetch
+        .getCalls()
+        .filter(call => call.args[0].includes('preferences'))[1].args[1].body,
+    );
+
+    expect(preferencesData.emailAddress).to.equal(requestData.attributes.email);
 
     expect(responseData).to.deep.include({
       ...requestData.attributes,

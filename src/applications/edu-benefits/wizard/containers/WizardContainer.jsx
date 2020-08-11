@@ -4,8 +4,8 @@ import Wizard, {
   getReferredBenefit,
   getWizardStatus,
   WIZARD_STATUS_COMPLETE,
-  formIdSuffixes,
   NO_BENEFIT_REFERRED,
+  formIdSuffixes,
 } from 'applications/static-pages/wizard';
 import pages from '../pages';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -19,8 +19,20 @@ const WizardContainer = ({ setWizardStatus }) => {
 
   const getCurrentFormIdSuffix = () => {
     const formIDSuffixes = Object.values(formIdSuffixes);
+    const urlSections = window.location.href.split('/');
     for (const formIDSuffix of formIDSuffixes) {
-      if (window.location.href.includes(formIDSuffix)) return formIDSuffix;
+      const urlContainsFormIDSuffix = urlSections.find(urlSection => {
+        let shortenedUrlSection;
+        if (urlSection.includes('22-0994')) {
+          shortenedUrlSection = '0994';
+          return formIDSuffix === shortenedUrlSection;
+        } else if (urlSection.includes('form-0993')) {
+          shortenedUrlSection = '0993';
+          return formIDSuffix === shortenedUrlSection;
+        }
+        return formIDSuffix === urlSection;
+      });
+      if (urlContainsFormIDSuffix) return formIDSuffix;
     }
     return NO_BENEFIT_REFERRED;
   };

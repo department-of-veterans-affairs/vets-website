@@ -1,0 +1,25 @@
+module.exports = {
+  type: 'object',
+  properties: {
+    entityType: { type: 'string', enum: ['node'] },
+    entityBundle: { type: 'string', enum: ['vet_center'] },
+    title: { type: 'string' },
+    created: { type: 'number' },
+    changed: { type: 'number' },
+    entityMetatags: { $ref: 'MetaTags' },
+    fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
+    fieldFacilityLocatorApiId: { type: 'string' },
+    fieldOperatingStatusFacility: { type: 'string' },
+    fieldOperatingStatusMoreInfo: { type: 'string' },
+  },
+  required: [
+    'title',
+    'created',
+    'changed',
+    'entityMetatags',
+    'fieldAdministration',
+    'fieldFacilityLocatorApiId',
+    'fieldOperatingStatusFacility',
+    'fieldOperatingStatusMoreInfo',
+  ],
+};

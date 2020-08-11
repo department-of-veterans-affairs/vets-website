@@ -54,10 +54,10 @@ class SearchControls extends Component {
     const { facilityType } = this.props.currentQuery;
     const locationOptions = facilityTypesOptions;
     if (suppressPharmacies) {
-      delete locationOptions.cc_pharmacy;
+      delete locationOptions.pharmacy;
     }
     if (suppressCCP) {
-      delete locationOptions.cc_provider;
+      delete locationOptions.provider;
     }
     const options = Object.keys(locationOptions).map(facility => (
       <option key={facility} value={facility}>
@@ -76,6 +76,7 @@ class SearchControls extends Component {
           className="bor-rad"
           onChange={this.handleFacilityTypeChange}
           style={{ fontWeight: 'bold' }}
+          required
         >
           {options}
         </select>
@@ -127,7 +128,7 @@ class SearchControls extends Component {
         <label htmlFor="service-type-dropdown">Choose a service type</label>
         <select
           id="service-type-dropdown"
-          disabled={disabled}
+          disabled={disabled || !facilityType}
           value={serviceType || ''}
           className="bor-rad"
           onChange={this.handleServiceTypeChange}
