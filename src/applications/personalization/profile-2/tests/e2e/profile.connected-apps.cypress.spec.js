@@ -11,11 +11,6 @@ import mockFeatureToggles from '../fixtures/feature-toggles.json';
 function disconnectApps(mobile = false) {
   cy.route('GET', 'v0/profile/connected_applications', mockConnectedApps);
 
-  cy.visit(PROFILE_PATHS.CONNECTED_APPLICATIONS);
-  if (mobile) {
-    cy.viewport('iphone-4');
-  }
-
   cy.route({
     method: 'DELETE',
     url: 'v0/profile/connected_applications/0oa3s6dlvxgsZr62p2p7',
@@ -28,10 +23,16 @@ function disconnectApps(mobile = false) {
     response: {},
   }).as('connectedAppDelete2');
 
+  cy.visit(PROFILE_PATHS.CONNECTED_APPLICATIONS);
+  if (mobile) {
+    cy.viewport('iphone-4');
+  }
+
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');
   cy.findByText(/loading your information/i).should('exist');
   cy.findByText(/loading your information/i).should('not.exist');
+  cy.findByRole('progressbar').should('not.exist')
 
   cy.get('.connected-app').should('have.length', 2);
 
