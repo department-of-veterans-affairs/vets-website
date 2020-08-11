@@ -36,6 +36,7 @@ const ChangeAddress = ({
 ChangeAddress.propTypes = {
   serviceDescription: PropTypes.string.isRequired,
   primaryButtonHandler: PropTypes.func.isRequired,
+  featureToggles: PropTypes.object.isRequired,
 };
 
 export default ChangeAddress;
