@@ -94,8 +94,10 @@ function ExpressCareReasonPage({
         >
           <p>
             If you need a same day mental health appointment, you can{' '}
-            <a href="/find-locations">call your VA medical center</a> and
-            request a "same day mental health appointment".
+            <a href="/find-locations?facilityType=health&serviceType=MentalHealthCare">
+              call your VA medical center
+            </a>{' '}
+            and request a "same day mental health appointment".
           </p>
           <p>
             Don't see your symptoms listed?{' '}
