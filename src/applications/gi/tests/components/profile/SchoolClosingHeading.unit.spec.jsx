@@ -3,7 +3,7 @@ import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import SchoolClosingHeading from '../../components/profile/SchoolClosingHeading';
+import SchoolClosingHeading from '../../../components/profile/SchoolClosingHeading';
 
 describe('<SchoolClosingHeading>', () => {
   it('renders', () => {

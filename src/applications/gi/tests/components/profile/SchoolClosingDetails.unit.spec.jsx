@@ -3,7 +3,7 @@ import moment from 'moment';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
-import SchoolClosingDetails from '../../components/profile/SchoolClosingDetails';
+import SchoolClosingDetails from '../../../components/profile/SchoolClosingDetails';
 
 describe('<SchoolClosingDetails>', () => {
   it('renders', () => {

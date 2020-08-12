@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 import createCommonStore from 'platform/startup/store';
-import { EligibilityForm } from '../../components/search/EligibilityForm';
-import reducer from '../../reducers';
+import { EligibilityForm } from '../../../components/search/EligibilityForm';
+import reducer from '../../../reducers';
 
 const defaultProps = {
   ...createCommonStore(reducer).getState().eligibility,

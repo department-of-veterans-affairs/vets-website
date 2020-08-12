@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import KeywordSearch from '../../components/search/KeywordSearch';
+import KeywordSearch from '../../../components/search/KeywordSearch';
 
 describe('<KeywordSearch>', () => {
   it('should render', () => {

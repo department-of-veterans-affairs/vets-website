@@ -3,7 +3,7 @@ import moment from 'moment';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
-import AdditionalInformation from '../../components/profile/AdditionalInformation';
+import AdditionalInformation from '../../../components/profile/AdditionalInformation';
 
 describe('<AdditionalInformation>', () => {
   const defaultProps = {

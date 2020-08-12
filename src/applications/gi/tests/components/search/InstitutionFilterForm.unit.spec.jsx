@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import InstitutionFilterForm from '../../components/search/InstitutionFilterForm';
-import { getStateNameForCode } from '../../utils/helpers';
+import InstitutionFilterForm from '../../../components/search/InstitutionFilterForm';
+import { getStateNameForCode } from '../../../utils/helpers';
 
 const defaultProps = {
   search: {

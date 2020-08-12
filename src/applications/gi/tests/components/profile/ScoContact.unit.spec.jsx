@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { ScoContact } from '../../components/profile/ScoContact';
+import { ScoContact } from '../../../components/profile/ScoContact';
 
 const sco = {
   facilityCode: '2V000203',
