@@ -28,7 +28,7 @@ const formFields = {
   topic: 'topic',
   inquiryType: 'inquiryType',
   query: 'query',
-  preferredResponseType: 'preferredResponseType',
+  preferredContactMethod: 'preferredContactMethod',
   fullName: 'fullName',
   address: 'address',
   email: 'email',
@@ -38,9 +38,7 @@ const formFields = {
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   topic: 'topic',
-  whoAmI: 'whoAmI',
   contactInformation: 'contactInformation',
-  serviceInformation: 'serviceInformation',
 };
 
 const formConfig = {
@@ -104,8 +102,8 @@ const formConfig = {
           path: 'contact-information',
           title: 'Contact Information',
           uiSchema: {
-            [formFields.preferredResponseType]: {
-              'ui:title': 'Preferred Response Type',
+            [formFields.preferredContactMethod]: {
+              'ui:title': 'Preferred Contact Method',
             },
             [formFields.fullName]: fullNameUI,
             [formFields.email]: set(
@@ -129,9 +127,9 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.preferredResponseType, formFields.fullName],
+            required: [formFields.preferredContactMethod, formFields.fullName],
             properties: {
-              [formFields.preferredResponseType]: preferredContactMethod,
+              [formFields.preferredContactMethod]: preferredContactMethod,
               [formFields.fullName]: fullName,
               [formFields.email]: email,
               [formFields.phoneNumber]: phone,
