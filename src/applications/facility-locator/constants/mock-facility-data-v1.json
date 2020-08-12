@@ -767,6 +767,35 @@
           ]
         }
       }
+    },
+    {
+      "id": "efe54b9611c57927127af26b7413e3176bf3b4b57af566e25a53079861c24254",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "false",
+        "address": {
+          "street": "13831 N Highway 183",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78750"
+        },
+        "caresitePhone": "8669446046",
+        "email": null,
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 30.466168,
+        "long": -97.795303,
+        "name": "Concentra Urgent Care",
+        "phone": null,
+        "posCodes": "20",
+        "prefContact": null,
+        "uniqueId": "1144710864"
+      },
+      "relationships": {
+        "specialties": {
+          "data": []
+        }
+      }
     }
   ],
   "meta": {

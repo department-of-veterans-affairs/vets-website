@@ -7,6 +7,7 @@ import facilityDataJson from '../constants/mock-facility-data.json';
 import providersDataJson from '../constants/mock-facility-data-v1.json';
 import urgentCareData from '../constants/mock-urgent-care-mashup-data.json';
 import { urgentCareServices } from '../config';
+import { CLINIC_URGENTCARE_SERVICE } from '../constants';
 
 // Immitate network delay
 const delay = 0;
@@ -87,7 +88,11 @@ class MockLocatorApi {
               );
             }
           } else if (locationType === ccProviderType) {
-            locationsData = [providersDataJson.data[10]];
+            if (serviceType === CLINIC_URGENTCARE_SERVICE) {
+              locationsData = [providersDataJson.data[12]];
+            } else {
+              locationsData = [providersDataJson.data[10]];
+            }
           } else if (locationType === pharmacyType) {
             locationsData = [providersDataJson.data[11]];
           } else {

@@ -10,5 +10,17 @@
       "specialtyCode": "1223X2210X",
       "specialtyDescription": "A dentist who assesses, diagnoses, and treats patients with complex chronic orofacial pain and dysfunction disorders, oromotor and jaw behavior disorders, and chronic head/neck pain.  The dentist has successfully completed an accredited postdoctoral orofacial pain residency training program for dentists of two or more years duration, in accord with the Commission on Dental Accreditation's Standards for Orofacial Pain Residency Programs, and/or meets the requirements for examination and board certification by the American Board of Orofacial Pain."
     }
+  },
+  {
+    "id": "261QU0200X",
+    "type": "specialty",
+    "attributes": {
+      "classification": "Clinic/Center",
+      "grouping": "Ambulatory Health Care Facilities",
+      "name": "Clinic/Center - Urgent Care",
+      "specialization": "Urgent Care",
+      "specialtyCode": "261QU0200X",
+      "specialtyDescription": "Definition to come..."
+    }
   }
 ]
