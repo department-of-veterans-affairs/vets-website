@@ -4,6 +4,8 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 
+import environment from 'platform/utilities/environment';
+
 import ProgressButton from '../components/ProgressButton';
 import { focusOnChange, focusElement, getScrollOptions } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
@@ -37,7 +39,15 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
   focusOnPage(key) {
     const name = `${key.replace(/:/g, '\\:')}`;
-    focusElement(document.querySelector(`div[data-chapter="${name}"] button`));
+
+    if (environment.isProduction()) {
+      // legend & label target array type form elements
+      focusOnChange(name, 'p, legend, label');
+    } else {
+      focusElement(
+        document.querySelector(`div[data-chapter="${name}"] button`),
+      );
+    }
   }
 
   handleEdit(key, editing, index = null) {
@@ -263,7 +273,9 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 aria-controls={`collapsible-${this.id}`}
                 onClick={this.props.toggleButtonClicked}
               >
-                {`${this.state.editing ? 'Edit' : ''} ${chapterTitle || ''}`}
+                {environment.isProduction()
+                  ? `${chapterTitle || ''}`
+                  : `${this.state.editing ? 'Edit' : ''} ${chapterTitle || ''}`}
               </button>
               {showUnviewedPageWarning && (
                 <span className="schemaform-review-chapter-warning-icon" />
