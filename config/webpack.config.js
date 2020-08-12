@@ -10,6 +10,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const ManifestPlugin = require('webpack-manifest-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -76,6 +77,7 @@ module.exports = env => {
     port: 3001,
     scaffold: false,
     watch: false,
+    noHmr: false,
     ...env,
     // Using a getter so we can reference the buildtype
     get destination() {
@@ -123,6 +125,14 @@ module.exports = env => {
               // Speed up compilation.
               cacheDirectory: '.babelcache',
               // Also see .babelrc
+              plugins: [
+                // Use hot module reloading with react-refresh-webpack-plugin
+                // for local development unless explicitly told to not with
+                // --env.noHmr
+                !isOptimizedBuild &&
+                  !buildOptions.noHmr &&
+                  require.resolve('react-refresh/babel'),
+              ].filter(Boolean),
             },
           },
         },
@@ -391,6 +401,10 @@ module.exports = env => {
         test: /\.css$/,
       }),
     );
+
+    if (!buildOptions.noHmr) {
+      baseConfig.plugins.push(new ReactRefreshWebpackPlugin());
+    }
   }
 
   if (buildOptions.analyzer) {

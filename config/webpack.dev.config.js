@@ -24,7 +24,7 @@ function generateWebpackDevConfig(buildOptions) {
         },
       ],
     },
-    hot: false,
+    hot: !buildOptions.noHmr,
     liveReload: false,
     watchOptions: {
       poll: 1000,
