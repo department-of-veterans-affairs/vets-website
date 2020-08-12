@@ -4,7 +4,7 @@ import React from 'react';
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
 import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
-import SearchResultGenderFilter from './SearchResultGenderFilter';
+import GenderFilter from './GenderFilter';
 import {
   addAllOption,
   getStateNameForCode,
@@ -142,7 +142,7 @@ class InstitutionFilterForm extends React.Component {
   renderGenderFilter = () => {
     return (
       <div>
-        <SearchResultGenderFilter
+        <GenderFilter
           gender={this.state.gender}
           onChange={this.handleDropdownChange}
           handleInputFocus={this.props.handleInputFocus}
