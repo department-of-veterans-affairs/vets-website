@@ -39,7 +39,7 @@ export const testSaveInProgress = (mockApi, formConfig, formData) => {
         willRespondWith: {
           status: 200,
           body: {
-            formData: like(formData.data || formData),
+            formData: like(formData),
             metadata: {
               lastUpdated: integer(1596032190),
               returnUrl,
