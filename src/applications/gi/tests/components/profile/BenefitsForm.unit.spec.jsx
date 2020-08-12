@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 
 import createCommonStore from 'platform/startup/store';
-import { BenefitsForm } from '../../components/profile/BenefitsForm';
-import reducer from '../../reducers';
+import { BenefitsForm } from '../../../components/profile/BenefitsForm';
+import reducer from '../../../reducers';
 import { Provider } from 'react-redux';
 
 const commonStore = createCommonStore(reducer);

@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import SchoolLocations from '../../components/profile/SchoolLocations';
+import SchoolLocations from '../../../components/profile/SchoolLocations';
 import sinon from 'sinon';
-import { getDefaultState } from '../helpers';
+import { getDefaultState } from '../../helpers';
 
 const defaultState = getDefaultState();
 

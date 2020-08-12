@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import ContactInformation from '../../components/profile/ContactInformation';
+import ContactInformation from '../../../components/profile/ContactInformation';
 
 const institution = {
   versionedSchoolCertifyingOfficials: [

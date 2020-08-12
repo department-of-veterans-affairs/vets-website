@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import createCommonStore from 'platform/startup/store';
 
-import VetTecHeadingSummary from '../../components/vet-tec/VetTecHeadingSummary';
-import VetTecVeteranPrograms from '../../components/vet-tec/VetTecVeteranPrograms';
-import VetTecApplicationProcess from '../../components/vet-tec/VetTecApplicationProcess';
+import VetTecHeadingSummary from '../../../components/vet-tec/VetTecHeadingSummary';
+import VetTecVeteranPrograms from '../../../components/vet-tec/VetTecVeteranPrograms';
+import VetTecApplicationProcess from '../../../components/vet-tec/VetTecApplicationProcess';
 
 const institution = {
   facilityCode: '2V000105',

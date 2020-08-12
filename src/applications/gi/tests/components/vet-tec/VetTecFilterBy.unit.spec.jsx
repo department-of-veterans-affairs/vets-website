@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import VetTecFilterBy from '../../components/vet-tec/VetTecFilterBy';
+import VetTecFilterBy from '../../../components/vet-tec/VetTecFilterBy';
 
 describe('<VetTecFilterBy>', () => {
   it('renders correctly', () => {

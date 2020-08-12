@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import createCommonStore from 'platform/startup/store';
 
-import VetTecApprovedPrograms from '../../components/vet-tec/VetTecApprovedPrograms';
+import VetTecApprovedPrograms from '../../../components/vet-tec/VetTecApprovedPrograms';
 import { selectRadio } from 'platform/testing/unit/schemaform-utils';
 
 const institution = {

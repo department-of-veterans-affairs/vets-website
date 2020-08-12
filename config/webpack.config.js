@@ -11,6 +11,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const WebpackBar = require('webpackbar');
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -251,6 +252,8 @@ module.exports = env => {
       }),
 
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+      new WebpackBar(),
     ],
     devServer: generateWebpackDevConfig(buildOptions),
   };

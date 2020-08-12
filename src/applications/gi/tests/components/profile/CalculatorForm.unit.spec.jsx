@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import CalculatorForm from '../../components/profile/CalculatorForm';
+import CalculatorForm from '../../../components/profile/CalculatorForm';
 
 const props = {
   eligibility: {
