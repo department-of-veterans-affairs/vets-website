@@ -85,7 +85,7 @@ function ExpressCareReasonPage({
             If you need a mental health appointment today
           </h3>
           <p className="vads-u-margin-top--0">
-            Please call your nearest VA medical center of Vet center, and ask
+            Please call your nearest VA medical center or Vet center, and ask
             for a “same-day mental health appointment.”
             <br />
             <a href="/find-locations?facilityType=health&serviceType=MentalHealthCare">
