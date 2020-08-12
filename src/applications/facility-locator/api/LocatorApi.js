@@ -33,16 +33,27 @@ class LocatorApi {
 
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)
-        .then(res => {
+        .then(async res => {
+          let response = await res.json();
           if (
             locationType === FacilityType.URGENT_CARE &&
             (!serviceType || serviceType === Object.keys(urgentCareServices)[0])
           ) {
-            // TODO to be tested
-            const urgData = res.json();
-            return urgData.included;
+            response = {
+              meta: {
+                pagination: {
+                  currentPage: 1,
+                  nextPage: null,
+                  prevPage: null,
+                  totalPages: 1,
+                },
+              },
+              links: {},
+              data: response.included,
+            };
+            return response;
           } else {
-            return res.json();
+            return response;
           }
         })
         .then(data => resolve(data), error => reject(error));
