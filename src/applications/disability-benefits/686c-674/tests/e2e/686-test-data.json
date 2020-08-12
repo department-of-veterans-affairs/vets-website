@@ -27,6 +27,7 @@
           "marriageEndDateDay": "1",
           "marriageEndDateYear": "2012",
           "locationState": "California",
+          "locationStateCode": "CA",
           "locationCity": "San Diego",
           "reasonMarriageEnded": "Death"
         }
@@ -94,7 +95,7 @@
           "marriageEndDateMonth": "1",
           "marriageEndDateDay": "1",
           "marriageEndDateYear": "2012",
-          "locationState": "California",
+          "locationState": "CA",
           "locationCity": "San Diego",
           "reasonMarriageEnded": "Death"
         }
@@ -121,7 +122,7 @@
         "year": "2008"
       },
       "locationOfMarriage": {
-        "state": "California",
+        "state": "CA",
         "city": "Los Angeles"
       },
       "typeOfMarriage": "TRIBAL"

@@ -107,7 +107,10 @@ export const fillChildPlaceOfBirthAndStatusInformation = (
   isMarried = false,
 ) => {
   client
-    .selectDropdown('root_placeOfBirth_state', 'CA')
+    .selectDropdown(
+      'root_placeOfBirth_state',
+      data.childInformation[0].birthLocationState,
+    )
     .fill(
       'input[name="root_placeOfBirth_city"]',
       data.childInformation[0].birthLocationCity,
@@ -232,14 +235,6 @@ export const fillSpousePersonalInformation = (client, data) => {
     .selectRadio(
       'root_spouseInformation_isVeteran',
       data.spouseInformation.isVeteran,
-    )
-    .fill(
-      'input[name="root_spouseInformation_VAFileNumber"]',
-      data.spouseInformation.vaFileNumber,
-    )
-    .fill(
-      'input[name="root_spouseInformation_serviceNumber"]',
-      data.spouseInformation.serviceNumber,
     );
 };
 
@@ -257,8 +252,8 @@ export const fillCurrentMarriageInformation = (client, data) => {
       'input[name="root_currentMarriageInformation_dateYear"]',
       data.currentMarriageInformation.dateOfMarriage.year,
     )
-    .fill(
-      'input[name="root_currentMarriageInformation_location_state"]',
+    .selectDropdown(
+      'root_currentMarriageInformation_location_state',
       data.currentMarriageInformation.locationOfMarriage.state,
     )
     .fill(
@@ -373,8 +368,8 @@ export const fillSpouseMarriageHistoryDetails = (client, data) => {
       'input[name="root_startDateYear"]',
       data.spouseInformation.marriageHistory[0].marriageStartDateYear,
     )
-    .fill(
-      'input[name="root_startLocation_state"]',
+    .selectDropdown(
+      'root_startLocation_state',
       data.spouseInformation.marriageHistory[0].locationState,
     )
     .fill(
@@ -397,8 +392,8 @@ export const fillSpouseMarriageHistoryDetails = (client, data) => {
       'input[name="root_endDateYear"]',
       data.spouseInformation.marriageHistory[0].marriageEndDateYear,
     )
-    .fill(
-      'input[name="root_endLocation_state"]',
+    .selectDropdown(
+      'root_endLocation_state',
       data.spouseInformation.marriageHistory[0].locationState,
     )
     .fill(
@@ -457,9 +452,9 @@ export const fillVeteranMarriageHistoryDetails = (client, data) => {
       'input[name="root_startDateYear"]',
       data.veteranInformation.marriageHistory[0].marriageStartDateYear,
     )
-    .fill(
-      'input[name="root_startLocation_state"]',
-      data.veteranInformation.marriageHistory[0].locationState,
+    .selectDropdown(
+      'root_startLocation_state',
+      data.veteranInformation.marriageHistory[0].locationStateCode,
     )
     .fill(
       'input[name="root_startLocation_city"]',
@@ -481,9 +476,9 @@ export const fillVeteranMarriageHistoryDetails = (client, data) => {
       'input[name="root_endDateYear"]',
       data.veteranInformation.marriageHistory[0].marriageEndDateYear,
     )
-    .fill(
-      'input[name="root_endLocation_state"]',
-      data.veteranInformation.marriageHistory[0].locationState,
+    .selectDropdown(
+      'root_endLocation_state',
+      data.veteranInformation.marriageHistory[0].locationStateCode,
     )
     .fill(
       'input[name="root_endLocation_city"]',
