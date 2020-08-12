@@ -741,9 +741,9 @@ class VAMap extends Component {
 
         <div className="facility-introtext">
           <p>
-            Find one of VA's more than 2,000 health care, counseling, benefits,
-            and cemeteries facilities, plus VA's nationwide network of community
-            health care providers.
+            Find a VA location or in-network community care provider. For
+            same-day care for minor illnesses or injuries, select Urgent care
+            for facility type.
           </p>
           <p>
             <strong>Coronavirus update:</strong> {coronavirusUpdate}
