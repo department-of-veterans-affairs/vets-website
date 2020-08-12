@@ -29,21 +29,27 @@ const setup = (mobile = false) => {
 const checkModals = options => {
   const {
     editButtonId,
-    otherSectionEditButtonId,
+    otherSectionName,
     editLineId,
     sectionName,
   } = options;
 
   // Open edit view
-  cy.get(`#${editButtonId}-edit-link`).click({
+  cy.findByRole('button', {
+    name: new RegExp(`edit ${sectionName}`, 'i'),
+  }).click({
     force: true,
   });
+
   // Make an edit
   cy.get(`#${editLineId}`)
     .click()
     .type('test');
+
   // Click on a different section to edit
-  cy.get(`#${otherSectionEditButtonId}-edit-link`).click({
+  cy.findByRole('button', {
+    name: new RegExp(`edit ${otherSectionName}`, 'i'),
+  }).click({
     force: true,
   });
 
@@ -72,105 +78,91 @@ const checkModals = options => {
 };
 
 describe('Modals on the personal information and content page', () => {
-  describe('on Desktop', () => {
-    beforeEach(() => {
-      setup();
+  it('should render as expected on Desktop', () => {
+    setup();
+
+    // should appear when editing mailing address
+    checkModals({
+      editButtonId: 'mailingAddress',
+      otherSectionName: 'home address',
+      editLineId: 'root_addressLine3',
+      sectionName: 'mailing address',
     });
 
-    it('should appear when editing mailing address', () => {
-      checkModals({
-        editButtonId: 'mailingAddress',
-        otherSectionEditButtonId: 'residentialAddress',
-        editLineId: 'root_addressLine3',
-        sectionName: 'mailing address',
-      });
+    // should appear when editing residential address
+    checkModals({
+      editButtonId: 'residentialAddress',
+      otherSectionName: 'mailing address',
+      editLineId: 'root_addressLine3',
+      sectionName: 'home address',
     });
 
-    it('should appear when editing residential address', () => {
-      checkModals({
-        editButtonId: 'residentialAddress',
-        otherSectionEditButtonId: 'mailingAddress',
-        editLineId: 'root_addressLine3',
-        sectionName: 'home address',
-      });
+    // should appear when editing home phone number
+    checkModals({
+      editButtonId: 'homePhone',
+      otherSectionName: 'mailing address',
+      editLineId: 'root_extension',
+      sectionName: 'home phone number',
     });
 
-    it('should appear when editing home phone number', () => {
-      checkModals({
-        editButtonId: 'homePhone',
-        otherSectionEditButtonId: 'mailingAddress',
-        editLineId: 'root_extension',
-        sectionName: 'home phone number',
-      });
+    // should appear when editing mobile phone number
+    checkModals({
+      editButtonId: 'mobilePhone',
+      otherSectionName: 'mailing address',
+      editLineId: 'root_extension',
+      sectionName: 'mobile phone number',
     });
 
-    it('should appear when editing mobile phone number', () => {
-      checkModals({
-        editButtonId: 'mobilePhone',
-        otherSectionEditButtonId: 'mailingAddress',
-        editLineId: 'root_extension',
-        sectionName: 'mobile phone number',
-      });
-    });
-
-    it('should appear when editing email address', () => {
-      checkModals({
-        editButtonId: 'email',
-        otherSectionEditButtonId: 'mailingAddress',
-        editLineId: 'root_emailAddress',
-        sectionName: 'email address',
-      });
+    // should appear when editing email address
+    checkModals({
+      editButtonId: 'email',
+      otherSectionName: 'mailing address',
+      editLineId: 'root_emailAddress',
+      sectionName: 'email address',
     });
   });
 
-  describe('on Mobile', () => {
-    beforeEach(() => {
-      setup(true);
+  it('should render as expected on Mobile', () => {
+    setup(true);
+
+    // should appear when editing mailing address
+    checkModals({
+      editButtonId: 'mailingAddress',
+      otherSectionName: 'home address',
+      editLineId: 'root_addressLine3',
+      sectionName: 'mailing address',
     });
 
-    it('should appear when editing mailing address', () => {
-      checkModals({
-        editButtonId: 'mailingAddress',
-        otherSectionEditButtonId: 'residentialAddress',
-        editLineId: 'root_addressLine3',
-        sectionName: 'mailing address',
-      });
+    // should appear when editing residential address
+    checkModals({
+      editButtonId: 'residentialAddress',
+      otherSectionName: 'mailing address',
+      editLineId: 'root_addressLine3',
+      sectionName: 'home address',
     });
 
-    it('should appear when editing residential address', () => {
-      checkModals({
-        editButtonId: 'residentialAddress',
-        otherSectionEditButtonId: 'mailingAddress',
-        editLineId: 'root_addressLine3',
-        sectionName: 'home address',
-      });
+    // should appear when editing home phone number
+    checkModals({
+      editButtonId: 'homePhone',
+      otherSectionName: 'mailing address',
+      editLineId: 'root_extension',
+      sectionName: 'home phone number',
     });
 
-    it('should appear when editing home phone number', () => {
-      checkModals({
-        editButtonId: 'homePhone',
-        otherSectionEditButtonId: 'mailingAddress',
-        editLineId: 'root_extension',
-        sectionName: 'home phone number',
-      });
+    // should appear when editing mobile phone number
+    checkModals({
+      editButtonId: 'mobilePhone',
+      otherSectionName: 'mailing address',
+      editLineId: 'root_extension',
+      sectionName: 'mobile phone number',
     });
 
-    it('should appear when editing mobile phone number', () => {
-      checkModals({
-        editButtonId: 'mobilePhone',
-        otherSectionEditButtonId: 'mailingAddress',
-        editLineId: 'root_extension',
-        sectionName: 'mobile phone number',
-      });
-    });
-
-    it('should appear when editing email address', () => {
-      checkModals({
-        editButtonId: 'email',
-        otherSectionEditButtonId: 'mailingAddress',
-        editLineId: 'root_emailAddress',
-        sectionName: 'email address',
-      });
+    // should appear when editing email address
+    checkModals({
+      editButtonId: 'email',
+      otherSectionName: 'mailing address',
+      editLineId: 'root_emailAddress',
+      sectionName: 'email address',
     });
   });
 });
