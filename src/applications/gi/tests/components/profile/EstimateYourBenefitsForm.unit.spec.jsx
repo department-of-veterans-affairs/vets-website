@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-import EstimateYourBenefitsForm from '../../components/profile/EstimateYourBenefitsForm';
+import EstimateYourBenefitsForm from '../../../components/profile/EstimateYourBenefitsForm';
 
 const props = {
   eligibility: {

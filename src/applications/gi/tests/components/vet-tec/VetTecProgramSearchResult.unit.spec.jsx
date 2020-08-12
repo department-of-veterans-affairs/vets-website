@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import VetTecProgramSearchResult from '../../components/vet-tec/VetTecProgramSearchResult';
-import { formatCurrency, locationInfo } from '../../utils/helpers';
+import VetTecProgramSearchResult from '../../../components/vet-tec/VetTecProgramSearchResult';
+import { formatCurrency, locationInfo } from '../../../utils/helpers';
 
 const defaultProps = {
   result: {

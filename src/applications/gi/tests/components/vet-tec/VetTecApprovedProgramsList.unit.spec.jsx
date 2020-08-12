@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import createCommonStore from 'platform/startup/store';
 
-import VetTecApprovedProgramsList from '../../components/vet-tec/VetTecApprovedProgramsList';
+import VetTecApprovedProgramsList from '../../../components/vet-tec/VetTecApprovedProgramsList';
 
 const programs = [
   {

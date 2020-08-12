@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import VetTecVeteranPrograms from '../../components/vet-tec/VetTecVeteranPrograms';
+import VetTecVeteranPrograms from '../../../components/vet-tec/VetTecVeteranPrograms';
 
 const defaultProps = {
   institution: {

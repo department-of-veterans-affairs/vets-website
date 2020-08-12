@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import { shallow } from 'enzyme';
 
-import InstitutionSearchForm from '../../components/search/InstitutionSearchForm';
+import InstitutionSearchForm from '../../../components/search/InstitutionSearchForm';
 
 const filtersClass = 'filters-sidebar small-12 medium-3 columns';
 

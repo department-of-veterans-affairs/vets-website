@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
-import CautionFlagDetails from '../../components/profile/CautionFlagDetails';
+import CautionFlagDetails from '../../../components/profile/CautionFlagDetails';
 
 describe('<CautionFlagDetails>', () => {
   it('does not render without caution flags', () => {

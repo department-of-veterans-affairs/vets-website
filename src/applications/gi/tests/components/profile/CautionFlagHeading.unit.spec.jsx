@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
-import CautionFlagHeading from '../../components/profile/CautionFlagHeading';
+import CautionFlagHeading from '../../../components/profile/CautionFlagHeading';
 import sinon from 'sinon';
 
 describe('<CautionFlagHeading>', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 
-import VetTecEstimateYourBenefitsForm from '../../components/vet-tec/VetTecEstimateYourBenefitsForm';
+import VetTecEstimateYourBenefitsForm from '../../../components/vet-tec/VetTecEstimateYourBenefitsForm';
 
 const defaultProps = {
   inputs: {},
