@@ -69,6 +69,7 @@ const {
   phone,
   files,
   centralMailVaFile,
+  race,
 } = fullSchemaPreNeed.definitions;
 
 const nonRequiredFullName = _.omit('required', fullName);
@@ -109,6 +110,7 @@ const formConfig = {
     date,
     dateRange,
     gender,
+    race,
     email,
     phone,
     files,
@@ -190,12 +192,7 @@ const formConfig = {
                 properties: {
                   veteran: {
                     type: 'object',
-                    required: [
-                      'gender',
-                      'maritalStatus',
-                      'militaryStatus',
-                      'race',
-                    ],
+                    required: ['gender', 'maritalStatus', 'militaryStatus'],
                     properties: _.set(
                       'militaryStatus.enum',
                       veteran.properties.militaryStatus.enum.filter(
@@ -209,7 +206,6 @@ const formConfig = {
                           'vaClaimNumber',
                           'placeOfBirth',
                           'gender',
-                          'race',
                           'maritalStatus',
                           'militaryStatus',
                         ],
@@ -274,6 +270,9 @@ const formConfig = {
                   'ui:title':
                     "Sponsor's sex (information will be used for statistical purposes only)",
                 },
+                race: {
+                  'ui:title': 'Race/Ethnicity',
+                },
                 maritalStatus: {
                   'ui:title': 'Sponsor’s marital status',
                 },
@@ -321,7 +320,6 @@ const formConfig = {
                     required: [
                       'ssn',
                       'gender',
-                      'ethnicity',
                       'maritalStatus',
                       'militaryStatus',
                       'isDeceased',
@@ -335,7 +333,7 @@ const formConfig = {
                         'vaClaimNumber',
                         'placeOfBirth',
                         'gender',
-                        'ethnicity',
+                        'race',
                         'maritalStatus',
                         'militaryStatus',
                         'isDeceased',

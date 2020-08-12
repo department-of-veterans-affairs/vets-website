@@ -7,6 +7,7 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import ServicePeriodView from '../components/ServicePeriodView';
+import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import { serviceLabels } from './labels';
 import {
   stringifyFormReplacer,
@@ -15,6 +16,7 @@ import {
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import DemographicField from '../../hca/components/DemographicField';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -314,19 +316,31 @@ export const veteranUI = {
     },
   },
   race: {
-    'ui:title': 'Race/Ethnicity',
-    'ui:widget': 'radio',
-    'ui:options': {
-      labels: {
-        I: 'American Indian or Alaskan Native',
-        A: 'Asian',
-        B: 'Black or African American',
-        H: 'Hispanic or Latino',
-        U: 'Not Hispanic or Latino',
-        P: 'Native Hawaiian or Other Pacific Islander',
-        W: 'White',
-      },
+    'ui:field': RaceEthnicityReviewField,
+    'ui:title': 'Which categories best describe you?',
+    'ui:description': 'You may check more than one.',
+    isSpanishHispanicLatino: {
+      'ui:title': 'Spanish, Hispanic, or Latino',
     },
+    isAmericanIndianOrAlaskanNative: {
+      'ui:title': 'American Indian or Alaskan Native',
+    },
+    isBlackOrAfricanAmerican: {
+      'ui:title': 'Black or African American',
+    },
+    isNativeHawaiianOrOtherPacificIslander: {
+      'ui:title': 'Native Hawaiian or Other Pacific Islander',
+    },
+    isAsian: {
+      'ui:title': 'Asian',
+    },
+    isWhite: {
+      'ui:title': 'White',
+    },
+    'ui:required': () => {
+      return !environment.isProduction();
+    },
+    hideIf: () => environment.isProduction(),
   },
   militaryStatus: {
     'ui:title':
