@@ -19,11 +19,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   const removeInProgressForm = () => {};
   const toggleLoginModal = () => {};
 
-  const formConfig = {
-    customText: {
-      appType: '',
-    },
-  };
+  const formConfig = {};
 
   it('should render in progress message', () => {
     const user = {

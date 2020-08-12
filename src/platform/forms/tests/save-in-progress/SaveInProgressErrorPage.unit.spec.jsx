@@ -22,11 +22,7 @@ describe('<SaveInProgressErrorPage>', () => {
   let formConfigDefaultData;
   beforeEach(() => {
     setup();
-    formConfigDefaultData = {
-      customText: {
-        continueAppButtonText: '',
-      },
-    };
+    formConfigDefaultData = {};
   });
   afterEach(teardown);
 

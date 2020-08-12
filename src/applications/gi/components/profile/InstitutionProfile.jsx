@@ -43,6 +43,7 @@ export class InstitutionProfile extends React.Component {
       gibctEstimateYourBenefits,
       gibctEybBottomSheet,
       gibctCh33BenefitRateUpdate,
+      gibctFilterEnhancement,
     } = this.props;
     return (
       <div>
@@ -50,6 +51,7 @@ export class InstitutionProfile extends React.Component {
           institution={profile.attributes}
           onLearnMore={showModal.bind(this, 'gibillstudents')}
           onViewWarnings={this.handleViewWarnings}
+          gibctFilterEnhancement={gibctFilterEnhancement}
         />
         <div className="usa-accordion vads-u-margin-top--4">
           <ul>

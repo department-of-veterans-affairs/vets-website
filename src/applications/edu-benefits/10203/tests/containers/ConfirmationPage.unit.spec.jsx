@@ -39,7 +39,7 @@ describe('<ConfirmationPage>', () => {
         .at(0)
         .text(),
     ).to.contain(
-      'We usually process claims within 30 days.We may contact you for more information or documents.',
+      'We usually process claims within 30 days.We may contact you if we need more information or documents.',
     );
     expect(
       tree

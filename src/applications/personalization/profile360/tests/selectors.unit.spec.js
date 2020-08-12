@@ -13,6 +13,8 @@ const getDirectDepositInfoError = {
   ],
 };
 
+const errors = [{ name: 'error1' }, { name: 'error2' }];
+
 describe('profile360 selectors', () => {
   describe('directDepositIsSetUp selector', () => {
     let state;
@@ -246,6 +248,95 @@ describe('profile360 selectors', () => {
     it('should return undefined if vaProfile is not set on the state', () => {
       const state = {};
       expect(selectors.directDepositUiState(state)).to.equal(undefined);
+    });
+  });
+
+  describe('fullNameLoadError', () => {
+    it('should return the error data if it exists', () => {
+      const state = {
+        vaProfile: {
+          hero: {
+            errors,
+          },
+        },
+      };
+      expect(selectors.fullNameLoadError(state)).to.deep.equal(errors);
+    });
+    it('should return undefined if there are no errors', () => {
+      const state = {
+        vaProfile: {
+          hero: {},
+        },
+      };
+      expect(selectors.fullNameLoadError(state)).to.be.undefined;
+    });
+    it('should return undefined if hero info does not exist on the state', () => {
+      let state = {};
+      expect(selectors.fullNameLoadError(state)).to.be.undefined;
+      state = { vaProfile: {} };
+      expect(selectors.fullNameLoadError(state)).to.be.undefined;
+    });
+  });
+
+  describe('personalInformationLoadError', () => {
+    it('should return the error data if it exists', () => {
+      const state = {
+        vaProfile: {
+          personalInformation: {
+            errors,
+          },
+        },
+      };
+      expect(selectors.personalInformationLoadError(state)).to.deep.equal(
+        errors,
+      );
+    });
+    it('should return undefined if there are no errors', () => {
+      const state = {
+        vaProfile: {
+          personalInformation: {},
+        },
+      };
+      expect(selectors.personalInformationLoadError(state)).to.be.undefined;
+    });
+    it('should return undefined if personalInformation info does not exist on the state', () => {
+      let state = {};
+      expect(selectors.personalInformationLoadError(state)).to.be.undefined;
+      state = { vaProfile: {} };
+      expect(selectors.personalInformationLoadError(state)).to.be.undefined;
+    });
+  });
+
+  describe('militaryInformationLoadError', () => {
+    it('should return the error data if it exists', () => {
+      const state = {
+        vaProfile: {
+          militaryInformation: {
+            serviceHistory: {
+              error: errors,
+            },
+          },
+        },
+      };
+      expect(selectors.militaryInformationLoadError(state)).to.deep.equal(
+        errors,
+      );
+    });
+    it('should return undefined if there are no errors', () => {
+      const state = {
+        vaProfile: {
+          militaryInformation: {
+            serviceHistory: {},
+          },
+        },
+      };
+      expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
+    });
+    it('should return undefined if militaryInformation info does not exist on the state', () => {
+      let state = {};
+      expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
+      state = { vaProfile: {} };
+      expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
     });
   });
 });

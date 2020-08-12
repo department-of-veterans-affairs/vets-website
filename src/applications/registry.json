@@ -185,24 +185,6 @@
     }
   },
   {
-    "appName": "28-8832 Vocational Rehab Chapter 36 form",
-    "entryName": "chapter36-vre",
-    "rootUrl": "/employment/vocational-rehab-and-employment/application/chapter36",
-    "template": {
-      "vagovprod": false,
-      "layout": "page-react.html"
-    }
-  },
-  {
-    "appName": "28-1900 Vocational Rehab Chapter 31 form",
-    "entryName": "chapter31-vre",
-    "rootUrl": "/employment/vocational-rehab-and-employment/application/chapter31",
-    "template": {
-      "vagovprod": false,
-      "layout": "page-react.html"
-    }
-  },
-  {
     "appName": "21P-530 Burials benefits form",
     "entryName": "burials",
     "rootUrl": "/burials-and-memorials/application/530",
@@ -272,7 +254,7 @@
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
-          "path": "/view-change-dependents/view",
+          "path": "view-change-dependents/view",
           "name": "View or change your dependents"
         },
         {
@@ -816,7 +798,7 @@
     }
   },
   {
-    "appName": "28-1900 Vocational Rehabilitation",
+    "appName": "28-1900 Veteran Readiness",
     "entryName": "28-1900-chapter-31",
     "rootUrl": "/vre/28-1900",
     "template": {

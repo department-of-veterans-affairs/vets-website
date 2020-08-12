@@ -17,11 +17,7 @@ describe('<SaveStatus>', () => {
         currentlyLoggedIn: true,
       },
     },
-    formConfig: {
-      customText: {
-        appSavedSuccessfullyMessage: '',
-      },
-    },
+    formConfig: {},
   };
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<SaveStatus {...props} />);
@@ -31,7 +27,7 @@ describe('<SaveStatus>', () => {
   it('should show last saved date', () => {
     props.form.autoSavedStatus = SAVE_STATUSES.success;
     const tree = SkinDeep.shallowRender(<SaveStatus {...props} />);
-    expect(tree.text()).to.have.string('Application has been saved.');
+    expect(tree.text()).to.include('Application has been saved.');
   });
   it('should show saving', () => {
     props.form.autoSavedStatus = SAVE_STATUSES.pending;
