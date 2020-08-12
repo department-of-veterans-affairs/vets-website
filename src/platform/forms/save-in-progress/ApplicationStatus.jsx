@@ -67,17 +67,16 @@ export class ApplicationStatus extends React.Component {
       applyLink,
       formConfig,
     } = this.props;
+    const {
+      appAction = APP_ACTION_DEFAULT,
+      appType = APP_TYPE_DEFAULT,
+      continueAppButtonText = CONTINUE_APP_DEFAULT_MESSAGE,
+      startNewAppButtonText = START_NEW_APP_DEFAULT_MESSAGE,
+    } = formConfig?.customText || {};
     let savedForm;
     let { formId } = this.props;
     let multipleForms = false;
-    const startNewAppButtonText =
-      formConfig?.customText?.startNewAppButtonText ||
-      START_NEW_APP_DEFAULT_MESSAGE;
-    const continueAppButtonText =
-      formConfig?.customText?.continueAppButtonText ||
-      CONTINUE_APP_DEFAULT_MESSAGE;
-    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
-    const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
+
     if (profile.loading || this.state.loading) {
       const message = profile.loading
         ? `Checking your ${appType} status.`
@@ -189,7 +188,7 @@ export class ApplicationStatus extends React.Component {
           <h5 className="form-title saved">Your {appType} has expired</h5>
           <span className="saved-form-item-metadata">
             Your saved {formDescriptions[formId]} has expired. If you want to
-            apply for {formBenefits[formId]}, please start a new application.
+            apply for {formBenefits[formId]}, please start a new {appType}.
           </span>
           <br />
           <p>
