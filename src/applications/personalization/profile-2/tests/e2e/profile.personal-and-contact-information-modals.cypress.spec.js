@@ -27,7 +27,7 @@ const setup = (mobile = false) => {
 };
 
 const checkModals = options => {
-  const { editButtonId, otherSectionName, editLineId, sectionName } = options;
+  const { otherSectionName, editLineId, sectionName } = options;
 
   // Open edit view
   cy.findByRole('button', {
@@ -78,7 +78,6 @@ describe('Modals on the personal information and content page', () => {
 
     // should appear when editing mailing address
     checkModals({
-      editButtonId: 'mailingAddress',
       otherSectionName: 'home address',
       editLineId: 'root_addressLine3',
       sectionName: 'mailing address',
@@ -86,7 +85,6 @@ describe('Modals on the personal information and content page', () => {
 
     // should appear when editing residential address
     checkModals({
-      editButtonId: 'residentialAddress',
       otherSectionName: 'mailing address',
       editLineId: 'root_addressLine3',
       sectionName: 'home address',
@@ -94,7 +92,6 @@ describe('Modals on the personal information and content page', () => {
 
     // should appear when editing home phone number
     checkModals({
-      editButtonId: 'homePhone',
       otherSectionName: 'mailing address',
       editLineId: 'root_extension',
       sectionName: 'home phone number',
@@ -102,7 +99,6 @@ describe('Modals on the personal information and content page', () => {
 
     // should appear when editing mobile phone number
     checkModals({
-      editButtonId: 'mobilePhone',
       otherSectionName: 'mailing address',
       editLineId: 'root_extension',
       sectionName: 'mobile phone number',
@@ -110,7 +106,6 @@ describe('Modals on the personal information and content page', () => {
 
     // should appear when editing email address
     checkModals({
-      editButtonId: 'email',
       otherSectionName: 'mailing address',
       editLineId: 'root_emailAddress',
       sectionName: 'email address',
@@ -122,7 +117,6 @@ describe('Modals on the personal information and content page', () => {
 
     // should appear when editing mailing address
     checkModals({
-      editButtonId: 'mailingAddress',
       otherSectionName: 'home address',
       editLineId: 'root_addressLine3',
       sectionName: 'mailing address',
@@ -130,7 +124,6 @@ describe('Modals on the personal information and content page', () => {
 
     // should appear when editing residential address
     checkModals({
-      editButtonId: 'residentialAddress',
       otherSectionName: 'mailing address',
       editLineId: 'root_addressLine3',
       sectionName: 'home address',
@@ -138,7 +131,6 @@ describe('Modals on the personal information and content page', () => {
 
     // should appear when editing home phone number
     checkModals({
-      editButtonId: 'homePhone',
       otherSectionName: 'mailing address',
       editLineId: 'root_extension',
       sectionName: 'home phone number',
@@ -146,7 +138,6 @@ describe('Modals on the personal information and content page', () => {
 
     // should appear when editing mobile phone number
     checkModals({
-      editButtonId: 'mobilePhone',
       otherSectionName: 'mailing address',
       editLineId: 'root_extension',
       sectionName: 'mobile phone number',
@@ -154,7 +145,6 @@ describe('Modals on the personal information and content page', () => {
 
     // should appear when editing email address
     checkModals({
-      editButtonId: 'email',
       otherSectionName: 'mailing address',
       editLineId: 'root_emailAddress',
       sectionName: 'email address',
