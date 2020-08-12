@@ -39,6 +39,8 @@ const transform = entity => ({
           .sort((a, b) => b.created - a.created)
       : [],
   },
+  entityPublished: isPublished(getDrupalValue(entity.status)),
+  status: getDrupalValue(entity.status),
 });
 
 module.exports = {
@@ -55,6 +57,7 @@ module.exports = {
     'field_office',
     'field_press_release_blurb',
     'reverse_field_list',
+    'status',
   ],
   transform,
 };

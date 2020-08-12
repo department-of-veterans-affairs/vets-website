@@ -36,6 +36,8 @@ module.exports = {
         },
       },
     },
+    entityPublished: { type: 'boolean' },
+    status: { type: 'boolean' },
   },
   required: [
     'title',
@@ -49,5 +51,7 @@ module.exports = {
     'fieldOffice',
     'fieldPressReleaseBlurb',
     'reverseFieldListingNode',
+    'entityPublished',
+    'status',
   ],
 };

@@ -23,6 +23,7 @@ module.exports = {
     },
     field_press_release_blurb: { $ref: 'GenericNestedString' },
     reverse_field_list: { $ref: 'EntityReferenceArray' },
+    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
@@ -37,5 +38,6 @@ module.exports = {
     'field_office',
     'field_press_release_blurb',
     'reverse_field_list',
+    'status',
   ],
 };
