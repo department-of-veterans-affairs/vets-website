@@ -16,7 +16,6 @@ import {
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
-import DemographicField from '../../hca/components/DemographicField';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
