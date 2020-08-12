@@ -40,7 +40,10 @@ export function loadConnectedApps() {
         const deletedApps = data ? data.filter(app => app.deleted) : [];
         const hasConnectedApps = data && deletedApps?.length !== data?.length;
 
-        recordEvent({ event: 'profile-disconnect-connected-app-started' });
+        recordEvent({
+          event: 'profile-get-connected-apps-retrieved',
+          'user-has-connected-apps': hasConnectedApps,
+        });
         dispatch({ type: FINISHED_LOADING_CONNECTED_APPS, data });
       })
       .catch(({ errors }) => {
@@ -52,10 +55,8 @@ export function loadConnectedApps() {
 
 export function deleteConnectedApp(appId) {
   return async (dispatch, getState) => {
-    recordEvent({
-      event: 'profile-get-connected-apps-retrieved',
-      'user-has-connected-apps': hasConnectedApps,
-    });
+
+    recordEvent({ event: 'profile-disconnect-connected-app-started' });
     dispatch({ type: DELETING_CONNECTED_APP, appId });
 
     // Locally we cannot call the endpoint
