@@ -10,7 +10,7 @@ const transform = entity => ({
   entityBundle: 'publication_listing',
   title: getDrupalValue(entity.title),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldOffice: entity.fieldOffice[0],
@@ -19,7 +19,7 @@ module.exports = {
   filter: [
     'title',
     'changed',
-    'moderation_state',
+    'status',
     'metatag',
     'path',
     'field_intro_text',

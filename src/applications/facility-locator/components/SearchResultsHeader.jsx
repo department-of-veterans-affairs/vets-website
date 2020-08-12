@@ -1,18 +1,38 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { facilityTypes } from '../config';
+import { facilityTypes, urgentCareServices, healthServices } from '../config';
+import { LocationType } from '../constants';
+import { connect } from 'react-redux';
 
-const SearchResultsHeader = ({
+export const SearchResultsHeader = ({
   results,
   facilityType,
+  serviceType,
   context,
   inProgress,
+  specialtyMap,
 }) => {
   if (inProgress || !results.length) {
     return <div style={{ height: '38px' }} />;
   }
 
-  const location = context.replace(', United States', '');
+  const location = context ? context.replace(', United States', '') : null;
+
+  const formatServiceType = rawServiceType => {
+    if (facilityType === LocationType.URGENT_CARE) {
+      return urgentCareServices[rawServiceType];
+    }
+
+    if (facilityType === LocationType.HEALTH) {
+      return healthServices[rawServiceType];
+    }
+
+    if (facilityType === LocationType.CC_PROVIDER) {
+      return specialtyMap[rawServiceType];
+    }
+
+    return rawServiceType;
+  };
 
   return (
     <h2
@@ -23,9 +43,21 @@ const SearchResultsHeader = ({
     >
       Results for &quot;
       <b>{facilityTypes[facilityType]}</b>
-      &quot; near&nbsp; &quot;
-      <b>{location}</b>
       &quot;
+      {serviceType && (
+        <>
+          ,&nbsp;&quot;
+          <b>{formatServiceType(serviceType)}</b>
+          &quot;
+        </>
+      )}
+      {location && (
+        <>
+          &nbsp;near &quot;
+          <b>{location}</b>
+          &quot;
+        </>
+      )}
     </h2>
   );
 };
@@ -33,7 +65,9 @@ const SearchResultsHeader = ({
 SearchResultsHeader.propTypes = {
   results: PropTypes.array,
   facilityType: PropTypes.string,
+  serviceType: PropTypes.string,
   context: PropTypes.string,
+  specialtyMap: PropTypes.object,
 };
 
 // Only re-render if results or inProgress props have changed
@@ -44,4 +78,11 @@ const areEqual = (prevProps, nextProps) => {
   );
 };
 
-export default React.memo(SearchResultsHeader, areEqual);
+const mapStateToProps = state => ({
+  specialtyMap: state.searchQuery.specialties,
+});
+
+export default React.memo(
+  connect(mapStateToProps)(SearchResultsHeader),
+  areEqual,
+);

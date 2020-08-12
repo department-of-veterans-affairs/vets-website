@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { FETCH_STATUS } from '../../utils/constants';
-import { getCernerPortalLink } from '../../utils/appointment';
+import { getCernerURL } from 'platform/utilities/cerner';
 
 export default function CancelCernerAppointmentModal({ onClose, status }) {
   return (
@@ -16,7 +16,7 @@ export default function CancelCernerAppointmentModal({ onClose, status }) {
       <p className="vads-u-margin-top--2">
         <button
           onClick={() => {
-            window.open(getCernerPortalLink());
+            window.open(getCernerURL());
             onClose();
           }}
         >

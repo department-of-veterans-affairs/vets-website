@@ -156,8 +156,8 @@ module.exports = {
     ].filter(t => t.value);
   },
 
-  isPublished(moderationState) {
-    return moderationState === 'published';
+  isPublished(status) {
+    return status;
   },
 
   /**

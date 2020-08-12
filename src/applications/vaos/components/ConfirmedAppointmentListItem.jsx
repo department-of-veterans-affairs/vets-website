@@ -106,7 +106,7 @@ export default function ConfirmedAppointmentListItem({
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
-          facilityId={parseFakeFHIRId(getVARFacilityId(appointment))}
+          facilityId={getVARFacilityId(appointment)}
         />
       </h3>
       <AppointmentStatus

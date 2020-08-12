@@ -31,7 +31,11 @@ export function ConnectedAppDeleteModal({
             Cancel
           </button>
 
-          <button className="usa-button-primary" onClick={confirmDelete}>
+          <button
+            className="usa-button-primary"
+            onClick={confirmDelete}
+            data-testid={`confirm-disconnect-${title}`}
+          >
             Disconnect
           </button>
         </>

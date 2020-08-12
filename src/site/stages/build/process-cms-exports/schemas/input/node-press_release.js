@@ -22,6 +22,7 @@ module.exports = {
     field_press_release_downloads: { $ref: 'EntityReferenceArray' },
     field_press_release_fulltext: { $ref: 'GenericNestedString' },
     field_release_date: { $ref: 'GenericNestedString' },
+    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
@@ -35,5 +36,6 @@ module.exports = {
     'field_press_release_downloads',
     'field_press_release_fulltext',
     'field_release_date',
+    'status',
   ],
 };
