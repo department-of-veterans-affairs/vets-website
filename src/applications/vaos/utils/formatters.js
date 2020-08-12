@@ -7,6 +7,8 @@ export function formatTypeOfCare(careLabel) {
 }
 
 export function titleCase(str) {
+  if (!str) return null;
+
   return str
     .toLowerCase()
     .split(' ')

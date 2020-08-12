@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
+import { titleCaseFacilityName } from '../../utils/facilityAddress';
 
 /**
  * VA health
@@ -33,17 +34,19 @@ const VaFacilityResult = ({ location, query }) => {
         <span>
           {isVADomain(website) ? (
             <a href={website}>
-              <h3 className="vads-u-font-size--h5 no-marg-top">{name}</h3>
+              <h3 className="vads-u-font-size--h5 no-marg-top">
+                {titleCaseFacilityName(name)}
+              </h3>
             </a>
           ) : (
             <h3 className="vads-u-font-size--h5 no-marg-top">
-              <Link to={`facility/${location.id}`}>{name}</Link>
+              <Link to={`facility/${location.id}`}>
+                {titleCaseFacilityName(name)}
+              </Link>
             </h3>
           )}
         </span>
-        <p>
-          <LocationAddress location={location} />
-        </p>
+        <LocationAddress location={location} />
         <LocationDirectionsLink location={location} from={'SearchResult'} />
         <LocationPhoneLink
           location={location}

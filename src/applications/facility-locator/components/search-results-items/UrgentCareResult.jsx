@@ -5,8 +5,8 @@ import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
 
-import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../../constants';
 import recordEvent from 'platform/monitoring/record-event';
+import { titleCaseFacilityName } from '../../utils/facilityAddress';
 
 /**
  * Urgent care
@@ -33,14 +33,14 @@ const UrgentCareResult = ({ provider, query }) => {
           </p>
         )}
         <span>
-          <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
+          <h2 className="vads-u-font-size--h5 no-marg-top">
+            {titleCaseFacilityName(name)}
+          </h2>
           {provider.attributes.orgName && (
             <h6>{provider.attributes.orgName}</h6>
           )}
         </span>
-        <p>
-          <LocationAddress location={provider} />
-        </p>
+        <LocationAddress location={provider} />
         <LocationDirectionsLink
           location={provider}
           from={'SearchResult'}

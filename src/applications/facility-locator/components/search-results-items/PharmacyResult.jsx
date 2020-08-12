@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
+import { titleCaseFacilityName } from '../../utils/facilityAddress';
 
 /**
  * Urgent care pharmacies (in VA’s network)
@@ -22,14 +23,14 @@ const PharmacyResult = ({ provider, query }) => {
           </p>
         )}
         <span>
-          <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
+          <h2 className="vads-u-font-size--h5 no-marg-top">
+            {titleCaseFacilityName(name)}
+          </h2>
           {provider.attributes.orgName && (
             <h6>{provider.attributes.orgName}</h6>
           )}
         </span>
-        <p>
-          <LocationAddress location={provider} />
-        </p>
+        <LocationAddress location={provider} />
         <LocationDirectionsLink location={provider} from={'SearchResult'} />
         <LocationPhoneLink
           location={provider}
