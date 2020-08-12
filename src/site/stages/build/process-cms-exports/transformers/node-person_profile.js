@@ -13,8 +13,9 @@ const transform = (entity, { ancestors }) => ({
   fieldLastName: getDrupalValue(entity.fieldLastName),
   fieldMedia: entity.fieldMedia.length > 0 ? entity.fieldMedia[0] : null,
   fieldNameFirst: getDrupalValue(entity.fieldNameFirst),
-  // Check if fieldOffice is an ancestor of this entity
-  // If so, ignore it, because we'll ignore it in parent transformer
+  // If entity.fieldOffice[0] is an ancestor of this entity ignore it
+  // entity.fieldOffice[0] would be untransformed, causing errors
+  // so we need it transformed here, which will happen in the parent transformer
   fieldOffice:
     entity.fieldOffice[0] &&
     !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
