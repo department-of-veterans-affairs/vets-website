@@ -1,3 +1,1516 @@
+exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
+  "node": {
+    "nodeType": "host",
+    "type": "div",
+    "props": {
+      "className": "facility",
+      "children": {
+        "type": "div",
+        "props": {
+          "children": [
+            null,
+            {
+              "type": "span",
+              "props": {
+                "children": [
+                  {
+                    "type": "h2",
+                    "props": {
+                      "className": "vads- no",
+                      "children": "FastMed Urgent Care"
+                    },
+                    "_store": {}
+                  },
+                  null
+                ]
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": {
+                  "type": "LocationAddress",
+                  "props": {
+                    "location": {
+                      "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                      "type": "provider",
+                      "attributes": {
+                        "accNewPatients": "false",
+                        "address": {
+                          "street": "3311 N Lamar Blvd",
+                          "city": "Austin",
+                          "state": "TX",
+                          "zip": "78705"
+                        },
+                        "caresitePhone": "5129757791",
+                        "gender": "NotSpecified",
+                        "lat": 30.302,
+                        "long": -97.74471,
+                        "name": "FastMed Urgent Care",
+                        "posCodes": "20",
+                        "specialty": [],
+                        "uniqueId": "1346545209"
+                      }
+                    }
+                  },
+                  "_store": {}
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationDirectionsLink",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "NonVAUrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationPhoneLink",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "NonVAUrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": "Call to confirm services and hours"
+              },
+              "_store": {}
+            },
+            {
+              "type": "div",
+              "props": {
+                "className": "usa usa background vads-  vads-",
+                "children": [
+                  {
+                    "type": "i",
+                    "props": {
+                      "aria-hidden": "true",
+                      "className": "fa fa vads- icon"
+                    },
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "props": {
+                      "className": "usa",
+                      "children": {
+                        "type": "a",
+                        "props": {
+                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                          "target": "_/blank",
+                          "onClick": "onClick",
+                          "children": [
+                            "In-network urgent care benefit",
+                            " "
+                          ]
+                        },
+                        "_store": {}
+                      }
+                    },
+                    "_store": {}
+                  }
+                ]
+              },
+              "_store": {}
+            }
+          ]
+        },
+        "_store": {}
+      }
+    },
+    "rendered": {
+      "nodeType": "host",
+      "type": "div",
+      "props": {
+        "children": [
+          null,
+          {
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "FastMed Urgent Care"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "_store": {}
+          },
+          {
+            "type": "p",
+            "props": {
+              "children": {
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "false",
+                      "address": {
+                        "street": "3311 N Lamar Blvd",
+                        "city": "Austin",
+                        "state": "TX",
+                        "zip": "78705"
+                      },
+                      "caresitePhone": "5129757791",
+                      "gender": "NotSpecified",
+                      "lat": 30.302,
+                      "long": -97.74471,
+                      "name": "FastMed Urgent Care",
+                      "posCodes": "20",
+                      "specialty": [],
+                      "uniqueId": "1346545209"
+                    }
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "_store": {}
+          },
+          {
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            },
+            "_store": {}
+          },
+          {
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            },
+            "_store": {}
+          },
+          {
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "_store": {}
+          },
+          {
+            "type": "div",
+            "props": {
+              "className": "usa usa background vads-  vads-",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "aria-hidden": "true",
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "_store": {}
+          }
+        ]
+      },
+      "rendered": [
+        null,
+        {
+          "nodeType": "host",
+          "type": "span",
+          "props": {
+            "children": [
+              {
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "FastMed Urgent Care"
+                },
+                "_store": {}
+              },
+              null
+            ]
+          },
+          "rendered": [
+            {
+              "nodeType": "host",
+              "type": "h2",
+              "props": {
+                "className": "vads- no",
+                "children": "FastMed Urgent Care"
+              },
+              "rendered": "FastMed Urgent Care"
+            },
+            null
+          ]
+        },
+        {
+          "nodeType": "host",
+          "type": "p",
+          "props": {
+            "children": {
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                }
+              },
+              "_store": {}
+            }
+          },
+          "rendered": {
+            "nodeType": "function",
+            "type": "LocationAddress",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              }
+            }
+          }
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationDirectionsLink",
+          "props": {
+            "location": {
+              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "false",
+                "address": {
+                  "street": "3311 N Lamar Blvd",
+                  "city": "Austin",
+                  "state": "TX",
+                  "zip": "78705"
+                },
+                "caresitePhone": "5129757791",
+                "gender": "NotSpecified",
+                "lat": 30.302,
+                "long": -97.74471,
+                "name": "FastMed Urgent Care",
+                "posCodes": "20",
+                "specialty": [],
+                "uniqueId": "1346545209"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "NonVAUrgentCare"
+            }
+          }
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationPhoneLink",
+          "props": {
+            "location": {
+              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "false",
+                "address": {
+                  "street": "3311 N Lamar Blvd",
+                  "city": "Austin",
+                  "state": "TX",
+                  "zip": "78705"
+                },
+                "caresitePhone": "5129757791",
+                "gender": "NotSpecified",
+                "lat": 30.302,
+                "long": -97.74471,
+                "name": "FastMed Urgent Care",
+                "posCodes": "20",
+                "specialty": [],
+                "uniqueId": "1346545209"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "NonVAUrgentCare"
+            }
+          }
+        },
+        {
+          "nodeType": "host",
+          "type": "p",
+          "props": {
+            "children": "Call to confirm services and hours"
+          },
+          "rendered": "Call to confirm services and hours"
+        },
+        {
+          "nodeType": "host",
+          "type": "div",
+          "props": {
+            "className": "usa usa background vads-  vads-",
+            "children": [
+              {
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                },
+                "_store": {}
+              },
+              {
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "_store": {}
+              }
+            ]
+          },
+          "rendered": [
+            {
+              "nodeType": "host",
+              "type": "i",
+              "props": {
+                "aria-hidden": "true",
+                "className": "fa fa vads- icon"
+              }
+            },
+            {
+              "nodeType": "host",
+              "type": "div",
+              "props": {
+                "className": "usa",
+                "children": {
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "_store": {}
+                }
+              },
+              "rendered": {
+                "nodeType": "host",
+                "type": "a",
+                "props": {
+                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                  "target": "_/blank",
+                  "onClick": "onClick",
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                },
+                "rendered": [
+                  "In-network urgent care benefit",
+                  " "
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "type": "div",
+  "props": {
+    "className": "facility"
+  },
+  "children": [
+    {
+      "node": {
+        "nodeType": "host",
+        "type": "div",
+        "props": {
+          "children": [
+            null,
+            {
+              "type": "span",
+              "props": {
+                "children": [
+                  {
+                    "type": "h2",
+                    "props": {
+                      "className": "vads- no",
+                      "children": "FastMed Urgent Care"
+                    },
+                    "_store": {}
+                  },
+                  null
+                ]
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": {
+                  "type": "LocationAddress",
+                  "props": {
+                    "location": {
+                      "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                      "type": "provider",
+                      "attributes": {
+                        "accNewPatients": "false",
+                        "address": {
+                          "street": "3311 N Lamar Blvd",
+                          "city": "Austin",
+                          "state": "TX",
+                          "zip": "78705"
+                        },
+                        "caresitePhone": "5129757791",
+                        "gender": "NotSpecified",
+                        "lat": 30.302,
+                        "long": -97.74471,
+                        "name": "FastMed Urgent Care",
+                        "posCodes": "20",
+                        "specialty": [],
+                        "uniqueId": "1346545209"
+                      }
+                    }
+                  },
+                  "_store": {}
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationDirectionsLink",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "NonVAUrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationPhoneLink",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "NonVAUrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": "Call to confirm services and hours"
+              },
+              "_store": {}
+            },
+            {
+              "type": "div",
+              "props": {
+                "className": "usa usa background vads-  vads-",
+                "children": [
+                  {
+                    "type": "i",
+                    "props": {
+                      "aria-hidden": "true",
+                      "className": "fa fa vads- icon"
+                    },
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "props": {
+                      "className": "usa",
+                      "children": {
+                        "type": "a",
+                        "props": {
+                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                          "target": "_/blank",
+                          "onClick": "onClick",
+                          "children": [
+                            "In-network urgent care benefit",
+                            " "
+                          ]
+                        },
+                        "_store": {}
+                      }
+                    },
+                    "_store": {}
+                  }
+                ]
+              },
+              "_store": {}
+            }
+          ]
+        },
+        "rendered": [
+          null,
+          {
+            "nodeType": "host",
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "FastMed Urgent Care"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "FastMed Urgent Care"
+                },
+                "rendered": "FastMed Urgent Care"
+              },
+              null
+            ]
+          },
+          {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": {
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "false",
+                      "address": {
+                        "street": "3311 N Lamar Blvd",
+                        "city": "Austin",
+                        "state": "TX",
+                        "zip": "78705"
+                      },
+                      "caresitePhone": "5129757791",
+                      "gender": "NotSpecified",
+                      "lat": 30.302,
+                      "long": -97.74471,
+                      "name": "FastMed Urgent Care",
+                      "posCodes": "20",
+                      "specialty": [],
+                      "uniqueId": "1346545209"
+                    }
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "function",
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            }
+          },
+          {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "rendered": "Call to confirm services and hours"
+          },
+          {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa usa background vads-  vads-",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "aria-hidden": "true",
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                }
+              },
+              {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "type": "div",
+      "props": {},
+      "children": [
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "FastMed Urgent Care"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "FastMed Urgent Care"
+                },
+                "rendered": "FastMed Urgent Care"
+              },
+              null
+            ]
+          },
+          "type": "span",
+          "props": {},
+          "children": [
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "FastMed Urgent Care"
+                },
+                "rendered": "FastMed Urgent Care"
+              },
+              "type": "h2",
+              "props": {
+                "className": "vads- no"
+              },
+              "children": [
+                "FastMed Urgent Care"
+              ]
+            }
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": {
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "false",
+                      "address": {
+                        "street": "3311 N Lamar Blvd",
+                        "city": "Austin",
+                        "state": "TX",
+                        "zip": "78705"
+                      },
+                      "caresitePhone": "5129757791",
+                      "gender": "NotSpecified",
+                      "lat": 30.302,
+                      "long": -97.74471,
+                      "name": "FastMed Urgent Care",
+                      "posCodes": "20",
+                      "specialty": [],
+                      "uniqueId": "1346545209"
+                    }
+                  }
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "function",
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                }
+              }
+            }
+          },
+          "type": "p",
+          "props": {},
+          "children": [
+            {
+              "node": {
+                "nodeType": "function",
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "false",
+                      "address": {
+                        "street": "3311 N Lamar Blvd",
+                        "city": "Austin",
+                        "state": "TX",
+                        "zip": "78705"
+                      },
+                      "caresitePhone": "5129757791",
+                      "gender": "NotSpecified",
+                      "lat": 30.302,
+                      "long": -97.74471,
+                      "name": "FastMed Urgent Care",
+                      "posCodes": "20",
+                      "specialty": [],
+                      "uniqueId": "1346545209"
+                    }
+                  }
+                }
+              },
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            }
+          },
+          "type": "LocationDirectionsLink",
+          "props": {
+            "location": {
+              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "false",
+                "address": {
+                  "street": "3311 N Lamar Blvd",
+                  "city": "Austin",
+                  "state": "TX",
+                  "zip": "78705"
+                },
+                "caresitePhone": "5129757791",
+                "gender": "NotSpecified",
+                "lat": 30.302,
+                "long": -97.74471,
+                "name": "FastMed Urgent Care",
+                "posCodes": "20",
+                "specialty": [],
+                "uniqueId": "1346545209"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "NonVAUrgentCare"
+            }
+          }
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            }
+          },
+          "type": "LocationPhoneLink",
+          "props": {
+            "location": {
+              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "false",
+                "address": {
+                  "street": "3311 N Lamar Blvd",
+                  "city": "Austin",
+                  "state": "TX",
+                  "zip": "78705"
+                },
+                "caresitePhone": "5129757791",
+                "gender": "NotSpecified",
+                "lat": 30.302,
+                "long": -97.74471,
+                "name": "FastMed Urgent Care",
+                "posCodes": "20",
+                "specialty": [],
+                "uniqueId": "1346545209"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "NonVAUrgentCare"
+            }
+          }
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "rendered": "Call to confirm services and hours"
+          },
+          "type": "p",
+          "props": {},
+          "children": [
+            "Call to confirm services and hours"
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa usa background vads-  vads-",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "aria-hidden": "true",
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                }
+              },
+              {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              }
+            ]
+          },
+          "type": "div",
+          "props": {
+            "className": "usa usa background vads-  vads-"
+          },
+          "children": [
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                }
+              },
+              "type": "i",
+              "props": {
+                "aria-hidden": "true",
+                "className": "fa fa vads- icon"
+              }
+            },
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              },
+              "type": "div",
+              "props": {
+                "className": "usa"
+              },
+              "children": [
+                {
+                  "node": {
+                    "nodeType": "host",
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "rendered": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick"
+                  },
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
 exports["UrgentCareResult/Should render UrgentCareResult VA(0)"] = {
   "node": {
     "nodeType": "host",
@@ -4507,1519 +6020,6 @@ exports["UrgentCareResult/Should render UrgentCareResult VA(0)"] = {
             "query": {
               "facilityType": "urgent_care",
               "serviceType": "UrgentCare"
-            }
-          }
-        },
-        {
-          "node": {
-            "nodeType": "host",
-            "type": "p",
-            "props": {
-              "children": "Call to confirm services and hours"
-            },
-            "rendered": "Call to confirm services and hours"
-          },
-          "type": "p",
-          "props": {},
-          "children": [
-            "Call to confirm services and hours"
-          ]
-        },
-        {
-          "node": {
-            "nodeType": "host",
-            "type": "div",
-            "props": {
-              "className": "usa usa background vads-  vads-",
-              "children": [
-                {
-                  "type": "i",
-                  "props": {
-                    "aria-hidden": "true",
-                    "className": "fa fa vads- icon"
-                  },
-                  "_store": {}
-                },
-                {
-                  "type": "div",
-                  "props": {
-                    "className": "usa",
-                    "children": {
-                      "type": "a",
-                      "props": {
-                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                        "target": "_/blank",
-                        "onClick": "onClick",
-                        "children": [
-                          "In-network urgent care benefit",
-                          " "
-                        ]
-                      },
-                      "_store": {}
-                    }
-                  },
-                  "_store": {}
-                }
-              ]
-            },
-            "rendered": [
-              {
-                "nodeType": "host",
-                "type": "i",
-                "props": {
-                  "aria-hidden": "true",
-                  "className": "fa fa vads- icon"
-                }
-              },
-              {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "className": "usa",
-                  "children": {
-                    "type": "a",
-                    "props": {
-                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                      "target": "_/blank",
-                      "onClick": "onClick",
-                      "children": [
-                        "In-network urgent care benefit",
-                        " "
-                      ]
-                    },
-                    "_store": {}
-                  }
-                },
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "a",
-                  "props": {
-                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                    "target": "_/blank",
-                    "onClick": "onClick",
-                    "children": [
-                      "In-network urgent care benefit",
-                      " "
-                    ]
-                  },
-                  "rendered": [
-                    "In-network urgent care benefit",
-                    " "
-                  ]
-                }
-              }
-            ]
-          },
-          "type": "div",
-          "props": {
-            "className": "usa usa background vads-  vads-"
-          },
-          "children": [
-            {
-              "node": {
-                "nodeType": "host",
-                "type": "i",
-                "props": {
-                  "aria-hidden": "true",
-                  "className": "fa fa vads- icon"
-                }
-              },
-              "type": "i",
-              "props": {
-                "aria-hidden": "true",
-                "className": "fa fa vads- icon"
-              }
-            },
-            {
-              "node": {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "className": "usa",
-                  "children": {
-                    "type": "a",
-                    "props": {
-                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                      "target": "_/blank",
-                      "onClick": "onClick",
-                      "children": [
-                        "In-network urgent care benefit",
-                        " "
-                      ]
-                    },
-                    "_store": {}
-                  }
-                },
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "a",
-                  "props": {
-                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                    "target": "_/blank",
-                    "onClick": "onClick",
-                    "children": [
-                      "In-network urgent care benefit",
-                      " "
-                    ]
-                  },
-                  "rendered": [
-                    "In-network urgent care benefit",
-                    " "
-                  ]
-                }
-              },
-              "type": "div",
-              "props": {
-                "className": "usa"
-              },
-              "children": [
-                {
-                  "node": {
-                    "nodeType": "host",
-                    "type": "a",
-                    "props": {
-                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                      "target": "_/blank",
-                      "onClick": "onClick",
-                      "children": [
-                        "In-network urgent care benefit",
-                        " "
-                      ]
-                    },
-                    "rendered": [
-                      "In-network urgent care benefit",
-                      " "
-                    ]
-                  },
-                  "type": "a",
-                  "props": {
-                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                    "target": "_/blank",
-                    "onClick": "onClick"
-                  },
-                  "children": [
-                    "In-network urgent care benefit",
-                    " "
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-};
-
-exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
-  "node": {
-    "nodeType": "host",
-    "type": "div",
-    "props": {
-      "className": "facility",
-      "children": {
-        "type": "div",
-        "props": {
-          "children": [
-            null,
-            {
-              "type": "span",
-              "props": {
-                "children": [
-                  {
-                    "type": "h2",
-                    "props": {
-                      "className": "vads- no",
-                      "children": "FastMed Urgent Care"
-                    },
-                    "_store": {}
-                  },
-                  null
-                ]
-              },
-              "_store": {}
-            },
-            {
-              "type": "p",
-              "props": {
-                "children": {
-                  "type": "LocationAddress",
-                  "props": {
-                    "location": {
-                      "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                      "type": "provider",
-                      "attributes": {
-                        "accNewPatients": "false",
-                        "address": {
-                          "street": "3311 N Lamar Blvd",
-                          "city": "Austin",
-                          "state": "TX",
-                          "zip": "78705"
-                        },
-                        "caresitePhone": "5129757791",
-                        "gender": "NotSpecified",
-                        "lat": 30.302,
-                        "long": -97.74471,
-                        "name": "FastMed Urgent Care",
-                        "posCodes": "20",
-                        "specialty": [],
-                        "uniqueId": "1346545209"
-                      }
-                    }
-                  },
-                  "_store": {}
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "LocationDirectionsLink",
-              "props": {
-                "location": {
-                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "false",
-                    "address": {
-                      "street": "3311 N Lamar Blvd",
-                      "city": "Austin",
-                      "state": "TX",
-                      "zip": "78705"
-                    },
-                    "caresitePhone": "5129757791",
-                    "gender": "NotSpecified",
-                    "lat": 30.302,
-                    "long": -97.74471,
-                    "name": "FastMed Urgent Care",
-                    "posCodes": "20",
-                    "specialty": [],
-                    "uniqueId": "1346545209"
-                  }
-                },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "urgent_care",
-                  "serviceType": "NonVAUrgentCare"
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "LocationPhoneLink",
-              "props": {
-                "location": {
-                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "false",
-                    "address": {
-                      "street": "3311 N Lamar Blvd",
-                      "city": "Austin",
-                      "state": "TX",
-                      "zip": "78705"
-                    },
-                    "caresitePhone": "5129757791",
-                    "gender": "NotSpecified",
-                    "lat": 30.302,
-                    "long": -97.74471,
-                    "name": "FastMed Urgent Care",
-                    "posCodes": "20",
-                    "specialty": [],
-                    "uniqueId": "1346545209"
-                  }
-                },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "urgent_care",
-                  "serviceType": "NonVAUrgentCare"
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "p",
-              "props": {
-                "children": "Call to confirm services and hours"
-              },
-              "_store": {}
-            },
-            {
-              "type": "div",
-              "props": {
-                "className": "usa usa background vads-  vads-",
-                "children": [
-                  {
-                    "type": "i",
-                    "props": {
-                      "aria-hidden": "true",
-                      "className": "fa fa vads- icon"
-                    },
-                    "_store": {}
-                  },
-                  {
-                    "type": "div",
-                    "props": {
-                      "className": "usa",
-                      "children": {
-                        "type": "a",
-                        "props": {
-                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                          "target": "_/blank",
-                          "onClick": "onClick",
-                          "children": [
-                            "In-network urgent care benefit",
-                            " "
-                          ]
-                        },
-                        "_store": {}
-                      }
-                    },
-                    "_store": {}
-                  }
-                ]
-              },
-              "_store": {}
-            }
-          ]
-        },
-        "_store": {}
-      }
-    },
-    "rendered": {
-      "nodeType": "host",
-      "type": "div",
-      "props": {
-        "children": [
-          null,
-          {
-            "type": "span",
-            "props": {
-              "children": [
-                {
-                  "type": "h2",
-                  "props": {
-                    "className": "vads- no",
-                    "children": "FastMed Urgent Care"
-                  },
-                  "_store": {}
-                },
-                null
-              ]
-            },
-            "_store": {}
-          },
-          {
-            "type": "p",
-            "props": {
-              "children": {
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "false",
-                      "address": {
-                        "street": "3311 N Lamar Blvd",
-                        "city": "Austin",
-                        "state": "TX",
-                        "zip": "78705"
-                      },
-                      "caresitePhone": "5129757791",
-                      "gender": "NotSpecified",
-                      "lat": 30.302,
-                      "long": -97.74471,
-                      "name": "FastMed Urgent Care",
-                      "posCodes": "20",
-                      "specialty": [],
-                      "uniqueId": "1346545209"
-                    }
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "_store": {}
-          },
-          {
-            "type": "LocationDirectionsLink",
-            "props": {
-              "location": {
-                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "provider",
-                "attributes": {
-                  "accNewPatients": "false",
-                  "address": {
-                    "street": "3311 N Lamar Blvd",
-                    "city": "Austin",
-                    "state": "TX",
-                    "zip": "78705"
-                  },
-                  "caresitePhone": "5129757791",
-                  "gender": "NotSpecified",
-                  "lat": 30.302,
-                  "long": -97.74471,
-                  "name": "FastMed Urgent Care",
-                  "posCodes": "20",
-                  "specialty": [],
-                  "uniqueId": "1346545209"
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "urgent_care",
-                "serviceType": "NonVAUrgentCare"
-              }
-            },
-            "_store": {}
-          },
-          {
-            "type": "LocationPhoneLink",
-            "props": {
-              "location": {
-                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "provider",
-                "attributes": {
-                  "accNewPatients": "false",
-                  "address": {
-                    "street": "3311 N Lamar Blvd",
-                    "city": "Austin",
-                    "state": "TX",
-                    "zip": "78705"
-                  },
-                  "caresitePhone": "5129757791",
-                  "gender": "NotSpecified",
-                  "lat": 30.302,
-                  "long": -97.74471,
-                  "name": "FastMed Urgent Care",
-                  "posCodes": "20",
-                  "specialty": [],
-                  "uniqueId": "1346545209"
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "urgent_care",
-                "serviceType": "NonVAUrgentCare"
-              }
-            },
-            "_store": {}
-          },
-          {
-            "type": "p",
-            "props": {
-              "children": "Call to confirm services and hours"
-            },
-            "_store": {}
-          },
-          {
-            "type": "div",
-            "props": {
-              "className": "usa usa background vads-  vads-",
-              "children": [
-                {
-                  "type": "i",
-                  "props": {
-                    "aria-hidden": "true",
-                    "className": "fa fa vads- icon"
-                  },
-                  "_store": {}
-                },
-                {
-                  "type": "div",
-                  "props": {
-                    "className": "usa",
-                    "children": {
-                      "type": "a",
-                      "props": {
-                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                        "target": "_/blank",
-                        "onClick": "onClick",
-                        "children": [
-                          "In-network urgent care benefit",
-                          " "
-                        ]
-                      },
-                      "_store": {}
-                    }
-                  },
-                  "_store": {}
-                }
-              ]
-            },
-            "_store": {}
-          }
-        ]
-      },
-      "rendered": [
-        null,
-        {
-          "nodeType": "host",
-          "type": "span",
-          "props": {
-            "children": [
-              {
-                "type": "h2",
-                "props": {
-                  "className": "vads- no",
-                  "children": "FastMed Urgent Care"
-                },
-                "_store": {}
-              },
-              null
-            ]
-          },
-          "rendered": [
-            {
-              "nodeType": "host",
-              "type": "h2",
-              "props": {
-                "className": "vads- no",
-                "children": "FastMed Urgent Care"
-              },
-              "rendered": "FastMed Urgent Care"
-            },
-            null
-          ]
-        },
-        {
-          "nodeType": "host",
-          "type": "p",
-          "props": {
-            "children": {
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "false",
-                    "address": {
-                      "street": "3311 N Lamar Blvd",
-                      "city": "Austin",
-                      "state": "TX",
-                      "zip": "78705"
-                    },
-                    "caresitePhone": "5129757791",
-                    "gender": "NotSpecified",
-                    "lat": 30.302,
-                    "long": -97.74471,
-                    "name": "FastMed Urgent Care",
-                    "posCodes": "20",
-                    "specialty": [],
-                    "uniqueId": "1346545209"
-                  }
-                }
-              },
-              "_store": {}
-            }
-          },
-          "rendered": {
-            "nodeType": "function",
-            "type": "LocationAddress",
-            "props": {
-              "location": {
-                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "provider",
-                "attributes": {
-                  "accNewPatients": "false",
-                  "address": {
-                    "street": "3311 N Lamar Blvd",
-                    "city": "Austin",
-                    "state": "TX",
-                    "zip": "78705"
-                  },
-                  "caresitePhone": "5129757791",
-                  "gender": "NotSpecified",
-                  "lat": 30.302,
-                  "long": -97.74471,
-                  "name": "FastMed Urgent Care",
-                  "posCodes": "20",
-                  "specialty": [],
-                  "uniqueId": "1346545209"
-                }
-              }
-            }
-          }
-        },
-        {
-          "nodeType": "function",
-          "type": "LocationDirectionsLink",
-          "props": {
-            "location": {
-              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-              "type": "provider",
-              "attributes": {
-                "accNewPatients": "false",
-                "address": {
-                  "street": "3311 N Lamar Blvd",
-                  "city": "Austin",
-                  "state": "TX",
-                  "zip": "78705"
-                },
-                "caresitePhone": "5129757791",
-                "gender": "NotSpecified",
-                "lat": 30.302,
-                "long": -97.74471,
-                "name": "FastMed Urgent Care",
-                "posCodes": "20",
-                "specialty": [],
-                "uniqueId": "1346545209"
-              }
-            },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "urgent_care",
-              "serviceType": "NonVAUrgentCare"
-            }
-          }
-        },
-        {
-          "nodeType": "function",
-          "type": "LocationPhoneLink",
-          "props": {
-            "location": {
-              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-              "type": "provider",
-              "attributes": {
-                "accNewPatients": "false",
-                "address": {
-                  "street": "3311 N Lamar Blvd",
-                  "city": "Austin",
-                  "state": "TX",
-                  "zip": "78705"
-                },
-                "caresitePhone": "5129757791",
-                "gender": "NotSpecified",
-                "lat": 30.302,
-                "long": -97.74471,
-                "name": "FastMed Urgent Care",
-                "posCodes": "20",
-                "specialty": [],
-                "uniqueId": "1346545209"
-              }
-            },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "urgent_care",
-              "serviceType": "NonVAUrgentCare"
-            }
-          }
-        },
-        {
-          "nodeType": "host",
-          "type": "p",
-          "props": {
-            "children": "Call to confirm services and hours"
-          },
-          "rendered": "Call to confirm services and hours"
-        },
-        {
-          "nodeType": "host",
-          "type": "div",
-          "props": {
-            "className": "usa usa background vads-  vads-",
-            "children": [
-              {
-                "type": "i",
-                "props": {
-                  "aria-hidden": "true",
-                  "className": "fa fa vads- icon"
-                },
-                "_store": {}
-              },
-              {
-                "type": "div",
-                "props": {
-                  "className": "usa",
-                  "children": {
-                    "type": "a",
-                    "props": {
-                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                      "target": "_/blank",
-                      "onClick": "onClick",
-                      "children": [
-                        "In-network urgent care benefit",
-                        " "
-                      ]
-                    },
-                    "_store": {}
-                  }
-                },
-                "_store": {}
-              }
-            ]
-          },
-          "rendered": [
-            {
-              "nodeType": "host",
-              "type": "i",
-              "props": {
-                "aria-hidden": "true",
-                "className": "fa fa vads- icon"
-              }
-            },
-            {
-              "nodeType": "host",
-              "type": "div",
-              "props": {
-                "className": "usa",
-                "children": {
-                  "type": "a",
-                  "props": {
-                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                    "target": "_/blank",
-                    "onClick": "onClick",
-                    "children": [
-                      "In-network urgent care benefit",
-                      " "
-                    ]
-                  },
-                  "_store": {}
-                }
-              },
-              "rendered": {
-                "nodeType": "host",
-                "type": "a",
-                "props": {
-                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                  "target": "_/blank",
-                  "onClick": "onClick",
-                  "children": [
-                    "In-network urgent care benefit",
-                    " "
-                  ]
-                },
-                "rendered": [
-                  "In-network urgent care benefit",
-                  " "
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    }
-  },
-  "type": "div",
-  "props": {
-    "className": "facility"
-  },
-  "children": [
-    {
-      "node": {
-        "nodeType": "host",
-        "type": "div",
-        "props": {
-          "children": [
-            null,
-            {
-              "type": "span",
-              "props": {
-                "children": [
-                  {
-                    "type": "h2",
-                    "props": {
-                      "className": "vads- no",
-                      "children": "FastMed Urgent Care"
-                    },
-                    "_store": {}
-                  },
-                  null
-                ]
-              },
-              "_store": {}
-            },
-            {
-              "type": "p",
-              "props": {
-                "children": {
-                  "type": "LocationAddress",
-                  "props": {
-                    "location": {
-                      "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                      "type": "provider",
-                      "attributes": {
-                        "accNewPatients": "false",
-                        "address": {
-                          "street": "3311 N Lamar Blvd",
-                          "city": "Austin",
-                          "state": "TX",
-                          "zip": "78705"
-                        },
-                        "caresitePhone": "5129757791",
-                        "gender": "NotSpecified",
-                        "lat": 30.302,
-                        "long": -97.74471,
-                        "name": "FastMed Urgent Care",
-                        "posCodes": "20",
-                        "specialty": [],
-                        "uniqueId": "1346545209"
-                      }
-                    }
-                  },
-                  "_store": {}
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "LocationDirectionsLink",
-              "props": {
-                "location": {
-                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "false",
-                    "address": {
-                      "street": "3311 N Lamar Blvd",
-                      "city": "Austin",
-                      "state": "TX",
-                      "zip": "78705"
-                    },
-                    "caresitePhone": "5129757791",
-                    "gender": "NotSpecified",
-                    "lat": 30.302,
-                    "long": -97.74471,
-                    "name": "FastMed Urgent Care",
-                    "posCodes": "20",
-                    "specialty": [],
-                    "uniqueId": "1346545209"
-                  }
-                },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "urgent_care",
-                  "serviceType": "NonVAUrgentCare"
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "LocationPhoneLink",
-              "props": {
-                "location": {
-                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "false",
-                    "address": {
-                      "street": "3311 N Lamar Blvd",
-                      "city": "Austin",
-                      "state": "TX",
-                      "zip": "78705"
-                    },
-                    "caresitePhone": "5129757791",
-                    "gender": "NotSpecified",
-                    "lat": 30.302,
-                    "long": -97.74471,
-                    "name": "FastMed Urgent Care",
-                    "posCodes": "20",
-                    "specialty": [],
-                    "uniqueId": "1346545209"
-                  }
-                },
-                "from": "SearchResult",
-                "query": {
-                  "facilityType": "urgent_care",
-                  "serviceType": "NonVAUrgentCare"
-                }
-              },
-              "_store": {}
-            },
-            {
-              "type": "p",
-              "props": {
-                "children": "Call to confirm services and hours"
-              },
-              "_store": {}
-            },
-            {
-              "type": "div",
-              "props": {
-                "className": "usa usa background vads-  vads-",
-                "children": [
-                  {
-                    "type": "i",
-                    "props": {
-                      "aria-hidden": "true",
-                      "className": "fa fa vads- icon"
-                    },
-                    "_store": {}
-                  },
-                  {
-                    "type": "div",
-                    "props": {
-                      "className": "usa",
-                      "children": {
-                        "type": "a",
-                        "props": {
-                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                          "target": "_/blank",
-                          "onClick": "onClick",
-                          "children": [
-                            "In-network urgent care benefit",
-                            " "
-                          ]
-                        },
-                        "_store": {}
-                      }
-                    },
-                    "_store": {}
-                  }
-                ]
-              },
-              "_store": {}
-            }
-          ]
-        },
-        "rendered": [
-          null,
-          {
-            "nodeType": "host",
-            "type": "span",
-            "props": {
-              "children": [
-                {
-                  "type": "h2",
-                  "props": {
-                    "className": "vads- no",
-                    "children": "FastMed Urgent Care"
-                  },
-                  "_store": {}
-                },
-                null
-              ]
-            },
-            "rendered": [
-              {
-                "nodeType": "host",
-                "type": "h2",
-                "props": {
-                  "className": "vads- no",
-                  "children": "FastMed Urgent Care"
-                },
-                "rendered": "FastMed Urgent Care"
-              },
-              null
-            ]
-          },
-          {
-            "nodeType": "host",
-            "type": "p",
-            "props": {
-              "children": {
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "false",
-                      "address": {
-                        "street": "3311 N Lamar Blvd",
-                        "city": "Austin",
-                        "state": "TX",
-                        "zip": "78705"
-                      },
-                      "caresitePhone": "5129757791",
-                      "gender": "NotSpecified",
-                      "lat": 30.302,
-                      "long": -97.74471,
-                      "name": "FastMed Urgent Care",
-                      "posCodes": "20",
-                      "specialty": [],
-                      "uniqueId": "1346545209"
-                    }
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "function",
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "false",
-                    "address": {
-                      "street": "3311 N Lamar Blvd",
-                      "city": "Austin",
-                      "state": "TX",
-                      "zip": "78705"
-                    },
-                    "caresitePhone": "5129757791",
-                    "gender": "NotSpecified",
-                    "lat": 30.302,
-                    "long": -97.74471,
-                    "name": "FastMed Urgent Care",
-                    "posCodes": "20",
-                    "specialty": [],
-                    "uniqueId": "1346545209"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "nodeType": "function",
-            "type": "LocationDirectionsLink",
-            "props": {
-              "location": {
-                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "provider",
-                "attributes": {
-                  "accNewPatients": "false",
-                  "address": {
-                    "street": "3311 N Lamar Blvd",
-                    "city": "Austin",
-                    "state": "TX",
-                    "zip": "78705"
-                  },
-                  "caresitePhone": "5129757791",
-                  "gender": "NotSpecified",
-                  "lat": 30.302,
-                  "long": -97.74471,
-                  "name": "FastMed Urgent Care",
-                  "posCodes": "20",
-                  "specialty": [],
-                  "uniqueId": "1346545209"
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "urgent_care",
-                "serviceType": "NonVAUrgentCare"
-              }
-            }
-          },
-          {
-            "nodeType": "function",
-            "type": "LocationPhoneLink",
-            "props": {
-              "location": {
-                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "provider",
-                "attributes": {
-                  "accNewPatients": "false",
-                  "address": {
-                    "street": "3311 N Lamar Blvd",
-                    "city": "Austin",
-                    "state": "TX",
-                    "zip": "78705"
-                  },
-                  "caresitePhone": "5129757791",
-                  "gender": "NotSpecified",
-                  "lat": 30.302,
-                  "long": -97.74471,
-                  "name": "FastMed Urgent Care",
-                  "posCodes": "20",
-                  "specialty": [],
-                  "uniqueId": "1346545209"
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "urgent_care",
-                "serviceType": "NonVAUrgentCare"
-              }
-            }
-          },
-          {
-            "nodeType": "host",
-            "type": "p",
-            "props": {
-              "children": "Call to confirm services and hours"
-            },
-            "rendered": "Call to confirm services and hours"
-          },
-          {
-            "nodeType": "host",
-            "type": "div",
-            "props": {
-              "className": "usa usa background vads-  vads-",
-              "children": [
-                {
-                  "type": "i",
-                  "props": {
-                    "aria-hidden": "true",
-                    "className": "fa fa vads- icon"
-                  },
-                  "_store": {}
-                },
-                {
-                  "type": "div",
-                  "props": {
-                    "className": "usa",
-                    "children": {
-                      "type": "a",
-                      "props": {
-                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                        "target": "_/blank",
-                        "onClick": "onClick",
-                        "children": [
-                          "In-network urgent care benefit",
-                          " "
-                        ]
-                      },
-                      "_store": {}
-                    }
-                  },
-                  "_store": {}
-                }
-              ]
-            },
-            "rendered": [
-              {
-                "nodeType": "host",
-                "type": "i",
-                "props": {
-                  "aria-hidden": "true",
-                  "className": "fa fa vads- icon"
-                }
-              },
-              {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "className": "usa",
-                  "children": {
-                    "type": "a",
-                    "props": {
-                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                      "target": "_/blank",
-                      "onClick": "onClick",
-                      "children": [
-                        "In-network urgent care benefit",
-                        " "
-                      ]
-                    },
-                    "_store": {}
-                  }
-                },
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "a",
-                  "props": {
-                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                    "target": "_/blank",
-                    "onClick": "onClick",
-                    "children": [
-                      "In-network urgent care benefit",
-                      " "
-                    ]
-                  },
-                  "rendered": [
-                    "In-network urgent care benefit",
-                    " "
-                  ]
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "type": "div",
-      "props": {},
-      "children": [
-        {
-          "node": {
-            "nodeType": "host",
-            "type": "span",
-            "props": {
-              "children": [
-                {
-                  "type": "h2",
-                  "props": {
-                    "className": "vads- no",
-                    "children": "FastMed Urgent Care"
-                  },
-                  "_store": {}
-                },
-                null
-              ]
-            },
-            "rendered": [
-              {
-                "nodeType": "host",
-                "type": "h2",
-                "props": {
-                  "className": "vads- no",
-                  "children": "FastMed Urgent Care"
-                },
-                "rendered": "FastMed Urgent Care"
-              },
-              null
-            ]
-          },
-          "type": "span",
-          "props": {},
-          "children": [
-            {
-              "node": {
-                "nodeType": "host",
-                "type": "h2",
-                "props": {
-                  "className": "vads- no",
-                  "children": "FastMed Urgent Care"
-                },
-                "rendered": "FastMed Urgent Care"
-              },
-              "type": "h2",
-              "props": {
-                "className": "vads- no"
-              },
-              "children": [
-                "FastMed Urgent Care"
-              ]
-            }
-          ]
-        },
-        {
-          "node": {
-            "nodeType": "host",
-            "type": "p",
-            "props": {
-              "children": {
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "false",
-                      "address": {
-                        "street": "3311 N Lamar Blvd",
-                        "city": "Austin",
-                        "state": "TX",
-                        "zip": "78705"
-                      },
-                      "caresitePhone": "5129757791",
-                      "gender": "NotSpecified",
-                      "lat": 30.302,
-                      "long": -97.74471,
-                      "name": "FastMed Urgent Care",
-                      "posCodes": "20",
-                      "specialty": [],
-                      "uniqueId": "1346545209"
-                    }
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "function",
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "false",
-                    "address": {
-                      "street": "3311 N Lamar Blvd",
-                      "city": "Austin",
-                      "state": "TX",
-                      "zip": "78705"
-                    },
-                    "caresitePhone": "5129757791",
-                    "gender": "NotSpecified",
-                    "lat": 30.302,
-                    "long": -97.74471,
-                    "name": "FastMed Urgent Care",
-                    "posCodes": "20",
-                    "specialty": [],
-                    "uniqueId": "1346545209"
-                  }
-                }
-              }
-            }
-          },
-          "type": "p",
-          "props": {},
-          "children": [
-            {
-              "node": {
-                "nodeType": "function",
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "false",
-                      "address": {
-                        "street": "3311 N Lamar Blvd",
-                        "city": "Austin",
-                        "state": "TX",
-                        "zip": "78705"
-                      },
-                      "caresitePhone": "5129757791",
-                      "gender": "NotSpecified",
-                      "lat": 30.302,
-                      "long": -97.74471,
-                      "name": "FastMed Urgent Care",
-                      "posCodes": "20",
-                      "specialty": [],
-                      "uniqueId": "1346545209"
-                    }
-                  }
-                }
-              },
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "false",
-                    "address": {
-                      "street": "3311 N Lamar Blvd",
-                      "city": "Austin",
-                      "state": "TX",
-                      "zip": "78705"
-                    },
-                    "caresitePhone": "5129757791",
-                    "gender": "NotSpecified",
-                    "lat": 30.302,
-                    "long": -97.74471,
-                    "name": "FastMed Urgent Care",
-                    "posCodes": "20",
-                    "specialty": [],
-                    "uniqueId": "1346545209"
-                  }
-                }
-              }
-            }
-          ]
-        },
-        {
-          "node": {
-            "nodeType": "function",
-            "type": "LocationDirectionsLink",
-            "props": {
-              "location": {
-                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "provider",
-                "attributes": {
-                  "accNewPatients": "false",
-                  "address": {
-                    "street": "3311 N Lamar Blvd",
-                    "city": "Austin",
-                    "state": "TX",
-                    "zip": "78705"
-                  },
-                  "caresitePhone": "5129757791",
-                  "gender": "NotSpecified",
-                  "lat": 30.302,
-                  "long": -97.74471,
-                  "name": "FastMed Urgent Care",
-                  "posCodes": "20",
-                  "specialty": [],
-                  "uniqueId": "1346545209"
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "urgent_care",
-                "serviceType": "NonVAUrgentCare"
-              }
-            }
-          },
-          "type": "LocationDirectionsLink",
-          "props": {
-            "location": {
-              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-              "type": "provider",
-              "attributes": {
-                "accNewPatients": "false",
-                "address": {
-                  "street": "3311 N Lamar Blvd",
-                  "city": "Austin",
-                  "state": "TX",
-                  "zip": "78705"
-                },
-                "caresitePhone": "5129757791",
-                "gender": "NotSpecified",
-                "lat": 30.302,
-                "long": -97.74471,
-                "name": "FastMed Urgent Care",
-                "posCodes": "20",
-                "specialty": [],
-                "uniqueId": "1346545209"
-              }
-            },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "urgent_care",
-              "serviceType": "NonVAUrgentCare"
-            }
-          }
-        },
-        {
-          "node": {
-            "nodeType": "function",
-            "type": "LocationPhoneLink",
-            "props": {
-              "location": {
-                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-                "type": "provider",
-                "attributes": {
-                  "accNewPatients": "false",
-                  "address": {
-                    "street": "3311 N Lamar Blvd",
-                    "city": "Austin",
-                    "state": "TX",
-                    "zip": "78705"
-                  },
-                  "caresitePhone": "5129757791",
-                  "gender": "NotSpecified",
-                  "lat": 30.302,
-                  "long": -97.74471,
-                  "name": "FastMed Urgent Care",
-                  "posCodes": "20",
-                  "specialty": [],
-                  "uniqueId": "1346545209"
-                }
-              },
-              "from": "SearchResult",
-              "query": {
-                "facilityType": "urgent_care",
-                "serviceType": "NonVAUrgentCare"
-              }
-            }
-          },
-          "type": "LocationPhoneLink",
-          "props": {
-            "location": {
-              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
-              "type": "provider",
-              "attributes": {
-                "accNewPatients": "false",
-                "address": {
-                  "street": "3311 N Lamar Blvd",
-                  "city": "Austin",
-                  "state": "TX",
-                  "zip": "78705"
-                },
-                "caresitePhone": "5129757791",
-                "gender": "NotSpecified",
-                "lat": 30.302,
-                "long": -97.74471,
-                "name": "FastMed Urgent Care",
-                "posCodes": "20",
-                "specialty": [],
-                "uniqueId": "1346545209"
-              }
-            },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "urgent_care",
-              "serviceType": "NonVAUrgentCare"
             }
           }
         },
