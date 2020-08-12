@@ -70,9 +70,17 @@ describe('VAOS integration: Express Care form', () => {
     );
     const radio = screen.getByLabelText('Cough');
     fireEvent.click(radio);
-    expect(radio.checked).to.be.true;
-    const alert = await screen.findByRole('alert');
-    expect(alert).to.contain.text('Same-day mental health appointments');
+    waitFor(() => expect(radio.checked).to.be.true);
+    expect(screen.baseElement).to.contain.text(
+      'If you need a mental health appointment today',
+    );
+    expect(screen.getByText('Find a VA location').href).to.include(
+      '/find-locations',
+    );
+    expect(screen.baseElement).to.contain.text(
+      'If your health concern isn’t listed here',
+    );
+    screen.getByText(/appointments tool/i);
     await screen.getByRole('button', { name: /back/i });
     await screen.getByRole('button', { name: /continue/i });
   });
