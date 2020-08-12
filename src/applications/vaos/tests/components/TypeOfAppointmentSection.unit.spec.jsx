@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { FACILITY_TYPES } from '../../utils/constants';
 
-import TypeOfAppointmentSection from '../../features/appointments/ReviewPage/TypeOfAppointmentSection';
+import TypeOfAppointmentSection from '../../new-appointment/ReviewPage/TypeOfAppointmentSection';
 
 describe('VAOS <TypeOfAppointmentSection>', () => {
   it('should render heading', () => {

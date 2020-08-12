@@ -1,73 +1,73 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import asyncLoader from 'platform/utilities/ui/asyncLoader';
-import AppointmentsPage from './features/appointments/AppointmentsPage';
-import FutureAppointmentsList from './features/components/FutureAppointmentsList';
-import PastAppointmentsList from './features/components/PastAppointmentsList';
+import AppointmentsPage from './appointment-list/AppointmentsPage';
+import FutureAppointmentsList from './appointment-list/FutureAppointmentsList';
+import PastAppointmentsList from './appointment-list/PastAppointmentsList';
 import VAOSApp from './VAOSApp';
 
 const ReasonForAppointmentPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/ReasonForAppointmentPage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/ReasonForAppointmentPage'),
 );
 const TypeOfCarePage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/TypeOfCarePage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/TypeOfCarePage'),
 );
 const CommunityCarePreferencesPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/CommunityCarePreferencesPage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/CommunityCarePreferencesPage'),
 );
 const TypeOfAudiologyCarePage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/TypeOfAudiologyCarePage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/TypeOfAudiologyCarePage'),
 );
 const TypeOfFacilityPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/TypeOfFacilityPage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/TypeOfFacilityPage'),
 );
 const ContactInfoPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/ContactInfoPage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/ContactInfoPage'),
 );
 const VAFacilityPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/VAFacilityPage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/VAFacilityPage'),
 );
 const TypeOfVisitPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/TypeOfVisitPage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/TypeOfVisitPage'),
 );
 const ReviewPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/ReviewPage/ReviewPage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/ReviewPage/ReviewPage'),
 );
 const ClinicChoicePage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/ClinicChoicePage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/ClinicChoicePage'),
 );
 const TypeOfSleepCarePage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/TypeOfSleepCarePage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/TypeOfSleepCarePage'),
 );
 const TypeOfEyeCarePage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/TypeOfEyeCarePage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/TypeOfEyeCarePage'),
 );
 const PreferredDatePage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/PreferredDatePage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/PreferredDatePage'),
 );
 const DateTimeRequestPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/DateTimeRequestPage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/DateTimeRequestPage'),
 );
 const DateTimeSelectPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/DateTimeSelectPage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/DateTimeSelectPage'),
 );
 const ConfirmationPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './features/appointments/ConfirmationPage/ConfirmationPage'),
+  import(/* webpackChunkName: "vaos-form" */ './new-appointment/ConfirmationPage/ConfirmationPage'),
 );
 const ExpressCareList = asyncLoader(() =>
-  import(/* webpackChunkName: "express-care" */ './features/express-care/ExpressCareList'),
+  import(/* webpackChunkName: "express-care" */ './express-care/components/ExpressCareList'),
 );
 const NewExpressCareRequestLayout = asyncLoader(() =>
-  import(/* webpackChunkName: "express-care" */ './features/express-care/NewExpressCareRequestLayout'),
+  import(/* webpackChunkName: "express-care" */ './express-care/NewExpressCareRequestLayout'),
 );
 const ExpressCareInfoPage = asyncLoader(() =>
-  import(/* webpackChunkName: "express-care" */ './features/express-care/ExpressCareInfoPage'),
+  import(/* webpackChunkName: "express-care" */ './express-care/ExpressCareInfoPage'),
 );
 const ExpressCareFormPage = asyncLoader(() =>
-  import(/* webpackChunkName: "express-care" */ './features/express-care/ExpressCareFormPage'),
+  import(/* webpackChunkName: "express-care" */ './express-care/ExpressCareFormPage'),
 );
 const ExpressCareConfirmationPage = asyncLoader(() =>
-  import(/* webpackChunkName: "express-care" */ './features/express-care/ExpressCareConfirmationPage'),
+  import(/* webpackChunkName: "express-care" */ './express-care/ExpressCareConfirmationPage'),
 );
 
 export default function createRoutesWithStore(store) {
@@ -82,8 +82,8 @@ export default function createRoutesWithStore(store) {
         path="new-appointment"
         component={asyncLoader(() =>
           Promise.all([
-            import(/* webpackChunkName: "vaos-form" */ './features/appointments/NewAppointmentLayout'),
-            import(/* webpackChunkName: "vaos-form" */ './reducers/newAppointment'),
+            import(/* webpackChunkName: "vaos-form" */ './new-appointment/NewAppointmentLayout'),
+            import(/* webpackChunkName: "vaos-form" */ './new-appointment/redux/newAppointment'),
           ]).then(([component, reducer]) => {
             store.injectReducer('newAppointment', reducer.default);
             return component;

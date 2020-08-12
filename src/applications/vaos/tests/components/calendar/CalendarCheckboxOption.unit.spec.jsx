@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import CalendarCheckboxOption from '../../../components/calendar/CalendarCheckboxOption';
+import CalendarCheckboxOption from '../../../new-appointment/components/Calendar/CalendarCheckboxOption';
 
 describe('VAOS <CalendarCheckboxOption>', () => {
   it('should render a checkbox with proper label and values', () => {

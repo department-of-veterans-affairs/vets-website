@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import moment from 'moment';
 
-import CalendarWidget from '../../../components/calendar/CalendarWidget';
+import CalendarWidget from '../../../new-appointment/components/Calendar/CalendarWidget';
 import { FETCH_STATUS } from '../../../utils/constants';
 
 const getOptionsByDate = () => [

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import EligibilityCheckMessage from '../../components/Alerts/EligibilityCheckMessage';
+import EligibilityCheckMessage from '../../new-appointment/components/EligibilityCheckMessage';
 
 describe('VAOS <EligibilityCheckMessage>', () => {
   it('should render past visit message', () => {

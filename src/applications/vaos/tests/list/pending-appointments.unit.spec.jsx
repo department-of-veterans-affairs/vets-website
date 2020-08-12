@@ -13,7 +13,7 @@ import {
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
 
 import reducers from '../../reducers';
-import FutureAppointmentsList from '../../features/components/FutureAppointmentsList';
+import FutureAppointmentsList from '../../appointment-list/FutureAppointmentsList';
 
 const initialState = {
   featureToggles: {

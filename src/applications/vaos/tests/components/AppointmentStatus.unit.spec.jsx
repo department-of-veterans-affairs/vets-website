@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import AppointmentStatus from '../../features/components/AppointmentStatus';
+import AppointmentStatus from '../../appointment-list/components/AppointmentStatus';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 
 describe('VAOS <AppointmentStatus>', () => {

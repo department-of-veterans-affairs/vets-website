@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import CalendarWeekdayHeader from '../../../components/calendar/CalendarWeekdayHeader';
+import CalendarWeekdayHeader from '../../../new-appointment/components/Calendar/CalendarWeekdayHeader';
 
 describe('VAOS <CalendarWeekdayHeader>', () => {
   it('should render with weekday names', () => {

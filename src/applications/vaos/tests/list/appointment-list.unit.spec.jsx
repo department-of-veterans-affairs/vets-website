@@ -23,8 +23,8 @@ import {
 } from '../mocks/helpers';
 
 import reducers from '../../reducers';
-import FutureAppointmentsList from '../../features/components/FutureAppointmentsList';
-import AppointmentsPage from '../../features/appointments/AppointmentsPage';
+import FutureAppointmentsList from '../../appointment-list/FutureAppointmentsList';
+import AppointmentsPage from '../../appointment-list/AppointmentsPage';
 
 const initialState = {
   featureToggles: {

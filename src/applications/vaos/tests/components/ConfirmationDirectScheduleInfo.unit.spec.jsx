@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import ConfirmationDirectScheduleInfo from '../../features/appointments/ConfirmationPage/ConfirmationDirectScheduleInfo';
+import ConfirmationDirectScheduleInfo from '../../new-appointment/ConfirmationPage/ConfirmationDirectScheduleInfo';
 
 describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
   it('should render', () => {

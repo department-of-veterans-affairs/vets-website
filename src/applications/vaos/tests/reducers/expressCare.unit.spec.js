@@ -6,7 +6,7 @@ import {
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
 } from '../../actions/expressCare';
-import expressCareReducer from '../../reducers/expressCare';
+import expressCareReducer from '../../express-care/redux/expressCare';
 import { FETCH_STATUS } from '../../utils/constants';
 
 const initialState = {

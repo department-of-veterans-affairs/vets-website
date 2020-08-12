@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import CalendarOptions from '../../../components/calendar/CalendarOptions';
+import CalendarOptions from '../../../new-appointment/components/Calendar/CalendarOptions';
 
 describe('VAOS <CalendarOptions>', () => {
   const selectedDates = [

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import moment from 'moment';
 
-import CalendarCell from '../../../components/calendar/CalendarCell';
+import CalendarCell from '../../../new-appointment/components/Calendar/CalendarCell';
 
 describe('VAOS <CalendarCell>', () => {
   const selectedDates = [

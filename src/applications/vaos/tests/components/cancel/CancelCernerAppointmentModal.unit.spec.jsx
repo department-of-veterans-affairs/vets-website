@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import CancelCernerAppointmentModal from '../../../components/Modals/CancelCernerAppointmentModal';
+import CancelCernerAppointmentModal from '../../../new-appointment/components/CancelCernerAppointmentModal';
 
 describe('VAOS <CancelCernerAppointmentModal>', () => {
   it('should render', () => {

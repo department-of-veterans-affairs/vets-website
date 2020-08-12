@@ -26,8 +26,8 @@ import {
   mockSupportedFacilities,
   mockPreferences,
 } from '../mocks/helpers';
-import ExpressCareFormPage from '../../features/express-care/ExpressCareFormPage';
-import ExpressCareConfirmationPage from '../../features/express-care/ExpressCareConfirmationPage';
+import ExpressCareFormPage from '../../express-care/ExpressCareFormPage';
+import ExpressCareConfirmationPage from '../../express-care/ExpressCareConfirmationPage';
 import { fetchExpressCareWindows } from '../../actions/expressCare';
 import { EXPRESS_CARE } from '../../utils/constants';
 

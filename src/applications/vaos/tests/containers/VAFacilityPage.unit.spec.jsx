@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 
-import { VAFacilityPage } from '../../features/appointments/VAFacilityPage';
+import { VAFacilityPage } from '../../new-appointment/VAFacilityPage';
 
 describe('VAOS <VAFacilityPage>', () => {
   const defaultSchema = {

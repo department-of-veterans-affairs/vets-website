@@ -7,7 +7,7 @@ import moment from 'moment';
 import {
   DateTimeRequestPage,
   getOptionsByDate,
-} from '../../features/appointments/DateTimeRequestPage';
+} from '../../new-appointment/DateTimeRequestPage';
 
 describe('VAOS <DateTimeRequestPage>', () => {
   it('should render', () => {

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { FLOW_TYPES } from '../../utils/constants';
 
-import { ConfirmationPage } from '../../features/appointments/ConfirmationPage/ConfirmationPage';
+import { ConfirmationPage } from '../../new-appointment/ConfirmationPage/ConfirmationPage';
 
 describe('VAOS <ConfirmationPage>', () => {
   it('should render direct schedule view', () => {

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { FETCH_STATUS } from '../../../utils/constants';
 
-import CancelAppointmentConfirmationModal from '../../../components/Modals/CancelAppointmentConfirmationModal';
+import CancelAppointmentConfirmationModal from '../../../new-appointment/components/CancelAppointmentConfirmationModal';
 
 describe('VAOS <CancelAppointmentConfirmationModal>', () => {
   it('should render', () => {

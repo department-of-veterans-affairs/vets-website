@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import CalendarSelectedIndicator from '../../../components/calendar/CalendarSelectedIndicator';
+import CalendarSelectedIndicator from '../../../new-appointment/components/Calendar/CalendarSelectedIndicator';
 import { CALENDAR_INDICATOR_TYPES } from '../../../utils/constants';
 
 describe('VAOS <CalendarSelectedIndicator>', () => {

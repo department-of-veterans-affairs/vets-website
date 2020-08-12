@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { expect } from 'chai';
-import appointmentsReducer from '../../reducers/appointments';
+import appointmentsReducer from '../../appointment-list/redux/appointments';
 import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,

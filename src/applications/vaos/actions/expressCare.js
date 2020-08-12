@@ -6,7 +6,7 @@ import {
   selectVet360HomePhoneString,
   selectVet360MobilePhoneString,
 } from 'platform/user/selectors';
-import newExpressCareRequestFlow from '../newExpressCareRequestFlow';
+import newExpressCareRequestFlow from '../express-care/newExpressCareRequestFlow';
 import {
   getPreferences,
   updatePreferences,

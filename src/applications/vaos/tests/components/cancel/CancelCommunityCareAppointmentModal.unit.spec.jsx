@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import CancelCommunityCareAppointmentModal from '../../../components/Modals/CancelCommunityCareAppointmentModal';
+import CancelCommunityCareAppointmentModal from '../../../new-appointment/components/CancelCommunityCareAppointmentModal';
 
 describe('VAOS <CancelCommunityCareAppointmentModal>', () => {
   it('should render', () => {

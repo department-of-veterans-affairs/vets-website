@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { ReasonForAppointmentPage } from '../../features/appointments/ReasonForAppointmentPage';
+import { ReasonForAppointmentPage } from '../../new-appointment/ReasonForAppointmentPage';
 import { FACILITY_TYPES } from '../../utils/constants';
 
 describe('VAOS <ReasonForAppointmentPage>', () => {

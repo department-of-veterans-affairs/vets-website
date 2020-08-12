@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme';
 import moment from 'moment';
 import { MENTAL_HEALTH } from '../../utils/constants';
 
-import { WaitTimeAlert } from '../../components/Alerts/WaitTimeAlert';
+import { WaitTimeAlert } from '../../new-appointment/components/WaitTimeAlert';
 
 const today = moment().format('YYYY-MM-DD');
 

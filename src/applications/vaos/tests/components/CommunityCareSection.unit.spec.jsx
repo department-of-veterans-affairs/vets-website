@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import CommunityCareSection from '../../features/appointments/ReviewPage/CommunityCareSection';
+import CommunityCareSection from '../../new-appointment/ReviewPage/CommunityCareSection';
 
 const defaultData = {
   phoneNumber: '5035551234',

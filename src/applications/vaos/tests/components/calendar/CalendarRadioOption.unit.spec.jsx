@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import CalendarRadioOption from '../../../components/calendar/CalendarRadioOption';
+import CalendarRadioOption from '../../../new-appointment/components/Calendar/CalendarRadioOption';
 
 describe('VAOS <CalendarRadioOption>', () => {
   it('should render a radio button with proper label and values', () => {

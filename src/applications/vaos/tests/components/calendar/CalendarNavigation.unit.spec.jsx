@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import CalendarNavigation from '../../../components/calendar/CalendarNavigation';
+import CalendarNavigation from '../../../new-appointment/components/Calendar/CalendarNavigation';
 
 describe('VAOS <CalendarNavigation>', () => {
   it('should prev and next buttons', () => {

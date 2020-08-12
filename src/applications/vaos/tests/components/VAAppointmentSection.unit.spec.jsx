@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import VAAppointmentSection from '../../features/appointments/ReviewPage/VAAppointmentSection';
+import VAAppointmentSection from '../../new-appointment/ReviewPage/VAAppointmentSection';
 import { VHA_FHIR_ID } from '../../utils/constants';
 
 const defaultData = {

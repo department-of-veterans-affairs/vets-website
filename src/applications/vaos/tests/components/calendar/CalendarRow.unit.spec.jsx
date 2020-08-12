@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import moment from 'moment';
 
-import CalendarRow from '../../../components/calendar/CalendarRow';
+import CalendarRow from '../../../new-appointment/components/Calendar/CalendarRow';
 
 describe('VAOS <CalendarRow>', () => {
   const dayCells = [

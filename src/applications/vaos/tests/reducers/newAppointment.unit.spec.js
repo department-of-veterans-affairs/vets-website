@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import newAppointmentReducer from '../../reducers/newAppointment';
+import newAppointmentReducer from '../../new-appointment/redux/newAppointment';
 import {
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,

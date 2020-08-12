@@ -16,7 +16,7 @@ import {
   mockFacilitiesFetch,
 } from '../mocks/helpers';
 
-import PastAppointmentsList from '../../features/components/PastAppointmentsList';
+import PastAppointmentsList from '../../appointment-list/PastAppointmentsList';
 
 const initialState = {
   featureToggles: {

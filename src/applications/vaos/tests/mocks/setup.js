@@ -11,13 +11,13 @@ import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '../../reducers';
-import newAppointmentReducer from '../../reducers/newAppointment';
+import newAppointmentReducer from '../../new-appointment/redux/newAppointment';
 
-import TypeOfCarePage from '../../containers/TypeOfCarePage';
-import VAFacilityPage from '../../containers/VAFacilityPage';
+import TypeOfCarePage from '../../new-appointment/TypeOfCarePage';
+import VAFacilityPage from '../../new-appointment/VAFacilityPage';
 import { cleanup } from '@testing-library/react';
-import ClinicChoicePage from '../../containers/ClinicChoicePage';
-import PreferredDatePage from '../../containers/PreferredDatePage';
+import ClinicChoicePage from '../../new-appointment/ClinicChoicePage';
+import PreferredDatePage from '../../new-appointment/PreferredDatePage';
 import { getParentSiteMock, getFacilityMock } from './v0';
 import { mockParentSites, mockSupportedFacilities } from './helpers';
 

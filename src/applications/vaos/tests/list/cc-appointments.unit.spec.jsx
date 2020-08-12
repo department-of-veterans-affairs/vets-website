@@ -6,7 +6,7 @@ import reducers from '../../reducers';
 import { getCCAppointmentMock } from '../mocks/v0';
 import { mockAppointmentInfo, mockFacilitesFetch } from '../mocks/helpers';
 
-import FutureAppointmentsList from '../../features/components/FutureAppointmentsList';
+import FutureAppointmentsList from '../../appointment-list/FutureAppointmentsList';
 
 const initialState = {
   featureToggles: {

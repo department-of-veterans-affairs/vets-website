@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { fillData } from 'platform/testing/unit/schemaform-utils.jsx';
-import { ContactInfoPage } from '../../features/appointments/ContactInfoPage';
+import { ContactInfoPage } from '../../new-appointment/ContactInfoPage';
 
 describe('VAOS <ContactInfoPage>', () => {
   it('should render', () => {

@@ -7,7 +7,7 @@ import {
   selectVet360HomePhoneString,
   selectVet360MobilePhoneString,
 } from 'platform/user/selectors';
-import newAppointmentFlow from '../newAppointmentFlow';
+import newAppointmentFlow from '../new-appointment/newAppointmentFlow';
 import {
   getTypeOfCare,
   vaosDirectScheduling,

@@ -8,7 +8,7 @@ import reducers from '../../reducers';
 import { getVAAppointmentMock, getVAFacilityMock } from '../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
 
-import FutureAppointmentsList from '../../features/components/FutureAppointmentsList';
+import FutureAppointmentsList from '../../appointment-list/FutureAppointmentsList';
 
 const initialState = {
   featureToggles: {

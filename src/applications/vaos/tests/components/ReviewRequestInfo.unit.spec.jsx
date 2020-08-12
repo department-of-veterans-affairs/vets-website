@@ -2,8 +2,8 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import ReviewRequestInfo from '../../features/appointments/ReviewPage/ReviewRequestInfo';
-import PreferredDates from '../../features/appointments/ReviewPage/PreferredDates';
+import ReviewRequestInfo from '../../new-appointment/ReviewPage/ReviewRequestInfo';
+import PreferredDates from '../../new-appointment/ReviewPage/PreferredDates';
 import { VHA_FHIR_ID } from '../../utils/constants';
 
 const defaultData = {

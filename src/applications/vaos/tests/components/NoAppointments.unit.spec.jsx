@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import NoAppointments from '../../features/components/NoAppointments';
+import NoAppointments from '../../components/Alerts/NoAppointments';
 
 describe('VAOS <NoAppointments>', () => {
   it('should render without schedule button', () => {

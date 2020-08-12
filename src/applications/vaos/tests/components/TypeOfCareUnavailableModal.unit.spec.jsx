@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import TypeOfCareUnavailableModal from '../../components/Modals/TypeOfCareUnavailableModal';
+import TypeOfCareUnavailableModal from '../../new-appointment/components/TypeOfCareUnavailableModal';
 
 const typeOfCare = 'Podiatry';
 
