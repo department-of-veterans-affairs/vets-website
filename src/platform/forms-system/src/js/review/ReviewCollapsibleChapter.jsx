@@ -5,7 +5,7 @@ import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 
 import ProgressButton from '../components/ProgressButton';
-import { focusOnChange, getScrollOptions } from '../utilities/ui';
+import { focusOnChange, focusElement, getScrollOptions } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema } from '../helpers';
 import ArrayField from './ArrayField';
@@ -20,6 +20,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
   constructor() {
     super();
     this.handleEdit = this.handleEdit.bind(this);
+    this.state = { editing: false };
   }
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
@@ -36,11 +37,11 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
   focusOnPage(key) {
     const name = `${key.replace(/:/g, '\\:')}`;
-    // legend & label target array type form elements
-    focusOnChange(name, 'p, legend, label');
+    focusElement(document.querySelector(`div[data-chapter="${name}"] button`));
   }
 
   handleEdit(key, editing, index = null) {
+    this.setState({ editing });
     const chapterName = `${key}${index === null ? '' : index}`;
     this.props.onEdit(key, editing, index);
     this.scrollToPage(chapterName);
@@ -262,7 +263,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 aria-controls={`collapsible-${this.id}`}
                 onClick={this.props.toggleButtonClicked}
               >
-                {chapterTitle || ''}
+                {`${this.state.editing ? 'Edit' : ''} ${chapterTitle || ''}`}
               </button>
               {showUnviewedPageWarning && (
                 <span className="schemaform-review-chapter-warning-icon" />
