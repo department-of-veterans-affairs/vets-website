@@ -206,6 +206,7 @@ const formConfig = {
                           'vaClaimNumber',
                           'placeOfBirth',
                           'gender',
+                          'race',
                           'maritalStatus',
                           'militaryStatus',
                         ],
@@ -269,9 +270,6 @@ const formConfig = {
                 gender: {
                   'ui:title':
                     "Sponsor's sex (information will be used for statistical purposes only)",
-                },
-                race: {
-                  'ui:title': 'Race/Ethnicity',
                 },
                 maritalStatus: {
                   'ui:title': 'Sponsor’s marital status',
