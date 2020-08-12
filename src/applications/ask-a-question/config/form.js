@@ -108,19 +108,19 @@ const formConfig = {
             [formFields.fullName]: fullNameUI,
             [formFields.email]: set(
               'ui:required',
-              (formData, index) => formData.preferredResponseType === 'email',
+              (formData, index) => formData.preferredContactMethod === 'email',
               emailUI(),
             ),
             [formFields.phoneNumber]: set(
               'ui:required',
-              (formData, index) => formData.preferredResponseType === 'phone',
+              (formData, index) => formData.preferredContactMethod === 'phone',
               phoneUI(),
             ),
             [formFields.address]: address.uiSchema(
               'Mailing address',
               false,
               (formData, index) => {
-                return formData.preferredResponseType === 'mail';
+                return formData.preferredContactMethod === 'mail';
               },
               false,
             ),
