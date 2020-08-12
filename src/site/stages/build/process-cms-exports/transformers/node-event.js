@@ -4,6 +4,7 @@ const {
   getWysiwygString,
   createLink,
   createMetaTagArray,
+  isPublished,
 } = require('./helpers');
 const { mapKeys, camelCase } = require('lodash');
 const assert = require('assert');
@@ -27,7 +28,7 @@ const transform = entity => ({
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   // TODO: Verify this is how to derive the entityPublished state
-  entityPublished: entity.moderationState[0].value === 'published',
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldAdditionalInformationAbo: entity.fieldAdditionalInformationAbo.value
     ? {
         processed: getWysiwygString(
@@ -80,7 +81,6 @@ module.exports = {
     'field_location_humanreadable',
     'field_media',
     'metatag',
-    'moderation_state',
     'status',
   ],
   transform,

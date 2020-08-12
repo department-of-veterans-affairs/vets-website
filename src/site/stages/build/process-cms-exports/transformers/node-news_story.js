@@ -15,7 +15,7 @@ const transform = entity => ({
   created: utcToEpochTime(getDrupalValue(entity.created)),
   promote: getDrupalValue(entity.promote),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldAuthor: entity.fieldAuthor[0] || null,
   fieldFullStory: {
     processed: getWysiwygString(getDrupalValue(entity.fieldFullStory)),
@@ -34,7 +34,6 @@ module.exports = {
     // 'uid',
     'created',
     'promote',
-    'moderation_state',
     'metatag',
     'path',
     'field_author',

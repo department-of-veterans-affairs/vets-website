@@ -91,7 +91,7 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
         <h1 className="vads-u-padding-x--2p5 vads-u-margin-bottom--2">
           Your VA debt
         </h1>
-        <div className="vads-u-display--flex vads-u-flex-direction--row">
+        <div className="large-screen:vads-u-display--flex vads-u-flex-direction--row vads-u-display--block">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <h2 className="vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--2">
               Download your debt letters, learn your payment options, or find
