@@ -21,38 +21,6 @@ const UrgentCareResult = ({ provider, query }) => {
   const { name } = provider.attributes;
   const distance = provider.distance;
 
-  const urgentCareCall = (prov, resultQuery) => {
-    const content = () => (
-      <p>
-        {' '}
-        Before going to a clinic for urgent care, please call the facility to
-        confirm that it's open and able to provide the care you need.{' '}
-      </p>
-    );
-
-    if (
-      resultQuery.facilityType === LocationType.URGENT_CARE &&
-      resultQuery.serviceType === 'NonVAUrgentCare'
-    ) {
-      return content();
-    }
-    if (
-      resultQuery.facilityType === LocationType.CC_PROVIDER &&
-      resultQuery.serviceType === CLINIC_URGENTCARE_SERVICE
-    ) {
-      return content();
-    }
-
-    if (
-      prov.type === LocationType.CC_PROVIDER &&
-      (!resultQuery.serviceType || resultQuery.serviceType === 'AllUrgentCare')
-    ) {
-      return <p>Call to confirm services and hours</p>;
-    }
-
-    return null;
-  };
-
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <div>
@@ -83,7 +51,7 @@ const UrgentCareResult = ({ provider, query }) => {
           from={'SearchResult'}
           query={query}
         />
-        {urgentCareCall(provider, query)}
+        <p>Call to confirm services and hours</p>
         <div
           className={`usa-alert usa-alert-info background-color-only vads-u-padding--1  vads-u-font-weight--bold`}
         >

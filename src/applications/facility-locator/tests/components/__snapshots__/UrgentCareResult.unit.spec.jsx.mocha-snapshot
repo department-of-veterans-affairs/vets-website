@@ -507,7 +507,13 @@ exports["UrgentCareResult/Should render UrgentCareResult VA(0)"] = {
               },
               "_store": {}
             },
-            null,
+            {
+              "type": "p",
+              "props": {
+                "children": "Call to confirm services and hours"
+              },
+              "_store": {}
+            },
             {
               "type": "div",
               "props": {
@@ -1054,7 +1060,13 @@ exports["UrgentCareResult/Should render UrgentCareResult VA(0)"] = {
             },
             "_store": {}
           },
-          null,
+          {
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "_store": {}
+          },
           {
             "type": "div",
             "props": {
@@ -1761,7 +1773,14 @@ exports["UrgentCareResult/Should render UrgentCareResult VA(0)"] = {
             }
           }
         },
-        null,
+        {
+          "nodeType": "host",
+          "type": "p",
+          "props": {
+            "children": "Call to confirm services and hours"
+          },
+          "rendered": "Call to confirm services and hours"
+        },
         {
           "nodeType": "host",
           "type": "div",
@@ -2359,7 +2378,13 @@ exports["UrgentCareResult/Should render UrgentCareResult VA(0)"] = {
               },
               "_store": {}
             },
-            null,
+            {
+              "type": "p",
+              "props": {
+                "children": "Call to confirm services and hours"
+              },
+              "_store": {}
+            },
             {
               "type": "div",
               "props": {
@@ -3066,7 +3091,14 @@ exports["UrgentCareResult/Should render UrgentCareResult VA(0)"] = {
               }
             }
           },
-          null,
+          {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "rendered": "Call to confirm services and hours"
+          },
           {
             "nodeType": "host",
             "type": "div",
@@ -4481,6 +4513,21 @@ exports["UrgentCareResult/Should render UrgentCareResult VA(0)"] = {
         {
           "node": {
             "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "rendered": "Call to confirm services and hours"
+          },
+          "type": "p",
+          "props": {},
+          "children": [
+            "Call to confirm services and hours"
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "host",
             "type": "div",
             "props": {
               "className": "usa usa background vads-  vads-",
@@ -4792,11 +4839,7 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
             {
               "type": "p",
               "props": {
-                "children": [
-                  " ",
-                  "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
-                  " "
-                ]
+                "children": "Call to confirm services and hours"
               },
               "_store": {}
             },
@@ -4965,11 +5008,7 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
           {
             "type": "p",
             "props": {
-              "children": [
-                " ",
-                "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
-                " "
-              ]
+              "children": "Call to confirm services and hours"
             },
             "_store": {}
           },
@@ -5171,17 +5210,9 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
           "nodeType": "host",
           "type": "p",
           "props": {
-            "children": [
-              " ",
-              "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
-              " "
-            ]
+            "children": "Call to confirm services and hours"
           },
-          "rendered": [
-            " ",
-            "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
-            " "
-          ]
+          "rendered": "Call to confirm services and hours"
         },
         {
           "nodeType": "host",
@@ -5399,11 +5430,7 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
             {
               "type": "p",
               "props": {
-                "children": [
-                  " ",
-                  "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
-                  " "
-                ]
+                "children": "Call to confirm services and hours"
               },
               "_store": {}
             },
@@ -5605,17 +5632,9 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
             "nodeType": "host",
             "type": "p",
             "props": {
-              "children": [
-                " ",
-                "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
-                " "
-              ]
+              "children": "Call to confirm services and hours"
             },
-            "rendered": [
-              " ",
-              "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
-              " "
-            ]
+            "rendered": "Call to confirm services and hours"
           },
           {
             "nodeType": "host",
@@ -6009,24 +6028,14 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
             "nodeType": "host",
             "type": "p",
             "props": {
-              "children": [
-                " ",
-                "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
-                " "
-              ]
+              "children": "Call to confirm services and hours"
             },
-            "rendered": [
-              " ",
-              "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
-              " "
-            ]
+            "rendered": "Call to confirm services and hours"
           },
           "type": "p",
           "props": {},
           "children": [
-            " ",
-            "Before going to a clinic for urgent care, please call the facility to confirm that it's open and able to provide the care you need.",
-            " "
+            "Call to confirm services and hours"
           ]
         },
         {

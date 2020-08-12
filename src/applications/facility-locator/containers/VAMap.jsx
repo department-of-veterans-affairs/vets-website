@@ -27,7 +27,7 @@ import {
   LocationType,
   MARKER_LETTERS,
 } from '../constants';
-import { areGeocodeEqual, setFocus, showDialogUrgCare } from '../utils/helpers';
+import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
@@ -557,7 +557,6 @@ class VAMap extends Component {
             suppressCCP={suppressCCP}
             isMobile
           />
-          <div>{showDialogUrgCare(currentQuery)}</div>
           <div ref={this.searchResultTitle}>
             {this.renderResultsHeader(
               results,
@@ -655,7 +654,6 @@ class VAMap extends Component {
             suppressPharmacies={suppressPharmacies}
           />
         </div>
-        <div>{showDialogUrgCare(currentQuery)}</div>
         <div ref={this.searchResultTitle}>
           {this.renderResultsHeader(
             results,
