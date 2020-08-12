@@ -1,5 +1,6 @@
-import { api, resolveParamsWithUrl } from '../config';
+import { api, resolveParamsWithUrl, urgentCareServices } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { FacilityType } from '../constants';
 
 class LocatorApi {
   /**
@@ -32,7 +33,18 @@ class LocatorApi {
 
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)
-        .then(res => res.json())
+        .then(res => {
+          if (
+            locationType === FacilityType.URGENT_CARE &&
+            (!serviceType || serviceType === Object.keys(urgentCareServices)[0])
+          ) {
+            // TODO to be tested
+            const urgData = res.json();
+            return urgData.included;
+          } else {
+            return res.json();
+          }
+        })
         .then(data => resolve(data), error => reject(error));
     });
   }

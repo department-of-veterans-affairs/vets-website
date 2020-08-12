@@ -733,6 +733,40 @@
           ]
         }
       }
+    },
+    {
+      "id": "1740385830",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "true",
+        "address": {
+          "street": "10550 W PARMER LN",
+          "city": "AUSTIN",
+          "state": "TX",
+          "zip": "78717"
+        },
+        "caresitePhone": "5123103190",
+        "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 30.497789,
+        "long": -97.77457,
+        "name": "CVS",
+        "phone": null,
+        "posCodes": null,
+        "prefContact": null,
+        "uniqueId": "1740385830"
+      },
+      "relationships": {
+        "specialties": {
+          "data": [
+            {
+              "id": "3336C0003X",
+              "type": "specialty"
+            }
+          ]
+        }
+      }
     }
   ],
   "meta": {

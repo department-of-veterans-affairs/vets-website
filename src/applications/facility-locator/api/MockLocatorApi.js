@@ -20,7 +20,9 @@ const testVAFacilityTypes = {
   vet_center: 'vet_center',
 };
 
-const pharmacyTypes = ['pharmacy'];
+const facilityResultType = 'facility';
+
+const pharmacyType = 'pharmacy';
 
 const ccProviderType = 'provider';
 
@@ -76,7 +78,7 @@ class MockLocatorApi {
             }
             if (serviceType === Object.keys(urgentCareServices)[1]) {
               locationsData = urgentCareData.data.filter(
-                loc => loc.type === 'facility',
+                loc => loc.type === facilityResultType,
               );
             }
             if (serviceType === Object.keys(urgentCareServices)[2]) {
@@ -86,6 +88,8 @@ class MockLocatorApi {
             }
           } else if (locationType === ccProviderType) {
             locationsData = [providersDataJson.data[10]];
+          } else if (locationType === pharmacyType) {
+            locationsData = [providersDataJson.data[11]];
           } else {
             locationsData = locations.data.filter(
               loc =>
