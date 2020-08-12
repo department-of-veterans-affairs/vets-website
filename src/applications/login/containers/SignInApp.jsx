@@ -84,7 +84,7 @@ class SignInPage extends React.Component {
         </div>
         <div className="row medium-screen:vads-u-display--none mobile-explanation">
           <div className="columns small-12">
-            <h2>
+            <h2 className="vads-u-margin-top--0">
               One sign in. A lifetime of benefits and services at your
               fingertips.
             </h2>

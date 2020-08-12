@@ -5,7 +5,7 @@ export default function SignInDescription() {
     <div className="usa-width-one-half">
       <div className="explanation-content vads-u-padding-left--2p5">
         <div className="vads-u-display--none medium-screen:vads-u-display--block">
-          <h2 className="usa-font-lead">
+          <h2 className="usa-font-lead vads-u-margin-top--0">
             One sign in. A lifetime of benefits and services at your fingertips.
           </h2>
         </div>
