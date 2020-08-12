@@ -35,6 +35,12 @@ export const questions = [
     ),
   },
   {
+    id: 'household-exposure-526',
+    text:
+      "Has anyone who lives with you had any of the above symptoms that aren't clearly caused by another condition?",
+    customId: ['526'],
+  },
+  {
     id: 'congestion',
     text: 'Do you currently have a runny nose or nasal congestion?',
   },

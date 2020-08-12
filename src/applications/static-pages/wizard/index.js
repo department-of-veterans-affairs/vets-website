@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import set from 'platform/utilities/data/set';
 
+import { connect } from 'react-redux';
+import { form526BDDFeature } from '../../disability-benefits/all-claims/config/selectors';
+
 export const NO_BENEFIT_REFERRED = 'no benefit was referred';
 export const WIZARD_STATUS_NOT_STARTED = 'not started';
 export const WIZARD_STATUS_COMPLETE = 'complete';
@@ -26,7 +29,7 @@ export const getReferredBenefit = async () =>
 export const getWizardStatus = async () =>
   (await sessionStorage.getItem('wizardStatus')) || WIZARD_STATUS_NOT_STARTED;
 
-export default class Wizard extends React.Component {
+export class Wizard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -118,6 +121,7 @@ export default class Wizard extends React.Component {
                     state={page.state}
                     setWizardStatus={setWizardStatus}
                     setReferredBenefit={setReferredBenefit}
+                    allowBDD={this.props.allowBDD}
                   />
                 );
               })}
@@ -150,3 +154,9 @@ Wizard.defaultProps = {
   setWizardStatus: () => {},
   setReferredBenefit: () => {},
 };
+
+const mapStateToProps = state => ({
+  allowBDD: form526BDDFeature(state),
+});
+
+export default connect(mapStateToProps)(Wizard);

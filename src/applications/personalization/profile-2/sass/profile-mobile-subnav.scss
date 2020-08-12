@@ -60,9 +60,8 @@
     ul {
       padding: units(1) 0;
       background-color: $color-white;
-      margin: 0 units(1) units(15);
+      margin: 0 units(1) units(1);
       border-top: 1px solid $color-gray-lighter;
-      border-bottom: 1px solid $color-gray-lighter;
 
       li {
         @include subnav-item;

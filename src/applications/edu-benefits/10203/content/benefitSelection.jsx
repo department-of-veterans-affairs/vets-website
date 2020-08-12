@@ -1,11 +1,5 @@
 import React from 'react';
 
-export const benefitSelectionDescription = () => (
-  <p>
-    Which benefits have you used or are you currently using?
-    <span className="schemaform-required-span">(*Required)</span>
-  </p>
-);
 export const benefitsLabels = {
   chapter33: (
     <p>

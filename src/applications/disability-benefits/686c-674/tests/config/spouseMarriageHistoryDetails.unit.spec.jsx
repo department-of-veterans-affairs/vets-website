@@ -161,7 +161,7 @@ describe('686 spouse marriage history details', () => {
     changeDropdown(form, 'select#root_startDateDay', 1);
     fillData(form, 'input#root_startDateYear', '2010');
     // Marriage start location
-    selectCheckbox(form, 'root_startLocation_isOutsideUS', true);
+    selectCheckbox(form, 'root_startLocation_isOutsideUs', true);
     changeDropdown(form, 'select#root_startLocation_country', 'AFG');
     fillData(form, 'input#root_startLocation_city', 'Outhere');
     // Reason marriage ended
@@ -176,7 +176,7 @@ describe('686 spouse marriage history details', () => {
     changeDropdown(form, 'select#root_endDateDay', 1);
     fillData(form, 'input#root_endDateYear', '2011');
     // Marriage end location
-    selectCheckbox(form, 'root_endLocation_isOutsideUS', true);
+    selectCheckbox(form, 'root_endLocation_isOutsideUs', true);
     changeDropdown(form, 'select#root_endLocation_country', 'AFG');
     fillData(form, 'input#root_endLocation_city', 'Not here');
     form.find('form').simulate('submit');

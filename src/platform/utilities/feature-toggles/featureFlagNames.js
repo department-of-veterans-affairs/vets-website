@@ -4,7 +4,6 @@ export default Object.freeze({
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
-  facilityLocatorFeUseV1: 'facilityLocatorFeUseV1',
   profileShowProfile2: 'profile_show_profile_2.0',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
@@ -37,4 +36,12 @@ export default Object.freeze({
   gibctFilterEnhancement: 'gibctFilterEnhancement',
   debtLettersShowLetters: 'debtLettersShowLetters',
   gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
+  form526BDD: 'form526BenefitsDeliveryAtDischarge',
+  showEduBenefits1995Wizard: 'show_edu_benefits_1995_wizard',
+  showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
+  showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
+  showEduBenefits1990NWizard: 'show_edu_benefits_1990n_wizard',
+  showEduBenefits5490Wizard: 'show_edu_benefits_5490_wizard',
+  showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
+  showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
 });

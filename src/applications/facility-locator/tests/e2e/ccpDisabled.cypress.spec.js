@@ -14,7 +14,7 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
     cy.server();
     cy.route('GET', '/v0/feature_toggles*', mockFeatureTogglesDisabled);
     cy.route('GET', '/v0/maintenance_windows', []);
-    cy.route('GET', '/v0/facilities/va?*', 'fx:constants/mock-facility-data');
+    cy.route('GET', '/v1/facilities/va?*', 'fx:constants/mock-facility-data');
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 

@@ -23,10 +23,12 @@ const testConfig = createTestConfig(
     },
 
     pageHooks: {
-      introduction: () => {
-        cy.findAllByText(/order/i, { selector: 'button' })
-          .first()
-          .click();
+      introduction: ({ afterHook }) => {
+        afterHook(() => {
+          cy.findAllByText(/order/i, { selector: 'button' })
+            .first()
+            .click();
+        });
       },
       address: () => {
         cy.get('@testKey').then(testKey => {
@@ -41,7 +43,6 @@ const testConfig = createTestConfig(
             cy.findByLabelText(/International Postal Code/i).type('T7N');
             cy.findByText(/Save temporary address/i).click();
             cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
-            cy.findByText(/Continue/i).click();
           } else {
             cy.findByText('Edit permanent address', {
               selector: 'button',
@@ -51,7 +52,6 @@ const testConfig = createTestConfig(
             cy.findByLabelText(/International Postal Code/i).type('T7N');
             cy.findByText(/Save permanent address/i).click();
             cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
-            cy.findByText(/Continue/i).click();
           }
         });
       },
@@ -67,7 +67,6 @@ const testConfig = createTestConfig(
             cy.get('#3').click();
             cy.get('#5').click();
           }
-          cy.findByText(/Continue/i, { selector: 'button' }).click();
         });
       },
     },

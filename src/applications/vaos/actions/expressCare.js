@@ -12,13 +12,9 @@ import {
   updatePreferences,
   getFacilitiesBySystemAndTypeOfCare,
   submitRequest,
+  getRequestEligibilityCriteria,
+  getParentFacilities,
 } from '../api';
-
-import {
-  getOrganizations,
-  getRootOrganization,
-  getSiteIdFromOrganization,
-} from '../services/organization';
 
 import {
   transformFormToExpressCareRequest,
@@ -28,7 +24,7 @@ import {
   selectSystemIds,
   selectActiveExpressCareFacility,
 } from '../utils/selectors';
-import { captureError, getErrorCodes } from '../utils/error';
+import { captureError } from '../utils/error';
 import {
   EXPRESS_CARE,
   GA_PREFIX,
@@ -52,8 +48,8 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
-export const FORM_REASON_FOR_REQUEST_PAGE_OPENED =
-  'expressCare/FORM_REASON_FOR_REQUEST_PAGE_OPENED';
+export const FORM_ADDITIONAL_DETAILS_PAGE_OPENED =
+  'expressCare/FORM_ADDITIONAL_DETAILS_PAGE_OPENED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -73,7 +69,7 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-export function openReasonForRequestPage(page, uiSchema, schema) {
+export function openAdditionalDetailsPage(page, uiSchema, schema) {
   return (dispatch, getState) => {
     const state = getState();
     const email = selectVet360EmailAddress(state);
@@ -81,7 +77,7 @@ export function openReasonForRequestPage(page, uiSchema, schema) {
     const mobilePhone = selectVet360MobilePhoneString(state);
     const phoneNumber = mobilePhone || homePhone;
     dispatch({
-      type: FORM_REASON_FOR_REQUEST_PAGE_OPENED,
+      type: FORM_ADDITIONAL_DETAILS_PAGE_OPENED,
       page,
       uiSchema,
       schema,
@@ -98,50 +94,15 @@ export function fetchExpressCareWindows() {
     });
 
     const initialState = getState();
-    const appointments = initialState.appointments;
-    let parentFacilities = appointments.parentFacilities;
     const userSiteIds = selectSystemIds(initialState);
 
     try {
-      if (!parentFacilities) {
-        parentFacilities = await getOrganizations({
-          siteIds: userSiteIds,
-          useVSP: false,
-        });
-        if (parentFacilities.length) {
-          const ids = parentFacilities.map(parent => parent.id);
-          const facilityData = [];
-
-          if (ids.length < 20) {
-            const paramsArray = parentFacilities.map(parent => {
-              const rootOrg = getRootOrganization(parentFacilities, parent.id);
-              return {
-                siteId: getSiteIdFromOrganization(rootOrg || parent),
-                parentId: parent.id.replace('var', ''),
-                typeOfCareId: EXPRESS_CARE,
-              };
-            });
-
-            facilityData.push(
-              ...(await Promise.all(
-                paramsArray.map(p =>
-                  getFacilitiesBySystemAndTypeOfCare(
-                    p.siteId,
-                    p.parentId,
-                    p.typeOfCareId,
-                  ),
-                ),
-              )),
-            );
-          }
-
-          dispatch({
-            type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
-            facilityData,
-            nowUtc: moment.utc(),
-          });
-        }
-      }
+      const settings = await getRequestEligibilityCriteria(userSiteIds);
+      dispatch({
+        type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+        settings,
+        nowUtc: moment.utc(),
+      });
     } catch (error) {
       captureError(error);
       dispatch({
@@ -193,17 +154,40 @@ export function routeToPreviousAppointmentPage(router, current) {
   );
 }
 
-async function buildPreferencesDataAndUpdate(data) {
+async function buildPreferencesDataAndUpdate(email) {
   const preferenceData = await getPreferences();
-  const preferenceBody = createPreferenceBody(preferenceData, data);
+  const preferenceBody = createPreferenceBody(preferenceData, email);
   return updatePreferences(preferenceBody);
+}
+
+async function getFacilityName(id) {
+  const systemId = id.substring(0, 3);
+  const parents = await getParentFacilities([systemId]);
+
+  const matchingParent = parents.find(parent => parent.institutionCode === id);
+  if (matchingParent) {
+    return matchingParent.authoritativeName;
+  }
+
+  const facilityLists = await Promise.all(
+    parents.map(parent =>
+      getFacilitiesBySystemAndTypeOfCare(
+        systemId,
+        parent.institutionCode,
+        EXPRESS_CARE,
+      ),
+    ),
+  );
+
+  return []
+    .concat(...facilityLists)
+    .find(facility => facility.institutionCode === id)?.authoritativeName;
 }
 
 export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
     const expressCare = getState().expressCare;
     const formData = expressCare.newRequest.data;
-    const { reasonForRequest, phoneNumber, email } = formData;
 
     const activeFacility = selectActiveExpressCareFacility(
       getState(),
@@ -225,11 +209,17 @@ export function submitExpressCareRequest(router) {
         throw new Error('No facilities available for Express Care request');
       }
 
-      requestBody = transformFormToExpressCareRequest(getState());
+      const facilityName = await getFacilityName(activeFacility.facilityId);
+      activeFacility.name = facilityName;
+
+      requestBody = transformFormToExpressCareRequest(
+        getState(),
+        activeFacility,
+      );
       const responseData = await submitRequest('va', requestBody);
 
       try {
-        await buildPreferencesDataAndUpdate(formData);
+        await buildPreferencesDataAndUpdate(formData.contactInfo.email);
       } catch (error) {
         // These are ancillary updates, the request went through if the first submit
         // succeeded

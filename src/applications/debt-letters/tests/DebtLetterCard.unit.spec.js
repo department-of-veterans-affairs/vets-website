@@ -90,7 +90,7 @@ describe('DebtLetterCard', () => {
         .dive()
         .find('h3')
         .text(),
-    ).to.equal('Comp and Pen debt');
+    ).to.equal('Chapter 35 education debt');
     expect(
       wrapper
         .dive()

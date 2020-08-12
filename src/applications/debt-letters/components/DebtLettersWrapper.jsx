@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { bindActionCreators } from 'redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import environment from 'platform/utilities/environment';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
 import PropTypes from 'prop-types';
 import { fetchDebtLetters, fetchDebtLettersVBMS } from '../actions';
 
@@ -17,7 +18,17 @@ class DebtLettersWrapper extends Component {
   }
 
   render() {
-    const { isPending, isPendingVBMS, children, showDebtLetters } = this.props;
+    const {
+      isPending,
+      isPendingVBMS,
+      children,
+      showDebtLetters,
+      isLoggedIn,
+    } = this.props;
+
+    if (environment.isProduction() && isLoggedIn === false) {
+      return window.location.replace('/manage-va-debt');
+    }
 
     if (showDebtLetters === false) {
       return window.location.replace('/');
