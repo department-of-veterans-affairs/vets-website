@@ -49,7 +49,9 @@ const { secondaryCaregiversUI } = definitions;
  */
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
+  submitUrl: `${
+    environment.API_URL
+  }/v0/caregivers_assistance_claims/download_pdf`,
   transformForSubmit: submitTransform,
   trackingPrefix: 'caregivers-10-10cg-',
   introduction: IntroductionPage,

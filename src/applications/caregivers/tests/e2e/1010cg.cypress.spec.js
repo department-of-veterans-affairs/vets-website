@@ -15,11 +15,7 @@ const secondaryTwoLabel =
 const testSecondaryTwo = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: [
-      'requiredOnly',
-      'oneSecondaryCaregivers',
-      'twoSecondaryCaregivers',
-    ],
+    dataSets: ['requiredOnly'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
@@ -136,7 +132,7 @@ const testSecondaryTwo = createTestConfig(
 
         cy.route({
           method: 'POST',
-          url: '/v0/caregivers_assistance_claims',
+          url: '/v0/caregivers_assistance_claims/download_pdf',
           status: 200,
           response: {
             body: {
@@ -155,7 +151,7 @@ const testSecondaryTwo = createTestConfig(
     },
 
     // disable all tests until 1010CG is in production
-    skip: true,
+    skip: false,
   },
   manifest,
   formConfig,
