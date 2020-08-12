@@ -146,7 +146,7 @@ export class SearchPage extends React.Component {
 
   handleFilterChange = (field, value) => {
     // Translate form selections to query params.
-    let query = {
+    const query = {
       ...this.props.location.query,
       [field]: value,
       name: value === undefined ? field : this.props.autocomplete.searchTerm,
@@ -175,18 +175,6 @@ export class SearchPage extends React.Component {
       delete query[field];
     }
 
-    if (field === 'gender') {
-      delete query?.menonly;
-      delete query?.womenonly;
-      if (value === 'womenonly') {
-        query = { ...query, womenonly: 'true' };
-      }
-      if (value === 'menonly') {
-        query = { ...query, menonly: 'true' };
-      }
-
-      delete query?.gender;
-    }
     this.props.router.push({ ...this.props.location, query });
   };
 
@@ -299,6 +287,7 @@ export class SearchPage extends React.Component {
         hideModal={this.props.hideModal}
         gibctFilterEnhancement={this.props.gibctFilterEnhancement}
         gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
+        institutionFilterChange={this.props.institutionFilterChange}
       />
     </div>
   );

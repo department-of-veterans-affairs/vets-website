@@ -15,19 +15,26 @@ import CautionaryWarningsFilter from './CautionaryWarningsFilter';
 import { religiousAffiliations } from '../../utils/data/religiousAffiliations';
 
 class InstitutionFilterForm extends React.Component {
-  state = { gender: 'Any' };
-
   handleDropdownChange = e => {
     const { name: field, value } = e.target;
-    if (field === 'gender') {
-      this.setState({ gender: value });
-    }
     this.props.handleFilterChange(field, value);
   };
 
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
     this.props.handleFilterChange(field, value);
+  };
+
+  handleGenderFilterChange = e => {
+    const { value } = e.target;
+
+    this.props.institutionFilterChange({
+      ...this.props.filters,
+      menonly: false,
+      womenonly: false,
+    });
+
+    this.props.handleFilterChange(value, true);
   };
 
   renderCategoryFilter = () => (
@@ -143,10 +150,9 @@ class InstitutionFilterForm extends React.Component {
     return (
       <div>
         <GenderFilter
-          gender={this.state.gender}
-          onChange={this.handleDropdownChange}
-          handleInputFocus={this.props.handleInputFocus}
-          handleFilterChange={this.props.handleFilterChange}
+          filters={this.props.filters}
+          onChange={this.handleGenderFilterChange}
+          onFocus={this.props.handleInputFocus}
         />
       </div>
     );
@@ -311,6 +317,7 @@ InstitutionFilterForm.propTypes = {
     relaffil: PropTypes.string,
   }),
   handleInputFocus: PropTypes.func,
+  institutionFilterChange: PropTypes.func,
 };
 
 InstitutionFilterForm.defaultProps = {};

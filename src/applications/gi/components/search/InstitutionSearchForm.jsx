@@ -57,6 +57,7 @@ function InstitutionSearchForm(props) {
             showModal={props.showModal}
             handleInputFocus={handleInstitutionSearchInputFocus}
             gibctFilterEnhancement={props.gibctFilterEnhancement}
+            institutionFilterChange={props.institutionFilterChange}
           />
           {props.gibctEstimateYourBenefits ? (
             <BenefitsForm
