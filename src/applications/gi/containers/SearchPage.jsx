@@ -144,9 +144,9 @@ export class SearchPage extends React.Component {
     });
   };
 
-  handleFilterChange = (field, value) => {
+  handleFilterChange = (field, value, transformer = null) => {
     // Translate form selections to query params.
-    const query = {
+    let query = {
       ...this.props.location.query,
       [field]: value,
       name: value === undefined ? field : this.props.autocomplete.searchTerm,
@@ -173,6 +173,10 @@ export class SearchPage extends React.Component {
 
     if (shouldRemoveFilter) {
       delete query[field];
+    }
+
+    if (transformer) {
+      query = transformer(query);
     }
 
     this.props.router.push({ ...this.props.location, query });
