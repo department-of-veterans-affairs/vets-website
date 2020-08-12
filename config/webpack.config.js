@@ -405,7 +405,8 @@ module.exports = env => {
       }),
     );
 
-    if (!buildOptions.noHmr) {
+    // In CI, the NODE_ENV is still production, so we have to check for that as well
+    if (!buildOptions.noHmr && !process.env.NODE_ENV === 'production') {
       baseConfig.plugins.push(new ReactRefreshWebpackPlugin());
     }
   }
