@@ -10,10 +10,4 @@ describe('<CautionFlagHeading>', () => {
     expect(wrapper.html()).to.not.be.undefined;
     wrapper.unmount();
   });
-
-  it('renders with passed in property selected', () => {
-    const wrapper = shallow(<GenderFilter gender="menonly" />);
-    expect(wrapper.html()).to.not.be.undefined;
-    wrapper.unmount();
-  });
 });
