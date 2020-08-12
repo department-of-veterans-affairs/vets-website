@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { facilityTypes, urgentCareServices, healthServices } from '../config';
+import {
+  facilityTypes,
+  urgentCareServices,
+  healthServices,
+  benefitsServices,
+} from '../config';
 import { LocationType } from '../constants';
 import { connect } from 'react-redux';
 
@@ -29,6 +34,10 @@ export const SearchResultsHeader = ({
 
     if (facilityType === LocationType.CC_PROVIDER) {
       return specialtyMap[rawServiceType];
+    }
+
+    if (facilityType === LocationType.BENEFITS) {
+      return benefitsServices[rawServiceType];
     }
 
     return rawServiceType;
