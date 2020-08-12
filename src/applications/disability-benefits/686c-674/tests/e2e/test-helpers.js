@@ -107,10 +107,7 @@ export const fillChildPlaceOfBirthAndStatusInformation = (
   isMarried = false,
 ) => {
   client
-    .fill(
-      'input[name="root_placeOfBirth_state"]',
-      data.childInformation[0].birthLocationState,
-    )
+    .selectDropdown('root_placeOfBirth_state', 'CA')
     .fill(
       'input[name="root_placeOfBirth_city"]',
       data.childInformation[0].birthLocationCity,
@@ -666,27 +663,27 @@ export const fillStepchildDetails = (client, data) => {
 
 export const fill674StudentInformation = (client, data) => {
   client.fill(
-    'input[name="root_studentNameAndSSN_fullName_first"]',
+    'input[name="root_studentNameAndSsn_fullName_first"]',
     data.for674.studentInformation.firstName,
   );
   client.fill(
-    'input[name="root_studentNameAndSSN_fullName_last"]',
+    'input[name="root_studentNameAndSsn_fullName_last"]',
     data.for674.studentInformation.lastName,
   );
   client.fill(
-    'input[name="root_studentNameAndSSN_ssn"]',
+    'input[name="root_studentNameAndSsn_ssn"]',
     data.for674.studentInformation.ssn,
   );
   client.selectDropdown(
-    'root_studentNameAndSSN_birthDateMonth',
+    'root_studentNameAndSsn_birthDateMonth',
     data.for674.studentInformation.dob.month,
   );
   client.selectDropdown(
-    'root_studentNameAndSSN_birthDateDay',
+    'root_studentNameAndSsn_birthDateDay',
     data.for674.studentInformation.dob.day,
   );
   client.fill(
-    'input[name="root_studentNameAndSSN_birthDateYear"]',
+    'input[name="root_studentNameAndSsn_birthDateYear"]',
     data.for674.studentInformation.dob.year,
   );
 };

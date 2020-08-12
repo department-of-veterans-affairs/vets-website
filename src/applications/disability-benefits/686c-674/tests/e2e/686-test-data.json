@@ -48,7 +48,7 @@
         "dobMonth": "1",
         "dobDay": "1",
         "dobYear": "2010",
-        "birthLocationState": "California",
+        "birthLocationState": "CA",
         "birthLocationCity": "Los Angeles",
         "status": {
           "biological": true
