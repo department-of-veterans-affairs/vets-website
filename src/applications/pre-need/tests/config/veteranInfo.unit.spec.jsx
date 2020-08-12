@@ -25,7 +25,7 @@ describe('Pre-need veteran information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(15);
     expect(form.find('select').length).to.equal(1);
     form.unmount();
   });
@@ -43,7 +43,7 @@ describe('Pre-need veteran information', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -61,6 +61,7 @@ describe('Pre-need veteran information', () => {
 
     selectRadio(form, 'root_application_veteran_gender', 'Female');
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
+    selectRadio(form, 'root_application_veteran_ethnicity', 'I');
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
 
     form.find('form').simulate('submit');
@@ -93,6 +94,7 @@ describe('Pre-need veteran information', () => {
     );
     selectRadio(form, 'root_application_veteran_gender', 'Female');
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
+    selectRadio(form, 'root_application_veteran_ethnicity', 'I');
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
 
     form.find('form').simulate('submit');

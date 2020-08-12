@@ -190,7 +190,12 @@ const formConfig = {
                 properties: {
                   veteran: {
                     type: 'object',
-                    required: ['gender', 'maritalStatus', 'militaryStatus'],
+                    required: [
+                      'gender',
+                      'maritalStatus',
+                      'militaryStatus',
+                      'race',
+                    ],
                     properties: _.set(
                       'militaryStatus.enum',
                       veteran.properties.militaryStatus.enum.filter(
@@ -204,6 +209,7 @@ const formConfig = {
                           'vaClaimNumber',
                           'placeOfBirth',
                           'gender',
+                          'race',
                           'maritalStatus',
                           'militaryStatus',
                         ],
@@ -315,6 +321,7 @@ const formConfig = {
                     required: [
                       'ssn',
                       'gender',
+                      'ethnicity',
                       'maritalStatus',
                       'militaryStatus',
                       'isDeceased',
@@ -328,6 +335,7 @@ const formConfig = {
                         'vaClaimNumber',
                         'placeOfBirth',
                         'gender',
+                        'ethnicity',
                         'maritalStatus',
                         'militaryStatus',
                         'isDeceased',

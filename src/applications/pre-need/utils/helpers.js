@@ -313,6 +313,21 @@ export const veteranUI = {
       },
     },
   },
+  race: {
+    'ui:title': 'Race/Ethnicity',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        I: 'American Indian or Alaskan Native',
+        A: 'Asian',
+        B: 'Black or African American',
+        H: 'Hispanic or Latino',
+        U: 'Not Hispanic or Latino',
+        P: 'Native Hawaiian or Other Pacific Islander',
+        W: 'White',
+      },
+    },
+  },
   militaryStatus: {
     'ui:title':
       'Current military status (You can add more service history information later in this application.)',
