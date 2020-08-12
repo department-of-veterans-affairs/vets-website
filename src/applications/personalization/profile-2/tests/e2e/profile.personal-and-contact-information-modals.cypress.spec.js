@@ -27,12 +27,7 @@ const setup = (mobile = false) => {
 };
 
 const checkModals = options => {
-  const {
-    editButtonId,
-    otherSectionName,
-    editLineId,
-    sectionName,
-  } = options;
+  const { editButtonId, otherSectionName, editLineId, sectionName } = options;
 
   // Open edit view
   cy.findByRole('button', {
