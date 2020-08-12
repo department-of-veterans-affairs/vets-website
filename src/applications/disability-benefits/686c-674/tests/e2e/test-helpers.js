@@ -517,8 +517,8 @@ export const fillReportDivorceSpouseInformation = (client, data) => {
 
 export const fillReportDivorceLocationOfDivorce = (client, data) => {
   client
-    .fill(
-      'input[name="root_reportDivorce_location_state"]',
+    .selectDropdown(
+      'root_reportDivorce_location_state',
       data.veteranDomesticAddress.stateCode,
     )
     .fill(
@@ -560,8 +560,8 @@ export const fillDeceasedDetails = (client, data) => {
     .selectDropdown('root_dateMonth', data.deceasedDependent.date.month)
     .selectDropdown('root_dateDay', data.deceasedDependent.date.day)
     .fill('input[name="root_dateYear"]', data.deceasedDependent.date.year)
-    .fill(
-      'input[name="root_location_state"]',
+    .selectDropdown(
+      'root_location_state',
       data.deceasedDependent.location.state,
     )
     .fill(
