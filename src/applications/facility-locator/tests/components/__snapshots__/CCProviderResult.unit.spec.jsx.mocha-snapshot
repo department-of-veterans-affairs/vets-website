@@ -59,7 +59,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                       "type": "h2",
                       "props": {
                         "className": "vads- no",
-                        "children": "BADEA, LUANA"
+                        "children": "Badea, Luana"
                       },
                       "_store": {}
                     },
@@ -69,44 +69,38 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 "_store": {}
               },
               {
-                "type": "p",
+                "type": "LocationAddress",
                 "props": {
-                  "children": {
-                    "type": "LocationAddress",
-                    "props": {
-                      "location": {
-                        "id": "1326340985",
-                        "type": "provider",
-                        "attributes": {
-                          "accNewPatients": "true",
-                          "address": {
-                            "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                            "city": "AUSTIN",
-                            "state": "TX",
-                            "zip": "78748"
-                          },
-                          "caresitePhone": "512-291-4500",
-                          "email": "manager0441@dentalonepartners.com",
-                          "gender": "NotSpecified",
-                          "lat": 30.159468,
-                          "long": -97.792193,
-                          "name": "BADEA, LUANA",
-                          "phone": "512-291-4500",
-                          "uniqueId": "1326340985"
-                        },
-                        "relationships": {
-                          "specialties": {
-                            "data": [
-                              {
-                                "id": "122300000X",
-                                "type": "specialty"
-                              }
-                            ]
-                          }
-                        }
-                      }
+                  "location": {
+                    "id": "1326340985",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "true",
+                      "address": {
+                        "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                        "city": "AUSTIN",
+                        "state": "TX",
+                        "zip": "78748"
+                      },
+                      "caresitePhone": "512-291-4500",
+                      "email": "manager0441@dentalonepartners.com",
+                      "gender": "NotSpecified",
+                      "lat": 30.159468,
+                      "long": -97.792193,
+                      "name": "BADEA, LUANA",
+                      "phone": "512-291-4500",
+                      "uniqueId": "1326340985"
                     },
-                    "_store": {}
+                    "relationships": {
+                      "specialties": {
+                        "data": [
+                          {
+                            "id": "122300000X",
+                            "type": "specialty"
+                          }
+                        ]
+                      }
+                    }
                   }
                 },
                 "_store": {}
@@ -290,7 +284,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                     "type": "h2",
                     "props": {
                       "className": "vads- no",
-                      "children": "BADEA, LUANA"
+                      "children": "Badea, Luana"
                     },
                     "_store": {}
                   },
@@ -300,44 +294,38 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
               "_store": {}
             },
             {
-              "type": "p",
+              "type": "LocationAddress",
               "props": {
-                "children": {
-                  "type": "LocationAddress",
-                  "props": {
-                    "location": {
-                      "id": "1326340985",
-                      "type": "provider",
-                      "attributes": {
-                        "accNewPatients": "true",
-                        "address": {
-                          "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                          "city": "AUSTIN",
-                          "state": "TX",
-                          "zip": "78748"
-                        },
-                        "caresitePhone": "512-291-4500",
-                        "email": "manager0441@dentalonepartners.com",
-                        "gender": "NotSpecified",
-                        "lat": 30.159468,
-                        "long": -97.792193,
-                        "name": "BADEA, LUANA",
-                        "phone": "512-291-4500",
-                        "uniqueId": "1326340985"
-                      },
-                      "relationships": {
-                        "specialties": {
-                          "data": [
-                            {
-                              "id": "122300000X",
-                              "type": "specialty"
-                            }
-                          ]
-                        }
-                      }
-                    }
+                "location": {
+                  "id": "1326340985",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "true",
+                    "address": {
+                      "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                      "city": "AUSTIN",
+                      "state": "TX",
+                      "zip": "78748"
+                    },
+                    "caresitePhone": "512-291-4500",
+                    "email": "manager0441@dentalonepartners.com",
+                    "gender": "NotSpecified",
+                    "lat": 30.159468,
+                    "long": -97.792193,
+                    "name": "BADEA, LUANA",
+                    "phone": "512-291-4500",
+                    "uniqueId": "1326340985"
                   },
-                  "_store": {}
+                  "relationships": {
+                    "specialties": {
+                      "data": [
+                        {
+                          "id": "122300000X",
+                          "type": "specialty"
+                        }
+                      ]
+                    }
+                  }
                 }
               },
               "_store": {}
@@ -476,7 +464,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
-                    "children": "BADEA, LUANA"
+                    "children": "Badea, Luana"
                   },
                   "_store": {}
                 },
@@ -530,88 +518,45 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "BADEA, LUANA"
+                  "children": "Badea, Luana"
                 },
-                "rendered": "BADEA, LUANA"
+                "rendered": "Badea, Luana"
               },
               null
             ]
           },
           {
-            "nodeType": "host",
-            "type": "p",
+            "nodeType": "function",
+            "type": "LocationAddress",
             "props": {
-              "children": {
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "1326340985",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "true",
-                      "address": {
-                        "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                        "city": "AUSTIN",
-                        "state": "TX",
-                        "zip": "78748"
-                      },
-                      "caresitePhone": "512-291-4500",
-                      "email": "manager0441@dentalonepartners.com",
-                      "gender": "NotSpecified",
-                      "lat": 30.159468,
-                      "long": -97.792193,
-                      "name": "BADEA, LUANA",
-                      "phone": "512-291-4500",
-                      "uniqueId": "1326340985"
-                    },
-                    "relationships": {
-                      "specialties": {
-                        "data": [
-                          {
-                            "id": "122300000X",
-                            "type": "specialty"
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "function",
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "1326340985",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "true",
-                    "address": {
-                      "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                      "city": "AUSTIN",
-                      "state": "TX",
-                      "zip": "78748"
-                    },
-                    "caresitePhone": "512-291-4500",
-                    "email": "manager0441@dentalonepartners.com",
-                    "gender": "NotSpecified",
-                    "lat": 30.159468,
-                    "long": -97.792193,
-                    "name": "BADEA, LUANA",
-                    "phone": "512-291-4500",
-                    "uniqueId": "1326340985"
+              "location": {
+                "id": "1326340985",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "true",
+                  "address": {
+                    "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                    "city": "AUSTIN",
+                    "state": "TX",
+                    "zip": "78748"
                   },
-                  "relationships": {
-                    "specialties": {
-                      "data": [
-                        {
-                          "id": "122300000X",
-                          "type": "specialty"
-                        }
-                      ]
-                    }
+                  "caresitePhone": "512-291-4500",
+                  "email": "manager0441@dentalonepartners.com",
+                  "gender": "NotSpecified",
+                  "lat": 30.159468,
+                  "long": -97.792193,
+                  "name": "BADEA, LUANA",
+                  "phone": "512-291-4500",
+                  "uniqueId": "1326340985"
+                },
+                "relationships": {
+                  "specialties": {
+                    "data": [
+                      {
+                        "id": "122300000X",
+                        "type": "specialty"
+                      }
+                    ]
                   }
                 }
               }
@@ -846,7 +791,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                     "type": "h2",
                     "props": {
                       "className": "vads- no",
-                      "children": "BADEA, LUANA"
+                      "children": "Badea, Luana"
                     },
                     "_store": {}
                   },
@@ -856,44 +801,38 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
               "_store": {}
             },
             {
-              "type": "p",
+              "type": "LocationAddress",
               "props": {
-                "children": {
-                  "type": "LocationAddress",
-                  "props": {
-                    "location": {
-                      "id": "1326340985",
-                      "type": "provider",
-                      "attributes": {
-                        "accNewPatients": "true",
-                        "address": {
-                          "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                          "city": "AUSTIN",
-                          "state": "TX",
-                          "zip": "78748"
-                        },
-                        "caresitePhone": "512-291-4500",
-                        "email": "manager0441@dentalonepartners.com",
-                        "gender": "NotSpecified",
-                        "lat": 30.159468,
-                        "long": -97.792193,
-                        "name": "BADEA, LUANA",
-                        "phone": "512-291-4500",
-                        "uniqueId": "1326340985"
-                      },
-                      "relationships": {
-                        "specialties": {
-                          "data": [
-                            {
-                              "id": "122300000X",
-                              "type": "specialty"
-                            }
-                          ]
-                        }
-                      }
-                    }
+                "location": {
+                  "id": "1326340985",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "true",
+                    "address": {
+                      "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                      "city": "AUSTIN",
+                      "state": "TX",
+                      "zip": "78748"
+                    },
+                    "caresitePhone": "512-291-4500",
+                    "email": "manager0441@dentalonepartners.com",
+                    "gender": "NotSpecified",
+                    "lat": 30.159468,
+                    "long": -97.792193,
+                    "name": "BADEA, LUANA",
+                    "phone": "512-291-4500",
+                    "uniqueId": "1326340985"
                   },
-                  "_store": {}
+                  "relationships": {
+                    "specialties": {
+                      "data": [
+                        {
+                          "id": "122300000X",
+                          "type": "specialty"
+                        }
+                      ]
+                    }
+                  }
                 }
               },
               "_store": {}
@@ -1032,7 +971,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
-                    "children": "BADEA, LUANA"
+                    "children": "Badea, Luana"
                   },
                   "_store": {}
                 },
@@ -1086,88 +1025,45 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "BADEA, LUANA"
+                  "children": "Badea, Luana"
                 },
-                "rendered": "BADEA, LUANA"
+                "rendered": "Badea, Luana"
               },
               null
             ]
           },
           {
-            "nodeType": "host",
-            "type": "p",
+            "nodeType": "function",
+            "type": "LocationAddress",
             "props": {
-              "children": {
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "1326340985",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "true",
-                      "address": {
-                        "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                        "city": "AUSTIN",
-                        "state": "TX",
-                        "zip": "78748"
-                      },
-                      "caresitePhone": "512-291-4500",
-                      "email": "manager0441@dentalonepartners.com",
-                      "gender": "NotSpecified",
-                      "lat": 30.159468,
-                      "long": -97.792193,
-                      "name": "BADEA, LUANA",
-                      "phone": "512-291-4500",
-                      "uniqueId": "1326340985"
-                    },
-                    "relationships": {
-                      "specialties": {
-                        "data": [
-                          {
-                            "id": "122300000X",
-                            "type": "specialty"
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "function",
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "1326340985",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "true",
-                    "address": {
-                      "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                      "city": "AUSTIN",
-                      "state": "TX",
-                      "zip": "78748"
-                    },
-                    "caresitePhone": "512-291-4500",
-                    "email": "manager0441@dentalonepartners.com",
-                    "gender": "NotSpecified",
-                    "lat": 30.159468,
-                    "long": -97.792193,
-                    "name": "BADEA, LUANA",
-                    "phone": "512-291-4500",
-                    "uniqueId": "1326340985"
+              "location": {
+                "id": "1326340985",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "true",
+                  "address": {
+                    "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                    "city": "AUSTIN",
+                    "state": "TX",
+                    "zip": "78748"
                   },
-                  "relationships": {
-                    "specialties": {
-                      "data": [
-                        {
-                          "id": "122300000X",
-                          "type": "specialty"
-                        }
-                      ]
-                    }
+                  "caresitePhone": "512-291-4500",
+                  "email": "manager0441@dentalonepartners.com",
+                  "gender": "NotSpecified",
+                  "lat": 30.159468,
+                  "long": -97.792193,
+                  "name": "BADEA, LUANA",
+                  "phone": "512-291-4500",
+                  "uniqueId": "1326340985"
+                },
+                "relationships": {
+                  "specialties": {
+                    "data": [
+                      {
+                        "id": "122300000X",
+                        "type": "specialty"
+                      }
+                    ]
                   }
                 }
               }
@@ -1309,7 +1205,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
-                    "children": "BADEA, LUANA"
+                    "children": "Badea, Luana"
                   },
                   "_store": {}
                 },
@@ -1363,9 +1259,9 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "BADEA, LUANA"
+                  "children": "Badea, Luana"
                 },
-                "rendered": "BADEA, LUANA"
+                "rendered": "Badea, Luana"
               },
               null
             ]
@@ -1460,178 +1356,92 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "BADEA, LUANA"
+                  "children": "Badea, Luana"
                 },
-                "rendered": "BADEA, LUANA"
+                "rendered": "Badea, Luana"
               },
               "type": "h2",
               "props": {
                 "className": "vads- no"
               },
               "children": [
-                "BADEA, LUANA"
+                "Badea, Luana"
               ]
             }
           ]
         },
         {
           "node": {
-            "nodeType": "host",
-            "type": "p",
+            "nodeType": "function",
+            "type": "LocationAddress",
             "props": {
-              "children": {
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "1326340985",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "true",
-                      "address": {
-                        "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                        "city": "AUSTIN",
-                        "state": "TX",
-                        "zip": "78748"
-                      },
-                      "caresitePhone": "512-291-4500",
-                      "email": "manager0441@dentalonepartners.com",
-                      "gender": "NotSpecified",
-                      "lat": 30.159468,
-                      "long": -97.792193,
-                      "name": "BADEA, LUANA",
-                      "phone": "512-291-4500",
-                      "uniqueId": "1326340985"
-                    },
-                    "relationships": {
-                      "specialties": {
-                        "data": [
-                          {
-                            "id": "122300000X",
-                            "type": "specialty"
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "function",
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "1326340985",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "true",
-                    "address": {
-                      "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                      "city": "AUSTIN",
-                      "state": "TX",
-                      "zip": "78748"
-                    },
-                    "caresitePhone": "512-291-4500",
-                    "email": "manager0441@dentalonepartners.com",
-                    "gender": "NotSpecified",
-                    "lat": 30.159468,
-                    "long": -97.792193,
-                    "name": "BADEA, LUANA",
-                    "phone": "512-291-4500",
-                    "uniqueId": "1326340985"
+              "location": {
+                "id": "1326340985",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "true",
+                  "address": {
+                    "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                    "city": "AUSTIN",
+                    "state": "TX",
+                    "zip": "78748"
                   },
-                  "relationships": {
-                    "specialties": {
-                      "data": [
-                        {
-                          "id": "122300000X",
-                          "type": "specialty"
-                        }
-                      ]
-                    }
+                  "caresitePhone": "512-291-4500",
+                  "email": "manager0441@dentalonepartners.com",
+                  "gender": "NotSpecified",
+                  "lat": 30.159468,
+                  "long": -97.792193,
+                  "name": "BADEA, LUANA",
+                  "phone": "512-291-4500",
+                  "uniqueId": "1326340985"
+                },
+                "relationships": {
+                  "specialties": {
+                    "data": [
+                      {
+                        "id": "122300000X",
+                        "type": "specialty"
+                      }
+                    ]
                   }
                 }
               }
             }
           },
-          "type": "p",
-          "props": {},
-          "children": [
-            {
-              "node": {
-                "nodeType": "function",
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "1326340985",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "true",
-                      "address": {
-                        "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                        "city": "AUSTIN",
-                        "state": "TX",
-                        "zip": "78748"
-                      },
-                      "caresitePhone": "512-291-4500",
-                      "email": "manager0441@dentalonepartners.com",
-                      "gender": "NotSpecified",
-                      "lat": 30.159468,
-                      "long": -97.792193,
-                      "name": "BADEA, LUANA",
-                      "phone": "512-291-4500",
-                      "uniqueId": "1326340985"
-                    },
-                    "relationships": {
-                      "specialties": {
-                        "data": [
-                          {
-                            "id": "122300000X",
-                            "type": "specialty"
-                          }
-                        ]
-                      }
-                    }
-                  }
-                }
+          "type": "LocationAddress",
+          "props": {
+            "location": {
+              "id": "1326340985",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "true",
+                "address": {
+                  "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                  "city": "AUSTIN",
+                  "state": "TX",
+                  "zip": "78748"
+                },
+                "caresitePhone": "512-291-4500",
+                "email": "manager0441@dentalonepartners.com",
+                "gender": "NotSpecified",
+                "lat": 30.159468,
+                "long": -97.792193,
+                "name": "BADEA, LUANA",
+                "phone": "512-291-4500",
+                "uniqueId": "1326340985"
               },
-              "type": "LocationAddress",
-              "props": {
-                "location": {
-                  "id": "1326340985",
-                  "type": "provider",
-                  "attributes": {
-                    "accNewPatients": "true",
-                    "address": {
-                      "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                      "city": "AUSTIN",
-                      "state": "TX",
-                      "zip": "78748"
-                    },
-                    "caresitePhone": "512-291-4500",
-                    "email": "manager0441@dentalonepartners.com",
-                    "gender": "NotSpecified",
-                    "lat": 30.159468,
-                    "long": -97.792193,
-                    "name": "BADEA, LUANA",
-                    "phone": "512-291-4500",
-                    "uniqueId": "1326340985"
-                  },
-                  "relationships": {
-                    "specialties": {
-                      "data": [
-                        {
-                          "id": "122300000X",
-                          "type": "specialty"
-                        }
-                      ]
+              "relationships": {
+                "specialties": {
+                  "data": [
+                    {
+                      "id": "122300000X",
+                      "type": "specialty"
                     }
-                  }
+                  ]
                 }
               }
             }
-          ]
+          }
         },
         {
           "node": {
