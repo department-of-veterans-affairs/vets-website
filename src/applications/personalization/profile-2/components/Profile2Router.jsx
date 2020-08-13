@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { LastLocationProvider } from 'react-router-last-location';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import DowntimeNotification, {
@@ -125,64 +126,69 @@ class Profile2Router extends Component {
 
     return (
       <BrowserRouter>
-        <Profile2Wrapper
-          routes={routes}
-          isLOA3={this.props.isLOA3}
-          isInMVI={this.props.isInMVI}
-        >
-          <Switch>
-            {/* Redirect users to Account Security to upgrade their account if they need to */}
-            {routes.map(route => {
-              if (
-                (route.requiresLOA3 && !this.props.isLOA3) ||
-                (route.requiresMVI && !this.props.isInMVI)
-              ) {
+        <LastLocationProvider>
+          <Profile2Wrapper
+            routes={routes}
+            isLOA3={this.props.isLOA3}
+            isInMVI={this.props.isInMVI}
+          >
+            <Switch>
+              {/* Redirect users to Account Security to upgrade their account if they need to */}
+              {routes.map(route => {
+                if (
+                  (route.requiresLOA3 && !this.props.isLOA3) ||
+                  (route.requiresMVI && !this.props.isInMVI)
+                ) {
+                  return (
+                    <Redirect
+                      from={route.path}
+                      to={PROFILE_PATHS.ACCOUNT_SECURITY}
+                      key={route.path}
+                    />
+                  );
+                }
+
+                if (
+                  route.path === PROFILE_PATHS.MILITARY_INFORMATION &&
+                  !this.props.shouldShowMilitaryInformation
+                ) {
+                  return (
+                    <Redirect
+                      to={PROFILE_PATHS.PROFILE_ROOT}
+                      key={route.path}
+                    />
+                  );
+                }
+
                 return (
-                  <Redirect
-                    from={route.path}
-                    to={PROFILE_PATHS.ACCOUNT_SECURITY}
+                  <Route
+                    component={route.component}
+                    exact
                     key={route.path}
+                    path={route.path}
                   />
                 );
-              }
+              })}
 
-              if (
-                route.path === PROFILE_PATHS.MILITARY_INFORMATION &&
-                !this.props.shouldShowMilitaryInformation
-              ) {
-                return (
-                  <Redirect to={PROFILE_PATHS.PROFILE_ROOT} key={route.path} />
-                );
-              }
+              <Redirect
+                exact
+                from="/profile#contact-information"
+                to={PROFILE_PATHS.PERSONAL_INFORMATION}
+              />
 
-              return (
-                <Route
-                  component={route.component}
-                  exact
-                  key={route.path}
-                  path={route.path}
-                />
-              );
-            })}
+              <Redirect
+                exact
+                from={PROFILE_PATHS.PROFILE_ROOT}
+                to={PROFILE_PATHS.PERSONAL_INFORMATION}
+              />
 
-            <Redirect
-              exact
-              from="/profile#contact-information"
-              to={PROFILE_PATHS.PERSONAL_INFORMATION}
-            />
-
-            <Redirect
-              exact
-              from={PROFILE_PATHS.PROFILE_ROOT}
-              to={PROFILE_PATHS.PERSONAL_INFORMATION}
-            />
-
-            {/* fallback handling: redirect to root route */}
-            <Route path="*">
-              <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
-            </Route>
-          </Switch>
-        </Profile2Wrapper>
+              {/* fallback handling: redirect to root route */}
+              <Route path="*">
+                <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
+              </Route>
+            </Switch>
+          </Profile2Wrapper>
+        </LastLocationProvider>
       </BrowserRouter>
     );
   };

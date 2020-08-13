@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Prompt } from 'react-router-dom';
+import { useLastLocation } from 'react-router-last-location';
 import { connect } from 'react-redux';
 
 import DowntimeNotification, {
@@ -14,13 +15,26 @@ import { directDepositIsBlocked } from 'applications/personalization/profile360/
 
 import PersonalInformationContent from './PersonalInformationContent';
 
+import { PROFILE_PATHS } from '../../constants';
+
 const PersonalInformation = ({
   showDirectDepositBlockedError,
   hasUnsavedEdits,
 }) => {
-  useEffect(() => {
-    focusElement('[data-focus-target]');
-  }, []);
+  const lastLocation = useLastLocation();
+  useEffect(
+    () => {
+      // Do not manage the focus if the user just came to this route via the
+      // root profile route. If a user got to the Profile via a link to /profile
+      // we want to focus on the "Your Profile" sub-nav H1, not the H2 on this
+      // page
+      if (lastLocation?.pathname === `${PROFILE_PATHS.PROFILE_ROOT}/`) {
+        return;
+      }
+      focusElement('[data-focus-target]');
+    },
+    [lastLocation],
+  );
 
   useEffect(
     () => {
