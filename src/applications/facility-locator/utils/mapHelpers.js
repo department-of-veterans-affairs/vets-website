@@ -54,13 +54,22 @@ export const reverseGeocode = async (lon, lat, types) => {
     .reverseGeocode({ query: [lon, lat], types })
     .send()
     .catch();
-  const {
-    features: {
-      0: { place_name: placeName },
-    },
-  } = response.body;
 
-  return placeName;
+  if (
+    response.body &&
+    response.body.features &&
+    response.body.features.length > 0
+  ) {
+    const {
+      features: {
+        0: { place_name: placeName },
+      },
+    } = response.body;
+
+    return placeName;
+  }
+
+  return null;
 };
 
 /**

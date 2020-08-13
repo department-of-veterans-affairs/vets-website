@@ -93,31 +93,34 @@ function ExpressCareReasonPage({
         onSubmit={() => routeToNextAppointmentPage(router, pageKey)}
         data={data}
       >
-        <AlertBox
-          status="info"
-          headline="Same-day mental health appointments"
-          className="vads-u-margin-y--2"
-        >
-          <p>
-            If you need a same day mental health appointment, you can{' '}
+        <AlertBox status="info" className="vads-u-margin-y--2">
+          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4 vads-u-margin-bottom--1">
+            If you need a mental health appointment today
+          </h3>
+          <p className="vads-u-margin-top--0">
+            Please call your nearest VA medical center or Vet center, and ask
+            for a “same-day mental health appointment.”
+            <br />
             <a
               onClick={recordFacilitiesLinkEvent}
               href="/find-locations?facilityType=health&serviceType=MentalHealthCare"
             >
-              call your VA medical center
-            </a>{' '}
-            and request a "same day mental health appointment".
+              Find a VA location
+            </a>
           </p>
-          <p>
-            Don't see your symptoms listed?{' '}
+          <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--1">
+            If your health concern isn’t listed here
+          </h3>
+          <p className="vads-u-margin-top--0">
+            Please use our{' '}
             <Link
               onClick={recordNewAppointmentEvent}
               id="new-appointment"
               to="/new-appointment"
             >
-              Schedule an appointment here
-            </Link>
-            .
+              appointments tool
+            </Link>{' '}
+            to schedule an appointment.
           </p>
         </AlertBox>
         <FormButtons

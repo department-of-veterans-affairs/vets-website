@@ -114,10 +114,12 @@ describe('search query reducer', () => {
   it('should handle provider services fetched', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
       type: FETCH_SPECIALTIES_DONE,
+      data: [{ specialtyCode: 'foo', name: 'bar' }],
     });
 
     expect(state.error).to.eql(false);
     expect(state.fetchSvcsInProgress).to.eql(false);
+    expect(state.specialties).to.eql({ foo: 'bar' });
   });
 
   it('should handle failed fetching provider services', () => {

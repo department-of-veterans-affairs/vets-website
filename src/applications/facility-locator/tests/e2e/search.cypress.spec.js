@@ -27,8 +27,11 @@ describe('Facility search', () => {
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select('VA health');
+    cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click();
-    cy.get('#facility-search-results').should('exist');
+    cy.get('#facility-search-results').contains(
+      'Results for "VA health", "Primary care" near "Austin, Texas"',
+    );
     cy.get('.facility-result a').should('exist');
   });
 
