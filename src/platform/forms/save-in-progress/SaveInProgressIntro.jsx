@@ -143,9 +143,9 @@ class SaveInProgressIntro extends React.Component {
         buttonOnly,
         retentionPeriod,
         unauthStartText,
-        buttonClasses,
+        unauthButtonClasses,
       } = this.props;
-      const classes = classNames('usa-button-primary', buttonClasses);
+      const classes = classNames('usa-button-primary', unauthButtonClasses);
       const unauthStartButton = (
         <button className={classes} onClick={this.openLoginModal}>
           {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
@@ -351,7 +351,7 @@ class SaveInProgressIntro extends React.Component {
 
 SaveInProgressIntro.propTypes = {
   buttonOnly: PropTypes.bool,
-  buttonClasses: PropTypes.arrayOf(PropTypes.string),
+  unauthButtonClasses: PropTypes.arrayOf(PropTypes.string),
   afterButtonContent: PropTypes.element,
   prefillEnabled: PropTypes.bool,
   formId: PropTypes.string.isRequired,
