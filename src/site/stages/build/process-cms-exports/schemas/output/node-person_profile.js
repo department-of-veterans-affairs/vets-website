@@ -34,7 +34,6 @@ module.exports = {
     fieldIntroText: { type: ['string', 'null'] },
     fieldPhotoAllowHiresDownload: { type: 'boolean' },
     changed: { type: 'number' },
-    status: { type: 'boolean' },
   },
   required: [
     'title',
@@ -51,6 +50,5 @@ module.exports = {
     'fieldIntroText',
     'fieldPhotoAllowHiresDownload',
     'changed',
-    'status',
   ],
 };

@@ -24,9 +24,8 @@ module.exports = {
     // Used for reverse fields
     field_intro_text: { $ref: 'GenericNestedString' },
     field_photo_allow_hires_download: { $ref: 'GenericNestedBoolean' },
+    moderation_state: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
-    // Needed for filtering reverse fields in other transformers
-    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'path',
@@ -42,6 +41,6 @@ module.exports = {
     'field_intro_text',
     'field_photo_allow_hires_download',
     'changed',
-    'status',
+    'moderation_state',
   ],
 };

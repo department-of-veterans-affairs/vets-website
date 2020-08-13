@@ -124,7 +124,9 @@ function VetTecProgramSearchResult(props) {
               {isPresent(lengthInHours) && (
                 <div className="info-flag">{displayHours}</div>
               )}
-              <Link to={linkTo}>View details ›</Link>
+              <div className="vads-u-margin-top--1">
+                <Link to={linkTo}>View details ›</Link>
+              </div>
             </div>
           </div>
         </div>
