@@ -30,6 +30,10 @@ module.exports = {
     },
     fieldPhoneNumber: { type: ['string', 'null'] },
     fieldSuffix: { type: ['string', 'null'] },
+    entityPublished: { type: 'boolean' },
+    fieldIntroText: { type: ['string', 'null'] },
+    fieldPhotoAllowHiresDownload: { type: 'boolean' },
+    changed: { type: 'number' },
   },
   required: [
     'title',
@@ -42,5 +46,9 @@ module.exports = {
     'fieldOffice',
     'fieldPhoneNumber',
     'fieldSuffix',
+    'entityPublished',
+    'fieldIntroText',
+    'fieldPhotoAllowHiresDownload',
+    'changed',
   ],
 };
