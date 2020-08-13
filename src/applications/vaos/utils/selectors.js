@@ -572,26 +572,25 @@ export function selectNextAvailableExpressCareWindowString(state, nowMoment) {
   const todayDayOfWeekIndex = Number(nowFacilityTime.format('d'));
   const todaysWindow = facility.days.find(d => d.day === dayOfWeek);
 
-  // Sort schedulable days starting from today so we can easily find the next
+  // Sort schedulable days after today so we can easily find the next
   // day if needed
-  const daysSortedStartingToday = [
-    todaysWindow,
+  const schedulableDaysAfterToday = [
     ...facility.days.filter(day => day.dayOfWeekIndex > todayDayOfWeekIndex),
     ...facility.days.filter(day => day.dayOfWeekIndex < todayDayOfWeekIndex),
-  ].filter(day => !!day);
+  ];
 
   if (todaysWindow) {
     const start = moment.tz(
       `${nowFacilityTime.format('YYYY-MM-DD')}T${todaysWindow.startTime}:00`,
       timezone,
     );
-    if (nowFacilityTime.isBefore(start)) {
+    if (nowMoment.isBefore(start)) {
       // If today is schedulable and we are before the window, return today's window
       return getWindowString(todaysWindow, timezoneAbbreviation, true);
     } else {
       // In the rare case the today is the only schedulable day and they are past the window,
       // return today's window and specify "next week". Otherwise, return the next schedulable day
-      if (daysSortedStartingToday.length === 1) {
+      if (!schedulableDaysAfterToday.length) {
         return `next ${getWindowString(
           todaysWindow,
           timezoneAbbreviation,
@@ -599,7 +598,7 @@ export function selectNextAvailableExpressCareWindowString(state, nowMoment) {
         )}`;
       }
       return getWindowString(
-        daysSortedStartingToday[1],
+        schedulableDaysAfterToday[0],
         timezoneAbbreviation,
         false,
       );
@@ -607,7 +606,7 @@ export function selectNextAvailableExpressCareWindowString(state, nowMoment) {
   } else {
     // If today isn't schedulable, return the next day that is
     return getWindowString(
-      daysSortedStartingToday[0],
+      schedulableDaysAfterToday[0],
       timezoneAbbreviation,
       false,
     );
