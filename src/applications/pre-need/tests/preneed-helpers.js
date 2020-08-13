@@ -57,12 +57,12 @@ function completeVeteranInformation(client, data) {
       'input[name="root_application_veteran_placeOfBirth"]',
       data.application.veteran.placeOfBirth,
     )
+    .click(
+      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
+    )
     .selectRadio(
       'root_application_veteran_gender',
       data.application.veteran.gender,
-    )
-    .click(
-      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
     )
     .selectRadio(
       'root_application_veteran_maritalStatus',
