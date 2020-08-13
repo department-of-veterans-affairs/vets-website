@@ -11,7 +11,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Ensure introduction page renders.
   client
     .openUrl(
-      `${E2eHelpers.baseUrl}/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203`,
+      `${E2eHelpers.baseUrl}
+      /education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203`,
     )
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
