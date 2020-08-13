@@ -6,7 +6,7 @@ const transform = (entity, { ancestors }) => ({
   title: `${getDrupalValue(entity.fieldNameFirst)} ${getDrupalValue(
     entity.fieldLastName,
   )}`,
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldBody: getDrupalValue(entity.fieldBody),
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldEmailAddress: getDrupalValue(entity.fieldEmailAddress),
@@ -34,6 +34,7 @@ const transform = (entity, { ancestors }) => ({
     entity.fieldPhotoAllowHiresDownload,
   ),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
+  status: getDrupalValue(entity.status),
 });
 module.exports = {
   filter: [
@@ -51,6 +52,7 @@ module.exports = {
     'field_photo_allow_hires_download',
     'changed',
     'moderation_state',
+    'status',
   ],
   transform,
 };
