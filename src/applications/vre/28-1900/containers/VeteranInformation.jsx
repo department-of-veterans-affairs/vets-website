@@ -1,18 +1,6 @@
 /**
- * The Challenge:
- * Logged out view allows a veteran to fill out name, dob, ssn, and va file number.
- * Logged in view pulls data from the profile to populate a view only component with name, dob, and gender.
- *
- * The Implications
- * There needs to be a flexible schema that can support a logged out flow where we collect personal information
- * but also allows for the limited information we pull from the profile if they are logged in.
- *
- * There needs to be a mechanism that toggles between these two states (logged in/out).
- * We need to connect to the store in this component.
- *
- * Done:
- * 1. Toggle between view component and form fields when logged in/out
- * 2. Update formData via setData action dispatch
+It might be worthwhile to just detect if we're on the review page here, instead of in the VeteranInformationViewComponent.
+This way, we can use hideHeaderRow in the formConfig, and just rebuild the review field using formContext.
  */
 import React from 'react';
 import { connect } from 'react-redux';
@@ -25,6 +13,7 @@ const VeteranInformation = props => {
   const {
     user,
     formData,
+    formContext,
     registry,
     schema,
     uiSchema,
@@ -45,7 +34,9 @@ const VeteranInformation = props => {
         <VeteranInformationViewComponent
           profile={user.profile}
           formData={formData}
+          formContext={formContext}
           setData={props.setData}
+          reviewPageView={props.reviewPageView}
         />
       ) : (
         <div>
@@ -105,6 +96,7 @@ const VeteranInformation = props => {
 
 const mapStateToProps = state => ({
   user: state.user,
+  reviewPageView: state.form.reviewPageView.openChapters,
 });
 
 const mapDispatchToProps = {

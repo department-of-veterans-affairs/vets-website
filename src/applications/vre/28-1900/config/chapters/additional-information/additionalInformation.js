@@ -50,6 +50,7 @@ export const uiSchema = {
       for this again when we process your application.
     </p>
   ),
+  'ui:title': 'Additional Information',
   educationLevel: {
     'ui:title': 'Highest education level',
   },

@@ -1,6 +1,6 @@
-import VeteranInformation from '../../../../containers/VeteranInformation';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import VeteranInformation from '../../../../containers/VeteranInformation';
 
 export const schema = {
   type: 'object',
