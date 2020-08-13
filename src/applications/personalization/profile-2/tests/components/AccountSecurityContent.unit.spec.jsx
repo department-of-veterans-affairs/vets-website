@@ -123,7 +123,9 @@ describe('AccountSecurityContent', () => {
     expect(alertBox.prop('backgroundOnly')).to.be.true;
     expect(alertBoxText.text()).to.contain('Get answers');
     expect(alertBoxLink.prop('href')).to.equal('/sign-in-faq/');
-    expect(alertBoxLink.text()).to.equal('Go to FAQs about signing in to VA.gov');
+    expect(alertBoxLink.text()).to.equal(
+      'Go to FAQs about signing in to VA.gov',
+    );
     wrapper.unmount();
   });
 });
