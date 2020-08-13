@@ -36,10 +36,7 @@ import {
 import { APPOINTMENT_TYPES, APPOINTMENT_STATUS } from '../../utils/constants';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../actions/sitewide';
 
-import parentFacilities from '../../api/facilities.json';
 import facilityData from '../../api/facility_data.json';
-import facilityExpressCareData from '../../api/facilities_983_express_care.json';
-import clinicData from '../../api/clinics.json';
 import cancelReasons from '../../api/cancel_reasons.json';
 
 describe('VAOS actions: appointments', () => {

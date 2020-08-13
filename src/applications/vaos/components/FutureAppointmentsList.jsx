@@ -18,7 +18,6 @@ import {
   vaosPastAppts,
   selectFutureAppointments,
   selectExpressCare,
-  vaosExpressCare,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';

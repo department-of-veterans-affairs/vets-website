@@ -1,11 +1,6 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import {
-  FETCH_STATUS,
-  GA_PREFIX,
-  APPOINTMENT_TYPES,
-  EXPRESS_CARE,
-} from '../utils/constants';
+import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../utils/events';
 

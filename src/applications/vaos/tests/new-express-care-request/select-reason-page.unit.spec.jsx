@@ -5,15 +5,13 @@ import moment from 'moment';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import environment from 'platform/utilities/environment';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { fireEvent } from '@testing-library/dom';
 
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
 import { createTestStore } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
 import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
 import { fetchExpressCareWindows } from '../../actions/expressCare';
-import { EXPRESS_CARE } from '../../utils/constants';
 
 const initialState = {
   user: {
