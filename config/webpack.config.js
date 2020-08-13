@@ -132,6 +132,7 @@ module.exports = env => {
                 // --env.noHmr
                 !isOptimizedBuild &&
                   !buildOptions.noHmr &&
+                  !process.env.NODE_ENV === 'production' &&
                   require.resolve('react-refresh/babel'),
               ].filter(Boolean),
             },
