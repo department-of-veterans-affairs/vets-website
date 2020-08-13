@@ -4068,7 +4068,7 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
                     "type": "h2",
                     "props": {
                       "className": "vads- no",
-                      "children": "Fastmed Urgent Care"
+                      "children": "FastMed Urgent Care"
                     },
                     "_store": {}
                   },
@@ -4231,7 +4231,7 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
-                    "children": "Fastmed Urgent Care"
+                    "children": "FastMed Urgent Care"
                   },
                   "_store": {}
                 },
@@ -4388,7 +4388,7 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "Fastmed Urgent Care"
+                  "children": "FastMed Urgent Care"
                 },
                 "_store": {}
               },
@@ -4401,9 +4401,9 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
               "type": "h2",
               "props": {
                 "className": "vads- no",
-                "children": "Fastmed Urgent Care"
+                "children": "FastMed Urgent Care"
               },
-              "rendered": "Fastmed Urgent Care"
+              "rendered": "FastMed Urgent Care"
             },
             null
           ]
@@ -4614,7 +4614,7 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
                     "type": "h2",
                     "props": {
                       "className": "vads- no",
-                      "children": "Fastmed Urgent Care"
+                      "children": "FastMed Urgent Care"
                     },
                     "_store": {}
                   },
@@ -4771,7 +4771,7 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
-                    "children": "Fastmed Urgent Care"
+                    "children": "FastMed Urgent Care"
                   },
                   "_store": {}
                 },
@@ -4784,9 +4784,9 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "Fastmed Urgent Care"
+                  "children": "FastMed Urgent Care"
                 },
-                "rendered": "Fastmed Urgent Care"
+                "rendered": "FastMed Urgent Care"
               },
               null
             ]
@@ -4989,7 +4989,7 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
-                    "children": "Fastmed Urgent Care"
+                    "children": "FastMed Urgent Care"
                   },
                   "_store": {}
                 },
@@ -5002,9 +5002,9 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "Fastmed Urgent Care"
+                  "children": "FastMed Urgent Care"
                 },
-                "rendered": "Fastmed Urgent Care"
+                "rendered": "FastMed Urgent Care"
               },
               null
             ]
@@ -5018,16 +5018,16 @@ exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "Fastmed Urgent Care"
+                  "children": "FastMed Urgent Care"
                 },
-                "rendered": "Fastmed Urgent Care"
+                "rendered": "FastMed Urgent Care"
               },
               "type": "h2",
               "props": {
                 "className": "vads- no"
               },
               "children": [
-                "Fastmed Urgent Care"
+                "FastMed Urgent Care"
               ]
             }
           ]

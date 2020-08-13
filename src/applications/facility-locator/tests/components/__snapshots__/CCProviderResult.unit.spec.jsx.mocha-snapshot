@@ -59,7 +59,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                       "type": "h2",
                       "props": {
                         "className": "vads- no",
-                        "children": "Badea, Luana"
+                        "children": "BADEA, LUANA"
                       },
                       "_store": {}
                     },
@@ -284,7 +284,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                     "type": "h2",
                     "props": {
                       "className": "vads- no",
-                      "children": "Badea, Luana"
+                      "children": "BADEA, LUANA"
                     },
                     "_store": {}
                   },
@@ -464,7 +464,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
-                    "children": "Badea, Luana"
+                    "children": "BADEA, LUANA"
                   },
                   "_store": {}
                 },
@@ -518,9 +518,9 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "Badea, Luana"
+                  "children": "BADEA, LUANA"
                 },
-                "rendered": "Badea, Luana"
+                "rendered": "BADEA, LUANA"
               },
               null
             ]
@@ -791,7 +791,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                     "type": "h2",
                     "props": {
                       "className": "vads- no",
-                      "children": "Badea, Luana"
+                      "children": "BADEA, LUANA"
                     },
                     "_store": {}
                   },
@@ -971,7 +971,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
-                    "children": "Badea, Luana"
+                    "children": "BADEA, LUANA"
                   },
                   "_store": {}
                 },
@@ -1025,9 +1025,9 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "Badea, Luana"
+                  "children": "BADEA, LUANA"
                 },
-                "rendered": "Badea, Luana"
+                "rendered": "BADEA, LUANA"
               },
               null
             ]
@@ -1205,7 +1205,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                   "type": "h2",
                   "props": {
                     "className": "vads- no",
-                    "children": "Badea, Luana"
+                    "children": "BADEA, LUANA"
                   },
                   "_store": {}
                 },
@@ -1259,9 +1259,9 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "Badea, Luana"
+                  "children": "BADEA, LUANA"
                 },
-                "rendered": "Badea, Luana"
+                "rendered": "BADEA, LUANA"
               },
               null
             ]
@@ -1356,16 +1356,16 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 "type": "h2",
                 "props": {
                   "className": "vads- no",
-                  "children": "Badea, Luana"
+                  "children": "BADEA, LUANA"
                 },
-                "rendered": "Badea, Luana"
+                "rendered": "BADEA, LUANA"
               },
               "type": "h2",
               "props": {
                 "className": "vads- no"
               },
               "children": [
-                "Badea, Luana"
+                "BADEA, LUANA"
               ]
             }
           ]
