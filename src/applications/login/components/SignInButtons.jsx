@@ -11,7 +11,7 @@ function loginHandler(loginType) {
   login(loginType, 'v1');
 }
 
-export default function SignInButtons({ isDisabled, application, redirect }) {
+export default function SignInButtons({ isDisabled }) {
   return (
     <div>
       <button
