@@ -53,10 +53,7 @@ export async function checkAutoSession(
       // the user is in the login app, but already logged in with SSOe
       // redirect them back to their return url
       window.location = standaloneRedirect() || window.location.origin;
-    } else if (
-      ttl === 0 ||
-      (transactionid && transactionid !== ssoeTransactionId)
-    ) {
+    } else if (ttl === 0) {
       // having a user session is not enough, we also need to make sure when
       // the user authenticated they used SSOe, otherwise we can't auto logout
       // explicitly check to see if the TTL for the SSOe session is 0, as it
@@ -67,6 +64,8 @@ export async function checkAutoSession(
       // have a different user logged in. Thus, we should auto log out the user,
       // and immediately log them back in to make sure the users match.
       logout('v1', 'sso-automatic-logout', { 'auto-logout': 'true' });
+    } else if (transactionid && transactionid !== ssoeTransactionId) {
+      login('custom', 'v1', { authn }, 'sso-automatic-login');
     }
   } else if (!loggedIn && ttl > 0 && !getLoginAttempted() && authn) {
     // only attempt an auto login if the user is
