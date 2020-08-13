@@ -50,7 +50,7 @@ const NeedHelpFooter = props => {
           />
           .<br />
           <span>
-            If you have hearing loss, call{' '}
+            If you have hearing loss, call TTY:{' '}
             <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
           </span>
         </p>

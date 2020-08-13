@@ -43,6 +43,9 @@ class RoutedSavablePage extends React.Component {
 
   render() {
     const { user, form, formConfig, route } = this.props;
+    const finishAppLaterMessage =
+      formConfig?.customText?.finishAppLaterMessage ||
+      FINISH_APP_LATER_DEFAULT_MESSAGE;
     const contentAfterButtons = (
       <div>
         <SaveStatus
@@ -63,8 +66,7 @@ class RoutedSavablePage extends React.Component {
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}
         >
-          {formConfig?.customText?.finishAppLaterMessage ||
-            FINISH_APP_LATER_DEFAULT_MESSAGE}
+          {finishAppLaterMessage}
         </SaveFormLink>
       </div>
     );

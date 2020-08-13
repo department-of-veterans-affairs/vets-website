@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { Link } from 'react-router';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import recordEvent from 'platform/monitoring/record-event';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getExpressCareFormPageInfo } from '../utils/selectors';
-import { EXPRESS_CARE_REASONS } from '../utils/constants';
+import { EXPRESS_CARE_REASONS, GA_PREFIX } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
 import * as actions from '../actions/expressCare';
 
@@ -52,6 +53,18 @@ const uiSchema = {
   },
 };
 
+function recordNewAppointmentEvent() {
+  recordEvent({
+    event: `${GA_PREFIX}-express-care-switch-to-appointment-flow-clicked`,
+  });
+}
+
+function recordFacilitiesLinkEvent() {
+  recordEvent({
+    event: `${GA_PREFIX}-express-care-facilities-link-clicked`,
+  });
+}
+
 function ExpressCareReasonPage({
   data,
   openFormPage,
@@ -80,24 +93,34 @@ function ExpressCareReasonPage({
         onSubmit={() => routeToNextAppointmentPage(router, pageKey)}
         data={data}
       >
-        <AlertBox
-          status="info"
-          headline="Same-day mental health appointments"
-          className="vads-u-margin-y--2"
-        >
-          <p>
-            If you need a same day mental health appointment, you can{' '}
-            <a href="/find-locations?facilityType=health&serviceType=MentalHealthCare">
-              call your VA medical center
-            </a>{' '}
-            and request a "same day mental health appointment".
+        <AlertBox status="info" className="vads-u-margin-y--2">
+          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4 vads-u-margin-bottom--1">
+            If you need a mental health appointment today
+          </h3>
+          <p className="vads-u-margin-top--0">
+            Please call your nearest VA medical center or Vet center, and ask
+            for a “same-day mental health appointment.”
+            <br />
+            <a
+              onClick={recordFacilitiesLinkEvent}
+              href="/find-locations?facilityType=health&serviceType=MentalHealthCare"
+            >
+              Find a VA location
+            </a>
           </p>
-          <p>
-            Don't see your symptoms listed?{' '}
-            <Link id="new-appointment" to="/new-appointment">
-              Schedule an appointment here
-            </Link>
-            .
+          <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--1">
+            If your health concern isn’t listed here
+          </h3>
+          <p className="vads-u-margin-top--0">
+            Please use our{' '}
+            <Link
+              onClick={recordNewAppointmentEvent}
+              id="new-appointment"
+              to="/new-appointment"
+            >
+              appointments tool
+            </Link>{' '}
+            to schedule an appointment.
           </p>
         </AlertBox>
         <FormButtons

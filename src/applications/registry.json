@@ -792,7 +792,7 @@
     "entryName": "your-debt",
     "rootUrl": "/manage-va-debt/your-debt",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "title": "Your VA Debt",
       "layout": "page-react.html"
     }
@@ -824,6 +824,15 @@
       "vagovprod": false,
       "layout": "page-react.html",
       "title": "View Payments"
+    }
+  },
+  {
+    "appName": "Covid Research - Volunteer",
+    "entryName": "covid-research-volunteer",
+    "rootUrl": "/covid-research-volunteer",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
     }
   }
 ]
