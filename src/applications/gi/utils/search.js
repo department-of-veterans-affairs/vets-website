@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export const searchWithFilters = (props, additionalFields = []) => {
+export const searchWithFilters = (props, params = [], removedFields = []) => {
   if (props.search.inProgress) {
     return;
   }
@@ -10,7 +10,7 @@ export const searchWithFilters = (props, additionalFields = []) => {
     ...props.location.query,
   };
 
-  additionalFields.forEach(({ field, value }) => {
+  params.forEach(({ field, value }) => {
     query[field] = value;
   });
 
@@ -28,14 +28,9 @@ export const searchWithFilters = (props, additionalFields = []) => {
   // Reset to the first page upon a filter change.
   delete query.page;
 
-  additionalFields.forEach(({ field, value }) => {
+  params.forEach(({ field, value }) => {
     const shouldRemoveFilter =
-      !value ||
-      ((field === 'country' ||
-        field === 'state' ||
-        field === 'type' ||
-        field === 'relaffil') &&
-        value === 'ALL');
+      !value || (removedFields.includes(field) && value === 'ALL');
 
     if (shouldRemoveFilter) {
       delete query[field];
