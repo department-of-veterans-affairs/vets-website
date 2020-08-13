@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
   updateSchemaAndData,
@@ -126,7 +127,16 @@ export default function expressCareReducer(state = initialState, action) {
           facilityId: facility.id,
           days: facility.customRequestSettings
             .find(setting => setting.id === EXPRESS_CARE)
-            .schedulingDays.filter(day => day.canSchedule),
+            .schedulingDays.filter(day => day.canSchedule)
+            .map(daySchedule => ({
+              ...daySchedule,
+              dayOfWeekIndex: Number(
+                moment()
+                  .day(daySchedule.day)
+                  .format('d'),
+              ),
+            }))
+            .sort((a, b) => (a.dayOfWeekIndex < b.dayOfWeekIndex ? -1 : 1)),
         }));
 
       return {
