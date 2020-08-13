@@ -12,6 +12,7 @@ function createReactPages() {
         console.log(
           `Generating HTML template for application ${appName} at ${rootUrl}`,
         );
+        console.log({ template, appName });
         files[filePath] = {
           title: appName,
           entryname: entryName,
