@@ -26,7 +26,7 @@ describe('Pre-need veteran information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(16);
+    expect(form.find('input').length).to.equal(17);
     expect(form.find('select').length).to.equal(1);
     form.unmount();
   });

@@ -26,7 +26,7 @@ describe('Pre-need sponsor information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(25);
+    expect(form.find('input').length).to.equal(26);
     expect(form.find('select').length).to.equal(4);
     form.unmount();
   });
@@ -93,11 +93,11 @@ describe('Pre-need sponsor information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(25);
+    expect(form.find('input').length).to.equal(26);
     expect(form.find('select').length).to.equal(4);
 
     selectRadio(form, 'root_application_veteran_isDeceased', 'yes');
-    expect(form.find('input').length).to.equal(26);
+    expect(form.find('input').length).to.equal(27);
     expect(form.find('select').length).to.equal(6);
     form.unmount();
   });

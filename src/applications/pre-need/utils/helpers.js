@@ -319,7 +319,10 @@ export const veteranUI = {
     'ui:title': 'Which categories best describe you?',
     'ui:description': 'You may check more than one.',
     isSpanishHispanicLatino: {
-      'ui:title': 'Spanish, Hispanic, or Latino',
+      'ui:title': 'Hispanic or Latino',
+    },
+    notSpanishHispanicLatino: {
+      'ui:title': 'Not Hispanic or Latino',
     },
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
