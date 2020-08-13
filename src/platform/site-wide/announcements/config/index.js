@@ -1,5 +1,3 @@
-// Node modules.
-import moment from 'moment';
 // Relative imports.
 import ExploreVAModal from '../components/ExploreVAModal';
 import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
