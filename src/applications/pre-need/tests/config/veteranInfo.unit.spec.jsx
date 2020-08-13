@@ -7,6 +7,7 @@ import {
   DefinitionTester,
   fillData,
   selectRadio,
+  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
@@ -61,7 +62,16 @@ describe('Pre-need veteran information', () => {
 
     selectRadio(form, 'root_application_veteran_gender', 'Female');
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
-    selectRadio(form, 'root_application_veteran_ethnicity', 'I');
+    selectCheckbox(
+      form,
+      'root_application_veteran_ethnicity',
+      'isSpanishHispanicLatino',
+    );
+    selectCheckbox(
+      form,
+      'root_application_veteran_ethnicity',
+      'isBlackOrAfricanAmerican',
+    );
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
 
     form.find('form').simulate('submit');
@@ -94,7 +104,16 @@ describe('Pre-need veteran information', () => {
     );
     selectRadio(form, 'root_application_veteran_gender', 'Female');
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
-    selectRadio(form, 'root_application_veteran_ethnicity', 'I');
+    selectCheckbox(
+      form,
+      'root_application_veteran_ethnicity',
+      'isSpanishHispanicLatino',
+    );
+    selectCheckbox(
+      form,
+      'root_application_veteran_ethnicity',
+      'isBlackOrAfricanAmerican',
+    );
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
 
     form.find('form').simulate('submit');
