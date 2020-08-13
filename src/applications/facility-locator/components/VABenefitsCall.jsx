@@ -1,5 +1,4 @@
 import React from 'react';
-import { parsePhoneNumber } from '../utils/phoneNumbers';
 import Telephone, {
   CONTACTS,
   PATTERNS,
