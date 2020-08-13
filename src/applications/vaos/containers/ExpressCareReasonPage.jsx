@@ -55,7 +55,7 @@ const uiSchema = {
 
 function recordNewAppointmentEvent() {
   recordEvent({
-    event: `${GA_PREFIX}-express-care-new-appointment-clicked`,
+    event: `${GA_PREFIX}-express-care-switch-to-appointment-flow-clicked`,
   });
 }
 
