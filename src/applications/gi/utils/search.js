@@ -18,10 +18,6 @@ export const searchWithFilters = (
     query[field] = value;
   });
 
-  if (query.name === undefined) {
-    query.name = props.autocomplete.searchTerm;
-  }
-
   // Don’t update the route if the query hasn’t changed.
   if (_.isEqual(query, props.location.query)) {
     return;
