@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -127,7 +127,13 @@ describe('VAOS integration: select date time slot page', () => {
     let screen = renderInReduxProvider(<DateTimeSelectPage />, {
       store,
     });
+
     await screen.findByText(/Next/);
+    waitFor(
+      () =>
+        expect(screen.queryByText('Finding appointment availability...')).to.not
+          .exist,
+    );
     const dayWithSlots = screen
       .getAllByText(slot308Date.date().toString())
       .find(
