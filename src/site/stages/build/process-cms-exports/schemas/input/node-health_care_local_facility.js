@@ -24,7 +24,7 @@ module.exports = {
   properties: {
     title: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
-    moderation_state: { $ref: 'GenericNestedString' },
+    status: { $ref: 'GenericNestedBoolean' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_address: { $ref: 'RawAddress' },
@@ -97,7 +97,7 @@ module.exports = {
   required: [
     'title',
     'changed',
-    'moderation_state',
+    'status',
     'metatag',
     'path',
     'field_address',

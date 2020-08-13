@@ -75,15 +75,13 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      const alert = view.getByRole('alert');
-
-      expect(alert).to.have.class('usa-alert-warning');
-      expect(alert).to.contain.text(
-        'We can’t access your military information',
-      );
-      expect(alert).to.contain.text(
-        'We’re sorry. We can’t access your military service records. If you think you should be able to view your service information here, please file a request to change or correct your DD214 or other military records.',
-      );
+      expect(view.getByText(/We can’t access your military information/i)).to
+        .exist;
+      expect(
+        view.getByText(
+          /We’re sorry. We can’t access your military service records. If you think you should be able to view your service information here, please file a request to change or correct your DD214 or other military records./i,
+        ),
+      ).to.exist;
     });
   });
   describe('when a 403 error occurs', () => {
@@ -99,17 +97,15 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      const alert = view.getByRole('alert');
-
-      expect(alert).to.have.class('usa-alert-warning');
-      expect(alert).to.contain.text(
-        'We can’t access your military information',
-      );
-      expect(alert).to.contain.text(
-        'We’re sorry. We can’t find your Department of Defense (DoD) ID. We need this to access your military service records. Please call us',
-      );
-      expect(alert).to.contain.text('Find your nearest VA regional office');
-      expect(alert).to.contain.text('Get instructions from our help center');
+      expect(view.getByText(/We can’t access your military information/i)).to
+        .exist;
+      expect(
+        view.getByText(
+          /We’re sorry. We can’t find your Department of Defense \(DoD\) ID. We need this to access your military service records. Please call us at/i,
+        ),
+      ).to.exist;
+      expect(view.getByText(/Find your nearest VA regional office/i)).to.exist;
+      expect(view.getByText(/Get instructions from our help center/i)).to.exist;
     });
   });
   describe('when another error occurs', () => {
@@ -123,12 +119,11 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      const alert = view.getByRole('alert');
-
-      expect(alert).to.have.class('usa-alert-warning');
-      expect(alert).to.contain.text(
-        'We’re sorry. Something went wrong on our end. Please refresh this page or try again later.',
-      );
+      expect(
+        view.getByText(
+          'We’re sorry. Something went wrong on our end. Please refresh this page or try again later.',
+        ),
+      ).to.exist;
     });
   });
 });

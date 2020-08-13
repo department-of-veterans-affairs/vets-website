@@ -17,12 +17,6 @@ import {
 } from '../api';
 
 import {
-  getOrganizations,
-  getRootOrganization,
-  getSiteIdFromOrganization,
-} from '../services/organization';
-
-import {
   transformFormToExpressCareRequest,
   createPreferenceBody,
 } from '../utils/data';
@@ -30,7 +24,7 @@ import {
   selectSystemIds,
   selectActiveExpressCareFacility,
 } from '../utils/selectors';
-import { captureError, getErrorCodes } from '../utils/error';
+import { captureError } from '../utils/error';
 import {
   EXPRESS_CARE,
   GA_PREFIX,
@@ -38,7 +32,6 @@ import {
 } from '../utils/constants';
 import { resetDataLayer } from '../utils/events';
 import { EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED } from './sitewide';
-import { getLocation } from '../services/location';
 
 export const FORM_PAGE_OPENED = 'expressCare/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
@@ -55,8 +48,8 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
-export const FORM_REASON_FOR_REQUEST_PAGE_OPENED =
-  'expressCare/FORM_REASON_FOR_REQUEST_PAGE_OPENED';
+export const FORM_ADDITIONAL_DETAILS_PAGE_OPENED =
+  'expressCare/FORM_ADDITIONAL_DETAILS_PAGE_OPENED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -76,7 +69,7 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-export function openReasonForRequestPage(page, uiSchema, schema) {
+export function openAdditionalDetailsPage(page, uiSchema, schema) {
   return (dispatch, getState) => {
     const state = getState();
     const email = selectVet360EmailAddress(state);
@@ -84,7 +77,7 @@ export function openReasonForRequestPage(page, uiSchema, schema) {
     const mobilePhone = selectVet360MobilePhoneString(state);
     const phoneNumber = mobilePhone || homePhone;
     dispatch({
-      type: FORM_REASON_FOR_REQUEST_PAGE_OPENED,
+      type: FORM_ADDITIONAL_DETAILS_PAGE_OPENED,
       page,
       uiSchema,
       schema,

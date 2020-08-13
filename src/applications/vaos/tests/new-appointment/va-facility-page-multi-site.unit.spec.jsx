@@ -111,6 +111,57 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
       'Bozeman VA medical center (Bozeman, MT)',
     );
   });
+
+  it('should show message and disable Cerner site', async () => {
+    const parentSite668 = {
+      id: '668',
+      attributes: {
+        ...getParentSiteMock().attributes,
+        institutionCode: '668',
+        authoritativeName: 'Cerner facility',
+        rootStationCode: '668',
+        parentStationCode: '668',
+      },
+    };
+    mockParentSites(['983', '668'], [parentSite983, parentSite668]);
+    const store = createTestStore({
+      ...initialState,
+      user: {
+        profile: {
+          facilities: [
+            { facilityId: '983', isCerner: false },
+            { facilityId: '668', isCerner: true },
+          ],
+        },
+      },
+    });
+
+    await setTypeOfCare(store, /primary care/i);
+
+    const router = {
+      push: sinon.spy(),
+    };
+    const { findByText, getByLabelText, getByText } = renderInReduxProvider(
+      <VAFacilityPage router={router} />,
+      {
+        store,
+      },
+    );
+
+    await findByText(/registered at the following VA/i);
+    expect(getByLabelText(/some va facility/i)).to.have.attribute(
+      'value',
+      'var983',
+    );
+
+    expect(getByLabelText(/cerner facility/i)).to.have.attribute(
+      'value',
+      'var668',
+    );
+    expect(getByLabelText(/cerner facility/i)).to.have.attribute('disabled');
+
+    expect(getByText('My VA Health')).to.have.tagName('a');
+  });
   // it('should show past visits eligibility alert', () => {});
   // it('should show request limit eligibility alert', () => {});
   // it('should show unsupported facilities alert', () => {});

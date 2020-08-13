@@ -196,7 +196,11 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
   it('should return options for date with getOptionsByDate', () => {
     const selectedDate = '2019-10-29';
-    const options = getOptionsByDate(selectedDate, availableSlots);
+    const options = getOptionsByDate(
+      selectedDate,
+      'America/Denver',
+      availableSlots,
+    );
     const dateTime0 = moment(availableSlots[0].start);
     const dateTime1 = moment(availableSlots[1].start);
     const srMeridiem = m =>
@@ -225,6 +229,19 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(options[1].label.props.children[4].props.children).to.equal(
       srMeridiem(dateTime1),
     );
+  });
+
+  it('should adjust for timezone if passed UTC', () => {
+    const selectedDate = '2019-10-29';
+
+    const options = getOptionsByDate(selectedDate, 'America/Denver', [
+      {
+        start: '2019-10-29T09:30:00Z',
+        end: '2019-10-29T09:50:00Z',
+      },
+    ]);
+
+    expect(options[0].label.props.children[0]).to.equal('3:30');
   });
 
   it('should render error message if slots call fails', () => {
