@@ -28,9 +28,11 @@ class InstitutionFilterForm extends React.Component {
   handleGenderFilterChange = e => {
     const { value } = e.target;
 
-    if (value === 'womenonly' || value === 'menonly') {
-      this.props.handleFilterChange(value, true);
-    }
+    const womenonly = value === 'womenonly';
+    const menonly = value === 'menonly';
+    this.props.handleFilterChange('womenonly', womenonly, [
+      { field: 'menonly', value: menonly },
+    ]);
   };
 
   renderCategoryFilter = () => (

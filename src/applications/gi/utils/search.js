@@ -1,6 +1,10 @@
 import _ from 'lodash';
 
 export const searchWithFilters = (props, additionalFields = []) => {
+  if (props.search.inProgress) {
+    return;
+  }
+
   // Translate form selections to query params.
   const query = {
     ...props.location.query,
@@ -15,9 +19,10 @@ export const searchWithFilters = (props, additionalFields = []) => {
   }
 
   // Don’t update the route if the query hasn’t changed.
-  if (_.isEqual(query, props.location.query) || props.search.inProgress) {
+  if (_.isEqual(query, props.location.query)) {
     return;
   }
+
   props.clearAutocompleteSuggestions();
 
   // Reset to the first page upon a filter change.
