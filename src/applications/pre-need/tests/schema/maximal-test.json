@@ -74,7 +74,11 @@
         "gender": "Female",
         "race": {
           "isSpanishHispanicLatino": true,
-          "isBlackOrAfricanAmerican": true
+          "isAmericanIndianOrAlaskanNative": false,
+          "isBlackOrAfricanAmerican": true,
+          "isNativeHawaiianOrOtherPacificIslander": false,
+          "isAsian": false,
+          "isWhite": false
         },
         "maritalStatus": "Married",
         "militaryStatus": "A",
