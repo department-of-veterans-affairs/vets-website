@@ -61,7 +61,7 @@ function completeVeteranInformation(client, data) {
       'root_application_veteran_gender',
       data.application.veteran.gender,
     )
-    .click('root_application_veteran_race_isSpanishHispanicLatino')
+    .click('#root_application_veteran_race_isSpanishHispanicLatino')
     .selectRadio(
       'root_application_veteran_maritalStatus',
       data.application.veteran.maritalStatus,
