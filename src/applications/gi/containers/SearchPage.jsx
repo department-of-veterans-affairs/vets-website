@@ -146,7 +146,8 @@ export class SearchPage extends React.Component {
   };
 
   handleFilterChange = (field, value, additionalFields = []) => {
-    searchWithFilters(this.props, field, value, additionalFields);
+    additionalFields.push({ field, value });
+    searchWithFilters(this.props, additionalFields);
   };
 
   searchResults = () => {

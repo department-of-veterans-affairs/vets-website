@@ -54,7 +54,7 @@ export class KeywordSearch extends React.Component {
       event: 'gibct-autosuggest',
       'gibct-autosuggest-value': searchQuery,
     });
-    this.props.onFilterChange(searchQuery);
+    this.props.onFilterChange('name', searchQuery);
   };
 
   handleFocus = () => {
