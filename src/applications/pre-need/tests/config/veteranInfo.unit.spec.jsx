@@ -26,7 +26,7 @@ describe('Pre-need veteran information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(15);
+    expect(form.find('input').length).to.equal(16);
     expect(form.find('select').length).to.equal(1);
     form.unmount();
   });
@@ -64,13 +64,13 @@ describe('Pre-need veteran information', () => {
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
     selectCheckbox(
       form,
-      'root_application_veteran_ethnicity',
-      'isSpanishHispanicLatino',
+      'root_application_veteran_race_isSpanishHispanicLatino',
+      true,
     );
     selectCheckbox(
       form,
-      'root_application_veteran_ethnicity',
-      'isBlackOrAfricanAmerican',
+      'root_application_veteran_race_isBlackOrAfricanAmerican',
+      true,
     );
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
 
@@ -106,13 +106,13 @@ describe('Pre-need veteran information', () => {
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
     selectCheckbox(
       form,
-      'root_application_veteran_ethnicity',
-      'isSpanishHispanicLatino',
+      'root_application_veteran_race_isSpanishHispanicLatino',
+      true,
     );
     selectCheckbox(
       form,
-      'root_application_veteran_ethnicity',
-      'isBlackOrAfricanAmerican',
+      'root_application_veteran_race_isBlackOrAfricanAmerican',
+      true,
     );
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
 

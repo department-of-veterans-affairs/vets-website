@@ -336,10 +336,27 @@ export const veteranUI = {
     isWhite: {
       'ui:title': 'White',
     },
-    'ui:required': () => {
-      return !environment.isProduction();
+    'ui:required': () => !environment.isProduction(),
+    'ui:validations': [
+      (errors, fields) => {
+        if (
+          !(
+            fields.isSpanishHispanicLatino ||
+            fields.isAmericanIndianOrAlaskanNative ||
+            fields.isBlackOrAfricanAmerican ||
+            fields.isNativeHawaiianOrOtherPacificIslander ||
+            fields.isAsian ||
+            fields.isWhite
+          )
+        ) {
+          errors.addError('Choose at least one category');
+        }
+      },
+    ],
+    'ui:options': {
+      showFieldLabel: true,
+      hideIf: () => environment.isProduction(),
     },
-    hideIf: () => environment.isProduction(),
   },
   militaryStatus: {
     'ui:title':

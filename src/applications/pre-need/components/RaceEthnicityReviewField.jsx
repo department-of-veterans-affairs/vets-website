@@ -15,9 +15,6 @@ export default function RaceEthnicityReviewField(props) {
     <>
       <div className="review-row">
         <dt>{uiSchema['ui:title']}</dt>
-        {categories.length > 0 && (
-          <dd>{uiSchema[categories[0]]['ui:title']}</dd>
-        )}
       </div>
       {categories.slice(1).map(prop => (
         <div key={prop} className="review-row">
