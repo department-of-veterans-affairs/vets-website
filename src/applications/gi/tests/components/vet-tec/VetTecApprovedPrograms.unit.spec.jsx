@@ -5,7 +5,6 @@ import createCommonStore from 'platform/startup/store';
 
 import VetTecApprovedPrograms from '../../../components/vet-tec/VetTecApprovedPrograms';
 import { selectRadio } from 'platform/testing/unit/schemaform-utils';
-import ReactTestUtils from 'react-dom/test-utils';
 
 const institution = {
   programs: [
