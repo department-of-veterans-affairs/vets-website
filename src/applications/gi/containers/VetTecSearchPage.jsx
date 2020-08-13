@@ -141,9 +141,9 @@ export class VetTecSearchPage extends React.Component {
   };
 
   handleFilterChange = (field, value, additionalFields = []) => {
-    const removedFields = ['country', 'state', 'type'];
+    const removedWhenAllFields = ['country', 'state', 'type'];
     additionalFields.push({ field, value });
-    searchWithFilters(this.props, additionalFields, removedFields);
+    searchWithFilters(this.props, additionalFields, removedWhenAllFields);
   };
 
   autocomplete = (value, version) => {

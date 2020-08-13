@@ -1,6 +1,10 @@
 import _ from 'lodash';
 
-export const searchWithFilters = (props, params = [], removedFields = []) => {
+export const searchWithFilters = (
+  props,
+  params = [],
+  removedWhenAllFields = [],
+) => {
   if (props.search.inProgress) {
     return;
   }
@@ -30,7 +34,7 @@ export const searchWithFilters = (props, params = [], removedFields = []) => {
 
   params.forEach(({ field, value }) => {
     const shouldRemoveFilter =
-      !value || (removedFields.includes(field) && value === 'ALL');
+      !value || (removedWhenAllFields.includes(field) && value === 'ALL');
 
     if (shouldRemoveFilter) {
       delete query[field];

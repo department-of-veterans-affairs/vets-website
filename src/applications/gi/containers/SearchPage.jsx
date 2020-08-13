@@ -146,9 +146,9 @@ export class SearchPage extends React.Component {
   };
 
   handleFilterChange = (field, value, additionalFields = []) => {
-    const removedFields = ['country', 'state', 'type', 'relaffil'];
+    const removedWhenAllFields = ['country', 'state', 'type', 'relaffil'];
     additionalFields.push({ field, value });
-    searchWithFilters(this.props, additionalFields, removedFields);
+    searchWithFilters(this.props, additionalFields, removedWhenAllFields);
   };
 
   searchResults = () => {
