@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
   updateSchemaAndData,
@@ -20,7 +19,11 @@ import {
   FORM_SUBMIT,
 } from '../actions/expressCare';
 
-import { FETCH_STATUS, EXPRESS_CARE } from '../utils/constants';
+import {
+  FETCH_STATUS,
+  EXPRESS_CARE,
+  WEEKDAY_INDEXES,
+} from '../utils/constants';
 
 const initialState = {
   windowsStatus: FETCH_STATUS.notStarted,
@@ -130,11 +133,7 @@ export default function expressCareReducer(state = initialState, action) {
             .schedulingDays.filter(day => day.canSchedule)
             .map(daySchedule => ({
               ...daySchedule,
-              dayOfWeekIndex: Number(
-                moment()
-                  .day(daySchedule.day)
-                  .format('d'),
-              ),
+              dayOfWeekIndex: WEEKDAY_INDEXES[daySchedule.day],
             }))
             .sort((a, b) => (a.dayOfWeekIndex < b.dayOfWeekIndex ? -1 : 1)),
         }));
