@@ -573,7 +573,6 @@ class VAMap extends Component {
             <TabPanel>
               <div className="facility-search-results">
                 <ResultsList
-                  isMobile
                   updateUrlParams={this.updateUrlParams}
                   query={this.props.currentQuery}
                 />
@@ -664,7 +663,7 @@ class VAMap extends Component {
         </div>
         <div className="row">
           <div
-            className="columns usa-width-one-third medium-4 small-12"
+            className="columns search-results-container medium-4 small-12"
             style={{ maxHeight: '78vh', overflowY: 'auto' }}
             id="searchResultsContainer"
           >

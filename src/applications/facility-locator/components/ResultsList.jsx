@@ -46,12 +46,11 @@ class ResultsList extends Component {
 
   /**
    * Returns Result items by type
-   * @param isMobile boolean
    * @param query object
    * @param results array list
    * @returns [] list of results
    */
-  renderResultItems(isMobile, query, results) {
+  renderResultItems(query, results) {
     return results.map(r => {
       let item;
       switch (query.facilityType) {
@@ -82,13 +81,6 @@ class ResultsList extends Component {
         default:
           item = null;
       }
-      item = isMobile ? (
-        <div key={r.id} className="mobile-search-result">
-          {item}
-        </div>
-      ) : (
-        item
-      );
       return item;
     });
   }
@@ -101,7 +93,6 @@ class ResultsList extends Component {
       searchString,
       results,
       error,
-      isMobile,
       query,
     } = this.props;
 
@@ -234,13 +225,12 @@ class ResultsList extends Component {
           markerText,
         };
       });
-    return <div>{this.renderResultItems(isMobile, query, sortedResults)}</div>;
+    return <div>{this.renderResultItems(query, sortedResults)}</div>;
   }
 }
 
 ResultsList.propTypes = {
   results: PropTypes.array,
-  isMobile: PropTypes.bool,
 };
 
 function mapDispatchToProps(dispatch) {
