@@ -18,6 +18,7 @@ import {
   vaosPastAppts,
   selectFutureAppointments,
   selectExpressCare,
+  selectFutureStatus,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
@@ -54,7 +55,7 @@ export class FutureAppointmentsList extends React.Component {
     if (futureStatus === FETCH_STATUS.loading) {
       content = (
         <div className="vads-u-margin-y--8">
-          <LoadingIndicator message="Loading your appointments..." />
+          <LoadingIndicator message="Loading your upcoming appointments..." />
         </div>
       );
     } else if (futureStatus === FETCH_STATUS.succeeded && future?.length > 0) {
@@ -191,7 +192,7 @@ function mapStateToProps(state) {
   return {
     requestMessages: state.appointments.requestMessages,
     facilityData: state.appointments.facilityData,
-    futureStatus: state.appointments.futureStatus,
+    futureStatus: selectFutureStatus(state),
     future: selectFutureAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showCancelButton: vaosCancel(state),

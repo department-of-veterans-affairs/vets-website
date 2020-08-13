@@ -5,6 +5,11 @@ const runCommand = (cmd, forcedExitCode = null) => {
   child.on('exit', code => {
     process.exit(forcedExitCode === null ? code : forcedExitCode);
   });
+
+  // When we ^C out of the parent Node script, also interrupt the child
+  process.on('SIGINT', () => {
+    child.kill('SIGINT');
+  });
 };
 
 module.exports = {

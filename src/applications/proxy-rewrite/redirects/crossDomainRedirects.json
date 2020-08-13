@@ -1008,5 +1008,10 @@
     "domain": "www.benefits.va.gov",
     "src": "/gibill/yellow_ribbon/2019/states/wy.asp",
     "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_protected_pension_rate_tables.asp",
+    "dest": "/pension/protected-pension-rates/"
   }
 ]

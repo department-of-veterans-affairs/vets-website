@@ -190,4 +190,9 @@ SubmitButtons.propTypes = {
   preSubmitSection: PropTypes.element,
   renderErrorMessage: PropTypes.func,
   submission: PropTypes.object,
+  formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      appType: PropTypes.string,
+    }),
+  }),
 };
