@@ -33,7 +33,7 @@ export const MissingServices = () => {
   return <Alert content={content} />;
 };
 
-export const MissingId = ({ children }) => {
+export const MissingId = () => {
   const content = (
     <>
       <h2 className="vads-u-display--inline-block vads-u-font-size--h3 vads-u-margin-top--0">
