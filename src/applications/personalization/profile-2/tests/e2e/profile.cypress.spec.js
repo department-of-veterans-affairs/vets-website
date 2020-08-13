@@ -101,7 +101,6 @@ function checkAllPages(mobile = false) {
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONNECTED_APPLICATIONS}`,
   );
   // wait for this section's loading spinner to disappear...
-  cy.findByRole('progressbar').should('exist');
   cy.findByRole('progressbar').should('not.exist');
   cy.axeCheck();
   // focus should be on the section's h2
