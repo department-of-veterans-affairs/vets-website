@@ -5,6 +5,7 @@ import createCommonStore from 'platform/startup/store';
 
 import VetTecApprovedPrograms from '../../../components/vet-tec/VetTecApprovedPrograms';
 import { selectRadio } from 'platform/testing/unit/schemaform-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 const institution = {
   programs: [
@@ -58,6 +59,10 @@ describe('<VetTecApprovedProgram>', () => {
     const wrapper = mount(<VetTecApprovedPrograms {...defaultProps} />);
 
     selectRadio(wrapper, 'vetTecProgram', 'Program Name');
+
+    wrapper
+      .find(`input[name*="vetTecProgram"][value="Program Name"]`)
+      .simulate('blur');
 
     expect(global.window.dataLayer[0]['gibct-form-value']).to.eq(
       institution.programs[0].description,
