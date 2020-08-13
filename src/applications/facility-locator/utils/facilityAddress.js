@@ -1,6 +1,15 @@
 import { compact, isEmpty } from 'lodash';
 import { LocationType } from '../constants';
-import { titleCase } from 'applications/vaos/utils/formatters';
+
+export function titleCase(str) {
+  if (!str) return null;
+
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
 
 export function buildAddressArray(location) {
   if (location.type === LocationType.CC_PROVIDER) {
