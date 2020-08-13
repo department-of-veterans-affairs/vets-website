@@ -41,9 +41,10 @@ const transform = entity => ({
             entityUrl: reverseField.entityUrl,
             fieldMedia: reverseField.fieldMedia,
           }))
-          .sort((a, b) => b.created - a.created)
       : [],
   },
+  entityPublished: isPublished(getDrupalValue(entity.status)),
+  status: getDrupalValue(entity.status),
 });
 
 module.exports = {
@@ -59,6 +60,7 @@ module.exports = {
     'field_meta_title',
     'field_office',
     'reverse_field_list',
+    'status',
   ],
   transform,
 };

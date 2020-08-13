@@ -41,6 +41,8 @@ module.exports = {
         },
       },
     },
+    entityPublished: { type: 'boolean' },
+    status: { type: 'boolean' },
   },
   required: [
     'title',
@@ -53,5 +55,7 @@ module.exports = {
     'fieldLeadership',
     'fieldMetaTitle',
     'fieldOffice',
+    'entityPublished',
+    'status',
   ],
 };

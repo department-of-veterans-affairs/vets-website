@@ -23,6 +23,7 @@ module.exports = {
       items: { $ref: 'EntityReference' },
     },
     reverse_field_list: { $ref: 'EntityReferenceArray' },
+    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
@@ -37,5 +38,6 @@ module.exports = {
     'field_meta_title',
     'field_office',
     'reverse_field_list',
+    'status',
   ],
 };

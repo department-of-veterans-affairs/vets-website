@@ -26,6 +26,7 @@ module.exports = {
     field_photo_allow_hires_download: { $ref: 'GenericNestedBoolean' },
     moderation_state: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
+    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'path',
@@ -42,5 +43,6 @@ module.exports = {
     'field_photo_allow_hires_download',
     'changed',
     'moderation_state',
+    'status',
   ],
 };
