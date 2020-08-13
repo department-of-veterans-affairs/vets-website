@@ -748,11 +748,6 @@ class VAMap extends Component {
           <p>
             <strong>Coronavirus update:</strong> {coronavirusUpdate}
           </p>
-          <p>
-            <strong>Need same-day care for a minor illness or injury?</strong>{' '}
-            Select Urgent care under facility type, then select either VA or
-            community providers as the service type.
-          </p>
         </div>
         {isMobile ? this.renderMobileView() : this.renderDesktopView()}
       </div>
