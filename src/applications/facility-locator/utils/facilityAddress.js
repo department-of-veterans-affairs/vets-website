@@ -11,15 +11,17 @@ export function titleCase(str) {
     .join(' ');
 }
 
-export function buildAddressArray(location) {
+export function buildAddressArray(location, titleCaseText = false) {
   if (location.type === LocationType.CC_PROVIDER) {
     const { address } = location.attributes;
 
     if (!isEmpty(address)) {
       return compact([
-        titleCase(address.street),
+        titleCaseText ? titleCase(address.street) : address.street,
         address.appt,
-        `${titleCase(address.city)}, ${address.state} ${address.zip}`,
+        `${titleCaseText ? titleCase(address.city) : address.city}, ${
+          address.state
+        } ${address.zip}`,
       ]);
     }
 
@@ -31,10 +33,12 @@ export function buildAddressArray(location) {
   } = location.attributes;
 
   return compact([
-    titleCase(address.address1),
-    titleCase(address.address2),
-    titleCase(address.address3),
-    `${titleCase(address.city)}, ${address.state} ${address.zip}`,
+    titleCaseText ? titleCase(address.address1) : address.address1,
+    titleCaseText ? titleCase(address.address2) : address.address2,
+    titleCaseText ? titleCase(address.address3) : address.address3,
+    `${titleCaseText ? titleCase(address.city) : address.city}, ${
+      address.state
+    } ${address.zip}`,
   ]);
 }
 

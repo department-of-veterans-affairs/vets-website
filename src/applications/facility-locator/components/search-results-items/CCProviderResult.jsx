@@ -5,7 +5,6 @@ import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderServiceDescription from '../ProviderServiceDescription';
 import recordEvent from 'platform/monitoring/record-event';
-import { titleCaseFacilityName } from '../../utils/facilityAddress';
 
 /**
  * CC Provider component for:
@@ -27,9 +26,7 @@ const CCProviderResult = ({ provider, query }) => {
         )}
         <span>
           <ProviderServiceDescription provider={provider} query={query} />
-          <h2 className="vads-u-font-size--h5 no-marg-top">
-            {titleCaseFacilityName(name)}
-          </h2>
+          <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
           {provider.attributes.orgName && (
             <h6>{provider.attributes.orgName}</h6>
           )}
