@@ -66,6 +66,12 @@ export const uiSchema = {
         Are you interested in using <strong>e-VA?</strong>
       </p>
     ),
+    'ui:options': {
+      labels: {
+        Y: 'Yes',
+        N: 'No, not right now',
+      },
+    },
   },
   'view:TeleCounselingInformation': {
     'ui:options': { showFieldLabel: false },
@@ -75,6 +81,10 @@ export const uiSchema = {
     'ui:widget': 'yesNo',
     'ui:options': {
       classNames: 'vads-u-margin-top--1',
+      labels: {
+        Y: 'Yes',
+        N: 'No, not right now',
+      },
     },
     'ui:title': (
       <p className={titleClasses}>
