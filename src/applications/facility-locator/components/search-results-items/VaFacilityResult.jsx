@@ -8,13 +8,6 @@ import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
 
-/**
- * VA health
- * VA benefits
- * Vet Centers
- * VA cemeteries
- * VA Urgent care
- */
 const VaFacilityResult = ({ location, query }) => {
   const { name, website, operatingStatus } = location.attributes;
   const distance = location.distance;
