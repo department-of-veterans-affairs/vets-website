@@ -313,7 +313,6 @@ InstitutionFilterForm.propTypes = {
     relaffil: PropTypes.string,
   }),
   handleInputFocus: PropTypes.func,
-  institutionFilterChange: PropTypes.func,
 };
 
 InstitutionFilterForm.defaultProps = {};

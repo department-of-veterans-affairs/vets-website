@@ -259,7 +259,6 @@ export class SearchPage extends React.Component {
         hideModal={this.props.hideModal}
         gibctFilterEnhancement={this.props.gibctFilterEnhancement}
         gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
-        institutionFilterChange={this.props.institutionFilterChange}
       />
     </div>
   );
