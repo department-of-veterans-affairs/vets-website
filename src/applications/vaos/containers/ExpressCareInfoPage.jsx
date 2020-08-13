@@ -1,6 +1,8 @@
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import React from 'react';
 import { connect } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
+import { GA_PREFIX } from '../utils/constants';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -20,10 +22,16 @@ class ExpressCareInfoPage extends React.Component {
   }
 
   goBack = () => {
+    recordEvent({
+      event: `${GA_PREFIX}-express-care-request-cancel-flow`,
+    });
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
 
   goForward = () => {
+    recordEvent({
+      event: `${GA_PREFIX}-express-care-request-continue-flow`,
+    });
     this.props.routeToNextAppointmentPage(this.props.router, pageKey);
   };
 
