@@ -30,6 +30,7 @@ import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
 import environment from 'platform/utilities/environment';
 import { isMobileView } from '../utils/helpers';
+import { searchWithFilters } from '../utils/search';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -144,42 +145,8 @@ export class SearchPage extends React.Component {
     });
   };
 
-  handleFilterChange = (field, value, transformer = null) => {
-    // Translate form selections to query params.
-    let query = {
-      ...this.props.location.query,
-      [field]: value,
-      name: value === undefined ? field : this.props.autocomplete.searchTerm,
-    };
-    // Don’t update the route if the query hasn’t changed.
-    if (
-      _.isEqual(query, this.props.location.query) ||
-      this.props.search.inProgress
-    ) {
-      return;
-    }
-    this.props.clearAutocompleteSuggestions();
-
-    // Reset to the first page upon a filter change.
-    delete query.page;
-
-    const shouldRemoveFilter =
-      !value ||
-      ((field === 'country' ||
-        field === 'state' ||
-        field === 'type' ||
-        field === 'relaffil') &&
-        value === 'ALL');
-
-    if (shouldRemoveFilter) {
-      delete query[field];
-    }
-
-    if (transformer) {
-      query = transformer(query);
-    }
-
-    this.props.router.push({ ...this.props.location, query });
+  handleFilterChange = (field, value, additionalFields = []) => {
+    searchWithFilters(this.props, field, value, additionalFields);
   };
 
   searchResults = () => {

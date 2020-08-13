@@ -13,7 +13,6 @@ import {
 import CautionaryWarningsFilter from './CautionaryWarningsFilter';
 
 import { religiousAffiliations } from '../../utils/data/religiousAffiliations';
-import _ from 'lodash';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -29,22 +28,8 @@ class InstitutionFilterForm extends React.Component {
   handleGenderFilterChange = e => {
     const { value } = e.target;
 
-    this.props.institutionFilterChange({
-      ...this.props.filters,
-      menonly: false,
-      womenonly: false,
-    });
-
-    const transformer = query => {
-      const clonedData = _.cloneDeep(query);
-
-      delete clonedData.womenonly;
-      delete clonedData.menonly;
-      return clonedData;
-    };
-
     if (value === 'womenonly' || value === 'menonly') {
-      this.props.handleFilterChange(value, true, transformer);
+      this.props.handleFilterChange(value, true);
     }
   };
 
