@@ -123,7 +123,7 @@ describe('VAOS integration: Express Care form submission', () => {
           .format('HH:mm'),
         endTime: today
           .clone()
-          .add('1', 'minutes')
+          .add('2', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
       },
@@ -157,13 +157,15 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     );
 
-    fireEvent.change(await screen.getByLabelText(/tell us about your/i), {
+    await screen.findByText(/tell us about your cough/i);
+
+    fireEvent.change(screen.getByLabelText(/tell us about your/i), {
       target: { value: requestData.attributes.additionalInformation },
     });
-    fireEvent.change(await screen.getByLabelText(/phone number/i), {
+    fireEvent.change(screen.getByLabelText(/phone number/i), {
       target: { value: requestData.attributes.phoneNumber },
     });
-    fireEvent.change(await screen.getByLabelText(/email address/i), {
+    fireEvent.change(screen.getByLabelText(/email address/i), {
       target: { value: requestData.attributes.email },
     });
     fireEvent.click(await screen.findByText(/submit express care/i));
@@ -387,7 +389,6 @@ describe('VAOS integration: Express Care form submission', () => {
     expect(router.push.firstCall.args[0]).to.equal(
       '/new-express-care-request/confirmation',
     );
-    await cleanup();
 
     const responseData = JSON.parse(
       global.fetch
