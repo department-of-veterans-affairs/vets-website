@@ -626,7 +626,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         toggleLoginModal={toggleLoginModal}
         startMessageOnly
         formConfig={formConfig}
-        buttonClasses={['vads-u-background-color--green']}
+        unauthButtonClasses={['vads-u-background-color--green']}
       />,
     );
     expect(
