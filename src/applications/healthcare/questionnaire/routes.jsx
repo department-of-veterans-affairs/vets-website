@@ -1,10 +1,10 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
-import App from './containers/App.jsx';
+import QuestionnaireWrapper from './containers/QuestionnaireWrapper.jsx';
 
 const route = {
   path: '/',
-  component: App,
+  component: QuestionnaireWrapper,
   indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
 
   childRoutes: createRoutesWithSaveInProgress(formConfig),
