@@ -40,10 +40,6 @@ export class EducationWizard extends React.Component {
         url = `/education/apply-for-education-benefits/application/${form}`;
         break;
     }
-    // const url =
-    //   form === '0994'
-    //     ? `/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994`
-    //     : `/education/apply-for-education-benefits/application/${form}`;
 
     return (
       <a
@@ -262,27 +258,28 @@ export class EducationWizard extends React.Component {
                 }
               />
             )}
-            {serviceBenefitBasedOn === 'own' && nationalCallToService === 'no' && (
-              <ErrorableRadioButtons
-                additionalFieldsetClass="wizard-fieldset"
-                name="vetTecBenefit"
-                id="vetTecBenefit"
-                options={[
-                  { label: 'Yes', value: 'yes' },
-                  { label: 'No', value: 'no' },
-                ]}
-                onValueChange={({ value }) =>
-                  this.answerQuestion('vetTecBenefit', value)
-                }
-                value={{ value: vetTecBenefit }}
-                label={
-                  <span>
-                    Are you applying for Veteran Employment Through Technology
-                    Education Courses (VET TEC)?
-                  </span>
-                }
-              />
-            )}
+            {serviceBenefitBasedOn === 'own' &&
+              nationalCallToService === 'no' && (
+                <ErrorableRadioButtons
+                  additionalFieldsetClass="wizard-fieldset"
+                  name="vetTecBenefit"
+                  id="vetTecBenefit"
+                  options={[
+                    { label: 'Yes', value: 'yes' },
+                    { label: 'No', value: 'no' },
+                  ]}
+                  onValueChange={({ value }) =>
+                    this.answerQuestion('vetTecBenefit', value)
+                  }
+                  value={{ value: vetTecBenefit }}
+                  label={
+                    <span>
+                      Are you applying for Veteran Employment Through Technology
+                      Education Courses (VET TEC)?
+                    </span>
+                  }
+                />
+              )}
             {serviceBenefitBasedOn === 'other' && (
               <ErrorableRadioButtons
                 additionalFieldsetClass="wizard-fieldset"
@@ -335,30 +332,33 @@ export class EducationWizard extends React.Component {
                   </div>
                 </div>
               )}
-            {newBenefit === 'yes' && nationalCallToService === 'yes' && (
-              <div>
-                <div className="usa-alert usa-alert-warning">
-                  <div className="usa-alert-body">
-                    <h4 className="usa-alert-heading wizard-alert-heading">
-                      Are you sure?
-                    </h4>
-                    <p>Are all of the following things true of your service?</p>
-                    <ul>
-                      <li>
-                        Enlisted under the National Call to Service program,{' '}
-                        <strong>and</strong>
-                      </li>
-                      <li>
-                        Entered service between 10/01/03 and 12/31/07,{' '}
-                        <strong>and</strong>
-                      </li>
-                      <li>Chose education benefits</li>
-                    </ul>
+            {newBenefit === 'yes' &&
+              nationalCallToService === 'yes' && (
+                <div>
+                  <div className="usa-alert usa-alert-warning">
+                    <div className="usa-alert-body">
+                      <h4 className="usa-alert-heading wizard-alert-heading">
+                        Are you sure?
+                      </h4>
+                      <p>
+                        Are all of the following things true of your service?
+                      </p>
+                      <ul>
+                        <li>
+                          Enlisted under the National Call to Service program,{' '}
+                          <strong>and</strong>
+                        </li>
+                        <li>
+                          Entered service between 10/01/03 and 12/31/07,{' '}
+                          <strong>and</strong>
+                        </li>
+                        <li>Chose education benefits</li>
+                      </ul>
+                    </div>
                   </div>
+                  {this.getButton('1990N')}
                 </div>
-                {this.getButton('1990N')}
-              </div>
-            )}
+              )}
             {newBenefit === 'extend' && (
               <div className="wizard-edith-nourse-content">
                 <br />
