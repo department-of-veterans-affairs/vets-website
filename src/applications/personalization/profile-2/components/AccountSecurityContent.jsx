@@ -92,7 +92,7 @@ export const AccountSecurityContent = ({
             })
           }
         >
-          Go to VA.gov FAQs
+          Go to FAQs about signing in to VA.gov
         </a>
       </AlertBox>
     </>
