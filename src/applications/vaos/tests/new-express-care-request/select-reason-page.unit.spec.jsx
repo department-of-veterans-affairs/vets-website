@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
 import { createTestStore } from '../mocks/setup';
