@@ -74,6 +74,7 @@
         "gender": "Female",
         "race": {
           "isSpanishHispanicLatino": true,
+          "notSpanishHispanicLatino": false,
           "isAmericanIndianOrAlaskanNative": false,
           "isBlackOrAfricanAmerican": true,
           "isNativeHawaiianOrOtherPacificIslander": false,

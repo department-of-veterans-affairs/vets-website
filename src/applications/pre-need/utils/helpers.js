@@ -348,6 +348,7 @@ export const veteranUI = {
             fields.isAmericanIndianOrAlaskanNative ||
             fields.isBlackOrAfricanAmerican ||
             fields.isNativeHawaiianOrOtherPacificIslander ||
+            fields.notSpanishHispanicLatino ||
             fields.isAsian ||
             fields.isWhite
           )
