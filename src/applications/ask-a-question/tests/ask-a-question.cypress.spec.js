@@ -33,6 +33,7 @@ const testConfig = createTestConfig(
           .click();
       },
     },
+    skip: true,
   },
   manifest,
   formConfig,
