@@ -7,39 +7,9 @@ import {
   getRealFacilityId,
   getPastAppointmentDateRangeOptions,
 } from '../../utils/appointment';
-import {
-  APPOINTMENT_TYPES,
-  VIDEO_TYPES,
-  APPOINTMENT_STATUS,
-  CANCELLED_APPOINTMENT_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
-  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
-  FUTURE_APPOINTMENTS_HIDDEN_SET,
-  PAST_APPOINTMENTS_HIDDEN_SET,
-} from '../../utils/constants';
-import confirmedCC from '../../api/confirmed_cc.json';
-import confirmedVA from '../../api/confirmed_va.json';
-import requestData from '../../api/requests.json';
-import { getVARequestMock } from '../mocks/v0';
-import { setRequestedPeriod } from '../mocks/helpers';
 
 describe('VAOS appointment helpers', () => {
   const now = moment();
-  const communityCareAppointmentRequest = {
-    typeOfCareId: 'CC',
-    timeZone: '-06:00 MDT',
-  };
-  const vaAppointmentRequest = {
-    optionDate1: ' ',
-  };
-  const vaAppointment = {
-    clinicId: '123',
-    vvsAppointments: [],
-  };
-  const communityCareAppointment = {
-    appointmentTime: ' ',
-    timeZone: '-04:00 EDT',
-  };
 
   describe('getAppointmentTimezoneAbbreviation', () => {
     it('should return the timezone for a community care appointment', () => {

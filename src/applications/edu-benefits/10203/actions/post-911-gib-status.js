@@ -15,5 +15,5 @@ export function getRemainingEntitlement() {
           ),
         },
       });
-    }).catch(error => {});
+    }).catch(_error => {});
 }

@@ -4,8 +4,8 @@ const NeedHelp = () => (
   <div className="vads-u-font-family--sans">
     <h4 className="right-heading">Need help?</h4>
     <p>
-      Call the Debt Management Center between 6:30am and 6:00pm CST using the
-      numbers below:
+      Call the Debt Management Center between 6:30 a.m. and 6:00 p.m. CT using
+      the numbers below:
     </p>
     <p className="vads-u-margin-top--0">
       Toll-free:{' '}
@@ -21,7 +21,7 @@ const NeedHelp = () => (
       </a>
       {'.'}
     </p>
-    <h5 className="vads-u-margin-top--1 ">Request financial assitance</h5>
+    <h5 className="vads-u-margin-top--1 ">Request financial assistance</h5>
     <p className="vads-u-margin-top--0">
       If you require financial assistance, you may request an extended monthly
       payment plan, compromise, or waiver. Call the DMC to discuss your options

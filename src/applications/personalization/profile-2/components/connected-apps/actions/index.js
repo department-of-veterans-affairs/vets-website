@@ -3,7 +3,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { mockConnectedApps } from 'applications/personalization/profile360/util/connected-apps.js';
-import { isEmpty } from 'lodash';
 
 export const LOADING_CONNECTED_APPS = 'connected-apps/LOADING_CONNECTED_APPS';
 export const FINISHED_LOADING_CONNECTED_APPS =

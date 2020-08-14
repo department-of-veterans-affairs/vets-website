@@ -1,6 +1,4 @@
-import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
 
 export const FETCH_CONTESTABLE_ISSUES_INIT = 'FETCH_CONTESTABLE_ISSUES_INIT';
 export const FETCH_CONTESTABLE_ISSUES_SUCCEEDED =

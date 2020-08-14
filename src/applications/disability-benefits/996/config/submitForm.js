@@ -2,7 +2,7 @@ import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 
-const submitForm = (form, formConfig, { mode } = {}) => {
+const submitForm = (form, formConfig) => {
   const { submitUrl, trackingPrefix } = formConfig;
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
