@@ -39,28 +39,6 @@ const CCProviderResult = ({ provider, query }) => {
           query={query}
         />
       </div>
-      <div
-        className={`usa-alert usa-alert-info background-color-only vads-u-padding--1  vads-u-font-weight--bold`}
-      >
-        <i
-          aria-hidden="true"
-          className={`fa fa-info-circle vads-u-margin-top--1 icon-base`}
-        />
-        <div className="usa-alert-body">
-          <a
-            href={
-              'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp'
-            }
-            target={'_/blank'}
-            onClick={() => {
-              // Record event
-              recordEvent({ event: 'cta-primary-button-click' });
-            }}
-          >
-            In-network urgent care benefit{' '}
-          </a>
-        </div>
-      </div>
     </div>
   );
 };
