@@ -4,6 +4,7 @@ exports["PharmacyResult/Should render PharmacyResult(0)"] = {
     "type": "div",
     "props": {
       "className": "facility",
+      "id": "1700017886",
       "children": [
         {
           "type": "div",
@@ -190,6 +191,7 @@ exports["PharmacyResult/Should render PharmacyResult(0)"] = {
         }
       ]
     },
+    "key": "1700017886",
     "rendered": [
       {
         "nodeType": "host",
@@ -571,7 +573,9 @@ exports["PharmacyResult/Should render PharmacyResult(0)"] = {
   },
   "type": "div",
   "props": {
-    "className": "facility"
+    "className": "facility",
+    "id": "1700017886",
+    "key": "1700017886"
   },
   "children": [
     {

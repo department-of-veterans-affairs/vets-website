@@ -401,16 +401,6 @@ class VAMap extends Component {
     const { results } = this.props;
     if (!results) return null;
 
-    // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
-    const linkAction = (id, isProvider = false, e) => {
-      e.preventDefault();
-      if (isProvider) {
-        this.context.router.push(`provider/${id}`);
-      } else {
-        this.context.router.push(`facility/${id}`);
-      }
-    };
-
     const currentLocation = this.props.currentQuery.position;
     const markers = MARKER_LETTERS.values();
     const sortedResults = results
@@ -445,68 +435,10 @@ class VAMap extends Component {
             document.getElementById('searchResultsContainer').scrollTop =
               searchResult.offsetTop;
           }
-          this.props.fetchVAFacility(r.id, r);
         },
         markerText: markers.next().value,
       };
-
-      const specialties = get(
-        ['attributes', 'relationships', 'specialties'],
-        r,
-        [],
-      );
-
-      const popupContent = (
-        <div>
-          {r.type === LocationType.CC_PROVIDER ? (
-            <div>
-              <a
-                href={`/provider/${r.id}`}
-                onClick={linkAction.bind(this, r.id, true)}
-              >
-                <h5>{r.attributes.name}</h5>
-              </a>
-              <h6>{r.attributes.orgName}</h6>
-              <p>
-                Services:{' '}
-                <strong>
-                  {specialties.map(s => s.name.trim()).join(', ')}
-                </strong>
-              </p>
-            </div>
-          ) : (
-            <div>
-              <a
-                href={`/facility/${r.id}`}
-                onClick={linkAction.bind(this, r.id, false)}
-              >
-                <h5>{r.attributes.name}</h5>
-              </a>
-              <p>
-                Facility type:{' '}
-                <strong>{facilityTypes[r.attributes.facilityType]}</strong>
-              </p>
-            </div>
-          )}
-        </div>
-      );
-
-      switch (r.attributes.facilityType) {
-        case FacilityType.VA_HEALTH_FACILITY:
-        case FacilityType.VA_CEMETARY:
-        case FacilityType.VA_BENEFITS_FACILITY:
-        case FacilityType.VET_CENTER:
-          return <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>;
-        case undefined:
-          if (r.type === LocationType.CC_PROVIDER) {
-            return (
-              <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>
-            );
-          }
-          return null;
-        default:
-          return null;
-      }
+      return <FacilityMarker key={r.id} {...iconProps} />;
     });
     if (this.props.currentQuery.searchCoords) {
       mapMarkers.push(

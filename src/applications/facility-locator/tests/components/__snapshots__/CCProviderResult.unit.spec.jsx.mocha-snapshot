@@ -4,6 +4,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
     "type": "div",
     "props": {
       "className": "facility",
+      "id": "1326340985",
       "children": {
         "type": "div",
         "props": {
@@ -189,6 +190,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
         "_store": {}
       }
     },
+    "key": "1326340985",
     "rendered": {
       "nodeType": "host",
       "type": "div",
@@ -607,7 +609,9 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
   },
   "type": "div",
   "props": {
-    "className": "facility"
+    "className": "facility",
+    "id": "1326340985",
+    "key": "1326340985"
   },
   "children": [
     {

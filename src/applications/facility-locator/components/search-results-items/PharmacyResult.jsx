@@ -9,7 +9,7 @@ const PharmacyResult = ({ provider, query }) => {
   const { name } = provider.attributes;
   const distance = provider.distance;
   return (
-    <div className="facility-result" id={location.id} key={location.id}>
+    <div className="facility-result" id={provider.id} key={provider.id}>
       <div>
         {distance && (
           <p>
