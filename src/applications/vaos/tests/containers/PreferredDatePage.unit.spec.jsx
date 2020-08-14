@@ -91,7 +91,7 @@ describe('VAOS <PreferredDatePage>', () => {
   });
 
   it('should submit with valid data', () => {
-    let maxDate = moment()
+    const maxDate = moment()
       .add(395, 'days')
       .format('YYYY-MM-DD');
 

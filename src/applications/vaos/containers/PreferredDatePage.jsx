@@ -31,7 +31,7 @@ const uiSchema = {
     'ui:widget': 'date',
     'ui:validations': [
       (errors, preferredDate) => {
-        let maxDate = moment()
+        const maxDate = moment()
           .add(13, 'months')
           .format('YYYY-MM-DD');
         if (
