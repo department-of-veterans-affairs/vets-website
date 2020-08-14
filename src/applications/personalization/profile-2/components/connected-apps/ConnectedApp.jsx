@@ -4,7 +4,6 @@ import moment from 'moment';
 
 import PropTypes from 'prop-types';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { ConnectedAppDeleteModal } from './ConnectedAppDeleteModal';
 

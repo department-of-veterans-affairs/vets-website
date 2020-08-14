@@ -79,7 +79,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={event =>
+                        onClick={() =>
                           handleDownloadClick(
                             debtLetter.typeDescription,
                             moment(debtLetter.receivedAt).format('MMM D, YYYY'),

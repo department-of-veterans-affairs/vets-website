@@ -8,7 +8,6 @@ const {
 
 const transform = ({
   title,
-  path,
   status,
   metatag: { value: metaTags },
   fieldNicknameForThisFacility,

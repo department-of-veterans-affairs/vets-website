@@ -120,7 +120,7 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(testData => {
         cy.route('GET', '/v0/in_progress_forms/MDOT', testData);
       });
-      cy.get('@testKey').then(testKey => {
+      cy.get('@testKey').then(() => {
         cy.route('POST', '/v0/mdot/supplies', postData);
       });
     },

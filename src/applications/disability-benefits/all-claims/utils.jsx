@@ -10,7 +10,6 @@ import fastLevenshtein from 'fast-levenshtein';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import _ from 'platform/utilities/data';
-import titleCase from 'platform/utilities/data/titleCase';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';

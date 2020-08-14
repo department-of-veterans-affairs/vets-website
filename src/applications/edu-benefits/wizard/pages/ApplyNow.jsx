@@ -7,12 +7,7 @@ import {
 } from 'applications/static-pages/wizard/';
 import recordEvent from 'platform/monitoring/record-event';
 
-const ApplyNow = ({
-  setPageState,
-  getPageStateFromPageName,
-  state = {},
-  setWizardStatus,
-}) => {
+const ApplyNow = ({ getPageStateFromPageName, setWizardStatus }) => {
   const [url, setUrl] = useState('');
   const [referredBenefit, setReferredBenefit] = useState('');
   const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)

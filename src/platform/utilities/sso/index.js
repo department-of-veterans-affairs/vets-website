@@ -1,7 +1,7 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
-import { hasSession, hasSessionSSO } from '../../user/profile/utilities';
+import { hasSessionSSO } from '../../user/profile/utilities';
 import { loginAppUrlRE } from 'applications/login/utilities/paths';
 
 import {

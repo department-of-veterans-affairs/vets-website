@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { IntroductionPage } from 'applications/edu-benefits/1990/containers/IntroductionPage';
 import {
-  WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
   getWizardStatus,
 } from 'applications/static-pages/wizard';

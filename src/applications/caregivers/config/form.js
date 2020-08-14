@@ -1,4 +1,3 @@
-import React from 'react';
 import ConfirmationPage from 'applications/caregivers/containers/ConfirmationPage';
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';

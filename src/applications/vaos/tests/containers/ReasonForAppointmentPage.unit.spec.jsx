@@ -133,7 +133,6 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
   it('should render radio buttons and a textarea', () => {
     const openReasonForAppointment = sinon.spy();
     const updateReasonForAppointmentData = sinon.spy();
-    const pageTitle = 'Choose a reason for your appointment';
 
     const form = mount(
       <ReasonForAppointmentPage

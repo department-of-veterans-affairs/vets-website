@@ -2,15 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
-import Verified from './Verified';
 
-const ProfileInfoTable = ({
-  data,
-  dataTransformer,
-  title,
-  className,
-  list,
-}) => {
+const ProfileInfoTable = ({ data, dataTransformer, title, className }) => {
   const titleClasses = prefixUtilityClasses([
     'background-color--gray-lightest',
     'border--1px',

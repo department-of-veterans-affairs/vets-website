@@ -5,7 +5,6 @@ import { LocationType } from '../constants';
 import {
   healthServices,
   benefitsServices,
-  vetCenterServices,
   urgentCareServices,
   facilityTypesOptions,
 } from '../config';
