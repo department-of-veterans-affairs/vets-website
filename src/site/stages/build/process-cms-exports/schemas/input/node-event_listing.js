@@ -35,6 +35,7 @@ module.exports = {
     'field_intro_text',
     'field_meta_title',
     'field_office',
+    'reverse_field_list',
     'status',
   ],
 };

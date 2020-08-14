@@ -89,5 +89,21 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
+  it('should render header with LocationType.BENEFITS', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.BENEFITS}
+        serviceType="ApplyingForBenefits"
+        context="new york"
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Results for "VA benefits",\s+"Applying for benefits"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
   // TODO: find a way to unit test the React.memo behavior
 });

@@ -1,3 +1,6 @@
+const { usePartialSchema } = require('../../transformers/helpers');
+const pressReleaseSchema = require('./node-press_release');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -12,7 +15,29 @@ module.exports = {
     fieldIntroText: { type: 'string' },
     fieldMetaTitle: { type: 'string' },
     fieldOffice: { $ref: 'output/node-health_care_region_page' },
-    fieldPressReleaseBlurb: { type: 'string' },
+    fieldPressReleaseBlurb: { type: ['string', 'null'] },
+    reverseFieldListingNode: {
+      type: 'object',
+      properties: {
+        entities: {
+          type: 'array',
+          items: {
+            /* eslint-disable react-hooks/rules-of-hooks */
+            entity: usePartialSchema(pressReleaseSchema, [
+              'title',
+              'fieldReleaseDate',
+              'entityUrl',
+              'promote',
+              'created',
+              'fieldIntroText',
+              'entityPublished',
+            ]),
+          },
+        },
+      },
+    },
+    entityPublished: { type: 'boolean' },
+    status: { type: 'boolean' },
   },
   required: [
     'title',
@@ -25,5 +50,8 @@ module.exports = {
     'fieldMetaTitle',
     'fieldOffice',
     'fieldPressReleaseBlurb',
+    'reverseFieldListingNode',
+    'entityPublished',
+    'status',
   ],
 };

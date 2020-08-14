@@ -1,11 +1,6 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import {
-  FETCH_STATUS,
-  GA_PREFIX,
-  APPOINTMENT_TYPES,
-  EXPRESS_CARE,
-} from '../utils/constants';
+import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../utils/events';
 
@@ -32,6 +27,10 @@ import { captureError, getErrorCodes } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
+export const FETCH_PENDING_APPOINTMENTS_FAILED =
+  'vaos/FETCH_PENDING_APPOINTMENTS_FAILED';
+export const FETCH_PENDING_APPOINTMENTS_SUCCEEDED =
+  'vaos/FETCH_PENDING_APPOINTMENTS_SUCCEEDED';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_FAILED';
 export const FETCH_FUTURE_APPOINTMENTS_SUCCEEDED =
@@ -127,54 +126,66 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 }
 
 export function fetchFutureAppointments() {
-  return async (dispatch, getState) => {
-    if (getState().appointments.futureStatus === FETCH_STATUS.notStarted) {
+  return async dispatch => {
+    dispatch({
+      type: FETCH_FUTURE_APPOINTMENTS,
+    });
+
+    try {
+      const data = await Promise.all([
+        getBookedAppointments({
+          startDate: moment().format('YYYY-MM-DD'),
+          endDate: moment()
+            .add(13, 'months')
+            .format('YYYY-MM-DD'),
+        }),
+        getAppointmentRequests({
+          startDate: moment()
+            .subtract(30, 'days')
+            .format('YYYY-MM-DD'),
+          endDate: moment().format('YYYY-MM-DD'),
+        })
+          .then(requests => {
+            dispatch({
+              type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
+              data: requests,
+            });
+            return requests;
+          })
+          .catch(resp => {
+            dispatch({
+              type: FETCH_PENDING_APPOINTMENTS_FAILED,
+            });
+
+            return Promise.reject(resp);
+          }),
+      ]);
+
       dispatch({
-        type: FETCH_FUTURE_APPOINTMENTS,
+        type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+        data: data[0],
       });
 
       try {
-        const data = await Promise.all([
-          getBookedAppointments({
-            startDate: moment().format('YYYY-MM-DD'),
-            endDate: moment()
-              .add(13, 'months')
-              .format('YYYY-MM-DD'),
-          }),
-          getAppointmentRequests({
-            startDate: moment()
-              .subtract(30, 'days')
-              .format('YYYY-MM-DD'),
-            endDate: moment().format('YYYY-MM-DD'),
-          }),
-        ]);
+        const facilityData = await getAdditionalFacilityInfo(
+          [].concat(...data),
+        );
 
-        dispatch({
-          type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-          data,
-        });
-
-        try {
-          const facilityData = await getAdditionalFacilityInfo(
-            getState().appointments.future,
-          );
-
-          if (facilityData) {
-            dispatch({
-              type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-              facilityData,
-            });
-          }
-        } catch (error) {
-          captureError(error);
+        if (facilityData) {
+          dispatch({
+            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+            facilityData,
+          });
         }
       } catch (error) {
         captureError(error);
-        dispatch({
-          type: FETCH_FUTURE_APPOINTMENTS_FAILED,
-          error,
-        });
       }
+    } catch (error) {
+      captureError(error);
+      dispatch({
+        type: FETCH_FUTURE_APPOINTMENTS_FAILED,
+        error,
+      });
     }
   };
 }
@@ -242,6 +253,7 @@ export function confirmCancelAppointment() {
     const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
     const additionalEventdata = {
       appointmentType: !isConfirmedAppointment ? 'pending' : 'confirmed',
+      isExpressCare: appointment.vaos?.isExpressCare,
       facilityType:
         appointment.vaos?.isCommunityCare || appointment.isCommunityCare
           ? 'cc'
