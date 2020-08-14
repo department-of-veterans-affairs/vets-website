@@ -63,6 +63,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
   return (
     <div className="facility-phone-group">
       {renderPhoneNumber('Main number', null, phone.main, from)}
+      {phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
       {renderPhoneNumber('Mental health', null, phone.mentalHealthClinic, from)}
     </div>
   );

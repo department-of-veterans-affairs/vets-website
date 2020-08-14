@@ -66,9 +66,7 @@ class SearchControls extends Component {
     ));
     return (
       <span>
-        <label htmlFor="facility-type-dropdown">
-          Choose a VA facility type
-        </label>
+        <label htmlFor="facility-type-dropdown">Facility type</label>
         <select
           id="facility-type-dropdown"
           aria-label="Choose a facility type"
@@ -125,7 +123,7 @@ class SearchControls extends Component {
 
     return (
       <span>
-        <label htmlFor="service-type-dropdown">Choose a service type</label>
+        <label htmlFor="service-type-dropdown">Service type</label>
         <select
           id="service-type-dropdown"
           disabled={disabled || !facilityType}
@@ -164,7 +162,7 @@ class SearchControls extends Component {
                     htmlFor="street-city-state-zip"
                     id="street-city-state-zip-label"
                   >
-                    Search by city, state or postal code
+                    City, state or postal code
                   </label>
                   <input
                     id="street-city-state-zip"

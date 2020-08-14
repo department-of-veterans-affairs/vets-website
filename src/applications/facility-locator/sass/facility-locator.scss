@@ -71,7 +71,7 @@ $facility-locator-color-gray: #ccc;
   i.fa {
     width: 18px;
     text-align: center;
-    margin-right: 15px;
+    margin-right: 8px;
     color: $color-link-default;
   }
 
@@ -98,7 +98,7 @@ $facility-locator-color-gray: #ccc;
     }
 
     &.active {
-      box-shadow: inset 0px 0px 7px $color-link-default;
+      border: $focus-outline;
     }
 
     span.fa {

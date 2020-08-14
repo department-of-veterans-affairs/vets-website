@@ -399,6 +399,8 @@ class VAMap extends Component {
    */
   renderMapMarkers = () => {
     const { results } = this.props;
+    if (!results) return null;
+
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, isProvider = false, e) => {
       e.preventDefault();
@@ -577,13 +579,14 @@ class VAMap extends Component {
                   query={this.props.currentQuery}
                 />
               </div>
-              {results.length > 0 && (
-                <Pagination
-                  onPageSelect={this.handlePageSelect}
-                  page={currentPage}
-                  pages={totalPages}
-                />
-              )}
+              {results &&
+                results.length > 0 && (
+                  <Pagination
+                    onPageSelect={this.handlePageSelect}
+                    page={currentPage}
+                    pages={totalPages}
+                  />
+                )}
             </TabPanel>
             <TabPanel>
               <Map
@@ -604,11 +607,12 @@ class VAMap extends Component {
                     <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
                     Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
                 />
-                {facilityLocatorMarkers.length > 0 && (
-                  <FeatureGroup ref="facilityMarkers">
-                    {facilityLocatorMarkers}
-                  </FeatureGroup>
-                )}
+                {facilityLocatorMarkers &&
+                  facilityLocatorMarkers.length > 0 && (
+                    <FeatureGroup ref="facilityMarkers">
+                      {facilityLocatorMarkers}
+                    </FeatureGroup>
+                  )}
               </Map>
               {selectedResult && (
                 <div className="mobile-search-result">
@@ -696,16 +700,18 @@ class VAMap extends Component {
                   <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
                   Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
               />
-              {facilityLocatorMarkers.length > 0 && (
-                <FeatureGroup ref="facilityMarkers">
-                  {facilityLocatorMarkers}
-                </FeatureGroup>
-              )}
+              {facilityLocatorMarkers &&
+                facilityLocatorMarkers.length > 0 && (
+                  <FeatureGroup ref="facilityMarkers">
+                    {facilityLocatorMarkers}
+                  </FeatureGroup>
+                )}
             </Map>
             {otherToolsLink}
           </div>
         </div>
         {currentPage &&
+          results &&
           results.length > 0 && (
             <Pagination
               onPageSelect={this.handlePageSelect}

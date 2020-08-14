@@ -44,7 +44,7 @@ const CCProviderResult = ({ provider, query }) => {
       >
         <i
           aria-hidden="true"
-          className={`fa fa-exclamation-circle vads-u-margin-top--1 icon-base`}
+          className={`fa fa-info-circle vads-u-margin-top--1 icon-base`}
         />
         <div className="usa-alert-body">
           <a

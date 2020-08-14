@@ -17,7 +17,7 @@ export const SearchResultsHeader = ({
   inProgress,
   specialtyMap,
 }) => {
-  if (inProgress || !results.length) {
+  if (inProgress || !results || !results.length) {
     return <div style={{ height: '38px' }} />;
   }
 
