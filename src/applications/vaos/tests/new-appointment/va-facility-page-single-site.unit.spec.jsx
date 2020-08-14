@@ -858,4 +858,26 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     );
     expect(screen.getByText(/Continue/)).to.have.attribute('disabled');
   });
+
+  it('should go back to previous page', async () => {
+    mockParentSites(['983'], []);
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+
+    const router = {
+      push: sinon.spy(),
+    };
+    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      store,
+    });
+
+    await screen.findByText(
+      /Sorry, we couldn't find any VA health systems you've been seen at/i,
+    );
+
+    fireEvent.click(screen.getByText('Back'));
+    await waitFor(() =>
+      expect(router.push.firstCall.args[0]).to.equal('/new-appointment'),
+    );
+  });
 });
