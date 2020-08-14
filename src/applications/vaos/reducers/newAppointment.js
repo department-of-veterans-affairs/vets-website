@@ -68,7 +68,6 @@ import {
 import { getTypeOfCare } from '../utils/selectors';
 import {
   getOrganizationBySiteId,
-  getIdOfRootOrganization,
   getSiteIdFromOrganization,
 } from '../services/organization';
 import { getClinicId } from '../services/healthcare-service/transformers';
@@ -98,12 +97,6 @@ const initialState = {
 
 function getFacilities(state, typeOfCareId, vaParent) {
   return state.facilities[`${typeOfCareId}_${vaParent}`] || [];
-}
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id.replace('var', '');
 }
 
 function setupFormData(data, schema, uiSchema) {

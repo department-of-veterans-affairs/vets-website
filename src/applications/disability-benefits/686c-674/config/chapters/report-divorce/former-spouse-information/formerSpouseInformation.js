@@ -2,11 +2,7 @@ import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { validateName, reportDivorce } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
-import {
-  isChapterFieldRequired,
-  stateTitle,
-  cityTitle,
-} from '../../../helpers';
+import { isChapterFieldRequired } from '../../../helpers';
 import { locationUISchema } from '../../../location-schema';
 
 export const schema = {

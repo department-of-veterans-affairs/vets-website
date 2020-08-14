@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { get, some, pull, startCase } from 'lodash';
-import classNames from 'classnames';
+import { get, some, pull } from 'lodash';
 import moment from 'moment';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { formatServiceName } from '../utils/formatServiceName';
 

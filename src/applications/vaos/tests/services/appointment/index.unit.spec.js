@@ -13,7 +13,6 @@ import {
   getAppointmentRequests,
   isVideoAppointment,
   isVideoGFE,
-  sortFutureConfirmedAppointments,
 } from '../../../services/appointment';
 import {
   transformConfirmedAppointments,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { veteranPathPageNames } from '../pageList';
 
-const noHonorableDischarge = ({ setPageState, state = {} }) => (
+const noHonorableDischarge = () => (
   <div className="feature">
     <p>
       To apply for VR&E benefits, you must have received{' '}

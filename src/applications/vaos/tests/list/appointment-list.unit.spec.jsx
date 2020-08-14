@@ -26,7 +26,6 @@ import {
 import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 import AppointmentsPage from '../../containers/AppointmentsPage';
-import { createTestStore } from '../mocks/setup';
 
 const initialState = {
   featureToggles: {

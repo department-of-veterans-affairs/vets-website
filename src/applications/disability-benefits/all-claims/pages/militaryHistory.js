@@ -5,7 +5,7 @@ import AutosuggestField from 'platform/forms-system/src/js/fields/AutosuggestFie
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
-import { isBDD, showSeparationLocation } from '../utils';
+import { showSeparationLocation } from '../utils';
 import {
   SeparationLocationTitle,
   SeparationLocationDescription,
