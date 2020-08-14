@@ -216,8 +216,6 @@ class ObjectField extends React.Component {
             .join('_')
         : idSchema.$id;
 
-    // const FieldContentWrapper = environment.isProduction() ? <div className={containerClassNames}> : <>
-
     const fieldContent = (
       <div className={containerClassNames}>
         {hasTitleOrDescription && (
