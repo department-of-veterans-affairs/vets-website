@@ -72,6 +72,11 @@ export default class ArrayField extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    window.clearTimeout(this.topTimeout);
+    window.clearTimeout(this.rowTimeout);
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
   }
@@ -91,7 +96,7 @@ export default class ArrayField extends React.Component {
   }
 
   scrollToTop() {
-    setTimeout(() => {
+    this.topTimeout = setTimeout(() => {
       scroller.scrollTo(
         `topOfTable_${this.props.idSchema.$id}`,
         window.Forms?.scroll || {
@@ -105,7 +110,7 @@ export default class ArrayField extends React.Component {
   }
 
   scrollToRow(id) {
-    setTimeout(() => {
+    this.rowTimeout = setTimeout(() => {
       scroller.scrollTo(
         `table_${id}`,
         window.Forms?.scroll || {

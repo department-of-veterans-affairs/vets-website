@@ -193,7 +193,7 @@ describe('Editing', () => {
     server.listen();
   });
   beforeEach(() => {
-    window.VetsGov = { pollTimeout: 1 };
+    window.VetsGov.pollTimeout = 1;
     const initialState = createBasicInitialState();
 
     view = renderWithProfileReducers(ui, {

@@ -217,7 +217,7 @@ describe('feedback-tool helpers:', () => {
 
   describe('submit', () => {
     beforeEach(() => {
-      window.VetsGov = { pollTimeout: 1 };
+      window.VetsGov.pollTimeout = 1;
       window.URL = {
         createObjectURL: sinon.stub().returns('test'),
       };

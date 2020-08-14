@@ -177,7 +177,7 @@ describe('Editing email address', () => {
     server.listen();
   });
   beforeEach(() => {
-    window.VetsGov = { pollTimeout: 1 };
+    window.VetsGov.pollTimeout = 1;
   });
   afterEach(() => {
     server.resetHandlers();

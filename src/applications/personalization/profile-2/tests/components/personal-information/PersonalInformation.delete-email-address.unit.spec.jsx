@@ -60,7 +60,7 @@ describe('Deleting email address', () => {
     server.listen();
   });
   beforeEach(() => {
-    window.VetsGov = { pollTimeout: 1 };
+    window.VetsGov.pollTimeout = 1;
     const initialState = createBasicInitialState();
     emailAddress = initialState.user.profile.vet360.email.emailAddress;
 

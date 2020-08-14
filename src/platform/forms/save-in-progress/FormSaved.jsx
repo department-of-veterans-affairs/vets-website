@@ -15,7 +15,7 @@ class FormSaved extends React.Component {
   constructor(props) {
     super(props);
     const scroller = Scroll.scroller;
-    const scrollProps = props.scrollParams || window.VetsGov.scroll;
+    const scrollProps = props.scrollParams || window.Forms.scroll;
     this.scrollToTop = () => {
       scroller.scrollTo(
         'topScrollElement',

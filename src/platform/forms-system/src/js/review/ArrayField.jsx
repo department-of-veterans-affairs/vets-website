@@ -52,6 +52,11 @@ class ArrayField extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    window.clearTimeout(this.topTimeout);
+    window.clearTimeout(this.rowTimeout);
+  }
+
   getItemSchema(index) {
     const schema = this.props.schema;
     if (schema.items.length > index) {
@@ -62,7 +67,7 @@ class ArrayField extends React.Component {
   }
 
   scrollToTop() {
-    setTimeout(() => {
+    this.topTimeout = setTimeout(() => {
       // Hacky; won’t work if the array field is used in two pages and one isn’t
       //  a BasicArrayField nor if the array field is used in three pages.
       scroller.scrollTo(
@@ -80,7 +85,7 @@ class ArrayField extends React.Component {
   }
 
   scrollToRow(id) {
-    setTimeout(() => {
+    this.rowTimeout = setTimeout(() => {
       scroller.scrollTo(
         `table_${id}`,
         window.Forms?.scroll || {
