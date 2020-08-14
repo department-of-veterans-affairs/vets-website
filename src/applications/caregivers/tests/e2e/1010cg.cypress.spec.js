@@ -130,23 +130,23 @@ const testSecondaryTwo = createTestConfig(
         });
         // sign signature as veteran
 
-        cy.route({
-          method: 'POST',
-          url: '/v0/caregivers_assistance_claims/download_pdf',
-          status: 200,
-          response: {
-            body: {
-              data: {
-                id: '',
-                type: 'form1010cg_submissions',
-                attributes: {
-                  confirmationNumber: 'aB935000000F3VnCAK',
-                  submittedAt: '2020-08-06T19:18:11+00:00',
-                },
-              },
-            },
-          },
-        });
+        // cy.route({
+        //   method: 'POST',
+        //   url: '/v0/caregivers_assistance_claims/download_pdf',
+        //   status: 200,
+        //   response: {
+        //     body: {
+        //       data: {
+        //         id: '',
+        //         type: 'form1010cg_submissions',
+        //         attributes: {
+        //           confirmationNumber: 'aB935000000F3VnCAK',
+        //           submittedAt: '2020-08-06T19:18:11+00:00',
+        //         },
+        //       },
+        //     },
+        //   },
+        // });
       },
     },
 
