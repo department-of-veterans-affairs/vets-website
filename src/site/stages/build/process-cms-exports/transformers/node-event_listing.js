@@ -5,9 +5,9 @@ const {
   isPublished,
 } = require('./helpers');
 
-const reverseFields = reverseFieldList => ({
-  entities: reverseFieldList
-    ? reverseFieldList
+const reverseFields = reverseFieldListing => ({
+  entities: reverseFieldListing
+    ? reverseFieldListing
         .filter(
           reverseField =>
             reverseField.entityBundle === 'event' && reverseField.status,
@@ -37,8 +37,8 @@ const transform = entity => ({
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
   fieldOffice: entity.fieldOffice[0],
-  reverseFieldListingNode: reverseFields(entity.reverseFieldList),
-  pastEvents: reverseFields(entity.reverseFieldList),
+  reverseFieldListingNode: reverseFields(entity.reverseFieldListing),
+  pastEvents: reverseFields(entity.reverseFieldListing),
 });
 module.exports = {
   filter: [
@@ -52,7 +52,7 @@ module.exports = {
     'field_intro_text',
     'field_meta_title',
     'field_office',
-    'reverse_field_list',
+    'reverse_field_listing',
   ],
   transform,
 };
