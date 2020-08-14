@@ -37,7 +37,7 @@ module.exports = {
     'field_meta_title',
     'field_office',
     'field_press_release_blurb',
-    'reverse_field_list',
+    'reverse_field_listing',
     'status',
   ],
 };
