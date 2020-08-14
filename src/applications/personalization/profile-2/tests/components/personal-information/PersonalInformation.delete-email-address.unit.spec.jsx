@@ -11,6 +11,7 @@ import PersonalInformation from '../../../components/personal-information/Person
 
 import {
   createBasicInitialState,
+  elementNotRemoved,
   renderWithProfileReducers,
 } from '../../unit-test-helpers';
 
@@ -119,7 +120,7 @@ describe('Deleting email address', () => {
     expect(view.getByText(/add.*email address/i, { selector: 'button' })).to
       .exist;
   });
-  it('should show an error if the transaction cannot be created', async () => {
+  it('should show an error and not exit edit mode if the transaction cannot be created', async () => {
     server.use(...mocks.createTransactionFailure);
 
     deleteEmailAddress();
@@ -130,8 +131,13 @@ describe('Deleting email address', () => {
     expect(alert).to.contain.text(
       'We’re sorry. We couldn’t update your email address. Please try again.',
     );
+
+    // make sure that edit mode is not exited
+    await elementNotRemoved(alert, { timeout: 75 });
+    const editButton = getEditButton();
+    expect(editButton).to.not.exist;
   });
-  it('should show an error if the deletion fails quickly', async () => {
+  it('should show an error and not auto-exit edit mode if the deletion fails quickly', async () => {
     server.use(...mocks.transactionFailed);
 
     deleteEmailAddress();
@@ -142,6 +148,11 @@ describe('Deleting email address', () => {
     expect(alert).to.contain.text(
       'We’re sorry. We couldn’t update your email address. Please try again.',
     );
+
+    // make sure that edit mode is not exited
+    await elementNotRemoved(alert, { timeout: 75 });
+    const editButton = getEditButton();
+    expect(editButton).to.not.exist;
   });
   it('should show an error if the deletion fails after the edit view exits', async () => {
     server.use(...mocks.transactionPending);

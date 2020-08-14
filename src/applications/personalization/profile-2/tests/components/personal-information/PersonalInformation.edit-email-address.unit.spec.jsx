@@ -12,6 +12,7 @@ import PersonalInformation from '../../../components/personal-information/Person
 
 import {
   createBasicInitialState,
+  elementNotRemoved,
   renderWithProfileReducers,
 } from '../../unit-test-helpers';
 import { beforeEach } from 'mocha';
@@ -114,11 +115,15 @@ async function testTransactionCreationFails() {
   editEmailAddress();
 
   // expect an error to be shown
-  expect(
-    await view.findByText(
-      'We’re sorry. We couldn’t update your email address. Please try again.',
-    ),
-  ).to.exist;
+  const errorText = await view.findByText(
+    'We’re sorry. We couldn’t update your email address. Please try again.',
+  );
+  expect(errorText).to.exist;
+
+  // make sure that edit mode is not exited
+  await elementNotRemoved(errorText, { timeout: 75 });
+  const editButton = getEditButton();
+  expect(editButton).to.not.exist;
 }
 
 // When the update fails while the Edit View is still active
@@ -128,11 +133,15 @@ async function testQuickFailure() {
   editEmailAddress();
 
   // expect an error to be shown
-  expect(
-    await view.findByText(
-      'We’re sorry. We couldn’t update your email address. Please try again.',
-    ),
-  ).to.exist;
+  const errorText = await view.findByText(
+    'We’re sorry. We couldn’t update your email address. Please try again.',
+  );
+  expect(errorText).to.exist;
+
+  // make sure that edit mode is not exited
+  await elementNotRemoved(errorText, { timeout: 75 });
+  const editButton = getEditButton();
+  expect(editButton).to.not.exist;
 }
 
 // When the update fails but not until after the Edit View has exited and the
@@ -202,10 +211,10 @@ describe('Editing email address', () => {
     it('should handle a transaction that does not succeed until after the edit view exits', async () => {
       await testSlowSuccess();
     });
-    it('should show an error if the transaction cannot be created', async () => {
+    it('should show an error and not auto-exit edit mode if the transaction cannot be created', async () => {
       await testTransactionCreationFails();
     });
-    it('should show an error if the transaction fails quickly', async () => {
+    it('should show an error and not auto-exit edit mode if the transaction fails quickly', async () => {
       await testQuickFailure();
     });
     it('should show an error if the transaction fails after the edit view exits', async () => {
@@ -228,10 +237,10 @@ describe('Editing email address', () => {
     it('should handle a transaction that does not succeed until after the edit view exits', async () => {
       await testSlowSuccess();
     });
-    it('should show an error if the transaction cannot be created', async () => {
+    it('should show an error and not auto-exit edit mode if the transaction cannot be created', async () => {
       await testTransactionCreationFails();
     });
-    it('should show an error if the transaction fails quickly', async () => {
+    it('should show an error and not auto-exit edit mode if the transaction fails quickly', async () => {
       await testQuickFailure();
     });
     it('should show an error if the transaction fails after the edit view exits', async () => {
