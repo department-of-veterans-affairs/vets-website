@@ -6,6 +6,9 @@ const confirmEligibilityIsNotChecked = formData =>
 export const uiSchema = {
   'view:confirmEligibility': {
     'ui:field': ConfirmEligibilityView,
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 
