@@ -5,7 +5,6 @@ import moment from 'moment';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import environment from 'platform/utilities/environment';
 import { fireEvent, waitFor } from '@testing-library/dom';
 
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
@@ -13,7 +12,6 @@ import { createTestStore } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
 import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
 import { fetchExpressCareWindows } from '../../actions/expressCare';
-import { EXPRESS_CARE } from '../../utils/constants';
 
 const initialState = {
   user: {
@@ -72,8 +70,15 @@ describe('VAOS integration: Express Care form', () => {
     fireEvent.click(radio);
     waitFor(() => expect(radio.checked).to.be.true);
     expect(screen.baseElement).to.contain.text(
-      'Same-day mental health appointments',
+      'If you need a mental health appointment today',
     );
+    expect(screen.getByText('Find a VA location').href).to.include(
+      '/find-locations',
+    );
+    expect(screen.baseElement).to.contain.text(
+      'If your health concern isn’t listed here',
+    );
+    screen.getByText(/appointments tool/i);
     await screen.getByRole('button', { name: /back/i });
     await screen.getByRole('button', { name: /continue/i });
   });

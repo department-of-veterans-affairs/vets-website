@@ -33,8 +33,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
     </div>
   );
 
-  const handleDownloadClick = (event, type, date) => {
-    event.preventDefault();
+  const handleDownloadClick = (type, date) => {
     return recordEvent({
       event: 'bam-debt-letter-download',
       'letter-type': type,
@@ -78,9 +77,10 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                     </td>
                     <td className="vads-u-border--0">
                       <a
-                        onClick={event =>
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() =>
                           handleDownloadClick(
-                            event,
                             debtLetter.typeDescription,
                             moment(debtLetter.receivedAt).format('MMM D, YYYY'),
                           )
@@ -105,7 +105,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                         </span>{' '}
                         letter{' '}
                         <span className="sr-only">
-                          `dated $
+                          dated{' '}
                           {moment(debtLetter.receivedAt).format('MMM D, YYYY')}`
                         </span>{' '}
                         <dfn>

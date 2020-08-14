@@ -8,13 +8,13 @@ const {
 
 const transform = ({
   title,
-  path,
   status,
   metatag: { value: metaTags },
   fieldNicknameForThisFacility,
   fieldRelatedLinks,
   fieldPressReleaseBlurb,
   fieldLinkFacilityEmergList,
+  fieldLeadership,
 }) => ({
   entity: {
     entityType: 'node',
@@ -37,6 +37,32 @@ const transform = ({
       processed: getWysiwygString(getDrupalValue(fieldPressReleaseBlurb)),
     },
     entityMetatags: createMetaTagArray(metaTags),
+    fieldLeadership: fieldLeadership.length
+      ? fieldLeadership.map(n => ({
+          entity: {
+            entityPublished: n.entityPublished,
+            title: n.title,
+            fieldNameFirst: n.fieldNameFirst,
+            fieldLastName: n.fieldLastName,
+            fieldSuffix: n.fieldSuffix,
+            fieldEmailAddress: n.fieldEmailAddress,
+            fieldPhoneNumber: n.fieldPhoneNumber,
+            fieldDescription: n.fieldDescription,
+            fieldOffice: {
+              entity: {
+                entityLabel: 'VA Pittsburgh health care',
+                entityType: 'node',
+              },
+            },
+            fieldIntroText: n.fieldIntroText,
+            fieldPhotoAllowHiresDownload: n.fieldPhotoAllowHiresDownload,
+            fieldMedia: n.fieldMedia,
+            fieldBody: n.fieldBody,
+            changed: n.changed,
+            entityUrl: n.entityUrl,
+          },
+        }))
+      : [],
   },
 });
 module.exports = {
@@ -49,6 +75,7 @@ module.exports = {
     'field_related_links',
     'field_press_release_blurb',
     'metatag',
+    'field_leadership',
   ],
   transform,
 };

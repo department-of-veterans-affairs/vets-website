@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import MultiQuestionForm from './MultiQuestionForm';
-import sinon from 'sinon';
 
 let mockQuestions;
 let mockDefaultOptions;

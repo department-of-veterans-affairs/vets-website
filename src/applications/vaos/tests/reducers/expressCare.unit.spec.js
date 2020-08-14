@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import moment from 'moment';
 
 import {
   FETCH_EXPRESS_CARE_WINDOWS,

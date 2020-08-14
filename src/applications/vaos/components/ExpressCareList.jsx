@@ -96,7 +96,7 @@ ExpressCareList.propTypes = {
 function mapStateToProps(state) {
   return {
     expressCareRequests: selectExpressCareRequests(state),
-    status: state.appointments.futureStatus,
+    status: state.appointments.pendingStatus,
     showCancelButton: vaosCancel(state),
     showScheduleButton: vaosRequests(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),

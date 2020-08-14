@@ -5,12 +5,6 @@ import { SearchResultsHeader } from '../../../components/SearchResultsHeader';
 import { LocationType } from '../../../constants';
 
 describe('SearchResultsHeader', () => {
-  const defaultStore = {
-    searchQuery: {
-      specialties: [{ foo: 'bar' }],
-    },
-  };
-
   it('should not render header if results are empty', () => {
     const wrapper = shallow(<SearchResultsHeader results={[]} />);
 
@@ -85,6 +79,22 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       /Results for "Community providers \(in VA’s network\)",\s+"test"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with LocationType.BENEFITS', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.BENEFITS}
+        serviceType="ApplyingForBenefits"
+        context="new york"
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Results for "VA benefits",\s+"Applying for benefits"\s+near\s+"new york"/,
     );
     wrapper.unmount();
   });

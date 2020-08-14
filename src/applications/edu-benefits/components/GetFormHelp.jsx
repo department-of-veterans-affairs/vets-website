@@ -1,5 +1,4 @@
 import React from 'react';
-import CallHRC from 'platform/static-data/CallHRC';
 import Telephone, {
   CONTACTS,
   PATTERNS,

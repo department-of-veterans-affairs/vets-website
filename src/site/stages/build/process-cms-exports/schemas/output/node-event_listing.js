@@ -1,6 +1,25 @@
 const { usePartialSchema } = require('../../transformers/helpers');
 const eventSchema = require('./node-event');
 
+const reverseFieldSchema = {
+  type: 'object',
+  properties: {
+    entities: {
+      type: 'array',
+      items: {
+        /* eslint-disable react-hooks/rules-of-hooks */
+        entity: usePartialSchema(eventSchema, [
+          'title',
+          'entityUrl',
+          'fieldDate',
+          'fieldDescription',
+          'fieldLocationHumanreadable',
+        ]),
+      },
+    },
+  },
+};
+
 module.exports = {
   type: 'object',
   properties: {
@@ -23,28 +42,8 @@ module.exports = {
         { $ref: 'output/node-office' },
       ],
     },
-    reverseFieldList: {
-      type: 'array',
-      items: { $ref: 'output/node-event' },
-    },
-    pastEvents: {
-      type: 'object',
-      properties: {
-        entities: {
-          type: 'array',
-          items: {
-            /* eslint-disable react-hooks/rules-of-hooks */
-            entity: usePartialSchema(eventSchema, [
-              'title',
-              'entityUrl',
-              'fieldDate',
-              'fieldDescription',
-              'fieldLocationHumanreadable',
-            ]),
-          },
-        },
-      },
-    },
+    reverseFieldListingNode: reverseFieldSchema,
+    pastEvents: reverseFieldSchema,
   },
   required: [
     'title',
@@ -58,5 +57,7 @@ module.exports = {
     'fieldIntroText',
     'fieldMetaTitle',
     'fieldOffice',
+    'reverseFieldListingNode',
+    'pastEvents',
   ],
 };

@@ -1,4 +1,3 @@
-import React from 'react';
 import 'platform/polyfills';
 import './sass/debt-letters.scss';
 import routes from './routes';

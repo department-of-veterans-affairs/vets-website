@@ -3,8 +3,6 @@ import { addSpouse } from '../../../utilities';
 import { SpouseTitle } from '../../../../components/ArrayPageItemSpouseTitle';
 import { locationUISchema } from '../../../location-schema';
 
-import { get } from 'lodash';
-
 export const schema = addSpouse.properties.spouseMarriageHistoryDetails;
 
 export const uiSchema = {

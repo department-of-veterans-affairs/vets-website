@@ -84,8 +84,8 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
     <>
       <Breadcrumbs className="vads-u-font-family--sans">
         <a href="/">Home</a>
-        <a href="/debt-letters">Manage your VA debt</a>
-        <a href="/debt-letters/debt-list">Your VA debt</a>
+        <a href="/manage-va-debt">Manage your VA debt</a>
+        <a href="/manage-va-debt/your-debt">Your VA debt</a>
       </Breadcrumbs>
       <div className="vads-l-row vads-u-margin-x--neg2p5">
         <h1 className="vads-u-padding-x--2p5 vads-u-margin-bottom--2">

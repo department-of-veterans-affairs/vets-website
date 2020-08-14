@@ -8,10 +8,8 @@ import mockMHVHasAccepted from './tests/fixtures/mhv-has-accepted.json';
 import mockFullNameSuccess from './tests/fixtures/full-name-success.json';
 
 import mockPersonalInfoSuccess from './tests/fixtures/personal-information-success.json';
-import mockPersonalInfoError from './tests/fixtures/personal-information-502.json';
 
 import mockServiceHistorySuccess from './tests/fixtures/service-history-success.json';
-import mockServiceHistoryError from './tests/fixtures/service-history-502.json';
 
 import mock401 from './tests/fixtures/401.json';
 import mock500 from './tests/fixtures/500.json';
