@@ -359,7 +359,6 @@ export const veteranUI = {
       },
     ],
     'ui:options': {
-      hideIf: () => environment.isProduction(),
       showFieldLabel: true,
     },
   },
