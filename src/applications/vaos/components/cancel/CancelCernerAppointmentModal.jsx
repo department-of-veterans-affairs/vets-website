@@ -16,7 +16,7 @@ export default function CancelCernerAppointmentModal({ onClose, status }) {
       <p className="vads-u-margin-top--2">
         <button
           onClick={() => {
-            window.open(getCernerURL());
+            window.open(getCernerURL('/pages/scheduling/upcoming'));
             onClose();
           }}
         >

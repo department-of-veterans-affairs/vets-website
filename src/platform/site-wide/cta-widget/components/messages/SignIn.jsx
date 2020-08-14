@@ -9,7 +9,7 @@ const SignIn = ({ serviceDescription, primaryButtonHandler }) => {
       <p>
         Try signing in with your <b>DS Logon</b>, <b>My HealtheVet</b>, or{' '}
         <b>ID.me</b> account. If you don’t have any of those accounts, you can
-        create one.
+        create one now.
       </p>
     ),
     primaryButtonText: 'Sign in or create an account',

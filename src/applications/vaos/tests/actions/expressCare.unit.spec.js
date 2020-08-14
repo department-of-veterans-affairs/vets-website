@@ -39,10 +39,6 @@ describe('VAOS Express Care actions', () => {
   it('should fetch express care windows', async () => {
     const getState = () => ({
       user: userState,
-      appointments: {
-        futureStatus: 'notStarted',
-        future: [{ facilityId: '442' }],
-      },
     });
     const today = moment();
     const requestCriteria = getExpressCareRequestCriteriaMock('983', [

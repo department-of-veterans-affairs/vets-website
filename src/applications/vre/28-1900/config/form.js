@@ -2,7 +2,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { additionalInformation } from './chapters/additional-information';
-
+import { communicationPreferences } from './chapters/communication-preferences';
 import { veteranInformation, veteranAddress } from './chapters/veteran';
 
 const formConfig = {
@@ -48,6 +48,17 @@ const formConfig = {
           title: 'Additional Information',
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
+        },
+      },
+    },
+    communicationPreferences: {
+      title: 'Communication Preferences',
+      pages: {
+        communicationPreferences: {
+          path: 'communication-preferences',
+          title: 'VR&E Communication Preferences',
+          uiSchema: communicationPreferences.uiSchema,
+          schema: communicationPreferences.schema,
         },
       },
     },

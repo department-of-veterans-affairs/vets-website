@@ -36,7 +36,7 @@ export function getConfirmedAppointments(type, startDate, endDate) {
           import('./confirmed_va.json').then(module => {
             resolve(module.default ? module.default : module);
           });
-        }, 500),
+        }, 15000),
       );
     } else {
       promise = new Promise(resolve =>
