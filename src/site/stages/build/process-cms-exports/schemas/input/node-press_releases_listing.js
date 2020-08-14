@@ -22,7 +22,7 @@ module.exports = {
       items: { $ref: 'EntityReference' },
     },
     field_press_release_blurb: { $ref: 'GenericNestedString' },
-    reverse_field_list: { $ref: 'EntityReferenceArray' },
+    reverse_field_listing: { $ref: 'EntityReferenceArray' },
     status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
