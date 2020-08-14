@@ -33,8 +33,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
     </div>
   );
 
-  const handleDownloadClick = (event, type, date) => {
-    event.preventDefault();
+  const handleDownloadClick = (type, date) => {
     return recordEvent({
       event: 'bam-debt-letter-download',
       'letter-type': type,
@@ -43,7 +42,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
   };
   return (
     <div>
-      <h2 className="vads-u-margin-top--1p5 vads-u-margin-bottom--2">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
         Your debt letters
       </h2>
       {isVBMSError && renderAlert()}
@@ -57,7 +56,9 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
             <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
               <thead>
                 <tr>
-                  <th className="vads-u-border--0">Date</th>
+                  <th className="vads-u-border--0 vads-u-padding-left--3">
+                    Date
+                  </th>
                   <th className="vads-u-border--0">Type</th>
                   <th className="vads-u-border--0">Action</th>
                 </tr>
@@ -68,7 +69,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                     key={debtLetter.documentId}
                     className="vads-u-border-top--1px vads-u-border-bottom--1px"
                   >
-                    <td className="vads-u-border--0">
+                    <td className="vads-u-border--0 vads-u-padding-left--3">
                       {moment(debtLetter.receivedAt).format('MMM D, YYYY')}
                     </td>
                     <td className="vads-u-border--0">
@@ -76,9 +77,10 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                     </td>
                     <td className="vads-u-border--0">
                       <a
+                        target="_blank"
+                        rel="noopener noreferrer"
                         onClick={event =>
                           handleDownloadClick(
-                            event,
                             debtLetter.typeDescription,
                             moment(debtLetter.receivedAt).format('MMM D, YYYY'),
                           )
@@ -99,15 +101,15 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                         />
                         Download
                         <span className="sr-only">
-                          ` ${debtLetter.typeDescription} `
+                          {debtLetter.typeDescription}
                         </span>{' '}
                         letter{' '}
                         <span className="sr-only">
-                          `dated $
+                          dated{' '}
                           {moment(debtLetter.receivedAt).format('MMM D, YYYY')}`
                         </span>{' '}
                         <dfn>
-                          <abbr title="Portable Document Format">PDF</abbr>
+                          <abbr title="Portable Document Format">(PDF)</abbr>
                         </dfn>
                       </a>
                     </td>
@@ -121,12 +123,13 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
         debtLinks.length < 1 && (
           <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
             <h4 className="vads-u-font-family--serif vads-u-margin-top--0">
-              Our records show that you don't have any current debts
+              Our records show that you don't have any debt letters
             </h4>
             <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-              If you believe that you have a debt with the VA, or you would like
-              to get information about a debt that has been resolved, call the
-              Debt Management Center at{' '}
+              Debt collection has been put on hold due to the COVID-19 pandemic.
+              If you received a debt after March 2020, debt collection letters
+              haven't been mailed to your address. For more information about
+              your debt, call the Debt Management Center at{' '}
               <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
                 800-827-0648
               </a>

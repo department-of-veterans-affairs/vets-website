@@ -18,13 +18,15 @@ export default function NeedHelp() {
       <p className="vads-u-margin-top--0">
         For help scheduling a VA or Community Care appointment, please call{' '}
         <a href="tel:8774705947">877-470-5947</a> (if you have hearing loss,
-        call <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        call TTY:{' '}
+        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday &ndash; Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--0">
         For questions about joining a VA Video Connect appointment, please call{' '}
         <a href="tel:8666513180">866-651-3180</a> (if you have hearing loss,
-        call <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        call TTY:{' '}
+        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday &ndash; Saturday, 7:00 a.m. to 11:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--0">

@@ -104,6 +104,8 @@ import {
   workBehaviorChanges,
 } from '../pages';
 
+import { form526BDDFeature } from '../config/selectors';
+
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
 import { ptsd781NameTitle } from '../content/ptsdClassification';
@@ -179,7 +181,10 @@ const formConfig = {
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
           onContinue: captureEvents.militaryHistory,
-          appStateSelector: state => ({ dob: state.user.profile.dob }),
+          appStateSelector: state => ({
+            dob: state.user.profile.dob,
+            allowBDD: form526BDDFeature(state),
+          }),
         },
         claimType: {
           title: 'Claim type',
@@ -193,7 +198,7 @@ const formConfig = {
         servedInCombatZone: {
           title: 'Combat status',
           path: 'review-veteran-details/combat-status',
-          depends: formData => servedAfter911(formData) && !isBDD(formData),
+          depends: servedAfter911,
           uiSchema: servedInCombatZone.uiSchema,
           schema: servedInCombatZone.schema,
         },
@@ -202,8 +207,7 @@ const formConfig = {
           path:
             'review-veteran-details/military-service-history/reserves-national-guard',
           depends: formData =>
-            hasGuardOrReservePeriod(formData.serviceInformation) &&
-            !isBDD(formData),
+            hasGuardOrReservePeriod(formData.serviceInformation),
           uiSchema: reservesNationalGuardService.uiSchema,
           schema: reservesNationalGuardService.schema,
         },
@@ -645,7 +649,6 @@ const formConfig = {
         vaEmployee: {
           title: 'VA employee',
           path: 'va-employee',
-          depends: formData => !isBDD(formData),
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
         },

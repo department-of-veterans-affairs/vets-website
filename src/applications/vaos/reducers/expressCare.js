@@ -1,29 +1,34 @@
-import moment from '../utils/moment-tz';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
   updateSchemaAndData,
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
+import set from 'platform/utilities/data/set';
 
 import {
-  FORM_PAGE_OPENED,
-  FORM_DATA_UPDATED,
-  FORM_SUBMIT,
-  FORM_SUBMIT_FAILED,
-  FORM_SUBMIT_SUCCEEDED,
-  FETCH_EXPRESS_CARE_WINDOWS,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
-  FORM_REASON_FOR_REQUEST_PAGE_OPENED,
+  FETCH_EXPRESS_CARE_WINDOWS,
+  FORM_ADDITIONAL_DETAILS_PAGE_OPENED,
+  FORM_DATA_UPDATED,
+  FORM_PAGE_CHANGE_COMPLETED,
+  FORM_PAGE_CHANGE_STARTED,
+  FORM_PAGE_OPENED,
+  FORM_SUBMIT_FAILED,
+  FORM_SUBMIT_SUCCEEDED,
+  FORM_SUBMIT,
 } from '../actions/expressCare';
 
 import { FETCH_STATUS, EXPRESS_CARE } from '../utils/constants';
+import { STARTED_NEW_EXPRESS_CARE_FLOW } from '../actions/sitewide';
 
 const initialState = {
   windowsStatus: FETCH_STATUS.notStarted,
   supportedFacilities: null,
   newRequest: {
     data: {},
+    pages: {},
+    pageChangeInProgress: false,
   },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
@@ -81,6 +86,24 @@ export default function expressCareReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_PAGE_CHANGE_STARTED: {
+      return {
+        ...state,
+        newRequest: {
+          ...state.newRequest,
+          pageChangeInProgress: true,
+        },
+      };
+    }
+    case FORM_PAGE_CHANGE_COMPLETED: {
+      return {
+        ...state,
+        newRequest: {
+          ...state.newRequest,
+          pageChangeInProgress: false,
+        },
+      };
+    }
     case FETCH_EXPRESS_CARE_WINDOWS:
       return {
         ...state,
@@ -118,7 +141,7 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         windowsStatus: FETCH_STATUS.failed,
       };
-    case FORM_REASON_FOR_REQUEST_PAGE_OPENED: {
+    case FORM_ADDITIONAL_DETAILS_PAGE_OPENED: {
       const newRequest = { ...state.newRequest };
       const prefilledData = {
         ...newRequest.data,
@@ -128,9 +151,15 @@ export default function expressCareReducer(state = initialState, action) {
         },
       };
 
+      const newSchema = set(
+        'properties.additionalInformation.title.props.children',
+        `Tell us about your ${newRequest.data.reason.toLowerCase()}`,
+        action.schema,
+      );
+
       const { data, schema } = setupFormData(
         prefilledData,
-        action.schema,
+        newSchema,
         action.uiSchema,
       );
 
@@ -154,11 +183,12 @@ export default function expressCareReducer(state = initialState, action) {
     case FORM_SUBMIT_SUCCEEDED:
       return {
         ...state,
-        submitStatus: FETCH_STATUS.succeeded,
-        successfulRequest: action.responseData,
         newRequest: {
+          ...state.newRequest,
           data: {},
         },
+        submitStatus: FETCH_STATUS.succeeded,
+        successfulRequest: action.responseData,
       };
     case FORM_SUBMIT_FAILED:
       return {
@@ -166,6 +196,13 @@ export default function expressCareReducer(state = initialState, action) {
         submitStatus: FETCH_STATUS.failed,
         submitErrorReason: action.errorReason,
       };
+    case STARTED_NEW_EXPRESS_CARE_FLOW: {
+      return {
+        ...initialState,
+        windowsStatus: state.windowsStatus,
+        supportedFacilities: state.supportedFacilities,
+      };
+    }
     default:
       return state;
   }

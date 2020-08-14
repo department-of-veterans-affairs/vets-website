@@ -20,7 +20,7 @@ const FraudVictimAlert = () => (
     >
       800-827-1000
     </a>{' '}
-    (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+    (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
     ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
   </AlertBox>
 );

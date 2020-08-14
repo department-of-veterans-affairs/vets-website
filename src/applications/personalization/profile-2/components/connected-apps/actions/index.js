@@ -26,7 +26,7 @@ export function loadConnectedApps() {
     dispatch({ type: LOADING_CONNECTED_APPS });
 
     // Locally we cannot call the endpoint
-    if (environment.isLocalhost()) {
+    if (environment.isLocalhost() && !window.Cypress) {
       await new Promise(resolve => setTimeout(resolve, 2000));
       dispatch({
         type: FINISHED_LOADING_CONNECTED_APPS,
@@ -58,7 +58,7 @@ export function deleteConnectedApp(appId) {
     dispatch({ type: DELETING_CONNECTED_APP, appId });
 
     // Locally we cannot call the endpoint
-    if (environment.isLocalhost()) {
+    if (environment.isLocalhost() && !window.Cypress) {
       await new Promise(resolve => setTimeout(resolve, 2000));
       dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId });
       return;

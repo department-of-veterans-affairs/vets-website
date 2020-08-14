@@ -54,14 +54,7 @@ export class IntroductionPage extends React.Component {
         );
       }
 
-      return (
-        <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the education application"
-        />
-      );
+      return null;
     }
 
     return (
@@ -84,7 +77,7 @@ export class IntroductionPage extends React.Component {
         <FormTitle title="Apply for the Rogers STEM Scholarship" />
         <p itemProp="description">
           Equal to VA Form 22-10203 (Application for Edith Nourse Rogers STEM
-          Scholarship)
+          Scholarship).
         </p>
         {this.entitlementRemainingAlert()}
         <h4>Follow the steps below to apply for this scholarship</h4>

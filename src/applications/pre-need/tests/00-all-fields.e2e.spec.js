@@ -56,7 +56,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Military History page
   client.waitForElementVisible(
     'input[name="root_application_veteran_serviceRecords_0_serviceBranch"]',
-    Timeouts.normal,
+    Timeouts.verySlow,
   );
   PageHelpers.completeServicePeriods(client, testData.data.application.veteran);
   client.assert.cssClassPresent(

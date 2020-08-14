@@ -34,3 +34,6 @@
     z-index: $middle-layer;
   }
 }
+.va-btn-sidebarnav-trigger {
+  z-index: $top-layer + 1;
+}

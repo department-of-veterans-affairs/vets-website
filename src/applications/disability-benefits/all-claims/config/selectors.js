@@ -4,3 +4,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 export const originalClaimsFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.form526OriginalClaims];
+
+export const form526BDDFeature = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.form526BDD];

@@ -2,7 +2,7 @@
   .the-menu {
     // setting to `relative` so the z-index is actually used
     position: relative;
-    z-index: $top-layer;
+    z-index: $middle-layer; // This needs to sit behind the mega menu's #vetnav which is set to $top-layer on mobile in the _m-layers.scss
 
     &.fixed {
       position: fixed;
@@ -60,9 +60,8 @@
     ul {
       padding: units(1) 0;
       background-color: $color-white;
-      margin: 0 units(1) units(15);
+      margin: 0 units(1) units(1);
       border-top: 1px solid $color-gray-lighter;
-      border-bottom: 1px solid $color-gray-lighter;
 
       li {
         @include subnav-item;

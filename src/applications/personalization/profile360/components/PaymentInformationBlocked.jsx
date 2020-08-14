@@ -27,7 +27,7 @@ export default function PaymentInformationBlocked() {
         >
           855-574-7286
         </a>{' '}
-        (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday &#8211; Friday, 8 a.m. &#8211; 8 p.m. ET.
       </p>
     </AlertBox>

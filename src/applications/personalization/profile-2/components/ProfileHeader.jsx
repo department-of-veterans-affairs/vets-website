@@ -37,7 +37,7 @@ const ProfileHeader = ({
     'width--full',
   ]);
   const innerWrapperClassesMedium = prefixUtilityClasses(
-    ['flex-direction--row'],
+    ['flex-direction--row', 'padding-left--2'],
     'medium',
   );
 

@@ -17,12 +17,6 @@ import {
 } from '../api';
 
 import {
-  getOrganizations,
-  getRootOrganization,
-  getSiteIdFromOrganization,
-} from '../services/organization';
-
-import {
   transformFormToExpressCareRequest,
   createPreferenceBody,
 } from '../utils/data';
@@ -30,15 +24,17 @@ import {
   selectSystemIds,
   selectActiveExpressCareFacility,
 } from '../utils/selectors';
-import { captureError, getErrorCodes } from '../utils/error';
+import { captureError } from '../utils/error';
 import {
   EXPRESS_CARE,
   GA_PREFIX,
   EXPRESS_CARE_ERROR_REASON,
 } from '../utils/constants';
 import { resetDataLayer } from '../utils/events';
-import { EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED } from './sitewide';
-import { getLocation } from '../services/location';
+import {
+  EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED,
+  STARTED_NEW_EXPRESS_CARE_FLOW,
+} from './sitewide';
 
 export const FORM_PAGE_OPENED = 'expressCare/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
@@ -55,8 +51,8 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'expressCare/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
-export const FORM_REASON_FOR_REQUEST_PAGE_OPENED =
-  'expressCare/FORM_REASON_FOR_REQUEST_PAGE_OPENED';
+export const FORM_ADDITIONAL_DETAILS_PAGE_OPENED =
+  'expressCare/FORM_ADDITIONAL_DETAILS_PAGE_OPENED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -76,7 +72,7 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-export function openReasonForRequestPage(page, uiSchema, schema) {
+export function openAdditionalDetailsPage(page, uiSchema, schema) {
   return (dispatch, getState) => {
     const state = getState();
     const email = selectVet360EmailAddress(state);
@@ -84,7 +80,7 @@ export function openReasonForRequestPage(page, uiSchema, schema) {
     const mobilePhone = selectVet360MobilePhoneString(state);
     const phoneNumber = mobilePhone || homePhone;
     dispatch({
-      type: FORM_REASON_FOR_REQUEST_PAGE_OPENED,
+      type: FORM_ADDITIONAL_DETAILS_PAGE_OPENED,
       page,
       uiSchema,
       schema,
@@ -161,9 +157,9 @@ export function routeToPreviousAppointmentPage(router, current) {
   );
 }
 
-async function buildPreferencesDataAndUpdate(data) {
+async function buildPreferencesDataAndUpdate(email) {
   const preferenceData = await getPreferences();
-  const preferenceBody = createPreferenceBody(preferenceData, data);
+  const preferenceBody = createPreferenceBody(preferenceData, email);
   return updatePreferences(preferenceBody);
 }
 
@@ -195,23 +191,28 @@ export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
     const expressCare = getState().expressCare;
     const formData = expressCare.newRequest.data;
-
-    const activeFacility = selectActiveExpressCareFacility(
-      getState(),
-      moment.utc(),
-    );
-
-    dispatch({
-      type: FORM_SUBMIT,
-    });
-
-    let requestBody;
-
-    recordEvent({
-      event: `${GA_PREFIX}-express-care-submission`,
-    });
+    let activeFacility;
+    let additionalEventData = {};
 
     try {
+      activeFacility = selectActiveExpressCareFacility(
+        getState(),
+        moment.utc(),
+      );
+
+      dispatch({
+        type: FORM_SUBMIT,
+      });
+
+      additionalEventData = {
+        'health-expressCareReason': formData.reason,
+      };
+
+      recordEvent({
+        event: `${GA_PREFIX}-express-care-submission`,
+        ...additionalEventData,
+      });
+
       if (!activeFacility) {
         throw new Error('No facilities available for Express Care request');
       }
@@ -219,14 +220,14 @@ export function submitExpressCareRequest(router) {
       const facilityName = await getFacilityName(activeFacility.facilityId);
       activeFacility.name = facilityName;
 
-      requestBody = transformFormToExpressCareRequest(
+      const requestBody = transformFormToExpressCareRequest(
         getState(),
         activeFacility,
       );
       const responseData = await submitRequest('va', requestBody);
 
       try {
-        await buildPreferencesDataAndUpdate(formData);
+        await buildPreferencesDataAndUpdate(formData.contactInfo.email);
       } catch (error) {
         // These are ancillary updates, the request went through if the first submit
         // succeeded
@@ -240,6 +241,7 @@ export function submitExpressCareRequest(router) {
 
       recordEvent({
         event: `${GA_PREFIX}-express-care-submission-successful`,
+        ...additionalEventData,
       });
       resetDataLayer();
       router.push('/new-express-care-request/confirmation');
@@ -257,8 +259,15 @@ export function submitExpressCareRequest(router) {
 
       recordEvent({
         event: `${GA_PREFIX}-express-care-submission-failed`,
+        ...additionalEventData,
       });
       resetDataLayer();
     }
+  };
+}
+
+export function startNewExpressCareFlow() {
+  return {
+    type: STARTED_NEW_EXPRESS_CARE_FLOW,
   };
 }

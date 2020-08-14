@@ -11,36 +11,38 @@ There are several repositories that contain the code and content used to build V
 Once you have the site set up locally, these are some common commands you might find useful:
 
 | I want to...                                  | Then you should...                                       |
-| ----------------------------------------      | ----------------------------------------                 |
+| --------------------------------------------- | -------------------------------------------------------- |
 | fetch all dependencies                        | `yarn install`; run this any time `package.json` changes |
 | build both static HTML pages and applications | `yarn build`                                             |
 | run the webpack dev server                    | `yarn watch`                                             |
 
-
 ## Building `vets-website`
+
 The `vets-website` build has two main functions:
+
 1. Build the application assets (JS, CSS)
 1. Create the static HTML pages
 
 ### Building applications
+
 `vets-website` uses [Webpack](https://webpack.js.org) to bundle application
 assets.
 
 To **build all applications**, run the following:
 
-``` sh
+```sh
 yarn build:webpack
 ```
 
 To **recompile your application when you make changes**, run:
 
-``` sh
+```sh
 yarn watch
 ```
 
 You can also **limit the applications Webpack builds** with `--env.entryname`:
 
-``` sh
+```sh
 yarn watch --env.entryname static-pages,auth
 ```
 
@@ -49,7 +51,7 @@ The `entryname` for your application can be found in its `manifest.json` file.
 If you're developing a feature that requires the API, but can't or don't want to
 run it locally, you can specify `--env.api`:
 
-``` sh
+```sh
 yarn watch --env.api https://dev-api.va.gov
 ```
 
@@ -58,11 +60,12 @@ the API is set up for. So in the above example, you'd be **redirected back to
 dev.va.gov.**
 
 ### Building static content
+
 VA.gov is a static site with individual applications served up on certain pages.
 When testing changes to static pages, or to see what your application looks like
 on VA.gov, you'll need to build the static pages.
 
-``` sh
+```sh
 yarn build:content
 ```
 
@@ -74,7 +77,7 @@ static HTML pages from the `build:content` task will not be overwritten.
 
 To **pull the latest Drupal content**, run:
 
-``` sh
+```sh
 yarn build:content --pull-drupal
 ```
 
@@ -82,39 +85,54 @@ yarn build:content --pull-drupal
 the proxy, you can **fetch the latest cached version of the content** with the
 following:
 
-``` sh
+```sh
 yarn fetch-drupal-cache
 ```
 
 ### Building both together
+
 CI will build both applications and content with the following:
 
-``` sh
+```sh
 yarn build
 ```
 
 ## Running tests
 
 ### Unit tests
+
 To **run all unit tests**, use:
 
-``` sh
+```sh
 yarn test:unit
 ```
 
 If you want to **run only one test file**, you can provide the path to it:
 
-``` sh
+```sh
 yarn test:unit src/applications/path/to/test-file.unit.spec.js
+```
+
+To **run all tests for a folder in src/applications**, you can use app-folder:
+
+```sh
+yarn test:unit --app-folder hca
 ```
 
 To **run all tests in a directory**, you can use a glob pattern:
 
-``` sh
+```sh
 yarn test:unit src/applications/path/to/tests/**/*.unit.spec.js*
 ```
 
+To **run tests with some extra debugging info**, you can pass a log-level:
+
+```sh
+yarn test:unit --log-level debug
+```
+
 ### End-to-end (E2E) / Browser tests
+
 - E2E or browser tests primarily run in Cypress.
 - Some older, existing tests run in Nightwatch, but those are deprecated.
 
@@ -161,29 +179,31 @@ yarn cy:run --browser firefox
 **For other options with `yarn cy:run`,** [the same options for `cypress run` are applicable](https://docs.cypress.io/guides/guides/command-line.html#Commands).
 
 To **run Nightwatch tests**, you first need three things:
-1. Install the Java JDK on MacOS (if needed):
-    ```
-    brew update
-    brew tap adoptopenjdk/openjdk
-    brew cask install adoptopenjdk8
-    ```
-1. `vets-website` served locally on port 3001
-    - You can do this with `yarn watch`
-1. `vets-api` to **NOT** be running
-    - The browser tests will use a simple mock api on port 3000, but only if
-      nothing is already attached to that port
 
-``` sh
+1. Install the Java JDK on MacOS (if needed):
+   ```
+   brew update
+   brew tap adoptopenjdk/openjdk
+   brew cask install adoptopenjdk8
+   ```
+1. `vets-website` served locally on port 3001
+   - You can do this with `yarn watch`
+1. `vets-api` to **NOT** be running
+   - The browser tests will use a simple mock api on port 3000, but only if
+     nothing is already attached to that port
+
+```sh
 yarn test:e2e
 ```
 
 Just like with unit tests, you can also **specify the path to the test file**
 
-``` sh
+```sh
 yarn test:e2e src/applications/path/to/test-file.e2e.spec.js
 ```
 
 ## Running a mock API for local development
+
 In separate terminal from your local dev server, run
 
 ```sh
@@ -203,7 +223,7 @@ Responses to common API requests, such as `/v0/user` and
 `/v0/maintenance_windows`, you can use
 [`src/platform/testing/local-dev-mock-api/common.js`](src/platform/testing/local-dev-mock-api/common.js)
 
-``` javascript
+```javascript
 const commonResponses = require('src/platform/testing/local-dev-mock-api/common');
 
 module.exports = {
@@ -218,7 +238,7 @@ After a while, you may run into a less common task. We have a lot of commands
 for doing very specific things.
 
 | I want to...                                                                                                | Then you should...                                                                                                                                                                                                           |
-| ----------------------------------------                                                                    | ----------------------------------------                                                                                                                                                                                     |
+| ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | build the production site (dev features disabled).                                                          | `NODE_ENV=production yarn build --buildtype vagovprod`                                                                                                                                                                       |
 | fetch the latest content cache from S3                                                                      | `yarn fetch-drupal-cache` (does not require SOCKS proxy access)                                                                                                                                                              |
 | reset local environment (clean out node modules and runs npm install)                                       | `yarn reset:env`                                                                                                                                                                                                             |
@@ -236,7 +256,7 @@ for doing very specific things.
 | run lint on JS and fix anything that changed                                                                | `yarn lint:js:changed:fix`                                                                                                                                                                                                   |
 | run automated accessibility tests                                                                           | `yarn build && yarn test:accessibility`                                                                                                                                                                                      |
 | run visual regression testing                                                                               | Start the site. Generate your baseline image set using `yarn test:visual:baseline`. Make your changes. Then run `yarn test:visual`.                                                                                          |
-| test for broken links                                                                                       | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch.                                                                                              |
+| test for broken links                                                                                       | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on _build_ not watch.                                                                                              |
 | add new npm modules                                                                                         | `yarn add my-module`. Use the `--dev` flag for modules that are build or test related.                                                                                                                                       |
 | get the latest json schema                                                                                  | `yarn update:schema`. This updates our [vets-json-schema](https://github.com/department-of-veterans-affairs/vets-json-schema) vets-json-schema https://github.com/department-of-veterans-affairs/ to the most recent commit. |
 | check test coverage                                                                                         | `yarn test:coverage`                                                                                                                                                                                                         |
@@ -244,10 +264,6 @@ for doing very specific things.
 | generate a stats file for analysis by bundle analyzer                                                       | `NODE_ENV=production yarn build:webpack --env.buildtype=vagovprod --env.analyzer`. Note that if you get an error like `FetchError: request to http://prod.cms.va.gov/graphql failed` you need to be on the SOCKS proxy       |
 | load the analyzer tool on a stats file                                                                      | `yarn analyze`                                                                                                                                                                                                               |
 | add a new React app                                                                                         | `yarn new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) sibling to `vets-website`)                                                                            |
-
-
-
-
 
 ## Supported Browsers
 
