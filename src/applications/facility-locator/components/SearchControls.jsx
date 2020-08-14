@@ -35,15 +35,23 @@ class SearchControls extends Component {
 
     const { facilityType, serviceType } = this.props.currentQuery;
 
-    if (facilityType === LocationType.CC_PROVIDER && !serviceType) {
-      focusElement('#service-type-ahead-input');
-      return;
+    let analyticsServiceType = serviceType;
+
+    if (facilityType === LocationType.CC_PROVIDER) {
+      if (!serviceType) {
+        focusElement('#service-type-ahead-input');
+
+        return;
+      }
+
+      analyticsServiceType = this.props.currentQuery.specialties[serviceType];
     }
 
     // Report event here to only send analytics event when a user clicks on the button
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': facilityType,
+      'fl-search-svc-type': analyticsServiceType,
     });
 
     this.props.onSubmit();
