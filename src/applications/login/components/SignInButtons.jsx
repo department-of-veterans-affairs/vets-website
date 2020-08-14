@@ -20,6 +20,8 @@ export default function SignInButtons({ isDisabled, application, redirect }) {
         onClick={() => loginHandler('dslogon')}
       >
         <img
+          aria-hidden="true"
+          role="presentation"
           alt="DS Logon"
           src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
         />
@@ -31,6 +33,8 @@ export default function SignInButtons({ isDisabled, application, redirect }) {
         onClick={() => loginHandler('mhv')}
       >
         <img
+          aria-hidden="true"
+          role="presentation"
           alt="My HealtheVet"
           src={`${vaGovFullDomain}/img/signin/mhv-icon.svg`}
         />
@@ -42,6 +46,8 @@ export default function SignInButtons({ isDisabled, application, redirect }) {
         onClick={() => loginHandler('idme')}
       >
         <img
+          aria-hidden="true"
+          role="presentation"
           alt="ID.me"
           src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
         />
@@ -49,13 +55,17 @@ export default function SignInButtons({ isDisabled, application, redirect }) {
       </button>
       <span className="sidelines">OR</span>
       <div className="alternate-signin">
-        <h5>Don't have those accounts?</h5>
+        <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
+          Don't have those accounts?
+        </h2>
         <button
           disabled={isDisabled}
           className="idme-create usa-button usa-button-secondary"
           onClick={() => signup('v1')}
         >
           <img
+            aria-hidden="true"
+            role="presentation"
             alt="ID.me"
             src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
           />

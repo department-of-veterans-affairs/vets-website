@@ -123,7 +123,7 @@ describe('VAOS integration: Express Care form submission', () => {
           .format('HH:mm'),
         endTime: today
           .clone()
-          .add('1', 'minutes')
+          .add('2', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
       },
@@ -389,7 +389,6 @@ describe('VAOS integration: Express Care form submission', () => {
     expect(router.push.firstCall.args[0]).to.equal(
       '/new-express-care-request/confirmation',
     );
-    await cleanup();
 
     const responseData = JSON.parse(
       global.fetch

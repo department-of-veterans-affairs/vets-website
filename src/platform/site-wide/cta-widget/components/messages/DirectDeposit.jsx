@@ -11,7 +11,7 @@ const DirectDeposit = ({ serviceDescription, primaryButtonHandler }) => {
         type.
       </p>
     ),
-    primaryButtonText: 'Go to your profile',
+    primaryButtonText: 'Go to your VA.gov profile',
     primaryButtonHandler,
     status: 'continue',
   };
