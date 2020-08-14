@@ -4,12 +4,7 @@ import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderServiceDescription from '../ProviderServiceDescription';
-import recordEvent from 'platform/monitoring/record-event';
 
-/**
- * CC Provider component for:
- * Community providers (in VA’s network)
- */
 const CCProviderResult = ({ provider, query }) => {
   const { name } = provider.attributes;
   const distance = provider.distance;

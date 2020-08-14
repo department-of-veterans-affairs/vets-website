@@ -7,15 +7,6 @@ import LocationPhoneLink from './common/LocationPhoneLink';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-/**
- * Urgent care
- * - All urgent care
- * - VA urgent care
- * - Community urgent care providers (in VA's network)
- *
- * Community providers (in VA’s network)
- *  - Clinic/Center - Urgent Care
- */
 const UrgentCareResult = ({ provider, query }) => {
   const { name } = provider.attributes;
   const distance = provider.distance;

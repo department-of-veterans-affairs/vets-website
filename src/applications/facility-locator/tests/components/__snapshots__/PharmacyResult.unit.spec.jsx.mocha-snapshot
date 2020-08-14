@@ -4,7 +4,195 @@ exports["PharmacyResult/Should render PharmacyResult(0)"] = {
     "type": "div",
     "props": {
       "className": "facility",
-      "children": {
+      "children": [
+        {
+          "type": "div",
+          "props": {
+            "children": [
+              null,
+              {
+                "type": "span",
+                "props": {
+                  "children": [
+                    {
+                      "type": "h2",
+                      "props": {
+                        "className": "vads- no",
+                        "children": "CVS"
+                      },
+                      "_store": {}
+                    },
+                    null
+                  ]
+                },
+                "_store": {}
+              },
+              {
+                "type": "LocationAddress",
+                "props": {
+                  "location": {
+                    "id": "1700017886",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "true",
+                      "address": {
+                        "street": "208 S AKARD ST # PC08",
+                        "city": "DALLAS",
+                        "state": "TX",
+                        "zip": "75202"
+                      },
+                      "caresitePhone": "2147414912",
+                      "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                      "gender": "NotSpecified",
+                      "lat": 32.77948,
+                      "long": -96.798505,
+                      "name": "CVS",
+                      "uniqueId": "1700017886"
+                    },
+                    "relationships": {
+                      "specialties": {
+                        "data": [
+                          {
+                            "id": "3336C0003X",
+                            "type": "specialty"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "_store": {}
+              },
+              {
+                "type": "LocationDirectionsLink",
+                "props": {
+                  "location": {
+                    "id": "1700017886",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "true",
+                      "address": {
+                        "street": "208 S AKARD ST # PC08",
+                        "city": "DALLAS",
+                        "state": "TX",
+                        "zip": "75202"
+                      },
+                      "caresitePhone": "2147414912",
+                      "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                      "gender": "NotSpecified",
+                      "lat": 32.77948,
+                      "long": -96.798505,
+                      "name": "CVS",
+                      "uniqueId": "1700017886"
+                    },
+                    "relationships": {
+                      "specialties": {
+                        "data": [
+                          {
+                            "id": "3336C0003X",
+                            "type": "specialty"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "from": "SearchResult"
+                },
+                "_store": {}
+              },
+              {
+                "type": "LocationPhoneLink",
+                "props": {
+                  "location": {
+                    "id": "1700017886",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "true",
+                      "address": {
+                        "street": "208 S AKARD ST # PC08",
+                        "city": "DALLAS",
+                        "state": "TX",
+                        "zip": "75202"
+                      },
+                      "caresitePhone": "2147414912",
+                      "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+                      "gender": "NotSpecified",
+                      "lat": 32.77948,
+                      "long": -96.798505,
+                      "name": "CVS",
+                      "uniqueId": "1700017886"
+                    },
+                    "relationships": {
+                      "specialties": {
+                        "data": [
+                          {
+                            "id": "3336C0003X",
+                            "type": "specialty"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "from": "SearchResult",
+                  "query": {
+                    "facilityType": "pharmacy"
+                  }
+                },
+                "_store": {}
+              }
+            ]
+          },
+          "_store": {}
+        },
+        {
+          "type": "p",
+          "props": {
+            "children": "Call to confirm services and hours"
+          },
+          "_store": {}
+        },
+        {
+          "type": "div",
+          "props": {
+            "className": "usa usa background vads-  vads-",
+            "children": [
+              {
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                },
+                "_store": {}
+              },
+              {
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "_store": {}
+              }
+            ]
+          },
+          "_store": {}
+        }
+      ]
+    },
+    "rendered": [
+      {
+        "nodeType": "host",
         "type": "div",
         "props": {
           "children": [
@@ -141,16 +329,10 @@ exports["PharmacyResult/Should render PharmacyResult(0)"] = {
             }
           ]
         },
-        "_store": {}
-      }
-    },
-    "rendered": {
-      "nodeType": "host",
-      "type": "div",
-      "props": {
-        "children": [
+        "rendered": [
           null,
           {
+            "nodeType": "host",
             "type": "span",
             "props": {
               "children": [
@@ -165,9 +347,21 @@ exports["PharmacyResult/Should render PharmacyResult(0)"] = {
                 null
               ]
             },
-            "_store": {}
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "CVS"
+                },
+                "rendered": "CVS"
+              },
+              null
+            ]
           },
           {
+            "nodeType": "function",
             "type": "LocationAddress",
             "props": {
               "location": {
@@ -200,10 +394,10 @@ exports["PharmacyResult/Should render PharmacyResult(0)"] = {
                   }
                 }
               }
-            },
-            "_store": {}
+            }
           },
           {
+            "nodeType": "function",
             "type": "LocationDirectionsLink",
             "props": {
               "location": {
@@ -237,10 +431,10 @@ exports["PharmacyResult/Should render PharmacyResult(0)"] = {
                 }
               },
               "from": "SearchResult"
-            },
-            "_store": {}
+            }
           },
           {
+            "nodeType": "function",
             "type": "LocationPhoneLink",
             "props": {
               "location": {
@@ -277,157 +471,103 @@ exports["PharmacyResult/Should render PharmacyResult(0)"] = {
               "query": {
                 "facilityType": "pharmacy"
               }
-            },
-            "_store": {}
+            }
           }
         ]
       },
-      "rendered": [
-        null,
-        {
-          "nodeType": "host",
-          "type": "span",
-          "props": {
-            "children": [
-              {
-                "type": "h2",
-                "props": {
-                  "className": "vads- no",
-                  "children": "CVS"
-                },
-                "_store": {}
-              },
-              null
-            ]
-          },
-          "rendered": [
+      {
+        "nodeType": "host",
+        "type": "p",
+        "props": {
+          "children": "Call to confirm services and hours"
+        },
+        "rendered": "Call to confirm services and hours"
+      },
+      {
+        "nodeType": "host",
+        "type": "div",
+        "props": {
+          "className": "usa usa background vads-  vads-",
+          "children": [
             {
-              "nodeType": "host",
-              "type": "h2",
+              "type": "i",
               "props": {
-                "className": "vads- no",
-                "children": "CVS"
+                "aria-hidden": "true",
+                "className": "fa fa vads- icon"
               },
-              "rendered": "CVS"
+              "_store": {}
             },
-            null
+            {
+              "type": "div",
+              "props": {
+                "className": "usa",
+                "children": {
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "_store": {}
+                }
+              },
+              "_store": {}
+            }
           ]
         },
-        {
-          "nodeType": "function",
-          "type": "LocationAddress",
-          "props": {
-            "location": {
-              "id": "1700017886",
-              "type": "provider",
-              "attributes": {
-                "accNewPatients": "true",
-                "address": {
-                  "street": "208 S AKARD ST # PC08",
-                  "city": "DALLAS",
-                  "state": "TX",
-                  "zip": "75202"
-                },
-                "caresitePhone": "2147414912",
-                "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
-                "gender": "NotSpecified",
-                "lat": 32.77948,
-                "long": -96.798505,
-                "name": "CVS",
-                "uniqueId": "1700017886"
-              },
-              "relationships": {
-                "specialties": {
-                  "data": [
-                    {
-                      "id": "3336C0003X",
-                      "type": "specialty"
-                    }
-                  ]
-                }
-              }
+        "rendered": [
+          {
+            "nodeType": "host",
+            "type": "i",
+            "props": {
+              "aria-hidden": "true",
+              "className": "fa fa vads- icon"
             }
-          }
-        },
-        {
-          "nodeType": "function",
-          "type": "LocationDirectionsLink",
-          "props": {
-            "location": {
-              "id": "1700017886",
-              "type": "provider",
-              "attributes": {
-                "accNewPatients": "true",
-                "address": {
-                  "street": "208 S AKARD ST # PC08",
-                  "city": "DALLAS",
-                  "state": "TX",
-                  "zip": "75202"
-                },
-                "caresitePhone": "2147414912",
-                "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
-                "gender": "NotSpecified",
-                "lat": 32.77948,
-                "long": -96.798505,
-                "name": "CVS",
-                "uniqueId": "1700017886"
-              },
-              "relationships": {
-                "specialties": {
-                  "data": [
-                    {
-                      "id": "3336C0003X",
-                      "type": "specialty"
-                    }
+          },
+          {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa",
+              "children": {
+                "type": "a",
+                "props": {
+                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                  "target": "_/blank",
+                  "onClick": "onClick",
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
                   ]
-                }
+                },
+                "_store": {}
               }
             },
-            "from": "SearchResult"
-          }
-        },
-        {
-          "nodeType": "function",
-          "type": "LocationPhoneLink",
-          "props": {
-            "location": {
-              "id": "1700017886",
-              "type": "provider",
-              "attributes": {
-                "accNewPatients": "true",
-                "address": {
-                  "street": "208 S AKARD ST # PC08",
-                  "city": "DALLAS",
-                  "state": "TX",
-                  "zip": "75202"
-                },
-                "caresitePhone": "2147414912",
-                "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
-                "gender": "NotSpecified",
-                "lat": 32.77948,
-                "long": -96.798505,
-                "name": "CVS",
-                "uniqueId": "1700017886"
+            "rendered": {
+              "nodeType": "host",
+              "type": "a",
+              "props": {
+                "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                "target": "_/blank",
+                "onClick": "onClick",
+                "children": [
+                  "In-network urgent care benefit",
+                  " "
+                ]
               },
-              "relationships": {
-                "specialties": {
-                  "data": [
-                    {
-                      "id": "3336C0003X",
-                      "type": "specialty"
-                    }
-                  ]
-                }
-              }
-            },
-            "from": "SearchResult",
-            "query": {
-              "facilityType": "pharmacy"
+              "rendered": [
+                "In-network urgent care benefit",
+                " "
+              ]
             }
           }
-        }
-      ]
-    }
+        ]
+      }
+    ]
   },
   "type": "div",
   "props": {
@@ -997,6 +1137,202 @@ exports["PharmacyResult/Should render PharmacyResult(0)"] = {
               "facilityType": "pharmacy"
             }
           }
+        }
+      ]
+    },
+    {
+      "node": {
+        "nodeType": "host",
+        "type": "p",
+        "props": {
+          "children": "Call to confirm services and hours"
+        },
+        "rendered": "Call to confirm services and hours"
+      },
+      "type": "p",
+      "props": {},
+      "children": [
+        "Call to confirm services and hours"
+      ]
+    },
+    {
+      "node": {
+        "nodeType": "host",
+        "type": "div",
+        "props": {
+          "className": "usa usa background vads-  vads-",
+          "children": [
+            {
+              "type": "i",
+              "props": {
+                "aria-hidden": "true",
+                "className": "fa fa vads- icon"
+              },
+              "_store": {}
+            },
+            {
+              "type": "div",
+              "props": {
+                "className": "usa",
+                "children": {
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "_store": {}
+                }
+              },
+              "_store": {}
+            }
+          ]
+        },
+        "rendered": [
+          {
+            "nodeType": "host",
+            "type": "i",
+            "props": {
+              "aria-hidden": "true",
+              "className": "fa fa vads- icon"
+            }
+          },
+          {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa",
+              "children": {
+                "type": "a",
+                "props": {
+                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                  "target": "_/blank",
+                  "onClick": "onClick",
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "host",
+              "type": "a",
+              "props": {
+                "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                "target": "_/blank",
+                "onClick": "onClick",
+                "children": [
+                  "In-network urgent care benefit",
+                  " "
+                ]
+              },
+              "rendered": [
+                "In-network urgent care benefit",
+                " "
+              ]
+            }
+          }
+        ]
+      },
+      "type": "div",
+      "props": {
+        "className": "usa usa background vads-  vads-"
+      },
+      "children": [
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "i",
+            "props": {
+              "aria-hidden": "true",
+              "className": "fa fa vads- icon"
+            }
+          },
+          "type": "i",
+          "props": {
+            "aria-hidden": "true",
+            "className": "fa fa vads- icon"
+          }
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa",
+              "children": {
+                "type": "a",
+                "props": {
+                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                  "target": "_/blank",
+                  "onClick": "onClick",
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                },
+                "_store": {}
+              }
+            },
+            "rendered": {
+              "nodeType": "host",
+              "type": "a",
+              "props": {
+                "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                "target": "_/blank",
+                "onClick": "onClick",
+                "children": [
+                  "In-network urgent care benefit",
+                  " "
+                ]
+              },
+              "rendered": [
+                "In-network urgent care benefit",
+                " "
+              ]
+            }
+          },
+          "type": "div",
+          "props": {
+            "className": "usa"
+          },
+          "children": [
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "a",
+                "props": {
+                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                  "target": "_/blank",
+                  "onClick": "onClick",
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                },
+                "rendered": [
+                  "In-network urgent care benefit",
+                  " "
+                ]
+              },
+              "type": "a",
+              "props": {
+                "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                "target": "_/blank",
+                "onClick": "onClick"
+              },
+              "children": [
+                "In-network urgent care benefit",
+                " "
+              ]
+            }
+          ]
         }
       ]
     }
