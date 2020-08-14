@@ -11,26 +11,8 @@ import Telephone, {
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 import { focusElement } from 'platform/utilities/ui';
 
-const readStream = stream => {
-  const reader = stream.getReader();
-  let result = '';
-  reader.read().then(function processText({ done, value }) {
-    // Result objects contain two properties:
-    // done  - true if the stream has already given you all its data.
-    // value - some data. Always undefined when done is true.
-    if (done()) {
-      return;
-    }
-    result += value;
-    // Read some more, and call this function again
-    return reader.read().then(processText());
-  });
-  return result;
-};
-
 const SubmitError = props => {
-  const [PDFData, savePDF] = useState(null);
-
+  const [PDFLink, setPDFLink] = useState(null);
   useEffect(
     () => {
       focusElement('.caregivers-error-message');
@@ -44,13 +26,17 @@ const SubmitError = props => {
             'Source-App-Name': 'caregivers-10-10cg-',
           },
         },
-      ).then(response => {
-        savePDF(`${response.body}`);
-        console.log('response', readStream(response.body));
-        console.log('PDFData: ', PDFData);
-      });
+      )
+        .then(response => {
+          return response.blob();
+        })
+        .then(blob => {
+          const url = URL.createObjectURL(blob);
+          setPDFLink(url);
+        })
+        .catch(err => console.error(err));
     },
-    [props.form, savePDF],
+    [props.form, setPDFLink],
   );
 
   const ErrorBody = () => {
@@ -94,28 +80,7 @@ const SubmitError = props => {
           We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </div>
 
-        <a
-          onClick={() => download(PDFData, '1010cg-pdf', 'application/pdf')}
-          download="Voices_Of_Veterans.pdf"
-          type="application/pdf"
-          rel="noreferrer noopener"
-          target="_blank"
-          className="vads-u-margin-top--2"
-        >
-          <i
-            aria-hidden="true"
-            className="fas fa-download vads-u-padding-right--1"
-            role="img"
-          />
-          Download your completed application
-        </a>
-
-        <a
-          download={`1010cg dated ${moment(Date.now()).format('MMM D, YYYY')}`}
-          href={`${
-            environment.API_URL
-          }/v0/caregivers_assistance_claims/download_pdf`}
-        >
+        <a href={PDFLink} target="_blank" rel="noreferrer noopener">
           <i
             aria-hidden="true"
             role="img"
