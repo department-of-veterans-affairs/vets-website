@@ -4,233 +4,7 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
     "type": "div",
     "props": {
       "className": "facility",
-      "children": [
-        {
-          "type": "div",
-          "props": {
-            "children": [
-              null,
-              {
-                "type": "span",
-                "props": {
-                  "children": [
-                    {
-                      "type": "ProviderServiceDescription",
-                      "props": {
-                        "provider": {
-                          "id": "1326340985",
-                          "type": "provider",
-                          "attributes": {
-                            "accNewPatients": "true",
-                            "address": {
-                              "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                              "city": "AUSTIN",
-                              "state": "TX",
-                              "zip": "78748"
-                            },
-                            "caresitePhone": "512-291-4500",
-                            "email": "manager0441@dentalonepartners.com",
-                            "gender": "NotSpecified",
-                            "lat": 30.159468,
-                            "long": -97.792193,
-                            "name": "BADEA, LUANA",
-                            "phone": "512-291-4500",
-                            "uniqueId": "1326340985"
-                          },
-                          "relationships": {
-                            "specialties": {
-                              "data": [
-                                {
-                                  "id": "122300000X",
-                                  "type": "specialty"
-                                }
-                              ]
-                            }
-                          }
-                        },
-                        "query": {
-                          "facilityType": "provider",
-                          "serviceType": "122300000X"
-                        }
-                      },
-                      "_store": {}
-                    },
-                    {
-                      "type": "h2",
-                      "props": {
-                        "className": "vads- no",
-                        "children": "BADEA, LUANA"
-                      },
-                      "_store": {}
-                    },
-                    null
-                  ]
-                },
-                "_store": {}
-              },
-              {
-                "type": "LocationAddress",
-                "props": {
-                  "location": {
-                    "id": "1326340985",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "true",
-                      "address": {
-                        "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                        "city": "AUSTIN",
-                        "state": "TX",
-                        "zip": "78748"
-                      },
-                      "caresitePhone": "512-291-4500",
-                      "email": "manager0441@dentalonepartners.com",
-                      "gender": "NotSpecified",
-                      "lat": 30.159468,
-                      "long": -97.792193,
-                      "name": "BADEA, LUANA",
-                      "phone": "512-291-4500",
-                      "uniqueId": "1326340985"
-                    },
-                    "relationships": {
-                      "specialties": {
-                        "data": [
-                          {
-                            "id": "122300000X",
-                            "type": "specialty"
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
-                "_store": {}
-              },
-              {
-                "type": "LocationDirectionsLink",
-                "props": {
-                  "location": {
-                    "id": "1326340985",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "true",
-                      "address": {
-                        "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                        "city": "AUSTIN",
-                        "state": "TX",
-                        "zip": "78748"
-                      },
-                      "caresitePhone": "512-291-4500",
-                      "email": "manager0441@dentalonepartners.com",
-                      "gender": "NotSpecified",
-                      "lat": 30.159468,
-                      "long": -97.792193,
-                      "name": "BADEA, LUANA",
-                      "phone": "512-291-4500",
-                      "uniqueId": "1326340985"
-                    },
-                    "relationships": {
-                      "specialties": {
-                        "data": [
-                          {
-                            "id": "122300000X",
-                            "type": "specialty"
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  "from": "SearchResult"
-                },
-                "_store": {}
-              },
-              {
-                "type": "LocationPhoneLink",
-                "props": {
-                  "location": {
-                    "id": "1326340985",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "true",
-                      "address": {
-                        "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                        "city": "AUSTIN",
-                        "state": "TX",
-                        "zip": "78748"
-                      },
-                      "caresitePhone": "512-291-4500",
-                      "email": "manager0441@dentalonepartners.com",
-                      "gender": "NotSpecified",
-                      "lat": 30.159468,
-                      "long": -97.792193,
-                      "name": "BADEA, LUANA",
-                      "phone": "512-291-4500",
-                      "uniqueId": "1326340985"
-                    },
-                    "relationships": {
-                      "specialties": {
-                        "data": [
-                          {
-                            "id": "122300000X",
-                            "type": "specialty"
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  "from": "SearchResult",
-                  "query": {
-                    "facilityType": "provider",
-                    "serviceType": "122300000X"
-                  }
-                },
-                "_store": {}
-              }
-            ]
-          },
-          "_store": {}
-        },
-        {
-          "type": "div",
-          "props": {
-            "className": "usa usa background vads-  vads-",
-            "children": [
-              {
-                "type": "i",
-                "props": {
-                  "aria-hidden": "true",
-                  "className": "fa fa vads- icon"
-                },
-                "_store": {}
-              },
-              {
-                "type": "div",
-                "props": {
-                  "className": "usa",
-                  "children": {
-                    "type": "a",
-                    "props": {
-                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                      "target": "_/blank",
-                      "onClick": "onClick",
-                      "children": [
-                        "In-network urgent care benefit",
-                        " "
-                      ]
-                    },
-                    "_store": {}
-                  }
-                },
-                "_store": {}
-              }
-            ]
-          },
-          "_store": {}
-        }
-      ]
-    },
-    "rendered": [
-      {
-        "nodeType": "host",
+      "children": {
         "type": "div",
         "props": {
           "children": [
@@ -412,10 +186,16 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
             }
           ]
         },
-        "rendered": [
+        "_store": {}
+      }
+    },
+    "rendered": {
+      "nodeType": "host",
+      "type": "div",
+      "props": {
+        "children": [
           null,
           {
-            "nodeType": "host",
             "type": "span",
             "props": {
               "children": [
@@ -471,62 +251,9 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 null
               ]
             },
-            "rendered": [
-              {
-                "nodeType": "function",
-                "type": "ProviderServiceDescription",
-                "props": {
-                  "provider": {
-                    "id": "1326340985",
-                    "type": "provider",
-                    "attributes": {
-                      "accNewPatients": "true",
-                      "address": {
-                        "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
-                        "city": "AUSTIN",
-                        "state": "TX",
-                        "zip": "78748"
-                      },
-                      "caresitePhone": "512-291-4500",
-                      "email": "manager0441@dentalonepartners.com",
-                      "gender": "NotSpecified",
-                      "lat": 30.159468,
-                      "long": -97.792193,
-                      "name": "BADEA, LUANA",
-                      "phone": "512-291-4500",
-                      "uniqueId": "1326340985"
-                    },
-                    "relationships": {
-                      "specialties": {
-                        "data": [
-                          {
-                            "id": "122300000X",
-                            "type": "specialty"
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  "query": {
-                    "facilityType": "provider",
-                    "serviceType": "122300000X"
-                  }
-                }
-              },
-              {
-                "nodeType": "host",
-                "type": "h2",
-                "props": {
-                  "className": "vads- no",
-                  "children": "BADEA, LUANA"
-                },
-                "rendered": "BADEA, LUANA"
-              },
-              null
-            ]
+            "_store": {}
           },
           {
-            "nodeType": "function",
             "type": "LocationAddress",
             "props": {
               "location": {
@@ -560,10 +287,10 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                   }
                 }
               }
-            }
+            },
+            "_store": {}
           },
           {
-            "nodeType": "function",
             "type": "LocationDirectionsLink",
             "props": {
               "location": {
@@ -598,10 +325,10 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 }
               },
               "from": "SearchResult"
-            }
+            },
+            "_store": {}
           },
           {
-            "nodeType": "function",
             "type": "LocationPhoneLink",
             "props": {
               "location": {
@@ -640,95 +367,243 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
                 "facilityType": "provider",
                 "serviceType": "122300000X"
               }
-            }
+            },
+            "_store": {}
           }
         ]
       },
-      {
-        "nodeType": "host",
-        "type": "div",
-        "props": {
-          "className": "usa usa background vads-  vads-",
-          "children": [
-            {
-              "type": "i",
-              "props": {
-                "aria-hidden": "true",
-                "className": "fa fa vads- icon"
-              },
-              "_store": {}
-            },
-            {
-              "type": "div",
-              "props": {
-                "className": "usa",
-                "children": {
-                  "type": "a",
-                  "props": {
-                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                    "target": "_/blank",
-                    "onClick": "onClick",
-                    "children": [
-                      "In-network urgent care benefit",
-                      " "
-                    ]
-                  },
-                  "_store": {}
-                }
-              },
-              "_store": {}
-            }
-          ]
-        },
-        "rendered": [
-          {
-            "nodeType": "host",
-            "type": "i",
-            "props": {
-              "aria-hidden": "true",
-              "className": "fa fa vads- icon"
-            }
-          },
-          {
-            "nodeType": "host",
-            "type": "div",
-            "props": {
-              "className": "usa",
-              "children": {
-                "type": "a",
+      "rendered": [
+        null,
+        {
+          "nodeType": "host",
+          "type": "span",
+          "props": {
+            "children": [
+              {
+                "type": "ProviderServiceDescription",
                 "props": {
-                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                  "target": "_/blank",
-                  "onClick": "onClick",
-                  "children": [
-                    "In-network urgent care benefit",
-                    " "
-                  ]
+                  "provider": {
+                    "id": "1326340985",
+                    "type": "provider",
+                    "attributes": {
+                      "accNewPatients": "true",
+                      "address": {
+                        "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                        "city": "AUSTIN",
+                        "state": "TX",
+                        "zip": "78748"
+                      },
+                      "caresitePhone": "512-291-4500",
+                      "email": "manager0441@dentalonepartners.com",
+                      "gender": "NotSpecified",
+                      "lat": 30.159468,
+                      "long": -97.792193,
+                      "name": "BADEA, LUANA",
+                      "phone": "512-291-4500",
+                      "uniqueId": "1326340985"
+                    },
+                    "relationships": {
+                      "specialties": {
+                        "data": [
+                          {
+                            "id": "122300000X",
+                            "type": "specialty"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "query": {
+                    "facilityType": "provider",
+                    "serviceType": "122300000X"
+                  }
                 },
                 "_store": {}
+              },
+              {
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "BADEA, LUANA"
+                },
+                "_store": {}
+              },
+              null
+            ]
+          },
+          "rendered": [
+            {
+              "nodeType": "function",
+              "type": "ProviderServiceDescription",
+              "props": {
+                "provider": {
+                  "id": "1326340985",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "true",
+                    "address": {
+                      "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                      "city": "AUSTIN",
+                      "state": "TX",
+                      "zip": "78748"
+                    },
+                    "caresitePhone": "512-291-4500",
+                    "email": "manager0441@dentalonepartners.com",
+                    "gender": "NotSpecified",
+                    "lat": 30.159468,
+                    "long": -97.792193,
+                    "name": "BADEA, LUANA",
+                    "phone": "512-291-4500",
+                    "uniqueId": "1326340985"
+                  },
+                  "relationships": {
+                    "specialties": {
+                      "data": [
+                        {
+                          "id": "122300000X",
+                          "type": "specialty"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "query": {
+                  "facilityType": "provider",
+                  "serviceType": "122300000X"
+                }
               }
             },
-            "rendered": {
+            {
               "nodeType": "host",
-              "type": "a",
+              "type": "h2",
               "props": {
-                "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                "target": "_/blank",
-                "onClick": "onClick",
-                "children": [
-                  "In-network urgent care benefit",
-                  " "
-                ]
+                "className": "vads- no",
+                "children": "BADEA, LUANA"
               },
-              "rendered": [
-                "In-network urgent care benefit",
-                " "
-              ]
+              "rendered": "BADEA, LUANA"
+            },
+            null
+          ]
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationAddress",
+          "props": {
+            "location": {
+              "id": "1326340985",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "true",
+                "address": {
+                  "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                  "city": "AUSTIN",
+                  "state": "TX",
+                  "zip": "78748"
+                },
+                "caresitePhone": "512-291-4500",
+                "email": "manager0441@dentalonepartners.com",
+                "gender": "NotSpecified",
+                "lat": 30.159468,
+                "long": -97.792193,
+                "name": "BADEA, LUANA",
+                "phone": "512-291-4500",
+                "uniqueId": "1326340985"
+              },
+              "relationships": {
+                "specialties": {
+                  "data": [
+                    {
+                      "id": "122300000X",
+                      "type": "specialty"
+                    }
+                  ]
+                }
+              }
             }
           }
-        ]
-      }
-    ]
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationDirectionsLink",
+          "props": {
+            "location": {
+              "id": "1326340985",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "true",
+                "address": {
+                  "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                  "city": "AUSTIN",
+                  "state": "TX",
+                  "zip": "78748"
+                },
+                "caresitePhone": "512-291-4500",
+                "email": "manager0441@dentalonepartners.com",
+                "gender": "NotSpecified",
+                "lat": 30.159468,
+                "long": -97.792193,
+                "name": "BADEA, LUANA",
+                "phone": "512-291-4500",
+                "uniqueId": "1326340985"
+              },
+              "relationships": {
+                "specialties": {
+                  "data": [
+                    {
+                      "id": "122300000X",
+                      "type": "specialty"
+                    }
+                  ]
+                }
+              }
+            },
+            "from": "SearchResult"
+          }
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationPhoneLink",
+          "props": {
+            "location": {
+              "id": "1326340985",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "true",
+                "address": {
+                  "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+                  "city": "AUSTIN",
+                  "state": "TX",
+                  "zip": "78748"
+                },
+                "caresitePhone": "512-291-4500",
+                "email": "manager0441@dentalonepartners.com",
+                "gender": "NotSpecified",
+                "lat": 30.159468,
+                "long": -97.792193,
+                "name": "BADEA, LUANA",
+                "phone": "512-291-4500",
+                "uniqueId": "1326340985"
+              },
+              "relationships": {
+                "specialties": {
+                  "data": [
+                    {
+                      "id": "122300000X",
+                      "type": "specialty"
+                    }
+                  ]
+                }
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "provider",
+              "serviceType": "122300000X"
+            }
+          }
+        }
+      ]
+    }
   },
   "type": "div",
   "props": {
@@ -1600,187 +1475,6 @@ exports["CCProviderResult/Should render CCProviderResult, serviceType Dentist(0)
               "serviceType": "122300000X"
             }
           }
-        }
-      ]
-    },
-    {
-      "node": {
-        "nodeType": "host",
-        "type": "div",
-        "props": {
-          "className": "usa usa background vads-  vads-",
-          "children": [
-            {
-              "type": "i",
-              "props": {
-                "aria-hidden": "true",
-                "className": "fa fa vads- icon"
-              },
-              "_store": {}
-            },
-            {
-              "type": "div",
-              "props": {
-                "className": "usa",
-                "children": {
-                  "type": "a",
-                  "props": {
-                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                    "target": "_/blank",
-                    "onClick": "onClick",
-                    "children": [
-                      "In-network urgent care benefit",
-                      " "
-                    ]
-                  },
-                  "_store": {}
-                }
-              },
-              "_store": {}
-            }
-          ]
-        },
-        "rendered": [
-          {
-            "nodeType": "host",
-            "type": "i",
-            "props": {
-              "aria-hidden": "true",
-              "className": "fa fa vads- icon"
-            }
-          },
-          {
-            "nodeType": "host",
-            "type": "div",
-            "props": {
-              "className": "usa",
-              "children": {
-                "type": "a",
-                "props": {
-                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                  "target": "_/blank",
-                  "onClick": "onClick",
-                  "children": [
-                    "In-network urgent care benefit",
-                    " "
-                  ]
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "host",
-              "type": "a",
-              "props": {
-                "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                "target": "_/blank",
-                "onClick": "onClick",
-                "children": [
-                  "In-network urgent care benefit",
-                  " "
-                ]
-              },
-              "rendered": [
-                "In-network urgent care benefit",
-                " "
-              ]
-            }
-          }
-        ]
-      },
-      "type": "div",
-      "props": {
-        "className": "usa usa background vads-  vads-"
-      },
-      "children": [
-        {
-          "node": {
-            "nodeType": "host",
-            "type": "i",
-            "props": {
-              "aria-hidden": "true",
-              "className": "fa fa vads- icon"
-            }
-          },
-          "type": "i",
-          "props": {
-            "aria-hidden": "true",
-            "className": "fa fa vads- icon"
-          }
-        },
-        {
-          "node": {
-            "nodeType": "host",
-            "type": "div",
-            "props": {
-              "className": "usa",
-              "children": {
-                "type": "a",
-                "props": {
-                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                  "target": "_/blank",
-                  "onClick": "onClick",
-                  "children": [
-                    "In-network urgent care benefit",
-                    " "
-                  ]
-                },
-                "_store": {}
-              }
-            },
-            "rendered": {
-              "nodeType": "host",
-              "type": "a",
-              "props": {
-                "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                "target": "_/blank",
-                "onClick": "onClick",
-                "children": [
-                  "In-network urgent care benefit",
-                  " "
-                ]
-              },
-              "rendered": [
-                "In-network urgent care benefit",
-                " "
-              ]
-            }
-          },
-          "type": "div",
-          "props": {
-            "className": "usa"
-          },
-          "children": [
-            {
-              "node": {
-                "nodeType": "host",
-                "type": "a",
-                "props": {
-                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                  "target": "_/blank",
-                  "onClick": "onClick",
-                  "children": [
-                    "In-network urgent care benefit",
-                    " "
-                  ]
-                },
-                "rendered": [
-                  "In-network urgent care benefit",
-                  " "
-                ]
-              },
-              "type": "a",
-              "props": {
-                "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
-                "target": "_/blank",
-                "onClick": "onClick"
-              },
-              "children": [
-                "In-network urgent care benefit",
-                " "
-              ]
-            }
-          ]
         }
       ]
     }
