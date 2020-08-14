@@ -226,6 +226,586 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
+  describe('openFacilityPage', () => {
+    const defaultSchema = {
+      type: 'object',
+      properties: {
+        vaParent: {
+          type: 'string',
+          enum: [],
+        },
+        vaFacility: {
+          type: 'string',
+          enum: [],
+        },
+      },
+    };
+    const defaultState = {
+      ...userState,
+      featureToggles: {
+        loading: false,
+        vaOnlineSchedulingDirect: true,
+      },
+      newAppointment: {
+        data: {
+          typeOfCareId: '323',
+        },
+        pages: {},
+        parentFacilitiesStatus: FETCH_STATUS.notStarted,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: {},
+        eligibility: {},
+      },
+    };
+
+    beforeEach(() => {
+      mockFetch();
+    });
+
+    afterEach(() => {
+      resetFetch();
+    });
+
+    it('should fetch parentFacilities', async () => {
+      setFetchJSONResponse(global.fetch, parentFacilities);
+      const dispatch = sinon.spy();
+      const state = set('newAppointment.parentFacilities', null, defaultState);
+      const getState = () => state;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+      );
+
+      const succeededAction = dispatch.firstCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        schema: defaultSchema,
+        page: 'vaFacility',
+        uiSchema: {},
+        parentFacilities: parentFacilitiesParsed,
+        facilities: null,
+        eligibilityData: null,
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+    });
+
+    it('should fetch parentFacilities and child facilities if single parent', async () => {
+      setFetchJSONResponse(global.fetch, {
+        data: parentFacilities.data.filter(
+          parent => parent.attributes.institutionCode === '983',
+        ),
+      });
+      setFetchJSONResponse(global.fetch.onCall(1), facilities983);
+      const dispatch = sinon.spy();
+      const state = set('newAppointment.parentFacilities', null, defaultState);
+      const getState = () => state;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      const succeededAction = dispatch.firstCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        schema: defaultSchema,
+        page: 'vaFacility',
+        uiSchema: {},
+        parentFacilities: parentFacilitiesParsed.slice(0, 1),
+        facilities: facilities983Parsed,
+        eligibilityData: null,
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+      expect(global.fetch.secondCall.args[0]).to.contain('/systems/983/');
+    });
+
+    it('should send fail action if a fetch fails', async () => {
+      setFetchJSONFailure(global.fetch, {});
+      const dispatch = sinon.spy();
+      const state = set('newAppointment.parentFacilities', null, defaultState);
+      const getState = () => state;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_PAGE_FACILITY_OPEN_FAILED,
+      );
+    });
+
+    it('should reuse parentFacilities if already in state', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => defaultState;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      const succeededAction = dispatch.lastCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        schema: defaultSchema,
+        page: 'vaFacility',
+        uiSchema: {},
+        parentFacilities: parentFacilitiesParsed,
+        facilities: null,
+        eligibilityData: null,
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+    });
+
+    it('should fetch facilities if system was selected already', async () => {
+      setFetchJSONResponse(global.fetch, facilities983);
+      const dispatch = sinon.spy();
+      const state = set('newAppointment.data.vaParent', 'var983', defaultState);
+      const getState = () => state;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+      );
+
+      const succeededAction = dispatch.firstCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        schema: defaultSchema,
+        page: 'vaFacility',
+        uiSchema: {},
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilities983Parsed,
+        eligibilityData: null,
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+    });
+
+    it('should fetch parent details if no supported facilities', async () => {
+      setFetchJSONResponse(global.fetch, clinics);
+      const dispatch = sinon.spy();
+      const previousState = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            ...defaultState.newAppointment.data,
+            vaParent: 'var983',
+          },
+          facilities: {
+            '323_var983': [],
+          },
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+      const firstAction = dispatch.firstCall.args[0];
+      expect(firstAction.type).to.equal(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_FETCH_FACILITY_DETAILS,
+      );
+    });
+
+    it('should fetch eligibility info if facility is selected when opening page', async () => {
+      setFetchJSONResponse(global.fetch, clinics);
+      const dispatch = sinon.spy();
+      const previousState = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            ...defaultState.newAppointment.data,
+            vaParent: 'var983',
+            vaFacility: 'var983',
+          },
+          facilities: {
+            '323_var983': facilities983Parsed,
+          },
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+      const firstAction = dispatch.firstCall.args[0];
+      expect(firstAction.type).to.equal(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
+
+      expect(firstAction.eligibilityData).to.not.be.null;
+    });
+
+    it('should fetch eligibility info if only one supported facility', async () => {
+      setFetchJSONResponse(global.fetch, clinics);
+      const dispatch = sinon.spy();
+      const previousState = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            ...defaultState.newAppointment.data,
+            vaParent: 'var983',
+          },
+          parentFacilities: [
+            {
+              id: 'var983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
+            },
+          ],
+          facilities: {
+            '323_var983': [
+              {
+                id: 'var983GC',
+                identifier: [
+                  {
+                    system: VHA_FHIR_ID,
+                    value: '983GC',
+                  },
+                ],
+                legacyVAR: {},
+              },
+            ],
+          },
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+      const firstAction = dispatch.firstCall.args[0];
+      expect(firstAction.type).to.equal(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
+
+      expect(firstAction.eligibilityData).to.not.be.null;
+    });
+
+    it('should skip eligibility request and succeed if facility list is empty', async () => {
+      setFetchJSONResponse(global.fetch, { data: [] });
+      const dispatch = sinon.spy();
+      const state = set('newAppointment.data.vaParent', 'var983', defaultState);
+      const getState = () => state;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+      );
+
+      const succeededAction = dispatch.firstCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        schema: defaultSchema,
+        page: 'vaFacility',
+        uiSchema: {},
+        parentFacilities: parentFacilitiesParsed,
+        facilities: [],
+        eligibilityData: null,
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+    });
+  });
+
+  describe('updateFacilityPageData', () => {
+    const defaultState = {
+      userState,
+      featureToggles: {
+        loading: false,
+        vaOnlineSchedulingDirect: true,
+      },
+      newAppointment: {
+        data: {
+          typeOfCareId: '502',
+        },
+        pages: {},
+        systemsStatus: FETCH_STATUS.notStarted,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: {},
+        eligibility: {},
+      },
+    };
+
+    beforeEach(() => {
+      mockFetch();
+    });
+
+    afterEach(() => {
+      resetFetch();
+    });
+
+    it('should not fetch anything if system did not change', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: {
+          ...defaultState.newAppointment,
+          facilities: {
+            '502_var983': facilities983Parsed,
+          },
+          data: {
+            ...defaultState.newAppointment.data,
+            vaParent: 'var983',
+          },
+        },
+      });
+
+      const thunk = updateFacilityPageData(
+        'vaFacility',
+        {},
+        {
+          ...defaultState.newAppointment.data,
+          vaParent: 'var983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.lastCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+    });
+
+    it('should not fetch anything if system changed and we already have facilities', async () => {
+      const dispatch = sinon.spy();
+      const getState = () =>
+        set(
+          'newAppointment.facilities',
+          {
+            '502_var983': facilities983Parsed,
+          },
+          defaultState,
+        );
+
+      const thunk = updateFacilityPageData(
+        'vaFacility',
+        {},
+        {
+          ...defaultState.newAppointment.data,
+          vaParent: 'var983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+      expect(dispatch.lastCall.args[0].type).to.equal(FORM_VA_PARENT_CHANGED);
+    });
+
+    it('should fetch facilities if system is selected already', async () => {
+      setFetchJSONResponse(global.fetch, facilities983);
+      const dispatch = sinon.spy();
+      const getState = () => defaultState;
+
+      const thunk = updateFacilityPageData(
+        'vaFacility',
+        {},
+        {
+          ...defaultState.newAppointment.data,
+          vaParent: 'var983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_FETCH_CHILD_FACILITIES,
+      );
+      expect(dispatch.lastCall.args[0].type).to.equal(
+        FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+      );
+
+      const succeededAction = dispatch.lastCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+        uiSchema: {},
+        facilities: facilities983Parsed,
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+    });
+
+    it('should fetch system details if no facilities found', async () => {
+      setFetchJSONResponse(global.fetch, { data: [] });
+      const dispatch = sinon.spy();
+      const getState = () => defaultState;
+
+      const thunk = updateFacilityPageData(
+        'vaFacility',
+        {},
+        {
+          ...defaultState.newAppointment.data,
+          vaParent: 'var983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_FETCH_CHILD_FACILITIES,
+      );
+
+      // system details dispatch
+      expect(dispatch.thirdCall.args[0]).to.be.a('function');
+
+      expect(dispatch.lastCall.args[0].type).to.equal(
+        FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+      );
+
+      const succeededAction = dispatch.lastCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+        uiSchema: {},
+        facilities: [],
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+    });
+
+    it('should send fail action if facilities fetch fails', async () => {
+      setFetchJSONFailure(global.fetch, {});
+      const dispatch = sinon.spy();
+      const getState = () => defaultState;
+
+      const thunk = updateFacilityPageData(
+        'vaFacility',
+        {},
+        {
+          ...defaultState.newAppointment.data,
+          vaParent: 'var983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_FETCH_CHILD_FACILITIES,
+      );
+      expect(dispatch.lastCall.args[0].type).to.equal(
+        FORM_FETCH_CHILD_FACILITIES_FAILED,
+      );
+    });
+
+    it('should fetch eligibility info if facility is selected', async () => {
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          attributes: {
+            numberOfRequests: 0,
+            requestLimit: 0,
+          },
+        },
+      });
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: {
+          attributes: {
+            durationInMonths: 0,
+            hasVisitedInPastMonths: false,
+          },
+        },
+      });
+      setFetchJSONResponse(global.fetch.onCall(2), {
+        data: {
+          attributes: {
+            durationInMonths: 0,
+            hasVisitedInPastMonths: false,
+          },
+        },
+      });
+      setFetchJSONResponse(global.fetch.onCall(3), clinics);
+      setFetchJSONResponse(global.fetch.onCall(4), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(5), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(6), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(7), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(8), facilityDetails);
+      const dispatch = sinon.spy();
+      const previousState = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            ...defaultState.newAppointment.data,
+            vaParent: 'var983',
+          },
+          facilities: {
+            '502_var983': facilities983Parsed,
+          },
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = updateFacilityPageData(
+        'vaFacility',
+        {},
+        {
+          ...previousState.newAppointment.data,
+          vaFacility: 'var983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_ELIGIBILITY_CHECKS,
+      );
+
+      expect(dispatch.thirdCall.args[0].type).to.equal(
+        FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+      );
+      expect(dispatch.getCall(3).args[0].type).to.equal(
+        FORM_FETCH_FACILITY_DETAILS,
+      );
+      expect(dispatch.getCall(4).args[0].type).to.equal(
+        FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+      );
+
+      const succeededAction = dispatch.thirdCall.args[0];
+      const eligibilityData = succeededAction.eligibilityData;
+      expect(succeededAction.typeOfCareId).to.equal(
+        defaultState.newAppointment.data.typeOfCareId,
+      );
+      expect(eligibilityData.clinics.length).to.equal(4);
+      expect(eligibilityData.requestLimits.numberOfRequests).to.equal(0);
+    });
+
+    it('should send fail action for error in eligibility code', async () => {
+      setFetchJSONResponse(global.fetch, {});
+      const dispatch = sinon.spy();
+      const previousState = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            ...defaultState.newAppointment.data,
+            vaParent: 'var983',
+          },
+          facilities: {
+            // This is an unexpected data type that causes an error
+            '502_var983': {},
+          },
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = updateFacilityPageData(
+        'vaFacility',
+        {},
+        {
+          ...previousState.newAppointment.data,
+          vaFacility: 'var983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_ELIGIBILITY_CHECKS,
+      );
+      expect(dispatch.lastCall.args[0].type).to.equal(
+        FORM_ELIGIBILITY_CHECKS_FAILED,
+      );
+    });
+  });
+
   describe('openClinicPage', () => {
     it('should fetch facility info', async () => {
       const dispatch = sinon.spy();
