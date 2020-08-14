@@ -112,7 +112,7 @@ export default class ArrayField extends React.Component {
   scrollToRow(id) {
     this.rowTimeout = setTimeout(() => {
       // eslint-disable-next-line no-console
-      console.log(`Forms mock: ${window.Forms?.scroll}`);
+      console.log(`Forms scroll smooth: ${window.Forms?.scroll?.smooth}`);
       scroller.scrollTo(
         `table_${id}`,
         window.Forms?.scroll || {
