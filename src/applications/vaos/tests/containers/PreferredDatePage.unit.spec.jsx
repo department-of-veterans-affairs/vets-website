@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import moment from 'moment';
 
 import { PreferredDatePage } from '../../containers/PreferredDatePage';
 
@@ -66,7 +67,34 @@ describe('VAOS <PreferredDatePage>', () => {
     form.unmount();
   });
 
+  it('it should not submit beyond 365 days into the future', () => {
+    const openFormPage = sinon.spy();
+    const updateFormData = sinon.spy();
+    const router = {
+      push: sinon.spy(),
+    };
+
+    const form = mount(
+      <PreferredDatePage
+        openFormPage={openFormPage}
+        updateFormData={updateFormData}
+        router={router}
+        data={{ preferredDate: '2050-02-02' }}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(router.push.called).to.be.false;
+    form.unmount();
+  });
+
   it('should submit with valid data', () => {
+    let maxDate = moment()
+      .add(395, 'days')
+      .format('YYYY-MM-DD');
+
     const openFormPage = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
@@ -74,7 +102,7 @@ describe('VAOS <PreferredDatePage>', () => {
       <PreferredDatePage
         openFormPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ preferredDate: '2050-02-02' }}
+        data={{ preferredDate: maxDate }}
       />,
     );
 

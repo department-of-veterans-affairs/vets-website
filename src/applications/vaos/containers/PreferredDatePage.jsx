@@ -12,6 +12,7 @@ import {
 import { getPreferredDate } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import moment from 'moment';
 
 const initialSchema = {
   type: 'object',
@@ -28,7 +29,21 @@ const uiSchema = {
   preferredDate: {
     'ui:title': 'What is the earliest date you’d like to be seen?',
     'ui:widget': 'date',
-    'ui:validations': [validateCurrentOrFutureDate],
+    'ui:validations': [
+      (errors, preferredDate) => {
+        let maxDate = moment()
+          .add(13, 'months')
+          .format('YYYY-MM-DD');
+        if (
+          moment(preferredDate).isAfter(maxDate) ||
+          moment(preferredDate).isBefore(moment().format('YYYY-MM-DD'))
+        ) {
+          errors.addError(
+            'You must enter a date that is 395 days or less in the future. ',
+          );
+        }
+      },
+    ],
   },
 };
 
@@ -52,7 +67,6 @@ export class PreferredDatePage extends React.Component {
 
   render() {
     const { schema, data, pageChangeInProgress } = this.props;
-
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
