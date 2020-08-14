@@ -35,7 +35,7 @@ export const renderAdditionalInfo = deductionCode => {
             benefit type:
           </p>
           <p>
-            <strong>Disability compensation:</strong>
+            <strong>Disability compensation:</strong>{' '}
             <a href="tel: 800-827-1000" aria-label="800. 8 2 7. 1000.">
               800-827-1000
             </a>
@@ -43,7 +43,7 @@ export const renderAdditionalInfo = deductionCode => {
             Monday through Friday, 8:00 a.m to 8:00 p.m. ET
           </p>
           <p>
-            <strong>Veterans Pension:</strong>
+            <strong>Veterans Pension:</strong>{' '}
             <a href="tel: 877-294-6380" aria-label="877. 2 9 4. 6380.">
               877-294-6380
             </a>
@@ -68,7 +68,7 @@ export const renderAdditionalInfo = deductionCode => {
             debt. Some common reasons for this type of debt are:
           </p>
           <ul>
-            <li>You m ade a change in course enrollment, or</li>
+            <li>You made a change in course enrollment, or</li>
             <li>You withdrew from a higher-education institution, or</li>
             <li>Your eligibility for a benefit might have changed, or</li>
             <li>We made a duplicate or incorrect payment to you</li>
@@ -101,7 +101,7 @@ export const renderAdditionalInfo = deductionCode => {
             debt. Some common reasons for this type of debt are:
           </p>
           <ul>
-            <li>You m ade a change in course enrollment, or</li>
+            <li>You made a change in course enrollment, or</li>
             <li>You withdrew from a higher-education institution, or</li>
             <li>Your eligibility for a benefit might have changed, or</li>
             <li>We made a duplicate or incorrect payment to you</li>
