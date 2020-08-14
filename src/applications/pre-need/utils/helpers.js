@@ -343,6 +343,7 @@ export const veteranUI = {
     'ui:validations': [
       (errors, fields) => {
         if (
+          !environment.isProduction() &&
           !(
             fields.isSpanishHispanicLatino ||
             fields.isAmericanIndianOrAlaskanNative ||
@@ -358,6 +359,7 @@ export const veteranUI = {
       },
     ],
     'ui:options': {
+      hideIf: () => environment.isProduction(),
       showFieldLabel: true,
     },
   },
