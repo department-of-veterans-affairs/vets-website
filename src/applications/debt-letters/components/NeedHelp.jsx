@@ -4,7 +4,7 @@ const NeedHelp = () => (
   <div className="vads-u-font-family--sans">
     <h4 className="right-heading">Need help?</h4>
     <p>
-      Call the Debt Management Center between 6:30 a.m. and 6:00 p.m. CST using
+      Call the Debt Management Center between 6:30 a.m. and 6:00 p.m. CT using
       the numbers below:
     </p>
     <p className="vads-u-margin-top--0">
