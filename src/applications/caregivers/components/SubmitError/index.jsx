@@ -1,41 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { submitTransform } from 'applications/caregivers/helpers';
-import formConfig from 'applications/caregivers/config/form';
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-import moment from 'moment';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 import { focusElement } from 'platform/utilities/ui';
 
-const SubmitError = props => {
-  const [PDFLink, setPDFLink] = useState(null);
-  useEffect(
-    () => {
-      focusElement('.caregivers-error-message');
-      apiRequest(
-        `${environment.API_URL}/v0/caregivers_assistance_claims/download_pdf`,
-        {
-          method: 'POST',
-          body: submitTransform(formConfig, props.form),
-          headers: {
-            'Content-Type': 'application/json',
-            'Source-App-Name': 'caregivers-10-10cg-',
-          },
-        },
-      )
-        .then(response => {
-          return response.blob();
-        })
-        .then(blob => {
-          const url = URL.createObjectURL(blob);
-          setPDFLink(url);
-        });
-    },
-    [props.form, setPDFLink],
-  );
+import DownLoadLink from './DownloadLink';
+
+const SubmitError = ({ form }) => {
+  useEffect(() => {
+    focusElement('.caregivers-error-message');
+  }, []);
 
   const ErrorBody = () => {
     return (
@@ -78,22 +53,7 @@ const SubmitError = props => {
           We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </div>
 
-        <div className="vads-u-margin-top--2">
-          <a href={PDFLink} target="_blank" rel="noreferrer noopener">
-            <i
-              aria-hidden="true"
-              role="img"
-              className="fas fa-download vads-u-padding-right--1"
-            />
-            Download your completed application
-            <span className="sr-only">
-              `dated ${moment(Date.now()).format('MMM D, YYYY')}`
-            </span>{' '}
-            <dfn>
-              <abbr title="Portable Document Format">(PDF)</abbr>
-            </dfn>
-          </a>
-        </div>
+        <DownLoadLink form={form} />
       </section>
     );
   };
