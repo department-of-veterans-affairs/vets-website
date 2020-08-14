@@ -5,7 +5,6 @@ import formConfig from 'applications/caregivers/config/form';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import moment from 'moment';
-import download from 'downloadjs';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
@@ -33,8 +32,7 @@ const SubmitError = props => {
         .then(blob => {
           const url = URL.createObjectURL(blob);
           setPDFLink(url);
-        })
-        .catch(err => console.error(err));
+        });
     },
     [props.form, setPDFLink],
   );
@@ -80,20 +78,22 @@ const SubmitError = props => {
           We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </div>
 
-        <a href={PDFLink} target="_blank" rel="noreferrer noopener">
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-download vads-u-padding-right--1"
-          />
-          Download your completed application
-          <span className="sr-only">
-            `dated ${moment(Date.now()).format('MMM D, YYYY')}`
-          </span>{' '}
-          <dfn>
-            <abbr title="Portable Document Format">(PDF)</abbr>
-          </dfn>
-        </a>
+        <div className="vads-u-margin-top--2">
+          <a href={PDFLink} target="_blank" rel="noreferrer noopener">
+            <i
+              aria-hidden="true"
+              role="img"
+              className="fas fa-download vads-u-padding-right--1"
+            />
+            Download your completed application
+            <span className="sr-only">
+              `dated ${moment(Date.now()).format('MMM D, YYYY')}`
+            </span>{' '}
+            <dfn>
+              <abbr title="Portable Document Format">(PDF)</abbr>
+            </dfn>
+          </a>
+        </div>
       </section>
     );
   };
