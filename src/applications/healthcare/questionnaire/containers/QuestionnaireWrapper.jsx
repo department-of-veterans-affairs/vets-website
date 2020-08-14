@@ -22,7 +22,8 @@ const QuestionnaireWrapper = ({
       </>
     );
   } else if (!isQuestionnaireEnabled) {
-    return window.location.replace('/');
+    window.location.replace('/');
+    return <></>;
   } else {
     return <App location={location}>{children}</App>;
   }
@@ -32,7 +33,7 @@ const mapStateToProps = state => ({
   isQuestionnaireEnabled: selectShowQuestionnaire(state),
   isLoadingFeatureFlags: selectLoadingFeatureFlags(state),
 });
-const mapDispatchToProps = dispatch => {};
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(
   mapStateToProps,
