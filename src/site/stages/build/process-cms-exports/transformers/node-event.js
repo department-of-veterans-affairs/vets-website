@@ -16,6 +16,7 @@ function toUtc(timeString) {
     time.isValid(),
     `Expected timeString to be a moment-parsable string. Found ${timeString}`,
   );
+
   return time.format('YYYY-MM-DD kk:mm:ss [UTC]');
 }
 

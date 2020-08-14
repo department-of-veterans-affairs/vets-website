@@ -16,6 +16,7 @@ const helpClicked = () =>
 export const disabilitiesDescription = ({ formContext }) => {
   // Fix header accessibility
   const Tag = formContext.onReviewPage ? 'h4' : 'h3';
+
   return (
     <div>
       <Tag className="vads-u-font-size--h5">

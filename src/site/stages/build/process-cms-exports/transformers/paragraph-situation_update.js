@@ -7,6 +7,7 @@ const transform = entity => {
     fieldSendEmailToSubscribers,
     fieldWysiwyg,
   } = entity;
+
   return {
     contentModelType: entity.contentModelType,
     entity: {

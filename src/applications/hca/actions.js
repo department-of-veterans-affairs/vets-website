@@ -113,6 +113,7 @@ export function getEnrollmentStatus(formData) {
       return null;
     }
     dispatch({ type: FETCH_ENROLLMENT_STATUS_STARTED });
+
     /*
     When hitting the API locally, we cannot get responses other than 500s from
     the endpoint. This is due to the endpoint's need to connect to MVI, which
@@ -142,8 +143,10 @@ export function getEnrollmentStatus(formData) {
       ) {
         return callFake404(dispatch);
       }
+
       return callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.enrolled);
     }
+
     return callAPI(dispatch, formData);
   };
 }
@@ -175,6 +178,7 @@ export function setDismissedHCANotification(status, statusEffectiveAt) {
       type: SET_DISMISSED_HCA_NOTIFICATION,
       data: statusEffectiveAt,
     });
+
     if (hasPreviouslyDismissedNotification) {
       return apiRequest('/notifications/dismissed_statuses/form_10_10ez', {
         method: 'PUT',
@@ -185,6 +189,7 @@ export function setDismissedHCANotification(status, statusEffectiveAt) {
         }),
       });
     }
+
     return apiRequest('/notifications/dismissed_statuses', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

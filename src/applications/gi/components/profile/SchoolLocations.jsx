@@ -36,6 +36,7 @@ export class SchoolLocations extends React.Component {
     branches.forEach(branch => {
       totalRows += branch.extensions.length;
     });
+
     return totalRows;
   };
 
@@ -98,9 +99,11 @@ export class SchoolLocations extends React.Component {
 
   schoolLocationTableInfo = (city, state, country, zip) => {
     let address = locationInfo(city, state, country);
+
     if (country === 'USA' && zip) {
       address = `${address} ${zip}`;
     }
+
     return address;
   };
 
@@ -113,6 +116,7 @@ export class SchoolLocations extends React.Component {
     };
 
     const calculated = getCalculatedBenefits(fakeState, this.props);
+
     return calculated.outputs.housingAllowance.value;
   };
 
@@ -135,6 +139,7 @@ export class SchoolLocations extends React.Component {
     ) : (
       name
     );
+
     return (
       <tr key={`${facilityCode}-${type}`} className={`${type}-row`}>
         <td tabIndex="-1" className="school-name-cell">
@@ -205,11 +210,13 @@ export class SchoolLocations extends React.Component {
     const rows = [];
     this.renderExtensionRows(rows, extensions, maxRows);
     this.renderBranchRows(rows, branches, maxRows);
+
     return rows;
   };
 
   renderFacilityMapTable = main => {
     const maxRows = this.state.viewableRowCount;
+
     return (
       <table className="locations-table">
         <thead>
@@ -229,6 +236,7 @@ export class SchoolLocations extends React.Component {
 
   renderFacilityMapList = main => {
     const maxRows = this.state.viewableRowCount;
+
     return (
       <div className="locations-list">
         {this.renderMainListItem(main.institution)}
@@ -251,6 +259,7 @@ export class SchoolLocations extends React.Component {
     const rows = [];
     this.renderExtensionItems(rows, extensions, maxRows);
     this.renderBranchItems(rows, branches, maxRows);
+
     return rows;
   };
 
@@ -328,6 +337,7 @@ export class SchoolLocations extends React.Component {
           remainingRowCount < NEXT_ROWS_VIEWABLE
             ? remainingRowCount
             : NEXT_ROWS_VIEWABLE;
+
         return (
           <div className="vads-u-padding-top--1">
             <button
@@ -352,6 +362,7 @@ export class SchoolLocations extends React.Component {
           </div>
         );
       }
+
       return (
         <div className="vads-u-padding-top--1">
           <button
@@ -364,12 +375,14 @@ export class SchoolLocations extends React.Component {
         </div>
       );
     }
+
     return null;
   };
 
   renderViewCount = () => {
     const totalRows = this.state.totalRowCount;
     const viewableRows = this.state.viewableRowCount;
+
     return (
       <div className="vads-u-padding-top--2">
         <i>
@@ -381,6 +394,7 @@ export class SchoolLocations extends React.Component {
 
   render() {
     const { main } = this.props.institution.facilityMap;
+
     return (
       <div className="school-locations row">
         <span>

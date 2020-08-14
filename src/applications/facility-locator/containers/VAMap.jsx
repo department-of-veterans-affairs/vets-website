@@ -339,6 +339,7 @@ class VAMap extends Component {
 
   handleBoundsChanged = () => {
     const { currentQuery } = this.props;
+
     if (!currentQuery.facilityType) return;
     const { position } = currentQuery;
     const { leafletElement } = this.refs.map;
@@ -402,6 +403,7 @@ class VAMap extends Component {
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, isProvider = false, e) => {
       e.preventDefault();
+
       if (isProvider) {
         this.context.router.push(`provider/${id}`);
       } else {
@@ -421,6 +423,7 @@ class VAMap extends Component {
               r.attributes.long,
             )
           : null;
+
         return {
           ...r,
           distance,
@@ -433,6 +436,7 @@ class VAMap extends Component {
         position: [r.attributes.lat, r.attributes.long],
         onClick: () => {
           const searchResult = document.getElementById(r.id);
+
           if (searchResult) {
             Array.from(
               document.getElementsByClassName('facility-result'),
@@ -501,11 +505,13 @@ class VAMap extends Component {
               <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>
             );
           }
+
           return null;
         default:
           return null;
       }
     });
+
     if (this.props.currentQuery.searchCoords) {
       mapMarkers.push(
         <CurrentPositionMarker
@@ -519,6 +525,7 @@ class VAMap extends Component {
         />,
       );
     }
+
     return mapMarkers;
   };
 
@@ -644,6 +651,7 @@ class VAMap extends Component {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderMapMarkers();
+
     return (
       <div className="desktop-container">
         <div>

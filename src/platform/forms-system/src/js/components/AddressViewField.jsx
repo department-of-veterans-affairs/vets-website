@@ -6,6 +6,7 @@ const getField = (formData, possibilities) =>
     if (value === null && formData[field]) {
       return formData[field];
     }
+
     return value;
   }, null);
 
@@ -25,6 +26,7 @@ const AddressViewField = ({ formData }) => {
   const postalCode = getField(formData, ['postalCode', 'zipCode']);
 
   let postalString = '';
+
   if (postalCode) {
     const lastChunk = postalCode.length > 5 ? `-${postalCode.slice(5)}` : '';
     postalString = `${postalCode.slice(0, 5)}${lastChunk}`;

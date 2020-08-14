@@ -3,6 +3,7 @@
 export function isValidCentralMailPostalCode({ country, postalCode } = {}) {
   const fiveDigitZip = /^\d{5}$/;
   const nineDigitZip = /^\d{5}-\d{4}$/;
+
   if (
     country === 'USA' &&
     postalCode &&

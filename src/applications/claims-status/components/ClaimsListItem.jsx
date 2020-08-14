@@ -15,6 +15,7 @@ function listPhase(phase) {
 
 export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
+
   return (
     <div className="claim-list-item-container">
       <Link className="claim-list-item" to={`your-claims/${claim.id}/status`}>

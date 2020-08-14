@@ -10,6 +10,7 @@ const SchoolClosingHeading = ({ schoolClosing, schoolClosingOn }) => {
       ? 'School will be closing soon'
       : 'School has closed';
     const headline = isFutureClosing ? 'School closing' : 'School closed';
+
     return (
       <AlertBox
         content={<p>{content}</p>}
@@ -21,6 +22,7 @@ const SchoolClosingHeading = ({ schoolClosing, schoolClosingOn }) => {
       />
     );
   }
+
   return null;
 };
 

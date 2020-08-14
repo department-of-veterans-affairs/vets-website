@@ -64,6 +64,7 @@ export const fetchDebtLetters = () => async dispatch => {
     const filteredResponse = response.filter(res =>
       approvedDeductionCodes.includes(res.deductionCode),
     );
+
     return dispatch(fetchDebtLettersSuccess(filteredResponse));
   } catch (error) {
     return dispatch(fetchDebtLettersFailure());
@@ -94,6 +95,7 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
           typeDescription: debtLetter.typeDescription.slice(6),
         };
       }
+
       return debtLetter;
     });
 

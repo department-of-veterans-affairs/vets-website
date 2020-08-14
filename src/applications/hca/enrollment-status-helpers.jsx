@@ -74,6 +74,7 @@ export function getWarningHeadline(enrollmentStatus) {
     default:
       break;
   }
+
   return <h2 className="usa-alert-heading">{content}</h2>;
 }
 
@@ -84,6 +85,7 @@ export function getEnrollmentDetails(
 ) {
   const facilityName = getMedicalCenterNameByID(preferredFacility);
   const blocks = [];
+
   // add "you applied on" block if the application date is valid
   if (isValidDateString(applicationDate)) {
     blocks.push(
@@ -93,6 +95,7 @@ export function getEnrollmentDetails(
       </>,
     );
   }
+
   // add "we enrolled you" block if the enrollment date is valid
   if (isValidDateString(enrollmentDate)) {
     blocks.push(
@@ -102,6 +105,7 @@ export function getEnrollmentDetails(
       </>,
     );
   }
+
   // add "preferred facility" block if there is a facility name
   if (facilityName !== '') {
     blocks.push(
@@ -111,9 +115,11 @@ export function getEnrollmentDetails(
       </>,
     );
   }
+
   if (!blocks.length) {
     return null;
   }
+
   // build the final content, adding <br/> tags between each block
   return (
     <p>
@@ -126,6 +132,7 @@ export function getEnrollmentDetails(
             </React.Fragment>
           );
         }
+
         return <React.Fragment key={i}>{block}</React.Fragment>;
       })}
     </p>
@@ -159,6 +166,7 @@ export function getWarningStatus(
       content = getEnrollmentDetails(applicationDate);
       break;
   }
+
   return content;
 }
 
@@ -332,6 +340,7 @@ export function getWarningExplanation(enrollmentStatus) {
     default:
       break;
   }
+
   return content;
 }
 
@@ -766,6 +775,7 @@ export function getFAQContent(enrollmentStatus) {
       faqBlockReapply3,
     ]),
   };
+
   return faqMap[enrollmentStatus];
 }
 
@@ -811,6 +821,7 @@ export function getAlertType(enrollmentStatus) {
     default:
       break;
   }
+
   return status;
 }
 
@@ -856,6 +867,7 @@ export function getAlertStatusHeadline(enrollmentStatus) {
     default:
       break;
   }
+
   return statusHeadline;
 }
 
@@ -910,6 +922,7 @@ export function getAlertStatusInfo(enrollmentStatus) {
     default:
       break;
   }
+
   return statusInfo;
 }
 

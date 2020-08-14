@@ -19,6 +19,7 @@ export function prefillTransformer(pages, formData, metadata) {
 
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
+
   return JSON.stringify({
     educationBenefitsClaim: {
       form: formData,

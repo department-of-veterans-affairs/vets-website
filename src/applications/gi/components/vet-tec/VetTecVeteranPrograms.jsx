@@ -63,6 +63,7 @@ export class VetTecVeteranPrograms extends React.Component {
     ) : (
       program.text
     );
+
     return (
       <div key={index}>
         <i className={icon} aria-hidden="true" /> {label} {link}

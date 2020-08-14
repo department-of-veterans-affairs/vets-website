@@ -24,6 +24,7 @@ function handleDowntimeForSection(section) {
     if (downtime.status === externalServiceStatus.down) {
       return <DowntimeBanner section={section} downtime={downtime} />;
     }
+
     return children;
   };
 }

@@ -44,6 +44,7 @@ function wrapWithContext(context, contextTypes, children) {
 function wrapWithRouterContext(component) {
   const context = { router: {} };
   const contextTypes = { router: PropTypes.object };
+
   return wrapWithContext(context, contextTypes, component);
 }
 
@@ -103,6 +104,7 @@ export function mockFetch(returnVal, shouldResolve = true) {
 
   global.fetch = sinon.stub().callsFake(url => {
     let response = returnVal;
+
     if (!response) {
       response = new Response();
       response.ok = false;
@@ -118,6 +120,7 @@ export function mockFetch(returnVal, shouldResolve = true) {
 export function setFetchJSONResponse(stub, data = null) {
   const response = new Response();
   response.ok = true;
+
   if (data) {
     response.headers.set('Content-Type', 'application/json');
     response.json = () => Promise.resolve(data);
@@ -209,6 +212,7 @@ export function mockMultipleApiRequests(responses) {
  */
 const mockEventListeners = (target = {}) => {
   const eventListeners = {};
+
   return {
     ...target,
     eventListeners,

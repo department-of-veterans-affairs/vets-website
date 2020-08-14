@@ -78,10 +78,12 @@ function matchErrorCode(codeSet, transaction) {
     Array.from(codeSet).reduce((codes, code) => {
       codes.push(code);
       codes.push(`VET360_${code}`);
+
       return codes;
     }, []),
   );
   const { metadata } = transaction?.data?.attributes;
+
   return metadata?.some(error => hydratedCodeSet.has(error.code));
 }
 

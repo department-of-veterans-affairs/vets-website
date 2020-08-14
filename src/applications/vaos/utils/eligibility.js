@@ -15,6 +15,7 @@ function createErrorHandler(directOrRequest, errorKey) {
   return data => {
     captureError(data, true);
     recordVaosError(`eligibility-${errorKey}`);
+
     return { [`${directOrRequest}Failed`]: true };
   };
 }

@@ -32,6 +32,7 @@ export function getOptionsByDate(
   return availableSlots.reduce((acc, slot) => {
     if (slot.start.split('T')[0] === selectedDate) {
       let time = moment(slot.start);
+
       if (slot.start.endsWith('Z')) {
         time = time.tz(timezoneDescription);
       }
@@ -47,6 +48,7 @@ export function getOptionsByDate(
         ),
       });
     }
+
     return acc;
   }, []);
 }
@@ -119,6 +121,7 @@ export class DateTimeSelectPage extends React.Component {
     const { data, router } = this.props;
     const { calendarData } = data || {};
     this.validate(calendarData);
+
     if (this.userSelectedSlot(calendarData)) {
       this.props.routeToNextAppointmentPage(router, pageKey);
     } else if (this.state.submitted) {

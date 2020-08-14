@@ -28,6 +28,7 @@ export class ConfirmationPage extends React.Component {
     let emailMessage;
 
     const dateTitle = 'Date submitted';
+
     if (data.email) {
       emailMessage = (
         <div>

@@ -21,6 +21,7 @@ function getLocalStorage() {
     const localStorage = window.localStorage;
     localStorage.setItem(testItem, testItem);
     localStorage.removeItem(testItem);
+
     return localStorage;
   } catch (err) {
     // Probably a SecurityError

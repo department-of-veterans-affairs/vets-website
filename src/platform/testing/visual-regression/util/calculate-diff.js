@@ -66,6 +66,7 @@ async function computeComparisonResult(
     await createDirectoryIfNotExist(diffFileName);
     // Then actually write the diff file
     await createDiffImage(diffFileName, comparisonResult);
+
     return {
       route,
       diffFileName,
@@ -88,6 +89,7 @@ async function calculateDiff(browser, route) {
     fileBuffer,
     screenshotBuffer,
   );
+
   return computeComparisonResult(
     browser,
     route,

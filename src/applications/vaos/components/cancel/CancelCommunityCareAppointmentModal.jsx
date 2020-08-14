@@ -7,6 +7,7 @@ export default function CancelCommunityCareAppointmentModal({
 }) {
   const name = appointment.participant?.[0]?.actor?.display;
   const contactInfo = appointment.contained?.[0]?.actor;
+
   return (
     <Modal
       id="cancelAppt"

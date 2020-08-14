@@ -29,6 +29,7 @@ Cypress.Commands.add('syncFixtures', fixtures => {
             typeof response === 'string'
               ? response.replace(regex, replaceFn)
               : response;
+
           return originalFn(method, url, modifiedResponse, options);
         },
       );

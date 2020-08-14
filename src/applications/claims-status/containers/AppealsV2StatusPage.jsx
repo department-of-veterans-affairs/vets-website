@@ -83,6 +83,7 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
     <div>
       {alerts.filter(a => afterNextAlertTypes.includes(a.type)).map((a, i) => {
         const alert = getAlertContent(a, appealIsActive);
+
         return (
           <div key={`after-next-alert-${i}`}>
             <h2>{alert.title}</h2>

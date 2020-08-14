@@ -23,6 +23,7 @@ function clickSubNavButton(buttonLabel, mobile) {
  */
 function checkAllPages(mobile = false) {
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+
   if (mobile) {
     cy.viewport('iphone-4');
   }

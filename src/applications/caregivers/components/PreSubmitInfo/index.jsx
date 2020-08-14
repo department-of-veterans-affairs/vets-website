@@ -71,6 +71,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
 
   const SecondaryCaregiverCopy = ({ label }) => {
     const header = title => `${title} or Family Member Statement of Truth`;
+
     return (
       <div>
         <h3 className="vads-u-margin-top--4">{header(label)}</h3>

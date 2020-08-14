@@ -22,6 +22,7 @@ export function getLetterList(dispatch) {
   return apiRequest('/v0/letters')
     .then(response => {
       recordEvent({ event: 'letter-list-success' });
+
       return dispatch({
         type: GET_LETTERS_SUCCESS,
         data: response,
@@ -30,6 +31,7 @@ export function getLetterList(dispatch) {
     .catch(response => {
       recordEvent({ event: 'letter-list-failure' });
       const status = getStatus(response);
+
       if (status === '403') {
         // Backend authentication problem
         dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
@@ -53,6 +55,7 @@ export function getLetterList(dispatch) {
           new Error(`vets_letters_error_getLetterList ${status}`),
         );
       });
+
       return Promise.reject();
     });
 }
@@ -61,6 +64,7 @@ export function getBenefitSummaryOptions(dispatch) {
   return apiRequest('/v0/letters/beneficiary')
     .then(response => {
       recordEvent({ event: 'letter-get-bsl-success' });
+
       return dispatch({
         type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
         data: response,
@@ -87,11 +91,13 @@ export function getLetterPdfFailure(letterType) {
     event: 'letter-pdf-failure',
     'letter-type': letterType,
   });
+
   return { type: GET_LETTER_PDF_FAILURE, data: letterType };
 }
 
 export function getLetterPdf(letterType, letterName, letterOptions) {
   let settings;
+
   if (letterType === LETTER_TYPES.benefitSummary) {
     settings = {
       method: 'POST',
@@ -131,6 +137,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
       //  a user interaction.
       downloadWindow = window.open();
     }
+
     return apiRequest(`/v0/letters/${letterType}`, settings)
       .then(response => {
         let downloadUrl;
@@ -161,6 +168,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           event: 'letter-pdf-success',
           'letter-type': letterType,
         });
+
         return dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       })
       .catch(response => {
@@ -173,6 +181,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
             ),
           );
         });
+
         return dispatch(getLetterPdfFailure(letterType));
       });
   };

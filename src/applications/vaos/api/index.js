@@ -29,6 +29,7 @@ function v1ApiRequest(url, ...options) {
 
 export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
+
   if (USE_MOCK_DATA) {
     if (type === 'va') {
       promise = new Promise(resolve =>
@@ -60,6 +61,7 @@ export function getConfirmedAppointments(type, startDate, endDate) {
 
 export function getPendingAppointments(startDate, endDate) {
   let promise;
+
   if (USE_MOCK_DATA) {
     promise = new Promise(resolve => {
       setTimeout(() => {
@@ -83,6 +85,7 @@ export function getPendingAppointments(startDate, endDate) {
 
 export function getRequestMessages(requestId) {
   let promise;
+
   if (USE_MOCK_DATA) {
     if (requestId === '8a48912a6c2409b9016c525a4d490190') {
       promise = import('./messages_0190.json').then(
@@ -145,6 +148,7 @@ export const getLongTermAppointmentHistory = (() => {
         .then(newAppts => appointments.push(...newAppts))
         .then(() => appointments);
     }
+
     return promise;
   };
 })();
@@ -173,6 +177,7 @@ export function getFacilitiesBySystemAndTypeOfCare(
   typeOfCareId,
 ) {
   let promise;
+
   if (USE_MOCK_DATA) {
     if (typeOfCareId === EXPRESS_CARE) {
       if (parentId === '983') {
@@ -218,6 +223,7 @@ export function getFacilitiesBySystemAndTypeOfCare(
 
 export function getCommunityCare(typeOfCare) {
   let promise;
+
   if (USE_MOCK_DATA) {
     promise = Promise.resolve({
       data: {
@@ -240,8 +246,10 @@ export function checkPastVisits(
   directOrRequest,
 ) {
   let promise;
+
   if (USE_MOCK_DATA) {
     let attributes;
+
     if (directOrRequest === 'direct') {
       attributes = {
         durationInMonths: 24,
@@ -272,6 +280,7 @@ export function checkPastVisits(
 
 export function getRequestLimits(facilityId, typeOfCareId) {
   let promise;
+
   if (USE_MOCK_DATA) {
     promise = Promise.resolve({
       data: {
@@ -292,6 +301,7 @@ export function getRequestLimits(facilityId, typeOfCareId) {
 
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   let promise;
+
   if (USE_MOCK_DATA) {
     if (facilityId === '983') {
       promise = import('./clinicList983.json').then(
@@ -313,6 +323,7 @@ export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
 
 export function getPacTeam(systemId) {
   let promise;
+
   if (USE_MOCK_DATA) {
     if (systemId.includes('983')) {
       promise = import('./pact.json').then(
@@ -346,6 +357,7 @@ export function getFacilityInfo(facilityId) {
   } else {
     promise = v1ApiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`);
   }
+
   return promise.then(resp => ({ id: resp.data.id, ...resp.data.attributes }));
 }
 
@@ -370,6 +382,7 @@ export function getFacilitiesInfo(facilityIds) {
 
 export function getSitesSupportingVAR(systemIds) {
   let promise;
+
   if (USE_MOCK_DATA) {
     promise = import('./sites-supporting-var.json').then(
       module => (module.default ? module.default : module),
@@ -419,6 +432,7 @@ export function getAvailableSlots(
 
 export function getCancelReasons(systemId) {
   let promise;
+
   if (USE_MOCK_DATA) {
     promise = import('./cancel_reasons.json').then(
       module => (module.default ? module.default : module),
@@ -434,6 +448,7 @@ export function getCancelReasons(systemId) {
 
 export function updateAppointment(appt) {
   let promise;
+
   if (USE_MOCK_DATA) {
     promise = Promise.resolve();
   } else {
@@ -449,6 +464,7 @@ export function updateAppointment(appt) {
 
 export function updateRequest(req) {
   let promise;
+
   if (USE_MOCK_DATA) {
     promise = import('./requests.json')
       .then(module => (module.default ? module.default : module))
@@ -477,6 +493,7 @@ export function updateRequest(req) {
 
 export function submitRequest(type, request) {
   let promise;
+
   if (USE_MOCK_DATA) {
     if (request.typeOfCareId === EXPRESS_CARE) {
       promise = Promise.resolve({
@@ -525,6 +542,7 @@ export function submitAppointment(appointment) {
 
 export function sendRequestMessage(id, messageText) {
   let promise;
+
   if (USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: {} } });
   } else {
@@ -540,6 +558,7 @@ export function sendRequestMessage(id, messageText) {
 
 export function getPreferences() {
   let promise;
+
   if (USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: { emailAllowed: true } } });
   } else {
@@ -551,6 +570,7 @@ export function getPreferences() {
 
 export function updatePreferences(data) {
   let promise;
+
   if (USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: {} } });
   } else {
@@ -566,6 +586,7 @@ export function updatePreferences(data) {
 
 export function getRequestEligibilityCriteria(sites) {
   let promise;
+
   if (USE_MOCK_DATA) {
     promise = import('./request_eligibility_criteria.json').then(
       module => (module.default ? module.default : module),

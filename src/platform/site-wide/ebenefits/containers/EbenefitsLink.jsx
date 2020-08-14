@@ -19,6 +19,7 @@ const EbenefitsLink = props => {
     rel: props.rel || 'noopener noreferrer',
     onClick: props.onClick || click,
   };
+
   return <a {...attrs}>{props.children}</a>;
 };
 

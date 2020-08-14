@@ -49,6 +49,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
           [e => moment(e.date).unix()],
           ['desc'],
         );
+
         return {
           ...c,
           attributes: {

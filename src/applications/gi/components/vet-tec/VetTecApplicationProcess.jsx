@@ -19,6 +19,7 @@ class VetTecApplicationProcess extends React.Component {
         </p>
       );
     }
+
     return (
       <p>
         To learn more about these approved programs,{' '}

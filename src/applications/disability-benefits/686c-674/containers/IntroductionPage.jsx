@@ -34,6 +34,7 @@ class IntroductionPage extends React.Component {
 
     let ctaState;
     let content;
+
     // Base case: user is logged out.
     // Case 1: User is logged in and we are checking for va file number.
     // Case 2: User is logged in and they have a valid va file number.
@@ -132,6 +133,7 @@ class IntroductionPage extends React.Component {
 
 const mapStateToProps = state => {
   const { form, user, vaFileNumber } = state;
+
   return {
     form,
     user,

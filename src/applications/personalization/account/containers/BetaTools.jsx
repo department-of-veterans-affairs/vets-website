@@ -22,6 +22,7 @@ class BetaTools extends React.Component {
 
   render() {
     if (!this.props.isEnrolled) return null;
+
     return (
       <div>
         <Modal visible={this.state.showModal} onClose={this.toggleModal}>

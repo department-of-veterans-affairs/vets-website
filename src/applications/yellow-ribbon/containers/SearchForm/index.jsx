@@ -67,6 +67,7 @@ export class SearchForm extends Component {
     // Uncheck the checkbox.
     if (this.state[key]) {
       this.setState({ [key]: '' });
+
       return;
     }
 

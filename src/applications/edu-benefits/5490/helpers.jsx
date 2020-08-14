@@ -8,6 +8,7 @@ export function transform(formConfig, form) {
   const newForm = _.cloneDeep(form);
 
   const formData = transformForSubmit(formConfig, newForm);
+
   return JSON.stringify({
     educationBenefitsClaim: {
       form: formData,

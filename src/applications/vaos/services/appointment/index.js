@@ -263,6 +263,7 @@ export function isUpcomingAppointmentOrRequest(appt) {
   const hasValidDate = appt.requestedPeriod.some(period => {
     const momentStart = moment(period.start);
     const momentEnd = moment(period.end);
+
     return (
       momentStart.isValid() && momentStart.isAfter(today) && momentEnd.isValid()
     );

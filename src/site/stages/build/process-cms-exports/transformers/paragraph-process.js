@@ -2,6 +2,7 @@
 
 const transform = entity => {
   const { fieldSteps } = entity;
+
   return {
     entity: {
       entityBundle: 'process',

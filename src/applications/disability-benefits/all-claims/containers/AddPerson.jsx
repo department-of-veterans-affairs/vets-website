@@ -26,6 +26,7 @@ export const AddPerson = props => {
   switch (props?.mvi?.addPersonState) {
     case MVI_ADD_NOT_ATTEMPTED:
       props.addPerson();
+
       return null;
     case MVI_ADD_INITIATED:
       return loading;

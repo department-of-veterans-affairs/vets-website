@@ -27,6 +27,7 @@ import CallVBACenter from 'platform/static-data/CallVBACenter';
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
+
   return `${capFirstLetter}${word.slice(1)}`;
 };
 
@@ -63,6 +64,7 @@ export class AppealInfo extends React.Component {
     if (!this.props.appeal) {
       this.props.getAppealsV2();
     }
+
     if (!this.props.appealsLoading) {
       setUpPage();
     } else {
@@ -219,6 +221,7 @@ function mapStateToProps(state, ownProps) {
     v2Availability: appealsAvailability,
   } = state.disability.status.claimsV2;
   const { v1ToV2IdMap } = state.disability.status.appeals;
+
   return {
     appeal: isolateAppeal(state, ownProps.params.id, v1ToV2IdMap),
     appealsLoading,

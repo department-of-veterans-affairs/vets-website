@@ -18,12 +18,15 @@ import {
 
 const fakeSipsIntro = user => {
   const { profile, login } = user;
+
   if (!login.currentlyLoggedIn) {
     return 'Log in to continue';
   }
+
   if (!profile.verified) {
     return 'Need to be verified';
   }
+
   // 'Not authorized' shouldn't be seen (an alert will show instead)
   return profile.services.length ? 'Start the form' : 'Not authorized';
 };
@@ -69,6 +72,7 @@ describe('Form 526EZ Entry Page', () => {
       }),
       initialState,
     );
+
     return mount(
       <Provider store={fakeStore}>
         <Form526Entry

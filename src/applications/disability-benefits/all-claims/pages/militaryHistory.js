@@ -43,6 +43,7 @@ const validateSeparationDate = (
   appStateData,
 ) => {
   const allowBDD = appStateData.allowBDD;
+
   if (!allowBDD && moment(dateString).isAfter(moment())) {
     errors.addError('Your separation date must be in the past');
   } else if (

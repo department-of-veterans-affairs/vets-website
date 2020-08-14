@@ -20,6 +20,7 @@ const INITIAL_ACTIVITY_ROWS = 5;
 function getClasses(phase, current) {
   const processClass = 'process-step';
   const stepClass = stepClasses[phase];
+
   if (phase === current) {
     return `${processClass} list-${stepClass} section-current`;
   } else if (current > phase) {
@@ -71,6 +72,7 @@ export default class ClaimPhase extends React.Component {
             </div>
           );
         }
+
         return (
           <div className="claims-evidence-item">
             We added a notice for:{' '}
@@ -88,6 +90,7 @@ export default class ClaimPhase extends React.Component {
             </div>
           );
         }
+
         return (
           <div className="claims-evidence-item">
             We have reviewed your submitted evidence for {event.displayName}. We
@@ -160,6 +163,7 @@ export default class ClaimPhase extends React.Component {
     recordEvent({
       event: 'claims-expandcollapse',
     });
+
     if (this.props.phase <= this.props.current) {
       this.setState({ open: !this.state.open });
     }

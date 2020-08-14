@@ -125,11 +125,13 @@ export function isAuthorizedAgent(item) {
 
 export function requiresSponsorInfo(item) {
   const sponsor = item['view:sponsor'];
+
   return sponsor === undefined || sponsor === 'Other';
 }
 
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
+
   return (
     (first || last) &&
     `${first} ${middle ? `${middle} ` : ''}${last}${
@@ -140,6 +142,7 @@ export function formatName(name) {
 
 export function claimantHeader({ formData }) {
   const name = formatName(formData.claimant.name);
+
   return <h4 className="highlight">{name}</h4>;
 }
 

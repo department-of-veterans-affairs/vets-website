@@ -23,6 +23,7 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
   const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
 
   let currentAsOfAlert;
+
   if (showCurrentAsOfAlert) {
     currentAsOfAlert = (
       <div className="usa-alert usa-alert-info">
@@ -36,6 +37,7 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
   }
 
   let benefitEndDate;
+
   if (enrollmentData.activeDuty) {
     benefitEndDate = benefitEndDateExplanation(
       'activeDuty',

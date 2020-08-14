@@ -3,6 +3,7 @@ import React from 'react';
 export const ScoContact = (sco, index) => {
   if (sco) {
     const key = `${sco.firstName}.${sco.lastName}.${index}`;
+
     return (
       <li
         key={key}
@@ -15,5 +16,6 @@ export const ScoContact = (sco, index) => {
       </li>
     );
   }
+
   return null;
 };

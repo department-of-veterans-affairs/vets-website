@@ -17,6 +17,7 @@ const networkError = errors => {
         <strong>{errors?.[0].title}</strong>
       </p>
     );
+
   return (
     <>
       We’re sorry. We’re having some problems on our end when we try to get

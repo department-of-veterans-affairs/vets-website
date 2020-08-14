@@ -35,6 +35,7 @@ import { BREAKPOINTS } from '../constants';
 const getElementHeight = el => {
   const style = window.getComputedStyle(el);
   const { height, marginTop, marginBottom } = style;
+
   return (
     [height, marginTop, marginBottom]
       // strip 'px' or other units from the three measurements
@@ -129,11 +130,13 @@ const ProfileMobileSubNav = ({
     // pin or unpin the mobile trigger on scroll
     const handleScroll = () => {
       if (!isMobile) return;
+
       // if the user just scrolled down the page far enough that the menu
       // trigger would go off the top of the page
       if (window.pageYOffset >= triggerPosition && !isMenuPinned) {
         pinMenu();
       }
+
       // if the user just scrolled up the page far enough that the menu
       // trigger's position would come back into view
       if (window.pageYOffset < triggerPosition && isMenuPinned) {
@@ -162,6 +165,7 @@ const ProfileMobileSubNav = ({
           closeMenu(true);
         }
       };
+
       if (isMenuOpen) {
         document.addEventListener('keydown', closeOnEscape);
         closeMenuButton.current.focus();
@@ -174,18 +178,21 @@ const ProfileMobileSubNav = ({
         lastMenuItem.current.addEventListener('keydown', overrideTab);
       } else {
         document.removeEventListener('keydown', closeOnEscape);
+
         // Only set the focus on the menu trigger button if the call to the
         // `closeSideNav` action creator passed in the `focusTriggerButton`
         // argument
         if (isTriggerButtonFocused) {
           openMenuButton.current.focus();
         }
+
         if (closeMenuButton.current) {
           closeMenuButton.current.removeEventListener(
             'keydown',
             overrideShiftTab,
           );
         }
+
         if (lastMenuItem.current) {
           lastMenuItem.current.removeEventListener('keydown', overrideTab);
         }

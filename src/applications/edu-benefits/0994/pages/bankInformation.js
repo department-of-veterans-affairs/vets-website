@@ -17,11 +17,13 @@ const { bankAccount } = fullSchema.properties;
 
 const hasNewBankInfo = formData => {
   const bankAccountObj = _.get(formData['view:bankAccount'], 'bankAccount', {});
+
   return hasNewBankInformation(bankAccountObj);
 };
 
 const hasPrefillBankInfo = formData => {
   const bankAccountObj = _.get(formData, 'prefillBankAccount', {});
+
   return hasPrefillBankInformation(bankAccountObj);
 };
 

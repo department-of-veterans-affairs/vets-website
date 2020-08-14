@@ -84,6 +84,7 @@ const perTermSections = (outputs, calculator) => {
     const { visible, title, learnMoreAriaLabel, terms } = outputs.perTerm[
       section
     ];
+
     if (!visible) return null;
 
     const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;

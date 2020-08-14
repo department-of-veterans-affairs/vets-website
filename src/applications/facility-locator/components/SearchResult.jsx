@@ -20,6 +20,7 @@ export const urgentCareCall = query => {
   ) {
     return content();
   }
+
   if (
     query.facilityType === LocationType.CC_PROVIDER &&
     query.serviceType === CLINIC_URGENTCARE_SERVICE

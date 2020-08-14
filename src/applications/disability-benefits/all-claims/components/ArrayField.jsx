@@ -26,6 +26,7 @@ const scroller = Scroll.scroller;
 export default class ArrayField extends React.Component {
   constructor(props) {
     super(props);
+
     // Throw an error if there’s no viewField (should be React component)
     if (typeof this.props.uiSchema['ui:options'].viewField !== 'function') {
       throw new Error(
@@ -50,6 +51,7 @@ export default class ArrayField extends React.Component {
   // that has not been released yet
   componentDidMount() {
     const { schema, formData = [], registry } = this.props;
+
     if (schema.minItems > 0 && formData.length === 0) {
       this.props.onChange(
         Array(schema.minItems).fill(
@@ -74,6 +76,7 @@ export default class ArrayField extends React.Component {
 
   getItemSchema(index) {
     const schema = this.props.schema;
+
     if (schema.items.length > index) {
       return schema.items[index];
     }
@@ -116,6 +119,7 @@ export default class ArrayField extends React.Component {
       index < 0
         ? `topOfTable_${this.props.idSchema.$id}`
         : `table_${this.props.idSchema.$id}_${index}`;
+
     return (
       document
         ?.querySelector(`[name="${target}"]`)
@@ -192,6 +196,7 @@ export default class ArrayField extends React.Component {
    */
   handleSave = () => {
     const lastIndex = this.props.formData.length - 1;
+
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
@@ -200,6 +205,7 @@ export default class ArrayField extends React.Component {
           const newEditing = this.state.editing.map(
             (val, index) => (index + 1 === state.editing.length ? false : val),
           );
+
           return { editing: newEditing };
         },
         () => {
@@ -220,6 +226,7 @@ export default class ArrayField extends React.Component {
    */
   handleAdd = () => {
     const lastIndex = this.props.formData.length - 1;
+
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
@@ -267,6 +274,7 @@ export default class ArrayField extends React.Component {
     this.props.onChange(newItems);
     this.setState(newState, () => {
       const lastIndex = this.props.formData.length - 1;
+
       if (lastIndex < 0) {
         this.scrollToTop();
       } else {
@@ -432,6 +440,7 @@ export default class ArrayField extends React.Component {
                 </div>
               );
             }
+
             return (
               <div key={index} className="va-growable-background">
                 <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">

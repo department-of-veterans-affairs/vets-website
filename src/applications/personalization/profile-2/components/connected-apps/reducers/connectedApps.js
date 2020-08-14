@@ -30,8 +30,10 @@ export default (state = initialState, action) => {
         if (app.id === action.appId) {
           return { ...app, deleting: true };
         }
+
         return app;
       });
+
       return { ...state, apps, errors: [] };
     }
 
@@ -40,8 +42,10 @@ export default (state = initialState, action) => {
         if (app.id === action.appId) {
           return { ...app, deleting: false, errors: action.errors };
         }
+
         return app;
       });
+
       return { ...state, apps };
     }
 
@@ -50,13 +54,16 @@ export default (state = initialState, action) => {
         if (app.id === action.appId) {
           return { ...app, deleting: false, deleted: true };
         }
+
         return app;
       });
+
       return { ...state, apps };
     }
 
     case DELETED_APP_ALERT_DISMISSED: {
       const apps = state.apps.filter(app => app.id !== action.appId);
+
       return { ...state, apps };
     }
 

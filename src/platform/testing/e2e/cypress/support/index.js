@@ -23,6 +23,7 @@ Cypress.on('window:before:load', window => {
 Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
   if (options?.delay === 0) {
     element.val(text);
+
     // Type and delete a character to trigger change events.
     // Use 0 because it's expected to pass most validations.
     return originalFn(element, '0{backspace}', options);

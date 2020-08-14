@@ -12,6 +12,7 @@ const logStepStart = (step, description) =>
 const logStepEnd = (step, description, timeElapsed) => {
   // Color the time
   let color;
+
   if (timeElapsed < 1000) color = chalk.green;
   else if (timeElapsed < 10000) color = chalk.yellow;
   else color = chalk.red;

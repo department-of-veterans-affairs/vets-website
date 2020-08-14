@@ -37,6 +37,7 @@ class ReceiveTextMessages extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.transaction) {
       this.setState({ lastTransaction: nextProps.transaction });
+
       if (!this.props.transaction) {
         this.setState({ completedTransaction: true });
       }
@@ -49,6 +50,7 @@ class ReceiveTextMessages extends React.Component {
 
   onChange = event => {
     if (this.state.startedTransaction) return;
+
     if (this.state.lastTransaction) this.clearSuccess();
     this.setState({
       startedTransaction: true,
@@ -81,11 +83,14 @@ class ReceiveTextMessages extends React.Component {
 
   isSuccessVisible() {
     let showSuccess = false;
+
     if (this.state.startedTransaction && this.state.completedTransaction) {
       showSuccess = this.props.transactionSuccess;
+
       if (this.intervalId === undefined)
         this.intervalId = setInterval(this.clearSuccess, 3000);
     }
+
     return showSuccess;
   }
 
@@ -133,6 +138,7 @@ export function mapStateToProps(state, ownProps) {
   const transactionSuccess =
     state.vet360.transactionStatus ===
     VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS;
+
   return {
     profile: profileState,
     hideCheckbox,

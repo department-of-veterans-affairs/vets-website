@@ -44,6 +44,7 @@ class ArrayField extends React.Component {
       const newState = {
         items: arrayData,
       };
+
       if (arrayData.length !== this.state.items.length) {
         newState.editing = arrayData.map(() => false);
       }
@@ -54,6 +55,7 @@ class ArrayField extends React.Component {
 
   getItemSchema(index) {
     const schema = this.props.schema;
+
     if (schema.items.length > index) {
       return schema.items[index];
     }
@@ -282,6 +284,7 @@ class ArrayField extends React.Component {
                 </div>
               );
             }
+
             return (
               <div key={index} className="va-growable-background">
                 <div className="row small-collapse">

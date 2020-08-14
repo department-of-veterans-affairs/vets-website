@@ -6,6 +6,7 @@ function updateRobots(buildOptions) {
   if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
     // eslint-disable-next-line no-console
     console.log('Using the production robots.txt');
+
     return () => {};
   }
 

@@ -21,6 +21,7 @@ export default function DowntimeBanner({ appTitle, dependencies, children }) {
       render={downtime => {
         if (downtime.status === externalServiceStatus.down) {
           if (children) return children;
+
           return (
             <AlertBox
               status="info"
@@ -29,6 +30,7 @@ export default function DowntimeBanner({ appTitle, dependencies, children }) {
             />
           );
         }
+
         return <div />;
       }}
       loadingIndicator={<div />}

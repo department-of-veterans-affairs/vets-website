@@ -7,6 +7,7 @@ const eduForms = new Set([VA_FORM_IDS.FORM_22_0993]);
 
 export default function createOptOutApplicationStatus(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
+
   if (root) {
     import(/* webpackChunkName: "opt-out-application-status" */ '../utils/optOutStatus.js').then(
       module => {

@@ -10,6 +10,7 @@ function isStartUpdate(form) {
 
 export default function createDirectDepositChangePage(schema) {
   const { bankAccountChange, bankAccount } = schema.definitions;
+
   return {
     title: 'Direct deposit',
     path: 'personal-information/direct-deposit',

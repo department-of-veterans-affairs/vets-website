@@ -10,6 +10,7 @@ import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink
 
 const ViewDependentsCTA = props => {
   let content;
+
   if (props.includedInFlipper === undefined) {
     content = <LoadingIndicator message="Loading..." />;
   } else if (props.includedInFlipper === false) {
@@ -24,6 +25,7 @@ const ViewDependentsCTA = props => {
   } else {
     content = <CallToActionWidget appId="view-dependents" />;
   }
+
   return <div>{content}</div>;
 };
 

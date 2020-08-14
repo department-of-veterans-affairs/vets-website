@@ -32,6 +32,7 @@ export class IntroductionPage extends React.Component {
     const shouldWizardShow =
       shouldEduBenefits5490WizardShow &&
       wizardStatus !== WIZARD_STATUS_COMPLETE;
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for education benefits as an eligible dependent" />

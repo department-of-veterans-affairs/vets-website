@@ -15,6 +15,7 @@ describe('526 all claims schema tests', () => {
       const contents = JSON.parse(
         fs.readFileSync(path.join(dataDirPath, file), 'utf8'),
       );
+
       if (file.includes('-bdd-')) {
         // "to" date is missing & is calculated dynamically in e2e tests
         contents.data.serviceInformation.servicePeriods[1].dateRange.to =

@@ -44,6 +44,7 @@ class ConfirmationPage extends React.Component {
         </ul>
       );
     }
+
     return null;
   }
 
@@ -80,6 +81,7 @@ class ConfirmationPage extends React.Component {
     ) : null;
 
     let relinquished = null;
+
     if (benefits.chapter33) {
       relinquished = (
         <div className="claim-relinquished">

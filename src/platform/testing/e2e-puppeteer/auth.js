@@ -106,6 +106,7 @@ async function logIn(token, client, url, level) {
         smooth: false,
       },
     });
+
     return window.VetsGov;
   });
 }

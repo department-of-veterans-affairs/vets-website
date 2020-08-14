@@ -34,6 +34,7 @@ const verifySearchResults = client => {
 
   deaSearchResults.data.forEach(({ attributes: profile }) => {
     let housingRate = GiHelpers.calculatorConstants.DEARATEFULLTIME;
+
     if (profile.type === 'OJT') {
       housingRate = GiHelpers.calculatorConstants.DEARATEOJT;
     }

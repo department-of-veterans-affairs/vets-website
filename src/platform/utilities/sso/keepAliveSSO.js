@@ -21,6 +21,7 @@ export default async function keepAlive() {
       },
     });
     const alive = resp.headers.get('session-alive') === 'true';
+
     return {
       ttl: alive ? Number(resp.headers.get('session-timeout')) : 0,
       transactionid: resp.headers.get('va_eauth_transactionid'),
@@ -39,6 +40,7 @@ export default async function keepAlive() {
       scope.setExtra('error', err);
       Sentry.captureMessage(`SSOe error: ${err.message}`);
     });
+
     return {};
   }
 }

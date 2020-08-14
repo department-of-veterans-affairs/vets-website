@@ -16,11 +16,13 @@ export const buildHours = (hours, shortDay = false) => {
 
   forIn(hours, (value, key) => {
     let day = upperFirst(key);
+
     if (shortDay) {
       day = shortDays[day];
     }
 
     let dayHours;
+
     if (value === 'Closed' || value === '24/7') {
       dayHours = value;
     } else {

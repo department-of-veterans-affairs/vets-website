@@ -54,6 +54,7 @@ export default (state = initialState, action) => {
           newState.previousITF = activeITF;
         }
       }
+
       if (!newState.currentITF && latestITF?.expirationDate) {
         if (isNotExpired(latestITF.expirationDate)) {
           newState.currentITF = latestITF;
@@ -61,6 +62,7 @@ export default (state = initialState, action) => {
           newState.previousITF = latestITF;
         }
       }
+
       return newState;
     }
     case ITF_FETCH_FAILED:
@@ -71,6 +73,7 @@ export default (state = initialState, action) => {
       const newState = set('creationCallState', requestStates.succeeded, state);
       newState.previousITF = state.currentITF || state.previousITF;
       newState.currentITF = action.data.attributes.intentToFile;
+
       return newState;
     }
     case ITF_CREATION_FAILED:

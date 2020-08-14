@@ -34,6 +34,7 @@ export const fetchResultsApi = async (options = {}) => {
 
   // Make the request for the results and update `response` with its repsonse.
   let response = {};
+
   if (!mockRequest) {
     response = await apiRequest(RESULTS_URL);
   }

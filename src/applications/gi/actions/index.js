@@ -47,6 +47,7 @@ export function showModal(modal) {
       'gibct-modal-displayed': modal,
     });
   }
+
   return {
     type: DISPLAY_MODAL,
     modal,
@@ -79,6 +80,7 @@ export function exitPreviewMode() {
 
 function withPreview(dispatch, action) {
   const version = action.payload.meta.version;
+
   if (version.preview) {
     dispatch({
       type: ENTER_PREVIEW_MODE,
@@ -97,8 +99,10 @@ function withPreview(dispatch, action) {
 export function fetchConstants(version) {
   const queryString = version ? `?version=${version}` : '';
   const url = `${api.url}/calculator_constants${queryString}`;
+
   return dispatch => {
     dispatch({ type: FETCH_CONSTANTS_STARTED });
+
     return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
@@ -135,6 +139,7 @@ export function fetchInstitutionAutocompleteSuggestions(
     ...rubyifyKeys(filterFields),
     version,
   });
+
   return dispatch =>
     fetch(url, api.settings)
       .then(res => {
@@ -162,6 +167,7 @@ export function fetchProgramAutocompleteSuggestions(
     ...rubyifyKeys(filterFields),
     version,
   });
+
   return dispatch =>
     fetch(url, api.settings)
       .then(res => {
@@ -191,6 +197,7 @@ export function eligibilityChange(e) {
     'gibct-form-field': field,
     'gibct-form-value': value,
   });
+
   return {
     type: ELIGIBILITY_CHANGED,
     field,
@@ -282,6 +289,7 @@ export function fetchProfile(facilityCode, version) {
       })
       .then(institution => {
         const { AVGVABAH, AVGDODBAH } = getState().constants.constants;
+
         return withPreview(dispatch, {
           type: FETCH_PROFILE_SUCCEEDED,
           payload: {
@@ -306,6 +314,7 @@ export function calculatorInputChange({ field, value }) {
     'gibct-form-field': field,
     'gibct-form-value': value,
   });
+
   return {
     type: CALCULATOR_INPUTS_CHANGED,
     field,

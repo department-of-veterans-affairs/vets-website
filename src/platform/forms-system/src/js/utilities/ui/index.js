@@ -10,6 +10,7 @@ export function focusElement(selectorOrElement, options) {
     if (el.tabIndex === 0) {
       el.setAttribute('tabindex', '0');
     }
+
     if (el.tabIndex < 0) {
       el.setAttribute('tabindex', '-1');
     }
@@ -46,11 +47,13 @@ export function getScrollOptions(additionalOptions) {
     delay: 0,
     smooth: true,
   };
+
   return Object.assign({}, defaults, globals.scroll, additionalOptions);
 }
 
 export function scrollToFirstError() {
   const errorEl = document.querySelector('.usa-input-error, .input-error-date');
+
   if (errorEl) {
     // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
     const currentPosition =
@@ -59,6 +62,7 @@ export function scrollToFirstError() {
       document.body.scrollTop ||
       0;
     const position = errorEl.getBoundingClientRect().top + currentPosition;
+
     // Don't animate the scrolling if there is an open modal on the page. This
     // prevents the page behind the modal from scrolling if there is an error in
     // modal's form.

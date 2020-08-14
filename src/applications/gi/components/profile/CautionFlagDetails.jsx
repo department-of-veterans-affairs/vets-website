@@ -6,6 +6,7 @@ const CautionFlagDetails = ({ cautionFlags }) => {
   const validFlags = cautionFlags
     ? [...cautionFlags].filter(flag => flag.title)
     : [];
+
   if (validFlags.length > 0) {
     return (
       <div className="cautionFlagDetails">
@@ -49,6 +50,7 @@ const CautionFlagDetails = ({ cautionFlags }) => {
       </div>
     );
   }
+
   return null;
 };
 

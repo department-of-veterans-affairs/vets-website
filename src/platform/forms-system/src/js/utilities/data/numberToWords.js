@@ -73,6 +73,7 @@ export default function numberToWords(value) {
     // return original number if words aren't set up
     return ordinals[number] || `${number}th`;
   }
+
   return tens[tensValue]
     ? `${tens[tensValue]}-${ordinals[number - tensValue]}`
     : `${number}${endings[remainder] || 'th'}`;

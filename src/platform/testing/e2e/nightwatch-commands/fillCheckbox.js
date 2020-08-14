@@ -8,6 +8,7 @@
  */
 exports.command = function fillCheckbox(selector, condition = true, ...params) {
   let shouldClick = !!condition;
+
   if (typeof condition === 'function') {
     shouldClick = !!condition(...params);
   }

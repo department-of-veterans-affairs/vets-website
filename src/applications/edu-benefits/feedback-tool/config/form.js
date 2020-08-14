@@ -79,6 +79,7 @@ function configureSchoolAddressSchema(schema) {
   let newSchema = omit('required', schema);
   newSchema = set('type', 'object', newSchema);
   newSchema = set('properties.country.enum', countries, newSchema);
+
   return set('properties.country.default', 'United States', newSchema);
 }
 
@@ -111,6 +112,7 @@ function isNotMyself(formData) {
 
 function isVeteranOrServiceMember(formData) {
   const nonServiceMemberOrVeteranAffiliations = ['Spouse', 'Child', 'Other'];
+
   return (
     !isNotMyself(formData) &&
     !nonServiceMemberOrVeteranAffiliations.includes(formData.serviceAffiliation)
@@ -511,6 +513,7 @@ const formConfig = {
                         if (isUS(formData)) {
                           return domesticSchoolAddressSchema;
                         }
+
                         return internationalSchoolAddressSchema;
                       },
                     },

@@ -31,6 +31,7 @@ export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
     let pageTitle;
+
     if (this.props.flowType === FLOW_TYPES.DIRECT) {
       pageTitle = 'Your appointment has been scheduled';
     } else {
@@ -44,6 +45,7 @@ export class ConfirmationPage extends React.Component {
     document.title = `${this.pageTitle} | Veterans Affairs`;
 
     const { data, router } = this.props;
+
     // Check formData for typeOfCareId. Reroute if empty
     if (router && !data?.typeOfCareId) {
       router.replace('/new-appointment');

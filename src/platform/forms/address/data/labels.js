@@ -16,6 +16,7 @@ export const countryLabels = countries.map(country => country.label);
 
 const { CAN, MEX, USA } = ['USA', 'MEX', 'CAN'].reduce((acc, country) => {
   acc[country] = STATES[country].map(state => state.label);
+
   return acc;
 }, {});
 

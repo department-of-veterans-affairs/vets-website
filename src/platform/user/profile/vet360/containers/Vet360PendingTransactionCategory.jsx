@@ -19,6 +19,7 @@ function Vet360PendingTransactionCategory({
   if (!hasPendingCategoryTransaction) return <div>{children}</div>;
 
   let plural = 'email';
+
   if (categoryType === TRANSACTION_CATEGORY_TYPES.PHONE) {
     plural = 'phone numbers';
   } else if (categoryType === TRANSACTION_CATEGORY_TYPES.ADDRESS) {

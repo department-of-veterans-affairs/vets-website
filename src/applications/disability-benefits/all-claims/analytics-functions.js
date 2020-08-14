@@ -29,10 +29,12 @@ export default {
       formData,
       [],
     );
+
     if (servicePeriods.some(sp => !get('dateRange.from', sp)))
       recordMissingField(
         'Disability - Form 526EZ - Military Service - Start Date',
       );
+
     if (servicePeriods.some(sp => !get('dateRange.to', sp)))
       recordMissingField(
         'Disability - Form 526EZ - Military Service - End Date',
@@ -52,19 +54,23 @@ export default {
   },
   paymentInformation: formData => {
     const paymentInformation = get('view:bankAccount', formData);
+
     if (paymentInformation && !objectIsEmpty(paymentInformation)) {
       if (!paymentInformation.bankAccountType)
         recordMissingField(
           'Disability - Form 526EZ - Payment Information - Account Type',
         );
+
       if (!paymentInformation.bankAccountNumber)
         recordMissingField(
           'Disability - Form 526EZ - Payment Information - Account Number',
         );
+
       if (!paymentInformation.bankRoutingNumber)
         recordMissingField(
           'Disability - Form 526EZ - Payment Information - Routing Number',
         );
+
       if (!paymentInformation.bankName)
         recordMissingField(
           'Disability - Form 526EZ - Payment Information - Bank Name',
@@ -93,12 +99,14 @@ export default {
 
     if (isHomelessOrAtRisk) {
       const contact = formData.homelessnessContact;
+
       if (!contact.name)
         recordMissingField(
           `Disability - Form 526EZ - Housing Situation - ${
             isHomeless ? 'Homeless' : 'At Risk'
           } Contact Name`,
         );
+
       if (!contact.phoneNumber)
         recordMissingField(
           `Disability - Form 526EZ - Housing Situation - ${

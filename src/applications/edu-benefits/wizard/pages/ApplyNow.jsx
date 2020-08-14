@@ -35,6 +35,7 @@ const ApplyNow = ({
   )?.selected;
   let hasSponsoredTransferredBenefitsAnswer;
   let receivingSponsorBenefitsAnswer;
+
   if (
     transferredBenefitsAnswer === 'yes' ||
     transferredBenefitsAnswer === 'no'
@@ -52,6 +53,7 @@ const ApplyNow = ({
       const updatedBenefit = await getReferredBenefit();
       const { FORM_ID_0994 } = formIdSuffixes;
       setReferredBenefit(updatedBenefit);
+
       if (updatedBenefit) {
         setUrl(
           updatedBenefit === FORM_ID_0994

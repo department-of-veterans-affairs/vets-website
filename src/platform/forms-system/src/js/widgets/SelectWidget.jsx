@@ -8,6 +8,7 @@ function processValue({ type }, value) {
   } else if (type === 'number') {
     return asNumber(value);
   }
+
   return value === '' ? undefined : value;
 }
 
@@ -29,6 +30,7 @@ function SelectWidget({
   placeholder,
 }) {
   const { enumOptions, labels = {} } = options;
+
   return (
     <select
       id={id}

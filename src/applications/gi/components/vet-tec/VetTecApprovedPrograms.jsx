@@ -18,6 +18,7 @@ class VetTecApprovedPrograms extends React.Component {
       const program = this.props.institution.programs.find(
         p => p.description.toLowerCase() === programName.toLowerCase(),
       );
+
       if (program) {
         const field = 'vetTecProgram';
         const value = {
@@ -42,6 +43,7 @@ class VetTecApprovedPrograms extends React.Component {
 
   render() {
     const programs = this.props.institution.programs;
+
     if (programs && programs.length) {
       const programRows = programs.map((program, index) => {
         const programLength =
@@ -55,6 +57,7 @@ class VetTecApprovedPrograms extends React.Component {
           this.state.selectedProgram &&
           program.description.toLowerCase() ===
             this.state.selectedProgram.toLowerCase();
+
         return (
           <tr key={index}>
             <td className="vads-u-padding-y--0">
@@ -106,6 +109,7 @@ class VetTecApprovedPrograms extends React.Component {
         </div>
       );
     }
+
     return (
       <div>
         <p>

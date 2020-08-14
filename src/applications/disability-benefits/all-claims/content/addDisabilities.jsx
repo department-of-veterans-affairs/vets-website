@@ -33,6 +33,7 @@ export const descriptionInfo = (
 export const newOnlyAlert = ({ formContext }) => {
   // Display only after the user tries to submit with no disabilities
   if (!formContext.submitted) return null;
+
   return (
     <AlertBox
       status="error"

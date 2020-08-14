@@ -106,6 +106,7 @@ const runWatch = apiUrl =>
 
 const logError = error => {
   console.error(error);
+
   return Promise.reject(error);
 };
 

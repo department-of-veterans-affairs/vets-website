@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 
 export default function form686CTA(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
+
   if (root) {
     import(/* webpackChunkName: "Form686CTA" */
     './containers/Form686CTA.jsx').then(module => {

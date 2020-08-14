@@ -19,6 +19,7 @@ function allDependents(state = initialState, action) {
     case FETCH_ALL_DEPENDENTS_SUCCESS:
       if (action.response.persons && action.response.persons.length > 0) {
         allPeople = splitPersons(action.response.persons);
+
         return {
           ...state,
           loading: false,
@@ -26,6 +27,7 @@ function allDependents(state = initialState, action) {
           notOnAwardDependents: allPeople.notOnAward,
         };
       }
+
       return {
         ...state,
         loading: false,

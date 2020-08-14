@@ -15,5 +15,6 @@ export const getDefaultState = () => {
   calculatorConstants.data.forEach(c => {
     defaultState.constants.constants[c.attributes.name] = c.attributes.value;
   });
+
   return defaultState;
 };

@@ -9,6 +9,7 @@ const logDrupal = message => console.log(DRUPAL_COLORIZED_OUTPUT(message));
 
 function facilityLocationPath(regionPath, apiId, nickname) {
   let facilityPath;
+
   if (nickname) {
     facilityPath = nickname.replace(/\s+/g, '-').toLowerCase();
   } else {
@@ -36,6 +37,7 @@ function getRelatedHubByPath(link, pages) {
         page.entityBundle === 'landing_page'
       );
     }
+
     return false;
   });
 

@@ -44,6 +44,7 @@ export const disabilitiesClarification = (
  */
 export const ratedDisabilitiesAlert = ({ formContext }) => {
   if (!formContext.submitted) return null;
+
   return (
     <AlertBox
       status="error"

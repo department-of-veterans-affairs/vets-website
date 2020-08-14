@@ -15,6 +15,7 @@ export const TextareaWidget = TextWidget;
 export function SelectWidget({ options, value }) {
   const { enumOptions, labels = {} } = options;
   const selected = enumOptions.find(opt => opt.value === value);
+
   if (selected) {
     return <span>{labels[value] || selected.label}</span>;
   }
@@ -30,6 +31,7 @@ export const yesNo = ({ value, options = {} }) => {
   const noValue = !yesValue;
 
   let displayValue;
+
   if (value === yesValue) {
     displayValue = labels.Y || 'Yes';
   } else if (value === noValue) {

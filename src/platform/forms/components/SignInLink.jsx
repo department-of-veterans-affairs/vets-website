@@ -21,6 +21,7 @@ class SignInLink extends React.Component {
 
     if (loginAttemptCompleted && newProps.isLoggedIn) {
       this.loginAttemptInProgress = false;
+
       if (this.props.onLogin) {
         this.props.onLogin();
       }

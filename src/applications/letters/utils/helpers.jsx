@@ -318,6 +318,7 @@ export function getBenefitOptionText(
 ) {
   const personType = isVeteran ? 'veteran' : 'dependent';
   let valueString;
+
   if (value === false) {
     valueString = 'false';
   } else if (value === true) {
@@ -389,6 +390,7 @@ export const benefitOptionsMap = {
  */
 export function inferAddressType(address) {
   let type = ADDRESS_TYPES.domestic;
+
   if (
     address.countryName !== 'USA' &&
     address.countryName !== 'United States'
@@ -408,6 +410,7 @@ export function inferAddressType(address) {
  */
 export function resetDisallowedAddressFields(address) {
   const newAddress = Object.assign({}, address);
+
   // International addresses don't allow state or zip
   if (address.type === ADDRESS_TYPES.international) {
     newAddress.state = '';
@@ -434,6 +437,7 @@ export function isAddressEmpty(address) {
   //  type because it errors out on the api if it doesn't exist (pretty sure)
   //  countryName because of toGenericAddress() adds it
   const fieldsToIgnore = ['type', 'countryName'];
+
   return Object.keys(address || {}).reduce(
     (emptySoFar, nextField) =>
       emptySoFar && (fieldsToIgnore.includes(nextField) || !address[nextField]),

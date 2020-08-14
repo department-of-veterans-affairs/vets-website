@@ -85,6 +85,7 @@ describe('Schemaform save / load actions:', () => {
       const migrations = [
         savedData => {
           savedData.formData.field = savedData.formData.field.toUpperCase(); // eslint-disable-line no-param-reassign
+
           return savedData;
         },
       ];
@@ -111,10 +112,12 @@ describe('Schemaform save / load actions:', () => {
       const migrations = [
         savedData => {
           savedData.formData.field = savedData.formData.field.toUpperCase(); // eslint-disable-line no-param-reassign
+
           return savedData;
         },
         savedData => {
           savedData.formData.field = `${savedData.formData.field} to do`; // eslint-disable-line no-param-reassign
+
           return savedData;
         },
       ];

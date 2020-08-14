@@ -11,6 +11,7 @@ import ScorecardTags from '../ScorecardTags';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
+
   return (
     <p className="icon-with-info">
       <i className={`fa fa-${icon}`} />
@@ -29,11 +30,13 @@ class HeadingSummary extends React.Component {
 
     const schoolSize = enrollment => {
       if (!enrollment) return 'Unknown';
+
       if (enrollment <= 2000) {
         return 'Small';
       } else if (enrollment <= 15000) {
         return 'Medium';
       }
+
       return 'Large';
     };
 

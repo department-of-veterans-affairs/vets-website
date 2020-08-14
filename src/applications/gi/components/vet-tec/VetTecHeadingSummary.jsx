@@ -8,6 +8,7 @@ import _ from 'lodash';
 
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   if (!present) return null;
+
   return (
     <div className="icon-with-info vads-l-grid-container vads-u-padding-x--0">
       <div className="vads-l-row vads-u-padding-x--0 vads-u-padding-bottom--1p5">

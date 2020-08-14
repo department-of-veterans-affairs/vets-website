@@ -20,5 +20,6 @@ export const parsePhoneNumber = phone => {
     ? phone.replace(re, '$1-$2-$3 x$5').replace(/x$/, '')
     : phone.replace(re, '$1-$2-$3');
   const contact = phone.replace(re, '$1$2$3');
+
   return { formattedPhoneNumber, extension, contact };
 };

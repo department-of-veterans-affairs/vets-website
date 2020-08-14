@@ -12,6 +12,7 @@ const TotalRatedDisabilities = props => {
   const { loading, totalDisabilityRating } = props;
   const errorCode = props.error ? props.error.code : null;
   let content;
+
   // If the data from the parent is loading ( loading prop ), show a loading indicator
   // If there is an error, display an error message,
   // If there is no rating, display a no rating message

@@ -30,6 +30,7 @@ export function renderInReduxProvider(
   const Wrapper = ({ children }) => {
     return <Provider store={testStore}>{children}</Provider>;
   };
+
   return rtlRender(ui, {
     wrapper: Wrapper,
     store: testStore,

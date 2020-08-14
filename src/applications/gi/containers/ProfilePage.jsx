@@ -117,6 +117,7 @@ const mapStateToProps = state => {
     calculator,
     eligibility,
   } = state;
+
   return {
     constants,
     profile,

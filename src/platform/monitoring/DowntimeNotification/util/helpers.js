@@ -23,11 +23,13 @@ export function getStatusForTimeframe(startTime, endTime) {
     if (!endTime || now.isBefore(endTime)) {
       return externalServiceStatus.down;
     }
+
     // The downtime must be old and outdated. The API should filter these so this shouldn't happen.
     return externalServiceStatus.ok;
   }
 
   const startsWithinHour = now.add(1, 'hour').isSameOrAfter(startTime);
+
   if (startsWithinHour) return externalServiceStatus.downtimeApproaching;
 
   return externalServiceStatus.ok;
@@ -101,6 +103,7 @@ export function getSoonestDowntime(serviceMap, serviceNames) {
     .filter(service => service.status !== externalServiceStatus.ok)
     .reduce((mostUrgentService, service) => {
       if (!mostUrgentService) return service;
+
       return mostUrgentService.startTime.isBefore(service.startTime)
         ? mostUrgentService
         : service;
@@ -141,12 +144,14 @@ export const getCurrentGlobalDowntime = (() => {
     try {
       const response = await fetch(maintenanceWindowsUrl);
       const data = camelCaseKeysRecursive(await response.json());
+
       return data.find(includesCurrentTime) || null;
     } catch (error) {
       Sentry.withScope(scope => {
         scope.setExtra('error', error);
         Sentry.captureMessage('Error fetching maintenance windows file');
       });
+
       return null;
     }
   };

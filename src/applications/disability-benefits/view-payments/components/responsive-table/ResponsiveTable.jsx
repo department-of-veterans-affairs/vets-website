@@ -52,6 +52,7 @@ class ResponsiveTable extends Component {
   renderRow = item => {
     const { fields } = this.props;
     let extraClass = '';
+
     return (
       <tr key={item.id} className={`${borderClasses} ${rowPaddingClass}`}>
         {fields.map((field, index) => {
@@ -63,6 +64,7 @@ class ResponsiveTable extends Component {
           } else {
             extraClass = '';
           }
+
           return (
             <td
               data-index={index}

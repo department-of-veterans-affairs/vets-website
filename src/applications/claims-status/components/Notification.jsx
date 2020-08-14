@@ -12,6 +12,7 @@ export default function Notification({ title, body, onClose, type }) {
       'usa-alert-error': type === 'error',
     },
   );
+
   return (
     <div className={classes} role="alert">
       {onClose && (

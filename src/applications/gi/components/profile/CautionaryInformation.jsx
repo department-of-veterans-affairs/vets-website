@@ -7,6 +7,7 @@ import SchoolClosingDetails from './SchoolClosingDetails';
 const TableRow = ({ description, thisCampus, allCampuses }) => {
   if (!thisCampus && !allCampuses) return null;
   const bold = description === 'Total Complaints';
+
   return (
     <tr>
       <th>
@@ -21,6 +22,7 @@ const TableRow = ({ description, thisCampus, allCampuses }) => {
 const ListRow = ({ description, value }) => {
   if (value < 1) return null;
   const bold = description === 'Total Complaints';
+
   return (
     <div className="row">
       <div className="small-11 columns">
@@ -36,6 +38,7 @@ const ListRow = ({ description, value }) => {
 export class CautionaryInformation extends React.Component {
   renderCautionFlags = () => {
     const it = this.props.institution;
+
     if (!it.schoolClosing && it.cautionFlags.length === 0) {
       return null;
     }
@@ -83,6 +86,7 @@ export class CautionaryInformation extends React.Component {
 
   render() {
     const it = this.props.institution;
+
     if (!it.complaints) {
       return null;
     }
@@ -141,6 +145,7 @@ export class CautionaryInformation extends React.Component {
           ? it.complaints[totals[1]]
           : it.complaints[`${totalKey || key}ByOpeIdDoNotSum`],
       };
+
       return [...hydratedComplaints, hydratedComplaint];
     }, []);
 

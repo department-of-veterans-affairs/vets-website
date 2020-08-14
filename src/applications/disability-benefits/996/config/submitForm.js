@@ -11,6 +11,7 @@ const submitForm = (form, formConfig, { mode } = {}) => {
   // event data needed on successful submission
   const { sameOffice, informalConference } = form.data;
   let informalConf = 'no';
+
   if (informalConference !== 'no') {
     informalConf = informalConference === 'rep' ? 'yes-with-rep' : 'yes';
   }
@@ -25,6 +26,7 @@ const submitForm = (form, formConfig, { mode } = {}) => {
     event: `${trackingPrefix}-submission`,
     ...eventData,
   });
+
   return submitToUrl(body, submitUrl, trackingPrefix, eventData).catch(() => {
     recordEvent({
       event: `${trackingPrefix}-submission-failure`,

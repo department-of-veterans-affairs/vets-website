@@ -571,6 +571,7 @@ const formConfig = {
               createPayload: file => {
                 const payload = new FormData();
                 payload.append('hca_attachment[file_data]', file);
+
                 return payload;
               },
               parseResponse: (response, file) => ({
@@ -1074,6 +1075,7 @@ const formConfig = {
                       'view:preferredFacility.view:facilityState',
                       form,
                     );
+
                     if (state) {
                       return {
                         enum: medicalCentersByState[state] || emptyFacilityList,

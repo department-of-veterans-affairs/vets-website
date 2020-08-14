@@ -19,6 +19,7 @@ function injectLocalBundle() {
 
     if (!vaGovUrl) {
       next();
+
       return;
     }
 
@@ -42,6 +43,7 @@ function fallbackToTeamSiteServer(buildOptions) {
     // all Webpack-generated files will be served locally.
     if (req.path.startsWith('/generated/')) {
       next();
+
       return;
     }
 

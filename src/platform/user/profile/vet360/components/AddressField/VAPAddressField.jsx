@@ -21,6 +21,7 @@ import { getFormSchema, getUiSchema } from './address-schemas';
 
 const inferAddressType = (countryCodeIso3, stateCode) => {
   let addressType = ADDRESS_TYPES.DOMESTIC;
+
   if (countryCodeIso3 !== USA.COUNTRY_ISO3_CODE) {
     addressType = ADDRESS_TYPES.INTERNATIONAL;
   } else if (ADDRESS_FORM_VALUES.MILITARY_STATES.has(stateCode)) {
@@ -72,6 +73,7 @@ const convertNextValueToCleanData = value => {
 
 export const convertCleanDataToPayload = (data, fieldName) => {
   const cleanData = convertNextValueToCleanData(data);
+
   return pickBy(
     {
       id: cleanData.id,

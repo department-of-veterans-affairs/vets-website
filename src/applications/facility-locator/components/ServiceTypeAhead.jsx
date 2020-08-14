@@ -53,12 +53,14 @@ class ServiceTypeAhead extends Component {
       return false;
     }
     const specialtyName = this.getSpecialtyName(specialty);
+
     if (input.length >= 2 && specialtyName) {
       return specialtyName
         .trim()
         .toLowerCase()
         .includes(input.toLowerCase());
     }
+
     return false;
   };
 
@@ -72,6 +74,7 @@ class ServiceTypeAhead extends Component {
         itemToString={this.getSpecialtyName}
         onInputValueChange={(inputValue, stateAndHelpers) => {
           const { selectedItem, clearSelection } = stateAndHelpers;
+
           if (
             selectedItem &&
             inputValue !== this.getSpecialtyName(selectedItem)

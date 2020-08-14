@@ -43,6 +43,7 @@ export default function prescriptions(state = initialState, action) {
         action.errors || [],
         loadingState,
       );
+
       return set('items', null, errorState);
     }
 

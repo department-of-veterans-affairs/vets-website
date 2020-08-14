@@ -7,9 +7,11 @@ export function getPageList(routes, prefix = '') {
         name: `${prefix}${route.path}`,
         label: route.name,
       };
+
       if (route.depends) {
         obj.depends = route.depends;
       }
+
       return obj;
     })
     .filter(page => page.name !== '/submit-message');
@@ -57,6 +59,7 @@ export function isInProgressPath(pathName, additionalNonFormPaths = []) {
     'error',
     ...additionalNonFormPaths,
   ];
+
   return nonFormPaths.every(path => !trimmedPathname.endsWith(path));
 }
 
@@ -112,6 +115,7 @@ export function sanitizeForm(formData) {
       'socialSecurityNumber',
       'dateOfBirth',
     ];
+
     return JSON.stringify(formData, (key, value) => {
       if (
         value &&

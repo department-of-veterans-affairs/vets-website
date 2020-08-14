@@ -16,6 +16,7 @@ export function urlMigration(urlPrefix) {
         savedData,
       );
     }
+
     return savedData;
   };
 }

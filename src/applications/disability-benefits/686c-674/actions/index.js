@@ -15,6 +15,7 @@ async function getVaFileNumber() {
 export const verifyVaFileNumber = () => async dispatch => {
   dispatch({ type: VERIFY_VA_FILE_NUMBER_STARTED, response: true });
   const response = await getVaFileNumber();
+
   if (response.errors) {
     // TODO: fire off analytics event when endpoint is wired up.
     //   const errCode = res.errors[0].code;

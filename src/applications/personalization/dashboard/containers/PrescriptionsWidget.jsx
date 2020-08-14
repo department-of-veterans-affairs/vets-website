@@ -24,6 +24,7 @@ class PrescriptionsWidget extends React.Component {
 
   render() {
     const { canAccessRx, authenticatedWithSSOe } = this.props;
+
     if (!canAccessRx) {
       return null;
     }

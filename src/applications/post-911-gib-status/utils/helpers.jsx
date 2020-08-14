@@ -29,6 +29,7 @@ export function formatVAFileNumber(n) {
 
 export function formatMonthDayFields(field) {
   let displayValue;
+
   if (field) {
     if (field.days === 1) {
       displayValue = `${field.months} months, ${field.days} day`;
@@ -38,6 +39,7 @@ export function formatMonthDayFields(field) {
   } else {
     displayValue = 'unavailable';
   }
+
   return displayValue;
 }
 

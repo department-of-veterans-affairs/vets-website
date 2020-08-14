@@ -29,6 +29,7 @@ const isUploading = formData =>
 
 export default function() {
   let configObj = {};
+
   if (!environment.isProduction()) {
     configObj = {
       // Intro
@@ -100,5 +101,6 @@ export default function() {
       },
     };
   }
+
   return configObj;
 }

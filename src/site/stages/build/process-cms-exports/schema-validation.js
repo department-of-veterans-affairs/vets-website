@@ -38,6 +38,7 @@ const validateEntityFactory = (schemasDir, schemaType) => {
         // eslint-disable-next-line no-console
         console.warn(`Missing ${schemaType} schema for ${contentModelType}`);
       }
+
       // Assume it's valid
       return [];
     }

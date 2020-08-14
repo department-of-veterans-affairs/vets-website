@@ -26,6 +26,7 @@ export function fetchHero() {
 
     if (response.errors || response.error) {
       dispatch({ type: FETCH_HERO_FAILED, hero: { errors: response } });
+
       return;
     }
 
@@ -43,6 +44,7 @@ export function fetchPersonalInformation() {
         type: FETCH_PERSONAL_INFORMATION_FAILED,
         personalInformation: { errors: response },
       });
+
       return;
     }
     dispatch({
@@ -67,6 +69,7 @@ export function fetchMilitaryInformation() {
           },
         },
       });
+
       return;
     }
 

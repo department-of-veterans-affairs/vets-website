@@ -13,6 +13,7 @@ export const VIC_SET_EMAIL = 'VIC_SET_EMAIL';
 
 export function initiateIdRequest() {
   recordEvent({ event: 'vic-submit-started' });
+
   return dispatch => {
     dispatch({ type: ATTRS_FETCHING });
 
@@ -48,6 +49,7 @@ export function setEmail(email) {
 
 export function submitEmail(email) {
   recordEvent({ event: 'vic-email-started' });
+
   return dispatch => {
     dispatch({ type: VIC_EMAIL_CAPTURING });
 

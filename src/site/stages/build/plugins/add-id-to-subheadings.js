@@ -18,6 +18,7 @@ function createUniqueId(headingEl, headingOptions) {
   }
 
   headingOptions.previousHeadings.push(anchor);
+
   return anchor;
 }
 

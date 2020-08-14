@@ -51,6 +51,7 @@ describe('<MHVApp>', () => {
         : shallow(headlineProp).text();
     expect(alertBox.prop('status')).to.eq(expectedStatus);
     expect(headlineText).to.eq(expectedHeadline);
+
     if (headlineText.unmount) {
       headlineText.unmount();
     }

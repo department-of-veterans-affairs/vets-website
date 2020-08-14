@@ -11,6 +11,7 @@ const { getArrayDepth } = require('../../../utilities/arrayHelpers');
 
 function convertLinkToAbsolute(hostUrl, pathName) {
   const url = new URL(pathName, hostUrl);
+
   return url.href;
 }
 
@@ -83,6 +84,7 @@ function sortMenuLinksWithDepth(menuLinks) {
       //   menu-link-content:[the-parent-uuid]
       // So, we need to split that up to get the parent's uuid.
       const rootUuid = link.parent.split(':')[1];
+
       if (!parentChildrenMap[rootUuid]) {
         parentChildrenMap[rootUuid] = [];
       }

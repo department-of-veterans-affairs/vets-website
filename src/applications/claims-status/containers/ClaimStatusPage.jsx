@@ -36,6 +36,7 @@ class ClaimStatusPage extends React.Component {
     ) {
       setUpPage(false);
     }
+
     if (this.props.loading !== prevProps.loading) {
       this.setTitle();
     }
@@ -54,6 +55,7 @@ class ClaimStatusPage extends React.Component {
     let content = null;
     // claim can be null
     const attributes = (claim && claim.attributes) || {};
+
     if (!loading) {
       const phase = attributes.phase;
       const filesNeeded = itemsNeedingAttentionFromVet(
@@ -108,6 +110,7 @@ class ClaimStatusPage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,

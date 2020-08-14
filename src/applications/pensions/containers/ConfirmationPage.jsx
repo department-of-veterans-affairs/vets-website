@@ -40,6 +40,7 @@ class ConfirmationPage extends React.Component {
     const regionalOffice = response.regionalOffice || [];
 
     let pmcName;
+
     if (regionalOffice.length) {
       pmcName = regionalOffice[0].replace('Attention:', '').trim();
     }

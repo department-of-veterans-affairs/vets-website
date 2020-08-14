@@ -73,6 +73,7 @@ const completeContactInformation = (client, data, isRelative = false) => {
     'label[for="root_veteranAddress_country"]',
     Timeouts.slow,
   );
+
   if (isRelative) {
     completeRelativeAddress(client, data);
   } else {
@@ -123,6 +124,7 @@ const completeDirectDeposit = (client, data) => {
 
 const completeBenefitsSelection = (client, data) => {
   client.waitForElementVisible('label[for="root_benefit_0"]', Timeouts.slow);
+
   if (data.benefit) {
     client.click(`input[value="${data.benefit}"]`);
   } else if (typeof data.payHighestRateBenefit !== 'undefined') {
@@ -142,6 +144,7 @@ const completeApplicantInformation = (client, data, prefix = 'relative') => {
     Timeouts.slow,
   );
   const fullName = data[`${prefix}FullName`];
+
   if (fullName) {
     client
       .fill(`input[name="root_${prefix}FullName_first"]`, fullName.first)
@@ -151,9 +154,11 @@ const completeApplicantInformation = (client, data, prefix = 'relative') => {
   }
 
   const ssn = data[`${prefix}SocialSecurityNumber`];
+
   if (ssn) {
     client.fill(`input[name="root_${prefix}SocialSecurityNumber"]`, ssn);
   }
+
   if (data.relativeVaFileNumber) {
     client
       .fillCheckbox('input[name="root_view:noSSN"]')
@@ -168,6 +173,7 @@ const completeApplicantInformation = (client, data, prefix = 'relative') => {
   }
 
   const dob = data[`${prefix}DateOfBirth`];
+
   if (dob) {
     client.fillDate(`root_${prefix}DateOfBirth`, dob);
   }

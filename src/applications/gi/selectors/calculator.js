@@ -154,6 +154,7 @@ const getDerivedValues = createSelector(
       }
       case 31: {
         const OJT = isOJT ? 'OJT' : '';
+
         if (numberOfDependents <= 2) {
           monthlyRate = constant[`VRE${numberOfDependents}DEPRATE${OJT}`];
         } else {

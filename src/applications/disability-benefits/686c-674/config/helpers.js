@@ -81,6 +81,7 @@ export const isInsideListLoopReturn = (
           if (!formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs) {
             return true;
           }
+
           return false;
         },
       },
@@ -94,6 +95,7 @@ export const isInsideListLoopReturn = (
           if (formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs) {
             return true;
           }
+
           return false;
         },
       },
@@ -124,6 +126,7 @@ export const isOutsideListLoopReturn = (
           if (!formData?.[chapter]?.[outerField]?.isOutsideUs) {
             return true;
           }
+
           return false;
         },
       },
@@ -137,6 +140,7 @@ export const isOutsideListLoopReturn = (
           if (formData?.[chapter]?.[outerField]?.isOutsideUs) {
             return true;
           }
+
           return false;
         },
       },

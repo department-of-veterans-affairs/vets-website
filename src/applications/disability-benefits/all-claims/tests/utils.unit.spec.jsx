@@ -326,6 +326,7 @@ describe('526 helpers', () => {
     it('should return the mapped data for autosuggest if successful', () => {
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
+
       return requestPromise.then(result => {
         expect(result).to.eql([
           { id: 0, label: 'first' },
@@ -338,6 +339,7 @@ describe('526 helpers', () => {
       global.fetch.resolves({ ok: false });
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
+
       return requestPromise.then(result => {
         // This .then() fires after the apiRequest failure callback returns []
         expect(result).to.eql([]);

@@ -64,6 +64,7 @@ function profileInformation(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELDS: {
       const newState = mapRawUserDataToState(action.payload);
+
       return Object.assign({}, state, newState);
     }
 
@@ -117,11 +118,13 @@ function profileInformation(state = initialState, action) {
       const newState = !action.userProfile
         ? state
         : Object.assign({}, state, mapRawUserDataToState(action.userProfile));
+
       return updateMhvAccountState(newState, action.mhvAccount.data.attributes);
     }
 
     case REMOVING_SAVED_FORM_SUCCESS: {
       const forms = state.savedForms.filter(el => el.form !== action.formId);
+
       return set('savedForms', forms, state);
     }
 

@@ -31,6 +31,7 @@ function setFirstFields(id) {
       const fields = Array.from(
         block.querySelectorAll('.form-checkbox,.schemaform-field-template'),
       );
+
       if (fields.length) {
         fields[0].classList.add('schemaform-first-field');
       }
@@ -115,6 +116,7 @@ class ObjectField extends React.Component {
 
   getStateFromProps(props) {
     const { schema, formData, registry } = props;
+
     return getDefaultFormState(schema, formData, registry.definitions) || {};
   }
 
@@ -135,6 +137,7 @@ class ObjectField extends React.Component {
         [item, 'ui:options', 'expandUnder'],
         uiSchema,
       );
+
       return expandUnderField || item;
     }, filteredProperties);
 
@@ -219,6 +222,7 @@ class ObjectField extends React.Component {
         ? Object.keys(idSchema)
             .reduce((ids, key) => {
               ids.push(idSchema[key].$id || '');
+
               return ids;
             }, [])
             .filter(k => k)
@@ -262,6 +266,7 @@ class ObjectField extends React.Component {
             const visible = rest.filter(
               prop => !_.get(['properties', prop, 'ui:collapsed'], schema),
             );
+
             return (
               <ExpandingGroup open={visible.length > 0} key={index}>
                 {renderProp(first)}

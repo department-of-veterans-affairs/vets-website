@@ -11,8 +11,10 @@ function isIncluded(val, aliases) {
 
   for (alias of aliases) {
     const path = `../${alias}/`;
+
     if (val.includes(path)) return true;
   }
+
   return false;
 }
 
@@ -43,8 +45,10 @@ module.exports = {
     return {
       CallExpression(node) {
         const callee = node.callee.name || node.callee.type;
+
         if (callee === 'require') {
           const value = node.arguments[0].value;
+
           if (isIncluded(value, aliases)) {
             context.report({
               node,

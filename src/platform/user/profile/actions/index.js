@@ -36,6 +36,7 @@ export function refreshProfile(forceCacheClear = false) {
 
     const payload = await apiRequest(url);
     dispatch(updateProfileFields(payload));
+
     return payload;
   };
 }
@@ -73,6 +74,7 @@ export function removingSavedFormFailure() {
 export function removeSavedForm(formId) {
   return dispatch => {
     dispatch(removingSavedForm());
+
     return removeFormApi(formId)
       .then(() => {
         dispatch({ type: REMOVING_SAVED_FORM_SUCCESS, formId });

@@ -8,6 +8,7 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
     name,
     effectiveDate,
   } = ratedDisability;
+
   return (
     <dl className="vads-u-display--block vads-l-col--12 vads-u-background-color--gray-lightest vads-u-margin-x--0 vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2">
       <dt className="vads-u-display--block vads-u-font-size--h3 vads-u-font-weight--bold vads-u-margin--0">

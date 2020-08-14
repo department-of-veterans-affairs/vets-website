@@ -30,6 +30,7 @@ describe('ITF actions', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData);
       const dispatch = sinon.spy();
+
       return fetchITF()(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(ITF_FETCH_INITIATED);
         expect(dispatch.secondCall.args[0]).to.eql({
@@ -43,6 +44,7 @@ describe('ITF actions', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData, false);
       const dispatch = sinon.spy();
+
       return fetchITF()(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(ITF_FETCH_INITIATED);
         expect(dispatch.secondCall.args[0].type).to.equal(ITF_FETCH_FAILED);
@@ -59,6 +61,7 @@ describe('ITF actions', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData);
       const dispatch = sinon.spy();
+
       return createITF()(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(
           ITF_CREATION_INITIATED,
@@ -74,6 +77,7 @@ describe('ITF actions', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData, false);
       const dispatch = sinon.spy();
+
       return createITF()(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(
           ITF_CREATION_INITIATED,
@@ -94,6 +98,7 @@ describe('MVI action', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData);
       const dispatch = sinon.spy();
+
       return addPerson()(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(MVI_ADD_INITIATED);
         expect(dispatch.secondCall.args[0]).to.eql({
@@ -107,6 +112,7 @@ describe('MVI action', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData, false);
       const dispatch = sinon.spy();
+
       return addPerson()(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(MVI_ADD_INITIATED);
         expect(dispatch.secondCall.args[0].type).to.equal(MVI_ADD_FAILED);

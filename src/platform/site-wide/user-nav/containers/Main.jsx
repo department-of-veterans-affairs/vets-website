@@ -53,6 +53,7 @@ export class Main extends React.Component {
 
   getNextParameter() {
     const nextParam = new URLSearchParams(window.location.search).get('next');
+
     if (nextParam) {
       return nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
     }
@@ -75,6 +76,7 @@ export class Main extends React.Component {
       this.props.initializeProfile();
     } else {
       this.props.updateLoggedInStatus(false);
+
       if (this.getNextParameter()) this.openLoginModal();
     }
   };
@@ -83,6 +85,7 @@ export class Main extends React.Component {
     if (!this.props.currentlyLoggedIn) return;
 
     const { key, newValue } = event;
+
     if (!key || (key === 'hasSession' && !newValue)) {
       this.props.updateLoggedInStatus(false);
     }
@@ -125,6 +128,7 @@ export class Main extends React.Component {
 
   closeModals = () => {
     if (this.props.showFormSignInModal) this.closeFormSignInModal();
+
     if (this.props.showLoginModal) this.closeLoginModal();
   };
 
@@ -182,6 +186,7 @@ export const mapStateToProps = state => {
   let additionalRoutes;
   let additionalSafePaths;
   const { form } = state;
+
   if (typeof form === 'object') {
     formAutoSavedStatus = form.autoSavedStatus;
     additionalRoutes = form.additionalRoutes;

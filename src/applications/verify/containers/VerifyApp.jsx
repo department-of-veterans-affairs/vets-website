@@ -38,6 +38,7 @@ export class VerifyApp extends React.Component {
   componentDidUpdate(prevProps) {
     const { verified } = this.props.profile;
     const shouldCheckAccount = prevProps.profile.verified !== verified;
+
     if (shouldCheckAccount) {
       this.checkAccountAccess();
     }
@@ -122,6 +123,7 @@ export class VerifyApp extends React.Component {
 
 const mapStateToProps = state => {
   const userState = state.user;
+
   return {
     login: userState.login,
     profile: userState.profile,

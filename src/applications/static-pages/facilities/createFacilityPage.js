@@ -21,17 +21,22 @@ export default async function createFacilityPage(store) {
   if (detailWidget) {
     facilityID = JSON.parse(detailWidget.dataset.facility);
   }
+
   if (mapWidget && !facilityID) {
     facilityID = JSON.parse(mapWidget.dataset.facility);
   }
+
   if (scoreWidget && !facilityID) {
     facilityID = JSON.parse(scoreWidget.dataset.facility);
   }
+
   if (waitTimeWidgets.length && !facilityID) {
     facilityID = JSON.parse(waitTimeWidgets[0].dataset.facility);
   }
+
   if (facilityID) {
     store.dispatch(fetchFacility(facilityID));
+
     if (mapWidget) {
       const {
         default: FacilityMapWidget,
@@ -43,6 +48,7 @@ export default async function createFacilityPage(store) {
         mapWidget,
       );
     }
+
     if (detailWidget) {
       const {
         default: FacilityDetailWidget,
@@ -54,6 +60,7 @@ export default async function createFacilityPage(store) {
         detailWidget,
       );
     }
+
     if (scoreWidget) {
       const {
         default: FacilityPatientSatisfactionScoresWidget,
@@ -65,6 +72,7 @@ export default async function createFacilityPage(store) {
         scoreWidget,
       );
     }
+
     if (waitTimeWidgets.length) {
       const {
         default: FacilityAppointmentWaitTimesWidget,

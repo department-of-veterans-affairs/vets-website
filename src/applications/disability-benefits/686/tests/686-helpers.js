@@ -40,6 +40,7 @@ function completeMarriage(client, marriageData) {
       'input[name="root_locationOfMarriage"]',
       marriageData.locationOfMarriage,
     );
+
   if (marriageData['view:pastMarriage']) {
     client
       .fillDate(

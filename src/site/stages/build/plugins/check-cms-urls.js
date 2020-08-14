@@ -8,8 +8,10 @@ function checkForCMSUrls(BUILD_OPTIONS) {
     const filesWithBadUrls = [];
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
+
       if (file.isDrupalPage && !ignoredPages.has(fileName)) {
         const contents = file.contents.toString();
+
         if (
           contents.includes('cms.va.gov') ||
           contents.includes('-vagovcms-3000') ||

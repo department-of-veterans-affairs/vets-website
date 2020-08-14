@@ -12,6 +12,7 @@ export function getContestableIssues() {
   return dispatch => {
     dispatch({ type: FETCH_CONTESTABLE_ISSUES_INIT });
     const url = '/appeals/contestable_issues';
+
     return apiRequest(url)
       .then(response =>
         dispatch({

@@ -26,12 +26,14 @@ export default class AuthorizationMessage extends React.Component {
       has30PercentDisabilityRating,
       user: { profileStatus, isLoggedIn, isVerified },
     } = this.props;
+
     if (profileStatus === SERVER_ERROR) {
       // If va_profile is null, show a system down message.
       return (
         <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later." />
       );
     }
+
     if (profileStatus === NOT_FOUND) {
       // If va_profile is "not found", show message that we cannot find the user in our system.
       return (
@@ -45,6 +47,7 @@ export default class AuthorizationMessage extends React.Component {
         />
       );
     }
+
     if (!isLoggedIn || !isVerified) {
       return (
         <div>
@@ -63,6 +66,7 @@ export default class AuthorizationMessage extends React.Component {
         </div>
       );
     }
+
     if (!has30PercentDisabilityRating) {
       return (
         <div>

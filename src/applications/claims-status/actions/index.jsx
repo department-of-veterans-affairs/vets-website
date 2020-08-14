@@ -96,6 +96,7 @@ export function getAppeals(filter) {
 
 export function fetchAppealsSuccess(response) {
   const appeals = response.data;
+
   return {
     type: FETCH_APPEALS_SUCCESS,
     appeals,
@@ -105,6 +106,7 @@ export function fetchAppealsSuccess(response) {
 export function getAppealsV2() {
   return dispatch => {
     dispatch({ type: FETCH_APPEALS_PENDING });
+
     return apiRequest(
       '/appeals',
       null,
@@ -133,6 +135,7 @@ export function getAppealsV2() {
           scope.setFingerprint(['{{default}}', status]);
           Sentry.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
         });
+
         return dispatch(action);
       },
     );
@@ -142,6 +145,7 @@ export function getAppealsV2() {
 export function fetchClaimsSuccess(response) {
   const claims = response.data;
   const pages = Math.ceil(claims.length / ROWS_PER_PAGE);
+
   return {
     type: FETCH_CLAIMS_SUCCESS,
     claims,
@@ -164,11 +168,13 @@ export function pollRequest({
     response => {
       if (shouldSucceed(response)) {
         onSuccess(response);
+
         return;
       }
 
       if (shouldFail(response)) {
         onError(response);
+
         return;
       }
 
@@ -197,6 +203,7 @@ export function getClaimsV2(poll = pollRequest) {
     poll({
       onError: response => {
         const errorCode = getErrorStatus(response);
+
         if (errorCode && errorCode !== UNKNOWN_STATUS) {
           Sentry.withScope(scope => {
             scope.setFingerprint(['{{default}}', errorCode]);
@@ -458,10 +465,12 @@ export function submitFiles(claimId, trackedItem, files) {
             },
             onError: (id, name, reason) => {
               const errorCode = reason.substr(-3);
+
               // this is a little hackish, but uploader expects a json response
               if (!errorCode.startsWith('2')) {
                 hasError = true;
               }
+
               if (errorCode === '401') {
                 dispatch({
                   type: SET_UNAUTHORIZED,

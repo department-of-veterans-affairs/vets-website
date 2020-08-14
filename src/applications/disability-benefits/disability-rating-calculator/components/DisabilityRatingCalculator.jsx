@@ -81,6 +81,7 @@ export default class DisabilityRatingCalculator extends React.Component {
         { disabilities: disabilitiesValidated },
         this.focusFirstInvalidInput,
       );
+
       return;
     }
 

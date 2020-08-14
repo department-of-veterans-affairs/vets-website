@@ -58,6 +58,7 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
       </>
     );
   }
+
   return null;
 };
 

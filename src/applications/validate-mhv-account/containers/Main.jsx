@@ -105,6 +105,7 @@ class Main extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const profile = selectProfile(state);
   const { loading, mhvAccount } = profile;
+
   return {
     location: ownProps.location,
     loggedIn: isLoggedIn(state),

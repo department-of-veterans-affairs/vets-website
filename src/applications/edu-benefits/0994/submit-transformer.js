@@ -15,6 +15,7 @@ export function transform(formConfig, form) {
 
     const prefillBankAccount = _.get(clonedData, 'prefillBankAccount', {});
     const { bankAccountType } = prefillBankAccount;
+
     if (bankAccountType && bankAccountType.length > 0) {
       clonedData = {
         ...clonedData,
@@ -42,6 +43,7 @@ export function transform(formConfig, form) {
         emailAddress,
       };
     }
+
     return formData;
   };
 
@@ -64,6 +66,7 @@ export function transform(formConfig, form) {
         highTechnologyEmploymentTypes,
       };
     }
+
     return formData;
   };
 
@@ -94,6 +97,7 @@ export function transform(formConfig, form) {
         vetTecPrograms,
       };
     }
+
     return formData;
   };
   const tranformedData = [

@@ -32,6 +32,7 @@ function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
     document.location.replace(
       '/view-change-dependents/add-remove-form-686c/introduction',
     );
+
     return <LoadingIndicator message="Redirecting to introduction page..." />;
   }
 

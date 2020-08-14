@@ -37,6 +37,7 @@ function sitemapURLs() {
         The 508 ruleset is slightly less strict to test on chatbot for now. */
         '/coronavirus-chatbot/',
       ];
+
       // Whitelist of URLs to only test against the 'section508' rule set and not
       // the stricter 'wcag2a' rule set. For each URL added to this list, please
       // add a comment explaining why it cannot be tested against stricter rules.

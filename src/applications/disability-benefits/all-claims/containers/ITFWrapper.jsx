@@ -33,6 +33,7 @@ export class ITFWrapper extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { itf, location } = nextProps;
+
     if (this.shouldBlockITF(location.pathname)) {
       return;
     }
@@ -48,6 +49,7 @@ export class ITFWrapper extends React.Component {
     const hasActiveITF = isActiveITF(itf.currentITF);
 
     const createITFCalled = itf.creationCallState !== requestStates.notCalled;
+
     if (
       (itf.fetchCallState === requestStates.succeeded ||
         itf.fetchCallState === requestStates.failed) &&
@@ -92,6 +94,7 @@ export class ITFWrapper extends React.Component {
 
       if (itf.previousITF) {
         const { expirationDate: prevExpDate } = itf.previousITF;
+
         // If there was a previous ITF, we created one; show the creation
         // success message
         return (

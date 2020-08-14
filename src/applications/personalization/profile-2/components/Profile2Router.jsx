@@ -53,6 +53,7 @@ class Profile2Router extends Component {
     fetchMHVAccount();
     fetchFullName();
     fetchPersonalInformation();
+
     if (shouldFetchDirectDepositInformation) {
       fetchPaymentInformation();
     }
@@ -101,6 +102,7 @@ class Profile2Router extends Component {
         />
       );
     }
+
     return children;
   };
 
@@ -197,6 +199,7 @@ class Profile2Router extends Component {
     if (this.props.showLoader) {
       return this.loadingContent();
     }
+
     return this.mainContent();
   };
 

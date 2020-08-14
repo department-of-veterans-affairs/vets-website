@@ -36,6 +36,7 @@ import createFormConfig4192 from '../4192';
 
 export default function() {
   let configObj = {};
+
   if (!environment.isProduction()) {
     configObj = {
       // 8940 - Introduction
@@ -195,5 +196,6 @@ export default function() {
       ...createFormConfig4192(),
     };
   }
+
   return configObj;
 }

@@ -26,6 +26,7 @@ export default function LogoutAlert() {
       </EbenefitsLink>
     </>
   );
+
   return (
     <AlertBox
       headline="You have successfully signed out."

@@ -36,6 +36,7 @@ const submitFormFor = eventName =>
           resolve(results);
         } else {
           let error;
+
           if (req.status === 429) {
             error = new Error(`vets_throttled_error: ${req.statusText}`);
             error.extra = parseInt(
@@ -84,6 +85,7 @@ const submitFormFor = eventName =>
           scope.setExtra('XMLHttpRequest', req);
           Sentry.captureMessage('Form 526: submission request taking too long');
         });
+
         if (mode !== 'testing') {
           // eslint-disable-next-line no-console
           console.log(req, form, JSON.parse(body));

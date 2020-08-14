@@ -113,6 +113,7 @@ export async function getLocation({ facilityId }) {
  */
 export function getParentOfLocation(organizations, location) {
   const orgId = location.managingOrganization.reference.split('/')[1];
+
   return organizations.find(parent => parent.id === orgId);
 }
 

@@ -18,6 +18,7 @@ describe('1990 schema tests', () => {
       const submitData = JSON.parse(transform(formConfig, contents))
         .educationBenefitsClaim.form;
       const result = v.validate(JSON.parse(submitData), fullSchema1990e);
+
       if (!result.valid) {
         console.log(result.errors); // eslint-disable-line no-console
       }

@@ -28,6 +28,7 @@ class AccordionItem extends React.Component {
     if (this.props.section) {
       return this.props.expanded;
     }
+
     return this.state.expanded;
   };
 
@@ -56,6 +57,7 @@ class AccordionItem extends React.Component {
   renderHeader = () => {
     const expanded = this.expanded();
     const { section, button, headerClass } = this.props;
+
     if (section) {
       return (
         <button
@@ -99,6 +101,7 @@ class AccordionItem extends React.Component {
     const contentClassName = section
       ? 'section-content'
       : 'usa-accordion-content';
+
     return (
       <li className={liClassName} id={this.id}>
         {this.renderHeader()}

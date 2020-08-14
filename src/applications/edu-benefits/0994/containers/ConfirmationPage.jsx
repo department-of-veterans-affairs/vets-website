@@ -50,6 +50,7 @@ class ConfirmationPage extends React.Component {
       'appliedForVaEducationBenefits',
       true,
     );
+
     return (
       <div>
         <h3 className="confirmation-page-title">

@@ -47,6 +47,7 @@ export class AddressSection extends React.Component {
     );
 
     let viewLettersButton;
+
     if (location.pathname === '/confirm-address') {
       viewLettersButton = (
         <div className="step-content">

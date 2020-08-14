@@ -12,5 +12,6 @@ export const formatServiceName = service => {
     .toLowerCase()
     .replace(/veteran/g, 'Veteran')
     .trim();
+
   return lowerCaseService.charAt(0).toUpperCase() + lowerCaseService.slice(1);
 };

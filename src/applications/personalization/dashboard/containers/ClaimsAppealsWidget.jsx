@@ -118,6 +118,7 @@ class ClaimsAppealsWidget extends React.Component {
         </div>
       );
     }
+
     return children;
   };
 
@@ -213,9 +214,11 @@ const mapStateToProps = state => {
     .concat(claimsV2Root.claims)
     .filter(c => {
       let updateDate;
+
       if (c.type === 'evss_claims') {
         const evssPhaseChangeDate = c.attributes.phaseChangeDate;
         const evssDateFiled = c.attributes.dateFiled;
+
         if (evssPhaseChangeDate && evssDateFiled) {
           updateDate = moment(evssPhaseChangeDate).isAfter(
             moment(evssDateFiled),

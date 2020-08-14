@@ -50,18 +50,21 @@ class JAWSSetPreferences extends React.Component {
       allBenefitsLoadingStatus: statusAll,
       userBenefitsLoadingStatus: statusUser,
     } = this.props.preferences;
+
     if (
       statusAll === LOADING_STATES.error ||
       statusUser === LOADING_STATES.error
     ) {
       return LOADING_STATES.error;
     }
+
     if (
       statusAll === LOADING_STATES.loaded &&
       statusUser === LOADING_STATES.loaded
     ) {
       return LOADING_STATES.loaded;
     }
+
     return LOADING_STATES.pending;
   };
 
@@ -103,6 +106,7 @@ class JAWSSetPreferences extends React.Component {
         helperData,
         benefit.description,
       );
+
       return hydratedBenefit;
     });
 
@@ -116,9 +120,11 @@ class JAWSSetPreferences extends React.Component {
     if (loadingStatus === LOADING_STATES.pending) {
       return <LoadingIndicator message={'Loading benefit choices...'} />;
     }
+
     if (loadingStatus === LOADING_STATES.error) {
       return <RetrieveFailedMessageComponent showLink />;
     }
+
     if (loadingStatus === LOADING_STATES.loaded) {
       return (
         <div>
@@ -147,6 +153,7 @@ class JAWSSetPreferences extends React.Component {
         </div>
       );
     }
+
     return null;
   }
 

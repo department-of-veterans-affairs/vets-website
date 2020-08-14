@@ -6,6 +6,7 @@ import dateUI from 'platform/forms-system/src/js/definitions/date';
 export default function createOldSchoolPage(schema) {
   const { trainingEndDate, reasonForChange } = schema.properties;
   const { school, date } = schema.definitions;
+
   return {
     path: 'school-selection/old-school',
     title:

@@ -8,6 +8,7 @@ import { isFailedTransaction, isPendingTransaction } from './util/transactions';
 
 export function selectIsVet360AvailableForUser(state) {
   if (!isVet360Configured()) return true; // returns true if on localhost
+
   return state.user.profile.services.includes(backendServices.VET360);
 }
 
@@ -50,11 +51,13 @@ export function selectMostRecentErroredTransaction(state) {
   } = state;
 
   let transaction = null;
+
   if (mostRecentErroredTransactionId) {
     transaction = transactions.find(
       t => t.data.attributes.transactionId === mostRecentErroredTransactionId,
     );
   }
+
   return transaction;
 }
 
@@ -68,6 +71,7 @@ export function selectVet360PendingCategoryTransactions(state, type) {
 
     return Object.keys(fieldTransactionMap).some(fieldName => {
       const transactionRequest = fieldTransactionMap[fieldName];
+
       return transactionRequest.transactionId === transactionId;
     });
   };

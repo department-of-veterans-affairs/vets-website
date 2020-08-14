@@ -18,6 +18,7 @@ function resolveAfter2Seconds() {
 
 export const getAllPayments = () => async dispatch => {
   const response = await resolveAfter2Seconds();
+
   if (response.errors) {
     if (isServerError(response.errors[0].status)) {
       recordEvent({

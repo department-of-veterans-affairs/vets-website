@@ -22,6 +22,7 @@ export function transform(formConfig, form) {
   const entitlementTransform = formData => {
     const clonedData = _.cloneDeep(formData);
     delete clonedData['view:remainingEntitlement'];
+
     return clonedData;
   };
 

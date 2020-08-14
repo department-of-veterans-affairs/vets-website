@@ -155,6 +155,7 @@ function completeMarriage(client, data, index) {
       data.marriages[index].locationOfMarriage,
     )
     .selectRadio('root_marriageType', data.marriages[index].marriageType);
+
   if (data.marriages[index]['view:pastMarriage']) {
     client
       .selectRadio(

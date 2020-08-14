@@ -52,6 +52,7 @@ function runValeCheck(contentFilename) {
 function createTempFile(dataBuffer) {
   const temp = tmp.fileSync({ prefix: 'vale-', postfix: '.html' });
   fs.writeSync(temp.fd, dataBuffer);
+
   return temp.name;
 }
 
@@ -95,6 +96,7 @@ function buildDetailsMarkup(issues) {
 
   details += issuesList;
   details += '</details>';
+
   return details;
 }
 
@@ -110,6 +112,7 @@ function injectValeLinter(buildOptions) {
   return async (files, metalsmith, done) => {
     if (!buildOptions['lint-plain-language']) {
       done();
+
       return 'Plain language linting skipped';
     }
 
@@ -125,6 +128,7 @@ function injectValeLinter(buildOptions) {
 
       try {
         const valeOutput = await runValeCheck(tempfile);
+
         if (typeof valeOutput.results.length === 'undefined') continue;
 
         const parsedOutput = JSON.parse(valeOutput.results)[tempfile];
@@ -135,6 +139,7 @@ function injectValeLinter(buildOptions) {
         return e.message;
       }
     }
+
     return done();
   };
 }

@@ -77,9 +77,11 @@ export default class DateWidget extends React.Component {
     let daysForSelectedMonth;
 
     const monthYear = options.monthYear;
+
     if (month) {
       daysForSelectedMonth = days[month];
     }
+
     return (
       <div className="usa-date-of-birth row">
         <div className="form-datefield-month">

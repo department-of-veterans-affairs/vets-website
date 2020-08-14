@@ -73,6 +73,7 @@ export const DirectDepositContent = ({
       // Show alert when navigating away
       if (!isEmptyForm) {
         window.onbeforeunload = () => true;
+
         return;
       }
 
@@ -133,6 +134,7 @@ export const DirectDepositContent = ({
   const closeDDForm = () => {
     if (!isEmptyForm) {
       setShowConfirmCancelModal(true);
+
       return;
     }
 
@@ -216,9 +218,11 @@ export const DirectDepositContent = ({
     if (directDepositUiState.isEditing) {
       return editingBankInfoContent;
     }
+
     if (isDirectDepositSetUp) {
       return bankInfoContent;
     }
+
     return notSetUpContent;
   };
 
@@ -231,6 +235,7 @@ export const DirectDepositContent = ({
         value: getBankInfo(),
       },
     ];
+
     if (isDirectDepositSetUp) {
       data.push({
         title: 'Payment history',
@@ -241,6 +246,7 @@ export const DirectDepositContent = ({
         ),
       });
     }
+
     return data;
   };
 

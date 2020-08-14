@@ -24,6 +24,7 @@ export class FacilityMapWidget extends React.Component {
     const long = facilityDetail.attributes.long;
 
     let address = buildAddressArray(facilityDetail);
+
     if (address.length !== 0) {
       address = address.join(', ');
     } else {
@@ -33,6 +34,7 @@ export class FacilityMapWidget extends React.Component {
 
     const mapLink = `https://maps.google.com?saddr=Current+Location&daddr=${address}`;
     const imageLink = document.getElementById('google-map-link-image');
+
     if (imageLink) {
       imageLink.setAttribute('href', mapLink);
     }

@@ -12,6 +12,7 @@ class AlertBox extends React.Component {
     const visibilityChanged = this.props.isVisible !== nextProps.isVisible;
     const contentChanged = this.props.content !== nextProps.content;
     const statusChanged = this.props.status !== nextProps.status;
+
     return visibilityChanged || contentChanged || statusChanged;
   }
 

@@ -16,6 +16,7 @@ function unescapeUnicode(string) {
     typeof string === 'string',
     `Expected type String in unescapeUnicode, but found ${typeof string}: ${string}`,
   );
+
   return string.replace(/\\u(\d{2,4})/g, (wholeMatch, codePoint) =>
     String.fromCharCode(`0x${codePoint}`),
   );
@@ -28,12 +29,14 @@ function unescapeUnicode(string) {
  */
 function getDrupalValue(arr) {
   if (arr.length === 0) return null;
+
   if (arr.length === 1)
     return typeof arr[0].value === 'string'
       ? unescapeUnicode(arr[0].value)
       : arr[0].value;
   // eslint-disable-next-line no-console
   console.warn(`Unexpected argument: ${arr.toString()}`);
+
   return null;
 }
 
@@ -47,9 +50,11 @@ function getDrupalValue(arr) {
  */
 function uriToUrl(uri) {
   const internal = 'internal:';
+
   if (uri.startsWith(internal)) {
     return uri.substring(internal.length);
   }
+
   return uri;
 }
 
@@ -74,6 +79,7 @@ module.exports = {
         values.push([key, value]);
       }
     }
+
     return sortBy(values, [item => item[0]]).map(item => item[1]);
   },
 
@@ -263,11 +269,13 @@ module.exports = {
       typeof assembleEntityTree === 'function',
       'Please pass assembleEntityTree from the transformer.',
     );
+
     if (subType)
       assert(
         typeof subType === 'string',
         `subType needs to be a string. Found ${typeof subType} (${subType})`,
       );
+
     if (filter)
       assert(
         typeof filter === 'function',
@@ -281,6 +289,7 @@ module.exports = {
         .filter(name => name.startsWith(`${baseType}.`))
         .map(name => {
           const uuid = name.split('.')[1];
+
           return readEntity(contentDir, baseType, uuid, { noLog: true });
         })
         .filter(

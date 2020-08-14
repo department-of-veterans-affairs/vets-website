@@ -54,6 +54,7 @@ const reasonStatement = props => {
           </p>
         );
       }
+
       return null;
     case '4':
       return (

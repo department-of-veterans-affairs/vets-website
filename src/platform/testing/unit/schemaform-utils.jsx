@@ -138,9 +138,11 @@ function getIdentifier(node) {
   let classList = '';
 
   const classes = node.getAttribute('class');
+
   if (classes) {
     // Make a dot-separated list of class names
     classList = classes.split(' ').reduce((c, carry) => `${c}.${carry}`, '');
+
     return `${tagName}${classList}`;
   }
 
@@ -162,6 +164,7 @@ function printTree(node, level = 0, isLastChild = true, padding = '') {
   const children = Array.from(node.children);
   children.forEach((child, index) => {
     const isLast = index === children.length - 1;
+
     return printTree(child, nextLevel, isLast, newPadding);
   });
 }

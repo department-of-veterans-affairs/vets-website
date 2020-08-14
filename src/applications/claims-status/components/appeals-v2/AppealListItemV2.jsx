@@ -24,6 +24,7 @@ const programAreaMap = {
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
+
   return `${capFirstLetter}${word.slice(1)}`;
 };
 
@@ -80,6 +81,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
     appealTitle += getTypeName(appeal);
   } else {
     appealTitle = getTypeName(appeal);
+
     if (programArea) {
       appealTitle += ` for ${programArea}`;
     }

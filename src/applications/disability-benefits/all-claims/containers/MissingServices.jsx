@@ -30,6 +30,7 @@ export const MissingServices = () => {
       </p>
     </>
   );
+
   return <Alert content={content} />;
 };
 
@@ -60,5 +61,6 @@ export const MissingId = ({ children }) => {
       </p>
     </>
   );
+
   return <Alert content={content} />;
 };

@@ -48,6 +48,7 @@ export class VetTecCalculator extends React.Component {
 
   renderScholarshipBenefitSection = outputs => {
     if (outputs.vetTecScholarships === '$0') return null;
+
     return (
       <div className="row vads-u-margin-top--0p5">
         <div className="small-6 columns">
@@ -193,6 +194,7 @@ export class VetTecCalculator extends React.Component {
     }
     const { outputs } = this.props.calculated;
     const { showModal } = this.props;
+
     return (
       <div className="vads-l-row calculate-your-benefits">
         <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">

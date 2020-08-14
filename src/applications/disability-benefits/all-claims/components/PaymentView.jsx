@@ -18,6 +18,7 @@ const mask = (string, unmaskedLength) => {
     `${'●'.repeat(repeatCount)}`,
     'ending with',
   );
+
   return (
     <span>
       {maskedString}

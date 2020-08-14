@@ -28,6 +28,7 @@ function FlipperClient({
         'X-CSRF-Token': csrfTokenStored,
       },
     });
+
     if (!response.ok) {
       const errorMessage = `Failed to fetch toggle values with status ${
         response.status
@@ -77,6 +78,7 @@ function FlipperClient({
     */
     const { data } = await _fetchToggleValues();
     const { features = [] } = data;
+
     return features.reduce((acc, toggle) => {
       acc[toggle.name] = toggle.value;
 

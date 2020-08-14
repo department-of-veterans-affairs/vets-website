@@ -24,6 +24,7 @@ const providerName = (query, posCodes) => {
     default:
       name = urgentCareProviderNames(posCodes);
   }
+
   return name;
 };
 
@@ -41,6 +42,7 @@ const providerName = (query, posCodes) => {
 const ProviderServiceDescription = ({ provider, query, details = false }) => {
   if (details) {
     const { specialty } = provider.attributes;
+
     if (specialty && specialty.length < 1) return null;
 
     return (

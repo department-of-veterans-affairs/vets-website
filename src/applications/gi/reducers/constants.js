@@ -30,8 +30,10 @@ export default function(state = INITIAL_STATE, action) {
       const camelPayload = camelCaseKeysRecursive(action.payload);
       const constants = camelPayload.data.reduce((acc, c) => {
         const { name, value } = c.attributes;
+
         return { ...acc, [name]: value };
       }, {});
+
       return {
         ...state,
         constants,

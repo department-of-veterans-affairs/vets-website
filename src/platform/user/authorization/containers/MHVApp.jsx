@@ -115,6 +115,7 @@ export class MHVApp extends React.Component {
 
     const accountStateChanged =
       prevProps.mhvAccount.accountState !== accountState;
+
     if (accountStateChanged) {
       this.handleAccountState();
     }
@@ -139,6 +140,7 @@ export class MHVApp extends React.Component {
       const nextQuery = { next: window.location.pathname };
       const verifyUrl = appendQuery('/verify/', nextQuery);
       window.location.replace(verifyUrl);
+
       return;
     }
 
@@ -361,6 +363,7 @@ const mapStateToProps = state => {
   const profile = selectProfile(state);
   const { mhvAccount } = profile;
   const availableServices = profile.services;
+
   return { mhvAccount, availableServices };
 };
 

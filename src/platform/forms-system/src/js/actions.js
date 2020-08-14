@@ -81,6 +81,7 @@ export function setViewedPages(pageKeys) {
 export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
+
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
     req.open('POST', submitUrl);
@@ -97,6 +98,7 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
         resolve(results);
       } else {
         let error;
+
         if (req.status === 429) {
           error = new Error(`vets_throttled_error: ${req.statusText}`);
           error.extra = parseInt(
@@ -160,6 +162,7 @@ export function submitForm(formConfig, form) {
     });
 
     let promise;
+
     if (formConfig.submit) {
       promise = formConfig.submit(form, formConfig);
     } else {
@@ -184,6 +187,7 @@ export function submitForm(formConfig, form) {
             : new Error(errorReceived);
         const errorMessage = String(error.message);
         let errorType = 'clientError';
+
         if (errorMessage.startsWith('vets_throttled_error')) {
           errorType = 'throttledError';
         } else if (errorMessage.startsWith('vets_server_error')) {
@@ -205,6 +209,7 @@ export function uploadFile(
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
+
   return (dispatch, getState) => {
     if (file.size > uiOptions.maxSize) {
       onChange({
@@ -213,6 +218,7 @@ export function uploadFile(
       });
 
       onError();
+
       return null;
     }
 
@@ -223,6 +229,7 @@ export function uploadFile(
       });
 
       onError();
+
       return null;
     }
 
@@ -239,6 +246,7 @@ export function uploadFile(
       });
 
       onError();
+
       return null;
     }
 
@@ -261,6 +269,7 @@ export function uploadFile(
         onChange(fileData);
       } else {
         let errorMessage = req.statusText;
+
         if (req.status === 429) {
           errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
             moment.unix(

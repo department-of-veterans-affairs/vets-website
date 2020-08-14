@@ -55,6 +55,7 @@ function makeMockApiRouter(opts) {
 
     mockResponses[token] = mockResponses[token] || {};
     mockResponses[token][verb] = mockResponses[token][verb] || {};
+
     if (req.body.query) {
       mockResponses[token][verb][path] = mockResponses[token][verb][path] || {
         query: true,
@@ -85,6 +86,7 @@ function makeMockApiRouter(opts) {
     const path = stripTrailingSlash(req.path);
 
     let result = null;
+
     if (verbResponses) {
       result = verbResponses[path];
     }
@@ -100,6 +102,7 @@ function makeMockApiRouter(opts) {
       const queryStrings = Object.keys(result).filter(qs => qs !== 'query');
       const currentQuery = req.originalUrl.split('?')[1];
       const match = queryStrings.find(qs => RegExp(qs).test(currentQuery));
+
       if (match) {
         result = result[match];
         res.append(
@@ -134,6 +137,7 @@ app.use(cookieParser());
 
 if (options.responses) {
   const pathToResponses = nodePath.resolve(options.responses);
+
   if (fs.existsSync(pathToResponses)) {
     apiMocker(app, pathToResponses);
   } else {

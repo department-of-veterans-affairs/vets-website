@@ -64,6 +64,7 @@ export const InformalConferenceAvailability = contact => (
 
 export const AttemptsInfoAlert = ({ isRep }) => {
   const contact = isRep ? 'your representative' : 'you';
+
   return (
     <AlertBox
       status="info"

@@ -21,6 +21,7 @@ function validEmail(email) {
   if (dirty) {
     return value.match(/[^@\s]+@([^@\s]+\.)+[^@\s]+/);
   }
+
   return true;
 }
 

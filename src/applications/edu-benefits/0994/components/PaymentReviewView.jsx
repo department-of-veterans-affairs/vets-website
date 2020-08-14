@@ -15,6 +15,7 @@ export class PaymentReviewView extends React.Component {
   render() {
     const { formData, name } = this.state;
     let value = formData;
+
     if (formData === undefined) {
       if (
         !hasNewBankInformation(
@@ -37,6 +38,7 @@ export class PaymentReviewView extends React.Component {
     } else if (name === 'accountType' && value.length > 0) {
       value = value.charAt(0).toUpperCase() + value.substr(1);
     }
+
     return <span>{value}</span>;
   }
 }

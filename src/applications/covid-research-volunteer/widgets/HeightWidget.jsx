@@ -56,6 +56,7 @@ export default class HeightWidget extends React.Component {
   render() {
     const { id } = this.props;
     const { feet, inches } = this.state.value;
+
     return (
       <div className="row">
         <div

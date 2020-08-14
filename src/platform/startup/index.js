@@ -48,6 +48,7 @@ export default function startApp({
   connectFeatureToggle(store.dispatch);
 
   let history = browserHistory;
+
   if (url) {
     if (url.endsWith('/')) {
       throw new Error(
@@ -66,6 +67,7 @@ export default function startApp({
   });
 
   let content = component;
+
   if (createRoutesWithStore) {
     content = <Router history={history}>{createRoutesWithStore(store)}</Router>;
   } else if (routes) {

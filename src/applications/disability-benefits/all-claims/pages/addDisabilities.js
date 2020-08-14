@@ -145,6 +145,7 @@ const indexOfFirstChange = (oldArr, newArr) => {
 
 const deleted = (oldArr, newArr) => {
   const i = indexOfFirstChange(oldArr, newArr);
+
   // If no difference was found, the last item was deleted
   return i !== undefined ? oldArr[i] : oldArr[oldArr.length - 1];
 };
@@ -153,6 +154,7 @@ const removeDisability = (deletedElement, formData) => {
   const removeFromTreatedDisabilityNames = (disability, data) => {
     const path = 'vaTreatmentFacilities';
     const facilities = get(path, data);
+
     if (!facilities) return data;
 
     return set(
@@ -174,6 +176,7 @@ const removeDisability = (deletedElement, formData) => {
   const removeFromPow = (disability, data) => {
     const path = 'view:isPow.powDisabilities';
     const powDisabilities = get(path, data);
+
     if (!powDisabilities) return data;
 
     return set(
@@ -200,11 +203,13 @@ const changeDisabilityName = (oldData, newData, changedIndex) => {
   const facilitiesPath = 'vaTreatmentFacilities';
   const facilities = get(facilitiesPath, result);
   const oldFacilities = get(facilitiesPath, oldData);
+
   if (facilities && oldFacilities) {
     result = set(
       facilitiesPath,
       facilities.map((f, i) => {
         const oldValue = oldFacilities[i].treatedDisabilityNames[oldId];
+
         return oldValue !== undefined
           ? set(['treatedDisabilityNames', newId], oldValue, f)
           : f;
@@ -217,6 +222,7 @@ const changeDisabilityName = (oldData, newData, changedIndex) => {
   const powDisabilitiesPath = 'view:isPow.powDisabilities';
   const powDisabilities = get(powDisabilitiesPath, result);
   const oldPowDisabilities = get(powDisabilitiesPath, oldData);
+
   if (powDisabilities && oldPowDisabilities[oldId] !== undefined) {
     result = set(
       `${powDisabilitiesPath}.${newId}`,
@@ -231,17 +237,20 @@ const changeDisabilityName = (oldData, newData, changedIndex) => {
 export const updateFormData = (oldData, newData) => {
   const oldArr = oldData.newDisabilities;
   const newArr = newData.newDisabilities;
+
   // Sanity check
   if (!Array.isArray(oldArr) || !Array.isArray(newArr)) return newData;
 
   // Disability was removed
   if (oldArr.length > newArr.length) {
     const deletedElement = deleted(oldArr, newArr);
+
     return removeDisability(deletedElement, newData);
   }
 
   // Disability was modified
   const changedIndex = indexOfFirstChange(oldArr, newArr);
+
   if (oldArr.length === newArr.length && changedIndex !== undefined) {
     // Update the disability name in treatedDisabilityNames and
     // powDisabilities _if_ it exists already

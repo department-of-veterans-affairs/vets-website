@@ -16,6 +16,7 @@ export function captureError(
   } else {
     Sentry.withScope(scope => {
       scope.setExtra('error', err);
+
       if (extraData) {
         scope.setExtra('extraData', extraData);
       }

@@ -78,6 +78,7 @@ export default {
 
       if (isSleepCare(state)) {
         dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+
         return 'typeOfSleepCare';
       } else if (isEyeCare(state)) {
         return 'typeOfEyeCare';
@@ -103,8 +104,10 @@ export default {
                 if (isPodiatry(state)) {
                   dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
                   dispatch(startRequestAppointmentFlow(true));
+
                   return 'requestDateTime';
                 }
+
                 return 'typeOfFacility';
               }
             }
@@ -119,11 +122,13 @@ export default {
         // If no CC enabled systems and toc is podiatry, show modal
         if (isPodiatry(state)) {
           dispatch(showTypeOfCareUnavailableModal());
+
           return 'typeOfCare';
         }
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+
       return 'vaFacility';
     },
     previous: 'home',
@@ -137,6 +142,7 @@ export default {
 
       if (isCCFacility(state)) {
         dispatch(startRequestAppointmentFlow(true));
+
         return 'requestDateTime';
       }
 
@@ -194,6 +200,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+
       return 'vaFacility';
     },
     previous: 'typeOfCare',
@@ -202,6 +209,7 @@ export default {
     url: '/new-appointment/audiology',
     next(state, dispatch) {
       dispatch(startRequestAppointmentFlow(true));
+
       return 'requestDateTime';
     },
     previous: 'typeOfFacility',
@@ -218,11 +226,13 @@ export default {
 
       if (eligibilityStatus.direct) {
         dispatch(startDirectScheduleFlow());
+
         return 'clinicChoice';
       }
 
       if (eligibilityStatus.request) {
         dispatch(startRequestAppointmentFlow());
+
         return 'requestDateTime';
       }
 
@@ -253,6 +263,7 @@ export default {
     next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
         dispatch(startRequestAppointmentFlow());
+
         return 'requestDateTime';
       }
 
@@ -288,6 +299,7 @@ export default {
         if (isCCAudiology(state)) {
           return 'audiologyCareType';
         }
+
         return 'typeOfFacility';
       }
 

@@ -12,5 +12,6 @@ exports.command = function clearElement(selector, callback) {
     [selector],
     callback,
   );
+
   return this;
 };

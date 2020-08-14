@@ -11,6 +11,7 @@ export default function EligibilityCheckMessage({
   if (eligibility.requestFailed) {
     return <ErrorMessage />;
   }
+
   if (!eligibility.requestSupported) {
     return (
       <div aria-atomic="true" aria-live="assertive">
@@ -25,6 +26,7 @@ export default function EligibilityCheckMessage({
       </div>
     );
   }
+
   if (!eligibility.requestPastVisit) {
     return (
       <div aria-atomic="true" aria-live="assertive">
@@ -47,6 +49,7 @@ export default function EligibilityCheckMessage({
       </div>
     );
   }
+
   if (!eligibility.requestLimit) {
     return (
       <div aria-atomic="true" aria-live="assertive">

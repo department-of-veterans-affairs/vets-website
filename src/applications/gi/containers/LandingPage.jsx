@@ -48,6 +48,7 @@ export class LandingPage extends React.Component {
     this.setState({
       searchError: !(isVetTecSelected(this.props.filters) || value),
     });
+
     if (isVetTecSelected(this.props.filters) || value) {
       this.search(value);
     }

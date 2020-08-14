@@ -25,6 +25,7 @@ export function checkFormResult({ questionState, customId }) {
   return getEnabledQuestions({ questionState, customId })
     .map(question => {
       const passValues = question.passValues ?? ['no'];
+
       return passValues.includes(question.value);
     })
     .includes(false)
@@ -38,6 +39,7 @@ export function checkFormComplete({ questionState, customId }) {
     questionState,
     customId,
   }).map(question => Object.prototype.hasOwnProperty.call(question, 'value'));
+
   return !completedQuestions.includes(false);
 }
 

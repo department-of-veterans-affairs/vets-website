@@ -37,6 +37,7 @@ function proxyUrl(path = 'ebenefits') {
   // render an absolute url to the given path under the proxy server.
   // if a path mapping can't be found, use it as is
   const route = eauthPathMap[normalizePath(path)] || normalizePath(path);
+
   return `https://${eauthPrefix}eauth.va.gov/${route}`;
 }
 function defaultUrl(path = '') {

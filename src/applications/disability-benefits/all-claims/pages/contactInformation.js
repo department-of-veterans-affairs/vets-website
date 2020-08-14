@@ -119,6 +119,7 @@ export const uiSchema = {
             };
           }
           uiSchemaDisabled['ui:disabled'] = false;
+
           return {
             enum: countryEnum,
           };
@@ -151,6 +152,7 @@ export const uiSchema = {
               enum: MILITARY_CITIES,
             };
           }
+
           return merge(
             {
               title: 'City',
@@ -183,6 +185,7 @@ export const uiSchema = {
               enumNames: MILITARY_STATE_LABELS,
             };
           }
+
           return {
             enum: STATE_VALUES,
             enumNames: STATE_LABELS,

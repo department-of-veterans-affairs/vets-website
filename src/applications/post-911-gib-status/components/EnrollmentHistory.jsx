@@ -23,12 +23,14 @@ function EnrollmentHistory({ enrollmentData = {} }) {
   // Render enrollment periods
   const enrollmentHistory = enrollments.map((enrollment, index) => {
     const indexKey = `enrollment-${index}`;
+
     return (
       <EnrollmentPeriod key={indexKey} id={indexKey} enrollment={enrollment} />
     );
   });
 
   let sectionContent;
+
   if (enrollmentData.veteranIsEligible) {
     sectionContent = (
       <div>

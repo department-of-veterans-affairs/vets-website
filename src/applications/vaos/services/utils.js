@@ -19,6 +19,7 @@ function vaosFHIRRequest(url, ...options) {
  */
 export function fhirSearch({ query, mock }) {
   let promise = null;
+
   if (USE_MOCK_DATA) {
     promise = new Promise(resolve =>
       setTimeout(() => {

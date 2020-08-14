@@ -409,6 +409,7 @@ export default function(state = INITIAL_STATE, action) {
 
     case UPDATE_ESTIMATED_BENEFITS: {
       const { estimatedBenefits } = action;
+
       return {
         ...state,
         estimatedBenefits,

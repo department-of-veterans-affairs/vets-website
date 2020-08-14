@@ -25,6 +25,7 @@ export const maskBankInformation = (string, unmaskedLength) => {
     `${'●'.repeat(repeatCount)}`,
     'ending with',
   );
+
   return (
     <span>
       {maskedString}
@@ -39,6 +40,7 @@ export const maskBankInformation = (string, unmaskedLength) => {
  */
 export const hasNewBankInformation = (bankAccount = {}) => {
   const { accountType, accountNumber, routingNumber } = bankAccount;
+
   return (
     typeof accountType !== 'undefined' ||
     typeof accountNumber !== 'undefined' ||
@@ -52,6 +54,7 @@ export const hasNewBankInformation = (bankAccount = {}) => {
  */
 export const hasPrefillBankInformation = (bankAccount = {}) => {
   const { bankAccountType, bankAccountNumber, bankRoutingNumber } = bankAccount;
+
   return (
     typeof bankAccountType !== 'undefined' ||
     typeof bankAccountNumber !== 'undefined' ||

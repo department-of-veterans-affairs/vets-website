@@ -22,6 +22,7 @@ class TabItem extends React.Component {
   render() {
     const { className, id, tabpath, title } = this.props;
     const activeTab = this.trimCurrentUrl();
+
     return (
       <li className={className} role="presentation">
         <IndexLink

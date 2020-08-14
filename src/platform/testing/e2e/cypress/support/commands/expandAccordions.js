@@ -6,6 +6,7 @@ Cypress.Commands.add('expandAccordions', () => {
 
   cy.get('main').then($main => {
     const accordions = $main.find('button[aria-expanded=false]');
+
     if (accordions.length) {
       cy.wrap(accordions).each(button => {
         cy.wrap(button).click({ force: true });

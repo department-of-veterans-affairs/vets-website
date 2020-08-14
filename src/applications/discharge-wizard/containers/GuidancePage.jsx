@@ -30,6 +30,7 @@ class GuidancePage extends React.Component {
     }
 
     const el = document.getElementById('dw-home-link');
+
     if (el) {
       el.focus();
     }
@@ -48,6 +49,7 @@ class GuidancePage extends React.Component {
   handlePrint(e) {
     e.preventDefault();
     recordEvent({ event: 'discharge-upgrade-print' });
+
     if (window.print) {
       window.print();
     }
@@ -57,6 +59,7 @@ class GuidancePage extends React.Component {
     const forReconsideration =
       this.props.formValues['10_prevApplicationType'] === '3' &&
       this.props.formValues['11_failureToExhaust'] !== '1';
+
     return `Based on your answers, you need to complete Department of Defense (DoD) Form ${
       formData(this.props.formValues).num
     } and send it to the ${
@@ -116,6 +119,7 @@ class GuidancePage extends React.Component {
         </div>
       );
     }
+
     return null;
   }
 
@@ -174,6 +178,7 @@ class GuidancePage extends React.Component {
           </div>
         );
       }
+
       return null;
     };
 
@@ -270,6 +275,7 @@ class GuidancePage extends React.Component {
     );
 
     const form = formData(this.props.formValues);
+
     return (
       <li className="list-group-item">
         <div>
@@ -329,6 +335,7 @@ class GuidancePage extends React.Component {
 
     const boardToSubmit = board(this.props.formValues);
     let militaryRecordInfo;
+
     if (parseInt(this.props.formValues['2_dischargeYear'], 10) >= 1997) {
       militaryRecordInfo = (
         <p>
@@ -451,6 +458,7 @@ class GuidancePage extends React.Component {
   renderMedicalRecordInfo() {
     if (['1', '2', '4'].indexOf(this.props.formValues['4_reason']) > -1) {
       let requestQuestion;
+
       if (parseInt(this.props.formValues['2_dischargeYear'], 10) >= 1992) {
         requestQuestion = (
           <a
@@ -497,6 +505,7 @@ class GuidancePage extends React.Component {
         </li>
       );
     }
+
     return null;
   }
 
@@ -519,6 +528,7 @@ class GuidancePage extends React.Component {
     if (reasonCode === '8' && prevAppType !== '3') {
       boardExplanation =
         'the Discharge Review Board (DRB). The DRB was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.';
+
       if (oldDischarge) {
         boardExplanation = `the ${
           boardToSubmit.name

@@ -8,6 +8,7 @@
 exports.command = function selectRadio(fieldName, value) {
   if (value !== 'undefined') {
     const target = `input[name="${fieldName}"][value="${value}"]`;
+
     if (this.options.desiredCapabilities.browserName === 'internet explorer') {
       this.sendKeys(target, this.Keys.SPACE);
     } else {

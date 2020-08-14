@@ -48,6 +48,7 @@ export class DateTimeRequestPage extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { validationError } = this.state;
+
     if (
       validationError &&
       (this.isMaxSelectionsError() ||
@@ -65,6 +66,7 @@ export class DateTimeRequestPage extends React.Component {
     const { data, router } = this.props;
     const { calendarData } = data || {};
     this.validate(calendarData);
+
     if (
       this.userSelectedSlot(calendarData) &&
       !this.exceededMaxSelections(calendarData)

@@ -34,6 +34,7 @@ export default function userNavReducer(state = initialState, action) {
 
     case UPDATE_SEARCH_HELP_USER_MENU:
       closeAllMenus(state);
+
       return set(`utilitiesMenuIsOpen.${action.menu}`, action.isOpen, state);
 
     default:

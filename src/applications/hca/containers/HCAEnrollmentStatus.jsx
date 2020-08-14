@@ -13,6 +13,7 @@ class HCAEnrollmentStatus extends React.Component {
 
   render() {
     const { enrollmentStatus, route } = this.props;
+
     if (enrollmentStatus) {
       return (
         <>
@@ -24,6 +25,7 @@ class HCAEnrollmentStatus extends React.Component {
         </>
       );
     }
+
     return null;
   }
 }
@@ -37,6 +39,7 @@ const mapStateToProps = state => {
     enrollmentStatus,
     preferredFacility,
   } = state.hcaEnrollmentStatus;
+
   return {
     applicationDate,
     enrollmentDate,

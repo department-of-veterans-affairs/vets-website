@@ -5,6 +5,7 @@ import { getPtsdClassification } from './ptsdClassification';
 export const MedalsDescription = ({ formData, index }) => {
   const { incidentText } = getPtsdClassification(formData, '781');
   const isFirstIncident = index === 0;
+
   return (
     <div>
       <h3>Medals or Citations</h3>

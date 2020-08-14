@@ -18,9 +18,11 @@ export const VeteranInformationViewComponent = props => {
   } = profile;
   let dateOfBirthFormatted = '-';
   let genderFull = '-';
+
   if (dob) {
     dateOfBirthFormatted = moment(dob).format('MMMM Do YYYY');
   }
+
   if (gender === 'M') {
     genderFull = 'Male';
   } else if (gender === 'F') {
@@ -55,6 +57,7 @@ export const VeteranInformationViewComponent = props => {
       <dd className="vads-u-line-height--4">Gender: {genderFull}</dd>
     </dl>
   );
+
   return (
     <div>
       <p>This is the personal information we have on file for you.</p>

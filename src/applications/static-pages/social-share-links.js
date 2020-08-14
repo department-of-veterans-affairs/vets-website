@@ -12,6 +12,7 @@ export function openShareLink(shareLinks) {
   shareLinks.forEach(link => {
     link.addEventListener('click', event => {
       event.preventDefault();
+
       if (!hasNavigatorShare) {
         // Desktop share
         window.open(
@@ -39,6 +40,7 @@ export function openShareLink(shareLinks) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const shareLinks = Array.from(document.querySelectorAll('.va-js-share-link'));
+
   if (shareLinks.length > 0) {
     openShareLink(shareLinks);
   }

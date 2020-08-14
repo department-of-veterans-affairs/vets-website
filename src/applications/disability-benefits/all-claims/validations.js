@@ -30,6 +30,7 @@ export function isValidZIP(value) {
   if (value !== null) {
     return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
   }
+
   return true;
 }
 
@@ -58,6 +59,7 @@ export function validateMilitaryCity(
     ),
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
+
   if (isMilitaryState && !isMilitaryCity) {
     errors.addError(
       'City must match APO, DPO, or FPO when using a military state code',
@@ -84,6 +86,7 @@ export function validateMilitaryState(
       .toUpperCase(),
   );
   const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
+
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
@@ -105,6 +108,7 @@ export function validateMilitaryTreatmentCity(
     ),
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
+
   if (isMilitaryState && !isMilitaryCity) {
     errors.addError(
       'City must match APO, DPO, or FPO when using a military state code',
@@ -130,6 +134,7 @@ export function validateMilitaryTreatmentState(
       .toUpperCase(),
   );
   const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
+
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
@@ -144,6 +149,7 @@ export const validateIfHasEvidence = (
   index,
 ) => {
   const { wrappedValidator } = options;
+
   if (_.get('view:hasEvidence', formData, true)) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);
   }
@@ -174,6 +180,7 @@ export const oneDisabilityRequired = disabilityList => (
 
 export const isInFuture = (err, fieldData) => {
   const fieldDate = new Date(fieldData);
+
   if (fieldDate.getTime() < Date.now()) {
     err.addError('Start date must be in the future');
   }
@@ -208,6 +215,7 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
 
   const treatmentStartDate = moment(fieldData, 'YYYY-MM');
   const firstServiceStartDate = moment(earliestServiceStartDate);
+
   // If the moment is earlier than the moment passed to moment.diff(),
   // the return value will be negative.
   if (treatmentStartDate.diff(firstServiceStartDate, 'month') < 0) {
@@ -241,6 +249,7 @@ export const isWithinServicePeriod = (errors, fieldData, formData) => {
   if (!inServicePeriod) {
     const dateIsComplete = dateString =>
       dateString && !dateString.includes('X');
+
     if (dateIsComplete(fieldData.from) && dateIsComplete(fieldData.to)) {
       errors.from.addError(
         getPOWValidationMessage(servicePeriods.map(period => period.dateRange)),
@@ -303,6 +312,7 @@ export const checkSeparationLocation = (errors, values = {}, formData) => {
   const data = formData?.serviceInformation?.separationLocation?.label;
   const isValid =
     data && separationLocations.some(({ description }) => data === description);
+
   if (!isValid && isBDD(formData)) {
     errors.addError('Please select an option from the suggestions');
   }

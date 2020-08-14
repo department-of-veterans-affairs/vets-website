@@ -116,6 +116,7 @@ const selectSearchResult = (client, facilityCode, checkLocation = true) => {
     .click(`#search-result-${facilityCode} a`)
     .waitForElementVisible('.profile-page', Timeouts.normal)
     .axeCheck('.main');
+
   if (checkLocation) expectLocation(client, `/profile/${facilityCode}`);
 };
 
@@ -189,6 +190,7 @@ const eybAccordionExpandedCheck = (client, sections, section) => {
 
 const formatNumber = value => {
   const str = (+value).toString();
+
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
 };
 
@@ -196,6 +198,7 @@ const formatCurrency = value => `$${formatNumber(Math.round(+value))}`;
 
 const formatNumberHalf = value => {
   const halfVal = Math.round(value / 2);
+
   return UtilHelpers.formatCurrency(halfVal);
 };
 
@@ -206,6 +209,7 @@ const createCalculatorConstants = () => {
   calculatorConstantsJson.data.forEach(c => {
     constantsList[c.attributes.name] = c.attributes.value;
   });
+
   return constantsList;
 };
 const calculatorConstants = createCalculatorConstants();

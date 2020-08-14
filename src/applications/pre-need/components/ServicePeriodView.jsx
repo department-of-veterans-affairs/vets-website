@@ -5,6 +5,7 @@ import { serviceLabels } from '../utils/labels';
 export default function ServicePeriodView({ formData }) {
   let from = '';
   let to = '';
+
   if (formData.dateRange) {
     from = formatReviewDate(formData.dateRange.from);
     to = formatReviewDate(formData.dateRange.to);

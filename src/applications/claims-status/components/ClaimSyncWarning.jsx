@@ -2,6 +2,7 @@ import React from 'react';
 
 export default function ClaimSyncWarning({ olderVersion }) {
   let additionalText;
+
   if (olderVersion) {
     additionalText =
       ' This is an older version of your claim and may be outdated.';
@@ -9,6 +10,7 @@ export default function ClaimSyncWarning({ olderVersion }) {
 
   function handleClick(e) {
     e.preventDefault();
+
     return window.location.reload();
   }
 

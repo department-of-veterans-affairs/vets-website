@@ -58,6 +58,7 @@ class Vet360ProfileField extends React.Component {
     if (modalOpenInPrevProps && modalIsClosed) {
       focusElement(`button#${this.props.fieldName}-edit-link`);
     }
+
     // Just close the edit modal if it takes more than 5 seconds for the update
     // transaction to resolve. ie, give it 5 seconds before reverting to the old
     // behavior of showing the "we're saving your new information..." message on
@@ -65,6 +66,7 @@ class Vet360ProfileField extends React.Component {
     if (!prevProps.transaction && this.props.transaction) {
       setTimeout(() => this.props.openModal(), 5000);
     }
+
     if (this.justClosedModal(prevProps, this.props) && this.props.transaction) {
       focusElement(`div#${this.props.fieldName}-transaction-status`);
     }
@@ -91,6 +93,7 @@ class Vet360ProfileField extends React.Component {
 
   onDelete = () => {
     let payload = this.props.data;
+
     if (this.props.convertCleanDataToPayload) {
       payload = this.props.convertCleanDataToPayload(
         payload,
@@ -117,6 +120,7 @@ class Vet360ProfileField extends React.Component {
     }
 
     let payload = this.props.field.value;
+
     if (this.props.convertCleanDataToPayload) {
       payload = this.props.convertCleanDataToPayload(
         payload,
@@ -134,6 +138,7 @@ class Vet360ProfileField extends React.Component {
         payload,
         this.props.analyticsSectionName,
       );
+
       return;
     }
 
@@ -182,9 +187,11 @@ class Vet360ProfileField extends React.Component {
 
   isEditLinkVisible = () => {
     let transactionPending = false;
+
     if (this.props.transaction) {
       transactionPending = isPendingTransaction(this.props.transaction);
     }
+
     return (
       !this.props.isEmpty &&
       (!transactionPending ||

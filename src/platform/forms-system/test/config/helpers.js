@@ -3,6 +3,7 @@ import { mount } from 'enzyme';
 
 export function axeCheck(component) {
   let div = document.getElementById('axeContainer');
+
   if (!div) {
     div = document.createElement('div');
     div.setAttribute('id', 'axeContainer');
@@ -19,6 +20,7 @@ export function axeCheck(component) {
         console.error(err);
         reject(err);
       }
+
       if (result.violations.length) {
         reject(
           new Error(
@@ -26,6 +28,7 @@ export function axeCheck(component) {
               .map(violation => {
                 const nodeInfo = violation.nodes.reduce((str, node) => {
                   const { html, target } = node;
+
                   return [str, html, ...target].join('\n');
                 }, '');
 

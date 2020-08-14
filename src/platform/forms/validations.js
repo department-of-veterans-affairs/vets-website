@@ -167,6 +167,7 @@ function isValidSSN(value) {
 
   const noBadSameDigitNumber = _.range(0, 10).every(i => {
     const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
+
     return !sameDigitRegex.test(value);
   });
 
@@ -181,6 +182,7 @@ function isValidMonetaryValue(value) {
   if (value !== null) {
     return /^\d+\.?\d*$/.test(value);
   }
+
   return true;
 }
 
@@ -188,6 +190,7 @@ function isValidMonetaryValue(value) {
 function isValidPhone(value) {
   // Strip spaces, dashes, and parens
   const stripped = value.replace(/[^\d]/g, '');
+
   // Count number of digits
   return /^\d{10}$/.test(stripped);
 }
@@ -211,6 +214,7 @@ function isValidRoutingNumber(value) {
 
     return weighted % 10 === 0;
   }
+
   return false;
 }
 

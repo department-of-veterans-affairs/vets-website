@@ -29,6 +29,7 @@ const NationalCallToService = ({
       )?.selected;
       const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
         ?.selected;
+
       if (
         newBenefitAnswer === 'new' &&
         claimingBenefitAnswer === 'yes' &&

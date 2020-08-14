@@ -89,6 +89,7 @@ class EmailCapture extends React.Component {
 
 const mapStateToProps = state => {
   const emailState = state.idcard.emailForm;
+
   return {
     email: emailState.email,
     success: emailState.success,

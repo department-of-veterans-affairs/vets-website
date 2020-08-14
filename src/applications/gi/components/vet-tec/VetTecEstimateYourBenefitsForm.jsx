@@ -41,6 +41,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
   setProgramFields = programName => {
     if (programName) {
       const program = this.getProgramByName(programName);
+
       if (program) {
         const field = 'EstimateYourBenefitsFields';
         const value = {
@@ -175,6 +176,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       value: program.description,
       label: program.description,
     }));
+
     return options.length <= 5 ? (
       <RadioButtons
         label="Choose the training program you'd like to attend"

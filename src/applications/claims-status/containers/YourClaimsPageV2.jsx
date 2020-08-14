@@ -44,6 +44,7 @@ class YourClaimsPageV2 extends React.Component {
 
   componentDidMount() {
     document.title = `Track Claims: VA.gov`;
+
     if (this.props.canAccessClaims) {
       this.props.getClaimsV2();
     }
@@ -139,6 +140,7 @@ class YourClaimsPageV2 extends React.Component {
     const bothRequestsLoading = claimsLoading && appealsLoading;
     const atLeastOneRequestLoading = claimsLoading || appealsLoading;
     const emptyList = !(list && list.length);
+
     if (bothRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
         <LoadingIndicator

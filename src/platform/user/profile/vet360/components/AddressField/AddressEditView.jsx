@@ -18,6 +18,7 @@ class AddressEditView extends React.Component {
     const newFieldValue = {
       ...value,
     };
+
     if (newFieldValue['view:livesOnMilitaryBase']) {
       newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
     }
@@ -43,6 +44,7 @@ class AddressEditView extends React.Component {
     ) {
       return true;
     }
+
     return false;
   };
 
@@ -62,9 +64,11 @@ class AddressEditView extends React.Component {
     // totally removes data fields with falsey values from initialFormValues
     // to prevent form validation errors.
     const transformedData = pickBy(initialFormValues);
+
     if (this.livesOnMilitaryBase(transformedData)) {
       transformedData['view:livesOnMilitaryBase'] = true;
     }
+
     return transformedData;
   };
 

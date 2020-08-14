@@ -44,6 +44,7 @@ export function alertsBuildShow() {
   // Iterate through the alerts array, and dismiss.
   dismissedAlerts.forEach(id => {
     const el = document.getElementById(id);
+
     if (el) {
       el.classList.add('dismissed');
     }
@@ -56,6 +57,7 @@ export function alertsBuildShow() {
     date = new Date();
     date.setTime(date.getTime() + 3650 * 24 * 60 * 60 * 1000);
     expires = `expires=${date.toUTCString()}`;
+
     if (frequency === 'always') {
       expires = '';
     }

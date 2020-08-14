@@ -72,6 +72,7 @@ class LocatorApi {
    */
   static getProviderSpecialties() {
     const url = `${api.baseUrl}/ccp/specialties`;
+
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
         .then(res => res.json())

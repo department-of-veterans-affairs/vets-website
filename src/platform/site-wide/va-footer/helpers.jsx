@@ -44,6 +44,7 @@ const renderInnerTag = (link, captureEvent) => (
 
 export function generateLinkItems(links, column, direction = 'asc') {
   const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
+
   return (
     <ul className="va-footer-links">
       {orderBy(links[column], 'order', direction).map(link => (

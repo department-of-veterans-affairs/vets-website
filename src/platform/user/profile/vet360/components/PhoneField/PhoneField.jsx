@@ -112,9 +112,11 @@ export default class PhoneField extends React.Component {
 
   convertCleanDataToPayload = (data, fieldName) => {
     let cleanData = data;
+
     if (data.inputPhoneNumber) {
       cleanData = this.convertNextValueToCleanData(data);
     }
+
     return pickBy(
       {
         id: cleanData.id,

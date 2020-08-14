@@ -25,6 +25,7 @@ const ADDRESS_PROPS = [
 class CopyMailingAddress extends React.Component {
   onChange = event => {
     event.stopPropagation();
+
     if (event.target.checked) {
       const address = pick(this.props.mailingAddress, ADDRESS_PROPS);
       this.props.copyMailingAddress(address);
@@ -33,6 +34,7 @@ class CopyMailingAddress extends React.Component {
 
   render() {
     if (this.props.hasEmptyMailingAddress) return <div />;
+
     return (
       <div className="copy-mailing-address-to-residential-address">
         <div className="form-checkbox-buttons form-checkbox">
@@ -66,6 +68,7 @@ export function mapStateToProps(state) {
     if (hasEmptyMailingAddress) {
       return false;
     }
+
     return isEqual(
       pickBy(pick(mailingAddress, ADDRESS_PROPS), e => !!e),
       pick(residentialAddress, ADDRESS_PROPS),

@@ -45,6 +45,7 @@ class Checkbox extends React.Component {
     let errorSpan = '';
     let errorSpanId = undefined;
     const hasErrors = !!this.props.errorMessage;
+
     if (hasErrors) {
       errorSpanId = `${this.inputId}-error-message`;
       errorSpan = (
@@ -56,6 +57,7 @@ class Checkbox extends React.Component {
 
     // Addes ToolTip if text is provided.
     let toolTip;
+
     if (this.props.toolTipText) {
       toolTip = (
         <ToolTip
@@ -67,14 +69,17 @@ class Checkbox extends React.Component {
 
     // Calculate required.
     let requiredSpan = undefined;
+
     if (this.props.required) {
       requiredSpan = <span className="form-required-span">*</span>;
     }
 
     let className = `form-checkbox${hasErrors ? ' usa-input-error' : ''}`;
+
     if (!_.isUndefined(this.props.className)) {
       className = `${className} ${this.props.className}`;
     }
+
     return (
       <div className={className}>
         <input

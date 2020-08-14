@@ -52,6 +52,7 @@ function ConnectedAccountsSection({
       </div>
     );
   }
+
   return null;
 }
 

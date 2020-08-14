@@ -25,6 +25,7 @@ export default function LoginSettings() {
       </a>
     </p>
   );
+
   return (
     <div>
       <h5>ID.me settings</h5>

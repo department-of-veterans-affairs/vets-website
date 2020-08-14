@@ -31,6 +31,7 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
           error: action.error,
         };
       }
+
       return INITIAL_STATE;
     case CLEAR_SEARCH_RESULTS:
       return INITIAL_STATE;

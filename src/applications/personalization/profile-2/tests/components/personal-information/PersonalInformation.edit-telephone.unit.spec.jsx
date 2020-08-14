@@ -31,6 +31,7 @@ function getEditButton(numberName) {
   let editButton = view.queryByText(new RegExp(`add.*${numberName}`, 'i'), {
     selector: 'button',
   });
+
   if (!editButton) {
     // Need to use `queryByRole` since the visible label is simply `Edit`, but
     // the aria-label is more descriptive
@@ -38,6 +39,7 @@ function getEditButton(numberName) {
       name: new RegExp(`edit.*${numberName}`, 'i'),
     });
   }
+
   return editButton;
 }
 

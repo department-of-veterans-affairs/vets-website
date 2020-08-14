@@ -22,6 +22,7 @@ import {
 export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
+
     if (!this.props.contestableIssues?.status) {
       this.props.getContestableIssues();
     }
@@ -29,6 +30,7 @@ export class IntroductionPage extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { contestableIssues = {} } = this.props;
+
     if (
       contestableIssues.status !== prevProps.contestableIssues.status &&
       contestableIssues.issues?.length > 0
@@ -43,6 +45,7 @@ export class IntroductionPage extends React.Component {
 
   hasSavedForm = () => {
     const { user } = this.props;
+
     return user?.profile?.savedForms
       .filter(f => moment.unix(f.metadata.expiresAt).isAfter())
       .find(f => f.form === this.props.formId);
@@ -55,14 +58,17 @@ export class IntroductionPage extends React.Component {
 
   getCallToActionContent = () => {
     const { route, contestableIssues, allowHlr, testHlr } = this.props;
+
     // check feature flag
     if (!(allowHlr || testHlr)) {
       return showWorkInProgress;
     }
     const { formConfig } = route;
+
     if (contestableIssues?.error) {
       return showContestableIssueError(contestableIssues.error.errors);
     }
+
     return contestableIssues?.issues?.length > 0 ? (
       <SaveInProgressIntro
         formId={formConfig.formId}
@@ -199,6 +205,7 @@ export class IntroductionPage extends React.Component {
 
 function mapStateToProps(state) {
   const { form, user, contestableIssues } = state;
+
   return {
     form,
     user,

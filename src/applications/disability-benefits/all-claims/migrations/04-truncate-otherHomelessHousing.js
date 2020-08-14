@@ -7,7 +7,9 @@ export default savedData => {
       0,
       499,
     );
+
     return newData;
   }
+
   return savedData;
 };

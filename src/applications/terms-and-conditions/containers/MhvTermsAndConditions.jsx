@@ -31,6 +31,7 @@ export class MhvTermsAndConditions extends React.Component {
 
   componentDidMount() {
     this.props.fetchLatestTerms(TERMS_NAME);
+
     if (hasSession()) {
       this.props.fetchTermsAcceptance(TERMS_NAME);
     }
@@ -44,6 +45,7 @@ export class MhvTermsAndConditions extends React.Component {
 
   redirect = () => {
     const redirectUrl = this.props.location.query.tc_redirect;
+
     if (redirectUrl) {
       const newUrl = appendQuery(redirectUrl, { tc_accepted: true }); // eslint-disable-line camelcase
       window.location.replace(newUrl);
@@ -119,6 +121,7 @@ export class MhvTermsAndConditions extends React.Component {
     if (shouldHideSection) {
       return null;
     }
+
     return (
       <button
         className="usa-button submit-button"

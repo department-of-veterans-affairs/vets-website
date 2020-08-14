@@ -44,5 +44,6 @@ function baseUnset(arrayPath, object, level = 0) {
 export default function unset(path, object) {
   const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
   checkValidPath(arrayPath);
+
   return baseUnset(arrayPath, object, 0);
 }

@@ -31,6 +31,7 @@ class ExternalServicesError extends React.Component {
     if (this.props.shouldGetBackendStatuses) {
       this.props.getBackendStatuses();
     }
+
     if (shouldRender && onRender) onRender();
   }
 
@@ -47,9 +48,11 @@ class ExternalServicesError extends React.Component {
 
   render() {
     const { children, statuses } = this.props;
+
     if (!statuses) return null;
 
     const shouldRender = statuses.some(this.isFailingDependency);
+
     if (!shouldRender) return null;
 
     return children;
@@ -59,6 +62,7 @@ class ExternalServicesError extends React.Component {
 export const mapStateToProps = state => {
   const { loading, statuses } = state.externalServiceStatuses;
   const shouldGetBackendStatuses = !loading && !statuses;
+
   return { shouldGetBackendStatuses, statuses };
 };
 

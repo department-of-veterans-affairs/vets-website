@@ -38,9 +38,11 @@ export default function convertCountryCode(savedData) {
   let { formData: newData } = savedData;
   addressPaths.forEach(({ path, returnUrl }) => {
     const countryCode = _.get(path, newData);
+
     if (!countryCode) return;
 
     const match = countries.find(c => c.value === countryCode);
+
     if (match) {
       // Reset the code to the full name (except for USA, which is valid in the list of full country names)
       if (match.value !== 'USA') {

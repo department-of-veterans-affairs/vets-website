@@ -28,6 +28,7 @@ class CalculatorForm extends React.Component {
     const facilityMap = profile.attributes.facilityMap;
     const profileFacilityCode = profile.attributes.facilityCode;
     let extensions;
+
     if (profileFacilityCode === facilityMap.main.institution.facilityCode) {
       extensions = profile.attributes.facilityMap.main.extensions;
     } else {
@@ -91,6 +92,7 @@ class CalculatorForm extends React.Component {
       'gibct-form-field': 'gibctExtensionCampusDropdown',
       'gibct-form-value': event.target.options[event.target.selectedIndex].text,
     });
+
     if (!event.dirty) {
       if (event.target.value !== 'other') {
         this.props.onBeneficiaryZIPCodeChanged(zipCode);
@@ -132,6 +134,7 @@ class CalculatorForm extends React.Component {
             : profile.attributes.name,
       });
     }
+
     if (value === 'other') {
       recordEvent({
         event: 'gibct-form-change',
@@ -143,6 +146,7 @@ class CalculatorForm extends React.Component {
 
   handleInputFocus = fieldId => {
     const field = document.getElementById(fieldId);
+
     if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
       field.scrollIntoView();
     }
@@ -150,6 +154,7 @@ class CalculatorForm extends React.Component {
 
   resetBuyUp = event => {
     event.preventDefault();
+
     if (this.props.inputs.buyUpAmount > 600) {
       this.props.onInputChange({
         field: 'buyUpAmount',
@@ -175,6 +180,7 @@ class CalculatorForm extends React.Component {
 
   renderInState = () => {
     if (!this.props.displayedInputs.inState) return null;
+
     return (
       <RadioButtons
         label="Are you an in-state student?"
@@ -190,6 +196,7 @@ class CalculatorForm extends React.Component {
     if (!this.props.displayedInputs.giBillBenefit) {
       return null;
     }
+
     return (
       <div>
         <RadioButtons
@@ -238,6 +245,7 @@ class CalculatorForm extends React.Component {
 
     const tuitionFeesId = 'tuitionFees';
     const tuitionFeesFieldId = `${tuitionFeesId}-field`;
+
     return (
       <div id={tuitionFeesFieldId}>
         <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
@@ -268,6 +276,7 @@ class CalculatorForm extends React.Component {
     if (!this.props.displayedInputs.books) return null;
     const booksId = 'books';
     const booksFieldId = 'books-field';
+
     return (
       <div id={booksFieldId}>
         <label htmlFor={booksId}>Books and supplies per year</label>
@@ -305,6 +314,7 @@ class CalculatorForm extends React.Component {
     const showYellowRibbonOptions = yellowRibbonDegreeLevelOptions.length > 1;
     const showYellowRibbonDetails = yellowRibbonDivisionOptions.length > 0;
     const yellowRibbonFieldId = 'yellowRibbonField';
+
     return (
       <div>
         <RadioButtons
@@ -384,6 +394,7 @@ class CalculatorForm extends React.Component {
     if (!this.props.displayedInputs.scholarships) return null;
     const scholarshipsId = 'scholarships';
     const scholarshipsFieldId = `${scholarshipsId}-field`;
+
     return (
       <div id={scholarshipsFieldId}>
         <label htmlFor={scholarshipsId}>
@@ -409,6 +420,7 @@ class CalculatorForm extends React.Component {
     if (!this.props.displayedInputs.tuitionAssist) return null;
     const tuitionAssistId = 'tuitionAssist';
     const tuitionAssistFieldId = `${tuitionAssistId}-field`;
+
     return (
       <div id={tuitionAssistFieldId}>
         <label htmlFor={tuitionAssistId}>
@@ -782,6 +794,7 @@ class CalculatorForm extends React.Component {
 
   renderWorking = () => {
     if (!this.props.displayedInputs.working) return null;
+
     return (
       <div>
         <Dropdown
@@ -827,6 +840,7 @@ class CalculatorForm extends React.Component {
 
   render() {
     if (!this.props.displayedInputs) return null;
+
     return (
       <div className="calculator-form">
         {this.renderInState()}

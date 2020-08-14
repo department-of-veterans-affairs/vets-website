@@ -3,6 +3,7 @@ import { isValidCentralMailPostalCode } from 'platform/forms/address/validations
 
 export function validateBurialAndDeathDates(errors, page) {
   const { burialDate, deathDate, veteranDateOfBirth } = page;
+
   if (
     burialDate &&
     deathDate &&
@@ -12,6 +13,7 @@ export function validateBurialAndDeathDates(errors, page) {
       'Date of burial must be on or after date of death',
     );
   }
+
   if (
     deathDate &&
     veteranDateOfBirth &&

@@ -9,6 +9,7 @@ function PaymentInformationTOCItem({ isEligible }) {
   if (!isEligible) {
     return null;
   }
+
   return (
     <li>
       <a href="#direct-deposit">Direct deposit information</a>

@@ -18,6 +18,7 @@ export default [
         false,
         newData.formData,
       );
+
       return newData;
     }
 

@@ -61,6 +61,7 @@ function pollStatus(
 
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
+
   return JSON.stringify({
     burialClaim: {
       form: formData,
@@ -83,6 +84,7 @@ export function submit(form, formConfig) {
 
   const onSuccess = resp => {
     const { guid, confirmationNumber, regionalOffice } = resp.data.attributes;
+
     return new Promise((resolve, reject) => {
       pollStatus(
         { guid, confirmationNumber, regionalOffice },
@@ -90,6 +92,7 @@ export function submit(form, formConfig) {
           window.dataLayer.push({
             event: `${formConfig.trackingPrefix}-submission-successful`,
           });
+
           return resolve(response);
         },
         error => reject(error),
@@ -104,6 +107,7 @@ export function submit(form, formConfig) {
 
       return Promise.reject(error);
     }
+
     return Promise.reject(respOrError);
   };
 

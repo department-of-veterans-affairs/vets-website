@@ -23,17 +23,23 @@ const WizardContainer = ({ setWizardStatus }) => {
     for (const formIDSuffix of formIDSuffixes) {
       const urlContainsFormIDSuffix = urlSections.find(urlSection => {
         let shortenedUrlSection;
+
         if (urlSection.includes('22-0994')) {
           shortenedUrlSection = '0994';
+
           return formIDSuffix === shortenedUrlSection;
         } else if (urlSection.includes('form-0993')) {
           shortenedUrlSection = '0993';
+
           return formIDSuffix === shortenedUrlSection;
         }
+
         return formIDSuffix === urlSection;
       });
+
       if (urlContainsFormIDSuffix) return formIDSuffix;
     }
+
     return NO_BENEFIT_REFERRED;
   };
   /**
@@ -44,11 +50,13 @@ const WizardContainer = ({ setWizardStatus }) => {
     for (const VAFormID of VAFormIDs) {
       if (VAFormID.includes(currentFormIdSuffix)) return VAFormID;
     }
+
     return null;
   };
 
   const currentFormIdSuffix = getCurrentFormIdSuffix();
   const currentVAFormId = getCurrentVAFormId(currentFormIdSuffix);
+
   return (
     <div className="wizard-container">
       <h2>Is this the form I need?</h2>

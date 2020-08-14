@@ -110,6 +110,7 @@ export class ReasonForAppointmentPage extends React.Component {
 
   render() {
     const { schema, data, pageChangeInProgress } = this.props;
+
     return (
       <div>
         <h1 className="vads-u-font-size--h2">

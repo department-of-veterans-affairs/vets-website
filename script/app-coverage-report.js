@@ -76,6 +76,7 @@ const generateCoverage = (rootDir, coverageSummary) => {
           ).toFixed(2);
         }
       });
+
       return acc;
     }, initialCoverage);
 };

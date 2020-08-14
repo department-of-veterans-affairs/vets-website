@@ -31,6 +31,7 @@ export function getActiveProperties(activePages) {
       allProperties.push(...Object.keys(page.schema.properties));
     }
   });
+
   return _.uniq(allProperties);
 }
 
@@ -48,6 +49,7 @@ export function createFormPageList(formConfig) {
         pageKey: page,
       }),
     );
+
     return pageList.concat(pages);
   }, []);
 }
@@ -60,6 +62,7 @@ export function createPageListByChapter(formConfig) {
         chapterKey: chapter,
       }),
     );
+
     return _.set(chapter, pages, chapters);
   }, {});
 }
@@ -152,6 +155,7 @@ export function createRoutes(formConfig) {
 function formatDayMonth(val) {
   if (val) {
     const dayOrMonth = val.toString();
+
     if (Number(dayOrMonth) && dayOrMonth.length === 1) {
       return `0${val}`;
     } else if (Number(dayOrMonth)) {
@@ -183,6 +187,7 @@ export function formatISOPartialDate({ month, day, year }) {
 export function formatReviewDate(dateString, monthYear = false) {
   if (dateString) {
     let [year, month, day] = dateString.split('-', 3);
+
     // dates (e.g. dob) are sometimes in this pattern: 'YYYYMMDD'
     if (year.length > 4) {
       year = dateString.substring(0, 4);
@@ -232,6 +237,7 @@ export function filterViewFields(data) {
       if (nextProp.startsWith('view:')) {
         return _.assign(newData, filterViewFields(field));
       }
+
       return _.set(nextProp, filterViewFields(field), newData);
     }
 
@@ -251,9 +257,11 @@ export function filterInactivePageData(inactivePages, activePages, form) {
     (formData, page) =>
       Object.keys(page.schema.properties).reduce((currentData, prop) => {
         newData = currentData;
+
         if (!activeProperties.includes(prop)) {
           delete newData[prop];
         }
+
         return newData;
       }, formData),
     form.data,
@@ -273,6 +281,7 @@ export function stringifyFormReplacer(key, value) {
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
+
     if (
       fields.length === 0 ||
       fields.every(field => value[field] === undefined)
@@ -294,6 +303,7 @@ export function stringifyFormReplacer(key, value) {
   // Clean up empty objects in arrays
   if (Array.isArray(value)) {
     const newValues = value.filter(v => !!stringifyFormReplacer(key, v));
+
     // If every item in the array is cleared, remove the whole array
     return newValues.length > 0 ? newValues : undefined;
   }
@@ -303,6 +313,7 @@ export function stringifyFormReplacer(key, value) {
 
 export function isInProgress(pathName) {
   const trimmedPathname = pathName.replace(/\/$/, '');
+
   return !(
     trimmedPathname.endsWith('introduction') ||
     trimmedPathname.endsWith('confirmation') ||
@@ -411,11 +422,13 @@ export function getNonArraySchema(schema, uiSchema = {}) {
 
     if (newProperties !== schema.properties) {
       let newSchema = _.set('properties', newProperties, schema);
+
       if (newSchema.required) {
         const newRequired = _.intersection(
           Object.keys(newSchema.properties),
           newSchema.required,
         );
+
         if (newRequired.length !== newSchema.required.length) {
           newSchema = _.set('required', newRequired, newSchema);
         }
@@ -539,6 +552,7 @@ export function createUSAStateLabels(states) {
  */
 function generateArrayPages(arrayPages, data) {
   const items = _.get(arrayPages[0].arrayPath, data) || [];
+
   return (
     items
       .reduce(
@@ -568,6 +582,7 @@ export function expandArrayPages(pageList, data) {
   const result = pageList.reduce(
     (acc, nextPage) => {
       const { lastArrayPath, arrayPages, currentList } = acc;
+
       // If we see an array page and we’re starting a section or in the middle of one, just add it
       // to the temporary array
       if (
@@ -575,6 +590,7 @@ export function expandArrayPages(pageList, data) {
         (!lastArrayPath || nextPage.arrayPath === lastArrayPath)
       ) {
         arrayPages.push(nextPage);
+
         return acc;
         // Now we’ve hit the end of a section of array pages using the same array, so
         // actually generate the pages now
@@ -583,6 +599,7 @@ export function expandArrayPages(pageList, data) {
           generateArrayPages(arrayPages, data),
           nextPage,
         );
+
         return _.assign(acc, {
           lastArrayPath: null,
           arrayPages: [],
@@ -617,6 +634,7 @@ export function expandArrayPages(pageList, data) {
  */
 export function getActiveExpandedPages(pages, data) {
   const expandedPages = expandArrayPages(pages, data);
+
   return getActivePages(expandedPages, data);
 }
 
@@ -633,9 +651,11 @@ export function getPageKeys(pages, formData) {
 
   return expandedPageList.map(page => {
     let pageKey = page.pageKey;
+
     if (typeof page.index !== 'undefined') {
       pageKey += page.index;
     }
+
     return pageKey;
   });
 }

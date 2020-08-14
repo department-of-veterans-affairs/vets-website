@@ -16,6 +16,7 @@ function InstitutionSearchForm(props) {
     // prod flag for bah-8821
     if (environment.isProduction() && isMobileView()) {
       const field = document.getElementById(fieldId);
+
       if (field) {
         field.scrollIntoView();
       }

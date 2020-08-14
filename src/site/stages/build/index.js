@@ -78,6 +78,7 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
   return () => {
     if (webpackDirExists) {
       fs.moveSync(tempDir, webpackDir);
+
       // Clean up tmp/ if it's empty. The empty check is needed for CI, where
       // we're building multiple environments in parallel
       if (!fs.readdirSync(path.resolve(tempDir, '..')).length) {
@@ -270,6 +271,7 @@ function build(BUILD_OPTIONS) {
   /* eslint-disable no-console */
   smith.build(err => {
     if (err) throw err;
+
     if (BUILD_OPTIONS.watch) {
       console.log('Metalsmith build finished!');
     } else {

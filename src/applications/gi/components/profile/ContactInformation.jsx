@@ -94,9 +94,11 @@ export const ContactInformation = ({ institution }) => {
       firstProgram.phoneAreaCode,
       firstProgram.phoneNumber,
     );
+
     if (phoneNumber === '') {
       return null;
     }
+
     return (
       <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">

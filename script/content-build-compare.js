@@ -63,6 +63,7 @@ function hashBuildOutput(outputDir, hashFile) {
   }));
 
   writeArrayToFile(fileHashes, hashFile);
+
   return fileHashes;
 }
 

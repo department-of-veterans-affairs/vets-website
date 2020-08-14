@@ -125,6 +125,7 @@ class FormQuestions extends React.Component {
 
   renderQuestionThree() {
     const key = '4_reason';
+
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
@@ -162,6 +163,7 @@ class FormQuestions extends React.Component {
 
   renderQuestionThreeA() {
     const key = '5_dischargeType';
+
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
@@ -173,14 +175,17 @@ class FormQuestions extends React.Component {
       { label: questionLabels[key][1], value: '1' },
       { label: questionLabels[key][2], value: '2' },
     ];
+
     return this.renderQuestion(key, label, options);
   }
 
   renderQuestionThreeB() {
     const key = '6_intention';
+
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
+
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') {
       return null;
@@ -196,11 +201,13 @@ class FormQuestions extends React.Component {
       { label: `Yes, ${questionLabels[key][1]}`, value: '1' },
       { label: `No, ${questionLabels[key][2]}`, value: '2' },
     ];
+
     return this.renderQuestion(key, label, options);
   }
 
   renderQuestionTwo() {
     const key = '2_dischargeYear';
+
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
@@ -209,6 +216,7 @@ class FormQuestions extends React.Component {
     const currentYear = new Date().getFullYear();
     const yearOptions = range(currentYear - 1992).map(i => {
       const year = currentYear - i;
+
       return { label: year.toString(), value: year.toString() };
     });
 
@@ -247,6 +255,7 @@ class FormQuestions extends React.Component {
 
   renderQuestionTwoB() {
     const key = '3_dischargeMonth';
+
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
@@ -284,9 +293,11 @@ class FormQuestions extends React.Component {
 
   renderQuestionFour() {
     const key = '7_courtMartial';
+
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
+
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') {
       return null;
@@ -316,6 +327,7 @@ class FormQuestions extends React.Component {
 
   renderQuestionOne() {
     const key = '1_branchOfService';
+
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
@@ -334,9 +346,11 @@ class FormQuestions extends React.Component {
 
   renderQuestionFive() {
     const key = '8_prevApplication';
+
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
+
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') {
       return null;
@@ -356,9 +370,11 @@ class FormQuestions extends React.Component {
 
   renderQuestionFiveA() {
     const key = '9_prevApplicationYear';
+
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
+
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') {
       return null;
@@ -385,6 +401,7 @@ class FormQuestions extends React.Component {
 
   renderQuestionFiveB() {
     const key = '10_prevApplicationType';
+
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
@@ -398,6 +415,7 @@ class FormQuestions extends React.Component {
 
     let boardLabel =
       'I applied to a Board for Correction of Military Records (BCMR)';
+
     if (
       ['navy', 'marines'].includes(this.props.formValues['1_branchOfService'])
     ) {
@@ -444,6 +462,7 @@ class FormQuestions extends React.Component {
     );
 
     let boardLabel = 'BCMR';
+
     if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
       boardLabel = 'BCNR';
     }
@@ -472,6 +491,7 @@ class FormQuestions extends React.Component {
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
+
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') {
       return null;

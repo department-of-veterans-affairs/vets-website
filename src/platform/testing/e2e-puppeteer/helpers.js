@@ -10,6 +10,7 @@ async function overrideVetsGovApi(client) {
           url: url,
         },
       });
+
       return window.VetsGov;
     },
     [`http://${process.env.API_HOST}:${process.env.API_PORT || 3000}`],
@@ -26,6 +27,7 @@ async function overrideSmoothScrolling(client) {
         smooth: false,
       },
     });
+
     return window.VetsGov;
   });
 }

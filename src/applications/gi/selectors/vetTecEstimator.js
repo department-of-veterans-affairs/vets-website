@@ -8,6 +8,7 @@ const getEligibilityDetails = state => state.eligibility;
 
 const getRequiredAttributes = (state, props) => {
   const { type, bah, dodBah, country } = props.result;
+
   return {
     type: type && type.toLowerCase(),
     bah,

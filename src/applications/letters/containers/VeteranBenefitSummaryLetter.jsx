@@ -77,6 +77,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         isVeteran,
         benefitInfo.awardEffectiveDate,
       );
+
       if (optionText && displayOption) {
         vaBenefitInfoRows.push(
           <tr key={`option${key}`}>
@@ -115,6 +116,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     );
 
     let benefitSummaryContent;
+
     if (this.props.optionsAvailable) {
       benefitSummaryContent = (
         <div>

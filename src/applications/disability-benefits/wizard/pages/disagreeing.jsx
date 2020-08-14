@@ -19,6 +19,7 @@ export const findNextPage = state => {
   if (!date.isBefore(feb19, 'day')) {
     return pageNames.decisionReview;
   }
+
   return pageNames.disagreeFileClaim;
 };
 
@@ -46,6 +47,7 @@ const DisagreeingPage = ({ setPageState, state = defaultState }) => {
       pageState,
       isDateComplete(pageState) ? findNextPage(pageState) : undefined,
     );
+
   return (
     <ErrorableDate
       label="What’s the date of VA’s decision?"

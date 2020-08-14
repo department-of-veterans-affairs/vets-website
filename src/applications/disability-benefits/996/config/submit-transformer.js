@@ -26,10 +26,12 @@ export function transform(formConfig, form) {
       time1230to1400: '1230-1400 ET',
       time1400to1630: '1400-1630 ET',
     };
+
     return Object.keys(informalConferenceTimes).reduce((times, key) => {
       if (informalConferenceTimes[key]) {
         times.push(xRef[key]);
       }
+
       return times;
     }, []);
   };
@@ -61,6 +63,7 @@ export function transform(formConfig, form) {
         const hasPercentage = issue?.ratingIssuePercentNumber
           ? ` - ${issue.ratingIssuePercentNumber}%`
           : '';
+
         return `${issue.ratingIssueSubjectText}${hasPercentage}`;
       },
       decisionDate: issue => issue.approxDecisionDate,
@@ -71,9 +74,11 @@ export function transform(formConfig, form) {
     const getAttributes = (issue = {}) =>
       Object.keys(issueTransform).reduce((acc, key) => {
         const value = issueTransform[key](issue);
+
         if (value) {
           acc[key] = value;
         }
+
         return acc;
       }, {});
 
@@ -123,6 +128,7 @@ export function transform(formConfig, form) {
       result.data.attributes.informalConferenceTimes = getConferenceTimes(
         formData,
       );
+
       if (formData.informalConference === 'rep') {
         result.data.attributes.informalConferenceRep = getRep(formData);
       }
@@ -132,6 +138,7 @@ export function transform(formConfig, form) {
   };
   // console.log(form);
   const transformedData = mainTransform(_.cloneDeep(form.data));
+
   // console.log('transformed data', JSON.stringify(transformedData));
   return JSON.stringify(transformedData);
 }

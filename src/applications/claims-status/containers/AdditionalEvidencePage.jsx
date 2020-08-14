@@ -32,6 +32,7 @@ class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
     document.title = 'Additional Evidence';
+
     if (!this.props.loading) {
       setUpPage();
     } else {
@@ -48,6 +49,7 @@ class AdditionalEvidencePage extends React.Component {
     if (this.props.message && !prevProps.message) {
       scrollToError();
     }
+
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
     }
@@ -124,6 +126,7 @@ class AdditionalEvidencePage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,

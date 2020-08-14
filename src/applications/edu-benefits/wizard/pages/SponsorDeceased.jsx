@@ -29,6 +29,7 @@ const SponsorDeceased = ({
       const transferredBenefitsAnswer = getPageStateFromPageName(
         pageNames.transferredBenefits,
       )?.selected;
+
       if (
         claimingBenefitOwnServiceAnswer === 'no' &&
         value === 'no' &&
@@ -48,6 +49,7 @@ const SponsorDeceased = ({
       ) {
         const { FORM_ID_5490 } = formIdSuffixes;
         setReferredBenefit(FORM_ID_5490);
+
         return setPageState({ selected: value }, pageNames.applyNow);
       } else {
         return setPageState({ selected: value });

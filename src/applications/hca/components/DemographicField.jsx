@@ -11,6 +11,7 @@ export default function DemographicField(props) {
   const categories = Object.keys(schema.properties).filter(
     prop => formData[prop],
   );
+
   return (
     <div>
       <div className="review-row">

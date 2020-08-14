@@ -44,6 +44,7 @@ export const resolveParamsWithUrl = (
         facility = 'health';
         service = 'UrgentCare';
       }
+
       if (serviceType === 'NonVAUrgentCare') {
         facility = 'urgent_care';
         url = api.ccUrl;

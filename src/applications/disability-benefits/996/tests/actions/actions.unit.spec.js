@@ -21,6 +21,7 @@ describe('fetch contestable issues action', () => {
     const mockData = { data: 'asdf' };
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
+
     return getContestableIssues()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         FETCH_CONTESTABLE_ISSUES_INIT,
@@ -36,6 +37,7 @@ describe('fetch contestable issues action', () => {
     const mockData = { data: 'asdf' };
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
+
     return getContestableIssues()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         FETCH_CONTESTABLE_ISSUES_INIT,

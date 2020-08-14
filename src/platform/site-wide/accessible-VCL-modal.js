@@ -26,6 +26,7 @@ export default function addFocusBehaviorToCrisisLineModal() {
       e.preventDefault();
       focusElement(lastTabbableElement);
     }
+
     if (e.target === lastTabbableElement && isTab(e)) {
       e.preventDefault();
       focusElement(closeControl);

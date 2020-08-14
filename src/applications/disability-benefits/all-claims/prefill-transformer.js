@@ -57,12 +57,15 @@ export default function prefillTransformer(pages, formData, metadata) {
       // documents)
       const { emailAddress, primaryPhone, mailingAddress } = veteran;
       newData.phoneAndEmail = {};
+
       if (emailAddress) {
         newData.phoneAndEmail.emailAddress = emailAddress;
       }
+
       if (primaryPhone) {
         newData.phoneAndEmail.primaryPhone = primaryPhone;
       }
+
       if (mailingAddress) {
         newData.mailingAddress = mailingAddress;
       }
@@ -77,11 +80,14 @@ export default function prefillTransformer(pages, formData, metadata) {
       data,
     );
     const { servicePeriods, reservesNationalGuardService } = data;
+
     if (servicePeriods || reservesNationalGuardService) {
       newData.serviceInformation = {};
+
       if (servicePeriods) {
         newData.serviceInformation.servicePeriods = servicePeriods;
       }
+
       if (reservesNationalGuardService) {
         newData.serviceInformation.reservesNationalGuardService = reservesNationalGuardService;
       }

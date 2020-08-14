@@ -15,5 +15,6 @@ exports.command = function removeText(selector) {
   } else {
     this.clearValue(selector);
   }
+
   return this;
 };

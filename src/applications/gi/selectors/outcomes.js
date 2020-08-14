@@ -18,6 +18,7 @@ const getRequiredAttributes = state =>
 
 const whenDataAvailable = (n1, n2, obj) => {
   if (isFinite(n1) || isFinite(n2)) return obj;
+
   return {
     error: 'Data Not Available',
   };

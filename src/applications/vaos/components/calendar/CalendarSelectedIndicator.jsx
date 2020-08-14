@@ -14,6 +14,7 @@ export default function CalendarSelectedIndicator({
         if (currentDate.date === date) {
           selectedFieldValues.push(currentDate[fieldName]);
         }
+
         return selectedFieldValues;
       }, [])
       .sort();

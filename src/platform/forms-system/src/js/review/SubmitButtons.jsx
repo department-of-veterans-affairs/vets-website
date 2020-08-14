@@ -18,6 +18,7 @@ export default function SubmitButtons(props) {
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   let submitButton;
   let submitMessage;
+
   if (submission.status === false) {
     submitButton = (
       <ProgressButton
@@ -158,6 +159,7 @@ export default function SubmitButtons(props) {
       </>
     );
   }
+
   return (
     <>
       <div className="row">

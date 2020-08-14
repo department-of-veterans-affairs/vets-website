@@ -21,13 +21,16 @@ const { emailAddress, dayTimePhone, nightTimePhone } = fullSchema.properties;
 const mailingAddressStartInEdit = formData => {
   if (formData) {
     const { street, city, state, postalCode } = formData;
+
     return !(street || city || state || postalCode);
   }
+
   return true;
 };
 
 const isRequiredForAddressUi = formData => {
   const { country } = _.get(formData, 'mailingAddress', {});
+
   return country && country === 'USA';
 };
 

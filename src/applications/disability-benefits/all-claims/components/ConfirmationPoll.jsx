@@ -55,6 +55,7 @@ export class ConfirmationPoll extends React.Component {
 
         // Check status
         const status = response.data.attributes.status;
+
         if (terminalStatuses.has(status)) {
           this.setState({
             submissionStatus: status,
@@ -90,6 +91,7 @@ export class ConfirmationPoll extends React.Component {
 
   render() {
     const { submissionStatus, claimId } = this.state;
+
     if (submissionStatus === submissionStatuses.pending) {
       return pendingMessage(this.state.longWait);
     }

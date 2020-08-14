@@ -5,6 +5,7 @@ import newAppointmentFlow from '../../newAppointmentFlow';
 function formatBestTimetoCall(bestTime) {
   const times = [];
   let output = '';
+
   if (bestTime?.morning) {
     times.push('Morning');
   }

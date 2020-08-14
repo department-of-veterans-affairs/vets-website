@@ -17,5 +17,6 @@ export default function version2(savedData) {
       metadata: savedData.metadata,
     };
   }
+
   return savedData;
 }

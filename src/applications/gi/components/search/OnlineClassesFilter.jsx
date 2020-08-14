@@ -38,6 +38,7 @@ function OnlineClassesFilter({
       </div>
     );
   }
+
   return (
     <RadioButtons
       label={renderLearnMoreLabel({

@@ -117,9 +117,11 @@ export default class PhoneField extends React.Component {
 
   convertCleanDataToPayload = (data, fieldName) => {
     let cleanData = data;
+
     if (data.inputPhoneNumber) {
       cleanData = this.convertNextValueToCleanData(data);
     }
+
     return pickBy(
       {
         id: cleanData.id,
@@ -148,6 +150,7 @@ export default class PhoneField extends React.Component {
             );
           }
         : VAPPhoneView;
+
     return (
       <VAPProfileField
         apiRoute={API_ROUTES.TELEPHONES}

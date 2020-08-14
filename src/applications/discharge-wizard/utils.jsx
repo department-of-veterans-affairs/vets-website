@@ -35,6 +35,7 @@ export const board = (formValues, noDRB) => {
     name: 'Board for Correction of Naval Records (BCNR)',
     abbr: 'BCNR',
   };
+
   if (
     ['army', 'airForce', 'coastGuard'].indexOf(
       formValues['1_branchOfService'],
@@ -55,6 +56,7 @@ export const board = (formValues, noDRB) => {
     if (courtMartial || transgender || intention || oldDischarge) {
       return boardObj;
     }
+
     return { name: 'Discharge Review Board (DRB)', abbr: 'DRB' };
   }
 
@@ -63,6 +65,7 @@ export const board = (formValues, noDRB) => {
 
 export const venueAddress = (formValues, noDRB) => {
   const boardData = board(formValues);
+
   if (!noDRB && boardData && boardData.abbr === 'DRB') {
     switch (formValues['1_branchOfService']) {
       case 'army':
@@ -182,6 +185,7 @@ export const venueAddress = (formValues, noDRB) => {
 
 export const formData = formValues => {
   const boardData = board(formValues);
+
   if (boardData && boardData.abbr === 'DRB') {
     return {
       num: 293,
@@ -189,6 +193,7 @@ export const formData = formValues => {
         'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0293.pdf',
     };
   }
+
   return {
     num: 149,
     link: 'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
@@ -198,5 +203,6 @@ export const formData = formValues => {
 export const elementTopOffset = el => {
   const rect = el.getBoundingClientRect();
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
   return rect.top + scrollTop;
 };

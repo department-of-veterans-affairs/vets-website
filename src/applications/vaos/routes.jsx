@@ -89,6 +89,7 @@ export default function createRoutesWithStore(store) {
             import(/* webpackChunkName: "vaos-form" */ './reducers/newAppointment'),
           ]).then(([component, reducer]) => {
             store.injectReducer('newAppointment', reducer.default);
+
             return component;
           }),
         )}

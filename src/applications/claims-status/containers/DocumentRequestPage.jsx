@@ -33,11 +33,13 @@ const Element = Scroll.Element;
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
+
     if (this.props.trackedItem) {
       document.title = `Request for ${this.props.trackedItem.displayName}`;
     } else {
       document.title = 'Document Request';
     }
+
     if (!this.props.loading) {
       setUpPage();
     } else {
@@ -49,6 +51,7 @@ class DocumentRequestPage extends React.Component {
     if (!props.loading && !props.trackedItem) {
       this.props.router.replace(`/your-claims/${this.props.params.id}/status`);
     }
+
     if (props.uploadComplete) {
       this.goToFilesPage();
     }
@@ -58,6 +61,7 @@ class DocumentRequestPage extends React.Component {
       document.querySelector('.claims-alert').focus();
       scrollToError();
     }
+
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
     }
@@ -175,12 +179,14 @@ class DocumentRequestPage extends React.Component {
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   let trackedItem = null;
+
   if (claimsState.claimDetail.detail) {
     trackedItem = claimsState.claimDetail.detail.attributes.eventsTimeline.filter(
       event =>
         event.trackedItemId === parseInt(ownProps.params.trackedItemId, 10),
     )[0];
   }
+
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,

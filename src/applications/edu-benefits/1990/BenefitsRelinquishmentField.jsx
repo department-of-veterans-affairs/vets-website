@@ -106,12 +106,14 @@ export default class BenefitsRelinquishmentField extends React.Component {
     } = this.props;
 
     const benefitsRelinquished = _.get('benefitsRelinquished', formData);
+
     if (
       formContext.reviewMode &&
       benefitsRelinquished !== 'unknown' &&
       typeof benefitsRelinquished !== 'undefined'
     ) {
       const ObjectField = registry.fields.ObjectField;
+
       return (
         <ObjectField
           name={name}
@@ -129,6 +131,7 @@ export default class BenefitsRelinquishmentField extends React.Component {
     }
 
     const SchemaField = registry.fields.SchemaField;
+
     return (
       <SchemaField
         name="benefitsRelinquished"

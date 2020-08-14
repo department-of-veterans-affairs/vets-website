@@ -37,6 +37,7 @@ class SearchControls extends Component {
 
     if (facilityType === LocationType.CC_PROVIDER && !serviceType) {
       focusElement('#service-type-ahead-input');
+
       return;
     }
 
@@ -53,9 +54,11 @@ class SearchControls extends Component {
     const { suppressCCP, suppressPharmacies } = this.props;
     const { facilityType } = this.props.currentQuery;
     const locationOptions = facilityTypesOptions;
+
     if (suppressPharmacies) {
       delete locationOptions.pharmacy;
     }
+
     if (suppressCCP) {
       delete locationOptions.provider;
     }
@@ -64,6 +67,7 @@ class SearchControls extends Component {
         {locationOptions[facility]}
       </option>
     ));
+
     return (
       <span>
         <label htmlFor="facility-type-dropdown">

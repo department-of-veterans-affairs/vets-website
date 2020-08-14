@@ -8,6 +8,7 @@ function readAssetsFromDisk(buildOptions) {
     buildOptions.buildtype,
     'generated',
   );
+
   return files => {
     if (fs.existsSync(webpackOutput)) {
       fs.readdirSync(webpackOutput).forEach(

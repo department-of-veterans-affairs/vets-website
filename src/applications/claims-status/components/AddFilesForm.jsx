@@ -36,6 +36,7 @@ const scrollToFile = position => {
 };
 const scrollToError = () => {
   const errors = document.querySelectorAll('.usa-input-error');
+
   if (errors.length) {
     const errorPosition = getTopPosition(errors[0]);
     const options = getScrollOptions({ offset: -25 });
@@ -61,6 +62,7 @@ class AddFilesForm extends React.Component {
     if (this.state.errorMessage) {
       return this.state.errorMessage;
     }
+
     return validateIfDirty(this.props.field, () => this.props.files.length > 0)
       ? undefined
       : 'Please select a file first';

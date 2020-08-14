@@ -216,9 +216,11 @@ export const editEmailAddressSuccess = () => {
   // store the email address that's passed in via the POST or PUT call so we can
   // return it with the GET user/ response
   let newEmailAddress;
+
   return [
     rest.post(`${prefix}/v0/profile/email_addresses`, (req, res, ctx) => {
       newEmailAddress = req.body.emailAddress;
+
       return res(
         ctx.json({
           data: createTransactionRequestSuccessBody,
@@ -227,6 +229,7 @@ export const editEmailAddressSuccess = () => {
     }),
     rest.put(`${prefix}/v0/profile/email_addresses`, (req, res, ctx) => {
       newEmailAddress = req.body.emailAddress;
+
       return res(
         ctx.json({
           data: createTransactionRequestSuccessBody,
@@ -704,10 +707,12 @@ export const editPhoneNumberSuccess = () => {
   // return it with the GET user/ response
   let newAreaCode;
   let newPhoneNumber;
+
   return [
     rest.post(`${prefix}/v0/profile/telephones`, (req, res, ctx) => {
       newAreaCode = req.body.areaCode;
       newPhoneNumber = req.body.phoneNumber;
+
       return res(
         ctx.json({
           data: {
@@ -726,6 +731,7 @@ export const editPhoneNumberSuccess = () => {
     rest.put(`${prefix}/v0/profile/telephones`, (req, res, ctx) => {
       newAreaCode = req.body.areaCode;
       newPhoneNumber = req.body.phoneNumber;
+
       return res(
         ctx.json({
           data: {

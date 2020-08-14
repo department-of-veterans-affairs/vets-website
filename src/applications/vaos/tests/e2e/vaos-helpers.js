@@ -22,12 +22,14 @@ function updateConfirmedVADates(data) {
       .toISOString();
 
     item.attributes.startDate = futureDateStr;
+
     if (item.attributes.vdsAppointments[0]) {
       item.attributes.vdsAppointments[0].appointmentTime = futureDateStr;
     } else {
       item.attributes.vvsAppointments[0].dateTime = futureDateStr;
     }
   });
+
   return data;
 }
 
@@ -39,6 +41,7 @@ function updateConfirmedCCDates(data) {
 
     item.attributes.appointmentTime = futureDateStr;
   });
+
   return data;
 }
 
@@ -50,6 +53,7 @@ function updateRequestDates(data) {
 
     item.attributes.optionDate1 = futureDateStr;
   });
+
   return data;
 }
 

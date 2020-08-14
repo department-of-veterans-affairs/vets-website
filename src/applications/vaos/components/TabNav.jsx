@@ -6,6 +6,7 @@ import TabItem from './TabItem';
 
 export function TabNav({ location, router, hasExpressCareRequests }) {
   const isExpressCareTab = location.pathname === '/express-care';
+
   return (
     <ul className="va-tabs vaos-appts__tabs" role="tablist">
       <TabItem

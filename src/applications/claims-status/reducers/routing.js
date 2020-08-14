@@ -12,10 +12,12 @@ export default function routingReducer(state = initialState, action) {
     const lastPage = state.history.length
       ? state.history[state.history.length - 1]
       : null;
+
     return _.assign(state, {
       lastPage,
       history: state.history.concat(action.page.substr(1)),
     });
   }
+
   return state;
 }

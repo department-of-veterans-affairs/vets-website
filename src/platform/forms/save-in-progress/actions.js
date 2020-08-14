@@ -187,6 +187,7 @@ function saveForm(saveType, formId, formData, version, returnUrl) {
       })
       .catch(resOrError => {
         let errorStatus;
+
         if (resOrError.status === 401) {
           dispatch(logOut());
           errorStatus = SAVE_STATUSES.noAuth;
@@ -247,6 +248,7 @@ export function fetchInProgressForm(
 
         // Make me a switch?
         let status = LOAD_STATUSES.failure;
+
         if (res.status === 401) {
           dispatch(logOut());
           status = LOAD_STATUSES.noAuth;
@@ -255,6 +257,7 @@ export function fetchInProgressForm(
         } else if (res.status === 404) {
           status = LOAD_STATUSES.notFound;
         }
+
         return Promise.reject(status);
       })
       .then(resBody => {
@@ -284,6 +287,7 @@ export function fetchInProgressForm(
           ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
 
           let pages = getState().form.pages;
+
           if (metadata.prefill && prefillTransformer) {
             ({ formData, pages, metadata } = prefillTransformer(
               pages,
@@ -309,11 +313,13 @@ export function fetchInProgressForm(
             scope.setExtra('metadata', resBody.metadata);
             Sentry.captureMessage('vets_sip_error_migration');
           });
+
           return Promise.reject(LOAD_STATUSES.invalidData);
         }
       })
       .catch(status => {
         let loadedStatus = status;
+
         if (status instanceof SyntaxError) {
           // if res.json() has a parsing error, it’ll reject with a SyntaxError
           Sentry.captureException(
@@ -381,6 +387,7 @@ export function removeInProgressForm(formId, migrations, prefillTransformer) {
         });
         // This action removes the form from the profile list
         dispatch({ type: REMOVING_SAVED_FORM_SUCCESS, formId });
+
         // after deleting, go fetch prefill info if they’ve got it
         return dispatch(
           fetchInProgressForm(formId, migrations, true, prefillTransformer),

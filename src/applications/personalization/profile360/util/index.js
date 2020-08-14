@@ -25,6 +25,7 @@ const GA_ERROR_KEY_DEFAULT = 'other-error';
 export async function getData(apiRoute, options) {
   try {
     const response = await apiRequest(apiRoute, options);
+
     return response.data.attributes;
   } catch (error) {
     return { error };
@@ -41,6 +42,7 @@ const hasErrorMessage = (errors, errorKey, errorText) => {
       ),
     );
   }
+
   return errors.some(err =>
     err.meta?.messages?.some(message => message.key === errorKey),
   );
@@ -80,6 +82,7 @@ export const createDirectDepositAnalyticsDataObject = (
 ) => {
   const key = 'error-key';
   let errorCode = GA_ERROR_KEY_DEFAULT;
+
   if (hasAccountFlaggedError(errors)) {
     errorCode = GA_ERROR_KEY_ACCOUNT_FLAGGED_FOR_FRAUD;
   } else if (hasRoutingNumberFlaggedError(errors)) {
@@ -97,6 +100,7 @@ export const createDirectDepositAnalyticsDataObject = (
   }
   // append to the end of the errorCode
   errorCode = `${errorCode}${isEnrolling ? '-enroll' : '-update'}`;
+
   return {
     event: 'profile-edit-failure',
     'profile-action': 'save-failure',

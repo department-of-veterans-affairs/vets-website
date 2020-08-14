@@ -36,6 +36,7 @@ export function fetchUserSelectedBenefits() {
     dispatch({
       type: FETCH_USER_PREFERENCES_STARTED,
     });
+
     return apiRequest('/user/preferences')
       .then(response => {
         dispatch({
@@ -108,6 +109,7 @@ export function savePreferences(benefitsData) {
 
     const method = 'POST';
     const headers = { 'Content-Type': 'application/json' };
+
     return apiRequest('/user/preferences', { headers, method, body })
       .then(() => {
         dispatch({
@@ -148,6 +150,7 @@ export function deletePreferences() {
 
     const method = 'DELETE';
     const headers = { 'Content-Type': 'application/json' };
+
     return apiRequest('/user/preferences/benefits/delete_all', {
       headers,
       method,
@@ -176,8 +179,10 @@ export function updatePreferences(
     event: 'dashboard-preferences-saved-successful',
     ...transformPreferencesForAnalytics(benefitsData),
   });
+
   if (Object.keys(benefitsData).length) {
     return saveFunc(benefitsData);
   }
+
   return deleteFunc();
 }

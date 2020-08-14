@@ -41,6 +41,7 @@ class ViewPaymentsLists extends Component {
         />
       );
     }
+
     return (
       <>
         {paymentsReceivedTableContent}

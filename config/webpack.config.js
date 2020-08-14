@@ -59,6 +59,7 @@ const globalEntryFiles = {
 function getEntryPoints(entry) {
   const manifests = getAppManifests();
   let manifestsToBuild = manifests;
+
   if (entry) {
     const entryNames = entry.split(',').map(name => name.trim());
     manifestsToBuild = manifests.filter(manifest =>

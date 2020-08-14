@@ -8,6 +8,7 @@ export default function objectKeysToCamelCase(obj) {
         _.isPlainObject(value) || _.isArray(value)
           ? objectKeysToCamelCase(value)
           : value;
+
       return { ...result, [_.camelCase(key)]: finalValue };
     },
     {},

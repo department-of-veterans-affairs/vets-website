@@ -134,6 +134,7 @@ const baseAddressDef = {
 
 const vaTreatmentCenterAddressDef = (addressSchema => {
   const { type, properties } = addressSchema;
+
   return Object.assign(
     {},
     {

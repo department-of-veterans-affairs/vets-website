@@ -24,6 +24,7 @@ export const setNoneOfAbove = (form, elementName) => {
   Object.keys(updatedForm[elementName]).map((key, val) => {
     updatedForm[elementName][key] = false;
     updatedForm[elementName][NONE_OF_ABOVE] = true;
+
     return updatedForm;
   });
 };
@@ -41,11 +42,13 @@ function updateData(oldForm, newForm) {
     // TODO: Refactor - this could probably be done in a better way
     // if no change just return
     if (oldSelectedCount === newSelectedCount) return;
+
     if (newSelectedCount === 0) updatedForm[elementName][NONE_OF_ABOVE] = true;
     // When there are 2 selected, need to know if the user just selected NONE_OF_ABOVE of a new selection
     else if (newSelectedCount === 2) {
       const oldNoResp = oldForm[elementName][NONE_OF_ABOVE];
       const newNoResp = newForm[elementName][NONE_OF_ABOVE];
+
       if (oldNoResp !== newNoResp) {
         setNoneOfAbove(updatedForm, elementName);
       } else {
@@ -59,6 +62,7 @@ function updateData(oldForm, newForm) {
       setNoneOfAbove(updatedForm, elementName);
     }
   });
+
   return updatedForm;
 }
 

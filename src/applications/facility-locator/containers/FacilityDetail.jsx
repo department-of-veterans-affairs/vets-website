@@ -53,6 +53,7 @@ class FacilityDetail extends Component {
         </p>
       );
     }
+
     return (
       <p>
         Visit the <a href={website}>website</a> to learn more about hours and
@@ -67,18 +68,22 @@ class FacilityDetail extends Component {
     }
     let operationStatusTitle;
     let alertClass;
+
     if (operatingStatus.code === OperatingStatus.NOTICE) {
       operationStatusTitle = 'Facility notice';
       alertClass = 'info';
     }
+
     if (operatingStatus.code === OperatingStatus.LIMITED) {
       operationStatusTitle = 'Limited services and hours';
       alertClass = 'warning';
     }
+
     if (operatingStatus.code === OperatingStatus.CLOSED) {
       operationStatusTitle = 'Facility Closed';
       alertClass = 'error';
     }
+
     return (
       <AlertBox
         level={2}
@@ -109,6 +114,7 @@ class FacilityDetail extends Component {
     } = facility.attributes;
 
     const isVBA = facilityType === FacilityType.VA_BENEFITS_FACILITY;
+
     return (
       <div>
         <h1>{name}</h1>

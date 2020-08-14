@@ -12,6 +12,7 @@ class Dropdown extends React.Component {
 
   handleFocus = () => {
     const field = document.getElementById(this.dropdownId);
+
     if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
       field.scrollIntoView();
     }

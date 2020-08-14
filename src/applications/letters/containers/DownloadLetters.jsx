@@ -34,6 +34,7 @@ export function DownloadLetters({ children, location }) {
 function mapStateToProps(state) {
   const userState = state.user;
   const letterState = state.letters;
+
   return {
     profile: userState.profile,
     letters: letterState.letters,

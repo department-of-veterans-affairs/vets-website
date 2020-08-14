@@ -18,6 +18,7 @@ export const directDepositAddressInformation = state =>
 
 export const directDepositAddressIsSetUp = state => {
   const addressInfo = directDepositAddressInformation(state);
+
   return !!(
     addressInfo?.addressOne &&
     addressInfo?.city &&
@@ -28,7 +29,9 @@ export const directDepositAddressIsSetUp = state => {
 export const directDepositIsBlocked = state => {
   const controlInfo = directDepositInformation(state)?.responses?.[0]
     ?.controlInformation;
+
   if (!controlInfo) return false;
+
   return (
     !controlInfo.isCompetentIndicator ||
     !controlInfo.noFiduciaryAssignedIndicator ||

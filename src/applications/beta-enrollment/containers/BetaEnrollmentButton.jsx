@@ -96,6 +96,7 @@ class BetaEnrollmentButton extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const isServiceAvailable = createIsServiceAvailableSelector(ownProps.feature);
+
   return {
     user: state.user,
     isUserRegisteredForBeta: isServiceAvailable(state),

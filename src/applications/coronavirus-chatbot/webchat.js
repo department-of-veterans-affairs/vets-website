@@ -2,9 +2,11 @@ const CHATBOT_SCENARIO = 'va_coronavirus_chatbot';
 
 export const createBotConnection = tokenPayload => {
   let domain = undefined;
+
   if (tokenPayload.directLineURI) {
     domain = `https://${tokenPayload.directLineURI}/v3/directline`;
   }
+
   return window.WebChat.createDirectLine({
     token: tokenPayload.connectorToken,
     domain,
@@ -32,6 +34,7 @@ export const getWebchatStore = (locale, jsonWebToken) => {
         },
       });
     }
+
     return next(action);
   });
 };

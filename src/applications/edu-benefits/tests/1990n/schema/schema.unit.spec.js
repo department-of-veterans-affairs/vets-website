@@ -31,6 +31,7 @@ describe('1990n schema tests', () => {
       }
       expect(result.valid).to.be.true;
     });
+
     // Expect the data to be what's found in expected-data/${file}
     // TODO: Switch back to .includes() when NodeJS gets updated on Jenkins
     if (expectedDataFiles && expectedDataFiles.indexOf(file) !== -1) {

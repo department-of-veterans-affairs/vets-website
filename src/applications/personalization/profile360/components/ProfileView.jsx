@@ -81,6 +81,7 @@ class ProfileView extends React.Component {
         />
       );
     }
+
     return children;
   };
 
@@ -198,6 +199,7 @@ class ProfileView extends React.Component {
 
 function mapStateToProps(state) {
   const directDepositIsBlocked = directDepositIsBlockedSelector(state);
+
   return {
     directDepositIsBlocked,
     showDirectDepositLink:

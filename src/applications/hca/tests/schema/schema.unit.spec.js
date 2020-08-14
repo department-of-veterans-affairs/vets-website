@@ -18,6 +18,7 @@ describe('hca schema tests', () => {
       const submitData = JSON.parse(transform(formConfig, contents)).form;
       const data = JSON.parse(submitData);
       const result = v.validate(data, fullSchemaHca);
+
       if (!result.valid) {
         console.log(result.errors); // eslint-disable-line no-console
       }

@@ -22,6 +22,7 @@ const findNextPage = state => {
   } else if (differenceBetweenDatesInDays <= 180) {
     return pageNames.fileBDD;
   }
+
   return pageNames.unableToFileBDD;
 };
 

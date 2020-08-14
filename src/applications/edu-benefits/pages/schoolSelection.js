@@ -102,6 +102,7 @@ export default function createSchoolSelectionPage(schema, options) {
 
   const uiSchema = pickFields(possibleUISchemaFields);
   uiSchema['ui:order'] = fields;
+
   if (title) {
     uiSchema['ui:title'] = title;
   }

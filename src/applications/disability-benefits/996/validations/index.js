@@ -20,6 +20,7 @@ export const checkConferenceTimes = (errors, values = {}, formData) => {
       if (values[time]) {
         acc.push(time);
       }
+
       return acc;
     }, []) || [];
 
@@ -36,5 +37,6 @@ export const checkConferenceTimes = (errors, values = {}, formData) => {
       times.length >= conferenceTimes.min &&
       times.length <= conferenceTimes.max;
   }
+
   return result;
 };

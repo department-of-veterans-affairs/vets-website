@@ -88,6 +88,7 @@ export default function appointmentsReducer(state = initialState, action) {
 
       const past = data?.filter(appt => {
         const apptDateTime = moment(appt.start);
+
         return (
           apptDateTime.isValid() && apptDateTime.isBetween(startDate, endDate)
         );
@@ -113,6 +114,7 @@ export default function appointmentsReducer(state = initialState, action) {
         }),
         {},
       );
+
       return {
         ...state,
         facilityData,

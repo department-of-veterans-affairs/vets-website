@@ -78,6 +78,7 @@ const ConfirmationPage = ({
       </section>
     </div>
   );
+
   return (
     <div className="confirmation-page">
       {!isError &&
@@ -240,6 +241,7 @@ const ConfirmationPage = ({
                         </li>
                       );
                     }
+
                     return (
                       <li key={product?.productId}>
                         {product?.productName} (Quantity: {product?.quantity})
@@ -375,6 +377,7 @@ const mapStateToProps = state => {
   let hasCompleteOrderFailed;
   let isEmptyOrder;
   let isError = false;
+
   if (!errors) {
     const responseStatuses = responses.map(response => response.status);
     const failedSubmissions = responseStatuses.filter(
@@ -398,6 +401,7 @@ const mapStateToProps = state => {
   if (isPartiallySubmittedOrder || hasCompleteOrderFailed || isEmptyOrder) {
     isError = true;
   }
+
   return {
     submittedAt,
     fullName,

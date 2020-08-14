@@ -34,6 +34,7 @@ const ClaimingBenefitOwnService = ({
         const nationalCallToServiceAnswer = getPageStateFromPageName(
           pageNames.nationalCallToService,
         )?.selected;
+
         if (
           newBenefitAnswer === 'new' &&
           value === 'no' &&
@@ -47,6 +48,7 @@ const ClaimingBenefitOwnService = ({
         ) {
           const { FORM_ID_5490 } = formIdSuffixes;
           setReferredBenefit(FORM_ID_5490);
+
           return setPageState({ selected: value }, pageNames.applyNow);
         } else if (
           newBenefitAnswer === 'new' &&

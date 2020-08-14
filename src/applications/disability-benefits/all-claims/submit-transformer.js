@@ -32,6 +32,7 @@ export function customReplacer(key, value) {
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
+
     if (
       fields.length === 0 ||
       fields.every(field => value[field] === undefined)
@@ -53,6 +54,7 @@ export function customReplacer(key, value) {
   // Clean up empty objects in arrays
   if (Array.isArray(value)) {
     const newValues = value.filter(v => !!customReplacer(key, v));
+
     // If every item in the array is cleared, remove the whole array
     return newValues.length > 0 ? newValues : undefined;
   }
@@ -96,11 +98,13 @@ function getDisabilities(formData, includeDisabilityActionTypeNone = true) {
       formData[key].forEach(disability => claimedConditions.push(disability));
     }
   });
+
   return claimedConditions;
 }
 
 function getDisabilityName(disability) {
   const name = disability.name ? disability.name : disability.condition;
+
   return name && name.trim();
 }
 
@@ -183,16 +187,19 @@ export const removeExtraData = formData => {
   ];
   const clonedData = _.cloneDeep(formData);
   const disabilities = clonedData.ratedDisabilities;
+
   if (disabilities?.length) {
     clonedData.ratedDisabilities = disabilities.map(disability =>
       Object.keys(disability).reduce((acc, key) => {
         if (!ratingKeysToRemove.includes(key)) {
           acc[key] = disability[key];
         }
+
         return acc;
       }, {}),
     );
   }
+
   return clonedData;
 };
 
@@ -225,6 +232,7 @@ export function getPtsdChangeText(changeFields = {}) {
 
 export function filterServicePeriods(formData) {
   const { serviceInformation } = formData;
+
   if (!serviceInformation || hasGuardOrReservePeriod(serviceInformation)) {
     return formData;
   }
@@ -233,12 +241,14 @@ export function filterServicePeriods(formData) {
   // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/6797
   const clonedData = _.cloneDeep(formData);
   delete clonedData.serviceInformation.reservesNationalGuardService;
+
   return clonedData;
 }
 
 export function transformSeparationLocation(formData) {
   const separationLocationCode =
     formData.serviceInformation?.separationLocation;
+
   if (!separationLocationCode) {
     return formData;
   }
@@ -250,6 +260,7 @@ export function transformSeparationLocation(formData) {
       separationLocation => separationLocation.code === separationLocationCode,
     )?.description,
   };
+
   return clonedData;
 }
 
@@ -286,6 +297,7 @@ export function transform(formConfig, form) {
       return formData;
     }
     const clonedData = _.cloneDeep(formData);
+
     if (clonedData.powDisabilities) {
       // Add POW specialIssue to new conditions
       const powDisabilities = transformRelatedDisabilities(
@@ -296,12 +308,15 @@ export function transform(formConfig, form) {
         if (powDisabilities.includes(d.condition?.toLowerCase())) {
           const newSpecialIssues = (d.specialIssues || []).slice();
           newSpecialIssues.push(specialIssueTypes.POW);
+
           return _.set('specialIssues', newSpecialIssues, d);
         }
+
         return d;
       });
       delete clonedData.powDisabilities;
     }
+
     return clonedData;
   };
 
@@ -324,6 +339,7 @@ export function transform(formConfig, form) {
   // respective classification code added
   const addClassificationCodeToNewDisabilities = formData => {
     const { newDisabilities } = formData;
+
     if (!newDisabilities) {
       return formData;
     }
@@ -336,10 +352,12 @@ export function transform(formConfig, form) {
     const newDisabilitiesWithClassificationCodes = newDisabilities.map(
       disability => {
         const { condition } = disability;
+
         if (!condition) {
           return disability;
         }
         const loweredDisabilityName = condition?.toLowerCase();
+
         return flippedDisabilityLabels[loweredDisabilityName]
           ? _.set(
               'classificationCode',
@@ -370,13 +388,16 @@ export function transform(formConfig, form) {
     const newSecondaryDisabilities = clonedData.newDisabilities.filter(
       disability => disability.cause === causeTypes.SECONDARY,
     );
+
     if (newPrimaryDisabilities.length) {
       clonedData.newPrimaryDisabilities = newPrimaryDisabilities;
     }
+
     if (newSecondaryDisabilities.length) {
       clonedData.newSecondaryDisabilities = newSecondaryDisabilities;
     }
     delete clonedData.newDisabilities;
+
     return clonedData;
   };
 
@@ -413,6 +434,7 @@ export function transform(formConfig, form) {
     ).concat(transformedSecondaries);
 
     delete clonedData.newSecondaryDisabilities;
+
     return clonedData;
   };
 
@@ -434,6 +456,7 @@ export function transform(formConfig, form) {
       ),
     );
     clonedData.vaTreatmentFacilities = newVAFacilities;
+
     return clonedData;
   };
 
@@ -460,6 +483,7 @@ export function transform(formConfig, form) {
    */
   const sanitizeHomelessnessContact = formData => {
     const { homelessnessContact } = formData;
+
     if (!homelessnessContact || !homelessnessContact.name) {
       return formData;
     }
@@ -494,6 +518,7 @@ export function transform(formConfig, form) {
     };
     delete clonedData.limitedConsent;
     delete clonedData.providerFacility;
+
     return clonedData;
   };
 
@@ -509,6 +534,7 @@ export function transform(formConfig, form) {
     incidentKeys.forEach(incidentKey => {
       delete clonedData[incidentKey];
     });
+
     if (incidents.length > 0) {
       clonedData.form0781 = {
         incidents,
@@ -537,6 +563,7 @@ export function transform(formConfig, form) {
       delete clonedData.additionalIncidentText;
       delete clonedData.additionalSecondaryIncidentText;
     }
+
     return clonedData;
   };
 
@@ -581,6 +608,7 @@ export function transform(formConfig, form) {
       attachments = [...attachments, ...documentArr];
       delete clonedData[key];
     });
+
     return { ...clonedData, ...(attachments.length && { attachments }) };
   };
   // End transformation definitions

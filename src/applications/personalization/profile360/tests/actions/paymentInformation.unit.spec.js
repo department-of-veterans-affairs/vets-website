@@ -20,6 +20,7 @@ const setup = ({ mockGA }) => {
       attributes: {},
     },
   });
+
   if (mockGA) {
     global.ga = sinon.stub();
     global.ga.getAll = sinon.stub();

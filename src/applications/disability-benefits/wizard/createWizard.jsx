@@ -10,6 +10,7 @@ export default function createDisabilityIncreaseApplicationStatus(
   widgetType,
 ) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
+
   if (root) {
     import(/* webpackChunkName: "disability-application-status" */
     './wizard-entry').then(module => {

@@ -34,6 +34,7 @@ export function removingSavedFormFailure() {
 export function removeSavedForm(formId) {
   return dispatch => {
     dispatch(removingSavedForm());
+
     return removeFormApi(formId)
       .then(() => {
         dispatch(removingSavedFormSuccess(formId));

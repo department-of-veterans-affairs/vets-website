@@ -4,6 +4,7 @@ import { formatPhone, getCountryName } from '../content/contactInformation';
 
 const ReviewDescription = ({ formData }) => {
   const veteran = formData?.veteran;
+
   if (!veteran) {
     return null;
   }
@@ -38,6 +39,7 @@ const ReviewDescription = ({ formData }) => {
       <dl className="review">
         {Object.entries(display).map(([label, getValue]) => {
           const value = getValue() || '';
+
           return value ? (
             <div key={label} className="review-row">
               <dt>{label}</dt>

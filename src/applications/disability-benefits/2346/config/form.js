@@ -107,6 +107,7 @@ const submit = form => {
         'product-ids-failed': failedSubmissionProductIds.join(' '),
       });
     }
+
     // Failed submissions still return a 200 response so we need to ensure we
     // still submit a submission failed event if none of the items ordered were successful
     if (failedSubmissions.length && successfulSubmissions.length === 0) {
@@ -126,6 +127,7 @@ const submit = form => {
         event: 'bam-2346a--submission-failed',
         'bam-quantityOrdered': itemQuantities,
       });
+
       return reject(error);
     });
 

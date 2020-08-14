@@ -115,6 +115,7 @@ const informalConference = {
             // pass informalConference to children
             options.informalConference = formData?.informalConference;
           });
+
           return schema;
         },
       },

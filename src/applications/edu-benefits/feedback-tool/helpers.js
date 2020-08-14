@@ -71,6 +71,7 @@ export function removeFacilityCodeIfManualEntry(form) {
       form,
     );
   }
+
   return form;
 }
 
@@ -80,6 +81,7 @@ export function transform(
   formTransformer = removeFacilityCodeIfManualEntry,
 ) {
   const formData = transformForSubmit(formConfig, formTransformer(form), null);
+
   return JSON.stringify({
     giBillFeedback: {
       form: formData,
@@ -141,6 +143,7 @@ export function submit(form, formConfig) {
 
   const onSuccess = json => {
     const guid = json.data.attributes.guid;
+
     return new Promise((resolve, reject) => {
       pollStatus(
         guid,
@@ -148,6 +151,7 @@ export function submit(form, formConfig) {
           recordEvent({
             event: `${formConfig.trackingPrefix}submission-successful`,
           });
+
           return resolve(response);
         },
         error => reject(error),
@@ -160,8 +164,10 @@ export function submit(form, formConfig) {
       const error = new Error('vets_throttled_error_gi_bill_feedbacks');
       error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
       recordEvent({ event: `${formConfig.trackingPrefix}submission-failed` });
+
       return Promise.reject(error);
     }
+
     return Promise.reject(respOrError);
   };
 
@@ -291,6 +297,7 @@ export function issueUIDescription({ formContext }) {
       </div>
     );
   }
+
   return null;
 }
 
@@ -306,10 +313,12 @@ export function removeEmptyStringProperties(obj) {
   const cleanObject = { ...obj };
   Object.keys(cleanObject).forEach(key => {
     const value = cleanObject[key];
+
     if (typeof value === 'string' && value.trim() === '') {
       delete cleanObject[key];
     }
   });
+
   return cleanObject;
 }
 
@@ -333,6 +342,7 @@ export function transformSearchToolAddress({
 }) {
   const isDomesticAddress = country === 'USA';
   let address = {};
+
   if (isDomesticAddress) {
     address = {
       country: 'United States',
@@ -370,6 +380,7 @@ export function transformSearchToolAddress({
         zip && zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength),
     };
   }
+
   return removeEmptyStringProperties(address);
 }
 
@@ -380,11 +391,13 @@ function addPrefilledFlagsToFormData(formData) {
       newFormData[flag] = true;
     }
   });
+
   return newFormData;
 }
 
 export function prefillTransformer(pages, formData, metadata) {
   const newFormData = addPrefilledFlagsToFormData(formData);
+
   return { metadata, formData: newFormData, pages };
 }
 
@@ -405,6 +418,7 @@ export function conditionallyShowPrefillMessage(
   if (data.formData[prefillFlag]) {
     return messageComponent(data);
   }
+
   return null;
 }
 

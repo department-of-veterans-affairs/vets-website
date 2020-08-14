@@ -41,6 +41,7 @@ export function getAuthorizedLinkData(
 export class Main extends React.Component {
   toggleDropDown = currentDropdown => {
     const isVisible = !!currentDropdown;
+
     if (isVisible) {
       recordEvent({
         event: 'nav-header-top-level',

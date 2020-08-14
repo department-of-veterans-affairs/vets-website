@@ -22,6 +22,7 @@ const Issues = ({ issues, isAppeal }) => {
   const openSection = openListItems.length ? <ul>{openListItems}</ul> : null;
 
   let remandSection = null;
+
   if (remandListItems.length) {
     remandSection = (
       <div>
@@ -32,6 +33,7 @@ const Issues = ({ issues, isAppeal }) => {
   }
 
   let grantedSection = null;
+
   if (grantedListItems.length) {
     grantedSection = (
       <div className="granted-section">
@@ -42,6 +44,7 @@ const Issues = ({ issues, isAppeal }) => {
   }
 
   let deniedSection = null;
+
   if (deniedListItems.length) {
     deniedSection = (
       <div className="denied-section">
@@ -52,6 +55,7 @@ const Issues = ({ issues, isAppeal }) => {
   }
 
   let withdrawnSection = null;
+
   if (withdrawnListItems.length) {
     withdrawnSection = (
       <div>
@@ -62,6 +66,7 @@ const Issues = ({ issues, isAppeal }) => {
   }
 
   let activeItems = null;
+
   if (openListItems.length || remandListItems.length) {
     // Active panel should always render as expanded by default (when items present)
     activeItems = (
@@ -76,6 +81,7 @@ const Issues = ({ issues, isAppeal }) => {
   }
 
   let closedItems = null;
+
   if (
     grantedListItems.length ||
     deniedListItems.length ||

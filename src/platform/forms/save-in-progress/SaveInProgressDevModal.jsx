@@ -13,6 +13,7 @@ const docsPage =
 
 const checkHash = () => {
   const hash = (window?.location?.hash || '').toLowerCase();
+
   if (hash.includes('#dev-')) {
     localStorage.setItem('DEV_MODE', hash.includes('#dev-on'));
   }
@@ -27,6 +28,7 @@ const SipsDevModal = props => {
   // Only show SipsDevModal when url hash includes "#dev-(on|off)"
   checkHash();
   const showLink = localStorage.getItem('DEV_MODE');
+
   if (showLink !== 'true') {
     return null;
   }

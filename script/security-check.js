@@ -33,6 +33,7 @@ function processAuditResults(audit) {
     if (adv.type === 'auditAdvisory') {
       const advisoryData = adv.data.advisory;
       const affectedModule = getAffectedModule(adv.data);
+
       return (
         !exceptionSet.has(advisoryData.url) &&
         severitySet.has(advisoryData.severity) &&

@@ -27,6 +27,7 @@ export const createDependentSchema = hcaSchema => {
 
 export const createDependentIncomeSchema = hcaSchema => {
   const dependent = hcaSchema.definitions.dependent;
+
   return _.assign(dependent, {
     properties: _.pick(incomeFields, dependent.properties),
     required: incomeFields,
@@ -101,6 +102,7 @@ export const dependentIncomeUiSchema = {
   'ui:options': {
     updateSchema: (formData, schema, ui, index) => {
       const name = _.get(`dependents.[${index}].fullName`, formData);
+
       if (name) {
         return {
           title: `${name.first} ${name.last} income`,

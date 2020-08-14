@@ -23,6 +23,7 @@ function replacer(key, value) {
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
+
     if (
       fields.length === 0 ||
       fields.every(field => value[field] === undefined)
@@ -103,6 +104,7 @@ function pollStatus(
 
 function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form, replacer);
+
   return JSON.stringify({
     pensionClaim: {
       form: formData,
@@ -135,10 +137,12 @@ export function submit(form, formConfig) {
       if (res.ok) {
         return res.json();
       }
+
       return Promise.reject(res);
     })
     .then(resp => {
       const { guid, confirmationNumber, regionalOffice } = resp.data.attributes;
+
       return new Promise((resolve, reject) => {
         pollStatus(
           { guid, confirmationNumber, regionalOffice },
@@ -146,6 +150,7 @@ export function submit(form, formConfig) {
             window.dataLayer.push({
               event: `${formConfig.trackingPrefix}-submission-successful`,
             });
+
             return resolve(response);
           },
           error => reject(error),
@@ -162,6 +167,7 @@ export function submit(form, formConfig) {
 
         return Promise.reject(error);
       }
+
       return Promise.reject(respOrError);
     });
 }
@@ -179,11 +185,13 @@ export function isMarried(form = {}) {
 
 export function getMarriageTitle(index) {
   const desc = numberToWords(index + 1);
+
   return `${titleCase(desc)} marriage`;
 }
 
 export function getSpouseMarriageTitle(index) {
   const desc = numberToWords(index + 1);
+
   return `Spouse’s ${desc} marriage`;
 }
 
@@ -336,6 +344,7 @@ export function servedDuringWartime(period) {
     const overlap =
       moment(periodEnd).isSameOrAfter(warStart) &&
       moment(periodStart).isSameOrBefore(warEnd);
+
     return warEnd ? overlap : moment(warStart).isSameOrBefore(periodEnd);
   });
 }

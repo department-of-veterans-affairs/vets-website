@@ -59,6 +59,7 @@ class MegaMenu {
     this.openControl.setAttribute('hidden', 'hidden');
     this.menu.removeAttribute('hidden');
     this.closeControl.removeAttribute('hidden');
+
     if (!isWideScreen()) {
       this.firstTabbableMenuElement.focus();
     }
@@ -93,6 +94,7 @@ class MegaMenu {
       e.preventDefault();
       this.closeControl.focus();
     }
+
     if (
       e.target === this.lastTabbableMenuElement &&
       (!isWideScreen() && isTab(e))

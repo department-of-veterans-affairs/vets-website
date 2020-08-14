@@ -6,6 +6,7 @@ const DEFAULT_MAX_DAYS_AHEAD = 90;
 function pad(num, size) {
   let s = num.toString();
   while (s.length < size) s = `0${s}`;
+
   return s;
 }
 
@@ -68,6 +69,7 @@ export function getWeekdays(momentDate) {
     }
     dayOfWeek = dayOfWeek + 1 > 6 ? 0 : dayOfWeek + 1;
   }
+
   return daysToShow;
 }
 
@@ -97,6 +99,7 @@ export function getCalendarWeeks(momentDate) {
     }
   }
   weeks.push(currentWeek);
+
   return weeks;
 }
 
@@ -111,6 +114,7 @@ export function isDateOptionPairInSelectedArray(
 ) {
   for (let index = 0; index < selectedArray.length; index++) {
     const currentDateObj = selectedArray[index];
+
     if (
       currentDateObj.date === dateObj.date &&
       currentDateObj[option] === dateObj[option]
@@ -118,6 +122,7 @@ export function isDateOptionPairInSelectedArray(
       return true;
     }
   }
+
   return false;
 }
 
@@ -155,6 +160,7 @@ export function generateMockSlots() {
     const hour = `0${randomInt(9, 16)}`.slice(-2);
     const minutes = minuteSlots[Math.floor(Math.random() * minuteSlots.length)];
     const startDateTime = `${date}T${hour}:${minutes}.000+00:00`;
+
     if (!times.includes(startDateTime)) {
       times.push(startDateTime);
     }
@@ -186,6 +192,7 @@ export function generateMockFHIRSlots() {
       .second(0)
       .millisecond(0)
       .toISOString();
+
     if (!times.includes(startDateTime)) {
       times.push(startDateTime);
     }

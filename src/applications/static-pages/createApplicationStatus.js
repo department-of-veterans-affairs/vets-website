@@ -6,6 +6,7 @@ export default function createApplicationStatus(store, form) {
   const root = document.querySelector(
     `[data-widget-type="${form.widgetType}"]`,
   );
+
   if (root) {
     import(/* webpackChunkName: "application-status" */
     'platform/forms/save-in-progress/ApplicationStatus').then(module => {

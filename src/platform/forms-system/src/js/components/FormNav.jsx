@@ -33,6 +33,7 @@ export default class FormNav extends React.Component {
     );
 
     let page = eligiblePageList.filter(p => p.path === currentPath)[0];
+
     // If the page isn’t active, it won’t be in the eligiblePageList
     // This is a fallback to still find the chapter name if you open the page directly
     // (the chapter index will probably be wrong, but this isn’t a scenario that happens in normal use)
@@ -44,6 +45,7 @@ export default class FormNav extends React.Component {
 
     let current;
     let chapterName;
+
     if (page) {
       current = chapters.indexOf(page.chapterKey) + 1;
       // The review page is always part of our forms, but isn’t listed in chapter list
@@ -52,6 +54,7 @@ export default class FormNav extends React.Component {
           ? formConfig?.customText?.reviewPageTitle ||
             REVIEW_APP_DEFAULT_MESSAGE
           : formConfig.chapters[page.chapterKey].title;
+
       if (typeof chapterName === 'function') {
         chapterName = chapterName();
       }

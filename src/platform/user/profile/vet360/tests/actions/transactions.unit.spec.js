@@ -37,6 +37,7 @@ describe('resetAddressValidation', () => {
 describe('validateAddress', () => {
   it('verify return data', () => {
     const dispatch = sinon.spy();
+
     return validateAddress(
       route,
       method,
@@ -122,6 +123,7 @@ describe('validateAddress', () => {
 describe('updateValidationKeyAndSave', () => {
   it('verify return data', () => {
     const dispatch = sinon.spy();
+
     return updateValidationKeyAndSave(
       route,
       method,

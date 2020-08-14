@@ -14,6 +14,7 @@ const findData = (fieldSelector, testData) => {
     .replace(/^root_/, '')
     .replace(/_/g, '.')
     .replace(/\._(\d+)\./g, (match, number) => `[${number}]`);
+
   return _.get(dataPath, testData);
 };
 
@@ -39,6 +40,7 @@ const getElementSelector = (field, fieldData) => {
     date: `input[name="${field.selector}Year"]`,
     file: inputSelector,
   };
+
   if (!selectors[field.type]) {
     throw new Error(
       `Unknown element type '${field.type}' for ${field.selector}`,
@@ -53,8 +55,10 @@ const getElementSelector = (field, fieldData) => {
  */
 const enterData = async (page, field, fieldData, log) => {
   const { type } = field;
+
   if (fieldData === undefined) {
     log(`No data found for ${field.selector}`);
+
     return;
   }
 
@@ -66,6 +70,7 @@ const enterData = async (page, field, fieldData, log) => {
 
   if (!element) {
     log(`Skipping ${selector}; no element found.`);
+
     return;
   }
 
@@ -77,6 +82,7 @@ const enterData = async (page, field, fieldData, log) => {
     case 'checkbox': {
       // Only click the checkbox if we need to
       const checkbox = await page.$(selector);
+
       if (checkbox) await checkbox.click();
       break;
     }
@@ -94,6 +100,7 @@ const enterData = async (page, field, fieldData, log) => {
       const role = await page.$eval(selector, textbox =>
         textbox.getAttribute('role'),
       );
+
       if (role === 'combobox') {
         await page.keyboard.press('Tab');
       }
@@ -109,6 +116,7 @@ const enterData = async (page, field, fieldData, log) => {
         `select[name="${field.selector}Month"]`,
         parseInt(date[1], 10).toString(),
       );
+
       if (date[2] !== 'XX') {
         await page.select(
           `select[name="${field.selector}Day"]`,
@@ -158,6 +166,7 @@ const addNewArrayItem = async (page, testData) => {
       );
       // Check the testData to see if it has more data
       const arrayData = findData(path, testData);
+
       if (arrayData.length - 1 > lastIndex) {
         // If so, poke the appropriate add button
         await page.click(
@@ -207,6 +216,7 @@ const getArrayInfo = (url, arrayPages = []) => {
   const arrayPathObject = arrayPages.find(arrayPage =>
     url.replace(/\d+$/, '').endsWith(arrayPage.path.replace(':index', '')),
   );
+
   return arrayPathObject
     ? {
         arrayPath: arrayPathObject.arrayPath,
@@ -227,6 +237,7 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
   const touchedFields = new Set();
   let pageData = testData;
   const arrayPageConfig = getArrayInfo(page.url(), testConfig.arrayPages);
+
   if (arrayPageConfig.arrayPath) {
     log('Found arrayPath', arrayPageConfig.arrayPath);
     pageData = getArrayData(testData, arrayPageConfig);
@@ -247,12 +258,14 @@ const fillPage = async (page, testData, testConfig, log = () => {}) => {
       // This whole function is executed in the browser and can't contain references
       //  to anything outside of the local scope.
       const selectors = new Set();
+
       return elements.map(element => {
         let type = element.type || element.tagName;
         let selector = element.name || element.id;
 
         const isDateField = sel =>
           sel.endsWith('Year') || sel.endsWith('Month') || sel.endsWith('Day');
+
         if (isDateField(selector)) {
           type = 'date';
           // We only have one date field in the test data, but we fill two or three
@@ -312,6 +325,7 @@ const nextUrl = async (page, options = {}) => {
 
   try {
     await page.waitForNavigation({ timeout: opts.timeout });
+
     return page.url();
   } catch (e) {
     return page.url();
@@ -330,6 +344,7 @@ const fillForm = async (page, testData, testConfig, log) => {
         `Bad testConfig: Page hook for ${page.url()} is not a function`,
       );
     }
+
     return hook(page, testData, testConfig, log);
   };
 
@@ -343,6 +358,7 @@ const fillForm = async (page, testData, testConfig, log) => {
     // If there's a page hook, run that
     const url = page.url();
     const hook = _.get(`pageHooks.${parseUrl(url).path}`, testConfig);
+
     if (hook) {
       await runHook(hook);
     } else {
@@ -380,6 +396,7 @@ const fillForm = async (page, testData, testConfig, log) => {
     `pageHooks.${parseUrl(page.url()).path}`,
     testConfig,
   );
+
   if (reviewHook) {
     await runHook(reviewHook);
   }
@@ -397,6 +414,7 @@ const fillForm = async (page, testData, testConfig, log) => {
         '.usa-alert-body',
         node => node.innerText,
       );
+
       if (message.includes('an error connecting to')) {
         throw new Error('Error submitting the form. Is the submission mocked?');
       }
@@ -412,6 +430,7 @@ const fillForm = async (page, testData, testConfig, log) => {
     `pageHooks.${parseUrl(page.url()).path}`,
     testConfig,
   );
+
   if (confirmationHook) {
     await runHook(confirmationHook);
   }

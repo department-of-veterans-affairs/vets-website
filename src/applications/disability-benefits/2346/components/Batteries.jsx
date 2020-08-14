@@ -12,6 +12,7 @@ import { BATTERY } from '../constants';
 class Batteries extends Component {
   componentDidMount(props) {
     const areBatterySuppliesEligible = this.props.eligibility?.batteries;
+
     if (!areBatterySuppliesEligible) {
       recordEvent({
         event: 'bam-error',
@@ -32,6 +33,7 @@ class Batteries extends Component {
       'product-name': batterySupply.productName,
       'product-id': batterySupply.productId,
     });
+
     if (checked) {
       updatedOrder = [...order, { productId: batterySupply.productId }];
     } else {
@@ -44,6 +46,7 @@ class Batteries extends Component {
       ...formData,
       order: updatedOrder,
     };
+
     return this.props.setData(updatedFormData);
   };
 
@@ -63,6 +66,7 @@ class Batteries extends Component {
       const selectedProductIds = order.map(
         selectedProduct => selectedProduct.productId,
       );
+
       return selectedProductIds.includes(batteryProductId);
     };
 

@@ -33,6 +33,7 @@ export const buildSubmitEventData = formData => {
     const exhaustedAllBenefits =
       formData['view:exhaustionOfBenefits'] === true ||
       formData['view:exhaustionOfBenefitsAfterPursuingTeachingCert'] === true;
+
     return {
       benefitsUsedRecently: formData.benefit,
       'edu-stemApplicant': formData.isEdithNourseRogersScholarship
@@ -51,6 +52,7 @@ export const buildSubmitEventData = formData => {
     if (value === undefined) {
       return undefined;
     }
+
     return value ? 'Yes' : 'No';
   };
 

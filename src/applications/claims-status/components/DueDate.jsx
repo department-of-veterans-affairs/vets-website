@@ -6,6 +6,7 @@ export default function DueDate({ date }) {
   const now = moment();
   const dueDate = moment(date);
   const className = dueDate.isBefore(now) ? 'past-due' : 'due-file';
+
   return (
     <div className="tracked-item-due">
       <strong className={className}>

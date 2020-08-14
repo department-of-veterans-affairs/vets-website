@@ -39,6 +39,7 @@ export default function(state = INITIAL_STATE, action) {
 
       // delete attributes.self;
       const version = camelPayload.meta.version;
+
       return {
         ...state,
         attributes,

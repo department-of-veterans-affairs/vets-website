@@ -48,12 +48,14 @@ class PreferencesWidget extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchUserSelectedBenefits();
+
     if (!isEmpty(this.props.preferences.dashboard)) {
       this.setSelectedBenefits();
     }
     const savedRecently = moment().isBefore(
       this.props.preferences.savedAt + ALERT_DELAY,
     );
+
     if (savedRecently) {
       this.setSavedMessage();
     }
@@ -63,9 +65,11 @@ class PreferencesWidget extends React.Component {
     if (didPreferencesChange(prevProps, this.props)) {
       this.setSelectedBenefits();
     }
+
     if (didJustSave(prevProps, this.props)) {
       this.setSavedMessage();
     }
+
     if (didJustFailToSave(prevProps, this.props)) {
       this.props.restorePreviousSelections();
     }
@@ -150,9 +154,11 @@ class PreferencesWidget extends React.Component {
     if (loadingStatus === LOADING_STATES.pending) {
       return <LoadingIndicator message={'Loading your selections...'} />;
     }
+
     if (loadingStatus === LOADING_STATES.error) {
       return <RetrieveFailedMessageComponent />;
     }
+
     if (loadingStatus === LOADING_STATES.loaded) {
       if (!hasSelectedBenefits) {
         return (
@@ -173,6 +179,7 @@ class PreferencesWidget extends React.Component {
           </div>
         );
       }
+
       if (hasSelectedBenefits) {
         const content = [
           <PreferenceList
@@ -183,6 +190,7 @@ class PreferencesWidget extends React.Component {
             handleRemove={this.handleRemoveBenefit}
           />,
         ];
+
         if (displayedBenefitAlerts && displayedBenefitAlerts.length) {
           content.unshift(
             <div key="benefit-alerts">
@@ -196,12 +204,15 @@ class PreferencesWidget extends React.Component {
             </div>,
           );
         }
+
         if (saveStatus === LOADING_STATES.error) {
           content.unshift(<SaveFailedMessageComponent />);
         }
+
         return content;
       }
     }
+
     return null;
   };
 

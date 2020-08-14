@@ -118,6 +118,7 @@ function completeEducationHistory(client, data) {
   );
 
   client.selectDropdown('root_highSchool_status', data.highSchool.status);
+
   if (completionDate) {
     client.fillDate(
       'root_highSchool_highSchoolOrGedCompletionDate',
@@ -160,6 +161,7 @@ function completeEducationHistory(client, data) {
           dateFrom,
         );
       }
+
       if (dateTo) {
         client.fillDate(
           `root_postHighSchoolTrainings_${index}_dateRange_to`,

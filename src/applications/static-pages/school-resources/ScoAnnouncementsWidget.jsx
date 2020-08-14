@@ -56,6 +56,7 @@ export default class ScoAnnouncementsWidget extends React.Component {
           .map((announcement, index) => {
             const displayDate = moment(announcement.date).format('M/D/YYYY');
             const content = `${displayDate} — ${announcement.name}`;
+
             return (
               <li key={index} className="hub-page-link-list__item">
                 {announcement.url ? (

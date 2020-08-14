@@ -121,6 +121,7 @@ export default class SelectArrayItemsWidget extends React.Component {
                 <dd />
               </React.Fragment>
             );
+
             return formContext.reviewMode ? (
               content
             ) : (

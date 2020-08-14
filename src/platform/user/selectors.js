@@ -29,6 +29,7 @@ const createPhoneNumberStringFromData = phoneNumberData => {
   // in some test data the extension is set to '0000' and we want to treat that
   // as a null extension
   const extension = data.extension === '0000' ? undefined : data.extension;
+
   return `${areaCode}${phoneNumber}${extension ? `x${extension}` : ''}`;
 };
 export const selectVet360MobilePhone = state =>

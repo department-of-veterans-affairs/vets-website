@@ -24,6 +24,7 @@ export default [
     let newFormData = formData;
 
     const programs = get('educationDetails.programs', formData);
+
     if (programs) {
       Object.entries(programsKeyMap).forEach(([oldKey, newKey]) => {
         if (typeof programs[oldKey] !== 'undefined') {
@@ -41,6 +42,7 @@ export default [
       'educationDetails.assistance.view:assistance',
       formData,
     );
+
     if (assistance) {
       Object.entries(assistanceKeyMap).forEach(([oldKey, newKey]) => {
         if (typeof assistance[oldKey] !== 'undefined') {

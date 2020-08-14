@@ -106,6 +106,7 @@ function parseHours(operatingHours) {
   if (openingHour.includes(':')) {
     formattedOpeningHour = moment(openingHour, 'h:mmA').format('HH:mm');
   }
+
   if (closingHour.includes(':')) {
     formattedClosingHour = moment(closingHour, 'h:mmA').format('HH:mm');
   }
@@ -117,6 +118,7 @@ function parseHours(operatingHours) {
   if (hoursArray[0].search(/Invalid date/i) === 0) {
     hoursArray[0] = null;
   }
+
   if (hoursArray[1].search(/Invalid date/i) === 0) {
     hoursArray[1] = null;
   }

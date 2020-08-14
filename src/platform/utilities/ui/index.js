@@ -6,11 +6,13 @@ export function displayFileSize(size) {
   }
 
   const kbSize = size / 1024;
+
   if (kbSize < 1024) {
     return `${Math.round(kbSize)}KB`;
   }
 
   const mbSize = kbSize / 1024;
+
   return `${Math.round(mbSize)}MB`;
 }
 
@@ -24,6 +26,7 @@ export function focusElement(selectorOrElement, options) {
     if (el.tabIndex === 0) {
       el.setAttribute('tabindex', '0');
     }
+
     if (el.tabIndex < 0) {
       el.setAttribute('tabindex', '-1');
     }
@@ -39,11 +42,13 @@ export function getScrollOptions(additionalOptions) {
     delay: 0,
     smooth: true,
   };
+
   return Object.assign({}, defaults, globals.scroll, additionalOptions);
 }
 
 export function scrollToFirstError() {
   const errorEl = document.querySelector('.usa-input-error, .input-error-date');
+
   if (errorEl) {
     // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
     const currentPosition =

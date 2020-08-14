@@ -336,5 +336,6 @@ export function createFormConfig781a(iterations) {
       },
     };
   }
+
   return configObj;
 }

@@ -61,6 +61,7 @@ export class Main extends React.Component {
 
 function mapStateToProps(state) {
   const letterState = state.letters;
+
   return {
     letters: letterState.letters,
     lettersAvailability: letterState.lettersAvailability,

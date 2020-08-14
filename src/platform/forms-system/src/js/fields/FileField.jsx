@@ -18,12 +18,14 @@ export default class FileField extends React.Component {
   UNSAFE_componentWillReceiveProps(newProps) {
     const newFiles = newProps.formData || [];
     const files = this.props.formData || [];
+
     if (newFiles.length !== files.length) {
       focusElement(`#${newProps.idSchema.$id}_add_label`);
     }
 
     const isUploading = newFiles.some(file => file.uploading);
     const wasUploading = files.some(file => file.uploading);
+
     if (isUploading && !wasUploading) {
       this.setState({ progress: 0 });
     }
@@ -33,6 +35,7 @@ export default class FileField extends React.Component {
     if (event.target.files && event.target.files.length) {
       const files = this.props.formData || [];
       let idx = index;
+
       if (idx === null) {
         idx = files.length === 0 ? 0 : files.length;
       }
@@ -87,6 +90,7 @@ export default class FileField extends React.Component {
     const newFileList = this.props.formData.filter(
       (file, idx) => index !== idx,
     );
+
     if (!newFileList.length) {
       this.props.onChange();
     } else {
@@ -115,6 +119,7 @@ export default class FileField extends React.Component {
 
     const isUploading = files.some(file => file.uploading);
     let { buttonText = 'Upload' } = uiOptions;
+
     if (files.length > 0) buttonText = uiOptions.addAnotherLabel;
 
     const Tag =
@@ -258,6 +263,7 @@ export default class FileField extends React.Component {
                   role="button"
                   onKeyPress={e => {
                     e.preventDefault();
+
                     if (['Enter', ' ', 'Spacebar'].indexOf(e.key) !== -1) {
                       document.getElementById(idSchema.$id).click();
                     }

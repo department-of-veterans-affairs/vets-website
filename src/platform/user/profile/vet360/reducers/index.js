@@ -74,6 +74,7 @@ export default function vet360(state = initialState, action) {
         // Wrap in a "data" property to imitate the API response for a single transaction
         ({ data: transactionData }),
       );
+
       return {
         ...state,
         transactions,
@@ -122,6 +123,7 @@ export default function vet360(state = initialState, action) {
 
     case VET360_TRANSACTION_UPDATE_REQUESTED: {
       const { transactionId } = action.transaction.data.attributes;
+
       return {
         ...state,
         transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.concat(
@@ -137,6 +139,7 @@ export default function vet360(state = initialState, action) {
       } = transaction.data.attributes;
 
       const metadata = { ...state.metadata };
+
       if (isFailedTransaction(transaction)) {
         metadata.mostRecentErroredTransactionId = updatedTransactionId;
       }
@@ -158,6 +161,7 @@ export default function vet360(state = initialState, action) {
 
     case VET360_TRANSACTION_UPDATE_FAILED: {
       const { transactionId } = action.transaction.data.attributes;
+
       return {
         ...state,
         transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(
@@ -173,6 +177,7 @@ export default function vet360(state = initialState, action) {
 
       Object.keys(fieldTransactionMap).forEach(field => {
         const transactionRequest = fieldTransactionMap[field];
+
         if (
           transactionRequest &&
           transactionRequest.transactionId === finishedTransactionId
@@ -182,6 +187,7 @@ export default function vet360(state = initialState, action) {
       });
 
       const metadata = { ...state.metadata };
+
       if (metadata.mostRecentErroredTransactionId === finishedTransactionId) {
         metadata.mostRecentErroredTransactionId = null;
       }

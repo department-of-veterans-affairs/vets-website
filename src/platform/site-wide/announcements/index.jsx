@@ -25,6 +25,7 @@ export default function startAnnouncement(store) {
   const annoucementRoot = document.getElementById('announcement-root');
 
   const isDisabled = localStorage.getItem(ANNOUNCEMENTS_LOCAL_STORAGE) === '*';
+
   if (isDisabled) return;
 
   startReactApp(

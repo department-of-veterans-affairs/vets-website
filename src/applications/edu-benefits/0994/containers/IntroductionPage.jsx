@@ -39,6 +39,7 @@ export class IntroductionPage extends React.Component {
     const shouldWizardShow =
       shouldEduBenefits0994WizardShow &&
       wizardStatus !== WIZARD_STATUS_COMPLETE;
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for Veteran Employment Through Technology Education Courses (VET TEC)" />

@@ -14,6 +14,7 @@ export default class ArrayCountWidget extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.userCount !== this.state.userCount) {
       let count = parseInt(this.state.userCount, 10);
+
       if (isNaN(count)) {
         count = 0;
       }

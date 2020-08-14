@@ -20,6 +20,7 @@ const CallToAction = ({ cta }) => {
       });
     },
   };
+
   if (isEbenefitUrl) {
     return (
       <div>
@@ -32,6 +33,7 @@ const CallToAction = ({ cta }) => {
       </div>
     );
   }
+
   return (
     <div>
       {description}
@@ -46,6 +48,7 @@ const CallToAction = ({ cta }) => {
 
 const FAQItem = ({ faq }) => {
   const { title, component: FAQComponent } = faq;
+
   return (
     <div className="preference-faq-item">
       <AdditionalInfo
@@ -124,6 +127,7 @@ export default class PreferenceItem extends React.Component {
         </div>
       );
     }
+
     return (
       <div>
         <div className="title-container preference-item-title">

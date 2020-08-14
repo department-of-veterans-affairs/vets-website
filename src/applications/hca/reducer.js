@@ -45,6 +45,7 @@ export function hcaEnrollmentStatus(state = initialState, action) {
       const enrollmentStatus = parsedStatus;
       const isInESR =
         enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
+
       return {
         ...state,
         hasServerError: false,
@@ -67,6 +68,7 @@ export function hcaEnrollmentStatus(state = initialState, action) {
       const hasServerError = errors && errors.some(error => error.code >= 500);
       const hasRateLimitError =
         errors && errors.some(error => error.code === '429');
+
       return {
         ...state,
         hasServerError,
@@ -86,6 +88,7 @@ export function hcaEnrollmentStatus(state = initialState, action) {
       const {
         statusEffectiveAt: dismissedNotificationDate,
       } = action.response.data.attributes;
+
       return {
         ...state,
         dismissedNotificationDate,

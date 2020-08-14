@@ -35,6 +35,7 @@ class FormStartControls extends React.Component {
 
   handleLoadPrefill = () => {
     this.captureAnalytics();
+
     if (this.props.prefillAvailable) {
       this.props.fetchInProgressForm(
         // TODO: where does this come from?

@@ -19,6 +19,7 @@ class InstitutionFilterForm extends React.Component {
 
   handleDropdownChange = e => {
     const { name: field, value } = e.target;
+
     if (field === 'gender') {
       this.setState({ gender: value });
     }
@@ -66,6 +67,7 @@ class InstitutionFilterForm extends React.Component {
       label: getStateNameForCode(state),
     }));
     const sortedOptions = options.sort(sortOptionsByStateName);
+
     return (
       <Dropdown
         label="State"
@@ -169,6 +171,7 @@ class InstitutionFilterForm extends React.Component {
 
   renderReligiousAffiliation = () => {
     const options = [];
+
     if (this.props.search.facets?.relaffil) {
       Object.keys(this.props.search.facets.relaffil).forEach(num =>
         options.push({ value: num, label: religiousAffiliations[num] }),
@@ -243,6 +246,7 @@ class InstitutionFilterForm extends React.Component {
         </div>
       );
     }
+
     return (
       <div className="institution-filter-form">
         <h2>Institution details</h2>

@@ -80,6 +80,7 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
   const allDebtsFetchFailure = isVBMSError && isError;
   const allDebtsEmpty =
     !allDebtsFetchFailure && debts.length === 0 && debtLinks.length === 0;
+
   return (
     <>
       <Breadcrumbs className="vads-u-font-family--sans">

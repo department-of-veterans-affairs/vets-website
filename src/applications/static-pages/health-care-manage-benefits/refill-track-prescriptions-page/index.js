@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 
 export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
+
   if (root) {
     import(/* webpackChunkName: "refill-track-prescriptions-page" */
     './components/App').then(module => {

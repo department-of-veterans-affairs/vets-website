@@ -48,6 +48,7 @@ export default function scheduledDowntime(state = initialState, action) {
       const dismissedDowntimeWarnings = state.dismissedDowntimeWarnings.concat(
         action.appTitle,
       );
+
       return {
         ...state,
         dismissedDowntimeWarnings,

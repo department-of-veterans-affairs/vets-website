@@ -40,6 +40,7 @@ export default function preferences(state = initialState, action) {
         action,
         [],
       );
+
       if (preferenceGroups.length) {
         selectedBenefits = preferenceGroups
           .find(
@@ -48,9 +49,11 @@ export default function preferences(state = initialState, action) {
           )
           .userPreferences.reduce((acc, pref) => {
             acc[pref.code] = true;
+
             return acc;
           }, selectedBenefits);
       }
+
       return {
         ...state,
         dashboard: { ...selectedBenefits },
@@ -77,6 +80,7 @@ export default function preferences(state = initialState, action) {
         action,
         [],
       );
+
       return {
         ...state,
         availableBenefits,
@@ -112,11 +116,13 @@ export default function preferences(state = initialState, action) {
     }
     case SET_USER_PREFERENCE: {
       const newState = { ...state };
+
       if (action.value) {
         newState.dashboard[action.code] = true;
       } else {
         delete newState.dashboard[action.code];
       }
+
       return newState;
     }
     case SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS: {

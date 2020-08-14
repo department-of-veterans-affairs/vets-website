@@ -2,6 +2,7 @@ const { getDrupalValue, getWysiwygString } = require('./helpers');
 
 const transform = entity => {
   const { fieldWysiwyg, fieldTextExpander } = entity;
+
   return {
     entity: {
       entityBundle: 'expandable_text',

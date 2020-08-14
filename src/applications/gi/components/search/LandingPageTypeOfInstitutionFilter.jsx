@@ -19,6 +19,7 @@ function LandingPageTypeOfInstitutionFilter({
       label: 'Employers (On-the-job training [OJT], apprenticeships)',
     },
   ];
+
   if (displayVetTecOption) {
     const vetTecLabel = (
       <span className="vads-u-padding-top--1 vads-u-margin-left--0p5">

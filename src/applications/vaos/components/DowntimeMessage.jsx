@@ -43,6 +43,7 @@ function DowntimeMessage({
   }
 
   const close = () => dismissDowntimeWarning(appTitle);
+
   return (
     <>
       {status === externalServiceStatus.downtimeApproaching && (

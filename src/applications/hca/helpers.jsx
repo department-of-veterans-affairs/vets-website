@@ -40,6 +40,7 @@ export function transformAttachments(data) {
   }
   const transformedAttachments = data.attachments.map(attachment => {
     const { name, size, confirmationCode, attachmentId } = attachment;
+
     return {
       name,
       size,
@@ -47,6 +48,7 @@ export function transformAttachments(data) {
       dd214: attachmentId === '1',
     };
   });
+
   return { ...data, attachments: transformedAttachments };
 }
 
@@ -212,6 +214,7 @@ export function getMedicalCenterNameByID(facilityId) {
     return '';
   }
   const [id] = facilityId.split(' - ');
+
   return medicalCenterLabels[id] || facilityId;
 }
 
@@ -367,6 +370,7 @@ export function expensesLessThanIncome(fieldShownUnder) {
     'deductibleFuneralExpenses',
     'deductibleEducationExpenses',
   ];
+
   return formData => {
     const {
       veteranGrossIncome = 0,
@@ -412,6 +416,7 @@ export function expensesLessThanIncome(fieldShownUnder) {
     // then we need to make sure the current field is the last non-empty field
     if (!hideBasedOnValues) {
       const nonEmptyFields = fields.filter(field => formData[field]);
+
       if (
         !nonEmptyFields.length ||
         nonEmptyFields[nonEmptyFields.length - 1] !== fieldShownUnder
@@ -545,6 +550,7 @@ export const idFormUiSchema = {
  */
 export function getCSTOffset(isDST) {
   const offsetHours = isDST ? -5 : -6;
+
   return offsetHours * 60;
 }
 
@@ -587,12 +593,14 @@ export function getCSTDate() {
 
   // Central Time is determined by adjusting the UTC time (derived above) using the CST offset
   const centralTime = getAdjustedTime(utcTime, getOffsetTime(cstOffset));
+
   return new Date(centralTime);
 }
 
 export function isBeforeCentralTimeDate(date) {
   const lastDischargeDate = moment(date, 'YYYY-MM-DD');
   const centralTimeDate = moment(getCSTDate());
+
   return lastDischargeDate.isBefore(centralTimeDate.startOf('day'));
 }
 
@@ -605,6 +613,7 @@ export function validateDate(date) {
   const day = newDate.date();
   const month = newDate.month() + 1; // Note: Months are zero indexed, so January is month 0.
   const year = newDate.year();
+
   return isValidDate(day, month, year);
 }
 
@@ -623,6 +632,7 @@ export function didEnrollmentStatusChange(prevProps, props) {
     'noESRRecordFound',
     'shouldRedirect',
   ];
+
   return relevantProps.some(
     propName => prevProps[propName] !== props[propName],
   );

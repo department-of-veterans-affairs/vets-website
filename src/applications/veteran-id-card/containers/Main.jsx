@@ -52,6 +52,7 @@ class Main extends React.Component {
         </button>
       );
     }
+
     return (
       <button
         className="usa-button-primary va-button-primary"
@@ -97,6 +98,7 @@ class Main extends React.Component {
         {detail}
       </div>
     );
+
     return <AlertBox content={content} isVisible status="error" />;
   }
 
@@ -172,6 +174,7 @@ class Main extends React.Component {
 const mapStateToProps = state => {
   const idState = state.idcard;
   const userState = state.user;
+
   return {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,

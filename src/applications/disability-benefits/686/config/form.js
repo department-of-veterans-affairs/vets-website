@@ -533,6 +533,7 @@ const formConfig = {
                     updateSchema: (function makeUpdateSchema() {
                       let formerSpouseSchema;
                       let currentSpouseSchema;
+
                       return (form, schema, uiSchema, index) => {
                         if (!formerSpouseSchema) {
                           formerSpouseSchema = _.merge(schema, {
@@ -562,6 +563,7 @@ const formConfig = {
                             },
                           });
                         }
+
                         return isCurrentMarriage(form, index)
                           ? currentSpouseSchema
                           : formerSpouseSchema;
@@ -1021,9 +1023,11 @@ const formConfig = {
                   'ui:options': {
                     hideIf: (form, index) => {
                       const childAge = calculateChildAge(form, index);
+
                       if (childAge) {
                         return childAge < 18 || childAge > 23;
                       }
+
                       return true;
                     },
                   },
@@ -1039,9 +1043,11 @@ const formConfig = {
                   'ui:options': {
                     hideIf: (form, index) => {
                       const childAge = calculateChildAge(form, index);
+
                       if (childAge) {
                         return childAge >= 18;
                       }
+
                       return true;
                     },
                   },

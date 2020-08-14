@@ -42,6 +42,7 @@ function getAppointmentType(appt) {
  */
 function isCommunityCare(appt) {
   const apptType = getAppointmentType(appt);
+
   return (
     apptType === APPOINTMENT_TYPES.ccRequest ||
     apptType === APPOINTMENT_TYPES.ccAppointment
@@ -167,6 +168,7 @@ function getMomentConfirmedDate(appt) {
   if (isCommunityCare(appt)) {
     const zoneSplit = appt.timeZone.split(' ');
     const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
+
     return moment
       .utc(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss')
       .utcOffset(offset);
@@ -176,6 +178,7 @@ function getMomentConfirmedDate(appt) {
   const date = isVideoVisit(appt)
     ? appt.vvsAppointments[0].dateTime
     : appt.startDate;
+
   return timezone ? moment(date).tz(timezone) : moment(date);
 }
 
@@ -188,6 +191,7 @@ export function isPastAppointment(appt) {
   const isVideo = isVideoVisit(appt);
   const threshold = isVideo ? 240 : 60;
   const apptDateTime = moment(getMomentConfirmedDate(appt));
+
   return apptDateTime.add(threshold, 'minutes').isBefore(moment());
 }
 
@@ -213,6 +217,7 @@ function getAppointmentDuration(appt) {
       appt.vvsAppointments?.[0]?.duration,
     10,
   );
+
   return isNaN(appointmentLength) ? 60 : appointmentLength;
 }
 
@@ -313,6 +318,7 @@ function setParticipant(appt) {
 
         return participant;
       }
+
       return null;
     }
     case APPOINTMENT_TYPES.ccAppointment: {
@@ -326,6 +332,7 @@ function setParticipant(appt) {
           },
         ];
       }
+
       return null;
     }
     case APPOINTMENT_TYPES.ccRequest:
@@ -427,6 +434,7 @@ function setContained(appt) {
           },
         ];
       }
+
       return null;
     }
     case APPOINTMENT_TYPES.ccRequest: {

@@ -10,5 +10,6 @@ export default function(state = INITIAL_STATE, action) {
   } else if (action.type === UPDATE_ROUTE) {
     return INITIAL_STATE;
   }
+
   return state;
 }

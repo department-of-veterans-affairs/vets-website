@@ -77,6 +77,7 @@ export default {
           validator: (errors, fieldData, formData, dataConstant) => {
             const emailMatcher = () => formData[dataConstant] === fieldData;
             const doesEmailMatch = emailMatcher();
+
             if (!doesEmailMatch) {
               errors.addError(
                 'This email does not match your previously entered email',
@@ -146,6 +147,7 @@ export default {
               ]}`,
               form,
             );
+
             if (state) {
               return {
                 enum: medicalCentersByState[state] || emptyFacilityList,
@@ -266,6 +268,7 @@ export const confirmationEmailUI = (label, dataConstant) => ({
         const emailMatcher = () =>
           formData[dataConstant] === formData[`view:${dataConstant}`];
         const doesEmailMatch = emailMatcher();
+
         if (!doesEmailMatch) {
           errors.addError(
             'This email does not match your previously entered email',

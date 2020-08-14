@@ -12,6 +12,7 @@ const renderNextAction = (lastEvent, previousHistory) => {
   }
   const nextAction = appealStatusDescriptions(lastEvent, previousHistory)
     .nextAction;
+
   return nextAction && nextAction.title;
 };
 

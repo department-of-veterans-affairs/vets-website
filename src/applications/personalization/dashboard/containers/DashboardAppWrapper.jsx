@@ -59,6 +59,7 @@ class DashboardAppWrapper extends React.Component {
         </div>
       );
     }
+
     return children;
   };
 
@@ -83,6 +84,7 @@ class DashboardAppWrapper extends React.Component {
         </Link>,
       );
     }
+
     return crumbs;
   };
 

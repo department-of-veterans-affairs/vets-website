@@ -19,6 +19,7 @@ function validatePostalCodes(errors, address) {
     isValidPostalCode =
       isValidPostalCode && isValidUSZipCode(address.postalCode);
   }
+
   if (address.country === 'CAN') {
     isValidPostalCode =
       isValidPostalCode && isValidCanPostalCode(address.postalCode);
@@ -99,6 +100,7 @@ export function schema(
   addressProperty = 'address',
 ) {
   const addressSchema = currentSchema.definitions[addressProperty];
+
   return {
     type: 'object',
     required: isRequired ? requiredFields : [],
@@ -147,6 +149,7 @@ export function uiSchema(
     'state',
     'postalCode',
   ];
+
   if (!useStreet3) {
     fieldOrder = fieldOrder.filter(field => field !== 'street3');
   }
@@ -166,6 +169,7 @@ export function uiSchema(
 
       let stateList;
       let labelList;
+
       if (country === 'USA') {
         stateList = usaStates;
         labelList = usaLabels;
@@ -201,6 +205,7 @@ export function uiSchema(
       } else if (addressSchema.properties.state.enum) {
         const withoutEnum = unset('state.enum', schemaUpdate.properties);
         schemaUpdate.properties = unset('state.enumNames', withoutEnum);
+
         if (!ignoreRequired && required) {
           schemaUpdate.required = addressSchema.required.filter(
             field => field !== 'state',
@@ -257,14 +262,17 @@ export function uiSchema(
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
+
         if (isRequired) {
           const required = isRequired(formData, index);
+
           if (required && currentSchema.required.length === 0) {
             currentSchema = set('required', requiredFields, currentSchema);
           } else if (!required && currentSchema.required.length > 0) {
             currentSchema = set('required', [], currentSchema);
           }
         }
+
         return addressChangeSelector({
           formData,
           addressSchema: currentSchema,

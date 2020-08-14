@@ -5,9 +5,11 @@ const numberTypes = new Set(['number', 'integer']);
 
 export default function TextWidget(props) {
   let inputType = props.options.inputType;
+
   if (!inputType) {
     inputType = numberTypes.has(props.schema.type) ? 'number' : props.type;
   }
+
   return (
     <input
       autoComplete={props.options.autocomplete}

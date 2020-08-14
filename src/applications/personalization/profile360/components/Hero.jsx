@@ -17,6 +17,7 @@ class HeroContent extends React.Component {
     } = this.props;
     const fullName = [first, middle, last].join(' ');
     const ariaLabel = `Profile: ${fullName}`;
+
     return (
       <h1
         data-field-name="fullName"
@@ -33,6 +34,7 @@ class HeroContent extends React.Component {
         serviceHistory: { serviceHistory, error: serviceHistoryError } = {},
       },
     } = this.props;
+
     if (!serviceHistoryError && serviceHistory && serviceHistory.length > 0) {
       return (
         <div className="service-branch">
@@ -40,6 +42,7 @@ class HeroContent extends React.Component {
         </div>
       );
     }
+
     return null;
   };
   render() {

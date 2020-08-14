@@ -96,6 +96,7 @@ export function getCCEType(state) {
   const data = getFormData(state);
 
   let typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+
   if (typeOfCare.id === 'EYE') {
     typeOfCare = TYPES_OF_EYE_CARE.find(
       care => care.id === data.typeOfEyeCareId,
@@ -113,6 +114,7 @@ export function getChosenFacilityInfo(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;
   const typeOfCareId = getTypeOfCare(data)?.id;
+
   return (
     facilities[`${typeOfCareId}_${data.vaParent}`]?.find(
       facility => facility.id === data.vaFacility,
@@ -190,6 +192,7 @@ export function getEligibilityChecks(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
+
   return (
     newAppointment.eligibility[`${data.vaFacility}_${typeOfCareId}`] || null
   );
@@ -197,12 +200,14 @@ export function getEligibilityChecks(state) {
 
 export function getEligibilityStatus(state) {
   const eligibility = getEligibilityChecks(state);
+
   return isEligible(eligibility);
 }
 
 export function getPreferredDate(state, pageKey) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data)?.name;
+
   return { ...getFormPageInfo(state, pageKey), typeOfCare };
 }
 
@@ -260,9 +265,11 @@ export function hasSingleValidVALocation(state) {
 
 export function selectCernerOrgIds(state) {
   const cernerSites = selectPatientFacilities(state)?.filter(f => f.isCerner);
+
   return getNewAppointment(state)
     .parentFacilities?.filter(parent => {
       const facilityId = getSiteIdFromOrganization(parent);
+
       return cernerSites?.some(cernerSite =>
         facilityId.startsWith(cernerSite.facilityId),
       );
@@ -312,6 +319,7 @@ export function getChosenClinicInfo(state) {
   const data = getFormData(state);
   const clinics = getNewAppointment(state).clinics;
   const typeOfCareId = getTypeOfCare(data)?.id;
+
   return (
     clinics[`${data.vaFacility}_${typeOfCareId}`]?.find(
       clinic => clinic.id === data.clinicId,
@@ -359,6 +367,7 @@ export function getCancelInfo(state) {
     : false;
 
   let facility = null;
+
   if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
     // Confirmed in person VA appts
     const locationId = getVAAppointmentLocationId(appointmentToCancel);
@@ -375,6 +384,7 @@ export function getCancelInfo(state) {
     facility = facilityData[getRealFacilityId(locationId)];
   }
   let isCerner = null;
+
   if (appointmentToCancel) {
     const facilityId = getVARFacilityId(appointmentToCancel);
     isCerner = selectPatientFacilities(state)
@@ -441,6 +451,7 @@ export const selectExpressCareRequests = createSelector(
 
 export function selectFutureStatus(state) {
   const { pendingStatus, confirmedStatus } = state.appointments;
+
   if (
     pendingStatus === FETCH_STATUS.failed ||
     confirmedStatus === FETCH_STATUS.failed
@@ -502,6 +513,7 @@ export function selectExpressCareFormData(state) {
  */
 export function selectActiveExpressCareWindows(state, nowMoment) {
   const now = nowMoment || moment();
+
   return state.expressCare.supportedFacilities
     ?.map(({ days, facilityId }) => {
       const siteId = facilityId.substring(0, 3);
@@ -595,6 +607,7 @@ export function selectExpressCareHours(state) {
   const windows = new Map();
   facility.days.forEach(day => {
     const key = `${day.startTime}_${day.endTime}`;
+
     if (windows.has(key)) {
       windows.get(key).push(day.day);
     } else {
@@ -608,6 +621,7 @@ export function selectExpressCareHours(state) {
   return joinWithAnd(
     segments.map(([hours, days]) => {
       const [start, end] = hours.split('_');
+
       return `${days.map(titleCase).join(', ')} from ${moment(
         start,
         'HH:mm',
@@ -621,6 +635,7 @@ export function selectExpressCareHours(state) {
 export function selectExpressCare(state) {
   const expressCare = state.expressCare;
   const activeWindows = selectActiveExpressCareWindows(state);
+
   return {
     ...expressCare,
     activeWindows,
@@ -638,6 +653,7 @@ export function selectExpressCare(state) {
 
 export function getExpressCareFormPageInfo(state, pageKey) {
   const newRequest = selectExpressCareNewRequest(state);
+
   return {
     schema: newRequest.pages[pageKey],
     data: newRequest.data,

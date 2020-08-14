@@ -37,6 +37,7 @@ const VeteranInformation = props => {
     };
   };
   const SchemaField = registry?.fields.SchemaField;
+
   return (
     <>
       {user?.login?.currentlyLoggedIn &&

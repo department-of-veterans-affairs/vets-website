@@ -45,6 +45,7 @@ export function fetchTransactions() {
   return async dispatch => {
     try {
       let response;
+
       if (isVet360Configured()) {
         response = await apiRequest('/profile/status/');
       } else {
@@ -250,6 +251,7 @@ export const validateAddress = (
     const showModal = showAddressValidationModal(suggestedAddresses);
 
     let selectedAddressId = null;
+
     if (showModal) {
       selectedAddressId = confirmedSuggestions.length > 0 ? '0' : 'userEntered';
     }
@@ -282,6 +284,7 @@ export const validateAddress = (
       'profile-section': analyticsSectionName,
       'profile-addressSuggestionUsed': 'no',
     });
+
     // otherwise just send the first suggestion to the API
     return dispatch(
       createTransaction(

@@ -27,6 +27,7 @@ export default function removeDeeplyEmptyObjects(root, checkEmpty = isEmpty) {
     // Recurse as deeply as possible first
     if (!checkEmpty(newRoot[key])) {
       const newProp = removeDeeplyEmptyObjects(newRoot[key]);
+
       // set() changes the object reference, but we don't want that if the property reference doesn't change
       if (newProp !== newRoot[key]) {
         newRoot = set(key, newProp, newRoot);

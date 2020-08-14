@@ -55,6 +55,7 @@ class SearchApp extends React.Component {
   componentDidMount() {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
+
     if (userInput) {
       this.props.fetchSearchResults(userInput, page);
     }
@@ -160,6 +161,7 @@ class SearchApp extends React.Component {
 
   renderRecommendedResults() {
     const { loading, recommendedResults } = this.props.search;
+
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
@@ -238,6 +240,7 @@ class SearchApp extends React.Component {
   /* eslint-disable react/no-danger */
   renderWebResult(result, snippetKey = 'snippet', isBestBet = false) {
     const strippedTitle = formatResponseString(result.title, true);
+
     return (
       <li key={result.url} className="result-item">
         <a
@@ -374,6 +377,7 @@ class SearchApp extends React.Component {
 
 function mapStateToProps(state) {
   const { search } = state;
+
   return { search };
 }
 

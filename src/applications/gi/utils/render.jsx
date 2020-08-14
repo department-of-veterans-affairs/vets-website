@@ -9,6 +9,7 @@ export const renderSchoolClosingAlert = result => {
   if (schoolClosingOn) {
     const currentDate = new Date();
     const schoolClosingDate = new Date(schoolClosingOn);
+
     if (currentDate > schoolClosingDate) {
       return (
         <AlertBox
@@ -21,6 +22,7 @@ export const renderSchoolClosingAlert = result => {
       );
     }
   }
+
   return (
     <AlertBox
       className="vads-u-margin-top--1"
@@ -70,7 +72,9 @@ export const renderCautionAlert = cautionFlags => {
 
 export const renderPreferredProviderFlag = result => {
   const { preferredProvider } = result;
+
   if (!preferredProvider) return <br />;
+
   return (
     <div className="preferred-flag">
       <i className="fa fa-star vads-u-color--gold" />

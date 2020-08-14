@@ -9,6 +9,7 @@ import {
 describe('fetchDebtLetters', () => {
   it('verify return data', () => {
     const dispatch = sinon.spy();
+
     return fetchDebtLetters()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(DEBTS_FETCH_INITIATED);
       expect(dispatch.secondCall.args[0].type).to.equal(DEBTS_FETCH_SUCCESS);

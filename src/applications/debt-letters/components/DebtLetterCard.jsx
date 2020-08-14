@@ -15,6 +15,7 @@ const DebtLetterCard = ({ debt }) => {
   const mostRecentHistory = last(debt.debtHistory);
   const debtCardHeading =
     deductionCodes[debt.deductionCode] || debt.benefitType;
+
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
       <h3 className="vads-u-margin--0">{debtCardHeading}</h3>

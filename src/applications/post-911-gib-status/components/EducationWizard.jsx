@@ -20,9 +20,11 @@ export default class EducationWizard extends React.Component {
     });
     let newState = { choices };
     const choiceIndex = config.findIndex(option => option.type === field);
+
     if (choiceIndex < config.length - 1) {
       const resetChoices = config.slice(choiceIndex + 1).reduce((acc, item) => {
         acc[item.type] = null;
+
         return acc;
       }, choices);
       newState = { choices: resetChoices };
@@ -66,11 +68,13 @@ export default class EducationWizard extends React.Component {
               } = choice;
 
               let shouldDisplayQuestion;
+
               if (Array.isArray(previous)) {
                 shouldDisplayQuestion = isActive(this.state.choices);
               } else {
                 shouldDisplayQuestion = isActive(this.state.choices[previous]);
               }
+
               if (shouldDisplayQuestion) {
                 if (options) {
                   return (
@@ -88,6 +92,7 @@ export default class EducationWizard extends React.Component {
                     />
                   );
                 }
+
                 return <Component key={type} />;
               }
             })}

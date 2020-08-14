@@ -145,6 +145,7 @@ function completeBenefitSelection(client, data) {
       'root_application_hasCurrentlyBuried',
       data.hasCurrentlyBuried,
     );
+
   if (data.currentlyBuriedPersons.length) {
     data.currentlyBuriedPersons.forEach((person, index) => {
       client
@@ -156,6 +157,7 @@ function completeBenefitSelection(client, data) {
           `root_application_currentlyBuriedPersons_${index}_name`,
           person.name,
         );
+
       if (index < data.currentlyBuriedPersons.length - 1) {
         client.click('.usa-button-secondary.va-growable-add-btn');
       }
@@ -179,6 +181,7 @@ function completeApplicantContactInformation(client, data) {
     'root_application_applicant_applicantRelationshipToClaimant',
     data.applicantRelationshipToClaimant,
   );
+
   if (data.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
     client
       .fillName(

@@ -58,6 +58,7 @@ export default function ConfirmedAppointmentListItem({
       ));
 
   let instructionText;
+
   if (showInstructions) {
     instructionText = appointment.comment;
   } else if (isVideo && appointment.comment) {
@@ -75,6 +76,7 @@ export default function ConfirmedAppointmentListItem({
 
   let header;
   let location;
+
   if (isVideo) {
     header = 'VA Video Connect';
     location = 'Video conference';

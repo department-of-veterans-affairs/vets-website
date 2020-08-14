@@ -29,6 +29,7 @@ export const fetchFormStatus = () => async dispatch => {
   dispatch(initiateApiCall());
   const sessionExpiration = localStorage.getItem('sessionExpiration');
   const remainingSessionTime = moment(sessionExpiration).diff(moment());
+
   if (!remainingSessionTime) {
     // bail if there isn't a current session
     // the API returns the same response if a user is missing data OR is not logged in
@@ -49,9 +50,11 @@ export const fetchFormStatus = () => async dispatch => {
       if (body.errors) {
         // In the event there are multiple errors - but I don't think that is possible
         const firstError = head(body.errors);
+
         if (firstError.code === '500') {
           return dispatch(handleError('MDOT_SERVER_ERROR'));
         }
+
         return dispatch(handleError(firstError.code.toUpperCase()));
       }
       const eligibility = body.formData.eligibility;
@@ -69,11 +72,14 @@ export const fetchFormStatus = () => async dispatch => {
           firstSupplyInSupplies,
           'nextAvailabilityDate',
         );
+
         return dispatch(
           handleError('MDOT_SUPPLIES_INELIGIBLE', nextAvailabilityDate),
         );
       }
+
       return dispatch(resetError());
     });
+
   return null;
 };

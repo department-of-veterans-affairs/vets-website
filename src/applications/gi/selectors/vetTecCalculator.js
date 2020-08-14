@@ -30,6 +30,7 @@ export const getCalculatedBenefits = createSelector(
       : paysToProviderValue * 0.5;
 
     let outOfPocketFees = 0;
+
     if (inputsNull) {
       outOfPocketFees = null;
     } else if (institution.preferredProvider) {
@@ -40,10 +41,12 @@ export const getCalculatedBenefits = createSelector(
     ) {
       outOfPocketFees =
         vetTecTuitionFees - constants.TFCAP - vetTecScholarships;
+
       if (outOfPocketFees < 0) {
         outOfPocketFees = 0;
       }
     }
+
     return {
       outputs: {
         vetTecTuitionFees: formatCurrencyNullTBD(

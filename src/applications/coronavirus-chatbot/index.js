@@ -44,6 +44,7 @@ export const initializeChatbot = async () => {
         'X-CSRF-Token': csrfTokenStored,
       },
     });
+
     return configureWebchat(token);
   } catch (error) {
     recordInitChatbotFailure(error);

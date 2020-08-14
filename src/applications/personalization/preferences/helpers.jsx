@@ -246,6 +246,7 @@ export function transformPreferencesForSaving(preferences) {
       processedData[0].user_preferences.push({ code: key });
     }
   });
+
   return JSON.stringify(processedData);
 }
 
@@ -261,6 +262,7 @@ export function transformPreferencesForSaving(preferences) {
 export const filterItems = (list, items) => {
   const filteredList = new Set(list);
   items.forEach(item => filteredList.delete(item));
+
   return Array.from(filteredList);
 };
 

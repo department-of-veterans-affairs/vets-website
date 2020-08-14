@@ -21,6 +21,7 @@ export class SearchResult extends React.Component {
     } else if (qualifier === null) {
       return value;
     }
+
     return <span>{formatCurrency(value)}</span>;
   };
 

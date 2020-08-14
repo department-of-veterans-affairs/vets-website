@@ -31,6 +31,7 @@ function getBrokenLinks(file, allPaths, isBrokenLink = _isBrokenLink) {
       target = $node.attr('src');
 
       const isInlineScript = target === undefined && !!$node.html().trim();
+
       if (isInlineScript) {
         return;
       }

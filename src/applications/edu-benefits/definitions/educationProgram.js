@@ -26,6 +26,7 @@ export function schema(localSchema, required = []) {
     required,
     localSchema.definitions.educationProgram,
   );
+
   return _.set(
     'properties.address',
     address.schema(localSchema),

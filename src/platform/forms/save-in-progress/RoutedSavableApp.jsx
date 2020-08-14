@@ -44,6 +44,7 @@ class RoutedSavableApp extends React.Component {
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
+
     if (window.History) {
       window.History.scrollRestoration = 'manual';
     }
@@ -63,6 +64,7 @@ class RoutedSavableApp extends React.Component {
         !currentLocation.search.includes('skip')) ||
       currentLocation.search.includes('redirect');
     const goToStartPage = resumeForm || devRedirect;
+
     if (
       isInProgressPath(currentLocation.pathname, additionalSafePaths) &&
       goToStartPage
@@ -93,6 +95,7 @@ class RoutedSavableApp extends React.Component {
     }
 
     const status = newProps.loadedStatus;
+
     if (
       status === LOAD_STATUSES.success &&
       newProps.currentLocation &&
@@ -120,6 +123,7 @@ class RoutedSavableApp extends React.Component {
       !this.location.pathname.endsWith('/error')
     ) {
       let action = 'push';
+
       if (this.location.pathname.endsWith('resume')) {
         action = 'replace';
       }
@@ -160,6 +164,7 @@ class RoutedSavableApp extends React.Component {
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const additionalSafePaths = additionalRoutes.map(route => route.path);
     let message;
+
     if (
       autoSavedStatus !== SAVE_STATUSES.success &&
       isInProgressPath(trimmedPathname, additionalSafePaths)
@@ -168,6 +173,7 @@ class RoutedSavableApp extends React.Component {
       // Chrome requires this to be set
       e.returnValue = message; // eslint-disable-line no-param-reassign
     }
+
     return message;
   };
 
@@ -187,6 +193,7 @@ class RoutedSavableApp extends React.Component {
     const firstPagePath =
       props.routes[props.routes.length - 1].pageList[0].path;
     const firstNonIntroPagePath = this.getFirstNonIntroPagePath(props);
+
     // If we're logged in and have a saved / pre-filled form, load that
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;
@@ -236,6 +243,7 @@ class RoutedSavableApp extends React.Component {
     const loadingForm =
       trimmedPathname.endsWith('resume') ||
       loadedStatus === LOAD_STATUSES.pending;
+
     if (
       (!formConfig.disableSave &&
         loadingForm &&

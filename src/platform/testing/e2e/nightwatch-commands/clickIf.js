@@ -8,6 +8,7 @@
  */
 exports.command = function clickIf(selector, condition, ...params) {
   let shouldClick = !!condition;
+
   if (typeof condition === 'function') {
     shouldClick = !!condition(...params);
   }

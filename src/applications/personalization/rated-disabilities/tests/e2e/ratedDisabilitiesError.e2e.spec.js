@@ -52,6 +52,7 @@ function generateErrorData(token) {
   ErrorMockData.forEach(error => {
     routes.push(Mock(token, error));
   });
+
   return routes;
 }
 

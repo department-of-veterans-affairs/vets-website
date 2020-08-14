@@ -28,6 +28,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
   onChange(formData, path = null, index = null) {
     let newData = formData;
+
     if (path) {
       newData = _.set([path, index], formData, this.props.form.data);
     }
@@ -80,9 +81,11 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
     const ChapterDescription = chapterFormConfig.reviewDescription;
     let chapterTitle = chapterFormConfig.title;
+
     if (typeof chapterFormConfig.title === 'function') {
       chapterTitle = chapterFormConfig.title(true);
     }
+
     if (chapterFormConfig.reviewTitle) {
       chapterTitle = chapterFormConfig.reviewTitle;
     }

@@ -108,6 +108,7 @@ export function mapRawUserDataToState(json) {
     userState.status = getErrorStatusDesc(errorStatus);
   } else {
     userState.status = vaProfile.status;
+
     if (vaProfile.facilities) {
       userState.facilities = vaProfile.facilities;
     }
@@ -142,6 +143,7 @@ export function setupProfileSession(userProfile) {
   const { firstName, signIn } = userProfile;
   const loginType = signIn?.serviceName || null;
   localStorage.setItem('hasSession', true);
+
   if (signIn?.ssoe) {
     ssoKeepAliveSession();
   }

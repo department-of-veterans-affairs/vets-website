@@ -9,6 +9,7 @@ import _ from 'lodash';
  */
 export function makeField(value, optionalDirty) {
   const dirty = optionalDirty === undefined ? false : optionalDirty;
+
   return { value, dirty };
 }
 

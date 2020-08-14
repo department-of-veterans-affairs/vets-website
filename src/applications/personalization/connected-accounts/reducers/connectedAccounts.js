@@ -27,8 +27,10 @@ function connectedAccounts(state = initialState, action) {
         if (account.id === action.accountId) {
           return { ...account, deleting: true };
         }
+
         return account;
       });
+
       return { ...state, accounts };
     }
     case ERROR_DELETING_CONNECTED_ACCOUNT: {
@@ -36,8 +38,10 @@ function connectedAccounts(state = initialState, action) {
         if (account.id === action.accountId) {
           return { ...account, deleting: false, errors: action.errors };
         }
+
         return account;
       });
+
       return { ...state, accounts };
     }
     case FINISHED_DELETING_CONNECTED_ACCOUNT: {
@@ -45,14 +49,17 @@ function connectedAccounts(state = initialState, action) {
         if (account.id === action.accountId) {
           return { ...account, deleting: false, deleted: true };
         }
+
         return account;
       });
+
       return { ...state, accounts };
     }
     case DELETED_ACCOUNT_ALERT_DISMISSED: {
       const accounts = state.accounts.filter(
         account => account.id !== action.accountId,
       );
+
       return { ...state, accounts };
     }
     default:

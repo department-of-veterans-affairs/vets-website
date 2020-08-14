@@ -4,6 +4,7 @@ import { SMALL_SCREEN_WIDTH } from '../constants';
 
 export const formatNumber = value => {
   const str = (+value).toString();
+
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
 };
 
@@ -23,6 +24,7 @@ export const isCountryInternational = country => !isCountryUSA(country);
 
 export const locationInfo = (city, state, country) => {
   let address = '';
+
   if (isCountryUSA(country)) {
     if (city && state) {
       address = `${city}, ${state}`;
@@ -38,14 +40,17 @@ export const locationInfo = (city, state, country) => {
       address = `${country}`;
     }
   }
+
   return address;
 };
 
 export const phoneInfo = (areaCode, phoneNumber) => {
   let providerPhone = '';
+
   if (areaCode && phoneNumber) {
     providerPhone = `${areaCode}-${phoneNumber}`;
   }
+
   return providerPhone;
 };
 
@@ -69,6 +74,7 @@ export const getStateNameForCode = stateCode => {
   const stateLabel = constants.states.USA.find(
     state => state.value.toUpperCase() === stateCode.toUpperCase(),
   );
+
   return stateLabel !== undefined ? stateLabel.label : stateCode.toUpperCase();
 };
 
@@ -76,9 +82,11 @@ export const sortOptionsByStateName = (stateA, stateB) => {
   if (stateA.label < stateB.label) {
     return -1;
   }
+
   if (stateA.label > stateB.label) {
     return 1;
   }
+
   return 0;
 };
 
@@ -87,6 +95,7 @@ export const removeNonNumberCharacters = value =>
 
 export const formatDollarAmount = value => {
   const output = value != null ? removeNonNumberCharacters(value) : 0;
+
   return formatCurrency(output);
 };
 
@@ -94,6 +103,7 @@ export const isMobileView = () => window.innerWidth <= SMALL_SCREEN_WIDTH;
 
 export const handleScrollOnInputFocus = fieldId => {
   const field = document.getElementById(fieldId);
+
   if (field && isMobileView()) {
     field.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
@@ -107,6 +117,7 @@ export const handleInputFocusWithPotentialOverLap = (
   if (isMobileView()) {
     const field1 = document.getElementById(fieldId1);
     const field2 = document.getElementById(fieldId2);
+
     if (field1 && field2) {
       field1.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       const fieldRect1 = field1.getBoundingClientRect();
@@ -117,9 +128,11 @@ export const handleInputFocusWithPotentialOverLap = (
         fieldRect1.bottom < fieldRect2.top ||
         fieldRect1.top > fieldRect2.bottom
       );
+
       if (hasOverLap === true) {
         const scrollableField =
           document.getElementById(scrollableFieldId) || window;
+
         if (scrollableField) {
           const pixelOffset = 10;
           const scrollUpBy = fieldRect1.bottom - fieldRect2.top + pixelOffset;

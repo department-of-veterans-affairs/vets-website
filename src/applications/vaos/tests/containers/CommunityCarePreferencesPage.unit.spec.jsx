@@ -14,6 +14,7 @@ function CommunityCarePreferencesPageTester(props) {
     props.data,
     'openCommunityCarePreferencesPage',
   );
+
   return (
     <CommunityCarePreferencesPage
       {...props}

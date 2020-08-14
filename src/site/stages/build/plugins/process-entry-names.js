@@ -53,6 +53,7 @@ function getEntryNamesDictionary(buildOptions, files) {
         const fileName = isJs
           ? `${path.parse(entryName).name}.entry.js`
           : entryName;
+
         return `/generated/${fileName}`;
       },
     };
@@ -75,6 +76,7 @@ function processEntryNames(buildOptions) {
       const file = files[fileName];
 
       const { dom } = file;
+
       if (!dom) continue;
 
       dom('script[data-entry-name],link[data-entry-name]').each((index, el) => {
@@ -88,6 +90,7 @@ function processEntryNames(buildOptions) {
 
         // Ensure we have valid options and that the entry exists.
         const entryExists = files[hashedEntryName.slice(1)];
+
         if (
           buildOptions.buildtype !== environments.LOCALHOST &&
           !buildOptions.isPreviewServer &&

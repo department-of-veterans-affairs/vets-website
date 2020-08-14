@@ -83,6 +83,7 @@ export class CallToActionWidget extends React.Component {
       const { appId, authenticatedWithSSOe } = this.props;
       const { url, redirect } = toolUrl(appId, authenticatedWithSSOe);
       this._toolUrl = url;
+
       if (redirect && !this._popup) this.goToTool();
     } else if (this.isHealthTool()) {
       const { accountLevel, accountState, loading } = this.props.mhvAccount;
@@ -122,6 +123,7 @@ export class CallToActionWidget extends React.Component {
       recordEvent({
         event: `${this._gaPrefix}-info-needs-identity-verification`,
       });
+
       return (
         <Verify
           serviceDescription={this._serviceDescription}
@@ -189,7 +191,9 @@ export class CallToActionWidget extends React.Component {
 
     if (authenticatedWithSSOe) {
       const errorContent = this.getInaccessibleHealthToolContentSSOe();
+
       if (errorContent) return errorContent;
+
       return (
         <OpenMyHealtheVet
           serviceDescription={this._serviceDescription}
@@ -211,6 +215,7 @@ export class CallToActionWidget extends React.Component {
 
     if (mhvAccount.errors) {
       recordEvent({ event: `${this._gaPrefix}-error-mhv-down` });
+
       return <HealthToolsDown />;
     }
 
@@ -239,6 +244,7 @@ export class CallToActionWidget extends React.Component {
       recordEvent({
         event: `${this._gaPrefix}-info-needs-identity-verification`,
       });
+
       return (
         <Verify
           serviceDescription={this._serviceDescription}
@@ -247,9 +253,11 @@ export class CallToActionWidget extends React.Component {
       );
     } else if (mhvAccountIdState === 'DEACTIVATED') {
       recordEvent({ event: `${this._gaPrefix}-error-has-deactivated-mhv-ids` });
+
       return <DeactivatedMHVIds />;
     } else if (!isVaPatient) {
       recordEvent({ event: `${this._gaPrefix}-error-needs-va-patient` });
+
       return <NeedsVAPatient />;
     }
 
@@ -387,6 +395,7 @@ export class CallToActionWidget extends React.Component {
       // account level instead of the available services list from the backend,
       // which will already have validated the MHV account level policies.
       const { appId, mhvAccount } = this.props;
+
       return hasRequiredMhvAccount(appId, mhvAccount.accountLevel);
       // return this.props.availableServices.has(this._requiredServices);
     } else if (this.props.appId === widgetTypes.DIRECT_DEPOSIT) {
@@ -406,6 +415,7 @@ export class CallToActionWidget extends React.Component {
 
   goToTool = gaEvent => {
     const url = this._toolUrl;
+
     if (!url) return;
 
     // Optionally push Google-Analytics event.
@@ -417,6 +427,7 @@ export class CallToActionWidget extends React.Component {
       window.location = url;
     } else {
       this._popup = window.open(url, 'cta-popup');
+
       if (this._popup) this._popup.focus();
       else {
         // Indicate an attempted pop-up to avoid automatically showing a
@@ -446,6 +457,7 @@ export class CallToActionWidget extends React.Component {
 
   render() {
     const { setFocus } = this.props;
+
     if (
       this.props.profile.loading ||
       this.props.mhvAccount.loading ||
@@ -503,6 +515,7 @@ const mapStateToProps = state => {
     vaPatient,
     mhvAccountState,
   } = profile;
+
   return {
     // availableServices: new Set(services),
     isLoggedIn: isLoggedIn(state),

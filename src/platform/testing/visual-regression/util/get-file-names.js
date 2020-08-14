@@ -37,6 +37,7 @@ function getFileNames(route) {
 // Necessary when writing out the diff image.
 async function createDirectoryIfNotExist(filePath) {
   const directory = path.dirname(filePath);
+
   return new Promise((resolve, reject) => {
     fs.ensureDir(directory, err => (err ? reject(err) : resolve()));
   });

@@ -16,6 +16,7 @@ class SubmitController extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     const nextStatus = nextProps.form.submission.status;
     const previousStatus = this.props.form.submission.status;
+
     if (
       nextStatus !== previousStatus &&
       nextStatus === 'applicationSubmitted'
@@ -49,8 +50,10 @@ class SubmitController extends React.Component {
 
     // If a pre-submit agreement is required, make sure it was accepted
     const preSubmit = this.getPreSubmit(formConfig);
+
     if (preSubmit.required && !form.data[preSubmit.field]) {
       this.props.setSubmission('hasAttemptedSubmit', true);
+
       // <PreSubmitSection/> is displaying an error for this case
       return;
     }
@@ -58,6 +61,7 @@ class SubmitController extends React.Component {
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common
     const { isValid, errors } = isValidForm(form, pageList);
+
     if (!isValid) {
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
@@ -69,6 +73,7 @@ class SubmitController extends React.Component {
       });
       this.props.setSubmission('status', 'validationError');
       this.props.setSubmission('hasAttemptedSubmit', true);
+
       return;
     }
 

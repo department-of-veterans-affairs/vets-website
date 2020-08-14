@@ -34,6 +34,7 @@ export class VetTecSearchPage extends React.Component {
   componentDidMount() {
     let title = 'Search Results';
     const searchTerm = this.props.autocomplete.term;
+
     if (searchTerm) {
       title += ` - ${searchTerm}`;
     }
@@ -119,6 +120,7 @@ export class VetTecSearchPage extends React.Component {
 
   updateSearchResults = () => {
     const queryFilterFields = this.getQueryFilterFields();
+
     if (!_.isEqual(this.props.search.query, queryFilterFields.query)) {
       this.props.institutionFilterChange(queryFilterFields.institutionFilter);
       this.props.fetchProgramSearchResults(

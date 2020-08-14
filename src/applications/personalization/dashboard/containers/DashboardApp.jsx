@@ -223,6 +223,7 @@ class DashboardApp extends React.Component {
 
   componentDidMount() {
     scrollToTop();
+
     if (this.props.profile.verified) {
       this.props.getEnrollmentStatus();
     }

@@ -87,5 +87,6 @@ export const reverseGeocode = async (lon, lat, types) => {
  */
 export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
   const { lon, lat } = getBoxCenter(bounds);
+
   return reverseGeocode(lon, lat, types.split(','));
 };

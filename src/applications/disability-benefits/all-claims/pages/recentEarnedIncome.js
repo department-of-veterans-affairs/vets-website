@@ -67,6 +67,7 @@ export const uiSchema = {
             'unemployability.leftLastJobDueToDisability',
             false,
           );
+
           return isEmployed || (!isEmployed && !leftLastJob);
         },
       },

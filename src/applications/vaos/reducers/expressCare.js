@@ -37,6 +37,7 @@ const initialState = {
 
 function setupFormData(data, schema, uiSchema) {
   const schemaWithItemsCorrected = updateItemsSchema(schema);
+
   return updateSchemaAndData(
     schemaWithItemsCorrected,
     uiSchema,

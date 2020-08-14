@@ -64,6 +64,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         specialties: action.data
           ? action.data.reduce((acc, cur) => {
               acc[cur.specialtyCode] = cur.name;
+
               return acc;
             }, {})
           : null,

@@ -29,6 +29,7 @@ class EnrollmentPeriod extends React.Component {
   toggleHistory() {
     const shouldExpand = !this.state.historyExpanded;
     this.setState({ historyExpanded: !this.state.historyExpanded });
+
     if (shouldExpand) {
       this.scrollToEnrollment();
     }

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 export default function createCaregiverContentToggle(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
+
   if (root) {
     import(/* webpackChunkName: "CaregiverContentToggle" */
     './widget').then(module => {

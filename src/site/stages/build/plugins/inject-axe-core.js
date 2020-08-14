@@ -22,6 +22,7 @@ function injectAxeCore(buildOptions) {
 
     if (!isEnabled) {
       done();
+
       return;
     }
 

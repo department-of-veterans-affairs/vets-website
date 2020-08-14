@@ -118,10 +118,12 @@ const fetchLocations = async (
       page,
       apiVersion,
     );
+
     // Record event as soon as API return results
     if (data.data && data.data.length > 0) {
       recordEvent({ event: 'fl-search-results' });
     }
+
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
@@ -152,6 +154,7 @@ export const searchWithBounds = ({
     LocationType.URGENT_CARE_PHARMACIES,
     LocationType.URGENT_CARE,
   ];
+
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
@@ -169,6 +172,7 @@ export const searchWithBounds = ({
             error:
               'Reverse geocoding failed. See previous errors or network log.',
           });
+
           return;
         }
 
@@ -288,15 +292,19 @@ export const getProviderSpecialties = () => async dispatch => {
 
   try {
     const data = await LocatorApi.getProviderSpecialties();
+
     if (data.errors) {
       dispatch({ type: FETCH_SPECIALTIES_FAILED, error: data.errors });
+
       return [];
     }
     // Great Success!
     dispatch({ type: FETCH_SPECIALTIES_DONE, data });
+
     return data;
   } catch (error) {
     dispatch({ type: FETCH_SPECIALTIES_FAILED, error });
+
     return ['Services Temporarily Unavailable'];
   }
 };

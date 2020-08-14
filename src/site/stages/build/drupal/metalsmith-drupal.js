@@ -125,6 +125,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     if (page.entityBundle === 'health_care_region_page') {
       createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
     }
+
     if (page.entityBundle === 'event_listing') {
       createPastEventListPages(pageCompiled, drupalPageDir, files);
     }
@@ -223,6 +224,7 @@ async function loadDrupal(buildOptions) {
     : await getContentViaGraphQL(buildOptions);
 
   log('Drupal successfully loaded!');
+
   return drupalPages;
 }
 
@@ -231,6 +233,7 @@ async function loadCachedDrupalFiles(buildOptions, files) {
     buildOptions.cacheDirectory,
     'drupal/downloads',
   );
+
   if (!buildOptions[PULL_DRUPAL_BUILD_ARG] && fs.existsSync(cachedFilesPath)) {
     const cachedDrupalFiles = await recursiveRead(cachedFilesPath);
     cachedDrupalFiles.forEach(file => {
@@ -251,6 +254,7 @@ async function loadCachedDrupalFiles(buildOptions, files) {
 function getDrupalContent(buildOptions) {
   if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
     log(`Drupal integration disabled for buildtype ${buildOptions.buildtype}`);
+
     return () => {};
   }
 
@@ -272,6 +276,7 @@ function getDrupalContent(buildOptions) {
       buildOptions.drupalError = drupalData;
       log(err.stack);
       log('Failed to pipe Drupal content into Metalsmith!');
+
       if (
         buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
         buildOptions[USE_CMS_EXPORT_BUILD_ARG] ||

@@ -5,6 +5,7 @@ export default class CurrencyWidget extends React.Component {
   constructor(props) {
     super(props);
     let value = props.value;
+
     if (typeof value === 'number') {
       value = value.toFixed(2);
     }
@@ -19,6 +20,7 @@ export default class CurrencyWidget extends React.Component {
 
   handleChange = event => {
     const val = event.target.value;
+
     if (val === '' || typeof val === 'undefined') {
       this.props.onChange();
       // Needs to look like a currency
@@ -27,6 +29,7 @@ export default class CurrencyWidget extends React.Component {
     } else {
       // Needs to parse as a number
       const parsed = parseFloat(val.replace(/[^0-9.]/g, ''));
+
       if (!isNaN(parsed)) {
         this.props.onChange(parsed);
       } else {

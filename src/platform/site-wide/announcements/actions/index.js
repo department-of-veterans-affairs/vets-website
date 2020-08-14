@@ -15,6 +15,7 @@ const previouslyDismissedAnnouncements = (() => {
       const fromLocalStorage = localStorage.getItem(
         ANNOUNCEMENTS_LOCAL_STORAGE,
       );
+
       if (fromLocalStorage) {
         try {
           parsed = JSON.parse(fromLocalStorage);
@@ -22,6 +23,7 @@ const previouslyDismissedAnnouncements = (() => {
           // Value will default to an empty array
         }
       }
+
       return parsed;
     },
 
@@ -38,6 +40,7 @@ const previouslyDismissedAnnouncements = (() => {
 
 export function initDismissedAnnouncements() {
   previouslyDismissedAnnouncements.initializeFromLocalStorage();
+
   return {
     type: INIT_DISMISSED_ANNOUNCEMENTS,
     dismissedAnnouncements: previouslyDismissedAnnouncements.getAll(),

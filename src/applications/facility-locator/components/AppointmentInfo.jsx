@@ -56,6 +56,7 @@ export default class AppointmentInfo extends Component {
     const renderStat = (label, value, sublist = false) => {
       if (value !== null) {
         const dayString = value === 1 ? 'day' : 'days';
+
         return (
           <li key={label} className={sublist ? 'sublist' : null}>
             {formatServiceName(label)}:{' '}
@@ -65,6 +66,7 @@ export default class AppointmentInfo extends Component {
           </li>
         );
       }
+
       return null;
     };
 
@@ -74,16 +76,19 @@ export default class AppointmentInfo extends Component {
         const value = accessAttrs.find(
           k => k.service === 'PrimaryCare' && k[category],
         );
+
         if (value) {
           return renderStat('Primary Care', value[category]);
         }
       } else {
         // V0 legacy structure TODO: remove when fully migrated to V1
         const value = get(accessAttrs, ['primaryCare', category]);
+
         if (value) {
           return renderStat('Primary Care', value);
         }
       }
+
       return null;
     };
 
@@ -93,6 +98,7 @@ export default class AppointmentInfo extends Component {
         const healthAccessSpecialty = healthAccessAttrs.filter(
           acc => acc.service !== 'PrimaryCare',
         );
+
         return (
           <li key="specialty-care">
             Specialty care:

@@ -1,6 +1,7 @@
 // Coerce to numbers where applicable
 function coerceNumber(e) {
   const num = parseInt(e, 10);
+
   return e === `${num}` ? num : e;
 }
 

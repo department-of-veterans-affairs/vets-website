@@ -28,6 +28,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     formData,
     false,
   );
+
   // Evidence isn't always properly cleared out from form data if removed so
   // need to also check that 'no evidence' was explicitly selected
   if (

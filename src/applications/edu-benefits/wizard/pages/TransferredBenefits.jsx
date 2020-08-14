@@ -56,6 +56,7 @@ const TransferredBenefits = ({
         const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
           pageNames.claimingBenefitOwnService,
         )?.selected;
+
         if (
           claimingBenefitOwnServiceAnswer === 'no' &&
           sponsorDeceasedAnswer === 'no' &&
@@ -69,6 +70,7 @@ const TransferredBenefits = ({
         ) {
           const { FORM_ID_1990E } = formIdSuffixes;
           setReferredBenefit(FORM_ID_1990E);
+
           return setPageState({ selected: value }, pageNames.applyNow);
         } else if (
           (newBenefitAnswer === 'update' && value === 'own') ||
@@ -76,10 +78,12 @@ const TransferredBenefits = ({
         ) {
           const { FORM_ID_1995 } = formIdSuffixes;
           setReferredBenefit(FORM_ID_1995);
+
           return setPageState({ selected: value }, pageNames.applyNow);
         } else if (newBenefitAnswer === 'update' && value === 'fry') {
           const { FORM_ID_5495 } = formIdSuffixes;
           setReferredBenefit(FORM_ID_5495);
+
           return setPageState({ selected: value }, pageNames.applyNow);
         } else {
           return setPageState({ selected: value });

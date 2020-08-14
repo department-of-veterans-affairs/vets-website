@@ -69,6 +69,7 @@ function derivePaging(links) {
   const currentPage = Number(selfPage === null ? 1 : selfPage[1]);
   const totalPages = Number(links.last.match(/page=(\d+)/i)[1]);
   const perPage = Number(links.last.match(/per_page=(\d+)/i)[1]);
+
   return { currentPage, totalPages, perPage };
 }
 
@@ -89,8 +90,10 @@ export default function(state = INITIAL_STATE, action) {
       const camelPayload = camelCaseKeysRecursive(action.payload);
       const results = camelPayload.data.reduce((acc, result) => {
         const attributes = normalizedInstitutionAttributes(result.attributes);
+
         return [...acc, attributes];
       }, []);
+
       return {
         ...state,
         results,
@@ -105,8 +108,10 @@ export default function(state = INITIAL_STATE, action) {
       const programCamelPayload = camelCaseKeysRecursive(action.payload);
       const programResults = programCamelPayload.data.reduce((acc, result) => {
         const attributes = normalizedProgramAttributes(result.attributes);
+
         return [...acc, attributes];
       }, []);
+
       return {
         ...state,
         results: programResults,

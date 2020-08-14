@@ -165,6 +165,7 @@ const formConfig = {
                   };
                   const uiOptions = _.get('ui:options', uiSchema);
                   uiOptions.nestedContent = nestedContent;
+
                   return schema;
                 },
               },
@@ -306,6 +307,7 @@ const formConfig = {
                     ) {
                       return fullName;
                     }
+
                     return nonRequiredFullName;
                   },
                 },
@@ -433,6 +435,7 @@ const formConfig = {
                     if (!_.get('currentSameAsPrevious', form)) {
                       return fullName;
                     }
+
                     return nonRequiredFullName;
                   },
                 },
@@ -594,6 +597,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: form => {
                   const status = _.get('highSchool.status', form);
+
                   return (
                     status === 'discontinued' ||
                     status === 'graduationExpected' ||
@@ -671,6 +675,7 @@ const formConfig = {
                         (benefitData, relationshipData) => {
                           // Remove tuition top-up
                           const filterOut = ['tuitionTopUp'];
+
                           // Correspondence not available to Chapter 35 (DEA) children
                           if (
                             benefitData === 'chapter35' &&
@@ -678,6 +683,7 @@ const formConfig = {
                           ) {
                             filterOut.push('correspondence');
                           }
+
                           // Flight training available to Chapter 33 (Fry Scholarships) only
                           if (benefitData && benefitData !== 'chapter33') {
                             filterOut.push('flightTraining');

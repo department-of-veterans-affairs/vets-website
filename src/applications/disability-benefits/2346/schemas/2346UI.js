@@ -86,6 +86,7 @@ export default {
         ) {
           return false;
         }
+
         return true;
       }),
       'ui:title': 'Temporary address',
@@ -122,6 +123,7 @@ export default {
         {
           validator: (errors, fieldData) => {
             const isEmailValid = isValidEmail(fieldData);
+
             if (!isEmailValid) {
               errors.addError('Please enter a valid email');
             }
@@ -147,6 +149,7 @@ export default {
           validator: (errors, fieldData, formData) => {
             const emailMatcher = () => formData.vetEmail === fieldData;
             const doesEmailMatch = emailMatcher();
+
             if (!doesEmailMatch) {
               errors.addError(
                 'This email does not match your previously entered email',

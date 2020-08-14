@@ -37,6 +37,7 @@ class ExpressCareInfoPage extends React.Component {
 
   render() {
     const { localWindowString } = this.props;
+
     return (
       <div>
         <h1>{pageTitle}</h1>

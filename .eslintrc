@@ -127,6 +127,11 @@
     /* || Unicorn plugin || */
     "unicorn/no-abusive-eslint-disable": 2,
 
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": ["return", "if"] }
+    ],
+
     /* ----- TODO: evaluate and potentially turn these rules back on ----- */
 
     /* TODO | DISABLED TEMPORARILY */

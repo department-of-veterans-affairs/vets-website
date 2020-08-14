@@ -93,6 +93,7 @@ export class ApplicationStatus extends React.Component {
       const matchingForms = profile.savedForms.filter(({ form }) =>
         formIds.has(form),
       );
+
       if (matchingForms.length) {
         savedForm = matchingForms.sort(
           ({ metadata }) => -1 * metadata.lastUpdated,
@@ -183,6 +184,7 @@ export class ApplicationStatus extends React.Component {
           </div>
         );
       }
+
       return (
         <div className="usa-alert usa-alert-warning background-color-only sip-application-status">
           <h5 className="form-title saved">Your {appType} has expired</h5>

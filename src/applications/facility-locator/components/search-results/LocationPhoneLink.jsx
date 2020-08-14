@@ -43,8 +43,10 @@ const LocationPhoneLink = ({ location, from, query }) => {
     query &&
     query.facilityType === LocationType.CC_PROVIDER &&
     query.serviceType !== CLINIC_URGENTCARE_SERVICE;
+
   if (isProvider) {
     const { caresitePhone: phone } = location.attributes;
+
     return (
       <div>
         {renderPhoneNumber(
@@ -65,6 +67,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
   const {
     attributes: { phone },
   } = location;
+
   return (
     <div className="facility-phone-group">
       {renderPhoneNumber('Main number', null, phone.main, from)}

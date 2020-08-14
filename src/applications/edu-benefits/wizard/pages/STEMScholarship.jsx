@@ -76,9 +76,11 @@ const STEMScholarship = ({ setPageState, state = {}, setReferredBenefit }) => {
         options={STEMScholarshipOptions}
         onValueChange={({ value }) => {
           setSTEMScholarshipAnswer(value);
+
           if (value === 'yes') {
             const { FORM_ID_1995 } = formIdSuffixes;
             setReferredBenefit(FORM_ID_1995);
+
             return setPageState({ selected: value }, pageNames.applyNow);
           } else {
             return setPageState({ selected: value });

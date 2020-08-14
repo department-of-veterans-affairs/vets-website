@@ -77,6 +77,7 @@ const nonRequiredFullName = _.omit('required', fullName);
 function currentlyBuriedPersonsMinItem() {
   const copy = Object.assign({}, currentlyBuriedPersons);
   copy.minItems = 1;
+
   return _.set('items.properties.cemeteryNumber', autosuggest.schema, copy);
 }
 
@@ -549,6 +550,7 @@ const formConfig = {
                 'ui:options': {
                   updateSchema: formData => {
                     let title;
+
                     if (isVeteran(formData)) {
                       /* eslint-disable no-param-reassign */
                       title =
@@ -558,6 +560,7 @@ const formConfig = {
                         'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
                       /* eslint-enable no-param-reassign */
                     }
+
                     return { title };
                   },
                   labels: {

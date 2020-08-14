@@ -15,6 +15,7 @@ export class IntroductionPage extends React.Component {
 
   moreThanSixMonths = remaining => {
     const totalDays = remaining?.months * 30 + remaining?.days;
+
     return totalDays > 180;
   };
 

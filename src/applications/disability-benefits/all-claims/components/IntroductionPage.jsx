@@ -38,6 +38,7 @@ class IntroductionPage extends React.Component {
         </div>
       );
     }
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="File for disability compensation" />

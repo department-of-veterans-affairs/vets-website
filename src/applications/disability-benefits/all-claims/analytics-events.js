@@ -23,6 +23,7 @@ const analyticsEvents = [
     action: ITF_FETCH_FAILED,
     event: store => {
       const state = store.getState();
+
       return state.user.profile.savedForms.find(
         f => f.form === VA_FORM_IDS.FORM_21_526EZ,
       )

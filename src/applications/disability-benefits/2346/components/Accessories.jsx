@@ -12,6 +12,7 @@ import { ACCESSORY } from '../constants';
 class Accessories extends Component {
   componentDidMount(props) {
     const areAccessorySuppliesEligible = this.props.eligibility?.accessories;
+
     if (!areAccessorySuppliesEligible) {
       recordEvent({
         event: 'bam-error',
@@ -31,6 +32,7 @@ class Accessories extends Component {
       'product-name': accessorySupply.productName,
       'product-id': accessorySupply.productId,
     });
+
     if (checked) {
       updatedOrder = [...order, { productId: accessorySupply.productId }];
     } else {
@@ -43,6 +45,7 @@ class Accessories extends Component {
       ...formData,
       order: updatedOrder,
     };
+
     return this.props.setData(updatedFormData);
   };
   render() {
@@ -66,8 +69,10 @@ class Accessories extends Component {
       const selectedProductIds = order.map(
         selectedProduct => selectedProduct.productId,
       );
+
       return selectedProductIds.includes(accessoryProductId);
     };
+
     return (
       <div className="accessory-page">
         {accessorySupplies.length > 0 && (

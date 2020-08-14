@@ -22,6 +22,7 @@ const AlertsList = ({ alerts, appealIsActive }) => {
 
   const alertsList = allAlertsContent.map((alert, index) => {
     const key = `${alert.type}-${index}`;
+
     return (
       <Alert
         key={key}

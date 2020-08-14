@@ -36,6 +36,7 @@ class Modal extends React.Component {
     document.body.classList.add('modal-open');
     document.addEventListener('keydown', this.handleDocumentKeyDown, false);
     document.addEventListener('focus', this.handleDocumentFocus, true);
+
     if (this.props.clickToClose) {
       document.addEventListener('click', this.handleDocumentClicked, true);
     }
@@ -53,6 +54,7 @@ class Modal extends React.Component {
     document.body.classList.remove('modal-open');
     document.removeEventListener('keydown', this.handleDocumentKeyDown, false);
     document.removeEventListener('focus', this.handleDocumentFocus, true);
+
     if (this.props.clickToClose) {
       document.removeEventListener('click', this.handleDocumentClicked, true);
     }
@@ -78,6 +80,7 @@ class Modal extends React.Component {
   handleDocumentFocus = event => {
     if (this.props.visible && !this.element.contains(event.target)) {
       event.stopPropagation();
+
       if (this.state.isTabbingBackwards) {
         this.applyFocusToLastModalElement();
       } else {
@@ -96,9 +99,11 @@ class Modal extends React.Component {
     const focusableElement = this.element.querySelector(
       this.props.focusSelector,
     );
+
     if (this.state.lastFocus) {
       focusElement(this.state.lastFocus);
     }
+
     if (focusableElement) {
       focusElement(focusableElement);
     }
@@ -111,9 +116,11 @@ class Modal extends React.Component {
     const focusableModalElements = Array.from(allFocusableElements).filter(el =>
       this.element.contains(el),
     );
+
     if (this.state.lastFocus) {
       focusElement(this.state.lastFocus);
     }
+
     if (focusableModalElements.length) {
       focusElement(focusableModalElements[focusableModalElements.length - 1]);
     }
@@ -121,6 +128,7 @@ class Modal extends React.Component {
 
   renderAlertActions = () => {
     const { primaryButton, secondaryButton } = this.props;
+
     if (!primaryButton && !secondaryButton) return null;
 
     return (

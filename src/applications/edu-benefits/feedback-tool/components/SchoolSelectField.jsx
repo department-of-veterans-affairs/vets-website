@@ -53,6 +53,7 @@ export class SchoolSelectField extends React.Component {
     const institutionSelected = this.props.formData['view:institutionSelected'];
     const searchTermToRestore = this.props.formData['view:institutionQuery'];
     const pageNumberToRestore = this.props.formData['view:currentPageNumber'];
+
     if (
       searchTermToRestore &&
       searchTermToRestore !== this.props.institutionQuery &&
@@ -170,6 +171,7 @@ export class SchoolSelectField extends React.Component {
 
   handleSearchInputChange = e => {
     let searchInputValue;
+
     if (typeof e === 'string') {
       searchInputValue = e;
     } else {

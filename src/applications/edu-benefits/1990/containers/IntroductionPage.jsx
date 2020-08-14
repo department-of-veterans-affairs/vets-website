@@ -34,6 +34,7 @@ export class IntroductionPage extends React.Component {
     const shouldWizardShow =
       shouldEduBenefits1990WizardShow &&
       wizardStatus !== WIZARD_STATUS_COMPLETE;
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for VA Education Benefits" />

@@ -10,6 +10,7 @@ export default function YesNoWidget({
   const { yesNoReverse = false, labels = {} } = options;
   const yesValue = !yesNoReverse;
   const noValue = !yesValue;
+
   return (
     <div className="form-radio-buttons">
       <input

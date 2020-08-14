@@ -117,6 +117,7 @@ const testForm = (testDataSets, testConfig) => {
       fileName,
       async () => {
         const testData = getTestData(contents, testConfig.testDataPathPrefix);
+
         if (testConfig.setupPerTest) {
           testConfig.setupPerTest({ userToken: token, testData });
         }

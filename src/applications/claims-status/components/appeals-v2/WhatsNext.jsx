@@ -24,6 +24,7 @@ const WhatsNext = ({ nextEvents }) => {
   // property if the corresponding current status type should be treated in
   // this way
   let headerDurationCard = null;
+
   if (nextEvents.headerCard) {
     const { durationText, cardDescription } = nextEvents.headerCard;
     headerDurationCard = (

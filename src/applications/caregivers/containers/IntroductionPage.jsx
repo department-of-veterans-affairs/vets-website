@@ -19,6 +19,7 @@ const IntroductionPage = ({ route, router }) => {
   const startForm = () => {
     recordEvent({ event: 'caregivers-10-10cg-start-form' });
     const pageList = route.pageList;
+
     return router.push(pageList[1].path);
   };
 

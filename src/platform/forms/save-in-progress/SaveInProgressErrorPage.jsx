@@ -35,6 +35,7 @@ class SaveInProgressErrorPage extends React.Component {
 
   getBackButton = (primary = false) => {
     const buttonClass = primary ? 'usa-button-primary' : 'usa-button-secondary';
+
     return (
       <ProgressButton
         onButtonClick={this.goBack}
@@ -53,6 +54,7 @@ class SaveInProgressErrorPage extends React.Component {
   reloadForm = () => {
     // formConfig is put in this.props.routes[length - 1]
     const formConfig = this.props.route.formConfig;
+
     if (this.props.isStartingOver) {
       this.props.removeInProgressForm(formConfig.formId, formConfig.migrations);
     } else {

@@ -31,6 +31,7 @@ export function fetchFacility(id) {
   return (dispatch, getState) => {
     const loading = getState().facility.loading;
     const data = getState().facility.data;
+
     if (loading && !Object.keys(data).length) {
       return;
     }

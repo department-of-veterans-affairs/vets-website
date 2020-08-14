@@ -2,6 +2,7 @@ const { getDrupalValue, getWysiwygString } = require('./helpers');
 
 const transform = entity => {
   const { fieldWysiwyg, fieldTitle } = entity;
+
   return {
     entity: {
       entityBundle: 'health_care_local_facility_servi',

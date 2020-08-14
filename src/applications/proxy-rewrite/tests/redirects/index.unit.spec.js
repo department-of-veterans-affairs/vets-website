@@ -35,6 +35,7 @@ describe('Validate crossDomainRedirects.json', () => {
   const redirectsBySource = redirects.reduce((grouped, redirect) => {
     const fullPath = `https://${redirect.domain}${redirect.src}`;
     const items = grouped[fullPath] || [];
+
     return {
       ...grouped,
       [fullPath]: items.concat(redirect.dest),

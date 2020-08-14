@@ -24,6 +24,7 @@ class VetTecApprovedProgramsList extends React.Component {
   programs = () => {
     const { programs } = this.props;
     const { viewAll } = this.state;
+
     return viewAll ? programs : programs.slice(0, this.state.displayAmount);
   };
 
@@ -59,6 +60,7 @@ class VetTecApprovedProgramsList extends React.Component {
   handleAccordionFocus = () => {
     const accordionId = `${createId('Approved programs')}-accordion`;
     const field = document.getElementById(accordionId);
+
     if (field) {
       field.scrollIntoView();
       focusElement(`#${accordionId} button`);
@@ -87,6 +89,7 @@ class VetTecApprovedProgramsList extends React.Component {
     const { programs } = this.props;
     const { displayAmount } = this.state;
     const remainingRowCount = programs.length - displayAmount;
+
     if (remainingRowCount > NEXT_ROWS_VIEWABLE) {
       await this.setState({
         displayAmount: displayAmount + NEXT_ROWS_VIEWABLE,
@@ -201,6 +204,7 @@ class VetTecApprovedProgramsList extends React.Component {
         </div>
       );
     }
+
     return null;
   };
 
@@ -238,6 +242,7 @@ class VetTecApprovedProgramsList extends React.Component {
         </div>
       );
     }
+
     return (
       <div>
         <p>

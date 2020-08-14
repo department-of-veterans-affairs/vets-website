@@ -20,6 +20,7 @@ class DowntimeApproaching extends React.Component {
       className = 'row-padded',
     } = this.props;
     const close = () => dismissDowntimeWarning(appTitle);
+
     return (
       <DowntimeNotificationWrapper
         status={externalServiceStatus.downtimeApproaching}

@@ -7,6 +7,7 @@ import { sanitizeForm } from '../helpers';
 
 export function removeFormApi(formId) {
   const csrfTokenStored = localStorage.getItem('csrfToken');
+
   return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
     method: 'DELETE',
     credentials: 'include',
@@ -28,6 +29,7 @@ export function removeFormApi(formId) {
       if (res instanceof Error) {
         Sentry.captureException(res);
         Sentry.captureMessage('vets_sip_error_delete');
+
         return Promise.resolve();
       } else if (!res.ok) {
         Sentry.captureMessage(`vets_sip_error_delete: ${res.statusText}`);

@@ -40,6 +40,7 @@ export async function getSlots({
         const mod = await import('./mock_slots.json');
         const slotData = mod.default ? mod.default : mod;
         slotData.entry = generateMockFHIRSlots();
+
         return slotData;
       },
     });

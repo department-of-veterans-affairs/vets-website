@@ -94,6 +94,7 @@ export class ConfirmEligibilityView extends React.Component {
 
   renderErrorMessage = () => {
     const { errors, showErrors } = this.props;
+
     if (showErrors) {
       return (
         <div>
@@ -105,6 +106,7 @@ export class ConfirmEligibilityView extends React.Component {
         </div>
       );
     }
+
     return null;
   };
 
@@ -152,6 +154,7 @@ export class ConfirmEligibilityView extends React.Component {
         </div>
       );
     }
+
     return (
       <div className="vads-u-padding-bottom--1">
         <h3>Rogers STEM Scholarship eligibility summary</h3>
@@ -161,6 +164,7 @@ export class ConfirmEligibilityView extends React.Component {
 
   render() {
     captureEvents.ineligibilityAlert(this.props);
+
     return (
       <div>
         {this.renderHeader()}

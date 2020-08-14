@@ -3,6 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export default function UpdateAddressAlert({ address, showAlert, onHide }) {
   const regexp = /^PO Box/;
+
   if (showAlert && (!address || address.match(regexp))) {
     return (
       <AlertBox
@@ -27,5 +28,6 @@ export default function UpdateAddressAlert({ address, showAlert, onHide }) {
       />
     );
   }
+
   return null;
 }

@@ -6,6 +6,7 @@ export default function DowntimeNotificationWrapper({
   className,
 }) {
   const classes = `downtime-notification ${className}`;
+
   return (
     <div className={classes} data-status={status}>
       {children}

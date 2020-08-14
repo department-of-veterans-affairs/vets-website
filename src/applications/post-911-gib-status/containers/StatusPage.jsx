@@ -22,6 +22,7 @@ class StatusPage extends React.Component {
     const { enrollmentData } = this.props;
     let introText;
     let printButton;
+
     if (enrollmentData.veteranIsEligible) {
       recordEvent({ event: 'post911-status-info-shown' });
       introText = (

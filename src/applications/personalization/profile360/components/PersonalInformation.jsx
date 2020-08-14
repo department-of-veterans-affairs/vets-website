@@ -13,8 +13,10 @@ import facilityLocator from 'applications/facility-locator/manifest.json';
 
 function Gender({ gender }) {
   let content = 'This information is not available right now.';
+
   if (gender === 'M') content = 'Male';
   else if (gender === 'F') content = 'Female';
+
   return (
     <div data-field-name="gender">
       <h3>Gender</h3>

@@ -72,6 +72,7 @@ class ResultsList extends Component {
       // For some reason, an error can be an HTTP response, or just a string.
       if (Array.isArray(error)) {
         const timedOut = error.find(err => TIMEOUTS.has(err.code));
+
         if (timedOut) {
           return (
             <div
@@ -139,6 +140,7 @@ class ResultsList extends Component {
           </div>
         );
       }
+
       return (
         <div
           className="search-result-title facility-result"
@@ -163,6 +165,7 @@ class ResultsList extends Component {
               result.attributes.long,
             )
           : null;
+
         return {
           ...result,
           distance,
@@ -173,11 +176,13 @@ class ResultsList extends Component {
       .sort((resultA, resultB) => resultA.distance - resultB.distance)
       .map(result => {
         const markerText = markers.next().value;
+
         return {
           ...result,
           markerText,
         };
       });
+
     return (
       <div>
         <div>

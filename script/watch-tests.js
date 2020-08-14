@@ -45,6 +45,7 @@ function runMochaTests(tests) {
 async function runUnitTests(unitTests = allUnitTests) {
   if (busy) {
     pendingTests = _.union(pendingTests, unitTests);
+
     return;
   }
   console.log(chalk.cyan(`Running ${unitTests.length} unit test files`));
@@ -77,6 +78,7 @@ async function runUnitTests(unitTests = allUnitTests) {
     });
     console.log(chalk.yellow('Changes detected during last run.'));
     console.log(chalk.yellow('======'));
+
     return;
   }
 

@@ -57,6 +57,7 @@ export function getStateName(abbreviation) {
   if (!abbreviation) {
     return abbreviation;
   }
+
   return STATE_NAMES[abbreviation.toUpperCase()];
 }
 
@@ -104,6 +105,7 @@ export function formatAddress(address) {
   // only use the full state name for military addresses, otherwise just show
   // the two-letter state code
   let stateName = stateCode;
+
   if (addressType === ADDRESS_TYPES.military) {
     stateName = getStateName(stateCode);
   }
@@ -112,8 +114,11 @@ export function formatAddress(address) {
     case ADDRESS_TYPES.domestic:
     case ADDRESS_TYPES.military:
       cityStateZip = city || '';
+
       if (city && stateCode) cityStateZip += ', ';
+
       if (stateCode) cityStateZip += stateName;
+
       if (zipCode) cityStateZip += ' ' + zipCode;
       break;
 

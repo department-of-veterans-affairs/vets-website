@@ -23,6 +23,7 @@ export const getServiceBranchDisplayName = serviceBranch => {
   if (Object.values(USA_MILITARY_BRANCHES).includes(serviceBranch)) {
     return `United States ${serviceBranch}`;
   }
+
   return serviceBranch;
 };
 

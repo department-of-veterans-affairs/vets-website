@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const Alert = ({ title, description, displayType }) => {
   let cssClass;
+
   if (displayType === 'take_action') {
     cssClass = 'usa-alert-warning';
   } else if (displayType === 'info') {

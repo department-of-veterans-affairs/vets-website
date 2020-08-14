@@ -17,19 +17,23 @@ export function transform(formConfig, form) {
         address: formData.newSchoolAddress,
       },
     };
+
     return clonedData;
   };
 
   const fryScholarshipTransform = formData => {
     // 1995-STEM related
     const clonedData = _.cloneDeep(formData);
+
     if (clonedData.benefit === 'fryScholarship') {
       clonedData.benefit = 'chapter33';
     }
     const submitAs1995Stem = determineEligibilityFor1995Stem(clonedData);
+
     if (submitAs1995Stem !== undefined && !submitAs1995Stem) {
       clonedData.isEdithNourseRogersScholarship = false;
     }
+
     return clonedData;
   };
 

@@ -5,7 +5,9 @@ const INITIAL_STATE = `GI Bill Comparison Tool: VA.gov`;
 export default function(state = INITIAL_STATE, action) {
   if (action.type === SET_PAGE_TITLE) {
     window.document.title = action.title || INITIAL_STATE;
+
     return action.title;
   }
+
   return state;
 }

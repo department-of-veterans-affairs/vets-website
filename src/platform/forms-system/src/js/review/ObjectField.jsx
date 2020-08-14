@@ -36,6 +36,7 @@ class ObjectField extends React.Component {
           [item, 'ui:options', 'expandUnder'],
           this.props.uiSchema,
         );
+
         return expandUnderField || item;
       }),
       _.values,
@@ -61,11 +62,13 @@ class ObjectField extends React.Component {
 
   getStateFromProps(props) {
     const { schema, formData, registry } = props;
+
     return getDefaultFormState(schema, formData, registry.definitions) || {};
   }
 
   isRequired(name) {
     const schema = this.props.schema;
+
     return (
       Array.isArray(schema.required) && schema.required.indexOf(name) !== -1
     );
@@ -105,9 +108,11 @@ class ObjectField extends React.Component {
         [propName, 'ui:options', 'hideOnReview'],
         uiSchema,
       );
+
       if (typeof hideOnReview === 'function') {
         hideOnReview = hideOnReview(formData, formContext);
       }
+
       return (
         (!hideOnReviewIfFalse || !!formData[propName]) &&
         !hideOnReview &&
@@ -129,15 +134,18 @@ class ObjectField extends React.Component {
         // fixes axe issue on review-and-submit
         divWrapper = objectFields.some(name => {
           const options = uiSchema?.[name]?.['ui:options'] || {};
+
           return (
             (options.volatileData && !formContext.reviewMode) || // ReviewCardField
             options.customTitle || // SelectArrayItemsWidget
             (options.addAnotherLabel && formContext.reviewMode) // fileUiSchema
           );
         });
+
         if (objectFields.length > 1 && visible.length > 0) {
           return objectFields.filter(showField).map(renderField);
         }
+
         // eslint-disable-next-line sonarjs/no-extra-arguments
         return showField(first) ? renderField(first, index) : null;
       },
@@ -145,6 +153,7 @@ class ObjectField extends React.Component {
 
     if (isRoot) {
       let title = formContext.pageTitle;
+
       if (!formContext.hideTitle && typeof title === 'function') {
         title = title(formData, formContext);
       }

@@ -61,15 +61,18 @@ const appealTypesArray = Object.values(APPEAL_TYPES);
 
 function filterList(list, filter) {
   let filteredList = list;
+
   if (filter) {
     const open = filter === 'open';
     filteredList = filteredList.filter(claim => {
       if (appealTypesArray.includes(claim.type)) {
         return claim.attributes.active === open;
       }
+
       return claim.attributes.open === open;
     });
   }
+
   return filteredList;
 }
 
@@ -94,6 +97,7 @@ function sortList(list, sortProperty) {
           break;
       }
     }
+
     return sortPropertyFn[sortProperty] && sortPropertyFn[sortProperty](el);
   };
 
@@ -102,6 +106,7 @@ function sortList(list, sortProperty) {
 
 function getVisibleRows(list, currentPage) {
   const currentIndex = (currentPage - 1) * ROWS_PER_PAGE;
+
   return list.slice(currentIndex, currentIndex + ROWS_PER_PAGE);
 }
 
@@ -116,6 +121,7 @@ export default function claimsReducer(state = initialState, action) {
         filterList(state.appeals.concat(action.claims), action.filter),
         state.sortProperty,
       );
+
       return _.assign(state, {
         claims: action.claims,
         visibleList,
@@ -135,6 +141,7 @@ export default function claimsReducer(state = initialState, action) {
         filterList(state.claims, action.filter).concat(visibleAppeals),
         state.sortProperty,
       );
+
       return _.assign(state, {
         appeals: action.appeals,
         visibleList,
@@ -148,6 +155,7 @@ export default function claimsReducer(state = initialState, action) {
         filterList(state.appeals.concat(state.claims), action.filter),
         state.sortProperty,
       );
+
       return _.assign(state, {
         visibleList,
         visibleRows: getVisibleRows(visibleList, 1),
@@ -157,6 +165,7 @@ export default function claimsReducer(state = initialState, action) {
     }
     case SORT_CLAIMS: {
       const visibleList = sortList(state.visibleList, action.sortProperty);
+
       return _.assign(state, {
         sortProperty: action.sortProperty,
         visibleList,

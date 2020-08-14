@@ -52,6 +52,7 @@ async function createRouteHandlerChain(page, routes, routeHandler) {
       });
       await page.waitFor('body');
       const output = await routeHandler(page, route);
+
       if (output) {
         results.push(output);
       }
@@ -89,6 +90,7 @@ async function beginApplication(browser) {
   const routeHandler = getRouteHandler();
   // Before starting any routes, log the user in to prevent load errors.
   const page = await browser.newPage();
+
   if (mobile === commands.MOBILE) {
     page.emulate(iPhone);
   }

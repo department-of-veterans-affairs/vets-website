@@ -69,10 +69,12 @@ class MockLocatorApi {
 
   static fetchVAFacility(id) {
     const dataFacility = facilityDataJson;
+
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (id && (typeof id === 'number' || typeof id === 'string')) {
           const location = dataFacility.data.filter(data => data.id === id);
+
           if (location && location.length > 0) {
             resolve({ data: location[0] });
           } else {
@@ -87,10 +89,12 @@ class MockLocatorApi {
 
   static fetchProviderDetail(id) {
     const dataFacility = facilityDataJson;
+
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (id && typeof id === 'string') {
           const location = dataFacility.data.filter(data => data.id === id);
+
           if (location && location.length > 0) {
             resolve({ data: location[0] });
           } else {

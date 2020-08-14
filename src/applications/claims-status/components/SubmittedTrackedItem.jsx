@@ -13,6 +13,7 @@ export default function SubmittedTrackedItem({ item }) {
     item.type.startsWith('never_received') ||
     item.status === 'NO_LONGER_REQUIRED';
   const reviewed = hasBeenReviewed(item);
+
   return (
     <div className="submitted-file-list-item">
       <h3 className="submission-file-type">{item.displayName}</h3>

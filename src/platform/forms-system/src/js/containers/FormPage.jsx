@@ -55,6 +55,7 @@ class FormPage extends React.Component {
   onChange = formData => {
     const { pageConfig } = this.props.route;
     let newData = formData;
+
     if (pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
@@ -64,6 +65,7 @@ class FormPage extends React.Component {
         this.props.form.data,
       );
     }
+
     if (typeof pageConfig.updateFormData === 'function') {
       newData = pageConfig.updateFormData(this.formData(), newData);
     }
@@ -91,6 +93,7 @@ class FormPage extends React.Component {
 
   formData = () => {
     const { pageConfig } = this.props.route;
+
     return this.props.route.pageConfig.showPagePerItem
       ? _.get(
           [pageConfig.arrayPath, this.props.params.index],
@@ -190,6 +193,7 @@ class FormPage extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   const { appStateSelector } = ownProps.route.pageConfig;
+
   return {
     form: state.form,
     user: state.user,

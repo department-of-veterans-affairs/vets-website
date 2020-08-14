@@ -17,6 +17,7 @@ const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 class FilesPage extends React.Component {
   componentDidMount() {
     this.setTitle();
+
     if (!isTab(this.props.lastPage)) {
       if (!this.props.loading) {
         setUpPage();
@@ -35,6 +36,7 @@ class FilesPage extends React.Component {
     ) {
       setUpPage(false);
     }
+
     if (this.props.loading !== prevProps.loading) {
       this.setTitle();
     }
@@ -51,6 +53,7 @@ class FilesPage extends React.Component {
     const { claim, loading, message, synced } = this.props;
 
     let content = null;
+
     if (!loading) {
       const showDecision =
         claim.attributes.phase === FIRST_GATHERING_EVIDENCE_PHASE &&
@@ -122,6 +125,7 @@ class FilesPage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,

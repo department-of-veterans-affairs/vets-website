@@ -6,6 +6,7 @@ const getField = (formData, possibilities) =>
     if (value === null && formData[field]) {
       return formData[field];
     }
+
     return value;
   }, null);
 
@@ -30,6 +31,7 @@ const AddressViewField = ({ formData }) => {
     if (country) {
       return country === 'United States' ? 'domestic' : 'international';
     }
+
     return undefined;
   };
 
@@ -51,6 +53,7 @@ const AddressViewField = ({ formData }) => {
     addressFormat === 'international' && province && internationalPostalCode;
 
   let postalString = '';
+
   if (postalCode) {
     const lastChunk = postalCode.length > 5 ? `-${postalCode.slice(5)}` : '';
     postalString = `${postalCode.slice(0, 5)}${lastChunk}`;

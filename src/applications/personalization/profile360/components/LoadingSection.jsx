@@ -8,5 +8,6 @@ export default function LoadingSection({
   render,
 }) {
   if (isLoading) return <LoadingIndicator message={message} />;
+
   return children || render();
 }

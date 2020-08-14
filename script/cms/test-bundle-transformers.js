@@ -149,6 +149,7 @@ if (entityNames) {
     chalk.bold('Number of entities transformed:'),
     chalk.green(modifiedEntities.length),
   );
+
   if (printIndex !== undefined) {
     console.log(
       chalk.bold(`Entity at index ${printIndex}:`),

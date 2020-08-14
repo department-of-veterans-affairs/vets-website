@@ -19,6 +19,7 @@ export default function StringField(props) {
   const enumOptions = Array.isArray(schema.enum) && optionsList(schema);
 
   let Widget = _.get('ui:reviewWidget', uiSchema);
+
   if (!Widget) {
     const defaultWidget = schema.format || (enumOptions ? 'select' : 'text');
     Widget = getWidget(

@@ -15,6 +15,7 @@ function createAnalyticsMiddleware(analyticsEvents) {
   return store => next => action => {
     // When an action is fired, search for the corresponding action in the event map and capture the event
     const e = eventMap.get(action.type);
+
     if (e) {
       const event =
         typeof e.event === 'function' ? e.event(store, action) : e.event;

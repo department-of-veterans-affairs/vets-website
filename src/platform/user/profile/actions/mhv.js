@@ -36,6 +36,7 @@ export function createMHVAccount() {
     return apiRequest(baseUrl, { method: 'POST' })
       .then(({ data }) => {
         recordEvent({ event: 'register-mhv-create-success' });
+
         return dispatch({ type: CREATE_MHV_ACCOUNT_SUCCESS, data });
       })
       .catch(() => dispatch({ type: CREATE_MHV_ACCOUNT_FAILURE }));
@@ -61,6 +62,7 @@ export function upgradeMHVAccount() {
     }
 
     recordEvent({ event: 'register-mhv-upgrade-success' });
+
     return dispatch({
       type: UPGRADE_MHV_ACCOUNT_SUCCESS,
       mhvAccount,

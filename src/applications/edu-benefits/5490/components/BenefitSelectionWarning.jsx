@@ -2,6 +2,7 @@ import React from 'react';
 
 export default function BenefitSelectionWarning(chapter, relationship) {
   let warningText = '';
+
   if (chapter === 'chapter33') {
     // Fry
     if (relationship === 'child') {
@@ -57,6 +58,7 @@ export default function BenefitSelectionWarning(chapter, relationship) {
     warningText =
       'I understand that I am choosing to receive DEA benefits instead of any Fry Scholarship benefits for which I am currently eligible. This includes Fry Scholarship benefits based on the death of the qualifying individual on this application, as well as, Fry Scholarship benefits based on the death of any other individuals not listed on this application.';
   }
+
   return (
     <div className="usa-alert usa-alert-info usa-content edu-warning-single-line">
       <div className="usa-alert-body">{warningText}</div>

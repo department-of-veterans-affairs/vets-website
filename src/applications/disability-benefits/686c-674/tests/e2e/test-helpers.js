@@ -119,6 +119,7 @@ export const fillChildPlaceOfBirthAndStatusInformation = (
       'input[name="root_childStatus_biological"]',
       data.childInformation[0].status.biological,
     );
+
   if (isMarried) {
     client
       .selectRadio(

@@ -30,6 +30,7 @@ export default function MultiQuestionForm({
     () => {
       let completed = formState.completed;
       const newStatus = checkFormStatus({ questionState, customId });
+
       if (formState.status !== newStatus) {
         // record first completion of form
         if (completed === false) {
@@ -58,6 +59,7 @@ export default function MultiQuestionForm({
         questionState,
         customId,
       });
+
       if (!isEqual(newQuestionState, questionState)) {
         setQuestionState(newQuestionState);
       }
@@ -97,9 +99,11 @@ export default function MultiQuestionForm({
     );
     const newQuestionState = questionState.map((question, index) => {
       const returnQuestion = question;
+
       if (index > afterQuestionIndex) {
         delete returnQuestion.value;
       }
+
       return returnQuestion;
     });
     setQuestionState([...newQuestionState]);

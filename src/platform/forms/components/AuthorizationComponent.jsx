@@ -107,6 +107,7 @@ function mapStateToProps(state, ownProps) {
   if (ownProps.formConfig) {
     return getFormAuthorizationState(ownProps.formConfig, state);
   }
+
   return {};
 }
 
@@ -116,6 +117,7 @@ function mapDispatchToProps(dispatch, ownProps) {
       authorize: bindActionCreators(ownProps.formConfig.authorize, dispatch),
     };
   }
+
   return {};
 }
 

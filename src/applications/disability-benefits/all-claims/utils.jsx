@@ -55,6 +55,7 @@ export const viewifyFields = formData => {
         ? viewifyFields(formData[key])
         : formData[key];
   });
+
   return newFormData;
 };
 
@@ -74,6 +75,7 @@ export const srSubstitute = (srIgnored, substitutionText) => (
 
 export const formatDate = (date, format = DATE_FORMAT) => {
   const m = moment(date);
+
   return m.isValid() ? m.format(format) : null;
 };
 
@@ -92,13 +94,16 @@ export const isNotExpired = (expirationDate = '') =>
 export const isActiveITF = currentITF => {
   if (currentITF) {
     const isActive = currentITF.status === itfStatuses.active;
+
     return isActive && isNotExpired(currentITF.expirationDate);
   }
+
   return false;
 };
 
 export const hasGuardOrReservePeriod = formData => {
   const serviceHistory = formData.servicePeriods;
+
   if (!serviceHistory || !Array.isArray(serviceHistory)) {
     return false;
   }
@@ -109,6 +114,7 @@ export const hasGuardOrReservePeriod = formData => {
       return isGuardReserve;
     }
     const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
+
     return (
       isGuardReserve ||
       serviceBranch.includes(reserve) ||
@@ -119,6 +125,7 @@ export const hasGuardOrReservePeriod = formData => {
 
 export const ReservesGuardDescription = ({ formData }) => {
   const { servicePeriods } = formData;
+
   if (
     !servicePeriods ||
     !Array.isArray(servicePeriods) ||
@@ -130,12 +137,14 @@ export const ReservesGuardDescription = ({ formData }) => {
   const mostRecentPeriod = servicePeriods
     .filter(({ serviceBranch }) => {
       const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
+
       return (
         serviceBranch.includes(nationalGuard) || serviceBranch.includes(reserve)
       );
     })
     .map(({ serviceBranch, dateRange }) => {
       const dateTo = new Date(dateRange.to);
+
       return {
         serviceBranch,
         to: dateTo,
@@ -147,6 +156,7 @@ export const ReservesGuardDescription = ({ formData }) => {
     return null;
   }
   const { serviceBranch, to } = mostRecentPeriod;
+
   return (
     <div>
       Please tell us more about your {serviceBranch} service that ended on{' '}
@@ -164,6 +174,7 @@ export const title10DatesRequired = formData =>
 
 export const isInFuture = (errors, fieldData) => {
   const enteredDate = new Date(fieldData);
+
   if (enteredDate < Date.now()) {
     errors.addError('Expected separation date must be in the future');
   }
@@ -171,6 +182,7 @@ export const isInFuture = (errors, fieldData) => {
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
+
   return `${capFirstLetter}${word.slice(1)}`;
 };
 
@@ -224,6 +236,7 @@ export function queryForFacilities(input = '') {
         scope.setExtra('error', error);
         Sentry.captureMessage('Error querying for facilities');
       });
+
       return [];
     });
 }
@@ -243,6 +256,7 @@ const createCheckboxSchema = (schema, disabilityName) => {
     typeof disabilityName === 'string'
       ? capitalizeEachWord(disabilityName)
       : NULL_CONDITION_STRING;
+
   return _.set(
     // As an array like this to prevent periods in the name being interpreted as nested objects
     [sippableId(disabilityName)],
@@ -335,6 +349,7 @@ export const addressUISchema = (
     )
       .trim()
       .toUpperCase();
+
     if (MILITARY_CITIES.includes(currentCity)) {
       return {
         enum: MILITARY_STATE_VALUES,
@@ -467,6 +482,7 @@ export function incidentLocationUISchema(addressPath) {
     addressUISchema(addressPath, null, false, false),
     ptsdAddressOmitions,
   );
+
   return {
     ...addressUIConfig,
     state: {
@@ -492,6 +508,7 @@ const post911Periods = createSelector(
 
       const toDate = new Date(dateRange.to);
       const cutOff = new Date(NINE_ELEVEN);
+
       return toDate.getTime() > cutOff.getTime();
     }),
 );
@@ -507,6 +524,7 @@ export const isDisabilityPtsd = disability => {
 
   return PTSD_MATCHES.some(ptsdString => {
     const strippedString = ptsdString.replace(/[^a-zA-Z]/g, '');
+
     if (strippedString === strippedDisability) {
       return true;
     }
@@ -570,6 +588,7 @@ export const isUploading8940Form = formData =>
 
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
+
   return (
     homelessStatus === HOMELESSNESS_TYPES.homeless ||
     homelessStatus === HOMELESSNESS_TYPES.atRisk
@@ -660,6 +679,7 @@ export const wantsHelpRequestingStatementsSecondary = index => formData =>
 
 export const getAttachmentsSchema = defaultAttachmentId => {
   const { attachments } = fullSchema.properties;
+
   return _.set(
     'items.properties.attachmentId.default',
     defaultAttachmentId,
@@ -692,6 +712,7 @@ export const isWithinRange = (inside, outside, inclusivity = '[]') => {
       isWithinRange(inside.from, outside, inclusivity)
     );
   }
+
   if (typeof inside !== 'string') return false;
 
   const insideDate = parseDate(inside);
@@ -783,6 +804,7 @@ export const directToCorrectForm = ({
   // If we can find the form in the savedForms array, it's not pre-filled
   const isPrefill = !savedForms.find(form => form.form === formConfig.formId);
   const baseUrl = getFormUrl(formData, isPrefill);
+
   if (!isPrefill && !window.location.pathname.includes(baseUrl)) {
     // Redirect to the other app
     window.location.assign(`${baseUrl}/resume`);

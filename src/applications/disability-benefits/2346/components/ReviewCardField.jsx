@@ -47,6 +47,7 @@ class ReviewCardField extends React.Component {
 
   constructor(props) {
     super(props);
+
     // Throw an error if there’s no viewComponent (should be React component)
     if (
       typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function'
@@ -59,6 +60,7 @@ class ReviewCardField extends React.Component {
     }
 
     const acceptedTypes = ['object', 'array'];
+
     if (!acceptedTypes.includes(this.props.schema.type)) {
       throw new Error(
         `Unknown schema type in ReviewCardField. Expected one of [${acceptedTypes.join(
@@ -76,6 +78,7 @@ class ReviewCardField extends React.Component {
 
     // There are times when the data isn't invalid, but we want to start in edit mode anyhow
     let shouldStartInEdit = startInEditConfigOption;
+
     if (typeof startInEditConfigOption === 'function') {
       shouldStartInEdit = startInEditConfigOption(this.props.formData);
     }
@@ -99,6 +102,7 @@ class ReviewCardField extends React.Component {
       focusElement('#temporaryAddress');
       this.resetAddressFocus();
     }
+
     if (
       this.state.permAddressShouldBeFocused &&
       this.state.editing &&
@@ -125,6 +129,7 @@ class ReviewCardField extends React.Component {
 
   onChange = (field, data) => {
     const newData = set(field, data, this.props.data);
+
     return this.props.setData(newData);
   };
 
@@ -143,6 +148,7 @@ class ReviewCardField extends React.Component {
 
   getTitle = () => {
     const { uiSchema, formData } = this.props;
+
     return typeof uiSchema['ui:title'] === 'function'
       ? uiSchema['ui:title'](formData)
       : uiSchema['ui:title'];
@@ -150,6 +156,7 @@ class ReviewCardField extends React.Component {
 
   getSubtitle = () => {
     const { uiSchema, formData } = this.props;
+
     return typeof uiSchema['ui:subtitle'] === 'function'
       ? uiSchema['ui:subtitle'](formData)
       : uiSchema['ui:subtitle'];
@@ -160,6 +167,7 @@ class ReviewCardField extends React.Component {
       uiSchema: { 'ui:description': description },
       formData,
     } = this.props;
+
     if (!description) {
       return null;
     }
@@ -284,8 +292,10 @@ class ReviewCardField extends React.Component {
     if (this.props.formContext.onReviewPage) {
       // Check the data type and use the appropriate review field
       const dataType = this.props.schema.type;
+
       if (dataType === 'object') {
         const { ObjectField } = this.props.registry.fields;
+
         return (
           this.props.name === this.props['view:currentAddress'] && (
             <ObjectField {...this.props} />
@@ -293,6 +303,7 @@ class ReviewCardField extends React.Component {
         );
       } else if (dataType === 'array') {
         const { ArrayField } = this.props.registry.fields;
+
         return <ArrayField {...this.props} />;
       }
 
@@ -349,6 +360,7 @@ class ReviewCardField extends React.Component {
     } = data.temporaryAddress;
     /* eslint-enable no-unused-vars */
     let isTempAddressValid = true;
+
     if (this.props.name === 'temporaryAddress') {
       isTempAddressValid = Boolean(street && city && country);
     }
@@ -454,6 +466,7 @@ class ReviewCardField extends React.Component {
 
   startEditing = addressType => {
     const newState = { editing: true };
+
     if (addressType === 'permanentAddress') {
       newState.permAddressShouldBeFocused = true;
     } else if (addressType === 'temporaryAddress') {
@@ -478,9 +491,11 @@ class ReviewCardField extends React.Component {
     }
     this.props.onChange(this.state.oldData);
     this.setState({ editing: false });
+
     if (this.props.name === 'temporaryAddress') {
       const { street, city, country } = this.state.oldData;
       const isTempAddressValid = street && city && country;
+
       if (isTempAddressValid) {
         this.setState({
           tempAddressShouldBeFocused: true,
@@ -548,6 +563,7 @@ class ReviewCardField extends React.Component {
       } else if (this.props.name === 'temporaryAddress') {
         const { street, city, country } = this.props.formData;
         const isTempAddressValid = Boolean(street && city && country);
+
         if (isTempAddressValid) {
           this.onChange('view:currentAddress', 'temporaryAddress');
           this.setState({
@@ -568,6 +584,7 @@ class ReviewCardField extends React.Component {
           });
         }
       }
+
       if (this.props.uiSchema.saveClickTrackEvent) {
         recordEvent(this.props.uiSchema.saveClickTrackEvent);
       }

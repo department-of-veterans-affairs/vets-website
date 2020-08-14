@@ -32,6 +32,7 @@ class FacilityDirectionsLink extends Component {
 
   render() {
     const { location } = this.props;
+
     if (location) {
       let address = this.buildAddressArray(location);
 
@@ -57,6 +58,7 @@ class FacilityDirectionsLink extends Component {
         </span>
       );
     }
+
     return null;
   }
 }

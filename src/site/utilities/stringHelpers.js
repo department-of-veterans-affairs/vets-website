@@ -15,9 +15,11 @@ const queryParamToBeChanged = [
 // If string starts with a number prepend an underscore to it
 function prependUnderscore(string) {
   const firstNumber = new RegExp('^\\d');
+
   if (firstNumber.test(string)) {
     return `_${string}`;
   }
+
   return string;
 }
 

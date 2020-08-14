@@ -36,6 +36,7 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.veteranFullName;
+
     return (
       <div>
         <div className="print-only">

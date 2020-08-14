@@ -6,6 +6,7 @@ const options = {
     if (hour < 12) {
       return 'a.m.';
     }
+
     return 'p.m.';
   },
   monthsShort: [

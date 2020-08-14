@@ -31,6 +31,7 @@ if (options.unexpected && options.unexpected.length !== 0) {
 const app = express();
 
 let root = path.resolve(__dirname, `../../../../build/${options.buildtype}`);
+
 if (!fs.existsSync(root)) {
   // if there isn't a build directory here, then check the parent directory.
   // This is a temporary adapation as we transition to vagov-content.

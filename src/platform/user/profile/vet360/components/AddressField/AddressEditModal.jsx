@@ -18,6 +18,7 @@ class AddressEditModal extends React.Component {
     const newFieldValue = {
       ...value,
     };
+
     if (newFieldValue['view:livesOnMilitaryBase']) {
       newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
     }
@@ -67,6 +68,7 @@ class AddressEditModal extends React.Component {
     ) {
       return { ...data, 'view:livesOnMilitaryBase': true };
     }
+
     return data;
   };
 
@@ -85,6 +87,7 @@ class AddressEditModal extends React.Component {
     }
     let transformedData = this.removeEmptyKeys(initialFormValues);
     transformedData = this.selectLivesOnMilitaryBaseCheckbox(transformedData);
+
     return transformedData;
   };
 

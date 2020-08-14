@@ -28,6 +28,7 @@ const {
 const findCircularReference = (entity, ancestors) => {
   const ancestorIds = ancestors.map(a => a.id);
   const a = ancestors.find(r => r.id === toId(entity));
+
   if (a) {
     // This logging is to help debug if AJV fails on an unexpected circular
     // reference
@@ -46,6 +47,7 @@ const findCircularReference = (entity, ancestors) => {
     // avoid the circular reference).
     return a;
   }
+
   return false;
 };
 
@@ -56,6 +58,7 @@ const findCircularReference = (entity, ancestors) => {
 const validateInput = entity => {
   // Pre-transformation JSON schema validation
   const rawErrors = validateRawEntity(entity);
+
   if (rawErrors.length) {
     console.warn(
       chalk.yellow(
@@ -84,6 +87,7 @@ const validateInput = entity => {
  */
 const validateOutput = (entity, transformedEntity) => {
   const transformedErrors = validateTransformedEntity(transformedEntity);
+
   if (transformedErrors.length) {
     console.warn(
       chalk.yellow(
@@ -159,6 +163,7 @@ const entityAssemblerFactory = contentDir => {
     for (const [key, prop] of Object.entries(filteredEntity)) {
       const isEntityArray =
         Array.isArray(prop) && prop.some(e => e.target_uuid && e.target_type);
+
       if (isEntityArray) {
         prop.forEach((item, index) => {
           const { target_uuid: targetUuid, target_type: targetType } = item;
@@ -218,6 +223,7 @@ const entityAssemblerFactory = contentDir => {
 
     // Handle circular references
     const a = findCircularReference(entity, ancestors);
+
     if (a) return a.entity;
 
     validateInput(entity);

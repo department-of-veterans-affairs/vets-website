@@ -8,6 +8,7 @@ function createFileObj(page, layout) {
   // Exclude some types from sitemap.
   const privateTypes = ['outreach_asset', 'support_service'];
   let privStatus = false;
+
   if (privateTypes.indexOf(page.entityBundle) > -1) {
     privStatus = true;
   }
@@ -84,6 +85,7 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
         const numPageLinks = 3;
         let start;
         let length;
+
         if (pagedEntities.length <= numPageLinks) {
           start = 0;
           length = pagedEntities.length;
@@ -127,6 +129,7 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
       files[fileName] = createFileObj(pagedPage, layout);
     }
   }
+
   return pageReturn;
 }
 
@@ -153,6 +156,7 @@ function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
   generatedPage = set('entityUrl.path', absolutePath, page);
 
   generatedPage.title = title;
+
   return generatedPage;
 }
 
@@ -167,6 +171,7 @@ function generateBreadCrumbs(pathString) {
 
   for (const value of pathArray) {
     trimmedValue = _.trim(value, '/');
+
     if (value) {
       const dehandlized =
         value === 'pittsburgh-health-care'
@@ -182,6 +187,7 @@ function generateBreadCrumbs(pathString) {
     }
     previous += `${trimmedValue}/`;
   }
+
   return entityUrlObj;
 }
 
@@ -190,6 +196,7 @@ function getHubSidebar(navsArray, owner) {
   for (const nav of navsArray) {
     if (nav !== null && nav.links) {
       const navName = _.toLower(nav.name.replace(/&/g, 'and'));
+
       if (owner !== null && owner === navName) {
         return { sidebar: nav };
       }
@@ -269,6 +276,7 @@ function compilePage(page, contentData) {
 
   // Get page owner
   let owner;
+
   if (page.fieldAdministration && page.fieldAdministration.entity) {
     owner = _.toLower(page.fieldAdministration.entity.name);
   }

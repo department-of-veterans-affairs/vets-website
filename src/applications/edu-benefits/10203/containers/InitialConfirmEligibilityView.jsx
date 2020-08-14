@@ -6,6 +6,7 @@ function InitialConfirmEligibilityView(props) {
   if (props.onReviewPage) {
     return null;
   }
+
   return (
     <div>
       <div>

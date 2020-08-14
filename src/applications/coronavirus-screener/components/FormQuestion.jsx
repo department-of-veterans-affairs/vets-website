@@ -16,6 +16,7 @@ export default function FormQuestion({
   function handleClick(event) {
     recordStart(question.id);
     setQuestionValue({ event, questionId: question.id });
+
     if (question.clearValues ?? false) {
       clearQuestionValues(question.id);
     }

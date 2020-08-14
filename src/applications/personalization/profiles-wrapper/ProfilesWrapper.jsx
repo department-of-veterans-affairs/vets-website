@@ -47,6 +47,7 @@ const mapStateToProps = state => {
   const localStorageProfile1 = profileVersion === '1';
   const localStorageProfile2 = profileVersion === '2';
   const FFProfile2 = selectShowProfile2(state);
+
   return {
     currentlyLoggedIn: isLoggedIn(state),
     isLOA1: isLOA1Selector(state),

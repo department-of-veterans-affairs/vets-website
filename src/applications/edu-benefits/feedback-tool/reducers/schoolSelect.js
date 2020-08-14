@@ -172,6 +172,7 @@ export default function schoolSearch(state = initialState, action) {
             state: institutionState,
             zip,
           } = attributes;
+
           return {
             address1,
             address2,
@@ -190,6 +191,7 @@ export default function schoolSearch(state = initialState, action) {
             (result, value, key) => {
               // transform null to empty string
               result[key] = value || ''; // eslint-disable-line no-param-reassign
+
               return result;
             },
             {},

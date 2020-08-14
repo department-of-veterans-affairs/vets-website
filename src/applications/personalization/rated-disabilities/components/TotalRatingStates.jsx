@@ -30,6 +30,7 @@ export const errorMessage = () => {
       </p>
     </>
   );
+
   return <AlertBox content={message} status="error" isVisible />;
 };
 
@@ -53,6 +54,7 @@ export const missingTotalMessage = () => {
       </a>
     </>
   );
+
   return <AlertBox content={message} status="info" isVisible />;
 };
 

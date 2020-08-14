@@ -7,6 +7,7 @@ const transform = entity => {
     fieldVaParagraphs,
     fieldAlertBlockReference,
   } = entity;
+
   return {
     contentModelType: entity.contentModelType,
     entity: {

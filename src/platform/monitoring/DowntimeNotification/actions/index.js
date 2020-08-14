@@ -45,6 +45,7 @@ export function initializeDowntimeWarnings() {
 
 export function dismissDowntimeWarning(appTitle) {
   getDismissedDowntimeWarningsFromSession(appTitle);
+
   return {
     type: DISMISS_DOWNTIME_APPROACHING_MODAL,
     appTitle,

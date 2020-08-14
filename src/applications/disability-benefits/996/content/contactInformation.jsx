@@ -7,6 +7,7 @@ const addBrBefore = line => line && [<br key={line} />, line];
 
 export const formatPhone = (number = '') => {
   let i = 0;
+
   return '###-###-####'.replace(/#/g, () => number[i++] || '');
 };
 
@@ -29,6 +30,7 @@ export const contactInfoDescription = ({ formData: { veteran = {} } }) => {
   } = veteran;
 
   let postalString = zipPostalCode || '';
+
   if (countryCode === 'USA' && zipPostalCode) {
     const lastChunk =
       zipPostalCode.length > 5 ? `-${zipPostalCode.slice(5)}` : '';

@@ -35,6 +35,7 @@ export function getUserPhaseDescription(phase) {
 
 export function getPhaseDescriptionFromEvent(event) {
   const phase = parseInt(event.type.replace('phase', ''), 10);
+
   return phaseMap[phase];
 }
 
@@ -113,11 +114,13 @@ export function displayFileSize(size) {
   }
 
   const kbSize = size / 1024;
+
   if (kbSize < 1024) {
     return `${Math.round(kbSize)}KB`;
   }
 
   const mbSize = kbSize / 1024;
+
   return `${Math.round(mbSize)}MB`;
 }
 
@@ -225,9 +228,11 @@ export function getTopPosition(elem) {
 
 export function truncateDescription(text) {
   const maxLength = 120;
+
   if (text && text.length > maxLength) {
     return `${text.substr(0, maxLength)}…`;
   }
+
   return text;
 }
 
@@ -284,6 +289,7 @@ export function makeAuthRequest(
         if (options.responseType) {
           return resp[options.responseType]();
         }
+
         return Promise.resolve();
       }
 
@@ -306,6 +312,7 @@ export function getCompletedDate(claim) {
     const completedEvents = claim.attributes.eventsTimeline.filter(
       event => event.type === 'completed',
     );
+
     if (completedEvents.length) {
       return completedEvents[0].date;
     }

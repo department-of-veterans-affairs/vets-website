@@ -30,6 +30,7 @@ loadSchemas(path.join(__dirname, 'schemas', 'output'));
 module.exports = (entity, schema) => {
   const validate = ajv.compile(schema);
   const valid = validate(entity);
+
   // if (!valid) console.log(validate);
   return valid ? [] : validate.errors;
 };

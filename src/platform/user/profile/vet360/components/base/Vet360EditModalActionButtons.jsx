@@ -20,13 +20,16 @@ class Vet360EditModalActionButtons extends React.Component {
     // for screen reader use
     if (this.state.deleteInitiated && !prevState.deleteInitiated) {
       const heading = document.getElementById('deleteConfirmationHeading');
+
       if (heading) {
         heading.focus();
       }
     }
+
     // If delete is cancelled, put focus back on modal close button
     if (!this.state.deleteInitiated && prevState.deleteInitiated) {
       const closeButton = document.getElementsByClassName('va-modal-close')[0];
+
       if (closeButton) {
         closeButton.focus();
       }

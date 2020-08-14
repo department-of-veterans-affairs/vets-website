@@ -49,6 +49,7 @@ export function fetchFolder(id, query = {}) {
 
 export function fetchRecipients() {
   const url = '/recipients';
+
   return dispatch => {
     dispatch({ type: LOADING_RECIPIENTS });
 

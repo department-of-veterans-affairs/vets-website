@@ -47,10 +47,13 @@ class PaymentsReceived extends Component {
   handleDisplayNumbers = page => {
     let fromDisplayNumber = 1;
     let toDisplayNumber = 1;
+
     if (this.props.data.length > this.state.maxRows) {
       toDisplayNumber = this.state.maxRows;
+
       if (page > 1) {
         fromDisplayNumber = (page - 1) * this.state.maxRows + 1;
+
         if (this.props.data.length < page * this.state.maxRows) {
           toDisplayNumber = this.props.data.length;
         } else {
@@ -66,6 +69,7 @@ class PaymentsReceived extends Component {
 
   render() {
     let tableContent = '';
+
     if (this.state.currentlyShowingData) {
       tableContent = (
         <>
@@ -104,6 +108,7 @@ class PaymentsReceived extends Component {
         />
       );
     }
+
     return <>{tableContent}</>;
   }
 }

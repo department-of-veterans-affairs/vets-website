@@ -463,6 +463,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
         try {
           const eligibility = getEligibilityStatus(getState());
+
           if (!eligibility.direct && !eligibility.request) {
             // Remove parse function when converting this call to FHIR service
             const thunk = fetchFacilityDetails(
@@ -661,6 +662,7 @@ export function updateCCEligibility(isEligible) {
 async function buildPreferencesDataAndUpdate(email) {
   const preferenceData = await getPreferences();
   const preferenceBody = createPreferenceBody(preferenceData, email);
+
   return updatePreferences(preferenceBody);
 }
 
@@ -745,6 +747,7 @@ export function submitAppointmentOrRequest(router) {
 
       try {
         let requestData;
+
         if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
@@ -755,6 +758,7 @@ export function submitAppointmentOrRequest(router) {
 
         try {
           const requestMessage = data.reasonAdditionalInfo;
+
           if (requestMessage) {
             await sendRequestMessage(requestData.id, requestMessage);
           }
@@ -786,6 +790,7 @@ export function submitAppointmentOrRequest(router) {
         router.push('/new-appointment/confirmation');
       } catch (error) {
         let extraData = null;
+
         if (requestBody) {
           extraData = {
             vaParent: data?.vaParent,

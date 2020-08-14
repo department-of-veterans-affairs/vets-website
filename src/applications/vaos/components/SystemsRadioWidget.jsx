@@ -21,6 +21,7 @@ export default function SystemsRadioWidget({
       {enumOptions.map((option, i) => {
         const checked = option.value === value;
         const isCerner = cernerOrgIds.some(orgId => option.value === orgId);
+
         return (
           <div className="form-radio-buttons" key={option.value}>
             <input

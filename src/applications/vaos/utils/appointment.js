@@ -39,6 +39,7 @@ export function getAppointmentTimezoneAbbreviation(timezone, facilityId) {
   }
 
   const tzAbbr = timezone?.split(' ')?.[1] || timezone;
+
   return stripDST(tzAbbr);
 }
 
@@ -160,6 +161,7 @@ export function generateICS(
 ) {
   const startDate = moment(startDateTime).format('YYYYMMDDTHHmmss');
   const endDate = moment(endDateTime).format('YYYYMMDDTHHmmss');
+
   return `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:VA

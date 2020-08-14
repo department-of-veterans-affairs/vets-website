@@ -16,9 +16,11 @@ export default class UserInteractionRecorder extends React.Component {
   componentDidUpdate(prevProps) {
     const { trackingEventMap, selectedValue, eventRecorder } = this.props;
     const { selectedValue: oldSelectedValue } = prevProps;
+
     if (selectedValue === oldSelectedValue) {
       return;
     }
+
     if (trackingEventMap[selectedValue]) {
       eventRecorder(trackingEventMap[selectedValue]);
     }

@@ -11,6 +11,7 @@ export default function RaceEthnicityReviewField(props) {
   const categories = Object.keys(schema.properties).filter(
     prop => formData[prop],
   );
+
   return (
     <>
       <div className="review-row">

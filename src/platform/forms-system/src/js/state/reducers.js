@@ -37,6 +37,7 @@ export default {
   },
   [SET_DATA]: (state, action) => {
     const newState = _.set('data', action.data, state);
+
     return recalculateSchemaAndData(newState);
   },
   [SET_EDIT_MODE]: (state, action) => {
@@ -47,6 +48,7 @@ export default {
         state,
       );
     }
+
     return _.set(['pages', action.page, 'editMode'], action.edit, state);
   },
   [SET_PRE_SUBMIT]: (state, action) => ({
@@ -55,6 +57,7 @@ export default {
   }),
   [SET_SUBMISSION]: (state, action) => {
     const newState = _.set(['submission', action.field], action.value, state);
+
     if (action.extra) {
       newState.submission.extra = action.extra;
     }

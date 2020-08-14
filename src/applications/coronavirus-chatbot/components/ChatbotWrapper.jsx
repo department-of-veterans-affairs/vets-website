@@ -23,6 +23,7 @@ export class ChatbotWrapper extends React.Component {
     if (this.state.loading) {
       return <LoadingIndicator message={'Loading coronavirus chatbot...'} />;
     }
+
     return <ChatbotComponent />;
   }
 }

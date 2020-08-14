@@ -4,6 +4,7 @@ import { facilityTypes } from '../config';
 const facilityName = (query, location) => {
   const { facilityType, classification } = location.attributes;
   let name;
+
   if (query && query.facilityType === 'urgent_care') {
     name = 'VA URGENT CARE';
   } else {
@@ -12,6 +13,7 @@ const facilityName = (query, location) => {
         ? classification
         : facilityTypes[facilityType];
   }
+
   return name;
 };
 

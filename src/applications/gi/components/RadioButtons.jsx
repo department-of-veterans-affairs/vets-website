@@ -35,6 +35,7 @@ class RadioButtons extends React.Component {
     // prod flag for bah-8821
     if (environment.isProduction()) {
       const field = document.getElementById(`${this.inputId}-legend`);
+
       if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
         field.scrollIntoView();
       }
@@ -46,20 +47,24 @@ class RadioButtons extends React.Component {
   renderOptions = () => {
     const options = _.isArray(this.props.options) ? this.props.options : [];
     const storedValue = this.props.value;
+
     return options.map((obj, index) => {
       let optionLabel;
       let optionValue;
       let optionAdditional;
       let learnMore;
+
       if (_.isString(obj)) {
         optionLabel = obj;
         optionValue = obj;
       } else {
         optionLabel = obj.label;
         optionValue = obj.value;
+
         if (obj.additional) {
           optionAdditional = <div>{obj.additional}</div>;
         }
+
         if (obj.learnMore) {
           learnMore = obj.learnMore;
         }
@@ -119,6 +124,7 @@ class RadioButtons extends React.Component {
     // Calculate error state.
     let errorSpan = '';
     let errorSpanId = undefined;
+
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
       errorSpan = (
@@ -130,6 +136,7 @@ class RadioButtons extends React.Component {
 
     // Addes ToolTip if text is provided.
     let toolTip;
+
     if (this.props.toolTipText) {
       toolTip = (
         <ToolTip
@@ -141,6 +148,7 @@ class RadioButtons extends React.Component {
 
     // Calculate required.
     let requiredSpan = undefined;
+
     if (this.props.required) {
       requiredSpan = <span className="form-required-span">*</span>;
     }

@@ -148,6 +148,7 @@ function completePlotAllowance(client, data) {
   }
 
   client.selectYesNo('root_govtContributions', data.govtContributions);
+
   if (data.govtContributions) {
     client.fill(
       'input[name="root_amountGovtContribution"]',

@@ -9,6 +9,7 @@ class EmailEditModal extends React.Component {
     if (this.props.data) {
       return { ...this.props.data };
     }
+
     return {
       emailAddress: '',
     };

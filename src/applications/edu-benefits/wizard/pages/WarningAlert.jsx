@@ -28,6 +28,7 @@ const WarningAlert = ({
   let headline;
   let content;
   let formId;
+
   if (
     claimingBenefitOwnServiceAnswer === 'no' &&
     sponsorDeceasedAnswer === 'no' &&
@@ -80,6 +81,7 @@ const WarningAlert = ({
     },
     [applyPageRendered, setPageState, formId, setReferredBenefit],
   );
+
   return <AlertBox headline={headline} content={content} status="warning" />;
 };
 

@@ -40,6 +40,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
       'letter-received-date': date,
     });
   };
+
   return (
     <div>
       <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">

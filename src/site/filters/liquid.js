@@ -21,6 +21,7 @@ module.exports = function registerFilters() {
 
   function prettyTimeFormatted(dt, format) {
     const date = moment.utc(dt).format(format);
+
     return date.replace(/AM/g, 'a.m.').replace(/PM/g, 'p.m.');
   }
 
@@ -29,8 +30,10 @@ module.exports = function registerFilters() {
       const timeZoneDate = new Date(dt).toLocaleString('en-US', {
         timeZone: tz,
       });
+
       return prettyTimeFormatted(timeZoneDate, format);
     }
+
     return dt;
   };
 
@@ -45,6 +48,7 @@ module.exports = function registerFilters() {
 
   liquid.filters.drupalToVaPath = content => {
     let replaced = content;
+
     if (content) {
       replaced = content.replace(/href="(.*?)(png|jpg|jpeg|svg|gif)"/g, img =>
         img
@@ -78,6 +82,7 @@ module.exports = function registerFilters() {
 
   liquid.filters.currentUnixFromDate = () => {
     const time = new Date();
+
     return time.getTime();
   };
 
@@ -102,20 +107,24 @@ module.exports = function registerFilters() {
 
   liquid.filters.breakIntoSingles = data => {
     let output = '';
+
     if (data != null) {
       output = `data-${data} `;
     }
+
     return output;
   };
 
   liquid.filters.videoThumbnail = data => {
     const string = data.split('v=')[1];
+
     return `https://img.youtube.com/vi/${string}/sddefault.jpg`;
   };
 
   liquid.filters.outputLinks = data => {
     // Change phone to tap to dial.
     const replacePattern = /((\d{3}-))?\d{3}-\d{3}-\d{4}(?!([^<]*>)|(((?!<a).)*<\/a>))/g;
+
     if (data) {
       return data.replace(
         replacePattern,
@@ -128,6 +137,7 @@ module.exports = function registerFilters() {
 
   liquid.filters.breakTerms = data => {
     let output = '';
+
     if (data != null) {
       const count = data.length;
       data.forEach((element, index) => {
@@ -138,10 +148,12 @@ module.exports = function registerFilters() {
         }
       });
     }
+
     return output;
   };
   liquid.filters.benefitTerms = data => {
     let output = 'General benefits information';
+
     if (data != null) {
       switch (data) {
         case 'general':
@@ -185,6 +197,7 @@ module.exports = function registerFilters() {
           break;
       }
     }
+
     return output;
   };
 
@@ -216,12 +229,14 @@ module.exports = function registerFilters() {
       facilityList[id].entityUrl = f.entityUrl;
       facilityList[id].nickname = f.fieldNicknameForThisFacility;
     });
+
     return JSON.stringify(facilityList);
   };
 
   liquid.filters.widgetFacilityDetail = facility => {
     const facilityLocatorApiId = facility.split('_')[1].toUpperCase();
     const id = `vha_${facilityLocatorApiId}`;
+
     return JSON.stringify(id);
   };
 
@@ -233,6 +248,7 @@ module.exports = function registerFilters() {
     item.sort((a, b) => {
       const start1 = moment(a.fieldDate.startDate);
       const start2 = moment(b.fieldDate.startDate);
+
       return start1.isAfter(start2);
     });
 
@@ -243,21 +259,27 @@ module.exports = function registerFilters() {
       for (let a = 0; a < linkArr.length; a += 1) {
         if (linkArr[a].url.path === path) {
           deepObj.depth = 1;
+
           return deepObj;
         }
+
         if (linkArr[a].links) {
           for (let b = 0; b < linkArr[a].links.length; b += 1) {
             if (linkArr[a].links[b].url.path === path) {
               deepObj.depth = 2;
+
               return deepObj;
             }
+
             if (linkArr[a].links[b].links) {
               for (let c = 0; c < linkArr[a].links[b].links.length; c += 1) {
                 if (linkArr[a].links[b].links[c].url.path === path) {
                   deepObj.depth = 3;
                   deepObj.links = linkArr[a].links[b];
+
                   return deepObj;
                 }
+
                 if (linkArr[a].links[b].links[c].links) {
                   for (
                     let d = 0;
@@ -269,8 +291,10 @@ module.exports = function registerFilters() {
                     ) {
                       deepObj.depth = 4;
                       deepObj.links = linkArr[a].links[b].links[c];
+
                       return deepObj;
                     }
+
                     if (linkArr[a].links[b].links[c].links[d].links) {
                       for (
                         let e = 0;
@@ -283,6 +307,7 @@ module.exports = function registerFilters() {
                         ) {
                           deepObj.depth = 5;
                           deepObj.links = linkArr[a].links[b].links[c].links[d];
+
                           return deepObj;
                         }
                       }
@@ -294,6 +319,7 @@ module.exports = function registerFilters() {
           }
         }
       }
+
       return false;
     };
 
@@ -350,6 +376,7 @@ module.exports = function registerFilters() {
           // we didn't find it yet
           // if the item has links, look for it within the links of this item (recursively)
           findLink(link.links, d);
+
           if (found) {
             break;
           }
@@ -375,6 +402,7 @@ module.exports = function registerFilters() {
         ? entity.fieldRegionalHealthService.entity
         : null;
     }
+
     return entity && entity.fieldClinicalHealthServices
       ? entity.fieldClinicalHealthServices[0].entity
       : null;
@@ -399,17 +427,20 @@ module.exports = function registerFilters() {
   liquid.filters.isRootPage = path => {
     const isFacilityRoot = /^(?:\/pittsburgh-health-care)+$|^(?:\/pittsburgh-health-care)\/((?!stories|events|locations|press-releases|health-services|jobs-careers).)*$/;
     const isRoot = /^\/[\w-]+$/;
+
     return isRoot.test(path) || isFacilityRoot.test(path);
   };
 
   // check if this is an about menu page
   liquid.filters.isAboutItem = (menuArray, path) => {
     const outreachPattern = new RegExp('outreach');
+
     if (outreachPattern.test(path)) {
       return false;
     }
     const paths = _.flatMap(menuArray, getPath);
     const inMenu = _.indexOf(paths, path);
+
     return inMenu !== -1;
   };
 
@@ -418,6 +449,7 @@ module.exports = function registerFilters() {
     if (path.includes('pittsburgh-health-care')) {
       return true;
     }
+
     return false;
   };
 

@@ -53,6 +53,7 @@ export function icsCreate(calendarLink) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const calendarLink = document.getElementById('add-to-calendar-link');
+
   if (calendarLink) {
     icsCreate(calendarLink);
   }

@@ -24,6 +24,7 @@ export const usePrevious = nextValue => {
     // only run this useEffect hook if `nextValue` changes
     [nextValue],
   );
+
   // This returns _before_ the `useEffect` call completes, so this will return
   // whatever was stored in `previousValue.current` _before_ this function's
   // `useEffect` callback runs

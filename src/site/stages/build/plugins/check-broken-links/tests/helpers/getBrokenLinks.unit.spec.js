@@ -11,6 +11,7 @@ const anchorWithoutHref = '<a>Link</a>';
 
 const getFile = tag => {
   const contents = `<div>${anchor}${tag}</div>`;
+
   return {
     path: '/health-care',
     contents,

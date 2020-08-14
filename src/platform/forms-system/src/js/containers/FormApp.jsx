@@ -17,6 +17,7 @@ class FormApp extends React.Component {
   UNSAFE_componentWillMount() {
     const { additionalRoutes } = this.props.formConfig;
     this.nonFormPages = [];
+
     if (additionalRoutes) {
       this.nonFormPages = additionalRoutes.map(route => route.path);
     }
@@ -39,6 +40,7 @@ class FormApp extends React.Component {
     let formTitle;
     let formNav;
     let renderedChildren = children;
+
     // Show title only if:
     // 1. we're not on the intro page *or* one of the additionalRoutes
     //    specified in the form config
@@ -67,6 +69,7 @@ class FormApp extends React.Component {
     }
 
     let footer;
+
     if (Footer && !isNonFormPage) {
       footer = (
         <Footer formConfig={formConfig} currentLocation={currentLocation} />

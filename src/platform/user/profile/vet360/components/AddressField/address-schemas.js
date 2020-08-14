@@ -15,6 +15,7 @@ const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
         [stateCode]: stateName,
       };
     }
+
     return militaryStates;
   },
   {},
@@ -107,6 +108,7 @@ const uiSchema = {
             enumNames: [USA.COUNTRY_NAME],
           };
         }
+
         return {
           enum: ADDRESS_FORM_VALUES.COUNTRY_ISO3_CODES,
           enumNames: ADDRESS_FORM_VALUES.COUNTRIES,
@@ -118,6 +120,7 @@ const uiSchema = {
             'ui:disabled': true,
           };
         }
+
         return {
           'ui:disabled': false,
         };
@@ -151,6 +154,7 @@ const uiSchema = {
             enum: ADDRESS_DATA.militaryCities,
           };
         }
+
         return {
           type: 'string',
           title: 'City',
@@ -175,6 +179,7 @@ const uiSchema = {
             enumNames: Object.values(MILITARY_STATES),
           };
         }
+
         return {
           enum: Object.keys(ADDRESS_DATA.states),
           enumNames: Object.values(ADDRESS_DATA.states),
@@ -228,6 +233,7 @@ export const getFormSchema = fieldName => {
   const schema = cloneDeep(formSchema);
   delete schema.properties['view:livesOnMilitaryBase'];
   delete schema.properties['view:livesOnMilitaryBaseInfo'];
+
   return schema;
 };
 
@@ -242,5 +248,6 @@ export const getUiSchema = fieldName => {
   const schema = cloneDeep(uiSchema);
   delete schema['view:livesOnMilitaryBase'];
   delete schema['view:livesOnMilitaryBaseInfo'];
+
   return schema;
 };

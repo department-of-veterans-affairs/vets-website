@@ -90,6 +90,7 @@ export const formBenefits = {
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
   let formNumber;
+
   if (key === VA_FORM_IDS.FORM_40_10007) {
     formNumber = '';
   } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
@@ -101,12 +102,14 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
   }
   const formTitle = `${formBenefits[key]}${formNumber}`;
   titles[key] = formTitle; // eslint-disable-line no-param-reassign
+
   return titles;
 }, {});
 
 export const formDescriptions = Object.keys(formBenefits).reduce(
   (descriptions, key) => {
     let formNumber;
+
     if (key === VA_FORM_IDS.FORM_40_10007) {
       formNumber = '';
     } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
@@ -115,9 +118,11 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
       formNumber = `(${key})`;
     }
     let formDescription = `${formBenefits[key]} application ${formNumber}`;
+
     if (key === VA_FORM_IDS.FORM_VA_2346A) {
       formDescription = `${formBenefits[key]} ${formNumber}`;
     }
+
     return { ...descriptions, [key]: formDescription };
   },
   {},
@@ -196,6 +201,7 @@ export const presentableFormIDs = Object.keys(formBenefits).reduce(
     } else {
       prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
     }
+
     // TODO: add an exception for 1010ez since that form ID is lowercase and lacks a dash?
     return prefixedIDs;
   },
@@ -204,10 +210,13 @@ export const presentableFormIDs = Object.keys(formBenefits).reduce(
 
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
+
   if (!formTitles[formNumber] || !formLinks[formNumber]) {
     Sentry.captureMessage('vets_sip_list_item_missing_info');
+
     return false;
   }
+
   if (!sipEnabledForms.has(formNumber)) {
     throw new Error(
       `Could not find form ${
@@ -215,6 +224,7 @@ export function isSIPEnabledForm(savedForm) {
       } in list of sipEnabledForms`,
     );
   }
+
   return true;
 }
 
@@ -229,6 +239,7 @@ export function sipFormSorter(formA, formB) {
     if (!isPlainObject(arg)) {
       throw new TypeError(`${arg} is not a plain object`);
     }
+
     if (
       !arg.metadata ||
       !arg.metadata.expiresAt ||
@@ -236,10 +247,12 @@ export function sipFormSorter(formA, formB) {
     ) {
       throw new TypeError(`'metadata.expiresAt' is not set on ${arg}`);
     }
+
     return true;
   }
 
   [formA, formB].forEach(isValidForm);
+
   return formA.metadata.expiresAt - formB.metadata.expiresAt;
 }
 
@@ -288,5 +301,6 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
       </div>
     );
   }
+
   return children;
 };

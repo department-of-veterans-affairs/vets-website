@@ -152,6 +152,7 @@ class IntroductionPage extends React.Component {
       showMainLoader,
       showVerificationRequiredAlert,
     } = this.props;
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for health care benefits" />

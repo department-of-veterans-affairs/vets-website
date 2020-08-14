@@ -6,6 +6,7 @@ const uiSchemaCheckboxes = () => {
   Object.keys(benefitsLabels).forEach(key => {
     uiSchemaCheckbox[key] = { 'ui:title': benefitsLabels[key] };
   });
+
   return uiSchemaCheckbox;
 };
 const schemaCheckboxes = () => {
@@ -13,6 +14,7 @@ const schemaCheckboxes = () => {
   Object.keys(benefitsLabels).forEach(key => {
     schemaCheckbox[key] = { type: 'boolean' };
   });
+
   return schemaCheckbox;
 };
 

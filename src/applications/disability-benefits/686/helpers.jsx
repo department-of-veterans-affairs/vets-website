@@ -55,6 +55,7 @@ export function hasBeenMarried(form = {}) {
 
 export function isMilitaryAddress(address = {}) {
   const state = address.state;
+
   return militaryStates.some(e => e.value === state);
 }
 
@@ -64,16 +65,19 @@ export function isNotMilitaryAddress(address = {}) {
 
 export function isUSAAddress(address = {}) {
   const country = address.countryDropdown;
+
   return country === 'USA';
 }
 
 export function isDomesticAddress(address = {}) {
   const country = address.countryDropdown;
+
   return country === 'USA' && isNotMilitaryAddress(address);
 }
 
 export function isInternationalAddressDropdown(address = {}) {
   const country = address.countryDropdown;
+
   return !isDomesticAddress(address) && country !== 'Country Not In List';
 }
 
@@ -85,11 +89,13 @@ export function isInternationalAddressText(address = {}) {
 
 export function isNotInternationalAddressText(address = {}) {
   const country = address.countryDropdown;
+
   return country !== 'Country Not In List';
 }
 
 export function isCurrentMarriage(form, index) {
   const numMarriages = form && form.marriages ? form.marriages.length : 0;
+
   return isMarried(form) && numMarriages - 1 === index;
 }
 
@@ -107,6 +113,7 @@ export function isNotLivingWithParent(form, index) {
 
 export function getMarriageTitle(index) {
   const marriageNumber = numberToWords(index + 1);
+
   return `${titleCase(marriageNumber)} marriage`;
 }
 
@@ -119,14 +126,17 @@ export function getMarriageTitleWithCurrent(form, index) {
 }
 export function getSpouseMarriageTitle(index) {
   const marriageNumber = numberToWords(index + 1);
+
   return `Spouse’s ${marriageNumber} marriage`;
 }
 
 export function calculateChildAge(form, index) {
   if (form.dependents[index].childDateOfBirth) {
     const childAge = form.dependents[index].childDateOfBirth;
+
     return moment().diff(childAge, 'years');
   }
+
   return null;
 }
 
@@ -183,6 +193,7 @@ export const disableWarning = (
 
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
+
   return JSON.stringify({
     dependentsApplication: {
       form: formData,

@@ -10,6 +10,7 @@ export default {
           'Education - Form 22-0994 - Applicant Information - First Name',
       });
     }
+
     if (_.isEmpty(_.get(formData, 'applicantFullName.last', {}))) {
       recordEvent({
         event: 'edu-0994--response-missing',
@@ -17,6 +18,7 @@ export default {
           'Education - Form 22-0994 - Applicant Information - Last Name',
       });
     }
+
     if (_.isEmpty(_.get(formData, 'applicantSocialSecurityNumber', {}))) {
       recordEvent({
         event: 'edu-0994--response-missing',
@@ -24,6 +26,7 @@ export default {
           'Education - Form 22-0994 - Applicant Information - Social Security Number',
       });
     }
+
     if (_.isEmpty(_.get(formData, 'dateOfBirth', {}))) {
       recordEvent({
         event: 'edu-0994--response-missing',
@@ -76,6 +79,7 @@ export default {
           'Education - Form 22-0994 - Contact Information - Phone Number',
       });
     }
+
     if (_.isEmpty(_.get(formData, 'view:phoneAndEmail.emailAddress', {}))) {
       recordEvent({
         event: 'edu-0994--response-missing',
@@ -83,6 +87,7 @@ export default {
           'Education - Form 22-0994 - Contact Information - Email Address',
       });
     }
+
     if (_.isEmpty(_.get(formData, 'mailingAddress.country', {}))) {
       recordEvent({
         event: 'edu-0994--response-missing',
@@ -90,6 +95,7 @@ export default {
           'Education - Form 22-0994 - Contact Information - Country',
       });
     }
+
     if (_.isEmpty(_.get(formData, 'mailingAddress.street', {}))) {
       recordEvent({
         event: 'edu-0994--response-missing',
@@ -97,6 +103,7 @@ export default {
           'Education - Form 22-0994 - Contact Information - Street',
       });
     }
+
     if (_.isEmpty(_.get(formData, 'mailingAddress.city', {}))) {
       recordEvent({
         event: 'edu-0994--response-missing',
@@ -104,6 +111,7 @@ export default {
           'Education - Form 22-0994 - Contact Information - City',
       });
     }
+
     if (_.isEmpty(_.get(formData, 'mailingAddress.state', {}))) {
       recordEvent({
         event: 'edu-0994--response-missing',
@@ -111,6 +119,7 @@ export default {
           'Education - Form 22-0994 - Contact Information - State',
       });
     }
+
     if (_.isEmpty(_.get(formData, 'mailingAddress.postalCode', {}))) {
       recordEvent({
         event: 'edu-0994--response-missing',

@@ -2,6 +2,7 @@ const { combineItemsInIndexedObject, getDrupalValue } = require('./helpers');
 
 const transform = entity => {
   const fieldTable = getDrupalValue(entity.fieldTable);
+
   return {
     entity: {
       entityType: 'paragraph',

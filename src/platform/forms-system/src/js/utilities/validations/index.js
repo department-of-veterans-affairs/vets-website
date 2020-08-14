@@ -21,6 +21,7 @@ export function isValidSSN(value) {
 
   const noBadSameDigitNumber = _.range(0, 10).every(i => {
     const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
+
     return !sameDigitRegex.test(value);
   });
 
@@ -51,11 +52,13 @@ export function isValidPartialDate(day, month, year) {
 
 export function isValidCurrentOrPastDate(day, month, year) {
   const momentDate = moment({ day, month: parseInt(month, 10) - 1, year });
+
   return momentDate.isSameOrBefore(moment().endOf('day'), 'day');
 }
 
 export function isValidCurrentOrFutureDate(day, month, year) {
   const momentDate = moment({ day, month: parseInt(month, 10) - 1, year });
+
   return momentDate.isSameOrAfter(moment().endOf('day'), 'day');
 }
 
@@ -65,6 +68,7 @@ export function isValidCurrentOrPastYear(value) {
 
 export function isValidCurrentOrFutureMonthYear(month, year) {
   const momentDate = moment({ month: parseInt(month, 10) - 1, year });
+
   return momentDate.isSameOrAfter(moment(), 'month');
 }
 
@@ -109,6 +113,7 @@ export function isValidRoutingNumber(value) {
 
     return weighted % 10 === 0;
   }
+
   return false;
 }
 
@@ -116,6 +121,7 @@ export function isValidPartialMonthYear(month, year) {
   if (typeof month === 'object') {
     throw new Error('Pass a month and a year to function');
   }
+
   if (month && (Number(month) > 12 || Number(month) < 1)) {
     return false;
   }
@@ -131,6 +137,7 @@ export function isValidPartialMonthYearInPast(month, year) {
     year,
     month: month ? parseInt(month, 10) - 1 : null,
   });
+
   return (
     !year ||
     (isValidPartialMonthYear(month, year) &&

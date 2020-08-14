@@ -38,6 +38,7 @@ class ConnectedAcctApp extends React.Component {
 
   render() {
     let connectedAccountsView;
+
     if (this.props.loading) {
       connectedAccountsView = (
         <LoadingIndicator message="Loading your connected accounts..." />
@@ -69,6 +70,7 @@ class ConnectedAcctApp extends React.Component {
 
 const mapStateToProps = state => {
   const user = selectUser(state);
+
   return {
     ...state.connectedAccounts,
     user,

@@ -25,6 +25,7 @@ class RatedDisabilityList extends React.Component {
   noDisabilityRatingContent(errorCode) {
     let status;
     let content;
+
     if (isServerError(errorCode)) {
       status = 'error';
       content = (
@@ -73,6 +74,7 @@ class RatedDisabilityList extends React.Component {
         </>
       );
     }
+
     return (
       <div className="vads-u-margin-y--5">
         <AlertBox content={content} status={status} isVisible />
@@ -88,6 +90,7 @@ class RatedDisabilityList extends React.Component {
           ? moment(d.effectiveDate).format('DD/MM/YYYY')
           : null,
       };
+
       return Object.assign({}, d, effectiveDate);
     });
   }
@@ -96,6 +99,7 @@ class RatedDisabilityList extends React.Component {
     if (!this.props.ratedDisabilities) {
       return <LoadingIndicator message="Loading your information..." />;
     }
+
     if (
       this.props?.ratedDisabilities?.errors ||
       this.props?.ratedDisabilities?.ratedDisabilities.length === 0
@@ -103,6 +107,7 @@ class RatedDisabilityList extends React.Component {
       // There are instances when a 200 response is received but evss sends an empty array.
       // In this scenario errorCode is explicitly set to 404 to ensure a defined value is passed to noDisabilityRatingContent
       const errorCode = this.props?.ratedDisabilities?.errors?.[0]?.code || 404;
+
       return (
         <div className="usa-width-one-whole">
           {this.noDisabilityRatingContent(errorCode)}

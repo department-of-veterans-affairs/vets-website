@@ -8,6 +8,7 @@ import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
 class DetailsPage extends React.Component {
   componentDidMount() {
     this.setTitle();
+
     if (!isTab(this.props.lastPage)) {
       if (!this.props.loading) {
         setUpPage();
@@ -26,6 +27,7 @@ class DetailsPage extends React.Component {
     ) {
       setUpPage(false);
     }
+
     if (this.props.loading !== prevProps.loading) {
       this.setTitle();
     }
@@ -39,6 +41,7 @@ class DetailsPage extends React.Component {
     const { claim, loading, synced } = this.props;
 
     let content = null;
+
     if (!loading) {
       content = (
         <dl className="claim-details">
@@ -84,6 +87,7 @@ class DetailsPage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,

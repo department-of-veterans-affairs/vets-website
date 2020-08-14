@@ -11,8 +11,10 @@ const notSetText = 'This information is not available right now.';
 
 const renderGender = gender => {
   let content = notSetText;
+
   if (gender === 'M') content = 'Male';
   else if (gender === 'F') content = 'Female';
+
   return content;
 };
 

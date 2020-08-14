@@ -93,6 +93,7 @@ class AuthMetrics {
 
   run = () => {
     this.reportSentryErrors();
+
     if (!hasSession()) this.recordGAAuthEvents();
   };
 }
@@ -144,6 +145,7 @@ export class AuthApp extends React.Component {
       !userProfile.verified
     ) {
       window.location.replace('/sign-in/verify');
+
       return;
     }
 

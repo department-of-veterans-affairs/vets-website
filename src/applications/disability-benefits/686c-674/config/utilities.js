@@ -18,6 +18,7 @@ const CLIENT_ERROR_REGEX = /^4\d{2}$/;
 export async function getData(apiRoute, options) {
   try {
     const response = await apiRequest(apiRoute, options);
+
     return response.data.attributes;
   } catch (error) {
     return error;
@@ -41,6 +42,7 @@ const customFormReplacer = (key, value) => {
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
+
     if (
       fields.length === 0 ||
       fields.every(field => value[field] === undefined)
@@ -62,6 +64,7 @@ const customFormReplacer = (key, value) => {
   // Clean up empty objects in arrays
   if (Array.isArray(value)) {
     const newValues = value.filter(v => !!stringifyFormReplacer(key, v));
+
     // If every item in the array is cleared, remove the whole array
     return newValues.length > 0 ? newValues : undefined;
   }
@@ -111,5 +114,6 @@ export function customTransformForSubmit(formConfig, form) {
     form,
   );
   const withoutViewFields = filterViewFields(withoutInactivePages);
+
   return JSON.stringify(withoutViewFields, customFormReplacer) || '{}';
 }

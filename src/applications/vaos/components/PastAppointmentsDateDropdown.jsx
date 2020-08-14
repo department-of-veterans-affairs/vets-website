@@ -8,6 +8,7 @@ export default function PastAppointmentsDateDropdown({
   options,
 }) {
   const [dateRangeIndex, updateDateRangeIndex] = useState(currentRange);
+
   return (
     <div className="vads-u-display--flex vads-u-margin-bottom--3 small-screen:vads-u-align-items--center vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
       <label

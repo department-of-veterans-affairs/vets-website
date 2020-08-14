@@ -96,6 +96,7 @@ export default class CalendarWidget extends Component {
       : [];
 
     const isInSelectedArray = isDateInSelectedArray(date, selectedDates);
+
     // If an option selection is required, don't add this date to selectedDates
     // array until an option is selected as well
     if (!isInSelectedArray && !this.props.additionalOptions?.required) {
@@ -148,6 +149,7 @@ export default class CalendarWidget extends Component {
       selectedDates,
       fieldName,
     );
+
     if (maxOptionSelections > 1) {
       if (alreadySelected) {
         selectedDates = removeDateOptionPairFromSelectedArray(

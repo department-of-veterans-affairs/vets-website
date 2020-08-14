@@ -14,10 +14,13 @@ function idGeneratorFactory(fileName) {
       .update(fileName + i)
       .digest('hex');
     i++;
+
     if (!existingIds.has(newId)) {
       existingIds.add(newId);
+
       return newId;
     }
+
     return idGenerator();
   };
 }
@@ -29,6 +32,7 @@ module.exports = (files, metalsmith, done) => {
     const { dom } = files[fileName];
     dom('script').each((index, scriptEl) => {
       const s = dom(scriptEl);
+
       // Only add nonce to inline scripts
       if (!s.attr('src')) {
         s.attr('nonce', CSP_NONCE);
@@ -38,6 +42,7 @@ module.exports = (files, metalsmith, done) => {
     const clickHandlers = [];
     dom('[onclick]').each((index, onClickEl) => {
       const o = dom(onClickEl);
+
       if (!o.attr('id')) {
         o.attr('id', generateNewId());
       }

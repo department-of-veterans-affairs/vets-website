@@ -16,6 +16,7 @@ export const normalizedInstitutionAttributes = attributes => {
   const zip = attributes.physicalZip
     ? attributes.physicalZip.toUpperCase()
     : attributes.physicalZip;
+
   return {
     ...attributes,
     name,
@@ -38,6 +39,7 @@ export const normalizedProgramAttributes = attributes => {
   const country = attributes.country
     ? attributes.country.toUpperCase()
     : attributes.country;
+
   return {
     ...attributes,
     description,

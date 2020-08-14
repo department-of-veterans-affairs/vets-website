@@ -45,6 +45,7 @@ export function getTypeName(appeal) {
         scope.setExtra('type', appeal.type);
         Sentry.captureMessage('appeals-unknown-type');
       });
+
       return null;
   }
 }
@@ -231,6 +232,7 @@ export function addStatusToIssues(issues) {
         status = 'open';
         break;
     }
+
     return { status, description: issue.description };
   });
 }
@@ -1044,6 +1046,7 @@ export function getEventContent(event) {
         scope.setExtra('eventType', event.type);
         Sentry.captureMessage('appeals-unknown-event');
       });
+
       return null;
   }
 }
@@ -1113,6 +1116,7 @@ export const makeDurationText = timeliness => {
       'vets_appeals_v2_helpers_makeDurationText_bad_timeliness_input',
     );
     Sentry.captureException(durationError);
+
     return durationText;
   }
 
@@ -1130,6 +1134,7 @@ export const makeDurationText = timeliness => {
     durationText.header = `${lowEst}–${highEst} months`;
     durationText.description = `between ${lowEst} and ${highEst} months`;
   }
+
   return durationText;
 };
 
@@ -1161,6 +1166,7 @@ export function getNextEvents(appeal) {
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc: {
       const socDuration = makeDurationText(details.socTimeliness);
+
       return {
         header: `What happens next depends on whether the Decision Review Officer has enough
           evidence to decide in your favor.`,
@@ -1214,6 +1220,7 @@ export function getNextEvents(appeal) {
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
         'MMMM D, YYYY',
       );
+
       return {
         header: `If you return a VA Form 9 within 60 days, what happens next depends on whether you
           also submit new evidence.`,
@@ -1261,6 +1268,7 @@ export function getNextEvents(appeal) {
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
         'MMMM D, YYYY',
       );
+
       return {
         header: 'What happens next depends on whether you submit new evidence.',
         events: [
@@ -1307,6 +1315,7 @@ export function getNextEvents(appeal) {
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
         'MMMM D, YYYY',
       );
+
       return {
         header: 'What happens next depends on whether you submit new evidence.',
         events: [
@@ -1353,6 +1362,7 @@ export function getNextEvents(appeal) {
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
         'MMMM D, YYYY',
       );
+
       return {
         header: 'What happens next depends on whether you submit new evidence.',
         events: [
@@ -1530,6 +1540,7 @@ export function getNextEvents(appeal) {
     case STATUS_TYPES.decisionInProgress: {
       const decisionTimeliness = details.decisionTimeliness || [1, 2];
       const decisionDuration = makeDurationText(decisionTimeliness);
+
       return {
         header: '', // intentionally empty
         events: [
@@ -1562,6 +1573,7 @@ export function getNextEvents(appeal) {
       };
     case STATUS_TYPES.remand: {
       const remandDuration = makeDurationText(details.remandTimeliness);
+
       return {
         header: '', // intentionally empty
         events: [
@@ -1607,6 +1619,7 @@ export function getNextEvents(appeal) {
       };
     case STATUS_TYPES.scReceived: {
       const duration = makeDurationText([4, 5]);
+
       return {
         header: '', // intentionally empty
         events: [
@@ -1627,6 +1640,7 @@ export function getNextEvents(appeal) {
     }
     case STATUS_TYPES.hlrReceived: {
       const duration = makeDurationText([4, 5]);
+
       return {
         header: '', // intentionally empty
         events: [
@@ -1703,6 +1717,7 @@ export function getAlertContent(alert, appealIsActive) {
   switch (type) {
     case ALERT_TYPES.form9Needed: {
       const formattedDueDate = formatDate(details.dueDate);
+
       return {
         title: `Return the VA Form 9 by ${formattedDueDate} in order to continue your appeal`,
         description: (
@@ -1726,6 +1741,7 @@ export function getAlertContent(alert, appealIsActive) {
     }
     case ALERT_TYPES.scheduledHearing: {
       const formattedDate = formatDate(details.date);
+
       return {
         title: <span>Your hearing is scheduled for {formattedDate}</span>,
         description: '', // intentionally empty
@@ -1736,6 +1752,7 @@ export function getAlertContent(alert, appealIsActive) {
     case ALERT_TYPES.hearingNoShow: {
       const formattedDate = formatDate(details.date);
       const formattedDueDate = formatDate(details.dueDate);
+
       return {
         title: `You missed your hearing on ${formattedDate}`,
         description: (
@@ -1768,6 +1785,7 @@ export function getAlertContent(alert, appealIsActive) {
     }
     case ALERT_TYPES.heldForEvidence: {
       const formattedDueDate = formatDate(details.dueDate);
+
       return {
         title: 'Your appeals case is being held open',
         description: (
@@ -1795,6 +1813,7 @@ export function getAlertContent(alert, appealIsActive) {
     }
     case ALERT_TYPES.evidentiaryPeriod: {
       const formattedDueDate = formatDate(details.dueDate);
+
       return {
         title: `Submit new evidence before ${formattedDueDate}`,
         description: (
@@ -1810,6 +1829,7 @@ export function getAlertContent(alert, appealIsActive) {
     }
     case ALERT_TYPES.rampEligible: {
       const formattedDate = formatDate(details.date);
+
       return {
         title:
           'This appeal is eligible for the Rapid Appeals Modernization Program',
@@ -1844,6 +1864,7 @@ export function getAlertContent(alert, appealIsActive) {
         ? 'is active at the Board of Veterans’ Appeals'
         : 'is closed';
       const formattedDate = formatDate(details.date);
+
       return {
         title:
           'This appeal is not eligible for the Rapid Appeals Modernization Program',
@@ -1891,6 +1912,7 @@ export function getAlertContent(alert, appealIsActive) {
       };
     case ALERT_TYPES.cavcOption: {
       const formattedDueDate = formatDate(details.dueDate);
+
       return {
         title: 'What if I disagree with my decision?',
         description: (
@@ -1929,6 +1951,7 @@ export function getAlertContent(alert, appealIsActive) {
       const formattedDecisionDate = formatDate(details.decisionDate);
       const formattedDueDate = formatDate(details.dueDate);
       const formattedCavcDueDate = formatDate(details.cavcDueDate);
+
       return {
         title: `What if I disagree with the ${formattedDecisionDate} decision?`,
         description: (
@@ -2061,6 +2084,7 @@ export const getErrorStatus = response => {
       Sentry.captureException(response);
     });
   }
+
   return response.errors && response.errors.length
     ? response.errors[0].status
     : UNKNOWN_STATUS;
@@ -2074,6 +2098,7 @@ export const getErrorStatus = response => {
  */
 const getAppealDate = appeal => {
   const { events } = appeal.attributes;
+
   return events && events.length ? events[events.length - 1].date : '0';
 };
 
@@ -2084,6 +2109,7 @@ const getAppealDate = appeal => {
  */
 const getClaimDate = claim => {
   const { phaseChangeDate } = claim.attributes;
+
   return phaseChangeDate || '0';
 };
 
@@ -2117,13 +2143,16 @@ export function sortByLastUpdated(item1, item2) {
   } else if (moment(lastUpdatedDate1).isBefore(lastUpdatedDate2)) {
     return 1;
   }
+
   return 0;
 }
 
 export function getVisibleRows(list, currentPage) {
   const currentIndex = (currentPage - 1) * ROWS_PER_PAGE;
+
   if (!list.length) {
     return list;
   }
+
   return list.slice(currentIndex, currentIndex + ROWS_PER_PAGE);
 }

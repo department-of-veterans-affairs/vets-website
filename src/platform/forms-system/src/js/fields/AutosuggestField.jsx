@@ -16,6 +16,7 @@ function getInput(input, uiSchema, schema) {
 
   if (typeof input !== 'object' && input) {
     const uiOptions = uiSchema['ui:options'];
+
     // When using this field in an array item, editing the item will throw an error
     //  if there uiOptions.label is undefined (as when we queryForResults), so we
     //  have to have this safety valve
@@ -28,6 +29,7 @@ function getInput(input, uiSchema, schema) {
     }
 
     const index = schema.enum.indexOf(input) >= 0;
+
     if (schema.enumNames && index >= 0) {
       return uiOptions.labels[input] || schema.enumNames[index];
     }
@@ -79,6 +81,7 @@ export default class AutosuggestField extends React.Component {
 
   getOptions = inputValue => {
     const getOptions = this.props.uiSchema['ui:options'].getOptions;
+
     if (getOptions) {
       getOptions(inputValue).then(this.setOptions);
     }
@@ -107,6 +110,7 @@ export default class AutosuggestField extends React.Component {
   getSuggestions = (options, value) => {
     if (value) {
       const uiOptions = this.props.uiSchema['ui:options'];
+
       return sortListByFuzzyMatch(value, options).slice(
         0,
         uiOptions.maxOptions,
@@ -131,12 +135,14 @@ export default class AutosuggestField extends React.Component {
 
   getItemFromInput = (inputValue, suggestions, uiOptions) => {
     let item = { widget: 'autosuggest', label: inputValue };
+
     // once the input is long enough, check for exactly matching strings so that we don't
     // force a user to click on an item when they've typed an exact match of a label
     if (inputValue && inputValue.length > 3) {
       const matchingItem = suggestions.find(
         suggestion => suggestion.label === inputValue,
       );
+
       if (matchingItem) {
         item = this.getFormData(matchingItem);
       }
@@ -160,6 +166,7 @@ export default class AutosuggestField extends React.Component {
   handleInputValueChange = inputValue => {
     if (inputValue !== this.state.input) {
       const uiOptions = this.props.uiSchema['ui:options'];
+
       if (uiOptions.queryForResults) {
         this.debouncedGetOptions(inputValue);
       }
@@ -187,6 +194,7 @@ export default class AutosuggestField extends React.Component {
   handleChange = selectedItem => {
     const value = this.getFormData(selectedItem);
     this.props.onChange(value);
+
     if (this.state.input !== selectedItem.label) {
       this.setState({
         input: selectedItem.label,

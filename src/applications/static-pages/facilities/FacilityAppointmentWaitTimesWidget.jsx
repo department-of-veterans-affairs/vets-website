@@ -18,6 +18,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     const time = waitTimes[serviceKey];
     // return waitTimes for service
     const waitTime = time[established ? 'established' : 'new'];
+
     return waitTime ? `${waitTime.toFixed(0)} days` : '';
   }
 
@@ -39,6 +40,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     const facility = this.props.facility.attributes;
     const service = this.props.service.split('(')[0];
     const serviceExists = facility.access.health[_.camelCase(service)];
+
     // check if this health service has a wait time associated with it
     if (serviceExists && (serviceExists.new || serviceExists.established)) {
       return (
@@ -106,6 +108,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
         </div>
       );
     }
+
     return <div />;
   }
 }

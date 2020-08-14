@@ -51,6 +51,7 @@ class ReviewChapters extends React.Component {
 
   handleEdit = (pageKey, editing, index = null) => {
     const fullPageKey = `${pageKey}${index === null ? '' : index}`;
+
     if (editing) {
       this.props.setViewedPages([fullPageKey]);
     }
@@ -59,6 +60,7 @@ class ReviewChapters extends React.Component {
 
   handleSetData = (...args) => {
     this.props.setData(...args);
+
     if (this.props.onSetData) {
       this.props.onSetData();
     }

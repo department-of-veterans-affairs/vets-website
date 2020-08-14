@@ -154,12 +154,15 @@ const getChatHours = facilityId => {
   const visn8Hours = '8:00 a.m. to 4:00 p.m., Monday through Friday';
   const visn23Hours = '7:30 a.m. to 4:30 p.m., Monday through Friday';
   const testHours = '9:00 a.m. to 5:00 p.m., Monday through Friday';
+
   if (visn8Systems.has(facilityId)) {
     return visn8Hours;
   }
+
   if (visn23Systems.has(facilityId)) {
     return visn23Hours;
   }
+
   return testHours;
 };
 

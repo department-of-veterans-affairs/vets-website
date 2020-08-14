@@ -161,6 +161,7 @@ class IDPage extends React.Component {
       showLoadingIndicator,
       showServerError,
     } = this.props;
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="We need some information before you can start your application" />
@@ -239,6 +240,7 @@ const mapStateToProps = state => {
     loginRequired,
     noESRRecordFound,
   } = state.hcaEnrollmentStatus;
+
   return {
     enrollmentStatus,
     form: state.form,

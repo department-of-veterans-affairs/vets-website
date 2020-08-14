@@ -65,6 +65,7 @@ function Docket({
   );
 
   let content;
+
   if (aod) {
     // AoD (Advanced on the Docket) should over-ride post-CAVC remand and default content
     content = (
@@ -93,6 +94,7 @@ function Docket({
     );
   } else {
     let yourPlaceText;
+
     if (frontOfDocket) {
       yourPlaceText = (
         <p>

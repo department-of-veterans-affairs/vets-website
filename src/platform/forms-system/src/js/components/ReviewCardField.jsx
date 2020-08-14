@@ -46,6 +46,7 @@ export default class ReviewCardField extends React.Component {
     }
 
     const acceptedTypes = ['object', 'array'];
+
     if (!acceptedTypes.includes(this.props.schema.type)) {
       throw new Error(
         `Unknown schema type in ReviewCardField. Expected one of [${acceptedTypes.join(
@@ -63,6 +64,7 @@ export default class ReviewCardField extends React.Component {
 
     // There are times when the data isn't invalid, but we want to start in edit mode anyhow
     let shouldStartInEdit = startInEditConfigOption;
+
     if (typeof startInEditConfigOption === 'function') {
       shouldStartInEdit = startInEditConfigOption(this.props.formData);
     }
@@ -91,6 +93,7 @@ export default class ReviewCardField extends React.Component {
 
   getTitle = () => {
     const { uiSchema, formData } = this.props;
+
     return typeof uiSchema['ui:title'] === 'function'
       ? uiSchema['ui:title'](formData)
       : uiSchema['ui:title'];
@@ -98,6 +101,7 @@ export default class ReviewCardField extends React.Component {
 
   getSubtitle = () => {
     const { uiSchema, formData } = this.props;
+
     return typeof uiSchema['ui:subtitle'] === 'function'
       ? uiSchema['ui:subtitle'](formData)
       : uiSchema['ui:subtitle'];
@@ -108,6 +112,7 @@ export default class ReviewCardField extends React.Component {
       uiSchema: { 'ui:description': description },
       formData,
     } = this.props;
+
     if (!description) {
       return null;
     }
@@ -235,11 +240,14 @@ export default class ReviewCardField extends React.Component {
     if (this.props.formContext.onReviewPage) {
       // Check the data type and use the appropriate review field
       const dataType = this.props.schema.type;
+
       if (dataType === 'object') {
         const { ObjectField } = this.props.registry.fields;
+
         return <ObjectField {...this.props} />;
       } else if (dataType === 'array') {
         const { ArrayField } = this.props.registry.fields;
+
         return <ArrayField {...this.props} />;
       }
 
@@ -391,6 +399,7 @@ export default class ReviewCardField extends React.Component {
         canCancel: true,
         oldData: this.props.formData,
       });
+
       if (this.props.uiSchema.saveClickTrackEvent) {
         recordEvent(this.props.uiSchema.saveClickTrackEvent);
       }

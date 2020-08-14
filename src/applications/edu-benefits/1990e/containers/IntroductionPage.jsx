@@ -35,6 +35,7 @@ export class IntroductionPage extends React.Component {
     const shouldWizardShow =
       shouldEduBenefits1990EWizardShow &&
       wizardStatus !== WIZARD_STATUS_COMPLETE;
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply to use transferred education benefits" />

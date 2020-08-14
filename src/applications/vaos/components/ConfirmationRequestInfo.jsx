@@ -8,6 +8,7 @@ import FacilityAddress from './FacilityAddress';
 
 function formatBestTime(bestTime) {
   const times = [];
+
   if (bestTime?.morning) {
     times.push('Morning');
   }

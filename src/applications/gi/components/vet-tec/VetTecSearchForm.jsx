@@ -60,6 +60,7 @@ class VetTecSearchForm extends React.Component {
     // prod flag for bah-8821
     if (environment.isProduction() && isMobileView()) {
       const field = document.getElementById(fieldId);
+
       if (field) {
         field.scrollIntoView();
       }
@@ -97,6 +98,7 @@ class VetTecSearchForm extends React.Component {
         checked: online,
       },
     ];
+
     return (
       <CheckboxGroup
         label="Learning Format"
@@ -112,6 +114,7 @@ class VetTecSearchForm extends React.Component {
       value: country.name,
       label: country.name,
     }));
+
     return (
       <Dropdown
         label="Country"

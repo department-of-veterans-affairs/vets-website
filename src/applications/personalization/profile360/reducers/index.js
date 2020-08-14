@@ -50,6 +50,7 @@ function vaProfile(state = initialState, action) {
     case PAYMENT_INFORMATION_SAVE_SUCCEEDED: {
       let newState = set('paymentInformation', action.response, state);
       newState = set('paymentInformationUiState.isEditing', false, newState);
+
       return set('paymentInformationUiState.isSaving', false, newState);
     }
 
@@ -76,6 +77,7 @@ function vaProfile(state = initialState, action) {
 
     case PAYMENT_INFORMATION_SAVE_FAILED: {
       const newState = set('paymentInformationUiState.isSaving', false, state);
+
       return set(
         'paymentInformationUiState.responseError',
         action.response,

@@ -102,6 +102,7 @@ function renderFooter(data) {
 
 function mountReactComponents(headerFooterData, commonStore) {
   const crisisModal = document.getElementById('modal-crisisline');
+
   if (crisisModal) {
     crisisModal.parentNode.removeChild(crisisModal);
   }

@@ -28,11 +28,13 @@ function getEditButton() {
   let editButton = view.queryByText(/add.*email address/i, {
     selector: 'button',
   });
+
   if (!editButton) {
     // Need to use `queryByRole` since the visible label is simply `Edit`, but
     // the aria-label is more descriptive
     editButton = view.queryByRole('button', { name: /edit.*email address/i });
   }
+
   return editButton;
 }
 

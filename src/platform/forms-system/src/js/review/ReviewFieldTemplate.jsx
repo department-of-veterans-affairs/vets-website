@@ -23,6 +23,7 @@ export default function ReviewFieldTemplate(props) {
 
   if (uiSchema?.['ui:options']?.hideEmptyValueInReview) {
     let value = children;
+
     if (typeof children !== 'undefined') {
       if ('props' in children) {
         value = children.props.formData;
@@ -30,6 +31,7 @@ export default function ReviewFieldTemplate(props) {
         value = children.value;
       }
     }
+
     if (typeof value === 'undefined' || value === null || value === '') {
       return null;
     }

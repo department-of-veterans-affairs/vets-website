@@ -40,6 +40,7 @@ describe('Verify VA file number actions: verifyVaFileNumber', () => {
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
       dispatchSpy(action);
+
       if (dispatchSpy.callCount === 2) {
         expect(dispatchSpy.secondCall.args[0].type).to.equal(
           VERIFY_VA_FILE_NUMBER_SUCCEEDED,
@@ -66,6 +67,7 @@ describe('Verify VA file number actions: verifyVaFileNumber', () => {
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
       dispatchSpy(action);
+
       if (dispatchSpy.callCount === 2) {
         expect(dispatchSpy.secondCall.args[0].type).to.equal(
           VERIFY_VA_FILE_NUMBER_FAILED,

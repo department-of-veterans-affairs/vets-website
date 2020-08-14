@@ -97,6 +97,7 @@ export class GiBillApp extends React.Component {
     } else {
       content = this.props.children;
     }
+
     return (
       <div className="gi-app">
         {(location.pathname === '/gi-bill-comparison-tool/' ||
@@ -135,6 +136,7 @@ GiBillApp.propTypes = {
 
 const mapStateToProps = state => {
   const { constants, preview, search } = state;
+
   return {
     constants,
     preview,

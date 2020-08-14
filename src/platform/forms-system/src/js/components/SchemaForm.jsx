@@ -114,6 +114,7 @@ class SchemaForm extends React.Component {
       formContext,
       trackingPrefix,
     } = props;
+
     return {
       formContext: Object.assign(
         {
@@ -152,6 +153,7 @@ class SchemaForm extends React.Component {
 
   validate(formData, errors) {
     const { schema, uiSchema, appStateData } = this.props;
+
     if (uiSchema) {
       uiSchemaValidate(
         errors,
@@ -163,6 +165,7 @@ class SchemaForm extends React.Component {
         appStateData,
       );
     }
+
     return errors;
   }
 

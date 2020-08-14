@@ -160,6 +160,7 @@ export function routeToPreviousAppointmentPage(router, current) {
 async function buildPreferencesDataAndUpdate(email) {
   const preferenceData = await getPreferences();
   const preferenceBody = createPreferenceBody(preferenceData, email);
+
   return updatePreferences(preferenceBody);
 }
 
@@ -168,6 +169,7 @@ async function getFacilityName(id) {
   const parents = await getParentFacilities([systemId]);
 
   const matchingParent = parents.find(parent => parent.institutionCode === id);
+
   if (matchingParent) {
     return matchingParent.authoritativeName;
   }

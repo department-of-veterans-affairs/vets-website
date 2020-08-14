@@ -59,6 +59,7 @@ export default class ArrayField extends React.Component {
   // that has not been released yet
   componentDidMount() {
     const { schema, formData = [], registry } = this.props;
+
     if (schema.minItems > 0 && formData.length === 0) {
       this.props.onChange(
         Array(schema.minItems).fill(
@@ -83,6 +84,7 @@ export default class ArrayField extends React.Component {
 
   getItemSchema(index) {
     const schema = this.props.schema;
+
     if (schema.items.length > index) {
       return schema.items[index];
     }
@@ -149,6 +151,7 @@ export default class ArrayField extends React.Component {
    */
   handleAdd() {
     const lastIndex = this.props.formData.length - 1;
+
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
@@ -334,6 +337,7 @@ export default class ArrayField extends React.Component {
                 </div>
               );
             }
+
             return (
               <div key={index} className="va-growable-background editable-row">
                 <div className="row small-collapse">

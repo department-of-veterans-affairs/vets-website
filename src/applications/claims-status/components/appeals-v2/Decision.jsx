@@ -25,6 +25,7 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
   let allowedBlock = null;
   let deniedBlock = null;
   let remandBlock = null;
+
   if (allowedIssues.length) {
     allowedBlock = (
       <div>
@@ -37,6 +38,7 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
       </div>
     );
   }
+
   if (deniedIssues.length) {
     deniedBlock = (
       <div>
@@ -49,6 +51,7 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
       </div>
     );
   }
+
   if (remandIssues.length) {
     remandBlock = (
       <div>

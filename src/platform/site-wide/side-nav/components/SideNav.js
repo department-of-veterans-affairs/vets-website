@@ -63,12 +63,14 @@ class SideNav extends Component {
     // Escape early if the item has children.
     if (hasChildren) {
       recordEvent({ event: 'nav-sidenav' });
+
       return;
     }
 
     // Track non-nested sidenav item click: https://github.com/department-of-veterans-affairs/va.gov-team/issues/7643
     if (depth === 2) {
       recordEvent({ event: 'nav-sidenav' });
+
       return;
     }
 

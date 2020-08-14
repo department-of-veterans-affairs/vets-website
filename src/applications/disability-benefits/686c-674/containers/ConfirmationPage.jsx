@@ -32,6 +32,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     let veteranFirstName = '';
     let veteranLastName = '';
+
     if (submission.data) {
       veteranFirstName = submission.data.veteranInformation.first;
       veteranLastName = submission.data.veteranInformation.last;

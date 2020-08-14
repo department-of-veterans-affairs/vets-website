@@ -15,9 +15,11 @@ class BetaApp extends React.Component {
 
   render() {
     if (this.props.loading) return null;
+
     if (this.props.isUserRegisteredForBeta) return this.props.children;
 
     document.location.replace(this.props.redirect);
+
     return null;
   }
 }
@@ -26,6 +28,7 @@ const mapStateToProps = (state, ownProps) => {
   const isServiceAvailable = createIsServiceAvailableSelector(
     ownProps.featureName,
   );
+
   return {
     loading: isProfileLoading(state),
     isUserRegisteredForBeta: isServiceAvailable(state),

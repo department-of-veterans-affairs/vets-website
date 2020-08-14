@@ -124,6 +124,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
     default:
       break;
   }
+
   return content;
 };
 

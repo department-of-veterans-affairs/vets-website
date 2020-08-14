@@ -77,6 +77,7 @@ export class EducationWizard extends React.Component {
       no: 'update',
       extend: 'stem-scholarship',
     };
+
     return formChangeMap[input] || null;
   };
 
@@ -86,6 +87,7 @@ export class EducationWizard extends React.Component {
       transferred: 'yes',
       fry: 'no with scholarship',
     };
+
     return formChangeMap[input] || null;
   };
 
@@ -94,6 +96,7 @@ export class EducationWizard extends React.Component {
       own: 'yes',
       other: 'no',
     };
+
     return formChangeMap[input] || null;
   };
 

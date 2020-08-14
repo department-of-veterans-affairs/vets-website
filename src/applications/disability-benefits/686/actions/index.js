@@ -11,6 +11,7 @@ export function verifyDisabilityRating() {
   return (dispatch, getState) => {
     const user = getState().user;
     const isVerified = user.profile && user.profile.verified;
+
     if (!isVerified) {
       return Promise.resolve();
     }

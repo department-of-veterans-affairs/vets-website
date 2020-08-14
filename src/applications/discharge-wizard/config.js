@@ -120,6 +120,7 @@ export const answerReview = (key, formValues) => {
       if (ans === '1991' && !formValues['3_dischargeMonth']) {
         return 'I was discharged before 1992';
       }
+
       return `I was discharged in ${dischargeMonth || ''} ${formValues[key]}`;
     case '7_courtMartial':
       return questionLabels[key][ans];
@@ -138,8 +139,10 @@ export const answerReview = (key, formValues) => {
         if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
           return 'I applied to the Board for Correction of Naval Records (BCNR).';
         }
+
         return 'I applied to a Board for Correction of Military Records (BCMR).';
       }
+
       return questionLabels[key][ans];
     default:
       return questionLabels[key][ans];

@@ -19,6 +19,7 @@ export function fetchRatedDisabilities() {
 
     if (response.errors) {
       const errorCode = response.errors[0].code;
+
       if (isServerError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-list-load-failed`,
@@ -50,6 +51,7 @@ export function fetchTotalDisabilityRating() {
 
     if (response.errors) {
       const errorCode = response.errors[0].code;
+
       if (isServerError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-combined-load-failed`,

@@ -16,12 +16,14 @@ export default function FinancialDisclosureDescription({
   pageKeys,
 }) {
   const unViewedPages = pageKeys.filter(key => !viewedPages.has(key));
+
   if (!unViewedPages.length) {
     return null;
   }
 
   const jumpToFirst = () => scrollToPage(unViewedPages[0]);
   let alertBody;
+
   if (unViewedPages.some(key => key.includes('spouse'))) {
     alertBody = (
       <div className="usa-alert-body">

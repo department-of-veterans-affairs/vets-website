@@ -59,6 +59,7 @@ export class ServiceAvailabilityBanner extends React.Component {
 
 const mapStateToProps = state => {
   const { serviceAvailability, uptimeRemaining } = state.post911GIBStatus;
+
   return {
     serviceAvailability,
     uptimeRemaining,

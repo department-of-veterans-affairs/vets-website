@@ -52,6 +52,7 @@ const HCAEnrollmentStatusFAQ = ({
       HCA_ENROLLMENT_STATUSES.deceased,
       HCA_ENROLLMENT_STATUSES.enrolled,
     ]).has(enrollmentStatus) === false;
+
   return (
     <>
       {getFAQContent(enrollmentStatus)}

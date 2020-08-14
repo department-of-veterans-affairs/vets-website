@@ -67,8 +67,10 @@ function completeVeteranInformation(client, data, root = 'root') {
       `select[name="${root}_veteranFullName_suffix"]`,
       data.veteranFullName.suffix,
     );
+
   if (data.relationship === 'spouse') {
     client.selectYesNo('root_spouseInfo_remarried', data.spouseInfo.remarried);
+
     if (data.spouseInfo.remarried) {
       client.fillDate(
         'root_spouseInfo_remarriageDate',
@@ -76,6 +78,7 @@ function completeVeteranInformation(client, data, root = 'root') {
       );
     }
   }
+
   if (data.veteranDateOfDeath) {
     client.fillDate('root_veteranDateOfDeath', data.veteranDateOfDeath);
   }
@@ -83,6 +86,7 @@ function completeVeteranInformation(client, data, root = 'root') {
 
 function completeApplicantInformation(client, data, prefix = 'relative') {
   const fullName = data[`${prefix}FullName`];
+
   if (fullName) {
     client
       .fill(`input[name="root_${prefix}FullName_first"]`, fullName.first)
@@ -92,9 +96,11 @@ function completeApplicantInformation(client, data, prefix = 'relative') {
   }
 
   const ssn = data[`${prefix}SocialSecurityNumber`];
+
   if (ssn) {
     client.fill(`input[name="root_${prefix}SocialSecurityNumber"]`, ssn);
   }
+
   if (data.relativeVaFileNumber) {
     client
       .fillCheckbox('input[name="root_view:noSSN"]')
@@ -109,6 +115,7 @@ function completeApplicantInformation(client, data, prefix = 'relative') {
   }
 
   const dob = data[`${prefix}DateOfBirth`];
+
   if (dob) {
     client.fillDate(`root_${prefix}DateOfBirth`, dob);
   }
@@ -132,6 +139,7 @@ function completeAdditionalBenefits(client, data) {
         : '#root_nonVaAssistanceNo',
     );
   }
+
   if (typeof data.civilianBenefitsAssistance !== 'undefined') {
     client.click(
       data.civilianBenefitsAssistance

@@ -32,6 +32,7 @@ export function loadConnectedApps() {
         type: FINISHED_LOADING_CONNECTED_APPS,
         data: mockConnectedApps,
       });
+
       return;
     }
 
@@ -61,6 +62,7 @@ export function deleteConnectedApp(appId) {
     if (environment.isLocalhost() && !window.Cypress) {
       await new Promise(resolve => setTimeout(resolve, 2000));
       dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId });
+
       return;
     }
 

@@ -48,6 +48,7 @@ class ValidateMHVAccount extends React.Component {
     if (!profile.verified) {
       recordEvent({ event: `${gaPrefix}-info-needs-identity-verification` });
       router.replace('verify');
+
       return;
     }
 
@@ -59,21 +60,26 @@ class ValidateMHVAccount extends React.Component {
       recordEvent({
         event: `${gaPrefix}-error-mvi-error-${hyphenatedMviStatus}`,
       });
+
       if (mviStatus === MVI_ERROR_STATES.NOT_AUTHORIZED) {
         router.replace('verify');
+
         return;
       }
       router.replace(`error/mvi-error-${hyphenatedMviStatus}`);
+
       return;
     }
 
     if (mhvAccountIdState === 'DEACTIVATED') {
       recordEvent({ event: `${gaPrefix}-error-has-deactivated-mhv-ids` });
       router.replace(`error/has-deactivated-mhv-ids`);
+
       return;
     } else if (!isVaPatient) {
       recordEvent({ event: `${gaPrefix}-error-needs-va-patient` });
       router.replace(`error/needs-va-patient`);
+
       return;
     }
     window.location = mhvUrl(true, 'home');
@@ -84,9 +90,11 @@ class ValidateMHVAccount extends React.Component {
     const { accountLevel, accountState } = mhvAccount;
     const hyphenatedAccountState = accountState.replace(/_/g, '-');
     const gaPrefix = 'register-mhv';
+
     if (!profile.verified) {
       recordEvent({ event: `${gaPrefix}-info-needs-identity-verification` });
       router.replace('verify');
+
       return;
     }
 
@@ -98,15 +106,19 @@ class ValidateMHVAccount extends React.Component {
       recordEvent({
         event: `${gaPrefix}-error-mvi-error-${hyphenatedMviStatus}`,
       });
+
       if (mviStatus === MVI_ERROR_STATES.NOT_AUTHORIZED) {
         router.replace('verify');
+
         return;
       }
       router.replace(`error/mvi-error-${hyphenatedMviStatus}`);
+
       return;
     } else if (mhvAccount.errors) {
       recordEvent({ event: `${gaPrefix}-error-mhv-down` });
       router.replace('error/mhv-error');
+
       return;
     }
 
@@ -125,9 +137,11 @@ class ValidateMHVAccount extends React.Component {
     switch (accountState) {
       case ACCOUNT_STATES.NEEDS_VERIFICATION:
         router.replace('verify');
+
         return;
       case ACCOUNT_STATES.NEEDS_TERMS_ACCEPTANCE:
         this.redirectToTermsAndConditions();
+
         return;
       case ACCOUNT_STATES.DEACTIVATED_MHV_IDS:
       case ACCOUNT_STATES.MULTIPLE_IDS:
@@ -136,6 +150,7 @@ class ValidateMHVAccount extends React.Component {
       case ACCOUNT_STATES.UPGRADE_FAILED:
       case ACCOUNT_STATES.NEEDS_VA_PATIENT:
         router.replace(`error/${hyphenatedAccountState}`);
+
         return;
       default:
         break;
@@ -183,6 +198,7 @@ class ValidateMHVAccount extends React.Component {
 const mapStateToProps = state => {
   const profile = selectProfile(state);
   const { mhvAccount, status, vaPatient, mhvAccountState } = profile;
+
   return {
     mhvAccount,
     mviStatus: status,

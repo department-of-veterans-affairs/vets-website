@@ -186,6 +186,7 @@ export class AdditionalInformation extends React.Component {
       // Match a digit if it’s followed by 3 other digits,
       // appending a comma to each match.
       const regex = /\d(?=(\d{3})+$)/g;
+
       return ['$', [str[0].replace(regex, '$&,'), str[1]].join('.')]
         .join('')
         .replace('$-', '-$');
@@ -196,6 +197,7 @@ export class AdditionalInformation extends React.Component {
       // Match a digit if it’s followed by 3 other digits,
       // appending a comma to each match.
       const regex = /\d(?=(\d{3})+$)/g;
+
       return str.replace(regex, '$&,');
     };
 

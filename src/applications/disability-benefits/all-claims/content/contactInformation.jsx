@@ -10,6 +10,7 @@ const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const firstPhoneString = phoneNumber.slice(0, midBreakpoint);
 
   const phoneString = `${firstPhoneString}-${middlePhoneString}-${lastPhoneString}`;
+
   return (
     <p>
       <strong>{name}</strong>: {phoneString}
@@ -27,6 +28,7 @@ const EffectiveDateViewField = ({ formData }) => {
   const { from, to } = formData;
   const dateFormat = 'MMM D, YYYY';
   const fromDateString = moment(from).format(dateFormat);
+
   return to ? (
     <p>
       We’ll use this address starting on {fromDateString} until{' '}
@@ -39,6 +41,7 @@ const EffectiveDateViewField = ({ formData }) => {
 
 export const ForwardingAddressViewField = ({ formData }) => {
   const { effectiveDate } = formData;
+
   return (
     <div>
       <EffectiveDateViewField formData={effectiveDate} />
@@ -49,6 +52,7 @@ export const ForwardingAddressViewField = ({ formData }) => {
 
 export const phoneEmailViewField = ({ formData }) => {
   const { primaryPhone, emailAddress } = formData;
+
   return (
     <div>
       <PhoneViewField formData={primaryPhone} name="Primary phone" />

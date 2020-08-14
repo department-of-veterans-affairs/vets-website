@@ -9,6 +9,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 const Form686CTA = props => {
   let content;
+
   if (props.showContent === undefined) {
     content = <LoadingIndicator message="Loading..." />;
   } else if (props.showContent === false) {
@@ -23,6 +24,7 @@ const Form686CTA = props => {
   } else {
     content = <CallToActionWidget appId="add-remove-dependents" />;
   }
+
   return <div>{content}</div>;
 };
 

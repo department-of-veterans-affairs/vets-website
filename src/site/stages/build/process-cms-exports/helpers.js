@@ -38,6 +38,7 @@ function getContentModelType(entity) {
     (foundType, tp) => foundType || get(entity, `${tp}[0].target_id`),
     null,
   );
+
   return [entity.baseType, subType].filter(x => x).join('-');
 }
 
@@ -65,6 +66,7 @@ function addCommonProperties(entity, baseType, uuid) {
     contentModelType,
     entityBundle,
   });
+
   return newEntity;
 }
 
@@ -92,6 +94,7 @@ module.exports = {
         const exp = require(path.join(dir, fileName));
         // eslint-disable-next-line no-param-reassign
         t[contentModelType] = prop ? exp[prop] : exp;
+
         return t;
       }, {});
   },
@@ -138,6 +141,7 @@ module.exports = {
         .readFileSync(path.join(dir, `${baseType}.${uuid}.json`))
         .toString('utf8'),
     );
+
     return addCommonProperties(entity, baseType, uuid);
   },
 

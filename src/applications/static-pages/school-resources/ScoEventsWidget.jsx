@@ -32,6 +32,7 @@ export default class ScoEventsWidget extends React.Component {
         'MMMM, D Y',
       )}`;
     }
+
     return spansMonths
       ? `${startDate.format('MMMM D')} - ${endDate.format(
           'MMMM D',
@@ -97,6 +98,7 @@ export default class ScoEventsWidget extends React.Component {
           <p>No new events are available at this time.</p>
         </li>
       );
+
     return (
       <ul id="get" className="hub-page-link-list">
         {scoEvents}

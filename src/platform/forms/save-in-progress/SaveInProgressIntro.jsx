@@ -222,14 +222,17 @@ class SaveInProgressIntro extends React.Component {
         </div>
       );
     }
+
     return alert;
   };
 
   getStartPage = () => {
     const { pageList, pathname, formData } = this.props;
     const data = formData || {};
+
     // pathname is only provided when the first page is conditional
     if (pathname) return getNextPagePath(pageList, data, pathname);
+
     return pageList[1].path;
   };
 
@@ -266,6 +269,7 @@ class SaveInProgressIntro extends React.Component {
     );
     let expiresAt;
     let isExpired;
+
     if (savedForm) {
       expiresAt = moment.unix(savedForm.metadata.expiresAt);
       isExpired = expiresAt.isBefore();

@@ -20,6 +20,7 @@ export class KeywordSearch extends React.Component {
 
   handleKeyUp = e => {
     const { onFilterChange, autocomplete } = this.props;
+
     if ((e.which || e.keyCode) === KEY_CODES.enterKey) {
       e.target.blur();
       onFilterChange(autocomplete.searchTerm);
@@ -29,6 +30,7 @@ export class KeywordSearch extends React.Component {
   handleChange = (e, searchQuery) => {
     if (e) {
       let value;
+
       if (typeof e === 'string') {
         value = e;
       } else {
@@ -37,6 +39,7 @@ export class KeywordSearch extends React.Component {
       this.props.onUpdateAutocompleteSearchTerm(value);
       this.handleFetchSuggestion({ value });
     }
+
     if (searchQuery) {
       this.props.onUpdateAutocompleteSearchTerm(searchQuery);
       this.handleFetchSuggestion({ searchQuery });
@@ -68,6 +71,7 @@ export class KeywordSearch extends React.Component {
     const { suggestions, searchTerm } = this.props.autocomplete;
     let errorSpan = '';
     let searchClassName = 'keyword-search';
+
     if (this.props.searchError) {
       searchClassName = 'usa-input-error';
       errorSpan = (
@@ -81,6 +85,7 @@ export class KeywordSearch extends React.Component {
         </span>
       );
     }
+
     return (
       <div className={searchClassName} id="keyword-search">
         <label
@@ -98,6 +103,7 @@ export class KeywordSearch extends React.Component {
             if (typeof item === 'string' || !item) {
               return item;
             }
+
             return item.label;
           }}
         >

@@ -45,6 +45,7 @@ export class InstitutionProfile extends React.Component {
       gibctCh33BenefitRateUpdate,
       gibctFilterEnhancement,
     } = this.props;
+
     return (
       <div>
         <HeadingSummary

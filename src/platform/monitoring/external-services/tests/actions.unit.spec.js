@@ -36,6 +36,7 @@ describe('External services actions', () => {
 
       mockApiRequest(response);
       const dispatch = sinon.spy();
+
       return getBackendStatuses()(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(
           LOADING_BACKEND_STATUSES,
@@ -54,6 +55,7 @@ describe('External services actions', () => {
 
       mockApiRequest(response, false);
       const dispatch = sinon.spy();
+
       return getBackendStatuses()(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(
           LOADING_BACKEND_STATUSES,

@@ -34,6 +34,7 @@ function formatYear(val) {
   }
 
   const yearDate = moment(val, 'YYYY');
+
   if (!yearDate.isValid()) {
     return 'XXXX';
   }
@@ -79,6 +80,7 @@ export function showSomeoneElseServiceQuestion(claimType) {
 export function hasServiceBefore1978(data) {
   return data.toursOfDuty.some(tour => {
     const fromDate = dateToMoment(tour.dateRange.from);
+
     return fromDate.isValid() && fromDate.isBefore('1978-01-02');
   });
 }
@@ -88,6 +90,7 @@ export function hasServiceBefore1977(data) {
     data.toursOfDuty &&
     data.toursOfDuty.some(tour => {
       const fromDate = moment(tour.dateRange.from);
+
       return fromDate.isValid() && fromDate.isBefore('1977-01-02');
     })
   );

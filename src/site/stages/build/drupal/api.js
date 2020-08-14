@@ -19,6 +19,7 @@ const entityTreeFactory = require('../process-cms-exports');
 
 function encodeCredentials({ user, password }) {
   const credentials = `${user}:${password}`;
+
   return Buffer.from(credentials).toString('base64');
 }
 
@@ -179,6 +180,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
 
     getNonNodeContent(onlyPublishedContent = true) {
       say('Querying for non-node content');
+
       return this.query({
         query: getQuery(queries.GET_ALL_PAGES, { useTomeSync: true }),
         variables: {

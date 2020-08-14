@@ -11,6 +11,7 @@ export const treatmentView = ({ formData }) => {
 
   const name = formData.treatmentCenterName || '';
   let treatmentPeriod = '';
+
   if (from && to) {
     treatmentPeriod = formatDateRange(
       { from: replaceDay(from), to: replaceDay(to) },

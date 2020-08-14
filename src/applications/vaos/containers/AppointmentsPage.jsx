@@ -51,6 +51,7 @@ export class AppointmentsPage extends Component {
     }
 
     document.title = `${pageTitle} | Veterans Affairs`;
+
     if (
       this.props.expressCare.enabled &&
       this.props.expressCare.windowsStatus === FETCH_STATUS.notStarted

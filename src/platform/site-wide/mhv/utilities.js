@@ -21,10 +21,13 @@ const mhvToEauthRoutes = {
 // 3. The specific MHV path being accessed
 function mhvUrl(authenticatedWithSSOe, path) {
   const normPath = path.startsWith('/') ? path.substring(1) : path;
+
   if (authenticatedWithSSOe) {
     const eauthDeepLink = mhvToEauthRoutes[normPath];
+
     return `https://${eauthPrefix}eauth.va.gov/mhv-portal-web/${eauthDeepLink}`;
   }
+
   return `https://${mhvPrefix}.myhealth.va.gov/mhv-portal-web/${normPath}`;
 }
 
@@ -32,6 +35,7 @@ function mhvUrl(authenticatedWithSSOe, path) {
 // after assessing its use in platform/utilities/environment/stagingDomains
 const mhvBaseUrl = () => {
   const mhvSubdomain = environment.isProduction() ? 'www' : 'mhv-syst';
+
   return `https://${mhvSubdomain}.myhealth.va.gov`;
 };
 

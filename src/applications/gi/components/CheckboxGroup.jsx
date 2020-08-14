@@ -22,8 +22,10 @@ class CheckboxGroup extends React.Component {
 
   renderOptions = () => {
     const options = Array.isArray(this.props.options) ? this.props.options : [];
+
     return options.map((option, index) => {
       const { checked, label, name, learnMore } = option;
+
       return (
         <div key={index} className="form-checkbox">
           <input

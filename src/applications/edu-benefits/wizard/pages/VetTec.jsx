@@ -34,6 +34,7 @@ const VetTec = ({
       const nationalCallToServiceAnswer = getPageStateFromPageName(
         pageNames.nationalCallToService,
       )?.selected;
+
       if (
         claimingBenefitOwnServiceAnswer === 'yes' &&
         nationalCallToServiceAnswer === 'no' &&
@@ -41,6 +42,7 @@ const VetTec = ({
       ) {
         const { FORM_ID_0994 } = formIdSuffixes;
         setReferredBenefit(FORM_ID_0994);
+
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (
         claimingBenefitOwnServiceAnswer === 'yes' &&
@@ -49,6 +51,7 @@ const VetTec = ({
       ) {
         const { FORM_ID_1990 } = formIdSuffixes;
         setReferredBenefit(FORM_ID_1990);
+
         return setPageState({ selected: value }, pageNames.applyNow);
       } else {
         return setPageState({ selected: value });

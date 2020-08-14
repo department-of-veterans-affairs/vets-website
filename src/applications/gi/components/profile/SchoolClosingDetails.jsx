@@ -17,6 +17,7 @@ const SchoolClosingDetails = ({
     const headline = isFutureClosing
       ? 'School will be closing soon'
       : 'School has closed';
+
     return (
       <AlertBox
         content={
@@ -46,6 +47,7 @@ const SchoolClosingDetails = ({
       />
     );
   }
+
   return null;
 };
 

@@ -28,6 +28,7 @@ export const updateQueryParams = (
     // Set the query param.
     if (value) {
       queryParams.set(key, value);
+
       return;
     }
 

@@ -37,6 +37,7 @@ export default function startReactApp(component, root = null) {
   };
 
   let mountElement = root;
+
   if (!mountElement) {
     mountElement = document.getElementById('react-root');
   }

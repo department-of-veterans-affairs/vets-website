@@ -49,6 +49,7 @@ describe('HCA actions', () => {
           },
         });
         mockApiRequest(mockData);
+
         return getEnrollmentStatus()(dispatch, getState).then(() => {
           expect(dispatch.firstCall.args[0].type).to.equal(
             FETCH_ENROLLMENT_STATUS_STARTED,
@@ -70,6 +71,7 @@ describe('HCA actions', () => {
           },
         });
         mockApiRequest(mockData, false);
+
         return getEnrollmentStatus()(dispatch, getState).then(() => {
           expect(dispatch.firstCall.args[0].type).to.equal(
             FETCH_ENROLLMENT_STATUS_STARTED,
@@ -109,6 +111,7 @@ describe('HCA actions', () => {
           lastName: 'Smith',
           ssn: '123-12-1234',
         };
+
         return getEnrollmentStatus(formData)(dispatch, getState).then(() => {
           expect(global.fetch.firstCall.args[0]).to.contain(
             'health_care_applications/enrollment_status',
@@ -142,6 +145,7 @@ describe('HCA actions', () => {
       it('should dispatch a fetch succeeded action with data', () => {
         const mockData = { data: 'data' };
         mockApiRequest(mockData);
+
         return getDismissedHCANotification()(dispatch).then(() => {
           expect(dispatch.firstCall.args[0].type).to.equal(
             FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
@@ -158,6 +162,7 @@ describe('HCA actions', () => {
       it('should dispatch a fetch failed action', () => {
         const mockData = { data: 'data' };
         mockApiRequest(mockData, false);
+
         return getDismissedHCANotification()(dispatch).then(() => {
           expect(dispatch.firstCall.args[0].type).to.equal(
             FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,

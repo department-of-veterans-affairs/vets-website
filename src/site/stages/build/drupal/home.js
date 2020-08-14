@@ -30,6 +30,7 @@ function addHomeContent(contentData, files, metalsmith, buildOptions) {
             endRow: true,
           };
         }
+
         return hub;
       },
     );

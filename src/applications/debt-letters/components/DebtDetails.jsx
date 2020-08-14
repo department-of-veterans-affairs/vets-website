@@ -18,6 +18,7 @@ const DebtDetails = ({ selectedDebt }) => {
     currency: 'USD',
     minimumFractionDigits: 2,
   });
+
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
       <Breadcrumbs className="vads-u-font-family--sans">

@@ -88,6 +88,7 @@ function createMockRoutes(token) {
   for (const route of routes) {
     promises.push(createMockEndpoint(token, route));
   }
+
   return Promise.all(promises);
 }
 

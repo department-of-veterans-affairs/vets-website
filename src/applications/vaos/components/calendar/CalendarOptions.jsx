@@ -104,5 +104,6 @@ export default function CalendarOptions({
       </div>
     );
   }
+
   return null;
 }

@@ -7,6 +7,7 @@ import FormQuestions from '../components/FormQuestions';
 class FormPage extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
+
     if (!sessionStorage.getItem('dw-session-started')) {
       this.props.router.push('/');
     }

@@ -35,6 +35,7 @@ class InitializeVet360ID extends React.Component {
     const method = 'POST';
     const body = null;
     const analytics = ANALYTICS_FIELD_MAP.INIT_VET360_ID;
+
     return this.props.createTransaction(
       route,
       method,
@@ -98,6 +99,7 @@ const mapStateToProps = state => {
     transaction,
     transactionRequest,
   } = selectVet360InitializationStatus(state);
+
   return {
     status,
     transaction,

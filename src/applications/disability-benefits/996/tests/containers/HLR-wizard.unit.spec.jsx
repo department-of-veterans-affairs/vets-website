@@ -8,6 +8,7 @@ import { HLRWizard, name } from '../../components/HLRWizard';
 const getSelected = (tree, group) => {
   // return tree.subTree(`.higher-level-review-${name}`).props.value.value;
   const buttons = tree.everySubTree('ErrorableRadioButtons');
+
   return buttons.find(
     button => button.props.id === `higher-level-review-${group}`,
   )?.props.value?.value;

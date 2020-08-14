@@ -29,6 +29,7 @@ export default function ClaimDetailLayout(props) {
 
   let bodyContent;
   let headingContent;
+
   if (loading) {
     bodyContent = (
       <LoadingIndicator setFocus message="Loading your claim information..." />

@@ -6,6 +6,7 @@ const getEligibilityDetails = state => state.eligibility;
 
 const getRequiredAttributes = (state, props) => {
   const { type, bah, dodBah, country } = props;
+
   return {
     type: type && type.toLowerCase(),
     bah,
@@ -68,6 +69,7 @@ export function getDerivedAttributes(constant, eligibility, institution) {
       break;
     case 1606:
       monthlyRate = constant.SRRATE;
+
       if (isOJT) {
         monthlyRate *= 0.75;
       }
@@ -120,33 +122,40 @@ function calculateTuition(constant, eligibility, institution, derived) {
   if (derived.oldGiBill) {
     return { qualifier: 'per year', value: 0 };
   }
+
   if (institution.type === 'ojt') {
     return { qualifier: null, value: 'N/A' };
   }
+
   if (derived.chapter === 31) {
     if (derived.isFlightOrCorrespondence) {
       return { qualifier: 'per year', value: 0 };
     }
+
     return { qualifier: null, value: 'Full Cost' };
   }
+
   if (institution.type === 'flight') {
     return {
       qualifier: 'per year',
       value: Math.round(constant.FLTTFCAP * derived.tier),
     };
   }
+
   if (institution.type === 'correspondence') {
     return {
       qualifier: 'per year',
       value: Math.round(constant.CORRESPONDTFCAP * derived.tier),
     };
   }
+
   if (institution.type === 'public') {
     return {
       qualifier: '% of instate tuition',
       value: Math.round(100 * derived.tier),
     };
   }
+
   return {
     qualifier: 'per year',
     value: Math.round(constant.TFCAP * derived.tier),
@@ -157,33 +166,40 @@ function calculateHousing(constant, eligibility, institution, derived) {
   if (derived.chapter === 31 && derived.isFlightOrCorrespondence) {
     return { qualifier: 'per month', value: 0 };
   }
+
   if (derived.oldGiBill || derived.onlyVRE) {
     return { qualifier: 'per month', value: Math.round(derived.monthlyRate) };
   }
+
   if (eligibility.militaryStatus === 'active duty') {
     return { qualifier: 'per month', value: 0 };
   }
+
   if (
     eligibility.militaryStatus === 'spouse' &&
     eligibility.spouseActiveDuty === 'yes'
   ) {
     return { qualifier: 'per month', value: 0 };
   }
+
   if (derived.isFlightOrCorrespondence) {
     return { qualifier: 'per month', value: 0 };
   }
+
   if (eligibility.onlineClasses === 'yes') {
     return {
       qualifier: 'per month',
       value: Math.round((derived.tier * derived.averageBah) / 2),
     };
   }
+
   if (institution.country !== 'usa') {
     return {
       qualifier: 'per month',
       value: Math.round(derived.tier * derived.averageBah),
     };
   }
+
   return {
     qualifier: 'per month',
     value: Math.round(derived.tier * derived.bah),
@@ -194,9 +210,11 @@ function calculateBooks(constant, eligibility, institution, derived) {
   if (derived.oldGiBill || derived.isFlightOrCorrespondence) {
     return { qualifier: 'per year', value: 0 };
   }
+
   if (derived.chapter === 31) {
     return { qualifier: null, value: 'Full Cost' };
   }
+
   return { qualifier: 'per year', value: derived.tier * constant.BSCAP };
 }
 

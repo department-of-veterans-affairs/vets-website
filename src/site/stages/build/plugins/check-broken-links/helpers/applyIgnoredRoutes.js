@@ -11,6 +11,7 @@ function isAspPage(target) {
 
 function isReactPage(reactLandingPages, target) {
   if (!target) return false;
+
   return reactLandingPages.some(reactPath => target.startsWith(reactPath));
 }
 

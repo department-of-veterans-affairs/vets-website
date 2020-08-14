@@ -116,6 +116,7 @@ function identifyAdditions(diffLines) {
       return output;
     }
     const match = line.match(/\+\+\+ (b\/)?(.*$)/);
+
     if (match) {
       path = match[2];
     } else if (inNewFile && /@@ .* @@.*/.test(line)) {
@@ -132,6 +133,7 @@ function identifyAdditions(diffLines) {
       position++;
     }
     inNewFile = !!match;
+
     return output;
   }, []);
 }

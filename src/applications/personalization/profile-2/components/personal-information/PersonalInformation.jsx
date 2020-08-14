@@ -29,6 +29,7 @@ const PersonalInformation = ({
       // or /profile/ we want to focus on the "Your Profile" sub-nav H1, not the
       // H2 on this page
       const pathRegExp = new RegExp(`${PROFILE_PATHS.PROFILE_ROOT}/?$`);
+
       if (lastLocation?.pathname.match(new RegExp(pathRegExp))) {
         return;
       }
@@ -42,6 +43,7 @@ const PersonalInformation = ({
       // Show alert when navigating away
       if (hasUnsavedEdits) {
         window.onbeforeunload = () => true;
+
         return;
       }
 

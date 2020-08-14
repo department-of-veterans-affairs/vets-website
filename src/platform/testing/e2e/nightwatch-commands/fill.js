@@ -7,6 +7,7 @@
  */
 exports.command = function fill(selector, value, callback) {
   this.removeText(selector);
+
   if (typeof value !== 'undefined') {
     // When callback is passed as undefined, setValue assumes selector is the locating strategy
     if (typeof callback !== 'undefined') {

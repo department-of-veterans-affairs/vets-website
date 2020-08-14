@@ -37,6 +37,7 @@ export class SearchPage extends React.Component {
   componentDidMount() {
     let title = 'Search Results';
     const searchTerm = this.props.autocomplete.term;
+
     if (searchTerm) {
       title += ` - ${searchTerm}`;
     }
@@ -151,6 +152,7 @@ export class SearchPage extends React.Component {
       [field]: value,
       name: value === undefined ? field : this.props.autocomplete.searchTerm,
     };
+
     // Don’t update the route if the query hasn’t changed.
     if (
       _.isEqual(query, this.props.location.query) ||
@@ -178,9 +180,11 @@ export class SearchPage extends React.Component {
     if (field === 'gender') {
       delete query?.menonly;
       delete query?.womenonly;
+
       if (value === 'womenonly') {
         query = { ...query, womenonly: 'true' };
       }
+
       if (value === 'menonly') {
         query = { ...query, menonly: 'true' };
       }

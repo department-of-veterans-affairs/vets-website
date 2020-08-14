@@ -26,6 +26,7 @@ function createQueryString(query) {
 
 export function createUrlWithQuery(url, query) {
   const queryString = createQueryString(query);
+
   return queryString ? `${url}?${queryString}` : url;
 }
 

@@ -38,6 +38,7 @@ const defaultMessages = {
 
 function getMessage(path, name, uiSchema, errorArgument) {
   let pathSpecificMessage;
+
   if (path === 'instance') {
     pathSpecificMessage = _.get(['ui:errorMessages', name], uiSchema);
   } else {
@@ -70,6 +71,7 @@ export function transformErrors(errors, uiSchema) {
   return errors.map(error => {
     if (error.name === 'required') {
       const path = `${error.property}.${error.argument}`;
+
       return _.assign(error, {
         property: path,
         message: getMessage(path, error.name, uiSchema, error.argument),
@@ -82,6 +84,7 @@ export function transformErrors(errors, uiSchema) {
       uiSchema,
       error.argument,
     );
+
     if (newMessage) {
       return _.set('message', newMessage, error);
     }
@@ -138,6 +141,7 @@ export function uiSchemaValidate(
 ) {
   if (uiSchema && schema) {
     const currentData = path !== '' ? _.get(path, formData) : formData;
+
     if (uiSchema.items && currentData) {
       currentData.forEach((item, index) => {
         const newPath = `${path}[${index}]`;
@@ -145,6 +149,7 @@ export function uiSchemaValidate(
           index < schema.items.length
             ? schema.items[index]
             : schema.additionalItems;
+
         if (!_.get(newPath, errors)) {
           const currentErrors = path ? _.get(path, errors) : errors;
           currentErrors[index] = {
@@ -169,6 +174,7 @@ export function uiSchemaValidate(
         .filter(prop => !prop.startsWith('ui:'))
         .forEach(item => {
           const nextPath = path !== '' ? `${path}.${item}` : item;
+
           if (!_.get(nextPath, errors)) {
             const currentErrors = path === '' ? errors : _.get(path, errors);
 
@@ -192,9 +198,11 @@ export function uiSchemaValidate(
     }
 
     const validations = uiSchema['ui:validations'];
+
     if (validations && currentData !== undefined) {
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
+
         if (typeof validation === 'function') {
           validation(
             pathErrors,
@@ -220,6 +228,7 @@ export function uiSchemaValidate(
       });
     }
   }
+
   return errors;
 }
 
@@ -254,6 +263,7 @@ export function isValidForm(form, pageList) {
 
       if (showPagePerItem) {
         const arrayData = formData[arrayPath];
+
         if (arrayData) {
           formData = _.set(
             arrayPath,
@@ -303,6 +313,7 @@ export function validateSSN(errors, ssn) {
 
 export function validateDate(errors, dateString) {
   const { day, month, year } = parseISODate(dateString);
+
   if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
   }
@@ -310,6 +321,7 @@ export function validateDate(errors, dateString) {
 
 export function validateMonthYear(errors, dateString) {
   const { month, year } = parseISODate(dateString);
+
   if (!isValidPartialMonthYear(month, year)) {
     errors.addError('Please provide a valid date');
   }
@@ -332,6 +344,7 @@ export function validateCurrentOrPastDate(
   } = errorMessages;
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
+
   if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);
   }
@@ -354,6 +367,7 @@ export function validateCurrentOrFutureDate(
   } = errorMessages;
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
+
   if (!isValidCurrentOrFutureDate(day, month, year)) {
     errors.addError(pastDate);
   }
@@ -371,6 +385,7 @@ export function validateCurrentOrPastMonthYear(
   } = errorMessages;
   validateMonthYear(errors, dateString);
   const { month, year } = parseISODate(dateString);
+
   if (!isValidPartialMonthYearInPast(month, year)) {
     errors.addError(futureDate);
   }
@@ -382,6 +397,7 @@ export function validateCurrentOrPastMonthYear(
 export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
   validateDate(errors, dateString);
   const { month, year } = parseISODate(dateString);
+
   if (
     formData.highSchool.status === 'graduationExpected' &&
     !isValidCurrentOrFutureMonthYear(month, year)
@@ -421,11 +437,13 @@ export function validateRoutingNumber(
 
 export function convertToDateField(dateStr) {
   const date = parseISODate(dateStr);
+
   return Object.keys(date).reduce((dateField, part) => {
     const datePart = {};
     datePart[part] = {
       value: date[part],
     };
+
     return _.assign(dateField, datePart);
   }, date);
 }
@@ -489,6 +507,7 @@ export function validateBooleanGroup(
 ) {
   const { atLeastOne = 'Please choose at least one option' } = errorMessages;
   const group = userGroup || {};
+
   if (!Object.keys(group).filter(item => group[item] === true).length) {
     errors.addError(atLeastOne);
   }

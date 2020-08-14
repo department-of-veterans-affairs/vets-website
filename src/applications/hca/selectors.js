@@ -29,6 +29,7 @@ export const isShowingHCAReapplyContent = state =>
   selectEnrollmentStatus(state).showHCAReapplyContent;
 export const hasApplicationInESR = state => {
   const status = selectEnrollmentStatus(state).enrollmentStatus;
+
   return nonActiveInESRStatuses.has(status) === false;
 };
 export const isEnrolledInVAHealthCare = state =>

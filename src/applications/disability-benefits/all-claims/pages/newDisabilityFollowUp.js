@@ -109,11 +109,13 @@ export const uiSchema = {
             labels: disabilityLabels,
             updateSchema: (formData, primarySchema, primaryUISchema, index) => {
               const disabilitiesList = getDisabilitiesList(formData, index);
+
               if (!disabilitiesList.length) {
                 return {
                   'ui:hidden': true,
                 };
               }
+
               return {
                 enum: disabilitiesList,
               };

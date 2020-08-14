@@ -16,6 +16,7 @@ function SaveStatus({
   toggleLoginModal,
 }) {
   let savedAtMessage;
+
   if (lastSavedDate) {
     const savedAt = moment(lastSavedDate);
     savedAtMessage = ` Last saved at ${savedAt.format(

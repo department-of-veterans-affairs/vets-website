@@ -416,6 +416,7 @@ const formConfig = {
                     _.get('locationOfDeath.location'),
                     locationData => {
                       let allowanceTypes = burialAllowanceTypes;
+
                       if (
                         locationData !== 'vaMedicalCenter' &&
                         locationData !== 'nursingHome'
@@ -424,9 +425,11 @@ const formConfig = {
                           type => type !== 'vaMC',
                         );
                       }
+
                       return { enum: allowanceTypes };
                     },
                   );
+
                   return form => filterAllowanceType(form);
                 })(),
               },
@@ -441,6 +444,7 @@ const formConfig = {
                   ) {
                     return true;
                   }
+
                   return formData.burialAllowanceRequested !== 'nonService';
                 },
               },

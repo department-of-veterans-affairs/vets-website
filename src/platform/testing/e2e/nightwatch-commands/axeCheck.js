@@ -33,12 +33,14 @@ const axeExceptions = {
     violation.nodes.filter(node => {
       // combine innerHTML + target selector array
       const data = `${node.html} ${node.target.join(',')}`;
+
       // return false;
       return !contrastExceptions.some(exception => data.includes(exception));
     }),
   'label-content-name-mismatch': violation =>
     violation.nodes.filter(node => {
       const href = node.getAttribute('href') || '';
+
       // ignore telephone links w/aria-label
       return !href.startsWith('tel:');
     }),
@@ -46,12 +48,15 @@ const axeExceptions = {
 
 const removeAxeExceptions = violations => {
   const exceptions = Object.keys(axeExceptions);
+
   return violations.map(violation => {
     let nodes = [];
+
     if (exceptions.includes(violation.id)) {
       nodes = axeExceptions[violation.id](violation);
       // console.log(violation.id, ' => ', isValid);
     }
+
     return nodes.length > 0 ? { ...violation, nodes } : null;
   });
 };
@@ -110,11 +115,13 @@ export function command(context, config, _callback) {
 
       if (err) {
         this.verify.fail(err);
+
         return;
       }
 
       if (!results) {
         this.verify.fail('No scan results found');
+
         return;
       }
 
@@ -131,6 +138,7 @@ export function command(context, config, _callback) {
       filteredViolations.forEach(violation => {
         const nodeInfo = violation.nodes.reduce((str, node) => {
           const { html, target } = node;
+
           return [str, html, ...target].join('\n');
         }, '');
         const message = `${scope}: [${violation.impact}] ${violation.help}

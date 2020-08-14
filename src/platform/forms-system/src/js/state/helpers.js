@@ -31,6 +31,7 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
     const newRequired = Object.keys(schema.properties).reduce(
       (requiredArray, nextProp) => {
         const field = uiSchema[nextProp];
+
         if (field && field['ui:required']) {
           const isRequired = field['ui:required'](formData, index);
           const arrayHasField = requiredArray.some(prop => prop === nextProp);
@@ -58,6 +59,7 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
             formData,
             index,
           );
+
           if (nextSchema !== currentSchema.properties[nextProp]) {
             return _.set(['properties', nextProp], nextSchema, currentSchema);
           }
@@ -84,6 +86,7 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
     const newItemSchemas = schema.items.map((item, idx) =>
       updateRequiredFields(item, uiSchema.items, formData, idx),
     );
+
     if (newItemSchemas.some((newItem, idx) => newItem !== schema.items[idx])) {
       return _.set('items', newItemSchemas, schema);
     }
@@ -139,6 +142,7 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
     ['ui:options', 'expandUnderCondition'],
     uiSchema,
   );
+
   if (
     expandUnder &&
     !isContentExpanded(containingObject[expandUnder], expandUnderCondition)
@@ -411,11 +415,13 @@ export function replaceRefSchemas(schema, definitions, path = '') {
   if (!schema) {
     throw new Error(`Schema is undefined at ${path}`);
   }
+
   if (schema.$ref) {
     // There’s a whole spec for JSON pointers, but we don’t use anything more complicated
     // than this so far
     const refPath = schema.$ref.replace('#/definitions/', '').split('/');
     const definition = get(refPath, definitions);
+
     if (!definition) {
       throw new Error(
         `Missing definition for ${
@@ -504,6 +510,7 @@ export function updateItemsSchema(schema, fieldData = null) {
     const updatedItems = newSchema.items.map((item, index) =>
       updateItemsSchema(item, fieldData[index]),
     );
+
     if (newSchema.items.some((item, index) => item !== updatedItems[index])) {
       return _.set('items', updatedItems, newSchema);
     }
@@ -603,6 +610,7 @@ export function recalculateSchemaAndData(initialState) {
 
     if (page.showPagePerItem) {
       const arrayData = _.get(page.arrayPath, newState.data) || [];
+
       // If an item was added or removed for the data used by a showPagePerItem page,
       // we have to reset everything because we can’t match the edit states to rows directly
       // This will rarely ever be noticeable

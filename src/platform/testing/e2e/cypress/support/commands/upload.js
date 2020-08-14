@@ -18,6 +18,7 @@ Cypress.Commands.add(
 
         // eslint-disable-next-line no-param-reassign
         input[0].files = dataTransfer.files;
+
         return input;
       })
       .trigger('change', { force: true, log: false });

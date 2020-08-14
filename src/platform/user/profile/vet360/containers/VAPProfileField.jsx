@@ -103,6 +103,7 @@ class VAPProfileField extends React.Component {
 
     if (this.justClosedModal(prevProps, this.props)) {
       clearTimeout(this.closeModalTimeoutID);
+
       if (this.props.transaction) {
         focusElement(`div#${this.props.fieldName}-transaction-status`);
       }
@@ -120,6 +121,7 @@ class VAPProfileField extends React.Component {
 
     if (!this.props.hasUnsavedEdits) {
       this.closeModal();
+
       return;
     }
 
@@ -137,6 +139,7 @@ class VAPProfileField extends React.Component {
 
   onDelete = () => {
     let payload = this.props.data;
+
     if (this.props.convertCleanDataToPayload) {
       payload = this.props.convertCleanDataToPayload(
         payload,
@@ -163,6 +166,7 @@ class VAPProfileField extends React.Component {
     }
 
     let payload = this.props.field.value;
+
     if (this.props.convertCleanDataToPayload) {
       payload = this.props.convertCleanDataToPayload(
         payload,
@@ -180,6 +184,7 @@ class VAPProfileField extends React.Component {
         payload,
         this.props.analyticsSectionName,
       );
+
       return;
     }
 

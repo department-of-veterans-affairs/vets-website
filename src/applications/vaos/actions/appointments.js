@@ -116,6 +116,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
     ].filter(id => !!id),
   );
   let facilityData = null;
+
   if (uniqueFacilityIds.size > 0) {
     facilityData = await getLocations({
       facilityIds: Array.from(uniqueFacilityIds),
@@ -150,6 +151,7 @@ export function fetchFutureAppointments() {
               type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
               data: requests,
             });
+
             return requests;
           })
           .catch(resp => {
@@ -333,6 +335,7 @@ export function confirmCancelAppointment() {
       resetDataLayer();
     } catch (e) {
       const isVaos400Error = getErrorCodes(e).includes('VAOS_400');
+
       if (isVaos400Error) {
         Sentry.withScope(scope => {
           scope.setExtra('error', e);

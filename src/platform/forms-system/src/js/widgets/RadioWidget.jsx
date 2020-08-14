@@ -13,6 +13,7 @@ export default function RadioWidget({
 
   // nested content could be a component or just jsx/text
   let content = nestedContent[value];
+
   if (typeof content === 'function') {
     const NestedContent = content;
     content = <NestedContent />;

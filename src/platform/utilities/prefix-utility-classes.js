@@ -12,6 +12,7 @@
  */
 const prefixUtilityClasses = (classes, screenSize = '') => {
   const colonizedScreenSize = screenSize ? `${screenSize}-screen:` : '';
+
   return classes.map(className => `${colonizedScreenSize}vads-u-${className}`);
 };
 

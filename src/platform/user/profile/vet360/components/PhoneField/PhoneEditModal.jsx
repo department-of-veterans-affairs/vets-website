@@ -66,6 +66,7 @@ export function mapStateToProps(state, ownProps) {
   const isEnrolledInVAHealthCare = isEnrolledInVAHealthCareSelector(state);
   const showSMSCheckbox =
     ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE && isEnrolledInVAHealthCare;
+
   return {
     isEnrolledInVAHealthCare,
     showSMSCheckbox,

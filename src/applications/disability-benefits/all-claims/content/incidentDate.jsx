@@ -11,6 +11,7 @@ const { combatNonCombat, personalAssaultSexualTrauma } = PTSD_TYPES_TO_FORMS;
 
 export const PtsdDateDescription = ({ formType }) => {
   let ptsdDateEvent;
+
   if (formType === combatNonCombat) {
     ptsdDateEvent = ANALYTICS_EVENTS.openedPtsd781IncidentDateHelp;
   } else if (formType === personalAssaultSexualTrauma) {

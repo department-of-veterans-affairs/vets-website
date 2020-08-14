@@ -21,6 +21,7 @@ const NavItemRow = ({ depth, item, trackEvents }) => {
   // Expanded beyond level 2 expanded and selected
   const moreThanLevel2SelectedExpanded = expanded && depth > 2 && isSelected;
   const isLevelFourOrDeeper = item.depth >= 4;
+
   if (isFirstLevel) {
     return (
       <h2

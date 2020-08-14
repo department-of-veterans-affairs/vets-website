@@ -11,5 +11,6 @@ export function post911GIBStatus(state = initialState, action) {
       remainingEntitlement: action.data.remainingEntitlement,
     };
   }
+
   return state;
 }

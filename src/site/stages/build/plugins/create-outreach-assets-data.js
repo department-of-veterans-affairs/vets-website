@@ -19,6 +19,7 @@ function createOutreachAssetsData(buildSettings) {
 
     if (!drupalData) {
       done();
+
       return;
     }
 
@@ -28,6 +29,7 @@ function createOutreachAssetsData(buildSettings) {
 
     for (const entity of outreachAssets.entities) {
       let relativeUrl = '';
+
       if (entity.entityBundle) {
         switch (entity.fieldMedia.entity.entityBundle) {
           case ENTITY_BUNDLES.DOCUMENT:
@@ -40,6 +42,7 @@ function createOutreachAssetsData(buildSettings) {
             break;
         }
       }
+
       if (!relativeUrl) continue;
 
       const noSlash = relativeUrl.slice(1);

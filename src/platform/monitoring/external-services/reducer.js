@@ -19,6 +19,7 @@ export default function externalServiceStatuses(state = INITIAL_STATE, action) {
 
     case FETCH_BACKEND_STATUSES_SUCCESS: {
       const { statuses } = action.data.attributes;
+
       return { ...state, loading: false, statuses };
     }
 

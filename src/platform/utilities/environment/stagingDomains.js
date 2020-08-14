@@ -37,6 +37,7 @@ export function replaceDomainsInData(data, keyToCheck = ['href', 'src']) {
   }
 
   let current = data;
+
   if (Array.isArray(data)) {
     // This means we're always creating a shallow copy of arrays, but
     // that seems worth the complexity trade-off

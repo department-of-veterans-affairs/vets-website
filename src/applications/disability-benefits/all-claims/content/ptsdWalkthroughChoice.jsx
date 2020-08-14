@@ -13,6 +13,7 @@ const { combatNonCombat, personalAssaultSexualTrauma } = PTSD_TYPES_TO_FORMS;
 
 export const PtsdUploadChoiceDescription = ({ formType }) => {
   let ptsdWalkthroughEvent;
+
   if (formType === combatNonCombat) {
     ptsdWalkthroughEvent = ANALYTICS_EVENTS.openedPtsd781WalkthroughChoiceHelp;
   } else if (formType === personalAssaultSexualTrauma) {
@@ -55,6 +56,7 @@ const UploadExplanation = ({ formType }) => (
 
 export const UploadPtsdDescription = ({ formData, formType }) => {
   const { incidentText } = getPtsdClassification(formData, formType);
+
   return (
     <div>
       <p>

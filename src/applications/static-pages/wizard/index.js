@@ -42,6 +42,7 @@ export class Wizard extends React.Component {
   }
   get currentPage() {
     const { pageHistory, currentPageIndex } = this.state;
+
     return pageHistory[currentPageIndex];
   }
 
@@ -56,9 +57,11 @@ export class Wizard extends React.Component {
       const nextPageIndex = index + 1;
       const nextPage = this.props.pages.find(p => p.name === nextPageName);
       const { pageHistory } = this.state;
+
       if (!nextPage) {
         // eslint-disable-next-line no-console
         console.error(`Page not found: ${nextPageName}`);
+
         return;
       }
 
@@ -92,6 +95,7 @@ export class Wizard extends React.Component {
         'wizard-content-closed': !this.state.expanded,
       },
     );
+
     return (
       <div>
         {expander && (
@@ -109,6 +113,7 @@ export class Wizard extends React.Component {
             <div className="wizard-content-inner">
               {this.state.pageHistory.map((page, index) => {
                 const Page = page.component;
+
                 return (
                   <Page
                     key={`${page.name}_${index}`}

@@ -20,6 +20,7 @@ export class ChatbotComponent extends React.Component {
       GaEvents.addLinkClickListener();
       Utils.handleButtonsPostRender();
       const webchatOptions = await ChatbotModule.initializeChatbot();
+
       if (!webchatOptions) {
         return;
       }
@@ -38,6 +39,7 @@ export class ChatbotComponent extends React.Component {
     if (this.state.chatbotError) {
       return <ChatbotLoadError />;
     }
+
     return <div id={idString} />;
   }
 }

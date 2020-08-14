@@ -22,6 +22,7 @@ export default class Typeahead extends React.Component {
 
   componentDidUpdate(prevProps) {
     const inputChanged = prevProps.userInput !== this.props.userInput;
+
     if (inputChanged) {
       this.getSuggestions();
     }

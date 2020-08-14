@@ -15,14 +15,17 @@ class Timeline extends React.Component {
 
   formatDateRange = () => {
     const { events } = this.props;
+
     if (!events.length) {
       return '';
     }
     const first = formatDate(events[0].date);
+
     if (events.length === 1) {
       return first;
     }
     const last = formatDate(events[events.length - 1].date);
+
     return `${first} – ${last}`;
   };
 
@@ -34,10 +37,12 @@ class Timeline extends React.Component {
   render() {
     const { events, missingEvents } = this.props;
     let pastEventsList = [];
+
     if (events.length) {
       pastEventsList = events
         .map((event, index) => {
           const content = getEventContent(event);
+
           if (!content) {
             return null;
           }
@@ -45,6 +50,7 @@ class Timeline extends React.Component {
           const { title, description, liClass } = content;
           const date = formatDate(event.date);
           const hideSeparator = index === events.length - 1;
+
           return (
             <PastEvent
               key={`past-event-${index}`}

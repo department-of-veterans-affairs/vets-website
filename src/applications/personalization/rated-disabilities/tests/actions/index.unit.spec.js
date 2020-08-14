@@ -49,6 +49,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
       dispatchSpy(action);
+
       if (dispatchSpy.callCount === 2) {
         expect(dispatchSpy.secondCall.args[0].type).to.equal(
           FETCH_RATED_DISABILITIES_SUCCESS,
@@ -76,6 +77,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
       dispatchSpy(action);
+
       if (dispatchSpy.callCount === 2) {
         expect(dispatchSpy.secondCall.args[0].type).to.equal(
           FETCH_RATED_DISABILITIES_FAILED,
@@ -103,6 +105,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
       dispatchSpy(action);
+
       if (dispatchSpy.callCount === 2) {
         expect(dispatchSpy.secondCall.args[0].type).to.equal(
           FETCH_TOTAL_RATING_SUCCEEDED,
@@ -130,6 +133,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
       dispatchSpy(action);
+
       if (dispatchSpy.callCount === 2) {
         expect(dispatchSpy.secondCall.args[0].type).to.equal(
           FETCH_TOTAL_RATING_FAILED,

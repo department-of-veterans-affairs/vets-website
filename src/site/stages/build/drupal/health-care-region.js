@@ -39,6 +39,7 @@ function createPastEventListPages(page, drupalPagePath, files) {
   allEvents.entities.forEach(eventTeaser => {
     const startDate = eventTeaser.fieldDate.startDate;
     const isPast = moment().diff(startDate, 'days');
+
     if (isPast >= 1) {
       pastEventTeasers.entities.push(eventTeaser);
     }
@@ -285,6 +286,7 @@ function itemSorter(items = [], field, reverse = false, stale = true) {
   let sorted = items.entities.sort((a, b) => {
     const start1 = moment(a[field].value);
     const start2 = moment(b[field].value);
+
     return reverse ? start2 - start1 : start1 - start2;
   });
 
@@ -312,6 +314,7 @@ function addPager(page, files, field, template, aria) {
       'fieldDate',
     );
   }
+
   // Sort news teasers.
   if (page.allPressReleaseTeasers) {
     page.allPressReleaseTeasers.entities = itemSorter(

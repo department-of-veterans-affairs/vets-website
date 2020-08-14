@@ -13,14 +13,17 @@ import { NULL_CONDITION_STRING } from '../constants';
 const mapDisabilityName = (disabilityName, formData, index) => {
   if (isDisabilityPtsd(disabilityName)) {
     const selectablePtsdTypes = formData['view:selectablePtsdTypes'];
+
     if (selectablePtsdTypes) {
       const selectedPtsdTypes = Object.keys(selectablePtsdTypes)
         .filter(ptsdType => selectablePtsdTypes[ptsdType])
         .map((ptsdType, i) => {
           const ptsdTypeEnumKey = ptsdType.replace('view:', '');
           const ptsdTypeTitle = ptsdTypeEnum[ptsdTypeEnumKey];
+
           return <li key={`"${ptsdTypeEnumKey}-${i}"`}>{ptsdTypeTitle}</li>;
         });
+
       return (
         <li key={`"${disabilityName}-${index}"`}>
           {disabilityName}
@@ -29,6 +32,7 @@ const mapDisabilityName = (disabilityName, formData, index) => {
       );
     }
   }
+
   return <li key={`"${disabilityName}-${index}"`}>{disabilityName}</li>;
 };
 
@@ -46,6 +50,7 @@ const getRedirectLink = formData => {
   } else if (DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData)) {
     destinationPath = DISABILITY_SHARED_CONFIG.addDisabilities.path;
   }
+
   return (
     <>
       <Link

@@ -32,6 +32,7 @@ function getMiddleware(
 
     for (const fileName of fileNames) {
       const isHtml = path.extname(fileName) === '.html';
+
       if (!isHtml) continue;
 
       const file = files[fileName];
@@ -52,6 +53,7 @@ function getMiddleware(
 
       if (buildOptions['drupal-fail-fast']) {
         done(errorOutput);
+
         return;
       }
 

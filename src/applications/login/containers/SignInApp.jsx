@@ -28,6 +28,7 @@ class SignInPage extends React.Component {
   componentDidUpdate() {
     const searchParams = new URLSearchParams(window.location.search);
     const application = searchParams.get('application');
+
     if (
       this.props.isAuthenticatedWithSSOe &&
       !this.props.profile.verified &&

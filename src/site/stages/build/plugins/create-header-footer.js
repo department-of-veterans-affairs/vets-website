@@ -7,6 +7,7 @@ const {
 
 function replaceWithDrupalLinks(data, files) {
   let current = data;
+
   if (Array.isArray(data)) {
     // This means we're always creating a shallow copy of arrays, but
     // that seems worth the complexity trade-off

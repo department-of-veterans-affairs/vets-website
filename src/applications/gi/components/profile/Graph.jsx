@@ -9,6 +9,7 @@ class Graph extends React.Component {
 
   format(d) {
     let val = d.value;
+
     if (val === null || val === undefined) {
       return 'No Data';
     }
@@ -20,6 +21,7 @@ class Graph extends React.Component {
       typeof d.percent !== 'undefined'
         ? `$${val.replace('.0', '')}`
         : `${val}%`;
+
     return val;
   }
 
@@ -70,6 +72,7 @@ class Graph extends React.Component {
         return null;
       }
       const wide = Math.floor(134 * (percent / this.props.max));
+
       return <path fill={color} d={`M78 ${top}h${wide}v32H78z`} />;
     };
     const ValueLabel = ({ y, text }) => (
@@ -87,6 +90,7 @@ class Graph extends React.Component {
     const AverageMark = ({ percent, text }) => {
       const position = 75 + 134 * (percent / 100);
       const x = position - 10;
+
       return (
         <g>
           <path fill="#323A45" d={`M${position} 72h2V0h-2z`} />
@@ -109,6 +113,7 @@ class Graph extends React.Component {
       { name: 'vet', value: this.props.veterans },
       { name: 'all', value: this.props.all },
     ];
+
     // handle non-percentage data
     if (this.props.max !== 100) {
       Object.keys(bars).forEach(i => {

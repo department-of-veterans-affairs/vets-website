@@ -6,6 +6,7 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
   const validFlags = cautionFlags
     ? [...cautionFlags].filter(flag => flag.title)
     : [];
+
   if (validFlags.length > 0) {
     const headline =
       validFlags.length === 1
@@ -59,6 +60,7 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
       />
     );
   }
+
   return null;
 };
 

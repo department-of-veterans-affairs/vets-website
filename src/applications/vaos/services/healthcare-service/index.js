@@ -79,6 +79,7 @@ export async function getSupportedHealthcareServicesAndLocations({
   useVSP,
 }) {
   let results;
+
   if (!useVSP) {
     results = await getSupportedLocationsByTypeOfCare({
       siteId,

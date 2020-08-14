@@ -49,6 +49,7 @@ const NewBenefit = ({
       const nationalCallToServiceAnswer = getPageStateFromPageName(
         pageNames.nationalCallToService,
       )?.selected;
+
       if (
         value === 'new' &&
         claimingBenefitOwnServiceAnswer === 'yes' &&
@@ -68,10 +69,12 @@ const NewBenefit = ({
       ) {
         const { FORM_ID_1995 } = formIdSuffixes;
         setReferredBenefit(FORM_ID_1995);
+
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (value === 'update' && transferredBenefitsAnswer === 'fry') {
         const { FORM_ID_5495 } = formIdSuffixes;
         setReferredBenefit(FORM_ID_5495);
+
         return setPageState({ selected: value }, pageNames.applyNow);
       } else if (value === 'new') {
         return setPageState(

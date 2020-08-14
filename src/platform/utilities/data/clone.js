@@ -14,6 +14,7 @@ export default function clone(object) {
     } else if (Map.prototype.isPrototypeOf(object)) {
       return new Map(object);
     }
+
     // Probably just ye olde object
     return Object.assign({}, object);
   }

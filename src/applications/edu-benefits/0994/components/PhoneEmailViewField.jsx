@@ -7,6 +7,7 @@ const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const firstPhoneString = phoneNumber.slice(0, midBreakpoint);
 
   const phoneString = `${firstPhoneString}-${middlePhoneString}-${lastPhoneString}`;
+
   return (
     <p>
       <strong>{name}</strong>: {phoneString}
@@ -16,6 +17,7 @@ const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
 
 export const PhoneEmailViewField = ({ formData }) => {
   const { dayTimePhone, nightTimePhone, emailAddress } = formData;
+
   return (
     <div>
       <PhoneViewField formData={dayTimePhone} name="Phone number" />

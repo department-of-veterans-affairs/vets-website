@@ -3,6 +3,7 @@ import moment from 'moment';
 
 export default function EmploymentField({ formData }) {
   const { employer, dateRange } = formData;
+
   return (
     <div>
       <strong>{employer}</strong>

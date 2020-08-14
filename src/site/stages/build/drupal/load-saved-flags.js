@@ -29,6 +29,7 @@ function useFlags(rawFlags, shouldLog = true) {
         'inspect',
         'Symbol(Symbol.iterator)',
       ];
+
       if (!ignoreList.includes(prop.toString()) && shouldLog) {
         // eslint-disable-next-line no-console
         console.error(

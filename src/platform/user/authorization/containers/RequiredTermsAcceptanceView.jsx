@@ -38,9 +38,11 @@ export class RequiredTermsAcceptanceView extends React.Component {
     } else if (!this.props.termsNeeded) {
       view = React.Children.map(this.props.children, child => {
         let props = null;
+
         if (typeof child.type === 'function') {
           props = { isDataAvailable: enabled };
         }
+
         return React.cloneElement(child, props);
       });
     } else {

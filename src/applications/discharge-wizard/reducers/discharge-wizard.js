@@ -117,6 +117,7 @@ function nextQuestion(currentQuestion, answer, state) {
     default:
       return 'END';
   }
+
   return next;
 }
 
@@ -124,6 +125,7 @@ function form(state = initialState, action) {
   const isPastOrCurrentStep = e => {
     const num = e.split('_')[0];
     const nextNum = action.key.split('_')[0];
+
     return parseInt(num, 10) <= parseInt(nextNum, 10);
   };
 
@@ -149,9 +151,11 @@ function form(state = initialState, action) {
       ...Object.keys(initialState).reduce((a, k) => {
         const num = k.split('_')[0];
         const nextNum = action.key.split('_')[0];
+
         if (parseInt(num, 10) > parseInt(nextNum, 10)) {
           return _.set(a, k, initialState[k]);
         }
+
         return a;
       }, {}),
       [action.key]: action.value,
@@ -160,6 +164,7 @@ function form(state = initialState, action) {
         .concat([nextQuestion(action.key, action.value, state)]),
     };
   }
+
   return state;
 }
 

@@ -51,6 +51,7 @@ module.exports = class extends Generator {
       },
     ]);
     this.bundleName = bundleName;
+
     if (bundleName.includes('-')) {
       const [entityType, entityBundle] = bundleName.split('-');
       this.entityType = entityType;

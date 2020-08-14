@@ -90,6 +90,7 @@ class FormItem extends React.Component {
     );
 
     const content = isExpired ? expiredView : activeView;
+
     if (isAuthorizable) {
       return (
         <AuthorizationComponent formConfig={formConfig} isVisible>
@@ -97,6 +98,7 @@ class FormItem extends React.Component {
         </AuthorizationComponent>
       );
     }
+
     return content;
   }
 }

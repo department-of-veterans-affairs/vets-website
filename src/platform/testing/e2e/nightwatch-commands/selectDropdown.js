@@ -11,6 +11,7 @@ exports.command = function selectDropdown(name, value) {
   this.execute(
     (clientSelect, clientValue) => {
       let evt;
+
       // IE stinks
       if (
         navigator.userAgent.indexOf('MSIE') !== -1 ||
@@ -24,6 +25,7 @@ exports.command = function selectDropdown(name, value) {
       const element = document.querySelector(clientSelect);
       element.value = clientValue;
       element.dispatchEvent(evt);
+
       return element.value;
     },
     [select, value],

@@ -11,6 +11,7 @@ export default function PhoneView({ data: phoneData }) {
     <span>+ {phoneData.countryCode}</span>
   );
   const extension = phoneData.extension && <span>x{phoneData.extension}</span>;
+
   return (
     <div>
       {countryCode} {phoneNumber} {extension}

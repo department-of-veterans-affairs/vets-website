@@ -23,6 +23,7 @@ class InfoPair extends React.Component {
     );
 
     let rowToDisplay;
+
     // The displayIfZero prop may be passed in because some rows should
     // display 0 values, while other rows should not display any 0 values.
     // If displayIfZero is false or is not passed in, only display the

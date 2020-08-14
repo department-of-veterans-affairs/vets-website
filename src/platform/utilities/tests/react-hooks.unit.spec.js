@@ -10,6 +10,7 @@ describe('usePrevious', () => {
 
   const TestComponent = ({ aValue }) => {
     previousValue = usePrevious(aValue);
+
     return null;
   };
 

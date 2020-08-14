@@ -11,6 +11,7 @@ export default function createHigherLevelReviewApplicationStatus(
   widgetType,
 ) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
+
   if (root) {
     import(/* webpackChunkName: "higher-level-review-application-status" */
     '../utils').then(module => {

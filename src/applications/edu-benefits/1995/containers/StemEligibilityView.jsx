@@ -118,6 +118,7 @@ export class StemEligibilityView extends React.Component {
 
   renderErrorMessage = () => {
     const { errors, showErrors } = this.props;
+
     if (showErrors) {
       return (
         <div>
@@ -129,6 +130,7 @@ export class StemEligibilityView extends React.Component {
         </div>
       );
     }
+
     return null;
   };
 
@@ -148,6 +150,7 @@ export class StemEligibilityView extends React.Component {
 
     if (this.inReviewEditMode()) {
       let value;
+
       if (determineEligibility !== undefined) {
         value = determineEligibility ? 'Yes' : 'No';
       }
@@ -163,6 +166,7 @@ export class StemEligibilityView extends React.Component {
         </dl>
       );
     }
+
     return (
       <div className={divClassName}>
         <fieldset className="schemaform-field-template schemaform-first-field">
@@ -209,6 +213,7 @@ export class StemEligibilityView extends React.Component {
         'wizard-button',
         'va-button-primary',
       );
+
       return (
         <div>
           <span>
@@ -227,6 +232,7 @@ export class StemEligibilityView extends React.Component {
         </div>
       );
     }
+
     return null;
   };
 
@@ -240,6 +246,7 @@ export class StemEligibilityView extends React.Component {
         </div>
       );
     }
+
     return null;
   };
 
@@ -260,6 +267,7 @@ const mapStateToProps = (state, ownProps) => {
   const determineEligibility = ownProps?.formData['view:determineEligibility'];
   const errors =
     ownProps?.errorSchema['view:determineEligibility']?.__errors || [];
+
   return {
     isEdithNourseRogersScholarship:
       state?.form?.data?.isEdithNourseRogersScholarship,

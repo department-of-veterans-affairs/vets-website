@@ -37,6 +37,7 @@ describe('View Payments actions: getAllPayments', () => {
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
       dispatchSpy(action);
+
       if (dispatchSpy.callCount === 2) {
         expect(dispatchSpy.secondCall.args[0].type).to.equal(
           PAYMENTS_RECEIVED_SUCCEEDED,
@@ -64,6 +65,7 @@ describe('View Payments actions: getAllPayments', () => {
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
       dispatchSpy(action);
+
       if (dispatchSpy.callCount === 2) {
         expect(dispatchSpy.secondCall.args[0].type).to.equal(
           PAYMENTS_RECEIVED_FAILED,

@@ -88,6 +88,7 @@ export default class FacilityListWidget extends React.Component {
         </div>
       ),
     );
+
     return <div className="locations">{facilitiesList}</div>;
   }
 }

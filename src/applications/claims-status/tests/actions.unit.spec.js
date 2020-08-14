@@ -236,6 +236,7 @@ describe('Actions', () => {
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
         dispatchSpy(action);
+
         if (dispatchSpy.callCount === 2) {
           expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
           expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_APPEALS);
@@ -261,6 +262,7 @@ describe('Actions', () => {
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
         dispatchSpy(action);
+
         if (dispatchSpy.callCount === 2) {
           expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
           expect(dispatchSpy.secondCall.args[0].type).to.eql(
@@ -509,6 +511,7 @@ describe('Actions', () => {
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
         dispatchSpy(action);
+
         if (dispatchSpy.callCount === 3) {
           expect(fetchMock.firstCall.args[1].method).to.equal('POST');
           expect(fetchMock.firstCall.args[0].endsWith('5/request_decision')).to
@@ -537,6 +540,7 @@ describe('Actions', () => {
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
         dispatchSpy(action);
+
         if (dispatchSpy.callCount === 2) {
           expect(dispatchSpy.firstCall.args[0]).to.eql({
             type: SUBMIT_DECISION_REQUEST,

@@ -21,6 +21,7 @@ function keepAlive() {
 
 export async function ssoKeepAliveSession() {
   const { ttl, transactionid, authn } = await keepAlive();
+
   if (ttl > 0) {
     // ttl is positive, user has an active session
     // ttl is in seconds, add from now
@@ -34,6 +35,7 @@ export async function ssoKeepAliveSession() {
     // ttl is null, we can't determine if the user has a session or not
     localStorage.removeItem('hasSessionSSO');
   }
+
   return { ttl, transactionid, authn };
 }
 
@@ -84,6 +86,7 @@ export function checkAndUpdateSSOeSession() {
     const sessionExpiration = localStorage.getItem('sessionExpirationSSO');
 
     const remainingSessionTime = moment(sessionExpiration).diff(moment());
+
     if (remainingSessionTime <= keepAliveThreshold) {
       ssoKeepAliveSession();
     }

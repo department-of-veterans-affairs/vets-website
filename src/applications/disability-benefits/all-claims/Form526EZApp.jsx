@@ -43,6 +43,7 @@ export function Form526Entry({ location, user, children, mvi }) {
   if (!user.login.currentlyLoggedIn) {
     return content;
   }
+
   // "add-person" service means the user has a edipi and SSN in the system, but
   // is missing either a BIRLS or participant ID
   if (
@@ -59,6 +60,7 @@ export function Form526Entry({ location, user, children, mvi }) {
     if (!hasRequiredId(user)) {
       return <MissingId />;
     }
+
     // User doesn't have the required services. Show an alert
     if (!hasRequiredServices(user)) {
       return <MissingServices />;

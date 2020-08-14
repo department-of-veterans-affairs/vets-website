@@ -159,6 +159,7 @@ app.get('/preview', async (req, res, next) => {
 
     if (!drupalData.data.nodes.entities.length) {
       res.sendStatus(404);
+
       return;
     }
 
@@ -175,6 +176,7 @@ app.get('/preview', async (req, res, next) => {
           This may mean development is still in progress or that there's an issue with the preview server.
         </p>
       `);
+
       return;
     }
 

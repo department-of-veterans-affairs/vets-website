@@ -21,6 +21,7 @@ export class LetterList extends React.Component {
       let content;
       let letterTitle;
       let helpText;
+
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
         letterTitle = 'Benefit Summary and Service Verification Letter';
         content = <VeteranBenefitSummaryLetter />;
@@ -34,6 +35,7 @@ export class LetterList extends React.Component {
       }
 
       let conditionalDownloadButton;
+
       if (
         letter.letterType !== LETTER_TYPES.benefitSummary ||
         this.props.optionsAvailable
@@ -61,6 +63,7 @@ export class LetterList extends React.Component {
     });
 
     let eligibilityMessage;
+
     if (
       this.props.lettersAvailability ===
       AVAILABILITY_STATUSES.letterEligibilityError
@@ -165,6 +168,7 @@ export class LetterList extends React.Component {
 
 function mapStateToProps(state) {
   const letterState = state.letters;
+
   return {
     letters: letterState.letters,
     lettersAvailability: letterState.lettersAvailability,

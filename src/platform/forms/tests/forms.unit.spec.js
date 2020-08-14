@@ -112,6 +112,7 @@ describe('form:', () => {
     describe(`${form.formId}:`, () => {
       describe('migrations:', () => {
         const { migrations } = form;
+
         if (migrations || form.version > 0) {
           it('should have a length equal to the version number', () => {
             expect(migrations.length).to.equal(form.version);

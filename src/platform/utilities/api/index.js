@@ -16,12 +16,14 @@ export function fetchAndUpdateSessionExpiration(...args) {
       ) {
         // Get session expiration from header
         const sessionExpiration = response.headers.get('X-Session-Expiration');
+
         if (sessionExpiration) {
           localStorage.setItem('sessionExpiration', sessionExpiration);
         }
         // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
         checkAndUpdateSSOeSession();
       }
+
       return response;
     });
   }
@@ -31,6 +33,7 @@ export function fetchAndUpdateSessionExpiration(...args) {
 
 function isJson(response) {
   const contentType = response.headers.get('Content-Type');
+
   return contentType && contentType.includes('application/json');
 }
 

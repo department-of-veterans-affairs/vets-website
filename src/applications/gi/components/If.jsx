@@ -7,6 +7,7 @@ class If extends React.Component {
       // may only contain one root child node
       return this.props.children;
     }
+
     return null;
   }
 }

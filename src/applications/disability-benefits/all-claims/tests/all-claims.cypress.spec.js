@@ -46,6 +46,7 @@ const testConfig = createTestConfig(
       'review-veteran-details/military-service-history': () => {
         cy.get('@testData').then(data => {
           cy.fillPage();
+
           if (data['view:isBddData']) {
             const date = moment()
               .add(120, 'days')
@@ -78,6 +79,7 @@ const testConfig = createTestConfig(
           if (data['view:bankAccount']) {
             cy.get('form.rjsf').then($form => {
               const editButton = $form.find('.usa-button-primary.edit-button');
+
               if (editButton) editButton.click();
             });
 

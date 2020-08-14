@@ -79,6 +79,7 @@ export class BenefitsForm extends React.Component {
 
   renderYourMilitaryDetails() {
     const { gibctCh33BenefitRateUpdate } = this.props;
+
     return (
       <div>
         <ExpandingGroup open={this.props.militaryStatus === 'spouse'}>

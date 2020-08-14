@@ -10,6 +10,7 @@ export const clickAddAnother = (client, i, list) => {
 export const completeFormPage = (url, client, data, func) => {
   E2eHelpers.expectLocation(client, url);
   client.axeCheck('.main');
+
   if (typeof func === 'function') {
     func(client, data);
   }
@@ -80,6 +81,7 @@ export const completeHighTechWorkExp = (client, data) => {
     `root_currentHighTechnologyEmployment`,
     currentHighTechnologyEmployment ? 'Y' : 'N',
   );
+
   if (!currentHighTechnologyEmployment) {
     client.pause(1000);
     client.selectRadio(
@@ -183,6 +185,7 @@ export const completeContactInformation = (client, data) => {
 
 export const completeBankInformation = (client, data) => {
   const viewBankAccount = _.get(data, 'view:bankAccount', undefined);
+
   if (viewBankAccount) {
     const bankAccount = _.get(viewBankAccount, 'bankAccount', undefined);
 

@@ -33,6 +33,7 @@ export default function GiBillBreadcrumbs({
     onProfilePage && facilityCode.substr(1, 1) === 'V'
       ? 'program-search'
       : 'search';
+
   if (searchQuery && (onSearchPage || onProfilePage)) {
     crumbs.push(
       <Link

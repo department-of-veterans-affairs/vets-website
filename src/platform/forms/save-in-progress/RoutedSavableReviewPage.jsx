@@ -54,6 +54,7 @@ class RoutedSavableReviewPage extends React.Component {
 
   autoSave = () => {
     const { form, user } = this.props;
+
     if (user.login.currentlyLoggedIn) {
       const data = form.data;
       const { formId, version } = form;
@@ -97,6 +98,7 @@ class RoutedSavableReviewPage extends React.Component {
 
     const DefaultErrorMessage = () => {
       let InlineErrorComponent;
+
       if (typeof errorText === 'function') {
         InlineErrorComponent = errorText;
       } else if (typeof errorText === 'string') {
@@ -165,6 +167,7 @@ class RoutedSavableReviewPage extends React.Component {
       formConfig?.customText?.finishAppLaterMessage ||
       FINISH_APP_LATER_DEFAULT_MESSAGE;
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
+
     return (
       <div>
         <ReviewChapters

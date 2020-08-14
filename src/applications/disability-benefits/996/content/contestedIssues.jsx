@@ -90,6 +90,7 @@ export const disabilitiesExplanation = (
  */
 export const contestedIssuesAlert = ({ formContext }) => {
   if (!formContext.submitted) return null;
+
   return (
     <AlertBox
       status="error"

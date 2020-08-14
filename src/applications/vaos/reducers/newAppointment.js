@@ -108,6 +108,7 @@ function parseFakeFHIRId(id) {
 
 function setupFormData(data, schema, uiSchema) {
   const schemaWithItemsCorrected = updateItemsSchema(schema);
+
   return updateSchemaAndData(
     schemaWithItemsCorrected,
     uiSchema,
@@ -140,6 +141,7 @@ function updateFacilitiesSchemaAndData(parents, facilities, schema, data) {
     );
   } else if (newData.vaParent) {
     newSchema = unset('properties.vaFacility', newSchema);
+
     if (!facilities.length) {
       newSchema.properties.vaFacilityMessage = { type: 'string' };
     }
@@ -173,6 +175,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_DATA_UPDATED: {
       let newPages = state.pages;
       let actionData = action.data;
+
       if (
         actionData.typeOfCareId !== state.data.typeOfCareId &&
         (state.pages.vaFacility || state.data.vaFacility)
@@ -658,6 +661,7 @@ export default function formReducer(state = initialState, action) {
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
           const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
+
           if (
             // Remove parse function when converting the past appointment call to FHIR service
             appt.facilityId === siteId &&
@@ -744,6 +748,7 @@ export default function formReducer(state = initialState, action) {
       );
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
+
       if (state.ccEnabledSystems?.length === 1) {
         formData = {
           ...formData,

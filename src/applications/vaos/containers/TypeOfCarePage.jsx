@@ -129,6 +129,7 @@ function mapStateToProps(state) {
   const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
   const address = selectVet360ResidentialAddress(state);
+
   return {
     ...formInfo,
     ...address,

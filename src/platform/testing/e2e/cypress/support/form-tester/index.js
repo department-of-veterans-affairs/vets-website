@@ -75,7 +75,9 @@ const getArrayItemPath = pathname => {
     const { arrayPath } =
       arrayPages.find(({ regex }) => {
         const match = pathname.match(regex);
+
         if (match) [, index] = match;
+
         return match;
       }) || {};
 
@@ -188,6 +190,7 @@ const defaultPostHook = pathname => {
     return () => {
       cy.get(APP_SELECTOR, NO_LOG_OPTION).then($form => {
         const privacyAgreement = $form.find('input[name^="privacyAgreement"]');
+
         if (privacyAgreement.length) {
           cy.wrap(privacyAgreement)
             .first()
@@ -313,6 +316,7 @@ Cypress.Commands.add('enterData', field => {
 
     case 'radio': {
       let value = field.data;
+
       // Use 'Y' / 'N' because of the yesNo widget.
       if (typeof value === 'boolean') value = value ? 'Y' : 'N';
       const selector = `input[name="${field.key}"][value="${value}"]`;
@@ -414,6 +418,7 @@ Cypress.Commands.add('fillPage', () => {
           .within(NO_LOG_OPTION, $form => {
             // Fill out every field that's currently on the page.
             const fields = $form.find(FIELD_SELECTOR);
+
             if (!fields.length) return;
             cy.wrap(fields).each(element => {
               cy.wrap(createFieldObject(element), NO_LOG_OPTION).then(
@@ -436,6 +441,7 @@ Cypress.Commands.add('fillPage', () => {
             const fieldsNeedInput =
               arrayItemCount !== $form.find(ARRAY_ITEM_SELECTOR).length ||
               fieldCount !== $form.find(FIELD_SELECTOR).length;
+
             if (fieldsNeedInput) fillAvailableFields();
           });
       };

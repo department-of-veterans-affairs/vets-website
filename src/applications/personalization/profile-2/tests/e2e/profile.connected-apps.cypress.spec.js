@@ -24,6 +24,7 @@ function disconnectApps(mobile = false) {
   }).as('connectedAppDelete2');
 
   cy.visit(PROFILE_PATHS.CONNECTED_APPLICATIONS);
+
   if (mobile) {
     cy.viewport('iphone-4');
   }

@@ -8,6 +8,7 @@ function getQuery(query, { useTomeSync } = {}) {
     // eslint-disable-next-line import/no-dynamic-require
     return require(query)({ useTomeSync });
   }
+
   // eslint-disable-next-line import/no-dynamic-require
   return require(query);
 }

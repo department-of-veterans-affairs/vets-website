@@ -24,6 +24,7 @@ const state = {
 
 function getState(isVerified) {
   state.user.profile.verified = isVerified;
+
   return state;
 }
 

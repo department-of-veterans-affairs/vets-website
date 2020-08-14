@@ -114,6 +114,7 @@ class RequiredLoginView extends React.Component {
 
       const props =
         typeof child.type === 'function' ? { isDataAvailable: false } : null;
+
       return React.cloneElement(child, props);
     });
   };

@@ -19,6 +19,7 @@ class AcceptTermsPrompt extends React.Component {
 
   onCancel = e => {
     e.preventDefault();
+
     if (document.referrer !== '' && !this.props.isInModal) {
       browserHistory.goBack();
     } else if (this.props.onCancel) {
@@ -34,6 +35,7 @@ class AcceptTermsPrompt extends React.Component {
 
   handleScroll(event) {
     const ct = event.currentTarget;
+
     if (ct.scrollTop + ct.offsetHeight + 100 >= ct.scrollHeight) {
       this.setState({
         scrolledToBottom: true,

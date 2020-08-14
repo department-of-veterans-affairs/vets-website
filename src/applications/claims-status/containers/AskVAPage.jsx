@@ -40,11 +40,13 @@ class AskVAPage extends React.Component {
       decisionRequestError;
 
     let buttonMsg = 'Submit';
+
     if (loadingDecisionRequest) {
       buttonMsg = 'Submitting...';
     } else if (decisionRequestError !== null) {
       buttonMsg = 'Something went wrong...';
     }
+
     return (
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
@@ -119,6 +121,7 @@ class AskVAPage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+
   return {
     loadingDecisionRequest: claimsState.claimAsk.loadingDecisionRequest,
     decisionRequested: claimsState.claimAsk.decisionRequested,

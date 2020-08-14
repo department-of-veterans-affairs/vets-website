@@ -152,6 +152,7 @@ function isEligibleForDisabilitySupport(childDOB) {
 
 function isCurrentMarriage(form, index) {
   const numMarriages = form && form.marriages ? form.marriages.length : 0;
+
   return isMarried(form) && numMarriages - 1 === index;
 }
 
@@ -303,9 +304,11 @@ const formConfig = {
                       isFullDate(period.activeServiceDateRange.to) &&
                       isFullDate(period.activeServiceDateRange.from),
                   );
+
                   if (!completePeriods.length) {
                     return true;
                   }
+
                   return completePeriods.some(period =>
                     servedDuringWartime(period.activeServiceDateRange),
                   );
@@ -1315,6 +1318,7 @@ const formConfig = {
                       ) {
                         return fullName;
                       }
+
                       return nonRequiredFullName;
                     },
                     expandUnder: 'childInHousehold',

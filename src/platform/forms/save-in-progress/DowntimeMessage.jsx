@@ -10,6 +10,7 @@ export default function DowntimeMessage({
 }) {
   const endTime = downtime.endTime;
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+
   return (
     <AlertBox
       className={classNames({

@@ -27,6 +27,7 @@ export default class Footer extends React.Component {
       },
       false,
     );
+
     if (this.props.handleFooterDidMount) {
       this.props.handleFooterDidMount();
     }

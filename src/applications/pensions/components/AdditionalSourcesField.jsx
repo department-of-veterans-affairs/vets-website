@@ -45,6 +45,7 @@ export default class AdditionalSourcesField extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
     const items = newProps.formData || [];
+
     if (items.length < this.state.editStates.length) {
       this.setState({
         editStates: this.state.editStates.filter(
@@ -63,6 +64,7 @@ export default class AdditionalSourcesField extends React.Component {
   componentDidUpdate(oldProps) {
     const oldDataLength = (oldProps.formData || []).length;
     const newDataLength = (this.props.formData || []).length;
+
     if (newDataLength > oldDataLength) {
       this.scrollToRow(oldDataLength);
     }
@@ -77,6 +79,7 @@ export default class AdditionalSourcesField extends React.Component {
 
   getItemSchema(index) {
     const schema = this.props.schema;
+
     if (schema.items.length > index) {
       return schema.items[index];
     }
@@ -121,6 +124,7 @@ export default class AdditionalSourcesField extends React.Component {
       (val, index) => index !== indexToRemove,
     );
     this.props.onChange(newItems.length > 0 ? newItems : undefined);
+
     if (newItems.length) {
       this.scrollToRow(newItems.length - 1);
     }
@@ -220,6 +224,7 @@ export default class AdditionalSourcesField extends React.Component {
                 </div>
               );
             }
+
             return (
               <div key={index}>
                 <Element name={`additional_${index}`} />

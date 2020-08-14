@@ -43,6 +43,7 @@ class EstimateYourBenefitsForm extends React.Component {
     const facilityMap = profile.attributes.facilityMap;
     const profileFacilityCode = profile.attributes.facilityCode;
     let extensions;
+
     if (profileFacilityCode === facilityMap.main.institution.facilityCode) {
       extensions = profile.attributes.facilityMap.main.extensions;
     } else {
@@ -142,6 +143,7 @@ class EstimateYourBenefitsForm extends React.Component {
       'gibct-form-field': 'gibctExtensionCampusDropdown',
       'gibct-form-value': event.target.options[event.target.selectedIndex].text,
     });
+
     if (!event.dirty) {
       if (event.target.value !== 'other') {
         this.props.onBeneficiaryZIPCodeChanged(zipCode);
@@ -187,6 +189,7 @@ class EstimateYourBenefitsForm extends React.Component {
               : profile.attributes.name,
         });
       }
+
       if (value === 'other') {
         recordEvent({
           event: 'gibct-form-change',
@@ -199,6 +202,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleAccordionFocus = () => {
     const field = document.getElementById('estimate-your-benefits-accordion');
+
     if (field) {
       field.scrollIntoView();
     }
@@ -211,6 +215,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   resetBuyUp = event => {
     event.preventDefault();
+
     if (this.props.inputs.buyUpAmount > 600) {
       this.setState({ inputUpdated: true });
       this.props.calculatorInputChange({
@@ -329,6 +334,7 @@ class EstimateYourBenefitsForm extends React.Component {
    */
   renderInState = () => {
     if (!this.props.displayedInputs.inState) return null;
+
     return (
       <ExpandingGroup
         open={
@@ -359,6 +365,7 @@ class EstimateYourBenefitsForm extends React.Component {
   renderInStateTuition = () => {
     const inStateTuitionFeesId = 'inStateTuitionFees';
     const inStateFieldId = `${inStateTuitionFeesId}-fields`;
+
     return (
       <div id={inStateFieldId}>
         <label htmlFor={inStateTuitionFeesId}>
@@ -387,6 +394,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
     const tuitionFeesId = 'tuitionFees';
     const tuitionFeesFieldId = `${tuitionFeesId}-field`;
+
     return (
       <div id={tuitionFeesFieldId}>
         <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
@@ -414,6 +422,7 @@ class EstimateYourBenefitsForm extends React.Component {
     if (!this.props.displayedInputs.books) return null;
     const booksId = 'books';
     const booksFieldId = 'books-field';
+
     return (
       <div id={booksFieldId}>
         <label htmlFor={booksId}>Books and supplies per year</label>
@@ -538,6 +547,7 @@ class EstimateYourBenefitsForm extends React.Component {
     if (!this.props.displayedInputs.scholarships) return null;
     const scholarshipsId = 'scholarships';
     const scholarshipsFieldId = `${scholarshipsId}-field`;
+
     return (
       <div id={scholarshipsFieldId}>
         <label htmlFor={scholarshipsId}>
@@ -565,6 +575,7 @@ class EstimateYourBenefitsForm extends React.Component {
     if (!this.props.displayedInputs.tuitionAssist) return null;
     const tuitionAssistId = 'tuitionAssist';
     const tuitionAssistFieldId = `${tuitionAssistId}-field`;
+
     return (
       <div id={tuitionAssistFieldId}>
         <label htmlFor={tuitionAssistId}>
@@ -759,6 +770,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   displayExtensionBeneficiaryInternationalCheckbox = () => {
     const { beneficiaryLocationQuestion, extension } = this.props.inputs;
+
     return (
       beneficiaryLocationQuestion === 'other' ||
       (beneficiaryLocationQuestion === 'extension' && extension === 'other')
@@ -807,6 +819,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
     const displayExtensionSelector =
       inputs.beneficiaryLocationQuestion === 'extension';
+
     if (displayExtensionSelector) {
       extensionSelector = (
         <Dropdown
@@ -943,6 +956,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   renderWorking = () => {
     if (!this.props.displayedInputs.working) return null;
+
     return (
       <Dropdown
         label={this.renderLearnMoreLabel({
@@ -1084,6 +1098,7 @@ class EstimateYourBenefitsForm extends React.Component {
     if (this.hideSchoolCostsAndCalendar()) return null;
 
     const name = 'School costs and calendar';
+
     return (
       <AccordionItem
         button={name}
@@ -1149,6 +1164,7 @@ class EstimateYourBenefitsForm extends React.Component {
       buyUp,
       scholarships,
     } = this.props.displayedInputs;
+
     return !(yellowRibbon || tuitionAssist || kicker || buyUp || scholarships);
   };
 
@@ -1188,7 +1204,9 @@ class EstimateYourBenefitsForm extends React.Component {
       _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
 
     let sectionCount = 2;
+
     if (!this.hideSchoolCostsAndCalendar()) sectionCount += 1;
+
     if (!this.hideScholarshipsAndOtherVAFunding()) sectionCount += 1;
 
     const className = classNames(

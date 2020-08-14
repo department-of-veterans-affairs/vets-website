@@ -21,6 +21,7 @@ export const externalRedirects = {
 
 export const ssoKeepAliveEndpoint = () => {
   const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
+
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
@@ -56,6 +57,7 @@ function redirectWithGAClientId(redirectUrl) {
 
     const tracker = trackers.find(t => {
       const trackingId = t.get('trackingId');
+
       return vagovTrackingIds.includes(trackingId);
     });
 
@@ -81,6 +83,7 @@ export function standaloneRedirect() {
     url = url.endsWith('/') ? url.slice(0, -1) : url;
     url = `${url}${pathname}`.replace('\r\n', ''); // Prevent CRLF injection.
   }
+
   return url;
 }
 
@@ -108,6 +111,7 @@ export function login(
 ) {
   const url = sessionTypeUrl(policy, version, queryParams);
   setLoginAttempted();
+
   return redirect(url, clickedEvent);
 }
 
@@ -125,6 +129,7 @@ export function logout(
   queryParams = {},
 ) {
   clearSentryLoginType();
+
   return redirect(sessionTypeUrl('slo', version, queryParams), clickedEvent);
 }
 

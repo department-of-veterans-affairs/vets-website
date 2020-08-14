@@ -8,6 +8,7 @@ import UrgentCareAlert from '../containers/UrgentCareAlert';
 export const setFocus = selector => {
   const el =
     typeof selector === 'string' ? document.querySelector(selector) : selector;
+
   if (el) {
     el.setAttribute('tabIndex', -1);
     el.focus();
@@ -72,6 +73,7 @@ export const areBoundsEqual = (box1, box2) => {
 export const urlParamStringToObj = urlParams =>
   urlParams.split('&').map(p => {
     const [key, value] = p.split('=');
+
     return { [key]: value };
   });
 
@@ -103,6 +105,7 @@ export const keyMap = {
 export const validateIdString = (urlObj, urlPrefixString) => {
   const regex = '/[a-z]{1,15}_[a-zA-Z0-9]{1,15}$';
   const unparsedString = `${urlPrefixString}${regex}`;
+
   return urlObj.match(unparsedString);
 };
 
@@ -174,9 +177,11 @@ export const formatOperatingHours = operatingHours => {
   if (includes(openingHour, ':')) {
     formattedOpeningHour = moment(openingHour, 'h:mmA').format('h:mm a');
   }
+
   if (includes(closingHour, ':')) {
     formattedClosingHour = moment(closingHour, 'h:mmA').format('h:mm a');
   }
+
   // Return original string if invalid date.
   if (formattedOpeningHour.search(/Invalid date/i) === 0) {
     formattedOpeningHour = operatingHours;
@@ -217,6 +222,7 @@ export const formatOperatingHours = operatingHours => {
  */
 export const isVADomain = website => {
   const regExp1 = /https?:\/\/(?:www\.|staging\.)?va\.gov(\/*)/;
+
   return regExp1.test(website);
 };
 
