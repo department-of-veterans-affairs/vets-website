@@ -70,9 +70,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
         attributes: {
           ...getFacilityMock().attributes,
           institutionCode: '983GC',
-          city: 'Belgrade',
-          stateAbbrev: 'MT',
-          authoritativeName: 'Belgrade VA clinic',
           rootStationCode: '983',
           parentStationCode: '983',
           requestSupported: true,
@@ -191,6 +188,73 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
         '/new-appointment/request-date',
       ),
     );
+  });
+
+  it('should show not supported message when direct is supported and not eligible, and requests are not supported', async () => {
+    const parentSite5digit = {
+      id: '983GC',
+      attributes: {
+        ...getParentSiteMock().attributes,
+        institutionCode: '983GC',
+        authoritativeName: 'Some VA facility',
+        rootStationCode: '983',
+        parentStationCode: '983GC',
+      },
+    };
+    mockParentSites(['983'], [parentSite5digit]);
+    const facilities = [
+      {
+        id: '983GC',
+        attributes: {
+          ...getFacilityMock().attributes,
+          institutionCode: '983GC',
+          rootStationCode: '983',
+          parentStationCode: '983GC',
+          directSchedulingSupported: true,
+        },
+      },
+    ];
+    mockSupportedFacilities({
+      siteId: '983',
+      parentId: '983GC',
+      typeOfCareId: '323',
+      data: facilities,
+    });
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983GC',
+      typeOfCareId: '323',
+      clinics: [
+        {
+          id: '308',
+          attributes: {
+            ...getClinicMock(),
+            siteCode: '983',
+            clinicId: '308',
+            institutionCode: '983GC',
+            clinicFriendlyLocationName: 'Green team clinic',
+          },
+        },
+      ],
+      pastClinics: false,
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+
+    const router = {
+      push: sinon.spy(),
+    };
+    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      store,
+    });
+
+    expect(screen.baseElement).to.contain.text('Finding your VA facility');
+    await screen.findByText(/we found one VA location for you/i);
+
+    expect(screen.baseElement).to.contain.text(
+      'However, this facility does not allow online requests',
+    );
+    expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
   });
 
   it('should show eligibility alert with facility info', async () => {
@@ -326,8 +390,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
           attributes: {
             ...getFacilityMock().attributes,
             institutionCode: '983',
-            city: 'Bozeman',
-            stateAbbrev: 'MT',
             authoritativeName: 'Bozeman VA medical center',
             rootStationCode: '983',
             parentStationCode: '983',
@@ -400,6 +462,23 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
 
       expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
     });
+
+    it('should show error message on eligibility failure', async () => {
+      const store = createTestStore(initialState);
+      await setTypeOfCare(store, /mental health/i);
+
+      const router = {
+        push: sinon.spy(),
+      };
+      const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+        store,
+      });
+
+      expect(await screen.findByText(/Something went wrong on our end/)).to
+        .exist;
+
+      expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
+    });
   });
   describe('with multiple supported facilities', () => {
     beforeEach(() => {
@@ -410,8 +489,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
           attributes: {
             ...getFacilityMock().attributes,
             institutionCode: '983',
-            city: 'Bozeman',
-            stateAbbrev: 'MT',
             authoritativeName: 'Bozeman VA medical center',
             rootStationCode: '983',
             parentStationCode: '983',

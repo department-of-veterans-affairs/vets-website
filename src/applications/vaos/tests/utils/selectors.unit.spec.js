@@ -116,31 +116,6 @@ describe('VAOS selectors', () => {
       expect(newState.typeOfCare).to.equal('Pharmacy');
       expect(newState.loadingParentFacilities).to.be.true;
     });
-    it('should return eligibility error flag', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [],
-          },
-        },
-        newAppointment: {
-          pages: {},
-          data: {
-            typeOfCareId: '160',
-            facilityType: 'vamc',
-            vaParent: '983',
-          },
-          facilities: {},
-          eligibility: {},
-          parentFacilities: [{ identifier: [] }],
-          facilityDetails: {},
-          eligibilityStatus: 'failed',
-        },
-      };
-
-      const newState = getFacilityPageInfo(state);
-      expect(newState.hasEligibilityError).to.be.true;
-    });
     it('should return Cerner facilities', () => {
       const state = {
         user: {

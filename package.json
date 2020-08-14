@@ -88,7 +88,7 @@
     "sourceMap": false,
     "instrument": false,
     "include": [
-      "src/applications/vaos/**"
+      "src/**"
     ],
     "exclude": [
       "src/platform/testing/**",
