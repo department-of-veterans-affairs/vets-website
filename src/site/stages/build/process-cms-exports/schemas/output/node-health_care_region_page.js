@@ -87,6 +87,24 @@ module.exports = {
             },
           },
         },
+        allNewsStoryTeasers: {
+          type: 'object',
+          properties: {
+            entities: {
+              type: 'array',
+              maxItems: 500,
+              items: {
+                entity: usePartialSchema(newsStorySchema, [
+                  'title',
+                  'fieldFeatured',
+                  'fieldIntroText',
+                  'fieldMedia',
+                  'entityUrl',
+                ]),
+              },
+            },
+          },
+        },
       },
       required: [
         'title',
@@ -96,6 +114,7 @@ module.exports = {
         'fieldLeadership',
         'reverseFieldRegionPageNode',
         'newsStoryTeasers',
+        'allNewsStoryTeasers',
       ],
     },
   },

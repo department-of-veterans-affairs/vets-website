@@ -97,6 +97,25 @@ const transform = ({
             }))
         : [],
     },
+    allNewsStoryTeasers: {
+      entities: reverseFieldRegionPage
+        ? reverseFieldRegionPage
+            .filter(
+              reverseField =>
+                reverseField.entityBundle === 'news_story' &&
+                reverseField.entityPublished,
+            )
+            .sort((a, b) => b.created - a.created)
+            .slice(0, 500)
+            .map(r => ({
+              title: r.title,
+              fieldFeatured: r.fieldFeatured,
+              fieldIntroText: r.fieldIntroText,
+              fieldMedia: r.fieldMedia,
+              entityUrl: r.entityUrl,
+            }))
+        : [],
+    },
   },
 });
 module.exports = {
