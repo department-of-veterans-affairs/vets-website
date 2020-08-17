@@ -26,7 +26,7 @@ const militaryAddressCountry = () => {
   return (
     <p className="profile-military-domestic">
       U.S. military bases are considered a domestic address and a part of the
-        United States.
+      United States.
     </p>
   );
 };
@@ -94,7 +94,7 @@ const uiSchema = {
   'view:livesOnMilitaryBaseInfo': {
     'ui:description': militaryAddressCountry,
     'ui:options': {
-      hideIf: formData => !formData ?.['view:livesOnMilitaryBase'],
+      hideIf: formData => !formData?.['view:livesOnMilitaryBase'],
     },
   },
   countryCodeIso3: {
