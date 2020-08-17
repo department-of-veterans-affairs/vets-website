@@ -14,6 +14,7 @@ import {
   submitRequest,
   getRequestEligibilityCriteria,
   getParentFacilities,
+  getRequestLimits,
 } from '../api';
 
 import {
@@ -22,7 +23,7 @@ import {
 } from '../utils/data';
 import {
   selectSystemIds,
-  selectActiveExpressCareFacility,
+  selectActiveExpressCareWindows,
 } from '../utils/selectors';
 import { captureError } from '../utils/error';
 import {
@@ -41,6 +42,13 @@ export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
 export const FORM_PAGE_CHANGE_STARTED = 'expressCare/FORM_PAGE_CHANGE_STARTED';
 export const FORM_PAGE_CHANGE_COMPLETED =
   'expressCare/FORM_PAGE_CHANGE_COMPLETED';
+export const FORM_CHECK_REQUEST_LIMITS =
+  'expressCare/FORM_CHECK_REQUEST_LIMITS';
+export const FORM_CHECK_REQUEST_LIMITS_FAILED =
+  'expressCare/FORM_CHECK_REQUEST_LIMITS_FAILED';
+export const FORM_CHECK_REQUEST_LIMITS_SUCCEEDED =
+  'expressCare/FORM_CHECK_REQUEST_LIMITS_SUCCEEDED';
+export const FORM_SET_FACILITY_ID = 'expressCare/FORM_SET_FACILITY_ID';
 export const FORM_RESET = 'expressCare/FORM_RESET';
 export const FORM_SUBMIT = 'expressCare/FORM_SUBMIT';
 export const FORM_SUBMIT_SUCCEEDED = EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED;
@@ -115,46 +123,62 @@ export function fetchExpressCareWindows() {
   };
 }
 
-export function routeToPageInFlow(flow, router, current, action) {
+export function checkRequestLimits() {
   return async (dispatch, getState) => {
     dispatch({
-      type: FORM_PAGE_CHANGE_STARTED,
+      type: FORM_CHECK_REQUEST_LIMITS,
     });
 
-    const nextAction = flow[current][action];
-    let nextPage;
+    try {
+      const activeFacilityIds = selectActiveExpressCareWindows(
+        getState(),
+        moment(),
+      ).map(w => w.facilityId);
 
-    if (typeof nextAction === 'string') {
-      nextPage = flow[nextAction];
-    } else {
-      const nextStateKey = await nextAction(getState(), dispatch);
-      nextPage = flow[nextStateKey];
-    }
+      const promiseIds = [...activeFacilityIds];
+      const requestLimits = [];
 
-    if (nextPage?.url) {
+      while (promiseIds.length) {
+        requestLimits.push(
+          // eslint-disable-next-line no-await-in-loop
+          await Promise.all(
+            promiseIds
+              .splice(0, 5)
+              .map(facilityId => getRequestLimits(facilityId, EXPRESS_CARE)),
+          ),
+        );
+      }
+
+      const eligbleFacility = []
+        .concat(...requestLimits)
+        .map((limit, index) => {
+          const facilityId = activeFacilityIds[index];
+          return {
+            facilityId,
+            siteId: facilityId.substring(0, 3),
+            ...limit,
+          };
+        })
+        .find(limit => limit.numberOfRequests < limit.requestLimit);
+
+      const underRequestLimit = !!eligbleFacility;
+
       dispatch({
-        type: FORM_PAGE_CHANGE_COMPLETED,
+        type: FORM_CHECK_REQUEST_LIMITS_SUCCEEDED,
+        facilityId: eligbleFacility?.facilityId || null,
+        siteId: eligbleFacility?.siteId || null,
+        underRequestLimit: !!eligbleFacility,
       });
-      router.push(nextPage.url);
-    } else if (nextPage) {
-      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
-    } else {
-      throw new Error('Tried to route to page that does not exist');
+
+      return underRequestLimit;
+    } catch (error) {
+      captureError(error);
+      dispatch({
+        type: FORM_CHECK_REQUEST_LIMITS_FAILED,
+      });
+      return false;
     }
   };
-}
-
-export function routeToNextAppointmentPage(router, current) {
-  return routeToPageInFlow(newExpressCareRequestFlow, router, current, 'next');
-}
-
-export function routeToPreviousAppointmentPage(router, current) {
-  return routeToPageInFlow(
-    newExpressCareRequestFlow,
-    router,
-    current,
-    'previous',
-  );
 }
 
 async function buildPreferencesDataAndUpdate(email) {
@@ -190,16 +214,13 @@ async function getFacilityName(id) {
 export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
     const expressCare = getState().expressCare;
+    const { newRequest } = expressCare;
+    const { facilityId, siteId } = newRequest;
     const formData = expressCare.newRequest.data;
     let activeFacility;
     let additionalEventData = {};
 
     try {
-      activeFacility = selectActiveExpressCareFacility(
-        getState(),
-        moment.utc(),
-      );
-
       dispatch({
         type: FORM_SUBMIT,
       });
@@ -213,17 +234,17 @@ export function submitExpressCareRequest(router) {
         ...additionalEventData,
       });
 
-      if (!activeFacility) {
+      if (!facilityId) {
         throw new Error('No facilities available for Express Care request');
       }
 
-      const facilityName = await getFacilityName(activeFacility.facilityId);
-      activeFacility.name = facilityName;
+      const facilityName = await getFacilityName(facilityId);
 
-      const requestBody = transformFormToExpressCareRequest(
-        getState(),
-        activeFacility,
-      );
+      const requestBody = transformFormToExpressCareRequest(getState(), {
+        facilityId,
+        siteId,
+        name: facilityName,
+      });
       const responseData = await submitRequest('va', requestBody);
 
       try {
@@ -270,4 +291,46 @@ export function startNewExpressCareFlow() {
   return {
     type: STARTED_NEW_EXPRESS_CARE_FLOW,
   };
+}
+
+export function routeToPageInFlow(flow, router, current, action) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FORM_PAGE_CHANGE_STARTED,
+    });
+
+    const nextAction = flow[current][action];
+    let nextPage;
+
+    if (typeof nextAction === 'string') {
+      nextPage = flow[nextAction];
+    } else {
+      const nextStateKey = await nextAction(getState(), dispatch);
+      nextPage = flow[nextStateKey];
+    }
+
+    if (nextPage?.url) {
+      dispatch({
+        type: FORM_PAGE_CHANGE_COMPLETED,
+      });
+      router.push(nextPage.url);
+    } else if (nextPage) {
+      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
+    } else {
+      throw new Error('Tried to route to page that does not exist');
+    }
+  };
+}
+
+export function routeToNextAppointmentPage(router, current) {
+  return routeToPageInFlow(newExpressCareRequestFlow, router, current, 'next');
+}
+
+export function routeToPreviousAppointmentPage(router, current) {
+  return routeToPageInFlow(
+    newExpressCareRequestFlow,
+    router,
+    current,
+    'previous',
+  );
 }

@@ -14,6 +14,9 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_OPENED,
+  FORM_CHECK_REQUEST_LIMITS,
+  FORM_CHECK_REQUEST_LIMITS_FAILED,
+  FORM_CHECK_REQUEST_LIMITS_SUCCEEDED,
   FORM_SUBMIT_FAILED,
   FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT,
@@ -33,6 +36,10 @@ const initialState = {
     data: {},
     pages: {},
     pageChangeInProgress: false,
+    facilityId: null,
+    siteId: null,
+    underRequestLimit: null,
+    checkRequestLimitsStatus: FETCH_STATUS.notStarted,
   },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
@@ -150,6 +157,37 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         windowsStatus: FETCH_STATUS.failed,
       };
+    case FORM_CHECK_REQUEST_LIMITS: {
+      return {
+        ...state,
+        newRequest: {
+          ...state.newRequest,
+          checkRequestLimitsStatus: FETCH_STATUS.loading,
+        },
+      };
+    }
+    case FORM_CHECK_REQUEST_LIMITS_SUCCEEDED: {
+      const { facilityId, siteId, underRequestLimit } = action;
+      return {
+        ...state,
+        newRequest: {
+          ...state.newRequest,
+          facilityId,
+          siteId,
+          underRequestLimit,
+          checkRequestLimitsStatus: FETCH_STATUS.succeeded,
+        },
+      };
+    }
+    case FORM_CHECK_REQUEST_LIMITS_FAILED: {
+      return {
+        ...state,
+        newRequest: {
+          ...state.newRequest,
+          checkRequestLimitsStatus: FETCH_STATUS.failed,
+        },
+      };
+    }
     case FORM_ADDITIONAL_DETAILS_PAGE_OPENED: {
       const newRequest = { ...state.newRequest };
       const prefilledData = {
