@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import { selectEditedFormField } from 'platform/user/profile/vet360/selectors.js';
 
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
@@ -77,25 +79,33 @@ const formSchema = {
   required: ['countryCodeIso3', 'addressLine1', 'city'],
 };
 
+const Description = (props) => {
+  console.log("This is field", props)
+  if (props.field === true) {
+    return (
+      <span>
+        U.S. military bases are considered a domestic address and a part of the United States.
+      </span>
+    )
+  }
+  return null
+}
+
+const mapStateToProps = (state) => {
+  return {
+    field: state?.vet360?.formFields?.mailingAddress?.value['view:livesOnMilitaryBase'],
+  }
+};
+
+const ConnectedDescription = connect(mapStateToProps)(Description)
+
 const uiSchema = {
   'view:livesOnMilitaryBase': {
     'ui:title':
       'I live on a United States military base outside of the United States.',
   },
   'view:livesOnMilitaryBaseInfo': {
-    'ui:description': () => (
-      <div className="vads-u-padding-x--2p5">
-        <AdditionalInfo
-          status="info"
-          triggerText="Learn more about military base addresses"
-        >
-          <span>
-            The United States is automatically chosen as your country if you
-            live on a military base outside of the country.
-          </span>
-        </AdditionalInfo>
-      </div>
-    ),
+    'ui:description': () => <ConnectedDescription />,
   },
   countryCodeIso3: {
     'ui:title': 'Country',
