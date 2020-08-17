@@ -59,6 +59,7 @@ describe('<KeywordSearch>', () => {
 
   it('should call on select when an suggestion is selected', () => {
     const onChange = sinon.spy();
+    const landingPageCheck = true;
     const onFilterChange = sinon.spy();
     const validateSearchQuery = sinon.spy();
     const tree = mount(
@@ -70,6 +71,7 @@ describe('<KeywordSearch>', () => {
           suggestions: [{ label: 'item1' }, { label: 'item2' }],
         }}
         onChange={onChange}
+        searchOnAutcompleteSelection={landingPageCheck}
         onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
         onFilterChange={onFilterChange}
@@ -84,8 +86,7 @@ describe('<KeywordSearch>', () => {
 
     const suggestions = tree.find('.suggestion');
     suggestions.at(1).simulate('click');
-    expect(onFilterChange.called).to.be.true;
-    expect(onFilterChange.args[0]).to.deep.equal(['item2']);
+    expect(onFilterChange.called).to.be.false;
     tree.unmount();
   });
 });
