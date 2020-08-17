@@ -1,7 +1,9 @@
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
@@ -92,28 +94,34 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
           Your VA debt
         </h1>
         <div className="large-screen:vads-u-display--flex vads-u-flex-direction--row vads-u-display--block">
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-            <h2 className="vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--2">
-              Download your debt letters, learn your payment options, or find
-              out how to get help with your VA debts.
-            </h2>
-            {allDebtsFetchFailure && renderAlert()}
-            {allDebtsEmpty && renderEmptyAlert()}
-            {!allDebtsFetchFailure &&
-              !allDebtsEmpty && (
-                <>
-                  <AlertBox
-                    className="vads-u-margin-bottom--2"
-                    headline="Certain debt collection is suspended to the end of 2020"
-                    content={bannerContent}
-                    status="info"
-                    isVisible
-                  />
-                  <DebtCardsList />
-                  <DebtLettersList />
-                </>
-              )}
-          </div>
+          <CallToActionWidget appId="debt-letters">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              <h2
+                className={classNames(
+                  'vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--2',
+                )}
+              >
+                Download your debt letters, learn your payment options, or find
+                out how to get help with your VA debts.
+              </h2>
+              {allDebtsFetchFailure && renderAlert()}
+              {allDebtsEmpty && renderEmptyAlert()}
+              {!allDebtsFetchFailure &&
+                !allDebtsEmpty && (
+                  <>
+                    <AlertBox
+                      className="vads-u-margin-bottom--2"
+                      headline="Certain debt collection is suspended to the end of 2020"
+                      content={bannerContent}
+                      status="info"
+                      isVisible
+                    />
+                    <DebtCardsList />
+                    <DebtLettersList />
+                  </>
+                )}
+            </div>
+          </CallToActionWidget>
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
             <HowDoIPay />
             <NeedHelp />

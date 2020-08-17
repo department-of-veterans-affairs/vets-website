@@ -134,17 +134,24 @@ describe('checkAutoSession', () => {
     sinon.assert.notCalled(auto);
   });
 
-  it('should auto logout if user is logged in and they have a mismatched SSOe session', async () => {
+  it('should auto login if user is logged in and they have a mismatched SSOe session', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
       authn: 'dslogon',
       transactionid: 'X',
     });
-    const auto = sandbox.stub(authUtils, 'logout');
+    const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession(true, 'Y');
 
     sinon.assert.calledOnce(auto);
+    sinon.assert.calledWith(
+      auto,
+      'custom',
+      'v1',
+      { authn: 'dslogon' },
+      'sso-automatic-login',
+    );
   });
 
   it('should not auto logout if user is logged in and they have a matched SSOe session', async () => {

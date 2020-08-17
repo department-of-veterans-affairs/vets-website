@@ -19,7 +19,11 @@ import {
   FORM_SUBMIT,
 } from '../actions/expressCare';
 
-import { FETCH_STATUS, EXPRESS_CARE } from '../utils/constants';
+import {
+  FETCH_STATUS,
+  EXPRESS_CARE,
+  WEEKDAY_INDEXES,
+} from '../utils/constants';
 import { STARTED_NEW_EXPRESS_CARE_FLOW } from '../actions/sitewide';
 
 const initialState = {
@@ -127,7 +131,12 @@ export default function expressCareReducer(state = initialState, action) {
           facilityId: facility.id,
           days: facility.customRequestSettings
             .find(setting => setting.id === EXPRESS_CARE)
-            .schedulingDays.filter(day => day.canSchedule),
+            .schedulingDays.filter(day => day.canSchedule)
+            .map(daySchedule => ({
+              ...daySchedule,
+              dayOfWeekIndex: WEEKDAY_INDEXES[daySchedule.day],
+            }))
+            .sort((a, b) => (a.dayOfWeekIndex < b.dayOfWeekIndex ? -1 : 1)),
         }));
 
       return {
