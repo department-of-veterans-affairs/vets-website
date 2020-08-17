@@ -6,7 +6,7 @@ it('healthcare questionnaire -- loads introduction page -- feature enabled', () 
   ).then(features => {
     cy.route('GET', '/v0/feature_toggles*', features);
     cy.visit('/healthcare/questionnaire/introduction');
-    cy.title().should('eq', 'Healthcare Questionnaire | Veterans Affairs');
+    cy.title().should('contain', 'Healthcare Questionnaire');
     cy.get('.schemaform-title>h1', { timeout: Timeouts.normal }).contains(
       'Healthcare Questionnaire',
     );
