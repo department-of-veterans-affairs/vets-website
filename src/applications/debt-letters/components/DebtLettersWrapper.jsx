@@ -75,7 +75,6 @@ DebtLettersWrapper.propTypes = {
 };
 
 DebtLettersWrapper.defaultProps = {
-  isLoggedIn: false,
   isPending: false,
   isPendingVBMS: false,
 };
