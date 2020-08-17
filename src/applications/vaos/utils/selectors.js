@@ -38,12 +38,6 @@ import {
   getVARFacilityId,
 } from '../services/appointment';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
-
 export function getNewAppointment(state) {
   return state.newAppointment;
 }
