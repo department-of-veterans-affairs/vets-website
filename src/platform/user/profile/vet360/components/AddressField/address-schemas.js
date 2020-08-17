@@ -22,15 +22,6 @@ const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
 
 const STREET_LINE_MAX_LENGTH = 35;
 
-const militaryAddressCountry = () => {
-  return (
-    <p className="profile-military-domestic">
-      U.S. military bases are considered a domestic address and a part of the
-      United States.
-    </p>
-  );
-};
-
 const formSchema = {
   type: 'object',
   properties: {
@@ -92,7 +83,12 @@ const uiSchema = {
       'I live on a United States military base outside of the United States.',
   },
   'view:livesOnMilitaryBaseInfo': {
-    'ui:description': militaryAddressCountry,
+    'ui:description': () => (
+      <p className="profile-military-domestic">
+        U.S. military bases are considered a domestic address and a part of the
+        United States.
+      </p>
+    ),
     'ui:options': {
       hideIf: formData => !formData?.['view:livesOnMilitaryBase'],
     },
