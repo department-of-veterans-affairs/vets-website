@@ -67,7 +67,7 @@ describe('VAOS <PreferredDatePage>', () => {
     form.unmount();
   });
 
-  it('it should not submit beyond 365 days into the future', () => {
+  it('it should not submit beyond 395 days into the future', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
     const router = {

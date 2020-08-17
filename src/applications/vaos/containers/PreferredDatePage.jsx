@@ -30,15 +30,13 @@ const uiSchema = {
     'ui:widget': 'date',
     'ui:validations': [
       (errors, preferredDate) => {
-        const maxDate = moment()
-          .add(13, 'months')
-          .format('YYYY-MM-DD');
-        if (
-          moment(preferredDate).isAfter(maxDate) ||
-          moment(preferredDate).isBefore(moment().format('YYYY-MM-DD'))
-        ) {
+        const maxDate = moment().add(13, 'months');
+        if (moment(preferredDate).isBefore(moment(), 'day')) {
+          errors.addError('You must enter a future date. ');
+        }
+        if (moment(preferredDate).isAfter(maxDate, 'day')) {
           errors.addError(
-            'You must enter a date that is 395 days or less in the future. ',
+            'You must enter a date that is 13 months or less from today. ',
           );
         }
       },
