@@ -1,7 +1,5 @@
 import React from 'react';
-import { facilityTypes } from '../config';
 import get from 'platform/utilities/data/get';
-import { LocationType } from '../constants';
 
 /**
  * Description block for a CC Provider
@@ -14,7 +12,7 @@ import { LocationType } from '../constants';
  *      PPMS provided description of each specialty/service is included
  *      on the details output.
  */
-const ProviderServiceDescription = ({ provider, query, details = false }) => {
+const ProviderServiceDescription = ({ provider, details = false }) => {
   if (details) {
     const { specialty } = provider.attributes;
     if (specialty && specialty.length < 1) return null;

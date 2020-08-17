@@ -20,13 +20,7 @@ import ResultsList from '../components/ResultsList';
 import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
 import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
-import { facilityTypes } from '../config';
-import {
-  BOUNDING_RADIUS,
-  FacilityType,
-  LocationType,
-  MARKER_LETTERS,
-} from '../constants';
+import { BOUNDING_RADIUS, MARKER_LETTERS } from '../constants';
 import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
@@ -36,7 +30,6 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
-import get from 'platform/utilities/data/get';
 
 const mbxClient = mbxGeo(mapboxClient);
 
