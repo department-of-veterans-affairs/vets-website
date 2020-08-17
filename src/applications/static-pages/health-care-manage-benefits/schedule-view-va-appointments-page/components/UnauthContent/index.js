@@ -1,8 +1,5 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';

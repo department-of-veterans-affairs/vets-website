@@ -21,7 +21,7 @@ export default function ScheduleNewAppointment({
           <a
             id="new-appointment"
             className="usa-button vads-u-font-weight--bold vads-u-font-size--md"
-            href={getCernerURL()}
+            href={getCernerURL('/pages/scheduling/upcoming')}
             target="_blank"
             rel="noopener noreferrer"
           >

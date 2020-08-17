@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-import { focusElement } from 'platform/utilities/ui';
 import availableConnectedApps from './availableConnectedApps';
 
 export const AdditionalInfoSections = ({ activeApps }) => {

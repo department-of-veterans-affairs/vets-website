@@ -183,7 +183,7 @@ export const toolUrl = (appId, authenticatedWithSSOe = false) => {
 
     case widgetTypes.MANAGE_VA_DEBT:
       return {
-        url: '/manage-va-debt/debt-letters',
+        url: '/manage-va-debt/your-debt',
         redirect: false,
       };
 

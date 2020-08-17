@@ -299,7 +299,7 @@ export const requireNewDisability = (err, fieldData, formData) => {
   }
 };
 
-export const checkSeparationLocation = (errors, values = {}, formData) => {
+export const checkSeparationLocation = (errors, _values = {}, formData) => {
   const data = formData?.serviceInformation?.separationLocation?.label;
   const isValid =
     data && separationLocations.some(({ description }) => data === description);

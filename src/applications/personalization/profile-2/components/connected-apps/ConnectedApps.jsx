@@ -136,7 +136,7 @@ export class ConnectedApps extends Component {
             />
           ))}
 
-        {activeApps.map((app, idx) => (
+        {activeApps.map(app => (
           <ConnectedApp
             key={app.id}
             confirmDelete={this.confirmDelete}

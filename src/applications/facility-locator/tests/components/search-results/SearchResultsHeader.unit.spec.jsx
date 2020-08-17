@@ -5,12 +5,6 @@ import { SearchResultsHeader } from '../../../components/SearchResultsHeader';
 import { LocationType } from '../../../constants';
 
 describe('SearchResultsHeader', () => {
-  const defaultStore = {
-    searchQuery: {
-      specialties: [{ foo: 'bar' }],
-    },
-  };
-
   it('should not render header if results are empty', () => {
     const wrapper = shallow(<SearchResultsHeader results={[]} />);
 

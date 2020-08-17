@@ -1,13 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import {
-  CLINIC_URGENTCARE_SERVICE,
-  LocationType,
-  OperatingStatus,
-} from '../../../constants';
+import { LocationType, OperatingStatus } from '../../../constants';
 import LocationAddress from './LocationAddress';
-import ProviderServiceDescription from '../../ProviderServiceDescription';
 import { isVADomain } from '../../../utils/helpers';
 
 const showOperationStatus = operatingStatus => {
@@ -41,7 +36,7 @@ const showOperationStatus = operatingStatus => {
   );
 };
 
-const LocationInfoBlock = ({ location, from, query }) => {
+const LocationInfoBlock = ({ location }) => {
   const { name, website, operatingStatus } = location.attributes;
   const isProvider = location.type === LocationType.CC_PROVIDER;
   const distance = location.distance;
