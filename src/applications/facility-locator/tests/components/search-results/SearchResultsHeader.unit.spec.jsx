@@ -29,7 +29,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Results for "VA health"\s+near\s+"new york"/,
+      /Results for "VA health",\s+"All VA health services"\s+near\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -50,6 +50,21 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
+  it('with LocationType.HEALTH, null serviceType', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.HEALTH}
+        context="new york"
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Results for "VA health",\s+"All VA health services"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
   it('should render header with LocationType.URGENT_CARE', () => {
     const wrapper = shallow(
       <SearchResultsHeader
@@ -62,6 +77,21 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       /Results for "Urgent care",\s+"Community urgent care providers \(in VA’s network\)"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('LocationType.URGENT_CARE, null serviceType', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.URGENT_CARE}
+        context="new york"
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Results for "Urgent care",\s+"All urgent care"\s+near\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -95,6 +125,36 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       /Results for "VA benefits",\s+"Applying for benefits"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('LocationType.BENEFITS, serviceType null', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.BENEFITS}
+        context="new york"
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Results for "VA benefits",\s+"All VA benefit services"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('LocationType.CEMETARY', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.CEMETARY}
+        context="new york"
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Results for "VA cemeteries"\s+near\s+"new york"/,
     );
     wrapper.unmount();
   });

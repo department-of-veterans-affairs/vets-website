@@ -25,10 +25,16 @@ export const SearchResultsHeader = ({
 
   const formatServiceType = rawServiceType => {
     if (facilityType === LocationType.URGENT_CARE) {
+      if (!rawServiceType) {
+        return urgentCareServices.AllUrgentCare;
+      }
       return urgentCareServices[rawServiceType];
     }
 
     if (facilityType === LocationType.HEALTH) {
+      if (!rawServiceType) {
+        return healthServices.All;
+      }
       return healthServices[rawServiceType];
     }
 
@@ -37,11 +43,16 @@ export const SearchResultsHeader = ({
     }
 
     if (facilityType === LocationType.BENEFITS) {
+      if (!rawServiceType) {
+        return benefitsServices.All;
+      }
       return benefitsServices[rawServiceType];
     }
 
     return rawServiceType;
   };
+
+  const formattedServiceType = formatServiceType(serviceType);
 
   return (
     <h2
@@ -53,10 +64,10 @@ export const SearchResultsHeader = ({
       Results for &quot;
       <b>{facilityTypes[facilityType]}</b>
       &quot;
-      {serviceType && (
+      {formattedServiceType && (
         <>
           ,&nbsp;&quot;
-          <b>{formatServiceType(serviceType)}</b>
+          <b>{formattedServiceType}</b>
           &quot;
         </>
       )}
