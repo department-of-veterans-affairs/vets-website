@@ -305,7 +305,7 @@ export const LegacyContent = () => (
             >
               <p>
                 Yes. If you’re eligible to receive care from a community
-                provider outside of VA, you can use these tools to submit
+                provider outside of VA, you can use this tool to submit
                 appointment requests. You must receive prior approval from us
                 before getting care from a community provider.
               </p>
