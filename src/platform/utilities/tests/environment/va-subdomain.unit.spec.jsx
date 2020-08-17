@@ -3,13 +3,8 @@ import { expect } from 'chai';
 import isVATeamSiteSubdomain from '../../environment/va-subdomain';
 
 describe('brand-consolidation/va-subdomain', () => {
-  const oldWindow = window;
-
-  after(() => {
-    window = oldWindow; // eslint-disable-line no-global-assign
-  });
-
   it('returns false if is not a VA subdomain', () => {
+    const oldWindow = window;
     // eslint-disable-next-line no-global-assign
     window = {
       location: {
@@ -18,9 +13,11 @@ describe('brand-consolidation/va-subdomain', () => {
     };
 
     expect(isVATeamSiteSubdomain()).to.be.false;
+    window = oldWindow; // eslint-disable-line no-global-assign
   });
 
   it('returns true if is a VA subdomain', () => {
+    const oldWindow = window;
     // eslint-disable-next-line no-global-assign
     window = {
       location: {
@@ -29,5 +26,6 @@ describe('brand-consolidation/va-subdomain', () => {
     };
 
     expect(isVATeamSiteSubdomain()).to.be.true;
+    window = oldWindow; // eslint-disable-line no-global-assign
   });
 });
