@@ -840,7 +840,7 @@
     "entryName": "questionnaire",
     "rootUrl": "/healthcare/questionnaire",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "includeBreadcrumbs":false,
       "breadcrumbs_override": []
