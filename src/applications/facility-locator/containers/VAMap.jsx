@@ -304,6 +304,9 @@ class VAMap extends Component {
         const placeName = features[0].place_name;
         if (!facilityType) {
           this.refInput.current.value = placeName;
+          this.props.updateSearchQuery({
+            searchString: placeName,
+          });
           return;
         }
         const coordinates = features[0].center;
