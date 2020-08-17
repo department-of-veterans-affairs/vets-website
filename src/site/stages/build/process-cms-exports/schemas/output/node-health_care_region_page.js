@@ -1,5 +1,6 @@
 const { usePartialSchema } = require('../../transformers/helpers');
 const personProfileSchema = require('./node-person_profile');
+const healthCareLocalFacilitySchema = require('./node-health_care_local_facility');
 
 module.exports = {
   type: 'object',
@@ -53,6 +54,20 @@ module.exports = {
             ]),
           },
         },
+        reverseFieldRegionPageNode: {
+          type: 'object',
+          properties: {
+            entities: {
+              type: 'array',
+              items: {
+                entity: usePartialSchema(healthCareLocalFacilitySchema, [
+                  'title',
+                  'fieldOperatingStatusFacility',
+                ]),
+              },
+            },
+          },
+        },
       },
       required: [
         'title',
@@ -60,6 +75,7 @@ module.exports = {
         'fieldLinkFacilityEmergList',
         'fieldPressReleaseBlurb',
         'fieldLeadership',
+        'reverseFieldRegionPageNode',
       ],
     },
   },

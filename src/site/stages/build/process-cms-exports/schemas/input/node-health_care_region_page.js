@@ -22,6 +22,7 @@ module.exports = {
       },
     },
     field_leadership: { $ref: 'EntityReferenceArray' },
+    reverse_field_region_page: { $ref: 'EntityReferenceArray' },
   },
   required: [
     'title',
@@ -32,5 +33,6 @@ module.exports = {
     // 'field_link_facility_emerg_list',
     'field_nickname_for_this_facility',
     'field_leadership',
+    'reverse_field_region_page',
   ],
 };

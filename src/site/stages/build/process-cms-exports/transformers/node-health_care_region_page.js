@@ -15,6 +15,7 @@ const transform = ({
   fieldPressReleaseBlurb,
   fieldLinkFacilityEmergList,
   fieldLeadership,
+  reverseFieldRegionPage,
 }) => ({
   entity: {
     entityType: 'node',
@@ -63,6 +64,19 @@ const transform = ({
           },
         }))
       : [],
+    reverseFieldRegionPageNode: {
+      entities: reverseFieldRegionPage
+        ? reverseFieldRegionPage
+            .filter(
+              reverseField =>
+                reverseField.entityBundle === 'health_care_local_facility',
+            )
+            .map(r => ({
+              title: r.title,
+              fieldOperatingStatusFacility: r.fieldOperatingStatusFacility,
+            }))
+        : [],
+    },
   },
 });
 module.exports = {
@@ -76,6 +90,7 @@ module.exports = {
     'field_press_release_blurb',
     'metatag',
     'field_leadership',
+    'reverse_field_region_page',
   ],
   transform,
 };
