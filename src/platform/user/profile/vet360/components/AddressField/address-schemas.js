@@ -79,21 +79,21 @@ const formSchema = {
   required: ['countryCodeIso3', 'addressLine1', 'city'],
 };
 
-const Description = (props) => {
-  console.log("This is field", props)
-  if (props.field === true) {
-    return (
-      <span>
-        U.S. military bases are considered a domestic address and a part of the United States.
-      </span>
-    )
+const Description = ({ isMilitaryAddress }) => {
+  if (!isMilitaryAddress) {
+    return null
   }
-  return null
+
+  return (
+    <span>
+      U.S. military bases are considered a domestic address and a part of the United States.
+    </span>
+  )
 }
 
 const mapStateToProps = (state) => {
   return {
-    field: state?.vet360?.formFields?.mailingAddress?.value['view:livesOnMilitaryBase'],
+    isMilitaryAddress: state?.vet360?.formFields?.mailingAddress?.value['view:livesOnMilitaryBase'],
   }
 };
 
