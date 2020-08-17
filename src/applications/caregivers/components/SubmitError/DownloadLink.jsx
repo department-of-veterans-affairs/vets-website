@@ -36,7 +36,12 @@ const DownLoadLink = ({ form }) => {
 
   return (
     <div className="vads-u-margin-top--2">
-      <a href={PDFLink} target="_blank" rel="noreferrer noopener">
+      <a
+        href={PDFLink}
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-label="Download 1010CG filled out PDF form"
+      >
         <i
           aria-hidden="true"
           role="img"
