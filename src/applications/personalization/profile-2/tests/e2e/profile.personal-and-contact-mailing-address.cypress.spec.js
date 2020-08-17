@@ -27,7 +27,7 @@ const setup = (mobile = false) => {
 
 const checkMilitaryAddress = () => {
   const militaryAddressCountry =
-    'U.S. military bases are considered a domestic address and a part of the United States.'
+    'U.S. military bases are considered a domestic address and a part of the United States.';
 
   // Open edit view
   cy.findByRole('button', {
