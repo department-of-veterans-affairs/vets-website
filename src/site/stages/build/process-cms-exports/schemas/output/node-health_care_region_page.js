@@ -125,6 +125,25 @@ module.exports = {
             },
           },
         },
+        allEventTeasers: {
+          type: 'object',
+          properties: {
+            entities: {
+              type: 'array',
+              maxItems: 500,
+              items: {
+                entity: usePartialSchema(eventSchema, [
+                  'title',
+                  'fieldDate',
+                  'fieldDescription',
+                  'fieldLocationHumanreadable',
+                  'fieldFacilityLocation',
+                  'entityUrl',
+                ]),
+              },
+            },
+          },
+        },
       },
       required: [
         'title',
@@ -136,6 +155,7 @@ module.exports = {
         'newsStoryTeasers',
         'allNewsStoryTeasers',
         'eventTeasers',
+        'allEventTeasers',
       ],
     },
   },

@@ -141,6 +141,25 @@ const transform = ({
             }))
         : [],
     },
+    allEventTeasers: {
+      entities: reverseFieldOffice
+        ? reverseFieldOffice
+            .filter(
+              reverseField =>
+                reverseField.entityBundle === 'event' &&
+                reverseField.entityPublished,
+            )
+            .sort((a, b) => a.fieldDate.value - b.fieldDate.value)
+            .slice(0, 500)
+            .map(r => ({
+              title: r.title,
+              fieldFeatured: r.fieldFeatured,
+              fieldIntroText: r.fieldIntroText,
+              fieldMedia: r.fieldMedia,
+              entityUrl: r.entityUrl,
+            }))
+        : [],
+    },
   },
 });
 module.exports = {
