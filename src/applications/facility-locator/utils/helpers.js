@@ -229,7 +229,7 @@ export const showDialogUrgCare = currentQuery => {
   if (
     (currentQuery.facilityType === LocationType.URGENT_CARE &&
       currentQuery.serviceType === 'NonVAUrgentCare') ||
-    currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
+    currentQuery.facilityType === LocationType.URGENT_CARE_PHARMACIES
   ) {
     return <UrgentCareAlert />;
   }

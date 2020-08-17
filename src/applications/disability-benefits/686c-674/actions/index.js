@@ -1,5 +1,5 @@
 import recordEvent from 'platform/monitoring/record-event';
-import { getData, isServerError, isClientError } from '../util';
+import { getData } from '../util';
 import * as Sentry from '@sentry/browser';
 
 export const VERIFY_VA_FILE_NUMBER_STARTED = 'VERIFY_VA_FILE_NUMBER_STARTED';

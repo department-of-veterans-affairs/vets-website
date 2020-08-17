@@ -1,8 +1,4 @@
-import {
-  isChapterFieldRequired,
-  isInsideListLoopReturn,
-  isOutsideListLoopReturn,
-} from './helpers';
+import { isInsideListLoopReturn, isOutsideListLoopReturn } from './helpers';
 
 /**
  * This module is intended to create a reusable location schema and UI that can

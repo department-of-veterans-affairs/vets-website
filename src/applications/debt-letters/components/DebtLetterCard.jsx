@@ -2,7 +2,7 @@ import React from 'react';
 import last from 'lodash/last';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import { deductionCodes } from '../const';
+import { deductionCodes, renderAdditionalInfo } from '../const';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -28,10 +28,7 @@ const DebtLetterCard = ({ debt }) => {
         {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
       </p>
       <AdditionalInfo triggerText="Why might I have this debt?">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aperiam
-        culpa debitis deleniti earum explicabo fuga fugit libero magnam
-        molestiae non, omnis porro qui, quod voluptatibus. Natus perspiciatis
-        quibusdam recusandae?
+        {renderAdditionalInfo(debt.deductionCode)}
       </AdditionalInfo>
     </div>
   );

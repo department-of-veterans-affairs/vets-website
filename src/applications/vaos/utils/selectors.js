@@ -35,6 +35,7 @@ import {
   isValidPastAppointment,
   sortByDateDescending,
   sortUpcoming,
+  getVARFacilityId,
 } from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
@@ -66,11 +67,6 @@ export function getFormPageInfo(state, pageKey) {
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
   };
 }
-
-export const selectCernerFacilities = state =>
-  selectPatientFacilities(state)
-    ?.filter(f => f.isCerner)
-    .map(f => f.facilityId) || [];
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -262,6 +258,18 @@ export function hasSingleValidVALocation(state) {
   );
 }
 
+export function selectCernerOrgIds(state) {
+  const cernerSites = selectPatientFacilities(state)?.filter(f => f.isCerner);
+  return getNewAppointment(state)
+    .parentFacilities?.filter(parent => {
+      const facilityId = getSiteIdFromOrganization(parent);
+      return cernerSites?.some(cernerSite =>
+        facilityId.startsWith(cernerSite.facilityId),
+      );
+    })
+    .map(facility => facility.id);
+}
+
 export function getFacilityPageInfo(state) {
   const formInfo = getFormPageInfo(state, 'vaFacility');
   const data = getFormData(state);
@@ -295,7 +303,7 @@ export function getFacilityPageInfo(state) {
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     parentOfChosenFacility: getParentOfChosenFacility(state),
-    cernerFacilities: selectCernerFacilities(state),
+    cernerOrgIds: selectCernerOrgIds(state),
     siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
   };
 }
@@ -338,7 +346,6 @@ export function getClinicPageInfo(state, pageKey) {
 }
 
 export function getCancelInfo(state) {
-  const cernerFacilities = selectCernerFacilities(state);
   const {
     appointmentToCancel,
     showCancelModal,
@@ -367,6 +374,13 @@ export function getCancelInfo(state) {
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];
   }
+  let isCerner = null;
+  if (appointmentToCancel) {
+    const facilityId = getVARFacilityId(appointmentToCancel);
+    isCerner = selectPatientFacilities(state)
+      ?.filter(f => f.isCerner)
+      .some(cernerSite => facilityId?.startsWith(cernerSite.facilityId));
+  }
 
   return {
     facility,
@@ -374,7 +388,7 @@ export function getCancelInfo(state) {
     showCancelModal,
     cancelAppointmentStatus,
     cancelAppointmentStatusVaos400,
-    cernerFacilities,
+    isCerner,
   };
 }
 
@@ -420,19 +434,52 @@ export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
 export const selectExpressCareRequests = createSelector(
-  state => state.appointments.future,
-  future =>
-    future?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
+  state => state.appointments.pending,
+  pending =>
+    pending?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
 );
+
+export function selectFutureStatus(state) {
+  const { pendingStatus, confirmedStatus } = state.appointments;
+  if (
+    pendingStatus === FETCH_STATUS.failed ||
+    confirmedStatus === FETCH_STATUS.failed
+  ) {
+    return FETCH_STATUS.failed;
+  }
+
+  if (
+    pendingStatus === FETCH_STATUS.loading ||
+    confirmedStatus === FETCH_STATUS.loading
+  ) {
+    return FETCH_STATUS.loading;
+  }
+
+  if (
+    pendingStatus === FETCH_STATUS.succeeded &&
+    confirmedStatus === FETCH_STATUS.succeeded
+  ) {
+    return FETCH_STATUS.succeeded;
+  }
+
+  return FETCH_STATUS.notStarted;
+}
 
 export const selectFutureAppointments = createSelector(
   vaosExpressCare,
-  state => state.appointments.future,
-  (showExpressCare, future) =>
-    future
-      ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
-      ?.filter(isUpcomingAppointmentOrRequest)
-      .sort(sortUpcoming),
+  state => state.appointments.pending,
+  state => state.appointments.confirmed,
+  (showExpressCare, pending, confirmed) => {
+    if (!confirmed || !pending) {
+      return null;
+    }
+
+    return confirmed
+      .concat(...pending)
+      .filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
+      .filter(isUpcomingAppointmentOrRequest)
+      .sort(sortUpcoming);
+  },
 );
 
 export const selectPastAppointments = createSelector(
@@ -442,8 +489,12 @@ export const selectPastAppointments = createSelector(
   },
 );
 
+export function selectExpressCareNewRequest(state) {
+  return state.expressCare.newRequest;
+}
+
 export function selectExpressCareFormData(state) {
-  return state.expressCare.newRequest.data;
+  return selectExpressCareNewRequest(state).data;
 }
 
 /*
@@ -581,6 +632,15 @@ export function selectExpressCare(state) {
     hasWindow: !!expressCare.supportedFacilities?.length,
     hasRequests:
       vaosExpressCare(state) &&
-      state.appointments.future?.some(appt => appt.vaos.isExpressCare),
+      state.appointments.pending?.some(appt => appt.vaos.isExpressCare),
+  };
+}
+
+export function getExpressCareFormPageInfo(state, pageKey) {
+  const newRequest = selectExpressCareNewRequest(state);
+  return {
+    schema: newRequest.pages[pageKey],
+    data: newRequest.data,
+    pageChangeInProgress: newRequest.pageChangeInProgress,
   };
 }

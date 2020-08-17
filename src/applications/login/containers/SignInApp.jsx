@@ -84,7 +84,7 @@ class SignInPage extends React.Component {
         </div>
         <div className="row medium-screen:vads-u-display--none mobile-explanation">
           <div className="columns small-12">
-            <h2>
+            <h2 className="vads-u-margin-top--0">
               One sign in. A lifetime of benefits and services at your
               fingertips.
             </h2>
@@ -99,18 +99,24 @@ class SignInPage extends React.Component {
               <div className="top-banner">
                 <div>
                   <img
+                    aria-hidden="true"
+                    role="presentation"
                     alt="ID.me"
                     src={`${vaGovFullDomain}/img/signin/lock-icon.svg`}
                   />{' '}
                   Secured & powered by{' '}
                   <img
+                    aria-hidden="true"
+                    role="presentation"
                     alt="ID.me"
                     src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
                   />
                 </div>
               </div>
               <div className="signin-actions">
-                <h5>Sign in with an existing account</h5>
+                <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
+                  Sign in with an existing account
+                </h2>
                 <SignInButtons isDisabled={globalDowntime} />
               </div>
             </div>
@@ -120,7 +126,9 @@ class SignInPage extends React.Component {
         <div className="row">
           <div className="columns small-12">
             <div className="help-info">
-              <h4>Having trouble signing in?</h4>
+              <h2 className="vads-u-font-size--md">
+                Having trouble signing in?
+              </h2>
               <p>
                 <a href="/sign-in-faq/" target="_blank">
                   Get answers to Frequently Asked Questions

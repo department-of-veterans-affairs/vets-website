@@ -1,8 +1,4 @@
 import { expect } from 'chai';
-import {
-  PAYMENTS_RECEIVED_SUCCEEDED,
-  PAYMENTS_RECEIVED_FAILED,
-} from '../../actions';
 
 import paymentReducer from '../../reducers';
 import { mockData } from '../helpers';

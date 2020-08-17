@@ -3,7 +3,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { mockConnectedApps } from 'applications/personalization/profile360/util/connected-apps.js';
-import { isEmpty } from 'lodash';
 
 export const LOADING_CONNECTED_APPS = 'connected-apps/LOADING_CONNECTED_APPS';
 export const FINISHED_LOADING_CONNECTED_APPS =
@@ -26,7 +25,7 @@ export function loadConnectedApps() {
     dispatch({ type: LOADING_CONNECTED_APPS });
 
     // Locally we cannot call the endpoint
-    if (environment.isLocalhost()) {
+    if (environment.isLocalhost() && !window.Cypress) {
       await new Promise(resolve => setTimeout(resolve, 2000));
       dispatch({
         type: FINISHED_LOADING_CONNECTED_APPS,
@@ -58,7 +57,7 @@ export function deleteConnectedApp(appId) {
     dispatch({ type: DELETING_CONNECTED_APP, appId });
 
     // Locally we cannot call the endpoint
-    if (environment.isLocalhost()) {
+    if (environment.isLocalhost() && !window.Cypress) {
       await new Promise(resolve => setTimeout(resolve, 2000));
       dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId });
       return;

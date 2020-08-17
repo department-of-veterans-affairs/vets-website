@@ -5,21 +5,23 @@ const {
   isPublished,
 } = require('./helpers');
 
-const reverseFields = reverseFieldList => ({
-  entities: reverseFieldList
-    .filter(
-      reverseField =>
-        reverseField.entityBundle === 'event' && reverseField.status,
-    )
-    .map(reverseField => ({
-      title: reverseField.title,
-      entityUrl: reverseField.entityUrl,
-      uid: reverseField.uid,
-      fieldFeatured: reverseField.fieldFeatured,
-      fieldDate: reverseField.fieldDate,
-      fieldDescription: reverseField.fieldDescription,
-      fieldLocationHumanreadable: reverseField.fieldLocationHumanreadable,
-    })),
+const reverseFields = reverseFieldListing => ({
+  entities: reverseFieldListing
+    ? reverseFieldListing
+        .filter(
+          reverseField =>
+            reverseField.entityBundle === 'event' && reverseField.status,
+        )
+        .map(reverseField => ({
+          title: reverseField.title,
+          entityUrl: reverseField.entityUrl,
+          uid: reverseField.uid,
+          fieldFeatured: reverseField.fieldFeatured,
+          fieldDate: reverseField.fieldDate,
+          fieldDescription: reverseField.fieldDescription,
+          fieldLocationHumanreadable: reverseField.fieldLocationHumanreadable,
+        }))
+    : [],
 });
 
 const transform = entity => ({
@@ -29,14 +31,14 @@ const transform = entity => ({
   created: utcToEpochTime(getDrupalValue(entity.created)),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldAdministration: entity.fieldAdministration[0],
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
   fieldOffice: entity.fieldOffice[0],
-  reverseFieldListingNode: reverseFields(entity.reverseFieldList),
-  pastEvents: reverseFields(entity.reverseFieldList),
+  reverseFieldListingNode: reverseFields(entity.reverseFieldListing),
+  pastEvents: reverseFields(entity.reverseFieldListing),
 });
 module.exports = {
   filter: [
@@ -44,13 +46,13 @@ module.exports = {
     'created',
     'changed',
     'metatag',
-    'moderation_state',
+    'status',
     'field_administration',
     'field_description',
     'field_intro_text',
     'field_meta_title',
     'field_office',
-    'reverse_field_list',
+    'reverse_field_listing',
   ],
   transform,
 };

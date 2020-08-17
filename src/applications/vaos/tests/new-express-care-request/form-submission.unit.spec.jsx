@@ -26,7 +26,7 @@ import {
   mockSupportedFacilities,
   mockPreferences,
 } from '../mocks/helpers';
-import ExpressCareFormPage from '../../containers/ExpressCareFormPage';
+import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
 import ExpressCareConfirmationPage from '../../containers/ExpressCareConfirmationPage';
 import { fetchExpressCareWindows } from '../../actions/expressCare';
 import { EXPRESS_CARE } from '../../utils/constants';
@@ -35,6 +35,14 @@ const initialState = {
   user: {
     profile: {
       facilities: [{ facilityId: '983', isCerner: false }],
+    },
+  },
+  expressCare: {
+    newRequest: {
+      data: {
+        reason: 'Cough',
+      },
+      pages: {},
     },
   },
 };
@@ -75,16 +83,13 @@ describe('VAOS integration: Express Care form submission', () => {
       push: sinon.spy(),
     };
     const screen = renderInReduxProvider(
-      <ExpressCareFormPage router={router} />,
+      <ExpressCareDetailsPage router={router} />,
       {
         store,
       },
     );
 
     fireEvent.click(await screen.findByText(/submit express care/i));
-    expect(await screen.findByText('Please select a symptom')).to.contain.text(
-      'Please select a symptom',
-    );
     expect(screen.baseElement).not.to.contain.text(
       'Submitting your Express Care request',
     );
@@ -118,7 +123,7 @@ describe('VAOS integration: Express Care form submission', () => {
           .format('HH:mm'),
         endTime: today
           .clone()
-          .add('1', 'minutes')
+          .add('2', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
       },
@@ -146,21 +151,21 @@ describe('VAOS integration: Express Care form submission', () => {
       push: sinon.spy(),
     };
     let screen = renderInReduxProvider(
-      <ExpressCareFormPage router={router} />,
+      <ExpressCareDetailsPage router={router} />,
       {
         store,
       },
     );
 
-    fireEvent.click(await screen.getByLabelText('Cough'));
-    fireEvent.change(
-      await screen.getByLabelText(/please provide additional/i),
-      { target: { value: requestData.attributes.additionalInformation } },
-    );
-    fireEvent.change(await screen.getByLabelText(/phone number/i), {
+    await screen.findByText(/tell us about your cough/i);
+
+    fireEvent.change(screen.getByLabelText(/tell us about your/i), {
+      target: { value: requestData.attributes.additionalInformation },
+    });
+    fireEvent.change(screen.getByLabelText(/phone number/i), {
       target: { value: requestData.attributes.phoneNumber },
     });
-    fireEvent.change(await screen.getByLabelText(/email address/i), {
+    fireEvent.change(screen.getByLabelText(/email address/i), {
       target: { value: requestData.attributes.email },
     });
     fireEvent.click(await screen.findByText(/submit express care/i));
@@ -187,7 +192,6 @@ describe('VAOS integration: Express Care form submission', () => {
     );
 
     expect(preferencesData.emailAddress).to.equal(requestData.attributes.email);
-
     expect(responseData).to.deep.include({
       ...requestData.attributes,
       typeOfCareId: 'CR1',
@@ -279,10 +283,10 @@ describe('VAOS integration: Express Care form submission', () => {
       { errors: [] },
     );
 
-    const screen = renderInReduxProvider(<ExpressCareFormPage />, {
+    const screen = renderInReduxProvider(<ExpressCareDetailsPage />, {
       store,
     });
-    fireEvent.click(await screen.getByLabelText('Cough'));
+
     fireEvent.change(await screen.getByLabelText(/phone number/i), {
       target: { value: '9737790338' },
     });
@@ -367,13 +371,12 @@ describe('VAOS integration: Express Care form submission', () => {
       push: sinon.spy(),
     };
     const screen = renderInReduxProvider(
-      <ExpressCareFormPage router={router} />,
+      <ExpressCareDetailsPage router={router} />,
       {
         store,
       },
     );
 
-    fireEvent.click(await screen.getByLabelText('Cough'));
     fireEvent.change(await screen.getByLabelText(/phone number/i), {
       target: { value: requestData.attributes.phoneNumber },
     });
@@ -386,7 +389,6 @@ describe('VAOS integration: Express Care form submission', () => {
     expect(router.push.firstCall.args[0]).to.equal(
       '/new-express-care-request/confirmation',
     );
-    await cleanup();
 
     const responseData = JSON.parse(
       global.fetch
@@ -438,11 +440,10 @@ describe('VAOS integration: Express Care form submission', () => {
       { errors: [] },
     );
 
-    const screen = renderInReduxProvider(<ExpressCareFormPage />, {
+    const screen = renderInReduxProvider(<ExpressCareDetailsPage />, {
       store,
     });
 
-    fireEvent.click(await screen.getByLabelText('Cough'));
     fireEvent.change(await screen.getByLabelText(/phone number/i), {
       target: { value: '9737790338' },
     });

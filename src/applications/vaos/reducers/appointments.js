@@ -5,6 +5,8 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
+  FETCH_PENDING_APPOINTMENTS_FAILED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
@@ -23,15 +25,13 @@ import {
 } from '../actions/sitewide';
 
 import { sortMessages } from '../services/appointment';
-import {
-  FETCH_STATUS,
-  APPOINTMENT_TYPES,
-  APPOINTMENT_STATUS,
-} from '../utils/constants';
+import { FETCH_STATUS, APPOINTMENT_STATUS } from '../utils/constants';
 
 const initialState = {
-  future: null,
-  futureStatus: FETCH_STATUS.notStarted,
+  pending: null,
+  pendingStatus: FETCH_STATUS.notStarted,
+  confirmed: null,
+  confirmedStatus: FETCH_STATUS.notStarted,
   past: null,
   pastStatus: FETCH_STATUS.notStarted,
   pastSelectedIndex: 0,
@@ -41,14 +41,6 @@ const initialState = {
   facilityData: {},
   requestMessages: {},
   systemClinicToFacilityMap: {},
-  expressCare: {
-    windowsStatus: FETCH_STATUS.notStarted,
-    hasWindow: false,
-    allowRequests: false,
-    localWindowString: null,
-    minStart: null,
-    maxEnd: null,
-  },
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -56,22 +48,34 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_FUTURE_APPOINTMENTS:
       return {
         ...state,
-        futureStatus: FETCH_STATUS.loading,
+        pendingStatus: FETCH_STATUS.loading,
+        confirmedStatus: FETCH_STATUS.loading,
       };
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
-      const [bookedAppointments, requests] = action.data;
-
       return {
         ...state,
-        future: [...bookedAppointments, ...requests],
-        futureStatus: FETCH_STATUS.succeeded,
+        confirmed: action.data,
+        confirmedStatus: FETCH_STATUS.succeeded,
       };
     }
     case FETCH_FUTURE_APPOINTMENTS_FAILED:
       return {
         ...state,
-        futureStatus: FETCH_STATUS.failed,
-        future: null,
+        confirmedStatus: FETCH_STATUS.failed,
+        confirmed: null,
+      };
+    case FETCH_PENDING_APPOINTMENTS_SUCCEEDED: {
+      return {
+        ...state,
+        pending: action.data,
+        pendingStatus: FETCH_STATUS.succeeded,
+      };
+    }
+    case FETCH_PENDING_APPOINTMENTS_FAILED:
+      return {
+        ...state,
+        pendingStatus: FETCH_STATUS.failed,
+        pending: null,
       };
     case FETCH_PAST_APPOINTMENTS:
       return {
@@ -140,36 +144,38 @@ export default function appointmentsReducer(state = initialState, action) {
         cancelAppointmentStatus: FETCH_STATUS.loading,
       };
     case CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED: {
-      const future = state.future.map(appt => {
+      const confirmed = state.confirmed?.map(appt => {
         if (appt !== state.appointmentToCancel) {
           return appt;
         }
 
-        let newAppt = appt;
-
-        if (
-          state.appointmentToCancel.vaos?.appointmentType ===
-          APPOINTMENT_TYPES.vaAppointment
-        ) {
-          newAppt = set(
-            'legacyVAR.apiData.vdsAppointments[0].currentStatus',
-            'CANCELLED BY PATIENT',
-            newAppt,
-          );
-          newAppt.description = 'CANCELLED BY PATIENT';
-        } else {
-          newAppt = {
-            ...newAppt,
-            apiData: action.apiData,
-          };
-        }
+        const newAppt = set(
+          'legacyVAR.apiData.vdsAppointments[0].currentStatus',
+          'CANCELLED BY PATIENT',
+          appt,
+        );
+        newAppt.description = 'CANCELLED BY PATIENT';
 
         return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
       });
+      const pending = state.pending?.map(appt => {
+        if (appt !== state.appointmentToCancel) {
+          return appt;
+        }
+
+        const newAppt = {
+          ...appt,
+          apiData: action.apiData,
+        };
+
+        return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
+      });
+
       return {
         ...state,
         showCancelModal: true,
-        future,
+        confirmed,
+        pending,
         cancelAppointmentStatus: FETCH_STATUS.succeeded,
         cancelAppointmentStatusVaos400: false,
       };
@@ -189,11 +195,18 @@ export default function appointmentsReducer(state = initialState, action) {
         cancelAppointmentStatus: FETCH_STATUS.notStarted,
       };
     case EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED:
+      return {
+        ...state,
+        pending: null,
+        pendingStatus: FETCH_STATUS.notStarted,
+      };
     case FORM_SUBMIT_SUCCEEDED:
       return {
         ...state,
-        future: null,
-        futureStatus: FETCH_STATUS.notStarted,
+        pending: null,
+        pendingStatus: FETCH_STATUS.notStarted,
+        confirmed: null,
+        confirmedStatus: FETCH_STATUS.notStarted,
       };
     default:
       return state;

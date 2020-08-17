@@ -10,12 +10,7 @@ import { ApplicationStatus } from '../../save-in-progress/ApplicationStatus';
 describe('schemaform <ApplicationStatus>', () => {
   let formConfigDefaultData;
   beforeEach(() => {
-    formConfigDefaultData = {
-      customText: {
-        startNewAppButtonText: '',
-        continueAppButtonText: '',
-      },
-    };
+    formConfigDefaultData = {};
   });
 
   it('should render loading', () => {
@@ -113,9 +108,7 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
     expect(tree.subTree('.usa-alert-warning')).to.not.be.false;
-    expect(tree.subTree('.usa-button-primary').text()).to.equal(
-      'Start a new application',
-    );
+    expect(tree.text()).to.include('start a new application');
   });
   it('should render saved form from ids', () => {
     const tree = SkinDeep.shallowRender(
@@ -142,7 +135,6 @@ describe('schemaform <ApplicationStatus>', () => {
         formConfig={formConfigDefaultData}
       />,
     );
-
     expect(tree.subTree('.usa-alert-info')).to.not.be.false;
     expect(tree.subTree('.usa-button-primary').text()).to.equal(
       'Continue your application',

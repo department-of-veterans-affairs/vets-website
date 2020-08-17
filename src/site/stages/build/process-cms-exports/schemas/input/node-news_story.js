@@ -6,7 +6,6 @@ module.exports = {
     title: { $ref: 'GenericNestedString' },
     created: { $ref: 'GenericNestedString' },
     promote: { $ref: 'GenericNestedBoolean' },
-    moderation_state: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_author: {
@@ -27,12 +26,21 @@ module.exports = {
       items: { $ref: 'EntityReference' },
       maxItems: 1,
     },
+    // Needed for filtering reverse fields in other transformers
+    status: { $ref: 'GenericNestedBoolean' },
+    field_featured: { $ref: 'GenericNestedBoolean' },
+    // Ignoring while non existent uids are referenced in the export
+    // uid: {
+    //   type: 'array',
+    //   items: { $ref: 'EntityReference' },
+    //   maxItems: 1,
+    // },
   },
   required: [
     'title',
+    // 'uid',
     'created',
     'promote',
-    'moderation_state',
     'metatag',
     'path',
     'field_author',
@@ -40,6 +48,8 @@ module.exports = {
     'field_image_caption',
     'field_intro_text',
     'field_media',
+    'status',
+    'field_featured',
     // Apparently this isn't always there
     // 'field_office',
   ],

@@ -1,5 +1,4 @@
 import React from 'react';
-import { PURPOSE_TEXT } from '../utils/constants';
 
 export default function AppointmentInstructions({ instructions }) {
   if (!instructions) {
