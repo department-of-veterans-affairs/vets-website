@@ -6,7 +6,9 @@ import GenderFilter from '../../../components/search/GenderFilter';
 
 describe('<CautionFlagHeading>', () => {
   it('renders', () => {
-    const wrapper = shallow(<GenderFilter />);
+    const wrapper = shallow(
+      <GenderFilter filters={{}} onChange={() => {}} onFocus={() => {}} />,
+    );
     expect(wrapper.html()).to.not.be.undefined;
     wrapper.unmount();
   });
