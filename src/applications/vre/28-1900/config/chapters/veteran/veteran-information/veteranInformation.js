@@ -1,6 +1,6 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import VeteranInformation from '../../../../containers/VeteranInformation';
+// import VeteranInformation from '../../../../containers/VeteranInformation';
 
 export const schema = {
   type: 'object',
@@ -45,7 +45,7 @@ export const schema = {
 export const uiSchema = {
   veteranInformation: {
     'ui:title': 'Veteran Information',
-    'ui:field': VeteranInformation,
+    // 'ui:field': VeteranInformation,
     fullName: {
       first: {
         'ui:title': 'Your first name',
