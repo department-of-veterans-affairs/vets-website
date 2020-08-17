@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import ADDRESS_DATA from 'platform/forms/address/data';
