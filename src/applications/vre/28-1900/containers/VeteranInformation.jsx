@@ -4,22 +4,12 @@ This way, we can use hideHeaderRow in the formConfig, and just rebuild the revie
  */
 import React from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VeteranInformationViewComponent } from '../components/VeteranInformationViewComponent';
 
 const VeteranInformation = props => {
-  const {
-    user,
-    formData,
-    formContext,
-    registry,
-    schema,
-    uiSchema,
-    onBlur,
-    errorSchema,
-  } = props;
+  const { user, formData, registry, formContext } = props;
   const onPropertyChange = name => {
     return value => {
       props.onChange(set(name, value, props.formData));

@@ -21,7 +21,7 @@ const NONE_OF_ABOVE = 'NONE_OF_ABOVE';
 
 export const setNoneOfAbove = (form, elementName) => {
   const updatedForm = form;
-  Object.keys(updatedForm[elementName]).map((key, val) => {
+  Object.keys(updatedForm[elementName]).map((key, _val) => {
     updatedForm[elementName][key] = false;
     updatedForm[elementName][NONE_OF_ABOVE] = true;
     return updatedForm;

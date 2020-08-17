@@ -19,8 +19,8 @@ const transform = entity => ({
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
   fieldOffice: entity.fieldOffice[0],
   reverseFieldListingNode: {
-    entities: entity.reverseFieldList
-      ? entity.reverseFieldList
+    entities: entity.reverseFieldListing
+      ? entity.reverseFieldListing
           .filter(
             reverseField =>
               reverseField.entityBundle === 'news_story' &&
@@ -59,7 +59,7 @@ module.exports = {
     'field_intro_text',
     'field_meta_title',
     'field_office',
-    'reverse_field_list',
+    'reverse_field_listing',
     'status',
   ],
   transform,

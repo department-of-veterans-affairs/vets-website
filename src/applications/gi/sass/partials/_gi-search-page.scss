@@ -148,11 +148,11 @@
       display: inline-block;
       padding: 0.1em 0.5em;
       margin-right: 1em;
-      margin-top: -1.75em;
+      margin-top: -1em !important;
     }
     @media (max-width: 640px) {
       .info-flag {
-        margin-top: -1em;
+        margin-top: 0.5em !important;
       }
     }
 

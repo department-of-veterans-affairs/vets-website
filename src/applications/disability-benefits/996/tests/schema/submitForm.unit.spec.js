@@ -1,7 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
-
-import localStorage from 'platform/utilities/storage/localStorage';
 
 import formConfig from '../../config/form';
 

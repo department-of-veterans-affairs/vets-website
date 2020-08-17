@@ -17,7 +17,6 @@ import {
   newAndIncrease,
   hasClaimedConditions,
   claimingRated,
-  hasRatedDisabilities,
   sippableId,
 } from '../utils';
 
