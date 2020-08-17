@@ -180,6 +180,7 @@ class SearchControls extends Component {
                     value={currentQuery.searchString}
                     title="Your location: Street, City, State or Postal code"
                     required
+                    ref={this.props.getRefInput()}
                   />
                 </div>
               </div>

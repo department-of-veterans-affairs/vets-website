@@ -1,10 +1,10 @@
-exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits(0)"] = {
+exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(0)"] = {
   "node": {
     "nodeType": "host",
     "type": "div",
     "props": {
       "className": "facility",
-      "id": "vba_343z",
+      "id": "vc_0228V",
       "children": [
         {
           "type": "div",
@@ -21,8 +21,8 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                       "children": {
                         "type": "[function]",
                         "props": {
-                          "to": "facility/vba_343z",
-                          "children": "VetSuccess on Campus at Los Angeles City College",
+                          "to": "facility/vc_0228V",
+                          "children": "Alexandria Vet Center",
                           "onlyActiveOnIndex": false,
                           "style": {}
                         },
@@ -38,49 +38,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                 "type": "LocationAddress",
                 "props": {
                   "location": {
-                    "id": "vba_343z",
+                    "id": "vc_0228V",
                     "type": "va_facilities",
                     "attributes": {
-                      "uniqueId": "343z",
-                      "name": "VetSuccess on Campus at Los Angeles City College",
-                      "facilityType": "va_benefits_facility",
-                      "classification": "VETSUCCESS ON CAMPUS",
-                      "website": "https//va.gov",
-                      "operatingStatus": {
-                        "code": "NORMAL",
-                        "additionalInfo": "Some additional CLOSED"
-                      },
-                      "lat": 34.08751109,
-                      "long": -118.2917626,
+                      "uniqueId": "0228V",
+                      "name": "Alexandria Vet Center",
+                      "facilityType": "vet_center",
+                      "lat": 38.7678970200001,
+                      "long": -77.11909822,
                       "address": {
+                        "mailing": {},
                         "physical": {
-                          "address1": "855 North Vermont",
-                          "address2": "",
-                          "city": "Los Angeles",
-                          "state": "CA",
-                          "zip": "90029"
-                        },
-                        "mailing": {}
-                      },
-                      "phone": {
-                        "main": "323-953-4000 Ext 1253",
-                        "fax": ""
-                      },
-                      "hours": {
-                        "monday": "Closed",
-                        "tuesday": "Closed",
-                        "wednesday": "9:00AM-4:00PM",
-                        "thursday": "Closed",
-                        "friday": "Closed",
-                        "saturday": "Closed",
-                        "sunday": "Closed"
-                      },
-                      "services": {
-                        "benefits": {
-                          "other": "",
-                          "standard": []
+                          "zip": "22310",
+                          "city": "Alexandria",
+                          "state": "VA",
+                          "address1": "6940 South Kings Highway",
+                          "address2": "Suite 204"
                         }
                       },
+                      "phone": {
+                        "main": "703-360-8633 x"
+                      },
+                      "hours": {
+                        "friday": "800AM-430PM",
+                        "monday": "800AM-730PM",
+                        "sunday": "-",
+                        "tuesday": "800AM-330PM",
+                        "saturday": "-",
+                        "thursday": "800AM-730PM",
+                        "wednesday": "800AM-730PM"
+                      },
+                      "services": {},
                       "feedback": {},
                       "access": {}
                     }
@@ -92,49 +80,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                 "type": "LocationDirectionsLink",
                 "props": {
                   "location": {
-                    "id": "vba_343z",
+                    "id": "vc_0228V",
                     "type": "va_facilities",
                     "attributes": {
-                      "uniqueId": "343z",
-                      "name": "VetSuccess on Campus at Los Angeles City College",
-                      "facilityType": "va_benefits_facility",
-                      "classification": "VETSUCCESS ON CAMPUS",
-                      "website": "https//va.gov",
-                      "operatingStatus": {
-                        "code": "NORMAL",
-                        "additionalInfo": "Some additional CLOSED"
-                      },
-                      "lat": 34.08751109,
-                      "long": -118.2917626,
+                      "uniqueId": "0228V",
+                      "name": "Alexandria Vet Center",
+                      "facilityType": "vet_center",
+                      "lat": 38.7678970200001,
+                      "long": -77.11909822,
                       "address": {
+                        "mailing": {},
                         "physical": {
-                          "address1": "855 North Vermont",
-                          "address2": "",
-                          "city": "Los Angeles",
-                          "state": "CA",
-                          "zip": "90029"
-                        },
-                        "mailing": {}
-                      },
-                      "phone": {
-                        "main": "323-953-4000 Ext 1253",
-                        "fax": ""
-                      },
-                      "hours": {
-                        "monday": "Closed",
-                        "tuesday": "Closed",
-                        "wednesday": "9:00AM-4:00PM",
-                        "thursday": "Closed",
-                        "friday": "Closed",
-                        "saturday": "Closed",
-                        "sunday": "Closed"
-                      },
-                      "services": {
-                        "benefits": {
-                          "other": "",
-                          "standard": []
+                          "zip": "22310",
+                          "city": "Alexandria",
+                          "state": "VA",
+                          "address1": "6940 South Kings Highway",
+                          "address2": "Suite 204"
                         }
                       },
+                      "phone": {
+                        "main": "703-360-8633 x"
+                      },
+                      "hours": {
+                        "friday": "800AM-430PM",
+                        "monday": "800AM-730PM",
+                        "sunday": "-",
+                        "tuesday": "800AM-330PM",
+                        "saturday": "-",
+                        "thursday": "800AM-730PM",
+                        "wednesday": "800AM-730PM"
+                      },
+                      "services": {},
                       "feedback": {},
                       "access": {}
                     }
@@ -147,56 +123,44 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                 "type": "LocationPhoneLink",
                 "props": {
                   "location": {
-                    "id": "vba_343z",
+                    "id": "vc_0228V",
                     "type": "va_facilities",
                     "attributes": {
-                      "uniqueId": "343z",
-                      "name": "VetSuccess on Campus at Los Angeles City College",
-                      "facilityType": "va_benefits_facility",
-                      "classification": "VETSUCCESS ON CAMPUS",
-                      "website": "https//va.gov",
-                      "operatingStatus": {
-                        "code": "NORMAL",
-                        "additionalInfo": "Some additional CLOSED"
-                      },
-                      "lat": 34.08751109,
-                      "long": -118.2917626,
+                      "uniqueId": "0228V",
+                      "name": "Alexandria Vet Center",
+                      "facilityType": "vet_center",
+                      "lat": 38.7678970200001,
+                      "long": -77.11909822,
                       "address": {
+                        "mailing": {},
                         "physical": {
-                          "address1": "855 North Vermont",
-                          "address2": "",
-                          "city": "Los Angeles",
-                          "state": "CA",
-                          "zip": "90029"
-                        },
-                        "mailing": {}
-                      },
-                      "phone": {
-                        "main": "323-953-4000 Ext 1253",
-                        "fax": ""
-                      },
-                      "hours": {
-                        "monday": "Closed",
-                        "tuesday": "Closed",
-                        "wednesday": "9:00AM-4:00PM",
-                        "thursday": "Closed",
-                        "friday": "Closed",
-                        "saturday": "Closed",
-                        "sunday": "Closed"
-                      },
-                      "services": {
-                        "benefits": {
-                          "other": "",
-                          "standard": []
+                          "zip": "22310",
+                          "city": "Alexandria",
+                          "state": "VA",
+                          "address1": "6940 South Kings Highway",
+                          "address2": "Suite 204"
                         }
                       },
+                      "phone": {
+                        "main": "703-360-8633 x"
+                      },
+                      "hours": {
+                        "friday": "800AM-430PM",
+                        "monday": "800AM-730PM",
+                        "sunday": "-",
+                        "tuesday": "800AM-330PM",
+                        "saturday": "-",
+                        "thursday": "800AM-730PM",
+                        "wednesday": "800AM-730PM"
+                      },
+                      "services": {},
                       "feedback": {},
                       "access": {}
                     }
                   },
                   "from": "SearchResult",
                   "query": {
-                    "facilityType": "benefits"
+                    "facilityType": "vet_center"
                   }
                 },
                 "_store": {}
@@ -205,10 +169,10 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
           },
           "_store": {}
         },
-        false
+        null
       ]
     },
-    "key": "vba_343z",
+    "key": "vc_0228V",
     "rendered": [
       {
         "nodeType": "host",
@@ -226,8 +190,8 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                     "children": {
                       "type": "[function]",
                       "props": {
-                        "to": "facility/vba_343z",
-                        "children": "VetSuccess on Campus at Los Angeles City College",
+                        "to": "facility/vc_0228V",
+                        "children": "Alexandria Vet Center",
                         "onlyActiveOnIndex": false,
                         "style": {}
                       },
@@ -243,49 +207,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
               "type": "LocationAddress",
               "props": {
                 "location": {
-                  "id": "vba_343z",
+                  "id": "vc_0228V",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
+                    "uniqueId": "0228V",
+                    "name": "Alexandria Vet Center",
+                    "facilityType": "vet_center",
+                    "lat": 38.7678970200001,
+                    "long": -77.11909822,
                     "address": {
+                      "mailing": {},
                       "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
+                        "zip": "22310",
+                        "city": "Alexandria",
+                        "state": "VA",
+                        "address1": "6940 South Kings Highway",
+                        "address2": "Suite 204"
                       }
                     },
+                    "phone": {
+                      "main": "703-360-8633 x"
+                    },
+                    "hours": {
+                      "friday": "800AM-430PM",
+                      "monday": "800AM-730PM",
+                      "sunday": "-",
+                      "tuesday": "800AM-330PM",
+                      "saturday": "-",
+                      "thursday": "800AM-730PM",
+                      "wednesday": "800AM-730PM"
+                    },
+                    "services": {},
                     "feedback": {},
                     "access": {}
                   }
@@ -297,49 +249,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
               "type": "LocationDirectionsLink",
               "props": {
                 "location": {
-                  "id": "vba_343z",
+                  "id": "vc_0228V",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
+                    "uniqueId": "0228V",
+                    "name": "Alexandria Vet Center",
+                    "facilityType": "vet_center",
+                    "lat": 38.7678970200001,
+                    "long": -77.11909822,
                     "address": {
+                      "mailing": {},
                       "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
+                        "zip": "22310",
+                        "city": "Alexandria",
+                        "state": "VA",
+                        "address1": "6940 South Kings Highway",
+                        "address2": "Suite 204"
                       }
                     },
+                    "phone": {
+                      "main": "703-360-8633 x"
+                    },
+                    "hours": {
+                      "friday": "800AM-430PM",
+                      "monday": "800AM-730PM",
+                      "sunday": "-",
+                      "tuesday": "800AM-330PM",
+                      "saturday": "-",
+                      "thursday": "800AM-730PM",
+                      "wednesday": "800AM-730PM"
+                    },
+                    "services": {},
                     "feedback": {},
                     "access": {}
                   }
@@ -352,56 +292,44 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
               "type": "LocationPhoneLink",
               "props": {
                 "location": {
-                  "id": "vba_343z",
+                  "id": "vc_0228V",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
+                    "uniqueId": "0228V",
+                    "name": "Alexandria Vet Center",
+                    "facilityType": "vet_center",
+                    "lat": 38.7678970200001,
+                    "long": -77.11909822,
                     "address": {
+                      "mailing": {},
                       "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
+                        "zip": "22310",
+                        "city": "Alexandria",
+                        "state": "VA",
+                        "address1": "6940 South Kings Highway",
+                        "address2": "Suite 204"
                       }
                     },
+                    "phone": {
+                      "main": "703-360-8633 x"
+                    },
+                    "hours": {
+                      "friday": "800AM-430PM",
+                      "monday": "800AM-730PM",
+                      "sunday": "-",
+                      "tuesday": "800AM-330PM",
+                      "saturday": "-",
+                      "thursday": "800AM-730PM",
+                      "wednesday": "800AM-730PM"
+                    },
+                    "services": {},
                     "feedback": {},
                     "access": {}
                   }
                 },
                 "from": "SearchResult",
                 "query": {
-                  "facilityType": "benefits"
+                  "facilityType": "vet_center"
                 }
               },
               "_store": {}
@@ -421,8 +349,8 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                   "children": {
                     "type": "[function]",
                     "props": {
-                      "to": "facility/vba_343z",
-                      "children": "VetSuccess on Campus at Los Angeles City College",
+                      "to": "facility/vc_0228V",
+                      "children": "Alexandria Vet Center",
                       "onlyActiveOnIndex": false,
                       "style": {}
                     },
@@ -440,8 +368,8 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                 "children": {
                   "type": "[function]",
                   "props": {
-                    "to": "facility/vba_343z",
-                    "children": "VetSuccess on Campus at Los Angeles City College",
+                    "to": "facility/vc_0228V",
+                    "children": "Alexandria Vet Center",
                     "onlyActiveOnIndex": false,
                     "style": {}
                   },
@@ -452,12 +380,12 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                 "nodeType": "class",
                 "type": "[function]",
                 "props": {
-                  "to": "facility/vba_343z",
-                  "children": "VetSuccess on Campus at Los Angeles City College",
+                  "to": "facility/vc_0228V",
+                  "children": "Alexandria Vet Center",
                   "onlyActiveOnIndex": false,
                   "style": {}
                 },
-                "rendered": "VetSuccess on Campus at Los Angeles City College"
+                "rendered": "Alexandria Vet Center"
               }
             }
           },
@@ -466,49 +394,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
             "type": "LocationAddress",
             "props": {
               "location": {
-                "id": "vba_343z",
+                "id": "vc_0228V",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
+                  "uniqueId": "0228V",
+                  "name": "Alexandria Vet Center",
+                  "facilityType": "vet_center",
+                  "lat": 38.7678970200001,
+                  "long": -77.11909822,
                   "address": {
+                    "mailing": {},
                     "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
+                      "zip": "22310",
+                      "city": "Alexandria",
+                      "state": "VA",
+                      "address1": "6940 South Kings Highway",
+                      "address2": "Suite 204"
                     }
                   },
+                  "phone": {
+                    "main": "703-360-8633 x"
+                  },
+                  "hours": {
+                    "friday": "800AM-430PM",
+                    "monday": "800AM-730PM",
+                    "sunday": "-",
+                    "tuesday": "800AM-330PM",
+                    "saturday": "-",
+                    "thursday": "800AM-730PM",
+                    "wednesday": "800AM-730PM"
+                  },
+                  "services": {},
                   "feedback": {},
                   "access": {}
                 }
@@ -520,49 +436,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
             "type": "LocationDirectionsLink",
             "props": {
               "location": {
-                "id": "vba_343z",
+                "id": "vc_0228V",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
+                  "uniqueId": "0228V",
+                  "name": "Alexandria Vet Center",
+                  "facilityType": "vet_center",
+                  "lat": 38.7678970200001,
+                  "long": -77.11909822,
                   "address": {
+                    "mailing": {},
                     "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
+                      "zip": "22310",
+                      "city": "Alexandria",
+                      "state": "VA",
+                      "address1": "6940 South Kings Highway",
+                      "address2": "Suite 204"
                     }
                   },
+                  "phone": {
+                    "main": "703-360-8633 x"
+                  },
+                  "hours": {
+                    "friday": "800AM-430PM",
+                    "monday": "800AM-730PM",
+                    "sunday": "-",
+                    "tuesday": "800AM-330PM",
+                    "saturday": "-",
+                    "thursday": "800AM-730PM",
+                    "wednesday": "800AM-730PM"
+                  },
+                  "services": {},
                   "feedback": {},
                   "access": {}
                 }
@@ -575,69 +479,57 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
             "type": "LocationPhoneLink",
             "props": {
               "location": {
-                "id": "vba_343z",
+                "id": "vc_0228V",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
+                  "uniqueId": "0228V",
+                  "name": "Alexandria Vet Center",
+                  "facilityType": "vet_center",
+                  "lat": 38.7678970200001,
+                  "long": -77.11909822,
                   "address": {
+                    "mailing": {},
                     "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
+                      "zip": "22310",
+                      "city": "Alexandria",
+                      "state": "VA",
+                      "address1": "6940 South Kings Highway",
+                      "address2": "Suite 204"
                     }
                   },
+                  "phone": {
+                    "main": "703-360-8633 x"
+                  },
+                  "hours": {
+                    "friday": "800AM-430PM",
+                    "monday": "800AM-730PM",
+                    "sunday": "-",
+                    "tuesday": "800AM-330PM",
+                    "saturday": "-",
+                    "thursday": "800AM-730PM",
+                    "wednesday": "800AM-730PM"
+                  },
+                  "services": {},
                   "feedback": {},
                   "access": {}
                 }
               },
               "from": "SearchResult",
               "query": {
-                "facilityType": "benefits"
+                "facilityType": "vet_center"
               }
             }
           }
         ]
       },
-      false
+      null
     ]
   },
   "type": "div",
   "props": {
     "className": "facility",
-    "id": "vba_343z",
-    "key": "vba_343z"
+    "id": "vc_0228V",
+    "key": "vc_0228V"
   },
   "children": [
     {
@@ -657,8 +549,8 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                     "children": {
                       "type": "[function]",
                       "props": {
-                        "to": "facility/vba_343z",
-                        "children": "VetSuccess on Campus at Los Angeles City College",
+                        "to": "facility/vc_0228V",
+                        "children": "Alexandria Vet Center",
                         "onlyActiveOnIndex": false,
                         "style": {}
                       },
@@ -674,49 +566,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
               "type": "LocationAddress",
               "props": {
                 "location": {
-                  "id": "vba_343z",
+                  "id": "vc_0228V",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
+                    "uniqueId": "0228V",
+                    "name": "Alexandria Vet Center",
+                    "facilityType": "vet_center",
+                    "lat": 38.7678970200001,
+                    "long": -77.11909822,
                     "address": {
+                      "mailing": {},
                       "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
+                        "zip": "22310",
+                        "city": "Alexandria",
+                        "state": "VA",
+                        "address1": "6940 South Kings Highway",
+                        "address2": "Suite 204"
                       }
                     },
+                    "phone": {
+                      "main": "703-360-8633 x"
+                    },
+                    "hours": {
+                      "friday": "800AM-430PM",
+                      "monday": "800AM-730PM",
+                      "sunday": "-",
+                      "tuesday": "800AM-330PM",
+                      "saturday": "-",
+                      "thursday": "800AM-730PM",
+                      "wednesday": "800AM-730PM"
+                    },
+                    "services": {},
                     "feedback": {},
                     "access": {}
                   }
@@ -728,49 +608,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
               "type": "LocationDirectionsLink",
               "props": {
                 "location": {
-                  "id": "vba_343z",
+                  "id": "vc_0228V",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
+                    "uniqueId": "0228V",
+                    "name": "Alexandria Vet Center",
+                    "facilityType": "vet_center",
+                    "lat": 38.7678970200001,
+                    "long": -77.11909822,
                     "address": {
+                      "mailing": {},
                       "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
+                        "zip": "22310",
+                        "city": "Alexandria",
+                        "state": "VA",
+                        "address1": "6940 South Kings Highway",
+                        "address2": "Suite 204"
                       }
                     },
+                    "phone": {
+                      "main": "703-360-8633 x"
+                    },
+                    "hours": {
+                      "friday": "800AM-430PM",
+                      "monday": "800AM-730PM",
+                      "sunday": "-",
+                      "tuesday": "800AM-330PM",
+                      "saturday": "-",
+                      "thursday": "800AM-730PM",
+                      "wednesday": "800AM-730PM"
+                    },
+                    "services": {},
                     "feedback": {},
                     "access": {}
                   }
@@ -783,56 +651,44 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
               "type": "LocationPhoneLink",
               "props": {
                 "location": {
-                  "id": "vba_343z",
+                  "id": "vc_0228V",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "343z",
-                    "name": "VetSuccess on Campus at Los Angeles City College",
-                    "facilityType": "va_benefits_facility",
-                    "classification": "VETSUCCESS ON CAMPUS",
-                    "website": "https//va.gov",
-                    "operatingStatus": {
-                      "code": "NORMAL",
-                      "additionalInfo": "Some additional CLOSED"
-                    },
-                    "lat": 34.08751109,
-                    "long": -118.2917626,
+                    "uniqueId": "0228V",
+                    "name": "Alexandria Vet Center",
+                    "facilityType": "vet_center",
+                    "lat": 38.7678970200001,
+                    "long": -77.11909822,
                     "address": {
+                      "mailing": {},
                       "physical": {
-                        "address1": "855 North Vermont",
-                        "address2": "",
-                        "city": "Los Angeles",
-                        "state": "CA",
-                        "zip": "90029"
-                      },
-                      "mailing": {}
-                    },
-                    "phone": {
-                      "main": "323-953-4000 Ext 1253",
-                      "fax": ""
-                    },
-                    "hours": {
-                      "monday": "Closed",
-                      "tuesday": "Closed",
-                      "wednesday": "9:00AM-4:00PM",
-                      "thursday": "Closed",
-                      "friday": "Closed",
-                      "saturday": "Closed",
-                      "sunday": "Closed"
-                    },
-                    "services": {
-                      "benefits": {
-                        "other": "",
-                        "standard": []
+                        "zip": "22310",
+                        "city": "Alexandria",
+                        "state": "VA",
+                        "address1": "6940 South Kings Highway",
+                        "address2": "Suite 204"
                       }
                     },
+                    "phone": {
+                      "main": "703-360-8633 x"
+                    },
+                    "hours": {
+                      "friday": "800AM-430PM",
+                      "monday": "800AM-730PM",
+                      "sunday": "-",
+                      "tuesday": "800AM-330PM",
+                      "saturday": "-",
+                      "thursday": "800AM-730PM",
+                      "wednesday": "800AM-730PM"
+                    },
+                    "services": {},
                     "feedback": {},
                     "access": {}
                   }
                 },
                 "from": "SearchResult",
                 "query": {
-                  "facilityType": "benefits"
+                  "facilityType": "vet_center"
                 }
               },
               "_store": {}
@@ -852,8 +708,8 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                   "children": {
                     "type": "[function]",
                     "props": {
-                      "to": "facility/vba_343z",
-                      "children": "VetSuccess on Campus at Los Angeles City College",
+                      "to": "facility/vc_0228V",
+                      "children": "Alexandria Vet Center",
                       "onlyActiveOnIndex": false,
                       "style": {}
                     },
@@ -871,8 +727,8 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                 "children": {
                   "type": "[function]",
                   "props": {
-                    "to": "facility/vba_343z",
-                    "children": "VetSuccess on Campus at Los Angeles City College",
+                    "to": "facility/vc_0228V",
+                    "children": "Alexandria Vet Center",
                     "onlyActiveOnIndex": false,
                     "style": {}
                   },
@@ -883,12 +739,12 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                 "nodeType": "class",
                 "type": "[function]",
                 "props": {
-                  "to": "facility/vba_343z",
-                  "children": "VetSuccess on Campus at Los Angeles City College",
+                  "to": "facility/vc_0228V",
+                  "children": "Alexandria Vet Center",
                   "onlyActiveOnIndex": false,
                   "style": {}
                 },
-                "rendered": "VetSuccess on Campus at Los Angeles City College"
+                "rendered": "Alexandria Vet Center"
               }
             }
           },
@@ -897,49 +753,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
             "type": "LocationAddress",
             "props": {
               "location": {
-                "id": "vba_343z",
+                "id": "vc_0228V",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
+                  "uniqueId": "0228V",
+                  "name": "Alexandria Vet Center",
+                  "facilityType": "vet_center",
+                  "lat": 38.7678970200001,
+                  "long": -77.11909822,
                   "address": {
+                    "mailing": {},
                     "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
+                      "zip": "22310",
+                      "city": "Alexandria",
+                      "state": "VA",
+                      "address1": "6940 South Kings Highway",
+                      "address2": "Suite 204"
                     }
                   },
+                  "phone": {
+                    "main": "703-360-8633 x"
+                  },
+                  "hours": {
+                    "friday": "800AM-430PM",
+                    "monday": "800AM-730PM",
+                    "sunday": "-",
+                    "tuesday": "800AM-330PM",
+                    "saturday": "-",
+                    "thursday": "800AM-730PM",
+                    "wednesday": "800AM-730PM"
+                  },
+                  "services": {},
                   "feedback": {},
                   "access": {}
                 }
@@ -951,49 +795,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
             "type": "LocationDirectionsLink",
             "props": {
               "location": {
-                "id": "vba_343z",
+                "id": "vc_0228V",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
+                  "uniqueId": "0228V",
+                  "name": "Alexandria Vet Center",
+                  "facilityType": "vet_center",
+                  "lat": 38.7678970200001,
+                  "long": -77.11909822,
                   "address": {
+                    "mailing": {},
                     "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
+                      "zip": "22310",
+                      "city": "Alexandria",
+                      "state": "VA",
+                      "address1": "6940 South Kings Highway",
+                      "address2": "Suite 204"
                     }
                   },
+                  "phone": {
+                    "main": "703-360-8633 x"
+                  },
+                  "hours": {
+                    "friday": "800AM-430PM",
+                    "monday": "800AM-730PM",
+                    "sunday": "-",
+                    "tuesday": "800AM-330PM",
+                    "saturday": "-",
+                    "thursday": "800AM-730PM",
+                    "wednesday": "800AM-730PM"
+                  },
+                  "services": {},
                   "feedback": {},
                   "access": {}
                 }
@@ -1006,56 +838,44 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
             "type": "LocationPhoneLink",
             "props": {
               "location": {
-                "id": "vba_343z",
+                "id": "vc_0228V",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
+                  "uniqueId": "0228V",
+                  "name": "Alexandria Vet Center",
+                  "facilityType": "vet_center",
+                  "lat": 38.7678970200001,
+                  "long": -77.11909822,
                   "address": {
+                    "mailing": {},
                     "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
+                      "zip": "22310",
+                      "city": "Alexandria",
+                      "state": "VA",
+                      "address1": "6940 South Kings Highway",
+                      "address2": "Suite 204"
                     }
                   },
+                  "phone": {
+                    "main": "703-360-8633 x"
+                  },
+                  "hours": {
+                    "friday": "800AM-430PM",
+                    "monday": "800AM-730PM",
+                    "sunday": "-",
+                    "tuesday": "800AM-330PM",
+                    "saturday": "-",
+                    "thursday": "800AM-730PM",
+                    "wednesday": "800AM-730PM"
+                  },
+                  "services": {},
                   "feedback": {},
                   "access": {}
                 }
               },
               "from": "SearchResult",
               "query": {
-                "facilityType": "benefits"
+                "facilityType": "vet_center"
               }
             }
           }
@@ -1076,8 +896,8 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                   "children": {
                     "type": "[function]",
                     "props": {
-                      "to": "facility/vba_343z",
-                      "children": "VetSuccess on Campus at Los Angeles City College",
+                      "to": "facility/vc_0228V",
+                      "children": "Alexandria Vet Center",
                       "onlyActiveOnIndex": false,
                       "style": {}
                     },
@@ -1095,8 +915,8 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                 "children": {
                   "type": "[function]",
                   "props": {
-                    "to": "facility/vba_343z",
-                    "children": "VetSuccess on Campus at Los Angeles City College",
+                    "to": "facility/vc_0228V",
+                    "children": "Alexandria Vet Center",
                     "onlyActiveOnIndex": false,
                     "style": {}
                   },
@@ -1107,12 +927,12 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                 "nodeType": "class",
                 "type": "[function]",
                 "props": {
-                  "to": "facility/vba_343z",
-                  "children": "VetSuccess on Campus at Los Angeles City College",
+                  "to": "facility/vc_0228V",
+                  "children": "Alexandria Vet Center",
                   "onlyActiveOnIndex": false,
                   "style": {}
                 },
-                "rendered": "VetSuccess on Campus at Los Angeles City College"
+                "rendered": "Alexandria Vet Center"
               }
             }
           },
@@ -1128,8 +948,8 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                   "children": {
                     "type": "[function]",
                     "props": {
-                      "to": "facility/vba_343z",
-                      "children": "VetSuccess on Campus at Los Angeles City College",
+                      "to": "facility/vc_0228V",
+                      "children": "Alexandria Vet Center",
                       "onlyActiveOnIndex": false,
                       "style": {}
                     },
@@ -1140,12 +960,12 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                   "nodeType": "class",
                   "type": "[function]",
                   "props": {
-                    "to": "facility/vba_343z",
-                    "children": "VetSuccess on Campus at Los Angeles City College",
+                    "to": "facility/vc_0228V",
+                    "children": "Alexandria Vet Center",
                     "onlyActiveOnIndex": false,
                     "style": {}
                   },
-                  "rendered": "VetSuccess on Campus at Los Angeles City College"
+                  "rendered": "Alexandria Vet Center"
                 }
               },
               "type": "h3",
@@ -1158,21 +978,21 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
                     "nodeType": "class",
                     "type": "[function]",
                     "props": {
-                      "to": "facility/vba_343z",
-                      "children": "VetSuccess on Campus at Los Angeles City College",
+                      "to": "facility/vc_0228V",
+                      "children": "Alexandria Vet Center",
                       "onlyActiveOnIndex": false,
                       "style": {}
                     },
-                    "rendered": "VetSuccess on Campus at Los Angeles City College"
+                    "rendered": "Alexandria Vet Center"
                   },
                   "type": "Link",
                   "props": {
-                    "to": "facility/vba_343z",
+                    "to": "facility/vc_0228V",
                     "onlyActiveOnIndex": false,
                     "style": {}
                   },
                   "children": [
-                    "VetSuccess on Campus at Los Angeles City College"
+                    "Alexandria Vet Center"
                   ]
                 }
               ]
@@ -1185,49 +1005,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
             "type": "LocationAddress",
             "props": {
               "location": {
-                "id": "vba_343z",
+                "id": "vc_0228V",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
+                  "uniqueId": "0228V",
+                  "name": "Alexandria Vet Center",
+                  "facilityType": "vet_center",
+                  "lat": 38.7678970200001,
+                  "long": -77.11909822,
                   "address": {
+                    "mailing": {},
                     "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
+                      "zip": "22310",
+                      "city": "Alexandria",
+                      "state": "VA",
+                      "address1": "6940 South Kings Highway",
+                      "address2": "Suite 204"
                     }
                   },
+                  "phone": {
+                    "main": "703-360-8633 x"
+                  },
+                  "hours": {
+                    "friday": "800AM-430PM",
+                    "monday": "800AM-730PM",
+                    "sunday": "-",
+                    "tuesday": "800AM-330PM",
+                    "saturday": "-",
+                    "thursday": "800AM-730PM",
+                    "wednesday": "800AM-730PM"
+                  },
+                  "services": {},
                   "feedback": {},
                   "access": {}
                 }
@@ -1237,49 +1045,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
           "type": "LocationAddress",
           "props": {
             "location": {
-              "id": "vba_343z",
+              "id": "vc_0228V",
               "type": "va_facilities",
               "attributes": {
-                "uniqueId": "343z",
-                "name": "VetSuccess on Campus at Los Angeles City College",
-                "facilityType": "va_benefits_facility",
-                "classification": "VETSUCCESS ON CAMPUS",
-                "website": "https//va.gov",
-                "operatingStatus": {
-                  "code": "NORMAL",
-                  "additionalInfo": "Some additional CLOSED"
-                },
-                "lat": 34.08751109,
-                "long": -118.2917626,
+                "uniqueId": "0228V",
+                "name": "Alexandria Vet Center",
+                "facilityType": "vet_center",
+                "lat": 38.7678970200001,
+                "long": -77.11909822,
                 "address": {
+                  "mailing": {},
                   "physical": {
-                    "address1": "855 North Vermont",
-                    "address2": "",
-                    "city": "Los Angeles",
-                    "state": "CA",
-                    "zip": "90029"
-                  },
-                  "mailing": {}
-                },
-                "phone": {
-                  "main": "323-953-4000 Ext 1253",
-                  "fax": ""
-                },
-                "hours": {
-                  "monday": "Closed",
-                  "tuesday": "Closed",
-                  "wednesday": "9:00AM-4:00PM",
-                  "thursday": "Closed",
-                  "friday": "Closed",
-                  "saturday": "Closed",
-                  "sunday": "Closed"
-                },
-                "services": {
-                  "benefits": {
-                    "other": "",
-                    "standard": []
+                    "zip": "22310",
+                    "city": "Alexandria",
+                    "state": "VA",
+                    "address1": "6940 South Kings Highway",
+                    "address2": "Suite 204"
                   }
                 },
+                "phone": {
+                  "main": "703-360-8633 x"
+                },
+                "hours": {
+                  "friday": "800AM-430PM",
+                  "monday": "800AM-730PM",
+                  "sunday": "-",
+                  "tuesday": "800AM-330PM",
+                  "saturday": "-",
+                  "thursday": "800AM-730PM",
+                  "wednesday": "800AM-730PM"
+                },
+                "services": {},
                 "feedback": {},
                 "access": {}
               }
@@ -1292,49 +1088,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
             "type": "LocationDirectionsLink",
             "props": {
               "location": {
-                "id": "vba_343z",
+                "id": "vc_0228V",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
+                  "uniqueId": "0228V",
+                  "name": "Alexandria Vet Center",
+                  "facilityType": "vet_center",
+                  "lat": 38.7678970200001,
+                  "long": -77.11909822,
                   "address": {
+                    "mailing": {},
                     "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
+                      "zip": "22310",
+                      "city": "Alexandria",
+                      "state": "VA",
+                      "address1": "6940 South Kings Highway",
+                      "address2": "Suite 204"
                     }
                   },
+                  "phone": {
+                    "main": "703-360-8633 x"
+                  },
+                  "hours": {
+                    "friday": "800AM-430PM",
+                    "monday": "800AM-730PM",
+                    "sunday": "-",
+                    "tuesday": "800AM-330PM",
+                    "saturday": "-",
+                    "thursday": "800AM-730PM",
+                    "wednesday": "800AM-730PM"
+                  },
+                  "services": {},
                   "feedback": {},
                   "access": {}
                 }
@@ -1345,49 +1129,37 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
           "type": "LocationDirectionsLink",
           "props": {
             "location": {
-              "id": "vba_343z",
+              "id": "vc_0228V",
               "type": "va_facilities",
               "attributes": {
-                "uniqueId": "343z",
-                "name": "VetSuccess on Campus at Los Angeles City College",
-                "facilityType": "va_benefits_facility",
-                "classification": "VETSUCCESS ON CAMPUS",
-                "website": "https//va.gov",
-                "operatingStatus": {
-                  "code": "NORMAL",
-                  "additionalInfo": "Some additional CLOSED"
-                },
-                "lat": 34.08751109,
-                "long": -118.2917626,
+                "uniqueId": "0228V",
+                "name": "Alexandria Vet Center",
+                "facilityType": "vet_center",
+                "lat": 38.7678970200001,
+                "long": -77.11909822,
                 "address": {
+                  "mailing": {},
                   "physical": {
-                    "address1": "855 North Vermont",
-                    "address2": "",
-                    "city": "Los Angeles",
-                    "state": "CA",
-                    "zip": "90029"
-                  },
-                  "mailing": {}
-                },
-                "phone": {
-                  "main": "323-953-4000 Ext 1253",
-                  "fax": ""
-                },
-                "hours": {
-                  "monday": "Closed",
-                  "tuesday": "Closed",
-                  "wednesday": "9:00AM-4:00PM",
-                  "thursday": "Closed",
-                  "friday": "Closed",
-                  "saturday": "Closed",
-                  "sunday": "Closed"
-                },
-                "services": {
-                  "benefits": {
-                    "other": "",
-                    "standard": []
+                    "zip": "22310",
+                    "city": "Alexandria",
+                    "state": "VA",
+                    "address1": "6940 South Kings Highway",
+                    "address2": "Suite 204"
                   }
                 },
+                "phone": {
+                  "main": "703-360-8633 x"
+                },
+                "hours": {
+                  "friday": "800AM-430PM",
+                  "monday": "800AM-730PM",
+                  "sunday": "-",
+                  "tuesday": "800AM-330PM",
+                  "saturday": "-",
+                  "thursday": "800AM-730PM",
+                  "wednesday": "800AM-730PM"
+                },
+                "services": {},
                 "feedback": {},
                 "access": {}
               }
@@ -1401,112 +1173,88 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits
             "type": "LocationPhoneLink",
             "props": {
               "location": {
-                "id": "vba_343z",
+                "id": "vc_0228V",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "343z",
-                  "name": "VetSuccess on Campus at Los Angeles City College",
-                  "facilityType": "va_benefits_facility",
-                  "classification": "VETSUCCESS ON CAMPUS",
-                  "website": "https//va.gov",
-                  "operatingStatus": {
-                    "code": "NORMAL",
-                    "additionalInfo": "Some additional CLOSED"
-                  },
-                  "lat": 34.08751109,
-                  "long": -118.2917626,
+                  "uniqueId": "0228V",
+                  "name": "Alexandria Vet Center",
+                  "facilityType": "vet_center",
+                  "lat": 38.7678970200001,
+                  "long": -77.11909822,
                   "address": {
+                    "mailing": {},
                     "physical": {
-                      "address1": "855 North Vermont",
-                      "address2": "",
-                      "city": "Los Angeles",
-                      "state": "CA",
-                      "zip": "90029"
-                    },
-                    "mailing": {}
-                  },
-                  "phone": {
-                    "main": "323-953-4000 Ext 1253",
-                    "fax": ""
-                  },
-                  "hours": {
-                    "monday": "Closed",
-                    "tuesday": "Closed",
-                    "wednesday": "9:00AM-4:00PM",
-                    "thursday": "Closed",
-                    "friday": "Closed",
-                    "saturday": "Closed",
-                    "sunday": "Closed"
-                  },
-                  "services": {
-                    "benefits": {
-                      "other": "",
-                      "standard": []
+                      "zip": "22310",
+                      "city": "Alexandria",
+                      "state": "VA",
+                      "address1": "6940 South Kings Highway",
+                      "address2": "Suite 204"
                     }
                   },
+                  "phone": {
+                    "main": "703-360-8633 x"
+                  },
+                  "hours": {
+                    "friday": "800AM-430PM",
+                    "monday": "800AM-730PM",
+                    "sunday": "-",
+                    "tuesday": "800AM-330PM",
+                    "saturday": "-",
+                    "thursday": "800AM-730PM",
+                    "wednesday": "800AM-730PM"
+                  },
+                  "services": {},
                   "feedback": {},
                   "access": {}
                 }
               },
               "from": "SearchResult",
               "query": {
-                "facilityType": "benefits"
+                "facilityType": "vet_center"
               }
             }
           },
           "type": "LocationPhoneLink",
           "props": {
             "location": {
-              "id": "vba_343z",
+              "id": "vc_0228V",
               "type": "va_facilities",
               "attributes": {
-                "uniqueId": "343z",
-                "name": "VetSuccess on Campus at Los Angeles City College",
-                "facilityType": "va_benefits_facility",
-                "classification": "VETSUCCESS ON CAMPUS",
-                "website": "https//va.gov",
-                "operatingStatus": {
-                  "code": "NORMAL",
-                  "additionalInfo": "Some additional CLOSED"
-                },
-                "lat": 34.08751109,
-                "long": -118.2917626,
+                "uniqueId": "0228V",
+                "name": "Alexandria Vet Center",
+                "facilityType": "vet_center",
+                "lat": 38.7678970200001,
+                "long": -77.11909822,
                 "address": {
+                  "mailing": {},
                   "physical": {
-                    "address1": "855 North Vermont",
-                    "address2": "",
-                    "city": "Los Angeles",
-                    "state": "CA",
-                    "zip": "90029"
-                  },
-                  "mailing": {}
-                },
-                "phone": {
-                  "main": "323-953-4000 Ext 1253",
-                  "fax": ""
-                },
-                "hours": {
-                  "monday": "Closed",
-                  "tuesday": "Closed",
-                  "wednesday": "9:00AM-4:00PM",
-                  "thursday": "Closed",
-                  "friday": "Closed",
-                  "saturday": "Closed",
-                  "sunday": "Closed"
-                },
-                "services": {
-                  "benefits": {
-                    "other": "",
-                    "standard": []
+                    "zip": "22310",
+                    "city": "Alexandria",
+                    "state": "VA",
+                    "address1": "6940 South Kings Highway",
+                    "address2": "Suite 204"
                   }
                 },
+                "phone": {
+                  "main": "703-360-8633 x"
+                },
+                "hours": {
+                  "friday": "800AM-430PM",
+                  "monday": "800AM-730PM",
+                  "sunday": "-",
+                  "tuesday": "800AM-330PM",
+                  "saturday": "-",
+                  "thursday": "800AM-730PM",
+                  "wednesday": "800AM-730PM"
+                },
+                "services": {},
                 "feedback": {},
                 "access": {}
               }
             },
             "from": "SearchResult",
             "query": {
-              "facilityType": "benefits"
+              "facilityType": "vet_center"
             }
           }
         }
@@ -6350,13 +6098,13 @@ exports["VaFacilityResult/Should render VaFacilityResult, facility type health(0
   ]
 };
 
-exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(0)"] = {
+exports["VaFacilityResult/Should render VaFacilityResult, facility type benefits(0)"] = {
   "node": {
     "nodeType": "host",
     "type": "div",
     "props": {
       "className": "facility",
-      "id": "vc_0228V",
+      "id": "vba_343z",
       "children": [
         {
           "type": "div",
@@ -6373,8 +6121,8 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                       "children": {
                         "type": "[function]",
                         "props": {
-                          "to": "facility/vc_0228V",
-                          "children": "Alexandria Vet Center",
+                          "to": "facility/vba_343z",
+                          "children": "VetSuccess on Campus at Los Angeles City College",
                           "onlyActiveOnIndex": false,
                           "style": {}
                         },
@@ -6390,37 +6138,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                 "type": "LocationAddress",
                 "props": {
                   "location": {
-                    "id": "vc_0228V",
+                    "id": "vba_343z",
                     "type": "va_facilities",
                     "attributes": {
-                      "uniqueId": "0228V",
-                      "name": "Alexandria Vet Center",
-                      "facilityType": "vet_center",
-                      "lat": 38.7678970200001,
-                      "long": -77.11909822,
+                      "uniqueId": "343z",
+                      "name": "VetSuccess on Campus at Los Angeles City College",
+                      "facilityType": "va_benefits_facility",
+                      "classification": "VETSUCCESS ON CAMPUS",
+                      "website": "https//va.gov",
+                      "operatingStatus": {
+                        "code": "NORMAL",
+                        "additionalInfo": "Some additional CLOSED"
+                      },
+                      "lat": 34.08751109,
+                      "long": -118.2917626,
                       "address": {
-                        "mailing": {},
                         "physical": {
-                          "zip": "22310",
-                          "city": "Alexandria",
-                          "state": "VA",
-                          "address1": "6940 South Kings Highway",
-                          "address2": "Suite 204"
-                        }
+                          "address1": "855 North Vermont",
+                          "address2": "",
+                          "city": "Los Angeles",
+                          "state": "CA",
+                          "zip": "90029"
+                        },
+                        "mailing": {}
                       },
                       "phone": {
-                        "main": "703-360-8633 x"
+                        "main": "323-953-4000 Ext 1253",
+                        "fax": ""
                       },
                       "hours": {
-                        "friday": "800AM-430PM",
-                        "monday": "800AM-730PM",
-                        "sunday": "-",
-                        "tuesday": "800AM-330PM",
-                        "saturday": "-",
-                        "thursday": "800AM-730PM",
-                        "wednesday": "800AM-730PM"
+                        "monday": "Closed",
+                        "tuesday": "Closed",
+                        "wednesday": "9:00AM-4:00PM",
+                        "thursday": "Closed",
+                        "friday": "Closed",
+                        "saturday": "Closed",
+                        "sunday": "Closed"
                       },
-                      "services": {},
+                      "services": {
+                        "benefits": {
+                          "other": "",
+                          "standard": []
+                        }
+                      },
                       "feedback": {},
                       "access": {}
                     }
@@ -6432,37 +6192,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                 "type": "LocationDirectionsLink",
                 "props": {
                   "location": {
-                    "id": "vc_0228V",
+                    "id": "vba_343z",
                     "type": "va_facilities",
                     "attributes": {
-                      "uniqueId": "0228V",
-                      "name": "Alexandria Vet Center",
-                      "facilityType": "vet_center",
-                      "lat": 38.7678970200001,
-                      "long": -77.11909822,
+                      "uniqueId": "343z",
+                      "name": "VetSuccess on Campus at Los Angeles City College",
+                      "facilityType": "va_benefits_facility",
+                      "classification": "VETSUCCESS ON CAMPUS",
+                      "website": "https//va.gov",
+                      "operatingStatus": {
+                        "code": "NORMAL",
+                        "additionalInfo": "Some additional CLOSED"
+                      },
+                      "lat": 34.08751109,
+                      "long": -118.2917626,
                       "address": {
-                        "mailing": {},
                         "physical": {
-                          "zip": "22310",
-                          "city": "Alexandria",
-                          "state": "VA",
-                          "address1": "6940 South Kings Highway",
-                          "address2": "Suite 204"
-                        }
+                          "address1": "855 North Vermont",
+                          "address2": "",
+                          "city": "Los Angeles",
+                          "state": "CA",
+                          "zip": "90029"
+                        },
+                        "mailing": {}
                       },
                       "phone": {
-                        "main": "703-360-8633 x"
+                        "main": "323-953-4000 Ext 1253",
+                        "fax": ""
                       },
                       "hours": {
-                        "friday": "800AM-430PM",
-                        "monday": "800AM-730PM",
-                        "sunday": "-",
-                        "tuesday": "800AM-330PM",
-                        "saturday": "-",
-                        "thursday": "800AM-730PM",
-                        "wednesday": "800AM-730PM"
+                        "monday": "Closed",
+                        "tuesday": "Closed",
+                        "wednesday": "9:00AM-4:00PM",
+                        "thursday": "Closed",
+                        "friday": "Closed",
+                        "saturday": "Closed",
+                        "sunday": "Closed"
                       },
-                      "services": {},
+                      "services": {
+                        "benefits": {
+                          "other": "",
+                          "standard": []
+                        }
+                      },
                       "feedback": {},
                       "access": {}
                     }
@@ -6475,44 +6247,56 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                 "type": "LocationPhoneLink",
                 "props": {
                   "location": {
-                    "id": "vc_0228V",
+                    "id": "vba_343z",
                     "type": "va_facilities",
                     "attributes": {
-                      "uniqueId": "0228V",
-                      "name": "Alexandria Vet Center",
-                      "facilityType": "vet_center",
-                      "lat": 38.7678970200001,
-                      "long": -77.11909822,
+                      "uniqueId": "343z",
+                      "name": "VetSuccess on Campus at Los Angeles City College",
+                      "facilityType": "va_benefits_facility",
+                      "classification": "VETSUCCESS ON CAMPUS",
+                      "website": "https//va.gov",
+                      "operatingStatus": {
+                        "code": "NORMAL",
+                        "additionalInfo": "Some additional CLOSED"
+                      },
+                      "lat": 34.08751109,
+                      "long": -118.2917626,
                       "address": {
-                        "mailing": {},
                         "physical": {
-                          "zip": "22310",
-                          "city": "Alexandria",
-                          "state": "VA",
-                          "address1": "6940 South Kings Highway",
-                          "address2": "Suite 204"
-                        }
+                          "address1": "855 North Vermont",
+                          "address2": "",
+                          "city": "Los Angeles",
+                          "state": "CA",
+                          "zip": "90029"
+                        },
+                        "mailing": {}
                       },
                       "phone": {
-                        "main": "703-360-8633 x"
+                        "main": "323-953-4000 Ext 1253",
+                        "fax": ""
                       },
                       "hours": {
-                        "friday": "800AM-430PM",
-                        "monday": "800AM-730PM",
-                        "sunday": "-",
-                        "tuesday": "800AM-330PM",
-                        "saturday": "-",
-                        "thursday": "800AM-730PM",
-                        "wednesday": "800AM-730PM"
+                        "monday": "Closed",
+                        "tuesday": "Closed",
+                        "wednesday": "9:00AM-4:00PM",
+                        "thursday": "Closed",
+                        "friday": "Closed",
+                        "saturday": "Closed",
+                        "sunday": "Closed"
                       },
-                      "services": {},
+                      "services": {
+                        "benefits": {
+                          "other": "",
+                          "standard": []
+                        }
+                      },
                       "feedback": {},
                       "access": {}
                     }
                   },
                   "from": "SearchResult",
                   "query": {
-                    "facilityType": "vet_center"
+                    "facilityType": "benefits"
                   }
                 },
                 "_store": {}
@@ -6521,10 +6305,10 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
           },
           "_store": {}
         },
-        null
+        false
       ]
     },
-    "key": "vc_0228V",
+    "key": "vba_343z",
     "rendered": [
       {
         "nodeType": "host",
@@ -6542,8 +6326,8 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                     "children": {
                       "type": "[function]",
                       "props": {
-                        "to": "facility/vc_0228V",
-                        "children": "Alexandria Vet Center",
+                        "to": "facility/vba_343z",
+                        "children": "VetSuccess on Campus at Los Angeles City College",
                         "onlyActiveOnIndex": false,
                         "style": {}
                       },
@@ -6559,37 +6343,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
               "type": "LocationAddress",
               "props": {
                 "location": {
-                  "id": "vc_0228V",
+                  "id": "vba_343z",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "0228V",
-                    "name": "Alexandria Vet Center",
-                    "facilityType": "vet_center",
-                    "lat": 38.7678970200001,
-                    "long": -77.11909822,
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
                     "address": {
-                      "mailing": {},
                       "physical": {
-                        "zip": "22310",
-                        "city": "Alexandria",
-                        "state": "VA",
-                        "address1": "6940 South Kings Highway",
-                        "address2": "Suite 204"
-                      }
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
                     },
                     "phone": {
-                      "main": "703-360-8633 x"
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
                     },
                     "hours": {
-                      "friday": "800AM-430PM",
-                      "monday": "800AM-730PM",
-                      "sunday": "-",
-                      "tuesday": "800AM-330PM",
-                      "saturday": "-",
-                      "thursday": "800AM-730PM",
-                      "wednesday": "800AM-730PM"
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
                     },
-                    "services": {},
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
                     "feedback": {},
                     "access": {}
                   }
@@ -6601,37 +6397,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
               "type": "LocationDirectionsLink",
               "props": {
                 "location": {
-                  "id": "vc_0228V",
+                  "id": "vba_343z",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "0228V",
-                    "name": "Alexandria Vet Center",
-                    "facilityType": "vet_center",
-                    "lat": 38.7678970200001,
-                    "long": -77.11909822,
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
                     "address": {
-                      "mailing": {},
                       "physical": {
-                        "zip": "22310",
-                        "city": "Alexandria",
-                        "state": "VA",
-                        "address1": "6940 South Kings Highway",
-                        "address2": "Suite 204"
-                      }
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
                     },
                     "phone": {
-                      "main": "703-360-8633 x"
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
                     },
                     "hours": {
-                      "friday": "800AM-430PM",
-                      "monday": "800AM-730PM",
-                      "sunday": "-",
-                      "tuesday": "800AM-330PM",
-                      "saturday": "-",
-                      "thursday": "800AM-730PM",
-                      "wednesday": "800AM-730PM"
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
                     },
-                    "services": {},
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
                     "feedback": {},
                     "access": {}
                   }
@@ -6644,44 +6452,56 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
               "type": "LocationPhoneLink",
               "props": {
                 "location": {
-                  "id": "vc_0228V",
+                  "id": "vba_343z",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "0228V",
-                    "name": "Alexandria Vet Center",
-                    "facilityType": "vet_center",
-                    "lat": 38.7678970200001,
-                    "long": -77.11909822,
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
                     "address": {
-                      "mailing": {},
                       "physical": {
-                        "zip": "22310",
-                        "city": "Alexandria",
-                        "state": "VA",
-                        "address1": "6940 South Kings Highway",
-                        "address2": "Suite 204"
-                      }
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
                     },
                     "phone": {
-                      "main": "703-360-8633 x"
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
                     },
                     "hours": {
-                      "friday": "800AM-430PM",
-                      "monday": "800AM-730PM",
-                      "sunday": "-",
-                      "tuesday": "800AM-330PM",
-                      "saturday": "-",
-                      "thursday": "800AM-730PM",
-                      "wednesday": "800AM-730PM"
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
                     },
-                    "services": {},
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
                     "feedback": {},
                     "access": {}
                   }
                 },
                 "from": "SearchResult",
                 "query": {
-                  "facilityType": "vet_center"
+                  "facilityType": "benefits"
                 }
               },
               "_store": {}
@@ -6701,8 +6521,8 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                   "children": {
                     "type": "[function]",
                     "props": {
-                      "to": "facility/vc_0228V",
-                      "children": "Alexandria Vet Center",
+                      "to": "facility/vba_343z",
+                      "children": "VetSuccess on Campus at Los Angeles City College",
                       "onlyActiveOnIndex": false,
                       "style": {}
                     },
@@ -6720,8 +6540,8 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                 "children": {
                   "type": "[function]",
                   "props": {
-                    "to": "facility/vc_0228V",
-                    "children": "Alexandria Vet Center",
+                    "to": "facility/vba_343z",
+                    "children": "VetSuccess on Campus at Los Angeles City College",
                     "onlyActiveOnIndex": false,
                     "style": {}
                   },
@@ -6732,12 +6552,12 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                 "nodeType": "class",
                 "type": "[function]",
                 "props": {
-                  "to": "facility/vc_0228V",
-                  "children": "Alexandria Vet Center",
+                  "to": "facility/vba_343z",
+                  "children": "VetSuccess on Campus at Los Angeles City College",
                   "onlyActiveOnIndex": false,
                   "style": {}
                 },
-                "rendered": "Alexandria Vet Center"
+                "rendered": "VetSuccess on Campus at Los Angeles City College"
               }
             }
           },
@@ -6746,37 +6566,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
             "type": "LocationAddress",
             "props": {
               "location": {
-                "id": "vc_0228V",
+                "id": "vba_343z",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "0228V",
-                  "name": "Alexandria Vet Center",
-                  "facilityType": "vet_center",
-                  "lat": 38.7678970200001,
-                  "long": -77.11909822,
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
                   "address": {
-                    "mailing": {},
                     "physical": {
-                      "zip": "22310",
-                      "city": "Alexandria",
-                      "state": "VA",
-                      "address1": "6940 South Kings Highway",
-                      "address2": "Suite 204"
-                    }
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
                   },
                   "phone": {
-                    "main": "703-360-8633 x"
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
                   },
                   "hours": {
-                    "friday": "800AM-430PM",
-                    "monday": "800AM-730PM",
-                    "sunday": "-",
-                    "tuesday": "800AM-330PM",
-                    "saturday": "-",
-                    "thursday": "800AM-730PM",
-                    "wednesday": "800AM-730PM"
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
                   },
-                  "services": {},
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
                   "feedback": {},
                   "access": {}
                 }
@@ -6788,37 +6620,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
             "type": "LocationDirectionsLink",
             "props": {
               "location": {
-                "id": "vc_0228V",
+                "id": "vba_343z",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "0228V",
-                  "name": "Alexandria Vet Center",
-                  "facilityType": "vet_center",
-                  "lat": 38.7678970200001,
-                  "long": -77.11909822,
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
                   "address": {
-                    "mailing": {},
                     "physical": {
-                      "zip": "22310",
-                      "city": "Alexandria",
-                      "state": "VA",
-                      "address1": "6940 South Kings Highway",
-                      "address2": "Suite 204"
-                    }
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
                   },
                   "phone": {
-                    "main": "703-360-8633 x"
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
                   },
                   "hours": {
-                    "friday": "800AM-430PM",
-                    "monday": "800AM-730PM",
-                    "sunday": "-",
-                    "tuesday": "800AM-330PM",
-                    "saturday": "-",
-                    "thursday": "800AM-730PM",
-                    "wednesday": "800AM-730PM"
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
                   },
-                  "services": {},
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
                   "feedback": {},
                   "access": {}
                 }
@@ -6831,57 +6675,69 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
             "type": "LocationPhoneLink",
             "props": {
               "location": {
-                "id": "vc_0228V",
+                "id": "vba_343z",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "0228V",
-                  "name": "Alexandria Vet Center",
-                  "facilityType": "vet_center",
-                  "lat": 38.7678970200001,
-                  "long": -77.11909822,
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
                   "address": {
-                    "mailing": {},
                     "physical": {
-                      "zip": "22310",
-                      "city": "Alexandria",
-                      "state": "VA",
-                      "address1": "6940 South Kings Highway",
-                      "address2": "Suite 204"
-                    }
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
                   },
                   "phone": {
-                    "main": "703-360-8633 x"
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
                   },
                   "hours": {
-                    "friday": "800AM-430PM",
-                    "monday": "800AM-730PM",
-                    "sunday": "-",
-                    "tuesday": "800AM-330PM",
-                    "saturday": "-",
-                    "thursday": "800AM-730PM",
-                    "wednesday": "800AM-730PM"
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
                   },
-                  "services": {},
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
                   "feedback": {},
                   "access": {}
                 }
               },
               "from": "SearchResult",
               "query": {
-                "facilityType": "vet_center"
+                "facilityType": "benefits"
               }
             }
           }
         ]
       },
-      null
+      false
     ]
   },
   "type": "div",
   "props": {
     "className": "facility",
-    "id": "vc_0228V",
-    "key": "vc_0228V"
+    "id": "vba_343z",
+    "key": "vba_343z"
   },
   "children": [
     {
@@ -6901,8 +6757,8 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                     "children": {
                       "type": "[function]",
                       "props": {
-                        "to": "facility/vc_0228V",
-                        "children": "Alexandria Vet Center",
+                        "to": "facility/vba_343z",
+                        "children": "VetSuccess on Campus at Los Angeles City College",
                         "onlyActiveOnIndex": false,
                         "style": {}
                       },
@@ -6918,37 +6774,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
               "type": "LocationAddress",
               "props": {
                 "location": {
-                  "id": "vc_0228V",
+                  "id": "vba_343z",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "0228V",
-                    "name": "Alexandria Vet Center",
-                    "facilityType": "vet_center",
-                    "lat": 38.7678970200001,
-                    "long": -77.11909822,
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
                     "address": {
-                      "mailing": {},
                       "physical": {
-                        "zip": "22310",
-                        "city": "Alexandria",
-                        "state": "VA",
-                        "address1": "6940 South Kings Highway",
-                        "address2": "Suite 204"
-                      }
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
                     },
                     "phone": {
-                      "main": "703-360-8633 x"
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
                     },
                     "hours": {
-                      "friday": "800AM-430PM",
-                      "monday": "800AM-730PM",
-                      "sunday": "-",
-                      "tuesday": "800AM-330PM",
-                      "saturday": "-",
-                      "thursday": "800AM-730PM",
-                      "wednesday": "800AM-730PM"
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
                     },
-                    "services": {},
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
                     "feedback": {},
                     "access": {}
                   }
@@ -6960,37 +6828,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
               "type": "LocationDirectionsLink",
               "props": {
                 "location": {
-                  "id": "vc_0228V",
+                  "id": "vba_343z",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "0228V",
-                    "name": "Alexandria Vet Center",
-                    "facilityType": "vet_center",
-                    "lat": 38.7678970200001,
-                    "long": -77.11909822,
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
                     "address": {
-                      "mailing": {},
                       "physical": {
-                        "zip": "22310",
-                        "city": "Alexandria",
-                        "state": "VA",
-                        "address1": "6940 South Kings Highway",
-                        "address2": "Suite 204"
-                      }
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
                     },
                     "phone": {
-                      "main": "703-360-8633 x"
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
                     },
                     "hours": {
-                      "friday": "800AM-430PM",
-                      "monday": "800AM-730PM",
-                      "sunday": "-",
-                      "tuesday": "800AM-330PM",
-                      "saturday": "-",
-                      "thursday": "800AM-730PM",
-                      "wednesday": "800AM-730PM"
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
                     },
-                    "services": {},
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
                     "feedback": {},
                     "access": {}
                   }
@@ -7003,44 +6883,56 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
               "type": "LocationPhoneLink",
               "props": {
                 "location": {
-                  "id": "vc_0228V",
+                  "id": "vba_343z",
                   "type": "va_facilities",
                   "attributes": {
-                    "uniqueId": "0228V",
-                    "name": "Alexandria Vet Center",
-                    "facilityType": "vet_center",
-                    "lat": 38.7678970200001,
-                    "long": -77.11909822,
+                    "uniqueId": "343z",
+                    "name": "VetSuccess on Campus at Los Angeles City College",
+                    "facilityType": "va_benefits_facility",
+                    "classification": "VETSUCCESS ON CAMPUS",
+                    "website": "https//va.gov",
+                    "operatingStatus": {
+                      "code": "NORMAL",
+                      "additionalInfo": "Some additional CLOSED"
+                    },
+                    "lat": 34.08751109,
+                    "long": -118.2917626,
                     "address": {
-                      "mailing": {},
                       "physical": {
-                        "zip": "22310",
-                        "city": "Alexandria",
-                        "state": "VA",
-                        "address1": "6940 South Kings Highway",
-                        "address2": "Suite 204"
-                      }
+                        "address1": "855 North Vermont",
+                        "address2": "",
+                        "city": "Los Angeles",
+                        "state": "CA",
+                        "zip": "90029"
+                      },
+                      "mailing": {}
                     },
                     "phone": {
-                      "main": "703-360-8633 x"
+                      "main": "323-953-4000 Ext 1253",
+                      "fax": ""
                     },
                     "hours": {
-                      "friday": "800AM-430PM",
-                      "monday": "800AM-730PM",
-                      "sunday": "-",
-                      "tuesday": "800AM-330PM",
-                      "saturday": "-",
-                      "thursday": "800AM-730PM",
-                      "wednesday": "800AM-730PM"
+                      "monday": "Closed",
+                      "tuesday": "Closed",
+                      "wednesday": "9:00AM-4:00PM",
+                      "thursday": "Closed",
+                      "friday": "Closed",
+                      "saturday": "Closed",
+                      "sunday": "Closed"
                     },
-                    "services": {},
+                    "services": {
+                      "benefits": {
+                        "other": "",
+                        "standard": []
+                      }
+                    },
                     "feedback": {},
                     "access": {}
                   }
                 },
                 "from": "SearchResult",
                 "query": {
-                  "facilityType": "vet_center"
+                  "facilityType": "benefits"
                 }
               },
               "_store": {}
@@ -7060,8 +6952,8 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                   "children": {
                     "type": "[function]",
                     "props": {
-                      "to": "facility/vc_0228V",
-                      "children": "Alexandria Vet Center",
+                      "to": "facility/vba_343z",
+                      "children": "VetSuccess on Campus at Los Angeles City College",
                       "onlyActiveOnIndex": false,
                       "style": {}
                     },
@@ -7079,8 +6971,8 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                 "children": {
                   "type": "[function]",
                   "props": {
-                    "to": "facility/vc_0228V",
-                    "children": "Alexandria Vet Center",
+                    "to": "facility/vba_343z",
+                    "children": "VetSuccess on Campus at Los Angeles City College",
                     "onlyActiveOnIndex": false,
                     "style": {}
                   },
@@ -7091,12 +6983,12 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                 "nodeType": "class",
                 "type": "[function]",
                 "props": {
-                  "to": "facility/vc_0228V",
-                  "children": "Alexandria Vet Center",
+                  "to": "facility/vba_343z",
+                  "children": "VetSuccess on Campus at Los Angeles City College",
                   "onlyActiveOnIndex": false,
                   "style": {}
                 },
-                "rendered": "Alexandria Vet Center"
+                "rendered": "VetSuccess on Campus at Los Angeles City College"
               }
             }
           },
@@ -7105,37 +6997,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
             "type": "LocationAddress",
             "props": {
               "location": {
-                "id": "vc_0228V",
+                "id": "vba_343z",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "0228V",
-                  "name": "Alexandria Vet Center",
-                  "facilityType": "vet_center",
-                  "lat": 38.7678970200001,
-                  "long": -77.11909822,
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
                   "address": {
-                    "mailing": {},
                     "physical": {
-                      "zip": "22310",
-                      "city": "Alexandria",
-                      "state": "VA",
-                      "address1": "6940 South Kings Highway",
-                      "address2": "Suite 204"
-                    }
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
                   },
                   "phone": {
-                    "main": "703-360-8633 x"
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
                   },
                   "hours": {
-                    "friday": "800AM-430PM",
-                    "monday": "800AM-730PM",
-                    "sunday": "-",
-                    "tuesday": "800AM-330PM",
-                    "saturday": "-",
-                    "thursday": "800AM-730PM",
-                    "wednesday": "800AM-730PM"
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
                   },
-                  "services": {},
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
                   "feedback": {},
                   "access": {}
                 }
@@ -7147,37 +7051,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
             "type": "LocationDirectionsLink",
             "props": {
               "location": {
-                "id": "vc_0228V",
+                "id": "vba_343z",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "0228V",
-                  "name": "Alexandria Vet Center",
-                  "facilityType": "vet_center",
-                  "lat": 38.7678970200001,
-                  "long": -77.11909822,
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
                   "address": {
-                    "mailing": {},
                     "physical": {
-                      "zip": "22310",
-                      "city": "Alexandria",
-                      "state": "VA",
-                      "address1": "6940 South Kings Highway",
-                      "address2": "Suite 204"
-                    }
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
                   },
                   "phone": {
-                    "main": "703-360-8633 x"
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
                   },
                   "hours": {
-                    "friday": "800AM-430PM",
-                    "monday": "800AM-730PM",
-                    "sunday": "-",
-                    "tuesday": "800AM-330PM",
-                    "saturday": "-",
-                    "thursday": "800AM-730PM",
-                    "wednesday": "800AM-730PM"
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
                   },
-                  "services": {},
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
                   "feedback": {},
                   "access": {}
                 }
@@ -7190,44 +7106,56 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
             "type": "LocationPhoneLink",
             "props": {
               "location": {
-                "id": "vc_0228V",
+                "id": "vba_343z",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "0228V",
-                  "name": "Alexandria Vet Center",
-                  "facilityType": "vet_center",
-                  "lat": 38.7678970200001,
-                  "long": -77.11909822,
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
                   "address": {
-                    "mailing": {},
                     "physical": {
-                      "zip": "22310",
-                      "city": "Alexandria",
-                      "state": "VA",
-                      "address1": "6940 South Kings Highway",
-                      "address2": "Suite 204"
-                    }
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
                   },
                   "phone": {
-                    "main": "703-360-8633 x"
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
                   },
                   "hours": {
-                    "friday": "800AM-430PM",
-                    "monday": "800AM-730PM",
-                    "sunday": "-",
-                    "tuesday": "800AM-330PM",
-                    "saturday": "-",
-                    "thursday": "800AM-730PM",
-                    "wednesday": "800AM-730PM"
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
                   },
-                  "services": {},
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
                   "feedback": {},
                   "access": {}
                 }
               },
               "from": "SearchResult",
               "query": {
-                "facilityType": "vet_center"
+                "facilityType": "benefits"
               }
             }
           }
@@ -7248,8 +7176,8 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                   "children": {
                     "type": "[function]",
                     "props": {
-                      "to": "facility/vc_0228V",
-                      "children": "Alexandria Vet Center",
+                      "to": "facility/vba_343z",
+                      "children": "VetSuccess on Campus at Los Angeles City College",
                       "onlyActiveOnIndex": false,
                       "style": {}
                     },
@@ -7267,8 +7195,8 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                 "children": {
                   "type": "[function]",
                   "props": {
-                    "to": "facility/vc_0228V",
-                    "children": "Alexandria Vet Center",
+                    "to": "facility/vba_343z",
+                    "children": "VetSuccess on Campus at Los Angeles City College",
                     "onlyActiveOnIndex": false,
                     "style": {}
                   },
@@ -7279,12 +7207,12 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                 "nodeType": "class",
                 "type": "[function]",
                 "props": {
-                  "to": "facility/vc_0228V",
-                  "children": "Alexandria Vet Center",
+                  "to": "facility/vba_343z",
+                  "children": "VetSuccess on Campus at Los Angeles City College",
                   "onlyActiveOnIndex": false,
                   "style": {}
                 },
-                "rendered": "Alexandria Vet Center"
+                "rendered": "VetSuccess on Campus at Los Angeles City College"
               }
             }
           },
@@ -7300,8 +7228,8 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                   "children": {
                     "type": "[function]",
                     "props": {
-                      "to": "facility/vc_0228V",
-                      "children": "Alexandria Vet Center",
+                      "to": "facility/vba_343z",
+                      "children": "VetSuccess on Campus at Los Angeles City College",
                       "onlyActiveOnIndex": false,
                       "style": {}
                     },
@@ -7312,12 +7240,12 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                   "nodeType": "class",
                   "type": "[function]",
                   "props": {
-                    "to": "facility/vc_0228V",
-                    "children": "Alexandria Vet Center",
+                    "to": "facility/vba_343z",
+                    "children": "VetSuccess on Campus at Los Angeles City College",
                     "onlyActiveOnIndex": false,
                     "style": {}
                   },
-                  "rendered": "Alexandria Vet Center"
+                  "rendered": "VetSuccess on Campus at Los Angeles City College"
                 }
               },
               "type": "h3",
@@ -7330,21 +7258,21 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
                     "nodeType": "class",
                     "type": "[function]",
                     "props": {
-                      "to": "facility/vc_0228V",
-                      "children": "Alexandria Vet Center",
+                      "to": "facility/vba_343z",
+                      "children": "VetSuccess on Campus at Los Angeles City College",
                       "onlyActiveOnIndex": false,
                       "style": {}
                     },
-                    "rendered": "Alexandria Vet Center"
+                    "rendered": "VetSuccess on Campus at Los Angeles City College"
                   },
                   "type": "Link",
                   "props": {
-                    "to": "facility/vc_0228V",
+                    "to": "facility/vba_343z",
                     "onlyActiveOnIndex": false,
                     "style": {}
                   },
                   "children": [
-                    "Alexandria Vet Center"
+                    "VetSuccess on Campus at Los Angeles City College"
                   ]
                 }
               ]
@@ -7357,37 +7285,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
             "type": "LocationAddress",
             "props": {
               "location": {
-                "id": "vc_0228V",
+                "id": "vba_343z",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "0228V",
-                  "name": "Alexandria Vet Center",
-                  "facilityType": "vet_center",
-                  "lat": 38.7678970200001,
-                  "long": -77.11909822,
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
                   "address": {
-                    "mailing": {},
                     "physical": {
-                      "zip": "22310",
-                      "city": "Alexandria",
-                      "state": "VA",
-                      "address1": "6940 South Kings Highway",
-                      "address2": "Suite 204"
-                    }
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
                   },
                   "phone": {
-                    "main": "703-360-8633 x"
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
                   },
                   "hours": {
-                    "friday": "800AM-430PM",
-                    "monday": "800AM-730PM",
-                    "sunday": "-",
-                    "tuesday": "800AM-330PM",
-                    "saturday": "-",
-                    "thursday": "800AM-730PM",
-                    "wednesday": "800AM-730PM"
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
                   },
-                  "services": {},
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
                   "feedback": {},
                   "access": {}
                 }
@@ -7397,37 +7337,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
           "type": "LocationAddress",
           "props": {
             "location": {
-              "id": "vc_0228V",
+              "id": "vba_343z",
               "type": "va_facilities",
               "attributes": {
-                "uniqueId": "0228V",
-                "name": "Alexandria Vet Center",
-                "facilityType": "vet_center",
-                "lat": 38.7678970200001,
-                "long": -77.11909822,
+                "uniqueId": "343z",
+                "name": "VetSuccess on Campus at Los Angeles City College",
+                "facilityType": "va_benefits_facility",
+                "classification": "VETSUCCESS ON CAMPUS",
+                "website": "https//va.gov",
+                "operatingStatus": {
+                  "code": "NORMAL",
+                  "additionalInfo": "Some additional CLOSED"
+                },
+                "lat": 34.08751109,
+                "long": -118.2917626,
                 "address": {
-                  "mailing": {},
                   "physical": {
-                    "zip": "22310",
-                    "city": "Alexandria",
-                    "state": "VA",
-                    "address1": "6940 South Kings Highway",
-                    "address2": "Suite 204"
-                  }
+                    "address1": "855 North Vermont",
+                    "address2": "",
+                    "city": "Los Angeles",
+                    "state": "CA",
+                    "zip": "90029"
+                  },
+                  "mailing": {}
                 },
                 "phone": {
-                  "main": "703-360-8633 x"
+                  "main": "323-953-4000 Ext 1253",
+                  "fax": ""
                 },
                 "hours": {
-                  "friday": "800AM-430PM",
-                  "monday": "800AM-730PM",
-                  "sunday": "-",
-                  "tuesday": "800AM-330PM",
-                  "saturday": "-",
-                  "thursday": "800AM-730PM",
-                  "wednesday": "800AM-730PM"
+                  "monday": "Closed",
+                  "tuesday": "Closed",
+                  "wednesday": "9:00AM-4:00PM",
+                  "thursday": "Closed",
+                  "friday": "Closed",
+                  "saturday": "Closed",
+                  "sunday": "Closed"
                 },
-                "services": {},
+                "services": {
+                  "benefits": {
+                    "other": "",
+                    "standard": []
+                  }
+                },
                 "feedback": {},
                 "access": {}
               }
@@ -7440,37 +7392,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
             "type": "LocationDirectionsLink",
             "props": {
               "location": {
-                "id": "vc_0228V",
+                "id": "vba_343z",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "0228V",
-                  "name": "Alexandria Vet Center",
-                  "facilityType": "vet_center",
-                  "lat": 38.7678970200001,
-                  "long": -77.11909822,
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
                   "address": {
-                    "mailing": {},
                     "physical": {
-                      "zip": "22310",
-                      "city": "Alexandria",
-                      "state": "VA",
-                      "address1": "6940 South Kings Highway",
-                      "address2": "Suite 204"
-                    }
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
                   },
                   "phone": {
-                    "main": "703-360-8633 x"
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
                   },
                   "hours": {
-                    "friday": "800AM-430PM",
-                    "monday": "800AM-730PM",
-                    "sunday": "-",
-                    "tuesday": "800AM-330PM",
-                    "saturday": "-",
-                    "thursday": "800AM-730PM",
-                    "wednesday": "800AM-730PM"
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
                   },
-                  "services": {},
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
                   "feedback": {},
                   "access": {}
                 }
@@ -7481,37 +7445,49 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
           "type": "LocationDirectionsLink",
           "props": {
             "location": {
-              "id": "vc_0228V",
+              "id": "vba_343z",
               "type": "va_facilities",
               "attributes": {
-                "uniqueId": "0228V",
-                "name": "Alexandria Vet Center",
-                "facilityType": "vet_center",
-                "lat": 38.7678970200001,
-                "long": -77.11909822,
+                "uniqueId": "343z",
+                "name": "VetSuccess on Campus at Los Angeles City College",
+                "facilityType": "va_benefits_facility",
+                "classification": "VETSUCCESS ON CAMPUS",
+                "website": "https//va.gov",
+                "operatingStatus": {
+                  "code": "NORMAL",
+                  "additionalInfo": "Some additional CLOSED"
+                },
+                "lat": 34.08751109,
+                "long": -118.2917626,
                 "address": {
-                  "mailing": {},
                   "physical": {
-                    "zip": "22310",
-                    "city": "Alexandria",
-                    "state": "VA",
-                    "address1": "6940 South Kings Highway",
-                    "address2": "Suite 204"
-                  }
+                    "address1": "855 North Vermont",
+                    "address2": "",
+                    "city": "Los Angeles",
+                    "state": "CA",
+                    "zip": "90029"
+                  },
+                  "mailing": {}
                 },
                 "phone": {
-                  "main": "703-360-8633 x"
+                  "main": "323-953-4000 Ext 1253",
+                  "fax": ""
                 },
                 "hours": {
-                  "friday": "800AM-430PM",
-                  "monday": "800AM-730PM",
-                  "sunday": "-",
-                  "tuesday": "800AM-330PM",
-                  "saturday": "-",
-                  "thursday": "800AM-730PM",
-                  "wednesday": "800AM-730PM"
+                  "monday": "Closed",
+                  "tuesday": "Closed",
+                  "wednesday": "9:00AM-4:00PM",
+                  "thursday": "Closed",
+                  "friday": "Closed",
+                  "saturday": "Closed",
+                  "sunday": "Closed"
                 },
-                "services": {},
+                "services": {
+                  "benefits": {
+                    "other": "",
+                    "standard": []
+                  }
+                },
                 "feedback": {},
                 "access": {}
               }
@@ -7525,88 +7501,112 @@ exports["VaFacilityResult/Should render VaFacility VA, facility type Vet Center(
             "type": "LocationPhoneLink",
             "props": {
               "location": {
-                "id": "vc_0228V",
+                "id": "vba_343z",
                 "type": "va_facilities",
                 "attributes": {
-                  "uniqueId": "0228V",
-                  "name": "Alexandria Vet Center",
-                  "facilityType": "vet_center",
-                  "lat": 38.7678970200001,
-                  "long": -77.11909822,
+                  "uniqueId": "343z",
+                  "name": "VetSuccess on Campus at Los Angeles City College",
+                  "facilityType": "va_benefits_facility",
+                  "classification": "VETSUCCESS ON CAMPUS",
+                  "website": "https//va.gov",
+                  "operatingStatus": {
+                    "code": "NORMAL",
+                    "additionalInfo": "Some additional CLOSED"
+                  },
+                  "lat": 34.08751109,
+                  "long": -118.2917626,
                   "address": {
-                    "mailing": {},
                     "physical": {
-                      "zip": "22310",
-                      "city": "Alexandria",
-                      "state": "VA",
-                      "address1": "6940 South Kings Highway",
-                      "address2": "Suite 204"
-                    }
+                      "address1": "855 North Vermont",
+                      "address2": "",
+                      "city": "Los Angeles",
+                      "state": "CA",
+                      "zip": "90029"
+                    },
+                    "mailing": {}
                   },
                   "phone": {
-                    "main": "703-360-8633 x"
+                    "main": "323-953-4000 Ext 1253",
+                    "fax": ""
                   },
                   "hours": {
-                    "friday": "800AM-430PM",
-                    "monday": "800AM-730PM",
-                    "sunday": "-",
-                    "tuesday": "800AM-330PM",
-                    "saturday": "-",
-                    "thursday": "800AM-730PM",
-                    "wednesday": "800AM-730PM"
+                    "monday": "Closed",
+                    "tuesday": "Closed",
+                    "wednesday": "9:00AM-4:00PM",
+                    "thursday": "Closed",
+                    "friday": "Closed",
+                    "saturday": "Closed",
+                    "sunday": "Closed"
                   },
-                  "services": {},
+                  "services": {
+                    "benefits": {
+                      "other": "",
+                      "standard": []
+                    }
+                  },
                   "feedback": {},
                   "access": {}
                 }
               },
               "from": "SearchResult",
               "query": {
-                "facilityType": "vet_center"
+                "facilityType": "benefits"
               }
             }
           },
           "type": "LocationPhoneLink",
           "props": {
             "location": {
-              "id": "vc_0228V",
+              "id": "vba_343z",
               "type": "va_facilities",
               "attributes": {
-                "uniqueId": "0228V",
-                "name": "Alexandria Vet Center",
-                "facilityType": "vet_center",
-                "lat": 38.7678970200001,
-                "long": -77.11909822,
+                "uniqueId": "343z",
+                "name": "VetSuccess on Campus at Los Angeles City College",
+                "facilityType": "va_benefits_facility",
+                "classification": "VETSUCCESS ON CAMPUS",
+                "website": "https//va.gov",
+                "operatingStatus": {
+                  "code": "NORMAL",
+                  "additionalInfo": "Some additional CLOSED"
+                },
+                "lat": 34.08751109,
+                "long": -118.2917626,
                 "address": {
-                  "mailing": {},
                   "physical": {
-                    "zip": "22310",
-                    "city": "Alexandria",
-                    "state": "VA",
-                    "address1": "6940 South Kings Highway",
-                    "address2": "Suite 204"
-                  }
+                    "address1": "855 North Vermont",
+                    "address2": "",
+                    "city": "Los Angeles",
+                    "state": "CA",
+                    "zip": "90029"
+                  },
+                  "mailing": {}
                 },
                 "phone": {
-                  "main": "703-360-8633 x"
+                  "main": "323-953-4000 Ext 1253",
+                  "fax": ""
                 },
                 "hours": {
-                  "friday": "800AM-430PM",
-                  "monday": "800AM-730PM",
-                  "sunday": "-",
-                  "tuesday": "800AM-330PM",
-                  "saturday": "-",
-                  "thursday": "800AM-730PM",
-                  "wednesday": "800AM-730PM"
+                  "monday": "Closed",
+                  "tuesday": "Closed",
+                  "wednesday": "9:00AM-4:00PM",
+                  "thursday": "Closed",
+                  "friday": "Closed",
+                  "saturday": "Closed",
+                  "sunday": "Closed"
                 },
-                "services": {},
+                "services": {
+                  "benefits": {
+                    "other": "",
+                    "standard": []
+                  }
+                },
                 "feedback": {},
                 "access": {}
               }
             },
             "from": "SearchResult",
             "query": {
-              "facilityType": "vet_center"
+              "facilityType": "benefits"
             }
           }
         }

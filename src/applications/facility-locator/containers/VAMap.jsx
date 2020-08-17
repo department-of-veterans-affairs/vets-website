@@ -48,6 +48,7 @@ const isMobile = window.innerWidth <= 481;
 class VAMap extends Component {
   constructor(props) {
     super(props);
+    this.refInput = React.createRef();
     this.zoomOut = debounce(
       () => this.refs.map.leafletElement.zoomOut(BOUNDING_RADIUS),
       2500,
@@ -60,8 +61,13 @@ class VAMap extends Component {
     this.searchResultTitle = React.createRef();
   }
 
+  getRefInput = () => {
+    return this.refInput;
+  };
+
   componentDidMount() {
     const { location, currentQuery } = this.props;
+    const { facilityType } = currentQuery;
 
     // navigating back from *Detail page preserves previous search results
     if (!isEmpty(this.props.results)) {
@@ -83,7 +89,7 @@ class VAMap extends Component {
       });
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(currentPosition => {
-        this.genBBoxFromCoords(currentPosition.coords);
+        this.genBBoxFromCoords(currentPosition.coords, facilityType);
       });
     } else {
       this.props.searchWithBounds({
@@ -286,9 +292,8 @@ class VAMap extends Component {
   /**
    * Generates a bounding box from a lat/long geocoordinate.
    *
-   *  @param position Has shape: `{latitude: x, longitude: y}`
    */
-  genBBoxFromCoords = position => {
+  genBBoxFromCoords = (position, facilityType) => {
     mbxClient
       .reverseGeocode({
         query: [position.longitude, position.latitude],
@@ -296,8 +301,12 @@ class VAMap extends Component {
       })
       .send()
       .then(({ body: { features } }) => {
-        const coordinates = features[0].center;
         const placeName = features[0].place_name;
+        if (!facilityType) {
+          this.refInput.current.value = placeName;
+          return;
+        }
+        const coordinates = features[0].center;
         const zipCode =
           features[0].context.find(v => v.id.includes('postcode')).text || '';
 
@@ -483,6 +492,7 @@ class VAMap extends Component {
             onSubmit={this.handleSearch}
             suppressCCP={suppressCCP}
             isMobile
+            getRefInput={this.getRefInput}
           />
           <div ref={this.searchResultTitle}>
             {this.renderResultsHeader(
@@ -580,6 +590,7 @@ class VAMap extends Component {
             onSubmit={this.handleSearch}
             suppressCCP={suppressCCP}
             suppressPharmacies={suppressPharmacies}
+            getRefInput={this.getRefInput}
           />
         </div>
         <div ref={this.searchResultTitle}>
