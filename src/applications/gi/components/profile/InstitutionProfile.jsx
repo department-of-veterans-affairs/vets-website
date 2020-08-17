@@ -8,7 +8,6 @@ import Programs from './Programs';
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 import SchoolLocations from './SchoolLocations';
-import Calculator from './Calculator';
 import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
 import ContactInformation from './ContactInformation';
@@ -40,7 +39,6 @@ export class InstitutionProfile extends React.Component {
       isOJT,
       constants,
       showModal,
-      gibctEstimateYourBenefits,
       gibctEybBottomSheet,
       gibctCh33BenefitRateUpdate,
       gibctFilterEnhancement,
@@ -56,14 +54,10 @@ export class InstitutionProfile extends React.Component {
         <div className="usa-accordion vads-u-margin-top--4">
           <ul>
             <AccordionItem button="Estimate your benefits">
-              {gibctEstimateYourBenefits ? (
-                <EstimateYourBenefits
-                  gibctEybBottomSheet={gibctEybBottomSheet}
-                  gibctCh33BenefitRateUpdate={gibctCh33BenefitRateUpdate}
-                />
-              ) : (
-                <Calculator />
-              )}
+              <EstimateYourBenefits
+                gibctEybBottomSheet={gibctEybBottomSheet}
+                gibctCh33BenefitRateUpdate={gibctCh33BenefitRateUpdate}
+              />
             </AccordionItem>
             {!isOJT && (
               <AccordionItem button="Veteran programs">
