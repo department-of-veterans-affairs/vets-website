@@ -10,9 +10,7 @@ describe('Scheduling Page <LegacyContent>', () => {
     const wrapper = shallow(<LegacyContent />);
 
     const text = wrapper.text();
-    expect(text).to.include(
-      'View, schedule, or cancel a VA appointment&nbsp;online',
-    );
+    expect(text).to.include('View, schedule, or cancel a VA appointment');
     expect(text).to.include(
       'How can the VA appointments tool help me manage my health care?',
     );
