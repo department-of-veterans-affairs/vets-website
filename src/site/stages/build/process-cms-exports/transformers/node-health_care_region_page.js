@@ -16,6 +16,7 @@ const transform = ({
   fieldLinkFacilityEmergList,
   fieldLeadership,
   reverseFieldRegionPage,
+  reverseFieldOffice,
 }) => ({
   entity: {
     entityType: 'node',
@@ -78,8 +79,8 @@ const transform = ({
         : [],
     },
     newsStoryTeasers: {
-      entities: reverseFieldRegionPage
-        ? reverseFieldRegionPage
+      entities: reverseFieldOffice
+        ? reverseFieldOffice
             .filter(
               reverseField =>
                 reverseField.entityBundle === 'news_story' &&
@@ -98,8 +99,8 @@ const transform = ({
         : [],
     },
     allNewsStoryTeasers: {
-      entities: reverseFieldRegionPage
-        ? reverseFieldRegionPage
+      entities: reverseFieldOffice
+        ? reverseFieldOffice
             .filter(
               reverseField =>
                 reverseField.entityBundle === 'news_story' &&
@@ -130,6 +131,7 @@ module.exports = {
     'metatag',
     'field_leadership',
     'reverse_field_region_page',
+    'reverse_field_office',
   ],
   transform,
 };
