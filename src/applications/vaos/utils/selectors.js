@@ -2,7 +2,7 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
-import { titleCase, joinWithAnd } from './formatters';
+import { titleCase } from './formatters';
 
 import {
   getTimezoneBySystemId,
@@ -577,45 +577,73 @@ export function selectActiveExpressCareFacility(state, nowMoment) {
   };
 }
 
-/*
- * Gets the formatted days and hours string of the first support facility.
- * 
- * Note: we're picking the first facility, there could be more than one
+function getFormattedTime(time) {
+  return moment(`${moment().format('YYYY-MM-DD')}T${time}:00`).format('h:mm a');
+}
+
+function getWindowString(window, timezoneAbbreviation, isToday) {
+  return `${isToday ? 'today' : titleCase(window.day)} from ${getFormattedTime(
+    window.startTime,
+  )} to ${getFormattedTime(window.endTime)} ${timezoneAbbreviation}`;
+}
+
+/**
+ * Returns next schedulable window.  If today is schedulable and current time is before window,
+ * return today's window.  Otherwise, return the next schedulable day's window
  */
-export function selectExpressCareHours(state) {
+export function selectNextAvailableExpressCareWindowString(state, nowMoment) {
   if (!state.expressCare.supportedFacilities?.length) {
     return null;
   }
 
   const facility = state.expressCare.supportedFacilities[0];
   const siteId = facility.facilityId.substring(0, 3);
+  const { timezone } = getTimezoneBySystemId(siteId);
   const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
+  const nowFacilityTime = nowMoment.clone().tz(timezone);
+  const dayOfWeek = nowFacilityTime.format('dddd').toUpperCase();
+  const todayDayOfWeekIndex = Number(nowFacilityTime.format('d'));
+  const todaysWindow = facility.days.find(d => d.day === dayOfWeek);
 
-  // Trying to group days with the same times together
-  const windows = new Map();
-  facility.days.forEach(day => {
-    const key = `${day.startTime}_${day.endTime}`;
-    if (windows.has(key)) {
-      windows.get(key).push(day.day);
+  // Sort schedulable days after today so we can easily find the next
+  // day if needed
+  const schedulableDaysAfterToday = [
+    ...facility.days.filter(day => day.dayOfWeekIndex > todayDayOfWeekIndex),
+    ...facility.days.filter(day => day.dayOfWeekIndex < todayDayOfWeekIndex),
+  ];
+
+  if (todaysWindow) {
+    const start = moment.tz(
+      `${nowFacilityTime.format('YYYY-MM-DD')}T${todaysWindow.startTime}:00`,
+      timezone,
+    );
+    if (nowMoment.isBefore(start)) {
+      // If today is schedulable and we are before the window, return today's window
+      return getWindowString(todaysWindow, timezoneAbbreviation, true);
     } else {
-      windows.set(key, [day.day]);
+      // In the rare case the today is the only schedulable day and they are past the window,
+      // return today's window and specify "next week". Otherwise, return the next schedulable day
+      if (!schedulableDaysAfterToday.length) {
+        return `next ${getWindowString(
+          todaysWindow,
+          timezoneAbbreviation,
+          false,
+        )}`;
+      }
+      return getWindowString(
+        schedulableDaysAfterToday[0],
+        timezoneAbbreviation,
+        false,
+      );
     }
-  });
-
-  const segments = Array.from(windows.entries());
-
-  // Formatting each segment as 'day, day from x to y'
-  return joinWithAnd(
-    segments.map(([hours, days]) => {
-      const [start, end] = hours.split('_');
-      return `${days.map(titleCase).join(', ')} from ${moment(
-        start,
-        'HH:mm',
-      ).format('h:mm a')} to ${moment(end, 'HH:mm').format(
-        'h:mm a',
-      )} ${timezoneAbbreviation}`;
-    }),
-  );
+  } else {
+    // If today isn't schedulable, return the next day that is
+    return getWindowString(
+      schedulableDaysAfterToday[0],
+      timezoneAbbreviation,
+      false,
+    );
+  }
 }
 
 export function selectExpressCare(state) {
@@ -625,7 +653,10 @@ export function selectExpressCare(state) {
     ...expressCare,
     activeWindows,
     localWindowString: selectLocalExpressCareWindowString(state),
-    localHoursString: selectExpressCareHours(state),
+    localNextAvailableString: selectNextAvailableExpressCareWindowString(
+      state,
+      moment(),
+    ),
     allowRequests: !!activeWindows?.length,
     enabled: vaosExpressCare(state),
     useNewFlow: vaosExpressCareNew(state),
