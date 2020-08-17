@@ -30,7 +30,6 @@ export default Object.freeze({
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
-  routeStLouisRPOtoBuffaloRPO: 'routeStLouisRPOtoBuffaloRPO',
   gibctSearchEnhancements: 'gibctSearchEnhancements',
   form996HigherLevelReview: 'form996HigherLevelReview',
   gibctFilterEnhancement: 'gibctFilterEnhancement',
