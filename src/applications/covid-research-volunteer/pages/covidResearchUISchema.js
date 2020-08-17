@@ -19,15 +19,19 @@ export const uiSchema = {
     'view:descriptionText': {
       'ui:description': (
         <span>
-          Thank you for your interest in volunteering for COVID-19 research at
-          VA. Please answer the questions below, and we’ll add you to our
-          volunteer registry. If we think you may be eligible for a study, we’ll
-          contact you to tell you more about it so you can decide if you want to
-          join. You don’t need to be a Veteran to volunteer.
+          Thank you for your interest in participating in coronavirus research
+          at VA. Please answer the questions below, and we’ll add you to our
+          volunteer registry. If we think you may be eligible for one of our
+          COVID-19 studies, we’ll contact you to tell you more about it so you
+          can decide if you want to join. You don’t need to be a Veteran to
+          volunteer.
           <p>
             <b>Note:</b> We won’t share your information with anyone outside of
-            VA. To learn more before volunteering, read about frequently asked
-            questions about COVID-19 research at VA.
+            VA. To learn more before volunteering, read about{' '}
+            <a href="https://staging.va.gov/alt-covid-research-lp/">
+              participating in coronavirus research at VA
+            </a>
+            .
           </p>
         </span>
       ),
@@ -55,7 +59,7 @@ export const uiSchema = {
   diagnosed: {
     'ui:title': (
       <span>
-        <strong>Have ever been diagnosed with COVID-19?</strong>
+        <strong>Have you ever been diagnosed with COVID-19?</strong>
       </span>
     ),
     'ui:widget': 'yesNo',
@@ -70,10 +74,12 @@ export const uiSchema = {
           In the past month, have you been in close contact with anyone who
           tested positive for COVID-19?
         </strong>
+        <br />
+        <br />
+        <strong>Note:</strong> We define close contact as being within 6 feet of
+        a person.
       </span>
     ),
-    'ui:description':
-      'We define close contact as being within 6 feet of a person.',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -88,7 +94,8 @@ export const uiSchema = {
     'ui:title': (
       <span>
         <strong>
-          In the past 6 months, have you been hospitalized at any time?
+          In the past 6 months, have you had to stay overnight in a hospital for
+          treatment, care, or testing?
         </strong>
       </span>
     ),
@@ -134,6 +141,9 @@ export const uiSchema = {
     CANCER: {
       'ui:title': 'Cancer',
     },
+    IMMUNOCOMPROMISED: {
+      'ui:title': 'Compromised immune system (including due to HIV/AIDS)',
+    },
     DIABETES: {
       'ui:title': 'Diabetes (Type 1 or 2)',
     },
@@ -142,9 +152,6 @@ export const uiSchema = {
     },
     HIGH_BLOOD_PRESSURE: {
       'ui:title': 'High blood pressure',
-    },
-    IMMUNOCOMPROMISED: {
-      'ui:title': 'Compromised immune system (including due to HIV/AIDS)',
     },
     KIDNEY_LIVER_DISEASE: {
       'ui:title': 'Kidney or liver disease',
@@ -259,10 +266,11 @@ export const uiSchema = {
           On most days, how many people do you have close contact with outside
           of those who live in your home?
         </strong>
+        <br />
+        <br />
+        <strong>Note:</strong> We define close contact as being within 6 feet of
+        a person.
       </span>
-    ),
-    'ui:description': (
-      <span>We define close contact as being within 6 feet of a person.</span>
     ),
     'ui:widget': 'radio',
     'ui:options': {
@@ -302,7 +310,12 @@ export const uiSchema = {
   }),
   email: emailUI(),
   'view:confirmEmail': emailUI('Re-enter email address'),
-  phone: phoneUI(),
+  phone: {
+    ...phoneUI(),
+    'ui:options': {
+      classNames: 'input-width',
+    },
+  },
   veteranDateOfBirth: {
     ...currentOrPastDateUI('Date of birth'),
     'ui:description':
@@ -315,7 +328,7 @@ export const uiSchema = {
       pattern: 'Please enter a valid 5- or 9-digit zip code (dashes allowed)',
     },
     'ui:options': {
-      classNames: '',
+      classNames: 'input-width',
     },
   },
   height: {
@@ -323,9 +336,9 @@ export const uiSchema = {
     'ui:widget': HeightWidget,
   },
   weight: {
-    'ui:title': 'Weight',
+    'ui:title': 'Weight (pounds)',
     'ui:options': {
-      classNames: ' ',
+      classNames: 'input-width',
     },
     'ui:errorMessages': {
       required: 'Please enter your weight',
