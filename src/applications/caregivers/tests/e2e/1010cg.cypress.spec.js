@@ -155,7 +155,7 @@ const testSecondaryTwo = createTestConfig(
     },
 
     // disable all tests until 1010CG is in production
-    skip: true,
+    skip: false,
   },
   manifest,
   formConfig,
