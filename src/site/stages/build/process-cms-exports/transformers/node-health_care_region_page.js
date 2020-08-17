@@ -1,3 +1,4 @@
+const moment = require('moment');
 const {
   getDrupalValue,
   getWysiwygString,
@@ -113,6 +114,29 @@ const transform = ({
               fieldFeatured: r.fieldFeatured,
               fieldIntroText: r.fieldIntroText,
               fieldMedia: r.fieldMedia,
+              entityUrl: r.entityUrl,
+            }))
+        : [],
+    },
+    eventTeasers: {
+      entities: reverseFieldOffice
+        ? reverseFieldOffice
+            .filter(
+              reverseField =>
+                reverseField.entityBundle === 'event' &&
+                reverseField.entityPublished &&
+                reverseField.fieldFeatured &&
+                moment(reverseField.fieldDate.value).isAfter(moment(), 'day'),
+            )
+            .sort((a, b) => a.fieldDate.value - b.fieldDate.value)
+            .slice(0, 2)
+            .map(r => ({
+              title: r.title,
+              uid: r.uid,
+              fieldDate: r.fieldDate,
+              fieldDescription: r.fieldDescription,
+              fieldLocationHumanreadable: r.fieldLocationHumanreadable,
+              fieldFacilityLocation: r.fieldFacilityLocation,
               entityUrl: r.entityUrl,
             }))
         : [],

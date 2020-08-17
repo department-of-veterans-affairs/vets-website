@@ -2,6 +2,7 @@ const { usePartialSchema } = require('../../transformers/helpers');
 const personProfileSchema = require('./node-person_profile');
 const healthCareLocalFacilitySchema = require('./node-health_care_local_facility');
 const newsStorySchema = require('./node-news_story');
+const eventSchema = require('./node-event');
 
 module.exports = {
   type: 'object',
@@ -105,6 +106,25 @@ module.exports = {
             },
           },
         },
+        eventTeasers: {
+          type: 'object',
+          properties: {
+            entities: {
+              type: 'array',
+              maxItems: 2,
+              items: {
+                entity: usePartialSchema(eventSchema, [
+                  'title',
+                  'fieldDate',
+                  'fieldDescription',
+                  'fieldLocationHumanreadable',
+                  'fieldFacilityLocation',
+                  'entityUrl',
+                ]),
+              },
+            },
+          },
+        },
       },
       required: [
         'title',
@@ -115,6 +135,7 @@ module.exports = {
         'reverseFieldRegionPageNode',
         'newsStoryTeasers',
         'allNewsStoryTeasers',
+        'eventTeasers',
       ],
     },
   },
