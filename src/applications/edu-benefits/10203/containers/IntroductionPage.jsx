@@ -2,6 +2,8 @@ import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import SaveInProgressIntro from '../content/SaveInProgressIntro';
 import { connect } from 'react-redux';
 
@@ -10,7 +12,10 @@ import { getRemainingEntitlement } from '../actions/post-911-gib-status';
 export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-    this.props.getRemainingEntitlement();
+
+    if (this.props.useEvss) {
+      this.props.getRemainingEntitlement();
+    }
   }
 
   moreThanSixMonths = remaining => {
@@ -79,7 +84,7 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-10203 (Application for Edith Nourse Rogers STEM
           Scholarship).
         </p>
-        {this.entitlementRemainingAlert()}
+        {this.props.useEvss && this.entitlementRemainingAlert()}
         <h4>Follow the steps below to apply for this scholarship</h4>
         <div className="process schemaform-process">
           <ol>
@@ -229,6 +234,7 @@ const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
+    useEvss: toggleValues(state)[FEATURE_FLAG_NAMES.stemSCOEmail],
   };
 };
 
