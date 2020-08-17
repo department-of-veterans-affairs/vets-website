@@ -191,8 +191,8 @@ class ResultsList extends Component {
           className="search-result-title facility-result"
           ref={this.searchResultTitle}
         >
-          Please enter a location (Street, City, State or Postal code) and click
-          search to find facilities.
+          Please enter a location (street, city, state or postal code) and click
+          search above to find facilities.
         </div>
       );
     }
