@@ -303,7 +303,6 @@ class VAMap extends Component {
       .then(({ body: { features } }) => {
         const placeName = features[0].place_name;
         if (!facilityType) {
-          this.refInput.current.value = placeName;
           this.props.updateSearchQuery({
             searchString: placeName,
           });
