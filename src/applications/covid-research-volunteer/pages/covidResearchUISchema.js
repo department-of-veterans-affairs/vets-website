@@ -318,8 +318,12 @@ export const uiSchema = {
   },
   veteranDateOfBirth: {
     ...currentOrPastDateUI('Date of birth'),
-    'ui:description':
-      'Note: You must be at least 18 years old to participate in research.',
+    'ui:description': (
+      <span>
+        <strong>Note:</strong> You must be at least 18 years old to participate
+        in research.
+      </span>
+    ),
   },
   zipCode: {
     'ui:title': 'Zip code',
