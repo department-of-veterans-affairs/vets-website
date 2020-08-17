@@ -91,7 +91,7 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
       </Breadcrumbs>
       <div className="vads-l-row vads-u-margin-x--neg2p5">
         <h1 className="vads-u-padding-x--2p5 vads-u-margin-bottom--2">
-          Your VA debt
+          Current VA debt
         </h1>
         <div className="large-screen:vads-u-display--flex vads-u-flex-direction--row vads-u-display--block">
           <CallToActionWidget appId="debt-letters">
@@ -101,8 +101,10 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
                   'vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--2',
                 )}
               >
-                Download your debt letters, learn your payment options, or find
-                out how to get help with your VA debts.
+                Check the details of VA debt you might have related to your
+                education, disability compensation, pension, or home loan
+                benefits. Find out how to pay your debt and what to do if you
+                need financial assistance.
               </h2>
               {allDebtsFetchFailure && renderAlert()}
               {allDebtsEmpty && renderEmptyAlert()}
