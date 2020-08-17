@@ -3,22 +3,22 @@ import React from 'react';
 export default function AppointmentRequestCommunityCareLocation({
   appointment,
 }) {
-  const hasProviders = !!appointment.contained?.length;
+  const providers = appointment.contained.filter(
+    res => res.resourceType === 'Practitioner',
+  );
 
   return (
     <dl className="vads-u-margin--0">
       <dt className="vads-u-font-weight--bold">Preferred provider</dt>
       <dd>
-        {!hasProviders && 'Not specified'}
-        {hasProviders && (
+        {!providers.length && 'Not specified'}
+        {!!providers.length && (
           <ul className="usa-unstyled-list">
-            {appointment.contained.map(provider => (
-              <li
-                key={`${provider.actor.firstName} ${provider.actor.lastName}`}
-              >
-                {provider.actor.name}
+            {providers.map(provider => (
+              <li key={provider.id}>
+                {provider.practitionerRole?.[0].location?.[0].display}
                 <br />
-                {provider.actor.firstName} {provider.actor.lastName}
+                {provider.name.text}
               </li>
             ))}
           </ul>
