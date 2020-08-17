@@ -14,7 +14,7 @@ export const renderAdditionalInfo = deductionCode => {
   switch (deductionCode) {
     case '30':
       return (
-        <>
+        <div className="vads-u-font-family--sans">
           <p>
             The compensation and pension offices sent you a letter explaining
             why you have this debt. Some common reasons for this type of debt
@@ -23,10 +23,15 @@ export const renderAdditionalInfo = deductionCode => {
           <ul>
             <li>
               A change in your spouse's or dependent's status wasn't submitted
-              or processed before we made a payment to you, or
+              or processed before we made a payment to you, <strong>or</strong>
             </li>
-            <li>There was an adjustment to your drill pay, or</li>
-            <li>Your eligibility for a benefit might have changed, or</li>
+            <li>
+              There was an adjustment to your drill pay, <strong>or</strong>
+            </li>
+            <li>
+              Your eligibility for a benefit might have changed,{' '}
+              <strong>or</strong>
+            </li>
             <li>We made a duplicate or incorrect payment to you</li>
           </ul>
           <p>
@@ -57,20 +62,28 @@ export const renderAdditionalInfo = deductionCode => {
               800-827-0648
             </a>
           </p>
-        </>
+        </div>
       );
     case '41':
     case '44':
       return (
-        <>
+        <div className="vads-u-font-family--sans">
           <p>
             The Education office sent you a letter explaining why you have this
             debt. Some common reasons for this type of debt are:
           </p>
           <ul>
-            <li>You made a change in course enrollment, or</li>
-            <li>You withdrew from a higher-education institution, or</li>
-            <li>Your eligibility for a benefit might have changed, or</li>
+            <li>
+              You made a change in course enrollment, <strong>or</strong>
+            </li>
+            <li>
+              You withdrew from a higher-education institution,{' '}
+              <strong>or</strong>
+            </li>
+            <li>
+              Your eligibility for a benefit might have changed,{' '}
+              <strong>or</strong>
+            </li>
             <li>We made a duplicate or incorrect payment to you</li>
           </ul>
           <p>
@@ -88,21 +101,26 @@ export const renderAdditionalInfo = deductionCode => {
               800-827-0648
             </a>
           </p>
-        </>
+        </div>
       );
     case '71':
     case '72':
     case '74':
     case '75':
       return (
-        <>
+        <div className="vads-u-font-family--sans">
           <p>
             The Education office sent you a letter explaining why you have this
             debt. Some common reasons for this type of debt are:
           </p>
           <ul>
-            <li>You made a change in course enrollment, or</li>
-            <li>You withdrew from a higher-education institution, or</li>
+            <li>
+              You made a change in course enrollment, <strong>or</strong>
+            </li>
+            <li>
+              You withdrew from a higher-education institution,{' '}
+              <strong>or</strong>
+            </li>
             <li>Your eligibility for a benefit might have changed, or</li>
             <li>We made a duplicate or incorrect payment to you</li>
           </ul>
@@ -127,7 +145,7 @@ export const renderAdditionalInfo = deductionCode => {
               800-827-0648
             </a>
           </p>
-        </>
+        </div>
       );
     default:
       return null;
