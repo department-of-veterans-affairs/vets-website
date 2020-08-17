@@ -31,7 +31,7 @@ const SubmitError = ({ form }) => {
         </div>
 
         <div>
-          <p>Mail your applicaiton to:</p>
+          <p>Mail your application to:</p>
 
           <p className="va-address-block vads-u-margin-bottom--2 vads-u-margin-x--0 vads-u-font-size--h4">
             <b className="vads-u-font-size--h5">
