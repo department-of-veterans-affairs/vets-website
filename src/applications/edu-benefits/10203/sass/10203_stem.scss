@@ -175,8 +175,17 @@ div[data-chapter="benefitSelection"]{
   }
 }
 
-div[data-chapter="programDetails"]{
+div[data-chapter="programDetails"] {
+  .form-review-panel-page {
+    margin-bottom: 0px;
+  }
   div.form-review-panel-page:nth-child(2) {
-    display:none;
+    display: none;
+  }
+}
+
+div[data-chapter="personalInformation"]{
+  .form-review-panel-page {
+    margin-bottom: 0px;
   }
 }
