@@ -77,6 +77,26 @@ const transform = ({
             }))
         : [],
     },
+    newsStoryTeasers: {
+      entities: reverseFieldRegionPage
+        ? reverseFieldRegionPage
+            .filter(
+              reverseField =>
+                reverseField.entityBundle === 'news_story' &&
+                reverseField.entityPublished &&
+                reverseField.fieldFeatured,
+            )
+            .sort((a, b) => b.created - a.created)
+            .slice(0, 2)
+            .map(r => ({
+              title: r.title,
+              fieldFeatured: r.fieldFeatured,
+              fieldIntroText: r.fieldIntroText,
+              fieldMedia: r.fieldMedia,
+              entityUrl: r.entityUrl,
+            }))
+        : [],
+    },
   },
 });
 module.exports = {

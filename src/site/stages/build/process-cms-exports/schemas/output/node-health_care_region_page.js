@@ -1,6 +1,7 @@
 const { usePartialSchema } = require('../../transformers/helpers');
 const personProfileSchema = require('./node-person_profile');
 const healthCareLocalFacilitySchema = require('./node-health_care_local_facility');
+const newsStorySchema = require('./node-news_story');
 
 module.exports = {
   type: 'object',
@@ -68,6 +69,24 @@ module.exports = {
             },
           },
         },
+        newsStoryTeasers: {
+          type: 'object',
+          properties: {
+            entities: {
+              type: 'array',
+              maxItems: 2,
+              items: {
+                entity: usePartialSchema(newsStorySchema, [
+                  'title',
+                  'fieldFeatured',
+                  'fieldIntroText',
+                  'fieldMedia',
+                  'entityUrl',
+                ]),
+              },
+            },
+          },
+        },
       },
       required: [
         'title',
@@ -76,6 +95,7 @@ module.exports = {
         'fieldPressReleaseBlurb',
         'fieldLeadership',
         'reverseFieldRegionPageNode',
+        'newsStoryTeasers',
       ],
     },
   },
