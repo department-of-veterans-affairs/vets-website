@@ -127,6 +127,7 @@ export class LandingPage extends React.Component {
   };
 
   render() {
+    const landingPageCheck = true;
     const buttonLabel = this.props.gibctSearchEnhancements
       ? 'Search'
       : 'Search Schools';
@@ -177,6 +178,7 @@ export class LandingPage extends React.Component {
               {!isVetTecSelected(this.props.filters) && (
                 <KeywordSearch
                   label={searchLabel}
+                  searchOnAutcompleteSelection={landingPageCheck}
                   autocomplete={this.props.autocomplete}
                   location={this.props.location}
                   onClearAutocompleteSuggestions={
