@@ -83,9 +83,10 @@ const uiSchema = {
       'I live on a United States military base outside of the United States.',
   },
   'view:livesOnMilitaryBaseInfo': {
-    'ui:description': 'U.S. military bases are considered a domestic address and a part of the United States.',
+    'ui:description':
+      'U.S. military bases are considered a domestic address and a part of the United States.',
     'ui:options': {
-      hideIf: (formData) => !formData?.['view:livesOnMilitaryBase'],
+      hideIf: formData => !formData?.['view:livesOnMilitaryBase'],
     },
   },
   countryCodeIso3: {
