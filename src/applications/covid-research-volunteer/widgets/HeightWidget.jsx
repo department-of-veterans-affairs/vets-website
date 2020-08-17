@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 
-function getEmptyState(value) {
+function getEmptyState() {
   return {
     value: {
       feet: null,
@@ -25,7 +24,7 @@ const inputStyle = {
 };
 
 export default class HeightWidget extends React.Component {
-  state = getEmptyState(this.props.value);
+  state = getEmptyState();
 
   isTouched = ({ feet, inches }) => feet && inches;
 

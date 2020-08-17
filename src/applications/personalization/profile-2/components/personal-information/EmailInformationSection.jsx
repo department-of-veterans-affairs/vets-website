@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import React, { Component } from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import React from 'react';
 
 import Email from 'vet360/components/VAPEmail';
 

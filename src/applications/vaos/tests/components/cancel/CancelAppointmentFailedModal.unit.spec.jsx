@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-import { FETCH_STATUS } from '../../../utils/constants';
 
 import CancelAppointmentFailedModal from '../../../components/cancel/CancelAppointmentFailedModal';
 

@@ -8,7 +8,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import { CERNER_FACILITY_IDS, getCernerURL } from 'platform/utilities/cerner';
+import { CERNER_FACILITY_IDS } from 'platform/utilities/cerner';
 
 export class CernerCallToAction extends Component {
   static propTypes = {

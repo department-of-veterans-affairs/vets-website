@@ -32,7 +32,7 @@ function HelpMenu({ clickHandler, cssClass, isOpen }) {
         <a href="tel:18446982311">Call VA311: 844-698-2311</a>
       </p>
       <p>
-        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
       </p>
     </div>
   );

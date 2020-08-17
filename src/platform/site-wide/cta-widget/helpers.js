@@ -27,6 +27,7 @@ export const widgetTypes = {
   VIEW_APPOINTMENTS: 'view-appointments',
   VIEW_DEPENDENTS: 'view-dependents',
   ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
+  CHANGE_ADDRESS: 'change-address',
 };
 
 const HEALTH_TOOLS = [
@@ -182,13 +183,19 @@ export const toolUrl = (appId, authenticatedWithSSOe = false) => {
 
     case widgetTypes.MANAGE_VA_DEBT:
       return {
-        url: '/manage-va-debt/debt-letters',
+        url: '/manage-va-debt/your-debt',
         redirect: false,
       };
 
     case widgetTypes.ADD_REMOVE_DEPENDENTS:
       return {
         url: form686FormUrl,
+        redirect: false,
+      };
+
+    case widgetTypes.CHANGE_ADDRESS:
+      return {
+        url: '/profile/personal-information',
         redirect: false,
       };
 
@@ -292,6 +299,9 @@ export const serviceDescription = appId => {
 
     case widgetTypes.ADD_REMOVE_DEPENDENTS:
       return 'add or remove dependents';
+
+    case widgetTypes.CHANGE_ADDRESS:
+      return 'change your address';
 
     default:
       return 'use this service';

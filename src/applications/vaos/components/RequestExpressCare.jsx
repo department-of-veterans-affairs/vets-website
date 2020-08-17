@@ -11,6 +11,7 @@ export default function RequestExpressCare({
   localWindowString,
   localNextAvailableString,
   useNewFlow,
+  startNewExpressCareFlow,
 }) {
   const legacyLink = `https://veteran.apps${
     environment.isProduction() ? '' : '-staging'
@@ -32,7 +33,11 @@ export default function RequestExpressCare({
           option is available today from {localWindowString}.
         </p>
         {useNewFlow ? (
-          <Link className="usa-button" to="/new-express-care-request">
+          <Link
+            className="usa-button"
+            onClick={startNewExpressCareFlow}
+            to="/new-express-care-request"
+          >
             Create an Express Care request
           </Link>
         ) : (

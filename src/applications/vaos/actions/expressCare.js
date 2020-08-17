@@ -31,7 +31,10 @@ import {
   EXPRESS_CARE_ERROR_REASON,
 } from '../utils/constants';
 import { resetDataLayer } from '../utils/events';
-import { EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED } from './sitewide';
+import {
+  EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED,
+  STARTED_NEW_EXPRESS_CARE_FLOW,
+} from './sitewide';
 
 export const FORM_PAGE_OPENED = 'expressCare/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
@@ -188,23 +191,28 @@ export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
     const expressCare = getState().expressCare;
     const formData = expressCare.newRequest.data;
-
-    const activeFacility = selectActiveExpressCareFacility(
-      getState(),
-      moment.utc(),
-    );
-
-    dispatch({
-      type: FORM_SUBMIT,
-    });
-
-    let requestBody;
-
-    recordEvent({
-      event: `${GA_PREFIX}-express-care-submission`,
-    });
+    let activeFacility;
+    let additionalEventData = {};
 
     try {
+      activeFacility = selectActiveExpressCareFacility(
+        getState(),
+        moment.utc(),
+      );
+
+      dispatch({
+        type: FORM_SUBMIT,
+      });
+
+      additionalEventData = {
+        'health-expressCareReason': formData.reason,
+      };
+
+      recordEvent({
+        event: `${GA_PREFIX}-express-care-submission`,
+        ...additionalEventData,
+      });
+
       if (!activeFacility) {
         throw new Error('No facilities available for Express Care request');
       }
@@ -212,7 +220,7 @@ export function submitExpressCareRequest(router) {
       const facilityName = await getFacilityName(activeFacility.facilityId);
       activeFacility.name = facilityName;
 
-      requestBody = transformFormToExpressCareRequest(
+      const requestBody = transformFormToExpressCareRequest(
         getState(),
         activeFacility,
       );
@@ -233,6 +241,7 @@ export function submitExpressCareRequest(router) {
 
       recordEvent({
         event: `${GA_PREFIX}-express-care-submission-successful`,
+        ...additionalEventData,
       });
       resetDataLayer();
       router.push('/new-express-care-request/confirmation');
@@ -250,8 +259,15 @@ export function submitExpressCareRequest(router) {
 
       recordEvent({
         event: `${GA_PREFIX}-express-care-submission-failed`,
+        ...additionalEventData,
       });
       resetDataLayer();
     }
+  };
+}
+
+export function startNewExpressCareFlow() {
+  return {
+    type: STARTED_NEW_EXPRESS_CARE_FLOW,
   };
 }

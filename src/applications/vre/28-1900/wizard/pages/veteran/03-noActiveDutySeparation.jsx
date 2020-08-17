@@ -1,8 +1,7 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { veteranPathPageNames } from '../pageList';
 
-const noActiveDutySeparation = ({ setPageState, state = {} }) => (
+const noActiveDutySeparation = () => (
   <div className="feature">
     <p>
       To apply for VR&E benefits, you must be within 12 years of whichever is

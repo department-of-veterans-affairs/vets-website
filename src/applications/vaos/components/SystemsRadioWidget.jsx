@@ -40,7 +40,7 @@ export default function SystemsRadioWidget({
                   <strong>
                     To schedule a VA appointment at this location, go to{' '}
                     <a
-                      href={getCernerURL()}
+                      href={getCernerURL('/pages/scheduling/upcoming')}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

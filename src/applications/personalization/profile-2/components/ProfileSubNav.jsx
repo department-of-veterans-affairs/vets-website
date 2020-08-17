@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
+import { focusElement } from 'platform/utilities/ui';
 
 export function ProfileMenuItems({ routes, isLOA3, clickHandler = null }) {
   return (
@@ -33,10 +34,17 @@ export function ProfileMenuItems({ routes, isLOA3, clickHandler = null }) {
 }
 
 const ProfileSubNav = ({ isLOA3, routes }) => {
+  // on first render, set the focus to the h1
+  useEffect(() => {
+    focusElement('#subnav-header');
+  }, []);
+
   return (
     <nav className="va-subnav" aria-label="Secondary">
       <div>
-        <h1 className="vads-u-font-size--h4">Your profile</h1>
+        <h1 id="subnav-header" className="vads-u-font-size--h4">
+          Your profile
+        </h1>
         <ProfileMenuItems routes={routes} isLOA3={isLOA3} />
       </div>
     </nav>

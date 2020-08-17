@@ -51,8 +51,6 @@ import {
 
 import { transformParentFacilities } from '../../services/organization/transformers';
 import { transformDSFacilities } from '../../services/location/transformers';
-import { getTypeOfCare } from '../../utils/selectors';
-import { name } from 'file-loader';
 
 const parentFacilitiesParsed = transformParentFacilities(
   parentFacilities.data.map(item => ({

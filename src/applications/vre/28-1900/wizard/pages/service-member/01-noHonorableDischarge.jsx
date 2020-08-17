@@ -1,12 +1,7 @@
 import React from 'react';
 import { serviceMemberPathPageNames } from '../pageList';
 
-const options = [
-  { value: serviceMemberPathPageNames.amVeteran, label: 'Yes' },
-  { value: serviceMemberPathPageNames.notWithin12Years, label: 'No' },
-];
-
-const noHonorableDischargeSM = ({ setPageState, state = {} }) => (
+const noHonorableDischargeSM = () => (
   <div className="feature">
     <p>
       To apply for VR&E benefits, you must have received an other than

@@ -1,10 +1,8 @@
 import React from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import ViewPaymentsHeader from '../components/view-payments-header/ViewPaymentsHeader.jsx';
 import ViewPaymentsLists from '../components/view-payments-lists/ViewPaymentsLists.jsx';
 import ViewPaymentsSidebar from '../components/ViewPaymentsSidebar/ViewPaymentsSidebar.jsx';
 import ViewPaymentsSidebarBlock from '../components/ViewPaymentsSidebar/ViewPaymentsSidebarBlock.jsx';
-import { breadcrumbLinks } from './helpers';
 import {
   firstSidebarBlock,
   secondSidebarBlock,
