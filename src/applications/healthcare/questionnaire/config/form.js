@@ -2,14 +2,11 @@
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import AppointmentInfoBox from '../components/AppointmentInfoBox';
 
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
-
-const formFields = {
-  firstName: 'firstName',
-};
 
 const formConfig = {
   urlPrefix: '/',
@@ -29,22 +26,22 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     chapter1: {
-      title: 'Personal Information',
+      title: "Veteran's Informaion",
       pages: {
-        page1: {
-          path: 'first-name',
-          title: 'Personal Information - Page 1',
+        demographicsPage: {
+          path: 'demographics',
+          title: 'Veteran Information',
           uiSchema: {
-            [formFields.firstName]: {
-              'ui:title': 'First Name',
+            'view:veteranInfo': {
+              'ui:field': AppointmentInfoBox,
             },
           },
           schema: {
-            required: [formFields.firstName],
             type: 'object',
             properties: {
-              [formFields.firstName]: {
-                type: 'string',
+              'view:veteranInfo': {
+                type: 'object',
+                properties: {},
               },
             },
           },
