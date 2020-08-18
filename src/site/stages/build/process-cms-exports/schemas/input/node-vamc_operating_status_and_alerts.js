@@ -4,7 +4,7 @@ module.exports = {
   type: 'object',
   properties: {
     title: { $ref: 'GenericNestedString' },
-    moderation_state: { $ref: 'GenericNestedString' },
+    status: { $ref: 'GenericNestedBoolean' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_banner_alert: {
@@ -42,7 +42,7 @@ module.exports = {
   },
   required: [
     'title',
-    'moderation_state',
+    'status',
     'metatag',
     'path',
     'field_banner_alert',

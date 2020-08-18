@@ -6,6 +6,7 @@ module.exports = {
     entityBundle: { enum: ['health_care_region_detail_page'] },
     title: { type: 'string' },
     changed: { type: 'number' },
+    entityPublished: { type: 'boolean' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldAlert: { type: ['string', 'null'] },
     fieldContentBlock: {
@@ -35,6 +36,7 @@ module.exports = {
   required: [
     'title',
     'changed',
+    'entityPublished',
     'entityUrl',
     'fieldAlert',
     'fieldContentBlock',

@@ -51,7 +51,7 @@ class ConfirmationPage extends React.Component {
         <h4 className="print-only">We've received your application.</h4>
         <p>
           We usually process claims within <strong>30 days</strong>.<br />
-          We may contact you for more information or documents.
+          We may contact you if we need more information or documents.
         </p>
         <p>
           <button

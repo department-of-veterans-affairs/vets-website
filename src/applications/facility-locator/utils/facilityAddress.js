@@ -1,15 +1,27 @@
 import { compact, isEmpty } from 'lodash';
 import { LocationType } from '../constants';
 
-export function buildAddressArray(location) {
+export function titleCase(str) {
+  if (!str) return null;
+
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+export function buildAddressArray(location, titleCaseText = false) {
   if (location.type === LocationType.CC_PROVIDER) {
     const { address } = location.attributes;
 
     if (!isEmpty(address)) {
       return compact([
-        address.street,
+        titleCaseText ? titleCase(address.street) : address.street,
         address.appt,
-        `${address.city}, ${address.state} ${address.zip}`,
+        `${titleCaseText ? titleCase(address.city) : address.city}, ${
+          address.state
+        } ${address.zip}`,
       ]);
     }
 
@@ -21,9 +33,28 @@ export function buildAddressArray(location) {
   } = location.attributes;
 
   return compact([
-    address.address1,
-    address.address2,
-    address.address3,
-    `${address.city}, ${address.state} ${address.zip}`,
+    titleCaseText ? titleCase(address.address1) : address.address1,
+    titleCaseText ? titleCase(address.address2) : address.address2,
+    titleCaseText ? titleCase(address.address3) : address.address3,
+    `${titleCaseText ? titleCase(address.city) : address.city}, ${
+      address.state
+    } ${address.zip}`,
   ]);
+}
+
+const acronyms = ['va', 'cvs'];
+
+export function titleCaseFacilityName(str) {
+  if (!str) return null;
+
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(
+      word =>
+        acronyms.includes(word)
+          ? word.toUpperCase()
+          : word.charAt(0).toUpperCase() + word.slice(1),
+    )
+    .join(' ');
 }

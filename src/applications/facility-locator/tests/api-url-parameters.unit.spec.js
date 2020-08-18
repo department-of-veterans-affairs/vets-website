@@ -62,7 +62,7 @@ describe('Locator url and parameters builder', () => {
     ]);
     test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=health&specialties[]=PrimaryCare&page=1&per_page=20',
+      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=health&services[]=PrimaryCare&page=1&per_page=20',
     );
   });
 
@@ -81,19 +81,24 @@ describe('Locator url and parameters builder', () => {
     );
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044&type=health&specialties[]=UrgentCare&page=1&per_page=20',
+      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044&type=health&services[]=UrgentCare&page=1&per_page=20',
     );
-    const result2 = resolveParamsWithUrl(
-      undefined,
+  });
+
+  /**
+   * Urgent care - All urgent care
+   */
+  it('With facilityType urgent_care and service type all urgentcare Should build a mashup endpoint', () => {
+    const result = resolveParamsWithUrl(
+      encodeURI('I 35 Frontage Road, Austin, Texas 78753, United States'),
       'urgent_care',
-      undefined,
+      null,
       page,
-      bounds,
-      0,
+      [-98.45, 29.59, -96.95, 31.09],
     );
-    const test2 = `${result2.url}?${result2.params}`;
-    expect(test2).to.eql(
-      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044&type=health&specialties[]=UrgentCare&page=1&per_page=20',
+    const test = `${result.url}?${result.params}`;
+    expect(test).to.eql(
+      'https://dev-api.va.gov/v1/facilities/va_ccp/urgent_care?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&page=1&per_page=20',
     );
   });
 
@@ -121,7 +126,7 @@ describe('Locator url and parameters builder', () => {
     );
     test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=benefits&specialties[]=VAHomeLoanAssistance&page=1&per_page=20',
+      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=benefits&services[]=VAHomeLoanAssistance&page=1&per_page=20',
     );
     result = resolveParamsWithUrl(
       undefined,
@@ -133,7 +138,7 @@ describe('Locator url and parameters builder', () => {
     );
     test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=benefits&specialties[]=ApplyingForBenefits&page=1&per_page=20',
+      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=benefits&services[]=ApplyingForBenefits&page=1&per_page=20',
     );
   });
 

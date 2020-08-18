@@ -20,7 +20,7 @@ const transform = entity => ({
   entityBundle: 'health_care_local_facility',
   title: getDrupalValue(entity.title),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   // The keys of fieldAddress[0] are snake_case, but we want camelCase
   fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
@@ -62,7 +62,7 @@ module.exports = {
   filter: [
     'title',
     'changed',
-    'moderation_state',
+    'status',
     'metatag',
     'path',
     'field_address',

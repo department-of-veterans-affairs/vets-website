@@ -149,7 +149,7 @@ export const searchWithBounds = ({
   const needsAddress = [
     LocationType.CC_PROVIDER,
     LocationType.ALL,
-    LocationType.URGENT_CARE_FARMACIES,
+    LocationType.URGENT_CARE_PHARMACIES,
     LocationType.URGENT_CARE,
   ];
   return dispatch => {
@@ -293,7 +293,7 @@ export const getProviderSpecialties = () => async dispatch => {
       return [];
     }
     // Great Success!
-    dispatch({ type: FETCH_SPECIALTIES_DONE });
+    dispatch({ type: FETCH_SPECIALTIES_DONE, data });
     return data;
   } catch (error) {
     dispatch({ type: FETCH_SPECIALTIES_FAILED, error });

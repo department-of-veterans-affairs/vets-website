@@ -93,7 +93,7 @@ export class Wizard extends React.Component {
       },
     );
     return (
-      <div>
+      <form onSubmit={e => e.preventDefault()}>
         {expander && (
           <button
             aria-expanded={this.state.expanded ? 'true' : 'false'}
@@ -128,7 +128,7 @@ export class Wizard extends React.Component {
             </div>
           </div>
         )}
-      </div>
+      </form>
     );
   }
 }

@@ -1,10 +1,6 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
-import {
-  isChapterFieldRequired,
-  stateTitle,
-  cityTitle,
-} from '../../../helpers';
+import { isChapterFieldRequired } from '../../../helpers';
 import { deceasedDependents } from '../../../utilities';
 import DependentViewField from '../../../../components/DependentViewField';
 import { DependentNameHeader } from './helpers';

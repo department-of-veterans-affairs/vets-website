@@ -273,13 +273,18 @@ export function checkPastVisits(
 export function getRequestLimits(facilityId, typeOfCareId) {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve({
-      data: {
-        attributes: {
-          requestLimit: 1,
-          numberOfRequests: facilityId.includes('984') ? 1 : 0,
-        },
-      },
+    promise = new Promise(resolve => {
+      setTimeout(() => {
+        resolve({
+          data: {
+            id: facilityId,
+            attributes: {
+              requestLimit: 1,
+              numberOfRequests: facilityId.includes('984') ? 1 : 0,
+            },
+          },
+        });
+      }, 1000);
     });
   } else {
     promise = vaosApiRequest(
@@ -287,7 +292,10 @@ export function getRequestLimits(facilityId, typeOfCareId) {
     );
   }
 
-  return promise.then(resp => resp.data.attributes);
+  return promise.then(resp => ({
+    ...resp.data.attributes,
+    id: resp.data.id,
+  }));
 }
 
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {

@@ -1,12 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 import ResponsiveTable from '../../../components/responsive-table/ResponsiveTable.jsx';
 import { mockData, fields } from '../view-payments-lists/helpers';
 
 describe('<ResponsiveTable />', () => {
-  const fake = {};
   it('Should Render', () => {
     const wrapper = shallow(
       <ResponsiveTable

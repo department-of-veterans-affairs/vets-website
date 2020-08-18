@@ -66,13 +66,12 @@ class SaveInProgressErrorPage extends React.Component {
 
   render() {
     const { loadedStatus, formConfig } = this.props;
-    const { forbidden, noAuth, notFound } = formConfig.savedFormMessages || {};
+    let content;
+    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const continueAppButtonText =
       formConfig?.customText?.continueAppButtonText ||
       CONTINUE_APP_DEFAULT_MESSAGE;
-    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
-    let content;
-
+    const { forbidden, noAuth, notFound } = formConfig.savedFormMessages || {};
     switch (loadedStatus) {
       case LOAD_STATUSES.noAuth:
         content = (

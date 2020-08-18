@@ -2,13 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import { USA_MILITARY_BRANCHES } from './constants';
 
-const asyncReturn = (returnValue, delay = 300) =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      resolve(returnValue);
-    }, delay);
-  });
-
 /**
  * Prefixes the serviceBranch with 'United States' if it's a valid US military
  * branch. Otherwise it returns the original serviceBranch without changing it

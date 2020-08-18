@@ -11,6 +11,7 @@ import ErrorMessage from '../components/ErrorMessage';
 
 function NewExpressCareRequestLayout({
   router,
+  location,
   children,
   windowsStatus,
   allowRequests,
@@ -23,6 +24,15 @@ function NewExpressCareRequestLayout({
 
     if (window.History) {
       window.History.scrollRestoration = 'manual';
+    }
+
+    const { pathname } = location;
+
+    if (
+      !pathname.endsWith('new-express-care-request') &&
+      !pathname.endsWith('confirmation')
+    ) {
+      router.replace('/new-express-care-request');
     }
   }, []);
 

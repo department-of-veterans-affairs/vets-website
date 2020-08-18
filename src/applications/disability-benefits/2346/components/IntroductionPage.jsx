@@ -1,6 +1,6 @@
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import React, { Component } from 'react';
+import React from 'react';
 import formConfig from '../config/form';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 

@@ -52,6 +52,13 @@ class VAPEditView extends Component {
         window.VetsGov.pollTimeout || 1000,
       );
     }
+    // if the transaction is no longer pending, stop refreshing it
+    if (
+      isPendingTransaction(prevProps.transaction) &&
+      !isPendingTransaction(this.props.transaction)
+    ) {
+      window.clearInterval(this.interval);
+    }
   }
 
   componentWillUnmount() {
@@ -100,7 +107,7 @@ class VAPEditView extends Component {
         onDelete={onDelete}
         title={title}
         analyticsSectionName={analyticsSectionName}
-        transactionRequest={transactionRequest}
+        isLoading={isLoading}
         deleteEnabled={!isEmpty && !deleteDisabled}
       >
         <LoadingButton data-action="save-edit" isLoading={isLoading}>

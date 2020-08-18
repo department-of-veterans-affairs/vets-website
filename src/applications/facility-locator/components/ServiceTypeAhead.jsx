@@ -87,7 +87,6 @@ class ServiceTypeAhead extends Component {
           isOpen,
           inputValue,
           highlightedIndex,
-          selectedItem,
         }) => (
           <div>
             <label {...getLabelProps()} htmlFor="service-type-ahead-input">
