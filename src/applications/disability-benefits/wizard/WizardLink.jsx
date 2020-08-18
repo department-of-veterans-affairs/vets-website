@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import manifest from '../all-claims/manifest.json';
-import { show526Wizard } from '../all-claims/utils';
+import manifest from 'applications/disability-benefits/all-claims/manifest.json';
+import { show526Wizard } from 'applications/disability-benefits/all-claims/utils';
 
 /*
  * Showing the wizard on the Intro page, so when set, this shows the link
