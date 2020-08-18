@@ -139,7 +139,7 @@ export const AuthContent = () => (
                 HealtheVet
               </h3>
               <p>
-                On your Welcome page, you&apos;ll find a module for
+                On your Welcome page, you&apos;ll find a module for{' '}
                 <strong>Pharmacy</strong>. Within that module, you&apos;ll find
                 these 3 options:
               </p>
@@ -164,13 +164,13 @@ export const AuthContent = () => (
                 Health
               </h3>
               <p>
-                In the navigation menu, you&apos;ll find a section titled
+                In the navigation menu, you&apos;ll find a section titled{' '}
                 <strong>Pharmacy</strong>. Within that section, you&apos;ll find
                 these 2 options:
               </p>
               <ul>
                 <li>
-                  <strong>View current medications</strong>
+                  <strong>View current medications</strong>, and
                 </li>
                 <li>
                   <strong>View comprehensive medications</strong>
@@ -195,11 +195,6 @@ export const AuthContent = () => (
         >
           <div itemProp="text">
             <div className="processed-content">
-              <p>
-                If you receive care at both Mann-Grandstaff VA medical center
-                and another VA facility, you may need to use both web portals to
-                refill and track VA prescriptions.
-              </p>
               <p>
                 <strong>
                   You can refill and track most of your VA prescriptions,
@@ -227,6 +222,12 @@ export const AuthContent = () => (
                 medications and narcotics. You&apos;ll need to get a new
                 prescription from your VA provider each time you need more of
                 these medicines.
+              </p>
+              <p>
+                <strong>Note: </strong> If you receive care at both
+                Mann-Grandstaff VA medical center and another VA facility, you
+                may need to use both web portals to refill and track VA
+                prescriptions.
               </p>
             </div>
           </div>
@@ -369,7 +370,7 @@ export const AuthContent = () => (
                   <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
                     877-327-0022
                   </a>{' '}
-                  (TTY <Telephone contact={CONTACTS.HELP_TTY} />
+                  (TTY: <Telephone contact={CONTACTS.HELP_TTY} />
                   ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
                   ET.
                 </li>
