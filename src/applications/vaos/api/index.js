@@ -36,7 +36,7 @@ export function getConfirmedAppointments(type, startDate, endDate) {
           import('./confirmed_va.json').then(module => {
             resolve(module.default ? module.default : module);
           });
-        }, 15000),
+        }, 500),
       );
     } else {
       promise = new Promise(resolve =>
@@ -294,7 +294,7 @@ export function getRequestLimits(facilityId, typeOfCareId) {
 
   return promise.then(resp => ({
     ...resp.data.attributes,
-    facilityId: resp.data.id,
+    id: resp.data.id,
   }));
 }
 

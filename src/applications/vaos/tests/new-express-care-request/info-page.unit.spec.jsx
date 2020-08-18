@@ -138,7 +138,7 @@ describe('VAOS integration: Express Care info page', () => {
     );
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
-    fireEvent.click(await screen.getByText(/^Continue/));
+    fireEvent.click(await screen.findByText(/^Continue/));
     await waitFor(() => expect(router.push.called).to.be.false);
     expect(
       await screen.findByText(
@@ -198,7 +198,7 @@ describe('VAOS integration: Express Care info page', () => {
     );
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
-    fireEvent.click(await screen.getByText(/^Continue/));
+    fireEvent.click(await screen.findByText(/^Continue/));
     await waitFor(() => expect(router.push.called).to.be.false);
     expect(
       await screen.findByText(

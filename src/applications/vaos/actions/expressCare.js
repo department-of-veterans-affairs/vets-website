@@ -138,34 +138,26 @@ export function fetchRequestLimits() {
       const activeFacilityIds = selectActiveExpressCareWindows(
         getState(),
         moment(),
-      ).map(window => window.facilityId);
+      ).map(win => win.facilityId);
 
-      const promiseIds = [...activeFacilityIds];
-      const requestLimits = [];
-
-      // Temporarily limit concurrent calls to 5 at at time while we
+      // Temporarily limit concurrent calls to 5 while we
       // wait for a new endpoint that will accept multiple facilityIds
-      while (promiseIds.length) {
-        requestLimits.push(
-          // eslint-disable-next-line no-await-in-loop
-          await Promise.all(
-            promiseIds
-              .splice(0, 5)
-              .map(facilityId => getRequestLimits(facilityId, EXPRESS_CARE)),
-          ),
-        );
-      }
+      const requestLimits = await Promise.all(
+        activeFacilityIds
+          .slice(0, 5)
+          .map(facilityId => getRequestLimits(facilityId, EXPRESS_CARE)),
+      );
 
-      const eligibleFacility = []
-        .concat(...requestLimits)
-        .find(limit => limit.numberOfRequests < limit.requestLimit);
+      const eligibleFacility = requestLimits.find(
+        limit => limit.numberOfRequests < limit.requestLimit,
+      );
 
       const isUnderRequestLimit = !!eligibleFacility;
 
       dispatch({
         type: FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
-        facilityId: eligibleFacility?.facilityId || null,
-        siteId: eligibleFacility?.facilityId?.substring(0, 3) || null,
+        facilityId: eligibleFacility?.id || null,
+        siteId: eligibleFacility?.id?.substring(0, 3) || null,
         isUnderRequestLimit,
       });
 

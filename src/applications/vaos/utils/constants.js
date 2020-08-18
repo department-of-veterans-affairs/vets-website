@@ -397,7 +397,7 @@ export const EXPRESS_CARE_REASONS = [
     reason: 'Red or weeping eye without vision loss',
   },
   {
-    reason: 'Skin lesion or rash from an allergic reaction or insect bite',
+    reason: 'Skin lesion or rash',
   },
   {
     reason: 'Stomach or digestive problem',
