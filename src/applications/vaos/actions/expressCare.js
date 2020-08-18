@@ -42,12 +42,12 @@ export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
 export const FORM_PAGE_CHANGE_STARTED = 'expressCare/FORM_PAGE_CHANGE_STARTED';
 export const FORM_PAGE_CHANGE_COMPLETED =
   'expressCare/FORM_PAGE_CHANGE_COMPLETED';
-export const FORM_CHECK_REQUEST_LIMITS =
-  'expressCare/FORM_CHECK_REQUEST_LIMITS';
-export const FORM_CHECK_REQUEST_LIMITS_FAILED =
-  'expressCare/FORM_CHECK_REQUEST_LIMITS_FAILED';
-export const FORM_CHECK_REQUEST_LIMITS_SUCCEEDED =
-  'expressCare/FORM_CHECK_REQUEST_LIMITS_SUCCEEDED';
+export const FORM_FETCH_REQUEST_LIMITS =
+  'expressCare/FORM_FETCH_REQUEST_LIMITS';
+export const FORM_FETCH_REQUEST_LIMITS_FAILED =
+  'expressCare/FORM_FETCH_REQUEST_LIMITS_FAILED';
+export const FORM_FETCH_REQUEST_LIMITS_SUCCEEDED =
+  'expressCare/FORM_FETCH_REQUEST_LIMITS_SUCCEEDED';
 export const FORM_SET_FACILITY_ID = 'expressCare/FORM_SET_FACILITY_ID';
 export const FORM_RESET = 'expressCare/FORM_RESET';
 export const FORM_SUBMIT = 'expressCare/FORM_SUBMIT';
@@ -123,10 +123,10 @@ export function fetchExpressCareWindows() {
   };
 }
 
-export function checkRequestLimits() {
+export function fetchRequestLimits() {
   return async (dispatch, getState) => {
     dispatch({
-      type: FORM_CHECK_REQUEST_LIMITS,
+      type: FORM_FETCH_REQUEST_LIMITS,
     });
 
     try {
@@ -164,7 +164,7 @@ export function checkRequestLimits() {
       const underRequestLimit = !!eligbleFacility;
 
       dispatch({
-        type: FORM_CHECK_REQUEST_LIMITS_SUCCEEDED,
+        type: FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
         facilityId: eligbleFacility?.facilityId || null,
         siteId: eligbleFacility?.siteId || null,
         underRequestLimit: !!eligbleFacility,
@@ -174,7 +174,7 @@ export function checkRequestLimits() {
     } catch (error) {
       captureError(error);
       dispatch({
-        type: FORM_CHECK_REQUEST_LIMITS_FAILED,
+        type: FORM_FETCH_REQUEST_LIMITS_FAILED,
       });
       return false;
     }

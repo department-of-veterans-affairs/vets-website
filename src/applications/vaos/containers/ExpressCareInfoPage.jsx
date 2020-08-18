@@ -17,7 +17,7 @@ const pageTitle = 'How Express Care works';
 
 function ExpressCareInfoPage({
   localWindowString,
-  checkRequestLimitsStatus,
+  fetchRequestLimitsStatus,
   underRequestLimit,
   pageChangeInProgress,
   router,
@@ -32,21 +32,20 @@ function ExpressCareInfoPage({
   useEffect(
     () => {
       if (
-        checkRequestLimitsStatus === FETCH_STATUS.failed ||
-        checkRequestLimitsStatus === FETCH_STATUS.succeeded
+        fetchRequestLimitsStatus === FETCH_STATUS.failed ||
+        fetchRequestLimitsStatus === FETCH_STATUS.succeeded
       )
         scrollAndFocus();
     },
-    [checkRequestLimitsStatus],
+    [fetchRequestLimitsStatus],
   );
 
-  if (checkRequestLimitsStatus === FETCH_STATUS.failed) {
+  if (fetchRequestLimitsStatus === FETCH_STATUS.failed) {
     return (
       <div>
         <h1>Your request didn’t go through</h1>
         <AlertBox
           status="error"
-          headline="Your request didn’t go through"
           content={
             <p>
               Something went wrong when we tried to check your request
@@ -60,7 +59,7 @@ function ExpressCareInfoPage({
   }
 
   if (
-    checkRequestLimitsStatus === FETCH_STATUS.succeeded &&
+    fetchRequestLimitsStatus === FETCH_STATUS.succeeded &&
     !underRequestLimit
   ) {
     return (

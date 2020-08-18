@@ -14,9 +14,9 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_OPENED,
-  FORM_CHECK_REQUEST_LIMITS,
-  FORM_CHECK_REQUEST_LIMITS_FAILED,
-  FORM_CHECK_REQUEST_LIMITS_SUCCEEDED,
+  FORM_FETCH_REQUEST_LIMITS,
+  FORM_FETCH_REQUEST_LIMITS_FAILED,
+  FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
   FORM_SUBMIT_FAILED,
   FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT,
@@ -39,7 +39,7 @@ const initialState = {
     facilityId: null,
     siteId: null,
     underRequestLimit: null,
-    checkRequestLimitsStatus: FETCH_STATUS.notStarted,
+    fetchRequestLimitsStatus: FETCH_STATUS.notStarted,
   },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
@@ -157,16 +157,16 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         windowsStatus: FETCH_STATUS.failed,
       };
-    case FORM_CHECK_REQUEST_LIMITS: {
+    case FORM_FETCH_REQUEST_LIMITS: {
       return {
         ...state,
         newRequest: {
           ...state.newRequest,
-          checkRequestLimitsStatus: FETCH_STATUS.loading,
+          fetchRequestLimitsStatus: FETCH_STATUS.loading,
         },
       };
     }
-    case FORM_CHECK_REQUEST_LIMITS_SUCCEEDED: {
+    case FORM_FETCH_REQUEST_LIMITS_SUCCEEDED: {
       const { facilityId, siteId, underRequestLimit } = action;
       return {
         ...state,
@@ -175,16 +175,16 @@ export default function expressCareReducer(state = initialState, action) {
           facilityId,
           siteId,
           underRequestLimit,
-          checkRequestLimitsStatus: FETCH_STATUS.succeeded,
+          fetchRequestLimitsStatus: FETCH_STATUS.succeeded,
         },
       };
     }
-    case FORM_CHECK_REQUEST_LIMITS_FAILED: {
+    case FORM_FETCH_REQUEST_LIMITS_FAILED: {
       return {
         ...state,
         newRequest: {
           ...state.newRequest,
-          checkRequestLimitsStatus: FETCH_STATUS.failed,
+          fetchRequestLimitsStatus: FETCH_STATUS.failed,
         },
       };
     }

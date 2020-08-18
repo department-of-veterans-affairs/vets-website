@@ -12,6 +12,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 
 import reducers from '../../reducers';
 import newAppointmentReducer from '../../reducers/newAppointment';
+import expressCareReducer from '../../reducers/expressCare';
 
 import TypeOfCarePage from '../../containers/TypeOfCarePage';
 import VAFacilityPage from '../../containers/VAFacilityPage';
@@ -29,6 +30,7 @@ export function createTestStore(initialState) {
       ...commonReducer,
       ...reducers,
       newAppointment: newAppointmentReducer,
+      expressCare: expressCareReducer,
     }),
     initialState,
     applyMiddleware(thunk),

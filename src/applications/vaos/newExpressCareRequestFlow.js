@@ -1,4 +1,4 @@
-import { checkRequestLimits } from './actions/expressCare';
+import { fetchRequestLimits } from './actions/expressCare';
 
 export default {
   home: {
@@ -8,7 +8,7 @@ export default {
     url: '/new-express-care-request',
     previous: 'home',
     async next(state, dispatch) {
-      const isUnderRequestLimit = await dispatch(checkRequestLimits());
+      const isUnderRequestLimit = await dispatch(fetchRequestLimits());
       if (isUnderRequestLimit) {
         return 'reason';
       }

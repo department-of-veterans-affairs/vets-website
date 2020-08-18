@@ -29,8 +29,8 @@ function NewExpressCareRequestLayout({
     const { pathname } = location;
 
     if (
-      !pathname.endsWith('new-express-care-request') ||
-      !pathname.endsWith('confirmfation')
+      !pathname.endsWith('new-express-care-request') &&
+      !pathname.endsWith('confirmation')
     ) {
       router.replace('/new-express-care-request');
     }
