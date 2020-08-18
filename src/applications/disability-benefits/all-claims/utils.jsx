@@ -20,6 +20,7 @@ import {
 } from './validations';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import {
   DATA_PATHS,
@@ -876,3 +877,5 @@ export const showSeparationLocation = formData => {
     !mostRecentDate.isAfter(moment().add(180, 'days'))
   );
 };
+
+export const show526Wizard = state => toggleValues(state).show526Wizard;
