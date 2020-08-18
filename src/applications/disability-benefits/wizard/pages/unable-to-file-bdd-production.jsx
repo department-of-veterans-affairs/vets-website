@@ -28,7 +28,7 @@ function alertContent(isLoggedIn) {
       </p>
       <p>
         <strong>If your separation date is before {ninetyDays},</strong> you
-        can't file a BDD claim, but you can still begin the process of filing
+        can’t file a BDD claim, but you can still begin the process of filing
         your claim on eBenefits.
       </p>
       <a
