@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { sentenceCase } from '../utils/formatters';
-import { getPatientPhone, getPatientEmail } from '../services/appointment';
+import { getPatientTelecom } from '../services/appointment';
 import { APPOINTMENT_STATUS } from '../utils/constants';
 import ExpressCareStatus from './ExpressCareStatus';
 
@@ -27,7 +27,6 @@ export default function ExpressCareCard({
     },
   );
   const Heading = `h${headingLevel}`;
-
   return (
     <div
       data-request-id={appointment.id}
@@ -48,9 +47,9 @@ export default function ExpressCareCard({
               Your contact details
             </dt>
             <dd>
-              {getPatientPhone(appointment)}
+              {getPatientTelecom(appointment, 'phone')}
               <br />
-              {getPatientEmail(appointment)}
+              {getPatientTelecom(appointment, 'email')}
             </dd>
           </dl>
         </div>
