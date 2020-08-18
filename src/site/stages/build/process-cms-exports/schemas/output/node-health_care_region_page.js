@@ -161,6 +161,33 @@ module.exports = {
             },
           },
         },
+        mainFacilities: {
+          type: 'object',
+          properties: {
+            entities: {
+              type: 'array',
+              items: {
+                entity: usePartialSchema(healthCareLocalFacilitySchema, [
+                  'entityUrl',
+                  'entityBundle',
+                  'title',
+                  'changed',
+                  'fieldOperatingStatusFacility',
+                  'fieldFacilityLocatorApiId',
+                  'fieldNicknameForThisFacility',
+                  'fieldIntroText',
+                  'fieldLocationServices',
+                  'fieldAddress',
+                  'fieldPhoneNumber',
+                  'fieldMentalHealthPhone',
+                  'fieldFacilityHours',
+                  'fieldMainLocation',
+                  'fieldMedia',
+                ]),
+              },
+            },
+          },
+        },
       },
       required: [
         'title',
@@ -174,6 +201,7 @@ module.exports = {
         'eventTeasers',
         'allEventTeasers',
         'allPressReleaseTeasers',
+        'mainFacilities',
       ],
     },
   },
