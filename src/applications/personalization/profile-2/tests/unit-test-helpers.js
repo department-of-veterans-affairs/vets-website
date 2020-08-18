@@ -6,19 +6,9 @@ import profile from 'applications/personalization/profile360/reducers';
 import connectedApps from 'applications/personalization/profile-2/components/connected-apps/reducers/connectedApps';
 import profileUi from '../reducers';
 
-// returns a Promise that resolves if the cb does not throw an error when it's
-// run after the given timeout. The Promise is rejected if the cb throws an
-// error when it runs.
-export function waitAndCheck(cb, timeout) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      try {
-        cb();
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    }, timeout);
+export function wait(timeout) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
   });
 }
 

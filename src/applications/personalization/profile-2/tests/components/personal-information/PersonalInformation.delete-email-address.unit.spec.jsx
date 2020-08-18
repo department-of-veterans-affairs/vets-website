@@ -13,7 +13,7 @@ import {
   createBasicInitialState,
   elementNotRemoved,
   renderWithProfileReducers,
-  waitAndCheck,
+  wait,
 } from '../../unit-test-helpers';
 
 let emailAddress;
@@ -94,13 +94,12 @@ describe('Deleting email address', () => {
     // were enabled again while polling the transaction status. This test was
     // added to prevent regression back to that poor experience where users were
     // able to interact with buttons that created duplicate XHRs.
-    await waitAndCheck(() => {
-      expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
-      expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
-      expect(confirmDeleteButton)
-        .to.have.descendant('i')
-        .and.have.class('fa-spinner');
-    }, 10);
+    await wait(10);
+    expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
+    expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
+    expect(confirmDeleteButton)
+      .to.have.descendant('i')
+      .and.have.class('fa-spinner');
 
     server.use(...mocks.transactionSucceeded);
 
@@ -165,13 +164,16 @@ describe('Deleting email address', () => {
 
     const { cancelDeleteButton, confirmDeleteButton } = deleteEmailAddress();
 
-    await waitAndCheck(() => {
-      expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
-      expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
-      expect(confirmDeleteButton)
-        .to.have.descendant('i')
-        .and.have.class('fa-spinner');
-    }, 10);
+    // Wait for the transaction to be created before checking the state of the
+    // buttons. In the past the buttons worked correctly while making the
+    // initial transaction but were re-enabled while the transaction was still
+    // pending.
+    await wait(10);
+    expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
+    expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
+    expect(confirmDeleteButton)
+      .to.have.descendant('i')
+      .and.have.class('fa-spinner');
 
     server.use(...mocks.transactionFailed);
 
