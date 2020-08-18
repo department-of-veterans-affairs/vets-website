@@ -12,8 +12,8 @@ const App = ({ location, children }) => {
   );
 };
 
-const mapStateToProps = state => ({});
-const mapDispatchToProps = dispatch => ({});
+const mapStateToProps = _state => ({});
+const mapDispatchToProps = _dispatch => ({});
 
 export default connect(
   mapStateToProps,

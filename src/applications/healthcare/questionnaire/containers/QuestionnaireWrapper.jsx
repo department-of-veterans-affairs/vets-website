@@ -33,7 +33,7 @@ const mapStateToProps = state => ({
   isQuestionnaireEnabled: selectShowQuestionnaire(state),
   isLoadingFeatureFlags: selectLoadingFeatureFlags(state),
 });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = _dispatch => ({});
 
 export default connect(
   mapStateToProps,
