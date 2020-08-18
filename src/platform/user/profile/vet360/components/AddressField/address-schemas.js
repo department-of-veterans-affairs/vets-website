@@ -84,18 +84,14 @@ const uiSchema = {
   },
   'view:livesOnMilitaryBaseInfo': {
     'ui:description': () => (
-      <div className="vads-u-padding-x--2p5">
-        <AdditionalInfo
-          status="info"
-          triggerText="Learn more about military base addresses"
-        >
-          <span>
-            The United States is automatically chosen as your country if you
-            live on a military base outside of the country.
-          </span>
-        </AdditionalInfo>
-      </div>
+      <p className="profile-military-domestic">
+        U.S. military bases are considered a domestic address and a part of the
+        United States.
+      </p>
     ),
+    'ui:options': {
+      hideIf: formData => !formData?.['view:livesOnMilitaryBase'],
+    },
   },
   countryCodeIso3: {
     'ui:title': 'Country',
