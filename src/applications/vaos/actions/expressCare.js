@@ -62,6 +62,54 @@ export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
 export const FORM_ADDITIONAL_DETAILS_PAGE_OPENED =
   'expressCare/FORM_ADDITIONAL_DETAILS_PAGE_OPENED';
 
+export function startNewExpressCareFlow() {
+  return {
+    type: STARTED_NEW_EXPRESS_CARE_FLOW,
+  };
+}
+
+export function routeToPageInFlow(flow, router, current, action) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FORM_PAGE_CHANGE_STARTED,
+    });
+
+    const nextAction = flow[current][action];
+    let nextPage;
+
+    if (typeof nextAction === 'string') {
+      nextPage = flow[nextAction];
+    } else {
+      const nextStateKey = await nextAction(getState(), dispatch);
+      nextPage = flow[nextStateKey];
+    }
+
+    if (nextPage?.url) {
+      dispatch({
+        type: FORM_PAGE_CHANGE_COMPLETED,
+      });
+      router.push(nextPage.url);
+    } else if (nextPage) {
+      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
+    } else {
+      throw new Error('Tried to route to page that does not exist');
+    }
+  };
+}
+
+export function routeToNextAppointmentPage(router, current) {
+  return routeToPageInFlow(newExpressCareRequestFlow, router, current, 'next');
+}
+
+export function routeToPreviousAppointmentPage(router, current) {
+  return routeToPageInFlow(
+    newExpressCareRequestFlow,
+    router,
+    current,
+    'previous',
+  );
+}
+
 export function openFormPage(page, uiSchema, schema) {
   return {
     type: FORM_PAGE_OPENED,
@@ -133,7 +181,7 @@ export function fetchRequestLimits() {
       const activeFacilityIds = selectActiveExpressCareWindows(
         getState(),
         moment(),
-      ).map(w => w.facilityId);
+      ).map(window => window.facilityId);
 
       const promiseIds = [...activeFacilityIds];
       const requestLimits = [];
@@ -216,14 +264,23 @@ export function submitExpressCareRequest(router) {
     const expressCare = getState().expressCare;
     const { newRequest } = expressCare;
     const { facilityId, siteId } = newRequest;
+    let facilityWindowIsActive;
     const formData = expressCare.newRequest.data;
-    let activeFacility;
     let additionalEventData = {};
 
     try {
       dispatch({
         type: FORM_SUBMIT,
       });
+
+      const activeWindows = selectActiveExpressCareWindows(
+        getState(),
+        moment(),
+      );
+
+      facilityWindowIsActive =
+        activeWindows.findIndex(window => window.facilityId === facilityId) !==
+        -1;
 
       additionalEventData = {
         'health-expressCareReason': formData.reason,
@@ -234,7 +291,7 @@ export function submitExpressCareRequest(router) {
         ...additionalEventData,
       });
 
-      if (!facilityId) {
+      if (!facilityWindowIsActive) {
         throw new Error('No facilities available for Express Care request');
       }
 
@@ -267,7 +324,7 @@ export function submitExpressCareRequest(router) {
       resetDataLayer();
       router.push('/new-express-care-request/confirmation');
     } catch (error) {
-      const errorReason = !activeFacility
+      const errorReason = !facilityWindowIsActive
         ? EXPRESS_CARE_ERROR_REASON.noActiveFacility
         : EXPRESS_CARE_ERROR_REASON.error;
       captureError(error, true, 'Express Care submission failure', {
@@ -285,52 +342,4 @@ export function submitExpressCareRequest(router) {
       resetDataLayer();
     }
   };
-}
-
-export function startNewExpressCareFlow() {
-  return {
-    type: STARTED_NEW_EXPRESS_CARE_FLOW,
-  };
-}
-
-export function routeToPageInFlow(flow, router, current, action) {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FORM_PAGE_CHANGE_STARTED,
-    });
-
-    const nextAction = flow[current][action];
-    let nextPage;
-
-    if (typeof nextAction === 'string') {
-      nextPage = flow[nextAction];
-    } else {
-      const nextStateKey = await nextAction(getState(), dispatch);
-      nextPage = flow[nextStateKey];
-    }
-
-    if (nextPage?.url) {
-      dispatch({
-        type: FORM_PAGE_CHANGE_COMPLETED,
-      });
-      router.push(nextPage.url);
-    } else if (nextPage) {
-      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
-    } else {
-      throw new Error('Tried to route to page that does not exist');
-    }
-  };
-}
-
-export function routeToNextAppointmentPage(router, current) {
-  return routeToPageInFlow(newExpressCareRequestFlow, router, current, 'next');
-}
-
-export function routeToPreviousAppointmentPage(router, current) {
-  return routeToPageInFlow(
-    newExpressCareRequestFlow,
-    router,
-    current,
-    'previous',
-  );
 }

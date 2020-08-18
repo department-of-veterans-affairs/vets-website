@@ -43,14 +43,14 @@ function ExpressCareInfoPage({
   if (fetchRequestLimitsStatus === FETCH_STATUS.failed) {
     return (
       <div>
-        <h1>Your request didn’t go through</h1>
+        <h1>We’ve run into a problem</h1>
         <AlertBox
           status="error"
           content={
             <p>
               Something went wrong when we tried to check your request
               eligibility. We suggest you wait a day to try again or you can
-              call your medical center to help with your request.
+              call your medical center to help with this request.
             </p>
           }
         />
