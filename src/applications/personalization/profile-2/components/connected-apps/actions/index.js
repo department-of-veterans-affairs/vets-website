@@ -84,7 +84,7 @@ export function deleteConnectedApp(appId) {
       .catch(({ errors }) =>
         recordEvent({
           event: 'profile-disconnect-connected-app-failed',
-          'error-key': `00_${errors[0].code}`,
+          'error-key': `${errors[0].code}_${errors[0].status}`,
         });
         dispatch({ type: ERROR_DELETING_CONNECTED_APP, appId, errors }),
       );
