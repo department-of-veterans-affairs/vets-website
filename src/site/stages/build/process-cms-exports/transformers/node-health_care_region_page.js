@@ -264,6 +264,34 @@ const transform = ({
             }))
         : [],
     },
+    newsStoryTeasersFeatured: {
+      entities: reverseFieldOffice
+        ? reverseFieldOffice
+            .filter(
+              reverseField => reverseField.entityBundle === 'story_listing',
+            )
+            .slice(0, 1000)
+            .map(r => ({
+              reverseFieldListingNode: {
+                entities: r.reverseFieldListingNode.entities
+                  .filter(
+                    reverseField =>
+                      reverseField.entityBundle === 'news_story' &&
+                      reverseField.entityPublished &&
+                      reverseField.fieldFeatured,
+                  )
+                  .slice(0, 1000)
+                  .map(e => ({
+                    title: e.title,
+                    fieldFeatured: e.fieldFeatured,
+                    fieldIntroText: e.fieldIntroText,
+                    fieldMedia: e.fieldMedia,
+                    entityUrl: e.entityUrl,
+                  })),
+              },
+            }))
+        : [],
+    },
   },
 });
 module.exports = {
