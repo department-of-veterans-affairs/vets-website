@@ -22,7 +22,7 @@ export class KeywordSearch extends React.Component {
     const { onFilterChange, autocomplete } = this.props;
     if ((e.which || e.keyCode) === KEY_CODES.enterKey) {
       e.target.blur();
-      onFilterChange(autocomplete.searchTerm);
+      onFilterChange('name', autocomplete.searchTerm);
     }
   };
 

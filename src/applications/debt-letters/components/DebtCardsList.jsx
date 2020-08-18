@@ -44,13 +44,14 @@ const DebtCardsList = ({ debts, isError }) => {
         debts.length > 0 && (
           <>
             <p className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0">
-              This list of your current VA debts shows information about when
-              your debts were generated and the amount you currently owe.
+              This list shows your current debts, the date they were created,
+              and the amount you owe.
             </p>
             <p className="vads-u-font-size--base vads-u-margin-bottom--0 vads-u-font-family--sans">
               <strong>Note: </strong>
               This list may not show your most recently updated debts. If you
-              have questions about your VA debt, contact the DMC at{' '}
+              have questions about your VA debt, contact the Debt Management
+              Center at{' '}
               <a href="tel: 800-827-0648" aria-label="8 0 0. 8 2 7. 0 6 4 8.">
                 800-827-0648
               </a>

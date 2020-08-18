@@ -528,6 +528,274 @@
         "visn": "17",
         "website": "https://www.southtexas.va.gov/locations/NCFC.asp"
       }
+    },
+    {
+      "id": "vba_343z",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "343z",
+        "name": "VetSuccess on Campus at Los Angeles City College",
+        "facilityType": "va_benefits_facility",
+        "classification": "VETSUCCESS ON CAMPUS",
+        "website": "https//va.gov",
+        "operatingStatus": {
+          "code": "NORMAL",
+          "additionalInfo": "Some additional CLOSED"
+        },
+        "lat": 34.08751109,
+        "long": -118.2917626,
+        "address": {
+          "physical": {
+            "address1": "855 North Vermont",
+            "address2": "",
+            "address3": null,
+            "city": "Los Angeles",
+            "state": "CA",
+            "zip": "90029"
+          },
+          "mailing": {}
+        },
+        "phone": {
+          "main": "323-953-4000 Ext 1253",
+          "fax": ""
+        },
+        "hours": {
+          "monday": "Closed",
+          "tuesday": "Closed",
+          "wednesday": "9:00AM-4:00PM",
+          "thursday": "Closed",
+          "friday": "Closed",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "services": {
+          "benefits": {
+            "other": "",
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "nca_s1130",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "s1130",
+        "name": "Washington State Veterans Cemetery Medical Lake",
+        "facilityType": "va_cemetery",
+        "classification": "State Cemetery",
+        "operatingStatus": {
+          "code": "NOTICE",
+          "additionalInfo": "Some additional NOTICE"
+        },
+        "website": "http://www.dva.wa.gov/cemetery",
+        "lat": 47.5862341059396,
+        "long": -117.713961630042,
+        "address": {
+          "physical": {
+            "address1": "21702 W Espanola Rd",
+            "address2": null,
+            "address3": null,
+            "city": "Medical Lake",
+            "state": "WA",
+            "zip": "99022"
+          },
+          "mailing": {}
+        },
+        "phone": {
+          "main": "509-299-6280",
+          "fax": ""
+        },
+        "hours": {
+          "monday": "Sunrise - Sunset",
+          "tuesday": "Sunrise - Sunset",
+          "wednesday": "Sunrise - Sunset",
+          "thursday": "Sunrise - Sunset",
+          "friday": "Sunrise - Sunset",
+          "saturday": "Sunrise - Sunset",
+          "sunday": "Sunrise - Sunset"
+        },
+        "services": {
+          "benefits": {
+            "other": "",
+            "standard": []
+          }
+        },
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "vc_0228V",
+      "type": "va_facilities",
+      "attributes": {
+        "uniqueId": "0228V",
+        "name": "Alexandria Vet Center",
+        "facilityType": "vet_center",
+        "classification": null,
+        "website": null,
+        "lat": 38.7678970200001,
+        "long": -77.11909822,
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "22310",
+            "city": "Alexandria",
+            "state": "VA",
+            "address1": "6940 South Kings Highway",
+            "address2": "Suite 204",
+            "address3": null
+          }
+        },
+        "phone": {
+          "main": "703-360-8633 x"
+        },
+        "hours": {
+          "friday": "800AM-430PM",
+          "monday": "800AM-730PM",
+          "sunday": "-",
+          "tuesday": "800AM-330PM",
+          "saturday": "-",
+          "thursday": "800AM-730PM",
+          "wednesday": "800AM-730PM"
+        },
+        "services": {},
+        "feedback": {},
+        "access": {}
+      }
+    },
+    {
+      "id": "1700017886",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "true",
+        "address": {
+          "street": "208 S AKARD ST # PC08",
+          "city": "DALLAS",
+          "state": "TX",
+          "zip": "75202"
+        },
+        "caresitePhone": "2147414912",
+        "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 32.77948,
+        "long": -96.798505,
+        "name": "CVS",
+        "phone": null,
+        "posCodes": null,
+        "prefContact": null,
+        "uniqueId": "1700017886"
+      },
+      "relationships": {
+        "specialties": {
+          "data": [
+            {
+              "id": "3336C0003X",
+              "type": "specialty"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1326340985",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "true",
+        "address": {
+          "street": "9600 S IH-35 SERVICE ROAD SB, BLDG S, SUITE 275",
+          "city": "AUSTIN",
+          "state": "TX",
+          "zip": "78748"
+        },
+        "caresitePhone": "512-291-4500",
+        "email": "manager0441@dentalonepartners.com",
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 30.159468,
+        "long": -97.792193,
+        "name": "BADEA, LUANA",
+        "phone": "512-291-4500",
+        "posCodes": null,
+        "prefContact": null,
+        "uniqueId": "1326340985"
+      },
+      "relationships": {
+        "specialties": {
+          "data": [
+            {
+              "id": "122300000X",
+              "type": "specialty"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1740385830",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "true",
+        "address": {
+          "street": "10550 W PARMER LN",
+          "city": "AUSTIN",
+          "state": "TX",
+          "zip": "78717"
+        },
+        "caresitePhone": "5123103190",
+        "email": "ENROLLMENT_RETAIL@CVSHEALTH.COM",
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 30.497789,
+        "long": -97.77457,
+        "name": "CVS",
+        "phone": null,
+        "posCodes": null,
+        "prefContact": null,
+        "uniqueId": "1740385830"
+      },
+      "relationships": {
+        "specialties": {
+          "data": [
+            {
+              "id": "3336C0003X",
+              "type": "specialty"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "efe54b9611c57927127af26b7413e3176bf3b4b57af566e25a53079861c24254",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "false",
+        "address": {
+          "street": "13831 N Highway 183",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78750"
+        },
+        "caresitePhone": "8669446046",
+        "email": null,
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 30.466168,
+        "long": -97.795303,
+        "name": "Concentra Urgent Care",
+        "phone": null,
+        "posCodes": "20",
+        "prefContact": null,
+        "uniqueId": "1144710864"
+      },
+      "relationships": {
+        "specialties": {
+          "data": []
+        }
+      }
     }
   ],
   "meta": {
