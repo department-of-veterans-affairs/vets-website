@@ -55,7 +55,6 @@ export function loadConnectedApps() {
 
 export function deleteConnectedApp(appId) {
   return async (dispatch, getState) => {
-
     recordEvent({ event: 'profile-disconnect-connected-app-started' });
     dispatch({ type: DELETING_CONNECTED_APP, appId });
 
