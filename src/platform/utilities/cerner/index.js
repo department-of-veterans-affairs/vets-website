@@ -13,4 +13,4 @@ export const getCernerURL = path => {
 };
 
 export const appointmentsToolLink =
-  'https://staging.va.gov/health-care/schedule-view-va-appointments/appointments';
+  '/health-care/schedule-view-va-appointments/appointments';
