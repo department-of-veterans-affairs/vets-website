@@ -24,6 +24,7 @@ import {
 import {
   selectSystemIds,
   selectActiveExpressCareWindows,
+  selectExpressCareNewRequest,
 } from '../utils/selectors';
 import { captureError } from '../utils/error';
 import {
@@ -253,8 +254,7 @@ async function getFacilityName(id) {
 
 export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
-    const expressCare = getState().expressCare;
-    const { newRequest } = expressCare;
+    const newRequest = selectExpressCareNewRequest(getState());
     const { facilityId, siteId, data } = newRequest;
     let facilityWindowIsActive;
     let additionalEventData = {};
@@ -269,9 +269,9 @@ export function submitExpressCareRequest(router) {
         moment(),
       );
 
-      facilityWindowIsActive =
-        activeWindows.findIndex(window => window.facilityId === facilityId) !==
-        -1;
+      facilityWindowIsActive = !!activeWindows.find(
+        window => window.facilityId === facilityId,
+      );
 
       additionalEventData = {
         'health-expressCareReason': data.reason,
