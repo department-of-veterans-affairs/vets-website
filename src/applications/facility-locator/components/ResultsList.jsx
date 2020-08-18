@@ -93,6 +93,7 @@ class ResultsList extends Component {
       searchString,
       results,
       error,
+      currentQuery,
       query,
     } = this.props;
 
@@ -115,35 +116,34 @@ class ResultsList extends Component {
       );
     }
 
-    if (error) {
-      // For some reason, an error can be an HTTP response, or just a string.
-      if (Array.isArray(error)) {
-        const timedOut = error.find(err => TIMEOUTS.has(err.code));
-        if (timedOut) {
-          return (
-            <div
-              className="search-result-title facility-result"
-              ref={this.searchResultTitle}
-            >
-              <p>
-                We’re sorry. We couldn’t complete your request. We’re aware of
-                this problem, and we’re working to fix it as soon as possible.
-                Please try again later.
-              </p>
-              <p>
-                If you need care right away for a minor illness or injury,
-                select Urgent care under facility type, then select either VA or
-                community providers as the service type.
-              </p>
-              <p>
-                If you have a medical emergency, please go to your nearest
-                emergency room or call 911.
-              </p>
-            </div>
-          );
-        }
+    if (error && Array.isArray(error)) {
+      // Server or response error
+      const timedOut = error.find(err => TIMEOUTS.has(err.code));
+      if (timedOut) {
+        return (
+          <div
+            className="search-result-title facility-result"
+            ref={this.searchResultTitle}
+          >
+            <p>
+              We’re sorry. We couldn’t complete your request. We’re aware of
+              this problem, and we’re working to fix it as soon as possible.
+              Please try again later.
+            </p>
+            <p>
+              If you need care right away for a minor illness or injury, select
+              Urgent care under facility type, then select either VA or
+              community providers as the service type.
+            </p>
+            <p>
+              If you have a medical emergency, please go to your nearest
+              emergency room or call 911.
+            </p>
+          </div>
+        );
       }
-
+    } else if (currentQuery.error) {
+      // Mapbox query error
       return (
         <div
           className="search-result-title facility-result"
