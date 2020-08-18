@@ -106,7 +106,6 @@ export class VAFacilityPage extends React.Component {
       parentDetails,
       facilityDetails,
       hasDataFetchingError,
-      hasEligibilityError,
       parentOfChosenFacility,
       cernerOrgIds,
       siteId,
@@ -192,10 +191,7 @@ export class VAFacilityPage extends React.Component {
     }
 
     const disableSubmitButton =
-      loadingFacilities ||
-      noValidVAFacilities ||
-      notEligibleAtChosenFacility ||
-      hasEligibilityError;
+      loadingFacilities || noValidVAFacilities || notEligibleAtChosenFacility;
 
     return (
       <div>
@@ -226,7 +222,6 @@ export class VAFacilityPage extends React.Component {
               />
             </div>
           )}
-          {hasEligibilityError && <ErrorMessage />}
           <FormButtons
             onBack={this.goBack}
             continueLabel=""
