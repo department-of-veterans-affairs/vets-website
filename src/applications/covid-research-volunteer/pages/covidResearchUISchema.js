@@ -28,7 +28,7 @@ export const uiSchema = {
           <p>
             <b>Note:</b> We won’t share your information with anyone outside of
             VA. To learn more before volunteering, read about{' '}
-            <a href="https://staging.va.gov/alt-covid-research-lp/">
+            <a href="/coronavirus-research">
               participating in coronavirus research at VA
             </a>
             .
@@ -74,10 +74,10 @@ export const uiSchema = {
           In the past month, have you been in close contact with anyone who
           tested positive for COVID-19?
         </strong>
-        <br />
-        <br />
-        <strong>Note:</strong> We define close contact as being within 6 feet of
-        a person.
+        <p>
+          <strong>Note:</strong> We define close contact as being within 6 feet
+          of a person.
+        </p>
       </span>
     ),
     'ui:widget': 'radio',
@@ -266,10 +266,10 @@ export const uiSchema = {
           On most days, how many people do you have close contact with outside
           of those who live in your home?
         </strong>
-        <br />
-        <br />
-        <strong>Note:</strong> We define close contact as being within 6 feet of
-        a person.
+        <p>
+          <strong>Note:</strong> We define close contact as being within 6 feet
+          of a person.
+        </p>
       </span>
     ),
     'ui:widget': 'radio',
