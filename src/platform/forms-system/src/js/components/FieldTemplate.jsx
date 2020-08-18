@@ -42,19 +42,6 @@ export default function FieldTemplate(props) {
     uiSchema['ui:widget'] === 'yesNo' ||
     uiSchema['ui:widget'] === 'radio';
 
-  let errorSpan;
-  if (hasErrors) {
-    errorSpan = (
-      <span
-        className="usa-input-error-message"
-        role="alert"
-        id={`${id}-error-message`}
-      >
-        <span className="sr-only">Error</span> {rawErrors[0]}
-      </span>
-    );
-  }
-
   const containerClassNames = classNames(
     'schemaform-field-template',
     { 'input-error-date': hasErrors && isDateField },
@@ -109,7 +96,15 @@ export default function FieldTemplate(props) {
         <DescriptionField options={uiSchema['ui:options']} />
       )}
       {!textDescription && !DescriptionField && description}
-      {errorSpan}
+      {hasErrors && (
+        <span
+          className="usa-input-error-message"
+          role="alert"
+          id={`${id}-error-message`}
+        >
+          <span className="sr-only">Error</span> {rawErrors[0]}
+        </span>
+      )}
       {<div className={inputWrapperClassNames}>{children}</div>}
       {help}
     </>
