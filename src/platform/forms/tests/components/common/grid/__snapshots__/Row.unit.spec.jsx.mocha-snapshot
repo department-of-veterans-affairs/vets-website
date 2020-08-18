@@ -6,3 +6,5 @@ exports["Common Row component/should render(0)"] = "<div class=\"row \" data-tes
 
 exports["Common Row component/should role to output(0)"] = "<div class=\"row \" role=\"alert\" data-testid=\"12345\"></div>";
 
+exports["Common Row component/should add role to output(0)"] = "<div class=\"row \" role=\"alert\" data-testid=\"12345\"></div>";
+
