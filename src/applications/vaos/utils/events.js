@@ -29,5 +29,6 @@ export function resetDataLayer() {
     appointmentType: undefined,
     facilityType: undefined,
     'vaos-express-care-number-of-cards': undefined,
+    'vaos-upcoming-number-of-cards': undefined,
   });
 }

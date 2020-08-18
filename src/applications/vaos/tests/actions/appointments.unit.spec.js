@@ -493,6 +493,7 @@ describe('VAOS actions: appointments', () => {
         facilityType: undefined,
         'health-express-care-reason': undefined,
         'vaos-express-care-number-of-cards': undefined,
+        'vaos-upcoming-number-of-cards': undefined,
       });
     });
 
