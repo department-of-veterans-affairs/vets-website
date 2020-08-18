@@ -44,4 +44,6 @@ export default Object.freeze({
   showEduBenefits5490Wizard: 'show_edu_benefits_5490_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
+  showHealthcareExperienceQuestionnaire:
+    'showHealthcareExperienceQuestionnaire',
 });
