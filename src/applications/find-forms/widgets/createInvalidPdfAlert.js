@@ -41,7 +41,7 @@ class InvalidPdf extends React.Component {
           scope.setExtra('form number (aka form name)', formName);
           scope.setExtra('pdf link', pdfFileUrl);
           Sentry.captureMessage(
-            `Find Forms - Form Detail - invalid PDF accessed`,
+            'Find Forms - Form Detail - invalid PDF accessed',
           );
         });
 
