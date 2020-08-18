@@ -1,0 +1,10 @@
+exports["Common Row component/should render child components(0)"] = "<div class=\"row \"><div data-testid=\"12345\">i am a component</div></div>";
+
+exports["Common Row component/should add classNames to output(0)"] = "<div class=\"row i-am-classname\" data-testid=\"12345\"></div>";
+
+exports["Common Row component/should render(0)"] = "<div class=\"row \" data-testid=\"12345\"></div>";
+
+exports["Common Row component/should role to output(0)"] = "<div class=\"row \" role=\"alert\" data-testid=\"12345\"></div>";
+
+exports["Common Row component/should add role to output(0)"] = "<div class=\"row \" role=\"alert\" data-testid=\"12345\"></div>";
+
