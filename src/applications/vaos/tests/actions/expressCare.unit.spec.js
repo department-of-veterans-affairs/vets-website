@@ -14,7 +14,6 @@ import {
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FORM_FETCH_REQUEST_LIMITS,
-  FORM_FETCH_REQUEST_LIMITS_FAILED,
   FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
 } from '../../actions/expressCare';
 import {
@@ -136,46 +135,6 @@ describe('VAOS Express Care actions', () => {
     );
     expect(dispatchSpy.secondCall.args[0].type).to.eql(
       FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
-    );
-  });
-
-  it('should dispatch fail action when failed to fetch request limits', async () => {
-    const today = moment();
-    setFetchJSONFailure(global.fetch, { errors: [] });
-    const thunk = fetchRequestLimits();
-    const dispatchSpy = sinon.spy();
-    const getState = () => ({
-      user: userState,
-      expressCare: {
-        supportedFacilities: [
-          {
-            facilityId: '983',
-            days: [
-              {
-                day: today.format('dddd').toUpperCase(),
-                canSchedule: true,
-                startTime: today
-                  .clone()
-                  .subtract('2', 'minutes')
-                  .tz('America/Denver')
-                  .format('HH:mm'),
-                endTime: today
-                  .clone()
-                  .add('1', 'minutes')
-                  .tz('America/Denver')
-                  .format('HH:mm'),
-              },
-            ],
-          },
-        ],
-      },
-    });
-    await thunk(dispatchSpy, getState);
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(
-      FORM_FETCH_REQUEST_LIMITS,
-    );
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
-      FORM_FETCH_REQUEST_LIMITS_FAILED,
     );
   });
 });
