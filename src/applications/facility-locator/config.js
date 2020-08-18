@@ -8,6 +8,7 @@ export const api = {
   baseUrl: `${environment.API_URL}/v1/facilities`,
   url: `${environment.API_URL}/v1/facilities/va`,
   ccUrl: `${environment.API_URL}/v1/facilities/ccp`,
+  allUrgentCareUrl: `${environment.API_URL}/v1/facilities/va_ccp/urgent_care`,
   settings: {
     credentials: 'include',
     headers: {
@@ -40,13 +41,15 @@ export const resolveParamsWithUrl = (
 
   switch (locationType) {
     case 'urgent_care':
-      if (!serviceType || serviceType === 'UrgentCare') {
+      if (serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
-      }
-      if (serviceType === 'NonVAUrgentCare') {
+      } else if (serviceType === 'NonVAUrgentCare') {
         facility = 'urgent_care';
         url = api.ccUrl;
+      } else {
+        // MashUp coming up
+        url = api.allUrgentCareUrl;
       }
       break;
     case 'pharmacy':
@@ -59,6 +62,18 @@ export const resolveParamsWithUrl = (
     default:
       facility = locationType;
       service = serviceType;
+  }
+
+  if (url === api.allUrgentCareUrl) {
+    return {
+      url,
+      params: compact([
+        address ? `address=${address}` : null,
+        ...bounds.map(c => `bbox[]=${c}`),
+        `page=${page}`,
+        `per_page=${perPage}`,
+      ]).join('&'),
+    };
   }
 
   return {
@@ -119,6 +134,7 @@ export const ccUrgentCareLabels = {
 };
 
 export const urgentCareServices = {
+  AllUrgentCare: 'All urgent care',
   UrgentCare: 'VA urgent care',
   NonVAUrgentCare: 'Community urgent care providers (in VA’s network)',
 };

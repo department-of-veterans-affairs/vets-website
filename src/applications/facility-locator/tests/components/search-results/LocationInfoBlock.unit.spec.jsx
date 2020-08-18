@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import LocationInfoBlock from '../../../components/search-results/LocationInfoBlock';
+import LocationInfoBlock from '../../../components/search-results-items/common/LocationInfoBlock';
 import { LocationType } from '../../../constants';
 
 describe('LocationInfoBlock', () => {

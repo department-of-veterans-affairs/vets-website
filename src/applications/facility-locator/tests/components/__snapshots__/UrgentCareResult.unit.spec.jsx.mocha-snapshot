@@ -1,0 +1,5422 @@
+exports["UrgentCareResult/Should render UrgentCareResult non VA(0)"] = {
+  "node": {
+    "nodeType": "host",
+    "type": "div",
+    "props": {
+      "className": "facility",
+      "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+      "children": {
+        "type": "div",
+        "props": {
+          "children": [
+            null,
+            {
+              "type": "span",
+              "props": {
+                "children": [
+                  {
+                    "type": "h2",
+                    "props": {
+                      "className": "vads- no",
+                      "children": "FastMed Urgent Care"
+                    },
+                    "_store": {}
+                  },
+                  null
+                ]
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationDirectionsLink",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "NonVAUrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationPhoneLink",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "NonVAUrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": "Call to confirm services and hours"
+              },
+              "_store": {}
+            },
+            {
+              "type": "div",
+              "props": {
+                "className": "usa usa background vads-  vads-",
+                "children": [
+                  {
+                    "type": "i",
+                    "props": {
+                      "aria-hidden": "true",
+                      "className": "fa fa vads- icon"
+                    },
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "props": {
+                      "className": "usa",
+                      "children": {
+                        "type": "a",
+                        "props": {
+                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                          "target": "_/blank",
+                          "onClick": "onClick",
+                          "children": [
+                            "In-network urgent care benefit",
+                            " "
+                          ]
+                        },
+                        "_store": {}
+                      }
+                    },
+                    "_store": {}
+                  }
+                ]
+              },
+              "_store": {}
+            }
+          ]
+        },
+        "_store": {}
+      }
+    },
+    "key": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+    "rendered": {
+      "nodeType": "host",
+      "type": "div",
+      "props": {
+        "children": [
+          null,
+          {
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "FastMed Urgent Care"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "_store": {}
+          },
+          {
+            "type": "LocationAddress",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              }
+            },
+            "_store": {}
+          },
+          {
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            },
+            "_store": {}
+          },
+          {
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            },
+            "_store": {}
+          },
+          {
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "_store": {}
+          },
+          {
+            "type": "div",
+            "props": {
+              "className": "usa usa background vads-  vads-",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "aria-hidden": "true",
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "_store": {}
+          }
+        ]
+      },
+      "rendered": [
+        null,
+        {
+          "nodeType": "host",
+          "type": "span",
+          "props": {
+            "children": [
+              {
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "FastMed Urgent Care"
+                },
+                "_store": {}
+              },
+              null
+            ]
+          },
+          "rendered": [
+            {
+              "nodeType": "host",
+              "type": "h2",
+              "props": {
+                "className": "vads- no",
+                "children": "FastMed Urgent Care"
+              },
+              "rendered": "FastMed Urgent Care"
+            },
+            null
+          ]
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationAddress",
+          "props": {
+            "location": {
+              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "false",
+                "address": {
+                  "street": "3311 N Lamar Blvd",
+                  "city": "Austin",
+                  "state": "TX",
+                  "zip": "78705"
+                },
+                "caresitePhone": "5129757791",
+                "gender": "NotSpecified",
+                "lat": 30.302,
+                "long": -97.74471,
+                "name": "FastMed Urgent Care",
+                "posCodes": "20",
+                "specialty": [],
+                "uniqueId": "1346545209"
+              }
+            }
+          }
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationDirectionsLink",
+          "props": {
+            "location": {
+              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "false",
+                "address": {
+                  "street": "3311 N Lamar Blvd",
+                  "city": "Austin",
+                  "state": "TX",
+                  "zip": "78705"
+                },
+                "caresitePhone": "5129757791",
+                "gender": "NotSpecified",
+                "lat": 30.302,
+                "long": -97.74471,
+                "name": "FastMed Urgent Care",
+                "posCodes": "20",
+                "specialty": [],
+                "uniqueId": "1346545209"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "NonVAUrgentCare"
+            }
+          }
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationPhoneLink",
+          "props": {
+            "location": {
+              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "false",
+                "address": {
+                  "street": "3311 N Lamar Blvd",
+                  "city": "Austin",
+                  "state": "TX",
+                  "zip": "78705"
+                },
+                "caresitePhone": "5129757791",
+                "gender": "NotSpecified",
+                "lat": 30.302,
+                "long": -97.74471,
+                "name": "FastMed Urgent Care",
+                "posCodes": "20",
+                "specialty": [],
+                "uniqueId": "1346545209"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "NonVAUrgentCare"
+            }
+          }
+        },
+        {
+          "nodeType": "host",
+          "type": "p",
+          "props": {
+            "children": "Call to confirm services and hours"
+          },
+          "rendered": "Call to confirm services and hours"
+        },
+        {
+          "nodeType": "host",
+          "type": "div",
+          "props": {
+            "className": "usa usa background vads-  vads-",
+            "children": [
+              {
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                },
+                "_store": {}
+              },
+              {
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "_store": {}
+              }
+            ]
+          },
+          "rendered": [
+            {
+              "nodeType": "host",
+              "type": "i",
+              "props": {
+                "aria-hidden": "true",
+                "className": "fa fa vads- icon"
+              }
+            },
+            {
+              "nodeType": "host",
+              "type": "div",
+              "props": {
+                "className": "usa",
+                "children": {
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "_store": {}
+                }
+              },
+              "rendered": {
+                "nodeType": "host",
+                "type": "a",
+                "props": {
+                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                  "target": "_/blank",
+                  "onClick": "onClick",
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                },
+                "rendered": [
+                  "In-network urgent care benefit",
+                  " "
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "type": "div",
+  "props": {
+    "className": "facility",
+    "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+    "key": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30"
+  },
+  "children": [
+    {
+      "node": {
+        "nodeType": "host",
+        "type": "div",
+        "props": {
+          "children": [
+            null,
+            {
+              "type": "span",
+              "props": {
+                "children": [
+                  {
+                    "type": "h2",
+                    "props": {
+                      "className": "vads- no",
+                      "children": "FastMed Urgent Care"
+                    },
+                    "_store": {}
+                  },
+                  null
+                ]
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationDirectionsLink",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "NonVAUrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationPhoneLink",
+              "props": {
+                "location": {
+                  "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                  "type": "provider",
+                  "attributes": {
+                    "accNewPatients": "false",
+                    "address": {
+                      "street": "3311 N Lamar Blvd",
+                      "city": "Austin",
+                      "state": "TX",
+                      "zip": "78705"
+                    },
+                    "caresitePhone": "5129757791",
+                    "gender": "NotSpecified",
+                    "lat": 30.302,
+                    "long": -97.74471,
+                    "name": "FastMed Urgent Care",
+                    "posCodes": "20",
+                    "specialty": [],
+                    "uniqueId": "1346545209"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "NonVAUrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": "Call to confirm services and hours"
+              },
+              "_store": {}
+            },
+            {
+              "type": "div",
+              "props": {
+                "className": "usa usa background vads-  vads-",
+                "children": [
+                  {
+                    "type": "i",
+                    "props": {
+                      "aria-hidden": "true",
+                      "className": "fa fa vads- icon"
+                    },
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "props": {
+                      "className": "usa",
+                      "children": {
+                        "type": "a",
+                        "props": {
+                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                          "target": "_/blank",
+                          "onClick": "onClick",
+                          "children": [
+                            "In-network urgent care benefit",
+                            " "
+                          ]
+                        },
+                        "_store": {}
+                      }
+                    },
+                    "_store": {}
+                  }
+                ]
+              },
+              "_store": {}
+            }
+          ]
+        },
+        "rendered": [
+          null,
+          {
+            "nodeType": "host",
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "FastMed Urgent Care"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "FastMed Urgent Care"
+                },
+                "rendered": "FastMed Urgent Care"
+              },
+              null
+            ]
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationAddress",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              }
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            }
+          },
+          {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "rendered": "Call to confirm services and hours"
+          },
+          {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa usa background vads-  vads-",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "aria-hidden": "true",
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                }
+              },
+              {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "type": "div",
+      "props": {},
+      "children": [
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "FastMed Urgent Care"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "FastMed Urgent Care"
+                },
+                "rendered": "FastMed Urgent Care"
+              },
+              null
+            ]
+          },
+          "type": "span",
+          "props": {},
+          "children": [
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "FastMed Urgent Care"
+                },
+                "rendered": "FastMed Urgent Care"
+              },
+              "type": "h2",
+              "props": {
+                "className": "vads- no"
+              },
+              "children": [
+                "FastMed Urgent Care"
+              ]
+            }
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationAddress",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              }
+            }
+          },
+          "type": "LocationAddress",
+          "props": {
+            "location": {
+              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "false",
+                "address": {
+                  "street": "3311 N Lamar Blvd",
+                  "city": "Austin",
+                  "state": "TX",
+                  "zip": "78705"
+                },
+                "caresitePhone": "5129757791",
+                "gender": "NotSpecified",
+                "lat": 30.302,
+                "long": -97.74471,
+                "name": "FastMed Urgent Care",
+                "posCodes": "20",
+                "specialty": [],
+                "uniqueId": "1346545209"
+              }
+            }
+          }
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            }
+          },
+          "type": "LocationDirectionsLink",
+          "props": {
+            "location": {
+              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "false",
+                "address": {
+                  "street": "3311 N Lamar Blvd",
+                  "city": "Austin",
+                  "state": "TX",
+                  "zip": "78705"
+                },
+                "caresitePhone": "5129757791",
+                "gender": "NotSpecified",
+                "lat": 30.302,
+                "long": -97.74471,
+                "name": "FastMed Urgent Care",
+                "posCodes": "20",
+                "specialty": [],
+                "uniqueId": "1346545209"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "NonVAUrgentCare"
+            }
+          }
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+                "type": "provider",
+                "attributes": {
+                  "accNewPatients": "false",
+                  "address": {
+                    "street": "3311 N Lamar Blvd",
+                    "city": "Austin",
+                    "state": "TX",
+                    "zip": "78705"
+                  },
+                  "caresitePhone": "5129757791",
+                  "gender": "NotSpecified",
+                  "lat": 30.302,
+                  "long": -97.74471,
+                  "name": "FastMed Urgent Care",
+                  "posCodes": "20",
+                  "specialty": [],
+                  "uniqueId": "1346545209"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "NonVAUrgentCare"
+              }
+            }
+          },
+          "type": "LocationPhoneLink",
+          "props": {
+            "location": {
+              "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+              "type": "provider",
+              "attributes": {
+                "accNewPatients": "false",
+                "address": {
+                  "street": "3311 N Lamar Blvd",
+                  "city": "Austin",
+                  "state": "TX",
+                  "zip": "78705"
+                },
+                "caresitePhone": "5129757791",
+                "gender": "NotSpecified",
+                "lat": 30.302,
+                "long": -97.74471,
+                "name": "FastMed Urgent Care",
+                "posCodes": "20",
+                "specialty": [],
+                "uniqueId": "1346545209"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "NonVAUrgentCare"
+            }
+          }
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "rendered": "Call to confirm services and hours"
+          },
+          "type": "p",
+          "props": {},
+          "children": [
+            "Call to confirm services and hours"
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa usa background vads-  vads-",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "aria-hidden": "true",
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                }
+              },
+              {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              }
+            ]
+          },
+          "type": "div",
+          "props": {
+            "className": "usa usa background vads-  vads-"
+          },
+          "children": [
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                }
+              },
+              "type": "i",
+              "props": {
+                "aria-hidden": "true",
+                "className": "fa fa vads- icon"
+              }
+            },
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              },
+              "type": "div",
+              "props": {
+                "className": "usa"
+              },
+              "children": [
+                {
+                  "node": {
+                    "nodeType": "host",
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "rendered": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick"
+                  },
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+exports["UrgentCareResult/Should render UrgentCareResult VA(0)"] = {
+  "node": {
+    "nodeType": "host",
+    "type": "div",
+    "props": {
+      "className": "facility",
+      "id": "vha_667",
+      "children": {
+        "type": "div",
+        "props": {
+          "children": [
+            null,
+            {
+              "type": "span",
+              "props": {
+                "children": [
+                  {
+                    "type": "h2",
+                    "props": {
+                      "className": "vads- no",
+                      "children": "Overton Brooks Veterans' Administration Medical Center"
+                    },
+                    "_store": {}
+                  },
+                  null
+                ]
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "vha_667",
+                  "type": "facility",
+                  "attributes": {
+                    "access": {
+                      "health": [
+                        {
+                          "service": "Audiology",
+                          "new": 22.136363,
+                          "established": 0.096153
+                        },
+                        {
+                          "service": "Cardiology",
+                          "new": 8.428571,
+                          "established": 6.738095
+                        },
+                        {
+                          "service": "Dermatology",
+                          "new": 11.375,
+                          "established": 15.666666
+                        },
+                        {
+                          "service": "Gastroenterology",
+                          "new": 12.4,
+                          "established": 3.238095
+                        },
+                        {
+                          "service": "Gynecology",
+                          "new": 24.733333,
+                          "established": 7.87234
+                        },
+                        {
+                          "service": "MentalHealthCare",
+                          "new": 8.888888,
+                          "established": 6.903598
+                        },
+                        {
+                          "service": "Ophthalmology",
+                          "new": 2.272727,
+                          "established": 1.732283
+                        },
+                        {
+                          "service": "Optometry",
+                          "new": 64,
+                          "established": 10.538461
+                        },
+                        {
+                          "service": "Orthopedics",
+                          "new": 25.382978,
+                          "established": 0.607526
+                        },
+                        {
+                          "service": "PrimaryCare",
+                          "new": 11.133333,
+                          "established": 0.641342
+                        },
+                        {
+                          "service": "SpecialtyCare",
+                          "new": 22.964285,
+                          "established": 7.331212
+                        },
+                        {
+                          "service": "Urology",
+                          "new": 40.027027,
+                          "established": 6.194756
+                        },
+                        {
+                          "service": "WomensHealth",
+                          "new": 17,
+                          "established": 1.1
+                        }
+                      ],
+                      "effectiveDate": "2020-07-27"
+                    },
+                    "activeStatus": "A",
+                    "address": {
+                      "mailing": {},
+                      "physical": {
+                        "zip": "71101-4243",
+                        "city": "Shreveport",
+                        "state": "LA",
+                        "address1": "510 East Stoner Avenue"
+                      }
+                    },
+                    "classification": "VA Medical Center (VAMC)",
+                    "facilityType": "va_health_facility",
+                    "feedback": {
+                      "health": {
+                        "primaryCareUrgent": 0.5899999737739563,
+                        "primaryCareRoutine": 0.8799999952316284,
+                        "specialtyCareUrgent": 0.8799999952316284
+                      },
+                      "effectiveDate": "2020-04-16"
+                    },
+                    "hours": {
+                      "friday": "24/7",
+                      "monday": "24/7",
+                      "sunday": "24/7",
+                      "tuesday": "24/7",
+                      "saturday": "24/7",
+                      "thursday": "24/7",
+                      "wednesday": "24/7"
+                    },
+                    "id": "vha_667",
+                    "lat": 32.50001146,
+                    "long": -93.72284983,
+                    "mobile": false,
+                    "name": "Overton Brooks Veterans' Administration Medical Center",
+                    "operatingStatus": {
+                      "code": "CLOSED"
+                    },
+                    "phone": {
+                      "fax": "318-990-5552",
+                      "main": "318-221-8411",
+                      "pharmacy": "318-990-5547",
+                      "afterHours": "800-644-8370",
+                      "patientAdvocate": "318-990-5013",
+                      "mentalHealthClinic": "318-990-5051",
+                      "enrollmentCoordinator": "318-990-4937"
+                    },
+                    "services": {
+                      "other": [],
+                      "health": [
+                        "Audiology",
+                        "Cardiology",
+                        "DentalServices",
+                        "Dermatology",
+                        "EmergencyCare",
+                        "Gastroenterology",
+                        "Gynecology",
+                        "MentalHealthCare",
+                        "Nutrition",
+                        "Ophthalmology",
+                        "Optometry",
+                        "Orthopedics",
+                        "Podiatry",
+                        "PrimaryCare",
+                        "SpecialtyCare",
+                        "UrgentCare",
+                        "Urology",
+                        "WomensHealth"
+                      ],
+                      "lastUpdated": "2020-07-27"
+                    },
+                    "uniqueId": "667",
+                    "visn": "16",
+                    "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                  }
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationDirectionsLink",
+              "props": {
+                "location": {
+                  "id": "vha_667",
+                  "type": "facility",
+                  "attributes": {
+                    "access": {
+                      "health": [
+                        {
+                          "service": "Audiology",
+                          "new": 22.136363,
+                          "established": 0.096153
+                        },
+                        {
+                          "service": "Cardiology",
+                          "new": 8.428571,
+                          "established": 6.738095
+                        },
+                        {
+                          "service": "Dermatology",
+                          "new": 11.375,
+                          "established": 15.666666
+                        },
+                        {
+                          "service": "Gastroenterology",
+                          "new": 12.4,
+                          "established": 3.238095
+                        },
+                        {
+                          "service": "Gynecology",
+                          "new": 24.733333,
+                          "established": 7.87234
+                        },
+                        {
+                          "service": "MentalHealthCare",
+                          "new": 8.888888,
+                          "established": 6.903598
+                        },
+                        {
+                          "service": "Ophthalmology",
+                          "new": 2.272727,
+                          "established": 1.732283
+                        },
+                        {
+                          "service": "Optometry",
+                          "new": 64,
+                          "established": 10.538461
+                        },
+                        {
+                          "service": "Orthopedics",
+                          "new": 25.382978,
+                          "established": 0.607526
+                        },
+                        {
+                          "service": "PrimaryCare",
+                          "new": 11.133333,
+                          "established": 0.641342
+                        },
+                        {
+                          "service": "SpecialtyCare",
+                          "new": 22.964285,
+                          "established": 7.331212
+                        },
+                        {
+                          "service": "Urology",
+                          "new": 40.027027,
+                          "established": 6.194756
+                        },
+                        {
+                          "service": "WomensHealth",
+                          "new": 17,
+                          "established": 1.1
+                        }
+                      ],
+                      "effectiveDate": "2020-07-27"
+                    },
+                    "activeStatus": "A",
+                    "address": {
+                      "mailing": {},
+                      "physical": {
+                        "zip": "71101-4243",
+                        "city": "Shreveport",
+                        "state": "LA",
+                        "address1": "510 East Stoner Avenue"
+                      }
+                    },
+                    "classification": "VA Medical Center (VAMC)",
+                    "facilityType": "va_health_facility",
+                    "feedback": {
+                      "health": {
+                        "primaryCareUrgent": 0.5899999737739563,
+                        "primaryCareRoutine": 0.8799999952316284,
+                        "specialtyCareUrgent": 0.8799999952316284
+                      },
+                      "effectiveDate": "2020-04-16"
+                    },
+                    "hours": {
+                      "friday": "24/7",
+                      "monday": "24/7",
+                      "sunday": "24/7",
+                      "tuesday": "24/7",
+                      "saturday": "24/7",
+                      "thursday": "24/7",
+                      "wednesday": "24/7"
+                    },
+                    "id": "vha_667",
+                    "lat": 32.50001146,
+                    "long": -93.72284983,
+                    "mobile": false,
+                    "name": "Overton Brooks Veterans' Administration Medical Center",
+                    "operatingStatus": {
+                      "code": "CLOSED"
+                    },
+                    "phone": {
+                      "fax": "318-990-5552",
+                      "main": "318-221-8411",
+                      "pharmacy": "318-990-5547",
+                      "afterHours": "800-644-8370",
+                      "patientAdvocate": "318-990-5013",
+                      "mentalHealthClinic": "318-990-5051",
+                      "enrollmentCoordinator": "318-990-4937"
+                    },
+                    "services": {
+                      "other": [],
+                      "health": [
+                        "Audiology",
+                        "Cardiology",
+                        "DentalServices",
+                        "Dermatology",
+                        "EmergencyCare",
+                        "Gastroenterology",
+                        "Gynecology",
+                        "MentalHealthCare",
+                        "Nutrition",
+                        "Ophthalmology",
+                        "Optometry",
+                        "Orthopedics",
+                        "Podiatry",
+                        "PrimaryCare",
+                        "SpecialtyCare",
+                        "UrgentCare",
+                        "Urology",
+                        "WomensHealth"
+                      ],
+                      "lastUpdated": "2020-07-27"
+                    },
+                    "uniqueId": "667",
+                    "visn": "16",
+                    "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "UrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationPhoneLink",
+              "props": {
+                "location": {
+                  "id": "vha_667",
+                  "type": "facility",
+                  "attributes": {
+                    "access": {
+                      "health": [
+                        {
+                          "service": "Audiology",
+                          "new": 22.136363,
+                          "established": 0.096153
+                        },
+                        {
+                          "service": "Cardiology",
+                          "new": 8.428571,
+                          "established": 6.738095
+                        },
+                        {
+                          "service": "Dermatology",
+                          "new": 11.375,
+                          "established": 15.666666
+                        },
+                        {
+                          "service": "Gastroenterology",
+                          "new": 12.4,
+                          "established": 3.238095
+                        },
+                        {
+                          "service": "Gynecology",
+                          "new": 24.733333,
+                          "established": 7.87234
+                        },
+                        {
+                          "service": "MentalHealthCare",
+                          "new": 8.888888,
+                          "established": 6.903598
+                        },
+                        {
+                          "service": "Ophthalmology",
+                          "new": 2.272727,
+                          "established": 1.732283
+                        },
+                        {
+                          "service": "Optometry",
+                          "new": 64,
+                          "established": 10.538461
+                        },
+                        {
+                          "service": "Orthopedics",
+                          "new": 25.382978,
+                          "established": 0.607526
+                        },
+                        {
+                          "service": "PrimaryCare",
+                          "new": 11.133333,
+                          "established": 0.641342
+                        },
+                        {
+                          "service": "SpecialtyCare",
+                          "new": 22.964285,
+                          "established": 7.331212
+                        },
+                        {
+                          "service": "Urology",
+                          "new": 40.027027,
+                          "established": 6.194756
+                        },
+                        {
+                          "service": "WomensHealth",
+                          "new": 17,
+                          "established": 1.1
+                        }
+                      ],
+                      "effectiveDate": "2020-07-27"
+                    },
+                    "activeStatus": "A",
+                    "address": {
+                      "mailing": {},
+                      "physical": {
+                        "zip": "71101-4243",
+                        "city": "Shreveport",
+                        "state": "LA",
+                        "address1": "510 East Stoner Avenue"
+                      }
+                    },
+                    "classification": "VA Medical Center (VAMC)",
+                    "facilityType": "va_health_facility",
+                    "feedback": {
+                      "health": {
+                        "primaryCareUrgent": 0.5899999737739563,
+                        "primaryCareRoutine": 0.8799999952316284,
+                        "specialtyCareUrgent": 0.8799999952316284
+                      },
+                      "effectiveDate": "2020-04-16"
+                    },
+                    "hours": {
+                      "friday": "24/7",
+                      "monday": "24/7",
+                      "sunday": "24/7",
+                      "tuesday": "24/7",
+                      "saturday": "24/7",
+                      "thursday": "24/7",
+                      "wednesday": "24/7"
+                    },
+                    "id": "vha_667",
+                    "lat": 32.50001146,
+                    "long": -93.72284983,
+                    "mobile": false,
+                    "name": "Overton Brooks Veterans' Administration Medical Center",
+                    "operatingStatus": {
+                      "code": "CLOSED"
+                    },
+                    "phone": {
+                      "fax": "318-990-5552",
+                      "main": "318-221-8411",
+                      "pharmacy": "318-990-5547",
+                      "afterHours": "800-644-8370",
+                      "patientAdvocate": "318-990-5013",
+                      "mentalHealthClinic": "318-990-5051",
+                      "enrollmentCoordinator": "318-990-4937"
+                    },
+                    "services": {
+                      "other": [],
+                      "health": [
+                        "Audiology",
+                        "Cardiology",
+                        "DentalServices",
+                        "Dermatology",
+                        "EmergencyCare",
+                        "Gastroenterology",
+                        "Gynecology",
+                        "MentalHealthCare",
+                        "Nutrition",
+                        "Ophthalmology",
+                        "Optometry",
+                        "Orthopedics",
+                        "Podiatry",
+                        "PrimaryCare",
+                        "SpecialtyCare",
+                        "UrgentCare",
+                        "Urology",
+                        "WomensHealth"
+                      ],
+                      "lastUpdated": "2020-07-27"
+                    },
+                    "uniqueId": "667",
+                    "visn": "16",
+                    "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "UrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": "Call to confirm services and hours"
+              },
+              "_store": {}
+            },
+            {
+              "type": "div",
+              "props": {
+                "className": "usa usa background vads-  vads-",
+                "children": [
+                  {
+                    "type": "i",
+                    "props": {
+                      "aria-hidden": "true",
+                      "className": "fa fa vads- icon"
+                    },
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "props": {
+                      "className": "usa",
+                      "children": {
+                        "type": "a",
+                        "props": {
+                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                          "target": "_/blank",
+                          "onClick": "onClick",
+                          "children": [
+                            "In-network urgent care benefit",
+                            " "
+                          ]
+                        },
+                        "_store": {}
+                      }
+                    },
+                    "_store": {}
+                  }
+                ]
+              },
+              "_store": {}
+            }
+          ]
+        },
+        "_store": {}
+      }
+    },
+    "key": "vha_667",
+    "rendered": {
+      "nodeType": "host",
+      "type": "div",
+      "props": {
+        "children": [
+          null,
+          {
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "Overton Brooks Veterans' Administration Medical Center"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "_store": {}
+          },
+          {
+            "type": "LocationAddress",
+            "props": {
+              "location": {
+                "id": "vha_667",
+                "type": "facility",
+                "attributes": {
+                  "access": {
+                    "health": [
+                      {
+                        "service": "Audiology",
+                        "new": 22.136363,
+                        "established": 0.096153
+                      },
+                      {
+                        "service": "Cardiology",
+                        "new": 8.428571,
+                        "established": 6.738095
+                      },
+                      {
+                        "service": "Dermatology",
+                        "new": 11.375,
+                        "established": 15.666666
+                      },
+                      {
+                        "service": "Gastroenterology",
+                        "new": 12.4,
+                        "established": 3.238095
+                      },
+                      {
+                        "service": "Gynecology",
+                        "new": 24.733333,
+                        "established": 7.87234
+                      },
+                      {
+                        "service": "MentalHealthCare",
+                        "new": 8.888888,
+                        "established": 6.903598
+                      },
+                      {
+                        "service": "Ophthalmology",
+                        "new": 2.272727,
+                        "established": 1.732283
+                      },
+                      {
+                        "service": "Optometry",
+                        "new": 64,
+                        "established": 10.538461
+                      },
+                      {
+                        "service": "Orthopedics",
+                        "new": 25.382978,
+                        "established": 0.607526
+                      },
+                      {
+                        "service": "PrimaryCare",
+                        "new": 11.133333,
+                        "established": 0.641342
+                      },
+                      {
+                        "service": "SpecialtyCare",
+                        "new": 22.964285,
+                        "established": 7.331212
+                      },
+                      {
+                        "service": "Urology",
+                        "new": 40.027027,
+                        "established": 6.194756
+                      },
+                      {
+                        "service": "WomensHealth",
+                        "new": 17,
+                        "established": 1.1
+                      }
+                    ],
+                    "effectiveDate": "2020-07-27"
+                  },
+                  "activeStatus": "A",
+                  "address": {
+                    "mailing": {},
+                    "physical": {
+                      "zip": "71101-4243",
+                      "city": "Shreveport",
+                      "state": "LA",
+                      "address1": "510 East Stoner Avenue"
+                    }
+                  },
+                  "classification": "VA Medical Center (VAMC)",
+                  "facilityType": "va_health_facility",
+                  "feedback": {
+                    "health": {
+                      "primaryCareUrgent": 0.5899999737739563,
+                      "primaryCareRoutine": 0.8799999952316284,
+                      "specialtyCareUrgent": 0.8799999952316284
+                    },
+                    "effectiveDate": "2020-04-16"
+                  },
+                  "hours": {
+                    "friday": "24/7",
+                    "monday": "24/7",
+                    "sunday": "24/7",
+                    "tuesday": "24/7",
+                    "saturday": "24/7",
+                    "thursday": "24/7",
+                    "wednesday": "24/7"
+                  },
+                  "id": "vha_667",
+                  "lat": 32.50001146,
+                  "long": -93.72284983,
+                  "mobile": false,
+                  "name": "Overton Brooks Veterans' Administration Medical Center",
+                  "operatingStatus": {
+                    "code": "CLOSED"
+                  },
+                  "phone": {
+                    "fax": "318-990-5552",
+                    "main": "318-221-8411",
+                    "pharmacy": "318-990-5547",
+                    "afterHours": "800-644-8370",
+                    "patientAdvocate": "318-990-5013",
+                    "mentalHealthClinic": "318-990-5051",
+                    "enrollmentCoordinator": "318-990-4937"
+                  },
+                  "services": {
+                    "other": [],
+                    "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "SpecialtyCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                    ],
+                    "lastUpdated": "2020-07-27"
+                  },
+                  "uniqueId": "667",
+                  "visn": "16",
+                  "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                }
+              }
+            },
+            "_store": {}
+          },
+          {
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "vha_667",
+                "type": "facility",
+                "attributes": {
+                  "access": {
+                    "health": [
+                      {
+                        "service": "Audiology",
+                        "new": 22.136363,
+                        "established": 0.096153
+                      },
+                      {
+                        "service": "Cardiology",
+                        "new": 8.428571,
+                        "established": 6.738095
+                      },
+                      {
+                        "service": "Dermatology",
+                        "new": 11.375,
+                        "established": 15.666666
+                      },
+                      {
+                        "service": "Gastroenterology",
+                        "new": 12.4,
+                        "established": 3.238095
+                      },
+                      {
+                        "service": "Gynecology",
+                        "new": 24.733333,
+                        "established": 7.87234
+                      },
+                      {
+                        "service": "MentalHealthCare",
+                        "new": 8.888888,
+                        "established": 6.903598
+                      },
+                      {
+                        "service": "Ophthalmology",
+                        "new": 2.272727,
+                        "established": 1.732283
+                      },
+                      {
+                        "service": "Optometry",
+                        "new": 64,
+                        "established": 10.538461
+                      },
+                      {
+                        "service": "Orthopedics",
+                        "new": 25.382978,
+                        "established": 0.607526
+                      },
+                      {
+                        "service": "PrimaryCare",
+                        "new": 11.133333,
+                        "established": 0.641342
+                      },
+                      {
+                        "service": "SpecialtyCare",
+                        "new": 22.964285,
+                        "established": 7.331212
+                      },
+                      {
+                        "service": "Urology",
+                        "new": 40.027027,
+                        "established": 6.194756
+                      },
+                      {
+                        "service": "WomensHealth",
+                        "new": 17,
+                        "established": 1.1
+                      }
+                    ],
+                    "effectiveDate": "2020-07-27"
+                  },
+                  "activeStatus": "A",
+                  "address": {
+                    "mailing": {},
+                    "physical": {
+                      "zip": "71101-4243",
+                      "city": "Shreveport",
+                      "state": "LA",
+                      "address1": "510 East Stoner Avenue"
+                    }
+                  },
+                  "classification": "VA Medical Center (VAMC)",
+                  "facilityType": "va_health_facility",
+                  "feedback": {
+                    "health": {
+                      "primaryCareUrgent": 0.5899999737739563,
+                      "primaryCareRoutine": 0.8799999952316284,
+                      "specialtyCareUrgent": 0.8799999952316284
+                    },
+                    "effectiveDate": "2020-04-16"
+                  },
+                  "hours": {
+                    "friday": "24/7",
+                    "monday": "24/7",
+                    "sunday": "24/7",
+                    "tuesday": "24/7",
+                    "saturday": "24/7",
+                    "thursday": "24/7",
+                    "wednesday": "24/7"
+                  },
+                  "id": "vha_667",
+                  "lat": 32.50001146,
+                  "long": -93.72284983,
+                  "mobile": false,
+                  "name": "Overton Brooks Veterans' Administration Medical Center",
+                  "operatingStatus": {
+                    "code": "CLOSED"
+                  },
+                  "phone": {
+                    "fax": "318-990-5552",
+                    "main": "318-221-8411",
+                    "pharmacy": "318-990-5547",
+                    "afterHours": "800-644-8370",
+                    "patientAdvocate": "318-990-5013",
+                    "mentalHealthClinic": "318-990-5051",
+                    "enrollmentCoordinator": "318-990-4937"
+                  },
+                  "services": {
+                    "other": [],
+                    "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "SpecialtyCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                    ],
+                    "lastUpdated": "2020-07-27"
+                  },
+                  "uniqueId": "667",
+                  "visn": "16",
+                  "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "UrgentCare"
+              }
+            },
+            "_store": {}
+          },
+          {
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "vha_667",
+                "type": "facility",
+                "attributes": {
+                  "access": {
+                    "health": [
+                      {
+                        "service": "Audiology",
+                        "new": 22.136363,
+                        "established": 0.096153
+                      },
+                      {
+                        "service": "Cardiology",
+                        "new": 8.428571,
+                        "established": 6.738095
+                      },
+                      {
+                        "service": "Dermatology",
+                        "new": 11.375,
+                        "established": 15.666666
+                      },
+                      {
+                        "service": "Gastroenterology",
+                        "new": 12.4,
+                        "established": 3.238095
+                      },
+                      {
+                        "service": "Gynecology",
+                        "new": 24.733333,
+                        "established": 7.87234
+                      },
+                      {
+                        "service": "MentalHealthCare",
+                        "new": 8.888888,
+                        "established": 6.903598
+                      },
+                      {
+                        "service": "Ophthalmology",
+                        "new": 2.272727,
+                        "established": 1.732283
+                      },
+                      {
+                        "service": "Optometry",
+                        "new": 64,
+                        "established": 10.538461
+                      },
+                      {
+                        "service": "Orthopedics",
+                        "new": 25.382978,
+                        "established": 0.607526
+                      },
+                      {
+                        "service": "PrimaryCare",
+                        "new": 11.133333,
+                        "established": 0.641342
+                      },
+                      {
+                        "service": "SpecialtyCare",
+                        "new": 22.964285,
+                        "established": 7.331212
+                      },
+                      {
+                        "service": "Urology",
+                        "new": 40.027027,
+                        "established": 6.194756
+                      },
+                      {
+                        "service": "WomensHealth",
+                        "new": 17,
+                        "established": 1.1
+                      }
+                    ],
+                    "effectiveDate": "2020-07-27"
+                  },
+                  "activeStatus": "A",
+                  "address": {
+                    "mailing": {},
+                    "physical": {
+                      "zip": "71101-4243",
+                      "city": "Shreveport",
+                      "state": "LA",
+                      "address1": "510 East Stoner Avenue"
+                    }
+                  },
+                  "classification": "VA Medical Center (VAMC)",
+                  "facilityType": "va_health_facility",
+                  "feedback": {
+                    "health": {
+                      "primaryCareUrgent": 0.5899999737739563,
+                      "primaryCareRoutine": 0.8799999952316284,
+                      "specialtyCareUrgent": 0.8799999952316284
+                    },
+                    "effectiveDate": "2020-04-16"
+                  },
+                  "hours": {
+                    "friday": "24/7",
+                    "monday": "24/7",
+                    "sunday": "24/7",
+                    "tuesday": "24/7",
+                    "saturday": "24/7",
+                    "thursday": "24/7",
+                    "wednesday": "24/7"
+                  },
+                  "id": "vha_667",
+                  "lat": 32.50001146,
+                  "long": -93.72284983,
+                  "mobile": false,
+                  "name": "Overton Brooks Veterans' Administration Medical Center",
+                  "operatingStatus": {
+                    "code": "CLOSED"
+                  },
+                  "phone": {
+                    "fax": "318-990-5552",
+                    "main": "318-221-8411",
+                    "pharmacy": "318-990-5547",
+                    "afterHours": "800-644-8370",
+                    "patientAdvocate": "318-990-5013",
+                    "mentalHealthClinic": "318-990-5051",
+                    "enrollmentCoordinator": "318-990-4937"
+                  },
+                  "services": {
+                    "other": [],
+                    "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "SpecialtyCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                    ],
+                    "lastUpdated": "2020-07-27"
+                  },
+                  "uniqueId": "667",
+                  "visn": "16",
+                  "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "UrgentCare"
+              }
+            },
+            "_store": {}
+          },
+          {
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "_store": {}
+          },
+          {
+            "type": "div",
+            "props": {
+              "className": "usa usa background vads-  vads-",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "aria-hidden": "true",
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "_store": {}
+          }
+        ]
+      },
+      "rendered": [
+        null,
+        {
+          "nodeType": "host",
+          "type": "span",
+          "props": {
+            "children": [
+              {
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "Overton Brooks Veterans' Administration Medical Center"
+                },
+                "_store": {}
+              },
+              null
+            ]
+          },
+          "rendered": [
+            {
+              "nodeType": "host",
+              "type": "h2",
+              "props": {
+                "className": "vads- no",
+                "children": "Overton Brooks Veterans' Administration Medical Center"
+              },
+              "rendered": "Overton Brooks Veterans' Administration Medical Center"
+            },
+            null
+          ]
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationAddress",
+          "props": {
+            "location": {
+              "id": "vha_667",
+              "type": "facility",
+              "attributes": {
+                "access": {
+                  "health": [
+                    {
+                      "service": "Audiology",
+                      "new": 22.136363,
+                      "established": 0.096153
+                    },
+                    {
+                      "service": "Cardiology",
+                      "new": 8.428571,
+                      "established": 6.738095
+                    },
+                    {
+                      "service": "Dermatology",
+                      "new": 11.375,
+                      "established": 15.666666
+                    },
+                    {
+                      "service": "Gastroenterology",
+                      "new": 12.4,
+                      "established": 3.238095
+                    },
+                    {
+                      "service": "Gynecology",
+                      "new": 24.733333,
+                      "established": 7.87234
+                    },
+                    {
+                      "service": "MentalHealthCare",
+                      "new": 8.888888,
+                      "established": 6.903598
+                    },
+                    {
+                      "service": "Ophthalmology",
+                      "new": 2.272727,
+                      "established": 1.732283
+                    },
+                    {
+                      "service": "Optometry",
+                      "new": 64,
+                      "established": 10.538461
+                    },
+                    {
+                      "service": "Orthopedics",
+                      "new": 25.382978,
+                      "established": 0.607526
+                    },
+                    {
+                      "service": "PrimaryCare",
+                      "new": 11.133333,
+                      "established": 0.641342
+                    },
+                    {
+                      "service": "SpecialtyCare",
+                      "new": 22.964285,
+                      "established": 7.331212
+                    },
+                    {
+                      "service": "Urology",
+                      "new": 40.027027,
+                      "established": 6.194756
+                    },
+                    {
+                      "service": "WomensHealth",
+                      "new": 17,
+                      "established": 1.1
+                    }
+                  ],
+                  "effectiveDate": "2020-07-27"
+                },
+                "activeStatus": "A",
+                "address": {
+                  "mailing": {},
+                  "physical": {
+                    "zip": "71101-4243",
+                    "city": "Shreveport",
+                    "state": "LA",
+                    "address1": "510 East Stoner Avenue"
+                  }
+                },
+                "classification": "VA Medical Center (VAMC)",
+                "facilityType": "va_health_facility",
+                "feedback": {
+                  "health": {
+                    "primaryCareUrgent": 0.5899999737739563,
+                    "primaryCareRoutine": 0.8799999952316284,
+                    "specialtyCareUrgent": 0.8799999952316284
+                  },
+                  "effectiveDate": "2020-04-16"
+                },
+                "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+                },
+                "id": "vha_667",
+                "lat": 32.50001146,
+                "long": -93.72284983,
+                "mobile": false,
+                "name": "Overton Brooks Veterans' Administration Medical Center",
+                "operatingStatus": {
+                  "code": "CLOSED"
+                },
+                "phone": {
+                  "fax": "318-990-5552",
+                  "main": "318-221-8411",
+                  "pharmacy": "318-990-5547",
+                  "afterHours": "800-644-8370",
+                  "patientAdvocate": "318-990-5013",
+                  "mentalHealthClinic": "318-990-5051",
+                  "enrollmentCoordinator": "318-990-4937"
+                },
+                "services": {
+                  "other": [],
+                  "health": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "Dermatology",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                  ],
+                  "lastUpdated": "2020-07-27"
+                },
+                "uniqueId": "667",
+                "visn": "16",
+                "website": "https://www.shreveport.va.gov/locations/directions.asp"
+              }
+            }
+          }
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationDirectionsLink",
+          "props": {
+            "location": {
+              "id": "vha_667",
+              "type": "facility",
+              "attributes": {
+                "access": {
+                  "health": [
+                    {
+                      "service": "Audiology",
+                      "new": 22.136363,
+                      "established": 0.096153
+                    },
+                    {
+                      "service": "Cardiology",
+                      "new": 8.428571,
+                      "established": 6.738095
+                    },
+                    {
+                      "service": "Dermatology",
+                      "new": 11.375,
+                      "established": 15.666666
+                    },
+                    {
+                      "service": "Gastroenterology",
+                      "new": 12.4,
+                      "established": 3.238095
+                    },
+                    {
+                      "service": "Gynecology",
+                      "new": 24.733333,
+                      "established": 7.87234
+                    },
+                    {
+                      "service": "MentalHealthCare",
+                      "new": 8.888888,
+                      "established": 6.903598
+                    },
+                    {
+                      "service": "Ophthalmology",
+                      "new": 2.272727,
+                      "established": 1.732283
+                    },
+                    {
+                      "service": "Optometry",
+                      "new": 64,
+                      "established": 10.538461
+                    },
+                    {
+                      "service": "Orthopedics",
+                      "new": 25.382978,
+                      "established": 0.607526
+                    },
+                    {
+                      "service": "PrimaryCare",
+                      "new": 11.133333,
+                      "established": 0.641342
+                    },
+                    {
+                      "service": "SpecialtyCare",
+                      "new": 22.964285,
+                      "established": 7.331212
+                    },
+                    {
+                      "service": "Urology",
+                      "new": 40.027027,
+                      "established": 6.194756
+                    },
+                    {
+                      "service": "WomensHealth",
+                      "new": 17,
+                      "established": 1.1
+                    }
+                  ],
+                  "effectiveDate": "2020-07-27"
+                },
+                "activeStatus": "A",
+                "address": {
+                  "mailing": {},
+                  "physical": {
+                    "zip": "71101-4243",
+                    "city": "Shreveport",
+                    "state": "LA",
+                    "address1": "510 East Stoner Avenue"
+                  }
+                },
+                "classification": "VA Medical Center (VAMC)",
+                "facilityType": "va_health_facility",
+                "feedback": {
+                  "health": {
+                    "primaryCareUrgent": 0.5899999737739563,
+                    "primaryCareRoutine": 0.8799999952316284,
+                    "specialtyCareUrgent": 0.8799999952316284
+                  },
+                  "effectiveDate": "2020-04-16"
+                },
+                "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+                },
+                "id": "vha_667",
+                "lat": 32.50001146,
+                "long": -93.72284983,
+                "mobile": false,
+                "name": "Overton Brooks Veterans' Administration Medical Center",
+                "operatingStatus": {
+                  "code": "CLOSED"
+                },
+                "phone": {
+                  "fax": "318-990-5552",
+                  "main": "318-221-8411",
+                  "pharmacy": "318-990-5547",
+                  "afterHours": "800-644-8370",
+                  "patientAdvocate": "318-990-5013",
+                  "mentalHealthClinic": "318-990-5051",
+                  "enrollmentCoordinator": "318-990-4937"
+                },
+                "services": {
+                  "other": [],
+                  "health": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "Dermatology",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                  ],
+                  "lastUpdated": "2020-07-27"
+                },
+                "uniqueId": "667",
+                "visn": "16",
+                "website": "https://www.shreveport.va.gov/locations/directions.asp"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "UrgentCare"
+            }
+          }
+        },
+        {
+          "nodeType": "function",
+          "type": "LocationPhoneLink",
+          "props": {
+            "location": {
+              "id": "vha_667",
+              "type": "facility",
+              "attributes": {
+                "access": {
+                  "health": [
+                    {
+                      "service": "Audiology",
+                      "new": 22.136363,
+                      "established": 0.096153
+                    },
+                    {
+                      "service": "Cardiology",
+                      "new": 8.428571,
+                      "established": 6.738095
+                    },
+                    {
+                      "service": "Dermatology",
+                      "new": 11.375,
+                      "established": 15.666666
+                    },
+                    {
+                      "service": "Gastroenterology",
+                      "new": 12.4,
+                      "established": 3.238095
+                    },
+                    {
+                      "service": "Gynecology",
+                      "new": 24.733333,
+                      "established": 7.87234
+                    },
+                    {
+                      "service": "MentalHealthCare",
+                      "new": 8.888888,
+                      "established": 6.903598
+                    },
+                    {
+                      "service": "Ophthalmology",
+                      "new": 2.272727,
+                      "established": 1.732283
+                    },
+                    {
+                      "service": "Optometry",
+                      "new": 64,
+                      "established": 10.538461
+                    },
+                    {
+                      "service": "Orthopedics",
+                      "new": 25.382978,
+                      "established": 0.607526
+                    },
+                    {
+                      "service": "PrimaryCare",
+                      "new": 11.133333,
+                      "established": 0.641342
+                    },
+                    {
+                      "service": "SpecialtyCare",
+                      "new": 22.964285,
+                      "established": 7.331212
+                    },
+                    {
+                      "service": "Urology",
+                      "new": 40.027027,
+                      "established": 6.194756
+                    },
+                    {
+                      "service": "WomensHealth",
+                      "new": 17,
+                      "established": 1.1
+                    }
+                  ],
+                  "effectiveDate": "2020-07-27"
+                },
+                "activeStatus": "A",
+                "address": {
+                  "mailing": {},
+                  "physical": {
+                    "zip": "71101-4243",
+                    "city": "Shreveport",
+                    "state": "LA",
+                    "address1": "510 East Stoner Avenue"
+                  }
+                },
+                "classification": "VA Medical Center (VAMC)",
+                "facilityType": "va_health_facility",
+                "feedback": {
+                  "health": {
+                    "primaryCareUrgent": 0.5899999737739563,
+                    "primaryCareRoutine": 0.8799999952316284,
+                    "specialtyCareUrgent": 0.8799999952316284
+                  },
+                  "effectiveDate": "2020-04-16"
+                },
+                "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+                },
+                "id": "vha_667",
+                "lat": 32.50001146,
+                "long": -93.72284983,
+                "mobile": false,
+                "name": "Overton Brooks Veterans' Administration Medical Center",
+                "operatingStatus": {
+                  "code": "CLOSED"
+                },
+                "phone": {
+                  "fax": "318-990-5552",
+                  "main": "318-221-8411",
+                  "pharmacy": "318-990-5547",
+                  "afterHours": "800-644-8370",
+                  "patientAdvocate": "318-990-5013",
+                  "mentalHealthClinic": "318-990-5051",
+                  "enrollmentCoordinator": "318-990-4937"
+                },
+                "services": {
+                  "other": [],
+                  "health": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "Dermatology",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                  ],
+                  "lastUpdated": "2020-07-27"
+                },
+                "uniqueId": "667",
+                "visn": "16",
+                "website": "https://www.shreveport.va.gov/locations/directions.asp"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "UrgentCare"
+            }
+          }
+        },
+        {
+          "nodeType": "host",
+          "type": "p",
+          "props": {
+            "children": "Call to confirm services and hours"
+          },
+          "rendered": "Call to confirm services and hours"
+        },
+        {
+          "nodeType": "host",
+          "type": "div",
+          "props": {
+            "className": "usa usa background vads-  vads-",
+            "children": [
+              {
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                },
+                "_store": {}
+              },
+              {
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "_store": {}
+              }
+            ]
+          },
+          "rendered": [
+            {
+              "nodeType": "host",
+              "type": "i",
+              "props": {
+                "aria-hidden": "true",
+                "className": "fa fa vads- icon"
+              }
+            },
+            {
+              "nodeType": "host",
+              "type": "div",
+              "props": {
+                "className": "usa",
+                "children": {
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "_store": {}
+                }
+              },
+              "rendered": {
+                "nodeType": "host",
+                "type": "a",
+                "props": {
+                  "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                  "target": "_/blank",
+                  "onClick": "onClick",
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                },
+                "rendered": [
+                  "In-network urgent care benefit",
+                  " "
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "type": "div",
+  "props": {
+    "className": "facility",
+    "id": "vha_667",
+    "key": "vha_667"
+  },
+  "children": [
+    {
+      "node": {
+        "nodeType": "host",
+        "type": "div",
+        "props": {
+          "children": [
+            null,
+            {
+              "type": "span",
+              "props": {
+                "children": [
+                  {
+                    "type": "h2",
+                    "props": {
+                      "className": "vads- no",
+                      "children": "Overton Brooks Veterans' Administration Medical Center"
+                    },
+                    "_store": {}
+                  },
+                  null
+                ]
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationAddress",
+              "props": {
+                "location": {
+                  "id": "vha_667",
+                  "type": "facility",
+                  "attributes": {
+                    "access": {
+                      "health": [
+                        {
+                          "service": "Audiology",
+                          "new": 22.136363,
+                          "established": 0.096153
+                        },
+                        {
+                          "service": "Cardiology",
+                          "new": 8.428571,
+                          "established": 6.738095
+                        },
+                        {
+                          "service": "Dermatology",
+                          "new": 11.375,
+                          "established": 15.666666
+                        },
+                        {
+                          "service": "Gastroenterology",
+                          "new": 12.4,
+                          "established": 3.238095
+                        },
+                        {
+                          "service": "Gynecology",
+                          "new": 24.733333,
+                          "established": 7.87234
+                        },
+                        {
+                          "service": "MentalHealthCare",
+                          "new": 8.888888,
+                          "established": 6.903598
+                        },
+                        {
+                          "service": "Ophthalmology",
+                          "new": 2.272727,
+                          "established": 1.732283
+                        },
+                        {
+                          "service": "Optometry",
+                          "new": 64,
+                          "established": 10.538461
+                        },
+                        {
+                          "service": "Orthopedics",
+                          "new": 25.382978,
+                          "established": 0.607526
+                        },
+                        {
+                          "service": "PrimaryCare",
+                          "new": 11.133333,
+                          "established": 0.641342
+                        },
+                        {
+                          "service": "SpecialtyCare",
+                          "new": 22.964285,
+                          "established": 7.331212
+                        },
+                        {
+                          "service": "Urology",
+                          "new": 40.027027,
+                          "established": 6.194756
+                        },
+                        {
+                          "service": "WomensHealth",
+                          "new": 17,
+                          "established": 1.1
+                        }
+                      ],
+                      "effectiveDate": "2020-07-27"
+                    },
+                    "activeStatus": "A",
+                    "address": {
+                      "mailing": {},
+                      "physical": {
+                        "zip": "71101-4243",
+                        "city": "Shreveport",
+                        "state": "LA",
+                        "address1": "510 East Stoner Avenue"
+                      }
+                    },
+                    "classification": "VA Medical Center (VAMC)",
+                    "facilityType": "va_health_facility",
+                    "feedback": {
+                      "health": {
+                        "primaryCareUrgent": 0.5899999737739563,
+                        "primaryCareRoutine": 0.8799999952316284,
+                        "specialtyCareUrgent": 0.8799999952316284
+                      },
+                      "effectiveDate": "2020-04-16"
+                    },
+                    "hours": {
+                      "friday": "24/7",
+                      "monday": "24/7",
+                      "sunday": "24/7",
+                      "tuesday": "24/7",
+                      "saturday": "24/7",
+                      "thursday": "24/7",
+                      "wednesday": "24/7"
+                    },
+                    "id": "vha_667",
+                    "lat": 32.50001146,
+                    "long": -93.72284983,
+                    "mobile": false,
+                    "name": "Overton Brooks Veterans' Administration Medical Center",
+                    "operatingStatus": {
+                      "code": "CLOSED"
+                    },
+                    "phone": {
+                      "fax": "318-990-5552",
+                      "main": "318-221-8411",
+                      "pharmacy": "318-990-5547",
+                      "afterHours": "800-644-8370",
+                      "patientAdvocate": "318-990-5013",
+                      "mentalHealthClinic": "318-990-5051",
+                      "enrollmentCoordinator": "318-990-4937"
+                    },
+                    "services": {
+                      "other": [],
+                      "health": [
+                        "Audiology",
+                        "Cardiology",
+                        "DentalServices",
+                        "Dermatology",
+                        "EmergencyCare",
+                        "Gastroenterology",
+                        "Gynecology",
+                        "MentalHealthCare",
+                        "Nutrition",
+                        "Ophthalmology",
+                        "Optometry",
+                        "Orthopedics",
+                        "Podiatry",
+                        "PrimaryCare",
+                        "SpecialtyCare",
+                        "UrgentCare",
+                        "Urology",
+                        "WomensHealth"
+                      ],
+                      "lastUpdated": "2020-07-27"
+                    },
+                    "uniqueId": "667",
+                    "visn": "16",
+                    "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                  }
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationDirectionsLink",
+              "props": {
+                "location": {
+                  "id": "vha_667",
+                  "type": "facility",
+                  "attributes": {
+                    "access": {
+                      "health": [
+                        {
+                          "service": "Audiology",
+                          "new": 22.136363,
+                          "established": 0.096153
+                        },
+                        {
+                          "service": "Cardiology",
+                          "new": 8.428571,
+                          "established": 6.738095
+                        },
+                        {
+                          "service": "Dermatology",
+                          "new": 11.375,
+                          "established": 15.666666
+                        },
+                        {
+                          "service": "Gastroenterology",
+                          "new": 12.4,
+                          "established": 3.238095
+                        },
+                        {
+                          "service": "Gynecology",
+                          "new": 24.733333,
+                          "established": 7.87234
+                        },
+                        {
+                          "service": "MentalHealthCare",
+                          "new": 8.888888,
+                          "established": 6.903598
+                        },
+                        {
+                          "service": "Ophthalmology",
+                          "new": 2.272727,
+                          "established": 1.732283
+                        },
+                        {
+                          "service": "Optometry",
+                          "new": 64,
+                          "established": 10.538461
+                        },
+                        {
+                          "service": "Orthopedics",
+                          "new": 25.382978,
+                          "established": 0.607526
+                        },
+                        {
+                          "service": "PrimaryCare",
+                          "new": 11.133333,
+                          "established": 0.641342
+                        },
+                        {
+                          "service": "SpecialtyCare",
+                          "new": 22.964285,
+                          "established": 7.331212
+                        },
+                        {
+                          "service": "Urology",
+                          "new": 40.027027,
+                          "established": 6.194756
+                        },
+                        {
+                          "service": "WomensHealth",
+                          "new": 17,
+                          "established": 1.1
+                        }
+                      ],
+                      "effectiveDate": "2020-07-27"
+                    },
+                    "activeStatus": "A",
+                    "address": {
+                      "mailing": {},
+                      "physical": {
+                        "zip": "71101-4243",
+                        "city": "Shreveport",
+                        "state": "LA",
+                        "address1": "510 East Stoner Avenue"
+                      }
+                    },
+                    "classification": "VA Medical Center (VAMC)",
+                    "facilityType": "va_health_facility",
+                    "feedback": {
+                      "health": {
+                        "primaryCareUrgent": 0.5899999737739563,
+                        "primaryCareRoutine": 0.8799999952316284,
+                        "specialtyCareUrgent": 0.8799999952316284
+                      },
+                      "effectiveDate": "2020-04-16"
+                    },
+                    "hours": {
+                      "friday": "24/7",
+                      "monday": "24/7",
+                      "sunday": "24/7",
+                      "tuesday": "24/7",
+                      "saturday": "24/7",
+                      "thursday": "24/7",
+                      "wednesday": "24/7"
+                    },
+                    "id": "vha_667",
+                    "lat": 32.50001146,
+                    "long": -93.72284983,
+                    "mobile": false,
+                    "name": "Overton Brooks Veterans' Administration Medical Center",
+                    "operatingStatus": {
+                      "code": "CLOSED"
+                    },
+                    "phone": {
+                      "fax": "318-990-5552",
+                      "main": "318-221-8411",
+                      "pharmacy": "318-990-5547",
+                      "afterHours": "800-644-8370",
+                      "patientAdvocate": "318-990-5013",
+                      "mentalHealthClinic": "318-990-5051",
+                      "enrollmentCoordinator": "318-990-4937"
+                    },
+                    "services": {
+                      "other": [],
+                      "health": [
+                        "Audiology",
+                        "Cardiology",
+                        "DentalServices",
+                        "Dermatology",
+                        "EmergencyCare",
+                        "Gastroenterology",
+                        "Gynecology",
+                        "MentalHealthCare",
+                        "Nutrition",
+                        "Ophthalmology",
+                        "Optometry",
+                        "Orthopedics",
+                        "Podiatry",
+                        "PrimaryCare",
+                        "SpecialtyCare",
+                        "UrgentCare",
+                        "Urology",
+                        "WomensHealth"
+                      ],
+                      "lastUpdated": "2020-07-27"
+                    },
+                    "uniqueId": "667",
+                    "visn": "16",
+                    "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "UrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "LocationPhoneLink",
+              "props": {
+                "location": {
+                  "id": "vha_667",
+                  "type": "facility",
+                  "attributes": {
+                    "access": {
+                      "health": [
+                        {
+                          "service": "Audiology",
+                          "new": 22.136363,
+                          "established": 0.096153
+                        },
+                        {
+                          "service": "Cardiology",
+                          "new": 8.428571,
+                          "established": 6.738095
+                        },
+                        {
+                          "service": "Dermatology",
+                          "new": 11.375,
+                          "established": 15.666666
+                        },
+                        {
+                          "service": "Gastroenterology",
+                          "new": 12.4,
+                          "established": 3.238095
+                        },
+                        {
+                          "service": "Gynecology",
+                          "new": 24.733333,
+                          "established": 7.87234
+                        },
+                        {
+                          "service": "MentalHealthCare",
+                          "new": 8.888888,
+                          "established": 6.903598
+                        },
+                        {
+                          "service": "Ophthalmology",
+                          "new": 2.272727,
+                          "established": 1.732283
+                        },
+                        {
+                          "service": "Optometry",
+                          "new": 64,
+                          "established": 10.538461
+                        },
+                        {
+                          "service": "Orthopedics",
+                          "new": 25.382978,
+                          "established": 0.607526
+                        },
+                        {
+                          "service": "PrimaryCare",
+                          "new": 11.133333,
+                          "established": 0.641342
+                        },
+                        {
+                          "service": "SpecialtyCare",
+                          "new": 22.964285,
+                          "established": 7.331212
+                        },
+                        {
+                          "service": "Urology",
+                          "new": 40.027027,
+                          "established": 6.194756
+                        },
+                        {
+                          "service": "WomensHealth",
+                          "new": 17,
+                          "established": 1.1
+                        }
+                      ],
+                      "effectiveDate": "2020-07-27"
+                    },
+                    "activeStatus": "A",
+                    "address": {
+                      "mailing": {},
+                      "physical": {
+                        "zip": "71101-4243",
+                        "city": "Shreveport",
+                        "state": "LA",
+                        "address1": "510 East Stoner Avenue"
+                      }
+                    },
+                    "classification": "VA Medical Center (VAMC)",
+                    "facilityType": "va_health_facility",
+                    "feedback": {
+                      "health": {
+                        "primaryCareUrgent": 0.5899999737739563,
+                        "primaryCareRoutine": 0.8799999952316284,
+                        "specialtyCareUrgent": 0.8799999952316284
+                      },
+                      "effectiveDate": "2020-04-16"
+                    },
+                    "hours": {
+                      "friday": "24/7",
+                      "monday": "24/7",
+                      "sunday": "24/7",
+                      "tuesday": "24/7",
+                      "saturday": "24/7",
+                      "thursday": "24/7",
+                      "wednesday": "24/7"
+                    },
+                    "id": "vha_667",
+                    "lat": 32.50001146,
+                    "long": -93.72284983,
+                    "mobile": false,
+                    "name": "Overton Brooks Veterans' Administration Medical Center",
+                    "operatingStatus": {
+                      "code": "CLOSED"
+                    },
+                    "phone": {
+                      "fax": "318-990-5552",
+                      "main": "318-221-8411",
+                      "pharmacy": "318-990-5547",
+                      "afterHours": "800-644-8370",
+                      "patientAdvocate": "318-990-5013",
+                      "mentalHealthClinic": "318-990-5051",
+                      "enrollmentCoordinator": "318-990-4937"
+                    },
+                    "services": {
+                      "other": [],
+                      "health": [
+                        "Audiology",
+                        "Cardiology",
+                        "DentalServices",
+                        "Dermatology",
+                        "EmergencyCare",
+                        "Gastroenterology",
+                        "Gynecology",
+                        "MentalHealthCare",
+                        "Nutrition",
+                        "Ophthalmology",
+                        "Optometry",
+                        "Orthopedics",
+                        "Podiatry",
+                        "PrimaryCare",
+                        "SpecialtyCare",
+                        "UrgentCare",
+                        "Urology",
+                        "WomensHealth"
+                      ],
+                      "lastUpdated": "2020-07-27"
+                    },
+                    "uniqueId": "667",
+                    "visn": "16",
+                    "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                  }
+                },
+                "from": "SearchResult",
+                "query": {
+                  "facilityType": "urgent_care",
+                  "serviceType": "UrgentCare"
+                }
+              },
+              "_store": {}
+            },
+            {
+              "type": "p",
+              "props": {
+                "children": "Call to confirm services and hours"
+              },
+              "_store": {}
+            },
+            {
+              "type": "div",
+              "props": {
+                "className": "usa usa background vads-  vads-",
+                "children": [
+                  {
+                    "type": "i",
+                    "props": {
+                      "aria-hidden": "true",
+                      "className": "fa fa vads- icon"
+                    },
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "props": {
+                      "className": "usa",
+                      "children": {
+                        "type": "a",
+                        "props": {
+                          "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                          "target": "_/blank",
+                          "onClick": "onClick",
+                          "children": [
+                            "In-network urgent care benefit",
+                            " "
+                          ]
+                        },
+                        "_store": {}
+                      }
+                    },
+                    "_store": {}
+                  }
+                ]
+              },
+              "_store": {}
+            }
+          ]
+        },
+        "rendered": [
+          null,
+          {
+            "nodeType": "host",
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "Overton Brooks Veterans' Administration Medical Center"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "Overton Brooks Veterans' Administration Medical Center"
+                },
+                "rendered": "Overton Brooks Veterans' Administration Medical Center"
+              },
+              null
+            ]
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationAddress",
+            "props": {
+              "location": {
+                "id": "vha_667",
+                "type": "facility",
+                "attributes": {
+                  "access": {
+                    "health": [
+                      {
+                        "service": "Audiology",
+                        "new": 22.136363,
+                        "established": 0.096153
+                      },
+                      {
+                        "service": "Cardiology",
+                        "new": 8.428571,
+                        "established": 6.738095
+                      },
+                      {
+                        "service": "Dermatology",
+                        "new": 11.375,
+                        "established": 15.666666
+                      },
+                      {
+                        "service": "Gastroenterology",
+                        "new": 12.4,
+                        "established": 3.238095
+                      },
+                      {
+                        "service": "Gynecology",
+                        "new": 24.733333,
+                        "established": 7.87234
+                      },
+                      {
+                        "service": "MentalHealthCare",
+                        "new": 8.888888,
+                        "established": 6.903598
+                      },
+                      {
+                        "service": "Ophthalmology",
+                        "new": 2.272727,
+                        "established": 1.732283
+                      },
+                      {
+                        "service": "Optometry",
+                        "new": 64,
+                        "established": 10.538461
+                      },
+                      {
+                        "service": "Orthopedics",
+                        "new": 25.382978,
+                        "established": 0.607526
+                      },
+                      {
+                        "service": "PrimaryCare",
+                        "new": 11.133333,
+                        "established": 0.641342
+                      },
+                      {
+                        "service": "SpecialtyCare",
+                        "new": 22.964285,
+                        "established": 7.331212
+                      },
+                      {
+                        "service": "Urology",
+                        "new": 40.027027,
+                        "established": 6.194756
+                      },
+                      {
+                        "service": "WomensHealth",
+                        "new": 17,
+                        "established": 1.1
+                      }
+                    ],
+                    "effectiveDate": "2020-07-27"
+                  },
+                  "activeStatus": "A",
+                  "address": {
+                    "mailing": {},
+                    "physical": {
+                      "zip": "71101-4243",
+                      "city": "Shreveport",
+                      "state": "LA",
+                      "address1": "510 East Stoner Avenue"
+                    }
+                  },
+                  "classification": "VA Medical Center (VAMC)",
+                  "facilityType": "va_health_facility",
+                  "feedback": {
+                    "health": {
+                      "primaryCareUrgent": 0.5899999737739563,
+                      "primaryCareRoutine": 0.8799999952316284,
+                      "specialtyCareUrgent": 0.8799999952316284
+                    },
+                    "effectiveDate": "2020-04-16"
+                  },
+                  "hours": {
+                    "friday": "24/7",
+                    "monday": "24/7",
+                    "sunday": "24/7",
+                    "tuesday": "24/7",
+                    "saturday": "24/7",
+                    "thursday": "24/7",
+                    "wednesday": "24/7"
+                  },
+                  "id": "vha_667",
+                  "lat": 32.50001146,
+                  "long": -93.72284983,
+                  "mobile": false,
+                  "name": "Overton Brooks Veterans' Administration Medical Center",
+                  "operatingStatus": {
+                    "code": "CLOSED"
+                  },
+                  "phone": {
+                    "fax": "318-990-5552",
+                    "main": "318-221-8411",
+                    "pharmacy": "318-990-5547",
+                    "afterHours": "800-644-8370",
+                    "patientAdvocate": "318-990-5013",
+                    "mentalHealthClinic": "318-990-5051",
+                    "enrollmentCoordinator": "318-990-4937"
+                  },
+                  "services": {
+                    "other": [],
+                    "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "SpecialtyCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                    ],
+                    "lastUpdated": "2020-07-27"
+                  },
+                  "uniqueId": "667",
+                  "visn": "16",
+                  "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                }
+              }
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "vha_667",
+                "type": "facility",
+                "attributes": {
+                  "access": {
+                    "health": [
+                      {
+                        "service": "Audiology",
+                        "new": 22.136363,
+                        "established": 0.096153
+                      },
+                      {
+                        "service": "Cardiology",
+                        "new": 8.428571,
+                        "established": 6.738095
+                      },
+                      {
+                        "service": "Dermatology",
+                        "new": 11.375,
+                        "established": 15.666666
+                      },
+                      {
+                        "service": "Gastroenterology",
+                        "new": 12.4,
+                        "established": 3.238095
+                      },
+                      {
+                        "service": "Gynecology",
+                        "new": 24.733333,
+                        "established": 7.87234
+                      },
+                      {
+                        "service": "MentalHealthCare",
+                        "new": 8.888888,
+                        "established": 6.903598
+                      },
+                      {
+                        "service": "Ophthalmology",
+                        "new": 2.272727,
+                        "established": 1.732283
+                      },
+                      {
+                        "service": "Optometry",
+                        "new": 64,
+                        "established": 10.538461
+                      },
+                      {
+                        "service": "Orthopedics",
+                        "new": 25.382978,
+                        "established": 0.607526
+                      },
+                      {
+                        "service": "PrimaryCare",
+                        "new": 11.133333,
+                        "established": 0.641342
+                      },
+                      {
+                        "service": "SpecialtyCare",
+                        "new": 22.964285,
+                        "established": 7.331212
+                      },
+                      {
+                        "service": "Urology",
+                        "new": 40.027027,
+                        "established": 6.194756
+                      },
+                      {
+                        "service": "WomensHealth",
+                        "new": 17,
+                        "established": 1.1
+                      }
+                    ],
+                    "effectiveDate": "2020-07-27"
+                  },
+                  "activeStatus": "A",
+                  "address": {
+                    "mailing": {},
+                    "physical": {
+                      "zip": "71101-4243",
+                      "city": "Shreveport",
+                      "state": "LA",
+                      "address1": "510 East Stoner Avenue"
+                    }
+                  },
+                  "classification": "VA Medical Center (VAMC)",
+                  "facilityType": "va_health_facility",
+                  "feedback": {
+                    "health": {
+                      "primaryCareUrgent": 0.5899999737739563,
+                      "primaryCareRoutine": 0.8799999952316284,
+                      "specialtyCareUrgent": 0.8799999952316284
+                    },
+                    "effectiveDate": "2020-04-16"
+                  },
+                  "hours": {
+                    "friday": "24/7",
+                    "monday": "24/7",
+                    "sunday": "24/7",
+                    "tuesday": "24/7",
+                    "saturday": "24/7",
+                    "thursday": "24/7",
+                    "wednesday": "24/7"
+                  },
+                  "id": "vha_667",
+                  "lat": 32.50001146,
+                  "long": -93.72284983,
+                  "mobile": false,
+                  "name": "Overton Brooks Veterans' Administration Medical Center",
+                  "operatingStatus": {
+                    "code": "CLOSED"
+                  },
+                  "phone": {
+                    "fax": "318-990-5552",
+                    "main": "318-221-8411",
+                    "pharmacy": "318-990-5547",
+                    "afterHours": "800-644-8370",
+                    "patientAdvocate": "318-990-5013",
+                    "mentalHealthClinic": "318-990-5051",
+                    "enrollmentCoordinator": "318-990-4937"
+                  },
+                  "services": {
+                    "other": [],
+                    "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "SpecialtyCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                    ],
+                    "lastUpdated": "2020-07-27"
+                  },
+                  "uniqueId": "667",
+                  "visn": "16",
+                  "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "UrgentCare"
+              }
+            }
+          },
+          {
+            "nodeType": "function",
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "vha_667",
+                "type": "facility",
+                "attributes": {
+                  "access": {
+                    "health": [
+                      {
+                        "service": "Audiology",
+                        "new": 22.136363,
+                        "established": 0.096153
+                      },
+                      {
+                        "service": "Cardiology",
+                        "new": 8.428571,
+                        "established": 6.738095
+                      },
+                      {
+                        "service": "Dermatology",
+                        "new": 11.375,
+                        "established": 15.666666
+                      },
+                      {
+                        "service": "Gastroenterology",
+                        "new": 12.4,
+                        "established": 3.238095
+                      },
+                      {
+                        "service": "Gynecology",
+                        "new": 24.733333,
+                        "established": 7.87234
+                      },
+                      {
+                        "service": "MentalHealthCare",
+                        "new": 8.888888,
+                        "established": 6.903598
+                      },
+                      {
+                        "service": "Ophthalmology",
+                        "new": 2.272727,
+                        "established": 1.732283
+                      },
+                      {
+                        "service": "Optometry",
+                        "new": 64,
+                        "established": 10.538461
+                      },
+                      {
+                        "service": "Orthopedics",
+                        "new": 25.382978,
+                        "established": 0.607526
+                      },
+                      {
+                        "service": "PrimaryCare",
+                        "new": 11.133333,
+                        "established": 0.641342
+                      },
+                      {
+                        "service": "SpecialtyCare",
+                        "new": 22.964285,
+                        "established": 7.331212
+                      },
+                      {
+                        "service": "Urology",
+                        "new": 40.027027,
+                        "established": 6.194756
+                      },
+                      {
+                        "service": "WomensHealth",
+                        "new": 17,
+                        "established": 1.1
+                      }
+                    ],
+                    "effectiveDate": "2020-07-27"
+                  },
+                  "activeStatus": "A",
+                  "address": {
+                    "mailing": {},
+                    "physical": {
+                      "zip": "71101-4243",
+                      "city": "Shreveport",
+                      "state": "LA",
+                      "address1": "510 East Stoner Avenue"
+                    }
+                  },
+                  "classification": "VA Medical Center (VAMC)",
+                  "facilityType": "va_health_facility",
+                  "feedback": {
+                    "health": {
+                      "primaryCareUrgent": 0.5899999737739563,
+                      "primaryCareRoutine": 0.8799999952316284,
+                      "specialtyCareUrgent": 0.8799999952316284
+                    },
+                    "effectiveDate": "2020-04-16"
+                  },
+                  "hours": {
+                    "friday": "24/7",
+                    "monday": "24/7",
+                    "sunday": "24/7",
+                    "tuesday": "24/7",
+                    "saturday": "24/7",
+                    "thursday": "24/7",
+                    "wednesday": "24/7"
+                  },
+                  "id": "vha_667",
+                  "lat": 32.50001146,
+                  "long": -93.72284983,
+                  "mobile": false,
+                  "name": "Overton Brooks Veterans' Administration Medical Center",
+                  "operatingStatus": {
+                    "code": "CLOSED"
+                  },
+                  "phone": {
+                    "fax": "318-990-5552",
+                    "main": "318-221-8411",
+                    "pharmacy": "318-990-5547",
+                    "afterHours": "800-644-8370",
+                    "patientAdvocate": "318-990-5013",
+                    "mentalHealthClinic": "318-990-5051",
+                    "enrollmentCoordinator": "318-990-4937"
+                  },
+                  "services": {
+                    "other": [],
+                    "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "SpecialtyCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                    ],
+                    "lastUpdated": "2020-07-27"
+                  },
+                  "uniqueId": "667",
+                  "visn": "16",
+                  "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "UrgentCare"
+              }
+            }
+          },
+          {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "rendered": "Call to confirm services and hours"
+          },
+          {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa usa background vads-  vads-",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "aria-hidden": "true",
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                }
+              },
+              {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "type": "div",
+      "props": {},
+      "children": [
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "span",
+            "props": {
+              "children": [
+                {
+                  "type": "h2",
+                  "props": {
+                    "className": "vads- no",
+                    "children": "Overton Brooks Veterans' Administration Medical Center"
+                  },
+                  "_store": {}
+                },
+                null
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "Overton Brooks Veterans' Administration Medical Center"
+                },
+                "rendered": "Overton Brooks Veterans' Administration Medical Center"
+              },
+              null
+            ]
+          },
+          "type": "span",
+          "props": {},
+          "children": [
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "h2",
+                "props": {
+                  "className": "vads- no",
+                  "children": "Overton Brooks Veterans' Administration Medical Center"
+                },
+                "rendered": "Overton Brooks Veterans' Administration Medical Center"
+              },
+              "type": "h2",
+              "props": {
+                "className": "vads- no"
+              },
+              "children": [
+                "Overton Brooks Veterans' Administration Medical Center"
+              ]
+            }
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationAddress",
+            "props": {
+              "location": {
+                "id": "vha_667",
+                "type": "facility",
+                "attributes": {
+                  "access": {
+                    "health": [
+                      {
+                        "service": "Audiology",
+                        "new": 22.136363,
+                        "established": 0.096153
+                      },
+                      {
+                        "service": "Cardiology",
+                        "new": 8.428571,
+                        "established": 6.738095
+                      },
+                      {
+                        "service": "Dermatology",
+                        "new": 11.375,
+                        "established": 15.666666
+                      },
+                      {
+                        "service": "Gastroenterology",
+                        "new": 12.4,
+                        "established": 3.238095
+                      },
+                      {
+                        "service": "Gynecology",
+                        "new": 24.733333,
+                        "established": 7.87234
+                      },
+                      {
+                        "service": "MentalHealthCare",
+                        "new": 8.888888,
+                        "established": 6.903598
+                      },
+                      {
+                        "service": "Ophthalmology",
+                        "new": 2.272727,
+                        "established": 1.732283
+                      },
+                      {
+                        "service": "Optometry",
+                        "new": 64,
+                        "established": 10.538461
+                      },
+                      {
+                        "service": "Orthopedics",
+                        "new": 25.382978,
+                        "established": 0.607526
+                      },
+                      {
+                        "service": "PrimaryCare",
+                        "new": 11.133333,
+                        "established": 0.641342
+                      },
+                      {
+                        "service": "SpecialtyCare",
+                        "new": 22.964285,
+                        "established": 7.331212
+                      },
+                      {
+                        "service": "Urology",
+                        "new": 40.027027,
+                        "established": 6.194756
+                      },
+                      {
+                        "service": "WomensHealth",
+                        "new": 17,
+                        "established": 1.1
+                      }
+                    ],
+                    "effectiveDate": "2020-07-27"
+                  },
+                  "activeStatus": "A",
+                  "address": {
+                    "mailing": {},
+                    "physical": {
+                      "zip": "71101-4243",
+                      "city": "Shreveport",
+                      "state": "LA",
+                      "address1": "510 East Stoner Avenue"
+                    }
+                  },
+                  "classification": "VA Medical Center (VAMC)",
+                  "facilityType": "va_health_facility",
+                  "feedback": {
+                    "health": {
+                      "primaryCareUrgent": 0.5899999737739563,
+                      "primaryCareRoutine": 0.8799999952316284,
+                      "specialtyCareUrgent": 0.8799999952316284
+                    },
+                    "effectiveDate": "2020-04-16"
+                  },
+                  "hours": {
+                    "friday": "24/7",
+                    "monday": "24/7",
+                    "sunday": "24/7",
+                    "tuesday": "24/7",
+                    "saturday": "24/7",
+                    "thursday": "24/7",
+                    "wednesday": "24/7"
+                  },
+                  "id": "vha_667",
+                  "lat": 32.50001146,
+                  "long": -93.72284983,
+                  "mobile": false,
+                  "name": "Overton Brooks Veterans' Administration Medical Center",
+                  "operatingStatus": {
+                    "code": "CLOSED"
+                  },
+                  "phone": {
+                    "fax": "318-990-5552",
+                    "main": "318-221-8411",
+                    "pharmacy": "318-990-5547",
+                    "afterHours": "800-644-8370",
+                    "patientAdvocate": "318-990-5013",
+                    "mentalHealthClinic": "318-990-5051",
+                    "enrollmentCoordinator": "318-990-4937"
+                  },
+                  "services": {
+                    "other": [],
+                    "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "SpecialtyCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                    ],
+                    "lastUpdated": "2020-07-27"
+                  },
+                  "uniqueId": "667",
+                  "visn": "16",
+                  "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                }
+              }
+            }
+          },
+          "type": "LocationAddress",
+          "props": {
+            "location": {
+              "id": "vha_667",
+              "type": "facility",
+              "attributes": {
+                "access": {
+                  "health": [
+                    {
+                      "service": "Audiology",
+                      "new": 22.136363,
+                      "established": 0.096153
+                    },
+                    {
+                      "service": "Cardiology",
+                      "new": 8.428571,
+                      "established": 6.738095
+                    },
+                    {
+                      "service": "Dermatology",
+                      "new": 11.375,
+                      "established": 15.666666
+                    },
+                    {
+                      "service": "Gastroenterology",
+                      "new": 12.4,
+                      "established": 3.238095
+                    },
+                    {
+                      "service": "Gynecology",
+                      "new": 24.733333,
+                      "established": 7.87234
+                    },
+                    {
+                      "service": "MentalHealthCare",
+                      "new": 8.888888,
+                      "established": 6.903598
+                    },
+                    {
+                      "service": "Ophthalmology",
+                      "new": 2.272727,
+                      "established": 1.732283
+                    },
+                    {
+                      "service": "Optometry",
+                      "new": 64,
+                      "established": 10.538461
+                    },
+                    {
+                      "service": "Orthopedics",
+                      "new": 25.382978,
+                      "established": 0.607526
+                    },
+                    {
+                      "service": "PrimaryCare",
+                      "new": 11.133333,
+                      "established": 0.641342
+                    },
+                    {
+                      "service": "SpecialtyCare",
+                      "new": 22.964285,
+                      "established": 7.331212
+                    },
+                    {
+                      "service": "Urology",
+                      "new": 40.027027,
+                      "established": 6.194756
+                    },
+                    {
+                      "service": "WomensHealth",
+                      "new": 17,
+                      "established": 1.1
+                    }
+                  ],
+                  "effectiveDate": "2020-07-27"
+                },
+                "activeStatus": "A",
+                "address": {
+                  "mailing": {},
+                  "physical": {
+                    "zip": "71101-4243",
+                    "city": "Shreveport",
+                    "state": "LA",
+                    "address1": "510 East Stoner Avenue"
+                  }
+                },
+                "classification": "VA Medical Center (VAMC)",
+                "facilityType": "va_health_facility",
+                "feedback": {
+                  "health": {
+                    "primaryCareUrgent": 0.5899999737739563,
+                    "primaryCareRoutine": 0.8799999952316284,
+                    "specialtyCareUrgent": 0.8799999952316284
+                  },
+                  "effectiveDate": "2020-04-16"
+                },
+                "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+                },
+                "id": "vha_667",
+                "lat": 32.50001146,
+                "long": -93.72284983,
+                "mobile": false,
+                "name": "Overton Brooks Veterans' Administration Medical Center",
+                "operatingStatus": {
+                  "code": "CLOSED"
+                },
+                "phone": {
+                  "fax": "318-990-5552",
+                  "main": "318-221-8411",
+                  "pharmacy": "318-990-5547",
+                  "afterHours": "800-644-8370",
+                  "patientAdvocate": "318-990-5013",
+                  "mentalHealthClinic": "318-990-5051",
+                  "enrollmentCoordinator": "318-990-4937"
+                },
+                "services": {
+                  "other": [],
+                  "health": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "Dermatology",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                  ],
+                  "lastUpdated": "2020-07-27"
+                },
+                "uniqueId": "667",
+                "visn": "16",
+                "website": "https://www.shreveport.va.gov/locations/directions.asp"
+              }
+            }
+          }
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationDirectionsLink",
+            "props": {
+              "location": {
+                "id": "vha_667",
+                "type": "facility",
+                "attributes": {
+                  "access": {
+                    "health": [
+                      {
+                        "service": "Audiology",
+                        "new": 22.136363,
+                        "established": 0.096153
+                      },
+                      {
+                        "service": "Cardiology",
+                        "new": 8.428571,
+                        "established": 6.738095
+                      },
+                      {
+                        "service": "Dermatology",
+                        "new": 11.375,
+                        "established": 15.666666
+                      },
+                      {
+                        "service": "Gastroenterology",
+                        "new": 12.4,
+                        "established": 3.238095
+                      },
+                      {
+                        "service": "Gynecology",
+                        "new": 24.733333,
+                        "established": 7.87234
+                      },
+                      {
+                        "service": "MentalHealthCare",
+                        "new": 8.888888,
+                        "established": 6.903598
+                      },
+                      {
+                        "service": "Ophthalmology",
+                        "new": 2.272727,
+                        "established": 1.732283
+                      },
+                      {
+                        "service": "Optometry",
+                        "new": 64,
+                        "established": 10.538461
+                      },
+                      {
+                        "service": "Orthopedics",
+                        "new": 25.382978,
+                        "established": 0.607526
+                      },
+                      {
+                        "service": "PrimaryCare",
+                        "new": 11.133333,
+                        "established": 0.641342
+                      },
+                      {
+                        "service": "SpecialtyCare",
+                        "new": 22.964285,
+                        "established": 7.331212
+                      },
+                      {
+                        "service": "Urology",
+                        "new": 40.027027,
+                        "established": 6.194756
+                      },
+                      {
+                        "service": "WomensHealth",
+                        "new": 17,
+                        "established": 1.1
+                      }
+                    ],
+                    "effectiveDate": "2020-07-27"
+                  },
+                  "activeStatus": "A",
+                  "address": {
+                    "mailing": {},
+                    "physical": {
+                      "zip": "71101-4243",
+                      "city": "Shreveport",
+                      "state": "LA",
+                      "address1": "510 East Stoner Avenue"
+                    }
+                  },
+                  "classification": "VA Medical Center (VAMC)",
+                  "facilityType": "va_health_facility",
+                  "feedback": {
+                    "health": {
+                      "primaryCareUrgent": 0.5899999737739563,
+                      "primaryCareRoutine": 0.8799999952316284,
+                      "specialtyCareUrgent": 0.8799999952316284
+                    },
+                    "effectiveDate": "2020-04-16"
+                  },
+                  "hours": {
+                    "friday": "24/7",
+                    "monday": "24/7",
+                    "sunday": "24/7",
+                    "tuesday": "24/7",
+                    "saturday": "24/7",
+                    "thursday": "24/7",
+                    "wednesday": "24/7"
+                  },
+                  "id": "vha_667",
+                  "lat": 32.50001146,
+                  "long": -93.72284983,
+                  "mobile": false,
+                  "name": "Overton Brooks Veterans' Administration Medical Center",
+                  "operatingStatus": {
+                    "code": "CLOSED"
+                  },
+                  "phone": {
+                    "fax": "318-990-5552",
+                    "main": "318-221-8411",
+                    "pharmacy": "318-990-5547",
+                    "afterHours": "800-644-8370",
+                    "patientAdvocate": "318-990-5013",
+                    "mentalHealthClinic": "318-990-5051",
+                    "enrollmentCoordinator": "318-990-4937"
+                  },
+                  "services": {
+                    "other": [],
+                    "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "SpecialtyCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                    ],
+                    "lastUpdated": "2020-07-27"
+                  },
+                  "uniqueId": "667",
+                  "visn": "16",
+                  "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "UrgentCare"
+              }
+            }
+          },
+          "type": "LocationDirectionsLink",
+          "props": {
+            "location": {
+              "id": "vha_667",
+              "type": "facility",
+              "attributes": {
+                "access": {
+                  "health": [
+                    {
+                      "service": "Audiology",
+                      "new": 22.136363,
+                      "established": 0.096153
+                    },
+                    {
+                      "service": "Cardiology",
+                      "new": 8.428571,
+                      "established": 6.738095
+                    },
+                    {
+                      "service": "Dermatology",
+                      "new": 11.375,
+                      "established": 15.666666
+                    },
+                    {
+                      "service": "Gastroenterology",
+                      "new": 12.4,
+                      "established": 3.238095
+                    },
+                    {
+                      "service": "Gynecology",
+                      "new": 24.733333,
+                      "established": 7.87234
+                    },
+                    {
+                      "service": "MentalHealthCare",
+                      "new": 8.888888,
+                      "established": 6.903598
+                    },
+                    {
+                      "service": "Ophthalmology",
+                      "new": 2.272727,
+                      "established": 1.732283
+                    },
+                    {
+                      "service": "Optometry",
+                      "new": 64,
+                      "established": 10.538461
+                    },
+                    {
+                      "service": "Orthopedics",
+                      "new": 25.382978,
+                      "established": 0.607526
+                    },
+                    {
+                      "service": "PrimaryCare",
+                      "new": 11.133333,
+                      "established": 0.641342
+                    },
+                    {
+                      "service": "SpecialtyCare",
+                      "new": 22.964285,
+                      "established": 7.331212
+                    },
+                    {
+                      "service": "Urology",
+                      "new": 40.027027,
+                      "established": 6.194756
+                    },
+                    {
+                      "service": "WomensHealth",
+                      "new": 17,
+                      "established": 1.1
+                    }
+                  ],
+                  "effectiveDate": "2020-07-27"
+                },
+                "activeStatus": "A",
+                "address": {
+                  "mailing": {},
+                  "physical": {
+                    "zip": "71101-4243",
+                    "city": "Shreveport",
+                    "state": "LA",
+                    "address1": "510 East Stoner Avenue"
+                  }
+                },
+                "classification": "VA Medical Center (VAMC)",
+                "facilityType": "va_health_facility",
+                "feedback": {
+                  "health": {
+                    "primaryCareUrgent": 0.5899999737739563,
+                    "primaryCareRoutine": 0.8799999952316284,
+                    "specialtyCareUrgent": 0.8799999952316284
+                  },
+                  "effectiveDate": "2020-04-16"
+                },
+                "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+                },
+                "id": "vha_667",
+                "lat": 32.50001146,
+                "long": -93.72284983,
+                "mobile": false,
+                "name": "Overton Brooks Veterans' Administration Medical Center",
+                "operatingStatus": {
+                  "code": "CLOSED"
+                },
+                "phone": {
+                  "fax": "318-990-5552",
+                  "main": "318-221-8411",
+                  "pharmacy": "318-990-5547",
+                  "afterHours": "800-644-8370",
+                  "patientAdvocate": "318-990-5013",
+                  "mentalHealthClinic": "318-990-5051",
+                  "enrollmentCoordinator": "318-990-4937"
+                },
+                "services": {
+                  "other": [],
+                  "health": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "Dermatology",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                  ],
+                  "lastUpdated": "2020-07-27"
+                },
+                "uniqueId": "667",
+                "visn": "16",
+                "website": "https://www.shreveport.va.gov/locations/directions.asp"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "UrgentCare"
+            }
+          }
+        },
+        {
+          "node": {
+            "nodeType": "function",
+            "type": "LocationPhoneLink",
+            "props": {
+              "location": {
+                "id": "vha_667",
+                "type": "facility",
+                "attributes": {
+                  "access": {
+                    "health": [
+                      {
+                        "service": "Audiology",
+                        "new": 22.136363,
+                        "established": 0.096153
+                      },
+                      {
+                        "service": "Cardiology",
+                        "new": 8.428571,
+                        "established": 6.738095
+                      },
+                      {
+                        "service": "Dermatology",
+                        "new": 11.375,
+                        "established": 15.666666
+                      },
+                      {
+                        "service": "Gastroenterology",
+                        "new": 12.4,
+                        "established": 3.238095
+                      },
+                      {
+                        "service": "Gynecology",
+                        "new": 24.733333,
+                        "established": 7.87234
+                      },
+                      {
+                        "service": "MentalHealthCare",
+                        "new": 8.888888,
+                        "established": 6.903598
+                      },
+                      {
+                        "service": "Ophthalmology",
+                        "new": 2.272727,
+                        "established": 1.732283
+                      },
+                      {
+                        "service": "Optometry",
+                        "new": 64,
+                        "established": 10.538461
+                      },
+                      {
+                        "service": "Orthopedics",
+                        "new": 25.382978,
+                        "established": 0.607526
+                      },
+                      {
+                        "service": "PrimaryCare",
+                        "new": 11.133333,
+                        "established": 0.641342
+                      },
+                      {
+                        "service": "SpecialtyCare",
+                        "new": 22.964285,
+                        "established": 7.331212
+                      },
+                      {
+                        "service": "Urology",
+                        "new": 40.027027,
+                        "established": 6.194756
+                      },
+                      {
+                        "service": "WomensHealth",
+                        "new": 17,
+                        "established": 1.1
+                      }
+                    ],
+                    "effectiveDate": "2020-07-27"
+                  },
+                  "activeStatus": "A",
+                  "address": {
+                    "mailing": {},
+                    "physical": {
+                      "zip": "71101-4243",
+                      "city": "Shreveport",
+                      "state": "LA",
+                      "address1": "510 East Stoner Avenue"
+                    }
+                  },
+                  "classification": "VA Medical Center (VAMC)",
+                  "facilityType": "va_health_facility",
+                  "feedback": {
+                    "health": {
+                      "primaryCareUrgent": 0.5899999737739563,
+                      "primaryCareRoutine": 0.8799999952316284,
+                      "specialtyCareUrgent": 0.8799999952316284
+                    },
+                    "effectiveDate": "2020-04-16"
+                  },
+                  "hours": {
+                    "friday": "24/7",
+                    "monday": "24/7",
+                    "sunday": "24/7",
+                    "tuesday": "24/7",
+                    "saturday": "24/7",
+                    "thursday": "24/7",
+                    "wednesday": "24/7"
+                  },
+                  "id": "vha_667",
+                  "lat": 32.50001146,
+                  "long": -93.72284983,
+                  "mobile": false,
+                  "name": "Overton Brooks Veterans' Administration Medical Center",
+                  "operatingStatus": {
+                    "code": "CLOSED"
+                  },
+                  "phone": {
+                    "fax": "318-990-5552",
+                    "main": "318-221-8411",
+                    "pharmacy": "318-990-5547",
+                    "afterHours": "800-644-8370",
+                    "patientAdvocate": "318-990-5013",
+                    "mentalHealthClinic": "318-990-5051",
+                    "enrollmentCoordinator": "318-990-4937"
+                  },
+                  "services": {
+                    "other": [],
+                    "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "SpecialtyCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                    ],
+                    "lastUpdated": "2020-07-27"
+                  },
+                  "uniqueId": "667",
+                  "visn": "16",
+                  "website": "https://www.shreveport.va.gov/locations/directions.asp"
+                }
+              },
+              "from": "SearchResult",
+              "query": {
+                "facilityType": "urgent_care",
+                "serviceType": "UrgentCare"
+              }
+            }
+          },
+          "type": "LocationPhoneLink",
+          "props": {
+            "location": {
+              "id": "vha_667",
+              "type": "facility",
+              "attributes": {
+                "access": {
+                  "health": [
+                    {
+                      "service": "Audiology",
+                      "new": 22.136363,
+                      "established": 0.096153
+                    },
+                    {
+                      "service": "Cardiology",
+                      "new": 8.428571,
+                      "established": 6.738095
+                    },
+                    {
+                      "service": "Dermatology",
+                      "new": 11.375,
+                      "established": 15.666666
+                    },
+                    {
+                      "service": "Gastroenterology",
+                      "new": 12.4,
+                      "established": 3.238095
+                    },
+                    {
+                      "service": "Gynecology",
+                      "new": 24.733333,
+                      "established": 7.87234
+                    },
+                    {
+                      "service": "MentalHealthCare",
+                      "new": 8.888888,
+                      "established": 6.903598
+                    },
+                    {
+                      "service": "Ophthalmology",
+                      "new": 2.272727,
+                      "established": 1.732283
+                    },
+                    {
+                      "service": "Optometry",
+                      "new": 64,
+                      "established": 10.538461
+                    },
+                    {
+                      "service": "Orthopedics",
+                      "new": 25.382978,
+                      "established": 0.607526
+                    },
+                    {
+                      "service": "PrimaryCare",
+                      "new": 11.133333,
+                      "established": 0.641342
+                    },
+                    {
+                      "service": "SpecialtyCare",
+                      "new": 22.964285,
+                      "established": 7.331212
+                    },
+                    {
+                      "service": "Urology",
+                      "new": 40.027027,
+                      "established": 6.194756
+                    },
+                    {
+                      "service": "WomensHealth",
+                      "new": 17,
+                      "established": 1.1
+                    }
+                  ],
+                  "effectiveDate": "2020-07-27"
+                },
+                "activeStatus": "A",
+                "address": {
+                  "mailing": {},
+                  "physical": {
+                    "zip": "71101-4243",
+                    "city": "Shreveport",
+                    "state": "LA",
+                    "address1": "510 East Stoner Avenue"
+                  }
+                },
+                "classification": "VA Medical Center (VAMC)",
+                "facilityType": "va_health_facility",
+                "feedback": {
+                  "health": {
+                    "primaryCareUrgent": 0.5899999737739563,
+                    "primaryCareRoutine": 0.8799999952316284,
+                    "specialtyCareUrgent": 0.8799999952316284
+                  },
+                  "effectiveDate": "2020-04-16"
+                },
+                "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+                },
+                "id": "vha_667",
+                "lat": 32.50001146,
+                "long": -93.72284983,
+                "mobile": false,
+                "name": "Overton Brooks Veterans' Administration Medical Center",
+                "operatingStatus": {
+                  "code": "CLOSED"
+                },
+                "phone": {
+                  "fax": "318-990-5552",
+                  "main": "318-221-8411",
+                  "pharmacy": "318-990-5547",
+                  "afterHours": "800-644-8370",
+                  "patientAdvocate": "318-990-5013",
+                  "mentalHealthClinic": "318-990-5051",
+                  "enrollmentCoordinator": "318-990-4937"
+                },
+                "services": {
+                  "other": [],
+                  "health": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "Dermatology",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                  ],
+                  "lastUpdated": "2020-07-27"
+                },
+                "uniqueId": "667",
+                "visn": "16",
+                "website": "https://www.shreveport.va.gov/locations/directions.asp"
+              }
+            },
+            "from": "SearchResult",
+            "query": {
+              "facilityType": "urgent_care",
+              "serviceType": "UrgentCare"
+            }
+          }
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "p",
+            "props": {
+              "children": "Call to confirm services and hours"
+            },
+            "rendered": "Call to confirm services and hours"
+          },
+          "type": "p",
+          "props": {},
+          "children": [
+            "Call to confirm services and hours"
+          ]
+        },
+        {
+          "node": {
+            "nodeType": "host",
+            "type": "div",
+            "props": {
+              "className": "usa usa background vads-  vads-",
+              "children": [
+                {
+                  "type": "i",
+                  "props": {
+                    "aria-hidden": "true",
+                    "className": "fa fa vads- icon"
+                  },
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "usa",
+                    "children": {
+                      "type": "a",
+                      "props": {
+                        "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                        "target": "_/blank",
+                        "onClick": "onClick",
+                        "children": [
+                          "In-network urgent care benefit",
+                          " "
+                        ]
+                      },
+                      "_store": {}
+                    }
+                  },
+                  "_store": {}
+                }
+              ]
+            },
+            "rendered": [
+              {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                }
+              },
+              {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              }
+            ]
+          },
+          "type": "div",
+          "props": {
+            "className": "usa usa background vads-  vads-"
+          },
+          "children": [
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "i",
+                "props": {
+                  "aria-hidden": "true",
+                  "className": "fa fa vads- icon"
+                }
+              },
+              "type": "i",
+              "props": {
+                "aria-hidden": "true",
+                "className": "fa fa vads- icon"
+              }
+            },
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "usa",
+                  "children": {
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "_store": {}
+                  }
+                },
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick",
+                    "children": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "rendered": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              },
+              "type": "div",
+              "props": {
+                "className": "usa"
+              },
+              "children": [
+                {
+                  "node": {
+                    "nodeType": "host",
+                    "type": "a",
+                    "props": {
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                      "target": "_/blank",
+                      "onClick": "onClick",
+                      "children": [
+                        "In-network urgent care benefit",
+                        " "
+                      ]
+                    },
+                    "rendered": [
+                      "In-network urgent care benefit",
+                      " "
+                    ]
+                  },
+                  "type": "a",
+                  "props": {
+                    "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp",
+                    "target": "_/blank",
+                    "onClick": "onClick"
+                  },
+                  "children": [
+                    "In-network urgent care benefit",
+                    " "
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+

@@ -2,6 +2,7 @@
 import React from 'react';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
@@ -426,7 +427,8 @@ export const LegacyContent = () => (
           <a href="tel:18774705947" aria-label="8 7 7. 4 7 0. 5 9 4 7.">
             877-470-5947
           </a>{' '}
-          (TTY: <Telephone contact={CONTACTS['711']} />
+          (TTY:{' '}
+          <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
         <h3>For questions about joining a VA Video Connect appointment</h3>
@@ -435,7 +437,8 @@ export const LegacyContent = () => (
           <a href="tel:18666513180" aria-label="8 6 6. 6 5 1. 3 1 8 0.">
             866-651-3180
           </a>{' '}
-          (TTY: <Telephone contact={CONTACTS['711']} />
+          (TTY:{' '}
+          <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
           ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
         </p>
 
