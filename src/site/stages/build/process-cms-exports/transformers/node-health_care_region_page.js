@@ -208,6 +208,37 @@ const transform = ({
             }))
         : [],
     },
+    otherFacilities: {
+      entities: reverseFieldRegionPage
+        ? reverseFieldRegionPage
+            .filter(
+              reverseField =>
+                !reverseField.fieldMainLocation && reverseField.entityPublished,
+            )
+            .sort(
+              (a, b) =>
+                a.fieldNicknameForThisFacility - b.fieldNicknameForThisFacility,
+            )
+            .map(r => ({
+              entityUrl: r.entityUrl,
+              entityBundle: r.entityBundle,
+              title: r.title,
+              entityId: r.entityId,
+              changed: r.changed,
+              fieldOperatingStatusFacility: r.fieldOperatingStatusFacility,
+              fieldFacilityLocatorApiId: r.fieldFacilityLocatorApiId,
+              fieldNicknameForThisFacility: r.fieldNicknameForThisFacility,
+              fieldIntroText: r.fieldIntroText,
+              fieldLocationServices: r.fieldLocationServices,
+              fieldAddress: r.fieldAddress,
+              fieldPhoneNumber: r.fieldPhoneNumber,
+              fieldMentalHealthPhone: r.fieldMentalHealthPhone,
+              fieldFacilityHours: r.fieldFacilityHours,
+              fieldMainLocation: r.fieldMainLocation,
+              fieldMedia: r.fieldMedia,
+            }))
+        : [],
+    },
   },
 });
 module.exports = {
