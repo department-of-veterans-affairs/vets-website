@@ -375,6 +375,28 @@ export function mockRequestEligibilityCriteria(parentSites, data) {
   );
 }
 
+export function mockRequestLimit({
+  facilityId,
+  requestLimit = 1,
+  numberOfRequests = 0,
+}) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/facilities/${facilityId}/limits?type_of_care_id=CR1`,
+    ),
+    {
+      data: {
+        attributes: {
+          requestLimit,
+          numberOfRequests,
+        },
+      },
+    },
+  );
+}
+
 export function mockPreferences(emailAddress) {
   setFetchJSONResponse(
     global.fetch.withArgs(`${environment.API_URL}/vaos/v0/preferences`),

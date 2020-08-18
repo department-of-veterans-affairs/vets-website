@@ -26,7 +26,12 @@ function NewExpressCareRequestLayout({
       window.History.scrollRestoration = 'manual';
     }
 
-    if (location.pathname.endsWith('additional-details')) {
+    const { pathname } = location;
+
+    if (
+      !pathname.endsWith('new-express-care-request') &&
+      !pathname.endsWith('confirmation')
+    ) {
       router.replace('/new-express-care-request');
     }
   }, []);
