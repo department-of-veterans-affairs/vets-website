@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
-import { LocationType, CLINIC_URGENTCARE_SERVICE } from '../../constants';
-import { parsePhoneNumber } from '../../utils/phoneNumbers';
+import { LocationType, CLINIC_URGENTCARE_SERVICE } from '../../../constants';
+import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 
 const renderPhoneNumber = (title, subTitle = null, phone, from) => {
   if (!phone) {
@@ -47,12 +47,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
     const { caresitePhone: phone } = location.attributes;
     return (
       <div>
-        {renderPhoneNumber(
-          isCCProvider ? 'If you have a referral' : null,
-          isCCProvider ? 'Call this facility at' : null,
-          phone,
-          true,
-        )}
+        {renderPhoneNumber('Main number', null, phone, true)}
         {isCCProvider && (
           <p>
             If you don’t have a referral, contact your local VA medical center.
@@ -68,6 +63,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
   return (
     <div className="facility-phone-group">
       {renderPhoneNumber('Main number', null, phone.main, from)}
+      {phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
       {renderPhoneNumber('Mental health', null, phone.mentalHealthClinic, from)}
     </div>
   );
