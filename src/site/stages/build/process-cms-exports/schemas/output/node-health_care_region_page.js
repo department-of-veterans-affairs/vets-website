@@ -4,7 +4,6 @@ const healthCareLocalFacilitySchema = require('./node-health_care_local_facility
 const newsStorySchema = require('./node-news_story');
 const eventSchema = require('./node-event');
 const pressRelease = require('./node-press_release');
-const eventListingSchema = require('./node-event_listing');
 
 const facilitiesSchema = {
   type: 'object',
@@ -34,6 +33,26 @@ const facilitiesSchema = {
     },
   },
 };
+
+const eventTeasersSchema = max => ({
+  type: 'object',
+  properties: {
+    entities: {
+      type: 'array',
+      maxItems: max,
+      items: {
+        entity: usePartialSchema(eventSchema, [
+          'title',
+          'fieldDate',
+          'fieldDescription',
+          'fieldLocationHumanreadable',
+          'fieldFacilityLocation',
+          'entityUrl',
+        ]),
+      },
+    },
+  },
+});
 
 module.exports = {
   type: 'object',
@@ -137,44 +156,8 @@ module.exports = {
             },
           },
         },
-        eventTeasers: {
-          type: 'object',
-          properties: {
-            entities: {
-              type: 'array',
-              maxItems: 2,
-              items: {
-                entity: usePartialSchema(eventSchema, [
-                  'title',
-                  'fieldDate',
-                  'fieldDescription',
-                  'fieldLocationHumanreadable',
-                  'fieldFacilityLocation',
-                  'entityUrl',
-                ]),
-              },
-            },
-          },
-        },
-        allEventTeasers: {
-          type: 'object',
-          properties: {
-            entities: {
-              type: 'array',
-              maxItems: 500,
-              items: {
-                entity: usePartialSchema(eventSchema, [
-                  'title',
-                  'fieldDate',
-                  'fieldDescription',
-                  'fieldLocationHumanreadable',
-                  'fieldFacilityLocation',
-                  'entityUrl',
-                ]),
-              },
-            },
-          },
-        },
+        eventTeasers: eventTeasersSchema(2),
+        allEventTeasers: eventTeasersSchema(500),
         allPressReleaseTeasers: {
           type: 'object',
           properties: {
@@ -193,20 +176,8 @@ module.exports = {
         },
         mainFacilities: facilitiesSchema,
         otherFacilities: facilitiesSchema,
-        eventTeasersFeatured: {
-          type: 'object',
-          properties: {
-            entities: {
-              type: 'array',
-              maxItems: 1000,
-              items: {
-                entity: usePartialSchema(eventListingSchema, [
-                  'reverseFieldListingNode',
-                ]),
-              },
-            },
-          },
-        },
+        eventTeasersAll: eventTeasersSchema(1000),
+        eventTeasersFeatured: eventTeasersSchema(1000),
         newsStoryTeasersFeatured: {
           type: 'object',
           properties: {
@@ -240,6 +211,7 @@ module.exports = {
         'allPressReleaseTeasers',
         'mainFacilities',
         'otherFacilities',
+        'eventTeasersAll',
         'eventTeasersFeatured',
         'newsStoryTeasersFeatured',
       ],

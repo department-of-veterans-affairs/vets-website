@@ -239,6 +239,38 @@ const transform = ({
             }))
         : [],
     },
+    eventTeasersAll: {
+      entities: reverseFieldOffice
+        ? reverseFieldOffice
+            .filter(
+              reverseField => reverseField.entityBundle === 'event_listing',
+            )
+            .slice(0, 1000)
+            .map(r => ({
+              reverseFieldListingNode: {
+                entities: r.reverseFieldListingNode.entities
+                  .filter(
+                    reverseField =>
+                      reverseField.entityBundle === 'event' &&
+                      reverseField.entityPublished &&
+                      moment(reverseField.fieldDate.value).isAfter(
+                        moment(),
+                        'day',
+                      ),
+                  )
+                  .slice(0, 1000)
+                  .map(e => ({
+                    title: e.title,
+                    fieldDate: e.fieldDate,
+                    fieldDescription: e.fieldDescription,
+                    fieldLocationHumanreadable: e.fieldLocationHumanreadable,
+                    fieldFacilityLocation: e.fieldFacilityLocation,
+                    entityUrl: e.entityUrl,
+                  })),
+              },
+            }))
+        : [],
+    },
     eventTeasersFeatured: {
       entities: reverseFieldOffice
         ? reverseFieldOffice
