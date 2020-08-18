@@ -239,6 +239,31 @@ const transform = ({
             }))
         : [],
     },
+    eventTeasersFeatured: {
+      entities: reverseFieldOffice
+        ? reverseFieldOffice
+            .filter(
+              reverseField => reverseField.entityBundle === 'event_listing',
+            )
+            .slice(0, 1000)
+            .map(r => ({
+              reverseFieldListingNode: {
+                entities: r.reverseFieldListingNode.entities
+                  .slice(0, 1000)
+                  .filter(
+                    reverseField =>
+                      reverseField.entityBundle === 'event' &&
+                      reverseField.entityPublished &&
+                      reverseField.fieldFeatured &&
+                      moment(reverseField.fieldDate.value).isAfter(
+                        moment(),
+                        'day',
+                      ),
+                  ),
+              },
+            }))
+        : [],
+    },
   },
 });
 module.exports = {

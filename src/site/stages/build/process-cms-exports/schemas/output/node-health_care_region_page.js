@@ -4,6 +4,7 @@ const healthCareLocalFacilitySchema = require('./node-health_care_local_facility
 const newsStorySchema = require('./node-news_story');
 const eventSchema = require('./node-event');
 const pressRelease = require('./node-press_release');
+const eventListingSchema = require('./node-event_listing');
 
 const facilitiesSchema = {
   type: 'object',
@@ -192,6 +193,20 @@ module.exports = {
         },
         mainFacilities: facilitiesSchema,
         otherFacilities: facilitiesSchema,
+        eventTeasersFeatured: {
+          type: 'object',
+          properties: {
+            entities: {
+              type: 'array',
+              maxItems: 1000,
+              items: {
+                entity: usePartialSchema(eventListingSchema, [
+                  'reverseFieldListingNode',
+                ]),
+              },
+            },
+          },
+        },
       },
       required: [
         'title',
