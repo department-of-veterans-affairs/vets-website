@@ -266,10 +266,10 @@ export const uiSchema = {
           On most days, how many people do you have close contact with outside
           of those who live in your home?
         </strong>
-        <br />
-        <br />
-        <strong>Note:</strong> We define close contact as being within 6 feet of
-        a person.
+        <p>
+          <strong>Note:</strong> We define close contact as being within 6 feet
+          of a person.
+        </p>
       </span>
     ),
     'ui:widget': 'radio',
