@@ -2,7 +2,7 @@ import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
 
-function SearchResultGenderFilter({ gender, onChange, handleInputFocus }) {
+function GenderFilter({ filters, onChange, onFocus }) {
   const options = [
     {
       value: 'Any',
@@ -18,21 +18,30 @@ function SearchResultGenderFilter({ gender, onChange, handleInputFocus }) {
     },
   ];
 
+  let value = options[0].value;
+  if (filters.womenonly && filters.menonly) {
+    value = options[0].value;
+  } else if (filters.womenonly) {
+    value = 'womenonly';
+  } else if (filters.menonly) {
+    value = 'menonly';
+  }
+
   return (
     <RadioButtons
       label="Gender"
       name="gender"
       options={options}
-      value={gender}
+      value={value}
       onChange={onChange}
-      onFocus={handleInputFocus}
+      onFocus={onFocus}
     />
   );
 }
 
-SearchResultGenderFilter.propTypes = {
+GenderFilter.propTypes = {
   onChange: PropTypes.func.isRequired,
   handleInputFocus: PropTypes.func,
 };
 
-export default SearchResultGenderFilter;
+export default GenderFilter;

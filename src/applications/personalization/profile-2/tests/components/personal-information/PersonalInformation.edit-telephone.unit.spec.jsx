@@ -13,6 +13,7 @@ import PersonalInformation from '../../../components/personal-information/Person
 
 import {
   createBasicInitialState,
+  elementNotRemoved,
   renderWithProfileReducers,
 } from '../../unit-test-helpers';
 import { beforeEach } from 'mocha';
@@ -137,6 +138,11 @@ async function testTransactionCreationFails(numberName) {
   // TODO: would be nice to be able to check the contents against a RegExp
   expect(alert).to.contain.text('We’re sorry. We couldn’t update your');
   expect(alert).to.contain.text('Please try again.');
+
+  // make sure that edit mode is not exited
+  await elementNotRemoved(alert, { timeout: 75 });
+  const editButton = getEditButton();
+  expect(editButton).to.not.exist;
 }
 
 // When the update fails while the Edit View is still active
@@ -151,6 +157,11 @@ async function testQuickFailure(numberName) {
   // TODO: would be nice to be able to check the contents against a RegExp
   expect(alert).to.contain.text('We’re sorry. We couldn’t update your');
   expect(alert).to.contain.text('Please try again.');
+
+  // make sure that edit mode is not exited
+  await elementNotRemoved(alert, { timeout: 75 });
+  const editButton = getEditButton();
+  expect(editButton).to.not.exist;
 }
 
 // When the update fails but not until after the Edit View has exited and the
@@ -224,10 +235,10 @@ describe('Editing', () => {
       it('should handle a transaction that does not succeed until after the edit view exits', async () => {
         await testSlowSuccess(numberName);
       });
-      it('should show an error if the transaction cannot be created', async () => {
+      it('should show an error and not auto-exit edit mode if the transaction cannot be created', async () => {
         await testTransactionCreationFails(numberName);
       });
-      it('should show an error if the transaction fails quickly', async () => {
+      it('should show an error and not auto-exit edit mode if the transaction fails quickly', async () => {
         await testQuickFailure(numberName);
       });
       it('should show an error if the transaction fails after the edit view exits', async () => {
