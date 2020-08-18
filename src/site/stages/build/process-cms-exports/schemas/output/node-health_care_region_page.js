@@ -3,6 +3,7 @@ const personProfileSchema = require('./node-person_profile');
 const healthCareLocalFacilitySchema = require('./node-health_care_local_facility');
 const newsStorySchema = require('./node-news_story');
 const eventSchema = require('./node-event');
+const pressRelease = require('./node-press_release');
 
 module.exports = {
   type: 'object',
@@ -144,6 +145,22 @@ module.exports = {
             },
           },
         },
+        allPressReleaseTeasers: {
+          type: 'object',
+          properties: {
+            entities: {
+              type: 'array',
+              maxItems: 100,
+              items: {
+                entity: usePartialSchema(pressRelease, [
+                  'title',
+                  'fieldReleaseDate',
+                  'entityUrl',
+                ]),
+              },
+            },
+          },
+        },
       },
       required: [
         'title',
@@ -156,6 +173,7 @@ module.exports = {
         'allNewsStoryTeasers',
         'eventTeasers',
         'allEventTeasers',
+        'allPressReleaseTeasers',
       ],
     },
   },

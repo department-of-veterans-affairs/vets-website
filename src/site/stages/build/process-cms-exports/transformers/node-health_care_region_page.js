@@ -160,6 +160,23 @@ const transform = ({
             }))
         : [],
     },
+    allPressReleaseTeasers: {
+      entities: reverseFieldOffice
+        ? reverseFieldOffice
+            .filter(
+              reverseField =>
+                reverseField.entityBundle === 'press_release' &&
+                reverseField.entityPublished,
+            )
+            .sort((a, b) => b.fieldReleaseDate.value - a.fieldReleaseDate.value)
+            .slice(0, 100)
+            .map(r => ({
+              title: r.title,
+              fieldReleaseDate: r.fieldReleaseDate,
+              entityUrl: r.entityUrl,
+            }))
+        : [],
+    },
   },
 });
 module.exports = {
