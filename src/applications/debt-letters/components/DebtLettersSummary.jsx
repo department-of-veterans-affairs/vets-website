@@ -64,17 +64,18 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
   const bannerContent = (
     <>
       <p>
-        VA is extending debt relief to those impacted by COVID-19 to the end of
-        2020. This includes suspension of debt collection or extending repayment
-        terms on preexisting VA debts
+        We’ve taken action to stop collection on newly established Veteran debt
+        and make it easier for Veterans to request extended repayment plans and
+        address other financial needs during this time.
       </p>
       <p>
-        If you are impacted by COVID-19 and need temporary financial relief for
-        a VA debt, please contact DMC at{' '}
-        <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-          800-827-0648
-        </a>{' '}
-        to request assistance
+        You won’t receive any debt collection letters in the mail until after
+        December 31, 2020. For the latest information about managing VA debt,
+        visit our{' '}
+        <a href="http://va.gov/coronavirus-veteran-frequently-asked-questions/">
+          coronavirus FAQs
+        </a>
+        .
       </p>
     </>
   );
@@ -113,7 +114,7 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
                   <>
                     <AlertBox
                       className="vads-u-margin-bottom--2"
-                      headline="Certain debt collection is suspended to the end of 2020"
+                      headline="VA debt collection is on hold due to the coronavirus"
                       content={bannerContent}
                       status="info"
                       isVisible
