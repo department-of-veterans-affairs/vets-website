@@ -62,54 +62,6 @@ export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
 export const FORM_ADDITIONAL_DETAILS_PAGE_OPENED =
   'expressCare/FORM_ADDITIONAL_DETAILS_PAGE_OPENED';
 
-export function startNewExpressCareFlow() {
-  return {
-    type: STARTED_NEW_EXPRESS_CARE_FLOW,
-  };
-}
-
-export function routeToPageInFlow(flow, router, current, action) {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FORM_PAGE_CHANGE_STARTED,
-    });
-
-    const nextAction = flow[current][action];
-    let nextPage;
-
-    if (typeof nextAction === 'string') {
-      nextPage = flow[nextAction];
-    } else {
-      const nextStateKey = await nextAction(getState(), dispatch);
-      nextPage = flow[nextStateKey];
-    }
-
-    if (nextPage?.url) {
-      dispatch({
-        type: FORM_PAGE_CHANGE_COMPLETED,
-      });
-      router.push(nextPage.url);
-    } else if (nextPage) {
-      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
-    } else {
-      throw new Error('Tried to route to page that does not exist');
-    }
-  };
-}
-
-export function routeToNextAppointmentPage(router, current) {
-  return routeToPageInFlow(newExpressCareRequestFlow, router, current, 'next');
-}
-
-export function routeToPreviousAppointmentPage(router, current) {
-  return routeToPageInFlow(
-    newExpressCareRequestFlow,
-    router,
-    current,
-    'previous',
-  );
-}
-
 export function openFormPage(page, uiSchema, schema) {
   return {
     type: FORM_PAGE_OPENED,
@@ -227,6 +179,48 @@ export function fetchRequestLimits() {
   };
 }
 
+export function routeToPageInFlow(flow, router, current, action) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FORM_PAGE_CHANGE_STARTED,
+    });
+
+    const nextAction = flow[current][action];
+    let nextPage;
+
+    if (typeof nextAction === 'string') {
+      nextPage = flow[nextAction];
+    } else {
+      const nextStateKey = await nextAction(getState(), dispatch);
+      nextPage = flow[nextStateKey];
+    }
+
+    if (nextPage?.url) {
+      dispatch({
+        type: FORM_PAGE_CHANGE_COMPLETED,
+      });
+      router.push(nextPage.url);
+    } else if (nextPage) {
+      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
+    } else {
+      throw new Error('Tried to route to page that does not exist');
+    }
+  };
+}
+
+export function routeToNextAppointmentPage(router, current) {
+  return routeToPageInFlow(newExpressCareRequestFlow, router, current, 'next');
+}
+
+export function routeToPreviousAppointmentPage(router, current) {
+  return routeToPageInFlow(
+    newExpressCareRequestFlow,
+    router,
+    current,
+    'previous',
+  );
+}
+
 async function buildPreferencesDataAndUpdate(email) {
   const preferenceData = await getPreferences();
   const preferenceBody = createPreferenceBody(preferenceData, email);
@@ -338,5 +332,11 @@ export function submitExpressCareRequest(router) {
       });
       resetDataLayer();
     }
+  };
+}
+
+export function startNewExpressCareFlow() {
+  return {
+    type: STARTED_NEW_EXPRESS_CARE_FLOW,
   };
 }
