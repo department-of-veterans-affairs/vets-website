@@ -252,7 +252,7 @@ describe('VAOS integration: Express Care form submission', () => {
     );
   });
 
-  xit('should show generic error on submit failure', async () => {
+  it('should show generic error on submit failure', async () => {
     const today = moment();
     const requestCriteria = getExpressCareRequestCriteriaMock('983', [
       {
@@ -275,7 +275,7 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
-    initialState.expressCare.newRequest.facilityId = '983GD';
+    initialState.expressCare.newRequest.facilityId = '983';
     initialState.expressCare.newRequest.siteId = '983';
     const store = createTestStore({
       ...initialState,
