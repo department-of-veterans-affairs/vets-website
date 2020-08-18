@@ -12,12 +12,6 @@ export class ConfirmEligibilityView extends React.Component {
     });
   };
 
-  inReviewEditMode = () => this.props.onReviewPage && this.props.reviewMode;
-  showNotApplyingToStemInformation = () =>
-    !this.props.onReviewPage &&
-    this.props.confirmEligibility !== undefined &&
-    !this.props.confirmEligibility;
-
   iconClass = indication =>
     classNames('fa', {
       'fa-check': indication,
@@ -140,18 +134,6 @@ export class ConfirmEligibilityView extends React.Component {
   };
 
   renderHeader = () => {
-    if (this.props.onReviewPage) {
-      return (
-        <div className="form-review-panel-page-header-row">
-          <h3 className="form-review-panel-page-header vads-u-font-size--h5">
-            Rogers STEM Scholarship eligibility summary
-            <div>
-              <hr className="edu-review-hr" />
-            </div>
-          </h3>
-        </div>
-      );
-    }
     return (
       <div className="vads-u-padding-bottom--1">
         <h3>Rogers STEM Scholarship eligibility summary</h3>
@@ -175,27 +157,26 @@ export class ConfirmEligibilityView extends React.Component {
           Please consider that ineligible applications delay the processing of
           benefits for eligible applicants.
         </div>
-        {!this.props.onReviewPage && (
-          <div>
-            <div className="vads-u-margin-top--neg2">
-              <a
-                className={'usa-button-primary va-button-primary'}
-                href="/education/about-gi-bill-benefits/"
-                target="self"
-                onClick={captureEvents.exitApplication()}
-              >
-                Exit application
-              </a>
-            </div>
 
-            <div>
-              <p>
-                If you'd still like to apply, you can continue with your
-                application.
-              </p>
-            </div>
+        <div>
+          <div className="vads-u-margin-top--neg2">
+            <a
+              className={'usa-button-primary va-button-primary'}
+              href="/education/about-gi-bill-benefits/"
+              target="self"
+              onClick={captureEvents.exitApplication()}
+            >
+              Exit application
+            </a>
           </div>
-        )}
+
+          <div>
+            <p>
+              If you'd still like to apply, you can continue with your
+              application.
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -217,8 +198,6 @@ const mapStateToProps = (state, ownProps) => {
       errors.length > 0 &&
       ownProps?.formContext?.submitted &&
       confirmEligibility === undefined,
-    reviewMode: ownProps?.formContext?.reviewMode,
-    onReviewPage: ownProps?.formContext?.onReviewPage,
   };
 };
 

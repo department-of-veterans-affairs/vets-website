@@ -154,6 +154,11 @@ describe('VAOS integration: select date time slot page', () => {
     });
 
     await screen.findByText(/Next/);
+    await waitFor(
+      () =>
+        expect(screen.queryByText('Finding appointment availability...')).to.not
+          .exist,
+    );
     const newDayWithSlots = screen
       .getAllByText(slot309Date.date().toString())
       .find(

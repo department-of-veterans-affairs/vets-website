@@ -10,7 +10,10 @@ import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
 import * as VET360 from '../constants';
 
-import { isPendingTransaction } from '../util/transactions';
+import {
+  isFailedTransaction,
+  isPendingTransaction,
+} from '../util/transactions';
 
 import {
   createTransaction,
@@ -99,6 +102,11 @@ class VAPProfileField extends React.Component {
         // your..." message while Redux is processing everything.
         window.VetsGov.pollTimeout ? 50 : 5000,
       );
+    }
+
+    // Do not auto-exit edit view if the transaction failed
+    if (this.transactionJustFailed(prevProps, this.props)) {
+      clearTimeout(this.closeModalTimeoutID);
     }
 
     if (this.justClosedModal(prevProps, this.props)) {
@@ -196,6 +204,15 @@ class VAPProfileField extends React.Component {
     return (
       (prevProps.showEditView && !props.showEditView) ||
       (prevProps.showValidationView && !props.showValidationView)
+    );
+  }
+
+  transactionJustFailed(prevProps, props) {
+    const previousTransaction = prevProps.transaction;
+    const currentTransaction = props.transaction;
+    return (
+      !isFailedTransaction(previousTransaction) &&
+      isFailedTransaction(currentTransaction)
     );
   }
 
@@ -418,7 +435,7 @@ export const mapStateToProps = (state, ownProps) => {
     data,
     fieldName,
     field: selectEditedFormField(state, fieldName),
-    showEditView: selectCurrentlyOpenEditModal(state) === fieldName,
+    showEditView: activeEditView === fieldName,
     showValidationView: !!showValidationView,
     isEmpty,
     transaction,

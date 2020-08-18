@@ -3,7 +3,6 @@ import _ from 'platform/utilities/data';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import {
   filterInactivePageData,
-  filterViewFields,
   getActivePages,
   getInactivePages,
   stringifyFormReplacer,
@@ -58,7 +57,6 @@ const customFormReplacer = (key, value) => {
       return _.omit('file', value);
     }
   }
-
   // Clean up empty objects in arrays
   if (Array.isArray(value)) {
     const newValues = value.filter(v => !!stringifyFormReplacer(key, v));
@@ -110,6 +108,6 @@ export function customTransformForSubmit(formConfig, form) {
     activePages,
     form,
   );
-  const withoutViewFields = filterViewFields(withoutInactivePages);
-  return JSON.stringify(withoutViewFields, customFormReplacer) || '{}';
+
+  return JSON.stringify(withoutInactivePages, customFormReplacer) || '{}';
 }
