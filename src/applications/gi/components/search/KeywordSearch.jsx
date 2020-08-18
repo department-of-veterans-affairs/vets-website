@@ -54,7 +54,10 @@ export class KeywordSearch extends React.Component {
       event: 'gibct-autosuggest',
       'gibct-autosuggest-value': searchQuery,
     });
-    if (this.props.searchOnAutcompleteSelection) {
+    if (
+      this.props.searchOnAutcompleteSelection &&
+      this.props.gibctSearchEnhancements
+    ) {
       this.props.onUpdateAutocompleteSearchTerm(searchQuery);
     } else {
       this.props.onFilterChange('name', searchQuery);
