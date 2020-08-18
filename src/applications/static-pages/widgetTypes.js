@@ -8,6 +8,7 @@ export default {
   DISABILITY_APP_STATUS: 'disability-app-status',
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   FIND_VA_FORMS: 'find-va-forms',
+  FIND_VA_FORMS_DOWNLOAD_VALIDATOR: 'find-va-forms-download-validator',
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
   HOMEPAGE_BANNER: 'homepage-banner',
   POST_911_GI_BILL_STATUS_WIDGET: 'post-9-11-gi-bill-status',

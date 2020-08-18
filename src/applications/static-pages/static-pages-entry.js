@@ -24,6 +24,7 @@ import createOptOutApplicationStatus from '../edu-benefits/components/createOptO
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
+import createFindVaFormsDownloadValidator from '../find-forms/widgets/createDownloadValidator';
 import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
@@ -135,6 +136,10 @@ createScoEventsWidget();
 createScoAnnouncementsWidget();
 
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
+createFindVaFormsDownloadValidator(
+  store,
+  widgetTypes.FIND_VA_FORMS_DOWNLOAD_VALIDATOR,
+);
 createPost911GiBillStatusWidget(
   store,
   widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
