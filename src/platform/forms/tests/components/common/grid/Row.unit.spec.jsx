@@ -37,7 +37,7 @@ describe('Common Row component', () => {
     tree.unmount();
   });
 
-  it('should role to output', () => {
+  it('should add role to output', () => {
     const role = 'alert';
 
     const tree = render(<Row role={role} testId="12345" />);
