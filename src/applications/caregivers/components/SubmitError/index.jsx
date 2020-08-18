@@ -5,7 +5,9 @@ import Telephone, {
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 import { focusElement } from 'platform/utilities/ui';
 
-const SubmitError = () => {
+import DownLoadLink from './DownloadLink';
+
+const SubmitError = ({ form }) => {
   useEffect(() => {
     focusElement('.caregivers-error-message');
   }, []);
@@ -29,7 +31,7 @@ const SubmitError = () => {
         </div>
 
         <div>
-          <p>Mail your applicaiton to:</p>
+          <p>Mail your application to:</p>
 
           <p className="va-address-block vads-u-margin-bottom--2 vads-u-margin-x--0 vads-u-font-size--h4">
             <b className="vads-u-font-size--h5">
@@ -50,6 +52,8 @@ const SubmitError = () => {
           help desk at <Telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711).
           We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </div>
+
+        <DownLoadLink form={form} />
       </section>
     );
   };

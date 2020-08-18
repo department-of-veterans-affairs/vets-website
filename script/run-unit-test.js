@@ -17,6 +17,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   },
 ];
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
+let coverageInclude = '';
 
 if (
   options['app-folder'] &&
@@ -27,6 +28,7 @@ if (
     '/src/',
     `/src/applications/${options['app-folder']}/`,
   );
+  coverageInclude = `--include 'src/applications/${options['app-folder']}/**'`;
 }
 
 if (options.help) {
@@ -35,8 +37,7 @@ if (options.help) {
 }
 
 const mochaPath = 'BABEL_ENV=test mocha';
-const coveragePath =
-  'NODE_ENV=test nyc --all --reporter=lcov --reporter=text-summary mocha --reporter mocha-junit-reporter --no-color';
+const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} --reporter=lcov --reporter=text-summary mocha --reporter mocha-junit-reporter --no-color`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const mochaOpts =
   'src/platform/testing/unit/mocha.opts src/platform/testing/unit/helper.js';

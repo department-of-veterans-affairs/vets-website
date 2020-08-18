@@ -834,5 +834,16 @@
       "vagovprod": false,
       "layout": "page-react.html"
     }
+  },
+  {
+    "appName": "Healthcare Questionnaire",
+    "entryName": "questionnaire",
+    "rootUrl": "/healthcare/questionnaire",
+    "template": {
+      "vagovprod": true,
+      "layout": "page-react.html",
+      "includeBreadcrumbs":false,
+      "breadcrumbs_override": []
+    }
   }
 ]

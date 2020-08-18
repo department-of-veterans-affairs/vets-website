@@ -14,6 +14,7 @@ import {
   submitRequest,
   getRequestEligibilityCriteria,
   getParentFacilities,
+  getRequestLimits,
 } from '../api';
 
 import {
@@ -22,7 +23,8 @@ import {
 } from '../utils/data';
 import {
   selectSystemIds,
-  selectActiveExpressCareFacility,
+  selectActiveExpressCareWindows,
+  selectExpressCareNewRequest,
 } from '../utils/selectors';
 import { captureError } from '../utils/error';
 import {
@@ -41,6 +43,13 @@ export const FORM_DATA_UPDATED = 'expressCare/FORM_DATA_UPDATED';
 export const FORM_PAGE_CHANGE_STARTED = 'expressCare/FORM_PAGE_CHANGE_STARTED';
 export const FORM_PAGE_CHANGE_COMPLETED =
   'expressCare/FORM_PAGE_CHANGE_COMPLETED';
+export const FORM_FETCH_REQUEST_LIMITS =
+  'expressCare/FORM_FETCH_REQUEST_LIMITS';
+export const FORM_FETCH_REQUEST_LIMITS_FAILED =
+  'expressCare/FORM_FETCH_REQUEST_LIMITS_FAILED';
+export const FORM_FETCH_REQUEST_LIMITS_SUCCEEDED =
+  'expressCare/FORM_FETCH_REQUEST_LIMITS_SUCCEEDED';
+export const FORM_SET_FACILITY_ID = 'expressCare/FORM_SET_FACILITY_ID';
 export const FORM_RESET = 'expressCare/FORM_RESET';
 export const FORM_SUBMIT = 'expressCare/FORM_SUBMIT';
 export const FORM_SUBMIT_SUCCEEDED = EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED;
@@ -111,6 +120,54 @@ export function fetchExpressCareWindows() {
       dispatch({
         type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
       });
+    }
+  };
+}
+
+/**
+ * Fetches request limits for all active windows and selects the first one
+ * where the user has not reached their request limit
+ */
+export function fetchRequestLimits() {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FORM_FETCH_REQUEST_LIMITS,
+    });
+
+    try {
+      const activeFacilityIds = selectActiveExpressCareWindows(
+        getState(),
+        moment(),
+      ).map(win => win.facilityId);
+
+      // Temporarily limit concurrent calls to 5 while we
+      // wait for a new endpoint that will accept multiple facilityIds
+      const requestLimits = await Promise.all(
+        activeFacilityIds
+          .slice(0, 5)
+          .map(facilityId => getRequestLimits(facilityId, EXPRESS_CARE)),
+      );
+
+      const eligibleFacility = requestLimits.find(
+        limit => limit.numberOfRequests < limit.requestLimit,
+      );
+
+      const isUnderRequestLimit = !!eligibleFacility;
+
+      dispatch({
+        type: FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
+        facilityId: eligibleFacility?.id || null,
+        siteId: eligibleFacility?.id?.substring(0, 3) || null,
+        isUnderRequestLimit,
+      });
+
+      return isUnderRequestLimit;
+    } catch (error) {
+      captureError(error);
+      dispatch({
+        type: FORM_FETCH_REQUEST_LIMITS_FAILED,
+      });
+      return false;
     }
   };
 }
@@ -189,23 +246,27 @@ async function getFacilityName(id) {
 
 export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
-    const expressCare = getState().expressCare;
-    const formData = expressCare.newRequest.data;
-    let activeFacility;
+    const newRequest = selectExpressCareNewRequest(getState());
+    const { facilityId, siteId, data } = newRequest;
+    let facilityWindowIsActive;
     let additionalEventData = {};
 
     try {
-      activeFacility = selectActiveExpressCareFacility(
-        getState(),
-        moment.utc(),
-      );
-
       dispatch({
         type: FORM_SUBMIT,
       });
 
+      const activeWindows = selectActiveExpressCareWindows(
+        getState(),
+        moment(),
+      );
+
+      facilityWindowIsActive = !!activeWindows.find(
+        window => window.facilityId === facilityId,
+      );
+
       additionalEventData = {
-        'health-expressCareReason': formData.reason,
+        'health-expressCareReason': data.reason,
       };
 
       recordEvent({
@@ -213,21 +274,21 @@ export function submitExpressCareRequest(router) {
         ...additionalEventData,
       });
 
-      if (!activeFacility) {
+      if (!facilityWindowIsActive) {
         throw new Error('No facilities available for Express Care request');
       }
 
-      const facilityName = await getFacilityName(activeFacility.facilityId);
-      activeFacility.name = facilityName;
+      const facilityName = await getFacilityName(facilityId);
 
-      const requestBody = transformFormToExpressCareRequest(
-        getState(),
-        activeFacility,
-      );
+      const requestBody = transformFormToExpressCareRequest(getState(), {
+        facilityId,
+        siteId,
+        name: facilityName,
+      });
       const responseData = await submitRequest('va', requestBody);
 
       try {
-        await buildPreferencesDataAndUpdate(formData.contactInfo.email);
+        await buildPreferencesDataAndUpdate(data.contactInfo.email);
       } catch (error) {
         // These are ancillary updates, the request went through if the first submit
         // succeeded
@@ -246,7 +307,7 @@ export function submitExpressCareRequest(router) {
       resetDataLayer();
       router.push('/new-express-care-request/confirmation');
     } catch (error) {
-      const errorReason = !activeFacility
+      const errorReason = !facilityWindowIsActive
         ? EXPRESS_CARE_ERROR_REASON.noActiveFacility
         : EXPRESS_CARE_ERROR_REASON.error;
       captureError(error, true, 'Express Care submission failure', {

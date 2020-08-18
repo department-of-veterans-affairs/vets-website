@@ -23,15 +23,15 @@ const NeedHelp = () => (
     </p>
     <h5 className="vads-u-margin-top--1 ">Request financial assistance</h5>
     <p className="vads-u-margin-top--0">
-      If you require financial assistance, you may request an extended monthly
-      payment plan, compromise, or waiver. Call the DMC to discuss your options
-      and next steps.
+      If you need financial help, you may request an extended monthly payment
+      plan, compromise, or a waiver. Call the DMC to discuss your options and
+      next steps.
     </p>
     <h5 className="vads-u-margin-top--1">Dispute a debt</h5>
     {/* ToDo: add debt dispute link */}
     <p className="vads-u-margin-top--0">
-      If you feel a debt was created in error, you can get information about
-      disputing a debt online or by calling the DMC.
+      If you think a debt was created in error, you can dispute it. Call the DMC
+      to get more information.
     </p>
   </div>
 );
