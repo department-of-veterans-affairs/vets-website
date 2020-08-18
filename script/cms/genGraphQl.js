@@ -45,7 +45,7 @@ function load() {
   console.log('typeof: ', typeof entities);
 
   // Traverse the nodes
-  _.map(entities, (value, key) => {
+  _.map(entities, value => {
     saveNode(value);
   });
   /* eslint-disable no-console */

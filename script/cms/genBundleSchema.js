@@ -97,4 +97,5 @@ class BundleSchema {
   }
 }
 
-const bundleScheman = new BundleSchema();
+// const bundleSchema = new BundleSchema();
+BundleSchema();
