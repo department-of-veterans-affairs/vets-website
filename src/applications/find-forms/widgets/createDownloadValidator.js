@@ -20,10 +20,22 @@ class InvalidPdfMessage extends React.Component {
     pdfLink.addEventListener('click', async event => {
       event.preventDefault();
 
-      const forms = await fetchFormsApi(formName);
-      const form = forms.find(f => f.attributes.formName === formName);
+      // Default to true in case we encounter an error
+      // determining validity through the API.
+      let formPdfIsValid = true;
+      let form = null;
 
-      if (!form?.attributes.validPdf) {
+      try {
+        const forms = await fetchFormsApi(formName);
+        form = forms.find(f => f.attributes.formName === formName);
+        formPdfIsValid = form?.attributes.validPdf;
+      } catch (err) {
+        // Todo
+      }
+
+      if (formPdfIsValid) {
+        window.open(pdfFileUrl);
+      } else {
         Sentry.withScope(scope => {
           scope.setExtra('form API response', form);
           scope.setExtra('form number (aka form name)', formName);
@@ -35,8 +47,6 @@ class InvalidPdfMessage extends React.Component {
 
         pdfLink.remove();
         this.setState({ isVisible: true });
-      } else {
-        window.open(pdfFileUrl);
       }
     });
   }
