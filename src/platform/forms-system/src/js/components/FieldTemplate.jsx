@@ -36,7 +36,7 @@ export default function FieldTemplate(props) {
   const description = uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
   const DescriptionField =
-    typeof description === 'function' ? uiSchema['ui:description'] : null;
+    typeof description === 'function' ? description : null;
   const isFieldGroup =
     isDateField ||
     uiSchema['ui:widget'] === 'yesNo' ||
