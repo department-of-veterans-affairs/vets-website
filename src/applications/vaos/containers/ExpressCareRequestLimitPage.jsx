@@ -56,13 +56,7 @@ function ExpressCareRequestLimitPage({
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    ...selectExpressCareNewRequest(state),
-  };
-};
-
 export default connect(
-  mapStateToProps,
+  selectExpressCareNewRequest,
   null,
 )(ExpressCareRequestLimitPage);
