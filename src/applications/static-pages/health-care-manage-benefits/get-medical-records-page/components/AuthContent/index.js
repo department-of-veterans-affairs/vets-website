@@ -134,7 +134,9 @@ const AuthContent = () => (
     <p>From here, you can choose to access your VA:</p>
     <ul>
       <li>Blue Button report</li>
-      <li>Health summary, or</li>
+      <li>
+        Health summary, <strong>or</strong>
+      </li>
       <li>Medical images and reports</li>
     </ul>
     <h5>If you’d like to add information to your personal health record</h5>
@@ -167,30 +169,18 @@ const AuthContent = () => (
       If you print or download anything from the website, you’ll need to take
       responsibility for protecting that information.
     </p>
-    <a
-      rel="noreferrer noopener"
-      href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
-    >
-      Get tips for protecting your personal health information
-    </a>
     <h3>What if I have more questions?</h3>
     <h4>For My HealtheVet questions</h4>
     <p>You can:</p>
     <ul>
       <li>
         Read the FAQs pages on the My HealtheVet web portal
-        <br />
-        <br />
         <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#bbtop">
           VA Blue Button FAQs
         </a>
-        <br />
-        <br />
         <a href="https://www.myhealth.va.gov/mhv-portal-web/faqs#CCD">
           VA health summary FAQs
         </a>
-        <br />
-        <br />
         <a href="https://www.myhealth.va.gov/mhv-portal-web/faqs#VAMIR">
           VA medical images and reports FAQs
         </a>
