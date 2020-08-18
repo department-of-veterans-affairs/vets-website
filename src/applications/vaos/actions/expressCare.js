@@ -186,6 +186,8 @@ export function fetchRequestLimits() {
       const promiseIds = [...activeFacilityIds];
       const requestLimits = [];
 
+      // Temporarily limit concurrent calls to 5 at at time while we
+      // wait for a new endpoint that will accept multiple facilityIds
       while (promiseIds.length) {
         requestLimits.push(
           // eslint-disable-next-line no-await-in-loop
