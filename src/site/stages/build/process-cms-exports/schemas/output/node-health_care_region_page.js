@@ -207,6 +207,24 @@ module.exports = {
             },
           },
         },
+        newsStoryTeasersFeatured: {
+          type: 'object',
+          properties: {
+            entities: {
+              type: 'array',
+              maxItems: 1000,
+              items: {
+                entity: usePartialSchema(newsStorySchema, [
+                  'title',
+                  'fieldFeatured',
+                  'fieldIntroText',
+                  'fieldMedia',
+                  'entityUrl',
+                ]),
+              },
+            },
+          },
+        },
       },
       required: [
         'title',
@@ -223,6 +241,7 @@ module.exports = {
         'mainFacilities',
         'otherFacilities',
         'eventTeasersFeatured',
+        'newsStoryTeasersFeatured',
       ],
     },
   },
