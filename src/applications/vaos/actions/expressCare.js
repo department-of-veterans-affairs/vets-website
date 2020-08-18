@@ -205,14 +205,6 @@ export function fetchRequestLimits() {
 
       const eligibleFacility = []
         .concat(...requestLimits)
-        .map((limit, index) => {
-          const facilityId = activeFacilityIds[index];
-          return {
-            facilityId,
-            siteId: facilityId.substring(0, 3),
-            ...limit,
-          };
-        })
         .find(limit => limit.numberOfRequests < limit.requestLimit);
 
       const isUnderRequestLimit = !!eligibleFacility;
@@ -220,7 +212,7 @@ export function fetchRequestLimits() {
       dispatch({
         type: FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
         facilityId: eligibleFacility?.facilityId || null,
-        siteId: eligibleFacility?.siteId || null,
+        siteId: eligibleFacility?.facilityId?.substring(0, 3) || null,
         isUnderRequestLimit,
       });
 

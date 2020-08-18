@@ -277,6 +277,7 @@ export function getRequestLimits(facilityId, typeOfCareId) {
       setTimeout(() => {
         resolve({
           data: {
+            id: facilityId,
             attributes: {
               requestLimit: 1,
               numberOfRequests: facilityId.includes('984') ? 1 : 0,
@@ -291,7 +292,10 @@ export function getRequestLimits(facilityId, typeOfCareId) {
     );
   }
 
-  return promise.then(resp => resp.data.attributes);
+  return promise.then(resp => ({
+    ...resp.data.attributes,
+    facilityId: resp.data.id,
+  }));
 }
 
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
