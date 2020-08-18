@@ -100,6 +100,7 @@ const AuthContent = () => (
     <a href="/health-care/how-to-apply/">
       Find out how to apply for VA health care
     </a>
+    <br />
     <p>
       <strong>And you must have one of these free accounts:</strong>
     </p>
