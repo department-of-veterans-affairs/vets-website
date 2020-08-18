@@ -1,3 +1,6 @@
+import merge from 'lodash/merge';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { isDependent } from '../../helpers';
 
 export const schema = {
@@ -32,14 +35,22 @@ export const schema = {
 
 export const uiSchema = {
   firstName: {
+    'ui:title': 'First name',
     'ui:required': formData => isDependent(formData),
   },
-  middleName: {},
+  middleName: {
+    'ui:title': 'Middle name',
+  },
   lastName: {
+    'ui:title': 'Middle name',
     'ui:required': formData => isDependent(formData),
   },
   suffix: {},
   ssn: {
+    ...ssnUI,
     'ui:required': formData => isDependent(formData),
   },
+  dateOfBirth: merge(currentOrPastDateUI('Date of birth'), {
+    'ui:required': formData => isDependent(formData),
+  }),
 };

@@ -10,7 +10,10 @@ import {
   veteranOptions,
 } from './chapters/veteran-information';
 import { militaryHistory } from './chapters/military-history';
-import { dependentInformation } from './chapters/dependent-information';
+import {
+  dependentInformation,
+  dependentAddress,
+} from './chapters/dependent-information';
 import { additionalInformation } from './chapters/additional-information';
 import { isDependent } from './helpers';
 
@@ -51,6 +54,13 @@ const formConfig = {
           title: 'Dependent Information',
           uiSchema: dependentInformation.uiSchema,
           schema: dependentInformation.schema,
+        },
+        dependentAddress: {
+          depends: formData => isDependent(formData),
+          path: 'dependent-address',
+          title: 'Dependent Address',
+          uiSchema: dependentAddress.uiSchema,
+          schema: dependentAddress.schema,
         },
       },
     },
