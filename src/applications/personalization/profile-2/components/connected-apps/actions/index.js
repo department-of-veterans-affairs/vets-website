@@ -81,13 +81,13 @@ export function deleteConnectedApp(appId) {
         });
         dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId });
       })
-      .catch(({ errors }) =>
+      .catch(({ errors }) => {
         recordEvent({
           event: 'profile-disconnect-connected-app-failed',
           'error-key': `${errors[0].code}_${errors[0].status}`,
         });
         dispatch({ type: ERROR_DELETING_CONNECTED_APP, appId, errors }),
-      );
+      });
   };
 }
 
