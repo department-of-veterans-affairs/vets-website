@@ -183,9 +183,9 @@ export const UnauthContent = () => (
       <a href="tel: 18774705947" aria-label="8 7 7. 4 7 0. 5 9 4 7.">
         877-470-5947
       </a>{' '}
-      (TTY:{' '}
+      (
       <a href="tel:711" aria-label="TTY. 7 1 1.">
-        711
+        TTY: 711
       </a>
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
@@ -195,9 +195,9 @@ export const UnauthContent = () => (
       <a href="tel: 18666513180" aria-label="8 6 6. 6 5 1. 3 1 8 0.">
         866-651-3180
       </a>{' '}
-      (TTY:{' '}
+      (
       <a href="tel:711" aria-label="TTY. 7 1 1.">
-        711
+        TTY: 711
       </a>
       ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
     </p>
