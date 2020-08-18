@@ -7,7 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { fetchFormsApi } from '../api';
 
-class InvalidPdfMessage extends React.Component {
+class InvalidPdf extends React.Component {
   state = {
     isVisible: false,
   };
@@ -75,7 +75,7 @@ export default (store, widgetType) => {
 
   for (const root of [...roots]) {
     ReactDOM.render(
-      <InvalidPdfMessage
+      <InvalidPdf
         formName={root.dataset.formName}
         downloadLinkSelector={root.dataset.pdfLink}
       />,
