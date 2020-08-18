@@ -54,6 +54,25 @@ const eventTeasersSchema = max => ({
   },
 });
 
+const newsTeasersSchema = max => ({
+  type: 'object',
+  properties: {
+    entities: {
+      type: 'array',
+      maxItems: max,
+      items: {
+        entity: usePartialSchema(newsStorySchema, [
+          'title',
+          'fieldFeatured',
+          'fieldIntroText',
+          'fieldMedia',
+          'entityUrl',
+        ]),
+      },
+    },
+  },
+});
+
 module.exports = {
   type: 'object',
   properties: {
@@ -120,42 +139,8 @@ module.exports = {
             },
           },
         },
-        newsStoryTeasers: {
-          type: 'object',
-          properties: {
-            entities: {
-              type: 'array',
-              maxItems: 2,
-              items: {
-                entity: usePartialSchema(newsStorySchema, [
-                  'title',
-                  'fieldFeatured',
-                  'fieldIntroText',
-                  'fieldMedia',
-                  'entityUrl',
-                ]),
-              },
-            },
-          },
-        },
-        allNewsStoryTeasers: {
-          type: 'object',
-          properties: {
-            entities: {
-              type: 'array',
-              maxItems: 500,
-              items: {
-                entity: usePartialSchema(newsStorySchema, [
-                  'title',
-                  'fieldFeatured',
-                  'fieldIntroText',
-                  'fieldMedia',
-                  'entityUrl',
-                ]),
-              },
-            },
-          },
-        },
+        newsStoryTeasers: newsTeasersSchema(2),
+        allNewsStoryTeasers: newsTeasersSchema(500),
         eventTeasers: eventTeasersSchema(2),
         allEventTeasers: eventTeasersSchema(500),
         allPressReleaseTeasers: {
@@ -178,24 +163,7 @@ module.exports = {
         otherFacilities: facilitiesSchema,
         eventTeasersAll: eventTeasersSchema(1000),
         eventTeasersFeatured: eventTeasersSchema(1000),
-        newsStoryTeasersFeatured: {
-          type: 'object',
-          properties: {
-            entities: {
-              type: 'array',
-              maxItems: 1000,
-              items: {
-                entity: usePartialSchema(newsStorySchema, [
-                  'title',
-                  'fieldFeatured',
-                  'fieldIntroText',
-                  'fieldMedia',
-                  'entityUrl',
-                ]),
-              },
-            },
-          },
-        },
+        newsStoryTeasersFeatured: newsTeasersSchema(1000),
       },
       required: [
         'title',
