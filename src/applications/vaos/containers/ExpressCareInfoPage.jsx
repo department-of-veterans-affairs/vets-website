@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
 import * as actions from '../actions/expressCare';
 import FormButtons from '../components/FormButtons';
+import ExpressCareRequestLimitError from '../components/ExpressCareRequestLimitError';
 import {
   selectLocalExpressCareWindowString,
   selectExpressCareNewRequest,
@@ -18,7 +18,7 @@ const pageTitle = 'How Express Care works';
 function ExpressCareInfoPage({
   localWindowString,
   fetchRequestLimitsStatus,
-  underRequestLimit,
+  isUnderRequestLimit,
   pageChangeInProgress,
   router,
   routeToNextAppointmentPage,
@@ -40,41 +40,15 @@ function ExpressCareInfoPage({
     [fetchRequestLimitsStatus],
   );
 
-  if (fetchRequestLimitsStatus === FETCH_STATUS.failed) {
-    return (
-      <div>
-        <h1>We’ve run into a problem</h1>
-        <AlertBox
-          status="error"
-          content={
-            <p>
-              Something went wrong when we tried to check your request
-              eligibility. We suggest you wait a day to try again or you can
-              call your medical center to help with this request.
-            </p>
-          }
-        />
-      </div>
-    );
-  }
-
   if (
-    fetchRequestLimitsStatus === FETCH_STATUS.succeeded &&
-    !underRequestLimit
+    fetchRequestLimitsStatus === FETCH_STATUS.failed ||
+    (fetchRequestLimitsStatus === FETCH_STATUS.succeeded &&
+      !isUnderRequestLimit)
   ) {
     return (
-      <div>
-        <h1>You’ve reached the limit for Express Care requests</h1>
-        <AlertBox status="warning">
-          <p>
-            Our records show that you have an open Express Care appointment at
-            this location. We can’t accept any more Express Care requests until
-            your pending appointment is scheduled or canceled. To cancel a
-            pending Express Care appointment, go to your{' '}
-            <Link to="/express-care">appointment list</Link>.
-          </p>
-        </AlertBox>
-      </div>
+      <ExpressCareRequestLimitError
+        fetchRequestLimitsStatus={fetchRequestLimitsStatus}
+      />
     );
   }
 

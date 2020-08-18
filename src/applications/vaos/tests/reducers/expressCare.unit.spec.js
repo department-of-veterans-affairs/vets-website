@@ -93,19 +93,19 @@ describe('VAOS express care reducer', () => {
     );
   });
 
-  it('should set facilityId, siteId, and underRequestLimit', () => {
+  it('should set facilityId, siteId, and isUnderRequestLimit', () => {
     const action = {
       type: FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
       facilityId: '983',
       siteId: '983',
-      underRequestLimit: true,
+      isUnderRequestLimit: true,
     };
 
     const newState = expressCareReducer(initialState, action).newRequest;
     expect(newState.fetchRequestLimitsStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.facilityId).to.equal('983');
     expect(newState.siteId).to.equal('983');
-    expect(newState.underRequestLimit).to.equal(true);
+    expect(newState.isUnderRequestLimit).to.equal(true);
   });
 
   it('should set fetchRequestLimitsStatus to failed', () => {

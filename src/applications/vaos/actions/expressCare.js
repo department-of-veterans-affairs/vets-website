@@ -171,6 +171,10 @@ export function fetchExpressCareWindows() {
   };
 }
 
+/**
+ * Fetches request limits for all active windows and selects the first one
+ * where the user has not reached their request limit
+ */
 export function fetchRequestLimits() {
   return async (dispatch, getState) => {
     dispatch({
@@ -199,7 +203,7 @@ export function fetchRequestLimits() {
         );
       }
 
-      const eligbleFacility = []
+      const eligibleFacility = []
         .concat(...requestLimits)
         .map((limit, index) => {
           const facilityId = activeFacilityIds[index];
@@ -211,16 +215,16 @@ export function fetchRequestLimits() {
         })
         .find(limit => limit.numberOfRequests < limit.requestLimit);
 
-      const underRequestLimit = !!eligbleFacility;
+      const isUnderRequestLimit = !!eligibleFacility;
 
       dispatch({
         type: FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
-        facilityId: eligbleFacility?.facilityId || null,
-        siteId: eligbleFacility?.siteId || null,
-        underRequestLimit: !!eligbleFacility,
+        facilityId: eligibleFacility?.facilityId || null,
+        siteId: eligibleFacility?.siteId || null,
+        isUnderRequestLimit,
       });
 
-      return underRequestLimit;
+      return isUnderRequestLimit;
     } catch (error) {
       captureError(error);
       dispatch({
@@ -265,9 +269,8 @@ export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
     const expressCare = getState().expressCare;
     const { newRequest } = expressCare;
-    const { facilityId, siteId } = newRequest;
+    const { facilityId, siteId, data: formData } = newRequest;
     let facilityWindowIsActive;
-    const formData = expressCare.newRequest.data;
     let additionalEventData = {};
 
     try {

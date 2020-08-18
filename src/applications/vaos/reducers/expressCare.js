@@ -38,7 +38,7 @@ const initialState = {
     pageChangeInProgress: false,
     facilityId: null,
     siteId: null,
-    underRequestLimit: null,
+    isUnderRequestLimit: null,
     fetchRequestLimitsStatus: FETCH_STATUS.notStarted,
   },
   submitStatus: FETCH_STATUS.notStarted,
@@ -167,14 +167,14 @@ export default function expressCareReducer(state = initialState, action) {
       };
     }
     case FORM_FETCH_REQUEST_LIMITS_SUCCEEDED: {
-      const { facilityId, siteId, underRequestLimit } = action;
+      const { facilityId, siteId, isUnderRequestLimit } = action;
       return {
         ...state,
         newRequest: {
           ...state.newRequest,
           facilityId,
           siteId,
-          underRequestLimit,
+          isUnderRequestLimit,
           fetchRequestLimitsStatus: FETCH_STATUS.succeeded,
         },
       };

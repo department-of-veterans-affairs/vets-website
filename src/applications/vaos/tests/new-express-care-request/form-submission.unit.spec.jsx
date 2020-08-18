@@ -43,7 +43,7 @@ const initialState = {
         reason: 'Cough',
       },
       pages: {},
-      underRequestLimit: true,
+      isUnderRequestLimit: true,
     },
   },
 };
