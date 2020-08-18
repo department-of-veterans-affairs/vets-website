@@ -290,7 +290,6 @@ describe('VAOS actions: appointments', () => {
 
       expect(global.window.dataLayer[0]).to.deep.equal({
         event: 'vaos-cancel-appointment-submission',
-        isExpressCare: false,
         appointmentType: 'confirmed',
         facilityType: 'va',
       });
@@ -298,7 +297,6 @@ describe('VAOS actions: appointments', () => {
       expect(global.window.dataLayer[1]).to.deep.equal({
         event: 'vaos-cancel-appointment-submission-successful',
         appointmentType: 'confirmed',
-        isExpressCare: false,
         facilityType: 'va',
       });
       expect(
@@ -484,7 +482,6 @@ describe('VAOS actions: appointments', () => {
       expect(dataLayer[1]).to.deep.equal({
         event: 'vaos-cancel-appointment-submission-failed',
         appointmentType: 'confirmed',
-        isExpressCare: false,
         facilityType: 'va',
       });
       expect(dataLayer[2]).to.deep.equal({
@@ -494,8 +491,8 @@ describe('VAOS actions: appointments', () => {
         'error-key': undefined,
         appointmentType: undefined,
         facilityType: undefined,
-        'health-expressCareReason': undefined,
-        isExpressCare: undefined,
+        'health-express-care-reason': undefined,
+        'vaos-express-care-number-of-cards': undefined,
       });
     });
 

@@ -135,13 +135,13 @@ function ExpressCareInfoPage({
         pageChangeInProgress={pageChangeInProgress}
         onBack={() => {
           recordEvent({
-            event: `${GA_PREFIX}-express-care-request-cancel-flow`,
+            event: `${GA_PREFIX}-express-care-path-cancelled`,
           });
           routeToPreviousAppointmentPage(router, pageKey);
         }}
         onSubmit={() => {
           recordEvent({
-            event: `${GA_PREFIX}-express-care-request-continue-flow`,
+            event: `${GA_PREFIX}-express-care-path-started`,
           });
           routeToNextAppointmentPage(router, pageKey);
         }}

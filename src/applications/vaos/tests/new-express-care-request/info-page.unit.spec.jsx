@@ -89,9 +89,10 @@ describe('VAOS integration: Express Care info page', () => {
     expect(router.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.secondCall.args[0]).to.equal(
-      '/new-express-care-request/select-reason',
+    await waitFor(() =>
+      expect(router.push.secondCall?.args[0]).to.equal(
+        '/new-express-care-request/select-reason',
+      ),
     );
   });
 
