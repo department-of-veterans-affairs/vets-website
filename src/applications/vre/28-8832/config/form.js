@@ -3,10 +3,16 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { veteranInformation } from './chapters/veteran-information';
+import { statusSelection } from './chapters/status-selection';
+import {
+  veteranInformation,
+  veteranAddress,
+  veteranOptions,
+} from './chapters/veteran-information';
 import { militaryHistory } from './chapters/military-history';
 import { dependentInformation } from './chapters/dependent-information';
 import { additionalInformation } from './chapters/additional-information';
+import { isDependent } from './helpers';
 
 const formConfig = {
   urlPrefix: '/',
@@ -25,25 +31,14 @@ const formConfig = {
   title: '28-8832-planning-and-guidance',
   defaultDefinitions: {},
   chapters: {
-    veteranDetails: {
-      title: 'Personal Information',
+    statusSelection: {
+      title: 'Your Status',
       pages: {
-        veteranInformation: {
-          path: 'first-name',
-          title: 'Personal Information - Page 1',
-          uiSchema: veteranInformation.uiSchema,
-          schema: veteranInformation.schema,
-        },
-      },
-    },
-    militaryHistory: {
-      title: 'MIlitary History',
-      pages: {
-        militaryHistory: {
-          path: 'military-history',
-          title: 'Military History',
-          uiSchema: militaryHistory.uiSchema,
-          schema: militaryHistory.schema,
+        wizard: {
+          path: 'your-status',
+          title: 'Your Status',
+          uiSchema: statusSelection.uiSchema,
+          schema: statusSelection.schema,
         },
       },
     },
@@ -51,10 +46,34 @@ const formConfig = {
       title: 'Dependent Information',
       pages: {
         dependentInformation: {
+          depends: formData => isDependent(formData),
           path: 'dependent-information',
           title: 'Dependent Information',
           uiSchema: dependentInformation.uiSchema,
           schema: dependentInformation.schema,
+        },
+      },
+    },
+    veteranDetails: {
+      title: 'Service member or Veteran information',
+      pages: {
+        veteranInformation: {
+          path: 'first-name',
+          title: 'Personal Information - Page 1',
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
+        },
+        veteranAddress: {
+          path: 'veteran-address',
+          title: 'Veteran Address',
+          uiSchema: veteranAddress.uiSchema,
+          schema: veteranAddress.schema,
+        },
+        veteranOptions: {
+          path: 'veteran-options',
+          title: 'Service Member or Veteran Information',
+          uiSchema: veteranOptions.uiSchema,
+          schema: veteranOptions.schema,
         },
       },
     },
