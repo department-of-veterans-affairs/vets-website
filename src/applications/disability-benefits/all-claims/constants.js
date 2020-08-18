@@ -250,3 +250,11 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 
 // Moment date format
 export const DATE_FORMAT = 'LL';
+
+export const WIZARD_STATUS = 'wizardStatus';
+
+export const EBEN_526_PATH =
+  'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation';
+
+export const BDD_INFO_URL =
+  '/disability/how-to-file-claim/when-to-file/pre-discharge-claim/';

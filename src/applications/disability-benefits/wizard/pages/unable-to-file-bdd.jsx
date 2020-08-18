@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
-import { BDD_INFO_URL } from '../../constants';
+import { BDD_INFO_URL } from '../../all-claims/constants';
 
 function alertContent(getPageStateFromPageName) {
   const stateBDD = getPageStateFromPageName('bdd');
