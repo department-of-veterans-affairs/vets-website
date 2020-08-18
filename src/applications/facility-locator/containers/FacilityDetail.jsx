@@ -5,15 +5,14 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { fetchVAFacility } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
 import AccessToCare from '../components/AccessToCare';
-import LocationAddress from '../components/search-results/LocationAddress';
-import LocationDirectionsLink from '../components/search-results/LocationDirectionsLink';
+import LocationAddress from '../components/search-results-items/common/LocationAddress';
+import LocationDirectionsLink from '../components/search-results-items/common/LocationDirectionsLink';
 import LocationHours from '../components/LocationHours';
 import LocationMap from '../components/LocationMap';
-import LocationPhoneLink from '../components/search-results/LocationPhoneLink';
+import LocationPhoneLink from '../components/search-results-items/common/LocationPhoneLink';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
-import FacilityTypeDescription from '../components/FacilityTypeDescription';
 import { OperatingStatus, FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
 
@@ -114,7 +113,6 @@ class FacilityDetail extends Component {
         <h1>{name}</h1>
         {this.showOperationStatus(operatingStatus, website, facilityType)}
         <div className="p1">
-          <FacilityTypeDescription from="FacilityDetail" location={facility} />
           <LocationAddress location={facility} />
         </div>
         <div>
