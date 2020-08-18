@@ -5,9 +5,9 @@ import { fetchProviderDetail } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import LocationMap from '../components/LocationMap';
-import LocationAddress from '../components/search-results/LocationAddress';
-import LocationPhoneLink from '../components/search-results/LocationPhoneLink';
-import LocationDirectionsLink from '../components/search-results/LocationDirectionsLink';
+import LocationAddress from '../components/search-results-items/common/LocationAddress';
+import LocationPhoneLink from '../components/search-results-items/common/LocationPhoneLink';
+import LocationDirectionsLink from '../components/search-results-items/common/LocationDirectionsLink';
 import AppointmentInfo from '../components/AppointmentInfo';
 import ProviderDetailBlock from '../components/ProviderDetailBlock';
 

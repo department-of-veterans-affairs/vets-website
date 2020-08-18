@@ -8,7 +8,7 @@ import { scrollToTop } from 'applications/claims-status/utils/page';
 
 const ConfirmationPage = props => {
   useEffect(() => {
-    focusElement('.schemaform-title > h2');
+    focusElement('.usa-alert-heading');
     scrollToTop();
   }, []);
 

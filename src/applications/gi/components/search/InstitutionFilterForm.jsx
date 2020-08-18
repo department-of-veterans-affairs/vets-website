@@ -4,7 +4,7 @@ import React from 'react';
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
 import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
-import SearchResultGenderFilter from './SearchResultGenderFilter';
+import GenderFilter from './GenderFilter';
 import {
   addAllOption,
   getStateNameForCode,
@@ -15,19 +15,24 @@ import CautionaryWarningsFilter from './CautionaryWarningsFilter';
 import { religiousAffiliations } from '../../utils/data/religiousAffiliations';
 
 class InstitutionFilterForm extends React.Component {
-  state = { gender: 'Any' };
-
   handleDropdownChange = e => {
     const { name: field, value } = e.target;
-    if (field === 'gender') {
-      this.setState({ gender: value });
-    }
     this.props.handleFilterChange(field, value);
   };
 
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
     this.props.handleFilterChange(field, value);
+  };
+
+  handleGenderFilterChange = e => {
+    const { value } = e.target;
+
+    const womenonly = value === 'womenonly';
+    const menonly = value === 'menonly';
+    this.props.handleFilterChange('womenonly', womenonly, [
+      { field: 'menonly', value: menonly },
+    ]);
   };
 
   renderCategoryFilter = () => (
@@ -142,11 +147,10 @@ class InstitutionFilterForm extends React.Component {
   renderGenderFilter = () => {
     return (
       <div>
-        <SearchResultGenderFilter
-          gender={this.state.gender}
-          onChange={this.handleDropdownChange}
-          handleInputFocus={this.props.handleInputFocus}
-          handleFilterChange={this.props.handleFilterChange}
+        <GenderFilter
+          filters={this.props.filters}
+          onChange={this.handleGenderFilterChange}
+          onFocus={this.props.handleInputFocus}
         />
       </div>
     );

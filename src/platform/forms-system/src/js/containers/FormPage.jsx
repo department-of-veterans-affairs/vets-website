@@ -5,7 +5,6 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 
 import ProgressButton from '../components/ProgressButton';
 import SchemaForm from '../components/SchemaForm';
@@ -14,11 +13,7 @@ import { getNextPagePath, getPreviousPagePath } from '../routing';
 import { focusElement } from '../utilities/ui';
 
 function focusForm() {
-  if (environment.isProduction()) {
-    focusElement('.nav-header');
-  } else {
-    focusElement('.nav-header h2');
-  }
+  focusElement('.nav-header');
 }
 
 const scroller = Scroll.scroller;

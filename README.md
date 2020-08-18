@@ -40,10 +40,10 @@ To **recompile your application when you make changes**, run:
 yarn watch
 ```
 
-You can also **limit the applications Webpack builds** with `--env.entryname`:
+You can also **limit the applications Webpack builds** with `--env.entry`:
 
 ```sh
-yarn watch --env.entryname static-pages,auth
+yarn watch --env.entry static-pages,auth
 ```
 
 The `entryname` for your application can be found in its `manifest.json` file.

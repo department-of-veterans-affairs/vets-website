@@ -397,7 +397,7 @@ export const EXPRESS_CARE_REASONS = [
     reason: 'Red or weeping eye without vision loss',
   },
   {
-    reason: 'Skin lesion or rash from an allergic reaction or insect bite',
+    reason: 'Skin lesion or rash',
   },
   {
     reason: 'Stomach or digestive problem',
@@ -412,4 +412,14 @@ export const EXPRESS_CARE_REASONS = [
 export const EXPRESS_CARE_ERROR_REASON = {
   error: 'error',
   noActiveFacility: 'noActiveFacility',
+};
+
+export const WEEKDAY_INDEXES = {
+  SUNDAY: 0,
+  MONDAY: 1,
+  TUESDAY: 2,
+  WEDNESDAY: 3,
+  THURSDAY: 4,
+  FRIDAY: 5,
+  SATURDAY: 6,
 };
