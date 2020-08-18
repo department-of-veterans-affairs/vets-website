@@ -255,7 +255,7 @@ export function submitExpressCareRequest(router) {
   return async (dispatch, getState) => {
     const expressCare = getState().expressCare;
     const { newRequest } = expressCare;
-    const { facilityId, siteId, data: formData } = newRequest;
+    const { facilityId, siteId, data } = newRequest;
     let facilityWindowIsActive;
     let additionalEventData = {};
 
@@ -274,7 +274,7 @@ export function submitExpressCareRequest(router) {
         -1;
 
       additionalEventData = {
-        'health-expressCareReason': formData.reason,
+        'health-expressCareReason': data.reason,
       };
 
       recordEvent({
@@ -296,7 +296,7 @@ export function submitExpressCareRequest(router) {
       const responseData = await submitRequest('va', requestBody);
 
       try {
-        await buildPreferencesDataAndUpdate(formData.contactInfo.email);
+        await buildPreferencesDataAndUpdate(data.contactInfo.email);
       } catch (error) {
         // These are ancillary updates, the request went through if the first submit
         // succeeded
