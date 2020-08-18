@@ -4,7 +4,7 @@
  */
 
 const _ = require('lodash');
-const fs = require('fs');
+const fs = require('fs-extra');
 const Conf = require('./config');
 
 const conf = new Conf();
@@ -17,11 +17,8 @@ const graphqlDir = conf.nodeFileDir; // where we put the graphql nodes
 
 function saveNode(node) {
   // Create the dir if it doesn't exist
-  if (!fs.existsSync(graphqlDir)) {
-    fs.mkdirSync(graphqlDir);
-  }
+  fs.ensureDirSync(graphqlDir);
 
-  const prettyOutJson = JSON.stringify(node, null, 2);
   if (node.entityId) {
     const id = `${node.entityId}`;
     /* eslint-disable no-console */
@@ -29,7 +26,7 @@ function saveNode(node) {
 
     // File name starts with the node id for easy file completion
     const fileName = `${graphqlDir}/${id}.json`;
-    fs.writeFileSync(fileName, prettyOutJson);
+    fs.outputJsonSync(fileName, node, { spaces: 2 });
   } else {
     /* eslint-disable no-console */
     console.error('Node Does not have an entityId');
@@ -41,11 +38,11 @@ function saveNode(node) {
  */
 
 function load() {
-  const stringData = fs.readFileSync(conf.graphqlFile);
-  const data = JSON.parse(stringData);
+  const data = fs.readJsonSync(conf.graphqlFile);
 
   // This is where in the graph the nodes are
   const entities = data.data.nodeQuery.entities;
+  console.log('typeof: ', typeof entities);
 
   // Traverse the nodes
   _.map(entities, (value, key) => {

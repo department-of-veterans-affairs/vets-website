@@ -29,7 +29,7 @@ class BundleSchema {
     this.schema = schema.definitions;
     this.loadBundles();
     const originalName = `${conf.cacheDir}/drupal/originalOpenApiSchema.json`;
-    fs.writeFileSync(originalName, JSON.stringify(schema, null, 2));
+    fs.outputFileSync(originalName, JSON.stringify(schema, null, 2));
     /* eslint-disable no-console */
     console.log(`Saved original openAPI schema to  ${originalName}`);
     const prettyOutJson = JSON.stringify(this.bundles, null, 2);
@@ -61,11 +61,7 @@ class BundleSchema {
       // This is the convention for the bundle name
       const bundleName = `${bundleType}-${bundle}`;
 
-      for (let jj = 0; jj < ignoredBundleTypes.length; jj++) {
-        if (bundleType === ignoredBundleTypes[jj]) {
-          return;
-        }
-      }
+      if (ignoredBundleTypes.includes(bundleType)) return;
       this.loadFields(bundleName, value);
       ii++;
     });
