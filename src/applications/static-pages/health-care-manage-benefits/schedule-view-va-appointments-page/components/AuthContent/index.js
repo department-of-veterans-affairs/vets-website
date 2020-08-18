@@ -3,7 +3,7 @@ import React from 'react';
 // Relative imports.
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
-import { getCernerURL } from 'platform/utilities/cerner';
+import { appointmentsToolLink, getCernerURL } from 'platform/utilities/cerner';
 
 export const AuthContent = () => (
   <>
@@ -39,7 +39,7 @@ export const AuthContent = () => (
     </div>
     <CernerCallToAction
       linksHeaderText="Manage appointments at:"
-      myHealtheVetLink="https://staging.va.gov/health-care/schedule-view-va-appointments/appointments"
+      myHealtheVetLink={appointmentsToolLink}
       myVAHealthLink={getCernerURL('/pages/scheduling/upcoming')}
     />
     <h2>How can these appointment tools help me manage my care?</h2>
