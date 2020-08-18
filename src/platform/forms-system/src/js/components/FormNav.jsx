@@ -73,7 +73,7 @@ export default class FormNav extends React.Component {
           >
             {environment.isDev() ? (
               <h2 className="vads-u-font-size--h4">
-                {`{current} of ${chapters.length} ${chapterName}`}
+                {`${current} of ${chapters.length} ${chapterName}`}
               </h2>
             ) : (
               <h2 className="vads-u-font-size--h4">
