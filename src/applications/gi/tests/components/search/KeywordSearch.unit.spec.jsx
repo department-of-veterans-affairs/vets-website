@@ -85,7 +85,7 @@ describe('<KeywordSearch>', () => {
     const suggestions = tree.find('.suggestion');
     suggestions.at(1).simulate('click');
     expect(onFilterChange.called).to.be.true;
-    expect(onFilterChange.args[0]).to.deep.equal(['item2']);
+    expect(onFilterChange.args[0]).to.deep.equal(['name', 'item2']);
     tree.unmount();
   });
 });

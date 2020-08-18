@@ -19,7 +19,7 @@ import {
   getCCEType,
   isWelcomeModalDismissed,
   selectLocalExpressCareWindowString,
-  selectExpressCareHours,
+  selectNextAvailableExpressCareWindowString,
 } from '../../utils/selectors';
 
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
@@ -694,8 +694,17 @@ describe('VAOS selectors', () => {
     });
   });
 
-  describe('selectExpressCareHours', () => {
-    it('should return days and hours string', () => {
+  describe('selectNextAvailableExpressCareWindowString', () => {
+    it('should return today’s schedule if current time is before window start', () => {
+      const today = moment();
+      const startTime = today
+        .clone()
+        .add('1', 'minutes')
+        .tz('America/Denver');
+      const endTime = today
+        .clone()
+        .add('2', 'minutes')
+        .tz('America/Denver');
       const state = {
         expressCare: {
           supportedFacilities: [
@@ -703,22 +712,14 @@ describe('VAOS selectors', () => {
               facilityId: '983',
               days: [
                 {
-                  day: 'MONDAY',
+                  day: today
+                    .clone()
+                    .tz('America/Denver')
+                    .format('dddd')
+                    .toUpperCase(),
                   canSchedule: true,
-                  startTime: '15:30',
-                  endTime: '16:40',
-                },
-                {
-                  day: 'TUESDAY',
-                  canSchedule: true,
-                  startTime: '15:30',
-                  endTime: '16:40',
-                },
-                {
-                  day: 'SATURDAY',
-                  canSchedule: true,
-                  startTime: '05:30',
-                  endTime: '16:40',
+                  startTime: startTime.format('HH:mm'),
+                  endTime: endTime.format('HH:mm'),
                 },
               ],
             },
@@ -726,19 +727,103 @@ describe('VAOS selectors', () => {
         },
       };
 
-      expect(selectExpressCareHours(state)).to.equal(
-        'Monday, Tuesday from 3:30 p.m. to 4:40 p.m. MT and Saturday from 5:30 a.m. to 4:40 p.m. MT',
+      expect(selectNextAvailableExpressCareWindowString(state, today)).to.equal(
+        `today from ${startTime.format('h:mm a')} to ${endTime.format(
+          'h:mm a',
+        )} MT`,
       );
     });
 
-    it('should be empty when no facilities', () => {
+    it('should return next day’s schedule if current time is after window start', () => {
+      const today = moment();
+      const tomorrow = moment()
+        .add(1, 'days')
+        .clone()
+        .tz('America/Denver');
+      const startTime = today
+        .clone()
+        .subtract(2, 'minutes')
+        .tz('America/Denver');
+      const endTime = today
+        .clone()
+        .subtract(1, 'minutes')
+        .tz('America/Denver');
       const state = {
         expressCare: {
-          supportedFacilities: [],
+          supportedFacilities: [
+            {
+              facilityId: '983',
+              days: [
+                {
+                  day: today
+                    .clone()
+                    .tz('America/Denver')
+                    .format('dddd')
+                    .toUpperCase(),
+                  canSchedule: true,
+                  startTime: startTime.format('HH:mm'),
+                  endTime: endTime.format('HH:mm'),
+                  dayOfWeekIndex: today.format('d'),
+                },
+                {
+                  day: tomorrow.format('dddd').toUpperCase(),
+                  canSchedule: true,
+                  startTime: startTime.format('HH:mm'),
+                  endTime: endTime.format('HH:mm'),
+                  dayOfWeekIndex: tomorrow.format('d'),
+                },
+              ].sort((a, b) => (a.dayOfWeekIndex < b.dayOfWeekIndex ? -1 : 1)),
+            },
+          ],
+        },
+      };
+      expect(selectNextAvailableExpressCareWindowString(state, today)).to.equal(
+        `${tomorrow.format('dddd')} from ${startTime.format(
+          'h:mm a',
+        )} to ${endTime.format('h:mm a')} MT`,
+      );
+    });
+
+    it('should return today’s schedule and designate next week if current time is after window start and today is the only schedulable day', () => {
+      const today = moment();
+      const startTime = today
+        .clone()
+        .add(-2, 'minutes')
+        .tz('America/Denver');
+      const endTime = today
+        .clone()
+        .add(-1, 'minutes')
+        .tz('America/Denver');
+      const state = {
+        expressCare: {
+          supportedFacilities: [
+            {
+              facilityId: '983',
+              days: [
+                {
+                  day: today
+                    .clone()
+                    .tz('America/Denver')
+                    .format('dddd')
+                    .toUpperCase(),
+                  canSchedule: true,
+                  startTime: startTime.format('HH:mm'),
+                  endTime: endTime.format('HH:mm'),
+                },
+              ],
+            },
+          ],
         },
       };
 
-      expect(selectExpressCareHours(state)).not.to.exist;
+      expect(selectNextAvailableExpressCareWindowString(state, today)).to.equal(
+        `next ${today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')} from ${startTime.format(
+          'h:mm a',
+        )} to ${endTime.format('h:mm a')} MT`,
+      );
     });
   });
 });
