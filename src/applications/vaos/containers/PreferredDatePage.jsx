@@ -28,15 +28,16 @@ const uiSchema = {
   preferredDate: {
     'ui:title': 'What is the earliest date you’d like to be seen?',
     'ui:widget': 'date',
+    'ui:description': 'Please pick a date within the next 13 months.',
     'ui:validations': [
       (errors, preferredDate) => {
         const maxDate = moment().add(13, 'months');
         if (moment(preferredDate).isBefore(moment(), 'day')) {
-          errors.addError('You must enter a future date. ');
+          errors.addError('Please enter a future date ');
         }
         if (moment(preferredDate).isAfter(maxDate, 'day')) {
           errors.addError(
-            'You must enter a date that is 13 months or less from today. ',
+            'Please enter a date less than 395 days in the future ',
           );
         }
       },
