@@ -248,25 +248,28 @@ const transform = ({
             .slice(0, 1000)
             .map(r => ({
               reverseFieldListingNode: {
-                entities: r.reverseFieldListingNode.entities
-                  .filter(
-                    reverseField =>
-                      reverseField.entityBundle === 'event' &&
-                      reverseField.entityPublished &&
-                      moment(reverseField.fieldDate.value).isAfter(
-                        moment(),
-                        'day',
-                      ),
-                  )
-                  .slice(0, 1000)
-                  .map(e => ({
-                    title: e.title,
-                    fieldDate: e.fieldDate,
-                    fieldDescription: e.fieldDescription,
-                    fieldLocationHumanreadable: e.fieldLocationHumanreadable,
-                    fieldFacilityLocation: e.fieldFacilityLocation,
-                    entityUrl: e.entityUrl,
-                  })),
+                entities: r.reverseFieldListingNode
+                  ? r.reverseFieldListingNode.entities
+                      .filter(
+                        reverseField =>
+                          reverseField.entityBundle === 'event' &&
+                          reverseField.entityPublished &&
+                          moment(reverseField.fieldDate.value).isAfter(
+                            moment(),
+                            'day',
+                          ),
+                      )
+                      .slice(0, 1000)
+                      .map(e => ({
+                        title: e.title,
+                        fieldDate: e.fieldDate,
+                        fieldDescription: e.fieldDescription,
+                        fieldLocationHumanreadable:
+                          e.fieldLocationHumanreadable,
+                        fieldFacilityLocation: e.fieldFacilityLocation,
+                        entityUrl: e.entityUrl,
+                      }))
+                  : [],
               },
             }))
         : [],
@@ -280,26 +283,29 @@ const transform = ({
             .slice(0, 1000)
             .map(r => ({
               reverseFieldListingNode: {
-                entities: r.reverseFieldListingNode.entities
-                  .slice(0, 1000)
-                  .filter(
-                    reverseField =>
-                      reverseField.entityBundle === 'event' &&
-                      reverseField.entityPublished &&
-                      reverseField.fieldFeatured &&
-                      moment(reverseField.fieldDate.value).isAfter(
-                        moment(),
-                        'day',
-                      ),
-                  )
-                  .map(e => ({
-                    title: e.title,
-                    fieldDate: e.fieldDate,
-                    fieldDescription: e.fieldDescription,
-                    fieldLocationHumanreadable: e.fieldLocationHumanreadable,
-                    fieldFacilityLocation: e.fieldFacilityLocation,
-                    entityUrl: e.entityUrl,
-                  })),
+                entities: r.reverseFieldListingNode
+                  ? r.reverseFieldListingNode.entities
+                      .slice(0, 1000)
+                      .filter(
+                        reverseField =>
+                          reverseField.entityBundle === 'event' &&
+                          reverseField.entityPublished &&
+                          reverseField.fieldFeatured &&
+                          moment(reverseField.fieldDate.value).isAfter(
+                            moment(),
+                            'day',
+                          ),
+                      )
+                      .map(e => ({
+                        title: e.title,
+                        fieldDate: e.fieldDate,
+                        fieldDescription: e.fieldDescription,
+                        fieldLocationHumanreadable:
+                          e.fieldLocationHumanreadable,
+                        fieldFacilityLocation: e.fieldFacilityLocation,
+                        entityUrl: e.entityUrl,
+                      }))
+                  : [],
               },
             }))
         : [],
@@ -313,21 +319,23 @@ const transform = ({
             .slice(0, 1000)
             .map(r => ({
               reverseFieldListingNode: {
-                entities: r.reverseFieldListingNode.entities
-                  .filter(
-                    reverseField =>
-                      reverseField.entityBundle === 'news_story' &&
-                      reverseField.entityPublished &&
-                      reverseField.fieldFeatured,
-                  )
-                  .slice(0, 1000)
-                  .map(e => ({
-                    title: e.title,
-                    fieldFeatured: e.fieldFeatured,
-                    fieldIntroText: e.fieldIntroText,
-                    fieldMedia: e.fieldMedia,
-                    entityUrl: e.entityUrl,
-                  })),
+                entities: r.reverseFieldListingNode
+                  ? r.reverseFieldListingNode.entities
+                      .filter(
+                        reverseField =>
+                          reverseField.entityBundle === 'news_story' &&
+                          reverseField.entityPublished &&
+                          reverseField.fieldFeatured,
+                      )
+                      .slice(0, 1000)
+                      .map(e => ({
+                        title: e.title,
+                        fieldFeatured: e.fieldFeatured,
+                        fieldIntroText: e.fieldIntroText,
+                        fieldMedia: e.fieldMedia,
+                        entityUrl: e.entityUrl,
+                      }))
+                  : [],
               },
             }))
         : [],
