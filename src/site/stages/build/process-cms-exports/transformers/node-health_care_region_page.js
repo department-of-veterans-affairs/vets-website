@@ -259,7 +259,15 @@ const transform = ({
                         moment(),
                         'day',
                       ),
-                  ),
+                  )
+                  .map(e => ({
+                    title: e.title,
+                    fieldDate: e.fieldDate,
+                    fieldDescription: e.fieldDescription,
+                    fieldLocationHumanreadable: e.fieldLocationHumanreadable,
+                    fieldFacilityLocation: e.fieldFacilityLocation,
+                    entityUrl: e.entityUrl,
+                  })),
               },
             }))
         : [],

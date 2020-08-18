@@ -222,6 +222,7 @@ module.exports = {
         'allPressReleaseTeasers',
         'mainFacilities',
         'otherFacilities',
+        'eventTeasersFeatured',
       ],
     },
   },
