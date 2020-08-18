@@ -174,7 +174,7 @@ describe('VAOS Express Care actions', () => {
     expect(dispatchSpy.firstCall.args[0].type).to.eql(
       FORM_FETCH_REQUEST_LIMITS,
     );
-    expect(dispatchSpy.lastCall.args[0].type).to.eql(
+    expect(dispatchSpy.secondCall.args[0].type).to.eql(
       FORM_FETCH_REQUEST_LIMITS_FAILED,
     );
   });
