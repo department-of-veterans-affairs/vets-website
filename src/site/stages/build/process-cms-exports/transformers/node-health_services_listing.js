@@ -4,7 +4,7 @@ const {
   utcToEpochTime,
 } = require('./helpers');
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'health_services_listing',
   title: getDrupalValue(entity.title),
@@ -24,7 +24,11 @@ const transform = entity => ({
   fieldFeaturedContentHealthser: entity.fieldFeaturedContentHealthser,
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
-  fieldOffice: entity.fieldOffice[0],
+  fieldOffice:
+    entity.fieldOffice[0] &&
+    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+      ? entity.fieldOffice[0]
+      : null,
 });
 
 module.exports = {
