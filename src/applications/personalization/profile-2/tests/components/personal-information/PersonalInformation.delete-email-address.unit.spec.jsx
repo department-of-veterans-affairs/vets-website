@@ -13,6 +13,7 @@ import {
   createBasicInitialState,
   elementNotRemoved,
   renderWithProfileReducers,
+  waitAndCheck,
 } from '../../unit-test-helpers';
 
 let emailAddress;
@@ -24,22 +25,6 @@ const ui = (
 );
 let view;
 let server;
-
-// returns a Promise that resolves if the cb does not throw an error when it's
-// run after the given timeout. The Promise is rejected if the cb throws an
-// error when it runs.
-function waitAndCheck(cb, timeout) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      try {
-        cb();
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    }, timeout);
-  });
-}
 
 function getEditButton() {
   let editButton = view.queryByText(/add.*email address/i, {
