@@ -34,15 +34,23 @@ class SearchControls extends Component {
 
     const { facilityType, serviceType } = this.props.currentQuery;
 
-    if (facilityType === LocationType.CC_PROVIDER && !serviceType) {
-      focusElement('#service-type-ahead-input');
-      return;
+    let analyticsServiceType = serviceType;
+
+    if (facilityType === LocationType.CC_PROVIDER) {
+      if (!serviceType) {
+        focusElement('#service-type-ahead-input');
+
+        return;
+      }
+
+      analyticsServiceType = this.props.currentQuery.specialties[serviceType];
     }
 
     // Report event here to only send analytics event when a user clicks on the button
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': facilityType,
+      'fl-search-svc-type': analyticsServiceType,
     });
 
     this.props.onSubmit();
@@ -65,9 +73,7 @@ class SearchControls extends Component {
     ));
     return (
       <span>
-        <label htmlFor="facility-type-dropdown">
-          Choose a VA facility type
-        </label>
+        <label htmlFor="facility-type-dropdown">Facility type</label>
         <select
           id="facility-type-dropdown"
           aria-label="Choose a facility type"
@@ -124,7 +130,7 @@ class SearchControls extends Component {
 
     return (
       <span>
-        <label htmlFor="service-type-dropdown">Choose a service type</label>
+        <label htmlFor="service-type-dropdown">Service type</label>
         <select
           id="service-type-dropdown"
           disabled={disabled || !facilityType}
@@ -163,7 +169,7 @@ class SearchControls extends Component {
                     htmlFor="street-city-state-zip"
                     id="street-city-state-zip-label"
                   >
-                    Search by city, state or postal code
+                    City, state or postal code
                   </label>
                   <input
                     id="street-city-state-zip"
@@ -174,6 +180,7 @@ class SearchControls extends Component {
                     value={currentQuery.searchString}
                     title="Your location: Street, City, State or Postal code"
                     required
+                    ref={this.props.getRefInput()}
                   />
                 </div>
               </div>
