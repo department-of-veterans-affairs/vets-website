@@ -43,9 +43,7 @@ export default function FieldTemplate(props) {
     uiSchema['ui:widget'] === 'radio';
 
   let errorSpan;
-  let errorClass;
   if (hasErrors) {
-    errorClass = isDateField ? 'input-error-date' : 'usa-input-error';
     errorSpan = (
       <span
         className="usa-input-error-message"
@@ -59,7 +57,8 @@ export default function FieldTemplate(props) {
 
   const containerClassNames = classNames(
     'schemaform-field-template',
-    errorClass,
+    { 'input-error-date': hasErrors && isDateField },
+    { 'usa-input-error': hasErrors && !isDateField },
     _.get(['ui:options', 'classNames'], uiSchema),
   );
   const labelClassNames = classNames({
