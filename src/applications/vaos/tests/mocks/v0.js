@@ -236,3 +236,57 @@ export function getFacilityMock() {
     },
   };
 }
+
+export function getClinicMock() {
+  return {
+    id: 'fake',
+    type: 'clinic',
+    attributes: {
+      siteCode: 'fake',
+      clinicId: 'fake',
+      clinicName: 'Fake name',
+      clinicFriendlyLocationName: 'Fake friendly name',
+      primaryStopCode: 'fake',
+      secondaryStopCode: '',
+      directSchedulingFlag: 'Y',
+      displayToPatientFlag: 'Y',
+      institutionName: 'Fake inst name',
+      institutionCode: 'fake',
+      objectType: 'CdwClinic',
+      link: [],
+    },
+  };
+}
+
+export function getAppointmentSlotMock() {
+  return {
+    startDateTime: 'fake',
+    endDateTime: 'fake',
+    bookingStatus: '1',
+    remainingAllowedOverBookings: '3',
+    availability: true,
+  };
+}
+
+export function getExpressCareRequestCriteriaMock(id, schedulingDays) {
+  return [
+    {
+      id,
+      type: 'request_eligibility_criteria',
+      attributes: {
+        id,
+        requestSettings: [],
+        customRequestSettings: [
+          {
+            id: 'CR1',
+            typeOfCare: 'Express Care',
+            submittedRequestLimit: 2,
+            enterpriseSubmittedRequestLimit: 2,
+            supported: !!schedulingDays,
+            schedulingDays: schedulingDays || [],
+          },
+        ],
+      },
+    },
+  ];
+}

@@ -7,6 +7,7 @@ import { formatNumber, locationInfo } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import CautionFlagHeading from './CautionFlagHeading';
 import SchoolClosingHeading from './SchoolClosingHeading';
+import ScorecardTags from '../ScorecardTags';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -113,6 +114,16 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </div>
           </div>
+          {this.props.gibctFilterEnhancement && (
+            <div className="row vads-u-padding-top--1p5">
+              <div className="view-details columns vads-u-display--inline-block">
+                <ScorecardTags
+                  styling={'info-flag'}
+                  it={this.props.institution}
+                />
+              </div>
+            </div>
+          )}
         </div>
         <AdditionalResources />
       </div>

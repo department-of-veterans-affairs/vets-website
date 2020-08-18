@@ -4,7 +4,7 @@ module.exports = {
   type: 'object',
   properties: {
     title: { $ref: 'GenericNestedString' },
-    moderation_state: { $ref: 'GenericNestedString' },
+    status: { $ref: 'GenericNestedBoolean' },
     path: { $ref: 'RawPath' },
     metatag: { $ref: 'RawMetaTags' },
     field_nickname_for_this_facility: { $ref: 'GenericNestedString' },
@@ -21,14 +21,16 @@ module.exports = {
         required: ['uri', 'title', 'options'],
       },
     },
+    field_leadership: { $ref: 'EntityReferenceArray' },
   },
   required: [
     'title',
-    'moderation_state',
+    'status',
     'path',
     'metatag',
     // Turns out this sometimes just isn't there
     // 'field_link_facility_emerg_list',
     'field_nickname_for_this_facility',
+    'field_leadership',
   ],
 };

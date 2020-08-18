@@ -1,0 +1,6 @@
+{
+  "appName": "Covid Vaccine Trial",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "covid-research-volunteer",
+  "rootUrl": "/covid-research-volunteer"
+}

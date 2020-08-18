@@ -3,6 +3,7 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import {
   directDepositDescription,
   bankInfoHelpText,
+  directDepositAlert,
 } from '../content/directDeposit';
 
 const { declineDirectDeposit } = fullSchema10203.properties;
@@ -31,10 +32,17 @@ export const uiSchema = {
     },
     'ui:options': {
       classNames: 'vads-u-margin-bottom--3',
+      hideIf: form => form?.declineDirectDeposit,
     },
   },
   declineDirectDeposit: {
     'ui:title': "I don't want to use direct deposit",
+    'ui:options': {
+      hideOnReviewIfFalse: true,
+    },
+  },
+  'view:directDespositInfo': {
+    'ui:description': directDepositAlert,
   },
   'view:bankInfoHelpText': {
     'ui:description': bankInfoHelpText,
@@ -49,6 +57,10 @@ export const schema = {
   properties: {
     bankAccount,
     declineDirectDeposit,
+    'view:directDespositInfo': {
+      type: 'object',
+      properties: {},
+    },
     'view:bankInfoHelpText': {
       type: 'object',
       properties: {},

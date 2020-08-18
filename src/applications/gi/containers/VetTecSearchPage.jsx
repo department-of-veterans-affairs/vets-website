@@ -25,6 +25,9 @@ import { renderVetTecLogo, renderSearchResultsHeader } from '../utils/render';
 import ServiceError from '../components/ServiceError';
 import { isMobileView } from '../utils/helpers';
 import environment from 'platform/utilities/environment';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { searchWithFilters } from '../utils/search';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -119,7 +122,10 @@ export class VetTecSearchPage extends React.Component {
     const queryFilterFields = this.getQueryFilterFields();
     if (!_.isEqual(this.props.search.query, queryFilterFields.query)) {
       this.props.institutionFilterChange(queryFilterFields.institutionFilter);
-      this.props.fetchProgramSearchResults(queryFilterFields.query);
+      this.props.fetchProgramSearchResults(
+        queryFilterFields.query,
+        this.props.gibctSearchEnhancements,
+      );
     }
   };
 
@@ -134,35 +140,10 @@ export class VetTecSearchPage extends React.Component {
     this.handleFilterChange('provider', provider.provider);
   };
 
-  handleFilterChange = (field, value) => {
-    // Translate form selections to query params.
-    const query = {
-      ...this.props.location.query,
-      [field]: value,
-      name: value === undefined ? field : this.props.autocomplete.searchTerm,
-    };
-
-    // Don’t update the route if the query hasn’t changed.
-    if (
-      _.isEqual(query, this.props.location.query) ||
-      this.props.search.inProgress
-    ) {
-      return;
-    }
-    this.props.clearAutocompleteSuggestions();
-
-    // Reset to the first page upon a filter change.
-    delete query.page;
-
-    const shouldRemoveFilter =
-      !value ||
-      ((field === 'country' || field === 'state' || field === 'type') &&
-        value === 'ALL');
-
-    if (shouldRemoveFilter) {
-      delete query[field];
-    }
-    this.props.router.push({ ...this.props.location, query });
+  handleFilterChange = (field, value, additionalFields = []) => {
+    const removedWhenAllFields = ['country', 'state', 'type'];
+    additionalFields.push({ field, value });
+    searchWithFilters(this.props, additionalFields, removedWhenAllFields);
   };
 
   autocomplete = (value, version) => {
@@ -294,6 +275,7 @@ export class VetTecSearchPage extends React.Component {
               eligibility={this.props.eligibility}
               showModal={this.props.showModal}
               eligibilityChange={this.props.eligibilityChange}
+              gibctSearchEnhancements={this.props.gibctSearchEnhancements}
             />
           </div>
         )}
@@ -310,6 +292,9 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
+  gibctSearchEnhancements: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSearchEnhancements
+  ],
 });
 
 const mapDispatchToProps = {

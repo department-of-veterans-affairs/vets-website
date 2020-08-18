@@ -12,6 +12,11 @@ export const APPOINTMENT_TYPES = {
   ccRequest: 'ccRequest',
 };
 
+export const CONFIRMED_APPOINTMENT_TYPES = new Set([
+  APPOINTMENT_TYPES.ccAppointment,
+  APPOINTMENT_TYPES.vaAppointment,
+]);
+
 export const APPOINTMENT_STATUS = {
   arrived: 'arrived',
   booked: 'booked',
@@ -59,6 +64,8 @@ export const PURPOSE_TEXT = [
     serviceName: 'Other',
   },
 ];
+
+export const CC_PURPOSE = 'other';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
   request:
@@ -343,4 +350,76 @@ export const FREE_BUSY_TYPES = {
   free: 'free',
   busyUnavailable: 'busy-unavailable',
   busyTentative: 'busy-tentative',
+};
+
+export const UNABLE_TO_REACH_VETERAN_DETCODE = 'DETCODE23';
+
+export const EXPRESS_CARE_REASONS = [
+  {
+    reason: 'Back pain',
+  },
+  {
+    reason: 'Cough',
+  },
+  {
+    reason: 'Pain or other issues in your ear, sinus, throat, or mouth',
+  },
+  {
+    reason: 'Fever',
+  },
+  {
+    reason: 'Loss of appetite or fatigue (feeling tired all the time)',
+  },
+  {
+    reason: 'Headache that isn’t severe or sudden',
+  },
+  {
+    reason: 'High or low blood pressure',
+  },
+  {
+    reason: 'High or low blood sugar',
+  },
+  {
+    reason: 'Joint or muscle pain or minor injury',
+    secondaryLabel:
+      'Such as pain in your knees, shoulders, hips, ankle, or feet, or a twisted ankle or sprained wrist',
+  },
+  {
+    reason: 'Medication or prescription question',
+  },
+  {
+    reason: 'Minor cut, scrape, or bruise',
+  },
+  {
+    reason: 'Neck pain',
+  },
+  {
+    reason: 'Red or weeping eye without vision loss',
+  },
+  {
+    reason: 'Skin lesion or rash',
+  },
+  {
+    reason: 'Stomach or digestive problem',
+  },
+  {
+    reason: 'Pain when you urinate (pee) or other urology issues',
+    secondaryLabel:
+      'Such as having the urge to urinate often or blood in your urine',
+  },
+];
+
+export const EXPRESS_CARE_ERROR_REASON = {
+  error: 'error',
+  noActiveFacility: 'noActiveFacility',
+};
+
+export const WEEKDAY_INDEXES = {
+  SUNDAY: 0,
+  MONDAY: 1,
+  TUESDAY: 2,
+  WEDNESDAY: 3,
+  THURSDAY: 4,
+  FRIDAY: 5,
+  SATURDAY: 6,
 };

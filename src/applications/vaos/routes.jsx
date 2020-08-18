@@ -54,6 +54,21 @@ const DateTimeSelectPage = asyncLoader(() =>
 const ConfirmationPage = asyncLoader(() =>
   import(/* webpackChunkName: "vaos-form" */ './containers/ConfirmationPage'),
 );
+const ExpressCareList = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './components/ExpressCareList'),
+);
+const ExpressCareInfoPage = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareInfoPage'),
+);
+const ExpressCareReasonPage = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareReasonPage'),
+);
+const ExpressCareDetailsPage = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareDetailsPage'),
+);
+const ExpressCareConfirmationPage = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareConfirmationPage'),
+);
 
 export default function createRoutesWithStore(store) {
   return (
@@ -61,6 +76,7 @@ export default function createRoutesWithStore(store) {
       <Route path="/" component={AppointmentsPage}>
         <IndexRoute component={FutureAppointmentsList} />
         <Route component={PastAppointmentsList} path="past" />
+        <Route component={ExpressCareList} path="express-care" />
       </Route>
       <Route
         path="new-appointment"
@@ -93,6 +109,17 @@ export default function createRoutesWithStore(store) {
         <Route path="reason-appointment" component={ReasonForAppointmentPage} />
         <Route path="review" component={ReviewPage} />
         <Route path="confirmation" component={ConfirmationPage} />
+      </Route>
+      <Route
+        path="new-express-care-request"
+        component={asyncLoader(() =>
+          import(/* webpackChunkName: "express-care" */ './containers/NewExpressCareRequestLayout'),
+        )}
+      >
+        <IndexRoute component={ExpressCareInfoPage} />
+        <Route path="select-reason" component={ExpressCareReasonPage} />
+        <Route path="additional-details" component={ExpressCareDetailsPage} />
+        <Route path="confirmation" component={ExpressCareConfirmationPage} />
       </Route>
     </Route>
   );

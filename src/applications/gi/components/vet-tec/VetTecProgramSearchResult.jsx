@@ -119,12 +119,14 @@ function VetTecProgramSearchResult(props) {
               </div>
             </div>
           </div>
-          <div className="row vads-u-padding-top--1p5">
+          <div className="row ">
             <div className="view-details columns vads-u-display--inline-block">
               {isPresent(lengthInHours) && (
                 <div className="info-flag">{displayHours}</div>
               )}
-              <Link to={linkTo}>View details ›</Link>
+              <div className="vads-u-margin-top--1">
+                <Link to={linkTo}>View details ›</Link>
+              </div>
             </div>
           </div>
         </div>

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import './ResponsiveTable.scss';
 
 const borderClasses =
   'vads-u-border-top--0 vads-u-border-right--0 vads-u-border-left--0 vads-u-font-family--sans vads-u-padding--0 vads-u-padding-y--0p5 medium-screen:vads-u-padding--1';
-const paddingClasses = '';
 const rowPaddingClass = 'vads-u-padding-y--2';
 
 class ResponsiveTable extends Component {
@@ -13,10 +11,6 @@ class ResponsiveTable extends Component {
       return <th key={field.value}>{field.label}</th>;
     }
 
-    // Determine what sort order the header will yield on the next click.
-    // By default, clicking this header will sort in ascending order.
-    // If it’s already ascending, next click will sort it in descending order.
-    let nextSortOrder = 'ASC';
     let sortIcon;
 
     if (this.props.currentSort.value === field.value) {
@@ -27,10 +21,6 @@ class ResponsiveTable extends Component {
       });
 
       sortIcon = <i className={iconClass} />;
-
-      if (this.props.currentSort.order === 'ASC') {
-        nextSortOrder = 'DESC';
-      }
     }
 
     return (
@@ -80,7 +70,7 @@ class ResponsiveTable extends Component {
   };
 
   render() {
-    const { className, data, fields } = this.props;
+    const { data, fields } = this.props;
     const headers = fields.map(this.renderHeader);
     const rows = data.map(this.renderRow);
 

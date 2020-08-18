@@ -1,14 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import { resetFetch } from 'platform/testing/unit/helpers';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import reducers from '../../reducers';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
   getVideoAppointmentMock,
+  getCCAppointmentMock,
 } from '../mocks/v0';
 import {
   mockPastAppointmentInfo,
@@ -31,13 +31,10 @@ describe('VAOS integration: past appointments', () => {
   it('should show select date range dropdown', async () => {
     mockPastAppointmentInfo({ va: [] });
 
-    const { findByText, baseElement, queryByText } = renderInReduxProvider(
-      <PastAppointmentsList />,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    const { queryByText } = renderInReduxProvider(<PastAppointmentsList />, {
+      initialState,
+      reducers,
+    });
 
     expect(queryByText(/Past 3 months/i)).to.exist;
   });
@@ -167,7 +164,7 @@ describe('VAOS integration: past appointments', () => {
     };
     mockFacilitiesFetch('vha_442GC', [facility]);
 
-    const { findByText, baseElement, getByText } = renderInReduxProvider(
+    const { findByText, baseElement } = renderInReduxProvider(
       <PastAppointmentsList />,
       {
         initialState,
@@ -182,7 +179,7 @@ describe('VAOS integration: past appointments', () => {
       ),
     );
 
-    expect(getByText(/directions/i)).to.have.attribute(
+    expect(await findByText(/directions/i)).to.have.attribute(
       'href',
       'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
     );
@@ -314,5 +311,57 @@ describe('VAOS integration: past appointments', () => {
     expect(queryByText(/video conference/i)).to.exist;
     expect(queryByText(/add to calendar/i)).to.not.exist;
     expect(queryByText(/cancel appointment/i)).to.not.exist;
+  });
+
+  it('should sort appointments by date', async () => {
+    const firstDate = moment().add(-3, 'days');
+    const secondDate = moment().add(-4, 'days');
+    const thirdDate = moment().add(-5, 'days');
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: firstDate.format(),
+    };
+    const videoAppointment = getVideoAppointmentMock();
+    videoAppointment.attributes = {
+      ...videoAppointment.attributes,
+      clinicId: null,
+      startDate: secondDate.format(),
+    };
+    videoAppointment.attributes.vvsAppointments[0] = {
+      ...videoAppointment.attributes.vvsAppointments[0],
+      dateTime: secondDate.format(),
+      status: { description: 'F', code: 'CHECKED OUT' },
+    };
+    const ccAppointment = getCCAppointmentMock();
+    ccAppointment.attributes = {
+      ...ccAppointment.attributes,
+      appointmentTime: thirdDate.format('MM/DD/YYYY HH:mm:ss'),
+      timeZone: 'UTC',
+    };
+    mockPastAppointmentInfo({
+      va: [videoAppointment, appointment],
+      cc: [ccAppointment],
+    });
+
+    const { baseElement, findAllByRole } = renderInReduxProvider(
+      <PastAppointmentsList />,
+      {
+        initialState,
+        reducers,
+      },
+    );
+
+    await findAllByRole('list');
+
+    const dateHeadings = Array.from(
+      baseElement.querySelectorAll('#appointments-list h3'),
+    ).map(card => card.textContent.trim());
+
+    expect(dateHeadings).to.deep.equal([
+      firstDate.format('dddd, MMMM D, YYYY [at] h:mm a'),
+      secondDate.format('dddd, MMMM D, YYYY [at] h:mm a'),
+      thirdDate.format('dddd, MMMM D, YYYY [at] h:mm a [UTC UTC]'),
+    ]);
   });
 });

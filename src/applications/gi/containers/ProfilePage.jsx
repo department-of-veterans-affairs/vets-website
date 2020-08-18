@@ -92,6 +92,8 @@ export class ProfilePage extends React.Component {
             version={this.props.location.query.version}
             gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
             gibctEybBottomSheet={this.props.gibctEybBottomSheet}
+            gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
+            gibctFilterEnhancement={this.props.gibctFilterEnhancement}
           />
         );
       }
@@ -125,6 +127,12 @@ const mapStateToProps = state => {
     ],
     gibctEybBottomSheet: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctEybBottomSheet
+    ],
+    gibctCh33BenefitRateUpdate: toggleValues(state)[
+      FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
+    ],
+    gibctFilterEnhancement: toggleValues(state)[
+      FEATURE_FLAG_NAMES.gibctFilterEnhancement
     ],
   };
 };

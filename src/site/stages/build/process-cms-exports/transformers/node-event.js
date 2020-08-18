@@ -4,6 +4,7 @@ const {
   getWysiwygString,
   createLink,
   createMetaTagArray,
+  isPublished,
 } = require('./helpers');
 const { mapKeys, camelCase } = require('lodash');
 const assert = require('assert');
@@ -25,14 +26,9 @@ const transform = entity => ({
   // Unsure why this was in the transformer in the first place, but it's possibly used in the templates somewhere?
   // uid: entity.uid[0],
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  entityUrl: {
-    // TODO: Get the breadcrumb from the CMS export when it's available
-    breadcrumb: [],
-    path: entity.path[0].alias,
-  },
   entityMetatags: createMetaTagArray(entity.metatag.value),
   // TODO: Verify this is how to derive the entityPublished state
-  entityPublished: entity.moderationState[0].value === 'published',
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldAdditionalInformationAbo: entity.fieldAdditionalInformationAbo.value
     ? {
         processed: getWysiwygString(
@@ -63,6 +59,7 @@ const transform = entity => ({
   fieldLink: createLink(entity.fieldLink, ['url']),
   fieldLocationHumanreadable: getDrupalValue(entity.fieldLocationHumanreadable),
   fieldMedia: entity.fieldMedia[0] || null,
+  status: getDrupalValue(entity.status),
 });
 
 module.exports = {
@@ -84,7 +81,7 @@ module.exports = {
     'field_location_humanreadable',
     'field_media',
     'metatag',
-    'moderation_state',
+    'status',
   ],
   transform,
 };

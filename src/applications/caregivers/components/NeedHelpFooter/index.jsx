@@ -1,4 +1,8 @@
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 import { links } from 'applications/caregivers/definitions/content';
 
 const NeedHelpFooter = props => {
@@ -11,25 +15,19 @@ const NeedHelpFooter = props => {
         <hr />
         <p>
           You can call the VA Caregiver Support Line at
-          <a
-            href={links.caregiverHelp.phoneLink}
-            aria-label={links.caregiverHelp.phoneAriaLabel}
+          <Telephone
+            contact={CONTACTS.CAREGIVER}
             className="vads-u-margin-left--0p5"
-          >
-            {links.caregiverHelp.phoneLabel}
-          </a>
+          />
           . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
 
         <p>
           You can also call our main VA information line at
-          <a
-            href={links.VAHelpLine.label}
-            aria-label={links.VAHelpLine.phoneAriaLabel}
+          <Telephone
+            contact={CONTACTS['222_VETS']}
             className="vads-u-margin-left--0p5"
-          >
-            {links.VAHelpLine.link}
-          </a>
+          />
           , or contact your local Caregiver Support Coordinator.
         </p>
 
@@ -46,15 +44,15 @@ const NeedHelpFooter = props => {
 
         <p>
           If this form isn't working right for you, please call us at at
-          <a
-            href={links.reportLine.link}
-            aria-label={links.reportLine.phoneAriaLabel}
+          <Telephone
+            contact={CONTACTS.HELP_DESK}
             className="vads-u-margin-left--0p5"
-          >
-            {links.reportLine.label}
-          </a>
+          />
           .<br />
-          <span>If you have hearing loss, call TTY: 711.</span>
+          <span>
+            If you have hearing loss, call TTY:{' '}
+            <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
+          </span>
         </p>
       </div>
     </footer>

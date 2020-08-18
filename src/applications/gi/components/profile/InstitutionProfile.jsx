@@ -22,6 +22,7 @@ export class InstitutionProfile extends React.Component {
     calculator: PropTypes.object,
     eligibility: PropTypes.object,
     gibctEybBottemSheet: PropTypes.bool,
+    gibctCh33BenefitRateUpdate: PropTypes.bool,
   };
 
   shouldShowSchoolLocations = facilityMap =>
@@ -41,6 +42,8 @@ export class InstitutionProfile extends React.Component {
       showModal,
       gibctEstimateYourBenefits,
       gibctEybBottomSheet,
+      gibctCh33BenefitRateUpdate,
+      gibctFilterEnhancement,
     } = this.props;
     return (
       <div>
@@ -48,6 +51,7 @@ export class InstitutionProfile extends React.Component {
           institution={profile.attributes}
           onLearnMore={showModal.bind(this, 'gibillstudents')}
           onViewWarnings={this.handleViewWarnings}
+          gibctFilterEnhancement={gibctFilterEnhancement}
         />
         <div className="usa-accordion vads-u-margin-top--4">
           <ul>
@@ -55,6 +59,7 @@ export class InstitutionProfile extends React.Component {
               {gibctEstimateYourBenefits ? (
                 <EstimateYourBenefits
                   gibctEybBottomSheet={gibctEybBottomSheet}
+                  gibctCh33BenefitRateUpdate={gibctCh33BenefitRateUpdate}
                 />
               ) : (
                 <Calculator />

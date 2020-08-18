@@ -9,10 +9,9 @@ import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
   PAST_APPOINTMENTS_HIDDEN_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
-  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
   VIDEO_TYPES,
+  CONFIRMED_APPOINTMENT_TYPES,
 } from '../../utils/constants';
 
 /**
@@ -124,7 +123,7 @@ export function getVARFacilityId(appointment) {
       ?.split('_')?.[0];
 
     if (id) {
-      return id;
+      return id.replace('var', '');
     }
 
     return null;
@@ -227,48 +226,41 @@ export function getPatientEmail(appointment) {
 }
 
 /**
- * Filter method for future confirmed appointments
+ * Checks to see if a past appointment has a valid status
+ *
  * @param {Object} appt A FHIR appointment resource
+ * @returns Whether or not the appt should be shown
  */
-export function filterFutureConfirmedAppointments(appt) {
-  const apptDateTime = moment(appt.start);
-
+export function isValidPastAppointment(appt) {
   return (
-    !appt.vaos.isPastAppointment &&
-    !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-    apptDateTime.isValid() &&
-    apptDateTime.isBefore(moment().add(13, 'months'))
+    appt.vaos.appointmentType !== APPOINTMENT_TYPES.vaAppointment ||
+    !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)
   );
 }
 
 /**
- * Filter method for past appointments
- * @param {Object} appt A FHIR appointment resource
+ * Returns true if the given Appointment is a confirmed appointment
+ * or a request that still needs processing
+ *
+ * @export
+ * @param {Object} appt The FHIR Appointment to check
+ * @returns {Boolean} Whether or not the appointment is a valid upcoming
+ *  appointment or request
  */
-export function filterPastAppointments(appt, startDate, endDate) {
-  const apptDateTime = moment(appt.start);
+export function isUpcomingAppointmentOrRequest(appt) {
+  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
+    const apptDateTime = moment(appt.start);
 
-  if (
-    appt.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
-    PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)
-  ) {
-    return false;
+    return (
+      !appt.vaos.isPastAppointment &&
+      !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+      apptDateTime.isValid() &&
+      apptDateTime.isBefore(moment().add(13, 'months'))
+    );
   }
 
-  return (
-    apptDateTime.isValid() &&
-    apptDateTime.isAfter(startDate) &&
-    apptDateTime.isBefore(endDate)
-  );
-}
-
-/**
- * Filter method for past appointment requests
- * @param {Object} request A FHIR appointment resource
- */
-export function filterRequests(request) {
   const today = moment().startOf('day');
-  const hasValidDate = request.requestedPeriod.some(period => {
+  const hasValidDate = appt.requestedPeriod.some(period => {
     const momentStart = moment(period.start);
     const momentEnd = moment(period.end);
     return (
@@ -277,20 +269,11 @@ export function filterRequests(request) {
   });
 
   return (
-    request.status === APPOINTMENT_STATUS.proposed ||
-    request.status === APPOINTMENT_STATUS.pending ||
-    (request.status === APPOINTMENT_STATUS.cancelled &&
-      (hasValidDate || request.vaos.isExpressCare))
+    appt.status === APPOINTMENT_STATUS.proposed ||
+    appt.status === APPOINTMENT_STATUS.pending ||
+    (appt.status === APPOINTMENT_STATUS.cancelled &&
+      (hasValidDate || appt.vaos.isExpressCare))
   );
-}
-
-/**
- * Sort method for future confirmed appointments
- * @param {Object} a A FHIR appointment resource
- * @param {Object} b A FHIR appointment resource
- */
-export function sortFutureConfirmedAppointments(a, b) {
-  return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
 }
 
 /**
@@ -298,7 +281,7 @@ export function sortFutureConfirmedAppointments(a, b) {
  * @param {Object} a A FHIR appointment resource
  * @param {Object} b A FHIR appointment resource
  */
-export function sortPastAppointments(a, b) {
+export function sortByDateDescending(a, b) {
   return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
 }
 
@@ -307,7 +290,18 @@ export function sortPastAppointments(a, b) {
  * @param {Object} a A FHIR appointment resource
  * @param {Object} b A FHIR appointment resource
  */
-export function sortFutureRequests(a, b) {
+export function sortUpcoming(a, b) {
+  if (
+    CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) !==
+    CONFIRMED_APPOINTMENT_TYPES.has(b.vaos.appointmentType)
+  ) {
+    return CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) ? -1 : 1;
+  }
+
+  if (CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType)) {
+    return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
+  }
+
   const typeOfCareA = a.type?.coding?.[0]?.display;
   const typeOfCareB = b.type?.coding?.[0]?.display;
 

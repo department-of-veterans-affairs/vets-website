@@ -1,33 +1,21 @@
 // Node modules.
 import React from 'react';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
 import CernerCallToAction from '../../../components/CernerCallToAction';
-import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import { getCernerURL } from 'platform/utilities/cerner';
-
-const callToActions = [
-  {
-    deriveHeaderText: facilityNames => `Secure Message ${facilityNames}`,
-    href: getCernerURL('/pages/messaging/inbox'),
-    label: 'Secure Message on My VA Health',
-  },
-  {
-    deriveHeaderText: () =>
-      `Secure Message a provider at another VA Medical Center`,
-    href:
-      'https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging',
-    label: 'Secure Message on My HealtheVet',
-  },
-];
 
 export const AuthContent = () => (
   <>
-    <CernerCallToAction callToActions={callToActions} type="Secure Messaging" />
+    <h2 id="send-or-receive-secure-mess">Send or receive a secure message</h2>
+    <CernerCallToAction
+      linksHeaderText="Send a secure message to a provider at:"
+      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging"
+      myVAHealthLink={getCernerURL('/pages/messaging/inbox')}
+    />
     <div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-can-va-secure-messaging-he">
-          How can VA Secure Messaging help me manage my health care?
+          How can VA secure messaging help me manage my health care?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -37,12 +25,12 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                Secure Messaging is a web-based service that protects your
-                sensitive information so you can safely and easily communicate
-                electronically with your VA health care team.
+                This web- and mobile-based service protects your sensitive
+                information so you can safely and easily communicate with your
+                VA health care team online.
               </p>
               <p>
-                <strong>You can use Secure Messaging to:</strong>
+                <strong>You can use secure messaging to:</strong>
               </p>
               <ul>
                 <li>Ask non-urgent, non-emergency health-related questions</li>
@@ -50,7 +38,7 @@ export const AuthContent = () => (
                 <li>
                   Request VA referrals, test results, and prescription renewals
                 </li>
-                <li>Manage your VA appointments</li>
+                <li>Manage your VA health appointments</li>
                 <li>
                   Ask routine administrative questions about topics like
                   scheduling appointments or getting directions
@@ -66,7 +54,7 @@ export const AuthContent = () => (
       </div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="am-i-eligible-to-use-secure-me">
-          Am I eligible to use Secure Messaging?
+          Am I eligible to use secure messaging?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -92,7 +80,7 @@ export const AuthContent = () => (
                 </li>
                 <li>
                   Your VA health care provider has agreed to communicate with
-                  you through Secure Messaging
+                  you through secure messaging
                 </li>
               </ul>
               <p>
@@ -105,16 +93,27 @@ export const AuthContent = () => (
               </p>
               <ul>
                 <li>
-                  A Premium <strong>My HealtheVet</strong> account,{' '}
-                  <strong>or</strong>
+                  A{' '}
+                  <a
+                    rel="noreferrer noopener"
+                    href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount"
+                  >
+                    Premium <strong>My HealtheVet</strong> account
+                  </a>
+                  , <strong>or</strong>
                 </li>
                 <li>
                   A Premium <strong>DS Logon</strong> account (used for
                   eBenefits and milConnect), <strong>or</strong>
                 </li>
                 <li>
-                  A verified <strong>ID.me</strong> account that you can create
-                  here on VA.gov
+                  A verified <strong>ID.me</strong> account that you can{' '}
+                  <a
+                    rel="noreferrer noopener"
+                    href="https://id.me/en/registration/new"
+                  >
+                    create here on VA.gov
+                  </a>
                 </li>
               </ul>
               <p>
@@ -132,7 +131,7 @@ export const AuthContent = () => (
       </div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-does-secure-messaging-work">
-          How does Secure Messaging work within My HealtheVet?
+          How does secure messaging work?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -142,18 +141,18 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                With Secure Messaging, you can write messages, save drafts,
+                With secure messaging, you can write messages, save drafts,
                 review your sent messages, and keep a record of your
                 conversations.
               </p>
               <p>
-                You can use Secure Messaging to communicate with any VA health
-                care team member who has signed up to participate.
+                You can use this tool to communicate with any VA health care
+                team member who has signed up to participate.
               </p>
               <p>
                 You can send non-urgent, non-emergency messages at any time of
                 the day or night. Your VA health care team should respond within
-                3 business days (Monday through Friday, 8:00 a.m. - 5:00 p.m.,
+                3 business days (Monday through Friday, 8:00 a.m. to 5:00 p.m.,
                 except federal holidays). If you’d like, you can set up your
                 account to send a notification to your personal email when you
                 receive a new secure message.
@@ -164,7 +163,7 @@ export const AuthContent = () => (
       </div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="can-i-use-secure-messaging-for">
-          Can I use Secure Messaging for medical emergencies or urgent needs?
+          Can I use secure messaging for medical emergencies or urgent needs?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -174,8 +173,9 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                No. You shouldn’t use Secure Messaging when you have an urgent
-                need, because it may take a few days for you to get a reply.
+                No. If you have an emergency or urgent need, please do&apos;t
+                use secure messaging. It may take a few days for you to get a
+                reply.
               </p>
               <p>
                 <strong>If you think you have a medical emergency,</strong> call
@@ -210,8 +210,11 @@ export const AuthContent = () => (
                 </li>
                 <li>
                   Start a{' '}
-                  <a href="https://www.veteranscrisisline.net/get-help/chat">
-                    confidential Veterans Chat
+                  <a
+                    rel="noreferrer noopener"
+                    href="https://www.veteranscrisisline.net/get-help/chat"
+                  >
+                    confidential chat
                   </a>
                   .
                 </li>
@@ -225,7 +228,7 @@ export const AuthContent = () => (
       </div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="can-i-use-secure-messaging-to-">
-          Can I use Secure Messaging to communicate with non-VA providers?
+          Can I use secure messaging with community (non-VA) providers?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -236,7 +239,7 @@ export const AuthContent = () => (
             <div className="processed-content">
               <p>
                 No. You can communicate only with your VA providers who’ve
-                agreed to participate in Secure Messaging.
+                agreed to participate in secure messaging.
               </p>
             </div>
           </div>
@@ -254,8 +257,8 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                Yes. This is a secure website. We follow strict security
-                policies and practices to protect your personal health
+                Yes. Our health management portals are secure. We follow strict
+                security policies and practices to protect your personal health
                 information. And only you and your VA health care team will have
                 access to your secure messages.
               </p>
@@ -279,66 +282,51 @@ export const AuthContent = () => (
         <h2 itemProp="name" id="what-if-i-have-more-questions">
           What if I have more questions?
         </h2>
-        <div
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div className="processed-content">
-              <p>
-                <strong>
-                  If you have questions about Secure Messaging on MyHealtheVet
-                </strong>
-                , please go to the{' '}
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/faqs#Appointments"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Secure Messaging FAQs
-                </a>{' '}
-                on the My HealtheVet web portal.
-              </p>
-              <p>
-                Or contact the My HealtheVet help desk at{' '}
-                <a href="tel:+18773270022">877-327-0022</a> (TTY:{' '}
-                <a href="tel:+18008778339">800-877-8339</a>. We&apos;re here
-                Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
-              </p>
-              <p>
-                You can also{' '}
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  contact us online
-                </a>
-                .
-              </p>
-              <p>
-                <strong>
-                  If you have questions about Secure Messaging on My VA Health
-                </strong>
-                , you can call the My VA Health help desk at{' '}
-                <a aria-label="1 8 0 0 9 6 2 1 0 2 4" href="tel:18009621024">
-                  1-800-962-1024
-                </a>
-                . You can also{' '}
-                <a
-                  className="vads-u-color--secondary vads-u-text-decoration--none"
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  [contact us online]
-                </a>
-                .
-              </p>
-            </div>
-          </div>
-        </div>
+        <h3 id="for-my-healthe-vet-questions">For My HealtheVet questions</h3>
+        <p>You can:</p>
+        <ul>
+          <li>
+            Read the{' '}
+            <a
+              rel="noreferrer noopener"
+              href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#smGeneralFAQ"
+            >
+              secure messaging FAQs
+            </a>{' '}
+            on the My HealtheVet web portal
+          </li>
+          <li>
+            Call the My HealtheVet help desk at{' '}
+            <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
+              877-327-0022
+            </a>{' '}
+            (
+            <a
+              href=" tel:18008778339."
+              aria-label=" TTY. 8 0 0. 8 7 7. 8 3 3 9."
+            >
+              TTY: 800-877-8339
+            </a>
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </li>
+          <li>
+            Or{' '}
+            <a
+              rel="noreferrer noopener"
+              href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
+            >
+              contact us online
+            </a>
+          </li>
+        </ul>
+        <h3>For My VA Health questions</h3>
+        <p>
+          Call My VA Health support anytime at{' '}
+          <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
+            800-962-1024
+          </a>
+          .
+        </p>
       </div>
     </div>
   </>

@@ -30,6 +30,7 @@ import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
 import environment from 'platform/utilities/environment';
 import { isMobileView } from '../utils/helpers';
+import { searchWithFilters } from '../utils/search';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -89,6 +90,9 @@ export class SearchPage extends React.Component {
       'preferredProvider',
       'excludeWarnings',
       'excludeCautionFlags',
+      'womenonly',
+      'menonly',
+      'hbcu',
     ];
 
     const stringFilterParams = [
@@ -97,6 +101,7 @@ export class SearchPage extends React.Component {
       'country',
       'state',
       'type',
+      'relaffil',
     ];
 
     const stringSearchParams = ['page', 'name'];
@@ -140,34 +145,10 @@ export class SearchPage extends React.Component {
     });
   };
 
-  handleFilterChange = (field, value) => {
-    // Translate form selections to query params.
-    const query = {
-      ...this.props.location.query,
-      [field]: value,
-      name: value === undefined ? field : this.props.autocomplete.searchTerm,
-    };
-    // Don’t update the route if the query hasn’t changed.
-    if (
-      _.isEqual(query, this.props.location.query) ||
-      this.props.search.inProgress
-    ) {
-      return;
-    }
-    this.props.clearAutocompleteSuggestions();
-
-    // Reset to the first page upon a filter change.
-    delete query.page;
-
-    const shouldRemoveFilter =
-      !value ||
-      ((field === 'country' || field === 'state' || field === 'type') &&
-        value === 'ALL');
-
-    if (shouldRemoveFilter) {
-      delete query[field];
-    }
-    this.props.router.push({ ...this.props.location, query });
+  handleFilterChange = (field, value, additionalFields = []) => {
+    const removedWhenAllFields = ['country', 'state', 'type', 'relaffil'];
+    additionalFields.push({ field, value });
+    searchWithFilters(this.props, additionalFields, removedWhenAllFields);
   };
 
   searchResults = () => {
@@ -235,6 +216,10 @@ export class SearchPage extends React.Component {
                 yr={result.yr}
                 poe={result.poe}
                 eightKeys={result.eightKeys}
+                womenonly={result.womenonly}
+                menonly={result.menonly}
+                relaffil={result.relaffil}
+                hbcu={result.hbcu}
               />
             ))}
           </div>
@@ -273,6 +258,8 @@ export class SearchPage extends React.Component {
         eligibilityChange={this.props.eligibilityChange}
         gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
         hideModal={this.props.hideModal}
+        gibctFilterEnhancement={this.props.gibctFilterEnhancement}
+        gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
       />
     </div>
   );
@@ -316,6 +303,12 @@ const mapStateToProps = state => ({
   ],
   gibctSearchEnhancements: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSearchEnhancements
+  ],
+  gibctFilterEnhancement: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctFilterEnhancement
+  ],
+  gibctCh33BenefitRateUpdate: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
   ],
 });
 

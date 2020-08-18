@@ -1193,6 +1193,8 @@ describe('VAOS newAppointment actions', () => {
         'error-key': undefined,
         appointmentType: undefined,
         facilityType: undefined,
+        'health-expressCareReason': undefined,
+        isExpressCare: undefined,
       });
       expect(router.push.called).to.be.true;
     });
@@ -1260,6 +1262,12 @@ describe('VAOS newAppointment actions', () => {
               {
                 id: 'var983_123',
                 resourceType: 'HealthcareService',
+                identifier: [
+                  {
+                    system: 'http://med.va.gov/fhir/urn',
+                    value: 'urn:va:healthcareservice:983:983:308',
+                  },
+                ],
                 serviceName: 'CHY PC KILPATRICK',
                 characteristic: [
                   {
@@ -1418,6 +1426,8 @@ describe('VAOS newAppointment actions', () => {
         'error-key': undefined,
         appointmentType: undefined,
         facilityType: undefined,
+        'health-expressCareReason': undefined,
+        isExpressCare: undefined,
       });
       expect(router.push.called).to.be.false;
     });
@@ -1500,6 +1510,8 @@ describe('VAOS newAppointment actions', () => {
         'error-key': undefined,
         appointmentType: undefined,
         facilityType: undefined,
+        'health-expressCareReason': undefined,
+        isExpressCare: undefined,
       });
       expect(router.push.called).to.be.false;
     });
@@ -1623,6 +1635,12 @@ describe('VAOS newAppointment actions', () => {
               {
                 id: 'var983_123',
                 resourceType: 'HealthcareService',
+                identifier: [
+                  {
+                    system: 'http://med.va.gov/fhir/urn',
+                    value: 'urn:va:healthcareservice:983:983:308',
+                  },
+                ],
                 serviceName: 'CHY PC KILPATRICK',
                 characteristic: [
                   {

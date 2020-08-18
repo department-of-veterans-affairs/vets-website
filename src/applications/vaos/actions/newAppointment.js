@@ -29,7 +29,7 @@ import {
 } from '../api';
 import {
   getOrganizations,
-  getSiteIdFromOrganization,
+  getIdOfRootOrganization,
 } from '../services/organization';
 import { getLocation } from '../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../services/healthcare-service';
@@ -134,6 +134,8 @@ export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 export const FORM_UPDATE_CC_ELIGIBILITY =
   'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
+export const CLICKED_UPDATE_ADDRESS_BUTTON =
+  'newAppointment/CLICKED_UPDATE_ADDRESS_BUTTON';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -147,6 +149,12 @@ export function openFormPage(page, uiSchema, schema) {
 export function startNewAppointmentFlow() {
   return {
     type: STARTED_NEW_APPOINTMENT_FLOW,
+  };
+}
+
+export function clickUpdateAddressButton() {
+  return {
+    type: CLICKED_UPDATE_ADDRESS_BUTTON,
   };
 }
 
@@ -293,8 +301,8 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId) {
-        siteId = getSiteIdFromOrganization(
-          parentFacilities.find(parent => parent.id === parentId),
+        siteId = parseFakeFHIRId(
+          getIdOfRootOrganization(parentFacilities, parentId),
         );
       }
 
@@ -457,9 +465,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           const eligibility = getEligibilityStatus(getState());
           if (!eligibility.direct && !eligibility.request) {
             // Remove parse function when converting this call to FHIR service
-            const thunk = fetchFacilityDetails(
-              parseFakeFHIRId(data.vaFacility),
-            );
+            const thunk = fetchFacilityDetails(data.vaFacility);
             await thunk(dispatch, getState);
           }
         } catch (e) {
@@ -501,7 +507,7 @@ export function openClinicPage(page, uiSchema, schema) {
 
     const formData = getFormData(getState());
     // Remove parse function when converting this call to FHIR service
-    await dispatch(fetchFacilityDetails(parseFakeFHIRId(formData.vaFacility)));
+    await dispatch(fetchFacilityDetails(formData.vaFacility));
 
     dispatch({
       type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
@@ -512,25 +518,31 @@ export function openClinicPage(page, uiSchema, schema) {
   };
 }
 
-export function getAppointmentSlots(startDate, endDate) {
+export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
+    const useVSP = vaosVSPAppointmentNew(state);
     const rootOrgId = getRootIdForChosenFacility(state);
     const newAppointment = getNewAppointment(state);
-    const availableSlots = newAppointment.availableSlots || [];
     const { data } = newAppointment;
-
-    const fetchedAppointmentSlotMonths = [
-      ...newAppointment.fetchedAppointmentSlotMonths,
-    ];
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
 
-    const fetchedStartMonth = fetchedAppointmentSlotMonths.includes(
-      startDateMonth,
-    );
-    const fetchedEndMonth = fetchedAppointmentSlotMonths.includes(endDateMonth);
+    let fetchedAppointmentSlotMonths = [];
+    let fetchedStartMonth = false;
+    let fetchedEndMonth = false;
+    let availableSlots = [];
+
+    if (!forceFetch) {
+      fetchedAppointmentSlotMonths = [
+        ...newAppointment.fetchedAppointmentSlotMonths,
+      ];
+
+      fetchedStartMonth = fetchedAppointmentSlotMonths.includes(startDateMonth);
+      fetchedEndMonth = fetchedAppointmentSlotMonths.includes(endDateMonth);
+      availableSlots = newAppointment.availableSlots || [];
+    }
 
     if (!fetchedStartMonth || !fetchedEndMonth) {
       let mappedSlots = [];
@@ -554,6 +566,7 @@ export function getAppointmentSlots(startDate, endDate) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          useVSP,
         });
 
         const now = moment();
@@ -643,12 +656,9 @@ export function updateCCEligibility(isEligible) {
   };
 }
 
-async function buildPreferencesDataAndUpdate(newAppointment) {
+async function buildPreferencesDataAndUpdate(email) {
   const preferenceData = await getPreferences();
-  const preferenceBody = createPreferenceBody(
-    preferenceData,
-    newAppointment.data,
-  );
+  const preferenceBody = createPreferenceBody(preferenceData, email);
   return updatePreferences(preferenceBody);
 }
 
@@ -681,7 +691,7 @@ export function submitAppointmentOrRequest(router) {
         await submitAppointment(appointmentBody);
 
         try {
-          await buildPreferencesDataAndUpdate(newAppointment);
+          await buildPreferencesDataAndUpdate(data.email);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
@@ -707,9 +717,7 @@ export function submitAppointmentOrRequest(router) {
         });
 
         // Remove parse function when converting this call to FHIR service
-        dispatch(
-          fetchFacilityDetails(parseFakeFHIRId(newAppointment.data.vaFacility)),
-        );
+        dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
 
         recordEvent({
           event: `${GA_PREFIX}-direct-submission-failed`,
@@ -742,11 +750,11 @@ export function submitAppointmentOrRequest(router) {
         }
 
         try {
-          await sendRequestMessage(
-            requestData.id,
-            newAppointment.data.reasonAdditionalInfo,
-          );
-          await buildPreferencesDataAndUpdate(newAppointment);
+          const requestMessage = data.reasonAdditionalInfo;
+          if (requestMessage) {
+            await sendRequestMessage(requestData.id, requestMessage);
+          }
+          await buildPreferencesDataAndUpdate(data.email);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
@@ -793,11 +801,9 @@ export function submitAppointmentOrRequest(router) {
         // Remove parse function when converting this call to FHIR service
         dispatch(
           fetchFacilityDetails(
-            parseFakeFHIRId(
-              isCommunityCare
-                ? newAppointment.data.communityCareSystemId
-                : newAppointment.data.vaFacility,
-            ),
+            isCommunityCare
+              ? newAppointment.data.communityCareSystemId
+              : newAppointment.data.vaFacility,
           ),
         );
 

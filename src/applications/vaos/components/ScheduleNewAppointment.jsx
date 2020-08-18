@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { getCernerPortalLink } from '../utils/appointment';
+import { getCernerURL } from 'platform/utilities/cerner';
 
 export default function ScheduleNewAppointment({
   isCernerOnlyPatient,
@@ -21,7 +21,7 @@ export default function ScheduleNewAppointment({
           <a
             id="new-appointment"
             className="usa-button vads-u-font-weight--bold vads-u-font-size--md"
-            href={getCernerPortalLink()}
+            href={getCernerURL('/pages/scheduling/upcoming')}
             target="_blank"
             rel="noopener noreferrer"
           >

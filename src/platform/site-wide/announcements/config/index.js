@@ -1,5 +1,3 @@
-// Node modules.
-import moment from 'moment';
 // Relative imports.
 import ExploreVAModal from '../components/ExploreVAModal';
 import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
@@ -43,7 +41,8 @@ const config = {
     },
     {
       name: 'single-sign-on-intro',
-      paths: /(.)/,
+      // display for everything except the sign-in page and subroutes
+      paths: /^(?!.*\/sign-in\/).*$/,
       component: SingleSignOnInfoModal,
     },
   ],

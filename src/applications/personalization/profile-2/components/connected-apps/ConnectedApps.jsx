@@ -10,6 +10,7 @@ import {
   loadConnectedApps,
 } from 'applications/personalization/profile-2/components/connected-apps/actions';
 import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 import { AdditionalInfoSections } from './AdditionalInfoSections';
 import { AppDeletedAlert } from './AppDeletedAlert';
 import availableConnectedApps from './availableConnectedApps';
@@ -17,7 +18,14 @@ import { ConnectedApp } from './ConnectedApp';
 
 export class ConnectedApps extends Component {
   componentDidMount() {
+    focusElement('[data-focus-target]');
     this.props.loadConnectedApps();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.loading && !this.props.loading) {
+      focusElement('[data-focus-target]');
+    }
   }
 
   confirmDelete = appId => {
@@ -73,6 +81,15 @@ export class ConnectedApps extends Component {
           </>
         )}
 
+        {!isEmpty(errors) && (
+          <AlertBox
+            className="vads-u-margin-bottom--2"
+            headline="We couldn’t retrieve your connected apps"
+            status="warning"
+            content="We’re sorry. Something went wrong on our end and we couldn’t access your connected apps. Please try again later."
+          />
+        )}
+
         {deletedApps.map(app => (
           <AppDeletedAlert
             id={app.id}
@@ -118,16 +135,8 @@ export class ConnectedApps extends Component {
               }. Please try again later.`}
             />
           ))}
-        {!isEmpty(errors) && (
-          <AlertBox
-            className="vads-u-margin-bottom--2"
-            headline="We couldn’t retrieve your connected apps"
-            status="warning"
-            content="We’re sorry. Something went wrong on our end and we couldn’t access your connected apps. Please try again later."
-          />
-        )}
 
-        {activeApps.map((app, idx) => (
+        {activeApps.map(app => (
           <ConnectedApp
             key={app.id}
             confirmDelete={this.confirmDelete}
@@ -140,21 +149,19 @@ export class ConnectedApps extends Component {
             Have more questions about connected apps?
           </h3>
           <p>
-            Visit our{' '}
             <a
               className="vads-u-color--primary-alt-darkest"
               onClick={() =>
                 recordEvent({
-                  event: 'account-navigation',
-                  'account-action': 'view-link',
-                  'account-section': 'vets-faqs',
+                  event: 'profile-navigation',
+                  'profile-action': 'view-link',
+                  'profile-section': 'vets-faqs',
                 })
               }
-              href="/sign-in-faq/"
+              href="/sign-in-faq/#connecting-third-party-(non-VA"
             >
-              frequently asked questions
+              Go to FAQs about signing in to VA.gov
             </a>
-            .
           </p>
         </div>
       </div>

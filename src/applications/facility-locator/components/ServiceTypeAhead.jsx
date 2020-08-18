@@ -3,7 +3,7 @@ import { func, string } from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import classNames from 'classnames';
-import { getProviderSvcs } from '../actions';
+import { getProviderSpecialties } from '../actions';
 
 /**
  * CC Providers' Service Types Typeahead
@@ -21,7 +21,7 @@ class ServiceTypeAhead extends Component {
   }
 
   getServices = async () => {
-    const services = await this.props.getProviderSvcs();
+    const services = await this.props.getProviderSpecialties();
     this.setState({
       services,
       defaultSelectedItem:
@@ -42,27 +42,40 @@ class ServiceTypeAhead extends Component {
 
   optionClasses = selected => classNames('dropdown-option', { selected });
 
-  shouldShow = (input, svc) =>
-    input.length >= 2 &&
-    svc &&
-    svc.name &&
-    svc.name
-      .trim()
-      .toLowerCase()
-      .includes(input.toLowerCase());
+  getSpecialtyName = specialty => {
+    if (!specialty) return null;
+
+    return specialty.name;
+  };
+
+  shouldShow = (input, specialty) => {
+    if (!specialty) {
+      return false;
+    }
+    const specialtyName = this.getSpecialtyName(specialty);
+    if (input.length >= 2 && specialtyName) {
+      return specialtyName
+        .trim()
+        .toLowerCase()
+        .includes(input.toLowerCase());
+    }
+    return false;
+  };
 
   render() {
     const { defaultSelectedItem, services } = this.state;
-    const renderService = s => (s && s.name ? s.name.trim() : '');
 
     return (
       <Downshift
         onChange={this.handleOnSelect}
         defaultSelectedItem={defaultSelectedItem}
-        itemToString={renderService}
+        itemToString={this.getSpecialtyName}
         onInputValueChange={(inputValue, stateAndHelpers) => {
           const { selectedItem, clearSelection } = stateAndHelpers;
-          if (selectedItem && inputValue !== selectedItem.name.trim()) {
+          if (
+            selectedItem &&
+            inputValue !== this.getSpecialtyName(selectedItem)
+          ) {
             clearSelection();
           }
         }}
@@ -74,7 +87,6 @@ class ServiceTypeAhead extends Component {
           isOpen,
           inputValue,
           highlightedIndex,
-          selectedItem,
         }) => (
           <div>
             <label {...getLabelProps()} htmlFor="service-type-ahead-input">
@@ -92,23 +104,20 @@ class ServiceTypeAhead extends Component {
               {isOpen && inputValue.length >= 2 ? (
                 <div className="dropdown" role="listbox">
                   {services
-                    .filter(svc => this.shouldShow(inputValue, svc))
-                    .map((svc, index) => (
+                    .filter(specialty => this.shouldShow(inputValue, specialty))
+                    .map((specialty, index) => (
                       <div
-                        key={svc.name}
+                        key={this.getSpecialtyName(specialty)}
                         {...getItemProps({
-                          item: svc,
+                          item: specialty,
                           className: this.optionClasses(
                             index === highlightedIndex,
                           ),
                           role: 'option',
                           'aria-selected': index === highlightedIndex,
                         })}
-                        style={{
-                          fontWeight: selectedItem === svc ? 'bold' : 'normal',
-                        }}
                       >
-                        {renderService(svc)}
+                        {this.getSpecialtyName(specialty)}
                       </div>
                     ))}
                 </div>
@@ -122,12 +131,12 @@ class ServiceTypeAhead extends Component {
 }
 
 ServiceTypeAhead.propTypes = {
-  getProviderSvcs: func.isRequired,
+  getProviderSpecialties: func.isRequired,
   initialSelectedServiceType: string,
   onSelect: func.isRequired,
 };
 
-const mapDispatch = { getProviderSvcs };
+const mapDispatch = { getProviderSpecialties };
 
 export default connect(
   null,

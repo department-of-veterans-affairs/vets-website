@@ -13,7 +13,7 @@ export default {
   POST_911_GI_BILL_STATUS_WIDGET: 'post-9-11-gi-bill-status',
   CORONAVIRUS_CHATBOT: 'va-coronavirus-chatbot',
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
-  FORM_686_CONTENT_REVEAL: '686UnauthContentBlock',
+  FORM_686_CTA: 'form-686-CTA',
   CAREGIVER_CONTENT_TOGGLE: 'caregiver-content-toggle',
   // Health Care | Manage Benefits widgets.
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
@@ -21,4 +21,5 @@ export default {
   SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE: 'schedule-view-va-appointments-page',
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
+  CHAPTER_31_WIZARD: 'chapter-31-Wizard',
 };

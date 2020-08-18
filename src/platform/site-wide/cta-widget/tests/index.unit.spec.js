@@ -567,7 +567,7 @@ describe('<CallToActionWidget>', () => {
       });
 
       describe('ssoe', () => {
-        const ssoeProps = { ...defaultProps, useSSOe: true };
+        const ssoeProps = { ...defaultProps, authenticatedWithSSOe: true };
 
         it('should show verify message', () => {
           const tree = mount(

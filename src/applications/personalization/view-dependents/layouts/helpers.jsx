@@ -1,4 +1,8 @@
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export const errorFragment = (
   <>
@@ -12,7 +16,8 @@ export const errorFragment = (
       <a aria-label="8 4 4. 6 9 8. 2 3 1 1." href="tel:8446982311">
         844-698-2311
       </a>{' '}
-      (TTY:711). We're here Monday-Friday, 8:00a.m.-8:00p.m. ET.
+      (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+      ). We're here Monday-Friday, 8:00a.m.-8:00p.m. ET.
     </p>
   </>
 );

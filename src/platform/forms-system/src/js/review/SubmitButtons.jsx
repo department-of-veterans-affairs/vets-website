@@ -4,6 +4,10 @@ import moment from 'moment';
 
 import ProgressButton from '../components/ProgressButton';
 import { timeFromNow } from '../utilities/date';
+import { APP_TYPE_DEFAULT } from '../constants';
+
+// components
+import { Column, Row } from 'platform/forms/components/common/grid';
 
 export default function SubmitButtons(props) {
   const {
@@ -12,14 +16,16 @@ export default function SubmitButtons(props) {
     preSubmitSection,
     renderErrorMessage,
     submission,
+    formConfig,
   } = props;
+  const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   let submitButton;
   let submitMessage;
   if (submission.status === false) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit application"
+        buttonText={`Submit ${appType}`}
         buttonClass="usa-button-primary"
       />
     );
@@ -46,7 +52,7 @@ export default function SubmitButtons(props) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit application"
+        buttonText={`Submit ${appType}`}
         buttonClass="usa-button-primary"
       />
     );
@@ -66,7 +72,7 @@ export default function SubmitButtons(props) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit application"
+        buttonText={`Submit ${appType}`}
         buttonClass="usa-button-primary"
       />
     );
@@ -89,7 +95,7 @@ export default function SubmitButtons(props) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
-        buttonText="Submit application"
+        buttonText={`Submit ${appType}`}
         buttonClass="usa-button-primary"
       />
     );
@@ -98,12 +104,12 @@ export default function SubmitButtons(props) {
         <div className="usa-alert-body">
           <p className="schemaform-warning-header">
             <strong>
-              We’re sorry. Some information in your application is missing or
-              not valid.
+              We’re sorry. Some information in your {appType} is missing or not
+              valid.
             </strong>
           </p>
           <p>
-            Please check each section of your application to make sure you’ve
+            Please check each section of your {appType} to make sure you’ve
             filled out all the information that is required.
           </p>
         </div>
@@ -117,7 +123,7 @@ export default function SubmitButtons(props) {
         <div className="usa-alert usa-alert-error schemaform-failure-alert">
           <div className="usa-alert-body">
             <p className="schemaform-warning-header">
-              <strong>We’re sorry, the application didn’t go through.</strong>
+              <strong>We’re sorry, the {appType} didn’t go through.</strong>
             </p>
             <p>
               You’ll have to start over. We suggest you wait 1 day while we fix
@@ -130,53 +136,51 @@ export default function SubmitButtons(props) {
 
     if (process.env.NODE_ENV !== 'production') {
       submitButton = (
-        <div className="small-6 usa-width-one-half medium-6 columns">
+        <Column classNames="small-6 usa-width-one-half medium-6">
           <a onClick={onSubmit}>Submit again</a>
-        </div>
+        </Column>
       );
     }
 
     return (
       <>
-        <div className="row">
-          <div className="small-12 medium-12 columns" role="alert">
+        <Row>
+          <Column classNames="small-12 medium-12" role="alert">
             {submitMessage}
-          </div>
-        </div>
+          </Column>
+        </Row>
         {preSubmitSection}
-        <div className="row form-progress-buttons schemaform-back-buttons">
-          <div className="small-6 usa-width-one-half medium-6 columns">
+        <Row classNames="form-progress-buttons schemaform-back-buttons">
+          <Column classNames="small-6 usa-width-one-half medium-6">
             <a href="/">
               <button className="usa-button-primary">Go Back to VA.gov</button>
             </a>
-          </div>
+          </Column>
           {submitButton}
-        </div>
+        </Row>
       </>
     );
   }
   return (
     <>
-      <div className="row">
-        <div className="columns" role="alert">
-          {submitMessage}
-        </div>
-      </div>
+      <Row>
+        <Column role="alert">{submitMessage}</Column>
+      </Row>
       {preSubmitSection}
-      <div className="row form-progress-buttons">
-        <div className="small-6 medium-5 columns">
+      <Row classNames="form-progress-buttons">
+        <Column classNames="small-6 medium-5">
           <ProgressButton
             onButtonClick={onBack}
             buttonText="Back"
             buttonClass="usa-button-secondary"
             beforeText="«"
           />
-        </div>
-        <div className="small-6 medium-5 columns">{submitButton}</div>
-        <div className="small-1 medium-1 end columns">
+        </Column>
+        <Column classNames="small-6 medium-5">{submitButton}</Column>
+        <Column classNames="small-1 medium-1 end">
           <div className="hidden">&nbsp;</div>
-        </div>
-      </div>
+        </Column>
+      </Row>
     </>
   );
 }
@@ -187,4 +191,9 @@ SubmitButtons.propTypes = {
   preSubmitSection: PropTypes.element,
   renderErrorMessage: PropTypes.func,
   submission: PropTypes.object,
+  formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      appType: PropTypes.string,
+    }),
+  }),
 };

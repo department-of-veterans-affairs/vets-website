@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectProfile } from 'platform/user/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -16,3 +15,9 @@ export const hasCheckedKeepAlive = state =>
 
 export const signInServiceName = state =>
   selectProfile(state).signIn?.serviceName;
+
+export const isAuthenticatedWithSSOe = state =>
+  selectProfile(state).signIn?.ssoe;
+
+export const ssoeTransactionId = state =>
+  selectProfile(state).signIn?.transactionid;

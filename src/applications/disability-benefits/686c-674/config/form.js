@@ -44,7 +44,7 @@ import {
   stepchildInformation,
 } from './chapters/stepchild-no-longer-part-of-household';
 import {
-  studentNameAndSSN,
+  studentNameAndSsn,
   studentAddressMarriageTuition,
   studentSchoolAddress,
   studentTermDates,
@@ -178,7 +178,8 @@ const formConfig = {
           depends: formData =>
             typeof formData?.currentMarriageInformation?.type === 'string' &&
             formData?.currentMarriageInformation?.type !==
-              MARRIAGE_TYPES.ceremonial,
+              MARRIAGE_TYPES.ceremonial &&
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Additional evidence needed to add spouse',
           path: 'add-spouse-evidence',
           uiSchema: marriageAdditionalEvidence.uiSchema,
@@ -224,7 +225,7 @@ const formConfig = {
                 child?.childStatus?.stepchild === true ||
                 child?.childStatus?.adopted === true ||
                 child?.childStatus?.notCapable === true,
-            ),
+            ) && isChapterFieldRequired(formData, TASK_KEYS.addChild),
           title: 'Additional evidence needed to add child',
           path: 'add-child-evidence',
           uiSchema: childAdditionalEvidence.uiSchema,
@@ -235,13 +236,13 @@ const formConfig = {
     report674: {
       title: 'Information needed to add a student 18 to 23 years old',
       pages: {
-        studentNameAndSSN: {
+        studentNameAndSsn: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
           title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674',
-          uiSchema: studentNameAndSSN.uiSchema,
-          schema: studentNameAndSSN.schema,
+          uiSchema: studentNameAndSsn.uiSchema,
+          schema: studentNameAndSsn.schema,
         },
         studentAddressMarriageTuition: {
           depends: formData =>

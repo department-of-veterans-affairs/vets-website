@@ -334,6 +334,7 @@ export const DirectDepositContent = ({
               status="success"
               backgroundOnly
               className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+              scrollOnShow
             >
               We’ve saved your direct deposit information.
             </AlertBox>
@@ -358,7 +359,7 @@ DirectDepositContent.propTypes = {
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string.isRequired,
     accountType: PropTypes.string.isRequired,
-    financialInstitutionName: PropTypes.string.isRequired,
+    financialInstitutionName: PropTypes.string,
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,

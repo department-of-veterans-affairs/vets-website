@@ -4,6 +4,7 @@ const { mapKeys, camelCase } = require('lodash');
 const {
   createMetaTagArray,
   getDrupalValue,
+  utcToEpochTime,
   getWysiwygString,
   isPublished,
 } = require('./helpers');
@@ -11,15 +12,16 @@ const {
 const transform = entity => ({
   entityType: 'node',
   entityBundle: 'press_release',
+  // Ignoring this for now as uid is causing issues
+  // uid: entity.uid[0],
   title: getDrupalValue(entity.title),
+  created: utcToEpochTime(getDrupalValue(entity.created)),
+  changed: utcToEpochTime(getDrupalValue(entity.changed)),
+  promote: getDrupalValue(entity.promote),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityUrl: {
-    path: entity.path[0].alias,
-  },
   fieldAddress: entity.fieldAddress[0]
     ? mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k))
     : null,
-
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldOffice: (entity.fieldOffice && entity.fieldOffice[0]) || null,
   fieldPdfVersion: entity.fieldPdfVersion[0] || null,
@@ -38,11 +40,16 @@ const transform = entity => ({
       .utc(getDrupalValue(entity.fieldReleaseDate))
       .format('YYYY-MM-DD HH:mm:ss z'),
   },
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
+  status: getDrupalValue(entity.status),
 });
 module.exports = {
   filter: [
+    // 'uid',
     'title',
+    'created',
+    'changed',
+    'promote',
     'metatag',
     'path',
     'field_address',
@@ -53,7 +60,7 @@ module.exports = {
     'field_press_release_downloads',
     'field_press_release_fulltext',
     'field_release_date',
-    'moderation_state',
+    'status',
   ],
   transform,
 };

@@ -12,11 +12,7 @@ const transform = entity => ({
   title: getDrupalValue(entity.title),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityUrl: {
-    breadcrumb: [],
-    path: entity.path[0].alias,
-  },
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldAdministration: entity.fieldAdministration[0],
   fieldAlert: entity.fieldAlert[0] || null,
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
@@ -56,7 +52,7 @@ module.exports = {
     'field_support_services',
     'field_title_icon',
     'metatag',
-    'moderation_state',
+    'status',
   ],
   transform,
 };

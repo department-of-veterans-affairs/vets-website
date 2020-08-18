@@ -106,6 +106,36 @@ const validateOutput = (entity, transformedEntity) => {
   }
 };
 
+/**
+ * Add common properties to the transformed entity. Mutates `transformedEntity`
+ * to save memory.
+ * @param {Object} transformedEntity - The entity after transformation
+ * @param {Object} originalEntity - The entity before transformation
+ * @returns {void}
+ */
+const addCommonProperties = (transformedEntity, originalEntity) => {
+  /* eslint-disable no-param-reassign */
+  transformedEntity.contentModelType =
+    transformedEntity.contentModelType || getContentModelType(originalEntity);
+  const [
+    entityType,
+    entityBundle,
+  ] = transformedEntity.contentModelType.includes('-')
+    ? transformedEntity.contentModelType.split('-')
+    : [transformedEntity.contentModelType, transformedEntity.contentModelType];
+  transformedEntity.entityType = transformedEntity.entityType || entityType;
+  transformedEntity.entityBundle =
+    transformedEntity.entityBundle || entityBundle;
+  transformedEntity.entityUrl =
+    transformedEntity.entityUrl || originalEntity.entityUrl;
+  transformedEntity.entityId = (originalEntity.nid ||
+    originalEntity.tid ||
+    originalEntity.id ||
+    originalEntity.mid ||
+    originalEntity.fid)[0].value.toString();
+  /* eslint-enable no-param-reassign */
+};
+
 const entityAssemblerFactory = contentDir => {
   /**
    * @param {Object} entity - The entity with entity references
@@ -188,7 +218,7 @@ const entityAssemblerFactory = contentDir => {
 
     // Handle circular references
     const a = findCircularReference(entity, ancestors);
-    if (a) return a;
+    if (a) return a.entity;
 
     validateInput(entity);
 
@@ -229,7 +259,13 @@ const entityAssemblerFactory = contentDir => {
       throw e;
     }
 
-    validateOutput(entity, transformedEntity);
+    // Mutates transformedEntity
+    addCommonProperties(transformedEntity, entity);
+
+    // Only run output schema validation on root entities
+    if (ancestors.length === 0) {
+      validateOutput(entity, transformedEntity);
+    }
 
     return transformedEntity;
   };

@@ -24,10 +24,7 @@ import DowntimeNotification, {
   externalServiceStatus,
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeMessage from 'platform/forms/save-in-progress/DowntimeMessage';
-import {
-  APP_TYPE_DEFAULT,
-  UNAUTH_SIGN_IN_DEFAULT_MESSAGE,
-} from 'platform/forms/save-in-progress/constants';
+import { APP_TYPE_DEFAULT } from 'platform/forms-system/src/js/constants';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {
@@ -284,7 +281,7 @@ class SaveInProgressIntro extends React.Component {
     }
 
     const content = (
-      <div>
+      <div id="save-in-progress-intro">
         {!this.props.buttonOnly && this.getAlert(savedForm)}
         {this.props.buttonOnly &&
           !this.props.user.login.currentlyLoggedIn &&

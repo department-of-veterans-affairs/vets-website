@@ -1,4 +1,5 @@
 import path from 'path';
+import moment from 'moment';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
@@ -14,7 +15,9 @@ const testConfig = createTestConfig(
     dataSets: [
       'full-781-781a-8940-test.json',
       'maximal-test',
+      'maximal-bdd-test',
       'minimal-test',
+      'minimal-bdd-test',
       'newOnly-test',
       'secondary-new-test.json',
       'upload-781-781a-8940-test.json',
@@ -26,14 +29,38 @@ const testConfig = createTestConfig(
     },
 
     pageHooks: {
-      introduction: () => {
-        // Hit the start button
-        cy.findAllByText(/start/i, { selector: 'button' })
-          .first()
-          .click();
+      introduction: ({ afterHook }) => {
+        afterHook(() => {
+          // Hit the start button
+          cy.findAllByText(/start/i, { selector: 'button' })
+            .first()
+            .click();
+        });
+      },
 
+      'veteran-information': () => {
         // Click past the ITF message
         cy.findByText(/continue/i, { selector: 'button' }).click();
+      },
+
+      'review-veteran-details/military-service-history': () => {
+        cy.get('@testData').then(data => {
+          cy.fillPage();
+          if (data['view:isBddData']) {
+            const date = moment()
+              .add(120, 'days')
+              .format('YYYY-M-D')
+              .split('-');
+            cy.get('select[name$="_dateRange_toMonth"]').select(date[1]);
+            cy.get('select[name$="_dateRange_toDay"]').select(date[2]);
+            cy.get('input[name$="_dateRange_toYear"]')
+              .clear()
+              .type(date[0]);
+            cy.get('input[name$="_separationLocation"]')
+              .type(data.serviceInformation.separationLocation)
+              .blur();
+          }
+        });
       },
 
       'disabilities/rated-disabilities': () => {
@@ -43,7 +70,6 @@ const testConfig = createTestConfig(
               cy.get(`input[name="root_ratedDisabilities_${index}"]`).click();
             }
           });
-          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
 
@@ -58,8 +84,6 @@ const testConfig = createTestConfig(
             cy.fillPage();
             cy.findByText(/save/i, { selector: 'button' }).click();
           }
-
-          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
     },
@@ -123,6 +147,8 @@ const testConfig = createTestConfig(
         });
       });
     },
+
+    skip: ['maximal-bdd-test', 'minimal-bdd-test'],
   },
   manifest,
   formConfig,
