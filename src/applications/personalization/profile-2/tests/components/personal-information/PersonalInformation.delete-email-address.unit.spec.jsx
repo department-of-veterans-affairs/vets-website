@@ -25,6 +25,22 @@ const ui = (
 let view;
 let server;
 
+// returns a Promise that resolves if the cb does not throw an error when it's
+// run after the given timeout. The Promise is rejected if the cb throws an
+// error when it runs.
+function waitAndCheck(cb, timeout) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      try {
+        cb();
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    }, timeout);
+  });
+}
+
 function getEditButton() {
   let editButton = view.queryByText(/add.*email address/i, {
     selector: 'button',
@@ -47,9 +63,11 @@ function deleteEmailAddress() {
 
   // delete
   view.getByText('Delete', { selector: 'button *' }).click();
-  view.getByText('Confirm', { selector: 'button' }).click();
+  const confirmDeleteButton = view.getByText('Confirm', { selector: 'button' });
+  const cancelDeleteButton = view.getByText('Cancel', { selector: 'button' });
+  confirmDeleteButton.click();
 
-  return { emailAddressInput };
+  return { emailAddressInput, confirmDeleteButton, cancelDeleteButton };
 }
 
 describe('Deleting email address', () => {
@@ -77,9 +95,29 @@ describe('Deleting email address', () => {
   });
 
   it('should handle a deletion that succeeds quickly', async () => {
-    server.use(...mocks.transactionSucceeded);
+    server.use(...mocks.transactionPending);
+    const {
+      cancelDeleteButton,
+      confirmDeleteButton,
+      emailAddressInput,
+    } = deleteEmailAddress();
 
-    const { emailAddressInput } = deleteEmailAddress();
+    // Buttons should be disabled while the delete transaction is pending...
+    // Waiting 10ms to make this check so that it happens _after_ the initial
+    // delete transaction request is created. We had a UX bug where the buttons
+    // were disabled while the initial transaction request was being created but
+    // were enabled again while polling the transaction status. This test was
+    // added to prevent regression back to that poor experience where users were
+    // able to interact with buttons that created duplicate XHRs.
+    await waitAndCheck(() => {
+      expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
+      expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
+      expect(confirmDeleteButton)
+        .to.have.descendant('i')
+        .and.have.class('fa-spinner');
+    }, 10);
+
+    server.use(...mocks.transactionSucceeded);
 
     // wait for the edit mode to exit
     await waitForElementToBeRemoved(emailAddressInput);
@@ -138,9 +176,19 @@ describe('Deleting email address', () => {
     expect(editButton).to.not.exist;
   });
   it('should show an error and not auto-exit edit mode if the deletion fails quickly', async () => {
-    server.use(...mocks.transactionFailed);
+    server.use(...mocks.transactionPending);
 
-    deleteEmailAddress();
+    const { cancelDeleteButton, confirmDeleteButton } = deleteEmailAddress();
+
+    await waitAndCheck(() => {
+      expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
+      expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
+      expect(confirmDeleteButton)
+        .to.have.descendant('i')
+        .and.have.class('fa-spinner');
+    }, 10);
+
+    server.use(...mocks.transactionFailed);
 
     // expect an error to be shown
     const alert = await view.findByTestId('edit-error-alert');
@@ -148,6 +196,11 @@ describe('Deleting email address', () => {
     expect(alert).to.contain.text(
       'We’re sorry. We couldn’t update your email address. Please try again.',
     );
+
+    // the buttons should be enabled again
+    expect(!!cancelDeleteButton.attributes.disabled).to.be.false;
+    expect(!!confirmDeleteButton.attributes.disabled).to.be.false;
+    expect(confirmDeleteButton).to.contain.text('Confirm');
 
     // make sure that edit mode is not exited
     await elementNotRemoved(alert, { timeout: 75 });
