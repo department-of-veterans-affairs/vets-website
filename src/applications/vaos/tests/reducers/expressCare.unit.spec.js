@@ -4,6 +4,9 @@ import {
   FETCH_EXPRESS_CARE_WINDOWS,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
+  FORM_FETCH_REQUEST_LIMITS,
+  FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
+  FORM_FETCH_REQUEST_LIMITS_FAILED,
 } from '../../actions/expressCare';
 import expressCareReducer from '../../reducers/expressCare';
 import { FETCH_STATUS } from '../../utils/constants';
@@ -77,5 +80,42 @@ describe('VAOS express care reducer', () => {
 
     const newState = expressCareReducer(initialState, action);
     expect(newState.windowsStatus).to.equal(FETCH_STATUS.failed);
+  });
+
+  it('should set fetchRequestLimitsStatus to loading', () => {
+    const action = {
+      type: FORM_FETCH_REQUEST_LIMITS,
+    };
+
+    const newState = expressCareReducer(initialState, action);
+    expect(newState.newRequest.fetchRequestLimitsStatus).to.equal(
+      FETCH_STATUS.loading,
+    );
+  });
+
+  it('should set facilityId, siteId, and isUnderRequestLimit', () => {
+    const action = {
+      type: FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
+      facilityId: '983',
+      siteId: '983',
+      isUnderRequestLimit: true,
+    };
+
+    const newState = expressCareReducer(initialState, action).newRequest;
+    expect(newState.fetchRequestLimitsStatus).to.equal(FETCH_STATUS.succeeded);
+    expect(newState.facilityId).to.equal('983');
+    expect(newState.siteId).to.equal('983');
+    expect(newState.isUnderRequestLimit).to.equal(true);
+  });
+
+  it('should set fetchRequestLimitsStatus to failed', () => {
+    const action = {
+      type: FORM_FETCH_REQUEST_LIMITS_FAILED,
+    };
+
+    const newState = expressCareReducer(initialState, action);
+    expect(newState.newRequest.fetchRequestLimitsStatus).to.equal(
+      FETCH_STATUS.failed,
+    );
   });
 });
