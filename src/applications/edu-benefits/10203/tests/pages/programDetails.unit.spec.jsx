@@ -37,6 +37,7 @@ describe('Program Details', () => {
           degreeName: 'Test Degree',
           schoolName: 'Test School',
           schoolCity: 'Test',
+          schoolState: 'MA',
           schoolCountry: 'USA',
         }}
       />,
@@ -58,6 +59,7 @@ describe('Program Details', () => {
         data={{
           schoolName: 'Test School',
           schoolCity: 'Test',
+          schoolState: 'MA',
           schoolCountry: 'USA',
         }}
       />,
@@ -79,6 +81,7 @@ describe('Program Details', () => {
         data={{
           degreeName: 'Test Degree',
           schoolCity: 'Test',
+          schoolState: 'MA',
           schoolCountry: 'USA',
         }}
       />,
@@ -100,6 +103,7 @@ describe('Program Details', () => {
         data={{
           degreeName: 'Test Degree',
           schoolName: 'Test School',
+          schoolState: 'MA',
           schoolCountry: 'USA',
         }}
       />,
@@ -107,6 +111,94 @@ describe('Program Details', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should require schoolState for USA', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+        data={{
+          schoolCity: 'Test',
+          degreeName: 'Test Degree',
+          schoolName: 'Test School',
+          schoolCountry: 'USA',
+        }}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should require schoolState for CAN', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+        data={{
+          schoolCity: 'Test',
+          degreeName: 'Test Degree',
+          schoolName: 'Test School',
+          schoolCountry: 'CAN',
+        }}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should require schoolState for MEX', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+        data={{
+          schoolCity: 'Test',
+          degreeName: 'Test Degree',
+          schoolName: 'Test School',
+          schoolCountry: 'MEX',
+        }}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should not require schoolState for countries other than USA, CAN, and MEX', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+        data={{
+          schoolCity: 'Test',
+          degreeName: 'Test Degree',
+          schoolName: 'Test School',
+          schoolCountry: 'AFG',
+        }}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
@@ -122,6 +214,7 @@ describe('Program Details', () => {
           degreeName: 'Test Degree',
           schoolName: 'Test School',
           schoolCity: 'Test',
+          schoolState: 'MA',
           schoolCountry: '',
         }}
       />,
