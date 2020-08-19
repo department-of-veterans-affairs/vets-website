@@ -89,7 +89,6 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
 
     form.find('form').simulate('submit');
@@ -110,7 +109,6 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
     fillData(form, 'input#root_email', 'notAnEmail');
     fillData(form, '[name="root_view:confirmEmail"]', 'notAnEmail');
@@ -133,9 +131,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
-
     fillData(form, 'input#root_email', 'test@test.com');
     fillData(form, '[name="root_view:confirmEmail"]', 'not_test@test.com');
 
@@ -157,9 +153,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
-
     fillDate(form, 'root_veteranDateOfBirth', '2200-09-24');
 
     form.find('form').simulate('submit');
@@ -180,9 +174,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
-
     fillDate(form, 'root_veteranDateOfBirth', '19738393-09-24');
 
     form.find('form').simulate('submit');
@@ -203,9 +195,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
-
     fillData(form, 'input#root_phone', '77788899991010');
 
     form.find('form').simulate('submit');
@@ -226,9 +216,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
-
     fillData(form, 'input#root_zipCode', '555556');
 
     form.find('form').simulate('submit');
@@ -249,9 +237,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
-
     selectCheckbox(form, 'root_healthHistory_ALLERGY_VACCINE', false);
     selectCheckbox(form, 'root_healthHistory_LUNG_DISEASE', false);
 
@@ -273,9 +259,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
-
     selectCheckbox(form, 'root_employmentStatus_NONE_OF_ABOVE', false);
 
     form.find('form').simulate('submit');
@@ -296,7 +280,6 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
     selectCheckbox(form, 'root_transportation_WORK_FROM_HOME', false);
     selectCheckbox(form, 'root_transportation_CAR', false);
@@ -319,7 +302,6 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
     selectCheckbox(form, 'root_gender_SELF_IDENTIFY', false);
 
@@ -341,7 +323,6 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
     selectCheckbox(form, 'root_raceEthnicityOrigin_NONE_OF_ABOVE', false);
 
@@ -363,7 +344,6 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-
     testHelper.populateFormData(form);
     fillData(form, 'input#root_weight', 'NaN');
 
