@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import moment from 'moment';
 
 import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -16,13 +17,27 @@ import expressCareReducer from '../../reducers/expressCare';
 
 import TypeOfCarePage from '../../containers/TypeOfCarePage';
 import VAFacilityPage from '../../containers/VAFacilityPage';
+import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
+import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
+import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
 import ClinicChoicePage from '../../containers/ClinicChoicePage';
 import PreferredDatePage from '../../containers/PreferredDatePage';
-import { getParentSiteMock, getFacilityMock } from './v0';
-import { mockParentSites, mockSupportedFacilities } from './helpers';
+import {
+  getParentSiteMock,
+  getFacilityMock,
+  getExpressCareRequestCriteriaMock,
+} from './v0';
+import {
+  mockParentSites,
+  mockSupportedFacilities,
+  mockRequestEligibilityCriteria,
+  mockRequestLimit,
+} from './helpers';
 
 import createRoutesWithStore from '../../routes';
+
+const today = moment();
 
 export function createTestStore(initialState) {
   return createStore(
@@ -166,4 +181,71 @@ export async function setPreferredDate(store, preferredDate) {
   await cleanup();
 
   return router.push.firstCall.args[0];
+}
+
+export function setupExpressCareMocks({
+  facilityId = '983',
+  isWindowOpen = true,
+  isUnderRequestLimit = true,
+} = {}) {
+  const start = today
+    .clone()
+    .subtract(2, 'minutes')
+    .tz('America/Denver');
+  const end = today
+    .clone()
+    .add(isWindowOpen ? 1 : -1, 'minutes')
+    .tz('America/Denver');
+  const requestCriteria = getExpressCareRequestCriteriaMock(facilityId, [
+    {
+      day: today
+        .clone()
+        .tz('America/Denver')
+        .format('dddd')
+        .toUpperCase(),
+      canSchedule: true,
+      startTime: start.format('HH:mm'),
+      endTime: end.format('HH:mm'),
+    },
+  ]);
+  mockRequestEligibilityCriteria([facilityId], requestCriteria);
+  mockRequestLimit({
+    facilityId,
+    numberOfRequests: isUnderRequestLimit ? 0 : 1,
+  });
+}
+
+export async function setExpressCareFacility({ store, router }) {
+  const location = {
+    pathname: '/new-express-care-request',
+  };
+  const screen = renderInReduxProvider(
+    <NewExpressCareRequestLayout router={router} location={location}>
+      <ExpressCareInfoPage router={router} />
+    </NewExpressCareRequestLayout>,
+    {
+      store,
+    },
+  );
+
+  await screen.findByText(/How Express Care Works/i);
+  fireEvent.click(screen.getByText(/^Continue/));
+  await waitFor(() => expect(router.push.called).to.be.true);
+  await cleanup();
+  return { router };
+}
+
+export async function setExpressCareReason({ store, router, label }) {
+  const screen = renderInReduxProvider(
+    <ExpressCareReasonPage router={router} />,
+    {
+      store,
+    },
+  );
+  await screen.findByText('Select a reason for your Express Care request');
+  fireEvent.click(screen.getByLabelText(label));
+  fireEvent.click(screen.getByText(/^Continue/));
+  await waitFor(() => expect(router.push.called).to.be.true);
+  await cleanup();
+  return { router };
 }

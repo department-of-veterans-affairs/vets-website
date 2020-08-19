@@ -388,6 +388,7 @@ export function mockRequestLimit({
     ),
     {
       data: {
+        id: facilityId,
         attributes: {
           requestLimit,
           numberOfRequests,

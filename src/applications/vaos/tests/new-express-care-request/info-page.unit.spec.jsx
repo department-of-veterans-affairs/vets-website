@@ -12,12 +12,7 @@ import {
 } from 'platform/testing/unit/helpers';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
 import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
-import { createTestStore } from '../mocks/setup';
-import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
-import {
-  mockRequestEligibilityCriteria,
-  mockRequestLimit,
-} from '../mocks/helpers';
+import { createTestStore, setupExpressCareMocks } from '../mocks/setup';
 
 const initialState = {
   user: {
@@ -31,39 +26,29 @@ const location = {
   pathname: '/new-express-care-request',
 };
 
+const today = moment();
+
 describe('VAOS integration: Express Care info page', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
   it('should render info page when there are active windows', async () => {
-    const today = moment();
+    const store = createTestStore(initialState);
     const startTime = today
       .clone()
-      .subtract('2', 'minutes')
+      .subtract(2, 'minutes')
       .tz('America/Denver');
     const endTime = today
       .clone()
-      .add('1', 'minutes')
+      .add(1, 'minutes')
       .tz('America/Denver');
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: startTime.format('HH:mm'),
-        endTime: endTime.format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
-    mockRequestLimit({ facilityId: '983' });
+
+    setupExpressCareMocks({ startTime, endTime });
+
     const router = {
       push: sinon.spy(),
       replace: sinon.spy(),
     };
-    const store = createTestStore(initialState);
     const screen = renderInReduxProvider(
       <NewExpressCareRequestLayout router={router} location={location}>
         <ExpressCareInfoPage router={router} />
@@ -96,33 +81,8 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should display error if request limits reached', async () => {
-    const today = moment();
-    const startTime = today
-      .clone()
-      .subtract('2', 'minutes')
-      .tz('America/Denver');
-    const endTime = today
-      .clone()
-      .add('1', 'minutes')
-      .tz('America/Denver');
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: startTime.format('HH:mm'),
-        endTime: endTime.format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
-    mockRequestLimit({
-      facilityId: '983',
-      requestLimit: 1,
-      numberOfRequests: 1,
-    });
+    setupExpressCareMocks({ isUnderRequestLimit: false });
+
     const router = {
       push: sinon.spy(),
       replace: sinon.spy(),
@@ -148,33 +108,7 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should display error if request limit fetch fails', async () => {
-    const today = moment();
-    const startTime = today
-      .clone()
-      .subtract('2', 'minutes')
-      .tz('America/Denver');
-    const endTime = today
-      .clone()
-      .add('1', 'minutes')
-      .tz('America/Denver');
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: startTime.format('HH:mm'),
-        endTime: endTime.format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
-    mockRequestLimit({
-      facilityId: '983',
-      requestLimit: 1,
-      numberOfRequests: 1,
-    });
+    setupExpressCareMocks();
     setFetchJSONFailure(
       global.fetch.withArgs(
         `${
@@ -208,28 +142,7 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should redirect home when there is not an active window', async () => {
-    const today = moment();
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: today
-          .clone()
-          .subtract('2', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-        endTime: today
-          .clone()
-          .subtract('1', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    setupExpressCareMocks({ isWindowOpen: false });
     const router = {
       push: sinon.spy(),
     };
