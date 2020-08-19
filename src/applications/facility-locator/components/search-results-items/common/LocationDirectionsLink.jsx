@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { buildAddressArray } from '../../utils/facilityAddress';
+import { buildAddressArray } from '../../../utils/facilityAddress';
 
 function LocationDirectionsLink({ location, from }) {
   let address = buildAddressArray(location);
@@ -14,7 +14,7 @@ function LocationDirectionsLink({ location, from }) {
   }
 
   return (
-    <span>
+    <div className="vads-u-margin-bottom--2p5">
       <a
         href={`https://maps.google.com?saddr=${
           location.searchString
@@ -23,10 +23,10 @@ function LocationDirectionsLink({ location, from }) {
         target="_blank"
       >
         {from === 'FacilityDetail' && <i className="fa fa-road" />}
-        Directions
+        Get directions
         <span className="sr-only">to {location.attributes.name}</span>
       </a>
-    </span>
+    </div>
   );
 }
 

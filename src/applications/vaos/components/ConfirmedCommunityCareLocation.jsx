@@ -2,17 +2,19 @@ import React from 'react';
 import FacilityAddress from './FacilityAddress';
 
 export default function ConfirmedCommunityCareLocation({ appointment }) {
-  const actor = appointment.contained[0]?.actor;
+  const location = appointment.contained.find(
+    res => res.resourceType === 'Location',
+  );
 
-  if (!actor) {
+  if (!location) {
     return null;
   }
 
   return (
     <dl className="vads-u-margin--0">
-      <dt className="vads-u-font-weight--bold">{actor.name}</dt>
+      <dt className="vads-u-font-weight--bold">{location.name}</dt>
       <dd>
-        <FacilityAddress facility={actor} showDirectionsLink />
+        <FacilityAddress facility={location} showDirectionsLink />
       </dd>
     </dl>
   );
