@@ -72,7 +72,7 @@ describe('Connected Apps actions', () => {
     });
 
     it('creates the correct action when the call fails', async () => {
-      const mockResponse = { errors: [{ code: '300' }] };
+      const mockResponse = { errors: [{ code: '300', status: 'errorStatus' }] };
       const dispatch = sinon.stub();
       mockApiRequest(mockResponse, false);
       const thunk = await actions.deleteConnectedApp(appId);
