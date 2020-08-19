@@ -39,6 +39,7 @@
     "schoolName": "0",
     "schoolCity": "0",
     "schoolState": "MA",
+    "schoolCountry": "USA",
     "view:benefit": {
       "chapter33": true
     }

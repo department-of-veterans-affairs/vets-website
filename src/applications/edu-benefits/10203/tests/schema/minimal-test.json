@@ -29,9 +29,9 @@
     "isPursuingTeachingCert": true,
     "benefitLeft": "none",
     "degreeName": "0",
-    "schoolName": "0",
-    "schoolCity": "0",
-    "schoolState": "MA",
+    "schoolName": "TEST SCHOOL",
+    "schoolCity": "TEST",
+    "schoolCountry": "ALB",
     "view:benefit": {
       "chapter33": true
     },

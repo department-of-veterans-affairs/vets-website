@@ -21,7 +21,7 @@ describe('Program Details', () => {
       />,
     );
     expect(form.find('input').length).to.equal(5);
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
 
@@ -37,7 +37,7 @@ describe('Program Details', () => {
           degreeName: 'Test Degree',
           schoolName: 'Test School',
           schoolCity: 'Test',
-          schoolState: 'TN',
+          schoolCountry: 'USA',
         }}
       />,
     );
@@ -58,7 +58,7 @@ describe('Program Details', () => {
         data={{
           schoolName: 'Test School',
           schoolCity: 'Test',
-          schoolState: 'TN',
+          schoolCountry: 'USA',
         }}
       />,
     );
@@ -79,7 +79,7 @@ describe('Program Details', () => {
         data={{
           degreeName: 'Test Degree',
           schoolCity: 'Test',
-          schoolState: 'TN',
+          schoolCountry: 'USA',
         }}
       />,
     );
@@ -100,7 +100,7 @@ describe('Program Details', () => {
         data={{
           degreeName: 'Test Degree',
           schoolName: 'Test School',
-          schoolState: 'TN',
+          schoolCountry: 'USA',
         }}
       />,
     );
@@ -110,7 +110,7 @@ describe('Program Details', () => {
     form.unmount();
   });
 
-  it('should require schoolState', () => {
+  it('should require schoolCountry', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -122,6 +122,7 @@ describe('Program Details', () => {
           degreeName: 'Test Degree',
           schoolName: 'Test School',
           schoolCity: 'Test',
+          schoolCountry: '',
         }}
       />,
     );
