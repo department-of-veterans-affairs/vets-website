@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router';
+import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
@@ -70,10 +70,10 @@ export async function setTypeOfCare(store, label) {
   const radioButton = await findByLabelText(label);
   fireEvent.click(radioButton);
   fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(router.push.called).to.be.true);
+  await waitFor(() => expect(history.push.called).to.be.true);
   await cleanup();
 
-  return router.push.firstCall.args[0];
+  return history.push.firstCall.args[0];
 }
 
 export async function setVAFacility(store, facilityId) {
@@ -119,10 +119,10 @@ export async function setVAFacility(store, facilityId) {
 
   const continueButton = await findByText(/Continue/);
   fireEvent.click(continueButton);
-  await waitFor(() => expect(router.push.called).to.be.true);
+  await waitFor(() => expect(history.push.called).to.be.true);
   await cleanup();
 
-  return router.push.firstCall.args[0];
+  return history.push.firstCall.args[0];
 }
 
 export async function setClinic(store, clinicLabel) {
@@ -136,10 +136,10 @@ export async function setClinic(store, clinicLabel) {
 
   fireEvent.click(await findByLabelText(clinicLabel));
   fireEvent.click(await findByText(/Continue/));
-  await waitFor(() => expect(router.push.called).to.be.true);
+  await waitFor(() => expect(history.push.called).to.be.true);
   await cleanup();
 
-  return router.push.firstCall.args[0];
+  return history.push.firstCall.args[0];
 }
 
 export async function setPreferredDate(store, preferredDate) {
@@ -162,8 +162,8 @@ export async function setPreferredDate(store, preferredDate) {
     target: { value: preferredDate.year() },
   });
   fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(router.push.called).to.be.true);
+  await waitFor(() => expect(history.push.called).to.be.true);
   await cleanup();
 
-  return router.push.firstCall.args[0];
+  return history.push.firstCall.args[0];
 }

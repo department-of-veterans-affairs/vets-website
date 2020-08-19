@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import recordEvent from 'platform/monitoring/record-event';
@@ -69,7 +69,7 @@ function ExpressCareReasonPage({
   data,
   openFormPage,
   pageChangeInProgress,
-  router,
+  history,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   schema,
@@ -90,7 +90,7 @@ function ExpressCareReasonPage({
         schema={schema || initialSchema}
         uiSchema={uiSchema}
         onChange={newData => updateFormData(pageKey, uiSchema, newData)}
-        onSubmit={() => routeToNextAppointmentPage(router, pageKey)}
+        onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
         data={data}
       >
         <AlertBox status="info" className="vads-u-margin-y--2">
@@ -127,7 +127,7 @@ function ExpressCareReasonPage({
           backButtonText="Back"
           nextButtonText="Continue"
           pageChangeInProgress={pageChangeInProgress}
-          onBack={() => routeToPreviousAppointmentPage(router, pageKey)}
+          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
         />
       </SchemaForm>
     </div>

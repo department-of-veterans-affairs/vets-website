@@ -41,7 +41,7 @@ describe('VAOS <TypeOfFacilityPage>', () => {
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(router.push.called).to.be.false;
+    expect(history.push.called).to.be.false;
     form.unmount();
   });
 

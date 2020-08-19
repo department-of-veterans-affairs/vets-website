@@ -44,7 +44,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(form.find('AlertBox').length).to.equal(1);
 
     expect(form.find('.usa-input-error').length).to.equal(2);
-    expect(router.push.called).to.be.false;
+    expect(history.push.called).to.be.false;
     form.unmount();
   });
 

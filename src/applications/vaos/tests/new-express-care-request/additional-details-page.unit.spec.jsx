@@ -114,8 +114,8 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
       },
     );
 
-    await waitFor(() => expect(router.replace.called).to.be.true);
-    expect(router.replace.firstCall.args[0]).to.equal(
+    await waitFor(() => expect(history.replace.called).to.be.true);
+    expect(history.replace.firstCall.args[0]).to.equal(
       '/new-express-care-request',
     );
   });

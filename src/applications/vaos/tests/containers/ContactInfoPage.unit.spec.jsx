@@ -25,18 +25,22 @@ describe('VAOS <ContactInfoPage>', () => {
 
   it('should not submit empty form', () => {
     const openFormPage = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
     const form = mount(
-      <ContactInfoPage openFormPage={openFormPage} router={router} data={{}} />,
+      <ContactInfoPage
+        openFormPage={openFormPage}
+        history={history}
+        data={{}}
+      />,
     );
 
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(3);
-    expect(router.push.called).to.be.false;
+    expect(history.push.called).to.be.false;
     form.unmount();
   });
 

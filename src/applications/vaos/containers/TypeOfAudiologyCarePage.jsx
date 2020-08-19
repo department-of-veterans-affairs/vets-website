@@ -69,11 +69,11 @@ export class TypeOfAudiologyCarePage extends React.Component {
   }
 
   goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
+    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
   };
 
   goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
   };
 
   render() {

@@ -710,7 +710,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     );
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(router.push.firstCall.args[0]).to.equal(
+      expect(history.push.firstCall.args[0]).to.equal(
         '/new-appointment/request-date',
       ),
     );

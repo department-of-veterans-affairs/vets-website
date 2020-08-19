@@ -153,14 +153,14 @@ describe('VAOS newAppointment actions', () => {
 
   describe('routeToPageInFlow', () => {
     it('should route to next page with string key', async () => {
-      const router = {
+      const history = {
         push: sinon.spy(),
       };
       const dispatch = sinon.spy();
       const state = {};
       const getState = () => state;
 
-      const thunk = routeToPageInFlow(testFlow, router, 'page1', 'next');
+      const thunk = routeToPageInFlow(testFlow, history, 'page1', 'next');
       await thunk(dispatch, getState);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
@@ -169,32 +169,32 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_COMPLETED,
       });
-      expect(router.push.firstCall.args[0]).to.equal('/page2');
+      expect(history.push.firstCall.args[0]).to.equal('/page2');
     });
 
     it('should route to next page with function', async () => {
-      const router = {
+      const history = {
         push: sinon.spy(),
       };
       const dispatch = sinon.spy();
       const state = {};
       const getState = () => state;
 
-      const thunk = routeToPageInFlow(testFlow, router, 'page2', 'next');
+      const thunk = routeToPageInFlow(testFlow, history, 'page2', 'next');
       await thunk(dispatch, getState);
 
-      expect(router.push.firstCall.args[0]).to.equal('/page3');
+      expect(history.push.firstCall.args[0]).to.equal('/page3');
     });
 
     it('should throw error for bad state', done => {
-      const router = {
+      const history = {
         push: sinon.spy(),
       };
       const dispatch = sinon.spy();
       const state = {};
       const getState = () => state;
 
-      const thunk = routeToPageInFlow(testFlow, router, 'page3', 'next');
+      const thunk = routeToPageInFlow(testFlow, history, 'page3', 'next');
 
       thunk(dispatch, getState)
         .then(() => {
@@ -1123,11 +1123,11 @@ describe('VAOS newAppointment actions', () => {
 
     it('should send VA request', async () => {
       setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
-      const router = {
+      const history = {
         push: sinon.spy(),
       };
 
-      const thunk = submitAppointmentOrRequest(router);
+      const thunk = submitAppointmentOrRequest(history);
       const dispatch = sinon.spy();
       const getState = () => ({
         newAppointment: {
@@ -1196,16 +1196,16 @@ describe('VAOS newAppointment actions', () => {
         'health-expressCareReason': undefined,
         isExpressCare: undefined,
       });
-      expect(router.push.called).to.be.true;
+      expect(history.push.called).to.be.true;
     });
 
     it('should send CC request', async () => {
       setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
-      const router = {
+      const history = {
         push: sinon.spy(),
       };
 
-      const thunk = submitAppointmentOrRequest(router);
+      const thunk = submitAppointmentOrRequest(history);
       const dispatch = sinon.spy();
       const getState = () => ({
         user: {
@@ -1242,16 +1242,16 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
-      expect(router.push.called).to.be.true;
+      expect(history.push.called).to.be.true;
     });
 
     it('should make VA appointment', async () => {
       setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
-      const router = {
+      const history = {
         push: sinon.spy(),
       };
 
-      const thunk = submitAppointmentOrRequest(router);
+      const thunk = submitAppointmentOrRequest(history);
       const dispatch = sinon.spy();
       const getState = () => ({
         newAppointment: {
@@ -1346,18 +1346,18 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
-      expect(router.push.called).to.be.true;
+      expect(history.push.called).to.be.true;
     });
 
     it('should send fail action if request fails', async () => {
       setFetchJSONFailure(global.fetch, {
         data: { attributes: {} },
       });
-      const router = {
+      const history = {
         push: sinon.spy(),
       };
 
-      const thunk = submitAppointmentOrRequest(router);
+      const thunk = submitAppointmentOrRequest(history);
       const dispatch = sinon.spy();
       const getState = () => ({
         newAppointment: {
@@ -1429,7 +1429,7 @@ describe('VAOS newAppointment actions', () => {
         'health-expressCareReason': undefined,
         isExpressCare: undefined,
       });
-      expect(router.push.called).to.be.false;
+      expect(history.push.called).to.be.false;
     });
 
     it('should set isVaos400Error if request fails with VAOS_400', async () => {
@@ -1437,11 +1437,11 @@ describe('VAOS newAppointment actions', () => {
         data: { attributes: {} },
         errors: [{ code: 'VAOS_400' }],
       });
-      const router = {
+      const history = {
         push: sinon.spy(),
       };
 
-      const thunk = submitAppointmentOrRequest(router);
+      const thunk = submitAppointmentOrRequest(history);
       const dispatch = sinon.spy();
       const getState = () => ({
         newAppointment: {
@@ -1513,18 +1513,18 @@ describe('VAOS newAppointment actions', () => {
         'health-expressCareReason': undefined,
         isExpressCare: undefined,
       });
-      expect(router.push.called).to.be.false;
+      expect(history.push.called).to.be.false;
     });
 
     it('should send fail action if direct schedule fails', async () => {
       setFetchJSONFailure(global.fetch, {
         data: { attributes: {} },
       });
-      const router = {
+      const history = {
         push: sinon.spy(),
       };
 
-      const thunk = submitAppointmentOrRequest(router);
+      const thunk = submitAppointmentOrRequest(history);
       const dispatch = sinon.spy();
       const getState = () => ({
         newAppointment: {
@@ -1612,7 +1612,7 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
       expect(dispatch.secondCall.args[0].isVaos400Error).to.equal(false);
-      expect(router.push.called).to.be.false;
+      expect(history.push.called).to.be.false;
     });
 
     it('should set isVaos400Error if error code is VAOS_400', async () => {
@@ -1620,11 +1620,11 @@ describe('VAOS newAppointment actions', () => {
         data: { attributes: {} },
         errors: [{ code: 'VAOS_400' }],
       });
-      const router = {
+      const history = {
         push: sinon.spy(),
       };
 
-      const thunk = submitAppointmentOrRequest(router);
+      const thunk = submitAppointmentOrRequest(history);
       const dispatch = sinon.spy();
       const getState = () => ({
         newAppointment: {
@@ -1718,7 +1718,7 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
       expect(dispatch.secondCall.args[0].isVaos400Error).to.equal(true);
-      expect(router.push.called).to.be.false;
+      expect(history.push.called).to.be.false;
     });
   });
 
@@ -1755,17 +1755,17 @@ describe('VAOS newAppointment actions', () => {
   });
   describe('requestAppointmentDateChoice', () => {
     it('should start request flow and route to request date page', () => {
-      const router = {
+      const history = {
         replace: sinon.spy(),
       };
       const dispatch = sinon.spy();
 
-      requestAppointmentDateChoice(router)(dispatch);
+      requestAppointmentDateChoice(history)(dispatch);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
         type: START_REQUEST_APPOINTMENT_FLOW,
       });
-      expect(router.replace.called).to.be.true;
+      expect(history.replace.called).to.be.true;
     });
   });
 });

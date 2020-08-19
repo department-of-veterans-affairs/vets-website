@@ -20,7 +20,7 @@ function ExpressCareInfoPage({
   fetchRequestLimitsStatus,
   isUnderRequestLimit,
   pageChangeInProgress,
-  router,
+  history,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 }) {
@@ -137,13 +137,13 @@ function ExpressCareInfoPage({
           recordEvent({
             event: `${GA_PREFIX}-express-care-request-cancel-flow`,
           });
-          routeToPreviousAppointmentPage(router, pageKey);
+          routeToPreviousAppointmentPage(history, pageKey);
         }}
         onSubmit={() => {
           recordEvent({
             event: `${GA_PREFIX}-express-care-request-continue-flow`,
           });
-          routeToNextAppointmentPage(router, pageKey);
+          routeToNextAppointmentPage(history, pageKey);
         }}
       />
     </div>

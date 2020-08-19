@@ -175,8 +175,8 @@ describe('VAOS integration: Express Care form submission', () => {
     expect(screen.baseElement).to.contain.text(
       'Submitting your Express Care request',
     );
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.firstCall.args[0]).to.equal(
+    await waitFor(() => expect(history.push.called).to.be.true);
+    expect(history.push.firstCall.args[0]).to.equal(
       '/new-express-care-request/confirmation',
     );
     await cleanup();
@@ -245,9 +245,9 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     );
 
-    await waitFor(() => expect(router.replace.called).to.be.true);
+    await waitFor(() => expect(history.replace.called).to.be.true);
     expect(screen.baseElement.textContent).to.not.be.ok;
-    expect(router.replace.firstCall.args[0]).to.equal(
+    expect(history.replace.firstCall.args[0]).to.equal(
       '/new-express-care-request',
     );
   });
@@ -392,8 +392,8 @@ describe('VAOS integration: Express Care form submission', () => {
     });
     fireEvent.click(await screen.findByText(/submit express care/i));
 
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.firstCall.args[0]).to.equal(
+    await waitFor(() => expect(history.push.called).to.be.true);
+    expect(history.push.firstCall.args[0]).to.equal(
       '/new-express-care-request/confirmation',
     );
 

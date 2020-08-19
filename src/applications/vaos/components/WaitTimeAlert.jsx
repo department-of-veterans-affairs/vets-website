@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { MENTAL_HEALTH } from '../utils/constants';
 import { getRealFacilityId } from '../utils/appointment';
 import newAppointmentFlow from '../newAppointmentFlow';

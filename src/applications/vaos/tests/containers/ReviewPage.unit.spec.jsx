@@ -144,7 +144,7 @@ describe('VAOS <ReviewPage>', () => {
       <ReviewPage flowType={flowType} data={data} router={router} />,
     );
 
-    expect(router.replace.called).to.be.true;
+    expect(history.replace.called).to.be.true;
 
     tree.unmount();
   });

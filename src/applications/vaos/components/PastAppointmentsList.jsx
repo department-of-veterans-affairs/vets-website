@@ -31,12 +31,12 @@ export class PastAppointmentsList extends React.Component {
     const {
       pastStatus,
       pastSelectedIndex,
-      router,
+      history,
       showPastAppointments,
     } = this.props;
 
     if (!showPastAppointments) {
-      router.push('/');
+      history.push('/');
     } else if (pastStatus === FETCH_STATUS.notStarted) {
       const selectedDateRange = this.dateRangeOptions[pastSelectedIndex];
       this.props.fetchPastAppointments(

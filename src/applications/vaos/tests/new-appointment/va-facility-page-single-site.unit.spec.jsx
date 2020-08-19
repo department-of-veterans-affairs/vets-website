@@ -184,7 +184,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
 
     fireEvent.click(await findByText(/Continue/));
     await waitFor(() =>
-      expect(router.push.firstCall.args[0]).to.equal(
+      expect(history.push.firstCall.args[0]).to.equal(
         '/new-appointment/request-date',
       ),
     );
@@ -761,7 +761,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     );
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(router.push.firstCall.args[0]).to.equal(
+      expect(history.push.firstCall.args[0]).to.equal(
         '/new-appointment/clinics',
       ),
     );
@@ -820,7 +820,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     );
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(router.push.firstCall.args[0]).to.equal(
+      expect(history.push.firstCall.args[0]).to.equal(
         '/new-appointment/request-date',
       ),
     );
@@ -877,7 +877,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
 
     fireEvent.click(screen.getByText('Back'));
     await waitFor(() =>
-      expect(router.push.firstCall.args[0]).to.equal('/new-appointment'),
+      expect(history.push.firstCall.args[0]).to.equal('/new-appointment'),
     );
   });
 });

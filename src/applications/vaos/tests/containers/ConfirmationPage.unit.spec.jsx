@@ -116,7 +116,7 @@ describe('VAOS <ConfirmationPage>', () => {
     const flowType = FLOW_TYPES.REQUEST;
     const data = {};
     const fetchFacilityDetails = sinon.spy();
-    const router = {
+    const history = {
       replace: sinon.spy(),
     };
 
@@ -125,13 +125,13 @@ describe('VAOS <ConfirmationPage>', () => {
         fetchFacilityDetails={fetchFacilityDetails}
         flowType={flowType}
         data={data}
-        router={router}
+        history={history}
       />,
     );
 
     expect(tree.find('ConfirmationRequestInfo').exists()).to.be.true;
     expect(fetchFacilityDetails.called).to.be.false;
-    expect(router.replace.called).to.be.true;
+    expect(history.replace.called).to.be.true;
 
     tree.unmount();
   });

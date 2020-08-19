@@ -86,11 +86,11 @@ describe('VAOS integration: Express Care info page', () => {
     ).to.exist;
 
     fireEvent.click(screen.getByText('Cancel'));
-    expect(router.push.calledWith('/')).to.be.true;
+    expect(history.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.secondCall.args[0]).to.equal(
+    await waitFor(() => expect(history.push.called).to.be.true);
+    expect(history.push.secondCall.args[0]).to.equal(
       '/new-express-care-request/select-reason',
     );
   });
@@ -139,7 +139,7 @@ describe('VAOS integration: Express Care info page', () => {
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
-    await waitFor(() => expect(router.push.called).to.be.false);
+    await waitFor(() => expect(history.push.called).to.be.false);
     expect(
       await screen.findByText(
         /You’ve reached the limit for Express Care requests/i,
@@ -199,7 +199,7 @@ describe('VAOS integration: Express Care info page', () => {
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
-    await waitFor(() => expect(router.push.called).to.be.false);
+    await waitFor(() => expect(history.push.called).to.be.false);
     expect(
       await screen.findByText(
         /Something went wrong when we tried to check your request/i,
@@ -243,8 +243,8 @@ describe('VAOS integration: Express Care info page', () => {
       },
     );
 
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.firstCall.args[0]).to.equal('/');
+    await waitFor(() => expect(history.push.called).to.be.true);
+    expect(history.push.firstCall.args[0]).to.equal('/');
     expect(screen.queryByText(/How Express Care Works/i)).to.not.exist;
   });
 });

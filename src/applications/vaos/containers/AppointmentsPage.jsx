@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -34,6 +35,9 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
 import TabNav from '../components/TabNav';
 import RequestExpressCare from '../components/RequestExpressCare';
+import FutureAppointmentsList from '../components/FutureAppointmentsList';
+import PastAppointmentsList from '../components/PastAppointmentsList';
+import ExpressCareList from '../components/ExpressCareList';
 
 const pageTitle = 'VA appointments';
 
@@ -85,7 +89,6 @@ export class AppointmentsPage extends Component {
   render() {
     const {
       cancelInfo,
-      children,
       pendingStatus,
       showScheduleButton,
       showCommunityCare,
@@ -100,6 +103,13 @@ export class AppointmentsPage extends Component {
       pendingStatus === FETCH_STATUS.notStarted ||
       expressCare.windowsStatus === FETCH_STATUS.notStarted;
 
+    const routes = (
+      <Switch>
+        <Route component={PastAppointmentsList} path="/past" />
+        <Route component={ExpressCareList} path="/express-care" />
+        <Route path="/" component={FutureAppointmentsList} />
+      </Switch>
+    );
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
         <Breadcrumbs />
@@ -117,7 +127,7 @@ export class AppointmentsPage extends Component {
             {!expressCare.enabled && (
               <>
                 {showPastAppointments && <TabNav />}
-                {children}
+                {routes}
               </>
             )}
             {expressCare.enabled && (
@@ -139,7 +149,7 @@ export class AppointmentsPage extends Component {
                       </h2>
                     )}
                     <TabNav hasExpressCareRequests={expressCare.hasRequests} />
-                    {children}
+                    {routes}
                   </>
                 )}
               </>

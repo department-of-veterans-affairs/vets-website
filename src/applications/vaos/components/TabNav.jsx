@@ -1,20 +1,23 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { useHistory, useLocation } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 
 import TabItem from './TabItem';
 
-export function TabNav({ location, router, hasExpressCareRequests }) {
+export default function TabNav({ hasExpressCareRequests }) {
+  const history = useHistory();
+  const location = useLocation();
+
   const isExpressCareTab = location.pathname === '/express-care';
   return (
     <ul className="va-tabs vaos-appts__tabs" role="tablist">
       <TabItem
         id="upcoming"
         tabpath="/"
-        isActive={location.pathname === '/'}
+        isActive={location.pathname.endsWith('appointments/')}
         firstTab
         onNextTab={() => {
-          router.push('/past');
+          history.push('/past');
           focusElement('#tabpast');
         }}
         title={hasExpressCareRequests ? 'Upcoming' : 'Upcoming appointments'}
@@ -22,14 +25,14 @@ export function TabNav({ location, router, hasExpressCareRequests }) {
       <TabItem
         id="past"
         tabpath="/past"
-        isActive={location.pathname === '/past'}
+        isActive={location.pathname.endsWith('past/')}
         onPreviousTab={() => {
-          router.push('/');
+          history.push('/');
           focusElement('#tabupcoming');
         }}
         onNextTab={() => {
           if (hasExpressCareRequests || isExpressCareTab) {
-            router.push('/express-care');
+            history.push('/express-care');
             focusElement('#tabexpress-care');
           }
         }}
@@ -41,7 +44,7 @@ export function TabNav({ location, router, hasExpressCareRequests }) {
           tabpath="/express-care"
           isActive={isExpressCareTab}
           onPreviousTab={() => {
-            router.push('/past');
+            history.push('/past');
             focusElement('#tabpast');
           }}
           title="Express Care"
@@ -50,5 +53,3 @@ export function TabNav({ location, router, hasExpressCareRequests }) {
     </ul>
   );
 }
-
-export default withRouter(TabNav);
