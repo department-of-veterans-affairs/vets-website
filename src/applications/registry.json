@@ -167,7 +167,7 @@
     "rootUrl": "/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg",
     "template": {
       "title": "Caregiver Application for Benefits",
-      "vagovprod": false,
+      "vagovprod": true,
       "vagovstaging": true,
       "vagovdev": true,
       "localhost": true,
@@ -842,7 +842,7 @@
     "template": {
       "vagovprod": true,
       "layout": "page-react.html",
-      "includeBreadcrumbs":false,
+      "includeBreadcrumbs": false,
       "breadcrumbs_override": []
     }
   }

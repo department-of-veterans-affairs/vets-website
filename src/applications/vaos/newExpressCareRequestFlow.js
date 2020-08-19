@@ -13,8 +13,11 @@ export default {
         return 'reason';
       }
 
-      return 'info';
+      return 'requestLimit';
     },
+  },
+  requestLimit: {
+    url: '/new-express-care-request/request-limit',
   },
   reason: {
     url: '/new-express-care-request/select-reason',

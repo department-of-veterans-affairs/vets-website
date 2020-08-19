@@ -1,32 +1,26 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
-import { getCernerURL } from 'platform/utilities/cerner';
+import { appointmentsToolLink, getCernerURL } from 'platform/utilities/cerner';
 
 export const AuthContent = () => (
   <>
     <div className="usa-alert usa-alert-info" role="alert">
       <div className="usa-alert-body">
         <h3 className="usa-alert-heading" id="due-to-covid-19-you-can-only-r">
-          Due to COVID-19, you can only request an appointment online
+          Due to COVID-19, we&apos;ll need to contact you to confirm your
+          appointment
         </h3>
         <p>
-          You can’t directly schedule an appointment online at this time. Once
-          you request your appointment, a scheduler will get back to you to
-          confirm your request.
-        </p>
-        <p>
-          To help us address the most urgent needs first, we ask that you don’t
-          request routine appointments right now.
+          You can still use our online appointments tool to request an
+          appointment. We'll then contact you to confirm the date, time, and
+          location.
         </p>
       </div>
     </div>
+    <br />
     <div className="processed-content">
       <p>
         <strong>Please note:</strong> The fastest way to make all your VA
@@ -45,7 +39,7 @@ export const AuthContent = () => (
     </div>
     <CernerCallToAction
       linksHeaderText="Manage appointments at:"
-      myHealtheVetLink="https://staging.va.gov/health-care/schedule-view-va-appointments/appointments"
+      myHealtheVetLink={appointmentsToolLink}
       myVAHealthLink={getCernerURL('/pages/scheduling/upcoming')}
     />
     <h2>How can these appointment tools help me manage my care?</h2>
@@ -90,6 +84,7 @@ export const AuthContent = () => (
     <a href="/health-care/how-to-apply">
       Find out how to apply for VA health care
     </a>
+    <br />
     <p>
       <strong>And, you must have one of these free accounts:</strong>
     </p>
@@ -150,6 +145,7 @@ export const AuthContent = () => (
     <a href="/health-care/secure-messaging/">
       Learn more about secure messaging
     </a>
+    <br />
     <p>
       <strong>Please note:</strong> The fastest way to schedule appointments is
       usually to call the VA health facility where you get care. To reschedule
@@ -182,8 +178,11 @@ export const AuthContent = () => (
       <a href="tel: 18774705947" aria-label="8 7 7. 4 7 0. 5 9 4 7.">
         877-470-5947
       </a>{' '}
-      (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />{' '}
-      />). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      (
+      <a href="tel:711" aria-label="TTY. 7 1 1.">
+        TTY: 711
+      </a>
+      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
     <p>
       <strong>
@@ -193,8 +192,11 @@ export const AuthContent = () => (
       <a href="tel: 18666513180" aria-label="8 6 6. 6 5 1. 3 1 8 0.">
         866-651-3180
       </a>{' '}
-      (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />{' '}
-      />). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
+      (
+      <a href="tel:711" aria-label="TTY. 7 1 1.">
+        TTY: 711
+      </a>
+      ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
     </p>
     <h3>For My VA Health questions</h3>
     <p>
