@@ -107,7 +107,7 @@ class VAPEditView extends Component {
         onDelete={onDelete}
         title={title}
         analyticsSectionName={analyticsSectionName}
-        transactionRequest={transactionRequest}
+        isLoading={isLoading}
         deleteEnabled={!isEmpty && !deleteDisabled}
       >
         <LoadingButton data-action="save-edit" isLoading={isLoading}>

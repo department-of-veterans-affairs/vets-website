@@ -4,12 +4,20 @@ import sinon from 'sinon';
 import { waitFor, fireEvent } from '@testing-library/dom';
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import environment from 'platform/utilities/environment';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONFailure,
+} from 'platform/testing/unit/helpers';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
 import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
 import { createTestStore } from '../mocks/setup';
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
-import { mockRequestEligibilityCriteria } from '../mocks/helpers';
+import {
+  mockRequestEligibilityCriteria,
+  mockRequestLimit,
+} from '../mocks/helpers';
 
 const initialState = {
   user: {
@@ -50,12 +58,14 @@ describe('VAOS integration: Express Care info page', () => {
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
+    mockRequestLimit({ facilityId: '983' });
     const router = {
       push: sinon.spy(),
+      replace: sinon.spy(),
     };
     const store = createTestStore(initialState);
     const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout location={location}>
+      <NewExpressCareRequestLayout router={router} location={location}>
         <ExpressCareInfoPage router={router} />
       </NewExpressCareRequestLayout>,
       {
@@ -74,11 +84,120 @@ describe('VAOS integration: Express Care info page', () => {
         ),
       ),
     ).to.exist;
+
     fireEvent.click(screen.getByText('Cancel'));
     expect(router.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
-    expect(router.push.calledWith('/new-express-care-request/select-reason')).to
+    await waitFor(() => expect(router.push.called).to.be.true);
+    expect(router.push.secondCall.args[0]).to.equal(
+      '/new-express-care-request/select-reason',
+    );
+  });
+
+  it('should redirect to error page if request limits reached', async () => {
+    const today = moment();
+    const startTime = today
+      .clone()
+      .subtract('2', 'minutes')
+      .tz('America/Denver');
+    const endTime = today
+      .clone()
+      .add('1', 'minutes')
+      .tz('America/Denver');
+    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: startTime.format('HH:mm'),
+        endTime: endTime.format('HH:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    mockRequestLimit({
+      facilityId: '983',
+      requestLimit: 1,
+      numberOfRequests: 1,
+    });
+    const router = {
+      push: sinon.spy(),
+      replace: sinon.spy(),
+    };
+    const store = createTestStore(initialState);
+    const screen = renderInReduxProvider(
+      <NewExpressCareRequestLayout router={router} location={location}>
+        <ExpressCareInfoPage router={router} />
+      </NewExpressCareRequestLayout>,
+      {
+        store,
+      },
+    );
+
+    expect(await screen.findByText(/How Express Care Works/i)).to.exist;
+    fireEvent.click(await screen.findByText(/^Continue/));
+    await waitFor(() => expect(router.push.called).to.be.true);
+    expect(router.push.calledWith('/new-express-care-request/request-limit')).to
+      .be.true;
+  });
+
+  it('should redirect to error page if request limit fetch fails', async () => {
+    const today = moment();
+    const startTime = today
+      .clone()
+      .subtract('2', 'minutes')
+      .tz('America/Denver');
+    const endTime = today
+      .clone()
+      .add('1', 'minutes')
+      .tz('America/Denver');
+    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
+      {
+        day: today
+          .clone()
+          .tz('America/Denver')
+          .format('dddd')
+          .toUpperCase(),
+        canSchedule: true,
+        startTime: startTime.format('HH:mm'),
+        endTime: endTime.format('HH:mm'),
+      },
+    ]);
+    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    mockRequestLimit({
+      facilityId: '983',
+      requestLimit: 1,
+      numberOfRequests: 1,
+    });
+    setFetchJSONFailure(
+      global.fetch.withArgs(
+        `${
+          environment.API_URL
+        }/vaos/v0/facilities/983/limits?type_of_care_id=CR1`,
+      ),
+      { errors: [] },
+    );
+    const router = {
+      push: sinon.spy(),
+      replace: sinon.spy(),
+    };
+    const store = createTestStore(initialState);
+    const screen = renderInReduxProvider(
+      <NewExpressCareRequestLayout router={router} location={location}>
+        <ExpressCareInfoPage router={router} />
+      </NewExpressCareRequestLayout>,
+      {
+        store,
+      },
+    );
+
+    expect(await screen.findByText(/How Express Care Works/i)).to.exist;
+    fireEvent.click(await screen.findByText(/^Continue/));
+    await waitFor(() => expect(router.push.called).to.be.true);
+    expect(router.push.calledWith('/new-express-care-request/request-limit')).to
       .be.true;
   });
 

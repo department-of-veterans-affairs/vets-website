@@ -44,14 +44,15 @@ export const AuthContent = () => (
               </p>
               <h3>If you receive care at Mann-Grandstaff VA Medical Center</h3>
               <p>
-                You’ll use My VA Health’s Labs and Vitals tool to view some of
-                your VA lab and test results from providers at Mann-Grandstaff.
-                These include results like blood tests as well as microbiology,
-                pathology, radiology, and cardiology reports.
+                You’ll use <strong>My VA Health’s Labs and Vitals</strong> tool
+                to view some of your VA lab and test results from providers at
+                Mann-Grandstaff. These include results like blood tests as well
+                as microbiology, pathology, radiology, and cardiology reports.
               </p>
               <h3>If you receive care at any other VA medical center</h3>
               <p>
-                You&apos;ll use My HealtheVet&apos;s Labs and Tests tool to:
+                You&apos;ll use{' '}
+                <strong>My HealtheVet&apos;s Labs and Tests</strong> tool to:
               </p>
               <ul>
                 <li>
@@ -61,20 +62,6 @@ export const AuthContent = () => (
                   blood sugar and liver function.
                 </li>
                 <li>Add results from non-VA health care providers and labs.</li>
-              </ul>
-              <p>
-                <strong>
-                  If you receive care at another VA medical center, you&apos;ll
-                  use My HealtheVet Labs + Tests tool to:
-                </strong>
-              </p>
-              <ul>
-                <li>
-                  View your VA chemistry/hematology lab and test results (like
-                  blood tests, blood sugar, liver function, and blood cell
-                  count) from all other VA medical centers
-                </li>
-                <li>Add results from non-VA health care providers and labs</li>
               </ul>
             </div>
           </div>
@@ -184,8 +171,8 @@ export const AuthContent = () => (
             <div className="processed-content">
               <h3>If you&apos;re viewing results on My HealtheVet</h3>
               <p>
-                On your Welcome page dashboard, find a module for
-                <strong>Health Records.</strong> Within that module, click on
+                On your Welcome page dashboard, find a module for{' '}
+                <strong>Health Records.</strong> Within that module, click on{' '}
                 <strong>Labs and Tests.</strong>
               </p>
               <p>
@@ -303,7 +290,7 @@ export const AuthContent = () => (
                   <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
                     877-327-0022
                   </a>{' '}
-                  (<Telephone contact={CONTACTS.HELP_TTY} />
+                  (TTY: <Telephone contact={CONTACTS.HELP_TTY} />
                   ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
                   ET.
                 </li>
