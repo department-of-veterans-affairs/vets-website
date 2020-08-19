@@ -91,6 +91,7 @@ describe('Facility search', () => {
 
   it('should recover search from an error response state - invalid input location', () => {
     cy.visit('/find-locations');
+    cy.injectAxe();
 
     // Invalid location search
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-failed-location').as(
@@ -101,17 +102,14 @@ describe('Facility search', () => {
     cy.get('#facility-type-dropdown').select('VA health');
     cy.get('#facility-search').click();
     cy.get('.facility-search-results').contains(
-      /We’re sorry. We couldn’t complete your request/gi,
+      /Something’s not quite right. Please enter a valid or different location and try your search again./gi,
     );
-
-    cy.injectAxe();
     cy.axeCheck();
 
     // Valid location search
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data').as(
       'validLocationSearch',
     );
-
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select('VA health');
     cy.get('#service-type-dropdown').select('Primary care');
@@ -120,8 +118,6 @@ describe('Facility search', () => {
       'Results for "VA health", "Primary care" near "Austin, Texas"',
     );
     cy.get('.facility-result a').should('exist');
-
-    cy.injectAxe();
     cy.axeCheck();
   });
 });
