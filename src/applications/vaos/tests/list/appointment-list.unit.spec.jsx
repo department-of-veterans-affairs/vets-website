@@ -33,7 +33,7 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: appointment list', () => {
+describe.only('VAOS integration: appointment list', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
@@ -269,9 +269,7 @@ describe('VAOS integration: appointment list', () => {
     fireEvent.click(button);
 
     await waitFor(() =>
-      expect(history.getCurrentLocation().pathname).to.equal(
-        '/new-express-care-request',
-      ),
+      expect(history.location.pathname).to.equal('/new-express-care-request'),
     );
     expect(global.window.dataLayer[1]).to.deep.equal({
       event: `vaos-express-care-request-button-clicked`,
@@ -344,7 +342,10 @@ describe('VAOS integration: appointment list', () => {
     await findByText('Create a new appointment');
     expect(queryByText(/request an express care screening/i)).to.not.be.ok;
     expect(getAllByRole('tab').length).to.equal(2);
-    expect(getByText('Upcoming appointments')).to.have.attribute('role', 'tab');
+    expect(queryByText('Upcoming appointments')[0]).to.have.attribute(
+      'role',
+      'tab',
+    );
     expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
     expect(
       queryByText(/View your upcoming, past, and Express Care appointments/i),
@@ -449,6 +450,6 @@ describe('VAOS integration: appointment list', () => {
     expect(screen.queryAllByText(/express care/i)).to.be.empty;
     expect(screen.queryByText('Schedule an appointment')).to.not.exist;
 
-    expect(screen.getByText('Go to My VA Health')).to.have.tagName('a');
+    expect(screen.queryByText('Go to My VA Health')[0]).to.have.tagName('a');
   });
 });

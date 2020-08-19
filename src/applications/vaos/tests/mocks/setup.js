@@ -39,7 +39,7 @@ export function createTestStore(initialState) {
 
 export function renderWithStoreAndRouter(
   ui,
-  { initialState, store = null, path = '/' },
+  { initialState, store = null, path = '/', history = null },
 ) {
   const testStore =
     store ||
@@ -49,9 +49,10 @@ export function renderWithStoreAndRouter(
       applyMiddleware(thunk),
     );
 
-  const history = createMemoryHistory({ initialEntries: [path] });
+  const historyObject =
+    history || createMemoryHistory({ initialEntries: [path] });
   const screen = renderInReduxProvider(
-    <Router history={history}>{ui}</Router>,
+    <Router history={historyObject}>{ui}</Router>,
     {
       store: testStore,
       initialState,
@@ -59,7 +60,7 @@ export function renderWithStoreAndRouter(
     },
   );
 
-  return { ...screen, history };
+  return { ...screen, history: historyObject };
 }
 
 export function renderFromRoutes({ initialState, store = null, path = '/' }) {

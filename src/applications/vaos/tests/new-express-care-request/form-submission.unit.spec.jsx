@@ -29,6 +29,7 @@ import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
 import ExpressCareConfirmationPage from '../../containers/ExpressCareConfirmationPage';
 import { fetchExpressCareWindows } from '../../actions/expressCare';
 import { EXPRESS_CARE } from '../../utils/constants';
+import { createMemoryHistory } from 'history-v4';
 
 const initialState = {
   user: {
@@ -220,10 +221,12 @@ describe('VAOS integration: Express Care form submission', () => {
     const store = createTestStore(initialState);
     store.dispatch(fetchExpressCareWindows());
 
+    const history = createMemoryHistory();
+    history.replace = sinon.spy();
     const screen = renderWithStoreAndRouter(<ExpressCareConfirmationPage />, {
       store,
+      history,
     });
-    screen.history.replace = sinon.spy();
 
     await waitFor(() => expect(screen.history.replace.called).to.be.true);
     expect(screen.baseElement.textContent).to.not.be.ok;

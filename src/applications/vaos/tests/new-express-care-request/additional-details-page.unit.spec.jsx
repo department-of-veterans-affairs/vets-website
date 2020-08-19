@@ -61,15 +61,9 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     });
     store.dispatch(fetchExpressCareWindows());
 
-    const history = {
-      push: sinon.spy(),
-    };
-    const screen = renderWithStoreAndRouter(
-      <ExpressCareDetailsPage history={history} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ExpressCareDetailsPage />, {
+      store,
+    });
 
     expect(screen.baseElement).to.contain.text(
       'Please provide additional details about your symptoms',
@@ -98,18 +92,13 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     });
     store.dispatch(fetchExpressCareWindows());
 
-    const history = {
-      replace: sinon.spy(),
-    };
-    renderWithStoreAndRouter(
-      <NewExpressCareRequestLayout
-        history={history}
-        location={{ pathname: '/additional-details' }}
-      >
-        <ExpressCareDetailsPage history={history} />
+    const { history } = renderWithStoreAndRouter(
+      <NewExpressCareRequestLayout>
+        <ExpressCareDetailsPage />
       </NewExpressCareRequestLayout>,
       {
         store,
+        path: '/additional-details',
       },
     );
 
