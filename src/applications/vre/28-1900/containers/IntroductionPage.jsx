@@ -8,9 +8,6 @@ import { getEligiblePages } from 'platform/forms-system/src/js/routing';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const IntroductionPage = props => {
-  // componentDidMount() {
-  //   focusElement('.va-nav-breadcrumbs-list');
-  // }
   const [pageList, setPageList] = useState([]);
   useEffect(
     () => {
@@ -90,12 +87,16 @@ const IntroductionPage = props => {
           </li>
         </ol>
       </div>
-      <SaveInProgressIntro
-        buttonOnly
-        messages={props.route.formConfig.savedFormMessages}
-        pageList={props.route.pageList}
-        startText="Start the Application"
-      />
+      {pageList.length < 1 ? (
+        <LoadingIndicator message="Checking status..." />
+      ) : (
+        <SaveInProgressIntro
+          prefillEnabled={props.route.formConfig.prefillEnabled}
+          messages={props.route.formConfig.savedFormMessages}
+          pageList={pageList?.pages}
+          startText="Start the Application"
+        />
+      )}
       <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
         <OMBInfo resBurden={30} ombNumber="21-1900" expDate="12/31/2021" />
       </div>
