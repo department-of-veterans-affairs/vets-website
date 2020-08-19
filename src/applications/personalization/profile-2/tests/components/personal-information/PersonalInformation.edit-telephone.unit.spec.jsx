@@ -13,8 +13,8 @@ import PersonalInformation from '../../../components/personal-information/Person
 
 import {
   createBasicInitialState,
-  elementNotRemoved,
   renderWithProfileReducers,
+  wait,
 } from '../../unit-test-helpers';
 import { beforeEach } from 'mocha';
 
@@ -139,8 +139,9 @@ async function testTransactionCreationFails(numberName) {
   expect(alert).to.contain.text('We’re sorry. We couldn’t update your');
   expect(alert).to.contain.text('Please try again.');
 
-  // make sure that edit mode is not exited
-  await elementNotRemoved(alert, { timeout: 75 });
+  // make sure that edit mode is not automatically exited
+  await wait(75);
+  expect(view.getByTestId('edit-error-alert')).to.exist;
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
@@ -158,8 +159,9 @@ async function testQuickFailure(numberName) {
   expect(alert).to.contain.text('We’re sorry. We couldn’t update your');
   expect(alert).to.contain.text('Please try again.');
 
-  // make sure that edit mode is not exited
-  await elementNotRemoved(alert, { timeout: 75 });
+  // make sure that edit mode is not automatically exited
+  await wait(75);
+  expect(view.getByTestId('edit-error-alert')).to.exist;
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
