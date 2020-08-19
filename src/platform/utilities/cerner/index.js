@@ -11,3 +11,6 @@ export const getCernerURL = path => {
 
   return `${root}${path}`;
 };
+
+export const appointmentsToolLink =
+  '/health-care/schedule-view-va-appointments/appointments';

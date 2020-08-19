@@ -116,15 +116,6 @@ export const AuthContent = () => (
                   </a>
                 </li>
               </ul>
-              <p>
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Learn about the 3 different My HealtheVet account types
-                </a>
-              </p>
             </div>
           </div>
         </div>

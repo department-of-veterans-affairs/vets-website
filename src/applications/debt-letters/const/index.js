@@ -4,10 +4,10 @@ export const deductionCodes = Object.freeze({
   '30': 'Compensation & pension debt',
   '41': 'Chapter 34 education debt',
   '44': 'Chapter 35 education debt',
-  '71': 'Post 9/11 GI Bill debt for books and supplies',
-  '72': 'Post 9/11 GI Bill debt for housing',
-  '74': 'Post 9/11 GI Bill debt for tuition',
-  '75': 'Post 9/11 GI Bill debt for tuition (school liable)',
+  '71': 'Post-9/11 GI Bill debt for books and supplies',
+  '72': 'Post-9/11 GI Bill debt for housing',
+  '74': 'Post-9/11 GI Bill debt for tuition',
+  '75': 'Post-9/11 GI Bill debt for tuition (school liable)',
 });
 
 export const renderAdditionalInfo = deductionCode => {
@@ -125,7 +125,7 @@ export const renderAdditionalInfo = deductionCode => {
             <li>We made a duplicate or incorrect payment to you</li>
           </ul>
           <p>
-            <strong>**Note:**</strong>
+            <strong>Note:</strong>
             For Post-9/11 GI Bill debts, please make separate payments for
             tuition, housing, and books and supplies. When there is a change in
             this benefit's use, we'll collect the three debts separately.
