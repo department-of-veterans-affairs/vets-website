@@ -6,8 +6,12 @@ export const isCernerLive = !environment.isProduction();
 
 export const getCernerURL = path => {
   const root = environment.isProduction()
-    ? 'https://patientportal.myhealth.va.gov'
-    : 'https://ehrm-va-test.patientportal.us.healtheintent.com';
+    ? encodeURIComponent(
+        'https://patientportal.myhealth.va.gov/clear-session?to=https://patientportal.myhealth.va.gov',
+      )
+    : encodeURIComponent(
+        'https://ehrm-va-test.patientportal.us.healtheintent.com/clear-session?to=https://ehrm-va-test.patientportal.us.healtheintent.com',
+      );
 
   return `${root}${path}`;
 };
