@@ -64,6 +64,7 @@ export class IntroductionPage extends React.Component {
         pageList={this.props.route.pageList}
         startText="Sign in or create an account"
         unauthStartText="Sign in or create an account"
+        unauthButtonClasses={['vads-u-background-color--green']}
         hideUnauthedStartLink
       />
     );
@@ -215,6 +216,7 @@ export class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the education application"
           unauthStartText="Sign in or create an account"
+          unauthButtonClasses={['vads-u-background-color--green']}
         />
         <div
           className="omb-info--container"
