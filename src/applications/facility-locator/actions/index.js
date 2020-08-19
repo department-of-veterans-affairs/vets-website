@@ -217,7 +217,7 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: SEARCH_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = ['place', 'region', 'postcode', 'locality', 'address'];
+    let types = ['place', 'region', 'postcode', 'locality'];
     // check for postcode search
     const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
 
