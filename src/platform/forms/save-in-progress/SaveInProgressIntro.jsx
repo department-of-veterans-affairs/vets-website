@@ -26,7 +26,6 @@ import {
   UNAUTH_SIGN_IN_DEFAULT_MESSAGE,
   APP_ACTION_DEFAULT,
 } from '../../forms-system/src/js/constants';
-import classNames from 'classnames';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {
@@ -140,24 +139,12 @@ class SaveInProgressIntro extends React.Component {
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
-      const {
-        buttonOnly,
-        retentionPeriod,
-        unauthStartText,
-        unauthButtonClasses,
-      } = this.props;
-      const unauthClasses = classNames(
-        'usa-button-primary',
-        unauthButtonClasses,
-      );
-      const unauthStartButton = (
-        <button className={unauthClasses} onClick={this.openLoginModal}>
-          {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-        </button>
-      );
+      const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
       alert = buttonOnly ? (
         <>
-          {unauthStartButton}
+          <button className="usa-button-primary" onClick={this.openLoginModal}>
+            {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+          </button>
           {!this.props.hideUnauthedStartLink && (
             <p>
               <button
@@ -196,7 +183,12 @@ class SaveInProgressIntro extends React.Component {
                 {appType}, you won’t be able to save the information you’ve
                 already filled in.
               </p>
-              {unauthStartButton}
+              <button
+                className="usa-button-primary"
+                onClick={this.openLoginModal}
+              >
+                {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+              </button>
               {!this.props.hideUnauthedStartLink && (
                 <p>
                   <button
@@ -356,7 +348,6 @@ class SaveInProgressIntro extends React.Component {
 
 SaveInProgressIntro.propTypes = {
   buttonOnly: PropTypes.bool,
-  unauthButtonClasses: PropTypes.arrayOf(PropTypes.string),
   afterButtonContent: PropTypes.element,
   prefillEnabled: PropTypes.bool,
   formId: PropTypes.string.isRequired,
