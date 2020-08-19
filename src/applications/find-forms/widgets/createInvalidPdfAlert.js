@@ -7,79 +7,68 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { fetchFormsApi } from '../api';
 
-class InvalidPdf extends React.Component {
-  state = {
-    isVisible: false,
-  };
+const InvalidFormDownload = () => (
+  <AlertBox
+    isVisible
+    status="error"
+    headline="This form link isn’t working"
+    content={
+      <>
+        We’re sorry, but the form you’re trying to download appears to have an
+        invalid link. Please{' '}
+        <a href="mailto:VaFormsManagers@va.gov">email the forms managers</a> for
+        help with this form.
+      </>
+    }
+  />
+);
 
-  componentDidMount() {
-    const { formName, downloadLinkSelector } = this.props;
-    const pdfLink = document.querySelector(downloadLinkSelector);
-    const pdfFileUrl = pdfLink.href;
+async function onDownloadLinkClick(event) {
+  event.preventDefault();
 
-    pdfLink.addEventListener('click', async event => {
-      event.preventDefault();
+  const link = event.target;
+  const downloadUrl = link.href;
+  const formNumber = link.dataset.formNumber;
 
-      // Default to true in case we encounter an error
-      // determining validity through the API.
-      let formPdfIsValid = true;
-      let form = null;
+  // Default to true in case we encounter an error
+  // determining validity through the API.
+  let formPdfIsValid = true;
+  let form = null;
 
-      try {
-        const forms = await fetchFormsApi(formName);
-        form = forms.find(f => f.attributes.formName === formName);
-        formPdfIsValid = form?.attributes.validPdf;
-      } catch (err) {
-        // Todo
-      }
-
-      if (formPdfIsValid) {
-        window.open(pdfFileUrl);
-      } else {
-        Sentry.withScope(scope => {
-          scope.setExtra('form API response', form);
-          scope.setExtra('form number (aka form name)', formName);
-          scope.setExtra('pdf link', pdfFileUrl);
-          Sentry.captureMessage(
-            'Find Forms - Form Detail - invalid PDF accessed',
-          );
-        });
-
-        pdfLink.remove();
-        this.setState({ isVisible: true });
-      }
-    });
+  try {
+    const forms = await fetchFormsApi(formNumber);
+    form = forms.find(f => f.attributes.formName === formNumber);
+    formPdfIsValid = form?.attributes.validPdf;
+  } catch (err) {
+    // Todo
   }
 
-  render() {
-    return (
-      <AlertBox
-        isVisible={this.state.isVisible}
-        status="error"
-        headline="This form link isn’t working"
-        content={
-          <>
-            We’re sorry, but the form you’re trying to download appears to have
-            an invalid link. Please{' '}
-            <a href="mailto:VaFormsManagers@va.gov">email the forms managers</a>{' '}
-            for help with this form.
-          </>
-        }
-      />
-    );
+  if (formPdfIsValid) {
+    link.removeEventListener('click');
+    link.click();
+  } else {
+    Sentry.withScope(scope => {
+      scope.setExtra('form API response', form);
+      scope.setExtra('form number', formNumber);
+      scope.setExtra('download link (invalid)', downloadUrl);
+      Sentry.captureMessage('Find Forms - Form Detail - invalid PDF accessed');
+    });
+
+    const div = document.createElement('div');
+    const alertBox = <InvalidFormDownload />;
+
+    ReactDOM.render(alertBox, div);
+    link.parentNode.insertBefore(div, link);
+    link.remove();
   }
 }
 
 export default (store, widgetType) => {
-  const roots = document.querySelectorAll(`[data-widget-type="${widgetType}"]`);
+  const downloadLinks = document.querySelectorAll(
+    `[data-widget-type="${widgetType}"]`,
+  );
 
-  for (const root of [...roots]) {
-    ReactDOM.render(
-      <InvalidPdf
-        formName={root.dataset.formName}
-        downloadLinkSelector={root.dataset.pdfLink}
-      />,
-      root,
-    );
+  for (const downloadLink of [...downloadLinks]) {
+    downloadLink.addEventListener('click', onDownloadLinkClick);
   }
 };
