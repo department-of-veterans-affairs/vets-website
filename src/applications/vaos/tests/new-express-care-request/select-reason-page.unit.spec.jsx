@@ -3,12 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
 
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
-import { createTestStore } from '../mocks/setup';
+import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
 import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
 import { fetchExpressCareWindows } from '../../actions/expressCare';
@@ -53,11 +52,11 @@ describe('VAOS integration: Express Care form', () => {
     });
     store.dispatch(fetchExpressCareWindows());
 
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
-    const screen = renderInReduxProvider(
-      <ExpressCareReasonPage router={router} />,
+    const screen = renderWithStoreAndRouter(
+      <ExpressCareReasonPage history={history} />,
       {
         store,
       },

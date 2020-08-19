@@ -3,12 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
 
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { waitFor } from '@testing-library/dom';
 
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
-import { createTestStore } from '../mocks/setup';
+import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
 import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
 import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
@@ -62,11 +61,11 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     });
     store.dispatch(fetchExpressCareWindows());
 
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
-    const screen = renderInReduxProvider(
-      <ExpressCareDetailsPage router={router} />,
+    const screen = renderWithStoreAndRouter(
+      <ExpressCareDetailsPage history={history} />,
       {
         store,
       },
@@ -99,15 +98,15 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     });
     store.dispatch(fetchExpressCareWindows());
 
-    const router = {
+    const history = {
       replace: sinon.spy(),
     };
-    renderInReduxProvider(
+    renderWithStoreAndRouter(
       <NewExpressCareRequestLayout
-        router={router}
+        history={history}
         location={{ pathname: '/additional-details' }}
       >
-        <ExpressCareDetailsPage router={router} />
+        <ExpressCareDetailsPage history={history} />
       </NewExpressCareRequestLayout>,
       {
         store,

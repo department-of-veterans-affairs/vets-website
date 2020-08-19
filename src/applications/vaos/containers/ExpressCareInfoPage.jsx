@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
@@ -20,10 +21,10 @@ function ExpressCareInfoPage({
   fetchRequestLimitsStatus,
   isUnderRequestLimit,
   pageChangeInProgress,
-  history,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 }) {
+  const history = useHistory();
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();

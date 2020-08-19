@@ -27,14 +27,14 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
   it('should not submit empty form', () => {
     const openReasonForAppointment = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
     const form = mount(
       <ReasonForAppointmentPage
         openReasonForAppointment={openReasonForAppointment}
-        router={router}
+        history={history}
         data={{}}
       />,
     );
@@ -51,7 +51,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
   it('should call updateReasonForAppointmentData after change', () => {
     const openReasonForAppointment = sinon.spy();
     const updateReasonForAppointmentData = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -59,7 +59,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
       <ReasonForAppointmentPage
         openReasonForAppointment={openReasonForAppointment}
         updateReasonForAppointmentData={updateReasonForAppointmentData}
-        router={router}
+        history={history}
         data={{}}
       />,
     );

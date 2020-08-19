@@ -5,6 +5,7 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import createCommonStore from 'platform/startup/store';
@@ -57,7 +58,9 @@ export default function startApp({
 
   startReactApp(
     <Provider store={store}>
-      {componentWithStore ? componentWithStore(store) : component}
+      <Router basename={url}>
+        {componentWithStore ? componentWithStore(store) : component}
+      </Router>
     </Provider>,
   );
 }

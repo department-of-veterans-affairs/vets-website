@@ -3,7 +3,6 @@ import moment from 'moment';
 import sinon from 'sinon';
 import { waitFor, fireEvent } from '@testing-library/dom';
 import React from 'react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
 import {
   mockFetch,
@@ -12,7 +11,7 @@ import {
 } from 'platform/testing/unit/helpers';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
 import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
-import { createTestStore } from '../mocks/setup';
+import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
 import {
   mockRequestEligibilityCriteria,
@@ -59,19 +58,17 @@ describe('VAOS integration: Express Care info page', () => {
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
     mockRequestLimit({ facilityId: '983' });
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
     const store = createTestStore(initialState);
-    const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
+    const screen = renderWithStoreAndRouter(
+      <NewExpressCareRequestLayout>
+        <ExpressCareInfoPage />
       </NewExpressCareRequestLayout>,
       {
         store,
       },
     );
+    screen.history.push = sinon.spy();
+    screen.history.replace = sinon.spy();
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     expect(
@@ -86,11 +83,11 @@ describe('VAOS integration: Express Care info page', () => {
     ).to.exist;
 
     fireEvent.click(screen.getByText('Cancel'));
-    expect(history.push.calledWith('/')).to.be.true;
+    expect(screen.history.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() => expect(history.push.called).to.be.true);
-    expect(history.push.secondCall.args[0]).to.equal(
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
+    expect(screen.history.push.secondCall.args[0]).to.equal(
       '/new-express-care-request/select-reason',
     );
   });
@@ -123,23 +120,20 @@ describe('VAOS integration: Express Care info page', () => {
       requestLimit: 1,
       numberOfRequests: 1,
     });
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
     const store = createTestStore(initialState);
-    const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
+    const screen = renderWithStoreAndRouter(
+      <NewExpressCareRequestLayout>
+        <ExpressCareInfoPage />
       </NewExpressCareRequestLayout>,
       {
         store,
       },
     );
+    screen.history.push = sinon.spy();
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
-    await waitFor(() => expect(history.push.called).to.be.false);
+    await waitFor(() => expect(screen.history.push.called).to.be.false);
     expect(
       await screen.findByText(
         /You’ve reached the limit for Express Care requests/i,
@@ -183,23 +177,21 @@ describe('VAOS integration: Express Care info page', () => {
       ),
       { errors: [] },
     );
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
     const store = createTestStore(initialState);
-    const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
+    const screen = renderWithStoreAndRouter(
+      <NewExpressCareRequestLayout>
+        <ExpressCareInfoPage />
       </NewExpressCareRequestLayout>,
       {
         store,
       },
     );
+    screen.history.push = sinon.spy();
+    screen.history.replace = sinon.spy();
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
-    await waitFor(() => expect(history.push.called).to.be.false);
+    await waitFor(() => expect(screen.history.push.called).to.be.false);
     expect(
       await screen.findByText(
         /Something went wrong when we tried to check your request/i,
@@ -230,21 +222,19 @@ describe('VAOS integration: Express Care info page', () => {
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
-    const router = {
-      push: sinon.spy(),
-    };
     const store = createTestStore(initialState);
-    const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
+    const screen = renderWithStoreAndRouter(
+      <NewExpressCareRequestLayout location={location}>
+        <ExpressCareInfoPage />
       </NewExpressCareRequestLayout>,
       {
         store,
       },
     );
+    screen.history.push = sinon.spy();
 
-    await waitFor(() => expect(history.push.called).to.be.true);
-    expect(history.push.firstCall.args[0]).to.equal('/');
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
+    expect(screen.history.push.firstCall.args[0]).to.equal('/');
     expect(screen.queryByText(/How Express Care Works/i)).to.not.exist;
   });
 });

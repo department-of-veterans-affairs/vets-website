@@ -25,14 +25,14 @@ describe('VAOS <TypeOfAppointmentPage>', () => {
 
   it('should not submit empty form', () => {
     const openFormPage = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
     const form = mount(
       <TypeOfAppointmentPage
         openFormPage={openFormPage}
-        router={router}
+        history={history}
         data={{}}
       />,
     );

@@ -25,12 +25,16 @@ describe('VAOS <TypeOfVisitPage>', () => {
 
   it('should not submit empty form', () => {
     const openFormPage = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
     const form = mount(
-      <TypeOfVisitPage openFormPage={openFormPage} router={router} data={{}} />,
+      <TypeOfVisitPage
+        openFormPage={openFormPage}
+        history={history}
+        data={{}}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -43,7 +47,7 @@ describe('VAOS <TypeOfVisitPage>', () => {
   it('should call updateFormData after change', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -51,7 +55,7 @@ describe('VAOS <TypeOfVisitPage>', () => {
       <TypeOfVisitPage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
-        router={router}
+        history={history}
         data={{}}
       />,
     );

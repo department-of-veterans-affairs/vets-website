@@ -25,14 +25,14 @@ describe('VAOS <PreferredDatePage>', () => {
 
   it('should not submit empty form', () => {
     const openFormPage = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
     const form = mount(
       <PreferredDatePage
         openFormPage={openFormPage}
-        router={router}
+        history={history}
         data={{}}
       />,
     );
@@ -47,7 +47,7 @@ describe('VAOS <PreferredDatePage>', () => {
   it('it should not submit with past date', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -55,7 +55,7 @@ describe('VAOS <PreferredDatePage>', () => {
       <PreferredDatePage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
-        router={router}
+        history={history}
         data={{ preferredDate: '2016-02-02' }}
       />,
     );
@@ -70,7 +70,7 @@ describe('VAOS <PreferredDatePage>', () => {
   it('it should not submit beyond 395 days into the future', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -78,7 +78,7 @@ describe('VAOS <PreferredDatePage>', () => {
       <PreferredDatePage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
-        router={router}
+        history={history}
         data={{ preferredDate: '2050-02-02' }}
       />,
     );

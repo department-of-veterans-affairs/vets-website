@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { createMemoryHistory } from 'history-v4';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
@@ -37,7 +37,10 @@ export function createTestStore(initialState) {
   );
 }
 
-export function renderFromRoutes({ initialState, store = null, path = '' }) {
+export function renderWithStoreAndRouter(
+  ui,
+  { initialState, store = null, path = '/' },
+) {
   const testStore =
     store ||
     createStore(
@@ -45,9 +48,10 @@ export function renderFromRoutes({ initialState, store = null, path = '' }) {
       initialState,
       applyMiddleware(thunk),
     );
-  const memoryHistory = createMemoryHistory(path);
+
+  const history = createMemoryHistory({ initialEntries: [path] });
   const screen = renderInReduxProvider(
-    <Router history={memoryHistory}>{createRoutesWithStore(testStore)}</Router>,
+    <Router history={history}>{ui}</Router>,
     {
       store: testStore,
       initialState,
@@ -55,15 +59,36 @@ export function renderFromRoutes({ initialState, store = null, path = '' }) {
     },
   );
 
-  return { ...screen, memoryHistory };
+  return { ...screen, history };
+}
+
+export function renderFromRoutes({ initialState, store = null, path = '/' }) {
+  const testStore =
+    store ||
+    createStore(
+      combineReducers({ ...commonReducer, ...reducers }),
+      initialState,
+      applyMiddleware(thunk),
+    );
+  const history = createMemoryHistory({ initialEntries: [path] });
+  const screen = renderInReduxProvider(
+    <Router history={history}>{createRoutesWithStore(testStore)}</Router>,
+    {
+      store: testStore,
+      initialState,
+      reducers,
+    },
+  );
+
+  return { ...screen, history };
 }
 
 export async function setTypeOfCare(store, label) {
-  const router = {
+  const history = {
     push: sinon.spy(),
   };
-  const { findByLabelText, getByText } = renderInReduxProvider(
-    <TypeOfCarePage router={router} />,
+  const { findByLabelText, getByText } = renderWithStoreAndRouter(
+    <TypeOfCarePage history={history} />,
     { store },
   );
 
@@ -109,11 +134,11 @@ export async function setVAFacility(store, facilityId) {
     data: facilities,
   });
 
-  const router = {
+  const history = {
     push: sinon.spy(),
   };
-  const { findByText } = renderInReduxProvider(
-    <VAFacilityPage router={router} />,
+  const { findByText } = renderWithStoreAndRouter(
+    <VAFacilityPage history={history} />,
     { store },
   );
 
@@ -126,11 +151,11 @@ export async function setVAFacility(store, facilityId) {
 }
 
 export async function setClinic(store, clinicLabel) {
-  const router = {
+  const history = {
     push: sinon.spy(),
   };
-  const { findByText, findByLabelText } = renderInReduxProvider(
-    <ClinicChoicePage router={router} />,
+  const { findByText, findByLabelText } = renderWithStoreAndRouter(
+    <ClinicChoicePage history={history} />,
     { store },
   );
 
@@ -143,11 +168,11 @@ export async function setClinic(store, clinicLabel) {
 }
 
 export async function setPreferredDate(store, preferredDate) {
-  const router = {
+  const history = {
     push: sinon.spy(),
   };
-  const { findByText, getByLabelText, getByText } = renderInReduxProvider(
-    <PreferredDatePage router={router} />,
+  const { findByText, getByLabelText, getByText } = renderWithStoreAndRouter(
+    <PreferredDatePage history={history} />,
     { store },
   );
 

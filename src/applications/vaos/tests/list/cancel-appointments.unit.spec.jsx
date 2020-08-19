@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
 import {
   setFetchJSONResponse,
@@ -24,6 +23,7 @@ import {
   mockFacilitiesFetch,
   mockVACancelFetches,
 } from '../mocks/helpers';
+import { renderWithStoreAndRouter } from '../mocks/setup';
 
 import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
@@ -79,7 +79,7 @@ describe('VAOS integration appointment cancellation:', () => {
     };
     mockFacilitiesFetch('vha_442', [facility]);
 
-    const { getByRole, findByText } = renderInReduxProvider(
+    const { getByRole, findByText } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -123,7 +123,7 @@ describe('VAOS integration appointment cancellation:', () => {
       getByRole,
       findByText,
       queryByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -179,7 +179,7 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       queryByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -283,7 +283,7 @@ describe('VAOS integration appointment cancellation:', () => {
       findByText,
       queryByRole,
       getByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -380,7 +380,7 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       getByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -446,7 +446,7 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       queryByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -502,7 +502,7 @@ describe('VAOS integration appointment cancellation:', () => {
 
     mockAppointmentInfo({ va: [appointment] });
 
-    const screen = renderInReduxProvider(
+    const screen = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,

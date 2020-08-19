@@ -47,7 +47,7 @@ describe('VAOS <ContactInfoPage>', () => {
   it('should call updateFormData after change', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -55,7 +55,7 @@ describe('VAOS <ContactInfoPage>', () => {
       <ContactInfoPage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
-        router={router}
+        history={history}
         data={{}}
       />,
     );

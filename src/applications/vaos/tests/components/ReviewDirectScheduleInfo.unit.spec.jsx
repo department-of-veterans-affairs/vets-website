@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
+import { MemoryRouter } from 'react-router-dom';
 
 import AppointmentDate from '../../components/review/AppointmentDate';
 import ReviewDirectScheduleInfo from '../../components/review/ReviewDirectScheduleInfo';
@@ -50,13 +51,15 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
 
     beforeEach(() => {
       tree = mount(
-        <ReviewDirectScheduleInfo
-          data={data}
-          facility={facility}
-          clinic={clinic}
-          pageTitle={pageTitle}
-          systemId={'983'}
-        />,
+        <MemoryRouter>
+          <ReviewDirectScheduleInfo
+            data={data}
+            facility={facility}
+            clinic={clinic}
+            pageTitle={pageTitle}
+            systemId={'983'}
+          />
+        </MemoryRouter>,
       );
     });
 
@@ -112,12 +115,14 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
 
     beforeEach(() => {
       tree = mount(
-        <ReviewDirectScheduleInfo
-          data={data}
-          facility={facility}
-          clinic={clinic}
-          systemId={'983'}
-        />,
+        <MemoryRouter>
+          <ReviewDirectScheduleInfo
+            data={data}
+            facility={facility}
+            clinic={clinic}
+            systemId={'983'}
+          />
+        </MemoryRouter>,
       );
     });
 

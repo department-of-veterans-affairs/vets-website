@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import recordEvent from 'platform/monitoring/record-event';
@@ -69,12 +69,12 @@ function ExpressCareReasonPage({
   data,
   openFormPage,
   pageChangeInProgress,
-  history,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   schema,
   updateFormData,
 }) {
+  const history = useHistory();
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();

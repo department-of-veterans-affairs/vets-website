@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/react';
 import reducers from '../../reducers';
 import {
@@ -15,6 +14,7 @@ import {
   mockPastAppointmentInfoOption1,
   mockFacilitiesFetch,
 } from '../mocks/helpers';
+import { renderWithStoreAndRouter } from '../mocks/setup';
 
 import PastAppointmentsList from '../../components/PastAppointmentsList';
 
@@ -31,7 +31,7 @@ describe('VAOS integration: past appointments', () => {
   it('should show select date range dropdown', async () => {
     mockPastAppointmentInfo({ va: [] });
 
-    const { queryByText } = renderInReduxProvider(<PastAppointmentsList />, {
+    const { queryByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -58,7 +58,7 @@ describe('VAOS integration: past appointments', () => {
       baseElement,
       queryByText,
       getByLabelText,
-    } = renderInReduxProvider(<PastAppointmentsList />, {
+    } = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -104,7 +104,7 @@ describe('VAOS integration: past appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderInReduxProvider(<PastAppointmentsList />, {
+    } = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -164,7 +164,7 @@ describe('VAOS integration: past appointments', () => {
     };
     mockFacilitiesFetch('vha_442GC', [facility]);
 
-    const { findByText, baseElement } = renderInReduxProvider(
+    const { findByText, baseElement } = renderWithStoreAndRouter(
       <PastAppointmentsList />,
       {
         initialState,
@@ -204,7 +204,7 @@ describe('VAOS integration: past appointments', () => {
       'Follow-up/Routine: Do not eat for 24 hours';
     mockPastAppointmentInfo({ va: [appointment] });
 
-    const { findByText, baseElement } = renderInReduxProvider(
+    const { findByText, baseElement } = renderWithStoreAndRouter(
       <PastAppointmentsList />,
       {
         initialState,
@@ -235,7 +235,7 @@ describe('VAOS integration: past appointments', () => {
       'CANCELLED BY CLINIC';
     mockPastAppointmentInfo({ va: [appointment] });
 
-    const { findByText, baseElement } = renderInReduxProvider(
+    const { findByText, baseElement } = renderWithStoreAndRouter(
       <PastAppointmentsList />,
       {
         initialState,
@@ -262,7 +262,7 @@ describe('VAOS integration: past appointments', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
 
     mockPastAppointmentInfo({ va: [appointment] });
-    const { findByText } = renderInReduxProvider(<PastAppointmentsList />, {
+    const { findByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -288,7 +288,7 @@ describe('VAOS integration: past appointments', () => {
     };
     mockPastAppointmentInfo({ va: [appointment] });
 
-    const { findByText, baseElement, queryByText } = renderInReduxProvider(
+    const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
       <PastAppointmentsList />,
       {
         initialState,
@@ -344,7 +344,7 @@ describe('VAOS integration: past appointments', () => {
       cc: [ccAppointment],
     });
 
-    const { baseElement, findAllByRole } = renderInReduxProvider(
+    const { baseElement, findAllByRole } = renderWithStoreAndRouter(
       <PastAppointmentsList />,
       {
         initialState,
