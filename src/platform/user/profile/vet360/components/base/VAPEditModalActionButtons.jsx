@@ -64,12 +64,9 @@ class VAPEditModalActionButtons extends React.Component {
   renderDeleteAction() {
     if (this.props.deleteEnabled) {
       return (
-        <button
-          className="usa-button-secondary button-link vads-u-width--auto vads-u-padding-left--1 medium-screen:vads-u-margin-left--2"
-          onClick={this.handleDeleteInitiated}
-        >
-          <i className="fa fa-trash" /> <span>Delete</span>
-        </button>
+        <a className="vads-u-margin-top--1p5" onClick={this.handleDeleteInitiated}>
+          Remove {toLower(this.props.title)}
+        </a>
       );
     }
 
