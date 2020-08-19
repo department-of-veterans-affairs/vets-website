@@ -192,7 +192,9 @@ describe('VAOS integration: Express Care form submission', () => {
   });
 
   it('should redirect home when there is no request to show', async () => {
-    const store = createTestStore(initialState);
+    const store = createTestStore({
+      ...initialState,
+    });
     store.dispatch(fetchExpressCareWindows());
 
     const router = {

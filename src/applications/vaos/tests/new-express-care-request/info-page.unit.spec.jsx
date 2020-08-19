@@ -33,7 +33,9 @@ describe('VAOS integration: Express Care info page', () => {
   afterEach(() => resetFetch());
 
   it('should render info page when there are active windows', async () => {
-    const store = createTestStore(initialState);
+    const store = createTestStore({
+      ...initialState,
+    });
     const startTime = today
       .clone()
       .subtract(2, 'minutes')
@@ -87,7 +89,9 @@ describe('VAOS integration: Express Care info page', () => {
       push: sinon.spy(),
       replace: sinon.spy(),
     };
-    const store = createTestStore(initialState);
+    const store = createTestStore({
+      ...initialState,
+    });
     const screen = renderInReduxProvider(
       <NewExpressCareRequestLayout router={router} location={location}>
         <ExpressCareInfoPage router={router} />
@@ -118,7 +122,9 @@ describe('VAOS integration: Express Care info page', () => {
       push: sinon.spy(),
       replace: sinon.spy(),
     };
-    const store = createTestStore(initialState);
+    const store = createTestStore({
+      ...initialState,
+    });
     const screen = renderInReduxProvider(
       <NewExpressCareRequestLayout router={router} location={location}>
         <ExpressCareInfoPage router={router} />
@@ -140,7 +146,9 @@ describe('VAOS integration: Express Care info page', () => {
     const router = {
       push: sinon.spy(),
     };
-    const store = createTestStore(initialState);
+    const store = createTestStore({
+      ...initialState,
+    });
     const screen = renderInReduxProvider(
       <NewExpressCareRequestLayout router={router} location={location}>
         <ExpressCareInfoPage router={router} />

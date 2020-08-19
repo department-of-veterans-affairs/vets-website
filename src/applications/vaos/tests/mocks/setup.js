@@ -14,10 +14,10 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import reducers from '../../reducers';
 import newAppointmentReducer from '../../reducers/newAppointment';
 import expressCareReducer from '../../reducers/expressCare';
+import { fetchExpressCareWindows } from '../../actions/expressCare';
 
 import TypeOfCarePage from '../../containers/TypeOfCarePage';
 import VAFacilityPage from '../../containers/VAFacilityPage';
-import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
 import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
@@ -216,13 +216,9 @@ export function setupExpressCareMocks({
 }
 
 export async function setExpressCareFacility({ store, router }) {
-  const location = {
-    pathname: '/new-express-care-request',
-  };
+  store.dispatch(fetchExpressCareWindows());
   const screen = renderInReduxProvider(
-    <NewExpressCareRequestLayout router={router} location={location}>
-      <ExpressCareInfoPage router={router} />
-    </NewExpressCareRequestLayout>,
+    <ExpressCareInfoPage router={router} />,
     {
       store,
     },
