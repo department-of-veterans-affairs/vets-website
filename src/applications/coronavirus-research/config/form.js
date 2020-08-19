@@ -73,9 +73,9 @@ const formConfig = {
   prefillEnabled: true,
   savedFormMessages: {
     notFound:
-      'Please start over to sign up for our COVID-19 research volunteer list.',
+      'Please start over to sign up for our coronavirus research volunteer list.',
     noAuth:
-      'Please sign in again to continue to sign up for our COVID-19 research volunteer list.',
+      'Please sign in again to continue to sign up for our coronavirus research volunteer list.',
   },
   title: 'Sign up for our coronavirus research volunteer list',
   defaultDefinitions: {},
@@ -84,7 +84,7 @@ const formConfig = {
       title: 'Volunteer Information',
       pages: {
         page1: {
-          path: 'covid-research-volunteer',
+          path: 'coronavirus-research/volunteer',
           title: 'Volunteer Information - Page 1',
           updateFormData: updateData,
           uiSchema,

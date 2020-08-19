@@ -7,10 +7,15 @@ const route = {
   component: App,
   // indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
   indexRoute: {
-    onEnter: (nextState, replace) => replace('/covid-research-volunteer'),
+    onEnter: (nextState, replace) => replace('/coronavirus-research/volunteer'),
   },
 
   childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
+const introRouteIndex = route.childRoutes.findIndex(
+  cr => cr.path === 'introduction',
+);
+route.childRoutes[introRouteIndex].onEnter = (nextState, replace) =>
+  replace('/coronavirus-research/volunteer');
 
 export default route;
