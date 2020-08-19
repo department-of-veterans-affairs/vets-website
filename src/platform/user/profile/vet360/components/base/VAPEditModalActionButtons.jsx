@@ -6,7 +6,7 @@ import { toLower } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
-class Vet360EditModalActionButtons extends React.Component {
+class VAPEditModalActionButtons extends React.Component {
   constructor(props) {
     super(props);
 
@@ -64,14 +64,12 @@ class Vet360EditModalActionButtons extends React.Component {
   renderDeleteAction() {
     if (this.props.deleteEnabled) {
       return (
-        <div className="right">
-          <button
-            className="usa-button-secondary button-link"
-            onClick={this.handleDeleteInitiated}
-          >
-            <i className="fa fa-trash" /> <span>Delete</span>
-          </button>
-        </div>
+        <button
+          className="usa-button-secondary button-link vads-u-width--auto vads-u-padding-left--1 medium-screen:vads-u-margin-left--2"
+          onClick={this.handleDeleteInitiated}
+        >
+          <i className="fa fa-trash" /> <span>Delete</span>
+        </button>
       );
     }
 
@@ -121,7 +119,7 @@ class Vet360EditModalActionButtons extends React.Component {
     }
 
     return (
-      <div>
+      <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
         {this.props.children}
         {this.renderDeleteAction()}
       </div>
@@ -129,7 +127,7 @@ class Vet360EditModalActionButtons extends React.Component {
   }
 }
 
-Vet360EditModalActionButtons.propTypes = {
+VAPEditModalActionButtons.propTypes = {
   deleteEnabled: PropTypes.bool,
   title: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
@@ -137,8 +135,8 @@ Vet360EditModalActionButtons.propTypes = {
   isLoading: PropTypes.bool,
 };
 
-Vet360EditModalActionButtons.defaultProps = {
+VAPEditModalActionButtons.defaultProps = {
   deleteEnabled: true,
 };
 
-export default Vet360EditModalActionButtons;
+export default VAPEditModalActionButtons;

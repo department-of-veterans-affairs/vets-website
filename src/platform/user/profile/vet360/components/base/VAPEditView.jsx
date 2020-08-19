@@ -6,7 +6,7 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from 'vet360/util/transactions';
-import Vet360EditModalActionButtons from './Vet360EditModalActionButtons';
+import VAPEditModalActionButtons from './VAPEditModalActionButtons';
 import Vet360EditModalErrorMessage from './Vet360EditModalErrorMessage';
 
 class VAPEditView extends Component {
@@ -102,7 +102,7 @@ class VAPEditView extends Component {
       (isFailedTransaction(transaction) ? {} : null);
 
     const actionButtons = (
-      <Vet360EditModalActionButtons
+      <VAPEditModalActionButtons
         onCancel={onCancel}
         onDelete={onDelete}
         title={title}
@@ -120,7 +120,7 @@ class VAPEditView extends Component {
         >
           Cancel
         </button>
-      </Vet360EditModalActionButtons>
+      </VAPEditModalActionButtons>
     );
 
     return (
