@@ -86,7 +86,7 @@ export default function FieldTemplate(props) {
   // submit page
   const showLabel =
     !uiSchema['ui:options']?.hideLabelText &&
-    (typeof label !== 'string' || (requiredSpan || label.trim()));
+    (typeof label !== 'string' || (required || label.trim()));
 
   const content = (
     <>
