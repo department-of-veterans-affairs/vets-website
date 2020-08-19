@@ -69,7 +69,7 @@ node('vetsgov-general-purpose') {
       try {
         parallel (
           'nightwatch-e2e': {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch up -d && docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
           },
 
           'nightwatch-accessibility': {
@@ -77,15 +77,16 @@ node('vetsgov-general-purpose') {
           }
 
           cypress: {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run cy:test:docker"
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run cy:test:docker"
           }
         )
       } catch (error) {
         commonStages.slackNotify()
         throw error
       } finally {
-        sh "docker-compose -p e2e down --remove-orphans"
+        sh "docker-compose -p nightwatch down --remove-orphans"
         sh "docker-compose -p accessibility down --remove-orphans"
+        sh "docker-compose -p cypress down --remove-orphans"
         step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
       }
     }
