@@ -3,6 +3,13 @@ import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 // import environment from 'platform/utilities/environment';
 
+// We may want this in its own file
+function RequiredSpan({ show }) {
+  return show ? (
+    <span className="schemaform-required-span">(*Required)</span>
+  ) : null;
+}
+
 /*
  * This is the template for each field (which in the schema library means label + widget)
  */
@@ -24,9 +31,6 @@ export default function FieldTemplate(props) {
     Object.keys(formContext.touched).some(touched => id.startsWith(touched));
   const hasErrors =
     (formContext.submitted || isTouched) && rawErrors && rawErrors.length;
-  const requiredSpan = required ? (
-    <span className="schemaform-required-span">(*Required)</span>
-  ) : null;
   const label = uiSchema['ui:title'] || props.label || '';
   const isDateField = uiSchema['ui:widget'] === 'date';
   const showFieldLabel =
@@ -73,12 +77,12 @@ export default function FieldTemplate(props) {
   const labelElement = useFieldsetLegend ? (
     <legend id={`${id}-label`} className={labelClassNames}>
       {label}
-      {requiredSpan}
+      <RequiredSpan show={required} />
     </legend>
   ) : (
     <label id={`${id}-label`} className={labelClassNames} htmlFor={id}>
       {label}
-      {requiredSpan}
+      <RequiredSpan show={required} />
     </label>
   );
 
