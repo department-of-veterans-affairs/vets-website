@@ -3,6 +3,7 @@ import {
   buildAddressSchema,
   addressUISchema,
 } from '../../../../../disability-benefits/686c-674/config/address-schema';
+import { isVeteran } from '../../helpers';
 
 const veteranAddress = buildAddressSchema(true);
 // reset boolean type for checkbox
@@ -14,11 +15,7 @@ export const schema = {
   type: 'object',
   properties: {
     veteranAddress,
-    mainPhone: {
-      type: 'string',
-      minLength: 10,
-    },
-    cellPhone: {
+    phone: {
       type: 'string',
       minLength: 10,
     },
@@ -34,20 +31,12 @@ export const schema = {
 
 export const uiSchema = {
   veteranAddress: addressUISchema(true, 'veteranAddress', () => true),
-  mainPhone: {
+  phone: {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
-    'ui:title': 'Main phone number',
-    'ui:errorMessages': {
-      pattern: 'Please enter only numbers, no dashes or parentheses',
-    },
-  },
-  cellPhone: {
-    'ui:options': {
-      widgetClassNames: 'usa-input-medium',
-    },
-    'ui:title': 'Cell phone number',
+    'ui:required': formData => isVeteran(formData),
+    'ui:title': 'Phone number',
     'ui:errorMessages': {
       pattern: 'Please enter only numbers, no dashes or parentheses',
     },

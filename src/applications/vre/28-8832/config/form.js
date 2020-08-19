@@ -7,14 +7,11 @@ import { statusSelection } from './chapters/status-selection';
 import {
   veteranInformation,
   veteranAddress,
-  veteranOptions,
 } from './chapters/veteran-information';
-import { militaryHistory } from './chapters/military-history';
 import {
   dependentInformation,
   dependentAddress,
 } from './chapters/dependent-information';
-import { additionalInformation } from './chapters/additional-information';
 import { isDependent } from './helpers';
 
 const formConfig = {
@@ -78,23 +75,6 @@ const formConfig = {
           title: 'Veteran Address',
           uiSchema: veteranAddress.uiSchema,
           schema: veteranAddress.schema,
-        },
-        veteranOptions: {
-          path: 'veteran-options',
-          title: 'Service Member or Veteran Information',
-          uiSchema: veteranOptions.uiSchema,
-          schema: veteranOptions.schema,
-        },
-      },
-    },
-    additionalInformation: {
-      title: 'Additional Information',
-      pages: {
-        additionalInformation: {
-          path: 'additional-information',
-          title: 'Additional Information',
-          uiSchema: additionalInformation.uiSchema,
-          schema: additionalInformation.schema,
         },
       },
     },
