@@ -11,7 +11,6 @@ import PersonalInformation from '../../../components/personal-information/Person
 
 import {
   createBasicInitialState,
-  elementNotRemoved,
   renderWithProfileReducers,
   wait,
 } from '../../unit-test-helpers';
@@ -92,7 +91,7 @@ describe('Deleting email address', () => {
     // delete transaction request is created. We had a UX bug where the buttons
     // were disabled while the initial transaction request was being created but
     // were enabled again while polling the transaction status. This test was
-    // added to prevent regression back to that poor experience where users were
+    // added to prevent regressing back to that poor experience where users were
     // able to interact with buttons that created duplicate XHRs.
     await wait(10);
     expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
@@ -154,8 +153,9 @@ describe('Deleting email address', () => {
       'We’re sorry. We couldn’t update your email address. Please try again.',
     );
 
-    // make sure that edit mode is not exited
-    await elementNotRemoved(alert, { timeout: 75 });
+    // make sure that edit mode is not automatically exited
+    await wait(75);
+    expect(view.getByTestId('edit-error-alert')).to.exist;
     const editButton = getEditButton();
     expect(editButton).to.not.exist;
   });
@@ -189,8 +189,9 @@ describe('Deleting email address', () => {
     expect(!!confirmDeleteButton.attributes.disabled).to.be.false;
     expect(confirmDeleteButton).to.contain.text('Confirm');
 
-    // make sure that edit mode is not exited
-    await elementNotRemoved(alert, { timeout: 75 });
+    // make sure that edit mode is not automatically exited
+    await wait(75);
+    expect(view.getByTestId('edit-error-alert')).to.exist;
     const editButton = getEditButton();
     expect(editButton).to.not.exist;
   });

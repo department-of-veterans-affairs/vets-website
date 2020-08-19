@@ -42,15 +42,11 @@ class AccordionItem extends React.Component {
     }
 
     const event = expanded ? 'expand' : 'collapse';
-
-    if (section) {
-      recordEvent({
-        event: `nav-accordion-${event}`,
-        'accordion-size': 'small',
-      });
-    } else {
-      recordEvent({ event: `nav-accordion-${event}` });
-    }
+    const size = section ? 'small' : 'full-content-width';
+    recordEvent({
+      event: `nav-accordion-${event}`,
+      'accordion-size': size,
+    });
   };
 
   renderHeader = () => {
