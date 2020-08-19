@@ -154,7 +154,7 @@
   width: 1em;
 }
 
-.wizard-button[aria-expanded=true]:after {
+.wizard-button[aria-expanded="true"]:after {
   background-image: url(/img/arrow-up-white.svg);
 }
 
@@ -169,9 +169,15 @@
   }
 }
 
-div[data-chapter="benefitSelection"]{
+div[data-chapter="benefitSelection"] {
   .form-review-panel-page {
-    margin-bottom:0px;
+    margin-bottom: 0px;
+  }
+}
+
+div[name="confirmEligibilityScrollElement"] {
+  @at-root div.form-review-panel-page:nth-child(2) {
+    display: none;
   }
 }
 
@@ -179,16 +185,12 @@ div[data-chapter="programDetails"] {
   .form-review-panel-page {
     margin-bottom: 0px;
   }
-  div.form-review-panel-page:nth-child(2) {
-    border-bottom: 0;
-    padding-bottom: 16px;
-  }
   p.school-details-notice {
     display: none;
   }
 }
 
-div[data-chapter="personalInformation"]{
+div[data-chapter="personalInformation"] {
   .form-review-panel-page {
     margin-bottom: 0px;
   }
