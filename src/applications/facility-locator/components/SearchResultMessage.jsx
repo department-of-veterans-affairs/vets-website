@@ -10,7 +10,7 @@ function SearchResultMessage({
   const renderMessage = (err, msg, found, ref, facility) => {
     if (facility && err) {
       return (
-        <div className="search-result-title facility-result" ref={ref}>
+        <div className="search-result-title" ref={ref}>
           <p>{msg}</p>
           <p>
             If you need care right away for a minor illness or injury, select
@@ -25,7 +25,7 @@ function SearchResultMessage({
       );
     } else if (facility && !found) {
       return (
-        <div className="search-result-title facility-result" ref={ref}>
+        <div className="search-result-title" ref={ref}>
           We didn't find any facilities near you. <br />
           <strong>To try again, please enter a different:</strong>
           <ul className="vads-u-margin-y--1p5">
@@ -44,7 +44,7 @@ function SearchResultMessage({
     }
 
     return (
-      <div className="search-result-title facility-result">
+      <div className="search-result-title">
         Please enter a location (street, city, state or postal code) and click
         search above to find facilities.
       </div>
