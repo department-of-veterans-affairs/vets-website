@@ -1,4 +1,3 @@
-import _ from 'lodash/fp';
 import set from 'platform/utilities/data/set';
 
 // Example of an imported schema:
@@ -108,18 +107,18 @@ const formConfig = {
             [formFields.fullName]: fullNameUI,
             [formFields.email]: set(
               'ui:required',
-              (formData, index) => formData.preferredContactMethod === 'email',
+              (formData, _index) => formData.preferredContactMethod === 'email',
               emailUI(),
             ),
             [formFields.phoneNumber]: set(
               'ui:required',
-              (formData, index) => formData.preferredContactMethod === 'phone',
+              (formData, _index) => formData.preferredContactMethod === 'phone',
               phoneUI(),
             ),
             [formFields.address]: address.uiSchema(
               'Mailing address',
               false,
-              (formData, index) => {
+              (formData, _index) => {
                 return formData.preferredContactMethod === 'mail';
               },
               false,
