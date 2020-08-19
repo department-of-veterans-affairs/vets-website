@@ -232,7 +232,6 @@ export async function setExpressCareFacility({ store, router }) {
   fireEvent.click(screen.getByText(/^Continue/));
   await waitFor(() => expect(router.push.called).to.be.true);
   await cleanup();
-  return { router };
 }
 
 export async function setExpressCareReason({ store, router, label }) {
@@ -247,5 +246,4 @@ export async function setExpressCareReason({ store, router, label }) {
   fireEvent.click(screen.getByText(/^Continue/));
   await waitFor(() => expect(router.push.called).to.be.true);
   await cleanup();
-  return { router };
 }
