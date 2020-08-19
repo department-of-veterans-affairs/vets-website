@@ -40,7 +40,11 @@ export default class ArrayField extends React.Component {
      * manage and doesn’t need to persist from page to page
      */
     this.state = {
-      editing: props.formData ? props.formData.map(() => false) : [true],
+      // force edit mode for valid BDD separation date; empty serviceBranch,
+      // but includes valid "to" entry
+      editing: props.formData
+        ? props.formData.map(data => data?.serviceBranch === '')
+        : [true],
     };
   }
 

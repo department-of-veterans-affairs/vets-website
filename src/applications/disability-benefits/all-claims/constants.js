@@ -252,6 +252,7 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 export const DATE_FORMAT = 'LL';
 
 export const WIZARD_STATUS = 'wizardStatus';
+export const SAVED_SEPARATION_DATE = 'savedSeparationDate';
 
 export const EBEN_526_PATH =
   'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation';
