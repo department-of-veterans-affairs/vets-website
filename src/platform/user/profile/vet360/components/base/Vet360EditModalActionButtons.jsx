@@ -64,14 +64,12 @@ class Vet360EditModalActionButtons extends React.Component {
   renderDeleteAction() {
     if (this.props.deleteEnabled) {
       return (
-        <div className="right">
-          <button
-            className="usa-button-secondary button-link"
-            onClick={this.handleDeleteInitiated}
-          >
-            <i className="fa fa-trash" /> <span>Delete</span>
-          </button>
-        </div>
+        <button
+          className="usa-button-secondary button-link vads-u-width--auto vads-u-padding-left--1"
+          onClick={this.handleDeleteInitiated}
+        >
+          <i className="fa fa-trash" /> <span>Delete</span>
+        </button>
       );
     }
 
@@ -121,7 +119,7 @@ class Vet360EditModalActionButtons extends React.Component {
     }
 
     return (
-      <div>
+      <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
         {this.props.children}
         {this.renderDeleteAction()}
       </div>

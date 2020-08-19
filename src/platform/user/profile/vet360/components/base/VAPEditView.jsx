@@ -110,12 +110,12 @@ class VAPEditView extends Component {
         isLoading={isLoading}
         deleteEnabled={!isEmpty && !deleteDisabled}
       >
-        <LoadingButton data-action="save-edit" isLoading={isLoading}>
+        <LoadingButton data-action="save-edit" isLoading={isLoading} className="vads-u-width--auto">
           Update
         </LoadingButton>
         <button
           type="button"
-          className="va-button-link vads-u-margin-left--1"
+          className="usa-button-secondary medium-screen:vads-u-margin-left--2 vads-u-width--auto"
           onClick={onCancel}
         >
           Cancel
