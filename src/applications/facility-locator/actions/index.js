@@ -275,7 +275,9 @@ export const genBBoxFromAddress = query => {
           },
         });
       })
-      .catch(error => dispatch({ type: SEARCH_FAILED, error }));
+      .catch(_ => {
+        dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+      });
   };
 };
 

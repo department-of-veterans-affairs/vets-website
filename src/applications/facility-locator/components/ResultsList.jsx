@@ -117,7 +117,6 @@ class ResultsList extends Component {
     }
 
     if (error && Array.isArray(error)) {
-      // Server or response error
       const timedOut = error.find(err => TIMEOUTS.has(err.code));
       if (timedOut) {
         return (
@@ -142,8 +141,7 @@ class ResultsList extends Component {
           </div>
         );
       }
-    } else if (currentQuery.error) {
-      // Mapbox query error
+    } else if (currentQuery.error && error.type === 'mapBox') {
       return (
         <div
           className="search-result-title facility-result"
@@ -163,29 +161,28 @@ class ResultsList extends Component {
       );
     }
 
-    if (!results || results.length < 1) {
-      if (this.props.facilityTypeName === facilityTypes.provider) {
-        return (
-          <div
-            className="search-result-title facility-result"
-            ref={this.searchResultTitle}
-          >
-            We didn't find any facilities near you. <br />
-            <strong>To try again, please enter a different:</strong>
-            <ul className="vads-u-margin-y--1p5">
-              <li>
-                <strong>Search term</strong> (street, city, state, or postal
-                code), <strong>or</strong>
-              </li>
-              <li>
-                <strong>Service type</strong> (like “primary care”), and select
-                the option that best meets your needs
-              </li>
-            </ul>
-            Then click <strong>Search</strong>.
-          </div>
-        );
-      }
+    if (facilityTypeName && (!results || results.length < 1)) {
+      return (
+        <div
+          className="search-result-title facility-result"
+          ref={this.searchResultTitle}
+        >
+          We didn't find any facilities near you. <br />
+          <strong>To try again, please enter a different:</strong>
+          <ul className="vads-u-margin-y--1p5">
+            <li>
+              <strong>Search term</strong> (street, city, state, or postal
+              code), <strong>or</strong>
+            </li>
+            <li>
+              <strong>Service type</strong> (like “primary care”), and select
+              the option that best meets your needs
+            </li>
+          </ul>
+          Then click <strong>Search</strong>.
+        </div>
+      );
+    } else if (!facilityTypeName || !currentQuery.facilityType) {
       return (
         <div
           className="search-result-title facility-result"
