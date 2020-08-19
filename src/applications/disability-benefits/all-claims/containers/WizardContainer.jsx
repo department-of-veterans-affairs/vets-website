@@ -20,9 +20,12 @@ const WizardContainer = ({ setWizardStatus }) => (
       <div className="wizard-container">
         <h2>Find out if this is the right form</h2>
         <p>
-          Answer a few questions to confirm that this is the correct application
-          21-526EZ or another application form to apply for the VA benefits you
-          need.
+          This application is for veterans and service members to seek
+          disability compensation for an illness or injury that was caused
+          by&mdash;or got worse because of&mdash;your active military service.
+          Compensation may include financial support and other benefits like
+          health care. To see if this is the right form for you, please answer a
+          few questions.
         </p>
         <Wizard
           pages={pages}
@@ -33,7 +36,7 @@ const WizardContainer = ({ setWizardStatus }) => (
         <p>
           If you know VA Form 21-526EZ is correct, or if you were directd to
           complete this application, you can go straight to the application
-          withouut answering the questions above.
+          without answering the questions above.
         </p>
         <button
           type="button"
