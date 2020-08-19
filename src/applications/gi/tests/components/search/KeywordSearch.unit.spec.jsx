@@ -102,6 +102,7 @@ describe('<KeywordSearch>', () => {
           suggestions: [{ label: 'item1' }, { label: 'item2' }],
         }}
         onChange={onChange}
+        gibctSearchEnhancements
         searchOnAutcompleteSelection
         onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
