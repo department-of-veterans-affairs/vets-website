@@ -6,6 +6,12 @@ import profile from 'applications/personalization/profile360/reducers';
 import connectedApps from 'applications/personalization/profile-2/components/connected-apps/reducers/connectedApps';
 import profileUi from '../reducers';
 
+export function wait(timeout) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
+
 // TODO: move this to platform/testing/unit/react-testing-library-helpers
 /**
  * Returns a Promise that rejects if the element is removed from the DOM and

@@ -38,12 +38,6 @@ import {
   getVARFacilityId,
 } from '../services/appointment';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
-
 export function getNewAppointment(state) {
   return state.newAppointment;
 }
@@ -182,8 +176,8 @@ export function getChosenFacilityDetails(state) {
   const facilityDetails = getNewAppointment(state).facilityDetails;
 
   return isCommunityCare
-    ? facilityDetails[parseFakeFHIRId(data.communityCareSystemId)]
-    : facilityDetails[parseFakeFHIRId(data.vaFacility)];
+    ? facilityDetails[data.communityCareSystemId]
+    : facilityDetails[data.vaFacility];
 }
 
 export function getEligibilityChecks(state) {
@@ -296,8 +290,7 @@ export function getFacilityPageInfo(state) {
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     hasDataFetchingError:
       newAppointment.parentFacilitiesStatus === FETCH_STATUS.failed ||
-      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed,
-    hasEligibilityError:
+      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
@@ -335,8 +328,7 @@ export function getClinicPageInfo(state, pageKey) {
 
   return {
     ...formPageInfo,
-    facilityDetails:
-      facilityDetails?.[parseFakeFHIRId(formPageInfo.data.vaFacility)],
+    facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
