@@ -12,8 +12,6 @@ import {
 
 import formConfig from '../../config/form.js';
 
-const testHelper = require('./coronavirus-research-helper');
-
 describe('Coronavirus Research Volunteer Form', () => {
   const { schema, uiSchema } = formConfig.chapters.chapter1.pages.page1;
 
@@ -33,7 +31,7 @@ describe('Coronavirus Research Volunteer Form', () => {
     closeContact: 'ZERO',
     veteranFullName: { first: 'testFName', last: 'testLName' },
     email: 'test@test.com',
-    'view:confirm_email': 'test@test.com',
+    'view:confirmEmail': 'test@test.com',
     phone: '5554443322',
     zipCode: '99988',
     veteranDateOfBirth: '1980-09-24',
@@ -83,14 +81,12 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
-
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(form.find('.input-error-date').length).to.equal(0);
@@ -103,13 +99,12 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
     fillData(form, 'input#root_email', 'notAnEmail');
     fillData(form, '[name="root_view:confirmEmail"]', 'notAnEmail');
 
@@ -125,13 +120,12 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
     fillData(form, 'input#root_email', 'test@test.com');
     fillData(form, '[name="root_view:confirmEmail"]', 'not_test@test.com');
 
@@ -147,13 +141,12 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
     fillDate(form, 'root_veteranDateOfBirth', '2200-09-24');
 
     form.find('form').simulate('submit');
@@ -168,13 +161,12 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
     fillDate(form, 'root_veteranDateOfBirth', '19738393-09-24');
 
     form.find('form').simulate('submit');
@@ -189,13 +181,12 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
     fillData(form, 'input#root_phone', '77788899991010');
 
     form.find('form').simulate('submit');
@@ -210,13 +201,12 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
     fillData(form, 'input#root_zipCode', '555556');
 
     form.find('form').simulate('submit');
@@ -231,13 +221,12 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
     selectCheckbox(form, 'root_healthHistory_ALLERGY_VACCINE', false);
     selectCheckbox(form, 'root_healthHistory_LUNG_DISEASE', false);
 
@@ -253,14 +242,13 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
-    selectCheckbox(form, 'root_employmentStatus_NONE_OF_ABOVE', false);
+    selectCheckbox(form, 'root_employmentStatus_STUDENT', false);
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
@@ -274,15 +262,13 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
-    selectCheckbox(form, 'root_transportation_WORK_FROM_HOME', false);
-    selectCheckbox(form, 'root_transportation_CAR', false);
+    selectCheckbox(form, 'root_transportation_NONE_OF_ABOVE', false);
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
@@ -296,13 +282,12 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
     selectCheckbox(form, 'root_gender_SELF_IDENTIFY', false);
 
     form.find('form').simulate('submit');
@@ -317,13 +302,12 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
     selectCheckbox(form, 'root_raceEthnicityOrigin_NONE_OF_ABOVE', false);
 
     form.find('form').simulate('submit');
@@ -338,13 +322,12 @@ describe('Coronavirus Research Volunteer Form', () => {
       <DefinitionTester
         pagePerItemIndex={0}
         schema={schema}
-        data={volunteerData}
+        data={volunteerData()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    testHelper.populateFormData(form);
     fillData(form, 'input#root_weight', 'NaN');
 
     form.find('form').simulate('submit');
