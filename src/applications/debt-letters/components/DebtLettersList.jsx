@@ -101,7 +101,8 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                         />
                         <span aria-hidden="true">Download letter </span>
                         <span className="sr-only">
-                          Download Second Demand Letter dated May 29, 2020
+                          Download Second Demand Letter dated{' '}
+                          {moment(debtLetter.receivedAt).format('MMM D, YYYY')}
                         </span>
                         <dfn>
                           <abbr title="Portable Document Format">(PDF)</abbr>
