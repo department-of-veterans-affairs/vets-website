@@ -1,34 +1,12 @@
-import { waitForElementToBeRemoved } from '@testing-library/react';
-
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import profile from 'applications/personalization/profile360/reducers';
 import connectedApps from 'applications/personalization/profile-2/components/connected-apps/reducers/connectedApps';
 import profileUi from '../reducers';
 
-// TODO: move this to platform/testing/unit/react-testing-library-helpers
-/**
- * Returns a Promise that rejects if the element is removed from the DOM and
- * resolves if the element is not removed. Uses DOM Testing Library's
- * `waitForElementToBeRemoved()`.
- *
- * @param {} el - element that should remain in the DOM
- * @param {} waitForOptions - options to pass to the `waitForElementToBeRemoved`
- * call
- */
-export async function elementNotRemoved(el, waitForOptions = {}) {
-  // Creating the Error here, outside of the Promise, gives a better stack
-  // trace, but still not as good as the stack trace you get from a Testing
-  // Library `waitFor` error
-  const err = new Error(`Element was removed but it should not have been`);
-  return new Promise((resolve, reject) => {
-    waitForElementToBeRemoved(el, waitForOptions)
-      .then(() => {
-        reject(err);
-      })
-      .catch(() => {
-        resolve();
-      });
+export function wait(timeout) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
   });
 }
 
