@@ -1,5 +1,5 @@
 import * as veteranInformation from './veteranInformation';
+import * as staticVeteranInformation from './staticVeteranInformation';
 import * as veteranAddress from './veteranAddress';
-import * as veteranOptions from './veteranOptions';
 
-export { veteranInformation, veteranAddress, veteranOptions };
+export { veteranInformation, staticVeteranInformation, veteranAddress };

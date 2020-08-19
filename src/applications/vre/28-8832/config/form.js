@@ -7,12 +7,13 @@ import { statusSelection } from './chapters/status-selection';
 import {
   veteranInformation,
   veteranAddress,
+  staticVeteranInformation,
 } from './chapters/veteran-information';
 import {
   dependentInformation,
   dependentAddress,
 } from './chapters/dependent-information';
-import { isDependent } from './helpers';
+import { isDependent, isVeteran } from './helpers';
 
 const formConfig = {
   urlPrefix: '/',
@@ -65,10 +66,17 @@ const formConfig = {
       title: 'Service member or Veteran information',
       pages: {
         veteranInformation: {
-          path: 'first-name',
+          path: 'personal-information',
           title: 'Personal Information - Page 1',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+        },
+        veteranStaticInformation: {
+          depends: formData => isVeteran(formData),
+          path: 'veteran-information',
+          title: 'Veteran Information',
+          uiSchema: staticVeteranInformation.uiSchema,
+          schema: staticVeteranInformation.schema,
         },
         veteranAddress: {
           path: 'veteran-address',
