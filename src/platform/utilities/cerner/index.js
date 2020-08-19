@@ -9,7 +9,7 @@ export const getCernerURL = path => {
     ? 'https://patientportal.myhealth.va.gov/clear-session?to=https://patientportal.myhealth.va.gov'
     : 'https://ehrm-va-test.patientportal.us.healtheintent.com/clear-session?to=https://ehrm-va-test.patientportal.us.healtheintent.com';
 
-  return encodeURIComponent(`${root}${path}`);
+  return `${root}${encodeURIComponent(path)}`;
 };
 
 export const appointmentsToolLink =
