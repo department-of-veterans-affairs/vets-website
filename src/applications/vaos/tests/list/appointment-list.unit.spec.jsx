@@ -3,6 +3,7 @@ import { Router, Route } from 'react-router';
 import { expect } from 'chai';
 import moment from 'moment';
 import { createMemoryHistory } from 'history';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
 import {
@@ -234,6 +235,7 @@ describe('VAOS integration: appointment list', () => {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
       },
       user: userState,
     };
@@ -262,10 +264,6 @@ describe('VAOS integration: appointment list', () => {
       'Talk to VA health care staff today about a condition',
     );
     expect(header).to.have.tagName('h2');
-    expect(button).to.have.attribute(
-      'href',
-      'https://veteran.apps-staging.va.gov/var/v4/#new-express-request',
-    );
     expect(getAllByRole('tab').length).to.equal(3);
     expect(getByText('Upcoming')).to.have.attribute('role', 'tab');
     expect(getByText('Past')).to.have.attribute('role', 'tab');
@@ -273,6 +271,17 @@ describe('VAOS integration: appointment list', () => {
     expect(
       getByText(/View your upcoming, past, and Express Care appointments/i),
     ).to.have.tagName('h2');
+
+    fireEvent.click(button);
+
+    await waitFor(() =>
+      expect(memoryHistory.getCurrentLocation().pathname).to.equal(
+        '/new-express-care-request',
+      ),
+    );
+    expect(global.window.dataLayer[1]).to.deep.equal({
+      event: `vaos-express-care-request-button-clicked`,
+    });
   });
 
   it('should not show express care action when outside of express care window', async () => {

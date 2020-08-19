@@ -187,7 +187,14 @@ async function setUpFeatureFlags(options) {
       `${apiClient.getSiteUri()}/flags_list`,
     );
 
-    rawFlags = (await result.json()).data;
+    const responseBody = await result.text();
+    try {
+      rawFlags = JSON.parse(responseBody).data;
+    } catch (e) {
+      throw new TypeError(
+        `Could not parse Drupal build flags. Response:\n${responseBody}`,
+      );
+    }
 
     // Write them to .cache/{buildtype}/drupal/feature-flags.json
     fs.ensureDirSync(options.cacheDirectory);

@@ -58,6 +58,7 @@
     "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
     "test:unit": "node ./script/run-unit-test.js",
     "test:unit:form-system": "BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/platform/forms-system/test/js/**/*.unit.spec.js?(x)' src/platform/testing/unit/helper.js '$@'",
+    "test:unit:forms": "BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/platform/forms/tests/**/*.unit.spec.js?(x)' src/platform/testing/unit/helper.js '$@'",
     "test:unit:hca": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/hca/**/tests/**/*.unit.spec.js?(x)' ",
     "test:unit:personalization": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/personalization/**/tests/**/*.unit.spec.js?(x)' ",
     "test:watch": "node script/watch-tests.js",
@@ -314,6 +315,7 @@
     "react-redux": "5.1.1",
     "react-router": "3",
     "react-router-dom": "^5.2.0",
+    "react-router-last-location": "^2.0.1",
     "react-scroll": "1.7.10",
     "react-tabs": "^3.1.1",
     "react-transition-group": "1",
@@ -328,7 +330,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ab5a7181ec2dabe32fc1ec3c8da6ed3c8c5f3f9f",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#2419e49d9b14922d5f2af85ab6b69cb6caef3339",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

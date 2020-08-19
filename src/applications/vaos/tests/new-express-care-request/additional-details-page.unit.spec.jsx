@@ -5,7 +5,6 @@ import moment from 'moment';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import environment from 'platform/utilities/environment';
 import { waitFor } from '@testing-library/dom';
 
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
@@ -14,7 +13,6 @@ import { mockRequestEligibilityCriteria } from '../mocks/helpers';
 import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
 import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
 import { fetchExpressCareWindows } from '../../actions/expressCare';
-import { EXPRESS_CARE } from '../../utils/constants';
 
 const initialState = {
   user: {
@@ -104,7 +102,7 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     const router = {
       replace: sinon.spy(),
     };
-    const screen = renderInReduxProvider(
+    renderInReduxProvider(
       <NewExpressCareRequestLayout
         router={router}
         location={{ pathname: '/additional-details' }}

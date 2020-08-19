@@ -1,8 +1,5 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
@@ -119,15 +116,6 @@ export const AuthContent = () => (
                   </a>
                 </li>
               </ul>
-              <p>
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Learn about the 3 different My HealtheVet account types
-                </a>
-              </p>
             </div>
           </div>
         </div>

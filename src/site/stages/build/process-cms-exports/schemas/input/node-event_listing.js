@@ -21,7 +21,7 @@ module.exports = {
       maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
-    reverse_field_list: { $ref: 'EntityReferenceArray' },
+    reverse_field_listing: { $ref: 'EntityReferenceArray' },
     status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
@@ -35,7 +35,7 @@ module.exports = {
     'field_intro_text',
     'field_meta_title',
     'field_office',
-    'reverse_field_list',
+    'reverse_field_listing',
     'status',
   ],
 };

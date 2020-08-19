@@ -43,6 +43,7 @@ const initialState = {
         reason: 'Cough',
       },
       pages: {},
+      isUnderRequestLimit: true,
     },
   },
 };
@@ -123,13 +124,15 @@ describe('VAOS integration: Express Care form submission', () => {
           .format('HH:mm'),
         endTime: today
           .clone()
-          .add('1', 'minutes')
+          .add('2', 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
     mockPreferences('old.email@va.gov');
+    initialState.expressCare.newRequest.facilityId = '983';
+    initialState.expressCare.newRequest.siteId = '983';
     const store = createTestStore({
       ...initialState,
     });
@@ -157,13 +160,15 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     );
 
-    fireEvent.change(await screen.getByLabelText(/tell us about your/i), {
+    await screen.findByText(/tell us about your cough/i);
+
+    fireEvent.change(screen.getByLabelText(/tell us about your/i), {
       target: { value: requestData.attributes.additionalInformation },
     });
-    fireEvent.change(await screen.getByLabelText(/phone number/i), {
+    fireEvent.change(screen.getByLabelText(/phone number/i), {
       target: { value: requestData.attributes.phoneNumber },
     });
-    fireEvent.change(await screen.getByLabelText(/email address/i), {
+    fireEvent.change(screen.getByLabelText(/email address/i), {
       target: { value: requestData.attributes.email },
     });
     fireEvent.click(await screen.findByText(/submit express care/i));
@@ -270,6 +275,8 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
+    initialState.expressCare.newRequest.facilityId = '983';
+    initialState.expressCare.newRequest.siteId = '983';
     const store = createTestStore({
       ...initialState,
     });
@@ -348,6 +355,8 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
+    initialState.expressCare.newRequest.facilityId = '983GD';
+    initialState.expressCare.newRequest.siteId = '983';
     const store = createTestStore({
       ...initialState,
     });
@@ -387,7 +396,6 @@ describe('VAOS integration: Express Care form submission', () => {
     expect(router.push.firstCall.args[0]).to.equal(
       '/new-express-care-request/confirmation',
     );
-    await cleanup();
 
     const responseData = JSON.parse(
       global.fetch
@@ -428,6 +436,35 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
+    const parentSite = {
+      id: '983',
+      attributes: {
+        ...getParentSiteMock().attributes,
+        institutionCode: '983',
+        authoritativeName: 'Some VA facility',
+        rootStationCode: '983',
+        parentStationCode: '983',
+      },
+    };
+    mockParentSites(['983'], [parentSite]);
+    const facility = {
+      id: '983GD',
+      attributes: {
+        ...getFacilityMock().attributes,
+        institutionCode: '983GD',
+        authoritativeName: 'Bozeman VA medical center',
+        rootStationCode: '983',
+        parentStationCode: '983',
+      },
+    };
+    mockSupportedFacilities({
+      siteId: '983',
+      parentId: '983',
+      typeOfCareId: EXPRESS_CARE,
+      data: [facility],
+    });
+    initialState.expressCare.newRequest.facilityId = '983GD';
+    initialState.expressCare.newRequest.siteId = '983';
     const store = createTestStore({
       ...initialState,
     });

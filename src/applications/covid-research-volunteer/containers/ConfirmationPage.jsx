@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
@@ -21,10 +20,6 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { submission, data } = this.props.form;
-    const { response } = submission;
-    const name = data.veteranFullName;
-
     return (
       <div>
         <h2 className="confirmation-page-title">
@@ -35,7 +30,9 @@ export class ConfirmationPage extends React.Component {
           research effort.
         </p>
         <div className="inset">
-          <h2>If we think you may be eligible for a research study</h2>
+          <h2>
+            If we think you may be eligible for one of our research studies
+          </h2>
           <p>
             We’ll contact you to tell you more about it so you can decide if you
             want to join.
@@ -60,6 +57,9 @@ export class ConfirmationPage extends React.Component {
             We won’t contact you. But we’ll keep your information on file for
             future studies you may be eligible to join.
           </p>
+          <a href="/coronavirus-research">
+            Learn more about participating in coronavirus research at VA
+          </a>
         </div>
       </div>
     );

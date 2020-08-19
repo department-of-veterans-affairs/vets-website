@@ -1,11 +1,7 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
-import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 
 export const UnauthContent = () => (
   <>
@@ -39,6 +35,7 @@ export const UnauthContent = () => (
     <a href="/health-care/how-to-apply">
       Find out how to apply for VA health care
     </a>
+    <br />
     <p>
       <strong>And you must have one of these free accounts:</strong>
     </p>
@@ -50,14 +47,14 @@ export const UnauthContent = () => (
       , <strong>or</strong>
     </li>
     <li>
-      A Premium DS Logon account (used for eBenefits and milConnect),{' '}
-      <strong>or</strong>
+      A Premium <strong>DS Logon</strong> account (used for eBenefits and
+      milConnect), <strong>or</strong>
     </li>
     <li>
-      A verified ID.me account that you can{' '}
+      A verified <strong>ID.me</strong> account that you can{' '}
       <a href="https://api.id.me/en/registration/new">create here on VA.gov</a>
     </li>
-    <p>
+    <p className="vads-u-margin-bottom--0">
       <strong>Note:</strong> If you sign in with a Basic or Advanced account,
       you’ll find only the results you’ve entered yourself.
     </p>
@@ -118,12 +115,6 @@ export const UnauthContent = () => (
       If you print or download anything from the website (like lab results),
       you’ll need to take responsibility for protecting that information.
     </p>
-    <a
-      href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
-      rel="noreferrer noopener"
-    >
-      Get tips for protecting your personal health information
-    </a>
     <h2>What if I have more questions?</h2>
     <p>You can:</p>
     <ul>

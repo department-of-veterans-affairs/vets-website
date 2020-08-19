@@ -2,7 +2,7 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
-import { titleCase, joinWithAnd } from './formatters';
+import { titleCase } from './formatters';
 
 import {
   getTimezoneBySystemId,
@@ -37,12 +37,6 @@ import {
   sortUpcoming,
   getVARFacilityId,
 } from '../services/appointment';
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -182,8 +176,8 @@ export function getChosenFacilityDetails(state) {
   const facilityDetails = getNewAppointment(state).facilityDetails;
 
   return isCommunityCare
-    ? facilityDetails[parseFakeFHIRId(data.communityCareSystemId)]
-    : facilityDetails[parseFakeFHIRId(data.vaFacility)];
+    ? facilityDetails[data.communityCareSystemId]
+    : facilityDetails[data.vaFacility];
 }
 
 export function getEligibilityChecks(state) {
@@ -296,8 +290,7 @@ export function getFacilityPageInfo(state) {
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     hasDataFetchingError:
       newAppointment.parentFacilitiesStatus === FETCH_STATUS.failed ||
-      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed,
-    hasEligibilityError:
+      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
@@ -335,8 +328,7 @@ export function getClinicPageInfo(state, pageKey) {
 
   return {
     ...formPageInfo,
-    facilityDetails:
-      facilityDetails?.[parseFakeFHIRId(formPageInfo.data.vaFacility)],
+    facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
@@ -434,19 +426,52 @@ export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
 export const selectExpressCareRequests = createSelector(
-  state => state.appointments.future,
-  future =>
-    future?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
+  state => state.appointments.pending,
+  pending =>
+    pending?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
 );
+
+export function selectFutureStatus(state) {
+  const { pendingStatus, confirmedStatus } = state.appointments;
+  if (
+    pendingStatus === FETCH_STATUS.failed ||
+    confirmedStatus === FETCH_STATUS.failed
+  ) {
+    return FETCH_STATUS.failed;
+  }
+
+  if (
+    pendingStatus === FETCH_STATUS.loading ||
+    confirmedStatus === FETCH_STATUS.loading
+  ) {
+    return FETCH_STATUS.loading;
+  }
+
+  if (
+    pendingStatus === FETCH_STATUS.succeeded &&
+    confirmedStatus === FETCH_STATUS.succeeded
+  ) {
+    return FETCH_STATUS.succeeded;
+  }
+
+  return FETCH_STATUS.notStarted;
+}
 
 export const selectFutureAppointments = createSelector(
   vaosExpressCare,
-  state => state.appointments.future,
-  (showExpressCare, future) =>
-    future
-      ?.filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
-      ?.filter(isUpcomingAppointmentOrRequest)
-      .sort(sortUpcoming),
+  state => state.appointments.pending,
+  state => state.appointments.confirmed,
+  (showExpressCare, pending, confirmed) => {
+    if (!confirmed || !pending) {
+      return null;
+    }
+
+    return confirmed
+      .concat(...pending)
+      .filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
+      .filter(isUpcomingAppointmentOrRequest)
+      .sort(sortUpcoming);
+  },
 );
 
 export const selectPastAppointments = createSelector(
@@ -544,45 +569,73 @@ export function selectActiveExpressCareFacility(state, nowMoment) {
   };
 }
 
-/*
- * Gets the formatted days and hours string of the first support facility.
- * 
- * Note: we're picking the first facility, there could be more than one
+function getFormattedTime(time) {
+  return moment(`${moment().format('YYYY-MM-DD')}T${time}:00`).format('h:mm a');
+}
+
+function getWindowString(window, timezoneAbbreviation, isToday) {
+  return `${isToday ? 'today' : titleCase(window.day)} from ${getFormattedTime(
+    window.startTime,
+  )} to ${getFormattedTime(window.endTime)} ${timezoneAbbreviation}`;
+}
+
+/**
+ * Returns next schedulable window.  If today is schedulable and current time is before window,
+ * return today's window.  Otherwise, return the next schedulable day's window
  */
-export function selectExpressCareHours(state) {
+export function selectNextAvailableExpressCareWindowString(state, nowMoment) {
   if (!state.expressCare.supportedFacilities?.length) {
     return null;
   }
 
   const facility = state.expressCare.supportedFacilities[0];
   const siteId = facility.facilityId.substring(0, 3);
+  const { timezone } = getTimezoneBySystemId(siteId);
   const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
+  const nowFacilityTime = nowMoment.clone().tz(timezone);
+  const dayOfWeek = nowFacilityTime.format('dddd').toUpperCase();
+  const todayDayOfWeekIndex = Number(nowFacilityTime.format('d'));
+  const todaysWindow = facility.days.find(d => d.day === dayOfWeek);
 
-  // Trying to group days with the same times together
-  const windows = new Map();
-  facility.days.forEach(day => {
-    const key = `${day.startTime}_${day.endTime}`;
-    if (windows.has(key)) {
-      windows.get(key).push(day.day);
+  // Sort schedulable days after today so we can easily find the next
+  // day if needed
+  const schedulableDaysAfterToday = [
+    ...facility.days.filter(day => day.dayOfWeekIndex > todayDayOfWeekIndex),
+    ...facility.days.filter(day => day.dayOfWeekIndex < todayDayOfWeekIndex),
+  ];
+
+  if (todaysWindow) {
+    const start = moment.tz(
+      `${nowFacilityTime.format('YYYY-MM-DD')}T${todaysWindow.startTime}:00`,
+      timezone,
+    );
+    if (nowMoment.isBefore(start)) {
+      // If today is schedulable and we are before the window, return today's window
+      return getWindowString(todaysWindow, timezoneAbbreviation, true);
     } else {
-      windows.set(key, [day.day]);
+      // In the rare case the today is the only schedulable day and they are past the window,
+      // return today's window and specify "next week". Otherwise, return the next schedulable day
+      if (!schedulableDaysAfterToday.length) {
+        return `next ${getWindowString(
+          todaysWindow,
+          timezoneAbbreviation,
+          false,
+        )}`;
+      }
+      return getWindowString(
+        schedulableDaysAfterToday[0],
+        timezoneAbbreviation,
+        false,
+      );
     }
-  });
-
-  const segments = Array.from(windows.entries());
-
-  // Formatting each segment as 'day, day from x to y'
-  return joinWithAnd(
-    segments.map(([hours, days]) => {
-      const [start, end] = hours.split('_');
-      return `${days.map(titleCase).join(', ')} from ${moment(
-        start,
-        'HH:mm',
-      ).format('h:mm a')} to ${moment(end, 'HH:mm').format(
-        'h:mm a',
-      )} ${timezoneAbbreviation}`;
-    }),
-  );
+  } else {
+    // If today isn't schedulable, return the next day that is
+    return getWindowString(
+      schedulableDaysAfterToday[0],
+      timezoneAbbreviation,
+      false,
+    );
+  }
 }
 
 export function selectExpressCare(state) {
@@ -592,14 +645,17 @@ export function selectExpressCare(state) {
     ...expressCare,
     activeWindows,
     localWindowString: selectLocalExpressCareWindowString(state),
-    localHoursString: selectExpressCareHours(state),
+    localNextAvailableString: selectNextAvailableExpressCareWindowString(
+      state,
+      moment(),
+    ),
     allowRequests: !!activeWindows?.length,
     enabled: vaosExpressCare(state),
     useNewFlow: vaosExpressCareNew(state),
     hasWindow: !!expressCare.supportedFacilities?.length,
     hasRequests:
       vaosExpressCare(state) &&
-      state.appointments.future?.some(appt => appt.vaos.isExpressCare),
+      state.appointments.pending?.some(appt => appt.vaos.isExpressCare),
   };
 }
 

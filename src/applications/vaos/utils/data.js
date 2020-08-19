@@ -16,7 +16,6 @@ import {
   getSiteIdForChosenFacility,
   getChosenParentInfo,
   getChosenSlot,
-  selectActiveExpressCareFacility,
   selectExpressCareFormData,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';

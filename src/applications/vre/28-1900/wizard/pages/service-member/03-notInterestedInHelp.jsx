@@ -1,8 +1,7 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { serviceMemberPathPageNames } from '../pageList';
 
-const notInterestedInHelp = ({ setPageState, state = {} }) => (
+const notInterestedInHelp = () => (
   <div className="feature">
     <p>
       You can start this application whenever you are ready. For more info

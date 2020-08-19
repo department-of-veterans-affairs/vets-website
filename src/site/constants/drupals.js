@@ -7,6 +7,7 @@ const DRUPAL_DEV = {
   password: 'drupal8',
 };
 
+// eslint-disable-next-line no-unused-vars
 const DRUPAL_STAGING = {
   address: 'https://staging.cms.va.gov',
   user: 'api',
@@ -26,9 +27,9 @@ const DRUPAL_PROD = {
  * @module site/constants/drupals
  */
 const DRUPALS = {
-  [ENVIRONMENTS.LOCALHOST]: DRUPAL_DEV,
-  [ENVIRONMENTS.VAGOVDEV]: DRUPAL_DEV,
-  [ENVIRONMENTS.VAGOVSTAGING]: DRUPAL_STAGING,
+  [ENVIRONMENTS.LOCALHOST]: DRUPAL_PROD,
+  [ENVIRONMENTS.VAGOVDEV]: DRUPAL_PROD,
+  [ENVIRONMENTS.VAGOVSTAGING]: DRUPAL_PROD,
   [ENVIRONMENTS.VAGOVPROD]: DRUPAL_PROD,
 };
 

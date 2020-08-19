@@ -44,7 +44,7 @@ const testConfig = createTestConfig(
         'fx:mocks/application-submit',
       );
 
-      cy.get('@testData').then(data => {
+      cy.get('@testData').then(() => {
         cy.route('GET', '/v0/in_progress_forms/20-0996', {
           formData: {
             veteran: {

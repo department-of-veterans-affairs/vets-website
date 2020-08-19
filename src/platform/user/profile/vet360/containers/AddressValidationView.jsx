@@ -11,10 +11,7 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from 'vet360/util/transactions';
-import {
-  selectAddressValidation,
-  selectAddressValidationType,
-} from 'vet360/selectors';
+import { selectAddressValidation } from 'vet360/selectors';
 
 import Vet360EditModalErrorMessage from 'vet360/components/base/Vet360EditModalErrorMessage';
 

@@ -7,8 +7,7 @@ import ListBestTimeToCall from './ListBestTimeToCall';
 import { sentenceCase } from '../utils/formatters';
 import {
   getVAAppointmentLocationName,
-  getPatientPhone,
-  getPatientEmail,
+  getPatientTelecom,
   isVideoAppointment,
 } from '../services/appointment';
 import { APPOINTMENT_STATUS, TIME_TEXT } from '../utils/constants';
@@ -165,9 +164,9 @@ export default class AppointmentRequestListItem extends React.Component {
                     Your contact details
                   </dt>
                   <dd>
-                    {getPatientEmail(appointment)}
+                    {getPatientTelecom(appointment, 'email')}
                     <br />
-                    {getPatientPhone(appointment)}
+                    {getPatientTelecom(appointment, 'phone')}
                     <br />
                     <span className="vads-u-font-style--italic">
                       <ListBestTimeToCall

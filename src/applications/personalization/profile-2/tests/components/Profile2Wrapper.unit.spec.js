@@ -1,5 +1,4 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
 
@@ -8,7 +7,6 @@ import getRoutes from '../../routes';
 import { PROFILE_PATHS } from '../../constants';
 
 import { renderWithProfileReducers as render } from '../unit-test-helpers';
-import { Test } from 'mocha';
 
 describe('Profile2Wrapper', () => {
   const config = {};

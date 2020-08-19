@@ -7,7 +7,6 @@ import {
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import pages from 'applications/edu-benefits/wizard/pages';
-import { pageNames } from 'applications/edu-benefits/wizard/pages/pageList';
 import { sessionStorageSetup } from 'platform/testing/utilities';
 
 describe('the Education Benefits Wizard', () => {
@@ -32,6 +31,12 @@ describe('the Education Benefits Wizard', () => {
     sessionStorage.clear();
   });
 
+  it('should render the wizard wrapped in a form element', () => {
+    const wrapper = shallow(<Wizard {...defaultProps} />);
+    expect(wrapper.exists('form')).to.equal(true);
+    wrapper.unmount();
+  });
+
   it('should render the wizard start button if the expander prop is true', () => {
     const wrapper = shallow(<Wizard {...defaultProps} />);
     expect(wrapper.exists('.wizard-button')).to.equal(true);
@@ -49,7 +54,6 @@ describe('the Education Benefits Wizard', () => {
   });
   it('should take you to the 1990E form with no warning alert', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
-    const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
@@ -88,7 +92,6 @@ describe('the Education Benefits Wizard', () => {
   });
   it('should take you to the 1990E form with a warning alert', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
-    const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
@@ -127,7 +130,6 @@ describe('the Education Benefits Wizard', () => {
   });
   it('should take you to the 5490 form', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
-    const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
@@ -159,7 +161,6 @@ describe('the Education Benefits Wizard', () => {
   });
   it('should take you to the 1990 form', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
-    const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
@@ -197,7 +198,6 @@ describe('the Education Benefits Wizard', () => {
   });
   it('should take you to the 0994 form', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
-    const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
@@ -235,7 +235,6 @@ describe('the Education Benefits Wizard', () => {
   });
   it('should take you to the 1990N form', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
-    const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-0').invoke('onChange')({
@@ -268,7 +267,6 @@ describe('the Education Benefits Wizard', () => {
   });
   it('should take you to the 1995 form when using your own benefit', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
-    const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-1').invoke('onChange')({
@@ -294,7 +292,6 @@ describe('the Education Benefits Wizard', () => {
   });
   it('should take you to the 1995 form when using a transferred benefit', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
-    const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-1').invoke('onChange')({
@@ -320,7 +317,6 @@ describe('the Education Benefits Wizard', () => {
   });
   it('should take you to the 5495 form', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
-    const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-1').invoke('onChange')({
@@ -346,7 +342,6 @@ describe('the Education Benefits Wizard', () => {
   });
   it('should take you to the 1995 form when applying to the STEM Scholarship', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
-    const instance = wrapper.instance();
     wrapper.find('.wizard-button').simulate('click');
     expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
     wrapper.find('#NewBenefit-1').invoke('onChange')({
