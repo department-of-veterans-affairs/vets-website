@@ -46,6 +46,7 @@ module.exports = {
     entityMetaTags: {
       $ref: 'MetaTags',
     },
+    entityPublished: { type: 'boolean' },
   },
   // required: getFilter('node-page'),
 };

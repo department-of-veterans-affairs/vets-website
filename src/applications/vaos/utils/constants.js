@@ -362,55 +362,64 @@ export const EXPRESS_CARE_REASONS = [
     reason: 'Cough',
   },
   {
-    reason: 'Ear, nose, sinus, throat, and mouth problems',
+    reason: 'Pain or other issues in your ear, sinus, throat, or mouth',
   },
   {
-    reason: 'Fever, loss of appetite, overall weakness',
+    reason: 'Fever',
   },
   {
-    reason: 'Headache',
-    secondaryLabel: 'that is not sudden and severe',
+    reason: 'Loss of appetite or fatigue (feeling tired all the time)',
   },
   {
-    reason: 'High or low blood sugar, blood pressure, heart rate',
+    reason: 'Headache that isn’t severe or sudden',
   },
   {
-    reason: 'Joint/muscle pain',
-    secondaryLabel: 'such as knee, shoulder, hip, ankle or foot pain',
+    reason: 'High or low blood pressure',
   },
   {
-    reason: 'Medication questions, clarifications, side effects',
+    reason: 'High or low blood sugar',
   },
   {
-    reason: 'Minor injuries',
-    secondaryLabel: 'such as twisted ankle, cat/dog bite, abrasions, cuts',
+    reason: 'Joint or muscle pain or minor injury',
+    secondaryLabel:
+      'Such as pain in your knees, shoulders, hips, ankle, or feet, or a twisted ankle or sprained wrist',
   },
   {
-    reason: 'Minor wounds',
+    reason: 'Medication or prescription question',
+  },
+  {
+    reason: 'Minor cut, scrape, or bruise',
   },
   {
     reason: 'Neck pain',
   },
   {
-    reason: 'Red or weeping eye',
-    secondaryLabel: 'without vision loss',
+    reason: 'Red or weeping eye without vision loss',
   },
   {
     reason: 'Skin lesion or rash',
   },
   {
-    reason: 'Stomach and bowel problems',
-    secondaryLabel:
-      'such as diarrhea, constipation, nausea, vomiting, heartburn',
+    reason: 'Stomach or digestive problem',
   },
   {
-    reason: 'Urinary problems',
+    reason: 'Pain when you urinate (pee) or other urology issues',
     secondaryLabel:
-      'such as pain with urination, frequent urination, blood in urine',
+      'Such as having the urge to urinate often or blood in your urine',
   },
 ];
 
 export const EXPRESS_CARE_ERROR_REASON = {
   error: 'error',
   noActiveFacility: 'noActiveFacility',
+};
+
+export const WEEKDAY_INDEXES = {
+  SUNDAY: 0,
+  MONDAY: 1,
+  TUESDAY: 2,
+  WEDNESDAY: 3,
+  THURSDAY: 4,
+  FRIDAY: 5,
+  SATURDAY: 6,
 };

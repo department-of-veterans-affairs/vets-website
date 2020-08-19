@@ -1,6 +1,4 @@
 import React from 'react';
-import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';

@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Wizard, {
-  getReferredBenefit,
-  getWizardStatus,
   WIZARD_STATUS_COMPLETE,
   NO_BENEFIT_REFERRED,
   formIdSuffixes,
@@ -21,9 +19,17 @@ const WizardContainer = ({ setWizardStatus }) => {
     const formIDSuffixes = Object.values(formIdSuffixes);
     const urlSections = window.location.href.split('/');
     for (const formIDSuffix of formIDSuffixes) {
-      const urlContainsFormIDSuffix = urlSections.find(
-        urlSection => formIDSuffix === urlSection,
-      );
+      const urlContainsFormIDSuffix = urlSections.find(urlSection => {
+        let shortenedUrlSection;
+        if (urlSection.includes('22-0994')) {
+          shortenedUrlSection = '0994';
+          return formIDSuffix === shortenedUrlSection;
+        } else if (urlSection.includes('form-0993')) {
+          shortenedUrlSection = '0993';
+          return formIDSuffix === shortenedUrlSection;
+        }
+        return formIDSuffix === urlSection;
+      });
       if (urlContainsFormIDSuffix) return formIDSuffix;
     }
     return NO_BENEFIT_REFERRED;

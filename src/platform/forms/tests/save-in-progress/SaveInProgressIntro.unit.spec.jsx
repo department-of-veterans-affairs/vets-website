@@ -19,11 +19,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   const removeInProgressForm = () => {};
   const toggleLoginModal = () => {};
 
-  const formConfig = {
-    customText: {
-      appType: '',
-    },
-  };
+  const formConfig = {};
 
   it('should render in progress message', () => {
     const user = {
@@ -597,6 +593,43 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.find('.usa-button-primary').text()).to.equal(
       'Custom message displayed to non-signed-in users',
     );
+    tree.unmount();
+  });
+  it('should add classes to unauthStartButton', () => {
+    const user = {
+      profile: {
+        savedForms: [],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        prefillEnabled
+        hideUnauthedStartLink
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        startMessageOnly
+        formConfig={formConfig}
+        unauthButtonClasses={['vads-u-background-color--green']}
+      />,
+    );
+    expect(
+      tree
+        .find('.usa-button-primary')
+        .hasClass('vads-u-background-color--green'),
+    ).to.equal(true);
     tree.unmount();
   });
 });

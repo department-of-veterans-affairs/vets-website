@@ -8,6 +8,7 @@ export const api = {
   baseUrl: `${environment.API_URL}/v1/facilities`,
   url: `${environment.API_URL}/v1/facilities/va`,
   ccUrl: `${environment.API_URL}/v1/facilities/ccp`,
+  allUrgentCareUrl: `${environment.API_URL}/v1/facilities/va_ccp/urgent_care`,
   settings: {
     credentials: 'include',
     headers: {
@@ -31,7 +32,6 @@ export const resolveParamsWithUrl = (
   serviceType,
   page,
   bounds,
-  apiVersion,
 ) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
   let facility;
@@ -41,13 +41,15 @@ export const resolveParamsWithUrl = (
 
   switch (locationType) {
     case 'urgent_care':
-      if (!serviceType || serviceType === 'UrgentCare') {
+      if (serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
-      }
-      if (serviceType === 'NonVAUrgentCare') {
+      } else if (serviceType === 'NonVAUrgentCare') {
         facility = 'urgent_care';
         url = api.ccUrl;
+      } else {
+        // MashUp coming up
+        url = api.allUrgentCareUrl;
       }
       break;
     case 'pharmacy':
@@ -62,6 +64,18 @@ export const resolveParamsWithUrl = (
       service = serviceType;
   }
 
+  if (url === api.allUrgentCareUrl) {
+    return {
+      url,
+      params: compact([
+        address ? `address=${address}` : null,
+        ...bounds.map(c => `bbox[]=${c}`),
+        `page=${page}`,
+        `per_page=${perPage}`,
+      ]).join('&'),
+    };
+  }
+
   return {
     url,
     params: compact([
@@ -69,7 +83,7 @@ export const resolveParamsWithUrl = (
       ...bounds.map(c => `bbox[]=${c}`),
       facility ? `type=${facility}` : null,
       filterableLocations.includes(facility) && service
-        ? `specialties[]=${service}`
+        ? `${url === api.ccUrl ? 'specialties' : 'services'}[]=${service}`
         : null,
       `page=${page}`,
       `per_page=${perPage}`,
@@ -84,7 +98,7 @@ export const resolveParamsWithUrl = (
 export const facilityTypes = {
   [FacilityType.VA_HEALTH_FACILITY]: 'VA health',
   [FacilityType.URGENT_CARE]: 'Urgent care',
-  [FacilityType.URGENT_CARE_FARMACIES]:
+  [FacilityType.URGENT_CARE_PHARMACIES]:
     'Urgent care pharmacies (in VA’s network)',
   [FacilityType.VA_CEMETARY]: 'VA cemeteries',
   [FacilityType.VA_BENEFITS_FACILITY]: 'Benefits',
@@ -120,6 +134,7 @@ export const ccUrgentCareLabels = {
 };
 
 export const urgentCareServices = {
+  AllUrgentCare: 'All urgent care',
   UrgentCare: 'VA urgent care',
   NonVAUrgentCare: 'Community urgent care providers (in VA’s network)',
 };
@@ -163,7 +178,7 @@ export const facilityTypesOptions = {
   [LocationType.HEALTH]: 'VA health',
   [LocationType.URGENT_CARE]: 'Urgent care',
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
-  [LocationType.URGENT_CARE_FARMACIES]:
+  [LocationType.URGENT_CARE_PHARMACIES]:
     'Urgent care pharmacies (in VA’s network)',
   [LocationType.BENEFITS]: 'VA benefits',
   [LocationType.CEMETARY]: 'VA cemeteries',

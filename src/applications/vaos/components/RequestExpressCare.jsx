@@ -9,8 +9,9 @@ export default function RequestExpressCare({
   hasWindow,
   allowRequests,
   localWindowString,
-  localHoursString,
+  localNextAvailableString,
   useNewFlow,
+  startNewExpressCareFlow,
 }) {
   const legacyLink = `https://veteran.apps${
     environment.isProduction() ? '' : '-staging'
@@ -32,7 +33,11 @@ export default function RequestExpressCare({
           option is available today from {localWindowString}.
         </p>
         {useNewFlow ? (
-          <Link className="usa-button" to="/new-express-care-request">
+          <Link
+            className="usa-button"
+            onClick={startNewExpressCareFlow}
+            to="/new-express-care-request"
+          >
             Create an Express Care request
           </Link>
         ) : (
@@ -55,10 +60,10 @@ export default function RequestExpressCare({
         Express Care isn’t available right now
       </h2>
       <p>
-        Express Care is only available {localHoursString}. Express Care lets you
-        talk to VA health care staff the same day to discuss a symptom that’s
-        not urgent and doesn’t need emergency care. To use Express Care, check
-        back during the time shown above.
+        Express Care will be available {localNextAvailableString}. Express Care
+        lets you talk to VA health care staff the same day to discuss a symptom
+        that’s not urgent and doesn’t need emergency care. To use Express Care,
+        check back during the time shown above.
       </p>
       <button disabled>Create an Express Care request</button>
     </div>

@@ -1,3 +1,5 @@
+import { fetchRequestLimits } from './actions/expressCare';
+
 export default {
   home: {
     url: '/',
@@ -5,11 +7,26 @@ export default {
   info: {
     url: '/new-express-care-request',
     previous: 'home',
-    next: 'form',
+    async next(state, dispatch) {
+      const isUnderRequestLimit = await dispatch(fetchRequestLimits());
+      if (isUnderRequestLimit) {
+        return 'reason';
+      }
+
+      return 'requestLimit';
+    },
   },
-  form: {
-    url: '/new-express-care-request/form',
+  requestLimit: {
+    url: '/new-express-care-request/request-limit',
+  },
+  reason: {
+    url: '/new-express-care-request/select-reason',
     previous: 'info',
+    next: 'details',
+  },
+  details: {
+    url: '/new-express-care-request/additional-details',
+    previous: 'reason',
     next: '',
   },
 };
