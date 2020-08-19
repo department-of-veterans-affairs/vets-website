@@ -38,7 +38,7 @@ function getEditButton() {
   return editButton;
 }
 
-// helper function that enters the `Edit email address` view and clicks on the `Delete` and `Confirm` buttons
+// helper function that enters the `Edit email address` view and clicks on the `Remove` and `Confirm` buttons
 function deleteEmailAddress() {
   const editButton = getEditButton();
   editButton.click();
@@ -47,7 +47,7 @@ function deleteEmailAddress() {
   expect(emailAddressInput).to.exist;
 
   // delete
-  view.getByText('Delete', { selector: 'button *' }).click();
+  view.getByText('Remove email address').click();
   const confirmDeleteButton = view.getByText('Confirm', { selector: 'button' });
   const cancelDeleteButton = view.getByText('Cancel', { selector: 'button' });
   confirmDeleteButton.click();
