@@ -28,9 +28,9 @@ describe('<VAPEditModalActionButtons/>', () => {
       'Children',
     );
 
-    expect(component.html(),
-      'renders a delete button',
-    ).to.contain('Remove title_attribute');
+    expect(component.html(), 'renders a delete button').to.contain(
+      'Remove title_attribute',
+    );
 
     component.unmount();
   });
@@ -55,9 +55,9 @@ describe('<VAPEditModalActionButtons/>', () => {
       'does not render children components after triggered',
     ).to.not.contain('Children');
 
-    expect(component.html(),
-      'does not render a delete button',
-    ).not.to.contain('Remove title_attribute');
+    expect(component.html(), 'does not render a delete button').not.to.contain(
+      'Remove title_attribute',
+    );
     component.unmount();
   });
 
@@ -76,9 +76,9 @@ describe('<VAPEditModalActionButtons/>', () => {
       deleteEnabled: false,
     });
 
-    expect(component.html(),
-      'does not render a delete button',
-    ).not.to.contain('Remove title_attribute');
+    expect(component.html(), 'does not render a delete button').not.to.contain(
+      'Remove title_attribute',
+    );
     component.unmount();
   });
 });
