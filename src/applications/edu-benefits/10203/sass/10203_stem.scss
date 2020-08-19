@@ -180,7 +180,8 @@ div[data-chapter="programDetails"] {
     margin-bottom: 0px;
   }
   div.form-review-panel-page:nth-child(2) {
-    display: none;
+    border-bottom: 0;
+    padding-bottom: 16px;
   }
   p.school-details-notice {
     display: none;
