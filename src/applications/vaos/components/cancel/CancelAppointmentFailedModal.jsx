@@ -1,11 +1,9 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-import { FETCH_STATUS } from '../../utils/constants';
 import FacilityAddress from '../FacilityAddress';
 
 export default function CancelAppointmentFailedModal({
-  appointment,
   facility,
   isBadRequest,
   onClose,
@@ -31,12 +29,6 @@ export default function CancelAppointmentFailedModal({
         </p>
       )}
       <p>
-        {appointment.clinicName ? (
-          <>
-            {appointment.clinicName}
-            <br />
-          </>
-        ) : null}
         {facility ? (
           <>
             <strong>{facility.name}</strong>

@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
 import { focusElement } from '../../utilities/ui';
+import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
+import SipsDevModal from './SaveInProgressDevModal';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
     'saveFormLinkTop',
-    window.VetsGov.scroll || {
+    window.VetsGov?.scroll || {
       duration: 500,
       delay: 0,
       smooth: true,
@@ -38,11 +40,12 @@ class SaveFormLink extends React.Component {
 
   render() {
     if (!this.props.user.login.currentlyLoggedIn) return null;
-
     const { savedStatus } = this.props.form;
+    const { formConfig } = this.props;
+    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
     return (
-      <div style={{ display: this.props.children ? 'inline' : null }}>
+      <div className={this.props.children ? 'vads-u-display--inline' : ''}>
         <Element name="saveFormLinkTop" />
         {saveErrors.has(savedStatus) && (
           <div
@@ -50,9 +53,9 @@ class SaveFormLink extends React.Component {
             className="usa-alert usa-alert-error background-color-only schemaform-save-error"
           >
             {savedStatus === SAVE_STATUSES.failure &&
-              'We’re sorry. Something went wrong when saving your form. If you’re on a secure and private computer, you can leave this page open and try saving your form again in a few minutes. If you’re on a public computer, you can continue to fill out your form, but it won’t automatically save as you fill it out.'}
+              `We’re sorry. Something went wrong when saving your ${appType}. If you’re on a secure and private computer, you can leave this page open and try saving your ${appType} again in a few minutes. If you’re on a public computer, you can continue to fill out your ${appType}, but it won’t automatically save as you fill it out.`}
             {savedStatus === SAVE_STATUSES.clientFailure &&
-              `We’re sorry. We’re unable to connect to VA.gov right now. Please make sure you’re connected to the Internet so we can save your form in progress.`}
+              `We’re sorry. We’re unable to connect to VA.gov right now. Please make sure you’re connected to the Internet so we can save your ${appType} in progress.`}
             {savedStatus === SAVE_STATUSES.noAuth && (
               <span>
                 Sorry, you’re signed out. Please{' '}
@@ -62,7 +65,7 @@ class SaveFormLink extends React.Component {
                 >
                   sign in
                 </button>{' '}
-                again to save your application.
+                again to save your {appType}.
               </span>
             )}
           </div>
@@ -74,9 +77,10 @@ class SaveFormLink extends React.Component {
               className="va-button-link schemaform-sip-save-link"
               onClick={this.handleSave}
             >
-              {this.props.children || 'Finish this application later'}
+              {this.props.children || `Finish this ${appType} later`}
             </button>
             {!this.props.children && '.'}
+            <SipsDevModal {...this.props} />
           </span>
         )}
       </div>

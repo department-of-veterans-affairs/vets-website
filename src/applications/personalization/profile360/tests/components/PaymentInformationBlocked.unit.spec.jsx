@@ -17,7 +17,7 @@ describe('<PaymentInformationBlocked />', () => {
   });
   it('renders the correct phone number anchor tag', () => {
     const wrapper = shallow(<PaymentInformationBlocked />);
-    const link = wrapper.find('a');
+    const link = wrapper.find('a').first();
     expect(link.html()).to.contain('855-574-7286');
     expect(link.prop('href')).to.equal('tel:1-855-574-7286');
     expect(link.prop('aria-label')).to.equal('8 5 5. 5 7 4. 7 2 8 6.');

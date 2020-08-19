@@ -269,7 +269,7 @@ function compilePage(page, contentData) {
 
   // Get page owner
   let owner;
-  if (page.fieldAdministration) {
+  if (page.fieldAdministration && page.fieldAdministration.entity) {
     owner = _.toLower(page.fieldAdministration.entity.name);
   }
   // Benefits hub side navs in an array to loop through later

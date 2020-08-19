@@ -14,10 +14,9 @@ export const claimExamsDescription = (
       content="You’ll receive a phone call from a VA third-party vendor or from VA to schedule your exam. It’s important that you answer any calls you receive after you file a disability claim."
       status="warning"
     />
-    <p>At this time we partner with 4 vendors:</p>
+    <p>At this time we partner with 3 vendors:</p>
     <ul>
       <li>QTC Medical Services (QTC)</li>
-      <li>VetFed Resources (VetFed)</li>
       <li>Veterans Evaluation Services (VES)</li>
       <li>Logistics Health Inc. (LHI)</li>
     </ul>

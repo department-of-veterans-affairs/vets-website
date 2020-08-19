@@ -6,8 +6,6 @@ import { srSubstitute } from '../../all-claims/utils';
 import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
 
-import { makeTitle } from '../helpers';
-
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
 export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
@@ -15,15 +13,14 @@ export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
   const { dob, gender, userFullName } = profile;
 
   const { first, middle, last, suffix } = userFullName;
-  // All caps isn't good for a11y
-  const fullName = makeTitle(`${first} ${middle || ''} ${last}`);
+
   return (
     <>
       <p>This is the personal information we have on file for you.</p>
       <br />
       <div className="blue-bar-block">
         <strong className="name">
-          {fullName}
+          {`${first || ''} ${middle || ''} ${last || ''}`}
           {suffix && `, ${suffix}`}
         </strong>
         {ssnLastFour && (
@@ -66,7 +63,7 @@ export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
 
 export default connect(state => {
   const profile = selectProfile(state);
-  const veteran = state.form?.loadedData?.formData;
+  const veteran = state.form?.loadedData?.formData?.veteran;
   return {
     profile,
     veteran,

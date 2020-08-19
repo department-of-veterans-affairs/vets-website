@@ -234,6 +234,8 @@ export default {
     otherHealthInsuranceNameUI: {
       'ui:title':
         'Name of health insurance (If there are multiple policies, please separate them with commas.)',
+      'ui:required': formData =>
+        formData[primaryCaregiverFields.otherHealthInsurance] === true,
       'ui:options': {
         expandUnder: primaryCaregiverFields.otherHealthInsurance,
       },

@@ -12,7 +12,8 @@ export default function AppointmentStatus({
   switch (status) {
     case null:
       return null;
-    case APPOINTMENT_STATUS.pending: {
+    case APPOINTMENT_STATUS.pending:
+    case APPOINTMENT_STATUS.proposed: {
       iconClass = 'fa-exclamation-triangle';
       content = (
         <>

@@ -85,7 +85,7 @@ export default class ArrayField extends React.Component {
     setTimeout(() => {
       scroller.scrollTo(
         `topOfTable_${this.props.idSchema.$id}`,
-        window.Forms.scroll || {
+        window.Forms?.scroll || {
           duration: 500,
           delay: 0,
           smooth: true,
@@ -99,7 +99,7 @@ export default class ArrayField extends React.Component {
     setTimeout(() => {
       scroller.scrollTo(
         `table_${id}`,
-        window.Forms.scroll || {
+        window.Forms?.scroll || {
           duration: 500,
           delay: 0,
           smooth: true,

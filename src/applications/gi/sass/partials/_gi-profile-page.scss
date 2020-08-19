@@ -3,6 +3,15 @@
     font-size: 1.35em;
     margin-top: 0;
   }
+  .info-flag {
+    color: #323a45;
+    background-color: #d6d7d9;
+    font-size: 0.9em;
+    display: inline-block;
+    padding: 0.1em 0.5em;
+    margin-right: 0.5em;
+    margin-top: 0.5em;
+  }
 
   .profile-accordion-list {
     margin-top: 1em;
@@ -161,6 +170,10 @@
 
     hr {
       border: 1px solid $color-primary-darkest;
+    }
+    .eyb-value-header {
+      margin-top: 22.5px;
+      margin-bottom: 7.5px;
     }
   }
 

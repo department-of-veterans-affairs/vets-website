@@ -5,7 +5,6 @@ import { LocationType } from '../constants';
 import {
   healthServices,
   benefitsServices,
-  vetCenterServices,
   urgentCareServices,
   facilityTypesOptions,
 } from '../config';
@@ -35,29 +34,37 @@ class SearchControls extends Component {
 
     const { facilityType, serviceType } = this.props.currentQuery;
 
-    if (facilityType === LocationType.CC_PROVIDER && !serviceType) {
-      focusElement('#service-type-ahead-input');
-      return;
+    let analyticsServiceType = serviceType;
+
+    if (facilityType === LocationType.CC_PROVIDER) {
+      if (!serviceType) {
+        focusElement('#service-type-ahead-input');
+
+        return;
+      }
+
+      analyticsServiceType = this.props.currentQuery.specialties[serviceType];
     }
 
     // Report event here to only send analytics event when a user clicks on the button
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': facilityType,
+      'fl-search-svc-type': analyticsServiceType,
     });
 
     this.props.onSubmit();
   };
 
   renderFacilityTypeDropdown = () => {
-    const { showCommunityCares, suppressPharmacies } = this.props;
+    const { suppressCCP, suppressPharmacies } = this.props;
     const { facilityType } = this.props.currentQuery;
     const locationOptions = facilityTypesOptions;
     if (suppressPharmacies) {
-      delete locationOptions.cc_pharmacy;
+      delete locationOptions.pharmacy;
     }
-    if (!showCommunityCares) {
-      delete locationOptions.cc_provider;
+    if (suppressCCP) {
+      delete locationOptions.provider;
     }
     const options = Object.keys(locationOptions).map(facility => (
       <option key={facility} value={facility}>
@@ -66,9 +73,7 @@ class SearchControls extends Component {
     ));
     return (
       <span>
-        <label htmlFor="facility-type-dropdown">
-          Choose a VA facility type
-        </label>
+        <label htmlFor="facility-type-dropdown">Facility type</label>
         <select
           id="facility-type-dropdown"
           aria-label="Choose a facility type"
@@ -76,6 +81,7 @@ class SearchControls extends Component {
           className="bor-rad"
           onChange={this.handleFacilityTypeChange}
           style={{ fontWeight: 'bold' }}
+          required
         >
           {options}
         </select>
@@ -89,7 +95,6 @@ class SearchControls extends Component {
       LocationType.HEALTH,
       LocationType.URGENT_CARE,
       LocationType.BENEFITS,
-      LocationType.VET_CENTER,
       LocationType.CC_PROVIDER,
     ].includes(facilityType);
 
@@ -104,11 +109,6 @@ class SearchControls extends Component {
         break;
       case LocationType.BENEFITS:
         services = benefitsServices;
-        break;
-      case LocationType.VET_CENTER:
-        services = vetCenterServices.reduce(result => result, {
-          All: 'Show all facilities',
-        });
         break;
       case LocationType.CC_PROVIDER:
         return (
@@ -130,10 +130,10 @@ class SearchControls extends Component {
 
     return (
       <span>
-        <label htmlFor="service-type-dropdown">Choose a service type</label>
+        <label htmlFor="service-type-dropdown">Service type</label>
         <select
           id="service-type-dropdown"
-          disabled={disabled}
+          disabled={disabled || !facilityType}
           value={serviceType || ''}
           className="bor-rad"
           onChange={this.handleServiceTypeChange}
@@ -169,7 +169,7 @@ class SearchControls extends Component {
                     htmlFor="street-city-state-zip"
                     id="street-city-state-zip-label"
                   >
-                    Search by city, state or postal Code
+                    City, state or postal code
                   </label>
                   <input
                     id="street-city-state-zip"
@@ -180,6 +180,7 @@ class SearchControls extends Component {
                     value={currentQuery.searchString}
                     title="Your location: Street, City, State or Postal code"
                     required
+                    ref={this.props.getRefInput()}
                   />
                 </div>
               </div>
@@ -191,7 +192,7 @@ class SearchControls extends Component {
                   {this.renderServiceTypeDropdown()}
                 </div>
                 <div className="columns medium-1-2">
-                  <input type="submit" value="Search" />
+                  <input id="facility-search" type="submit" value="Search" />
                 </div>
               </div>
             </div>

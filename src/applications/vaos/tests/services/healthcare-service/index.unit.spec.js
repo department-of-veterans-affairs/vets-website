@@ -3,13 +3,15 @@ import {
   mockFetch,
   setFetchJSONResponse,
   setFetchJSONFailure,
-  mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
 
-import { getLocation } from '../../../services/location';
-import { getAvailableHealthcareServices } from '../../../services/healthcare-service';
-import facilities983 from '../../../api/facilities_983.json';
+import {
+  getAvailableHealthcareServices,
+  getSupportedHealthcareServicesAndLocations,
+} from '../../../services/healthcare-service';
+import mockLocations983 from '../../../services/healthcare-service/mock_locations_983.json';
 import clinicList983 from '../../../api/clinicList983.json';
+import mockHealthcareSystem983 from '../../../services/healthcare-service/mock_healthcare_system_983.json';
 
 describe('VAOS Healthcare service', () => {
   beforeEach(() => {
@@ -19,7 +21,7 @@ describe('VAOS Healthcare service', () => {
 
   describe('getAvailableHealthcareServices', () => {
     it('should make successful request', async () => {
-      const data = await getAvailableHealthcareServices({
+      await getAvailableHealthcareServices({
         facilityId: 'var983',
         typeOfCareId: '123',
         systemId: '456',
@@ -113,7 +115,7 @@ describe('VAOS Healthcare service', () => {
 
       let error;
       try {
-        const data = await getAvailableHealthcareServices({
+        await getAvailableHealthcareServices({
           facilityId: 'var983',
           typeOfCareId: '123',
           systemId: '456',
@@ -126,6 +128,96 @@ describe('VAOS Healthcare service', () => {
         `/vaos/v0/facilities/983/clinics?type_of_care_id=123&system_id=456`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+    });
+
+    describe('Test making call to Vista Scheduling Provider (VSP) api', () => {
+      beforeEach(() => {
+        mockFetch();
+        setFetchJSONResponse(global.fetch, mockHealthcareSystem983);
+      });
+
+      it('should make successful request to VSP api', async () => {
+        await getAvailableHealthcareServices({
+          facilityId: '983',
+          typeOfCareId: '123',
+          systemId: '456',
+          useVSP: true,
+        });
+
+        expect(global.fetch.firstCall.args[0]).to.contain(
+          '/HealthcareService?location:Location.identifier=983' +
+            '&characteristic=PATIENTDS_ENABLED',
+        );
+      });
+
+      it('should return collection of Healthcare Services', async () => {
+        const data = await getAvailableHealthcareServices({
+          facilityId: '983',
+          typeOfCareId: '123',
+          systemId: '456',
+          useVSP: true,
+        });
+
+        expect(data.length).to.equal(13);
+        expect(data[0].resourceType).to.equal('HealthcareService');
+      });
+    });
+  });
+
+  describe('getSupportedHealthcareServicesAndLocations', () => {
+    it('should make successful request', async () => {
+      await getSupportedHealthcareServicesAndLocations({
+        siteId: '983',
+        parentId: '983GC',
+        typeOfCareId: '123',
+      });
+
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983GC',
+      );
+    });
+
+    it('should return OperationOutcome error', async () => {
+      mockFetch();
+      setFetchJSONFailure(global.fetch, {
+        errors: [],
+      });
+
+      let error;
+      try {
+        await getSupportedHealthcareServicesAndLocations({
+          siteId: '983',
+          parentId: '983GC',
+          typeOfCareId: '123',
+        });
+      } catch (e) {
+        error = e;
+      }
+
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983GC',
+      );
+      expect(error?.resourceType).to.equal('OperationOutcome');
+    });
+
+    it('should make successful request to VSP api', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, mockLocations983);
+      const data = await getSupportedHealthcareServicesAndLocations({
+        siteId: '983',
+        useVSP: true,
+      });
+
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/HealthcareService?organization:Organization.identifier=983' +
+          '&characteristic=PATIENTDS_ENABLED&_include=HealthcareService:location',
+      );
+      expect(data.locations.length).to.equal(3);
+      expect(data.healthcareServices.length).to.equal(7);
+      expect(data.locations[0].resourceType).to.equal('Location');
+      expect(data.healthcareServices[0].resourceType).to.equal(
+        'HealthcareService',
+      );
     });
   });
 });

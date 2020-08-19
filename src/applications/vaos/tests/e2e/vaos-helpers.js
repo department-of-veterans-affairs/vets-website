@@ -114,6 +114,20 @@ function appointmentReasonTest(client, nextElement) {
   return client;
 }
 
+function appointmentReasonCommunityCareTest(client, nextElement) {
+  client
+    .waitForElementPresent(
+      'textarea#root_reasonAdditionalInfo',
+      Timeouts.normal,
+    )
+    .setValue('textarea#root_reasonAdditionalInfo', 'Additonal information')
+    .axeCheck('.main')
+    .click('.rjsf [type="submit"]')
+    .waitForElementPresent(nextElement, Timeouts.normal);
+
+  return client;
+}
+
 function howToBeSeenTest(client, nextElement) {
   client
     .click('input#root_visitType_0')
@@ -146,36 +160,6 @@ function appointmentSubmittedTest(client) {
     .axeCheck('.main')
     .click('.usa-button[href$="appointments/"]')
     .assert.containsText('h1', 'VA appointments');
-
-  return client;
-}
-
-function showMoreTest(client) {
-  client
-    .click(
-      'li[data-request-id="8a48912a6cab0202016cb4fcaa8b0038"] .additional-info-button.va-button-link',
-    )
-    .waitForElementVisible(
-      '[id="8a48912a6cab0202016cb4fcaa8b0038-vaos-info-content"]',
-      Timeouts.slow,
-    )
-    .pause(Timeouts.normal)
-    .axeCheck('.main')
-    .assert.containsText('.vaos_appts__message dd', 'Request 2 Message 1 Text');
-
-  return client;
-}
-
-function cancelAppointmentTest(client) {
-  client
-    .click('li[data-is-cancelable="true"] button.vaos-appts__cancel-btn')
-    .waitForElementVisible('#cancelAppt', Timeouts.slow)
-    .axeCheck('.main')
-    .click('#cancelAppt .usa-button')
-    .waitForElementVisible('.usa-alert-success', Timeouts.slow)
-    .axeCheck('.main')
-    .click('#cancelAppt button')
-    .waitForElementNotPresent('#cancelAppt', Timeouts.normal);
 
   return client;
 }
@@ -489,6 +473,7 @@ module.exports = {
   newAppointmentTest,
   appointmentDateTimeTest,
   appointmentReasonTest,
+  appointmentReasonCommunityCareTest,
   howToBeSeenTest,
   contactInformationTest,
   reviewAppointmentTest,
@@ -497,6 +482,4 @@ module.exports = {
   getUserDataWithSingleSystem,
   mockSingleFacility,
   mockSingleSystem,
-  showMoreTest,
-  cancelAppointmentTest,
 };

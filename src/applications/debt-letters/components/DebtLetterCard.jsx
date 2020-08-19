@@ -1,56 +1,63 @@
 import React from 'react';
 import last from 'lodash/last';
 import moment from 'moment';
-import { Link } from 'react-router';
-import { deductionCodes } from '../const';
-import { bindActionCreators } from 'redux';
-import { setActiveDebt } from '../actions';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import { deductionCodes, renderAdditionalInfo } from '../const';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-class DebtLetterCard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      panelOpen: false,
-    };
-  }
+const DebtLetterCard = ({ debt }) => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  });
+  const mostRecentHistory = last(debt.debtHistory);
+  const debtCardHeading =
+    deductionCodes[debt.deductionCode] || debt.benefitType;
+  return (
+    <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
+      <h3 className="vads-u-margin--0">{debtCardHeading}</h3>
+      {mostRecentHistory && (
+        <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+          Received on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
+        </p>
+      )}
+      <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
+        <strong>Amount owed: </strong>
+        {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+      </p>
+      <AdditionalInfo triggerText="Why might I have this debt?">
+        {renderAdditionalInfo(debt.deductionCode)}
+      </AdditionalInfo>
+    </div>
+  );
+};
 
-  render() {
-    const { debt } = this.props;
-    const mostRecentHistory = last(debt.debtHistory);
-    return (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--1">
-        <h4 className="vads-u-margin--0">
-          {deductionCodes[debt.deductionCode]}
-        </h4>
-        <p>
-          <strong>Status:</strong> {mostRecentHistory.status}
-        </p>
-        <p>
-          <strong>Last updated:</strong>{' '}
-          {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
-        </p>
-        <Link
-          className="usa-button"
-          onClick={() => this.props.setActiveDebt(debt)}
-          to="/view-details"
-        >
-          View Details
-        </Link>
-      </div>
-    );
-  }
-}
+DebtLetterCard.propTypes = {
+  debt: PropTypes.shape({
+    currentAr: PropTypes.number,
+    debtHistory: PropTypes.arrayOf(
+      PropTypes.shape({
+        date: PropTypes.string,
+      }),
+    ),
+    deductionCode: PropTypes.string,
+    originalAr: PropTypes.number,
+  }),
+};
+
+DebtLetterCard.defaultProps = {
+  debt: {
+    currentAr: 0,
+    debtHistory: [{ date: '' }],
+    deductionCode: '',
+    originalAr: 0,
+  },
+};
 
 const mapStateToProps = state => ({
   selectedDebt: state.debtLetters.selectedDebt,
 });
 
-const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ setActiveDebt }, dispatch),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DebtLetterCard);
+export default connect(mapStateToProps)(DebtLetterCard);

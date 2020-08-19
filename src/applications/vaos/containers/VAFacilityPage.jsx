@@ -106,9 +106,8 @@ export class VAFacilityPage extends React.Component {
       parentDetails,
       facilityDetails,
       hasDataFetchingError,
-      hasEligibilityError,
       parentOfChosenFacility,
-      cernerFacilities,
+      cernerOrgIds,
       siteId,
     } = this.props;
 
@@ -150,6 +149,7 @@ export class VAFacilityPage extends React.Component {
               onBack={this.goBack}
               disabled
               pageChangeInProgress={pageChangeInProgress}
+              loadingText="Page change in progress"
             />
           </div>
         </div>
@@ -166,6 +166,7 @@ export class VAFacilityPage extends React.Component {
               onBack={this.goBack}
               onSubmit={this.goForward}
               pageChangeInProgress={pageChangeInProgress}
+              loadingText="Page change in progress"
             />
           </div>
         </div>
@@ -182,6 +183,7 @@ export class VAFacilityPage extends React.Component {
               onBack={this.goBack}
               disabled
               pageChangeInProgress={pageChangeInProgress}
+              loadingText="Page change in progress"
             />
           </div>
         </div>
@@ -189,10 +191,7 @@ export class VAFacilityPage extends React.Component {
     }
 
     const disableSubmitButton =
-      loadingFacilities ||
-      noValidVAFacilities ||
-      notEligibleAtChosenFacility ||
-      hasEligibilityError;
+      loadingFacilities || noValidVAFacilities || notEligibleAtChosenFacility;
 
     return (
       <div>
@@ -211,7 +210,7 @@ export class VAFacilityPage extends React.Component {
             typeOfCare,
             facilityDetailsStatus,
             parentDetails,
-            cernerFacilities,
+            cernerOrgIds,
           }}
           data={data}
         >
@@ -223,12 +222,16 @@ export class VAFacilityPage extends React.Component {
               />
             </div>
           )}
-          {hasEligibilityError && <ErrorMessage />}
           <FormButtons
             onBack={this.goBack}
             continueLabel=""
             disabled={disableSubmitButton}
             pageChangeInProgress={loadingEligibility || pageChangeInProgress}
+            loadingText={
+              loadingEligibility
+                ? 'Checking eligibility requirements'
+                : 'Page change in progress'
+            }
           />
           {(loadingEligibility || pageChangeInProgress) && (
             <div aria-atomic="true" aria-live="assertive">

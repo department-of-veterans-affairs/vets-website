@@ -18,13 +18,14 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { isInProgressPath } from '../helpers';
 import { getSaveInProgressState } from './selectors';
 import environment from 'platform/utilities/environment';
+import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
     'topScrollElement',
-    window.VetsGov.scroll || {
+    window.VetsGov?.scroll || {
       duration: 500,
       delay: 0,
       smooth: true,
@@ -155,16 +156,15 @@ class RoutedSavableApp extends React.Component {
   onbeforeunload = e => {
     const { currentLocation, autoSavedStatus, formConfig } = this.props;
     const { additionalRoutes = [] } = formConfig;
+    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const additionalSafePaths = additionalRoutes.map(route => route.path);
-
     let message;
     if (
       autoSavedStatus !== SAVE_STATUSES.success &&
       isInProgressPath(trimmedPathname, additionalSafePaths)
     ) {
-      message =
-        'Are you sure you wish to leave this application? All progress will be lost.';
+      message = `Are you sure you wish to leave this ${appType}? All progress will be lost.`;
       // Chrome requires this to be set
       e.returnValue = message; // eslint-disable-line no-param-reassign
     }
@@ -230,6 +230,7 @@ class RoutedSavableApp extends React.Component {
 
   render() {
     const { currentLocation, formConfig, children, loadedStatus } = this.props;
+    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     let content;
     const loadingForm =
@@ -245,12 +246,14 @@ class RoutedSavableApp extends React.Component {
         <LoadingIndicator message="Retrieving your profile information..." />
       );
     } else if (!formConfig.disableSave && loadingForm) {
-      content = <LoadingIndicator message="Retrieving your saved form..." />;
+      content = (
+        <LoadingIndicator message={`Retrieving your saved ${appType}...`} />
+      );
     } else if (
       !formConfig.disableSave &&
       this.props.savedStatus === SAVE_STATUSES.pending
     ) {
-      content = <LoadingIndicator message="Saving your form..." />;
+      content = <LoadingIndicator message={`Saving your ${appType}...`} />;
     } else {
       content = (
         <FormApp formConfig={formConfig} currentLocation={currentLocation}>

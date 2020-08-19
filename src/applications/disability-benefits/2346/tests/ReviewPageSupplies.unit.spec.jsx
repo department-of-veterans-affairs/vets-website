@@ -12,7 +12,7 @@ describe('ReviewPageSupplies', () => {
             {
               deviceName: 'OMEGAX d3241',
               productName: 'ZA1239',
-              productGroup: 'BATTERIES',
+              productGroup: 'Battery',
               productId: 1,
               lastOrderDate: '2019-01-01',
               nextAvailabilityDate: '2019-09-01',
@@ -21,7 +21,7 @@ describe('ReviewPageSupplies', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 3,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
@@ -30,7 +30,7 @@ describe('ReviewPageSupplies', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 4,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
@@ -39,7 +39,7 @@ describe('ReviewPageSupplies', () => {
             },
             {
               productName: 'WaxBuster Single Unit',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 5,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
@@ -66,7 +66,7 @@ describe('ReviewPageSupplies', () => {
             {
               deviceName: 'OMEGAX d3241',
               productName: 'ZA1239',
-              productGroup: 'BATTERIES',
+              productGroup: 'Battery',
               productId: 1,
               lastOrderDate: '2020-01-01',
               nextAvailabilityDate: '2020-09-01',
@@ -75,7 +75,7 @@ describe('ReviewPageSupplies', () => {
             },
             {
               productName: 'DOME',
-              productGroup: 'ACCESSORIES',
+              productGroup: 'Accessory',
               productId: 3,
               lastOrderDate: '2019-06-30',
               nextAvailabilityDate: '2019-12-15',
@@ -113,12 +113,7 @@ describe('ReviewPageSupplies', () => {
 
   it('verify batteries heading content', () => {
     const reviewPageSupplies = mount(<ReviewPageSupplies store={fakeStore} />);
-    expect(
-      reviewPageSupplies
-        .find('h5')
-        .at(0)
-        .text(),
-    ).to.equal('OMEGAX d3241');
+    expect(reviewPageSupplies.text()).to.include('OMEGAX d3241');
     reviewPageSupplies.unmount();
   });
 

@@ -3,8 +3,6 @@ import React from 'react';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 
-// TODO: Safety checks for `selected` callback and `label` element
-
 export default class SelectArrayItemsWidget extends React.Component {
   onChange = (index, checked) => {
     const items = set(
@@ -36,7 +34,6 @@ export default class SelectArrayItemsWidget extends React.Component {
 
     const Tag = formContext.onReviewPage ? 'h4' : 'h3';
 
-    // Note: Much of this was stolen from CheckboxWidget
     return (
       <>
         {customTitle?.trim() &&
@@ -94,8 +91,8 @@ export default class SelectArrayItemsWidget extends React.Component {
             // a include dt and dd elements in the markup; this change fixes an
             // accessibility issue
             const content = (
-              <>
-                <dt key={index} className={widgetClasses}>
+              <React.Fragment key={index}>
+                <dt className={widgetClasses}>
                   {checkboxVisible && (
                     <input
                       type="checkbox"
@@ -113,12 +110,16 @@ export default class SelectArrayItemsWidget extends React.Component {
                       }
                     />
                   )}
-                  <label className={labelClass} htmlFor={elementId}>
-                    {labelWithData}
-                  </label>
+                  {inReviewMode ? (
+                    <div className={labelClass}>{labelWithData}</div>
+                  ) : (
+                    <label className={labelClass} htmlFor={elementId}>
+                      {labelWithData}
+                    </label>
+                  )}
                 </dt>
                 <dd />
-              </>
+              </React.Fragment>
             );
             return formContext.reviewMode ? (
               content

@@ -25,6 +25,19 @@ export function fetchPaymentInformation(recordEvent = recordAnalyticsEvent) {
     recordEvent({ event: 'profile-get-direct-deposit-started' });
     const response = await getData('/ppiu/payment_information');
 
+    // sample error when getting payment information
+    // response = {
+    //   errors: [
+    //     {
+    //       title: 'Bad Gateway',
+    //       detail: 'Received an an invalid response from the upstream server',
+    //       code: 'EVSS502',
+    //       source: 'EVSS::PPIU::Service',
+    //       status: '502',
+    //     },
+    //   ],
+    // };
+
     if (response.error) {
       recordEvent({ event: 'profile-get-direct-deposit-failure' });
       dispatch({

@@ -14,10 +14,8 @@ const dataSetToUserMap = {
 const testConfig = createTestConfig(
   {
     dataPrefix: 'testData',
-    // Commenting out dataSets entries until MDOT is in production
-    dataSets: [
-      /* 'happyPath', 'noTempAddress', 'noBatteries', 'noAccessories' */
-    ],
+
+    dataSets: ['happyPath', 'noTempAddress', 'noBatteries', 'noAccessories'],
 
     fixtures: {
       data: path.join(__dirname, 'data'),
@@ -25,10 +23,12 @@ const testConfig = createTestConfig(
     },
 
     pageHooks: {
-      introduction: () => {
-        cy.findAllByText(/order/i, { selector: 'button' })
-          .first()
-          .click();
+      introduction: ({ afterHook }) => {
+        afterHook(() => {
+          cy.findAllByText(/order/i, { selector: 'button' })
+            .first()
+            .click();
+        });
       },
       address: () => {
         cy.get('@testKey').then(testKey => {
@@ -43,7 +43,6 @@ const testConfig = createTestConfig(
             cy.findByLabelText(/International Postal Code/i).type('T7N');
             cy.findByText(/Save temporary address/i).click();
             cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
-            cy.findByText(/Continue/i).click();
           } else {
             cy.findByText('Edit permanent address', {
               selector: 'button',
@@ -53,7 +52,6 @@ const testConfig = createTestConfig(
             cy.findByLabelText(/International Postal Code/i).type('T7N');
             cy.findByText(/Save permanent address/i).click();
             cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
-            cy.findByText(/Continue/i).click();
           }
         });
       },
@@ -69,21 +67,64 @@ const testConfig = createTestConfig(
             cy.get('#3').click();
             cy.get('#5').click();
           }
-          cy.findByText(/Continue/i, { selector: 'button' }).click();
         });
       },
     },
 
     setupPerTest: () => {
+      let postData = [];
       cy.get('@testKey').then(testKey => {
-        cy.login();
-        cy.route('GET', 'v0/user', dataSetToUserMap[testKey]);
+        cy.login(dataSetToUserMap[testKey]);
+        cy.route('GET', '/v0/user', dataSetToUserMap[testKey]);
+        if (testKey === 'noBatteries') {
+          postData = [
+            {
+              status: 'Order Processed',
+              orderId: 2324,
+              productId: 3,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2325,
+              productId: 5,
+            },
+          ];
+        } else if (testKey === 'noAccessories') {
+          postData = [
+            {
+              status: 'Order Processed',
+              orderId: 2326,
+              productId: 1,
+            },
+          ];
+        } else {
+          postData = [
+            {
+              status: 'Order Processed',
+              orderId: 2329,
+              productId: 1,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2330,
+              productId: 3,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2331,
+              productId: 5,
+            },
+          ];
+        }
       });
       cy.get('@testData').then(testData => {
-        cy.route('GET', 'v0/in_progress_forms/MDOT', testData);
+        cy.route('GET', '/v0/in_progress_forms/MDOT', testData);
       });
-      cy.route('POST', '/v0/mdot/supplies', null);
+      cy.get('@testKey').then(() => {
+        cy.route('POST', '/v0/mdot/supplies', postData);
+      });
     },
+    skip: false,
   },
   manifest,
   formConfig,

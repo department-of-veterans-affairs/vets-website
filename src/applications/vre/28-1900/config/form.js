@@ -2,7 +2,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { additionalInformation } from './chapters/additional-information';
-
+import { communicationPreferences } from './chapters/communication-preferences';
 import { veteranInformation, veteranAddress } from './chapters/veteran';
 
 const formConfig = {
@@ -15,11 +15,12 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for Vocational Rehabilitation.',
+    notFound:
+      'Please start over to apply for Veteran Readiness and Employment.',
     noAuth:
-      'Please sign in again to continue your application for Vocational Rehabilitation.',
+      'Please sign in again to continue your application for Vocational Readiness and Employment.',
   },
-  title: '28-1900 Vocational Rehabilitation',
+  title: '28-1900 Vocational Readiness and Employment',
   defaultDefinitions: {},
   chapters: {
     veteranInformation: {
@@ -47,6 +48,17 @@ const formConfig = {
           title: 'Additional Information',
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
+        },
+      },
+    },
+    communicationPreferences: {
+      title: 'Communication Preferences',
+      pages: {
+        communicationPreferences: {
+          path: 'communication-preferences',
+          title: 'VR&E Communication Preferences',
+          uiSchema: communicationPreferences.uiSchema,
+          schema: communicationPreferences.schema,
         },
       },
     },

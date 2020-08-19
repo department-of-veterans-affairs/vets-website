@@ -6,8 +6,11 @@ import { mount } from 'enzyme';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfCarePage } from '../../containers/TypeOfCarePage';
+import TypeOfCarePage, * as noRedux from '../../containers/TypeOfCarePage';
 import { TYPES_OF_CARE } from '../../utils/constants';
+import { createTestStore } from '../mocks/setup';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { fireEvent } from '@testing-library/dom';
 
 const initialSchema = {
   type: 'object',
@@ -26,7 +29,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const updateFormData = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         updateFormData={updateFormData}
         schema={initialSchema}
@@ -45,7 +48,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     };
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
         router={router}
@@ -70,7 +73,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     };
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         updateFormData={updateFormData}
         schema={initialSchema}
@@ -91,7 +94,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
@@ -112,7 +115,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const pageTitle = 'Choose the type of care you need';
 
     const form = mount(
-      <TypeOfCarePage
+      <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
         updateFormData={updateFormData}
@@ -122,5 +125,73 @@ describe('VAOS <TypeOfCarePage>', () => {
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
     form.unmount();
+  });
+
+  it('should display alert message when residental address is missing', () => {
+    const openTypeOfCarePage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const form = mount(
+      <noRedux.TypeOfCarePage
+        addressLine1={null}
+        openTypeOfCarePage={openTypeOfCarePage}
+        schema={initialSchema}
+        updateFormData={updateFormData}
+        data={{}}
+      />,
+    );
+    expect(form.find('.usa-alert').exists()).to.be.true;
+
+    form.unmount();
+  });
+
+  it('should display alert message when residental address is a PO Box', () => {
+    const openTypeOfCarePage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const form = mount(
+      <noRedux.TypeOfCarePage
+        addressLine1="PO Box 123"
+        openTypeOfCarePage={openTypeOfCarePage}
+        schema={initialSchema}
+        updateFormData={updateFormData}
+        data={{}}
+      />,
+    );
+    expect(form.find('.usa-alert').exists()).to.be.true;
+    form.unmount();
+  });
+
+  it('should NOT display alert message when residental address is non PO Box', () => {
+    const openTypeOfCarePage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const form = mount(
+      <noRedux.TypeOfCarePage
+        addressLine1="123 Sesame St"
+        openTypeOfCarePage={openTypeOfCarePage}
+        schema={initialSchema}
+        updateFormData={updateFormData}
+        data={{}}
+      />,
+    );
+    expect(form.find('.usa-alert').exists()).to.be.false;
+    form.unmount();
+  });
+
+  it('should NOT display alert message once user clicks the update address button using redux state', () => {
+    const store = createTestStore({});
+
+    const router = {
+      push: sinon.spy(),
+    };
+    const { getByText, queryByText } = renderInReduxProvider(
+      <TypeOfCarePage router={router} />,
+      { store },
+    );
+    expect(getByText(/You need to have a home addres/i)).to.exist;
+
+    fireEvent.click(getByText('Update your address'));
+    expect(queryByText(/You need to have a home addres/i)).to.not.exist;
   });
 });

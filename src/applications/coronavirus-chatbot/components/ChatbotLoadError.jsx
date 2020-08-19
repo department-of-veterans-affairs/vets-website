@@ -18,7 +18,7 @@ export default function ChatbotLoadError() {
 
   return (
     <AlertBox
-      headline="We can’t load the chatbot"
+      headline="We can't load the chatbot"
       content={alertMessage}
       status="error"
     />

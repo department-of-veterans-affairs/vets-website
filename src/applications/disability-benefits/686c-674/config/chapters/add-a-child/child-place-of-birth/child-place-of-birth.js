@@ -7,6 +7,7 @@ import { TASK_KEYS } from '../../../constants';
 import { ChildNameHeader } from '../helpers';
 import { childInfo } from '../child-information/helpers';
 import { childStatusDescription } from './childStatusDescription';
+import { locationUISchema } from '../../../location-schema';
 
 export const schema = addChild.properties.addChildPlaceOfBirth;
 
@@ -17,19 +18,13 @@ export const uiSchema = {
     },
     items: {
       'ui:title': ChildNameHeader,
-      placeOfBirth: {
-        'ui:title': "Child's place of birth",
-        state: {
-          'ui:title': 'State (or country if outside the USA)',
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addChild),
-        },
-        city: {
-          'ui:title': 'City or county',
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addChild),
-        },
-      },
+      placeOfBirth: locationUISchema(
+        'childrenToAdd',
+        'placeOfBirth',
+        true,
+        "Child's place of birth",
+        'addChild',
+      ),
       childStatus: {
         'ui:title': "Your child's status (Check all that apply)",
         'ui:validations': [
@@ -90,14 +85,14 @@ export const uiSchema = {
           currentOrPastDateUI('When did the marriage end'),
           {
             'ui:required': (formData, index) =>
-              formData.childrenToAdd[`${index}`].previouslyMarried === 'Yes',
+              formData?.childrenToAdd[`${index}`]?.previouslyMarried === 'Yes',
           },
         ),
         reasonMarriageEnded: {
           'ui:widget': 'radio',
           'ui:title': 'Reason marriage ended',
           'ui:required': (formData, index) =>
-            formData.childrenToAdd[`${index}`].previouslyMarried === 'Yes',
+            formData?.childrenToAdd[`${index}`]?.previouslyMarried === 'Yes',
         },
         otherReasonMarriageEnded: {
           'ui:title': 'Reason marriage ended',

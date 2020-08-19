@@ -36,6 +36,8 @@ describe('<VAPProfileField/>', () => {
       fieldName: FIELD_NAMES.HOME_PHONE,
       showEditView: false,
       showValidationView: false,
+      showConfirmCancelModal: false,
+      hasUnsavedEdits: false,
       isEmpty: false,
       onAdd() {},
       onEdit() {},
@@ -109,6 +111,7 @@ describe('<VAPProfileField/>', () => {
       title: props.title,
       transactionRequest: props.transactionRequest,
       clearErrors: props.clearErrors,
+      refreshTransaction: props.refreshTransaction,
     };
     sinon.spy(props, 'ValidationView');
 

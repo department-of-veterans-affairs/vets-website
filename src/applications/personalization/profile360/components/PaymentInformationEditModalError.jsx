@@ -1,5 +1,9 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import {
   hasAccountFlaggedError,
@@ -25,7 +29,7 @@ function FlaggedAccount() {
         <span className="no-wrap">
           <a href="tel:1-800-827-1000">800-827-1000</a>
         </span>{' '}
-        (TTY: <span className="no-wrap">711</span>
+        (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
@@ -42,7 +46,8 @@ function FlaggedRoutingNumber() {
         <span className="no-wrap">
           <a href="tel:1-800-827-1000">800-827-1000</a>
         </span>{' '}
-        (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
       <p>
         You can also update this information by mail or in person at a VA
@@ -160,6 +165,7 @@ export default function PaymentInformationEditModalError({
       headline={headline}
       isVisible
       className={className}
+      scrollOnShow
     >
       {content}
     </AlertBox>

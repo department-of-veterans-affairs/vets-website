@@ -22,8 +22,13 @@ class Dropdown extends React.Component {
       return null;
     }
     const hideArrowsClass = this.props.hideArrows ? 'hide-arrows' : '';
+    const disabledClass = this.props.disabled ? 'disabled' : '';
+
     return (
-      <div className={this.props.className} id={this.dropdownId}>
+      <div
+        className={(this.props.className, disabledClass)}
+        id={this.dropdownId}
+      >
         <label htmlFor={this.props.name}>{this.props.label}</label>
         <select
           className={hideArrowsClass}
@@ -32,6 +37,7 @@ class Dropdown extends React.Component {
           alt={this.props.alt}
           value={this.props.value}
           onChange={this.props.onChange}
+          disabled={this.props.disabled}
           onFocus={
             // prod flag for bah-8821
             environment.isProduction()

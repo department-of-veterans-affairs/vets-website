@@ -11,7 +11,7 @@ import VAPProfileField from 'vet360/containers/VAPProfileField';
 import ReceiveTextMessages from 'vet360/containers/ReceiveTextMessages';
 
 import PhoneEditView from './PhoneEditView';
-import PhoneView from './PhoneView';
+import VAPPhoneView from './VAPPhoneView';
 
 const formSchema = {
   type: 'object',
@@ -142,12 +142,12 @@ export default class PhoneField extends React.Component {
         ? ({ data }) => {
             return (
               <div>
-                <PhoneView data={data} />
+                <VAPPhoneView data={data} />
                 <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
               </div>
             );
           }
-        : PhoneView;
+        : VAPPhoneView;
     return (
       <VAPProfileField
         apiRoute={API_ROUTES.TELEPHONES}

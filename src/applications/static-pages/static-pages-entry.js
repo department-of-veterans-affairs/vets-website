@@ -29,13 +29,15 @@ import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 
-import create686ContentReveal from './view-modify-dependent/686-cta/create686CcontentReveal.js';
+import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
-import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging';
-import createScheduleViewVAAppointments from './health-care-manage-benefits/schedule-view-va-appointments';
+
+// Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
-import createViewTestLabResultsPage from './health-care-manage-benefits/view-test-lab-results-page';
-import createPrescriptionsRefillContent from './health-care-manage-benefits/prescriptions-refill-content';
+import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
+import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
+import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging-page';
+import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-test-and-lab-results-page';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -48,6 +50,8 @@ import createFacilityListWidget from './facilities/facilityList';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import facilityReducer from './facilities/reducers';
 import createOtherFacilityListWidget from './facilities/otherFacilityList';
+
+import createChapter31Wizard from '../vre/28-1900/wizard/app';
 
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 
@@ -139,20 +143,27 @@ createPost911GiBillStatusWidget(
 createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
 
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
-create686ContentReveal(store, widgetTypes.FORM_686_CONTENT_REVEAL);
+form686CTA(store, widgetTypes.FORM_686_CTA);
 
 createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
-createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
-createScheduleViewVAAppointments(
-  store,
-  widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS,
-);
+
+// Create Health Care | Manage Benefits widgets.
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
-createViewTestLabResultsPage(store, widgetTypes.VIEW_TEST_LAB_RESULTS_PAGE);
-createPrescriptionsRefillContent(
+createRefillTrackPrescriptionsPage(
   store,
-  widgetTypes.PRESCRIPTIONS_REFILL_CONTENT,
+  widgetTypes.REFILL_TRACK_PRESCRIPTIONS_PAGE,
 );
+createScheduleViewVAAppointmentsPage(
+  store,
+  widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
+);
+createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
+createViewTestAndLabResultsPage(
+  store,
+  widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
+);
+
+createChapter31Wizard(store, widgetTypes.CHAPTER_31_WIZARD);
 
 // homepage widgets
 if (location.pathname === '/') {

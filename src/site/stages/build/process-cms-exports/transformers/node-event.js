@@ -4,34 +4,31 @@ const {
   getWysiwygString,
   createLink,
   createMetaTagArray,
+  isPublished,
 } = require('./helpers');
 const { mapKeys, camelCase } = require('lodash');
 const assert = require('assert');
+const moment = require('moment');
 
-function fakeUtc(timeString) {
-  // Assume the timeString looks like 2019-05-30T21:00:00
-  // If it doesn't, we'll need to do some real conversions; fail for now
+function toUtc(timeString) {
+  const time = moment.utc(timeString);
   assert(
-    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(timeString),
-    `Expected timeString to look like 2019-05-30T21:00:00, but found ${timeString}`,
+    time.isValid(),
+    `Expected timeString to be a moment-parsable string. Found ${timeString}`,
   );
-  return `${timeString.replace('T', ' ')} UTC`;
+  return time.format('YYYY-MM-DD kk:mm:ss [UTC]');
 }
 
 const transform = entity => ({
   entityType: 'node',
   entityBundle: 'event',
   title: getDrupalValue(entity.title),
-  uid: entity.uid[0],
+  // Unsure why this was in the transformer in the first place, but it's possibly used in the templates somewhere?
+  // uid: entity.uid[0],
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  entityUrl: {
-    // TODO: Get the breadcrumb from the CMS export when it's available
-    breadcrumb: [],
-    path: entity.path[0].alias,
-  },
   entityMetatags: createMetaTagArray(entity.metatag.value),
   // TODO: Verify this is how to derive the entityPublished state
-  entityPublished: entity.moderationState[0].value === 'published',
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldAdditionalInformationAbo: entity.fieldAdditionalInformationAbo.value
     ? {
         processed: getWysiwygString(
@@ -47,9 +44,9 @@ const transform = entity => ({
     processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
   },
   fieldDate: {
-    startDate: fakeUtc(entity.fieldDate[0].value),
+    startDate: toUtc(entity.fieldDate[0].value),
     value: entity.fieldDate[0].value,
-    endDate: fakeUtc(entity.fieldDate[0].end_value),
+    endDate: toUtc(entity.fieldDate[0].end_value),
     endValue: entity.fieldDate[0].end_value,
   },
   fieldDescription: getDrupalValue(entity.fieldDescription),
@@ -62,12 +59,13 @@ const transform = entity => ({
   fieldLink: createLink(entity.fieldLink, ['url']),
   fieldLocationHumanreadable: getDrupalValue(entity.fieldLocationHumanreadable),
   fieldMedia: entity.fieldMedia[0] || null,
+  status: getDrupalValue(entity.status),
 });
 
 module.exports = {
   filter: [
     'title',
-    'uid',
+    // 'uid',
     'changed',
     'path',
     'field_additional_information_abo',
@@ -83,7 +81,7 @@ module.exports = {
     'field_location_humanreadable',
     'field_media',
     'metatag',
-    'moderation_state',
+    'status',
   ],
   transform,
 };

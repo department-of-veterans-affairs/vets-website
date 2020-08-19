@@ -7,6 +7,7 @@ import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
+  APPOINTMENT_STATUS,
 } from '../../../utils/constants';
 
 describe('VAOS <CancelAppointmentModal>', () => {
@@ -54,9 +55,15 @@ describe('VAOS <CancelAppointmentModal>', () => {
       <CancelAppointmentModal
         showCancelModal
         appointmentToCancel={{
+          status: APPOINTMENT_STATUS.booked,
+          contained: [
+            {
+              resourceType: 'HealthcareService',
+              characteristic: [{ coding: VIDEO_TYPES.videoConnect }],
+            },
+          ],
           vaos: {
             appointmentType: APPOINTMENT_TYPES.vaAppointment,
-            videoType: VIDEO_TYPES.videoConnect,
           },
         }}
         cancelAppointmentStatus={FETCH_STATUS.succeeded}
@@ -64,30 +71,6 @@ describe('VAOS <CancelAppointmentModal>', () => {
     );
 
     expect(tree.find('CancelVideoAppointmentModal').exists()).to.be.true;
-
-    tree.unmount();
-  });
-
-  it('should render Cerner view', () => {
-    const tree = shallow(
-      <CancelAppointmentModal
-        showCancelModal
-        appointmentToCancel={{
-          participant: [
-            {
-              actor: {
-                reference: 'HealthcareService/var983_455',
-                display: 'CHY OPT VAR1',
-              },
-            },
-          ],
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-        }}
-        cernerFacilities={['983']}
-      />,
-    );
-
-    expect(tree.find('CancelCernerAppointmentModal').exists()).to.be.true;
 
     tree.unmount();
   });

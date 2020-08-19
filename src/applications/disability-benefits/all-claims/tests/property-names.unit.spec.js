@@ -44,6 +44,11 @@ describe('Root property names', () => {
   it('should not be duplicated', () => {
     const properties = new Map();
     const duplicatedProperties = {};
+    const duplicatedPropertiesToIgnore = [
+      'view:hasEvidence',
+      'view:hasEvidenceFollowUp',
+    ];
+
     Object.keys(pages).forEach(pageName => {
       // Loop through the properties on the schema for a page
       Object.keys(get(`${pageName}.schema.properties`, pages, {})).forEach(
@@ -55,7 +60,7 @@ describe('Root property names', () => {
           ) {
             if (duplicatedProperties[propName]) {
               duplicatedProperties[propName].push(pageName);
-            } else {
+            } else if (!duplicatedPropertiesToIgnore.includes(propName)) {
               duplicatedProperties[propName] = [
                 properties.get(propName),
                 pageName,

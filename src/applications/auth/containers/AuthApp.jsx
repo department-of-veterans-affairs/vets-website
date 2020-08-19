@@ -1,20 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { authnSettings } from 'platform/user/authentication/utilities';
+import {
+  authnSettings,
+  externalRedirects,
+} from 'platform/user/authentication/utilities';
 import {
   hasSession,
   setupProfileSession,
 } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import get from 'platform/utilities/data/get';
-import { ssoe } from 'platform/user/authentication/selectors';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(
   ['/auth/login/callback', '/session-expired'].join('|'),
@@ -48,6 +54,7 @@ class AuthMetrics {
       case 'signup':
         recordEvent({ event: `register-success-${this.serviceName}` });
         break;
+      case 'custom': /* type=custom is used for SSOe auto login */
       case 'mhv':
       case 'dslogon':
       case 'idme':
@@ -124,16 +131,30 @@ export class AuthApp extends React.Component {
     const { type } = this.props.location.query;
     const authMetrics = new AuthMetrics(type, payload);
     authMetrics.run();
-    setupProfileSession(authMetrics.userProfile, this.props.useSSOe);
-    this.redirect();
+    setupProfileSession(authMetrics.userProfile);
+    this.redirect(authMetrics.userProfile);
   };
 
-  redirect = () => {
+  redirect = (userProfile = {}) => {
     const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
+
+    // Enforce LOA3 for external redirects to My VA Health
+    if (
+      returnUrl.includes(externalRedirects.myvahealth) &&
+      !userProfile.verified
+    ) {
+      window.location.replace('/sign-in/verify');
+      return;
+    }
+
     sessionStorage.removeItem(authnSettings.RETURN_URL);
 
+    const postAuthUrl = returnUrl
+      ? appendQuery(returnUrl, 'postLogin=true')
+      : returnUrl;
+
     const redirectUrl =
-      (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && returnUrl) || '/';
+      (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
 
     window.location.replace(redirectUrl);
   };
@@ -310,7 +331,8 @@ export class AuthApp extends React.Component {
                 <p>
                   Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re
                   here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
-                  have hearing loss, call TTY: 800-877-3399.
+                  have hearing loss, call TTY:{' '}
+                  <Telephone contact={CONTACTS.FEDERAL_RELAY_SERVICE} />.
                 </p>
                 <p>
                   Tell the representative that you tried to sign in to VA.gov,
@@ -488,15 +510,11 @@ export class AuthApp extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  useSSOe: ssoe(state),
-});
-
 const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(AuthApp);

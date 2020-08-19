@@ -163,11 +163,11 @@
   },
   {
     "appName": "10-10CG",
-    "entryName": "caregivers",
-    "rootUrl": "/caregivers",
+    "entryName": "1010cg-application-caregiver-assistance",
+    "rootUrl": "/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg",
     "template": {
       "title": "Caregiver Application for Benefits",
-      "vagovprod": false,
+      "vagovprod": true,
       "vagovstaging": true,
       "vagovdev": true,
       "localhost": true,
@@ -182,24 +182,6 @@
       "title": "Terms and Conditions for Medical Information",
       "layout": "page-react.html",
       "includeBreadcrumbs": true
-    }
-  },
-  {
-    "appName": "28-8832 Vocational Rehab Chapter 36 form",
-    "entryName": "chapter36-vre",
-    "rootUrl": "/employment/vocational-rehab-and-employment/application/chapter36",
-    "template": {
-      "vagovprod": false,
-      "layout": "page-react.html"
-    }
-  },
-  {
-    "appName": "28-1900 Vocational Rehab Chapter 31 form",
-    "entryName": "chapter31-vre",
-    "rootUrl": "/employment/vocational-rehab-and-employment/application/chapter31",
-    "template": {
-      "vagovprod": false,
-      "layout": "page-react.html"
     }
   },
   {
@@ -263,8 +245,8 @@
     }
   },
   {
-    "appName": "686c-674",
-    "entryName": "new-686",
+    "appName": "686C-674",
+    "entryName": "686C-674",
     "rootUrl": "/view-change-dependents/add-remove-form-686c",
     "template": {
       "layout": "page-react.html",
@@ -272,7 +254,7 @@
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
-          "path": "/view-change-dependents/view",
+          "path": "view-change-dependents/view",
           "name": "View or change your dependents"
         },
         {
@@ -304,57 +286,12 @@
     }
   },
   {
-    "appName": "21-526EZ disability compensation claim form",
-    "entryName": "526EZ-claims-increase",
-    "rootUrl": "/disability-benefits/apply/form-526-disability-claim",
-    "template": {
-      "title": "Apply For Increased Disability Benefits",
-      "heading": "Apply for increased disability benefits",
-      "display_title": "File for increased disability",
-      "layout": "page-react.html",
-      "description": "Learn how to apply online for increased disability compensation.",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "name": "Disability benefits",
-          "path": "disability/"
-        },
-        {
-          "name": "File for a disability increase",
-          "path": "disability-benefits/apply/form-526-disability-claim"
-        }
-      ]
-    }
-  },
-  {
-    "appName": "21-526EZ Benefits Delivery at Discharge",
-    "entryName": "bdd",
-    "rootUrl": "/disability/file-benefits-delivery-at-discharge-form-21-526ez",
-    "template": {
-      "title": "File for benefits delivery at discharge",
-      "layout": "page-react.html",
-      "description": "Learn how to apply online for benefits delivery at discharge.",
-      "hideFromSidebar": true,
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "name": "Disability Benefits",
-          "path": "disability/"
-        },
-        {
-          "name": "File for Benefits Delivery at Discharge",
-          "path": "disability/file-benefits-delivery-at-discharge-form-21-526ez"
-        }
-      ],
-      "vagovprod": false
-    }
-  },
-  {
     "appName": "Order hearing aid batteries and accessories",
-    "entryName": "hearing-aid-batteries-and-accessories",
-    "rootUrl": "/hearing-aid-batteries-and-accessories",
+    "entryName": "order-form-2346",
+    "rootUrl": "/health-care/order-hearing-aid-batteries-and-accessories/order-form-2346",
     "template": {
-      "vagovprod": false
+      "layout": "page-react.html",
+      "vagovprod": true
     }
   },
   {
@@ -432,7 +369,7 @@
     "entryName": "login-page",
     "rootUrl": "/sign-in",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "includeBreadcrumbs": false,
       "noNavOrLogin": true,
@@ -561,11 +498,11 @@
   {
     "appName": "22-10203 Education benefits form",
     "entryName": "10203-edu-benefits",
-    "rootUrl": "/education/apply-for-education-benefits/application/10203",
+    "rootUrl": "/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203",
     "template": {
       "vagovprod": false,
-      "title": "Veteran Request For Change",
-      "heading": "Veteran request for change",
+      "title": "Apply for the Rogers STEM Scholarship",
+      "heading": "Apply for the Rogers STEM Scholarship",
       "layout": "page-react.html",
       "description": "Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.",
       "order": 1,
@@ -581,8 +518,8 @@
           "path": "education/how-to-apply/"
         },
         {
-          "name": "Apply for education benefits",
-          "path": "education/apply-for-education-benefits/application/10203"
+          "name": "Apply for the Rogers STEM Scholarship",
+          "path": "education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203"
         }
       ]
     }
@@ -852,21 +789,61 @@
   },
   {
     "appName": "Debt Letters",
-    "entryName": "debt-letters",
-    "rootUrl": "/debt-letters",
+    "entryName": "your-debt",
+    "rootUrl": "/manage-va-debt/your-debt",
     "template": {
-      "vagovprod": false,
-      "title": "Debt Letters",
+      "vagovprod": true,
+      "title": "Your VA Debt",
       "layout": "page-react.html"
     }
   },
   {
-    "appName": "28-1900 Vocational Rehabilitation",
+    "appName": "28-1900 Veteran Readiness",
     "entryName": "28-1900-chapter-31",
-    "rootUrl": "/vre/28-1900",
+    "rootUrl": "/careers-employment/vocational-rehabilitation/apply",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "28-8832-planning-and-guidance",
+    "entryName": "28-8832-planning-and-career-guidance",
+    "rootUrl": "/vre/28-8832",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "View Payments",
+    "entryName": "view-payments",
+    "rootUrl": "/va-payment-history/payments",
+    "template": {
+      "includeBreadcrumbs": true,
+      "vagovprod": false,
+      "layout": "page-react.html",
+      "title": "View Payments"
+    }
+  },
+  {
+    "appName": "Covid Research - Volunteer",
+    "entryName": "covid-research-volunteer",
+    "rootUrl": "/covid-research-volunteer",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "Healthcare Questionnaire",
+    "entryName": "questionnaire",
+    "rootUrl": "/healthcare/questionnaire",
+    "template": {
+      "vagovprod": true,
+      "layout": "page-react.html",
+      "includeBreadcrumbs": false,
+      "breadcrumbs_override": []
     }
   }
 ]

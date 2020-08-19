@@ -4,6 +4,7 @@ import { isChapterFieldRequired } from '../../../helpers';
 import { deceasedDependents } from '../../../utilities';
 import DependentViewField from '../../../../components/DependentViewField';
 import { DependentNameHeader } from './helpers';
+import { locationUISchema } from '../../../location-schema';
 
 export const schema =
   deceasedDependents.properties.dependentAdditionalInformation;
@@ -18,19 +19,13 @@ export const uiSchema = {
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
       },
-      location: {
-        'ui:title': 'Place of death',
-        city: {
-          'ui:title': 'City or county',
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-        },
-        state: {
-          'ui:title': 'State (or Country if outside the USA)',
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-        },
-      },
+      location: locationUISchema(
+        'deaths',
+        'location',
+        true,
+        'Place of death',
+        'reportDeath',
+      ),
     },
   },
 };

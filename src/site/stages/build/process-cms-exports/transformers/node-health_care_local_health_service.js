@@ -7,7 +7,7 @@ const transform = entity => ({
     fieldBody: {
       processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
     },
-    fieldRegionalHealthService: entity.fieldRegionalHealthService[0],
+    fieldRegionalHealthService: entity.fieldRegionalHealthService[0] || null,
   },
 });
 module.exports = {

@@ -1,17 +1,26 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
-import { hasSession, hasSessionSSO } from '../../user/profile/utilities';
-import { login, logout } from 'platform/user/authentication/utilities';
-import mockKeepAlive from './mockKeepAliveSSO';
-import liveKeepAlive from './keepAliveSSO';
-import { getForceAuth } from './forceAuth';
+import { hasSessionSSO } from '../../user/profile/utilities';
+import { loginAppUrlRE } from 'applications/login/utilities/paths';
 
-const keepAlive = environment.isLocalhost() ? mockKeepAlive : liveKeepAlive;
+import {
+  standaloneRedirect,
+  login,
+  logout,
+} from 'platform/user/authentication/utilities';
+import mockKeepAlive from './mockKeepAliveSSO';
+import { keepAlive as liveKeepAlive } from './keepAliveSSO';
+import { getLoginAttempted } from './loginAttempted';
+
 const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
 
+function keepAlive() {
+  return environment.isLocalhost() ? mockKeepAlive() : liveKeepAlive();
+}
+
 export async function ssoKeepAliveSession() {
-  const { ttl, authn } = await keepAlive();
+  const { ttl, transactionid, authn } = await keepAlive();
   if (ttl > 0) {
     // ttl is positive, user has an active session
     // ttl is in seconds, add from now
@@ -25,25 +34,49 @@ export async function ssoKeepAliveSession() {
     // ttl is null, we can't determine if the user has a session or not
     localStorage.removeItem('hasSessionSSO');
   }
-  return authn;
+  return { ttl, transactionid, authn };
 }
 
-export async function checkAutoSession(application = null, to = null) {
-  const authn = await ssoKeepAliveSession();
-  if (hasSession() && hasSessionSSO() === false) {
-    // explicitly check to see if the SSOe session is false, as it could also
-    // be null if we failed to get a response from the SSOe server, in which
-    // case we don't want to logout the user because we don't know
-    logout('v1', 'sso-automatic-logout');
-  } else if (!hasSession() && hasSessionSSO() && !getForceAuth() && authn) {
+export async function checkAutoSession(
+  loggedIn,
+  ssoeTransactionId,
+  profile = {},
+) {
+  const { ttl, transactionid, authn } = await ssoKeepAliveSession();
+
+  if (loggedIn && ssoeTransactionId) {
+    // being logged in is not enough, we also need to make sure that the user
+    // has been authenticated with SSOe, otherwise we don't want to perform any
+    // auto login/logout operations.
+    if (ttl === 0) {
+      // explicitly check to see if the TTL for the SSOe session is 0, as it
+      // could also be undefined if we failed to get a response from the SSOe server,
+      // in which case we don't want to logout the user, because we don't know
+      // their SSOe status.
+      logout('v1', 'sso-automatic-logout', { 'auto-logout': 'true' });
+    } else if (transactionid && transactionid !== ssoeTransactionId) {
+      // compare the transaction id from the keepalive endpoint with the existing
+      // transaction id. If they don't match, it means we might have a different
+      // user logged in. Thus, we should perform an auto login, which will
+      // effectively logout the user then log them back in.
+      login('custom', 'v1', { authn }, 'sso-automatic-login');
+    } else if (
+      loginAppUrlRE.test(window.location.pathname) &&
+      ttl > 0 &&
+      profile.verified
+    ) {
+      // the user is in the login app, but already logged in with SSOe
+      // and verified, redirect them back to their return url
+      window.location = standaloneRedirect() || window.location.origin;
+    }
+  } else if (!loggedIn && ttl > 0 && !getLoginAttempted() && authn) {
     // only attempt an auto login if the user is
     // a) does not have a VA.gov session
     // b) has an SSOe session
-    // c) is not required for forceAuth (meaning their environment has SSOe
-    //    enabled and they have not previously tried to login)
+    // c) has not previously tried to login (if the last attempt to login failed
+    //    don't keep retrying)
     // d) we have a non empty type value from the keepalive call to login with
-    const params = { inbound: 'true', authn };
-    login('custom', 'v1', application, to, params, 'sso-automatic-login');
+    login('custom', 'v1', { authn }, 'sso-automatic-login');
   }
 }
 

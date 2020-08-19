@@ -44,7 +44,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     expect(blocks.at(0).text()).to.contain('800-555-1212');
     expect(blocks.at(1).text()).to.contain('foo@bar.com');
     expect(blocks.at(2).text()).to.contain('123 Main St');
-    expect(blocks.at(2).text()).to.contain('Fooburg, Confusion 123456');
+    expect(blocks.at(2).text()).to.contain('FOOBURG, Confusion 123456');
     form.unmount();
   });
   it('should render the country in a non-U.S. address', () => {
@@ -74,8 +74,8 @@ describe('Higher-Level Review 0996 contact information', () => {
     expect(blocks.at(1).text()).to.contain('foo@bar.com');
     expect(blocks.at(2).text()).to.contain('123 Main St');
     expect(blocks.at(2).text()).to.contain('Sector A');
-    expect(blocks.at(2).text()).to.contain('Unit 1');
-    expect(blocks.at(2).text()).to.contain('Fooburg, Confusion 123456');
+    expect(blocks.at(2).text()).to.contain('UNIT 1');
+    expect(blocks.at(2).text()).to.contain('FOOBURG, Confusion 123456');
     expect(blocks.at(2).text()).to.contain('France');
     form.unmount();
   });

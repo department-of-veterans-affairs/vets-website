@@ -1,29 +1,36 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
+import { GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../utils/events';
 
 import {
-  getPendingAppointments,
   getCancelReasons,
   getRequestMessages,
   updateAppointment,
   updateRequest,
 } from '../api';
+
 import { getLocations } from '../services/location';
 
 import {
   getBookedAppointments,
+  getAppointmentRequests,
   getVARClinicId,
   getVARFacilityId,
   getVAAppointmentLocationId,
+  getVideoAppointmentLocation,
+  isVideoAppointment,
 } from '../services/appointment';
 
 import { captureError, getErrorCodes } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
+export const FETCH_PENDING_APPOINTMENTS_FAILED =
+  'vaos/FETCH_PENDING_APPOINTMENTS_FAILED';
+export const FETCH_PENDING_APPOINTMENTS_SUCCEEDED =
+  'vaos/FETCH_PENDING_APPOINTMENTS_SUCCEEDED';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_FAILED';
 export const FETCH_FUTURE_APPOINTMENTS_SUCCEEDED =
@@ -84,21 +91,29 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
   const nonVaFacilityAppointmentIds = futureAppointments
     .filter(
-      appt => appt.vaos?.videoType || appt.vaos?.isCommunityCare || !appt.vaos,
+      appt =>
+        !isVideoAppointment(appt) && (appt.vaos?.isCommunityCare || !appt.vaos),
     )
     .map(appt => appt.facilityId || appt.facility?.facilityCode);
+
+  const videoAppointmentIds = futureAppointments
+    .filter(appt => isVideoAppointment(appt))
+    .map(getVideoAppointmentLocation);
 
   // Get facility ids from VA appointments
   const vaFacilityAppointmentIds = futureAppointments
     .filter(
-      appt => appt.vaos && !appt.vaos.videoType && !appt.vaos.isCommunityCare,
+      appt =>
+        appt.vaos && !isVideoAppointment(appt) && !appt.vaos.isCommunityCare,
     )
     .map(getVAAppointmentLocationId);
 
   const uniqueFacilityIds = new Set(
-    [...nonVaFacilityAppointmentIds, ...vaFacilityAppointmentIds].filter(
-      id => !!id,
-    ),
+    [
+      ...nonVaFacilityAppointmentIds,
+      ...videoAppointmentIds,
+      ...vaFacilityAppointmentIds,
+    ].filter(id => !!id),
   );
   let facilityData = null;
   if (uniqueFacilityIds.size > 0) {
@@ -111,55 +126,66 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 }
 
 export function fetchFutureAppointments() {
-  return async (dispatch, getState) => {
-    if (getState().appointments.futureStatus === FETCH_STATUS.notStarted) {
+  return async dispatch => {
+    dispatch({
+      type: FETCH_FUTURE_APPOINTMENTS,
+    });
+
+    try {
+      const data = await Promise.all([
+        getBookedAppointments({
+          startDate: moment().format('YYYY-MM-DD'),
+          endDate: moment()
+            .add(13, 'months')
+            .format('YYYY-MM-DD'),
+        }),
+        getAppointmentRequests({
+          startDate: moment()
+            .subtract(30, 'days')
+            .format('YYYY-MM-DD'),
+          endDate: moment().format('YYYY-MM-DD'),
+        })
+          .then(requests => {
+            dispatch({
+              type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
+              data: requests,
+            });
+            return requests;
+          })
+          .catch(resp => {
+            dispatch({
+              type: FETCH_PENDING_APPOINTMENTS_FAILED,
+            });
+
+            return Promise.reject(resp);
+          }),
+      ]);
+
       dispatch({
-        type: FETCH_FUTURE_APPOINTMENTS,
+        type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+        data: data[0],
       });
 
       try {
-        const data = await Promise.all([
-          getBookedAppointments({
-            startDate: moment().format('YYYY-MM-DD'),
-            endDate: moment()
-              .add(13, 'months')
-              .format('YYYY-MM-DD'),
-          }),
-          getPendingAppointments(
-            moment()
-              .subtract(30, 'days')
-              .format('YYYY-MM-DD'),
-            moment().format('YYYY-MM-DD'),
-          ),
-        ]);
+        const facilityData = await getAdditionalFacilityInfo(
+          [].concat(...data),
+        );
 
-        dispatch({
-          type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-          data,
-          today: moment(),
-        });
-
-        try {
-          const facilityData = await getAdditionalFacilityInfo(
-            getState().appointments.future,
-          );
-
-          if (facilityData) {
-            dispatch({
-              type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-              facilityData,
-            });
-          }
-        } catch (error) {
-          captureError(error);
+        if (facilityData) {
+          dispatch({
+            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+            facilityData,
+          });
         }
       } catch (error) {
         captureError(error);
-        dispatch({
-          type: FETCH_FUTURE_APPOINTMENTS_FAILED,
-          error,
-        });
       }
+    } catch (error) {
+      captureError(error);
+      dispatch({
+        type: FETCH_FUTURE_APPOINTMENTS_FAILED,
+        error,
+      });
     }
   };
 }
@@ -227,6 +253,7 @@ export function confirmCancelAppointment() {
     const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
     const additionalEventdata = {
       appointmentType: !isConfirmedAppointment ? 'pending' : 'confirmed',
+      isExpressCare: appointment.vaos?.isExpressCare,
       facilityType:
         appointment.vaos?.isCommunityCare || appointment.isCommunityCare
           ? 'cc'
@@ -248,12 +275,12 @@ export function confirmCancelAppointment() {
 
       if (!isConfirmedAppointment) {
         apiData = await updateRequest({
-          ...appointment.apiData,
+          ...appointment.legacyVAR.apiData,
           status: CANCELLED_REQUEST,
           appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
-        const facilityId = getVARFacilityId(appointment).replace('var', '');
+        const facilityId = getVARFacilityId(appointment);
 
         const cancelData = {
           appointmentTime: moment

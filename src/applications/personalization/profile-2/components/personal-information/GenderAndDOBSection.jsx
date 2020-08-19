@@ -21,6 +21,7 @@ const renderDOB = dob => (dob ? moment(dob).format('LL') : notSetText);
 const GenderAndDOBSection = ({ gender, dob, className }) => (
   <div className={className}>
     <ProfileInfoTable
+      title="Personal information"
       data={[
         { title: 'Date of birth', value: renderDOB(dob) },
         { title: 'Gender', value: renderGender(gender) },
@@ -29,20 +30,20 @@ const GenderAndDOBSection = ({ gender, dob, className }) => (
     />
 
     <AdditionalInfo triggerText="How do I update my personal information?">
-      <h4 className="vads-u-font-size--h5 vads-u-margin--0">
+      <h4 className="vads-u-font-size--h5 vads-u-margin-top--3">
         If you’re enrolled in the VA health care program
       </h4>
-      <p className="vads-u-margin--0">
+      <p className="vads-u-margin-y--1">
         Please contact your nearest VA medical center to update your personal
         information.
       </p>
       <a href="https://va.gov/find-locations/?facilityType=health">
         Find your nearest VA medical center{' '}
       </a>
-      <h4 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+      <h4 className="vads-u-font-size--h5 vads-u-margin-top--3 vads-u-margin-bottom--1">
         If you receive VA benefits, but aren’t enrolled in VA health care
       </h4>
-      <p className="vads-u-margin--0">
+      <p className="vads-u-margin-y--1">
         Please contact your nearest VA regional office to update your personal
         information
       </p>

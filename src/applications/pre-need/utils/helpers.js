@@ -7,6 +7,7 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import ServicePeriodView from '../components/ServicePeriodView';
+import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import { serviceLabels } from './labels';
 import {
   stringifyFormReplacer,
@@ -311,6 +312,54 @@ export const veteranUI = {
         divorced: 'Divorced',
         widowed: 'Widowed',
       },
+    },
+  },
+  race: {
+    'ui:field': RaceEthnicityReviewField,
+    'ui:title': 'Which categories best describe you?',
+    'ui:description': 'You may check more than one.',
+    isSpanishHispanicLatino: {
+      'ui:title': 'Hispanic or Latino',
+    },
+    notSpanishHispanicLatino: {
+      'ui:title': 'Not Hispanic or Latino',
+    },
+    isAmericanIndianOrAlaskanNative: {
+      'ui:title': 'American Indian or Alaskan Native',
+    },
+    isBlackOrAfricanAmerican: {
+      'ui:title': 'Black or African American',
+    },
+    isNativeHawaiianOrOtherPacificIslander: {
+      'ui:title': 'Native Hawaiian or Other Pacific Islander',
+    },
+    isAsian: {
+      'ui:title': 'Asian',
+    },
+    isWhite: {
+      'ui:title': 'White',
+    },
+    'ui:required': () => !environment.isProduction(),
+    'ui:validations': [
+      (errors, fields) => {
+        if (
+          !environment.isProduction() &&
+          !(
+            fields.isSpanishHispanicLatino ||
+            fields.isAmericanIndianOrAlaskanNative ||
+            fields.isBlackOrAfricanAmerican ||
+            fields.isNativeHawaiianOrOtherPacificIslander ||
+            fields.notSpanishHispanicLatino ||
+            fields.isAsian ||
+            fields.isWhite
+          )
+        ) {
+          errors.addError('Choose at least one category');
+        }
+      },
+    ],
+    'ui:options': {
+      showFieldLabel: true,
     },
   },
   militaryStatus: {

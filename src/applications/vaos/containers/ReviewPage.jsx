@@ -74,6 +74,7 @@ export class ReviewPage extends React.Component {
               submitStatus === FETCH_STATUS.failed
             }
             isLoading={submitStatus === FETCH_STATUS.loading}
+            loadingText="Submission in progress"
             onClick={() => this.props.submitAppointmentOrRequest(router)}
             className="usa-button usa-button-primary"
           >

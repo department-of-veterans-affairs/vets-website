@@ -1,6 +1,20 @@
 import { expect } from 'chai';
 import * as selectors from '../selectors';
 
+const getDirectDepositInfoError = {
+  errors: [
+    {
+      title: 'Bad Gateway',
+      detail: 'Received an an invalid response from the upstream server',
+      code: 'EVSS502',
+      source: 'EVSS::PPIU::Service',
+      status: '502',
+    },
+  ],
+};
+
+const errors = [{ name: 'error1' }, { name: 'error2' }];
+
 describe('profile360 selectors', () => {
   describe('directDepositIsSetUp selector', () => {
     let state;
@@ -42,20 +56,51 @@ describe('profile360 selectors', () => {
       state = {
         vaProfile: {
           paymentInformation: {
-            errors: [
+            error: getDirectDepositInfoError,
+          },
+        },
+      };
+      expect(selectors.directDepositIsSetUp(state)).to.be.false;
+    });
+  });
+
+  describe('directDepositLoadError', () => {
+    it('returns the error if there is one', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            error: getDirectDepositInfoError,
+          },
+        },
+      };
+      expect(selectors.directDepositLoadError(state)).to.deep.equal(
+        getDirectDepositInfoError,
+      );
+    });
+    it('returns undefined if there are no errors', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
               {
-                title: 'Bad Gateway',
-                detail:
-                  'Received an an invalid response from the upstream server',
-                code: 'EVSS502',
-                source: 'EVSS::PPIU::Service',
-                status: '502',
+                paymentAccount: {
+                  accountType: '',
+                  financialInstitutionName: null,
+                  accountNumber: '123123123',
+                  financialInstitutionRoutingNumber: '',
+                },
               },
             ],
           },
         },
       };
-      expect(selectors.directDepositIsSetUp(state)).to.be.false;
+      expect(selectors.directDepositLoadError(state)).to.be.undefined;
+    });
+    it('returns undefined if payment info does not exist on the state', () => {
+      let state = {};
+      expect(selectors.directDepositLoadError(state)).to.be.undefined;
+      state = { vaProfile: {} };
+      expect(selectors.directDepositLoadError(state)).to.be.undefined;
     });
   });
 
@@ -100,16 +145,7 @@ describe('profile360 selectors', () => {
       state = {
         vaProfile: {
           paymentInformation: {
-            errors: [
-              {
-                title: 'Bad Gateway',
-                detail:
-                  'Received an an invalid response from the upstream server',
-                code: 'EVSS502',
-                source: 'EVSS::PPIU::Service',
-                status: '502',
-              },
-            ],
+            error: getDirectDepositInfoError,
           },
         },
       };
@@ -212,6 +248,95 @@ describe('profile360 selectors', () => {
     it('should return undefined if vaProfile is not set on the state', () => {
       const state = {};
       expect(selectors.directDepositUiState(state)).to.equal(undefined);
+    });
+  });
+
+  describe('fullNameLoadError', () => {
+    it('should return the error data if it exists', () => {
+      const state = {
+        vaProfile: {
+          hero: {
+            errors,
+          },
+        },
+      };
+      expect(selectors.fullNameLoadError(state)).to.deep.equal(errors);
+    });
+    it('should return undefined if there are no errors', () => {
+      const state = {
+        vaProfile: {
+          hero: {},
+        },
+      };
+      expect(selectors.fullNameLoadError(state)).to.be.undefined;
+    });
+    it('should return undefined if hero info does not exist on the state', () => {
+      let state = {};
+      expect(selectors.fullNameLoadError(state)).to.be.undefined;
+      state = { vaProfile: {} };
+      expect(selectors.fullNameLoadError(state)).to.be.undefined;
+    });
+  });
+
+  describe('personalInformationLoadError', () => {
+    it('should return the error data if it exists', () => {
+      const state = {
+        vaProfile: {
+          personalInformation: {
+            errors,
+          },
+        },
+      };
+      expect(selectors.personalInformationLoadError(state)).to.deep.equal(
+        errors,
+      );
+    });
+    it('should return undefined if there are no errors', () => {
+      const state = {
+        vaProfile: {
+          personalInformation: {},
+        },
+      };
+      expect(selectors.personalInformationLoadError(state)).to.be.undefined;
+    });
+    it('should return undefined if personalInformation info does not exist on the state', () => {
+      let state = {};
+      expect(selectors.personalInformationLoadError(state)).to.be.undefined;
+      state = { vaProfile: {} };
+      expect(selectors.personalInformationLoadError(state)).to.be.undefined;
+    });
+  });
+
+  describe('militaryInformationLoadError', () => {
+    it('should return the error data if it exists', () => {
+      const state = {
+        vaProfile: {
+          militaryInformation: {
+            serviceHistory: {
+              error: errors,
+            },
+          },
+        },
+      };
+      expect(selectors.militaryInformationLoadError(state)).to.deep.equal(
+        errors,
+      );
+    });
+    it('should return undefined if there are no errors', () => {
+      const state = {
+        vaProfile: {
+          militaryInformation: {
+            serviceHistory: {},
+          },
+        },
+      };
+      expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
+    });
+    it('should return undefined if militaryInformation info does not exist on the state', () => {
+      let state = {};
+      expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
+      state = { vaProfile: {} };
+      expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
     });
   });
 });

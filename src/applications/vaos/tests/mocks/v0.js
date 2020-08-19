@@ -110,3 +110,183 @@ export function getVideoAppointmentMock() {
     },
   };
 }
+
+export function getVARequestMock() {
+  return {
+    id: '8a4886886e4c8e22016e6613216d001g',
+    attributes: {
+      dataIdentifier: {
+        uniqueId: '8a4886886e4c8e22016e6613216d001g',
+        systemId: 'var',
+      },
+      lastUpdatedDate: '11/13/2019 11:42:40',
+      optionDate1: 'No Date Selected',
+      optionTime1: 'No Time Selected',
+      optionDate2: 'No Date Selected',
+      optionTime2: 'No Time Selected',
+      optionDate3: 'No Date Selected',
+      optionTime3: 'No Time Selected',
+      status: 'fake',
+      appointmentType: 'fake',
+      visitType: 'fake',
+      facility: {
+        name: 'fake',
+        facilityCode: 'fake',
+        state: 'fake',
+        city: 'fake',
+        address: 'fake',
+        parentSiteCode: 'fake',
+      },
+      email: 'fake@va.gov',
+      phoneNumber: 'fake',
+      purposeOfVisit: 'fake',
+      bestTimetoCall: [],
+      typeOfCareId: 'fake',
+      friendlyLocationName: 'fake',
+      createdDate: '11/13/2019 11:42:40',
+    },
+  };
+}
+
+export function getMessageMock() {
+  return {
+    id: 'fake',
+    type: 'messages',
+    attributes: {
+      surrogateIdentifier: {},
+      messageText: 'fake',
+      messageDateTime: '11/11/2019 12:26:13',
+      senderId: 'fake',
+      appointmentRequestId: 'fake',
+      date: 'fake',
+      assigningAuthority: 'ICN',
+      systemId: 'var',
+    },
+  };
+}
+
+export function getCCAppointmentMock() {
+  return {
+    id: 'fake',
+    type: 'cc_appointments',
+    attributes: {
+      appointmentRequestId: 'fake',
+      distanceEligibleConfirmed: true,
+      name: { firstName: 'fake', lastName: 'fake' },
+      providerPractice: 'fake',
+      providerPhone: 'fake',
+      address: {
+        street: 'fake',
+        city: 'fake',
+        state: 'FK',
+        zipCode: 'fake',
+      },
+      instructionsToVeteran: 'fake',
+      appointmentTime: 'fake',
+      timeZone: 'fake',
+    },
+  };
+}
+
+export function getCancelReasonMock() {
+  return {
+    id: 'fake',
+    type: 'cancel_reason',
+    attributes: {
+      number: 'fake',
+      text: 'fake',
+      type: 'B',
+      inactive: false,
+    },
+  };
+}
+
+export function getParentSiteMock() {
+  return {
+    id: 'fake',
+    type: 'facility',
+    attributes: {
+      institutionCode: 'fake',
+      city: 'fake',
+      stateAbbrev: 'FK',
+      authoritativeName: 'fake',
+      rootStationCode: 'fake',
+      adminParent: true,
+      parentStationCode: 'fake',
+    },
+  };
+}
+
+export function getFacilityMock() {
+  return {
+    id: 'fake',
+    type: 'direct_scheduling_facility',
+    attributes: {
+      institutionCode: 'fake',
+      city: 'fake',
+      stateAbbrev: 'FK',
+      authoritativeName: 'fake',
+      rootStationCode: 'fake',
+      adminParent: true,
+      parentStationCode: 'fake',
+      requestSupported: false,
+      directSchedulingSupported: false,
+      expressTimes: null,
+      institutionTimezone: 'fake',
+    },
+  };
+}
+
+export function getClinicMock() {
+  return {
+    id: 'fake',
+    type: 'clinic',
+    attributes: {
+      siteCode: 'fake',
+      clinicId: 'fake',
+      clinicName: 'Fake name',
+      clinicFriendlyLocationName: 'Fake friendly name',
+      primaryStopCode: 'fake',
+      secondaryStopCode: '',
+      directSchedulingFlag: 'Y',
+      displayToPatientFlag: 'Y',
+      institutionName: 'Fake inst name',
+      institutionCode: 'fake',
+      objectType: 'CdwClinic',
+      link: [],
+    },
+  };
+}
+
+export function getAppointmentSlotMock() {
+  return {
+    startDateTime: 'fake',
+    endDateTime: 'fake',
+    bookingStatus: '1',
+    remainingAllowedOverBookings: '3',
+    availability: true,
+  };
+}
+
+export function getExpressCareRequestCriteriaMock(id, schedulingDays) {
+  return [
+    {
+      id,
+      type: 'request_eligibility_criteria',
+      attributes: {
+        id,
+        requestSettings: [],
+        customRequestSettings: [
+          {
+            id: 'CR1',
+            typeOfCare: 'Express Care',
+            submittedRequestLimit: 2,
+            enterpriseSubmittedRequestLimit: 2,
+            supported: !!schedulingDays,
+            schedulingDays: schedulingDays || [],
+          },
+        ],
+      },
+    },
+  ];
+}
