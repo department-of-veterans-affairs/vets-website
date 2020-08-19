@@ -33,6 +33,10 @@ describe('Facility search', () => {
       'Results for "VA health", "Primary care" near "Austin, Texas"',
     );
     cy.get('.facility-result a').should('exist');
+    cy.get('.i-pin-card-map').contains('A');
+    cy.get('.i-pin-card-map').contains('B');
+    cy.get('.i-pin-card-map').contains('C');
+    cy.get('.i-pin-card-map').contains('D');
   });
 
   it('should render breadcrumbs ', () => {

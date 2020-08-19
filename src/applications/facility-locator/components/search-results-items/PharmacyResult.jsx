@@ -4,21 +4,17 @@ import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import recordEvent from 'platform/monitoring/record-event';
+import LocationDistance from './common/LocationDistance';
 
 const PharmacyResult = ({ provider, query }) => {
   const { name } = provider.attributes;
-  const distance = provider.distance;
   return (
     <div className="facility-result" id={provider.id} key={provider.id}>
       <div>
-        {distance && (
-          <p>
-            <span className="i-pin-card-map">{provider.markerText}</span>
-            <span className="vads-u-margin-left--1">
-              <strong>{distance.toFixed(1)} miles</strong>
-            </span>
-          </p>
-        )}
+        <LocationDistance
+          distance={provider.distance}
+          markerText={provider.markerText}
+        />
         <span>
           <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
           {provider.attributes.orgName && (

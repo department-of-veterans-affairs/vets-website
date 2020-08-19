@@ -7,22 +7,17 @@ import { Link } from 'react-router';
 import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
+import LocationDistance from './common/LocationDistance';
 
 const VaFacilityResult = ({ location, query }) => {
   const { name, website, operatingStatus } = location.attributes;
-  const distance = location.distance;
   return (
     <div className="facility-result" id={location.id} key={location.id}>
-      <div>
-        {distance &&
-          location.resultItem && (
-            <p>
-              <span className="i-pin-card-map">{location.markerText}</span>
-              <span className="vads-u-margin-left--1">
-                <strong>{distance.toFixed(1)} miles</strong>
-              </span>
-            </p>
-          )}
+      <>
+        <LocationDistance
+          distance={location.distance}
+          markerText={location.markerText}
+        />
         <span>
           {isVADomain(website) ? (
             <a href={website}>
@@ -41,7 +36,7 @@ const VaFacilityResult = ({ location, query }) => {
           from={'SearchResult'}
           query={query}
         />
-      </div>
+      </>
       {operatingStatus &&
         operatingStatus.code !== OperatingStatus.NORMAL && (
           <LocationOperationStatus operatingStatus={operatingStatus} />

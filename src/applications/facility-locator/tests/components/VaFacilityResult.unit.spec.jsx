@@ -13,7 +13,12 @@ describe('VaFacilityResult', () => {
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[0]} query={query} />,
     );
-    expect(wrapper).to.matchSnapshot();
+    expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationAddress').length).to.equal(1);
+    expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
+    expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
+    expect(wrapper.find('Link').html()).to.equal('<a>Austin VA Clinic</a>');
+    expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -24,7 +29,14 @@ describe('VaFacilityResult', () => {
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[6]} query={query} />,
     );
-    expect(wrapper).to.matchSnapshot();
+    expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationAddress').length).to.equal(1);
+    expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
+    expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
+    expect(wrapper.find('Link').html()).to.equal(
+      '<a>VetSuccess on Campus at Los Angeles City College</a>',
+    );
+    expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -35,7 +47,14 @@ describe('VaFacilityResult', () => {
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[7]} query={query} />,
     );
-    expect(wrapper).to.matchSnapshot();
+    expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationAddress').length).to.equal(1);
+    expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
+    expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
+    expect(wrapper.find('Link').html()).to.equal(
+      '<a>Washington State Veterans Cemetery Medical Lake</a>',
+    );
+    expect(wrapper.find('LocationOperationStatus').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -46,7 +65,14 @@ describe('VaFacilityResult', () => {
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[8]} query={query} />,
     );
-    expect(wrapper).to.matchSnapshot();
+    expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationAddress').length).to.equal(1);
+    expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
+    expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
+    expect(wrapper.find('a').props().href).to.equal(
+      'https://va.gov/alexandria',
+    );
+    expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
     wrapper.unmount();
   });
 });
