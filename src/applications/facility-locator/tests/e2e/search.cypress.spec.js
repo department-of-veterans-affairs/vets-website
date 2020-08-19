@@ -110,4 +110,62 @@ describe('Facility search', () => {
 
     cy.get('.facility-result h2').contains('BADEA, LUANA');
   });
+
+  it('finds community urgent care', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+    cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent care');
+    cy.get('#downshift-1-item-0').click();
+
+    cy.get('#facility-search').click();
+    cy.get('#facility-search-results').contains(
+      'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
+    );
+
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.get('.facility-result h2').contains('Concentra Urgent Care');
+  });
+
+  it('finds community urgent care', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select('Urgent care');
+    cy.get('#service-type-dropdown').select(
+      'Community urgent care providers (in VA’s network)',
+    );
+    cy.get('#facility-search').click();
+    cy.get('#facility-search-results').contains(
+      'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
+    );
+
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.get('.facility-result h2').contains('MinuteClinic');
+  });
+
+  it('finds va urgent care pharmacies', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Urgent care pharmacies (in VA’s network)',
+    );
+    cy.get('#facility-search').click();
+    cy.get('#facility-search-results').contains(
+      'Results for "Urgent care pharmacies (in VA’s network)" near "Austin, Texas"',
+    );
+
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.get('.facility-result h2').contains('CVS');
+  });
 });
