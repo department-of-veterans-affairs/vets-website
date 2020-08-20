@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const SearchResultMessage = ({
   message,
@@ -48,6 +49,14 @@ const SearchResultMessage = ({
       search above to find facilities.
     </div>
   );
+};
+
+SearchResultMessage.propTypes = {
+  message: PropTypes.string,
+  error: PropTypes.any,
+  resultsFound: PropTypes.bool,
+  resultRef: PropTypes.any,
+  facilityType: PropTypes.string,
 };
 
 export default SearchResultMessage;
