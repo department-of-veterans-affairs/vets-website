@@ -46,7 +46,11 @@ function deletePhoneNumber(numberName) {
   expect(phoneNumberInput).to.exist;
 
   // delete
-  view.getByText('Delete', { selector: 'button *' }).click();
+  view
+    .getByText(new RegExp(`remove ${numberName}`, 'i'), {
+      selector: 'button',
+    })
+    .click();
   const confirmDeleteButton = view.getByText('Confirm', { selector: 'button' });
   const cancelDeleteButton = view.getByText('Cancel', { selector: 'button' });
   confirmDeleteButton.click();
