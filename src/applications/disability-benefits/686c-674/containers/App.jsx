@@ -27,7 +27,7 @@ function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
   // redirect them to the introduction page.
   if (
     !isLoggedIn ||
-    (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.validVaFileNumber)
+    (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.validVAFileNumber)
   ) {
     document.location.replace(
       '/view-change-dependents/add-remove-form-686c/introduction',
