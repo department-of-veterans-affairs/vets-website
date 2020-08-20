@@ -195,7 +195,15 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       );
       const assembleEntityTree = entityTreeFactory(contentDir);
 
-      return entities.map(entity => assembleEntityTree(entity));
+      const transformedEntities = entities.map(entity =>
+        assembleEntityTree(entity),
+      );
+      say(
+        `${chalk.green(
+          global.exportCacheHits,
+        )} cache hits while expanding entity references`,
+      );
+      return transformedEntities;
     },
 
     getLatestPageById(nodeId) {
