@@ -95,10 +95,12 @@ module.exports = function registerFilters() {
   liquid.filters.fileSize = data => `${(data / 1000000).toFixed(2)}MB`;
 
   liquid.filters.fileExt = data =>
-    data
-      .split('.')
-      .slice(-1)
-      .pop();
+    data && data.length
+      ? data
+          .split('.')
+          .slice(-1)
+          .pop()
+      : data;
 
   liquid.filters.breakIntoSingles = data => {
     let output = '';
