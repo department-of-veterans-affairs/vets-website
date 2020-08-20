@@ -55,7 +55,7 @@ const WizardContainer = ({ setWizardStatus }) => (
 );
 
 WizardContainer.propTypes = {
-  completed: PropTypes.func,
+  setWizardStatus: PropTypes.func,
 };
 
 export default WizardContainer;

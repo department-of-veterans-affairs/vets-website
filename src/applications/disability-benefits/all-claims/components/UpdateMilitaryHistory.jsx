@@ -4,7 +4,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 import { SAVED_SEPARATION_DATE } from '../constants';
 
-const addServicePeriod = (formData, separationDate, setFormData) => {
+export const addServicePeriod = (formData, separationDate, setFormData) => {
   const data = formData;
   if (!data.serviceInformation) {
     data.serviceInformation = { servicePeriods: [] };
@@ -27,8 +27,10 @@ const addServicePeriod = (formData, separationDate, setFormData) => {
 };
 
 // Originally added to the military history page, but the setData function would
-// not update until after render of the array field.
-export const UpdateMilitaryHistory = ({ form, setFormData }) => {
+// not update until after render of the array field. This component returns null
+// because it's added as a component to the veteran info page in the 'ui:title',
+// but there is no title to render
+export const UpdateMilitaryHistory = ({ form = {}, setFormData }) => {
   // Get date from Wizard if user entered a valid BDD separation date
   const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
   useEffect(() => {
