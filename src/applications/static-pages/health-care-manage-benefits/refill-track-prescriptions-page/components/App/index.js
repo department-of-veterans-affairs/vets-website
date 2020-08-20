@@ -6,15 +6,14 @@ import { connect } from 'react-redux';
 import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
-import { isCernerLive } from 'platform/utilities/cerner';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectIsCernerPatient } from 'platform/user/selectors';
 
 export const App = ({
   isCernerPatient,
   showNewRefillTrackPrescriptionsPage,
 }) => {
-  // Show legacy content if Cerner isn't live or if we explicitly shouldn't show the page via a feature flag.
-  if (!isCernerLive || showNewRefillTrackPrescriptionsPage === false) {
+  if (!showNewRefillTrackPrescriptionsPage) {
     return <LegacyContent />;
   }
 
@@ -34,7 +33,9 @@ App.propTypes = {
 const mapStateToProps = state => ({
   isCernerPatient: selectIsCernerPatient(state),
   showNewRefillTrackPrescriptionsPage:
-    state?.featureToggles?.showNewRefillTrackPrescriptionsPage,
+    state?.featureToggles?.[
+      featureFlagNames.showNewRefillTrackPrescriptionsPage
+    ],
 });
 
 export default connect(
