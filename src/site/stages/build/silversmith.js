@@ -68,7 +68,9 @@ module.exports = () => {
         smith.stepStats[step].timeElapsed = timeElapsed;
 
         logStepEnd(step, description, timeElapsed);
-        logMemoryUsage(heapUsedStart, heapUsedEnd);
+        if (global.verbose) {
+          logMemoryUsage(heapUsedStart, heapUsedEnd);
+        }
       });
   };
 
