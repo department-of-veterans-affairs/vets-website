@@ -283,7 +283,7 @@
     "fine-uploader": "^5.16.2",
     "foundation-sites": "^5.5.3",
     "history": "3",
-    "history-v4": "npm:history@4.9",
+    "history-v4": "npm:history@^4.9.0",
     "ics-js": "^0.10.2",
     "js-cookie": "^2.2.1",
     "js-yaml": "^3.14.0",
