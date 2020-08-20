@@ -167,7 +167,7 @@
     "rootUrl": "/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg",
     "template": {
       "title": "Caregiver Application for Benefits",
-      "vagovprod": false,
+      "vagovprod": true,
       "vagovstaging": true,
       "vagovdev": true,
       "localhost": true,
@@ -836,13 +836,22 @@
     }
   },
   {
+    "appName": "Ask a Question",
+    "entryName": "ask-a-question",
+    "rootUrl": "/ask-a-question",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
     "appName": "Healthcare Questionnaire",
     "entryName": "questionnaire",
     "rootUrl": "/healthcare/questionnaire",
     "template": {
       "vagovprod": true,
       "layout": "page-react.html",
-      "includeBreadcrumbs":false,
+      "includeBreadcrumbs": false,
       "breadcrumbs_override": []
     }
   }

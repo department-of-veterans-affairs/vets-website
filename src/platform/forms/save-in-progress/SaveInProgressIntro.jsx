@@ -140,11 +140,14 @@ class SaveInProgressIntro extends React.Component {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
+      const unauthStartButton = (
+        <button className="usa-button-primary" onClick={this.openLoginModal}>
+          {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+        </button>
+      );
       alert = buttonOnly ? (
         <>
-          <button className="usa-button-primary" onClick={this.openLoginModal}>
-            {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-          </button>
+          {unauthStartButton}
           {!this.props.hideUnauthedStartLink && (
             <p>
               <button
@@ -183,12 +186,7 @@ class SaveInProgressIntro extends React.Component {
                 {appType}, you won’t be able to save the information you’ve
                 already filled in.
               </p>
-              <button
-                className="usa-button-primary"
-                onClick={this.openLoginModal}
-              >
-                {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-              </button>
+              {unauthStartButton}
               {!this.props.hideUnauthedStartLink && (
                 <p>
                   <button

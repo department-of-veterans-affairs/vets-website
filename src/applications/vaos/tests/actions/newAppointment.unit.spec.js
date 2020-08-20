@@ -1193,8 +1193,10 @@ describe('VAOS newAppointment actions', () => {
         'error-key': undefined,
         appointmentType: undefined,
         facilityType: undefined,
-        'health-expressCareReason': undefined,
-        isExpressCare: undefined,
+        'health-express-care-reason': undefined,
+        'vaos-express-care-number-of-cards': undefined,
+        'vaos-upcoming-number-of-cards': undefined,
+        'tab-text': undefined,
       });
       expect(router.push.called).to.be.true;
     });
@@ -1426,8 +1428,10 @@ describe('VAOS newAppointment actions', () => {
         'error-key': undefined,
         appointmentType: undefined,
         facilityType: undefined,
-        'health-expressCareReason': undefined,
-        isExpressCare: undefined,
+        'health-express-care-reason': undefined,
+        'vaos-express-care-number-of-cards': undefined,
+        'vaos-upcoming-number-of-cards': undefined,
+        'tab-text': undefined,
       });
       expect(router.push.called).to.be.false;
     });
@@ -1510,8 +1514,10 @@ describe('VAOS newAppointment actions', () => {
         'error-key': undefined,
         appointmentType: undefined,
         facilityType: undefined,
-        'health-expressCareReason': undefined,
-        isExpressCare: undefined,
+        'health-express-care-reason': undefined,
+        'vaos-express-care-number-of-cards': undefined,
+        'vaos-upcoming-number-of-cards': undefined,
+        'tab-text': undefined,
       });
       expect(router.push.called).to.be.false;
     });
