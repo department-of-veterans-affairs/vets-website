@@ -248,12 +248,17 @@ describe('user selectors', () => {
   describe('selectPatientFacilities', () => {
     it('pulls out the state.profile.facilities array', () => {
       const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
         user: {
           profile: {
             facilities: [
               { facilityId: '983', isCerner: false },
               { facilityId: '984', isCerner: false },
             ],
+            isCernerPatient: false,
           },
         },
       };
@@ -273,9 +278,14 @@ describe('user selectors', () => {
   describe('selectIsCernerOnlyPatient', () => {
     it('should return true if Cerner only', () => {
       const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
         user: {
           profile: {
             facilities: [{ facilityId: '123', isCerner: true }],
+            isCernerPatient: true,
           },
         },
       };
@@ -283,12 +293,17 @@ describe('user selectors', () => {
     });
     it('should return false if not Cerner only', () => {
       const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
         user: {
           profile: {
             facilities: [
               { facilityId: '123', isCerner: true },
               { facilityId: '124', isCerner: false },
             ],
+            isCernerPatient: true,
           },
         },
       };
@@ -298,9 +313,14 @@ describe('user selectors', () => {
   describe('selectIsCernerPatient', () => {
     it('should return true if single cerner response', () => {
       const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
         user: {
           profile: {
             facilities: [{ facilityId: '123', isCerner: true }],
+            isCernerPatient: true,
           },
         },
       };
@@ -308,12 +328,17 @@ describe('user selectors', () => {
     });
     it('should return true if atleast 1 cerner facility', () => {
       const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
         user: {
           profile: {
             facilities: [
               { facilityId: '123', isCerner: true },
               { facilityId: '124', isCerner: false },
             ],
+            isCernerPatient: true,
           },
         },
       };
@@ -321,9 +346,14 @@ describe('user selectors', () => {
     });
     it('should return false if no cerner facilities', () => {
       const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
         user: {
           profile: {
             facilities: [{ facilityId: '124', isCerner: false }],
+            isCernerPatient: false,
           },
         },
       };
