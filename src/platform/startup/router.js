@@ -4,8 +4,7 @@
  */
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router, useRouterHistory, browserHistory } from 'react-router';
-import { createHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 import startReactApp from './react';
 import setUpCommonFunctionality from './setup';
 
@@ -13,7 +12,7 @@ import setUpCommonFunctionality from './setup';
  * Starts an application in the default element for standalone React
  * applications. It also sets up the common store, starts the site-wide
  * components (like the header menus and login widget), and wraps the provided
- * routes in the Redux and React Router boilerplate common to most applications.
+ * routes in the Redux and React Router v5 boilerplate common to most applications.
  *
  * @param {object} appInfo The UI and business logic of your React application
  * @param {Route|array<Route>} appInfo.routes The routes for the application
@@ -25,7 +24,7 @@ import setUpCommonFunctionality from './setup';
  * @param {array} appInfo.analyticsEvents An array which contains analytics events to collect
  * when the respective actions are fired.
  */
-export default function startApp({
+export function startApp({
   routes,
   createRoutesWithStore,
   component,
@@ -41,18 +40,15 @@ export default function startApp({
     analyticsEvents,
   });
 
-  let history = browserHistory;
-  if (url) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    history = useRouterHistory(createHistory)({
-      basename: url,
-    });
-  }
   let content = component;
   if (createRoutesWithStore) {
-    content = <Router history={history}>{createRoutesWithStore(store)}</Router>;
+    content = (
+      <BrowserRouter basename={url}>
+        {createRoutesWithStore(store)}
+      </BrowserRouter>
+    );
   } else if (routes) {
-    content = <Router history={history}>{routes}</Router>;
+    content = <BrowserRouter basename={url}>{routes}</BrowserRouter>;
   }
 
   startReactApp(<Provider store={store}>{content}</Provider>);
