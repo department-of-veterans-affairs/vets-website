@@ -500,7 +500,7 @@
     "entryName": "10203-edu-benefits",
     "rootUrl": "/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "title": "Apply for the Rogers STEM Scholarship",
       "heading": "Apply for the Rogers STEM Scholarship",
       "layout": "page-react.html",
