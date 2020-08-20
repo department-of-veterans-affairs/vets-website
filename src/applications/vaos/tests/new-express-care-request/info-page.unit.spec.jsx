@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import moment from 'moment';
-import sinon from 'sinon';
 import { waitFor, fireEvent } from '@testing-library/dom';
 import React from 'react';
 import environment from 'platform/utilities/environment';
@@ -24,10 +23,6 @@ const initialState = {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   },
-};
-
-const location = {
-  pathname: '/new-express-care-request',
 };
 
 describe('VAOS integration: Express Care info page', () => {
@@ -65,10 +60,9 @@ describe('VAOS integration: Express Care info page', () => {
       </NewExpressCareRequestLayout>,
       {
         store,
+        path: '/new-express-care-request',
       },
     );
-    screen.history.push = sinon.spy();
-    screen.history.replace = sinon.spy();
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     expect(
@@ -86,9 +80,10 @@ describe('VAOS integration: Express Care info page', () => {
     expect(screen.history.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() => expect(screen.history.push.called).to.be.true);
-    expect(screen.history.push.secondCall.args[0]).to.equal(
-      '/new-express-care-request/select-reason',
+    await waitFor(() =>
+      expect(screen.history.push.secondCall.args[0]).to.equal(
+        '/new-express-care-request/select-reason',
+      ),
     );
   });
 
@@ -129,7 +124,6 @@ describe('VAOS integration: Express Care info page', () => {
         store,
       },
     );
-    screen.history.push = sinon.spy();
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
@@ -186,8 +180,6 @@ describe('VAOS integration: Express Care info page', () => {
         store,
       },
     );
-    screen.history.push = sinon.spy();
-    screen.history.replace = sinon.spy();
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
@@ -224,14 +216,13 @@ describe('VAOS integration: Express Care info page', () => {
     mockRequestEligibilityCriteria(['983'], requestCriteria);
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(
-      <NewExpressCareRequestLayout location={location}>
+      <NewExpressCareRequestLayout>
         <ExpressCareInfoPage />
       </NewExpressCareRequestLayout>,
       {
         store,
       },
     );
-    screen.history.push = sinon.spy();
 
     await waitFor(() => expect(screen.history.push.called).to.be.true);
     expect(screen.history.push.firstCall.args[0]).to.equal('/');

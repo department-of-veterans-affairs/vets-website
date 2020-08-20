@@ -33,7 +33,7 @@ const initialState = {
   },
 };
 
-describe.only('VAOS integration: appointment list', () => {
+describe('VAOS integration: appointment list', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
@@ -269,7 +269,9 @@ describe.only('VAOS integration: appointment list', () => {
     fireEvent.click(button);
 
     await waitFor(() =>
-      expect(history.location.pathname).to.equal('/new-express-care-request'),
+      expect(history.push.firstCall.args[0]).to.equal(
+        '/new-express-care-request',
+      ),
     );
     expect(global.window.dataLayer[1]).to.deep.equal({
       event: `vaos-express-care-request-button-clicked`,
@@ -334,6 +336,7 @@ describe.only('VAOS integration: appointment list', () => {
       queryByText,
       getAllByRole,
       getByText,
+      getAllByText,
     } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: initialStateWithExpressCare,
       reducers,
@@ -342,7 +345,7 @@ describe.only('VAOS integration: appointment list', () => {
     await findByText('Create a new appointment');
     expect(queryByText(/request an express care screening/i)).to.not.be.ok;
     expect(getAllByRole('tab').length).to.equal(2);
-    expect(queryByText('Upcoming appointments')[0]).to.have.attribute(
+    expect(getAllByText('Upcoming appointments')[0]).to.have.attribute(
       'role',
       'tab',
     );
@@ -388,6 +391,7 @@ describe.only('VAOS integration: appointment list', () => {
       getAllByRole,
       getByText,
       findAllByText,
+      getAllByText,
       queryByText,
     } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: initialStateWithExpressCare,
@@ -397,7 +401,10 @@ describe.only('VAOS integration: appointment list', () => {
     await findByText('Create a new appointment');
     expect(await findAllByText('Create a new Express Care request')).to.be.ok;
     expect(getAllByRole('tab').length).to.equal(2);
-    expect(getByText('Upcoming appointments')).to.have.attribute('role', 'tab');
+    expect(getAllByText('Upcoming appointments')[0]).to.have.attribute(
+      'role',
+      'tab',
+    );
     expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
     expect(
       queryByText(/View your upcoming, past, and Express Care appointments/i),
@@ -450,6 +457,6 @@ describe.only('VAOS integration: appointment list', () => {
     expect(screen.queryAllByText(/express care/i)).to.be.empty;
     expect(screen.queryByText('Schedule an appointment')).to.not.exist;
 
-    expect(screen.queryByText('Go to My VA Health')[0]).to.have.tagName('a');
+    expect(screen.getAllByText('Go to My VA Health')[0]).to.have.tagName('a');
   });
 });

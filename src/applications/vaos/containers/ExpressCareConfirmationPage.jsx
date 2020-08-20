@@ -19,7 +19,6 @@ function ExpressCareConfirmationPage({ successfulRequest }) {
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
 
-      console.log(successfulRequest);
       if (!successfulRequest) {
         history.replace('/new-express-care-request');
       }

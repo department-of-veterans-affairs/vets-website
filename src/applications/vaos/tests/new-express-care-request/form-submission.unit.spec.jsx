@@ -147,7 +147,6 @@ describe('VAOS integration: Express Care form submission', () => {
     let screen = renderWithStoreAndRouter(<ExpressCareDetailsPage />, {
       store,
     });
-    screen.history.push = sinon.spy();
 
     await screen.findByText(/tell us about your cough/i);
 
@@ -360,7 +359,6 @@ describe('VAOS integration: Express Care form submission', () => {
     const screen = renderWithStoreAndRouter(<ExpressCareDetailsPage />, {
       store,
     });
-    screen.history.push = sinon.spy();
 
     fireEvent.change(await screen.getByLabelText(/phone number/i), {
       target: { value: requestData.attributes.phoneNumber },

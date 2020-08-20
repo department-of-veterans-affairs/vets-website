@@ -37,6 +37,14 @@ export function createTestStore(initialState) {
   );
 }
 
+export function createTestHistory(path = '/') {
+  const history = createMemoryHistory({ initialEntries: [path] });
+  history.replace = sinon.spy();
+  history.push = sinon.spy();
+
+  return history;
+}
+
 export function renderWithStoreAndRouter(
   ui,
   { initialState, store = null, path = '/', history = null },
@@ -49,8 +57,7 @@ export function renderWithStoreAndRouter(
       applyMiddleware(thunk),
     );
 
-  const historyObject =
-    history || createMemoryHistory({ initialEntries: [path] });
+  const historyObject = history || createTestHistory(path);
   const screen = renderInReduxProvider(
     <Router history={historyObject}>{ui}</Router>,
     {
@@ -71,7 +78,7 @@ export function renderFromRoutes({ initialState, store = null, path = '/' }) {
       initialState,
       applyMiddleware(thunk),
     );
-  const history = createMemoryHistory({ initialEntries: [path] });
+  const history = createTestHistory(path);
   const screen = renderInReduxProvider(
     <Router history={history}>{createRoutesWithStore(testStore)}</Router>,
     {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import moment from 'moment';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
@@ -93,9 +92,7 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     store.dispatch(fetchExpressCareWindows());
 
     const { history } = renderWithStoreAndRouter(
-      <NewExpressCareRequestLayout>
-        <ExpressCareDetailsPage />
-      </NewExpressCareRequestLayout>,
+      <NewExpressCareRequestLayout />,
       {
         store,
         path: '/additional-details',
