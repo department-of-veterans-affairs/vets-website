@@ -57,17 +57,17 @@ module.exports = () => {
     else color = chalk.red;
     const coloredTime = color(`[${timeElapsed}ms]`);
 
-    if (consoleDirty || !process.stdout.isTTY) {
-      // Output to a new line
-      console.log(
-        chalk.cyan(`Step ${step + 1} end ${coloredTime}: ${description}`),
-      );
-    } else {
+    if (process.stdout.isTTY && !global.verbose && !consoleDirty) {
       // Just append the logStepStart line with the time elapsed
       process.stdout.cursorTo(lastLogLineLength, process.stdout.rows - 2);
       process.stdout.write(`${coloredTime}`);
       // If we added another cursorTo(0, process.stdout.rows), it creates
       // a blank line between the two logStepStart lines
+    } else {
+      // Output to a new line
+      console.log(
+        chalk.cyan(`Step ${step + 1} end ${coloredTime}: ${description}`),
+      );
     }
   };
 
