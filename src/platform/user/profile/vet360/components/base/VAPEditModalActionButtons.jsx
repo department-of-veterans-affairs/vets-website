@@ -64,12 +64,13 @@ class VAPEditModalActionButtons extends React.Component {
   renderDeleteAction() {
     if (this.props.deleteEnabled) {
       return (
-        <a
-          className="vads-u-margin-top--1p5"
+        <button
+          type="button"
+          className="va-button-link vads-u-margin-top--1p5"
           onClick={this.handleDeleteInitiated}
         >
           Remove {toLower(this.props.title)}
-        </a>
+        </button>
       );
     }
 
