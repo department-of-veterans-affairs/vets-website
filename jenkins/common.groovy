@@ -87,13 +87,6 @@ def slackNotify() {
   }
 }
 
-def puppeteerNotification() {
-  message = "`${env.BRANCH_NAME}` failed the puppeteer tests. |${env.RUN_DISPLAY_URL}".stripMargin()
-  slackSend message: message,
-    color: 'danger',
-    failOnError: true
-}
-
 def slackIntegrationNotify() {
   message = "(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}".stripMargin()
   slackSend message: message,
