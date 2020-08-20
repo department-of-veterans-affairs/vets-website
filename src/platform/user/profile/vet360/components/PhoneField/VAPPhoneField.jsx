@@ -138,22 +138,22 @@ export default class PhoneField extends React.Component {
 
   render() {
     const ContentView = ({ data }) => {
-      const { areaCode, phoneNumber, extension} = data;
+      const { areaCode, phoneNumber, extension } = data;
 
       return (
         <>
           <Telephone
             contact={`${areaCode}${phoneNumber}`}
             extension={extension}
-            className='non-clickable-link'
+            className="non-clickable-link"
           />
 
           {this.props.fieldName === FIELD_NAMES.MOBILE_PHONE && (
             <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
           )}
         </>
-      )
-    }
+      );
+    };
 
     return (
       <VAPProfileField
