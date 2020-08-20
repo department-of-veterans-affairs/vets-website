@@ -3,10 +3,9 @@ import { useHistory } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
+import { GA_PREFIX } from '../utils/constants';
 import * as actions from '../actions/expressCare';
 import FormButtons from '../components/FormButtons';
-import ExpressCareRequestLimitError from '../components/ExpressCareRequestLimitError';
 import {
   selectLocalExpressCareWindowString,
   selectExpressCareNewRequest,
@@ -18,8 +17,6 @@ const pageTitle = 'How Express Care works';
 
 function ExpressCareInfoPage({
   localWindowString,
-  fetchRequestLimitsStatus,
-  isUnderRequestLimit,
   pageChangeInProgress,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -29,29 +26,6 @@ function ExpressCareInfoPage({
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
-
-  useEffect(
-    () => {
-      if (
-        fetchRequestLimitsStatus === FETCH_STATUS.failed ||
-        fetchRequestLimitsStatus === FETCH_STATUS.succeeded
-      )
-        scrollAndFocus();
-    },
-    [fetchRequestLimitsStatus],
-  );
-
-  if (
-    fetchRequestLimitsStatus === FETCH_STATUS.failed ||
-    (fetchRequestLimitsStatus === FETCH_STATUS.succeeded &&
-      !isUnderRequestLimit)
-  ) {
-    return (
-      <ExpressCareRequestLimitError
-        fetchRequestLimitsStatus={fetchRequestLimitsStatus}
-      />
-    );
-  }
 
   return (
     <div>

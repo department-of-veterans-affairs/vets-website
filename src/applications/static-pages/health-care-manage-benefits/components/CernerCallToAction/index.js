@@ -8,7 +8,10 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import { CERNER_FACILITY_IDS } from 'platform/utilities/cerner';
+import {
+  CERNER_FACILITY_IDS,
+  appointmentsToolLink,
+} from 'platform/utilities/cerner';
 
 export class CernerCallToAction extends Component {
   static propTypes = {
@@ -159,7 +162,7 @@ export class CernerCallToAction extends Component {
                   rel="noreferrer noopener"
                   target="_blank"
                 >
-                  {isCerner ? 'Use My VA Health' : 'Use My HealtheVet'}
+                  {isCerner ? 'Go to My VA Health' : 'Go to My HealtheVet'}
                 </a>
               </div>
             );
@@ -174,7 +177,9 @@ export class CernerCallToAction extends Component {
               rel="noreferrer noopener"
               target="_blank"
             >
-              Use My HealtheVet
+              {myHealtheVetLink === appointmentsToolLink
+                ? 'Go to the VA appointments tool'
+                : 'Go to My HealtheVet'}
             </a>
           </div>
         </div>

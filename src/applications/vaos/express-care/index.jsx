@@ -5,6 +5,7 @@ import ExpressCareReasonPage from '../containers/ExpressCareReasonPage';
 import ExpressCareDetailsPage from '../containers/ExpressCareDetailsPage';
 import ExpressCareConfirmationPage from '../containers/ExpressCareConfirmationPage';
 import ExpressCareInfoPage from '../containers/ExpressCareInfoPage';
+import ExpressCareRequestLimitPage from '../containers/ExpressCareRequestLimitPage';
 
 export function NewExpressCareRequest() {
   const match = useRouteMatch();
@@ -23,6 +24,10 @@ export function NewExpressCareRequest() {
         <Route
           path={`${match.url}/confirmation`}
           component={ExpressCareConfirmationPage}
+        />
+        <Route
+          path={`${match.url}/request-limit`}
+          component={ExpressCareRequestLimitPage}
         />
         <Route path="/" component={ExpressCareInfoPage} />
       </Switch>

@@ -99,15 +99,11 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                           role="img"
                           className="fas fa-download vads-u-padding-right--1"
                         />
-                        Download
+                        <span aria-hidden="true">Download letter </span>
                         <span className="sr-only">
-                          {debtLetter.typeDescription}
-                        </span>{' '}
-                        letter{' '}
-                        <span className="sr-only">
-                          dated{' '}
-                          {moment(debtLetter.receivedAt).format('MMM D, YYYY')}`
-                        </span>{' '}
+                          Download Second Demand Letter dated{' '}
+                          {moment(debtLetter.receivedAt).format('MMM D, YYYY')}
+                        </span>
                         <dfn>
                           <abbr title="Portable Document Format">(PDF)</abbr>
                         </dfn>
