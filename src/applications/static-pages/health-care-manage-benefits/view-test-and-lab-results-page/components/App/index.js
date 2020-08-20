@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectIsCernerPatient } from 'platform/user/selectors';
 
 export const App = ({ isCernerPatient, showNewViewTestLabResultsPage }) => {
@@ -29,7 +30,7 @@ App.propTypes = {
 const mapStateToProps = state => ({
   isCernerPatient: selectIsCernerPatient(state),
   showNewViewTestLabResultsPage:
-    state?.featureToggles?.showNewViewTestLabResultsPage,
+    state?.featureToggles?.[featureFlagNames.showNewViewTestLabResultsPage],
 });
 
 export default connect(

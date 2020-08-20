@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectIsCernerPatient } from 'platform/user/selectors';
 
 export const App = ({
@@ -32,7 +33,9 @@ App.propTypes = {
 const mapStateToProps = state => ({
   isCernerPatient: selectIsCernerPatient(state),
   showNewScheduleViewAppointmentsPage:
-    state?.featureToggles?.showNewScheduleViewAppointmentsPage,
+    state?.featureToggles?.[
+      featureFlagNames.showNewScheduleViewAppointmentsPage
+    ],
 });
 
 export default connect(

@@ -46,7 +46,7 @@ export function loadConnectedApps() {
         dispatch({ type: FINISHED_LOADING_CONNECTED_APPS, data });
       })
       .catch(({ errors }) => {
-        recordEvent({ event: 'profile-get-connected-apps-failure' });
+        recordEvent({ event: 'profile-get-connected-apps-failed' });
         dispatch({ type: ERROR_LOADING_CONNECTED_APPS, errors });
       });
   };
@@ -54,6 +54,7 @@ export function loadConnectedApps() {
 
 export function deleteConnectedApp(appId) {
   return async (dispatch, getState) => {
+    recordEvent({ event: 'profile-disconnect-connected-app-started' });
     dispatch({ type: DELETING_CONNECTED_APP, appId });
 
     // Locally we cannot call the endpoint
@@ -73,16 +74,18 @@ export function deleteConnectedApp(appId) {
         const hasConnectedApps = activeApps?.length && !deletingLastApp;
 
         recordEvent({
-          event: 'profile-navigation',
-          'profile-action': 'disconnect-button',
-          'profile-section': 'connected-accounts',
+          event: 'profile-disconnect-connected-app-successful',
           'user-has-connected-apps': hasConnectedApps,
         });
         dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId });
       })
-      .catch(({ errors }) =>
-        dispatch({ type: ERROR_DELETING_CONNECTED_APP, appId, errors }),
-      );
+      .catch(({ errors }) => {
+        recordEvent({
+          event: 'profile-disconnect-connected-app-failed',
+          'error-key': `${errors?.[0]?.code}_${errors?.[0]?.status}`,
+        });
+        dispatch({ type: ERROR_DELETING_CONNECTED_APP, appId, errors });
+      });
   };
 }
 
