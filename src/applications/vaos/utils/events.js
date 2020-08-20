@@ -30,5 +30,6 @@ export function resetDataLayer() {
     facilityType: undefined,
     'vaos-express-care-number-of-cards': undefined,
     'vaos-upcoming-number-of-cards': undefined,
+    'tab-text': undefined,
   });
 }

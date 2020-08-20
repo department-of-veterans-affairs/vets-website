@@ -19,6 +19,7 @@ import {
 } from '../utils/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
+import { resetDataLayer } from '../utils/events';
 
 export class PastAppointmentsList extends React.Component {
   constructor(props) {
@@ -51,6 +52,7 @@ export class PastAppointmentsList extends React.Component {
       event: 'nav-tab-click',
       'tab-text': 'Past',
     });
+    resetDataLayer();
   }
 
   componentDidUpdate(prevProps) {

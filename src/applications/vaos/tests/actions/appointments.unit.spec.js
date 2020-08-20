@@ -494,6 +494,7 @@ describe('VAOS actions: appointments', () => {
         'health-express-care-reason': undefined,
         'vaos-express-care-number-of-cards': undefined,
         'vaos-upcoming-number-of-cards': undefined,
+        'tab-text': undefined,
       });
     });
 

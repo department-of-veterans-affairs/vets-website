@@ -65,7 +65,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
 
     expect(
-      global.window.dataLayer.find(ev => ev.event === 'nav-tab-click')?.[
+      global.window.dataLayer.find(ev => ev['tab-text'] === 'Upcoming')?.[
         'vaos-upcoming-number-of-cards'
       ],
     ).to.equal(1);
