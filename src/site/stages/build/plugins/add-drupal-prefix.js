@@ -68,10 +68,14 @@ function addDrupalPrefix(buildOptions) {
     const applyPrefix = PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype);
 
     if (!applyPrefix) {
-      log('Drupal-generated pages set to overwrite vagov-content.');
+      if (global.verbose) {
+        log('Drupal-generated pages set to overwrite vagov-content.');
+      }
       overwriteConflictingVagovContentFiles(files);
     } else {
-      log('Applying "/drupal" prefix to the URLs of Drupal-generated pages.');
+      if (global.verbose) {
+        log('Applying "/drupal" prefix to the URLs of Drupal-generated pages.');
+      }
       applyPrefixToFiles(files);
     }
 
