@@ -269,13 +269,15 @@ describe('VAOS integration: appointment list', () => {
     fireEvent.click(button);
 
     await waitFor(() =>
-      expect(history.push.firstCall.args[0]).to.equal(
+      expect(history.push.lastCall.args[0]).to.equal(
         '/new-express-care-request',
       ),
     );
-    expect(global.window.dataLayer[1]).to.deep.equal({
-      event: `vaos-express-care-request-button-clicked`,
-    });
+    expect(
+      global.window.dataLayer.find(
+        ev => ev.event === 'vaos-express-care-request-button-clicked',
+      ),
+    ).to.exist;
   });
 
   it('should not show express care action when outside of express care window', async () => {

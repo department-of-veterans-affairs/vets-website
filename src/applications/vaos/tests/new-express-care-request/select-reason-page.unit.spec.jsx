@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import moment from 'moment';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
@@ -52,15 +51,9 @@ describe('VAOS integration: Express Care form', () => {
     });
     store.dispatch(fetchExpressCareWindows());
 
-    const history = {
-      push: sinon.spy(),
-    };
-    const screen = renderWithStoreAndRouter(
-      <ExpressCareReasonPage history={history} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ExpressCareReasonPage />, {
+      store,
+    });
 
     expect(screen.baseElement).to.contain.text(
       'Select a reason for your Express Care request',

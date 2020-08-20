@@ -16,6 +16,7 @@ import {
   mockRequestEligibilityCriteria,
   mockRequestLimit,
 } from '../mocks/helpers';
+import { NewExpressCareRequest } from '../../express-care';
 
 const initialState = {
   user: {
@@ -128,8 +129,9 @@ describe('VAOS integration: Express Care info page', () => {
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
     await waitFor(() => expect(screen.history.push.called).to.be.true);
-    expect(history.push.calledWith('/new-express-care-request/request-limit'))
-      .to.be.true;
+    expect(
+      screen.history.push.calledWith('/new-express-care-request/request-limit'),
+    ).to.be.true;
   });
 
   it('should redirect to error page if request limit fetch fails', async () => {
@@ -169,20 +171,16 @@ describe('VAOS integration: Express Care info page', () => {
       { errors: [] },
     );
     const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(
-      <NewExpressCareRequestLayout>
-        <ExpressCareInfoPage />
-      </NewExpressCareRequestLayout>,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
+      store,
+    });
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
-    await waitFor(() => expect(history.push.called).to.be.true);
-    expect(history.push.calledWith('/new-express-care-request/request-limit'))
-      .to.be.true;
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
+    expect(
+      screen.history.push.calledWith('/new-express-care-request/request-limit'),
+    ).to.be.true;
   });
 
   it('should redirect home when there is not an active window', async () => {
