@@ -27,7 +27,7 @@ const transform = (entity, { ancestors }) => ({
     entity.fieldOffice &&
     entity.fieldOffice[0] &&
     !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
-      ? entity.fieldOffice[0]
+      ? { entity: entity.fieldOffice[0] }
       : null,
   // Needed for filtering reverse fields in other transformers
   status: getDrupalValue(entity.status),

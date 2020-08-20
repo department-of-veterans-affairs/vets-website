@@ -21,8 +21,8 @@ const transform = (entity, { ancestors }) => ({
     !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
       ? {
           entity: {
-            entityLabel: entity.fieldOffice[0].entity.entityLabel,
-            entityType: entity.fieldOffice[0].entity.entityType,
+            entityLabel: entity.fieldOffice[0].entityLabel,
+            entityType: entity.fieldOffice[0].entityType,
           },
         }
       : null,

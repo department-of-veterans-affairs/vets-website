@@ -57,7 +57,7 @@ const transform = (entity, { ancestors }) => ({
   fieldRegionPage:
     entity.fieldRegionPage[0] &&
     !ancestors.find(r => r.entity.uuid === entity.fieldRegionPage[0].uuid)
-      ? entity.fieldRegionPage[0]
+      ? { entity: entity.fieldRegionPage[0] }
       : null,
   fieldTwitter: getSocialMediaObject(entity.fieldTwitter),
 });
