@@ -5,7 +5,7 @@ const LocationDistance = ({ distance, markerText }) => {
   return (
     distance && (
       <p>
-        <span className="i-pin-card-map">{markerText}</span>
+        {markerText && <span className="i-pin-card-map">{markerText}</span>}
         <span className="vads-u-margin-left--1">
           <strong>{distance.toFixed(1)} miles</strong>
         </span>
