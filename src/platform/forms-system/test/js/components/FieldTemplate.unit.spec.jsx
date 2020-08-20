@@ -284,7 +284,7 @@ describe('Schemaform <FieldTemplate>', () => {
     const formContext = {
       touched: {},
     };
-    const tree = SkinDeep.shallowRender(
+    const { getByText, container } = render(
       <FieldTemplate
         id="test"
         schema={schema}
@@ -295,8 +295,8 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>,
     );
 
-    expect(tree.subTree('label').text()).to.equal('Title');
-    expect(tree.subTree('fieldset')).to.be.false;
+    expect(getByText('Title')).to.not.be.null;
+    expect(container.querySelector('fieldset')).to.be.null;
   });
   it('should not render a label if no title provided', () => {
     const schema = {
