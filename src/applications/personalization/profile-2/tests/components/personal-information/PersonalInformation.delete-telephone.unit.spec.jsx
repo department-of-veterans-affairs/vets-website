@@ -93,8 +93,6 @@ async function testQuickSuccess(numberName) {
       selector: 'button',
     }),
   ).not.to.exist;
-  // and the phone number should not exist
-  // expect(view.queryByText(emailAddress)).not.to.exist;
   // and the add phone number button should exist
   expect(
     view.getByText(new RegExp(`add.*${numberName}`, 'i'), {
@@ -132,8 +130,6 @@ async function testSlowSuccess(numberName) {
       selector: 'button',
     }),
   ).not.to.exist;
-  // and the phone number should not exist
-  // expect(view.queryByText(emailAddress)).not.to.exist;
   // and the add phone number button should exist
   expect(
     view.getByText(new RegExp(`add.*${numberName}`, 'i'), {
@@ -151,9 +147,9 @@ async function testTransactionCreationFails(numberName) {
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
-  // TODO: would be nice to be able to check the contents against a RegExp
-  expect(alert).to.contain.text('We’re sorry. We couldn’t update your');
-  expect(alert).to.contain.text('Please try again.');
+  expect(alert).to.contain.text(
+    `We’re sorry. We couldn’t update your ${numberName.toLowerCase()}. Please try again.`,
+  );
 
   // make sure that edit mode is not automatically exited
   await wait(75);
@@ -171,9 +167,9 @@ async function testQuickFailure(numberName) {
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
-  // TODO: would be nice to be able to check the contents against a RegExp
-  expect(alert).to.contain.text('We’re sorry. We couldn’t update your');
-  expect(alert).to.contain.text('Please try again.');
+  expect(alert).to.contain.text(
+    `We’re sorry. We couldn’t update your ${numberName.toLowerCase()}. Please try again.`,
+  );
 
   // make sure that edit mode is not automatically exited
   await wait(75);
