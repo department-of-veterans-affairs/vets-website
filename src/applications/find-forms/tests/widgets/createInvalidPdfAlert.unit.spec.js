@@ -14,17 +14,18 @@ describe('createInvalidPdfAlert', () => {
   beforeEach(() => {
     mockFetch();
     setFetchResponse(global.fetch.onFirstCall(), {
-      data: [{
-        id: '10-10EZ',
-        type: 'va_form',
-        attributes: { validPdf: true }
-      },
-      {
-        id: 'VA0927b',
-        type: 'va_form',
-        attributes: { validPdf: false }
-      },
-    ],
+      data: [
+        {
+          id: '10-10EZ',
+          type: 'va_form',
+          attributes: { validPdf: true },
+        },
+        {
+          id: 'VA0927b',
+          type: 'va_form',
+          attributes: { validPdf: false },
+        },
+      ],
     });
   });
 
@@ -37,13 +38,13 @@ describe('createInvalidPdfAlert', () => {
       click: sinon.stub(),
       href: 'https://www.va.gov/vaforms/medical/pdf/10-10EZ-fillable.pdf',
       dataset: {
-        formNumber: 'VA0927b'
+        formNumber: 'VA0927b',
       },
       remove: sinon.stub(),
       parentNode: {
         insertBefore: sinon.stub(),
-      }
-    }
+      },
+    };
 
     const event = {
       target: link,
@@ -68,10 +69,10 @@ describe('createInvalidPdfAlert', () => {
       removeEventListener: sinon.stub(),
       href: 'https://www.va.gov/vaforms/medical/pdf/10-10EZ-fillable.pdf',
       dataset: {
-        formNumber: '10-10EZ'
+        formNumber: '10-10EZ',
       },
-      remove: sinon.stub()
-    }
+      remove: sinon.stub(),
+    };
 
     const event = {
       target: link,
