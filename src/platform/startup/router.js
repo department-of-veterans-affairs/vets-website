@@ -24,7 +24,7 @@ import setUpCommonFunctionality from './setup';
  * @param {array} appInfo.analyticsEvents An array which contains analytics events to collect
  * when the respective actions are fired.
  */
-export function startApp({
+export default function startApp({
   routes,
   createRoutesWithStore,
   component,
