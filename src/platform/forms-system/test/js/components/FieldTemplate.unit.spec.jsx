@@ -17,7 +17,7 @@ describe('Schemaform <FieldTemplate>', () => {
       touched: {},
     };
     const errors = ['Some error'];
-    const tree = SkinDeep.shallowRender(
+    const { getByText, queryByText, container } = render(
       <FieldTemplate
         id="test"
         schema={schema}
@@ -29,9 +29,10 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>,
     );
 
-    expect(tree.subTree('label').text()).to.equal('Title');
-    expect(tree.everySubTree('.field-child')).not.to.be.empty;
-    expect(tree.everySubTree('.usa-input-error-message')).to.be.empty;
+    expect(getByText('Title', { selector: 'label' })).to.not.be.null;
+    expect(container.querySelector('.field-child')).not.to.be.null;
+    // Errors don't show because the form isn't touched or submitted
+    expect(queryByText('Error')).to.be.null;
   });
   it('should render a label if JSX is provided', () => {
     const schema = {
