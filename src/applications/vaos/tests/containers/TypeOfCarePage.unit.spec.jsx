@@ -185,7 +185,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const router = {
       push: sinon.spy(),
     };
-    const { debug, getByText, queryByText } = renderInReduxProvider(
+    const { getByText, queryByText } = renderInReduxProvider(
       <TypeOfCarePage router={router} />,
       { store },
     );

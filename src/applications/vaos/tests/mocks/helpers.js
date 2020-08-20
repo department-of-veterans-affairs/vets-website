@@ -115,6 +115,13 @@ export function mockFacilitiesFetch(ids, facilities) {
   );
 }
 
+export function mockFacilityFetch(id, facility) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(`${environment.API_URL}/v1/facilities/va/${id}`),
+    { data: facility },
+  );
+}
+
 export function mockVACancelFetches(id, reasons) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -365,6 +372,28 @@ export function mockRequestEligibilityCriteria(parentSites, data) {
         .join('&')}`,
     ),
     { data },
+  );
+}
+
+export function mockRequestLimit({
+  facilityId,
+  requestLimit = 1,
+  numberOfRequests = 0,
+}) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/facilities/${facilityId}/limits?type_of_care_id=CR1`,
+    ),
+    {
+      data: {
+        attributes: {
+          requestLimit,
+          numberOfRequests,
+        },
+      },
+    },
   );
 }
 

@@ -9,7 +9,6 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
-import separationLocations from '../../content/separationLocations';
 
 describe('Military history', () => {
   const {

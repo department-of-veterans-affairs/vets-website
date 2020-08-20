@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 
-function getEmptyState(value) {
+function getEmptyState() {
   return {
     value: {
       feet: null,
@@ -25,7 +24,7 @@ const inputStyle = {
 };
 
 export default class HeightWidget extends React.Component {
-  state = getEmptyState(this.props.value);
+  state = getEmptyState();
 
   isTouched = ({ feet, inches }) => feet && inches;
 
@@ -57,7 +56,7 @@ export default class HeightWidget extends React.Component {
     const { id } = this.props;
     const { feet, inches } = this.state.value;
     return (
-      <div className="row">
+      <div className="row vads-u-margin-top--neg3">
         <div
           className="form-height-feet"
           style={{ ...inputStyle, marginRight: '4rem' }}

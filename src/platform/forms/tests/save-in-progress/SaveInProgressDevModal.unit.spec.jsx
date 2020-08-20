@@ -5,10 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import {
-  getFormDOM,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { getFormDOM } from 'platform/testing/unit/schemaform-utils.jsx';
 import localStorage from 'platform/utilities/storage/localStorage';
 import SipsDevModal from '../../save-in-progress/SaveInProgressDevModal';
 import { SAVE_STATUSES } from '../../save-in-progress/actions';

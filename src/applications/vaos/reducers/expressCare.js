@@ -14,12 +14,20 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_OPENED,
+  FORM_FETCH_REQUEST_LIMITS,
+  FORM_FETCH_REQUEST_LIMITS_FAILED,
+  FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
   FORM_SUBMIT_FAILED,
   FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT,
 } from '../actions/expressCare';
 
-import { FETCH_STATUS, EXPRESS_CARE } from '../utils/constants';
+import {
+  FETCH_STATUS,
+  EXPRESS_CARE,
+  WEEKDAY_INDEXES,
+} from '../utils/constants';
+import { STARTED_NEW_EXPRESS_CARE_FLOW } from '../actions/sitewide';
 
 const initialState = {
   windowsStatus: FETCH_STATUS.notStarted,
@@ -28,6 +36,10 @@ const initialState = {
     data: {},
     pages: {},
     pageChangeInProgress: false,
+    facilityId: null,
+    siteId: null,
+    isUnderRequestLimit: null,
+    fetchRequestLimitsStatus: FETCH_STATUS.notStarted,
   },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
@@ -126,7 +138,12 @@ export default function expressCareReducer(state = initialState, action) {
           facilityId: facility.id,
           days: facility.customRequestSettings
             .find(setting => setting.id === EXPRESS_CARE)
-            .schedulingDays.filter(day => day.canSchedule),
+            .schedulingDays.filter(day => day.canSchedule)
+            .map(daySchedule => ({
+              ...daySchedule,
+              dayOfWeekIndex: WEEKDAY_INDEXES[daySchedule.day],
+            }))
+            .sort((a, b) => (a.dayOfWeekIndex < b.dayOfWeekIndex ? -1 : 1)),
         }));
 
       return {
@@ -140,6 +157,37 @@ export default function expressCareReducer(state = initialState, action) {
         ...state,
         windowsStatus: FETCH_STATUS.failed,
       };
+    case FORM_FETCH_REQUEST_LIMITS: {
+      return {
+        ...state,
+        newRequest: {
+          ...state.newRequest,
+          fetchRequestLimitsStatus: FETCH_STATUS.loading,
+        },
+      };
+    }
+    case FORM_FETCH_REQUEST_LIMITS_SUCCEEDED: {
+      const { facilityId, siteId, isUnderRequestLimit } = action;
+      return {
+        ...state,
+        newRequest: {
+          ...state.newRequest,
+          facilityId,
+          siteId,
+          isUnderRequestLimit,
+          fetchRequestLimitsStatus: FETCH_STATUS.succeeded,
+        },
+      };
+    }
+    case FORM_FETCH_REQUEST_LIMITS_FAILED: {
+      return {
+        ...state,
+        newRequest: {
+          ...state.newRequest,
+          fetchRequestLimitsStatus: FETCH_STATUS.failed,
+        },
+      };
+    }
     case FORM_ADDITIONAL_DETAILS_PAGE_OPENED: {
       const newRequest = { ...state.newRequest };
       const prefilledData = {
@@ -195,6 +243,13 @@ export default function expressCareReducer(state = initialState, action) {
         submitStatus: FETCH_STATUS.failed,
         submitErrorReason: action.errorReason,
       };
+    case STARTED_NEW_EXPRESS_CARE_FLOW: {
+      return {
+        ...initialState,
+        windowsStatus: state.windowsStatus,
+        supportedFacilities: state.supportedFacilities,
+      };
+    }
     default:
       return state;
   }

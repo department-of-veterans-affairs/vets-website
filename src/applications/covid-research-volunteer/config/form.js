@@ -21,7 +21,7 @@ const NONE_OF_ABOVE = 'NONE_OF_ABOVE';
 
 export const setNoneOfAbove = (form, elementName) => {
   const updatedForm = form;
-  Object.keys(updatedForm[elementName]).map((key, val) => {
+  Object.keys(updatedForm[elementName]).map((key, _val) => {
     updatedForm[elementName][key] = false;
     updatedForm[elementName][NONE_OF_ABOVE] = true;
     return updatedForm;
@@ -77,7 +77,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue to sign up for our COVID-19 research volunteer list.',
   },
-  title: 'Sign up for our COVID-19 research volunteer list',
+  title: 'Sign up for our coronavirus research volunteer list',
   defaultDefinitions: {},
   chapters: {
     chapter1: {
@@ -152,7 +152,7 @@ const formConfig = {
               phone: usaPhone,
               zipCode: usaPostalCode,
               veteranDateOfBirth: date,
-              // height: fullSchema.properties.height,
+              height: fullSchema.properties.height,
               weight: fullSchema.properties.weight,
               gender: fullSchema.properties.gender,
               raceEthnicityOrigin: fullSchema.properties.raceEthnicityOrigin,

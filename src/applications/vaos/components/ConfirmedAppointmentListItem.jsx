@@ -80,7 +80,9 @@ export default function ConfirmedAppointmentListItem({
     location = 'Video conference';
   } else if (isCommunityCare) {
     header = 'Community Care';
-    const address = appointment.contained[0].actor.address;
+    const address = appointment.contained.find(
+      res => res.resourceType === 'Location',
+    )?.address;
     location = `${address.line[0]} ${address.city}, ${address.state} ${
       address.postalCode
     }`;

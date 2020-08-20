@@ -1,21 +1,8 @@
 import moment from './moment-tz';
 import guid from 'simple-guid';
 import environment from 'platform/utilities/environment';
-import {
-  APPOINTMENT_TYPES,
-  PURPOSE_TEXT,
-  VIDEO_TYPES,
-  APPOINTMENT_STATUS,
-  CANCELLED_APPOINTMENT_SET,
-  FUTURE_APPOINTMENTS_HIDDEN_SET,
-  PAST_APPOINTMENTS_HIDDEN_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
-  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
-  EXPRESS_CARE,
-} from './constants';
 
 import {
-  getTimezoneBySystemId,
   getTimezoneAbbrBySystemId,
   getTimezoneDescFromAbbr,
   stripDST,

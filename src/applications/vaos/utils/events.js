@@ -24,8 +24,10 @@ export function resetDataLayer() {
     flow: undefined,
     'health-TypeOfCare': undefined,
     'health-ReasonForAppointment': undefined,
+    'health-expressCareReason': undefined,
     'error-key': undefined,
     appointmentType: undefined,
     facilityType: undefined,
+    isExpressCare: undefined,
   });
 }

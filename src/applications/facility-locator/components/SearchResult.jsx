@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LocationInfoBlock from './search-results/LocationInfoBlock';
-import LocationPhoneLink from './search-results/LocationPhoneLink';
-import LocationDirectionsLink from './search-results/LocationDirectionsLink';
+import LocationInfoBlock from './search-results-items/common/LocationInfoBlock';
+import LocationPhoneLink from './search-results-items/common/LocationPhoneLink';
+import LocationDirectionsLink from './search-results-items/common/LocationDirectionsLink';
 import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 
 export const urgentCareCall = query => {

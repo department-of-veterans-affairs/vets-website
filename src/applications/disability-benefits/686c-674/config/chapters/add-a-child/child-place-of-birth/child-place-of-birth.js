@@ -1,11 +1,7 @@
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import {
-  isChapterFieldRequired,
-  stateTitle,
-  cityTitle,
-} from '../../../helpers';
+import { isChapterFieldRequired } from '../../../helpers';
 import { addChild } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
 import { ChildNameHeader } from '../helpers';

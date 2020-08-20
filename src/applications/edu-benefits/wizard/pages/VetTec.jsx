@@ -26,8 +26,6 @@ const VetTec = ({
     additionalFieldsetClass="wizard-fieldset"
     options={vetTecOptions}
     onValueChange={({ value }) => {
-      const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
-        ?.selected;
       const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
         pageNames.claimingBenefitOwnService,
       )?.selected;

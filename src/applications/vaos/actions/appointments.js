@@ -1,6 +1,6 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
+import { GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../utils/events';
 
@@ -253,6 +253,7 @@ export function confirmCancelAppointment() {
     const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
     const additionalEventdata = {
       appointmentType: !isConfirmedAppointment ? 'pending' : 'confirmed',
+      isExpressCare: appointment.vaos?.isExpressCare,
       facilityType:
         appointment.vaos?.isCommunityCare || appointment.isCommunityCare
           ? 'cc'

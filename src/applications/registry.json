@@ -167,7 +167,7 @@
     "rootUrl": "/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg",
     "template": {
       "title": "Caregiver Application for Benefits",
-      "vagovprod": false,
+      "vagovprod": true,
       "vagovstaging": true,
       "vagovdev": true,
       "localhost": true,
@@ -498,7 +498,7 @@
   {
     "appName": "22-10203 Education benefits form",
     "entryName": "10203-edu-benefits",
-    "rootUrl": "/education/apply-for-education-benefits/application/10203",
+    "rootUrl": "/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203",
     "template": {
       "vagovprod": false,
       "title": "Apply for the Rogers STEM Scholarship",
@@ -518,8 +518,8 @@
           "path": "education/how-to-apply/"
         },
         {
-          "name": "Apply for education benefits",
-          "path": "education/apply-for-education-benefits/application/10203"
+          "name": "Apply for the Rogers STEM Scholarship",
+          "path": "education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203"
         }
       ]
     }
@@ -792,7 +792,7 @@
     "entryName": "your-debt",
     "rootUrl": "/manage-va-debt/your-debt",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "title": "Your VA Debt",
       "layout": "page-react.html"
     }
@@ -800,7 +800,7 @@
   {
     "appName": "28-1900 Veteran Readiness",
     "entryName": "28-1900-chapter-31",
-    "rootUrl": "/vre/28-1900",
+    "rootUrl": "/careers-employment/vocational-rehabilitation/apply",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"
@@ -833,6 +833,26 @@
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "Ask a Question",
+    "entryName": "ask-a-question",
+    "rootUrl": "/ask-a-question",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "Healthcare Questionnaire",
+    "entryName": "questionnaire",
+    "rootUrl": "/healthcare/questionnaire",
+    "template": {
+      "vagovprod": true,
+      "layout": "page-react.html",
+      "includeBreadcrumbs": false,
+      "breadcrumbs_override": []
     }
   }
 ]

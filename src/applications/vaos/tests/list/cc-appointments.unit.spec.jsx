@@ -4,7 +4,7 @@ import moment from 'moment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import reducers from '../../reducers';
 import { getCCAppointmentMock } from '../mocks/v0';
-import { mockAppointmentInfo, mockFacilitesFetch } from '../mocks/helpers';
+import { mockAppointmentInfo } from '../mocks/helpers';
 
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 

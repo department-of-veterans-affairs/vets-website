@@ -1,11 +1,7 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
-import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 
 export const UnauthContent = () => (
   <>
@@ -53,6 +49,7 @@ export const UnauthContent = () => (
     <a href="/health-care/how-to-apply/">
       Find out how to apply for VA health care
     </a>
+    <br />
     <p>
       <strong>And you must have one of these free accounts:</strong>
     </p>
@@ -104,10 +101,11 @@ export const UnauthContent = () => (
       <strong>
         If you don’t have an emergency, but you’re not sure what type of care
         you need,
-      </strong>
+      </strong>{' '}
       call your nearest VA health facility.
     </p>
-    <a href="">Find your nearest VA health facility</a>
+    <a href="/find-locations">Find your nearest VA health facility</a>
+    <br />
     <p>
       <strong>If you need to talk with someone right away,</strong> contact the
       Veterans Crisis Line. Whatever you’re struggling with—chronic pain,
@@ -157,8 +155,7 @@ export const UnauthContent = () => (
     </p>
     <p>
       If you print or download any messages, you’ll need to take responsibility
-      for protecting that information. Get tips for protecting your personal
-      health information
+      for protecting that information.
     </p>
     <h2>What if I have more questions?</h2>
     <p>You can:</p>

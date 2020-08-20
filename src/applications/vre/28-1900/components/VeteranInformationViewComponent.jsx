@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
-import merge from 'lodash/merge';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 import moment from 'moment';
-
-const NAME_PATH = 'veteranInformation.fullName';
-const DOB_PATH = 'veteranInformation.dob';
 
 export const VeteranInformationViewComponent = props => {
   const { profile, formData, setData } = props;
