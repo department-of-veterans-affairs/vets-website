@@ -134,7 +134,7 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
               title="Dial the telephone number 800-538-9552"
               className="no-wrap"
             >
-              1-800-538-9552
+              800-538-9552
             </a>
             , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
             p.m. ET. If you have hearing loss, call TTY:{' '}
