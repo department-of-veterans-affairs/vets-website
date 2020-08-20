@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import FieldTemplate from '../../../src/js/components/FieldTemplate';
 
@@ -94,7 +95,8 @@ describe('Schemaform <FieldTemplate>', () => {
     const formContext = {
       touched: {},
     };
-    const tree = SkinDeep.shallowRender(
+
+    const { getByText } = render(
       <FieldTemplate
         id="test"
         schema={schema}
@@ -106,7 +108,7 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>,
     );
 
-    expect(tree.everySubTree('.schemaform-required-span')).not.to.be.empty;
+    expect(getByText('(*Required)')).to.not.be.null;
   });
   it('should render error when touched', () => {
     const schema = {
