@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
-import { isCernerLive } from 'platform/utilities/cerner';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectIsCernerPatient } from 'platform/user/selectors';
 
-export const App = ({ isCernerPatient }) => {
-  if (!isCernerLive) {
+export const App = ({ isCernerPatient, showNewViewTestLabResultsPage }) => {
+  if (!showNewViewTestLabResultsPage) {
     return <LegacyContent />;
   }
 
@@ -24,10 +24,13 @@ export const App = ({ isCernerPatient }) => {
 App.propTypes = {
   // From mapStateToProps.
   isCernerPatient: PropTypes.bool,
+  showNewViewTestLabResultsPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   isCernerPatient: selectIsCernerPatient(state),
+  showNewViewTestLabResultsPage:
+    state?.featureToggles?.[featureFlagNames.showNewViewTestLabResultsPage],
 });
 
 export default connect(

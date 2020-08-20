@@ -88,7 +88,7 @@ class Vet360EditModalActionButtons extends React.Component {
         </p>
         <div>
           <LoadingButton
-            isLoading={this.props.transactionRequest?.isPending}
+            isLoading={this.props.isLoading}
             onClick={this.confirmDeleteAction}
           >
             Confirm
@@ -97,6 +97,7 @@ class Vet360EditModalActionButtons extends React.Component {
             type="button"
             className="usa-button-secondary"
             onClick={this.cancelDeleteAction}
+            disabled={this.props.isLoading}
           >
             Cancel
           </button>
@@ -133,7 +134,7 @@ Vet360EditModalActionButtons.propTypes = {
   title: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  transactionRequest: PropTypes.object,
+  isLoading: PropTypes.bool,
 };
 
 Vet360EditModalActionButtons.defaultProps = {
