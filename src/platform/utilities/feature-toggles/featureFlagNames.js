@@ -44,6 +44,14 @@ export default Object.freeze({
   showEduBenefits5490Wizard: 'show_edu_benefits_5490_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
+  stemSCOEmail: 'stem_sco_email',
   showHealthcareExperienceQuestionnaire:
     'showHealthcareExperienceQuestionnaire',
+  showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
+  showNewRefillTrackPrescriptionsPage:
+    'show_new_refill_track_prescriptions_page',
+  showNewScheduleViewAppointmentsPage:
+    'show_new_schedule_view_appointments_page',
+  showNewSecureMessagingPage: 'show_new_secure_messaging_page',
+  showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
 });

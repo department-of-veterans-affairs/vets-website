@@ -59,12 +59,15 @@ const UnauthContent = () => (
       <strong>Both of these must be true. You’re:</strong>
     </p>
     <ul>
-      <li>Enrolled in VA health care, and</li>
+      <li>
+        Enrolled in VA health care, <strong>and</strong>
+      </li>
       <li>Registered as a patient in a VA health facility</li>
     </ul>
     <a href="/health-care/how-to-apply">
       Find out how to apply for VA health care
     </a>
+    <br />
     <p>
       <strong>And you must have one of these free accounts:</strong>
     </p>
@@ -77,10 +80,11 @@ const UnauthContent = () => (
         , or
       </li>
       <li>
-        A Premium DS Logon account (used for eBenefits and milConnect), or
+        A Premium <strong>DS Logon</strong> account (used for eBenefits and
+        milConnect), or
       </li>
       <li>
-        A verified ID.me account that you can{' '}
+        A verified <strong>ID.me</strong> account that you can{' '}
         <a href="https://api.id.me/en/registration/new">
           create here on VA.gov
         </a>
@@ -120,12 +124,6 @@ const UnauthContent = () => (
       If you print or download anything from the website, you’ll need to take
       responsibility for protecting that information.
     </p>
-    <a
-      href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
-      rel="noreferrer noopener"
-    >
-      Get tips for protecting your personal health information
-    </a>
     <h3>What if I have more questions?</h3>
     <p>You can:</p>
     <ul>

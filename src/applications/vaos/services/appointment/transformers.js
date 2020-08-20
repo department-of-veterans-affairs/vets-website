@@ -328,48 +328,48 @@ function setParticipant(appt) {
       }
       return null;
     }
-    case APPOINTMENT_TYPES.ccRequest:
     case APPOINTMENT_TYPES.request: {
-      const hasName =
-        appt.patient?.displayName ||
-        (!!appt.patient?.firstName && !!appt.patient?.lastName);
-
-      const participant = [
-        {
-          actor: {
-            reference: 'Patient/PATIENT_ID',
-            display: hasName
-              ? appt.patient?.displayName ||
-                `${appt.patient?.firstName} ${appt.patient?.lastName}`
-              : null,
-            telecom: [
-              {
-                system: 'phone',
-                value: appt.phoneNumber,
-              },
-              {
-                system: 'email',
-                value: appt.email,
-              },
-            ],
-          },
-        },
-      ];
-
       if (appt.facility) {
-        participant.push({
-          actor: {
-            reference: `Location/var${appt.facility.facilityCode}`,
-            display: appt.friendlyLocationName || appt.facility?.name,
+        return [
+          {
+            actor: {
+              reference: `Location/var${appt.facility.facilityCode}`,
+              display: appt.friendlyLocationName || appt.facility?.name,
+            },
           },
-        });
+        ];
       }
-
-      return participant;
+      return null;
     }
     default:
       return null;
   }
+}
+
+function createPatientResourceFromRequest(req) {
+  const hasName =
+    req.patient?.displayName ||
+    (!!req.patient?.firstName && !!req.patient?.lastName);
+
+  return {
+    resourceType: 'Patient',
+    name: {
+      text: hasName
+        ? req.patient?.displayName ||
+          `${req.patient?.firstName} ${req.patient?.lastName}`
+        : null,
+    },
+    telecom: [
+      {
+        system: 'phone',
+        value: req.phoneNumber,
+      },
+      {
+        system: 'email',
+        value: req.email,
+      },
+    ],
+  };
 }
 
 /**
@@ -415,64 +415,85 @@ function setContained(appt) {
       return null;
     }
     case APPOINTMENT_TYPES.request: {
+      const contained = [createPatientResourceFromRequest(appt)];
+
       if (appt.visitType === 'Video Conference') {
-        return [
-          {
-            resourceType: 'HealthcareService',
-            characteristic: [
-              {
-                coding: getVideoType(appt),
-              },
-            ],
-          },
-        ];
+        contained.push({
+          resourceType: 'HealthcareService',
+          characteristic: [
+            {
+              coding: getVideoType(appt),
+            },
+          ],
+        });
       }
-      return null;
+
+      return contained;
     }
     case APPOINTMENT_TYPES.ccRequest: {
-      return appt.ccAppointmentRequest.preferredProviders.map(provider => {
-        const participant = {
-          actor: {
-            name: provider.practiceName,
-            // TODO: Map to participant.actor.Practitioner field.
-            firstName: provider.firstName,
-            lastName: provider.lastName,
-          },
-        };
+      const contained = [createPatientResourceFromRequest(appt)];
+      appt.ccAppointmentRequest.preferredProviders.forEach(
+        (provider, index) => {
+          const address = [];
+          if (provider.address) {
+            address.push({
+              line: [provider.address?.street],
+              city: provider.address?.city,
+              state: provider.address?.state,
+              postalCode: provider.address?.zipCode,
+            });
+          }
 
-        if (provider.address) {
-          const address = {
-            line: [provider.address?.street],
-            city: provider.address?.city,
-            state: provider.address?.state,
-            postalCode: provider.address?.zipCode,
-          };
-          participant.actor.address = address;
-        }
+          contained.push({
+            resourceType: 'Practitioner',
+            id: `cc-practitioner-${appt.id}-${index}`,
+            name: {
+              text: `${provider.firstName} ${provider.lastName}`,
+              family: provider.lastName,
+              given: provider.firstName,
+            },
+            address: provider.address ? address : null,
+            practitionerRole: [
+              {
+                location: [
+                  {
+                    reference: `Location/cc-location-${appt.id}-${index}`,
+                    display: provider.practiceName,
+                  },
+                ],
+              },
+            ],
+          });
+        },
+      );
 
-        return participant;
-      });
+      return contained;
     }
     case APPOINTMENT_TYPES.ccAppointment: {
-      const address = appt.address;
+      let address;
+      if (appt.address) {
+        address = {
+          line: [appt.address.street],
+          city: appt.address.city,
+          state: appt.address.state,
+          postalCode: appt.address.zipCode,
+        };
+      }
 
       return [
         {
-          actor: {
-            name: appt.providerPractice,
-            address: {
-              line: [address?.street],
-              city: address?.city,
-              state: address?.state,
-              postalCode: address?.zipCode,
-            },
-            telecom: [
-              {
-                system: 'phone',
-                value: appt.providerPhone,
-              },
-            ],
-          },
+          resourceType: 'Location',
+          id: `cc-location-id`,
+          name: appt.providerPractice,
+          address: appt.address ? address : null,
+          telecom: appt.providerPhone
+            ? [
+                {
+                  system: 'phone',
+                  value: appt.providerPhone,
+                },
+              ]
+            : null,
         },
       ];
     }

@@ -11,8 +11,8 @@ import PersonalInformation from '../../../components/personal-information/Person
 
 import {
   createBasicInitialState,
-  elementNotRemoved,
   renderWithProfileReducers,
+  wait,
 } from '../../unit-test-helpers';
 
 let emailAddress;
@@ -37,7 +37,7 @@ function getEditButton() {
   return editButton;
 }
 
-// helper function that enters the `Edit email address` view and clicks on the `Delete` and `Confirm` buttons
+// helper function that enters the `Edit email address` view and clicks on the `Remove` and `Confirm` buttons
 function deleteEmailAddress() {
   const editButton = getEditButton();
   editButton.click();
@@ -46,10 +46,12 @@ function deleteEmailAddress() {
   expect(emailAddressInput).to.exist;
 
   // delete
-  view.getByText('Delete', { selector: 'button *' }).click();
-  view.getByText('Confirm', { selector: 'button' }).click();
+  view.getByText('Remove email address').click();
+  const confirmDeleteButton = view.getByText('Confirm', { selector: 'button' });
+  const cancelDeleteButton = view.getByText('Cancel', { selector: 'button' });
+  confirmDeleteButton.click();
 
-  return { emailAddressInput };
+  return { emailAddressInput, confirmDeleteButton, cancelDeleteButton };
 }
 
 describe('Deleting email address', () => {
@@ -77,9 +79,28 @@ describe('Deleting email address', () => {
   });
 
   it('should handle a deletion that succeeds quickly', async () => {
-    server.use(...mocks.transactionSucceeded);
+    server.use(...mocks.transactionPending);
+    const {
+      cancelDeleteButton,
+      confirmDeleteButton,
+      emailAddressInput,
+    } = deleteEmailAddress();
 
-    const { emailAddressInput } = deleteEmailAddress();
+    // Buttons should be disabled while the delete transaction is pending...
+    // Waiting 10ms to make this check so that it happens _after_ the initial
+    // delete transaction request is created. We had a UX bug where the buttons
+    // were disabled while the initial transaction request was being created but
+    // were enabled again while polling the transaction status. This test was
+    // added to prevent regressing back to that poor experience where users were
+    // able to interact with buttons that created duplicate XHRs.
+    await wait(10);
+    expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
+    expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
+    expect(confirmDeleteButton)
+      .to.have.descendant('i')
+      .and.have.class('fa-spinner');
+
+    server.use(...mocks.transactionSucceeded);
 
     // wait for the edit mode to exit
     await waitForElementToBeRemoved(emailAddressInput);
@@ -132,15 +153,29 @@ describe('Deleting email address', () => {
       'We’re sorry. We couldn’t update your email address. Please try again.',
     );
 
-    // make sure that edit mode is not exited
-    await elementNotRemoved(alert, { timeout: 75 });
+    // make sure that edit mode is not automatically exited
+    await wait(75);
+    expect(view.getByTestId('edit-error-alert')).to.exist;
     const editButton = getEditButton();
     expect(editButton).to.not.exist;
   });
   it('should show an error and not auto-exit edit mode if the deletion fails quickly', async () => {
-    server.use(...mocks.transactionFailed);
+    server.use(...mocks.transactionPending);
 
-    deleteEmailAddress();
+    const { cancelDeleteButton, confirmDeleteButton } = deleteEmailAddress();
+
+    // Wait for the transaction to be created before checking the state of the
+    // buttons. In the past the buttons worked correctly while making the
+    // initial transaction but were re-enabled while the transaction was still
+    // pending.
+    await wait(10);
+    expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
+    expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
+    expect(confirmDeleteButton)
+      .to.have.descendant('i')
+      .and.have.class('fa-spinner');
+
+    server.use(...mocks.transactionFailed);
 
     // expect an error to be shown
     const alert = await view.findByTestId('edit-error-alert');
@@ -149,8 +184,14 @@ describe('Deleting email address', () => {
       'We’re sorry. We couldn’t update your email address. Please try again.',
     );
 
-    // make sure that edit mode is not exited
-    await elementNotRemoved(alert, { timeout: 75 });
+    // the buttons should be enabled again
+    expect(!!cancelDeleteButton.attributes.disabled).to.be.false;
+    expect(!!confirmDeleteButton.attributes.disabled).to.be.false;
+    expect(confirmDeleteButton).to.contain.text('Confirm');
+
+    // make sure that edit mode is not automatically exited
+    await wait(75);
+    expect(view.getByTestId('edit-error-alert')).to.exist;
     const editButton = getEditButton();
     expect(editButton).to.not.exist;
   });

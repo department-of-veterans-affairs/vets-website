@@ -24,7 +24,7 @@ const reverseFields = reverseFieldListing => ({
     : [],
 });
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'event_listing',
   title: getDrupalValue(entity.title),
@@ -36,7 +36,11 @@ const transform = entity => ({
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
-  fieldOffice: entity.fieldOffice[0],
+  fieldOffice:
+    entity.fieldOffice[0] &&
+    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+      ? entity.fieldOffice[0]
+      : null,
   reverseFieldListingNode: reverseFields(entity.reverseFieldListing),
   pastEvents: reverseFields(entity.reverseFieldListing),
 });

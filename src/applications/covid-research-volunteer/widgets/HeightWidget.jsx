@@ -56,7 +56,7 @@ export default class HeightWidget extends React.Component {
     const { id } = this.props;
     const { feet, inches } = this.state.value;
     return (
-      <div className="row">
+      <div className="row vads-u-margin-top--neg3">
         <div
           className="form-height-feet"
           style={{ ...inputStyle, marginRight: '4rem' }}

@@ -31,6 +31,12 @@ describe('the Education Benefits Wizard', () => {
     sessionStorage.clear();
   });
 
+  it('should render the wizard wrapped in a form element', () => {
+    const wrapper = shallow(<Wizard {...defaultProps} />);
+    expect(wrapper.exists('form')).to.equal(true);
+    wrapper.unmount();
+  });
+
   it('should render the wizard start button if the expander prop is true', () => {
     const wrapper = shallow(<Wizard {...defaultProps} />);
     expect(wrapper.exists('.wizard-button')).to.equal(true);

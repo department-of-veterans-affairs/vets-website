@@ -109,6 +109,31 @@ describe('checkAutoSession', () => {
     expect(global.window.location).to.eq('http://localhost');
   });
 
+  it('should re login user before redirect to myvahealth because transactions are different', async () => {
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      sessionAlive: true,
+      ttl: 900,
+      authn: 'dslogon',
+      transactionid: 'X',
+    });
+    global.window.location.origin = 'http://localhost';
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=myvahealth';
+    const profile = { verified: true };
+
+    const auto = sandbox.stub(authUtils, 'login');
+    await checkAutoSession(true, 'Y', profile);
+
+    sinon.assert.calledOnce(auto);
+    sinon.assert.calledWith(
+      auto,
+      'custom',
+      'v1',
+      { authn: 'dslogon' },
+      'sso-automatic-login',
+    );
+  });
+
   it('should auto logout if user has logged in via SSOe and they do not have a SSOe session anymore', async () => {
     sandbox
       .stub(keepAliveMod, 'keepAlive')
