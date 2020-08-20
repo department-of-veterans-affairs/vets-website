@@ -1,14 +1,14 @@
 import 'platform/polyfills';
 import './sass/vaos.scss';
 
-import startApp from './startup';
-import componentWithStore from './routes';
+import { startReactRouterDOMApp as startApp } from 'platform/startup';
+import createRoutesWithStore from './routes';
 import manifest from './manifest.json';
 import reducer from './reducers';
 
 startApp({
   url: manifest.rootUrl,
-  componentWithStore,
+  createRoutesWithStore,
   reducer,
   entryName: manifest.entryName,
 });

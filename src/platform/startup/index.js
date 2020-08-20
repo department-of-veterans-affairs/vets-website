@@ -3,15 +3,12 @@
  * @module platform/startup
  */
 import React from 'react';
-import * as Sentry from '@sentry/browser';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory, browserHistory } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import { createHistory } from 'history';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
-
-import createCommonStore from './store';
-import startSitewideComponents from '../site-wide';
 import startReactApp from './react';
+import setUpCommonFunctionality from './setup';
 
 /**
  * Starts an application in the default element for standalone React
@@ -38,38 +35,71 @@ export default function startApp({
   analyticsEvents,
   entryName = 'unknown',
 }) {
-  // Set further errors to have the appropriate source tag
-  Sentry.setTag('source', entryName);
-
-  // Set the app name for use in the apiRequest helper
-  window.appName = entryName;
-
-  const store = createCommonStore(reducer, analyticsEvents);
-  connectFeatureToggle(store.dispatch);
+  const store = setUpCommonFunctionality({
+    entryName,
+    url,
+    reducer,
+    analyticsEvents,
+  });
 
   let history = browserHistory;
   if (url) {
-    if (url.endsWith('/')) {
-      throw new Error(
-        'Root urls should not end with a slash. Check your manifest.json file and application entry file.',
-      );
-    }
     // eslint-disable-next-line react-hooks/rules-of-hooks
     history = useRouterHistory(createHistory)({
       basename: url,
     });
   }
-
-  Sentry.withScope(scope => {
-    scope.setTag('source', 'site-wide');
-    startSitewideComponents(store);
-  });
-
   let content = component;
   if (createRoutesWithStore) {
     content = <Router history={history}>{createRoutesWithStore(store)}</Router>;
   } else if (routes) {
     content = <Router history={history}>{routes}</Router>;
+  }
+
+  startReactApp(<Provider store={store}>{content}</Provider>);
+}
+
+/**
+ * Starts an application in the default element for standalone React
+ * applications. It also sets up the common store, starts the site-wide
+ * components (like the header menus and login widget), and wraps the provided
+ * routes in the Redux and React Router v5 boilerplate common to most applications.
+ *
+ * @param {object} appInfo The UI and business logic of your React application
+ * @param {Route|array<Route>} appInfo.routes The routes for the application
+ * @param {ReactElement} appInfo.component A React element to render. Only used if routes
+ * is not passed
+ * @param {object} appInfo.reducer An object containing reducer functions. Will have
+ * combineReducers run on it after being merged with the common, cross-site reducer.
+ * @param {string} appInfo.url The base url for the React application
+ * @param {array} appInfo.analyticsEvents An array which contains analytics events to collect
+ * when the respective actions are fired.
+ */
+export function startReactRouterDOMApp({
+  routes,
+  createRoutesWithStore,
+  component,
+  reducer,
+  url,
+  analyticsEvents,
+  entryName = 'unknown',
+}) {
+  const store = setUpCommonFunctionality({
+    entryName,
+    url,
+    reducer,
+    analyticsEvents,
+  });
+
+  let content = component;
+  if (createRoutesWithStore) {
+    content = (
+      <BrowserRouter basename={url}>
+        {createRoutesWithStore(store)}
+      </BrowserRouter>
+    );
+  } else if (routes) {
+    content = <BrowserRouter basename={url}>{routes}</BrowserRouter>;
   }
 
   startReactApp(<Provider store={store}>{content}</Provider>);
