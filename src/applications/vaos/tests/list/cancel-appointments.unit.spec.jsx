@@ -509,12 +509,17 @@ describe('VAOS integration appointment cancellation:', () => {
       {
         initialState: {
           ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            show_new_schedule_view_appointments_page: true,
+          },
           user: {
             profile: {
               facilities: [
                 { facilityId: '983', isCerner: false },
                 { facilityId: '668', isCerner: true },
               ],
+              isCernerPatient: true,
             },
           },
         },
