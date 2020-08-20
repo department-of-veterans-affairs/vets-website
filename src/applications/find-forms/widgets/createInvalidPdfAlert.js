@@ -23,7 +23,7 @@ const InvalidFormDownload = () => (
   />
 );
 
-async function onDownloadLinkClick(event) {
+export async function onDownloadLinkClick(event) {
   event.preventDefault();
 
   const link = event.target;
@@ -37,14 +37,14 @@ async function onDownloadLinkClick(event) {
 
   try {
     const forms = await fetchFormsApi(formNumber);
-    form = forms.find(f => f.attributes.formName === formNumber);
+    form = forms.find(f => f.id === formNumber);
     formPdfIsValid = form?.attributes.validPdf;
   } catch (err) {
     // Todo
   }
 
   if (formPdfIsValid) {
-    link.removeEventListener('click');
+    link.removeEventListener('click', onDownloadLinkClick);
     link.click();
   } else {
     Sentry.withScope(scope => {
