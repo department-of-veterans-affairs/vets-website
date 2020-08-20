@@ -8,6 +8,8 @@ import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
 import { selectIsCernerPatient } from 'platform/user/selectors';
 
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+
 export const App = ({
   isCernerPatient,
   showNewScheduleViewAppointmentsPage,
@@ -32,7 +34,9 @@ App.propTypes = {
 const mapStateToProps = state => ({
   isCernerPatient: selectIsCernerPatient(state),
   showNewScheduleViewAppointmentsPage:
-    state?.featureToggles?.showNewScheduleViewAppointmentsPage,
+    state?.featureToggles?.[
+      featureFlagNames.showNewScheduleViewAppointmentsPage
+    ],
 });
 
 export default connect(
