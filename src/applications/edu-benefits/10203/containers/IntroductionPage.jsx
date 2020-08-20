@@ -22,7 +22,10 @@ export class IntroductionPage extends React.Component {
 
   entitlementRemainingAlert() {
     if (this.props.isLoggedIn) {
-      if (this.moreThanSixMonths(this.props?.remainingEntitlement)) {
+      if (
+        this.props.useEvss &&
+        this.moreThanSixMonths(this.props?.remainingEntitlement)
+      ) {
         return (
           <div
             id="entitlement-remaining-alert"
@@ -83,7 +86,7 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-10203 (Application for Edith Nourse Rogers STEM
           Scholarship).
         </p>
-        {this.props.useEvss && this.entitlementRemainingAlert()}
+        {this.entitlementRemainingAlert()}
         <h4>Follow the steps below to apply for this scholarship</h4>
         <div className="process schemaform-process">
           <ol>
