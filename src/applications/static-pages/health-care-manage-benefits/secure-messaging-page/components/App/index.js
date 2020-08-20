@@ -9,8 +9,9 @@ import UnauthContent from '../UnauthContent';
 import { isCernerLive } from 'platform/utilities/cerner';
 import { selectIsCernerPatient } from 'platform/user/selectors';
 
-export const App = ({ isCernerPatient }) => {
-  if (!isCernerLive) {
+export const App = ({ isCernerPatient, showNewSecureMessagingPage }) => {
+  // Show legacy content if Cerner isn't live or if we explicitly shouldn't show the page via a feature flag.
+  if (!isCernerLive || showNewSecureMessagingPage === false) {
     return <LegacyContent />;
   }
 
@@ -24,10 +25,12 @@ export const App = ({ isCernerPatient }) => {
 App.propTypes = {
   // From mapStateToProps.
   isCernerPatient: PropTypes.bool,
+  showNewSecureMessagingPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   isCernerPatient: selectIsCernerPatient(state),
+  showNewSecureMessagingPage: state?.featureToggles?.showNewSecureMessagingPage,
 });
 
 export default connect(
