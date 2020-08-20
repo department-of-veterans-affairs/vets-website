@@ -84,7 +84,7 @@ const formConfig = {
       title: 'Volunteer Information',
       pages: {
         page1: {
-          path: 'volunteer',
+          path: 'sign-up',
           title: 'Volunteer Information - Page 1',
           updateFormData: updateData,
           uiSchema,
