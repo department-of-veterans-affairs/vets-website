@@ -42,8 +42,7 @@ module.exports = () => {
   };
 
   const logStepStart = (step, description) => {
-    const logLine = `\nStep ${step + 1} of ${stepCount +
-      1} start: ${description}`;
+    const logLine = `\nStep ${step + 1} of ${stepCount} start: ${description}`;
     console.log(chalk.cyan(logLine));
     lastLogLineLength = logLine.length % process.stdout.columns;
     consoleDirty = false;
@@ -63,6 +62,10 @@ module.exports = () => {
       process.stdout.write(`${coloredTime}`);
       // If we added another cursorTo(0, process.stdout.rows), it creates
       // a blank line between the two logStepStart lines
+      if (step + 1 === stepCount) {
+        // Last step; clean it up with a newline
+        process.stdout.write('\n');
+      }
     } else {
       // Output to a new line
       console.log(
