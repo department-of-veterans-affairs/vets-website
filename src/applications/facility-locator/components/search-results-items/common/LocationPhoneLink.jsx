@@ -43,13 +43,14 @@ const LocationPhoneLink = ({ location, from, query }) => {
     query &&
     query.facilityType === LocationType.CC_PROVIDER &&
     query.serviceType !== CLINIC_URGENTCARE_SERVICE;
+
   if (isProvider) {
     const { caresitePhone: phone } = location.attributes;
     return (
       <div>
         {renderPhoneNumber('Main number', null, phone, true)}
         {isCCProvider && (
-          <p>
+          <p id={'referral-message'}>
             If you don’t have a referral, contact your local VA medical center.
           </p>
         )}
