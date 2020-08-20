@@ -17,7 +17,9 @@ describe('VaFacilityResult', () => {
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
-    expect(wrapper.find('Link').html()).to.equal('<a>Austin VA Clinic</a>');
+    expect(wrapper.find('#facility-name Link').html()).to.equal(
+      '<a>Austin VA Clinic</a>',
+    );
     expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
     wrapper.unmount();
   });
@@ -33,7 +35,7 @@ describe('VaFacilityResult', () => {
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
-    expect(wrapper.find('Link').html()).to.equal(
+    expect(wrapper.find('#facility-name Link').html()).to.equal(
       '<a>VetSuccess on Campus at Los Angeles City College</a>',
     );
     expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
@@ -51,7 +53,7 @@ describe('VaFacilityResult', () => {
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
-    expect(wrapper.find('Link').html()).to.equal(
+    expect(wrapper.find('#facility-name Link').html()).to.equal(
       '<a>Washington State Veterans Cemetery Medical Lake</a>',
     );
     expect(wrapper.find('LocationOperationStatus').length).to.equal(1);
@@ -69,7 +71,7 @@ describe('VaFacilityResult', () => {
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
-    expect(wrapper.find('a').props().href).to.equal(
+    expect(wrapper.find('#facility-name a').props().href).to.equal(
       'https://va.gov/alexandria',
     );
     expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
