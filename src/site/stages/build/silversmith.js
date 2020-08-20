@@ -6,9 +6,6 @@ const AsciiTable = require('ascii-table');
 
 const formatMemory = m => Math.round((m / 1024 / 1024) * 100) / 100;
 
-const logStepStart = (step, description) =>
-  console.log(chalk.cyan(`\nStep ${step + 1} start: ${description}`));
-
 const logStepEnd = (step, description, timeElapsed) => {
   // Color the time
   let color;
@@ -41,10 +38,17 @@ module.exports = () => {
   const smith = Metalsmith(__dirname);
 
   smith.stepStats = [];
+  let stepCount = 0;
+
+  const logStepStart = (step, description) =>
+    console.log(
+      chalk.cyan(
+        `\nStep ${step + 1} of ${stepCount + 1} start: ${description}`,
+      ),
+    );
 
   // Override the normal use function to log additional information
   smith._use = smith.use;
-  let stepCount = 0;
   smith.use = function use(plugin, description = 'Unknown Plugin') {
     const step = stepCount++;
     smith.stepStats[step] = { description };
