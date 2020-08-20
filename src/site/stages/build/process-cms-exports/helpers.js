@@ -5,7 +5,7 @@ const get = require('lodash/get');
 const cloneDeep = require('lodash/cloneDeep');
 
 const cachedEntities = new Map();
-global.exportCacheHits = 0;
+global.readEntityCacheHits = 0;
 
 /**
  * The path to the CMS export content.
@@ -136,7 +136,7 @@ module.exports = {
     }
 
     if (cachedEntities.has(filename)) {
-      global.exportCacheHits++;
+      global.readEntityCacheHits++;
       return cloneDeep(cachedEntities.get(filename));
     } else {
       const entity = addCommonProperties(

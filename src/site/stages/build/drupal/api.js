@@ -200,7 +200,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       );
       say(
         `${chalk.green(
-          global.exportCacheHits,
+          global.readEntityCacheHits,
         )} cache hits while expanding entity references`,
       );
       return transformedEntities;
