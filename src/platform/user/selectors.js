@@ -24,14 +24,17 @@ export const selectPatientFacilities = state =>
       ];
 
     // Derive if they are a 200CRNR Cerner patient.
-    const isCernerPatient = state?.user?.profile?.isCernerPatient;
+    const isCernerPatient = selectProfile(state)?.isCernerPatient;
+
+    // Derive if we should consider it a Cerner facility.
+    const passesCernerChecks =
+      showNewScheduleViewAppointmentsPage &&
+      (isCerner || (isCernerPatient && hasCernerFacilityID));
 
     return {
       facilityId,
       // This overrides the MPI isCerner flag in favor of the feature toggle.
-      isCerner:
-        showNewScheduleViewAppointmentsPage &&
-        (isCerner || (isCernerPatient && hasCernerFacilityID)),
+      isCerner: passesCernerChecks,
     };
   }) || null;
 export const selectVet360 = state => selectProfile(state).vet360;
