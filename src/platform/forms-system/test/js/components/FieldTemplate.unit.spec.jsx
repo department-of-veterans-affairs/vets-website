@@ -256,7 +256,7 @@ describe('Schemaform <FieldTemplate>', () => {
     const formContext = {
       touched: {},
     };
-    const tree = SkinDeep.shallowRender(
+    const { getByText } = render(
       <FieldTemplate
         id="test"
         schema={schema}
@@ -267,8 +267,8 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>,
     );
 
-    expect(tree.subTree('legend').text()).to.equal('Title');
-    expect(tree.subTree('fieldset')).not.to.be.false;
+    expect(getByText('Title', { selector: 'fieldset > legend' })).to.not.be
+      .null;
   });
   it('should not render fieldset if showFieldLabel is set to label', () => {
     const schema = {
