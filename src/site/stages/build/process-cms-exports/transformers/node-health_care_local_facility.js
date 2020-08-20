@@ -15,7 +15,7 @@ const getSocialMediaObject = ({ uri, title }) =>
       }
     : null;
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'health_care_local_facility',
   title: getDrupalValue(entity.title),
@@ -54,7 +54,11 @@ const transform = entity => ({
     entity.fieldOperatingStatusMoreInfo,
   ),
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
-  fieldRegionPage: entity.fieldRegionPage[0] || null,
+  fieldRegionPage:
+    entity.fieldRegionPage[0] &&
+    !ancestors.find(r => r.entity.uuid === entity.fieldRegionPage[0].uuid)
+      ? entity.fieldRegionPage[0]
+      : null,
   fieldTwitter: getSocialMediaObject(entity.fieldTwitter),
 });
 
