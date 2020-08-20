@@ -356,7 +356,7 @@ describe('Schemaform <FieldTemplate>', () => {
     const formContext = {
       touched: {},
     };
-    const tree = SkinDeep.shallowRender(
+    const { getByText } = render(
       <FieldTemplate
         id="test"
         schema={schema}
@@ -368,7 +368,6 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>,
     );
 
-    expect(tree.subTree('label')).not.to.be.empty;
-    expect(tree.everySubTree('.schemaform-required-span')).not.to.be.empty;
+    expect(getByText('(*Required)')).to.not.be.null;
   });
 });
