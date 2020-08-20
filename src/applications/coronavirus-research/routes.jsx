@@ -17,11 +17,11 @@ const introRouteIndex = route.childRoutes.findIndex(
 );
 
 route.childRoutes[introRouteIndex].onEnter = (nextState, replace) => {
-  console.log('has redirected: ', hasRedirected);
-  console.log('next state: ', nextState);
+  // console.log('has redirected: ', hasRedirected);
+  // console.log('next state: ', nextState);
   if (!hasRedirected) {
     hasRedirected = true;
-    console.log('On Enter called ...');
+    // console.log('On Enter called ...');
     replace('/coronavirus-research/volunteer');
   }
 };
