@@ -542,3 +542,22 @@ exports["SearchResultMessage/Should render SearchResultMessage with location err
   ]
 };
 
+exports["SearchResultMessage/Should render SearchResultMessage init(0)"] = {
+  "node": {
+    "nodeType": "host",
+    "type": "div",
+    "props": {
+      "className": "search",
+      "children": "Please enter a location (street, city, state or postal code) and click search above to find facilities."
+    },
+    "rendered": "Please enter a location (street, city, state or postal code) and click search above to find facilities."
+  },
+  "type": "div",
+  "props": {
+    "className": "search"
+  },
+  "children": [
+    "Please enter a location (street, city, state or postal code) and click search above to find facilities."
+  ]
+};
+

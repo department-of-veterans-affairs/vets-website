@@ -55,4 +55,10 @@ describe('SearchResultMessage', () => {
     expect(wrapper).to.matchSnapshot();
     wrapper.unmount();
   });
+
+  it('Should render SearchResultMessage init', () => {
+    const wrapper = shallow(<SearchResultMessage />);
+    expect(wrapper).to.matchSnapshot();
+    wrapper.unmount();
+  });
 });
