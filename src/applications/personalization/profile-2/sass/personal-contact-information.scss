@@ -3,3 +3,10 @@
 .profile-military-domestic {
   margin-left: 1.7em;
 }
+
+.non-clickable-link {
+  pointer-events: none;
+  cursor: default;
+  color: $color-black;
+  text-decoration: none;
+}
