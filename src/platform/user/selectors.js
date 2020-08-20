@@ -1,6 +1,6 @@
 // TODO: perhaps make these selectors fail gracefully if state.user, or any of
 // the properties on the user object are not defined
-import { CERNER_FACILITY_IDS, isCernerLive } from '../utilities/cerner';
+import { CERNER_FACILITY_IDS } from '../utilities/cerner';
 
 export const selectUser = state => state.user;
 export const isLoggedIn = state => selectUser(state).login.currentlyLoggedIn;
@@ -14,10 +14,8 @@ export const selectAvailableServices = state => selectProfile(state)?.services;
 export const selectPatientFacilities = state =>
   selectProfile(state)?.facilities?.map(({ facilityId, isCerner }) => ({
     facilityId,
-    // This overrides the MPI isCerner flag in favor of the list maintained
-    // in vets-website
-    isCerner:
-      isCerner || (isCernerLive && CERNER_FACILITY_IDS.includes(facilityId)),
+    // This overrides the MPI isCerner flag in favor of the list maintained in vets-website.
+    isCerner: isCerner || CERNER_FACILITY_IDS.includes(facilityId),
   })) || null;
 export const selectVet360 = state => selectProfile(state).vet360;
 export const selectVet360EmailAddress = state =>
