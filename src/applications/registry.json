@@ -829,7 +829,7 @@
   {
     "appName": "Coronavirus Research - Volunteer",
     "entryName": "coronavirus-research",
-    "rootUrl": "/coronavirus-research/volunteer",
+    "rootUrl": "/coronavirus-research/",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"
