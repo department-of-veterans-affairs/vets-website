@@ -31,8 +31,10 @@ const findCircularReference = (entity, ancestors) => {
   if (a) {
     // This logging is to help debug if AJV fails on an unexpected circular
     // reference
-    console.log(`I'm my own grandpa! (${toId(entity)})`);
-    console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
+    if (global.verbose) {
+      console.log(`I'm my own grandpa! (${toId(entity)})`);
+      console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
+    }
 
     // NOTE: If we find a circular reference, it needs to be addressed in the
     // transformer and accounted for in the transformed schema.
