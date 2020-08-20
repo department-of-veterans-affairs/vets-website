@@ -45,7 +45,7 @@ describe('Schemaform <FieldTemplate>', () => {
       touched: {},
     };
     const errors = ['Some error'];
-    const tree = SkinDeep.shallowRender(
+    const { getByText } = render(
       <FieldTemplate
         id="test"
         schema={schema}
@@ -57,9 +57,7 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>,
     );
 
-    expect(tree.subTree('label').text()).to.equal('Title');
-    expect(tree.everySubTree('.field-child')).not.to.be.empty;
-    expect(tree.everySubTree('.usa-input-error-message')).to.be.empty;
+    expect(getByText('Title', { selector: 'label > span' })).to.not.be.null;
   });
   it('should render object', () => {
     const schema = {
