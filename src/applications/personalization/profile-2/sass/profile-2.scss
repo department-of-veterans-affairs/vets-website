@@ -14,3 +14,10 @@
 [tabindex="-1"]:focus {
   outline: 0;
 }
+
+.non-clickable-link {
+  pointer-events: none;
+  cursor: default;
+  color: black;
+  text-decoration: none;
+}
