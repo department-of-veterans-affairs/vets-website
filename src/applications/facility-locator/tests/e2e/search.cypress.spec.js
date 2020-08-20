@@ -112,7 +112,7 @@ describe('Facility search', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('.facility-result h2').contains('BADEA, LUANA');
+    cy.get('.facility-result h3').contains('BADEA, LUANA');
   });
 
   it('finds community urgent care', () => {
@@ -133,7 +133,7 @@ describe('Facility search', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('.facility-result h2').contains('Concentra Urgent Care');
+    cy.get('.facility-result h3').contains('Concentra Urgent Care');
   });
 
   it('finds community urgent care', () => {
@@ -152,7 +152,7 @@ describe('Facility search', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('.facility-result h2').contains('MinuteClinic');
+    cy.get('.facility-result h3').contains('MinuteClinic');
   });
 
   it('finds va urgent care pharmacies', () => {
@@ -170,6 +170,6 @@ describe('Facility search', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('.facility-result h2').contains('CVS');
+    cy.get('.facility-result h3').contains('CVS');
   });
 });
