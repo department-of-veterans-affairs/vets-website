@@ -6,19 +6,6 @@ const AsciiTable = require('ascii-table');
 
 const formatMemory = m => Math.round((m / 1024 / 1024) * 100) / 100;
 
-const logStepEnd = (step, description, timeElapsed) => {
-  // Color the time
-  let color;
-  if (timeElapsed < 1000) color = chalk.green;
-  else if (timeElapsed < 10000) color = chalk.yellow;
-  else color = chalk.red;
-  const coloredTime = color(`[${timeElapsed}ms]`);
-
-  console.log(
-    chalk.cyan(`Step ${step + 1} end ${coloredTime}: ${description}`),
-  );
-};
-
 const logMemoryUsage = (heapUsedStart, heapUsedEnd) => {
   console.log(
     chalk.bold('Starting memory:'),
@@ -39,13 +26,50 @@ module.exports = () => {
 
   smith.stepStats = [];
   let stepCount = 0;
+  let consoleDirty = false;
+  let lastLogLineLength = 0;
 
-  const logStepStart = (step, description) =>
-    console.log(
-      chalk.cyan(
-        `\nStep ${step + 1} of ${stepCount + 1} start: ${description}`,
-      ),
-    );
+  // Spy on stdout & stderr to see if we need to write the full logStepEnd line
+  process.stdout.__write = process.stdout.write;
+  process.stdout.write = function _write(...params) {
+    consoleDirty = true;
+    process.stdout.__write(...params);
+  };
+  process.stderr.__write = process.stderr.write;
+  process.stderr.write = function _write(...params) {
+    consoleDirty = true;
+    process.stderr.__write(...params);
+  };
+
+  const logStepStart = (step, description) => {
+    const logLine = `\nStep ${step + 1} of ${stepCount +
+      1} start: ${description}`;
+    console.log(chalk.cyan(logLine));
+    lastLogLineLength = logLine.length % process.stdout.columns;
+    consoleDirty = false;
+  };
+
+  const logStepEnd = (step, description, timeElapsed) => {
+    // Color the time
+    let color;
+    if (timeElapsed < 1000) color = chalk.green;
+    else if (timeElapsed < 10000) color = chalk.yellow;
+    else color = chalk.red;
+    const coloredTime = color(`[${timeElapsed}ms]`);
+
+    if (consoleDirty || !process.stdout.isTTY) {
+      // Output to a new line
+      console.log(
+        chalk.cyan(`Step ${step + 1} end ${coloredTime}: ${description}`),
+      );
+    } else {
+      // Just append the logStepStart line with the time elapsed
+      process.stdout.cursorTo(lastLogLineLength, process.stdout.rows - 2);
+      process.stdout.write(`${coloredTime}`);
+      // If we added another cursorTo(0, process.stdout.rows), it creates
+      // a blank line between the two logStepStart lines
+    }
+  };
 
   // Override the normal use function to log additional information
   smith._use = smith.use;
