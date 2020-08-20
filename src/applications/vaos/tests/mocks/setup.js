@@ -39,8 +39,8 @@ export function createTestStore(initialState) {
 
 export function createTestHistory(path = '/') {
   const history = createMemoryHistory({ initialEntries: [path] });
-  history.replace = sinon.spy();
-  history.push = sinon.spy();
+  sinon.spy(history, 'replace');
+  sinon.spy(history, 'push');
 
   return history;
 }
