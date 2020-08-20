@@ -99,15 +99,11 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                           role="img"
                           className="fas fa-download vads-u-padding-right--1"
                         />
-                        Download
+                        <span aria-hidden="true">Download letter </span>
                         <span className="sr-only">
-                          {debtLetter.typeDescription}
-                        </span>{' '}
-                        letter{' '}
-                        <span className="sr-only">
-                          dated{' '}
-                          {moment(debtLetter.receivedAt).format('MMM D, YYYY')}`
-                        </span>{' '}
+                          Download Second Demand Letter dated{' '}
+                          {moment(debtLetter.receivedAt).format('MMM D, YYYY')}
+                        </span>
                         <dfn>
                           <abbr title="Portable Document Format">(PDF)</abbr>
                         </dfn>
@@ -147,17 +143,15 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
           What if I don't see the letter I'm looking for?
         </h3>
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-          If you have been notified of a debt and don't see the debt's letter on
-          this page, or you would like to get information about your debts that
-          have been resolved, call the Debt Management Center at{' '}
+          If you’ve received a letter about a VA debt, but don’t see the letter
+          listed here call the VA Debt Management Center at{' '}
           <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
             800-827-0648
-          </a>
-        </p>
-        <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-          For medical copayment debts, visit{' '}
-          <a href="/health-care/pay-copay-bill/">Pay your VA copay bill</a> to
-          learn about your payment options.
+          </a>{' '}
+          You can also call the DMC to get information about your resolved debts
+          For VA health care copay debt, please go to our{' '}
+          <a href="/health-care/pay-copay-bill/">pay your VA copay bill</a> page
+          to learn about your payment options.
         </p>
       </div>
     </div>

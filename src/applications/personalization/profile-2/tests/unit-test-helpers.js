@@ -4,6 +4,12 @@ import profile from 'applications/personalization/profile360/reducers';
 import connectedApps from 'applications/personalization/profile-2/components/connected-apps/reducers/connectedApps';
 import profileUi from '../reducers';
 
+export function wait(timeout) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
+
 /**
  * A custom React Testing Library render function that allows for easy rendering
  * of Profile-related components. This helper sets up the reducers used by the

@@ -12,14 +12,14 @@ describe('Scheduling Page <LegacyContent>', () => {
     const text = wrapper.text();
     expect(text).to.include('View, schedule, or cancel a VA appointment');
     expect(text).to.include(
-      'How can VA appointment tools help me manage my health care?',
+      'How can the VA appointments tool help me manage my health care?',
     );
-    expect(text).to.include('Am I eligible to use the VA appointment tools?');
+    expect(text).to.include('Am I eligible to use this tool?');
     expect(text).to.include(
       'How do I know if my VA health facility uses online scheduling?',
     );
     expect(text).to.include(
-      'What types of medical appointments can I schedule online?',
+      'What types of health appointments can I schedule online?',
     );
     expect(text).to.include(
       'Can I use this tool to schedule non-VA appointments?',

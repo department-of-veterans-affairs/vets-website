@@ -57,11 +57,11 @@ const ConfirmationPage = asyncLoader(() =>
 const ExpressCareList = asyncLoader(() =>
   import(/* webpackChunkName: "express-care" */ './components/ExpressCareList'),
 );
-const NewExpressCareRequestLayout = asyncLoader(() =>
-  import(/* webpackChunkName: "express-care" */ './containers/NewExpressCareRequestLayout'),
-);
 const ExpressCareInfoPage = asyncLoader(() =>
   import(/* webpackChunkName: "express-care" */ './containers/ExpressCareInfoPage'),
+);
+const ExpressCareRequestLimitPage = asyncLoader(() =>
+  import(/* webpackChunkName: "express-care" */ './containers/ExpressCareRequestLimitPage'),
 );
 const ExpressCareReasonPage = asyncLoader(() =>
   import(/* webpackChunkName: "express-care" */ './containers/ExpressCareReasonPage'),
@@ -115,10 +115,13 @@ export default function createRoutesWithStore(store) {
       </Route>
       <Route
         path="new-express-care-request"
-        component={NewExpressCareRequestLayout}
+        component={asyncLoader(() =>
+          import(/* webpackChunkName: "express-care" */ './containers/NewExpressCareRequestLayout'),
+        )}
       >
         <IndexRoute component={ExpressCareInfoPage} />
         <Route path="select-reason" component={ExpressCareReasonPage} />
+        <Route path="request-limit" component={ExpressCareRequestLimitPage} />
         <Route path="additional-details" component={ExpressCareDetailsPage} />
         <Route path="confirmation" component={ExpressCareConfirmationPage} />
       </Route>

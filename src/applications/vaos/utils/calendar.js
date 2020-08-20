@@ -147,7 +147,7 @@ export function generateMockSlots() {
   const minuteSlots = ['00:00', '20:00', '40:00'];
 
   while (times.length < 300) {
-    const daysToAdd = randomInt(1, 365);
+    const daysToAdd = randomInt(1, 395);
     const date = today
       .clone()
       .add(daysToAdd, 'day')
@@ -180,7 +180,7 @@ export function generateMockFHIRSlots() {
     const minutes = minuteSlots[Math.floor(Math.random() * minuteSlots.length)];
     const startDateTime = today
       .clone()
-      .add(randomInt(1, 365), 'day')
+      .add(randomInt(1, 395), 'day')
       .hour(randomInt(9, 16))
       .minute(minutes)
       .second(0)
