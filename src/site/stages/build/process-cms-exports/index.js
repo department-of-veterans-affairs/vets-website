@@ -2,6 +2,7 @@
 
 const chalk = require('chalk');
 const get = require('lodash/get');
+const cloneDeep = require('lodash/cloneDeep');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
@@ -11,6 +12,9 @@ const {
   validateRawEntity,
   validateTransformedEntity,
 } = require('./schema-validation');
+
+const transformedEntitiesCache = new Map();
+global.transformerCacheHits = 0;
 
 /**
  * An ancestor for an entity.
@@ -188,10 +192,6 @@ const entityAssemblerFactory = contentDir => {
    * searches for references to other entities, and replaces the
    * references with the contents of those entities recursively.
    *
-   * TODO: Memoize this function if the build is slow because of this CMS
-   * content transformation process. If we do memoize this, make sure the
-   * memoized function is used in findMatchingEntities as well.
-   *
    * @param {Object} entity - The entity object.
    * @param {Array<Object>} ancestors - All the ancestors, each like:
    *                          { id: toId(entity), entity }
@@ -211,6 +211,14 @@ const entityAssemblerFactory = contentDir => {
     ancestors = [],
     parentFieldName = '',
   ) => {
+    if (transformedEntitiesCache.has(entity.uuid)) {
+      global.transformerCacheHits++;
+      const cacheHit = transformedEntitiesCache.get(entity.uuid);
+      if (!cacheHit) {
+        console.log(`${entity.uuid} is null`);
+      }
+      return cloneDeep(cacheHit);
+    }
     // If the entity is unpublished
     if (!entity.status[0].value && !transformUnpublished) {
       return null;
@@ -267,6 +275,7 @@ const entityAssemblerFactory = contentDir => {
       validateOutput(entity, transformedEntity);
     }
 
+    transformedEntitiesCache.set(entity.uuid, cloneDeep(transformedEntity));
     return transformedEntity;
   };
 

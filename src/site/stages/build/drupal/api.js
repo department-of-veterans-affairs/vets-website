@@ -203,6 +203,11 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
           global.readEntityCacheHits,
         )} cache hits while expanding entity references`,
       );
+      say(
+        `${chalk.green(
+          global.transformerCacheHits,
+        )} cache hits while performing entity transformations`,
+      );
       return transformedEntities;
     },
 
