@@ -32,6 +32,8 @@ import AppointmentsPage from '../../containers/AppointmentsPage';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
   },
 };
 
@@ -509,10 +511,6 @@ describe('VAOS integration appointment cancellation:', () => {
       {
         initialState: {
           ...initialState,
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            show_new_schedule_view_appointments_page: true,
-          },
           user: {
             profile: {
               facilities: [
