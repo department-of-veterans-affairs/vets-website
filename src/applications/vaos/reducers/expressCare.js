@@ -19,6 +19,8 @@ import {
   FORM_SUBMIT,
 } from '../actions/expressCare';
 
+import { STARTED_NEW_EXPRESS_CARE_FLOW } from '../actions/sitewide';
+
 import { FETCH_STATUS } from '../utils/constants';
 
 const initialState = {
@@ -47,6 +49,11 @@ function setupFormData(data, schema, uiSchema) {
 
 export default function expressCareReducer(state = initialState, action) {
   switch (action.type) {
+    case STARTED_NEW_EXPRESS_CARE_FLOW: {
+      return {
+        ...initialState,
+      };
+    }
     case FORM_PAGE_OPENED: {
       const newRequest = state.newRequest;
       const { data, schema } = setupFormData(

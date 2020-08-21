@@ -25,7 +25,6 @@ import {
 import {
   FORM_SUBMIT_SUCCEEDED,
   EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED,
-  STARTED_NEW_EXPRESS_CARE_FLOW,
 } from '../actions/sitewide';
 
 import { sortMessages } from '../services/appointment';
@@ -248,13 +247,6 @@ export default function appointmentsReducer(state = initialState, action) {
         appointmentToCancel: null,
         cancelAppointmentStatus: FETCH_STATUS.notStarted,
       };
-    case STARTED_NEW_EXPRESS_CARE_FLOW: {
-      return {
-        ...initialState,
-        expressCareWindowsStatus: state.expressCareWindowsStatus,
-        expressCareFacilities: state.expressCareFacilities,
-      };
-    }
     case EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED:
       return {
         ...state,
