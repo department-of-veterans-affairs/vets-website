@@ -2,6 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
+import { waitForElementToBeRemoved } from '@testing-library/dom';
 
 import { resetFetch } from 'platform/testing/unit/helpers';
 
@@ -90,9 +91,6 @@ describe('When enrolled in health care', () => {
   after(() => {
     server.close();
   });
-  it('a single text messages checkbox should be shown in view mode', () => {
-    expect(getCheckbox(view)).to.exist;
-  });
   it('should show an error if it is unable to create the transaction', () => {});
   it('should show an error if the transaction fails', async () => {
     server.use(...mocks.transactionPending);
@@ -112,7 +110,22 @@ describe('When enrolled in health care', () => {
       ),
     ).to.exist;
   });
-  it('should should show the updated checkbox state is the transaction succeeds', () => {});
+  it('should should show the updated checkbox state if the transaction succeeds', async () => {
+    server.use(...mocks.transactionPending);
+    getCheckbox(view).click();
+
+    const savingMessage = await view.findByText(
+      /We’re working on saving your.*text alert preference/i,
+    );
+
+    expect(savingMessage).to.exist;
+
+    server.use(...mocks.transactionSucceeded);
+
+    await waitForElementToBeRemoved(savingMessage);
+
+    expect(getCheckbox(view)).to.have.attr('checked');
+  });
   it('the text messages checkbox should be shown in mobile phone edit mode', () => {
     view.getByRole('button', { name: /edit mobile phone number/i }).click();
     expect(
