@@ -26,14 +26,20 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     chapter1: {
-      title: "Veteran's Informaion",
+      title: "Veteran's Information",
       pages: {
         demographicsPage: {
           path: 'demographics',
+          hideHeaderRow: true,
           title: 'Veteran Information',
           uiSchema: {
             'view:veteranInfo': {
               'ui:field': AppointmentInfoBox,
+              'ui:reviewField': AppointmentInfoBox,
+              'ui:options': {
+                viewComponent: AppointmentInfoBox,
+              },
+              seen: {},
             },
           },
           schema: {
@@ -41,7 +47,11 @@ const formConfig = {
             properties: {
               'view:veteranInfo': {
                 type: 'object',
-                properties: {},
+                properties: {
+                  seen: {
+                    type: 'string',
+                  },
+                },
               },
             },
           },

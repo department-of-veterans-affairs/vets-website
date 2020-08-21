@@ -2,26 +2,25 @@ import moment from 'moment';
 import { genderLabels } from 'platform/static-data/labels';
 import React from 'react';
 import { connect } from 'react-redux';
+import AddressView from './AddressView';
+import PhoneNumberView from './PhoneNumberView';
 
 const AppointmentInfoBox = props => {
-  const {
-    userFullName,
-    dateOfBirth,
-    gender,
-    address,
-    homePhone,
-    mobilePhone,
-  } = props;
+  const { userFullName, dateOfBirth, gender, addresses, phoneNumbers } = props;
 
   // eslint-disable-next-line no-console
   console.log({
     userFullName,
     dateOfBirth,
     gender,
-    address,
-    homePhone,
-    mobilePhone,
+    addresses,
+    phoneNumbers,
   });
+
+  const fullName = [userFullName.first, userFullName.middle, userFullName.last]
+    .join(' ')
+    .trim();
+  const { residential, mailing } = addresses;
 
   return (
     <div>
@@ -29,13 +28,55 @@ const AppointmentInfoBox = props => {
       <p>This is the personal information we have on file for you.</p>
       <div className="vads-u-border-left--7px vads-u-border-color--primary">
         <div className="vads-u-padding-left--1">
-          <p className="vads-u-margin--1px vads-u-font-weight--bold" />
-          <p className="vads-u-margin--1px">
-            Date of birth: {moment(dateOfBirth).format('MMMM DD, YYYY')}
+          <p
+            className="vads-u-margin--1px vads-u-font-weight--bold"
+            aria-label="Veterans Full Name"
+          >
+            {fullName}
           </p>
           <p className="vads-u-margin--1px">
-            Gender: {gender ? genderLabels[gender] : 'UNKNOWN'}
+            Date of birth:{' '}
+            <time
+              dateTime={dateOfBirth}
+              aria-label="Veteran's date of birth"
+              className="vads-u-font-weight--bold"
+            >
+              {moment(dateOfBirth).format('MMMM DD, YYYY')}
+            </time>
           </p>
+          {gender && (
+            <>
+              <p className="vads-u-margin--1px">
+                Gender:
+                <span className=" vads-u-font-weight--bold">
+                  {gender ? genderLabels[gender] : 'UNKNOWN'}
+                </span>
+              </p>
+            </>
+          )}
+          {mailing && (
+            <>
+              <p>
+                <span className=" vads-u-font-weight--bold">
+                  Mailing Address:{' '}
+                </span>
+                <AddressView address={mailing} />
+              </p>
+            </>
+          )}
+          {residential && (
+            <>
+              <p>
+                <span className=" vads-u-font-weight--bold">
+                  Residential Address:{' '}
+                </span>
+                <AddressView address={residential} />
+              </p>
+            </>
+          )}
+          {phoneNumbers.filter(num => num.data).map((number, index) => {
+            return <PhoneNumberView key={index} number={number} />;
+          })}
         </div>
       </div>
       <p>
@@ -52,9 +93,16 @@ const mapStateToProps = state => ({
   userFullName: state.user?.profile?.userFullName,
   dateOfBirth: state.user?.profile?.dob,
   gender: state.user?.profile?.gender,
-  address: state.user?.profile?.vet360?.residentialAddress,
-  homePhone: state.user?.profile?.vet360?.homePhone,
-  mobilePhone: state.user?.profile?.vet360?.mobilePhone,
+  addresses: {
+    residential: state.user?.profile?.vet360?.residentialAddress,
+    mailing: state.user?.profile?.vet360?.mailingAddress,
+  },
+  phoneNumbers: [
+    { label: 'Home', data: state.user?.profile?.vet360?.homePhone },
+    { label: 'Mobile', data: state.user?.profile?.vet360?.mobilePhone },
+    { label: 'Work', data: state.user?.profile?.vet360?.workPhone },
+    { label: 'Temporary', data: state.user?.profile?.vet360?.temporaryPhone },
+  ],
 });
 
 export default connect(
