@@ -6,7 +6,6 @@ const route = {
   path: '/',
   component: App,
   indexRoute: {
-    // onEnter: (nextState, replace) => replace('/sign-up'),
     onEnter: (() => {
       let hasRedirected = false;
       return (nextState, replace) => {
