@@ -3,6 +3,8 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { connect } from 'react-redux';
 
 import { getRemainingEntitlement } from '../actions/post-911-gib-status';
@@ -64,7 +66,6 @@ export class IntroductionPage extends React.Component {
         pageList={this.props.route.pageList}
         startText="Sign in or create an account"
         unauthStartText="Sign in or create an account"
-        unauthButtonClasses={['vads-u-background-color--green']}
         hideUnauthedStartLink
       />
     );
@@ -82,7 +83,7 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-10203 (Application for Edith Nourse Rogers STEM
           Scholarship).
         </p>
-        {this.entitlementRemainingAlert()}
+        {this.props.useEvss && this.entitlementRemainingAlert()}
         <h4>Follow the steps below to apply for this scholarship</h4>
         <div className="process schemaform-process">
           <ol>
@@ -216,7 +217,6 @@ export class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the education application"
           unauthStartText="Sign in or create an account"
-          unauthButtonClasses={['vads-u-background-color--green']}
         />
         <div
           className="omb-info--container"
@@ -234,6 +234,7 @@ const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
+    useEvss: toggleValues(state)[FEATURE_FLAG_NAMES.stemSCOEmail],
   };
 };
 

@@ -799,7 +799,7 @@ export const initValidVaFileNumberMock = token => {
     value: {
       data: {
         attributes: {
-          validVAFileNumber: true,
+          VALIDVAFILENUMBER: true,
         },
       },
     },

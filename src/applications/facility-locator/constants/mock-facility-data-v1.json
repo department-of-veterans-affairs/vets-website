@@ -635,7 +635,7 @@
         "name": "Alexandria Vet Center",
         "facilityType": "vet_center",
         "classification": null,
-        "website": null,
+        "website": "https://va.gov/alexandria",
         "lat": 38.7678970200001,
         "long": -77.11909822,
         "address": {

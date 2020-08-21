@@ -81,10 +81,13 @@ describe('VAOS integration: Express Care info page', () => {
     expect(screen.history.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() =>
-      expect(screen.history.push.secondCall.args[0]).to.equal(
-        '/new-express-care-request/select-reason',
-      ),
+    await waitFor(
+      () =>
+        expect(
+          screen.history.push.calledWith(
+            '/new-express-care-request/select-reason',
+          ),
+        ).to.be.true,
     );
   });
 

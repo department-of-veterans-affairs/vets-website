@@ -266,7 +266,7 @@ export function submitExpressCareRequest(history) {
       );
 
       additionalEventData = {
-        'health-expressCareReason': data.reason,
+        'health-express-care-reason': data.reason,
       };
 
       recordEvent({

@@ -13,7 +13,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
     >
       <div className="usa-alert-body">
         <h3 className="usa-alert-heading">
-          Your debt letters are currently unavailable
+          Your debt letters are currently unavailable.
         </h3>
         <p className="vads-u-font-family--sans">
           You can't download your debt letters because something went wrong on

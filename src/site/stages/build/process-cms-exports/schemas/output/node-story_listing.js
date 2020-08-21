@@ -27,6 +27,7 @@ module.exports = {
               'title',
               'fieldFeatured',
               'entityUrl',
+              'entityPublished',
               'promote',
               'created',
               'fieldAuthor',

@@ -266,6 +266,11 @@ describe('VAOS integration: appointment list', () => {
       getByText(/View your upcoming, past, and Express Care appointments/i),
     ).to.have.tagName('h2');
 
+    expect(
+      global.window.dataLayer.find(
+        ev => ev.event === 'vaos-express-care-request-button-clicked',
+      ),
+    ).not.to.exist;
     fireEvent.click(button);
 
     await waitFor(() =>

@@ -33,17 +33,22 @@ describe('Facility search', () => {
       'Results for "VA health", "Primary care" near "Austin, Texas"',
     );
     cy.get('.facility-result a').should('exist');
+    cy.get('.i-pin-card-map').contains('A');
+    cy.get('.i-pin-card-map').contains('B');
+    cy.get('.i-pin-card-map').contains('C');
+    cy.get('.i-pin-card-map').contains('D');
   });
 
   it('should render breadcrumbs ', () => {
     cy.visit('/find-locations');
 
-    cy.injectAxe();
-    cy.axeCheck();
-
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select('VA health');
     cy.get('#facility-search').click();
+
+    cy.injectAxe();
+    cy.axeCheck();
+
     cy.get('.facility-result a').should('exist');
     cy.route(
       'GET',
@@ -54,6 +59,8 @@ describe('Facility search', () => {
     cy.findByText(/austin va clinic/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.axeCheck();
 
     cy.get('.all-details').should('exist');
 
@@ -83,9 +90,86 @@ describe('Facility search', () => {
 
   it('does not show search result header if no results are found', () => {
     cy.visit('/find-locations?fail=true');
+
+    cy.get('#facility-search-results').should('not.exist');
+  });
+
+  it('finds community dentists', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+    cy.get('#service-type-ahead-input').type('Dentist');
+    cy.get('#downshift-1-item-0').click();
+
+    cy.get('#facility-search').click();
+    cy.get('#facility-search-results').contains(
+      'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
+    );
+
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('#facility-search-results').should('not.exist');
+    cy.get('.facility-result h3').contains('BADEA, LUANA');
+  });
+
+  it('finds community urgent care', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Community providers (in VA’s network)',
+    );
+    cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent care');
+    cy.get('#downshift-1-item-0').click();
+
+    cy.get('#facility-search').click();
+    cy.get('#facility-search-results').contains(
+      'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
+    );
+
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.get('.facility-result h3').contains('Concentra Urgent Care');
+  });
+
+  it('finds community urgent care', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select('Urgent care');
+    cy.get('#service-type-dropdown').select(
+      'Community urgent care providers (in VA’s network)',
+    );
+    cy.get('#facility-search').click();
+    cy.get('#facility-search-results').contains(
+      'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
+    );
+
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.get('.facility-result h3').contains('MinuteClinic');
+  });
+
+  it('finds va urgent care pharmacies', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown').select(
+      'Urgent care pharmacies (in VA’s network)',
+    );
+    cy.get('#facility-search').click();
+    cy.get('#facility-search-results').contains(
+      'Results for "Urgent care pharmacies (in VA’s network)" near "Austin, Texas"',
+    );
+
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.get('.facility-result h3').contains('CVS');
   });
 });
