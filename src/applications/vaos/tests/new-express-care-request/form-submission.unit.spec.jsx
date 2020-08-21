@@ -316,12 +316,12 @@ describe('VAOS integration: Express Care form submission', () => {
         canSchedule: true,
         startTime: today
           .clone()
-          .subtract('2', 'minutes')
+          .subtract(5, 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
         endTime: today
           .clone()
-          .add('1', 'minutes')
+          .add(3, 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
       },
