@@ -39,7 +39,7 @@ export function fetchPaymentInformation(recordEvent = recordAnalyticsEvent) {
     // };
 
     if (response.error) {
-      recordEvent({ event: 'profile-get-direct-deposit-failure' });
+      recordEvent({ event: 'profile-get-direct-deposit-failed' });
       dispatch({
         type: PAYMENT_INFORMATION_FETCH_FAILED,
         response,

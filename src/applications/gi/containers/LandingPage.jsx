@@ -176,6 +176,8 @@ export class LandingPage extends React.Component {
               {!isVetTecSelected(this.props.filters) && (
                 <KeywordSearch
                   label={searchLabel}
+                  searchOnAutcompleteSelection
+                  gibctSearchEnhancements={this.props.gibctSearchEnhancements}
                   autocomplete={this.props.autocomplete}
                   location={this.props.location}
                   onClearAutocompleteSuggestions={
