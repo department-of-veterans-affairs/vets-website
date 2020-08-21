@@ -5,7 +5,10 @@ import {
   setFetchJSONResponse,
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
-import { getVAAppointmentMock } from '../mocks/v0';
+import {
+  getVAAppointmentMock,
+  getExpressCareRequestCriteriaMock,
+} from '../mocks/v0';
 
 export function mockAppointmentInfo({
   va = [],
@@ -388,6 +391,7 @@ export function mockRequestLimit({
     ),
     {
       data: {
+        id: facilityId,
         attributes: {
           requestLimit,
           numberOfRequests,
@@ -413,4 +417,43 @@ export function mockPreferences(emailAddress) {
       },
     },
   );
+}
+
+export function setupExpressCareMocks({
+  facilityId = '983',
+  isWindowOpen = false,
+  isUnderRequestLimit = false,
+  startTime = null,
+  endTime = null,
+} = {}) {
+  const today = moment();
+  const start =
+    startTime ||
+    today
+      .clone()
+      .subtract(5, 'minutes')
+      .tz('America/Denver');
+  const end =
+    endTime ||
+    today
+      .clone()
+      .add(isWindowOpen ? 3 : -3, 'minutes')
+      .tz('America/Denver');
+  const requestCriteria = getExpressCareRequestCriteriaMock(facilityId, [
+    {
+      day: today
+        .clone()
+        .tz('America/Denver')
+        .format('dddd')
+        .toUpperCase(),
+      canSchedule: true,
+      startTime: start.format('HH:mm'),
+      endTime: end.format('HH:mm'),
+    },
+  ]);
+  mockRequestEligibilityCriteria([facilityId], requestCriteria);
+  mockRequestLimit({
+    facilityId,
+    numberOfRequests: isUnderRequestLimit ? 0 : 1,
+  });
 }
