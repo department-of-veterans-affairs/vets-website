@@ -500,7 +500,7 @@
     "entryName": "10203-edu-benefits",
     "rootUrl": "/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "title": "Apply for the Rogers STEM Scholarship",
       "heading": "Apply for the Rogers STEM Scholarship",
       "layout": "page-react.html",
@@ -836,6 +836,15 @@
     }
   },
   {
+    "appName": "Ask a Question",
+    "entryName": "ask-a-question",
+    "rootUrl": "/ask-a-question",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
     "appName": "Healthcare Questionnaire",
     "entryName": "questionnaire",
     "rootUrl": "/healthcare/questionnaire",
@@ -844,6 +853,16 @@
       "layout": "page-react.html",
       "includeBreadcrumbs": false,
       "breadcrumbs_override": []
+    }
+  },
+  {
+    "appName": "eFolders",
+    "entryName": "my-documents",
+    "rootUrl": "/my-documents",
+    "template": {
+      "title": "My Documents",
+      "layout": "page-react.html",
+      "vagovprod": false
     }
   }
 ]

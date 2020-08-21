@@ -12,11 +12,13 @@ import PersonalInformation from '../../../components/personal-information/Person
 
 import {
   createBasicInitialState,
-  elementNotRemoved,
   renderWithProfileReducers,
+  wait,
 } from '../../unit-test-helpers';
 import { beforeEach } from 'mocha';
 
+const errorText =
+  'We’re sorry. We couldn’t update your email address. Please try again.';
 const newEmailAddress = 'new-address@domain.com';
 const ui = (
   <MemoryRouter>
@@ -115,13 +117,12 @@ async function testTransactionCreationFails() {
   editEmailAddress();
 
   // expect an error to be shown
-  const errorText = await view.findByText(
-    'We’re sorry. We couldn’t update your email address. Please try again.',
-  );
-  expect(errorText).to.exist;
+  const error = await view.findByText(errorText);
+  expect(error).to.exist;
 
-  // make sure that edit mode is not exited
-  await elementNotRemoved(errorText, { timeout: 75 });
+  // make sure that edit mode is not automatically exited
+  await wait(75);
+  expect(view.getByText(errorText)).to.exist;
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
@@ -133,13 +134,12 @@ async function testQuickFailure() {
   editEmailAddress();
 
   // expect an error to be shown
-  const errorText = await view.findByText(
-    'We’re sorry. We couldn’t update your email address. Please try again.',
-  );
-  expect(errorText).to.exist;
+  const error = await view.findByText(errorText);
+  expect(error).to.exist;
 
-  // make sure that edit mode is not exited
-  await elementNotRemoved(errorText, { timeout: 75 });
+  // make sure that edit mode is not automatically exited
+  await wait(75);
+  expect(view.getByText(errorText)).to.exist;
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }

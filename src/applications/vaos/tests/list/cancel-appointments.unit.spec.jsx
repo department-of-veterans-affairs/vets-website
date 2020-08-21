@@ -32,6 +32,8 @@ import AppointmentsPage from '../../containers/AppointmentsPage';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
   },
 };
 
@@ -515,6 +517,7 @@ describe('VAOS integration appointment cancellation:', () => {
                 { facilityId: '983', isCerner: false },
                 { facilityId: '668', isCerner: true },
               ],
+              isCernerPatient: true,
             },
           },
         },

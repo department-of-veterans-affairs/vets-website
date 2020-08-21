@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -33,7 +36,7 @@ const ConfirmationPage = props => {
       <section>
         <div>
           <h2 className="vads-u-font-size--h4">
-            You’ve successfullly submitted your application.
+            You’ve successful submitted your application.
           </h2>
 
           <p>
@@ -64,7 +67,7 @@ const ConfirmationPage = props => {
   );
 
   return (
-    <section className="caregiver-confirmation">
+    <section className="caregiver-confirmation vads-u-margin-bottom--2p5">
       <AlertBox
         level={2}
         headline="You’ve successfully submitted your application."
@@ -94,6 +97,48 @@ const ConfirmationPage = props => {
         <button className="usa-button button" onClick={() => window.print()}>
           Print this page
         </button>
+      </div>
+
+      <div className="caregiver-footer row vads-u-padding-x--1p5">
+        <div style={{ maxWidth: '600px' }}>
+          <h3>What happens after I apply?</h3>
+
+          <p>
+            If we need you to provide more information or documents, we will
+            contact you.
+          </p>
+
+          <p>
+            A member of the Caregiver Support Program team at the medical center
+            where the Veteran plans to receive care will contact you to discuss
+            the application process and next steps in determining eligibility.
+            If you aren’t eligible for PCAFC you may be eligible for the Program
+            of General Caregiver Support Services (PGCSS).
+          </p>
+
+          <p>
+            If you have questions about your application, what to expect next,
+            or if you are interested in learning more about the supports and
+            services available to support Veterans and caregivers, you may
+            contact the VA Caregiver Support Line at
+            <Telephone
+              contact={CONTACTS.CAREGIVER}
+              className="vads-u-margin-x--0p5"
+            />
+            or visit
+            <a className="vads-u-margin-left--0p5" href="www.va.caregiver.gov">
+              www.va.caregiver.gov
+            </a>
+            .
+          </p>
+
+          <a
+            className="usa-button-primary va-button-primary vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
+            href="VA.gov"
+          >
+            Go back to VA.gov
+          </a>
+        </div>
       </div>
 
       <PrintDetails />

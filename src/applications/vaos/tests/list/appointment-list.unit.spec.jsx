@@ -32,6 +32,8 @@ const initialState = {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingRequests: true,
     vaOnlineSchedulingPast: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
   },
 };
 
@@ -272,6 +274,11 @@ describe('VAOS integration: appointment list', () => {
       getByText(/View your upcoming, past, and Express Care appointments/i),
     ).to.have.tagName('h2');
 
+    expect(
+      global.window.dataLayer.find(
+        ev => ev.event === 'vaos-express-care-request-button-clicked',
+      ),
+    ).not.to.exist;
     fireEvent.click(button);
 
     await waitFor(() =>
@@ -279,9 +286,11 @@ describe('VAOS integration: appointment list', () => {
         '/new-express-care-request',
       ),
     );
-    expect(global.window.dataLayer[1]).to.deep.equal({
-      event: `vaos-express-care-request-button-clicked`,
-    });
+    expect(
+      global.window.dataLayer.find(
+        ev => ev.event === 'vaos-express-care-request-button-clicked',
+      ),
+    ).to.exist;
   });
 
   it('should not show express care action when outside of express care window', async () => {
