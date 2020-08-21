@@ -1,5 +1,4 @@
 import { isValidEmail } from 'platform/forms/validations';
-import React from 'react';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import AddressViewField from '../components/AddressViewField';
 import BatteriesAndAccessories from '../components/BatteriesAndAccessories';
@@ -9,18 +8,6 @@ import { schemaFields } from '../constants';
 import { addressUISchema } from './address-schema';
 
 const { permanentAddressField, temporaryAddressField } = schemaFields;
-
-const emailUITitle = <h4>Email address</h4>;
-
-const emailUIDescription = (
-  <>
-    <p>
-      We'll send an order confirmation email with a tracking number to this
-      email address.
-    </p>
-    <p className="vads-u-margin-bottom--1">Email address</p>
-  </>
-);
 
 export default {
   'ui:title': fullSchema.title,
@@ -105,8 +92,9 @@ export default {
       },
     },
     emailUI: {
-      'ui:title': emailUITitle,
-      'ui:description': emailUIDescription,
+      'ui:title': 'Email address',
+      'ui:description':
+        "We'll send an order confirmation email with a tracking number to this email address.",
       'ui:widget': 'email',
       'ui:errorMessages': {
         pattern: 'Please enter an email address using this format: X@X.com',

@@ -8,9 +8,11 @@ const ENVIRONMENTS = require('../../constants/environments');
 const HOSTNAMES = require('../../constants/hostnames');
 const assetSources = require('../../constants/assetSources');
 
+const projectRoot = path.resolve(__dirname, '../../../../');
+
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
-const defaultContentDir = '../../../../../vagov-content/pages';
+const defaultContentDir = path.join(projectRoot, '../vagov-content/pages');
 
 const getDrupalClient = require('./drupal/api');
 const { shouldPullDrupal } = require('./drupal/metalsmith-drupal');
@@ -76,7 +78,6 @@ function applyDefaultOptions(options) {
   const contentPagesRoot = options['content-directory'];
   const contentRoot = path.join(contentPagesRoot, '../');
 
-  const projectRoot = path.resolve(__dirname, '../../../../');
   const siteRoot = path.join(__dirname, '../../');
   const includes = path.join(siteRoot, 'includes');
   const components = path.join(siteRoot, 'components');
@@ -187,7 +188,14 @@ async function setUpFeatureFlags(options) {
       `${apiClient.getSiteUri()}/flags_list`,
     );
 
-    rawFlags = (await result.json()).data;
+    const responseBody = await result.text();
+    try {
+      rawFlags = JSON.parse(responseBody).data;
+    } catch (e) {
+      throw new TypeError(
+        `Could not parse Drupal build flags. Response:\n${responseBody}`,
+      );
+    }
 
     // Write them to .cache/{buildtype}/drupal/feature-flags.json
     fs.ensureDirSync(options.cacheDirectory);

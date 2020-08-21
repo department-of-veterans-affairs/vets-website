@@ -53,6 +53,7 @@ export const UnauthContent = () => (
     <a href="/health-care/how-to-apply">
       Find out how to apply for VA health care
     </a>
+    <br />
     <p>
       <strong>And you must have one of these free accounts:</strong>
     </p>
@@ -64,11 +65,11 @@ export const UnauthContent = () => (
       , <strong>or</strong>
     </li>
     <li>
-      A Premium DS Logon account (used for eBenefits and milConnect),{' '}
-      <strong>or</strong>
+      A Premium <strong>DS Logon</strong> account (used for eBenefits and
+      milConnect), <strong>or</strong>
     </li>
     <li>
-      A verified ID.me account that you can{' '}
+      A verified <strong>ID.me</strong> account that you can{' '}
       <a href="https://api.id.me/en/registration/new">create here on VA.gov</a>
     </li>
 
@@ -165,7 +166,7 @@ export const UnauthContent = () => (
       Yes. This is a secure website. We follow strict security policies and
       practices to protect your personal health information.
     </p>
-    <p>
+    <p className="vads-u-margin-bottom--0">
       If you print or download anything from the website (like prescription
       details), you’ll need to take responsibility for protecting that
       information.

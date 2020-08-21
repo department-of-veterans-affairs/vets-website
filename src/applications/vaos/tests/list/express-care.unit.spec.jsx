@@ -169,6 +169,12 @@ describe('VAOS integration: express care requests', () => {
         'You shared these details about your concern',
       );
       expect(baseElement).to.contain.text('Need help ASAP');
+
+      expect(
+        global.window.dataLayer.find(ev => ev.event === 'nav-tab-click')?.[
+          'vaos-express-care-number-of-cards'
+        ],
+      ).to.equal(1);
     });
 
     it('should show appropriate information for an escalated request', async () => {

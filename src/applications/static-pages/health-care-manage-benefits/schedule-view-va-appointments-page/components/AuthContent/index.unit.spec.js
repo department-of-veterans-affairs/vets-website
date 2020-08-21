@@ -11,9 +11,7 @@ describe('Scheduling Page <AuthContent>', () => {
 
     const text = wrapper.text();
     expect(text).to.include('CernerCallToAction');
-    expect(text).to.include(
-      'Due to COVID-19, you can only request an appointment online',
-    );
+    expect(text).to.include('Due to COVID-19,');
     expect(text).to.include('View, schedule, or cancel a VA appointment');
     expect(text).to.include(
       'How can these appointment tools help me manage my care?',
