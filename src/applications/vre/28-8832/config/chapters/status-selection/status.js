@@ -3,7 +3,8 @@ export const schema = {
   properties: {
     status: {
       type: 'string',
-      enum: [
+      enum: ['isActiveDuty', 'isVeteran', 'isSpouse', 'isChild'],
+      enumNames: [
         'Active duty service member',
         'Veteran',
         'Spouse of a Veteran or service member',

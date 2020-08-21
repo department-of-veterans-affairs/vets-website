@@ -1,3 +1,3 @@
-import * as statusSelection from './wizard';
+import * as statusSelection from './status';
 
 export { statusSelection };
