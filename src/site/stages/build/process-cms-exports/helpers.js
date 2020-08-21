@@ -2,10 +2,6 @@
 const fs = require('fs');
 const path = require('path');
 const get = require('lodash/get');
-const cloneDeep = require('lodash/cloneDeep');
-
-const cachedEntities = new Map();
-global.readEntityCacheHits = 0;
 
 /**
  * The path to the CMS export content.
@@ -115,6 +111,9 @@ module.exports = {
    * particular file to see if we can gain anything from caching the
    * contents.
    *
+   * TODO: Memoize this function if the build is slow because of this CMS
+   * content transformation process.
+   *
    * @param {String} baseType - The type of entity; corresponds to the name of
    *                            the file.
    * @param {String} uuid - The UUID of the entity; corresponds to the name of
@@ -127,26 +126,19 @@ module.exports = {
    * @return {Object} - The contents of the file.
    */
   readEntity(dir, baseType, uuid, { noLog } = {}) {
-    const filename = `${baseType}.${uuid}.json`;
     // Used only in script/remove-unnecessary-raw-entity-files.sh to get the
     // list of all entities the assemble-entity-tree.unit.spec.js tests access.
     if (process.env.LOG_USED_ENTITIES && !noLog) {
       // eslint-disable-next-line no-console
-      console.log(filename);
+      console.log(`${baseType}.${uuid}.json`);
     }
 
-    if (cachedEntities.has(filename)) {
-      global.readEntityCacheHits++;
-      return cloneDeep(cachedEntities.get(filename));
-    } else {
-      const entity = addCommonProperties(
-        JSON.parse(fs.readFileSync(path.join(dir, filename)).toString('utf8')),
-        baseType,
-        uuid,
-      );
-      cachedEntities.set(filename, cloneDeep(entity));
-      return entity;
-    }
+    const entity = JSON.parse(
+      fs
+        .readFileSync(path.join(dir, `${baseType}.${uuid}.json`))
+        .toString('utf8'),
+    );
+    return addCommonProperties(entity, baseType, uuid);
   },
 
   /**

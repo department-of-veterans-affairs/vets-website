@@ -195,20 +195,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       );
       const assembleEntityTree = entityTreeFactory(contentDir);
 
-      const transformedEntities = entities.map(entity =>
-        assembleEntityTree(entity),
-      );
-      say(
-        `${chalk.green(
-          global.readEntityCacheHits,
-        )} cache hits while expanding entity references`,
-      );
-      say(
-        `${chalk.green(
-          global.transformerCacheHits,
-        )} cache hits while performing entity transformations`,
-      );
-      return transformedEntities;
+      return entities.map(entity => assembleEntityTree(entity));
     },
 
     getLatestPageById(nodeId) {
