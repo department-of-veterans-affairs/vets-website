@@ -26,8 +26,6 @@ const location = {
   pathname: '/new-express-care-request',
 };
 
-const today = moment();
-
 describe('VAOS integration: Express Care info page', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
@@ -36,6 +34,7 @@ describe('VAOS integration: Express Care info page', () => {
     const store = createTestStore({
       ...initialState,
     });
+    const today = moment();
     const startTime = today
       .clone()
       .subtract(5, 'minutes')
