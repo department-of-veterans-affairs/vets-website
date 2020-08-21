@@ -43,12 +43,16 @@ src/applications/facility-locator @department-of-veterans-affairs/vsa-facilities
 # Caregiver
 src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
+# Healthcare Experience
+src/applications/healthcare @department-of-veterans-affairs/vsa-healthcare-experience
+
 # /--- VSA
 
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
+src/applications/ask-a-question @department-of-veterans-affairs/thoughtworks
 src/applications/covid-research-volunteer @department-of-veterans-affairs/va-cto-health-products
 
 # Booz Allen Team

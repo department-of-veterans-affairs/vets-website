@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
+import { GA_PREFIX } from '../utils/constants';
 import * as actions from '../actions/expressCare';
 import FormButtons from '../components/FormButtons';
-import ExpressCareRequestLimitError from '../components/ExpressCareRequestLimitError';
 import {
   selectLocalExpressCareWindowString,
   selectExpressCareNewRequest,
@@ -17,8 +16,6 @@ const pageTitle = 'How Express Care works';
 
 function ExpressCareInfoPage({
   localWindowString,
-  fetchRequestLimitsStatus,
-  isUnderRequestLimit,
   pageChangeInProgress,
   router,
   routeToNextAppointmentPage,
@@ -28,29 +25,6 @@ function ExpressCareInfoPage({
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
-
-  useEffect(
-    () => {
-      if (
-        fetchRequestLimitsStatus === FETCH_STATUS.failed ||
-        fetchRequestLimitsStatus === FETCH_STATUS.succeeded
-      )
-        scrollAndFocus();
-    },
-    [fetchRequestLimitsStatus],
-  );
-
-  if (
-    fetchRequestLimitsStatus === FETCH_STATUS.failed ||
-    (fetchRequestLimitsStatus === FETCH_STATUS.succeeded &&
-      !isUnderRequestLimit)
-  ) {
-    return (
-      <ExpressCareRequestLimitError
-        fetchRequestLimitsStatus={fetchRequestLimitsStatus}
-      />
-    );
-  }
 
   return (
     <div>
@@ -135,13 +109,13 @@ function ExpressCareInfoPage({
         pageChangeInProgress={pageChangeInProgress}
         onBack={() => {
           recordEvent({
-            event: `${GA_PREFIX}-express-care-request-cancel-flow`,
+            event: `${GA_PREFIX}-express-care-path-cancelled`,
           });
           routeToPreviousAppointmentPage(router, pageKey);
         }}
         onSubmit={() => {
           recordEvent({
-            event: `${GA_PREFIX}-express-care-request-continue-flow`,
+            event: `${GA_PREFIX}-express-care-path-started`,
           });
           routeToNextAppointmentPage(router, pageKey);
         }}

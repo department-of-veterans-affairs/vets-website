@@ -412,7 +412,7 @@ The data set currently being used to fill the form. This data is what drives eac
 It will be the object structure that's returned from resolving the path with `dataPrefix`, so when using this alias, there is no need to qualify the object path with the prefix to get to the actual form data.
 
 ```json
-// test-data.json
+minimal-test.json
 
 {
   "data": {

@@ -31,7 +31,12 @@ async function downloadFile(
 
     downloadResults.downloadCount++;
 
-    log(`Finished downloading ${asset.src}`);
+    if (global.verbose) {
+      log(`Finished downloading ${asset.src}`);
+    } else {
+      process.stdout.write('.');
+      if (!assetsToDownload.length) process.stdout.write('\n');
+    }
   } else {
     // For now, not going to fail the build for a missing asset
     // Should get caught by the broken link checker, though

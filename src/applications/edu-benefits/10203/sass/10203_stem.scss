@@ -153,6 +153,9 @@
   text-indent: -9999em;
   width: 1em;
 }
+.program-details{
+  margin-top: 2em;
+}
 
 .wizard-button[aria-expanded=true]:after {
   background-image: url(/img/arrow-up-white.svg);
@@ -175,8 +178,14 @@ div[data-chapter="benefitSelection"]{
   }
 }
 
-div[data-chapter="programDetails"]{
-  div.form-review-panel-page:nth-child(2) {
-    display:none;
+div[data-chapter="programDetails"] {
+  p.school-details-notice {
+    display: none;
+  }
+}
+
+div[data-chapter="personalInformation"]{
+  .form-review-panel-page {
+    margin-bottom: 0px;
   }
 }

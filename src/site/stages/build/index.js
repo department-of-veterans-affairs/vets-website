@@ -273,7 +273,9 @@ function build(BUILD_OPTIONS) {
     if (BUILD_OPTIONS.watch) {
       console.log('Metalsmith build finished!');
     } else {
-      smith.printSummary();
+      if (global.verbose) {
+        smith.printSummary();
+      }
       console.log('Build finished!');
     }
   });

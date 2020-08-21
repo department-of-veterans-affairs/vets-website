@@ -59,6 +59,10 @@ describe('<VetTecApprovedProgram>', () => {
 
     selectRadio(wrapper, 'vetTecProgram', 'Program Name');
 
+    wrapper
+      .find(`input[name*="vetTecProgram"][value="Program Name"]`)
+      .simulate('blur');
+
     expect(global.window.dataLayer[0]['gibct-form-value']).to.eq(
       institution.programs[0].description,
     );

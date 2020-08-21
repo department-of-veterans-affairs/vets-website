@@ -89,13 +89,15 @@ describe('VAOS integration: Express Care info page', () => {
     expect(router.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.secondCall.args[0]).to.equal(
-      '/new-express-care-request/select-reason',
+    await waitFor(
+      () =>
+        expect(
+          router.push.calledWith('/new-express-care-request/select-reason'),
+        ).to.be.true,
     );
   });
 
-  it('should display error if request limits reached', async () => {
+  it('should redirect to error page if request limits reached', async () => {
     const today = moment();
     const startTime = today
       .clone()
@@ -139,15 +141,12 @@ describe('VAOS integration: Express Care info page', () => {
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
-    await waitFor(() => expect(router.push.called).to.be.false);
-    expect(
-      await screen.findByText(
-        /You’ve reached the limit for Express Care requests/i,
-      ),
-    ).to.exist;
+    await waitFor(() => expect(router.push.called).to.be.true);
+    expect(router.push.calledWith('/new-express-care-request/request-limit')).to
+      .be.true;
   });
 
-  it('should display error if request limit fetch fails', async () => {
+  it('should redirect to error page if request limit fetch fails', async () => {
     const today = moment();
     const startTime = today
       .clone()
@@ -199,12 +198,9 @@ describe('VAOS integration: Express Care info page', () => {
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
-    await waitFor(() => expect(router.push.called).to.be.false);
-    expect(
-      await screen.findByText(
-        /Something went wrong when we tried to check your request/i,
-      ),
-    ).to.exist;
+    await waitFor(() => expect(router.push.called).to.be.true);
+    expect(router.push.calledWith('/new-express-care-request/request-limit')).to
+      .be.true;
   });
 
   it('should redirect home when there is not an active window', async () => {
