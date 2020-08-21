@@ -117,9 +117,7 @@ describe('VAOS integration: select date time slot page', () => {
       slots: slots309,
       preferredDate,
     });
-    const store = createTestStore({
-      ...initialState,
-    });
+    const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
     await setClinic(store, /green team/i);
