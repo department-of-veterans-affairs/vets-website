@@ -97,10 +97,11 @@ const AuthContent = () => (
       </li>
       <li>Registered as a patient in a VA health facility</li>
     </ul>
-    <a href="/health-care/how-to-apply/">
-      Find out how to apply for VA health care
-    </a>
-    <br />
+    <p>
+      <a href="/health-care/how-to-apply/">
+        Find out how to apply for VA health care
+      </a>
+    </p>
     <p>
       <strong>And you must have one of these free accounts:</strong>
     </p>
@@ -175,12 +176,15 @@ const AuthContent = () => (
     <ul>
       <li>
         Read the FAQs pages on the My HealtheVet web portal
+        <br />
         <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#bbtop">
           VA Blue Button FAQs
         </a>
+        <br />
         <a href="https://www.myhealth.va.gov/mhv-portal-web/faqs#CCD">
           VA health summary FAQs
         </a>
+        <br />
         <a href="https://www.myhealth.va.gov/mhv-portal-web/faqs#VAMIR">
           VA medical images and reports FAQs
         </a>

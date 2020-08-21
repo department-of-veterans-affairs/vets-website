@@ -13,9 +13,12 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import reducers from '../../reducers';
 import newAppointmentReducer from '../../reducers/newAppointment';
 import expressCareReducer from '../../reducers/expressCare';
+import { fetchExpressCareWindows } from '../../actions/expressCare';
 
 import TypeOfCarePage from '../../containers/TypeOfCarePage';
 import VAFacilityPage from '../../containers/VAFacilityPage';
+import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
+import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
 import ClinicChoicePage from '../../containers/ClinicChoicePage';
 import PreferredDatePage from '../../containers/PreferredDatePage';
@@ -199,4 +202,27 @@ export async function setPreferredDate(store, preferredDate) {
   await cleanup();
 
   return history.push.firstCall.args[0];
+}
+
+export async function setExpressCareFacility({ store }) {
+  store.dispatch(fetchExpressCareWindows());
+  const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+    store,
+  });
+
+  await screen.findByText(/How Express Care Works/i);
+  fireEvent.click(screen.getByText(/^Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
+  await cleanup();
+}
+
+export async function setExpressCareReason({ store, label }) {
+  const screen = renderWithStoreAndRouter(<ExpressCareReasonPage />, {
+    store,
+  });
+  await screen.findByText('Select a reason for your Express Care request');
+  fireEvent.click(screen.getByLabelText(label));
+  fireEvent.click(screen.getByText(/^Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
+  await cleanup();
 }

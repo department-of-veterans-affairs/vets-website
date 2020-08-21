@@ -95,6 +95,7 @@ class IntroductionPage extends React.Component {
           verifiedPrefillAlert={VerifiedAlert}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
+          downtime={this.props.route.formConfig.downtime}
           pageList={this.props.route.pageList}
           startText="Add or remove a dependent"
         />
@@ -111,6 +112,7 @@ class IntroductionPage extends React.Component {
             verifiedPrefillAlert={VerifiedAlert}
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
             messages={this.props.route.formConfig.savedFormMessages}
+            downtime={this.props.route.formConfig.downtime}
             pageList={this.props.route.pageList}
             startText="Add or remove a dependent"
           />

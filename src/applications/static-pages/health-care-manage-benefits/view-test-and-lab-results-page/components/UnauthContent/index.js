@@ -32,10 +32,11 @@ export const UnauthContent = () => (
       </li>
       <li>Registered as a patient at a VA health facility</li>
     </ul>
-    <a href="/health-care/how-to-apply">
-      Find out how to apply for VA health care
-    </a>
-    <br />
+    <p>
+      <a href="/health-care/how-to-apply">
+        Find out how to apply for VA health care
+      </a>
+    </p>
     <p>
       <strong>And you must have one of these free accounts:</strong>
     </p>

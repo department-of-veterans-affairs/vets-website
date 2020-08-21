@@ -8,15 +8,10 @@ import {
   resetFetch,
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
+import { setupExpressCareMocks } from '../mocks/helpers';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
 import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
 import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
-import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
-import {
-  mockRequestEligibilityCriteria,
-  mockRequestLimit,
-} from '../mocks/helpers';
-import { NewExpressCareRequest } from '../../express-care';
 
 const initialState = {
   user: {
@@ -31,30 +26,26 @@ describe('VAOS integration: Express Care info page', () => {
   afterEach(() => resetFetch());
 
   it('should render info page when there are active windows', async () => {
+    const store = createTestStore({
+      ...initialState,
+    });
     const today = moment();
     const startTime = today
       .clone()
-      .subtract('2', 'minutes')
+      .subtract(5, 'minutes')
       .tz('America/Denver');
     const endTime = today
       .clone()
-      .add('1', 'minutes')
+      .add(3, 'minutes')
       .tz('America/Denver');
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: startTime.format('HH:mm'),
-        endTime: endTime.format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
-    mockRequestLimit({ facilityId: '983' });
-    const store = createTestStore(initialState);
+
+    setupExpressCareMocks({
+      startTime,
+      endTime,
+      isUnderRequestLimit: true,
+      isWindowOpen: true,
+    });
+
     const screen = renderWithStoreAndRouter(
       <NewExpressCareRequestLayout>
         <ExpressCareInfoPage />
@@ -92,42 +83,14 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should redirect to error page if request limits reached', async () => {
-    const today = moment();
-    const startTime = today
-      .clone()
-      .subtract('2', 'minutes')
-      .tz('America/Denver');
-    const endTime = today
-      .clone()
-      .add('1', 'minutes')
-      .tz('America/Denver');
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: startTime.format('HH:mm'),
-        endTime: endTime.format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
-    mockRequestLimit({
-      facilityId: '983',
-      requestLimit: 1,
-      numberOfRequests: 1,
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: false });
+
+    const store = createTestStore({
+      ...initialState,
     });
-    const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(
-      <NewExpressCareRequestLayout>
-        <ExpressCareInfoPage />
-      </NewExpressCareRequestLayout>,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+      store,
+    });
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
@@ -138,33 +101,7 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should redirect to error page if request limit fetch fails', async () => {
-    const today = moment();
-    const startTime = today
-      .clone()
-      .subtract('2', 'minutes')
-      .tz('America/Denver');
-    const endTime = today
-      .clone()
-      .add('1', 'minutes')
-      .tz('America/Denver');
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: startTime.format('HH:mm'),
-        endTime: endTime.format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
-    mockRequestLimit({
-      facilityId: '983',
-      requestLimit: 1,
-      numberOfRequests: 1,
-    });
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
     setFetchJSONFailure(
       global.fetch.withArgs(
         `${
@@ -173,8 +110,10 @@ describe('VAOS integration: Express Care info page', () => {
       ),
       { errors: [] },
     );
-    const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
+    const store = createTestStore({
+      ...initialState,
+    });
+    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
       store,
     });
 
@@ -187,40 +126,15 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should redirect home when there is not an active window', async () => {
-    const today = moment();
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: today
-          .clone()
-          .subtract('2', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-        endTime: today
-          .clone()
-          .subtract('1', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
-    const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(
-      <NewExpressCareRequestLayout>
-        <ExpressCareInfoPage />
-      </NewExpressCareRequestLayout>,
-      {
-        store,
-      },
-    );
+    setupExpressCareMocks({ isWindowOpen: false, isUnderRequestLimit: true });
+    const store = createTestStore({
+      ...initialState,
+    });
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequestLayout />, {
+      store,
+    });
 
     await waitFor(() => expect(screen.history.push.called).to.be.true);
     expect(screen.history.push.firstCall.args[0]).to.equal('/');
-    expect(screen.queryByText(/How Express Care Works/i)).to.not.exist;
   });
 });

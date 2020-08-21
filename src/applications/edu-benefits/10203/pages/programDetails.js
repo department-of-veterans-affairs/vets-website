@@ -30,8 +30,14 @@ export const uiSchema = {
   schoolCountry: {
     'ui:title': 'Country',
   },
+  'view:field': {
+    'ui:description': schoolStudentIdTitle,
+    'ui:options': {
+      hideOnReview: true,
+    },
+  },
   schoolStudentId: {
-    'ui:title': schoolStudentIdTitle,
+    'ui:title': 'Your school student ID number',
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
@@ -56,6 +62,10 @@ export const schema = {
       type: 'string',
       enum: countries.map(country => country.value),
       enumNames: countries.map(country => country.label),
+    },
+    'view:field': {
+      type: 'object',
+      properties: {},
     },
     schoolStudentId,
     schoolEmailAddress,
