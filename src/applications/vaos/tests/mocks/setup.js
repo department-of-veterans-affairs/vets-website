@@ -37,8 +37,6 @@ import {
 
 import createRoutesWithStore from '../../routes';
 
-const today = moment();
-
 export function createTestStore(initialState) {
   return createStore(
     combineReducers({
@@ -190,6 +188,7 @@ export function setupExpressCareMocks({
   startTime = null,
   endTime = null,
 } = {}) {
+  const today = moment();
   const start =
     startTime ||
     today
