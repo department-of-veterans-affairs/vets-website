@@ -42,10 +42,15 @@ export const uiSchema = {
     'ui:title': 'Middle name',
   },
   lastName: {
-    'ui:title': 'Middle name',
+    'ui:title': 'Last name',
     'ui:required': formData => isDependent(formData),
   },
-  suffix: {},
+  suffix: {
+    'ui:title': 'Suffix',
+    'ui:options': {
+      widgetClassNames: 'usa-input-medium',
+    },
+  },
   ssn: {
     ...ssnUI,
     'ui:required': formData => isDependent(formData),

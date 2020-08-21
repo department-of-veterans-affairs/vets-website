@@ -15,6 +15,7 @@ export const schema = {
 
 export const uiSchema = {
   status: {
+    'ui:title': 'Select one of the options below.',
     'ui:widget': 'radio',
   },
 };

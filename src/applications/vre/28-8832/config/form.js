@@ -67,7 +67,7 @@ const formConfig = {
       pages: {
         veteranInformation: {
           path: 'personal-information',
-          title: 'Personal Information - Page 1',
+          title: 'Personal Information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },

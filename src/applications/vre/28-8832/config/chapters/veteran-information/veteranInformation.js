@@ -22,6 +22,9 @@ export const schema = {
         },
       },
     },
+    vaFileNumber: {
+      type: 'string',
+    },
     ssn: {
       type: 'string',
     },
@@ -46,6 +49,12 @@ export const uiSchema = {
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
+    },
+  },
+  vaFileNumber: {
+    'ui:title': 'Your VA file number',
+    'ui:options': {
+      widgetClassNames: 'usa-input-medium',
     },
   },
   ssn: {

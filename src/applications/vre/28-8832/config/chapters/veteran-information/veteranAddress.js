@@ -2,7 +2,7 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import {
   buildAddressSchema,
   addressUISchema,
-} from '../../../../../disability-benefits/686c-674/config/address-schema';
+} from 'applications/disability-benefits/686c-674/config/address-schema';
 import { isVeteran } from '../../helpers';
 
 const veteranAddress = buildAddressSchema(true);
@@ -23,8 +23,6 @@ export const schema = {
       type: 'string',
       minLength: 6,
       maxLength: 80,
-      pattern:
-        '^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$',
     },
   },
 };
