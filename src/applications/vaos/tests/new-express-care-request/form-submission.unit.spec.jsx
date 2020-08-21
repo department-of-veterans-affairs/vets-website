@@ -20,7 +20,6 @@ import {
 } from '../mocks/v0';
 import {
   createTestStore,
-  setupExpressCareMocks,
   setExpressCareFacility,
   setExpressCareReason,
 } from '../mocks/setup';
@@ -31,6 +30,7 @@ import {
   mockSupportedFacilities,
   mockPreferences,
   mockRequestLimit,
+  setupExpressCareMocks,
 } from '../mocks/helpers';
 import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
 import ExpressCareConfirmationPage from '../../containers/ExpressCareConfirmationPage';

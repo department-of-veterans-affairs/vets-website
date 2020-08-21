@@ -9,10 +9,11 @@ import {
   mockFetch,
   resetFetch,
   setFetchJSONFailure,
+  setupExpressCareMocks,
 } from 'platform/testing/unit/helpers';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
 import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
-import { createTestStore, setupExpressCareMocks } from '../mocks/setup';
+import { createTestStore } from '../mocks/setup';
 
 const initialState = {
   user: {

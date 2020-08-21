@@ -6,11 +6,8 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { fireEvent } from '@testing-library/dom';
 
-import {
-  createTestStore,
-  setupExpressCareMocks,
-  setExpressCareFacility,
-} from '../mocks/setup';
+import { createTestStore, setExpressCareFacility } from '../mocks/setup';
+import { setupExpressCareMocks } from '../mocks/helpers';
 import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
 
 const initialState = {
