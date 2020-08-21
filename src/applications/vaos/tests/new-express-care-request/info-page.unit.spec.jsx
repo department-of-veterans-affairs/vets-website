@@ -45,7 +45,12 @@ describe('VAOS integration: Express Care info page', () => {
       .add(3, 'minutes')
       .tz('America/Denver');
 
-    setupExpressCareMocks({ startTime, endTime });
+    setupExpressCareMocks({
+      startTime,
+      endTime,
+      isUnderRequestLimit: true,
+      isWindowOpen: true,
+    });
 
     const router = {
       push: sinon.spy(),
@@ -85,7 +90,7 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should redirect to error page if request limits reached', async () => {
-    setupExpressCareMocks({ isUnderRequestLimit: false });
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: false });
 
     const router = {
       push: sinon.spy(),
@@ -109,7 +114,7 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should redirect to error page if request limit fetch fails', async () => {
-    setupExpressCareMocks();
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
     setFetchJSONFailure(
       global.fetch.withArgs(
         `${
@@ -140,7 +145,7 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should redirect home when there is not an active window', async () => {
-    setupExpressCareMocks({ isWindowOpen: false });
+    setupExpressCareMocks({ isWindowOpen: false, isUnderRequestLimit: true });
     const router = {
       push: sinon.spy(),
     };

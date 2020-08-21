@@ -23,7 +23,7 @@ describe('VAOS integration: Express Care form', () => {
   afterEach(() => resetFetch());
 
   it('should contain expected elements', async () => {
-    setupExpressCareMocks();
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
     const store = createTestStore({
       ...initialState,
     });

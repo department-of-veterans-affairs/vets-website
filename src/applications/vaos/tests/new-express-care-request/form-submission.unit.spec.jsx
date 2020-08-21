@@ -50,7 +50,7 @@ describe('VAOS integration: Express Care form submission', () => {
   afterEach(() => resetFetch());
 
   it('should not allow submission of an empty form', async () => {
-    setupExpressCareMocks();
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
     const store = createTestStore({
       ...initialState,
     });
@@ -82,7 +82,7 @@ describe('VAOS integration: Express Care form submission', () => {
       push: sinon.spy(),
       replace: sinon.spy(),
     };
-    setupExpressCareMocks();
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
     const parentSite = {
       id: '983',
       attributes: {
@@ -222,7 +222,7 @@ describe('VAOS integration: Express Care form submission', () => {
       push: sinon.spy(),
       replace: sinon.spy(),
     };
-    setupExpressCareMocks();
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
     const parentSite = {
       id: '983',
       attributes: {
@@ -400,10 +400,10 @@ describe('VAOS integration: Express Care form submission', () => {
       push: sinon.spy(),
       replace: sinon.spy(),
     };
-    setupExpressCareMocks();
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
     await setExpressCareFacility({ store, router });
     await setExpressCareReason({ store, router, label: 'Cough' });
-    setupExpressCareMocks({ isWindowOpen: false });
+    setupExpressCareMocks({ isWindowOpen: false, isUnderRequestLimit: true });
     store.dispatch(fetchExpressCareWindows());
     const screen = renderInReduxProvider(<ExpressCareDetailsPage />, {
       store,

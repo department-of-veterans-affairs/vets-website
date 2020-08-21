@@ -421,8 +421,8 @@ export function mockPreferences(emailAddress) {
 
 export function setupExpressCareMocks({
   facilityId = '983',
-  isWindowOpen = true,
-  isUnderRequestLimit = true,
+  isWindowOpen = false,
+  isUnderRequestLimit = false,
   startTime = null,
   endTime = null,
 } = {}) {
