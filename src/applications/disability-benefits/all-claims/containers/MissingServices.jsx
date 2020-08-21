@@ -23,7 +23,7 @@ export const MissingServices = () => {
       <p>
         We need more information from you before you can file for disability
         compensation. Please call Veterans Benefits Assistance at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ), Monday through Friday, 8:00 a.m. to 9:00 p.m. ET to update your
         account.
@@ -33,7 +33,7 @@ export const MissingServices = () => {
   return <Alert content={content} />;
 };
 
-export const MissingId = ({ children }) => {
+export const MissingId = () => {
   const content = (
     <>
       <h2 className="vads-u-display--inline-block vads-u-font-size--h3 vads-u-margin-top--0">
@@ -43,7 +43,7 @@ export const MissingId = ({ children }) => {
         We don’t have all of your ID information for your account. We need this
         information before you can file for disability compensation. To update
         your account, please call Veterans Benefits Assistance at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>

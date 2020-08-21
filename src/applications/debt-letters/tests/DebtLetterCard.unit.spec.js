@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import DebtLetterCard from '../components/DebtLetterCard';
 
@@ -90,7 +90,7 @@ describe('DebtLetterCard', () => {
         .dive()
         .find('h3')
         .text(),
-    ).to.equal('Comp and Pen debt');
+    ).to.equal('Chapter 35 education debt');
     expect(
       wrapper
         .dive()

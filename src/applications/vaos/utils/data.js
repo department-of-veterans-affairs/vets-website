@@ -2,6 +2,7 @@ import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import {
   PURPOSE_TEXT,
+  CC_PURPOSE,
   TYPE_OF_VISIT,
   LANGUAGES,
   EXPRESS_CARE,
@@ -15,12 +16,15 @@ import {
   getSiteIdForChosenFacility,
   getChosenParentInfo,
   getChosenSlot,
-  selectActiveExpressCareFacility,
-  selectExpressCareData,
+  selectExpressCareFormData,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
-import { findCharacteristic } from '../services/healthcare-service/transformers';
+import {
+  findCharacteristic,
+  getClinicId,
+  getSiteCode,
+} from '../services/healthcare-service/transformers';
 
 function getRequestedDates(data) {
   return data.calendarData.selectedDates.reduce(
@@ -97,12 +101,9 @@ export function transformFormToVARequest(state) {
   };
 }
 
-export function transformFormToExpressCareRequest(state) {
-  const data = selectExpressCareData(state);
-  const { facilityId, siteId, name } = selectActiveExpressCareFacility(
-    state,
-    moment.utc(),
-  );
+export function transformFormToExpressCareRequest(state, facility) {
+  const data = selectExpressCareFormData(state);
+  const { facilityId, siteId, name } = facility;
 
   return {
     typeOfCare: EXPRESS_CARE,
@@ -113,10 +114,10 @@ export function transformFormToExpressCareRequest(state) {
       facilityCode: facilityId,
       parentSiteCode: siteId,
     },
-    reasonForVisit: data.reasonForVisit,
+    reasonForVisit: data.reason,
     additionalInformation: data.additionalInformation,
-    phoneNumber: data.phoneNumber,
-    verifyPhoneNumber: data.phoneNumber,
+    phoneNumber: data.contactInfo.phoneNumber,
+    verifyPhoneNumber: data.contactInfo.phoneNumber,
     emailPreferences: {
       emailAddress: data.email,
       // defaulted values
@@ -125,16 +126,24 @@ export function transformFormToExpressCareRequest(state) {
       textMsgAllowed: false,
       textMsgPhNumber: '',
     },
-    email: data.email,
+    email: data.contactInfo.email,
     // defaulted values
     status: 'Submitted',
+    purposeOfVisit: 'Express Care Request',
+    visitType: 'Express Care',
+    optionDate1: moment().format('MM/DD/YYYY'),
+    optionTime1: 'No Time Selected',
+    optionDate2: 'No Date Selected',
+    optionTime2: 'No Time Selected',
+    optionDate3: 'No Date Selected',
+    optionTime3: 'No Time Selected',
     schedulingMethod: 'clerk',
     requestedPhoneCall: false,
     providerId: '0',
     providerOption: '',
     // The bad camel casing here is intentional, to match downstream
     // system
-    bestTimetoCall: [],
+    bestTimetoCall: ['Morning', 'Afternoon', 'Evening'],
   };
 }
 
@@ -196,9 +205,7 @@ export function transformFormToCCRequest(state) {
       facilityCode: siteId,
       parentSiteCode: siteId,
     },
-    purposeOfVisit: PURPOSE_TEXT.find(
-      purpose => purpose.id === data.reasonForAppointment,
-    )?.id,
+    purposeOfVisit: CC_PURPOSE,
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
     // The bad camel casing here is intentional, to match downstream
@@ -240,8 +247,8 @@ export function transformFormToAppointment(state) {
   return {
     appointmentType: getTypeOfCare(data).name,
     clinic: {
-      siteCode: clinic.id.split('_')[0].replace('var', ''),
-      clinicId: clinic.id.split('_')[1],
+      siteCode: getSiteCode(clinic),
+      clinicId: getClinicId(clinic),
       clinicName: clinic.serviceName,
       clinicFriendlyLocationName: findCharacteristic(
         clinic,
@@ -258,7 +265,7 @@ export function transformFormToAppointment(state) {
     duration: appointmentLength,
     bookingNotes: purpose,
     preferredEmail: data.email,
-    timeZone: facility.legacyVAR.institutionTimezone,
+    timeZone: facility.legacyVAR?.institutionTimezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',
@@ -273,10 +280,10 @@ export function transformFormToAppointment(state) {
   };
 }
 
-export function createPreferenceBody(preferences, data) {
+export function createPreferenceBody(preferences, emailAddress) {
   return {
     ...preferences,
-    emailAddress: data.email,
+    emailAddress,
     notificationFrequency: 'Each new message',
     emailAllowed: true,
   };

@@ -55,21 +55,9 @@ export const ServerErrorAlert = (
       <a href="tel:8446982311" aria-label="8 4 4. 6 9 8. 2 3 1 1.">
         844-698-2311
       </a>{' '}
-      (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+      (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
-  </>
-);
-
-export const stateTitle = (
-  <>
-    State (<strong>or</strong> Country if outside the U.S.)
-  </>
-);
-
-export const cityTitle = (
-  <>
-    City <strong>or</strong> county
   </>
 );
 
@@ -81,16 +69,16 @@ export const isInsideListLoopReturn = (
 ) => {
   return {
     'ui:title': uiTitle,
-    isOutsideUS: {
+    isOutsideUs: {
       'ui:title': 'This occurred outside the US',
     },
     country: {
       'ui:title': 'Country',
       'ui:required': (formData, index) =>
-        formData[chapter][`${index}`][outerField]?.isOutsideUS,
+        formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
       'ui:options': {
         hideIf: (formData, index) => {
-          if (!formData[chapter][`${index}`][outerField]?.isOutsideUS) {
+          if (!formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs) {
             return true;
           }
           return false;
@@ -100,10 +88,10 @@ export const isInsideListLoopReturn = (
     state: {
       'ui:title': 'State',
       'ui:required': (formData, index) =>
-        !formData[chapter][`${index}`][outerField]?.isOutsideUS,
+        !formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
       'ui:options': {
         hideIf: (formData, index) => {
-          if (formData[chapter][`${index}`][outerField]?.isOutsideUS) {
+          if (formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs) {
             return true;
           }
           return false;
@@ -124,16 +112,16 @@ export const isOutsideListLoopReturn = (
   formChapter,
 ) => {
   return {
-    'ui:title': 'Where were you married?',
-    isOutsideUS: {
-      'ui:title': 'This occurred outsite the US',
+    'ui:title': uiTitle,
+    isOutsideUs: {
+      'ui:title': 'This occurred outside the US',
     },
     country: {
       'ui:title': 'Country',
-      'ui:required': formData => formData[chapter][outerField]?.isOutsideUS,
+      'ui:required': formData => formData?.[chapter]?.[outerField]?.isOutsideUs,
       'ui:options': {
         hideIf: formData => {
-          if (!formData[chapter][outerField].isOutsideUS) {
+          if (!formData?.[chapter]?.[outerField]?.isOutsideUs) {
             return true;
           }
           return false;
@@ -142,10 +130,11 @@ export const isOutsideListLoopReturn = (
     },
     state: {
       'ui:title': 'State',
-      'ui:required': formData => !formData[chapter][outerField]?.isOutsideUS,
+      'ui:required': formData =>
+        !formData?.[chapter]?.[outerField]?.isOutsideUs,
       'ui:options': {
         hideIf: formData => {
-          if (formData[chapter][outerField].isOutsideUS) {
+          if (formData?.[chapter]?.[outerField]?.isOutsideUs) {
             return true;
           }
           return false;
@@ -153,7 +142,7 @@ export const isOutsideListLoopReturn = (
       },
     },
     city: {
-      'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
+      'ui:required': formData => isChapterFieldRequired(formData, formChapter),
       'ui:title': 'City',
     },
   };

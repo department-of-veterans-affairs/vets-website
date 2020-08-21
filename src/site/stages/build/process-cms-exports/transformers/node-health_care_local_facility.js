@@ -15,12 +15,12 @@ const getSocialMediaObject = ({ uri, title }) =>
       }
     : null;
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'health_care_local_facility',
   title: getDrupalValue(entity.title),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   // The keys of fieldAddress[0] are snake_case, but we want camelCase
   fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
@@ -54,7 +54,11 @@ const transform = entity => ({
     entity.fieldOperatingStatusMoreInfo,
   ),
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
-  fieldRegionPage: entity.fieldRegionPage[0] || null,
+  fieldRegionPage:
+    entity.fieldRegionPage[0] &&
+    !ancestors.find(r => r.entity.uuid === entity.fieldRegionPage[0].uuid)
+      ? entity.fieldRegionPage[0]
+      : null,
   fieldTwitter: getSocialMediaObject(entity.fieldTwitter),
 });
 
@@ -62,7 +66,7 @@ module.exports = {
   filter: [
     'title',
     'changed',
-    'moderation_state',
+    'status',
     'metatag',
     'path',
     'field_address',

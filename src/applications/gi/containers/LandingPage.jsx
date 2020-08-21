@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -63,7 +62,7 @@ export class LandingPage extends React.Component {
       category,
     };
 
-    _.forEach(query, (val, key) => {
+    Object.entries(query).forEach(({ val, key }) => {
       if (typeof val !== 'boolean' && (!val || val === 'ALL')) {
         delete query[key];
       }
@@ -177,13 +176,17 @@ export class LandingPage extends React.Component {
               {!isVetTecSelected(this.props.filters) && (
                 <KeywordSearch
                   label={searchLabel}
+                  searchOnAutcompleteSelection
+                  gibctSearchEnhancements={this.props.gibctSearchEnhancements}
                   autocomplete={this.props.autocomplete}
                   location={this.props.location}
                   onClearAutocompleteSuggestions={
                     this.props.clearAutocompleteSuggestions
                   }
                   onFetchAutocompleteSuggestions={this.autocomplete}
-                  onFilterChange={this.handleFilterChange}
+                  onFilterChange={(field, value) => {
+                    this.handleFilterChange(value);
+                  }}
                   onUpdateAutocompleteSearchTerm={
                     this.props.updateAutocompleteSearchTerm
                   }

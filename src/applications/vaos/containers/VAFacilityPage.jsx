@@ -106,9 +106,8 @@ export class VAFacilityPage extends React.Component {
       parentDetails,
       facilityDetails,
       hasDataFetchingError,
-      hasEligibilityError,
       parentOfChosenFacility,
-      cernerFacilities,
+      cernerOrgIds,
       siteId,
     } = this.props;
 
@@ -192,10 +191,7 @@ export class VAFacilityPage extends React.Component {
     }
 
     const disableSubmitButton =
-      loadingFacilities ||
-      noValidVAFacilities ||
-      notEligibleAtChosenFacility ||
-      hasEligibilityError;
+      loadingFacilities || noValidVAFacilities || notEligibleAtChosenFacility;
 
     return (
       <div>
@@ -214,7 +210,7 @@ export class VAFacilityPage extends React.Component {
             typeOfCare,
             facilityDetailsStatus,
             parentDetails,
-            cernerFacilities,
+            cernerOrgIds,
           }}
           data={data}
         >
@@ -226,7 +222,6 @@ export class VAFacilityPage extends React.Component {
               />
             </div>
           )}
-          {hasEligibilityError && <ErrorMessage />}
           <FormButtons
             onBack={this.goBack}
             continueLabel=""

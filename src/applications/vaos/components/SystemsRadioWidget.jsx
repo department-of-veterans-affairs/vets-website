@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCernerPortalLink } from '../utils/appointment';
+import { getCernerURL } from 'platform/utilities/cerner';
 
 /*
  * This is a copy of the form system RadioWidget, but with custom
@@ -14,15 +14,13 @@ export default function SystemsRadioWidget({
   formContext,
 }) {
   const { enumOptions, labels = {} } = options;
-  const cernerFacilities = formContext.cernerFacilities;
+  const { cernerOrgIds } = formContext;
 
   return (
     <div>
       {enumOptions.map((option, i) => {
         const checked = option.value === value;
-        const isCerner = cernerFacilities.some(facilityId =>
-          option.value.startsWith(facilityId),
-        );
+        const isCerner = cernerOrgIds.some(orgId => option.value === orgId);
         return (
           <div className="form-radio-buttons" key={option.value}>
             <input
@@ -42,7 +40,7 @@ export default function SystemsRadioWidget({
                   <strong>
                     To schedule a VA appointment at this location, go to{' '}
                     <a
-                      href={getCernerPortalLink()}
+                      href={getCernerURL('/pages/scheduling/upcoming')}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

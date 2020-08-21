@@ -11,10 +11,7 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from 'vet360/util/transactions';
-import {
-  selectAddressValidation,
-  selectAddressValidationType,
-} from 'vet360/selectors';
+import { selectAddressValidation } from 'vet360/selectors';
 
 import Vet360EditModalErrorMessage from 'vet360/components/base/Vet360EditModalErrorMessage';
 
@@ -257,6 +254,7 @@ class AddressValidationView extends React.Component {
           className="vads-u-margin-bottom--1"
           status="warning"
           headline={addressValidationMessage.headline}
+          scrollOnShow
         >
           <addressValidationMessage.ModalText editFunction={this.onEditClick} />
         </AlertBox>

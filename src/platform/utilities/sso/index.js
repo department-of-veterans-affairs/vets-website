@@ -1,7 +1,8 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
-import { hasSession, hasSessionSSO } from '../../user/profile/utilities';
+import { hasSessionSSO } from '../../user/profile/utilities';
+import { loginAppUrlRE } from 'applications/login/utilities/paths';
 
 import {
   standaloneRedirect,
@@ -36,25 +37,37 @@ export async function ssoKeepAliveSession() {
   return { ttl, transactionid, authn };
 }
 
-export async function checkAutoSession(loggedIn, ssoeTransactionId) {
+export async function checkAutoSession(
+  loggedIn,
+  ssoeTransactionId,
+  profile = {},
+) {
   const { ttl, transactionid, authn } = await ssoKeepAliveSession();
 
   if (loggedIn && ssoeTransactionId) {
-    if (window.location.pathname === '/sign-in/' && ttl > 0) {
-      // the user is on the standalone signin page, but already logged in with SSOe
-      // redirect them back to their return url
-      window.location = standaloneRedirect() || window.location.origin;
-    } else if (ttl === 0 || transactionid !== ssoeTransactionId) {
-      // having a user session is not enough, we also need to make sure when
-      // the user authenticated they used SSOe, otherwise we can't auto logout
+    // being logged in is not enough, we also need to make sure that the user
+    // has been authenticated with SSOe, otherwise we don't want to perform any
+    // auto login/logout operations.
+    if (ttl === 0) {
       // explicitly check to see if the TTL for the SSOe session is 0, as it
-      // could also be null if we failed to get a response from the SSOe server,
-      // in which case we don't want to logout the user because we don't know
-      // Additionally, compare the transaction id from the keepalive endpoint
-      // with the existing transaction id. If they don't match, it means we might
-      // have a different user logged in. Thus, we should auto log out the user,
-      // and immediately log them back in to make sure the users match.
+      // could also be undefined if we failed to get a response from the SSOe server,
+      // in which case we don't want to logout the user, because we don't know
+      // their SSOe status.
       logout('v1', 'sso-automatic-logout', { 'auto-logout': 'true' });
+    } else if (transactionid && transactionid !== ssoeTransactionId) {
+      // compare the transaction id from the keepalive endpoint with the existing
+      // transaction id. If they don't match, it means we might have a different
+      // user logged in. Thus, we should perform an auto login, which will
+      // effectively logout the user then log them back in.
+      login('custom', 'v1', { authn }, 'sso-automatic-login');
+    } else if (
+      loginAppUrlRE.test(window.location.pathname) &&
+      ttl > 0 &&
+      profile.verified
+    ) {
+      // the user is in the login app, but already logged in with SSOe
+      // and verified, redirect them back to their return url
+      window.location = standaloneRedirect() || window.location.origin;
     }
   } else if (!loggedIn && ttl > 0 && !getLoginAttempted() && authn) {
     // only attempt an auto login if the user is

@@ -5,12 +5,16 @@ import SkinDeep from 'skin-deep';
 import SubmitButtons from '../../../src/js/review/SubmitButtons';
 
 describe('Schemaform review: <SubmitButtons>', () => {
+  let formConfig;
+  beforeEach(() => {
+    formConfig = {};
+  });
   it('should render', () => {
     const submission = {
       status: false,
     };
     const tree = SkinDeep.shallowRender(
-      <SubmitButtons submission={submission} />,
+      <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
     expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal(
@@ -24,8 +28,9 @@ describe('Schemaform review: <SubmitButtons>', () => {
     const submission = {
       status: 'submitPending',
     };
+
     const tree = SkinDeep.shallowRender(
-      <SubmitButtons submission={submission} />,
+      <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
     expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal(
@@ -37,8 +42,9 @@ describe('Schemaform review: <SubmitButtons>', () => {
     const submission = {
       status: 'applicationSubmitted',
     };
+
     const tree = SkinDeep.shallowRender(
-      <SubmitButtons submission={submission} />,
+      <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
     expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal(
@@ -50,8 +56,9 @@ describe('Schemaform review: <SubmitButtons>', () => {
     const submission = {
       status: 'error',
     };
+
     const tree = SkinDeep.shallowRender(
-      <SubmitButtons submission={submission} />,
+      <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
     expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
@@ -62,8 +69,9 @@ describe('Schemaform review: <SubmitButtons>', () => {
     const submission = {
       status: 'validationError',
     };
+
     const tree = SkinDeep.shallowRender(
-      <SubmitButtons submission={submission} />,
+      <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
     // Make sure it displays an error--and the right one
@@ -81,7 +89,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     process.env.NODE_ENV = 'production';
 
     const tree = SkinDeep.shallowRender(
-      <SubmitButtons submission={submission} />,
+      <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
     expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
@@ -95,12 +103,14 @@ describe('Schemaform review: <SubmitButtons>', () => {
     const submission = {
       status: 'error',
     };
+
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
         renderErrorMessage={() => (
           <span className="message">Error message</span>
         )}
         submission={submission}
+        formConfig={formConfig}
       />,
     );
 
@@ -110,8 +120,9 @@ describe('Schemaform review: <SubmitButtons>', () => {
     const submission = {
       status: 'throttledError',
     };
+
     const tree = SkinDeep.shallowRender(
-      <SubmitButtons submission={submission} />,
+      <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
     // Make sure it displays an error--and the right one
@@ -125,8 +136,9 @@ describe('Schemaform review: <SubmitButtons>', () => {
     const submission = {
       status: 'clientError',
     };
+
     const tree = SkinDeep.shallowRender(
-      <SubmitButtons submission={submission} />,
+      <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
     // Make sure it displays an error--and the right one

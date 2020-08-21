@@ -7,15 +7,22 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import { facilityTypes } from '../config';
-import { MARKER_LETTERS } from '../constants';
+import {
+  MARKER_LETTERS,
+  CLINIC_URGENTCARE_SERVICE,
+  LocationType,
+} from '../constants';
 
 import { distBetween } from '../utils/facilityDistance';
 import { setFocus } from '../utils/helpers';
 
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
-import SearchResult from './SearchResult';
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
+import VaFacilityResult from './search-results-items/VaFacilityResult';
+import CCProviderResult from './search-results-items/CCProviderResult';
+import PharmacyResult from './search-results-items/PharmacyResult';
+import UrgentCareResult from './search-results-items/UrgentCareResult';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -37,6 +44,47 @@ class ResultsList extends Component {
     }
   }
 
+  /**
+   * Returns Result items by type
+   * @param query object
+   * @param results array list
+   * @returns [] list of results
+   */
+  renderResultItems(query, results) {
+    return results.map(r => {
+      let item;
+      switch (query.facilityType) {
+        case 'health':
+        case 'cemetery':
+        case 'benefits':
+        case 'vet_center':
+          item = <VaFacilityResult location={r} query={query} key={r.id} />;
+          break;
+        case 'provider':
+          // Support non va urgent care search through ccp option
+          if (query.serviceType === CLINIC_URGENTCARE_SERVICE) {
+            item = <UrgentCareResult provider={r} query={query} key={r.id} />;
+          } else {
+            item = <CCProviderResult provider={r} query={query} key={r.id} />;
+          }
+          break;
+        case 'pharmacy':
+          item = <PharmacyResult provider={r} query={query} key={r.id} />;
+          break;
+        case 'urgent_care':
+          if (r.type === LocationType.CC_PROVIDER) {
+            item = <UrgentCareResult provider={r} query={query} key={r.id} />;
+          } else {
+            item = <VaFacilityResult location={r} query={query} key={r.id} />;
+          }
+          break;
+        default:
+          item = null;
+      }
+      return item;
+    });
+  }
+
   render() {
     const {
       facilityTypeName,
@@ -45,7 +93,6 @@ class ResultsList extends Component {
       searchString,
       results,
       error,
-      isMobile,
       query,
     } = this.props;
 
@@ -117,7 +164,7 @@ class ResultsList extends Component {
     }
 
     if (!results || results.length < 1) {
-      if (this.props.facilityTypeName === facilityTypes.cc_provider) {
+      if (this.props.facilityTypeName === facilityTypes.provider) {
         return (
           <div
             className="search-result-title facility-result"
@@ -144,9 +191,8 @@ class ResultsList extends Component {
           className="search-result-title facility-result"
           ref={this.searchResultTitle}
         >
-          No facilities found. Please try entering a different search term
-          (Street, City, State or Postal code) and click search to find
-          facilities.
+          Please enter a location (street, city, state or postal code) and click
+          search above to find facilities.
         </div>
       );
     }
@@ -178,28 +224,12 @@ class ResultsList extends Component {
           markerText,
         };
       });
-    return (
-      <div>
-        <div>
-          {sortedResults.map(
-            r =>
-              isMobile ? (
-                <div key={r.id} className="mobile-search-result">
-                  <SearchResult result={r} query={query} />
-                </div>
-              ) : (
-                <SearchResult key={r.id} result={r} query={query} />
-              ),
-          )}
-        </div>
-      </div>
-    );
+    return <div>{this.renderResultItems(query, sortedResults)}</div>;
   }
 }
 
 ResultsList.propTypes = {
   results: PropTypes.array,
-  isMobile: PropTypes.bool,
 };
 
 function mapDispatchToProps(dispatch) {

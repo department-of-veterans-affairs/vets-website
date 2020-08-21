@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import { ReasonForAppointmentPage } from '../../containers/ReasonForAppointmentPage';
+import { FACILITY_TYPES } from '../../utils/constants';
 
 describe('VAOS <ReasonForAppointmentPage>', () => {
   it('should render', () => {
@@ -126,6 +127,42 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
 
+    form.unmount();
+  });
+
+  it('should render radio buttons and a textarea', () => {
+    const openReasonForAppointment = sinon.spy();
+    const updateReasonForAppointmentData = sinon.spy();
+
+    const form = mount(
+      <ReasonForAppointmentPage
+        openReasonForAppointment={openReasonForAppointment}
+        updateReasonForAppointmentData={updateReasonForAppointmentData}
+        data={{}}
+      />,
+    );
+
+    expect(form.find('input[type="radio"]').length).to.equal(4);
+    expect(form.find('textarea').length).to.equal(1);
+
+    form.unmount();
+  });
+
+  it('document title should be different if community care', () => {
+    const openReasonForAppointment = sinon.spy();
+    const updateReasonForAppointmentData = sinon.spy();
+    const pageTitle = 'Tell us the reason for this appointment';
+
+    const form = mount(
+      <ReasonForAppointmentPage
+        openReasonForAppointment={openReasonForAppointment}
+        updateReasonForAppointmentData={updateReasonForAppointmentData}
+        data={{ facilityType: FACILITY_TYPES.COMMUNITY_CARE }}
+      />,
+    );
+
+    expect(form.find('h1').text()).to.equal(pageTitle);
+    expect(document.title).contain(pageTitle);
     form.unmount();
   });
 

@@ -55,6 +55,7 @@ import {
 } from '../actions/sitewide';
 
 import {
+  FACILITY_TYPES,
   FLOW_TYPES,
   REASON_ADDITIONAL_INFO_TITLES,
   REASON_MAX_CHARS,
@@ -67,8 +68,9 @@ import {
 import { getTypeOfCare } from '../utils/selectors';
 import {
   getOrganizationBySiteId,
-  getIdOfRootOrganization,
+  getSiteIdFromOrganization,
 } from '../services/organization';
+import { getClinicId } from '../services/healthcare-service/transformers';
 
 const initialState = {
   pages: {},
@@ -95,12 +97,6 @@ const initialState = {
 
 function getFacilities(state, typeOfCareId, vaParent) {
   return state.facilities[`${typeOfCareId}_${vaParent}`] || [];
-}
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id.replace('var', '');
 }
 
 function setupFormData(data, schema, uiSchema) {
@@ -328,7 +324,7 @@ export default function formReducer(state = initialState, action) {
 
       let eligibility = state.eligibility;
       let clinics = state.clinics;
-      let pastAppointments;
+      let pastAppointments = state.pastAppointments;
 
       if (action.eligibilityData) {
         const facilityEligibility = getEligibilityChecks(
@@ -562,11 +558,12 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
+      const formData = state.data;
       let reasonMaxChars = REASON_MAX_CHARS.request;
 
       if (state.flowType === FLOW_TYPES.DIRECT) {
         const prependText = PURPOSE_TEXT.find(
-          purpose => purpose.id === state.data.reasonForAppointment,
+          purpose => purpose.id === formData.reasonForAppointment,
         )?.short;
         reasonMaxChars =
           REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2;
@@ -578,16 +575,23 @@ export default function formReducer(state = initialState, action) {
         action.schema,
       );
 
-      reasonSchema = set(
-        'properties.reasonAdditionalInfo.title',
-        state.flowType === FLOW_TYPES.DIRECT
-          ? REASON_ADDITIONAL_INFO_TITLES.direct
-          : REASON_ADDITIONAL_INFO_TITLES.request,
-        reasonSchema,
-      );
+      if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
+        const additionalInfoTitle =
+          state.flowType === FLOW_TYPES.DIRECT
+            ? REASON_ADDITIONAL_INFO_TITLES.direct
+            : REASON_ADDITIONAL_INFO_TITLES.request;
+
+        reasonSchema = set(
+          'properties.reasonAdditionalInfo.title',
+          additionalInfoTitle,
+          reasonSchema,
+        );
+      } else {
+        delete formData.reasonForAppointment;
+      }
 
       const { data, schema } = setupFormData(
-        state.data,
+        formData,
         reasonSchema,
         action.uiSchema,
       );
@@ -639,16 +643,17 @@ export default function formReducer(state = initialState, action) {
 
       if (state.pastAppointments) {
         const pastAppointmentDateMap = new Map();
-        const rootOrgId = getIdOfRootOrganization(
-          state.parentFacilities,
-          state.data.vaParent,
+        const org = state.parentFacilities.find(
+          parent => parent.id === state.data.vaParent,
         );
+        const siteId = getSiteIdFromOrganization(org).substring(0, 3);
+
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
           const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
           if (
             // Remove parse function when converting the past appointment call to FHIR service
-            appt.facilityId === parseFakeFHIRId(rootOrgId) &&
+            appt.facilityId === siteId &&
             (!latestApptTime || latestApptTime > apptTime)
           ) {
             pastAppointmentDateMap.set(appt.clinicId, apptTime);
@@ -657,7 +662,7 @@ export default function formReducer(state = initialState, action) {
 
         clinics = clinics.filter(clinic =>
           // Get clinic portion of id
-          pastAppointmentDateMap.has(clinic.id?.split('_')[1]),
+          pastAppointmentDateMap.has(getClinicId(clinic)),
         );
       }
 
@@ -722,7 +727,14 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED: {
       let formData = state.data;
-      let initialSchema = action.schema;
+      const typeOfCare = getTypeOfCare(formData);
+      let initialSchema = set(
+        'properties.hasCommunityCareProvider.title',
+        `Do you have a preferred VA-approved community care provider for this ${
+          typeOfCare.name
+        } appointment?`,
+        action.schema,
+      );
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
       if (state.ccEnabledSystems?.length === 1) {
@@ -747,7 +759,8 @@ export default function formReducer(state = initialState, action) {
           initialSchema,
         );
         initialSchema.properties.communityCareSystemId.enumNames = systems.map(
-          system => `${system.address?.city}, ${system.address?.state}`,
+          system =>
+            `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
         );
         initialSchema.required.push('communityCareSystemId');
       }

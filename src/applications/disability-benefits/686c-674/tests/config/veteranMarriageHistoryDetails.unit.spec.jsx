@@ -44,7 +44,7 @@ describe('686 veteran marriage history details', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    expect(form.find('input').length).to.equal(11);
+    expect(form.find('input').length).to.equal(9);
     form.unmount();
   });
 

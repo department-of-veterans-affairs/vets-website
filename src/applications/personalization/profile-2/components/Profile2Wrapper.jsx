@@ -2,8 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import { isWideScreen } from 'platform/utilities/accessibility/index';
+
+import {
+  directDepositLoadError,
+  fullNameLoadError,
+  militaryInformationLoadError,
+  personalInformationLoadError,
+} from 'applications/personalization/profile360/selectors';
 
 import ProfileHeader from './ProfileHeader';
 import ProfileSubNav from './ProfileSubNav';
@@ -11,7 +19,29 @@ import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
 import { isEmpty } from 'lodash';
 
-const Profile2Wrapper = ({ children, routes, isLOA3, isInMVI, hero }) => {
+const NotAllDataAvailableError = () => (
+  <div data-testid="not-all-data-available-error">
+    <AlertBox
+      status="warning"
+      headline="We can’t load all of your information"
+      className="vads-u-margin-bottom--4"
+    >
+      <p>
+        We’re sorry. Something went wrong on our end. We can’t display all the
+        information on this page. Please refresh the page or try again later.
+      </p>
+    </AlertBox>
+  </div>
+);
+
+const Profile2Wrapper = ({
+  children,
+  routes,
+  isLOA3,
+  isInMVI,
+  hero,
+  showNotAllDataAvailableError,
+}) => {
   const location = useLocation();
   const createBreadCrumbAttributes = () => {
     const activeLocation = location?.pathname;
@@ -56,15 +86,16 @@ const Profile2Wrapper = ({ children, routes, isLOA3, isInMVI, hero }) => {
         <ProfileMobileSubNav routes={routes} />
       </div>
 
-      <div className="usa-grid usa-grid-full">
-        <div className="usa-width-one-fourth">
-          <div className="vads-u-display--none medium-screen:vads-u-display--block">
+      <div className="vads-l-grid-container vads-u-padding-x--0">
+        <div className="vads-l-row">
+          <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
             <ProfileSubNav routes={routes} />
           </div>
-        </div>
-        <div className="usa-width-two-thirds vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-u-padding--0 medium-screen:vads-u-padding-bottom--6">
-          {/* children will be passed in from React Router one level up */}
-          {children}
+          <div className="vads-l-col--12 vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-l-col--9 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--6 small-desktop-screen:vads-l-col--8">
+            {showNotAllDataAvailableError && <NotAllDataAvailableError />}
+            {/* children will be passed in from React Router one level up */}
+            {children}
+          </div>
         </div>
       </div>
     </>
@@ -73,6 +104,11 @@ const Profile2Wrapper = ({ children, routes, isLOA3, isInMVI, hero }) => {
 
 const mapStateToProps = state => ({
   hero: state.vaProfile?.hero,
+  showNotAllDataAvailableError:
+    !!directDepositLoadError(state) ||
+    !!fullNameLoadError(state) ||
+    !!personalInformationLoadError(state) ||
+    !!militaryInformationLoadError(state),
 });
 
 Profile2Wrapper.propTypes = {
@@ -88,6 +124,7 @@ Profile2Wrapper.propTypes = {
       requiresMVI: PropTypes.bool.isRequired,
     }),
   ).isRequired,
+  showNotAllDataAvailableError: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps)(Profile2Wrapper);

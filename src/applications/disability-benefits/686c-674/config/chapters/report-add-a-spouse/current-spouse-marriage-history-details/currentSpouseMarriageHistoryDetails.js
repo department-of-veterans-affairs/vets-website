@@ -1,10 +1,7 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { addSpouse } from '../../../utilities';
 import { SpouseTitle } from '../../../../components/ArrayPageItemSpouseTitle';
-import { stateTitle, cityTitle } from '../../../helpers';
 import { locationUISchema } from '../../../location-schema';
-
-import { get } from 'lodash';
 
 export const schema = addSpouse.properties.spouseMarriageHistoryDetails;
 

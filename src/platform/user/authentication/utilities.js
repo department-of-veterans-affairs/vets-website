@@ -7,6 +7,8 @@ import environment from '../../utilities/environment';
 import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
+import { loginAppUrlRE } from 'applications/login/utilities/paths';
+
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
 };
@@ -22,7 +24,7 @@ export const ssoKeepAliveEndpoint = () => {
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
-function sessionTypeUrl(type = '', version = 'v0', queryParams = {}) {
+export function sessionTypeUrl(type = '', version = 'v0', queryParams = {}) {
   const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
@@ -85,10 +87,9 @@ export function standaloneRedirect() {
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
-  const returnUrl =
-    window.location.pathname === '/sign-in/'
-      ? standaloneRedirect() || window.location.origin
-      : window.location;
+  const returnUrl = loginAppUrlRE.test(window.location.pathname)
+    ? standaloneRedirect() || window.location.origin
+    : window.location;
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 

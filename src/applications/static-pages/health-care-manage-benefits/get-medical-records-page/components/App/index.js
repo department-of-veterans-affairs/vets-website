@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
-import environment from 'platform/utilities/environment';
-import { CERNER_FACILITY_IDS } from 'platform/utilities/cerner';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+import { selectIsCernerPatient } from 'platform/user/selectors';
 
-export const App = ({ isCernerPatient }) => {
-  if (environment.isProduction()) {
+export const App = ({ isCernerPatient, showNewGetMedicalRecordsPage }) => {
+  if (!showNewGetMedicalRecordsPage) {
     return <LegacyContent />;
   }
 
@@ -24,12 +24,13 @@ export const App = ({ isCernerPatient }) => {
 App.propTypes = {
   // From mapStateToProps.
   isCernerPatient: PropTypes.bool,
+  showNewGetMedicalRecordsPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isCernerPatient: state?.user?.profile?.facilities?.some(facility =>
-    CERNER_FACILITY_IDS.includes(facility?.facilityId),
-  ),
+  isCernerPatient: selectIsCernerPatient(state),
+  showNewGetMedicalRecordsPage:
+    state?.featureToggles?.[featureFlagNames.showNewGetMedicalRecordsPage],
 });
 
 export default connect(

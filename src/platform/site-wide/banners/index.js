@@ -7,7 +7,7 @@ import Banners from './components/Banners';
 // Are you looking for where this is used?
 // Search for `<div data-widget-type="banners"></div>` to find all the places
 // this React widget is used.
-export default data => {
+export default () => {
   // Derive the root element to place the App.
   const root = document.querySelector(`[data-widget-type="banners"]`);
 

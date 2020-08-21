@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import DebtLettersWrapper from '../components/DebtLettersWrapper';
 
@@ -25,33 +25,6 @@ describe('DebtLettersWrapper', () => {
     };
     const wrapper = shallow(<DebtLettersWrapper store={fakeStore} />);
     expect(wrapper.length).to.equal(1);
-    wrapper.unmount();
-  });
-  it('renders CTA if user isnt logged in', () => {
-    const fakeStore = {
-      getState: () => ({
-        featureToggles: {
-          debtLettersShowLetters: true,
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: false,
-          },
-        },
-        debtLetters: {
-          isPending: false,
-          isPendingVBMS: false,
-          debts: [],
-          isError: false,
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
-    const wrapper = shallow(<DebtLettersWrapper store={fakeStore} />);
-    expect(wrapper.dive().find('Connect(CallToActionWidget)').length).to.equal(
-      1,
-    );
     wrapper.unmount();
   });
 });

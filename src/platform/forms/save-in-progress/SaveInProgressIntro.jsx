@@ -45,6 +45,7 @@ class SaveInProgressIntro extends React.Component {
     );
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
+
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const lastUpdated =
@@ -139,11 +140,14 @@ class SaveInProgressIntro extends React.Component {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
+      const unauthStartButton = (
+        <button className="usa-button-primary" onClick={this.openLoginModal}>
+          {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+        </button>
+      );
       alert = buttonOnly ? (
         <>
-          <button className="usa-button-primary" onClick={this.openLoginModal}>
-            {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-          </button>
+          {unauthStartButton}
           {!this.props.hideUnauthedStartLink && (
             <p>
               <button
@@ -182,12 +186,7 @@ class SaveInProgressIntro extends React.Component {
                 {appType}, you won’t be able to save the information you’ve
                 already filled in.
               </p>
-              <button
-                className="usa-button-primary"
-                onClick={this.openLoginModal}
-              >
-                {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-              </button>
+              {unauthStartButton}
               {!this.props.hideUnauthedStartLink && (
                 <p>
                   <button
@@ -254,9 +253,9 @@ class SaveInProgressIntro extends React.Component {
   };
 
   render() {
-    const { profile } = this.props.user;
     const { formConfig } = this.props;
-    const appType = formConfig.customText?.appType || APP_TYPE_DEFAULT;
+    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+    const { profile } = this.props.user;
     const startPage = this.getStartPage();
     const savedForm =
       profile && profile.savedForms.find(f => f.form === this.props.formId);
@@ -334,6 +333,7 @@ class SaveInProgressIntro extends React.Component {
           appTitle={this.props.formId}
           render={this.renderDowntime}
           dependencies={this.props.downtime.dependencies}
+          customText={formConfig.customText}
         >
           {content}
         </DowntimeNotification>

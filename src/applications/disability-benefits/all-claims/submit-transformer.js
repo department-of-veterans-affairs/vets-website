@@ -18,7 +18,7 @@ import {
 import { disabilityIsSelected, hasGuardOrReservePeriod } from './utils';
 
 import disabilityLabels from './content/disabilityLabels';
-import separationLocations from '../bdd/content/separationLocations';
+import separationLocations from './content/separationLocations';
 
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with

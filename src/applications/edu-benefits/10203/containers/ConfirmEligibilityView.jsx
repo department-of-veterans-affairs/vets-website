@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { isChapter33 } from '../helpers';
+import captureEvents from '../analytics-functions';
 
 export class ConfirmEligibilityView extends React.Component {
   onChange = property => {
@@ -10,12 +11,6 @@ export class ConfirmEligibilityView extends React.Component {
       ...property,
     });
   };
-
-  inReviewEditMode = () => this.props.onReviewPage && this.props.reviewMode;
-  showNotApplyingToStemInformation = () =>
-    !this.props.onReviewPage &&
-    this.props.confirmEligibility !== undefined &&
-    !this.props.confirmEligibility;
 
   iconClass = indication =>
     classNames('fa', {
@@ -62,8 +57,13 @@ export class ConfirmEligibilityView extends React.Component {
   renderEnrolledCheck = () => {
     const { isEnrolledStem, isPursuingTeachingCert } = this.props;
     const check = isEnrolledStem || isPursuingTeachingCert;
-    const text =
-      'Are enrolled in a bachelor’s degree program for science, technology, engineering, or math (STEM), or have already earned a STEM bachelor’s degree and are pursuing a teaching certification';
+    const text = (
+      <div>
+        Are enrolled in a bachelor’s degree program for science, technology,
+        engineering, or math (STEM), <b>or</b> have already earned a STEM
+        bachelor’s degree and are pursuing a teaching certification
+      </div>
+    );
     const title = this.iconText(check);
     const iconTitle = `${title} ${text}`;
 
@@ -73,7 +73,7 @@ export class ConfirmEligibilityView extends React.Component {
   renderChecks = () => (
     <div>
       <div className="vads-u-margin-top--neg2p5">
-        <h3>Based on your responses, you may not be eligible</h3>
+        <h4>Based on your responses, you may not be eligible</h4>
       </div>
       <div className="vads-u-margin-right--neg7 vads-u-padding-top--1p5">
         <b>Your responses:</b>
@@ -104,7 +104,7 @@ export class ConfirmEligibilityView extends React.Component {
 
   renderConfirmEligibility = () => {
     return (
-      <div className={'vads-u-padding-bottom--2'}>
+      <div>
         {this.props.remainingEntitlement &&
           this.props.remainingEntitlement.totalDays > 180 && (
             <div>
@@ -134,26 +134,15 @@ export class ConfirmEligibilityView extends React.Component {
   };
 
   renderHeader = () => {
-    if (this.props.onReviewPage) {
-      return (
-        <div className="form-review-panel-page-header-row">
-          <h3 className="form-review-panel-page-header vads-u-font-size--h5">
-            Rogers STEM Scholarship eligibility summary
-            <div>
-              <hr className="edu-review-hr" />
-            </div>
-          </h3>
-        </div>
-      );
-    }
     return (
-      <div>
-        <h4>Rogers STEM Scholarship eligibility summary</h4>
+      <div className="vads-u-padding-bottom--1">
+        <h3>Rogers STEM Scholarship eligibility summary</h3>
       </div>
     );
   };
 
   render() {
+    captureEvents.ineligibilityAlert(this.props);
     return (
       <div>
         {this.renderHeader()}
@@ -168,26 +157,26 @@ export class ConfirmEligibilityView extends React.Component {
           Please consider that ineligible applications delay the processing of
           benefits for eligible applicants.
         </div>
-        {!this.props.onReviewPage && (
-          <div>
-            <div className="vads-u-margin-top--neg2">
-              <a
-                className={'usa-button-primary wizard-button va-button-primary'}
-                href="/education/about-gi-bill-benefits/"
-                target="self"
-              >
-                Exit application
-              </a>
-            </div>
 
-            <div>
-              <p>
-                If you'd still like to apply, you can continue with your
-                application.
-              </p>
-            </div>
+        <div>
+          <div className="vads-u-margin-top--neg2">
+            <a
+              className={'usa-button-primary va-button-primary'}
+              href="/education/about-gi-bill-benefits/"
+              target="self"
+              onClick={captureEvents.exitApplication()}
+            >
+              Exit application
+            </a>
           </div>
-        )}
+
+          <div>
+            <p>
+              If you'd still like to apply, you can continue with your
+              application.
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -209,8 +198,6 @@ const mapStateToProps = (state, ownProps) => {
       errors.length > 0 &&
       ownProps?.formContext?.submitted &&
       confirmEligibility === undefined,
-    reviewMode: ownProps?.formContext?.reviewMode,
-    onReviewPage: ownProps?.formContext?.onReviewPage,
   };
 };
 

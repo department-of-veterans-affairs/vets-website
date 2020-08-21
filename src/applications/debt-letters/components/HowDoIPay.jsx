@@ -3,11 +3,11 @@ import React from 'react';
 const HowDoIPay = () => (
   <div className="vads-u-font-family--sans">
     <h3 className="right-heading vads-u-margin-top--0">
-      How do I pay my debt?
+      How do I pay my VA debt?
     </h3>
     <p>
-      You can pay your debt online, by phone, or by mail. If you can't pay the
-      entirety of your debt or currently receive monthly benefits, call the Debt
+      You can pay your debt online, by phone, or by mail. If you can't pay all
+      of your debt or if you currently receive monthly benefits, call the Debt
       Management Center at{' '}
       <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
         800-827-0648
@@ -17,7 +17,7 @@ const HowDoIPay = () => (
     <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">Online</h3>
     <p className="vads-u-margin-top--0">
       Pay directly from your bank account or by debit or credit card on the
-      secure <a href="https://www.pay.va.gov/">pay.gov</a> website.
+      secure <a href="https://www.pay.va.gov/">pay.va.gov</a> website.
     </p>
     <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">By phone</h3>
     <p className="vads-u-margin-bottom--0 vads-u-margin-top--0">

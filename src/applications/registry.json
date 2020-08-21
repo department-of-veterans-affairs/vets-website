@@ -167,7 +167,7 @@
     "rootUrl": "/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg",
     "template": {
       "title": "Caregiver Application for Benefits",
-      "vagovprod": false,
+      "vagovprod": true,
       "vagovstaging": true,
       "vagovdev": true,
       "localhost": true,
@@ -182,24 +182,6 @@
       "title": "Terms and Conditions for Medical Information",
       "layout": "page-react.html",
       "includeBreadcrumbs": true
-    }
-  },
-  {
-    "appName": "28-8832 Vocational Rehab Chapter 36 form",
-    "entryName": "chapter36-vre",
-    "rootUrl": "/employment/vocational-rehab-and-employment/application/chapter36",
-    "template": {
-      "vagovprod": false,
-      "layout": "page-react.html"
-    }
-  },
-  {
-    "appName": "28-1900 Vocational Rehab Chapter 31 form",
-    "entryName": "chapter31-vre",
-    "rootUrl": "/employment/vocational-rehab-and-employment/application/chapter31",
-    "template": {
-      "vagovprod": false,
-      "layout": "page-react.html"
     }
   },
   {
@@ -272,7 +254,7 @@
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
-          "path": "/view-change-dependents/view",
+          "path": "view-change-dependents/view",
           "name": "View or change your dependents"
         },
         {
@@ -387,7 +369,7 @@
     "entryName": "login-page",
     "rootUrl": "/sign-in",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "includeBreadcrumbs": false,
       "noNavOrLogin": true,
@@ -516,9 +498,9 @@
   {
     "appName": "22-10203 Education benefits form",
     "entryName": "10203-edu-benefits",
-    "rootUrl": "/education/apply-for-education-benefits/application/10203",
+    "rootUrl": "/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "title": "Apply for the Rogers STEM Scholarship",
       "heading": "Apply for the Rogers STEM Scholarship",
       "layout": "page-react.html",
@@ -536,8 +518,8 @@
           "path": "education/how-to-apply/"
         },
         {
-          "name": "Apply for education benefits",
-          "path": "education/apply-for-education-benefits/application/10203"
+          "name": "Apply for the Rogers STEM Scholarship",
+          "path": "education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203"
         }
       ]
     }
@@ -810,15 +792,15 @@
     "entryName": "your-debt",
     "rootUrl": "/manage-va-debt/your-debt",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "title": "Your VA Debt",
       "layout": "page-react.html"
     }
   },
   {
-    "appName": "28-1900 Vocational Rehabilitation",
+    "appName": "28-1900 Veteran Readiness",
     "entryName": "28-1900-chapter-31",
-    "rootUrl": "/vre/28-1900",
+    "rootUrl": "/careers-employment/vocational-rehabilitation/apply",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"
@@ -842,6 +824,45 @@
       "vagovprod": false,
       "layout": "page-react.html",
       "title": "View Payments"
+    }
+  },
+  {
+    "appName": "Covid Research - Volunteer",
+    "entryName": "covid-research-volunteer",
+    "rootUrl": "/covid-research-volunteer",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "Ask a Question",
+    "entryName": "ask-a-question",
+    "rootUrl": "/ask-a-question",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "Healthcare Questionnaire",
+    "entryName": "questionnaire",
+    "rootUrl": "/healthcare/questionnaire",
+    "template": {
+      "vagovprod": true,
+      "layout": "page-react.html",
+      "includeBreadcrumbs": false,
+      "breadcrumbs_override": []
+    }
+  },
+  {
+    "appName": "eFolders",
+    "entryName": "my-documents",
+    "rootUrl": "/my-documents",
+    "template": {
+      "title": "My Documents",
+      "layout": "page-react.html",
+      "vagovprod": false
     }
   }
 ]

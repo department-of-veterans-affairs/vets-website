@@ -36,6 +36,15 @@
         ],
         "gender": "Male",
         "maritalStatus": "Single",
+        "race": {
+          "isSpanishHispanicLatino": true,
+          "notSpanishHispanicLatino": false,
+          "isAmericanIndianOrAlaskanNative": false,
+          "isBlackOrAfricanAmerican": true,
+          "isNativeHawaiianOrOtherPacificIslander": false,
+          "isAsian": false,
+          "isWhite": false
+        },
         "militaryStatus": "A",
         "currentName": {},
         "address": {

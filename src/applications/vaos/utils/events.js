@@ -24,8 +24,12 @@ export function resetDataLayer() {
     flow: undefined,
     'health-TypeOfCare': undefined,
     'health-ReasonForAppointment': undefined,
+    'health-express-care-reason': undefined,
     'error-key': undefined,
     appointmentType: undefined,
     facilityType: undefined,
+    'vaos-express-care-number-of-cards': undefined,
+    'vaos-upcoming-number-of-cards': undefined,
+    'tab-text': undefined,
   });
 }

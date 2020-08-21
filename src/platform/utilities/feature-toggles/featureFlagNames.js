@@ -1,9 +1,9 @@
 export default Object.freeze({
   preEntryCovid19Screener: 'preEntryCovid19Screener',
   dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
-  facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
+  facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
-  facilityLocatorFeUseV1: 'facilityLocatorFeUseV1',
+  facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
   profileShowProfile2: 'profile_show_profile_2.0',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
@@ -30,10 +30,27 @@ export default Object.freeze({
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
-  routeStLouisRPOtoBuffaloRPO: 'routeStLouisRPOtoBuffaloRPO',
   gibctSearchEnhancements: 'gibctSearchEnhancements',
   form996HigherLevelReview: 'form996HigherLevelReview',
   gibctFilterEnhancement: 'gibctFilterEnhancement',
   debtLettersShowLetters: 'debtLettersShowLetters',
   gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
+  form526BDD: 'form526BenefitsDeliveryAtDischarge',
+  showEduBenefits1995Wizard: 'show_edu_benefits_1995_wizard',
+  showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
+  showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
+  showEduBenefits1990NWizard: 'show_edu_benefits_1990n_wizard',
+  showEduBenefits5490Wizard: 'show_edu_benefits_5490_wizard',
+  showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
+  showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
+  stemSCOEmail: 'stem_sco_email',
+  showHealthcareExperienceQuestionnaire:
+    'showHealthcareExperienceQuestionnaire',
+  showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
+  showNewRefillTrackPrescriptionsPage:
+    'show_new_refill_track_prescriptions_page',
+  showNewScheduleViewAppointmentsPage:
+    'show_new_schedule_view_appointments_page',
+  showNewSecureMessagingPage: 'show_new_secure_messaging_page',
+  showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
 });

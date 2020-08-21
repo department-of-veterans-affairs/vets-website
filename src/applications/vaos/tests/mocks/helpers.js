@@ -1,21 +1,35 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+  setFetchJSONFailure,
+} from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock } from '../mocks/v0';
 
-export function mockAppointmentInfo({ va = [], cc = [], requests = [] }) {
+export function mockAppointmentInfo({
+  va = [],
+  vaError = false,
+  cc = [],
+  requests = [],
+}) {
   mockFetch();
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
-        .startOf('day')
-        .toISOString()}&end_date=${moment()
-        .add(13, 'months')
-        .startOf('day')
-        .toISOString()}&type=va`,
-    ),
-    { data: va },
-  );
+
+  const vaUrl = `${
+    environment.API_URL
+  }/vaos/v0/appointments?start_date=${moment()
+    .startOf('day')
+    .toISOString()}&end_date=${moment()
+    .add(13, 'months')
+    .startOf('day')
+    .toISOString()}&type=va`;
+
+  if (vaError) {
+    setFetchJSONFailure(global.fetch.withArgs(vaUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(vaUrl), { data: va });
+  }
+
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointments?start_date=${moment().format(
@@ -98,6 +112,13 @@ export function mockFacilitiesFetch(ids, facilities) {
   setFetchJSONResponse(
     global.fetch.withArgs(`${environment.API_URL}/v1/facilities/va?ids=${ids}`),
     { data: facilities },
+  );
+}
+
+export function mockFacilityFetch(id, facility) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(`${environment.API_URL}/v1/facilities/va/${id}`),
+    { data: facility },
   );
 }
 
@@ -338,5 +359,58 @@ export function mockRequestSubmit(type, data) {
       `${environment.API_URL}/vaos/v0/appointment_requests?type=${type}`,
     ),
     { data },
+  );
+}
+
+export function mockRequestEligibilityCriteria(parentSites, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/request_eligibility_criteria?${parentSites
+        .map(site => `parent_sites[]=${site}`)
+        .join('&')}`,
+    ),
+    { data },
+  );
+}
+
+export function mockRequestLimit({
+  facilityId,
+  requestLimit = 1,
+  numberOfRequests = 0,
+}) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/facilities/${facilityId}/limits?type_of_care_id=CR1`,
+    ),
+    {
+      data: {
+        attributes: {
+          requestLimit,
+          numberOfRequests,
+        },
+      },
+    },
+  );
+}
+
+export function mockPreferences(emailAddress) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(`${environment.API_URL}/vaos/v0/preferences`),
+    {
+      data: {
+        id: '3071ca1783954ec19170f3c4bdfd0c95',
+        type: 'preferences',
+        attributes: {
+          notificationFrequency: 'Each new message',
+          emailAllowed: true,
+          emailAddress,
+          textMsgAllowed: false,
+        },
+      },
+    },
   );
 }

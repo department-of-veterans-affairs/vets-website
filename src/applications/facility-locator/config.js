@@ -5,11 +5,10 @@ import manifest from './manifest.json';
 
 // Base URL to be used in API requests.
 export const api = {
-  baseUrlV0: `${environment.API_URL}/v0/facilities`,
-  urlV0: `${environment.API_URL}/v0/facilities/va`,
   baseUrl: `${environment.API_URL}/v1/facilities`,
   url: `${environment.API_URL}/v1/facilities/va`,
-  ccUrl: `${environment.API_URL}/v0/facilities/ccp`,
+  ccUrl: `${environment.API_URL}/v1/facilities/ccp`,
+  allUrgentCareUrl: `${environment.API_URL}/v1/facilities/va_ccp/urgent_care`,
   settings: {
     credentials: 'include',
     headers: {
@@ -24,15 +23,6 @@ export const api = {
 };
 
 /**
- * Feature Flag Function
- *
- * Determines, based on enviornment type, whether or not to
- * enable Community Care Provider Locator features of the
- * existing Facility Locator App.
- */
-export const ccLocatorEnabled = () => true;
-
-/**
  * Build parameters and URL for facilities API calls
  *
  */
@@ -42,34 +32,48 @@ export const resolveParamsWithUrl = (
   serviceType,
   page,
   bounds,
-  apiVersion,
 ) => {
-  const filterableLocations = ['health', 'benefits', 'cc_provider'];
+  const filterableLocations = ['health', 'benefits', 'provider'];
   let facility;
   let service;
-  let url;
+  let url = api.url;
+  let perPage = 20;
+
   switch (locationType) {
     case 'urgent_care':
-      if (!serviceType || serviceType === 'UrgentCare') {
+      if (serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
-        url = apiVersion === 1 ? api.url : api.urlV0;
-      }
-      if (serviceType === 'NonVAUrgentCare') {
-        facility = 'cc_urgent_care';
+      } else if (serviceType === 'NonVAUrgentCare') {
+        facility = 'urgent_care';
         url = api.ccUrl;
+      } else {
+        // MashUp coming up
+        url = api.allUrgentCareUrl;
       }
       break;
-    case 'cc_pharmacy':
-    case 'cc_provider':
+    case 'pharmacy':
+    case 'provider':
       facility = locationType;
       service = serviceType;
       url = api.ccUrl;
+      perPage = 10; // because the PPMS back end requires a separate request for each facility
       break;
     default:
       facility = locationType;
       service = serviceType;
-      url = apiVersion === 1 ? api.url : api.urlV0;
+  }
+
+  if (url === api.allUrgentCareUrl) {
+    return {
+      url,
+      params: compact([
+        address ? `address=${address}` : null,
+        ...bounds.map(c => `bbox[]=${c}`),
+        `page=${page}`,
+        `per_page=${perPage}`,
+      ]).join('&'),
+    };
   }
 
   return {
@@ -79,10 +83,10 @@ export const resolveParamsWithUrl = (
       ...bounds.map(c => `bbox[]=${c}`),
       facility ? `type=${facility}` : null,
       filterableLocations.includes(facility) && service
-        ? `services[]=${service}`
+        ? `${url === api.ccUrl ? 'specialties' : 'services'}[]=${service}`
         : null,
       `page=${page}`,
-      `per_page=20`,
+      `per_page=${perPage}`,
       url === api.ccUrl ? `trim=true` : null,
     ]).join('&'),
   };
@@ -94,7 +98,7 @@ export const resolveParamsWithUrl = (
 export const facilityTypes = {
   [FacilityType.VA_HEALTH_FACILITY]: 'VA health',
   [FacilityType.URGENT_CARE]: 'Urgent care',
-  [FacilityType.URGENT_CARE_FARMACIES]:
+  [FacilityType.URGENT_CARE_PHARMACIES]:
     'Urgent care pharmacies (in VA’s network)',
   [FacilityType.VA_CEMETARY]: 'VA cemeteries',
   [FacilityType.VA_BENEFITS_FACILITY]: 'Benefits',
@@ -130,6 +134,7 @@ export const ccUrgentCareLabels = {
 };
 
 export const urgentCareServices = {
+  AllUrgentCare: 'All urgent care',
   UrgentCare: 'VA urgent care',
   NonVAUrgentCare: 'Community urgent care providers (in VA’s network)',
 };
@@ -169,10 +174,11 @@ export const vetCenterServices = [
 ];
 
 export const facilityTypesOptions = {
+  [LocationType.NONE]: 'Choose a facility type',
   [LocationType.HEALTH]: 'VA health',
   [LocationType.URGENT_CARE]: 'Urgent care',
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
-  [LocationType.URGENT_CARE_FARMACIES]:
+  [LocationType.URGENT_CARE_PHARMACIES]:
     'Urgent care pharmacies (in VA’s network)',
   [LocationType.BENEFITS]: 'VA benefits',
   [LocationType.CEMETARY]: 'VA cemeteries',

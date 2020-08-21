@@ -6,6 +6,7 @@ module.exports = {
     title: { $ref: 'GenericNestedString' },
     created: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
+    moderation_state: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_administration: {
@@ -21,11 +22,14 @@ module.exports = {
       maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
+    reverse_field_listing: { $ref: 'EntityReferenceArray' },
+    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
     'created',
     'changed',
+    'moderation_state',
     'metatag',
     'path',
     'field_administration',
@@ -33,5 +37,7 @@ module.exports = {
     'field_intro_text',
     'field_meta_title',
     'field_office',
+    'status',
+    'reverse_field_listing',
   ],
 };

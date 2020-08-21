@@ -10,6 +10,10 @@ import {
   renderSchoolClosingAlert,
 } from '../../utils/render';
 
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import ScorecardTags from '../../components/ScorecardTags';
+
 export class SearchResult extends React.Component {
   estimate = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
@@ -116,6 +120,11 @@ export class SearchResult extends React.Component {
                 </div>
               </div>
             </div>
+            {this.props.gibctFilterEnhancement && (
+              <div className="tag-container">
+                <ScorecardTags styling="search-result-tag" it={this.props} />
+              </div>
+            )}
             <div className="row">
               <div className="view-details columns">
                 <Link to={linkTo}>View details ›</Link>
@@ -130,6 +139,9 @@ export class SearchResult extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   estimated: estimatedBenefits(state, props),
+  gibctFilterEnhancement: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctFilterEnhancement
+  ],
 });
 
 const mapDispatchToProps = {};

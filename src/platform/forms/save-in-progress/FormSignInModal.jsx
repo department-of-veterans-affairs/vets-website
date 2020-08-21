@@ -29,7 +29,7 @@ class FormSignInModal extends React.Component {
       text: 'Sign in and start over',
     };
     const { formConfig } = this.props;
-    const { appType } = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
     return (
       <Modal

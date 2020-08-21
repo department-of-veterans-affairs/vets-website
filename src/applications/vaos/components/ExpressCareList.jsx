@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -13,6 +13,7 @@ import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
 import ExpressCareCard from './ExpressCareCard';
 import NoAppointments from './NoAppointments';
+import { resetDataLayer } from '../utils/events';
 
 export function ExpressCareList({
   showCancelButton,
@@ -23,6 +24,20 @@ export function ExpressCareList({
   cancelAppointment,
   startNewAppointmentFlow,
 }) {
+  useEffect(
+    () => {
+      if (status === FETCH_STATUS.succeeded) {
+        recordEvent({
+          event: 'nav-tab-click',
+          'tab-text': 'Express Care',
+          [`${GA_PREFIX}-express-care-number-of-cards`]: expressCareRequests?.length,
+        });
+        resetDataLayer();
+      }
+    },
+    [status, expressCareRequests],
+  );
+
   let content;
 
   if (status === FETCH_STATUS.failed) {
@@ -96,7 +111,7 @@ ExpressCareList.propTypes = {
 function mapStateToProps(state) {
   return {
     expressCareRequests: selectExpressCareRequests(state),
-    status: state.appointments.futureStatus,
+    status: state.appointments.pendingStatus,
     showCancelButton: vaosCancel(state),
     showScheduleButton: vaosRequests(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),

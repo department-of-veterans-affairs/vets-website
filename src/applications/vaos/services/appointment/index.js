@@ -123,7 +123,7 @@ export function getVARFacilityId(appointment) {
       ?.split('_')?.[0];
 
     if (id) {
-      return id;
+      return id.replace('var', '');
     }
 
     return null;
@@ -200,29 +200,17 @@ export function getVAAppointmentLocationName(appointment) {
 }
 
 /**
- * Returns the patient phone number of a VA appointment
+ * Returns the patient telecom info in a VA appointment
  *
  * @export
  * @param {Object} appointment A FHIR appointment resource
- * @returns The patient phone number where the VA appointment is located
+ * @param {String} system A FHIR telecom system id
+ * @returns The patient telecome value
  */
-export function getPatientPhone(appointment) {
-  return appointment?.participant
-    .find(p => p?.actor?.reference.includes('Patient'))
-    ?.actor?.telecom?.find(t => t.system === 'phone')?.value;
-}
-
-/**
- * Returns the patient email of a VA appointment
- *
- * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns The patient email where the VA appointment is located
- */
-export function getPatientEmail(appointment) {
-  return appointment.participant
-    .find(p => p?.actor?.reference.includes('Patient'))
-    ?.actor?.telecom?.find(t => t?.system === 'email')?.value;
+export function getPatientTelecom(appointment, system) {
+  return appointment?.contained
+    .find(res => res.resourceType === 'Patient')
+    ?.telecom?.find(t => t.system === system)?.value;
 }
 
 /**

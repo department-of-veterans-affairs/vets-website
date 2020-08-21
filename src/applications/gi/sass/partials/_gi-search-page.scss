@@ -14,6 +14,10 @@
       margin-top: 1.5em;
     }
 
+    .filter-additional-info {
+      margin: 15px 0px 15px 0px;
+    }
+
     @include media-maxwidth($small-screen) {
       background: $color-white;
       display: none;
@@ -138,14 +142,18 @@
     }
 
     .info-flag {
-      color: $color-gray-dark;
-      background-color: $color-gray-lighter;
-      border-radius: 3px 3px 3px 3px;
+      color: #323a45;
+      background-color: $color-white;
       font-size: 0.9em;
-      font-weight: bold;
       display: inline-block;
       padding: 0.1em 0.5em;
       margin-right: 1em;
+      margin-top: -1em !important;
+    }
+    @media (max-width: 640px) {
+      .info-flag {
+        margin-top: 0.5em !important;
+      }
     }
 
     .caution-flag {
@@ -172,6 +180,23 @@
         margin-right: 0.4em;
       }
     }
+  }
+
+  .tag-container {
+    margin-top: -34px;
+    padding: 4px 0px;
+    @include media-maxwidth($medium-screen) {
+      margin-top: 10px;
+    }
+  }
+
+  .search-result-tag {
+    background-color: $color-white;
+    color: $color-gray-dark;
+    display: inline-block;
+    margin: 0px 8px 8px 0px;
+    padding: 0px 4px;
+    font-size: 14px;
   }
 
   .vettec-logo-container {

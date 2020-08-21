@@ -1,5 +1,6 @@
-import { api, resolveParamsWithUrl } from '../config';
+import { api, resolveParamsWithUrl, urgentCareServices } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { FacilityType } from '../constants';
 
 class LocatorApi {
   /**
@@ -13,7 +14,6 @@ class LocatorApi {
    * @param {string} locationType What kind of location? (i.e. facilityType or Provider)
    * @param {string} serviceType What services should the location provide?
    * @param {number} page Which page of results to start with?
-   * @param {number} api version number
    * @returns {Promise} Promise object
    */
   static searchWithBounds(
@@ -22,7 +22,6 @@ class LocatorApi {
     locationType,
     serviceType,
     page,
-    apiVersion,
   ) {
     const { params, url } = resolveParamsWithUrl(
       address,
@@ -30,12 +29,33 @@ class LocatorApi {
       serviceType,
       page,
       bounds,
-      apiVersion,
     );
 
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)
-        .then(res => res.json())
+        .then(async res => {
+          let response = await res.json();
+          if (
+            locationType === FacilityType.URGENT_CARE &&
+            (!serviceType || serviceType === Object.keys(urgentCareServices)[0])
+          ) {
+            response = {
+              meta: {
+                pagination: {
+                  currentPage: 1,
+                  nextPage: null,
+                  prevPage: null,
+                  totalPages: 1,
+                },
+              },
+              links: {},
+              data: response.included,
+            };
+            return response;
+          } else {
+            return response;
+          }
+        })
         .then(data => resolve(data), error => reject(error));
     });
   }
@@ -44,11 +64,9 @@ class LocatorApi {
    * Get one VA Facililty's details.
    *
    * @param {string} id The ID of the Facility
-   * @param {number} api version number
    */
-  static fetchVAFacility(id, apiVersion) {
-    const apiUrl = apiVersion === 1 ? api.url : api.urlV0;
-    const url = `${apiUrl}/${id}`;
+  static fetchVAFacility(id) {
+    const url = `${api.url}/${id}`;
 
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
@@ -63,7 +81,7 @@ class LocatorApi {
    * @param {string} id The ID of the CC Provider
    */
   static fetchProviderDetail(id) {
-    const url = `${api.baseUrlV0}/ccp/${id}`;
+    const url = `${api.baseUrl}/ccp/${id}`;
 
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
@@ -73,14 +91,17 @@ class LocatorApi {
   }
 
   /**
-   * Get all known services available from all CC Providers.
+   * Get all known specialties available from all CC Providers.
    */
-  static getProviderSvcs() {
-    const url = `${api.baseUrlV0}/services`;
+  static getProviderSpecialties() {
+    const url = `${api.baseUrl}/ccp/specialties`;
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
         .then(res => res.json())
-        .then(data => resolve(data), error => reject(error));
+        .then(
+          data => resolve(data.data.map(specialty => specialty.attributes)),
+          error => reject(error),
+        );
     });
   }
 }

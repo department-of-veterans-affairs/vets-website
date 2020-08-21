@@ -1,30 +1,5 @@
 import React from 'react';
-import { facilityTypes, ccUrgentCareLabels } from '../config';
-
-export const urgentCareProviderNames = posCodes => {
-  if (posCodes && parseInt(posCodes, 10) === 17) {
-    return ccUrgentCareLabels.WalkIn;
-  } else if (posCodes && parseInt(posCodes, 10) === 20) {
-    return ccUrgentCareLabels.UrgentCare;
-  } else {
-    return facilityTypes.cc_provider.toUpperCase();
-  }
-};
-
-const providerName = (query, posCodes) => {
-  let name;
-  switch (query.facilityType) {
-    case 'cc_pharmacy':
-      name = facilityTypes.cc_pharmacy.toUpperCase();
-      break;
-    case 'urgent_care':
-      name = urgentCareProviderNames(posCodes);
-      break;
-    default:
-      name = urgentCareProviderNames(posCodes);
-  }
-  return name;
-};
+import get from 'platform/utilities/data/get';
 
 /**
  * Description block for a CC Provider
@@ -37,7 +12,7 @@ const providerName = (query, posCodes) => {
  *      PPMS provided description of each specialty/service is included
  *      on the details output.
  */
-const ProviderServiceDescription = ({ provider, query, details = false }) => {
+const ProviderServiceDescription = ({ provider, details = false }) => {
   if (details) {
     const { specialty } = provider.attributes;
     if (specialty && specialty.length < 1) return null;
@@ -53,16 +28,18 @@ const ProviderServiceDescription = ({ provider, query, details = false }) => {
     );
   }
 
-  const services = provider.attributes.specialty.map(s => s.name.trim());
-  const { posCodes } = provider.attributes;
+  const specialties = get(
+    ['attributes', 'relationships', 'specialties'],
+    provider,
+    [],
+  ).map(s => s.name.trim());
 
   return (
     <div>
-      <p>{providerName(query, posCodes)}</p>
-      {services.length >= 1 && (
+      {specialties.length >= 1 && (
         <p>
           <span>
-            <strong>Services:</strong> {services.join(', ')}
+            <strong>Services:</strong> {specialties.join(', ')}
           </span>
         </p>
       )}

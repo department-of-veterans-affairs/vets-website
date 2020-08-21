@@ -11,6 +11,19 @@ import mockPaymentInfoDeceased from '../fixtures/payment-information/direct-depo
 import mockPaymentInfoFiduciary from '../fixtures/payment-information/direct-deposit-fiduciary.json';
 
 describe('Direct Deposit', () => {
+  function confirmDDBlockedAlertIsNotShown() {
+    cy.findByText(/You can’t update your financial information/i).should(
+      'not.exist',
+    );
+  }
+
+  function confirmDDBlockedAlertIsShown() {
+    cy.findByText(/You can’t update your financial information/i)
+      .should('exist')
+      .closest('.usa-alert-error')
+      .should('exist');
+  }
+
   function confirmDirectDepositIsBlocked() {
     // the DD item should not exist in the sub nav
     cy.findByRole('navigation', { name: /secondary/i }).within(() => {
@@ -27,6 +40,7 @@ describe('Direct Deposit', () => {
       `${Cypress.config().baseUrl}${PROFILE_PATHS.PERSONAL_INFORMATION}`,
     );
   }
+
   beforeEach(() => {
     window.localStorage.setItem(
       'DISMISSED_ANNOUNCEMENTS',
@@ -41,7 +55,13 @@ describe('Direct Deposit', () => {
 
     // TODO: add test to make sure that GET payment_information is not called?
 
+    // I attempted to do this based on [this
+    // example](https://github.com/cypress-io/cypress-example-recipes/blob/master/examples/stubbing-spying__window-fetch/cypress/integration/spy-on-fetch-spec.js)
+    // but was unable to get even this simple assertion to work:
+    // `cy.window().its('fetch').should('be.called')`
+
     confirmDirectDepositIsBlocked();
+    confirmDDBlockedAlertIsNotShown();
   });
   it('should be blocked if the user is not enrolled in Direct Deposit and is not eligible to set up Direct Deposit', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
@@ -49,39 +69,39 @@ describe('Direct Deposit', () => {
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
+    confirmDDBlockedAlertIsNotShown();
   });
-  it('should be blocked if the user is enrolled but flagged as incompetent', () => {
+  it('should be blocked and show an alert if the user is enrolled but flagged as incompetent', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
     cy.route('GET', 'v0/ppiu/payment_information', mockPaymentInfoIncompetent);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
+    confirmDDBlockedAlertIsShown();
   });
-  it('should be blocked if the user is enrolled but flagged as being deceased', () => {
+  it('should be blocked and show an alert if the user is enrolled but flagged as being deceased', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
     cy.route('GET', 'v0/ppiu/payment_information', mockPaymentInfoDeceased);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
+    confirmDDBlockedAlertIsShown();
   });
-  it('should be blocked if the user is enrolled but flagged as having a fiduciary', () => {
+  it('should be blocked and show an alert if the user is enrolled but flagged as having a fiduciary', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
     cy.route('GET', 'v0/ppiu/payment_information', mockPaymentInfoFiduciary);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
+    confirmDDBlockedAlertIsShown();
   });
   it('should be blocked if the `GET payment_information` endpoint fails', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
-    // cy.route('GET', 'v0/ppiu/payment_information', mockPaymentInfoFiduciary);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
 
-    cy.findByRole('alert').should('have.class', 'usa-alert-warning');
-    cy.findByRole('alert').within(() => {
-      cy.findByText(/we can’t access/i).should('exist');
-      cy.findByText(/something went wrong/i).should('exist');
-    });
+    cy.findByText(/we can’t load all of your information/i).should('exist');
+    cy.findByText(/something went wrong/i).should('exist');
   });
 });

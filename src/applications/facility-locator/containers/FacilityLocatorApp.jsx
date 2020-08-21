@@ -7,7 +7,6 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { validateIdString } from '../utils/helpers';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import { ccLocatorEnabled } from '../config';
 
 class FacilityLocatorApp extends React.Component {
   renderBreadcrumbs(location, selectedResult) {
@@ -48,7 +47,6 @@ class FacilityLocatorApp extends React.Component {
         </Link>,
       );
     } else if (
-      ccLocatorEnabled() && // TODO: Remove feature flag when ready to go live
       validateIdString(location.pathname, '/provider') &&
       selectedResult
     ) {

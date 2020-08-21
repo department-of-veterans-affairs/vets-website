@@ -21,7 +21,7 @@ describe('VAOS Healthcare service', () => {
 
   describe('getAvailableHealthcareServices', () => {
     it('should make successful request', async () => {
-      const data = await getAvailableHealthcareServices({
+      await getAvailableHealthcareServices({
         facilityId: 'var983',
         typeOfCareId: '123',
         systemId: '456',
@@ -115,7 +115,7 @@ describe('VAOS Healthcare service', () => {
 
       let error;
       try {
-        const data = await getAvailableHealthcareServices({
+        await getAvailableHealthcareServices({
           facilityId: 'var983',
           typeOfCareId: '123',
           systemId: '456',
@@ -137,7 +137,7 @@ describe('VAOS Healthcare service', () => {
       });
 
       it('should make successful request to VSP api', async () => {
-        const data = await getAvailableHealthcareServices({
+        await getAvailableHealthcareServices({
           facilityId: '983',
           typeOfCareId: '123',
           systemId: '456',

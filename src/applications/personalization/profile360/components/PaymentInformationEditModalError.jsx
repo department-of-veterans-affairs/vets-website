@@ -29,7 +29,7 @@ function FlaggedAccount() {
         <span className="no-wrap">
           <a href="tel:1-800-827-1000">800-827-1000</a>
         </span>{' '}
-        (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
@@ -46,7 +46,7 @@ function FlaggedRoutingNumber() {
         <span className="no-wrap">
           <a href="tel:1-800-827-1000">800-827-1000</a>
         </span>{' '}
-        (<Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
       <p>
@@ -165,6 +165,7 @@ export default function PaymentInformationEditModalError({
       headline={headline}
       isVisible
       className={className}
+      scrollOnShow
     >
       {content}
     </AlertBox>

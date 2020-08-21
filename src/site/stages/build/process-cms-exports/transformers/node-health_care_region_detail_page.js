@@ -5,18 +5,22 @@ const {
   createMetaTagArray,
 } = require('./helpers');
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'health_care_region_detail_page',
   title: getDrupalValue(entity.title),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   fieldAlert: getDrupalValue(entity.fieldAlert),
   fieldContentBlock: entity.fieldContentBlock,
   fieldFeaturedContent: entity.fieldFeaturedContent,
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldOffice: entity.fieldOffice[0] || null,
+  fieldOffice:
+    entity.fieldOffice[0] &&
+    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+      ? entity.fieldOffice[0]
+      : null,
   fieldRelatedLinks: entity.fieldRelatedLinks[0] || null,
   fieldTableOfContentsBoolean: getDrupalValue(
     entity.fieldTableOfContentsBoolean,
@@ -27,7 +31,7 @@ module.exports = {
     'title',
     'changed',
     'metatag',
-    'moderation_state',
+    'status',
     'path',
     'field_alert',
     'field_content_block',

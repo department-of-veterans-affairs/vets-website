@@ -13,7 +13,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
     >
       <div className="usa-alert-body">
         <h3 className="usa-alert-heading">
-          Your debt letters are currently unavailable
+          Your debt letters are currently unavailable.
         </h3>
         <p className="vads-u-font-family--sans">
           You can't download your debt letters because something went wrong on
@@ -33,8 +33,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
     </div>
   );
 
-  const handleDownloadClick = (event, type, date) => {
-    event.preventDefault();
+  const handleDownloadClick = (type, date) => {
     return recordEvent({
       event: 'bam-debt-letter-download',
       'letter-type': type,
@@ -43,7 +42,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
   };
   return (
     <div>
-      <h2 className="vads-u-margin-top--1p5 vads-u-margin-bottom--2">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
         Your debt letters
       </h2>
       {isVBMSError && renderAlert()}
@@ -57,7 +56,9 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
             <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
               <thead>
                 <tr>
-                  <th className="vads-u-border--0">Date</th>
+                  <th className="vads-u-border--0 vads-u-padding-left--3">
+                    Date
+                  </th>
                   <th className="vads-u-border--0">Type</th>
                   <th className="vads-u-border--0">Action</th>
                 </tr>
@@ -68,7 +69,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                     key={debtLetter.documentId}
                     className="vads-u-border-top--1px vads-u-border-bottom--1px"
                   >
-                    <td className="vads-u-border--0">
+                    <td className="vads-u-border--0 vads-u-padding-left--3">
                       {moment(debtLetter.receivedAt).format('MMM D, YYYY')}
                     </td>
                     <td className="vads-u-border--0">
@@ -76,9 +77,10 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                     </td>
                     <td className="vads-u-border--0">
                       <a
-                        onClick={event =>
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() =>
                           handleDownloadClick(
-                            event,
                             debtLetter.typeDescription,
                             moment(debtLetter.receivedAt).format('MMM D, YYYY'),
                           )
@@ -97,17 +99,13 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
                           role="img"
                           className="fas fa-download vads-u-padding-right--1"
                         />
-                        Download
+                        <span aria-hidden="true">Download letter </span>
                         <span className="sr-only">
-                          ` ${debtLetter.typeDescription} `
-                        </span>{' '}
-                        letter{' '}
-                        <span className="sr-only">
-                          `dated $
-                          {moment(debtLetter.receivedAt).format('MMM D, YYYY')}`
-                        </span>{' '}
+                          Download Second Demand Letter dated{' '}
+                          {moment(debtLetter.receivedAt).format('MMM D, YYYY')}
+                        </span>
                         <dfn>
-                          <abbr title="Portable Document Format">PDF</abbr>
+                          <abbr title="Portable Document Format">(PDF)</abbr>
                         </dfn>
                       </a>
                     </td>
@@ -121,12 +119,13 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
         debtLinks.length < 1 && (
           <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
             <h4 className="vads-u-font-family--serif vads-u-margin-top--0">
-              Our records show that you don't have any current debts
+              Our records show that you don't have any debt letters
             </h4>
             <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-              If you believe that you have a debt with the VA, or you would like
-              to get information about a debt that has been resolved, call the
-              Debt Management Center at{' '}
+              Debt collection has been put on hold due to the COVID-19 pandemic.
+              If you received a debt after March 2020, debt collection letters
+              haven't been mailed to your address. For more information about
+              your debt, call the Debt Management Center at{' '}
               <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
                 800-827-0648
               </a>
@@ -144,17 +143,15 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
           What if I don't see the letter I'm looking for?
         </h3>
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-          If you have been notified of a debt and don't see the debt's letter on
-          this page, or you would like to get information about your debts that
-          have been resolved, call the Debt Management Center at{' '}
+          If you’ve received a letter about a VA debt, but don’t see the letter
+          listed here call the VA Debt Management Center at{' '}
           <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
             800-827-0648
-          </a>
-        </p>
-        <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-          For medical copayment debts, visit{' '}
-          <a href="/health-care/pay-copay-bill/">Pay your VA copay bill</a> to
-          learn about your payment options.
+          </a>{' '}
+          You can also call the DMC to get information about your resolved debts
+          For VA health care copay debt, please go to our{' '}
+          <a href="/health-care/pay-copay-bill/">pay your VA copay bill</a> page
+          to learn about your payment options.
         </p>
       </div>
     </div>

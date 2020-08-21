@@ -100,11 +100,19 @@ export function mockFetch(returnVal, shouldResolve = true) {
   if (Object.keys(global.fetch).length === 0) {
     oldFetch = global.fetch;
   }
-  global.fetch = sinon
-    .stub()
-    .returns(
-      shouldResolve ? Promise.resolve(returnVal) : Promise.reject(returnVal),
-    );
+
+  global.fetch = sinon.stub().callsFake(url => {
+    let response = returnVal;
+    if (!response) {
+      response = new Response();
+      response.ok = false;
+      response.url = url;
+      response.status = 404;
+      response.statusText = 'Not Found';
+    }
+
+    return shouldResolve ? Promise.resolve(response) : Promise.reject(response);
+  });
 }
 
 export function setFetchJSONResponse(stub, data = null) {

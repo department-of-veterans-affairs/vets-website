@@ -5,6 +5,7 @@ import {
   debtLettersSuccess,
   debtLettersSuccessVBMS,
 } from '../utils/mockResponses';
+import { deductionCodes } from '../const';
 
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
 export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';
@@ -59,7 +60,13 @@ export const fetchDebtLetters = () => async dispatch => {
       return dispatch(fetchDebtLettersFailure());
     }
 
-    return dispatch(fetchDebtLettersSuccess(response));
+    const approvedDeductionCodes = Object.keys(deductionCodes);
+    // remove any debts that do not have approved deductionCodes or
+    // that have a current amount owed of 0
+    const filteredResponse = response
+      .filter(res => approvedDeductionCodes.includes(res.deductionCode))
+      .filter(debt => debt.currentAr > 0);
+    return dispatch(fetchDebtLettersSuccess(filteredResponse));
   } catch (error) {
     return dispatch(fetchDebtLettersFailure());
   }
