@@ -238,7 +238,9 @@ async function loadCachedDrupalFiles(buildOptions, files) {
         path.join(buildOptions.cacheDirectory, 'drupal/downloads'),
         file,
       );
-      log(`Loaded Drupal asset from cache: ${relativePath}`);
+      if (global.verbose) {
+        log(`Loaded Drupal asset from cache: ${relativePath}`);
+      }
       files[relativePath] = {
         path: relativePath,
         isDrupalAsset: true,

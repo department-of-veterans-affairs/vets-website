@@ -32,6 +32,8 @@ const initialState = {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingRequests: true,
     vaOnlineSchedulingPast: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
   },
 };
 

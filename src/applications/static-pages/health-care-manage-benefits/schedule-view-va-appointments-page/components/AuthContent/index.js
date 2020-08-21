@@ -81,10 +81,11 @@ export const AuthContent = () => (
       </li>
       <li>Registered or you’ve had an appointment at that facility before</li>
     </ul>
-    <a href="/health-care/how-to-apply">
-      Find out how to apply for VA health care
-    </a>
-    <br />
+    <p>
+      <a href="/health-care/how-to-apply">
+        Find out how to apply for VA health care
+      </a>
+    </p>
     <p>
       <strong>And, you must have one of these free accounts:</strong>
     </p>
@@ -128,31 +129,36 @@ export const AuthContent = () => (
       receive prior approval from us before getting care from a community
       provider.
     </p>
-    <a
-      href="/communitycare/programs/veterans/index.asp"
-      rel="noreferrer noopener"
-    >
-      Learn more about community care
-    </a>
-    <br />
-    <br />
-    <a href="/find-locations">Find a community provider in the VA network</a>
+    <p>
+      <a
+        href="/communitycare/programs/veterans/index.asp"
+        rel="noreferrer noopener"
+      >
+        Learn more about community care
+      </a>
+    </p>
+    <p>
+      <a href="/find-locations">Find a community provider in the VA network</a>
+    </p>
     <h2>Can I schedule appointments through VA secure messaging?</h2>
     <p>
       If you use secure messaging with your VA health care team, you may be able
       to use this service to schedule and cancel appointments.
     </p>
-    <a href="/health-care/secure-messaging/">
-      Learn more about secure messaging
-    </a>
-    <br />
+    <p>
+      <a href="/health-care/secure-messaging/">
+        Learn more about secure messaging
+      </a>
+    </p>
     <p>
       <strong>Please note:</strong> The fastest way to schedule appointments is
       usually to call the VA health facility where you get care. To reschedule
       or cancel an existing appointment, please contact your facility as soon as
       possible.
     </p>
-    <a href="/find-locations">Find your VA health facility’s phone number</a>
+    <p>
+      <a href="/find-locations">Find your VA health facility’s phone number</a>
+    </p>
     <h2>Will my personal health information be protected?</h2>
     <p>
       Yes. Our health management portals are secure websites. We follow strict
@@ -164,12 +170,14 @@ export const AuthContent = () => (
       If you print or download any messages, you’ll need to take responsibility
       for protecting that information.
     </p>
-    <a
-      href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
-      rel="noreferrer noopener"
-    >
-      Get tips for protecting your personal health information
-    </a>
+    <p>
+      <a
+        href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
+        rel="noreferrer noopener"
+      >
+        Get tips for protecting your personal health information
+      </a>
+    </p>
     <h2>What if I have more questions?</h2>
     <h3>For the VA appointments tool</h3>
     <p>

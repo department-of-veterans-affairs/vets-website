@@ -13,7 +13,7 @@ const submitForm = (form, formConfig) => {
   const eventData = {
     'edu-benefits-currently-used': concatenatedBenefits,
     'edu-currently-enrolled': form.data.isEnrolledStem ? 'Yes' : 'No',
-    'edu-pursuing-teaching-certifcation': form.data.isPursuingTeachingCert
+    'edu-pursuing-teaching-certification': form.data.isPursuingTeachingCert
       ? 'Yes'
       : 'No',
     'edu-benefits-remaining': form.data.benefitLeft,
