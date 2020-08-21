@@ -116,7 +116,13 @@ export default function createRoutesWithStore(store) {
       <Route
         path="new-express-care-request"
         component={asyncLoader(() =>
-          import(/* webpackChunkName: "express-care" */ './containers/NewExpressCareRequestLayout'),
+          Promise.all([
+            import(/* webpackChunkName: "express-care" */ './containers/NewExpressCareRequestLayout'),
+            import(/* webpackChunkName: "express-care" */ './reducers/expressCare'),
+          ]).then(([component, reducer]) => {
+            store.injectReducer('expressCare', reducer.default);
+            return component;
+          }),
         )}
       >
         <IndexRoute component={ExpressCareInfoPage} />
