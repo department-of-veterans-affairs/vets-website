@@ -95,9 +95,7 @@ describe('VAOS integration: Express Care info page', () => {
       ...initialState,
     });
     const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
-      </NewExpressCareRequestLayout>,
+      <ExpressCareInfoPage router={router} />,
       {
         store,
       },
@@ -128,9 +126,7 @@ describe('VAOS integration: Express Care info page', () => {
       ...initialState,
     });
     const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
-      </NewExpressCareRequestLayout>,
+      <ExpressCareInfoPage router={router} />,
       {
         store,
       },
@@ -151,10 +147,8 @@ describe('VAOS integration: Express Care info page', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
-      </NewExpressCareRequestLayout>,
+    renderInReduxProvider(
+      <NewExpressCareRequestLayout router={router} location={location} />,
       {
         store,
       },
@@ -162,6 +156,5 @@ describe('VAOS integration: Express Care info page', () => {
 
     await waitFor(() => expect(router.push.called).to.be.true);
     expect(router.push.firstCall.args[0]).to.equal('/');
-    expect(screen.queryByText(/How Express Care Works/i)).to.not.exist;
   });
 });
