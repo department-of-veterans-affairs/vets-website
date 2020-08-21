@@ -67,7 +67,6 @@ export const chapters = {
         uiSchema: confirmEligibility.uiSchema,
         schema: confirmEligibility.schema,
         hideHeaderRow: true,
-        hideOnReview: true,
       },
       programDetails: {
         title: 'STEM degree and school details',
