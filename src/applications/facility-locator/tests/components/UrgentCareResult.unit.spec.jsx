@@ -13,7 +13,16 @@ describe('UrgentCareResult', () => {
     const wrapper = shallow(
       <UrgentCareResult provider={testData.data[4]} query={query} />,
     );
-    expect(wrapper).to.matchSnapshot();
+    expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationAddress').length).to.equal(1);
+    expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
+    expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
+    expect(wrapper.find('#provider-name').text()).to.equal(
+      'FastMed Urgent Care',
+    );
+    expect(wrapper.find('#provider-name a').length).to.equal(0);
+    expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
+
     wrapper.unmount();
   });
 
@@ -25,7 +34,16 @@ describe('UrgentCareResult', () => {
     const wrapper = shallow(
       <UrgentCareResult provider={testData.data[1]} query={query} />,
     );
-    expect(wrapper).to.matchSnapshot();
+    expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationAddress').length).to.equal(1);
+    expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
+    expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
+    expect(wrapper.find('#provider-name').text()).to.equal(
+      "Overton Brooks Veterans' Administration Medical Center",
+    );
+    expect(wrapper.find('#provider-name a').length).to.equal(0);
+    expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
+
     wrapper.unmount();
   });
 });

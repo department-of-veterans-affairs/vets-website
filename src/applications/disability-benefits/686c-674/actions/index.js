@@ -14,11 +14,8 @@ async function getVaFileNumber() {
 
 export const verifyVaFileNumber = () => async dispatch => {
   dispatch({ type: VERIFY_VA_FILE_NUMBER_STARTED, response: true });
-  const response = await getVaFileNumber();
+  let response = await getVaFileNumber();
   if (response.errors) {
-    // TODO: fire off analytics event when endpoint is wired up.
-    //   const errCode = res.errors[0].code;
-    //   isServerError(errCode) ? recordEvent({}) : recordEvent({})
     Sentry.captureMessage('disability-file-number-gate-failed');
     recordEvent({
       event: 'disability-file-number-gate-failed',
@@ -30,6 +27,12 @@ export const verifyVaFileNumber = () => async dispatch => {
     recordEvent({
       event: 'disability-file-number-gate-successful',
     });
+    // account for validVaFileNumber and validVAFileNumber inflection
+    const unifiedResponse = {};
+    for (const [key, value] of Object.entries(response)) {
+      unifiedResponse[key.toUpperCase()] = value;
+    }
+    response = unifiedResponse;
     dispatch({ type: VERIFY_VA_FILE_NUMBER_SUCCEEDED, response });
   }
 };

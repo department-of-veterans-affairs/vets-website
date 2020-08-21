@@ -12,11 +12,11 @@ const DebtCardsList = ({ debts, isError }) => {
     >
       <div className="usa-alert-body">
         <h3 className="usa-alert-heading">
-          Information about your current debts is unavailable
+          Information about your current debts is unavailable.
         </h3>
         <p className="vads-u-font-family--sans">
-          You can't view information ab out your current debts because something
-          went wrong on our end
+          You can't view information about your current debts because something
+          went wrong on our end.
         </p>
         <p className="vads-u-margin-bottom--1">
           <strong>What you can do</strong>

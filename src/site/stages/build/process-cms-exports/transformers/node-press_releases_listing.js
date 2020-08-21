@@ -5,7 +5,7 @@ const {
   isPublished,
 } = require('./helpers');
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'press_releases_listing',
   title: getDrupalValue(entity.title),
@@ -16,7 +16,11 @@ const transform = entity => ({
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
-  fieldOffice: entity.fieldOffice[0],
+  fieldOffice:
+    entity.fieldOffice[0] &&
+    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+      ? entity.fieldOffice[0]
+      : null,
   fieldPressReleaseBlurb: getDrupalValue(entity.fieldPressReleaseBlurb),
   reverseFieldListingNode: {
     entities: entity.reverseFieldListing
