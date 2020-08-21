@@ -13,6 +13,8 @@ import {
   appointmentsToolLink,
 } from 'platform/utilities/cerner';
 
+import { selectPatientFacilities } from 'platform/user/selectors';
+
 export class CernerCallToAction extends Component {
   static propTypes = {
     linksHeaderText: PropTypes.string.isRequired,
@@ -45,9 +47,7 @@ export class CernerCallToAction extends Component {
     }
 
     // Derive the cerner facilities.
-    const cernerFacilities = facilities.filter(facility =>
-      CERNER_FACILITY_IDS.includes(facility?.facilityId),
-    );
+    const cernerFacilities = facilities.filter(facility => facility.isCerner);
 
     // Escape early if there are no cerner facilities.
     if (isEmpty(cernerFacilities)) {
@@ -189,7 +189,7 @@ export class CernerCallToAction extends Component {
 }
 
 const mapStateToProps = state => ({
-  facilities: state?.user?.profile?.facilities,
+  facilities: selectPatientFacilities(state),
 });
 
 export default connect(
