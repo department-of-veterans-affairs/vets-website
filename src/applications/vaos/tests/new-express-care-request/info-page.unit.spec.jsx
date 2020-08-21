@@ -9,8 +9,8 @@ import {
   mockFetch,
   resetFetch,
   setFetchJSONFailure,
-  setupExpressCareMocks,
 } from 'platform/testing/unit/helpers';
+import { setupExpressCareMocks } from '../mocks/helpers';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
 import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
 import { createTestStore } from '../mocks/setup';
