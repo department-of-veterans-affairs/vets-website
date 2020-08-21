@@ -94,7 +94,7 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
         <h1 className="vads-u-padding-x--2p5 vads-u-margin-bottom--2">
           Current VA debt
         </h1>
-        <div className="large-screen:vads-u-display--flex vads-u-flex-direction--row vads-u-display--block">
+        <div className="medium-screen:vads-u-display--flex vads-u-flex-direction--row vads-u-display--block">
           <CallToActionWidget appId="debt-letters">
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
               <h2
