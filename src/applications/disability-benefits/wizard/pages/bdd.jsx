@@ -71,7 +71,7 @@ const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
       date={state}
       validation={{
         valid: isDateInFuture(state),
-        message: 'A separation date must occur in the future',
+        message: 'Your separation date must be in the future',
       }}
     />
   );

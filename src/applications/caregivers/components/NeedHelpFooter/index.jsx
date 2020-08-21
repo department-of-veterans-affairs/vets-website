@@ -45,8 +45,13 @@ const NeedHelpFooter = () => {
         />
         .<br />
         <span>
-          If you have hearing loss, call TTY:{' '}
-          <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
+          If you have hearing loss, call TTY:
+          <Telephone
+            className="vads-u-margin-left--0p5"
+            contact={CONTACTS['711']}
+            pattern={PATTERNS['911']}
+          />
+          .
         </span>
       </p>
     </>
