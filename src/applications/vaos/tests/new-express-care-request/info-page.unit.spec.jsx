@@ -38,11 +38,11 @@ describe('VAOS integration: Express Care info page', () => {
     });
     const startTime = today
       .clone()
-      .subtract(2, 'minutes')
+      .subtract(5, 'minutes')
       .tz('America/Denver');
     const endTime = today
       .clone()
-      .add(1, 'minutes')
+      .add(3, 'minutes')
       .tz('America/Denver');
 
     setupExpressCareMocks({ startTime, endTime });
