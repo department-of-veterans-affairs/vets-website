@@ -127,16 +127,8 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
             work with you to update your information in DEERS.
           </p>
           <p>
-            To reach the DMDC, call{' '}
-            <a
-              href="tel:1-800-538-9552"
-              aria-label="800. 5 3 8. 9 5 5 2."
-              title="Dial the telephone number 800-538-9552"
-              className="no-wrap"
-            >
-              800-538-9552
-            </a>
-            , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
+            To reach the DMDC, call <Telephone contact={CONTACTS.DS_LOGON} />,
+            Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
             p.m. ET. If you have hearing loss, call TTY:{' '}
             <Telephone contact={CONTACTS.DS_LOGON_TTY} />.
           </p>
