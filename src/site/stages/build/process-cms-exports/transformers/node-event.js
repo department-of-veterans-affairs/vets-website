@@ -58,7 +58,9 @@ const transform = entity => ({
   fieldFacilityLocation: entity.fieldFacilityLocation[0] || null,
   fieldLink: createLink(entity.fieldLink, ['url']),
   fieldLocationHumanreadable: getDrupalValue(entity.fieldLocationHumanreadable),
-  fieldMedia: entity.fieldMedia[0] || null,
+  fieldMedia: entity.fieldMedia.length
+    ? { entity: entity.fieldMedia[0] }
+    : null,
   status: getDrupalValue(entity.status),
 });
 

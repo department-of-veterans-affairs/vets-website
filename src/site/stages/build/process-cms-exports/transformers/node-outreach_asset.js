@@ -17,7 +17,9 @@ const transform = entity => ({
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldFormat: getDrupalValue(entity.fieldFormat),
   fieldListing: entity.fieldListing[0],
-  fieldMedia: entity.fieldMedia[0],
+  fieldMedia: entity.fieldMedia.length
+    ? { entity: entity.fieldMedia[0] }
+    : null,
 });
 
 module.exports = {

@@ -5,7 +5,9 @@ const transform = entity => ({
     entityType: 'paragraph',
     entityBundle: 'downloadable_file',
     fieldMarkup: entity.fieldMarkup.length ? entity.fieldMarkup : null,
-    fieldMedia: entity.fieldMedia[0],
+    fieldMedia: entity.fieldMedia.length
+      ? { entity: entity.fieldMedia[0] }
+      : null,
     fieldTitle: getDrupalValue(entity.fieldTitle),
   },
 });

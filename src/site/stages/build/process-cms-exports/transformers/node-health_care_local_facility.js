@@ -42,7 +42,9 @@ const transform = (entity, { ancestors }) => ({
     ? entity.fieldLocationServices
     : null,
   fieldMainLocation: getDrupalValue(entity.fieldMainLocation),
-  fieldMedia: entity.fieldMedia[0] || null,
+  fieldMedia: entity.fieldMedia.length
+    ? { entity: entity.fieldMedia[0] }
+    : null,
   fieldMentalHealthPhone: getDrupalValue(entity.fieldMentalHealthPhone),
   fieldNicknameForThisFacility: getDrupalValue(
     entity.fieldNicknameForThisFacility,

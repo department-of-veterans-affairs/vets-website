@@ -1,15 +1,13 @@
 const { createMetaTagArray, getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
-  entity: {
-    entityType: 'media',
-    entityBundle: 'video',
-    name: getDrupalValue(entity.name),
-    thumbnail: entity.thumbnail[0],
-    entityMetatags: createMetaTagArray(entity.metatag.value),
-    fieldMediaInLibrary: getDrupalValue(entity.fieldMediaInLibrary),
-    fieldMediaVideoEmbedField: getDrupalValue(entity.fieldMediaVideoEmbedField),
-  },
+  entityType: 'media',
+  entityBundle: 'video',
+  name: getDrupalValue(entity.name),
+  thumbnail: entity.thumbnail[0],
+  entityMetatags: createMetaTagArray(entity.metatag.value),
+  fieldMediaInLibrary: getDrupalValue(entity.fieldMediaInLibrary),
+  fieldMediaVideoEmbedField: getDrupalValue(entity.fieldMediaVideoEmbedField),
 });
 
 module.exports = {
