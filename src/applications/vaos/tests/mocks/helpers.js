@@ -5,7 +5,10 @@ import {
   setFetchJSONResponse,
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
-import { getVAAppointmentMock } from '../mocks/v0';
+import {
+  getVAAppointmentMock,
+  getExpressCareRequestCriteriaMock,
+} from '../mocks/v0';
 
 export function mockAppointmentInfo({
   va = [],
@@ -414,4 +417,37 @@ export function mockPreferences(emailAddress) {
       },
     },
   );
+}
+const today = moment();
+
+export function setupExpressCareMocks({
+  facilityId = '983',
+  isWindowOpen = true,
+  isUnderRequestLimit = true,
+} = {}) {
+  const start = today
+    .clone()
+    .subtract(2, 'minutes')
+    .tz('America/Denver');
+  const end = today
+    .clone()
+    .add(isWindowOpen ? 1 : -1, 'minutes')
+    .tz('America/Denver');
+  const requestCriteria = getExpressCareRequestCriteriaMock(facilityId, [
+    {
+      day: today
+        .clone()
+        .tz('America/Denver')
+        .format('dddd')
+        .toUpperCase(),
+      canSchedule: true,
+      startTime: start.format('HH:mm'),
+      endTime: end.format('HH:mm'),
+    },
+  ]);
+  mockRequestEligibilityCriteria([facilityId], requestCriteria);
+  mockRequestLimit({
+    facilityId,
+    numberOfRequests: isUnderRequestLimit ? 0 : 1,
+  });
 }
