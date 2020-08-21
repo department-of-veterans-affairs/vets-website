@@ -69,8 +69,8 @@ export const AdditionalInfoSections = ({ activeApps }) => {
               it will ask you to sign in.
             </li>
             <li className="vads-u-padding-left--1">
-              Sign in with your preferred VA.gov account: <strong>DS Logon</strong>, <strong>My
-              HealtheVet</strong>, or <strong>ID.me</strong>.
+              Sign in with your preferred VA.gov account:{' '}
+              <strong>DS Logon</strong>, <strong>My HealtheVet</strong>, or <strong>ID.me</strong>.
             </li>
             <li className="vads-u-padding-left--1">
               Review the information the app is asking to access.
@@ -108,7 +108,8 @@ export const AdditionalInfoSections = ({ activeApps }) => {
               </li>
               <li className="vads-u-padding-left--1">
                 <strong>If your information isn’t accurate:</strong> Call VA311
-                at <Telephone contact={CONTACTS.VA_311} />. If you have hearing loss, call{' '}
+                at <Telephone contact={CONTACTS.VA_311} />. If you have hearing
+                loss, call{' '}
                 <Telephone
                   contact={CONTACTS['711']}
                   pattern={PATTERNS['911']}
