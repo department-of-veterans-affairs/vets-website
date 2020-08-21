@@ -36,7 +36,7 @@ const ConfirmationPage = props => {
       <section>
         <div>
           <h2 className="vads-u-font-size--h4">
-            You’ve successfullly submitted your application.
+            You’ve successful submitted your application.
           </h2>
 
           <p>
