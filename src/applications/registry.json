@@ -854,5 +854,15 @@
       "includeBreadcrumbs": false,
       "breadcrumbs_override": []
     }
+  },
+  {
+    "appName": "eFolders",
+    "entryName": "my-documents",
+    "rootUrl": "/my-documents",
+    "template": {
+      "title": "My Documents",
+      "layout": "page-react.html",
+      "vagovprod": false
+    }
   }
 ]
