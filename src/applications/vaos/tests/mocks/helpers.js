@@ -418,21 +418,27 @@ export function mockPreferences(emailAddress) {
     },
   );
 }
-const today = moment();
 
 export function setupExpressCareMocks({
   facilityId = '983',
   isWindowOpen = true,
   isUnderRequestLimit = true,
+  startTime = null,
+  endTime = null,
 } = {}) {
-  const start = today
-    .clone()
-    .subtract(2, 'minutes')
-    .tz('America/Denver');
-  const end = today
-    .clone()
-    .add(isWindowOpen ? 1 : -1, 'minutes')
-    .tz('America/Denver');
+  const today = moment();
+  const start =
+    startTime ||
+    today
+      .clone()
+      .subtract(5, 'minutes')
+      .tz('America/Denver');
+  const end =
+    endTime ||
+    today
+      .clone()
+      .add(isWindowOpen ? 3 : -3, 'minutes')
+      .tz('America/Denver');
   const requestCriteria = getExpressCareRequestCriteriaMock(facilityId, [
     {
       day: today
