@@ -27,9 +27,11 @@ function alertContent(getPageStateFromPageName) {
   return (
     <>
       <p>
-        Based on your information, you may be eligible for the Benefits Delivery
-        at Discharge program that allows service members to apply for VA
-        disability benefits prior to separation.
+        Based on your separation date, you can file a disability claim under the
+        Benefits Delivery at Discharge (BDD) program. This program allows
+        service members to apply for disability benefits 180 to 90 days before
+        they leave the military. You'll need to be available for 45 days after
+        you submit your claim for a VA exam.
       </p>
       <p>
         {isLastDayToFileBDD ? (
@@ -54,12 +56,8 @@ function alertContent(getPageStateFromPageName) {
         to complete and submit the form.
       </p>
       <p>
-        Please be aware that you will need to be available for 45 days after you
-        file in order to complete VA exams during this period.
-      </p>
-      <p>
         <a href={BDD_INFO_URL}>
-          Learn more about Benefits Delivery at Discharge (BDD)
+          Learn more about the Benefits Delivery at Discharge (BDD) program
         </a>
       </p>
       <a
@@ -75,7 +73,7 @@ function alertContent(getPageStateFromPageName) {
 const FileBDDClaim = ({ getPageStateFromPageName }) => (
   <AlertBox
     status="info"
-    headline="You are eligible to file a BDD claim"
+    headline="You're eligible to file a BDD claim"
     content={alertContent(getPageStateFromPageName)}
   />
 );
