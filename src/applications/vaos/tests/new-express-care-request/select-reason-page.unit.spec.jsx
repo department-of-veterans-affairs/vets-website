@@ -11,7 +11,7 @@ import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
 import { createTestStore } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
 import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
-import { fetchExpressCareWindows } from '../../actions/expressCare';
+import { fetchExpressCareWindows } from '../../actions/appointments';
 
 const initialState = {
   user: {

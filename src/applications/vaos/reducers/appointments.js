@@ -11,6 +11,9 @@ import {
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
+  FETCH_EXPRESS_CARE_WINDOWS_FAILED,
+  FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+  FETCH_EXPRESS_CARE_WINDOWS,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
@@ -22,10 +25,16 @@ import {
 import {
   FORM_SUBMIT_SUCCEEDED,
   EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED,
+  STARTED_NEW_EXPRESS_CARE_FLOW,
 } from '../actions/sitewide';
 
 import { sortMessages } from '../services/appointment';
-import { FETCH_STATUS, APPOINTMENT_STATUS } from '../utils/constants';
+import {
+  FETCH_STATUS,
+  APPOINTMENT_STATUS,
+  EXPRESS_CARE,
+  WEEKDAY_INDEXES,
+} from '../utils/constants';
 
 const initialState = {
   pending: null,
@@ -41,6 +50,8 @@ const initialState = {
   facilityData: {},
   requestMessages: {},
   systemClinicToFacilityMap: {},
+  expressCareWindowsStatus: FETCH_STATUS.notStarted,
+  expressCareFacilities: null,
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -130,6 +141,49 @@ export default function appointmentsReducer(state = initialState, action) {
         requestMessages,
       };
     }
+
+    case FETCH_EXPRESS_CARE_WINDOWS:
+      return {
+        ...state,
+        expressCareWindowsStatus: FETCH_STATUS.loading,
+      };
+    case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
+      const { settings } = action;
+      // We're only parsing out facilities in here, since the rest
+      // of the logic is very dependent on the current time and we may want
+      // to re-check if EC is available without re-fecthing
+      const expressCareFacilities = settings
+        // This grabs just the facilities where EC is supported
+        .filter(
+          facility =>
+            facility.customRequestSettings?.find(
+              setting => setting.id === EXPRESS_CARE,
+            )?.supported,
+        )
+        // This makes sure we only pull the days where EC is open
+        .map(facility => ({
+          facilityId: facility.id,
+          days: facility.customRequestSettings
+            .find(setting => setting.id === EXPRESS_CARE)
+            .schedulingDays.filter(day => day.canSchedule)
+            .map(daySchedule => ({
+              ...daySchedule,
+              dayOfWeekIndex: WEEKDAY_INDEXES[daySchedule.day],
+            }))
+            .sort((a, b) => (a.dayOfWeekIndex < b.dayOfWeekIndex ? -1 : 1)),
+        }));
+
+      return {
+        ...state,
+        expressCareWindowsStatus: FETCH_STATUS.succeeded,
+        expressCareFacilities,
+      };
+    }
+    case FETCH_EXPRESS_CARE_WINDOWS_FAILED:
+      return {
+        ...state,
+        expressCareWindowsStatus: FETCH_STATUS.failed,
+      };
     case CANCEL_APPOINTMENT:
       return {
         ...state,
@@ -194,6 +248,13 @@ export default function appointmentsReducer(state = initialState, action) {
         appointmentToCancel: null,
         cancelAppointmentStatus: FETCH_STATUS.notStarted,
       };
+    case STARTED_NEW_EXPRESS_CARE_FLOW: {
+      return {
+        ...initialState,
+        expressCareWindowsStatus: state.expressCareWindowsStatus,
+        expressCareFacilities: state.expressCareFacilities,
+      };
+    }
     case EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED:
       return {
         ...state,
