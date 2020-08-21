@@ -29,7 +29,9 @@ module.exports = () => {
   let consoleDirty = false;
   let lastLogLineLength = 0;
 
-  // Spy on stdout & stderr to see if we need to write the full logStepEnd line
+  // We only need to write the full logStepEnd if there's any output after the
+  // logStepStart. This sets up spies to see if there has been any output since
+  // the logStepStart.
   process.stdout.__write = process.stdout.write;
   process.stdout.write = function _write(...params) {
     consoleDirty = true;
