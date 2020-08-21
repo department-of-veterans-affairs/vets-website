@@ -29,10 +29,11 @@ describe('VAOS integration: Express Care form', () => {
     const store = createTestStore({
       ...initialState,
     });
+    await setExpressCareFacility({ store });
     const screen = renderWithStoreAndRouter(<ExpressCareReasonPage />, {
       store,
     });
-    await setExpressCareFacility({ store });
+
     await screen.findByText('Select a reason for your Express Care request');
     const radio = screen.getByLabelText('Cough');
     fireEvent.click(radio);

@@ -53,11 +53,11 @@ describe('VAOS integration: Express Care form submission', () => {
     const store = createTestStore({
       ...initialState,
     });
+    await setExpressCareFacility({ store });
+    await setExpressCareReason({ store, label: 'Cough' });
     const screen = renderWithStoreAndRouter(<ExpressCareDetailsPage />, {
       store,
     });
-    await setExpressCareFacility({ store });
-    await setExpressCareReason({ store, label: 'Cough' });
 
     fireEvent.click(await screen.findByText(/submit express care/i));
     expect(screen.baseElement).not.to.contain.text(
