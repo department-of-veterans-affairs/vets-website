@@ -43,6 +43,9 @@ src/applications/facility-locator @department-of-veterans-affairs/vsa-facilities
 # Caregiver
 src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
+# Healthcare Experience
+src/applications/healthcare @department-of-veterans-affairs/vsa-healthcare-experience
+
 # /--- VSA
 
 # Other

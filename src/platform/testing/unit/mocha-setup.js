@@ -9,6 +9,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';
 import { JSDOM } from 'jsdom';
+import { configure } from '@testing-library/react';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 
@@ -20,6 +21,10 @@ global.__MEGAMENU_CONFIG__ = null;
 
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
+
+configure({
+  timeout: 3000,
+});
 
 function filterStackTrace(trace) {
   return trace

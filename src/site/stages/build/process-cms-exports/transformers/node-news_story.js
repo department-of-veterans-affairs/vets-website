@@ -6,7 +6,7 @@ const {
   getWysiwygString,
 } = require('./helpers');
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'news_story',
   title: getDrupalValue(entity.title),
@@ -23,7 +23,12 @@ const transform = entity => ({
   fieldImageCaption: getDrupalValue(entity.fieldImageCaption),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMedia: entity.fieldMedia[0] || null,
-  fieldOffice: (entity.fieldOffice && entity.fieldOffice[0]) || null,
+  fieldOffice:
+    entity.fieldOffice &&
+    entity.fieldOffice[0] &&
+    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+      ? entity.fieldOffice[0]
+      : null,
   // Needed for filtering reverse fields in other transformers
   status: getDrupalValue(entity.status),
   fieldFeatured: getDrupalValue(entity.fieldFeatured),

@@ -5,7 +5,7 @@ import { getActiveExpandedPages } from './helpers';
  * Returns the page list without conditional pages that have not satisfied
  * their dependencies and therefore should be skipped.
  */
-function getEligiblePages(pageList, data, pathname) {
+export function getEligiblePages(pageList, data, pathname) {
   const eligiblePageList = getActiveExpandedPages(pageList, data);
   const pageIndex = _.findIndex(
     item => item.path === pathname,

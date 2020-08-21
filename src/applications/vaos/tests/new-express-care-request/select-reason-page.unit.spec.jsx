@@ -11,7 +11,6 @@ import {
   setupExpressCareMocks,
   setExpressCareFacility,
 } from '../mocks/setup';
-import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
 import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
 
 const initialState = {
@@ -20,10 +19,6 @@ const initialState = {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   },
-};
-
-const location = {
-  pathname: '/new-express-care-request/select-reason',
 };
 
 describe('VAOS integration: Express Care form', () => {
@@ -41,9 +36,7 @@ describe('VAOS integration: Express Care form', () => {
     };
     await setExpressCareFacility({ store, router });
     const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareReasonPage router={router} />
-      </NewExpressCareRequestLayout>,
+      <ExpressCareReasonPage router={router} />,
       {
         store,
       },

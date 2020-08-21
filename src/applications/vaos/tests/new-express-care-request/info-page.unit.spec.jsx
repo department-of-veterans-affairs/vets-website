@@ -38,11 +38,11 @@ describe('VAOS integration: Express Care info page', () => {
     });
     const startTime = today
       .clone()
-      .subtract(2, 'minutes')
+      .subtract(5, 'minutes')
       .tz('America/Denver');
     const endTime = today
       .clone()
-      .add(1, 'minutes')
+      .add(3, 'minutes')
       .tz('America/Denver');
 
     setupExpressCareMocks({ startTime, endTime });
@@ -76,9 +76,11 @@ describe('VAOS integration: Express Care info page', () => {
     expect(router.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.secondCall.args[0]).to.equal(
-      '/new-express-care-request/select-reason',
+    await waitFor(
+      () =>
+        expect(
+          router.push.calledWith('/new-express-care-request/select-reason'),
+        ).to.be.true,
     );
   });
 
@@ -93,9 +95,7 @@ describe('VAOS integration: Express Care info page', () => {
       ...initialState,
     });
     const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
-      </NewExpressCareRequestLayout>,
+      <ExpressCareInfoPage router={router} />,
       {
         store,
       },
@@ -126,9 +126,7 @@ describe('VAOS integration: Express Care info page', () => {
       ...initialState,
     });
     const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
-      </NewExpressCareRequestLayout>,
+      <ExpressCareInfoPage router={router} />,
       {
         store,
       },
@@ -149,10 +147,8 @@ describe('VAOS integration: Express Care info page', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
-      </NewExpressCareRequestLayout>,
+    renderInReduxProvider(
+      <NewExpressCareRequestLayout router={router} location={location} />,
       {
         store,
       },
@@ -160,6 +156,5 @@ describe('VAOS integration: Express Care info page', () => {
 
     await waitFor(() => expect(router.push.called).to.be.true);
     expect(router.push.firstCall.args[0]).to.equal('/');
-    expect(screen.queryByText(/How Express Care Works/i)).to.not.exist;
   });
 });

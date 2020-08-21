@@ -32,6 +32,8 @@ import AppointmentsPage from '../../containers/AppointmentsPage';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
   },
 };
 
@@ -515,6 +517,7 @@ describe('VAOS integration appointment cancellation:', () => {
                 { facilityId: '983', isCerner: false },
                 { facilityId: '668', isCerner: true },
               ],
+              isCernerPatient: true,
             },
           },
         },
@@ -533,14 +536,10 @@ describe('VAOS integration appointment cancellation:', () => {
       /You can’t cancel this appointment on the VA appointments tool/i,
     );
 
-    const oldWindow = global.window;
-
-    global.window = {
-      open: sinon.spy(),
-    };
+    sinon.spy(window, 'open');
     fireEvent.click(screen.getByText('Go to My VA Health'));
-    waitFor(() => expect(global.window.open.called).to.be.true);
-    waitFor(() => expect(screen.queryByRole('alertdialog')).to.not.exist);
-    global.window = oldWindow;
+    await waitFor(() => expect(window.open.called).to.be.true);
+    await waitFor(() => expect(screen.queryByRole('alertdialog')).to.not.exist);
+    window.open.restore();
   });
 });

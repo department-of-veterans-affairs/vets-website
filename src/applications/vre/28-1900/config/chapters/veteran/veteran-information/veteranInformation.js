@@ -1,6 +1,7 @@
-import VeteranInformation from '../../../../containers/VeteranInformation';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+
+import { isFieldRequired } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -45,16 +46,17 @@ export const schema = {
 export const uiSchema = {
   veteranInformation: {
     'ui:title': 'Veteran Information',
-    'ui:field': VeteranInformation,
     fullName: {
       first: {
         'ui:title': 'Your first name',
+        'ui:required': formData => !isFieldRequired(formData, 'isLoggedIn'),
       },
       middle: {
         'ui:title': 'Your middle name',
       },
       last: {
         'ui:title': 'Your last name',
+        'ui:required': formData => !isFieldRequired(formData, 'isLoggedIn'),
       },
       suffix: {
         'ui:title': 'Suffix',
@@ -65,6 +67,7 @@ export const uiSchema = {
     },
     ssn: {
       'ui:title': 'Your Social Security number',
+      'ui:required': formData => !isFieldRequired(formData, 'isLoggedIn'),
       ...ssnUI,
     },
     VAFileNumber: {
@@ -73,6 +76,9 @@ export const uiSchema = {
         widgetClassNames: 'usa-input-medium',
       },
     },
-    dob: currentOrPastDateUI('Date of birth'),
+    dob: {
+      ...currentOrPastDateUI('Date of birth'),
+      'ui:required': formData => !isFieldRequired(formData, 'isLoggedIn'),
+    },
   },
 };

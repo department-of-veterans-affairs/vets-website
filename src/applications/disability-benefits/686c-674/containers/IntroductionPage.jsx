@@ -62,7 +62,7 @@ class IntroductionPage extends React.Component {
       );
     } else if (
       user?.login?.currentlyLoggedIn &&
-      !hasVaFileNumber?.validVAFileNumber &&
+      !hasVaFileNumber?.VALIDVAFILENUMBER &&
       !isLoading
     ) {
       content = (
