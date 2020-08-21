@@ -310,12 +310,16 @@ export const LegacyContent = () => (
                 appointment requests. You must receive prior approval from us
                 before getting care from a community provider.
               </p>
-              <a href="/communitycare/programs/veterans/index.asp">
-                Learn more about community care
-              </a>
-              <a href="/find-locations">
-                Find a community provider in the VA network
-              </a>
+              <p>
+                <a href="/communitycare/programs/veterans/index.asp">
+                  Learn more about community care
+                </a>
+              </p>
+              <p>
+                <a href="/find-locations">
+                  Find a community provider in the VA network
+                </a>
+              </p>
             </div>
           </div>
         </div>
@@ -397,14 +401,6 @@ export const LegacyContent = () => (
               <p>
                 If you print or download any messages, you’ll need to take
                 responsibility for protecting that information.
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Get tips for protecting your personal health information
-                </a>
               </p>
             </div>
           </div>
@@ -441,53 +437,6 @@ export const LegacyContent = () => (
           <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
           ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
         </p>
-
-        <div
-          data-entity-id={3476}
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3477}
-              className="processed-content"
-            >
-              <p>
-                You can get answers to your questions about these tools within
-                our My HealtheVet web portal.
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/faqs#Appointments"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Read VA Appointments FAQs
-                </a>
-              </p>
-              <p>
-                You can also contact the My HealtheVet Help Desk.
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Find out how to contact us online
-                </a>
-              </p>
-              <p>
-                Or call us at{' '}
-                <a aria-label="8 7 7. 3 2 7. 0 0 2 2." href="tel:18773270022">
-                  877-327-0022
-                </a>{' '}
-                (TTY: <Telephone contact={CONTACTS.HELP_TTY} />
-                ). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <div className="row">
