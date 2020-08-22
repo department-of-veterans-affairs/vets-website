@@ -34,7 +34,7 @@ import {
 } from '../mocks/helpers';
 import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
 import ExpressCareConfirmationPage from '../../containers/ExpressCareConfirmationPage';
-import { fetchExpressCareWindows } from '../../actions/expressCare';
+import { fetchExpressCareWindows } from '../../actions/appointments';
 import { EXPRESS_CARE } from '../../utils/constants';
 
 const initialState = {
