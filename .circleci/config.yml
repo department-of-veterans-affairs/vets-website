@@ -41,7 +41,7 @@ jobs:
           command: yarn test:unit --coverage
           environment:
             MOCHA_FILE: ./test-results/test-results.xml
-      - run: node ./scripts/app-coverage-report.js
+      - run: node ./script/app-coverage-report.js
       - store_test_results:
           path: ./test-results
       - store_artifacts:
