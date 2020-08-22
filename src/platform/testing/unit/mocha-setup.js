@@ -32,6 +32,7 @@ function filterStackTrace(trace) {
     .filter(line => !line.includes('node_modules'))
     .join(os.EOL);
 }
+
 /**
  * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
  */
