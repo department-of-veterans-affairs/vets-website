@@ -1,5 +1,4 @@
 {
-  // "parallel": true,
   "prof": true,
   "require": [
     "@babel/register",
