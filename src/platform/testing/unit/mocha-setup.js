@@ -138,4 +138,9 @@ export default function setupJSDom() {
   });
 }
 
-setupJSDom();
+export const mochaHooks = {
+  beforeEach(done) {
+    setupJSDom();
+    done();
+  },
+};
