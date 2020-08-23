@@ -4,7 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from '../utils/constants';
-import * as actions from '../actions/expressCare';
+import * as actions from '../express-care/redux/actions';
 import FormButtons from '../components/FormButtons';
 import {
   selectLocalExpressCareWindowString,

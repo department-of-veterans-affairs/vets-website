@@ -58,11 +58,11 @@ import {
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   START_REQUEST_APPOINTMENT_FLOW,
   START_DIRECT_SCHEDULE_FLOW,
-} from '../../actions/newAppointment';
+} from '../../new-appointment/redux/actions';
 import {
   FORM_SUBMIT_SUCCEEDED,
   STARTED_NEW_APPOINTMENT_FLOW,
-} from '../../actions/sitewide';
+} from '../../redux/sitewide';
 
 import parentFacilities from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';

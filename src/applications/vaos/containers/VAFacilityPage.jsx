@@ -16,7 +16,7 @@ import {
   updateFacilityPageData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions.js';
 import { getFacilityPageInfo } from '../utils/selectors';
 
 import NoVASystems from '../components/NoVASystems';

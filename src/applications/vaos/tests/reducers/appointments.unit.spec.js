@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { expect } from 'chai';
-import appointmentsReducer from '../../reducers/appointments';
+import appointmentsReducer from '../../appointment-list/redux/reducer';
 import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
@@ -20,9 +20,9 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
-} from '../../actions/appointments';
+} from '../../appointment-list/redux/actions';
 
-import { FORM_SUBMIT_SUCCEEDED } from '../../actions/sitewide';
+import { FORM_SUBMIT_SUCCEEDED } from '../../redux/sitewide';
 
 import {
   FETCH_STATUS,

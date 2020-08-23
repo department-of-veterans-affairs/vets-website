@@ -11,7 +11,7 @@ import {
 import past from '../api/past.json';
 import supportedSites from '../api/sites-supporting-var.json';
 
-import newAppointmentFlow from '../newAppointmentFlow';
+import newAppointmentFlow from '../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES, FLOW_TYPES } from '../utils/constants';
 
 const userState = {

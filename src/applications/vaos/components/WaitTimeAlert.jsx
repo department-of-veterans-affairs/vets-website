@@ -5,7 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { Link } from 'react-router-dom';
 import { MENTAL_HEALTH } from '../utils/constants';
 import { getRealFacilityId } from '../utils/appointment';
-import newAppointmentFlow from '../newAppointmentFlow';
+import newAppointmentFlow from '../new-appointment/newAppointmentFlow';
 
 export const WaitTimeAlert = ({
   eligibleForRequests,

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import newAppointmentReducer from '../../reducers/newAppointment';
+import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import {
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
@@ -31,11 +31,11 @@ import {
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
-} from '../../actions/newAppointment';
+} from '../../new-appointment/redux/actions';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
-} from '../../actions/sitewide';
+} from '../../redux/sitewide';
 
 import parentFacilities from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';

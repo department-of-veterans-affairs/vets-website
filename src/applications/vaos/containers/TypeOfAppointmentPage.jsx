@@ -5,7 +5,7 @@ import {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions.js';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 

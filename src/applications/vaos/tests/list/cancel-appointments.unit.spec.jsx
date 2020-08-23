@@ -25,7 +25,7 @@ import {
 } from '../mocks/helpers';
 import { renderWithStoreAndRouter } from '../mocks/setup';
 
-import reducers from '../../reducers';
+import reducers from '../../redux/reducer';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 import AppointmentsPage from '../../containers/AppointmentsPage';
 
