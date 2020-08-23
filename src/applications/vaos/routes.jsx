@@ -23,7 +23,10 @@ export default function createRoutesWithStore(store) {
           path="/new-express-care-request"
           component={asyncLoader(() =>
             import(/* webpackChunkName: "express-care" */ './express-care').then(
-              ({ NewExpressCareRequest }) => NewExpressCareRequest,
+              ({ NewExpressCareRequest, reducer }) => {
+                store.injectReducer('expressCare', reducer);
+                return NewExpressCareRequest;
+              },
             ),
           )}
         />

@@ -9,7 +9,10 @@ import { FETCH_STATUS, EXPRESS_CARE_ERROR_REASON } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
 import TextareaWidget from '../components/TextareaWidget';
 import { validateWhiteSpace } from 'platform/forms/validations';
-import { getExpressCareFormPageInfo } from '../utils/selectors';
+import {
+  selectExpressCare,
+  getExpressCareFormPageInfo,
+} from '../utils/selectors';
 
 import * as actions from '../actions/expressCare';
 
@@ -177,7 +180,7 @@ const mapDispatchToProps = {
 
 function mapStateToProps(state) {
   return {
-    ...state.expressCare,
+    ...selectExpressCare(state),
     ...getExpressCareFormPageInfo(state, pageKey),
   };
 }

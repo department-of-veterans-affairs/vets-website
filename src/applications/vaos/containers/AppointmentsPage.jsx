@@ -12,11 +12,9 @@ import {
   confirmCancelAppointment,
   startNewAppointmentFlow,
   fetchFutureAppointments,
-} from '../actions/appointments';
-import {
   fetchExpressCareWindows,
-  startNewExpressCareFlow,
-} from '../actions/expressCare';
+} from '../actions/appointments';
+import { startNewExpressCareFlow } from '../actions/expressCare';
 import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
