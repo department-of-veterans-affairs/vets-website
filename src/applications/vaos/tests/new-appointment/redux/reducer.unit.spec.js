@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import newAppointmentReducer from '../../new-appointment/redux/reducer';
+import newAppointmentReducer from '../../../new-appointment/redux/reducer';
 import {
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
@@ -31,14 +31,14 @@ import {
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
-} from '../../new-appointment/redux/actions';
+} from '../../../new-appointment/redux/actions';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
-} from '../../redux/sitewide';
+} from '../../../redux/sitewide';
 
-import parentFacilities from '../../api/facilities.json';
-import facilities983 from '../../api/facilities_983.json';
+import parentFacilities from '../../../api/facilities.json';
+import facilities983 from '../../../api/facilities_983.json';
 import {
   FETCH_STATUS,
   REASON_ADDITIONAL_INFO_TITLES,
@@ -47,10 +47,10 @@ import {
   PURPOSE_TEXT,
   VHA_FHIR_ID,
   FACILITY_TYPES,
-} from '../../utils/constants';
+} from '../../../utils/constants';
 
-import { transformParentFacilities } from '../../services/organization/transformers';
-import { transformDSFacilities } from '../../services/location/transformers';
+import { transformParentFacilities } from '../../../services/organization/transformers';
+import { transformDSFacilities } from '../../../services/location/transformers';
 
 const parentFacilitiesParsed = transformParentFacilities(
   parentFacilities.data.map(item => ({
