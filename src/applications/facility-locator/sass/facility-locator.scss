@@ -1,6 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
-// @import "~react-tabs/style/react-tabs.scss";
 @import "~leaflet/dist/leaflet.css";
 @import "~react-tabs/style/react-tabs";
 
@@ -12,6 +11,14 @@ $facility-locator-color-info-bubble-text: #818a8d;
 $facility-locator-color-gray: #ccc;
 
 .facility-locator {
+
+  @media(max-width: $large-screen) {
+    margin: 0 12px;
+  }
+
+  @media(max-width: $small-screen) {
+    margin: 0;
+  }
 
   // TODO(css): Fix when #content .section h* is fixed
   .highlight {
@@ -78,6 +85,14 @@ $facility-locator-color-gray: #ccc;
   .desktop-container {
     margin-bottom: 3em;
     border-bottom: solid thin $color-gray-lightest;
+  }
+
+  .desktop-map-container {
+    min-height: 75vh;
+    padding-left: 0px;
+    float: right;
+    width: calc(100% - 305px);
+    margin-bottom: 24px;
   }
 
   .search-result-title:focus {
@@ -196,11 +211,13 @@ $facility-locator-color-gray: #ccc;
   .search-results-container {
     float: left;
     display: block;
-    // foundation usa-width-one-third isn't quite right for our needs
-    width: 34%;
+    width: 305px;
   }
 
   .facility-search-results {
+    // remove black border
+    border-top: 1px solid $color-white;
+
     ol {
       padding: 0;
     }
@@ -315,7 +332,7 @@ $facility-locator-color-gray: #ccc;
   }
 
   .search-controls-container {
-    padding: 1.4rem 0.9rem;
+    padding: 24px 16px 0 12px;
     border: solid thin $color-gray-lightest;
     background: $color-gray-lightest;
 
@@ -327,50 +344,33 @@ $facility-locator-color-gray: #ccc;
       display: flex;
       flex-direction: column;
 
-      @include media($small-screen) {
-        flex-direction: row;
+      input, textarea, select {
+        max-width: none;
+        margin-bottom: 24px;
 
-        .medium-1-2 {
-          width: 10% !important;
-          padding-top: 1px;
-        }
-
-        .medium-3-4 {
-          width: 28% !important;
-        }
-
-        .medium-3-5 {
-          width: 31% !important;
-        }
-
-        .large-1-2 {
-          width: 396px !important;
-        }
-      }
-
-      @include media($medium-screen) {
-        input[type=submit] {
-          // The "columns:last-child" selector from Foundation adds
-          // a "float: right" to the submit button container,
-          // which pushes it too far to the right on tablets.
-          // The following is added as a workaround.
-          position: absolute;
-          right: 30px;
-          width: auto;
-        }
-      }
-
-      @include media($small-desktop-screen) {
-        input[type=submit] {
-          position: relative;
-          width: 100%;
-          right: 0;
+        @media(min-width: $small-desktop-screen) {
+          max-width: 418px;
+          width: 418px;
+          margin-right: 18px;
         }
       }
 
       input[type=submit] {
+        width: 100%;
         padding: 0 1rem;
-        margin-top: 2.5rem;
+        margin-top: 0;
+
+        @media(min-width: $small-desktop-screen) {
+          margin-top: 2.5rem;
+          width: auto;
+        }
+      }
+
+      #search-controls-bottom-row {
+        @media(min-width: $small-desktop-screen) {
+          display: flex;
+          flex-direction: row;
+        }
       }
     }
 
@@ -584,7 +584,6 @@ $facility-locator-color-gray: #ccc;
 
 #service-typeahead {
   background: $color-white;
-  // border: 1px solid $color-black;
   border-radius: 0;
   box-sizing: border-box;
   cursor: pointer;
@@ -594,7 +593,6 @@ $facility-locator-color-gray: #ccc;
   height: 4.2rem;
   line-height: 1.3;
   margin: 0.2em 0;
-  max-width: 46rem;
   position: relative;
   width: 100%;
 
@@ -766,10 +764,6 @@ $facility-locator-color-gray: #ccc;
   margin-right: 0 !important;
 }
 
-.marg-left {
-  margin-left: 26px !important;
-}
-
 .no-marg-top {
   margin-top: 0 !important;
 }
@@ -825,4 +819,17 @@ $facility-locator-color-gray: #ccc;
 .facility-phone-group {
   display: flex;
   flex-direction: column;
+}
+
+#other-tools {
+  text-align: center;
+  position: relative;
+  top: -24px;
+
+  @media(max-width: $small-screen) {
+    width: 260px;
+    margin: 22px auto;
+    white-space: pre-line;
+    position: unset;
+  }
 }

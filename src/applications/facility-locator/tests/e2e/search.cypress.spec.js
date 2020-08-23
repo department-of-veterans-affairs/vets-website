@@ -237,4 +237,40 @@ describe('Facility search', () => {
 
     cy.axeCheck();
   });
+
+  it('should render the appropriate elements at each breakpoint', () => {
+    cy.visit('/find-locations');
+
+    // desktop - large
+    cy.viewport(1008, 1000);
+    cy.get('#facility-search').then($element => {
+      expect($element.width()).closeTo(48, 2);
+    });
+    cy.get('.desktop-map-container').should('exist');
+    cy.get('.react-tabs').should('not.exist');
+
+    // desktop - small
+    cy.viewport(1007, 1000);
+    cy.get('#facility-search').then($element => {
+      expect($element.width()).closeTo(899, 2);
+    });
+    cy.get('.desktop-map-container').should('exist');
+    cy.get('.react-tabs').should('not.exist');
+
+    // tablet
+    cy.viewport(768, 1000);
+    cy.get('#facility-search').then($element => {
+      expect($element.width()).closeTo(660, 2);
+    });
+    cy.get('.desktop-map-container').should('exist');
+    cy.get('.react-tabs').should('not.exist');
+
+    // mobile
+    cy.viewport(481, 1000);
+    cy.get('#facility-search').then($element => {
+      expect($element.width()).closeTo(397, 2);
+    });
+    cy.get('.desktop-map-container').should('not.exist');
+    cy.get('.react-tabs').should('exist');
+  });
 });
