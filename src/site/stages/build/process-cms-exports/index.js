@@ -6,6 +6,7 @@ const cloneDeep = require('lodash/cloneDeep');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
+const { getCacheKey } = require('./get-cache-key');
 const { toId, readEntity, getContentModelType } = require('./helpers');
 
 const {
@@ -164,7 +165,9 @@ const entityAssemblerFactory = contentDir => {
     // Recursively expand entity references
     for (const [key, prop] of Object.entries(filteredEntity)) {
       const isEntityArray =
-        Array.isArray(prop) && prop.some(e => e.target_uuid && e.target_type);
+        Array.isArray(prop) &&
+        prop.some(e => e.target_uuid && e.target_type) &&
+        key !== 'image';
       if (isEntityArray) {
         prop.forEach((item, index) => {
           const { target_uuid: targetUuid, target_type: targetType } = item;
@@ -213,14 +216,22 @@ const entityAssemblerFactory = contentDir => {
     ancestors = [],
     parentFieldName = '',
   ) => {
-    if (transformedEntitiesCache.has(entity.uuid)) {
+    const transformArgs = {
+      uuid: entity.uuid[0].value,
+      ancestors,
+      parentFieldName,
+      contentDir,
+      assembleEntityTree,
+      transformUnpublished,
+    };
+
+    const cacheKey = getCacheKey(entity, transformArgs);
+
+    if (transformedEntitiesCache.has(cacheKey)) {
       global.transformerCacheHits++;
-      const cacheHit = transformedEntitiesCache.get(entity.uuid);
-      if (!cacheHit) {
-        console.log(`${entity.uuid} is null`);
-      }
-      return cloneDeep(cacheHit);
+      return cloneDeep(transformedEntitiesCache.get(cacheKey));
     }
+
     // If the entity is unpublished
     if (!entity.status[0].value && !transformUnpublished) {
       return null;
@@ -253,15 +264,7 @@ const entityAssemblerFactory = contentDir => {
 
     let transformedEntity;
     try {
-      // Post-transformation JSON schema validation
-      transformedEntity = transformEntity(expandedEntity, {
-        uuid: entity.uuid[0].value,
-        ancestors,
-        parentFieldName,
-        contentDir,
-        assembleEntityTree,
-        transformUnpublished,
-      });
+      transformedEntity = transformEntity(expandedEntity, transformArgs);
     } catch (e) {
       console.log(
         chalk.red(`Error encountered while transforming ${toId(entity)}`),
@@ -277,7 +280,7 @@ const entityAssemblerFactory = contentDir => {
       validateOutput(entity, transformedEntity);
     }
 
-    transformedEntitiesCache.set(entity.uuid, cloneDeep(transformedEntity));
+    transformedEntitiesCache.set(cacheKey, cloneDeep(transformedEntity));
     return transformedEntity;
   };
 

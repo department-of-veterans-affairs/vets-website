@@ -489,12 +489,16 @@ export function selectExpressCareFormData(state) {
   return selectExpressCareNewRequest(state).data;
 }
 
+export function selectExpressCareFacilities(state) {
+  return state.appointments.expressCareFacilities;
+}
+
 /*
  * Selects any EC windows that we're in at the current (or provided) time
  */
 export function selectActiveExpressCareWindows(state, nowMoment) {
   const now = nowMoment || moment();
-  return state.expressCare.supportedFacilities
+  return selectExpressCareFacilities(state)
     ?.map(({ days, facilityId }) => {
       const siteId = facilityId.substring(0, 3);
       const { timezone } = getTimezoneBySystemId(siteId);
@@ -584,11 +588,12 @@ function getWindowString(window, timezoneAbbreviation, isToday) {
  * return today's window.  Otherwise, return the next schedulable day's window
  */
 export function selectNextAvailableExpressCareWindowString(state, nowMoment) {
-  if (!state.expressCare.supportedFacilities?.length) {
+  const supportedFacilities = selectExpressCareFacilities(state);
+  if (!supportedFacilities?.length) {
     return null;
   }
 
-  const facility = state.expressCare.supportedFacilities[0];
+  const facility = supportedFacilities[0];
   const siteId = facility.facilityId.substring(0, 3);
   const { timezone } = getTimezoneBySystemId(siteId);
   const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
@@ -652,10 +657,11 @@ export function selectExpressCare(state) {
     allowRequests: !!activeWindows?.length,
     enabled: vaosExpressCare(state),
     useNewFlow: vaosExpressCareNew(state),
-    hasWindow: !!expressCare.supportedFacilities?.length,
+    hasWindow: !!selectExpressCareFacilities(state)?.length,
     hasRequests:
       vaosExpressCare(state) &&
       state.appointments.pending?.some(appt => appt.vaos.isExpressCare),
+    windowsStatus: state.appointments.expressCareWindowsStatus,
   };
 }
 

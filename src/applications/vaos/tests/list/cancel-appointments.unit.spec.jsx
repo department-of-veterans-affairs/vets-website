@@ -536,14 +536,10 @@ describe('VAOS integration appointment cancellation:', () => {
       /You can’t cancel this appointment on the VA appointments tool/i,
     );
 
-    const oldWindow = global.window;
-
-    global.window = {
-      open: sinon.spy(),
-    };
+    sinon.spy(window, 'open');
     fireEvent.click(screen.getByText('Go to My VA Health'));
-    waitFor(() => expect(global.window.open.called).to.be.true);
-    waitFor(() => expect(screen.queryByRole('alertdialog')).to.not.exist);
-    global.window = oldWindow;
+    await waitFor(() => expect(window.open.called).to.be.true);
+    await waitFor(() => expect(screen.queryByRole('alertdialog')).to.not.exist);
+    window.open.restore();
   });
 });

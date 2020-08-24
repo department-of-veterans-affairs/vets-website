@@ -6,13 +6,14 @@ import {
   mockFetch,
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
-
 import {
   fetchExpressCareWindows,
-  fetchRequestLimits,
   FETCH_EXPRESS_CARE_WINDOWS,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
+} from '../../actions/appointments';
+import {
+  fetchRequestLimits,
   FORM_FETCH_REQUEST_LIMITS,
   FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
 } from '../../actions/expressCare';
@@ -101,8 +102,8 @@ describe('VAOS Express Care actions', () => {
     const today = moment();
     const getState = () => ({
       user: userState,
-      expressCare: {
-        supportedFacilities: [
+      appointments: {
+        expressCareFacilities: [
           {
             facilityId: '983',
             days: [
