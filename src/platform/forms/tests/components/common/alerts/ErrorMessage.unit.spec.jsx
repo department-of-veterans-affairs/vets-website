@@ -47,7 +47,7 @@ describe('Common ErrorMessage component', () => {
   });
 
   it('should render children if passed as a prop', () => {
-    const children = 'i am a child component';
+    const children = 'i am a child component.';
 
     const tree = render(<ErrorMessage active>{children}</ErrorMessage>);
 
