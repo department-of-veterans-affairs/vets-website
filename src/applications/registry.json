@@ -174,12 +174,12 @@
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
-          "path": "family-member-benefits/comprehensive-assistance-for-family-caregivers/",
+          "path": "family-member-benefits/comprehensive-assistance-for-family-caregivers",
           "name": "Family member benefits"
         },
         {
-          "path": "family-member-benefits/apply-for-caregiver-assistance-form-10-10cg/",
-          "name": "Program of Comprehensive Assistance for Family Caregivers"
+          "path": "family-member-benefits/apply-for-caregiver-assistance-form-10-10cg",
+          "name": "Apply for the Program of Comprehensive Assistance for Family Caregivers"
         }
       ]
     }
