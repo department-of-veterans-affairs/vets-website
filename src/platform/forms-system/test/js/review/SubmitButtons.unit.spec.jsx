@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 import SubmitButtons from '../../../src/js/review/SubmitButtons';
-import ErrorMessage from '../../../../forms/components/common/alerts/ErrorMessage';
 
 describe('Schemaform review: <SubmitButtons>', () => {
   let formConfig;
