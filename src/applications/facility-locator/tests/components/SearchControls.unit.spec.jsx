@@ -1,5 +1,5 @@
 import React from 'react';
-// import { expect } from 'chai';
+import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import SearchControls from '../../components/SearchControls';
 
@@ -9,7 +9,12 @@ describe('SearchControls', () => {
       facilityType: 'benefits',
     };
     const wrapper = shallow(<SearchControls currentQuery={query} />);
-    // expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(
+      wrapper
+        .render()
+        .find('#facility-type-dropdown [selected]')
+        .val(),
+    ).to.equal(query.facilityType);
     wrapper.unmount();
   });
 });
