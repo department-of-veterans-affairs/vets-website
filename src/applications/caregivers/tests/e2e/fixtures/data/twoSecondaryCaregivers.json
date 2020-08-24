@@ -16,7 +16,7 @@
   },
   "secondaryTwoSsnOrTin": "987224785",
   "secondaryTwoDateOfBirth": "1984-11-13",
-  "secondaryTwoGender": "F",
+  "secondaryTwoGender": "U",
   "secondaryOneAddress": {
     "street": "1375 E Buena Vista Dr",
     "street2": "Apt 1",
@@ -36,6 +36,7 @@
   },
   "secondaryOneSsnOrTin": "878548542",
   "secondaryOneDateOfBirth": "1932-05-12",
+  "secondaryOneGender": "M",
   "view:hasSecondaryCaregiverOne": true,
   "primaryMedicaidEnrolled": false,
   "primaryMedicareEnrolled": false,
