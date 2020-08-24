@@ -8,13 +8,17 @@ export default function TabNav({ hasExpressCareRequests }) {
   const history = useHistory();
   const location = useLocation();
 
-  const isExpressCareTab = location.pathname === '/express-care';
+  const pathWithSlash = location.pathname.endsWith('/')
+    ? location.pathname
+    : `${location.pathname}/`;
+  const isExpressCareTab = pathWithSlash.endsWith('express-care/');
+
   return (
     <ul className="va-tabs vaos-appts__tabs" role="tablist">
       <TabItem
         id="upcoming"
         tabpath="/"
-        isActive={location.pathname.endsWith('appointments/')}
+        isActive={pathWithSlash.endsWith('appointments/')}
         firstTab
         onNextTab={() => {
           history.push('/past');
@@ -25,7 +29,7 @@ export default function TabNav({ hasExpressCareRequests }) {
       <TabItem
         id="past"
         tabpath="/past"
-        isActive={location.pathname.endsWith('past/')}
+        isActive={pathWithSlash.endsWith('past/')}
         onPreviousTab={() => {
           history.push('/');
           focusElement('#tabupcoming');
