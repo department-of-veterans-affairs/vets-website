@@ -15,9 +15,24 @@ module.exports = {
     fieldListing: { $ref: 'output/node-publication_listing' },
     fieldMedia: {
       oneOf: [
-        { $ref: 'output/media-video' },
-        { $ref: 'output/media-image' },
-        { $ref: 'output/media-document' },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/media-video' },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/media-image' },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/media-document' },
+          },
+        },
       ],
     },
   },

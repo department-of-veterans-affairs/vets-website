@@ -39,7 +39,9 @@ const transform = (entity, { ancestors }) => ({
   fieldOffice:
     entity.fieldOffice[0] &&
     !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
-      ? entity.fieldOffice[0]
+      ? {
+          entity: entity.fieldOffice[0],
+        }
       : null,
   reverseFieldListingNode: reverseFields(entity.reverseFieldListing),
   pastEvents: reverseFields(entity.reverseFieldListing),
