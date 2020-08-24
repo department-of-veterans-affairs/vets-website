@@ -13,7 +13,6 @@ export const displayConfirmEligibility = form =>
   form.benefitLeft === 'moreThanSixMonths';
 
 export function programDetailsUiOptions() {
-  const fieldOrder = ['schoolCity', 'schoolState', 'schoolCountry'];
   const usaStates = states.USA.map(state => state.value);
   const usaLabels = states.USA.map(state => state.label);
   const canProvinces = states.CAN.map(state => state.value);
@@ -96,14 +95,11 @@ export function programDetailsUiOptions() {
     },
   );
 
-  return {
-    updateSchema: (formData, schema, uiSchema, index, path) => {
-      return addressChangeSelector({
-        formData,
-        schema,
-        path,
-      });
-    },
-    'ui:order': fieldOrder,
+  return (formData, schema, uiSchema, index, path) => {
+    return addressChangeSelector({
+      formData,
+      schema,
+      path,
+    });
   };
 }

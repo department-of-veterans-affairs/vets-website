@@ -16,7 +16,19 @@ const {
 
 export const uiSchema = {
   'ui:title': 'STEM degree and school details',
-  'ui:options': programDetailsUiOptions(),
+  'ui:options': {
+    updateSchema: programDetailsUiOptions(),
+  },
+  'ui:order': [
+    'degreeName',
+    'schoolName',
+    'schoolCountry',
+    'schoolCity',
+    'schoolState',
+    'view:field',
+    'schoolStudentId',
+    'schoolEmailAddress',
+  ],
   degreeName: {
     'ui:title': "What's the name of your STEM degree?",
   },
