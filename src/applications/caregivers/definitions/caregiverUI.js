@@ -55,7 +55,7 @@ export default {
       phoneUI(`${label}  alternate telephone number (including area code)`),
     ssnUI: label => ({
       ...ssnUI,
-      'ui:title': `${label}  Social Security Number/Tax Identification Number`,
+      'ui:title': `${label}  Social Security number/Tax identification number`,
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
@@ -64,7 +64,7 @@ export default {
     genderUI: label => ({
       'ui:title': `${label}  sex`,
       'ui:widget': 'radio',
-      'ui:options': { labels: { F: 'Female', M: 'Male', U: 'Unknown' } },
+      'ui:options': { labels: { F: 'Female', M: 'Male' } },
     }),
     vetRelationshipUI: label => ({
       'ui:title': `What is the ${label}  relationship to the Veteran?`,
