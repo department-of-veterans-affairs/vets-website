@@ -12,7 +12,7 @@ export const displayConfirmEligibility = form =>
   (!form.isEnrolledStem && !form.isPursuingTeachingCert) ||
   form.benefitLeft === 'moreThanSixMonths';
 
-export function programDetailsUiOptions() {
+export function updateProgramDetailsSchema() {
   const usaStates = states.USA.map(state => state.value);
   const usaLabels = states.USA.map(state => state.label);
   const canProvinces = states.CAN.map(state => state.value);

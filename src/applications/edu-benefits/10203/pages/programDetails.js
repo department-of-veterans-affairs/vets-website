@@ -3,7 +3,7 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { countries } from 'vets-json-schema/dist/constants.json';
 
 import { schoolStudentIdTitle } from '../content/programDetails';
-import { programDetailsUiOptions } from '../helpers';
+import { updateProgramDetailsSchema } from '../helpers';
 
 const {
   degreeName,
@@ -17,7 +17,7 @@ const {
 export const uiSchema = {
   'ui:title': 'STEM degree and school details',
   'ui:options': {
-    updateSchema: programDetailsUiOptions(),
+    updateSchema: updateProgramDetailsSchema(),
   },
   'ui:order': [
     'degreeName',
