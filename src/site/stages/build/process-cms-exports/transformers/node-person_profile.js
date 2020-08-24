@@ -12,7 +12,9 @@ const transform = (entity, { ancestors }) => ({
   fieldEmailAddress: getDrupalValue(entity.fieldEmailAddress),
   fieldLastName: getDrupalValue(entity.fieldLastName),
   fieldMedia:
-    entity.fieldMedia.length > 0 ? { entity: entity.fieldMedia[0] } : null,
+    entity.fieldMedia && entity.fieldMedia.length > 0
+      ? { entity: entity.fieldMedia[0] }
+      : null,
   fieldNameFirst: getDrupalValue(entity.fieldNameFirst),
   // If entity.fieldOffice[0] is an ancestor of this entity ignore it
   // entity.fieldOffice[0] would be untransformed, causing errors

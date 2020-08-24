@@ -22,9 +22,10 @@ const transform = (entity, { ancestors }) => ({
   },
   fieldImageCaption: getDrupalValue(entity.fieldImageCaption),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldMedia: entity.fieldMedia.length
-    ? { entity: entity.fieldMedia[0] }
-    : null,
+  fieldMedia:
+    entity.fieldMedia && entity.fieldMedia.length
+      ? { entity: entity.fieldMedia[0] }
+      : null,
   fieldOffice:
     entity.fieldOffice &&
     entity.fieldOffice[0] &&
