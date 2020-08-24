@@ -70,7 +70,8 @@ export const AdditionalInfoSections = ({ activeApps }) => {
             </li>
             <li className="vads-u-padding-left--1">
               Sign in with your preferred VA.gov account:{' '}
-              <strong>DS Logon</strong>, <strong>My HealtheVet</strong>, or <strong>ID.me</strong>.
+              <strong>DS Logon</strong>, <strong>My HealtheVet</strong>, or{' '}
+              <strong>ID.me</strong>.
             </li>
             <li className="vads-u-padding-left--1">
               Review the information the app is asking to access.
@@ -124,10 +125,10 @@ export const AdditionalInfoSections = ({ activeApps }) => {
               </li>
               <li className="vads-u-padding-left--1">
                 <strong>If you’re getting an “unreadable data” message:</strong>{' '}
-                This means the connected app has access to your
-                information, but isn’t using it in its interface. It’s nothing
-                to worry about. If you have questions about this, send feedback
-                directly to the app.
+                This means the connected app has access to your information, but
+                isn’t using it in its interface. It’s nothing to worry about. If
+                you have questions about this, send feedback directly to the
+                app.
               </li>
             </ul>
           </AdditionalInfo>
