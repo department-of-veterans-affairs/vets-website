@@ -258,7 +258,8 @@
           "name": "View or change your dependents"
         },
         {
-          "name": "Add or remove dependents Form 21-686c"
+          "path": "view-change-dependents/add-remove-form-686c/",
+          "name": "Add or remove dependents form 21-686c"
         }
       ]
     }
