@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash/fp';
-import { getLabelClasses } from './widgetHelper';
 
 function getEmptyState() {
   return {
@@ -14,20 +13,24 @@ function getEmptyState() {
     },
   };
 }
-
+function setLabelStyles(newState) {
+  let labelMarginLeftClass = 'vads-u-margin-left--1';
+  if (
+    newState &&
+    newState.touched.feet &&
+    newState.touched.inches &&
+    (!newState.value.feet || !newState.value.inches)
+  ) {
+    labelMarginLeftClass = 'vads-u-margin-left--3';
+  }
+  return `vads-l-col--1 vads-u-margin-top--3 ${labelMarginLeftClass}`;
+}
 const calculateHeight = ({ feet, inches }) =>
   (parseInt(feet, 10) || 0) * 12 + (parseInt(inches, 10) || 0);
 
-// const lableStyleClasses =
-//   'vads-l-col--1 vads-u-margin-left--1 vads-u-margin-top--3';
-
 export default class HeightWidget extends React.Component {
-  // TODO figure this out so error state does not look so bad
-  lableStyleClasses = getLabelClasses(
-    this.props.value,
-    this.props.formContext.touched.root_weight,
-  );
   state = getEmptyState();
+  labelStyleClasses = setLabelStyles();
 
   isTouched = ({ feet, inches }) => feet && inches;
 
@@ -39,21 +42,23 @@ export default class HeightWidget extends React.Component {
       if (this.isTouched(newState.touched)) {
         this.props.onBlur(this.props.id);
       }
+      this.labelStyleClasses = setLabelStyles(newState);
     });
   };
 
   handleChange = (field, value) => {
     let newState = _.set(['value', field], value, this.state);
     newState = _.set(['touched', field], true, newState);
-
     this.setState(newState, () => {
       if (this.props.required && this.isIncomplete(newState.value)) {
         this.props.onChange();
       } else {
         this.props.onChange(calculateHeight(newState.value));
       }
+      this.labelStyleClasses = setLabelStyles(newState);
     });
   };
+
   render() {
     const { id } = this.props;
     const { feet, inches } = this.state.value;
@@ -70,7 +75,7 @@ export default class HeightWidget extends React.Component {
               onChange={event => this.handleChange('feet', event.target.value)}
             />
           </div>
-          <div className={this.lableStyleClasses}>.ft</div>
+          <div className={this.labelStyleClasses}>.ft</div>
           <div className="vads-l-col--2">
             <input
               type="number"
@@ -85,7 +90,7 @@ export default class HeightWidget extends React.Component {
               }
             />
           </div>
-          <div className={this.lableStyleClasses}>.in</div>
+          <div className={this.labelStyleClasses}>.in</div>
         </div>
       </div>
     );
