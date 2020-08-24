@@ -66,6 +66,10 @@ describe('UpdateMilitaryHistory', () => {
     form.data.serviceInformation.servicePeriods = servicePeriods();
   });
 
+  after(() => {
+    useEffect.restore();
+  });
+
   it('should get called', () => {
     setUp('', () => {
       expect(form.data.serviceInformation.servicePeriods).to.deep.equal(
