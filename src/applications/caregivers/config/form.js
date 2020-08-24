@@ -5,6 +5,7 @@ import IntroductionPage from 'applications/caregivers/containers/IntroductionPag
 import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
 import SubmitError from 'applications/caregivers/components/SubmitError';
+import FormFooter from 'platform/forms/components/FormFooter';
 import {
   submitTransform,
   hasSecondaryCaregiverOne,
@@ -52,7 +53,8 @@ const formConfig = {
   transformForSubmit: submitTransform,
   trackingPrefix: 'caregivers-10-10cg-',
   introduction: IntroductionPage,
-  footerContent: NeedHelpFooter,
+  footerContent: FormFooter,
+  getHelp: NeedHelpFooter,
   preSubmitInfo: PreSubmitInfo,
   confirmation: ConfirmationPage,
   submissionError: SubmitError,

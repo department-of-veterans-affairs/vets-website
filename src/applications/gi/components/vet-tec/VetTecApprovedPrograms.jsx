@@ -31,13 +31,16 @@ class VetTecApprovedPrograms extends React.Component {
   };
 
   handleInputChange = (event, index, vetTecProgramName) => {
+    this.setState({ selectedProgram: vetTecProgramName });
+    this.setProgramFields(vetTecProgramName);
+  };
+
+  handleInputBlur = vetTecProgramName => {
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': 'Program Name Radio Button',
       'gibct-form-value': vetTecProgramName,
     });
-    this.setState({ selectedProgram: vetTecProgramName });
-    this.setProgramFields(vetTecProgramName);
   };
 
   render() {
@@ -69,6 +72,7 @@ class VetTecApprovedPrograms extends React.Component {
                   onChange={e =>
                     this.handleInputChange(e, index, program.description)
                   }
+                  onBlur={() => this.handleInputBlur(program.description)}
                 />
                 <label id={`program-${index}`} htmlFor={`radio-${index}`}>
                   {program.description}

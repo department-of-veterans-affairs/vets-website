@@ -38,6 +38,7 @@ describe('Edu 10203 <IntroductionPage>', () => {
         isLoggedIn
         remainingEntitlement={remainingEntitlementGreaterThan180}
         getRemainingEntitlement={() => {}}
+        useEvss
         route={{
           formConfig: {
             prefillEnabled: false,
@@ -59,6 +60,29 @@ describe('Edu 10203 <IntroductionPage>', () => {
         isLoggedIn
         remainingEntitlement={remainingEntitlementLessThan180}
         getRemainingEntitlement={() => {}}
+        useEvss
+        route={{
+          formConfig: {
+            prefillEnabled: false,
+            savedFormMessages: '',
+          },
+          pageList: [],
+        }}
+      />,
+    );
+    expect(tree.find('#entitlement-remaining-alert').exists()).to.be.false;
+    tree.unmount();
+  });
+
+  it('should not show entitlement remaining alert if evss disabled', () => {
+    const remainingEntitlementLessThan180 = { months: 1, days: 3 };
+
+    const tree = shallow(
+      <IntroductionPage
+        isLoggedIn
+        remainingEntitlement={remainingEntitlementLessThan180}
+        getRemainingEntitlement={() => {}}
+        useEvss={false}
         route={{
           formConfig: {
             prefillEnabled: false,

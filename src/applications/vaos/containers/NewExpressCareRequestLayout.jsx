@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Breadcrumbs from '../components/Breadcrumbs';
 import NeedHelp from '../components/NeedHelp';
-import * as actions from '../actions/expressCare';
+import * as actions from '../actions/appointments';
 import { FETCH_STATUS } from '../utils/constants';
 import { selectExpressCare } from '../utils/selectors';
 import ErrorMessage from '../components/ErrorMessage';
@@ -26,7 +26,12 @@ function NewExpressCareRequestLayout({
       window.History.scrollRestoration = 'manual';
     }
 
-    if (location.pathname.endsWith('additional-details')) {
+    const { pathname } = location;
+
+    if (
+      !pathname.endsWith('new-express-care-request') &&
+      !pathname.endsWith('confirmation')
+    ) {
       router.replace('/new-express-care-request');
     }
   }, []);

@@ -38,12 +38,6 @@ import {
   getVARFacilityId,
 } from '../services/appointment';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
-
 export function getNewAppointment(state) {
   return state.newAppointment;
 }
@@ -182,8 +176,8 @@ export function getChosenFacilityDetails(state) {
   const facilityDetails = getNewAppointment(state).facilityDetails;
 
   return isCommunityCare
-    ? facilityDetails[parseFakeFHIRId(data.communityCareSystemId)]
-    : facilityDetails[parseFakeFHIRId(data.vaFacility)];
+    ? facilityDetails[data.communityCareSystemId]
+    : facilityDetails[data.vaFacility];
 }
 
 export function getEligibilityChecks(state) {
@@ -296,8 +290,7 @@ export function getFacilityPageInfo(state) {
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     hasDataFetchingError:
       newAppointment.parentFacilitiesStatus === FETCH_STATUS.failed ||
-      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed,
-    hasEligibilityError:
+      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
@@ -335,8 +328,7 @@ export function getClinicPageInfo(state, pageKey) {
 
   return {
     ...formPageInfo,
-    facilityDetails:
-      facilityDetails?.[parseFakeFHIRId(formPageInfo.data.vaFacility)],
+    facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
@@ -497,12 +489,16 @@ export function selectExpressCareFormData(state) {
   return selectExpressCareNewRequest(state).data;
 }
 
+export function selectExpressCareFacilities(state) {
+  return state.appointments.expressCareFacilities;
+}
+
 /*
  * Selects any EC windows that we're in at the current (or provided) time
  */
 export function selectActiveExpressCareWindows(state, nowMoment) {
   const now = nowMoment || moment();
-  return state.expressCare.supportedFacilities
+  return selectExpressCareFacilities(state)
     ?.map(({ days, facilityId }) => {
       const siteId = facilityId.substring(0, 3);
       const { timezone } = getTimezoneBySystemId(siteId);
@@ -592,11 +588,12 @@ function getWindowString(window, timezoneAbbreviation, isToday) {
  * return today's window.  Otherwise, return the next schedulable day's window
  */
 export function selectNextAvailableExpressCareWindowString(state, nowMoment) {
-  if (!state.expressCare.supportedFacilities?.length) {
+  const supportedFacilities = selectExpressCareFacilities(state);
+  if (!supportedFacilities?.length) {
     return null;
   }
 
-  const facility = state.expressCare.supportedFacilities[0];
+  const facility = supportedFacilities[0];
   const siteId = facility.facilityId.substring(0, 3);
   const { timezone } = getTimezoneBySystemId(siteId);
   const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
@@ -660,10 +657,11 @@ export function selectExpressCare(state) {
     allowRequests: !!activeWindows?.length,
     enabled: vaosExpressCare(state),
     useNewFlow: vaosExpressCareNew(state),
-    hasWindow: !!expressCare.supportedFacilities?.length,
+    hasWindow: !!selectExpressCareFacilities(state)?.length,
     hasRequests:
       vaosExpressCare(state) &&
       state.appointments.pending?.some(appt => appt.vaos.isExpressCare),
+    windowsStatus: state.appointments.expressCareWindowsStatus,
   };
 }
 

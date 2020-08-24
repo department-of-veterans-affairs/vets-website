@@ -28,12 +28,16 @@ export const claimExamsFAQ = (
     <h3 className="vads-u-font-size--h4">More information about claim exams</h3>
     <CollapsiblePanel panelName="What happens if I miss a phone call?">
       <p>
-        If we’re unable to reach you by phone, we’ll schedule an appointment for
-        you and send you a letter with the date and time of your exam.
+        If we can't reach you by phone, we'll schedule an appointment for you.
+        We'll send you a letter with the date and time of your exam.
       </p>
       <p>
-        Please call the number provided on your appointment letter to confirm
-        your exam time and location.
+        Please call the number on your appointment letter to confirm your exam
+        time and location.
+      </p>
+      <p>
+        If you can't make your appointment, let us know right away. You can most
+        likely reschedule, but this may delay your claim.
       </p>
     </CollapsiblePanel>
     <CollapsiblePanel panelName="Why do I need a claim exam?">

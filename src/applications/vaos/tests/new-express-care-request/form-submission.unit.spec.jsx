@@ -18,31 +18,29 @@ import {
   getParentSiteMock,
   getFacilityMock,
 } from '../mocks/v0';
-import { createTestStore } from '../mocks/setup';
+import {
+  createTestStore,
+  setExpressCareFacility,
+  setExpressCareReason,
+} from '../mocks/setup';
 import {
   mockRequestSubmit,
   mockRequestEligibilityCriteria,
   mockParentSites,
   mockSupportedFacilities,
   mockPreferences,
+  mockRequestLimit,
+  setupExpressCareMocks,
 } from '../mocks/helpers';
 import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
 import ExpressCareConfirmationPage from '../../containers/ExpressCareConfirmationPage';
-import { fetchExpressCareWindows } from '../../actions/expressCare';
+import { fetchExpressCareWindows } from '../../actions/appointments';
 import { EXPRESS_CARE } from '../../utils/constants';
 
 const initialState = {
   user: {
     profile: {
       facilities: [{ facilityId: '983', isCerner: false }],
-    },
-  },
-  expressCare: {
-    newRequest: {
-      data: {
-        reason: 'Cough',
-      },
-      pages: {},
     },
   },
 };
@@ -52,36 +50,17 @@ describe('VAOS integration: Express Care form submission', () => {
   afterEach(() => resetFetch());
 
   it('should not allow submission of an empty form', async () => {
-    const today = moment();
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: today
-          .clone()
-          .subtract('2', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-        endTime: today
-          .clone()
-          .add('1', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
     const store = createTestStore({
       ...initialState,
     });
-    store.dispatch(fetchExpressCareWindows());
-
     const router = {
       push: sinon.spy(),
+      replace: sinon.spy(),
     };
+    await setExpressCareFacility({ store, router });
+    await setExpressCareReason({ store, router, label: 'Cough' });
+
     const screen = renderInReduxProvider(
       <ExpressCareDetailsPage router={router} />,
       {
@@ -96,7 +75,14 @@ describe('VAOS integration: Express Care form submission', () => {
   });
 
   it('should submit form and show confirmation page on success', async () => {
-    const today = moment();
+    const store = createTestStore({
+      ...initialState,
+    });
+    const router = {
+      push: sinon.spy(),
+      replace: sinon.spy(),
+    };
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
     const parentSite = {
       id: '983',
       attributes: {
@@ -108,32 +94,7 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     };
     mockParentSites(['983'], [parentSite]);
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: today
-          .clone()
-          .subtract('2', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-        endTime: today
-          .clone()
-          .add('2', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
     mockPreferences('old.email@va.gov');
-    const store = createTestStore({
-      ...initialState,
-    });
-    store.dispatch(fetchExpressCareWindows());
     const requestData = {
       id: 'testing',
       attributes: {
@@ -146,10 +107,8 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     };
     mockRequestSubmit('va', requestData);
-
-    const router = {
-      push: sinon.spy(),
-    };
+    await setExpressCareFacility({ store, router });
+    await setExpressCareReason({ store, router, label: 'Cough' });
     let screen = renderInReduxProvider(
       <ExpressCareDetailsPage router={router} />,
       {
@@ -172,8 +131,12 @@ describe('VAOS integration: Express Care form submission', () => {
     expect(screen.baseElement).to.contain.text(
       'Submitting your Express Care request',
     );
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.firstCall.args[0]).to.equal(
+    await waitFor(() =>
+      expect(screen.baseElement).not.to.contain.text(
+        'Submitting your Express Care request',
+      ),
+    );
+    expect(router.push.lastCall.args[0]).to.equal(
       '/new-express-care-request/confirmation',
     );
     await cleanup();
@@ -229,7 +192,9 @@ describe('VAOS integration: Express Care form submission', () => {
   });
 
   it('should redirect home when there is no request to show', async () => {
-    const store = createTestStore(initialState);
+    const store = createTestStore({
+      ...initialState,
+    });
     store.dispatch(fetchExpressCareWindows());
 
     const router = {
@@ -250,32 +215,40 @@ describe('VAOS integration: Express Care form submission', () => {
   });
 
   it('should show generic error on submit failure', async () => {
-    const today = moment();
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: today
-          .clone()
-          .subtract('2', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-        endTime: today
-          .clone()
-          .add('1', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
     const store = createTestStore({
       ...initialState,
     });
-    store.dispatch(fetchExpressCareWindows());
+    const router = {
+      push: sinon.spy(),
+      replace: sinon.spy(),
+    };
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
+    const parentSite = {
+      id: '983',
+      attributes: {
+        ...getParentSiteMock().attributes,
+        institutionCode: '983',
+        authoritativeName: 'Some VA facility',
+        rootStationCode: '983',
+        parentStationCode: '983',
+      },
+    };
+    mockParentSites(['983'], [parentSite]);
+    mockPreferences('old.email@va.gov');
+    const requestData = {
+      id: 'testing',
+      attributes: {
+        typeOfCareId: 'CR1',
+        email: 'test@va.gov',
+        phoneNumber: '5555555555',
+        reasonForVisit: 'Cough',
+        additionalInformation: 'Whatever',
+        status: 'Submitted',
+      },
+    };
+    mockRequestSubmit('va', requestData);
+    await setExpressCareFacility({ store, router });
+    await setExpressCareReason({ store, router, label: 'Cough' });
     setFetchJSONFailure(
       global.fetch.withArgs(
         `${environment.API_URL}/vaos/v0/appointment_requests?type=va`,
@@ -329,6 +302,10 @@ describe('VAOS integration: Express Care form submission', () => {
       typeOfCareId: EXPRESS_CARE,
       data: [facility],
     });
+    mockRequestLimit({
+      facilityId: '983GD',
+      numberOfRequests: 0,
+    });
     const requestCriteria = getExpressCareRequestCriteriaMock('983GD', [
       {
         day: today
@@ -339,21 +316,18 @@ describe('VAOS integration: Express Care form submission', () => {
         canSchedule: true,
         startTime: today
           .clone()
-          .subtract('2', 'minutes')
+          .subtract(5, 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
         endTime: today
           .clone()
-          .add('1', 'minutes')
+          .add(3, 'minutes')
           .tz('America/Denver')
           .format('HH:mm'),
       },
     ]);
     mockRequestEligibilityCriteria(['983'], requestCriteria);
-    const store = createTestStore({
-      ...initialState,
-    });
-    store.dispatch(fetchExpressCareWindows());
+
     const requestData = {
       id: 'testing',
       attributes: {
@@ -366,10 +340,15 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     };
     mockRequestSubmit('va', requestData);
-
+    const store = createTestStore({
+      ...initialState,
+    });
     const router = {
       push: sinon.spy(),
+      replace: sinon.spy(),
     };
+    await setExpressCareFacility({ store, router });
+    await setExpressCareReason({ store, router, label: 'Cough' });
     const screen = renderInReduxProvider(
       <ExpressCareDetailsPage router={router} />,
       {
@@ -385,8 +364,15 @@ describe('VAOS integration: Express Care form submission', () => {
     });
     fireEvent.click(await screen.findByText(/submit express care/i));
 
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.firstCall.args[0]).to.equal(
+    expect(screen.baseElement).to.contain.text(
+      'Submitting your Express Care request',
+    );
+    await waitFor(() =>
+      expect(screen.baseElement).not.to.contain.text(
+        'Submitting your Express Care request',
+      ),
+    );
+    expect(router.push.lastCall.args[0]).to.equal(
       '/new-express-care-request/confirmation',
     );
 
@@ -407,39 +393,18 @@ describe('VAOS integration: Express Care form submission', () => {
   });
 
   it('should show message when submitting outside of EC window', async () => {
-    const today = moment();
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: today
-          .clone()
-          .subtract('2', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-        endTime: today
-          .clone()
-          .subtract('1', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
     const store = createTestStore({
       ...initialState,
     });
+    const router = {
+      push: sinon.spy(),
+      replace: sinon.spy(),
+    };
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
+    await setExpressCareFacility({ store, router });
+    await setExpressCareReason({ store, router, label: 'Cough' });
+    setupExpressCareMocks({ isWindowOpen: false, isUnderRequestLimit: true });
     store.dispatch(fetchExpressCareWindows());
-    setFetchJSONFailure(
-      global.fetch.withArgs(
-        `${environment.API_URL}/vaos/v0/appointment_requests?type=va`,
-      ),
-      { errors: [] },
-    );
-
     const screen = renderInReduxProvider(<ExpressCareDetailsPage />, {
       store,
     });

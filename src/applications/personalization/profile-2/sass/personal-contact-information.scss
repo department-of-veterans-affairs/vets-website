@@ -1,0 +1,12 @@
+// the description of the military address need to be aligned with
+// the text next to the checkbox
+.profile-military-domestic {
+  margin-left: 1.7em;
+}
+
+.non-clickable-link {
+  pointer-events: none;
+  cursor: default;
+  color: $color-black;
+  text-decoration: none;
+}
