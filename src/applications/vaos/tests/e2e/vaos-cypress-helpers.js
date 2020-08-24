@@ -1,12 +1,16 @@
 /* eslint-disable no-param-reassign */
-import moment from 'moment';
+import moment from '../../utils/moment-tz';
 
 import confirmedVA from '../../api/confirmed_va.json';
 import confirmedCC from '../../api/confirmed_cc.json';
 import requests from '../../api/requests.json';
 import cancelReasons from '../../api/cancel_reasons.json';
 import supportedSites from '../../api/sites-supporting-var.json';
-import { getVAAppointmentMock } from '../mocks/v0';
+import {
+  getVAAppointmentMock,
+  getExpressCareRequestCriteriaMock,
+  getParentSiteMock,
+} from '../mocks/v0';
 
 function updateConfirmedVADates(data) {
   data.data.forEach(item => {
@@ -113,6 +117,14 @@ export function initAppointmentListMock() {
             name: 'vaOnlineSchedulingPast',
             value: true,
           },
+          {
+            name: 'vaOnlineSchedulingExpressCare',
+            value: true,
+          },
+          {
+            name: 'vaOnlineSchedulingExpressCareNew',
+            value: true,
+          },
         ],
       },
     },
@@ -177,4 +189,95 @@ export function initAppointmentListMock() {
       ],
     },
   });
+}
+
+export function initExpressCareMocks() {
+  const today = moment();
+  initAppointmentListMock();
+  // request eligibility criteria
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/request_eligibility_criteria*',
+    response: {
+      data: getExpressCareRequestCriteriaMock('983', [
+        {
+          day: today
+            .clone()
+            .tz('America/Denver')
+            .format('dddd')
+            .toUpperCase(),
+          canSchedule: true,
+          startTime: today
+            .clone()
+            .subtract('2', 'minutes')
+            .tz('America/Denver')
+            .format('HH:mm'),
+          endTime: today
+            .clone()
+            .add('2', 'minutes')
+            .tz('America/Denver')
+            .format('HH:mm'),
+        },
+      ]),
+    },
+  }).as('getRequestEligibilityCriteria');
+
+  // request limit
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/limits*',
+    response: {
+      data: {
+        id: '983',
+        attributes: {
+          requestLimit: 1,
+          numberOfRequests: 0,
+        },
+      },
+    },
+  }).as('getRequestLimits');
+
+  // parent site
+  const parentSite = {
+    id: '983',
+    attributes: {
+      ...getParentSiteMock().attributes,
+      institutionCode: '983',
+      authoritativeName: 'Some VA facility',
+      rootStationCode: '983',
+      parentStationCode: '983',
+    },
+  };
+
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities?facility_codes[]=983',
+    response: {
+      data: [parentSite],
+    },
+  });
+
+  // submit
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests?type=va',
+    response: {
+      data: {
+        id: 'testing',
+        attributes: {
+          typeOfCareId: 'CR1',
+          email: 'test@va.gov',
+          phoneNumber: '5555555555',
+          reasonForVisit: 'Cough',
+          additionalInformation: 'Whatever',
+          status: 'Submitted',
+        },
+      },
+    },
+  });
+
+  // preferences
+  // cy.route({
+  //   method: 'POST',
+  // });
 }
