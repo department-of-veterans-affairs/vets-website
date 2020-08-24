@@ -91,7 +91,26 @@ describe('When enrolled in health care', () => {
   after(() => {
     server.close();
   });
-  it('should show an error if it is unable to create the transaction', () => {});
+  // Skipping this test for now since it does not handle this case correctly
+  it.xit(
+    'should show an error if it is unable to create the transaction',
+    async () => {
+      server.use(...mocks.createTransactionFailure);
+      getCheckbox(view).click();
+
+      expect(
+        await view.findByText(
+          /We’re working on saving your.*text alert preference/i,
+        ),
+      ).to.exist;
+
+      expect(
+        await view.findByText(
+          /We couldn’t save your recent mobile phone number update. Please try again later./i,
+        ),
+      ).to.exist;
+    },
+  );
   it('should show an error if the transaction fails', async () => {
     server.use(...mocks.transactionPending);
     getCheckbox(view).click();
