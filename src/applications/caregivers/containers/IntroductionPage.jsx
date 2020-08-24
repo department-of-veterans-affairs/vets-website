@@ -88,8 +88,12 @@ const IntroductionPage = ({ route, router }) => {
                   to find a coordinator at your nearest VA health care facility
                 </li>
                 <li>
-                  Contact the National Caregiver Support Line at{' '}
-                  <Telephone contact={CONTACTS.CAREGIVER} /> or a
+                  Contact the National Caregiver Support Line at
+                  <Telephone
+                    className="vads-u-margin-x--0p5"
+                    contact={CONTACTS.CAREGIVER}
+                  />
+                  or a
                   <a
                     className="vads-u-margin-x--0p5"
                     href="https://www.va.gov/disability/get-help-filing-claim/"

@@ -1,10 +1,12 @@
 /**
  * A list of services that correspond to those which we have downtime information as provided by the API.
- * API - see services under maintenance_windows - https://github.com/department-of-veterans-affairs/devops/blob/master/ansible/deployment/config/vets-api/prod-settings.local.yml.j2#L217
+ * API - see services under maintenance_windows - https://github.com/department-of-veterans-affairs/devops/blob/master/ansible/deployment/config/vets-api/prod-settings.local.yml.j2#L284
  */
 export default {
   appeals: 'appeals',
   arcgis: 'arcgis',
+  // Benefits Gateway Services
+  bgs: 'bgs',
   dslogon: 'dslogon',
   emis: 'emis',
   // Enrollment System (HCA submissions)

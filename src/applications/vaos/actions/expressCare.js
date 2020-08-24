@@ -12,7 +12,6 @@ import {
   updatePreferences,
   getFacilitiesBySystemAndTypeOfCare,
   submitRequest,
-  getRequestEligibilityCriteria,
   getParentFacilities,
   getRequestLimits,
 } from '../api';
@@ -22,7 +21,6 @@ import {
   createPreferenceBody,
 } from '../utils/data';
 import {
-  selectSystemIds,
   selectActiveExpressCareWindows,
   selectExpressCareNewRequest,
 } from '../utils/selectors';
@@ -54,12 +52,6 @@ export const FORM_RESET = 'expressCare/FORM_RESET';
 export const FORM_SUBMIT = 'expressCare/FORM_SUBMIT';
 export const FORM_SUBMIT_SUCCEEDED = EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED;
 export const FORM_SUBMIT_FAILED = 'expressCare/FORM_SUBMIT_FAILED';
-export const FETCH_EXPRESS_CARE_WINDOWS =
-  'expressCare/FETCH_EXPRESS_CARE_WINDOWS';
-export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
-  'expressCare/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
-export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
-  'expressCare/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
 export const FORM_ADDITIONAL_DETAILS_PAGE_OPENED =
   'expressCare/FORM_ADDITIONAL_DETAILS_PAGE_OPENED';
 
@@ -96,31 +88,6 @@ export function openAdditionalDetailsPage(page, uiSchema, schema) {
       email,
       phoneNumber,
     });
-  };
-}
-
-export function fetchExpressCareWindows() {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FETCH_EXPRESS_CARE_WINDOWS,
-    });
-
-    const initialState = getState();
-    const userSiteIds = selectSystemIds(initialState);
-
-    try {
-      const settings = await getRequestEligibilityCriteria(userSiteIds);
-      dispatch({
-        type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
-        settings,
-        nowUtc: moment.utc(),
-      });
-    } catch (error) {
-      captureError(error);
-      dispatch({
-        type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
-      });
-    }
   };
 }
 
@@ -266,7 +233,7 @@ export function submitExpressCareRequest(router) {
       );
 
       additionalEventData = {
-        'health-expressCareReason': data.reason,
+        'health-express-care-reason': data.reason,
       };
 
       recordEvent({

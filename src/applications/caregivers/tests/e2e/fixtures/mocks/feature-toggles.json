@@ -127,10 +127,6 @@
         "value": true
       },
       {
-        "name": "routeStLouisRPOtoBuffaloRPO",
-        "value": false
-      },
-      {
         "name": "gibctSearchEnhancements",
         "value": true
       },

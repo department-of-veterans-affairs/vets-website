@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
@@ -12,21 +13,18 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Volunteer for COVID-19 research" />
-        {/* <p>Equal to VA Form 12345 (Covid Vaccine Trial).</p> */}
+        <FormTitle title="Ask a Question" />
+        <p>Equal to VA Form 0873 (Ask a Question).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Volunteer for COVID-19 research"
+          startText="Start the Application"
         >
-          Please complete the 12345 form to apply for vaccine trial
-          participation.
+          Please complete the 0873 form to apply for ask a question.
         </SaveInProgressIntro>
-        {/* <h4>
-          Follow the steps below to apply for vaccine trial participation.
-        </h4> */}
-        {/* <div className="process schemaform-process">
+        <h4>Follow the steps below to apply for ask a question.</h4>
+        <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
               <h5>Prepare</h5>
@@ -45,7 +43,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <h5>Apply</h5>
-              <p>Complete this vaccine trial participation form.</p>
+              <p>Complete this ask a question form.</p>
               <p>
                 After submitting the form, you’ll get a confirmation message.
                 You can print this for your records.
@@ -67,16 +65,16 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
           </ol>
-        </div> */}
-        {/* <SaveInProgressIntro
+        </div>
+        <SaveInProgressIntro
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"
-        /> */}
-        {/* <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={10} ombNumber="12345" expDate="12/31/2021" />
-        </div> */}
+        />
+        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+          <OMBInfo resBurden={10} ombNumber="2900-0619" expDate="11/30/2019" />
+        </div>
       </div>
     );
   }

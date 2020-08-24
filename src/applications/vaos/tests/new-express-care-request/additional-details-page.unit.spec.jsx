@@ -12,7 +12,7 @@ import { createTestStore } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
 import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
 import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
-import { fetchExpressCareWindows } from '../../actions/expressCare';
+import { fetchExpressCareWindows } from '../../actions/appointments';
 
 const initialState = {
   user: {
