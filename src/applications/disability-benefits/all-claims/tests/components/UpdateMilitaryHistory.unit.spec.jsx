@@ -1,13 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-import sinon from 'sinon';
+import { mount } from 'enzyme';
 
 import { SAVED_SEPARATION_DATE } from '../../constants';
-import {
-  UpdateMilitaryHistory,
-  addServicePeriod,
-} from '../../components/UpdateMilitaryHistory';
+import { UpdateMilitaryHistory } from '../../components/UpdateMilitaryHistory';
 
 describe('UpdateMilitaryHistory', () => {
   let wrapper;
@@ -30,8 +26,6 @@ describe('UpdateMilitaryHistory', () => {
     },
   };
 
-  const useEffect = sinon.stub(React, 'useEffect');
-
   function setUp(separationDate, test) {
     const setFormData = data => {
       form.data = data;
@@ -48,15 +42,10 @@ describe('UpdateMilitaryHistory', () => {
     if (separationDate) {
       window.sessionStorage.setItem(SAVED_SEPARATION_DATE, separationDate);
     }
-    useEffect.onCall(0).callsFake(() => {
-      // duplicate code from useEffect in UpdateMilitaryHistory
-      if (form.data && separationDate) {
-        addServicePeriod(form.data, separationDate, setFormData);
-      }
-    });
-    wrapper = shallow(<UpdateMilitaryHistory form={form} />);
+    wrapper = mount(
+      <UpdateMilitaryHistory form={form} setFormData={setFormData} />,
+    );
     test();
-    useEffect.resetHistory();
   }
 
   afterEach(() => {
@@ -64,10 +53,6 @@ describe('UpdateMilitaryHistory', () => {
     storage = {};
     wrapper.unmount();
     form.data.serviceInformation.servicePeriods = servicePeriods();
-  });
-
-  after(() => {
-    useEffect.restore();
   });
 
   it('should get called', () => {
