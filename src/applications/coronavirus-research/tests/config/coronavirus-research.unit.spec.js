@@ -346,8 +346,8 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    fillData(form, 'input#root_heightFeet', 'NaN');
-    fillData(form, 'input#root_heightInches', 'NaN');
+    fillData(form, 'input#root_heightFeet', '');
+    fillData(form, 'input#root_heightInches', '');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
