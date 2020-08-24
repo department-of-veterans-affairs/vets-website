@@ -2,15 +2,20 @@
 
 const chalk = require('chalk');
 const get = require('lodash/get');
+const cloneDeep = require('lodash/cloneDeep');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
+const { getCacheKey } = require('./get-cache-key');
 const { toId, readEntity, getContentModelType } = require('./helpers');
 
 const {
   validateRawEntity,
   validateTransformedEntity,
 } = require('./schema-validation');
+
+const transformedEntitiesCache = new Map();
+global.transformerCacheHits = 0;
 
 /**
  * An ancestor for an entity.
@@ -160,7 +165,9 @@ const entityAssemblerFactory = contentDir => {
     // Recursively expand entity references
     for (const [key, prop] of Object.entries(filteredEntity)) {
       const isEntityArray =
-        Array.isArray(prop) && prop.some(e => e.target_uuid && e.target_type);
+        Array.isArray(prop) &&
+        prop.some(e => e.target_uuid && e.target_type) &&
+        key !== 'image';
       if (isEntityArray) {
         prop.forEach((item, index) => {
           const { target_uuid: targetUuid, target_type: targetType } = item;
@@ -190,10 +197,6 @@ const entityAssemblerFactory = contentDir => {
    * searches for references to other entities, and replaces the
    * references with the contents of those entities recursively.
    *
-   * TODO: Memoize this function if the build is slow because of this CMS
-   * content transformation process. If we do memoize this, make sure the
-   * memoized function is used in findMatchingEntities as well.
-   *
    * @param {Object} entity - The entity object.
    * @param {Array<Object>} ancestors - All the ancestors, each like:
    *                          { id: toId(entity), entity }
@@ -213,6 +216,22 @@ const entityAssemblerFactory = contentDir => {
     ancestors = [],
     parentFieldName = '',
   ) => {
+    const transformArgs = {
+      uuid: entity.uuid[0].value,
+      ancestors,
+      parentFieldName,
+      contentDir,
+      assembleEntityTree,
+      transformUnpublished,
+    };
+
+    const cacheKey = getCacheKey(entity, transformArgs);
+
+    if (transformedEntitiesCache.has(cacheKey)) {
+      global.transformerCacheHits++;
+      return cloneDeep(transformedEntitiesCache.get(cacheKey));
+    }
+
     // If the entity is unpublished
     if (!entity.status[0].value && !transformUnpublished) {
       return null;
@@ -245,15 +264,7 @@ const entityAssemblerFactory = contentDir => {
 
     let transformedEntity;
     try {
-      // Post-transformation JSON schema validation
-      transformedEntity = transformEntity(expandedEntity, {
-        uuid: entity.uuid[0].value,
-        ancestors,
-        parentFieldName,
-        contentDir,
-        assembleEntityTree,
-        transformUnpublished,
-      });
+      transformedEntity = transformEntity(expandedEntity, transformArgs);
     } catch (e) {
       console.log(
         chalk.red(`Error encountered while transforming ${toId(entity)}`),
@@ -269,6 +280,7 @@ const entityAssemblerFactory = contentDir => {
       validateOutput(entity, transformedEntity);
     }
 
+    transformedEntitiesCache.set(cacheKey, cloneDeep(transformedEntity));
     return transformedEntity;
   };
 

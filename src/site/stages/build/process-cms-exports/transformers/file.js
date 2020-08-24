@@ -2,11 +2,10 @@ const { getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
   // TODO: Change this to get the actual derivative from the CMS export data
-  derivative: {
-    url: getDrupalValue(entity.uri),
-  },
+  url: getDrupalValue(entity.uri) ? getDrupalValue(entity.uri) : '',
+  filename: getDrupalValue(entity.filename),
 });
 module.exports = {
-  filter: ['uri'],
+  filter: ['uri', 'filename'],
   transform,
 };
