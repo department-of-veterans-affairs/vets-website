@@ -92,6 +92,7 @@ describe('When enrolled in health care', () => {
     server.close();
   });
   // Skipping this test for now since it does not handle this case correctly
+  // TODO: department-of-veterans-affairs/va.gov-team#12751
   it.xit(
     'should show an error if it is unable to create the transaction',
     async () => {
