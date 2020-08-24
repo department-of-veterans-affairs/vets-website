@@ -165,7 +165,9 @@ const entityAssemblerFactory = contentDir => {
     // Recursively expand entity references
     for (const [key, prop] of Object.entries(filteredEntity)) {
       const isEntityArray =
-        Array.isArray(prop) && prop.some(e => e.target_uuid && e.target_type);
+        Array.isArray(prop) &&
+        prop.some(e => e.target_uuid && e.target_type) &&
+        key !== 'image';
       if (isEntityArray) {
         prop.forEach((item, index) => {
           const { target_uuid: targetUuid, target_type: targetType } = item;
