@@ -39,7 +39,9 @@ function createDrupalDebugPage(buildOptions) {
   }
 
   return (files, smith, done) => {
-    log('Drupal debug page written to /drupal/debug.');
+    if (global.verbose) {
+      log('Drupal debug page written to /drupal/debug.');
+    }
 
     const { drupalError } = buildOptions;
     const drupalDebugPage = drupalError

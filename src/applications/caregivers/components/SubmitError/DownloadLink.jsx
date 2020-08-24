@@ -48,9 +48,9 @@ const DownLoadLink = ({ form }) => {
           className="fas fa-download vads-u-padding-right--1"
         />
         Download your completed application
-        <span className="sr-only">
+        <span className="sr-only vads-u-margin-right--0p5">
           `dated ${moment(Date.now()).format('MMM D, YYYY')}`
-        </span>{' '}
+        </span>
         <dfn>
           <abbr title="Portable Document Format">(PDF)</abbr>
         </dfn>

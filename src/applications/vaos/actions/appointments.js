@@ -3,9 +3,11 @@ import * as Sentry from '@sentry/browser';
 import { GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../utils/events';
+import { selectSystemIds } from '../utils/selectors';
 
 import {
   getCancelReasons,
+  getRequestEligibilityCriteria,
   getRequestMessages,
   updateAppointment,
   updateRequest,
@@ -57,6 +59,12 @@ export const CANCEL_APPOINTMENT_CONFIRMED_FAILED =
 export const CANCEL_APPOINTMENT_CLOSED = 'vaos/CANCEL_APPOINTMENT_CLOSED';
 export const FETCH_FACILITY_LIST_DATA_SUCCEEDED =
   'vaos/FETCH_FACILITY_LIST_DATA_SUCCEEDED';
+
+export const FETCH_EXPRESS_CARE_WINDOWS = 'vaos/FETCH_EXPRESS_CARE_WINDOWS';
+export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
+  'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
+export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
+  'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -365,5 +373,30 @@ export function closeCancelAppointment() {
 export function startNewAppointmentFlow() {
   return {
     type: STARTED_NEW_APPOINTMENT_FLOW,
+  };
+}
+
+export function fetchExpressCareWindows() {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FETCH_EXPRESS_CARE_WINDOWS,
+    });
+
+    const initialState = getState();
+    const userSiteIds = selectSystemIds(initialState);
+
+    try {
+      const settings = await getRequestEligibilityCriteria(userSiteIds);
+      dispatch({
+        type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
+        settings,
+        nowUtc: moment.utc(),
+      });
+    } catch (error) {
+      captureError(error);
+      dispatch({
+        type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
+      });
+    }
   };
 }

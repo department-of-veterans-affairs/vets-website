@@ -1,7 +1,7 @@
 const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 
-const vaAvatarMatcher = 'div#webchat div.webchat__imageAvatar__image';
+const vaAvatarMatcher = 'div#webchat div.webchat__initialsAvatar';
 const webchatBubbleContent = 'div.webchat__bubble__content';
 const covid19PreventionButton =
   "div#webchat button[aria-label='COVID-19 prevention']";

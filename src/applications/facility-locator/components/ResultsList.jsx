@@ -11,6 +11,7 @@ import {
   MARKER_LETTERS,
   CLINIC_URGENTCARE_SERVICE,
   LocationType,
+  Error,
 } from '../constants';
 
 import { distBetween } from '../utils/facilityDistance';
@@ -23,6 +24,7 @@ import VaFacilityResult from './search-results-items/VaFacilityResult';
 import CCProviderResult from './search-results-items/CCProviderResult';
 import PharmacyResult from './search-results-items/PharmacyResult';
 import UrgentCareResult from './search-results-items/UrgentCareResult';
+import SearchResultMessage from './SearchResultMessage';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -93,6 +95,7 @@ class ResultsList extends Component {
       searchString,
       results,
       error,
+      currentQuery,
       query,
     } = this.props;
 
@@ -115,86 +118,39 @@ class ResultsList extends Component {
       );
     }
 
-    if (error) {
-      // For some reason, an error can be an HTTP response, or just a string.
-      if (Array.isArray(error)) {
-        const timedOut = error.find(err => TIMEOUTS.has(err.code));
-        if (timedOut) {
-          return (
-            <div
-              className="search-result-title facility-result"
-              ref={this.searchResultTitle}
-            >
-              <p>
-                We’re sorry. We couldn’t complete your request. We’re aware of
-                this problem, and we’re working to fix it as soon as possible.
-                Please try again later.
-              </p>
-              <p>
-                If you need care right away for a minor illness or injury,
-                select Urgent care under facility type, then select either VA or
-                community providers as the service type.
-              </p>
-              <p>
-                If you have a medical emergency, please go to your nearest
-                emergency room or call 911.
-              </p>
-            </div>
-          );
-        }
+    if (error && Array.isArray(error)) {
+      const timedOut = error.find(err => TIMEOUTS.has(err.code));
+      if (timedOut) {
+        return (
+          <SearchResultMessage
+            facilityType={facilityTypeName}
+            resultRef={this.searchResultTitle}
+            message={Error.DEFAULT}
+            error={error}
+          />
+        );
       }
-
+    } else if (currentQuery.error && error.type === 'mapBox') {
       return (
-        <div
-          className="search-result-title facility-result"
-          ref={this.searchResultTitle}
-        >
-          <p>We’re sorry. We couldn’t complete your request.</p>
-          <p>
-            If you need care right away for a minor illness or injury, select
-            Urgent care under facility type, then select either VA or community
-            providers as the service type.
-          </p>
-          <p>
-            If you have a medical emergency, please go to your nearest emergency
-            room or call 911.
-          </p>
-        </div>
+        <SearchResultMessage
+          facilityType={facilityTypeName}
+          resultRef={this.searchResultTitle}
+          message={Error.LOCATION}
+          error={error}
+        />
       );
     }
 
-    if (!results || results.length < 1) {
-      if (this.props.facilityTypeName === facilityTypes.provider) {
-        return (
-          <div
-            className="search-result-title facility-result"
-            ref={this.searchResultTitle}
-          >
-            We didn't find any facilities near you. <br />
-            <strong>To try again, please enter a different:</strong>
-            <ul className="vads-u-margin-y--1p5">
-              <li>
-                <strong>Search term</strong> (street, city, state, or postal
-                code), <strong>or</strong>
-              </li>
-              <li>
-                <strong>Service type</strong> (like “primary care”), and select
-                the option that best meets your needs
-              </li>
-            </ul>
-            Then click <strong>Search</strong>.
-          </div>
-        );
-      }
+    if (facilityTypeName && (!results || results.length < 1)) {
       return (
-        <div
-          className="search-result-title facility-result"
-          ref={this.searchResultTitle}
-        >
-          Please enter a location (street, city, state or postal code) and click
-          search above to find facilities.
-        </div>
+        <SearchResultMessage
+          facilityType={facilityTypeName}
+          resultsFound={results === 0}
+          resultRef={this.searchResultTitle}
+        />
       );
+    } else if (!facilityTypeName || !currentQuery.facilityType) {
+      return <SearchResultMessage />;
     }
 
     const currentLocation = position;

@@ -24,7 +24,9 @@ export const errorFragment = (
 
 export const infoFragment = (
   <>
-    <h2>We don't have dependents information on file for you</h2>
+    <h2 className="vads-u-margin-top--1">
+      We don't have dependents information on file for you
+    </h2>
     <p>
       We can't find any dependents added to your disability award. If you are
       eligible for VA disability compensation and you have a VA combined rating

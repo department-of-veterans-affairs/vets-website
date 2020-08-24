@@ -84,9 +84,13 @@ button.ac-pushButton:hover {
   color: $color-base;
 }
 
-/* side vertical container with avatar in it */
-.webchat__stackedLayout__avatar {
+/* padding around avatar */
+.webchat__stacked-layout__avatar-gutter {
   margin: 7px 8px 0 !important;
+}
+
+.webchat__bubble__nub-pad {
+  display: none;
 }
 
 /* horizontal container with chat bubbles */
@@ -117,7 +121,7 @@ div.ac-container.ac-adaptiveCard {
 
 /* additional padding around answer chat bubbles
 (3px + webchat__row 5px + css-1qyo5rb 8px = 16px from design specs) */
-.webchat__stackedLayout--fromUser {
+.webchat__stacked-layout--from-user {
   padding: 3px 0 !important;
 }
 
@@ -152,6 +156,11 @@ div.ac-container.ac-adaptiveCard {
 /* Connecting... text before chatbot shows */
 .webchat__connectivityStatus.css-nd6pw {
   align-items: flex-start;
+}
+
+/* remove scrollbar from main transcript container */
+.webchat__basic-transcript__scrollable {
+  overflow: visible !important;
 }
 
 .css-1t62idy {

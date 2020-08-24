@@ -3,7 +3,7 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { countries } from 'vets-json-schema/dist/constants.json';
 
 import { schoolStudentIdTitle } from '../content/programDetails';
-import { programDetailsUiOptions } from '../helpers';
+import { updateProgramDetailsSchema } from '../helpers';
 
 const {
   degreeName,
@@ -16,7 +16,19 @@ const {
 
 export const uiSchema = {
   'ui:title': 'STEM degree and school details',
-  'ui:options': programDetailsUiOptions(),
+  'ui:options': {
+    updateSchema: updateProgramDetailsSchema(),
+  },
+  'ui:order': [
+    'degreeName',
+    'schoolName',
+    'schoolCountry',
+    'schoolCity',
+    'schoolState',
+    'view:field',
+    'schoolStudentId',
+    'schoolEmailAddress',
+  ],
   degreeName: {
     'ui:title': "What's the name of your STEM degree?",
   },
@@ -30,8 +42,14 @@ export const uiSchema = {
   schoolCountry: {
     'ui:title': 'Country',
   },
+  'view:field': {
+    'ui:description': schoolStudentIdTitle,
+    'ui:options': {
+      hideOnReview: true,
+    },
+  },
   schoolStudentId: {
-    'ui:title': schoolStudentIdTitle,
+    'ui:title': 'Your school student ID number',
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
@@ -56,6 +74,10 @@ export const schema = {
       type: 'string',
       enum: countries.map(country => country.value),
       enumNames: countries.map(country => country.label),
+    },
+    'view:field': {
+      type: 'object',
+      properties: {},
     },
     schoolStudentId,
     schoolEmailAddress,

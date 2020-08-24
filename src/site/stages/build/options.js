@@ -57,6 +57,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'local-css-sourcemaps', type: Boolean, defaultValue: false },
   { name: 'accessibility', type: Boolean, defaultValue: false },
   { name: 'lint-plain-language', type: Boolean, defaultValue: false },
+  { name: 'verbose', alias: 'v', type: Boolean, defaultValue: false },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 
@@ -208,7 +209,9 @@ async function setUpFeatureFlags(options) {
       : {};
   }
 
-  logDrupal(`Drupal feature flags:\n${JSON.stringify(rawFlags, null, 2)}`);
+  if (global.verbose) {
+    logDrupal(`Drupal feature flags:\n${JSON.stringify(rawFlags, null, 2)}`);
+  }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const proxiedFlags = useFlags(rawFlags);
@@ -225,6 +228,10 @@ async function getOptions(commandLineOptions) {
   applyEnvironmentOverrides(options);
   deriveHostUrl(options);
   await setUpFeatureFlags(options);
+
+  // Setting verbosity for the whole content build process as global so we don't
+  // have to pass the buildOptions around for just that.
+  global.verbose = options.verbose;
 
   return options;
 }

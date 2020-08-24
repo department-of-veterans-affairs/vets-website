@@ -75,10 +75,11 @@ export const UnauthContent = () => (
       </li>
       <li>Registered or you’ve had an appointment at that facility before</li>
     </ul>
-    <a href="/health-care/how-to-apply/">
-      Find out how to apply for VA health care
-    </a>
-    <br />
+    <p>
+      <a href="/health-care/how-to-apply/">
+        Find out how to apply for VA health care
+      </a>
+    </p>
     <p>
       <strong>And, you must have one of these free accounts:</strong>
     </p>
@@ -149,10 +150,11 @@ export const UnauthContent = () => (
       If you use secure messaging with your VA health care team, you may be able
       to use this service to schedule and cancel appointments.
     </p>
-    <a href="/health-care/secure-messaging/">
-      Learn more about secure messaging
-    </a>
-    <p>&nbsp;</p>
+    <p>
+      <a href="/health-care/secure-messaging/">
+        Learn more about secure messaging
+      </a>
+    </p>
     <p>
       <strong>Please note:</strong> The fastest way to schedule appointments is
       usually to call the VA health facility where you get care. To reschedule
