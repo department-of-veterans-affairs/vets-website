@@ -4,6 +4,7 @@
     "@babel/register",
     "@babel/polyfill",
     "blob-polyfill",
+    "choma",
     "isomorphic-fetch",
     "mocha-snapshots",
     "src/platform/testing/unit/mocha-setup.js",
