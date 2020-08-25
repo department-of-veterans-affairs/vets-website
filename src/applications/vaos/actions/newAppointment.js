@@ -662,7 +662,7 @@ async function buildPreferencesDataAndUpdate(email) {
   return updatePreferences(preferenceBody);
 }
 
-export function submitAppointmentOrRequest(router) {
+export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
     const newAppointment = getNewAppointment(state);
@@ -708,7 +708,7 @@ export function submitAppointmentOrRequest(router) {
           ...additionalEventData,
         });
         resetDataLayer();
-        router.push('/new-appointment/confirmation');
+        history.push('/new-appointment/confirmation');
       } catch (error) {
         captureError(error, true);
         dispatch({
@@ -779,7 +779,7 @@ export function submitAppointmentOrRequest(router) {
           ...additionalEventData,
         });
         resetDataLayer();
-        router.push('/new-appointment/confirmation');
+        history.push('/new-appointment/confirmation');
       } catch (error) {
         let extraData = null;
         if (requestBody) {
@@ -818,14 +818,14 @@ export function submitAppointmentOrRequest(router) {
   };
 }
 
-export function requestAppointmentDateChoice(router) {
+export function requestAppointmentDateChoice(history) {
   return dispatch => {
     dispatch(startRequestAppointmentFlow());
-    router.replace('/new-appointment/request-date');
+    history.replace('/new-appointment/request-date');
   };
 }
 
-export function routeToPageInFlow(flow, router, current, action) {
+export function routeToPageInFlow(flow, history, current, action) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
@@ -845,7 +845,7 @@ export function routeToPageInFlow(flow, router, current, action) {
       dispatch({
         type: FORM_PAGE_CHANGE_COMPLETED,
       });
-      router.push(nextPage.url);
+      history.push(nextPage.url);
     } else if (nextPage) {
       throw new Error(`Tried to route to a page without a url: ${nextPage}`);
     } else {
@@ -854,10 +854,10 @@ export function routeToPageInFlow(flow, router, current, action) {
   };
 }
 
-export function routeToNextAppointmentPage(router, current) {
-  return routeToPageInFlow(newAppointmentFlow, router, current, 'next');
+export function routeToNextAppointmentPage(history, current) {
+  return routeToPageInFlow(newAppointmentFlow, history, current, 'next');
 }
 
-export function routeToPreviousAppointmentPage(router, current) {
-  return routeToPageInFlow(newAppointmentFlow, router, current, 'previous');
+export function routeToPreviousAppointmentPage(history, current) {
+  return routeToPageInFlow(newAppointmentFlow, history, current, 'previous');
 }

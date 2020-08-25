@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import localStorage from 'platform/utilities/storage/localStorage';
 import Breadcrumbs from '../components/Breadcrumbs';
 import NeedHelp from '../components/NeedHelp';
@@ -9,7 +9,7 @@ import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 export class NewAppointmentLayout extends React.Component {
   componentDidMount() {
     if (this.props.isCernerOnlyPatient) {
-      this.props.router.replace('/');
+      this.props.history.replace('/');
     }
 
     if (window.History) {
@@ -25,7 +25,7 @@ export class NewAppointmentLayout extends React.Component {
       !this.props.location.pathname.endsWith('new-appointment') &&
       !this.props.location.pathname.endsWith('confirmation')
     ) {
-      this.props.router.replace('/new-appointment');
+      this.props.history.replace('/new-appointment');
     }
   }
 
@@ -57,7 +57,6 @@ export class NewAppointmentLayout extends React.Component {
   };
 
   render() {
-    const { children } = this.props;
     const isReviewPage = this.props.location.pathname.includes('review');
 
     return (
@@ -72,7 +71,7 @@ export class NewAppointmentLayout extends React.Component {
                 New appointment
               </span>
             )}
-            {children}
+            {this.props.children}
             <NeedHelp />
           </div>
         </div>
@@ -87,4 +86,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(NewAppointmentLayout);
+export default withRouter(connect(mapStateToProps)(NewAppointmentLayout));

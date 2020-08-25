@@ -4,6 +4,7 @@ import { expect } from 'chai';
 
 import VAAppointmentSection from '../../components/review/VAAppointmentSection';
 import { VHA_FHIR_ID } from '../../utils/constants';
+import { MemoryRouter } from 'react-router-dom';
 
 const defaultData = {
   reasonForAppointment: 'routine-follow-up',
@@ -52,12 +53,14 @@ describe('VAOS <VAAppointmentSection>', () => {
 
     beforeEach(() => {
       tree = mount(
-        <VAAppointmentSection
-          data={data}
-          facility={facility}
-          clinic={clinic}
-          contact={contact}
-        />,
+        <MemoryRouter>
+          <VAAppointmentSection
+            data={data}
+            facility={facility}
+            clinic={clinic}
+            contact={contact}
+          />
+        </MemoryRouter>,
       );
     });
 

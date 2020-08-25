@@ -25,25 +25,29 @@ describe('VAOS <TypeOfVisitPage>', () => {
 
   it('should not submit empty form', () => {
     const openFormPage = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
     const form = mount(
-      <TypeOfVisitPage openFormPage={openFormPage} router={router} data={{}} />,
+      <TypeOfVisitPage
+        openFormPage={openFormPage}
+        history={history}
+        data={{}}
+      />,
     );
 
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(router.push.called).to.be.false;
+    expect(history.push.called).to.be.false;
     form.unmount();
   });
 
   it('should call updateFormData after change', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -51,7 +55,7 @@ describe('VAOS <TypeOfVisitPage>', () => {
       <TypeOfVisitPage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
-        router={router}
+        history={history}
         data={{}}
       />,
     );
