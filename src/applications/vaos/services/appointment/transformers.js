@@ -25,7 +25,10 @@ function getAppointmentType(appt) {
     return APPOINTMENT_TYPES.ccRequest;
   } else if (appt.typeOfCareId) {
     return APPOINTMENT_TYPES.request;
-  } else if (appt.clinicId || appt.vvsAppointments) {
+  } else if (
+    appt.vvsAppointments ||
+    (appt.clinicId && !(appt.communityCare === true))
+  ) {
     return APPOINTMENT_TYPES.vaAppointment;
   } else if (appt.appointmentTime) {
     return APPOINTMENT_TYPES.ccAppointment;
