@@ -334,13 +334,10 @@ export function openFacilityPage(page, uiSchema, schema) {
 
       const eligibilityChecks =
         newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
-      const currentLocation = locations?.find(
-        location => location.id === locationId,
-      );
 
-      if (eligibilityDataNeeded && !eligibilityChecks && currentLocation) {
+      if (eligibilityDataNeeded && !eligibilityChecks) {
         eligibilityData = await getEligibilityData(
-          currentLocation,
+          locations.find(location => location.id === locationId),
           typeOfCareId,
           siteId,
           directSchedulingEnabled,

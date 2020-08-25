@@ -17,6 +17,7 @@ import {
   createTestStore,
   setTypeOfCare,
   renderWithStoreAndRouter,
+  setTypeOfEyeCare,
 } from '../mocks/setup';
 import {
   mockEligibilityFetches,
@@ -843,7 +844,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     );
   });
 
-  it('should use correct eligibility data after switching type of care', async () => {
+  it('should use correct eligibility info after a split type of care is changed', async () => {
     mockParentSites(
       ['983'],
       [
@@ -861,7 +862,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     mockSupportedFacilities({
       siteId: '983',
       parentId: '983',
-      typeOfCareId: '323',
+      typeOfCareId: '408',
       data: [
         {
           id: '983GC',
@@ -871,7 +872,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
             institutionCode: '983GC',
             rootStationCode: '983',
             parentStationCode: '983',
-            directSchedulingSupported: true,
             requestSupported: true,
           },
         },
@@ -882,7 +882,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
             institutionCode: '983BC',
             rootStationCode: '983',
             parentStationCode: '983',
-            directSchedulingSupported: true,
             requestSupported: true,
           },
         },
@@ -891,7 +890,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     mockSupportedFacilities({
       siteId: '983',
       parentId: '983',
-      typeOfCareId: '502',
+      typeOfCareId: '407',
       data: [
         {
           id: '983AZ',
@@ -901,7 +900,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
             institutionCode: '983AZ',
             rootStationCode: '983',
             parentStationCode: '983',
-            directSchedulingSupported: true,
             requestSupported: true,
           },
         },
@@ -912,7 +910,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
             institutionCode: '983BZ',
             rootStationCode: '983',
             parentStationCode: '983',
-            directSchedulingSupported: true,
             requestSupported: true,
           },
         },
@@ -921,21 +918,20 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983GC',
-      typeOfCareId: '323',
+      typeOfCareId: '408',
+      requestPastVisits: true,
     });
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983AZ',
-      typeOfCareId: '502',
+      typeOfCareId: '407',
       limit: true,
     });
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, /eye care/i);
+    await setTypeOfEyeCare(store, /optometry/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    let screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -946,8 +942,8 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
 
     await cleanup();
 
-    await setTypeOfCare(store, /mental health/i);
-    screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    await setTypeOfEyeCare(store, /Ophthalmology/i);
+    screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 

@@ -164,17 +164,28 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_DATA_UPDATED: {
+      let newPages = state.pages;
+      let actionData = action.data;
+
+      if (
+        getTypeOfCare(actionData)?.id !== getTypeOfCare(state.data)?.id &&
+        (state.pages.vaFacility || state.data.vaFacility)
+      ) {
+        newPages = unset('vaFacility', newPages);
+        actionData = unset('vaFacility', actionData);
+      }
+
       const { data, schema } = updateSchemaAndData(
         state.pages[action.page],
         action.uiSchema,
-        action.data,
+        actionData,
       );
 
       return {
         ...state,
         data,
         pages: {
-          ...state.pages,
+          ...newPages,
           [action.page]: schema,
         },
       };
