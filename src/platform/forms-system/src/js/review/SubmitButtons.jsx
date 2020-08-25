@@ -9,6 +9,7 @@ import { APP_TYPE_DEFAULT } from '../constants';
 // components
 import { Column, Row } from 'platform/forms/components/common/grid';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
+import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function SubmitButtons(props) {
   const {
@@ -128,7 +129,7 @@ export default function SubmitButtons(props) {
             {submitMessage}
           </Column>
         </Row>
-        {preSubmitSection}
+        <PreSubmitSection />
         <Row classNames="form-progress-buttons schemaform-back-buttons">
           <Column classNames="small-6 usa-width-one-half medium-6">
             <a href="/">
