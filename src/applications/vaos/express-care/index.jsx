@@ -12,7 +12,7 @@ import * as actions from '../actions/appointments';
 import { FETCH_STATUS } from '../utils/constants';
 import { selectExpressCare } from '../utils/selectors';
 import expressCareReducer from '../reducers/expressCare';
-import NewExpressCareRequestLayout from './components/NewExpressCareRequestLayout';
+import NewExpressCareRequestLayout from './components/FormLayout';
 import ExpressCareReasonPage from '../containers/ExpressCareReasonPage';
 import ExpressCareDetailsPage from '../containers/ExpressCareDetailsPage';
 import ExpressCareConfirmationPage from '../containers/ExpressCareConfirmationPage';

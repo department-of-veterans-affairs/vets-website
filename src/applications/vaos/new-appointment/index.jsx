@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import newAppointmentReducer from '../reducers/newAppointment';
-import NewAppointmentLayout from './components/NewAppointmentLayout';
+import NewAppointmentLayout from './components/FormLayout';
 import TypeOfCarePage from '../containers/TypeOfCarePage';
 import ContactInfoPage from '../containers/ContactInfoPage';
 import TypeOfVisitPage from '../containers/TypeOfVisitPage';

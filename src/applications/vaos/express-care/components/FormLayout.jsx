@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import NeedHelp from '../../components/NeedHelp';
 
-export default function NewExpressCareRequestLayout({ children }) {
+export default function FormLayout({ children }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
       <Breadcrumbs>

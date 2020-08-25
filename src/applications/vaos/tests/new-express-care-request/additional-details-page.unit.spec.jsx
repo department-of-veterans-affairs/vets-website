@@ -8,7 +8,7 @@ import { waitFor } from '@testing-library/dom';
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
 import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
-import NewExpressCareRequestLayout from '../../express-care/components/NewExpressCareRequestLayout';
+import { NewExpressCareRequest } from '../../express-care';
 import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
 import { fetchExpressCareWindows } from '../../actions/appointments';
 
@@ -91,13 +91,10 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     });
     store.dispatch(fetchExpressCareWindows());
 
-    const { history } = renderWithStoreAndRouter(
-      <NewExpressCareRequestLayout />,
-      {
-        store,
-        path: '/additional-details',
-      },
-    );
+    const { history } = renderWithStoreAndRouter(<NewExpressCareRequest />, {
+      store,
+      path: '/additional-details',
+    });
 
     await waitFor(() => expect(history.replace.called).to.be.true);
     expect(history.replace.firstCall.args[0]).to.equal(
