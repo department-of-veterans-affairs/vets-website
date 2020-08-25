@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import ReviewRequestInfo from '../../components/review/ReviewRequestInfo';
 import PreferredDates from '../../components/review/PreferredDates';
 import { VHA_FHIR_ID } from '../../utils/constants';
+import { MemoryRouter } from 'react-router-dom';
 
 const defaultData = {
   phoneNumber: '5035551234',
@@ -70,11 +71,13 @@ describe('VAOS <ReviewRequestInfo>', () => {
   describe('VA Request', () => {
     const data = { ...defaultData };
     const tree = mount(
-      <ReviewRequestInfo
-        data={data}
-        facility={facility}
-        pageTitle={pageTitle}
-      />,
+      <MemoryRouter>
+        <ReviewRequestInfo
+          data={data}
+          facility={facility}
+          pageTitle={pageTitle}
+        />
+      </MemoryRouter>,
     );
     const text = tree.text();
     const heading = tree.find('h1');
@@ -134,11 +137,13 @@ describe('VAOS <ReviewRequestInfo>', () => {
 
     beforeEach(() => {
       tree = mount(
-        <ReviewRequestInfo
-          data={data}
-          facility={facility}
-          pageTitle={pageTitle}
-        />,
+        <MemoryRouter>
+          <ReviewRequestInfo
+            data={data}
+            facility={facility}
+            pageTitle={pageTitle}
+          />
+        </MemoryRouter>,
       );
       text = tree.text();
       heading = tree.find('h1');
@@ -199,7 +204,11 @@ describe('VAOS <ReviewRequestInfo>', () => {
     let text;
 
     beforeEach(() => {
-      tree = mount(<ReviewRequestInfo data={data} vaCityState={vaCityState} />);
+      tree = mount(
+        <MemoryRouter>
+          <ReviewRequestInfo data={data} vaCityState={vaCityState} />
+        </MemoryRouter>,
+      );
       text = tree.text();
     });
 
@@ -235,7 +244,11 @@ describe('VAOS <ReviewRequestInfo>', () => {
     let tree;
 
     beforeEach(() => {
-      tree = mount(<ReviewRequestInfo data={data} vaCityState={vaCityState} />);
+      tree = mount(
+        <MemoryRouter>
+          <ReviewRequestInfo data={data} vaCityState={vaCityState} />
+        </MemoryRouter>,
+      );
     });
 
     afterEach(() => {

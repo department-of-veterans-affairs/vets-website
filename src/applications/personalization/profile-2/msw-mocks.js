@@ -1184,6 +1184,127 @@ export const deletePhoneNumberSuccess = () => {
   ];
 };
 
+export const toggleSMSNotificationsSuccess = (enrolled = true) => {
+  return [
+    rest.put(`${prefix}/v0/profile/telephones`, (req, res, ctx) => {
+      return res(
+        ctx.json({
+          data: {
+            id: '',
+            type: 'async_transaction_vet360_telephone_transactions',
+            attributes: {
+              transactionId: '61ffa9bd-3290-4e4b-9480-d93fd6236dcf',
+              transactionStatus: 'RECEIVED',
+              type: 'AsyncTransaction::Vet360::TelephoneTransaction',
+              metadata: [],
+            },
+          },
+        }),
+      );
+    }),
+    rest.get(`${prefix}/v0/user`, (req, res, ctx) => {
+      return res(
+        ctx.json({
+          data: {
+            id: '',
+            type: 'users_scaffolds',
+            attributes: {
+              services: [
+                'facilities',
+                'hca',
+                'edu-benefits',
+                'form-save-in-progress',
+                'form-prefill',
+                'mhv-accounts',
+                'evss-claims',
+                'form526',
+                'user-profile',
+                'appeals-status',
+                'id-card',
+                'identity-proofed',
+                'vet360',
+                'evss_common_client',
+                'claim_increase',
+              ],
+              account: { accountUuid: 'c049d895-ecdf-40a4-ac0f-7947a06ea0c2' },
+              profile: {
+                email: 'vets.gov.user+36@gmail.com',
+                firstName: 'WESLEY',
+                middleName: 'WATSON',
+                lastName: 'FORD',
+                birthDate: '1986-05-06',
+                gender: 'M',
+                zip: '21122-6706',
+                lastSignedIn: '2020-07-28T14:57:28.196Z',
+                loa: { current: 3, highest: 3 },
+                multifactor: true,
+                verified: true,
+                signIn: {
+                  serviceName: 'idme',
+                  accountType: 'N/A',
+                  ssoe: true,
+                  transactionid: '/lob0lmUWabZaaWqJ+ydOKkCYvu55jG3IxIJI4qzGic=',
+                },
+                authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+              },
+              vaProfile: {
+                status: 'OK',
+                birthDate: '19860506',
+                familyName: 'Ford',
+                gender: 'M',
+                givenNames: ['Wesley', 'Watson'],
+                isCernerPatient: false,
+                facilities: [{ facilityId: '983', isCerner: false }],
+                vaPatient: true,
+                mhvAccountState: 'NONE',
+              },
+              veteranStatus: {
+                status: 'OK',
+                isVeteran: true,
+                servedInMilitary: true,
+              },
+              inProgressForms: [],
+              prefillsAvailable: [],
+              vet360ContactInformation: {
+                email: null,
+                residentialAddress: null,
+                mailingAddress: null,
+                mobilePhone: {
+                  areaCode: '555',
+                  countryCode: '1',
+                  createdAt: '2020-07-25T00:34:24.000Z',
+                  extension: null,
+                  effectiveEndDate: null,
+                  effectiveStartDate: '2020-07-25T00:34:24.000Z',
+                  id: 155102,
+                  isInternational: false,
+                  isTextable: null,
+                  isTextPermitted: enrolled,
+                  isTty: null,
+                  isVoicemailable: null,
+                  phoneNumber: '5555559',
+                  phoneType: 'MOBILE',
+                  sourceDate: '2020-07-25T00:34:24.000Z',
+                  sourceSystemUser: null,
+                  transactionId: '77ad4f31-2d1a-4aaa-a259-7f0cc8fb0357',
+                  updatedAt: '2020-07-25T00:34:24.000Z',
+                  vet360Id: '1273780',
+                },
+                homePhone: null,
+                workPhone: null,
+                temporaryPhone: null,
+                faxNumber: null,
+                textPermission: null,
+              },
+            },
+          },
+          meta: { errors: null },
+        }),
+      );
+    }),
+  ];
+};
+
 export const allProfileEndpointsLoaded = [
   rest.get(`${prefix}/v0/mhv_account`, (req, res, ctx) => {
     return res(ctx.json(mockMHVHasAccepted));

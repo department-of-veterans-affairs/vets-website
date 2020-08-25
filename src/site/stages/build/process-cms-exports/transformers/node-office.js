@@ -8,6 +8,7 @@ const {
 const transform = entity => ({
   entityType: 'node',
   entityBundle: 'office',
+  entityLabel: getDrupalValue(entity.title),
   title: getDrupalValue(entity.title),
   created: utcToEpochTime(getDrupalValue(entity.created)),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),

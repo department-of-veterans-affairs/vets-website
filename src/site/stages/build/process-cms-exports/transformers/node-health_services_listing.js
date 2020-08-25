@@ -27,7 +27,7 @@ const transform = (entity, { ancestors }) => ({
   fieldOffice:
     entity.fieldOffice[0] &&
     !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
-      ? entity.fieldOffice[0]
+      ? { entity: entity.fieldOffice[0] }
       : null,
 });
 
@@ -51,4 +51,12 @@ module.exports = {
     'field_office',
   ],
   transform,
+  getCacheKey: (entity, { ancestors }) => {
+    const hasCircularReference =
+      entity.field_office[0] &&
+      !ancestors.find(
+        r => r.entity.uuid === entity.field_office[0].target_uuid,
+      );
+    return `${entity.uuid}-${hasCircularReference ? 'true' : 'false'}`;
+  },
 };

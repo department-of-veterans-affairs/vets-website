@@ -1,6 +1,6 @@
 import React from 'react';
-import { Router } from 'react-router';
-import { createMemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history-v4';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
@@ -13,7 +13,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import reducers from '../../reducers';
 import newAppointmentReducer from '../../reducers/newAppointment';
 import expressCareReducer from '../../reducers/expressCare';
-import { fetchExpressCareWindows } from '../../actions/expressCare';
+import { fetchExpressCareWindows } from '../../actions/appointments';
 
 import TypeOfCarePage from '../../containers/TypeOfCarePage';
 import VAFacilityPage from '../../containers/VAFacilityPage';
@@ -40,7 +40,18 @@ export function createTestStore(initialState) {
   );
 }
 
-export function renderFromRoutes({ initialState, store = null, path = '' }) {
+export function createTestHistory(path = '/') {
+  const history = createMemoryHistory({ initialEntries: [path] });
+  sinon.spy(history, 'replace');
+  sinon.spy(history, 'push');
+
+  return history;
+}
+
+export function renderWithStoreAndRouter(
+  ui,
+  { initialState, store = null, path = '/', history = null },
+) {
   const testStore =
     store ||
     createStore(
@@ -48,9 +59,10 @@ export function renderFromRoutes({ initialState, store = null, path = '' }) {
       initialState,
       applyMiddleware(thunk),
     );
-  const memoryHistory = createMemoryHistory(path);
+
+  const historyObject = history || createTestHistory(path);
   const screen = renderInReduxProvider(
-    <Router history={memoryHistory}>{createRoutesWithStore(testStore)}</Router>,
+    <Router history={historyObject}>{ui}</Router>,
     {
       store: testStore,
       initialState,
@@ -58,25 +70,46 @@ export function renderFromRoutes({ initialState, store = null, path = '' }) {
     },
   );
 
-  return { ...screen, memoryHistory };
+  return { ...screen, history: historyObject };
+}
+
+export function renderFromRoutes({ initialState, store = null, path = '/' }) {
+  const testStore =
+    store ||
+    createStore(
+      combineReducers({ ...commonReducer, ...reducers }),
+      initialState,
+      applyMiddleware(thunk),
+    );
+  const history = createTestHistory(path);
+  const screen = renderInReduxProvider(
+    <Router history={history}>{createRoutesWithStore(testStore)}</Router>,
+    {
+      store: testStore,
+      initialState,
+      reducers,
+    },
+  );
+
+  return { ...screen, history };
 }
 
 export async function setTypeOfCare(store, label) {
-  const router = {
+  const history = {
     push: sinon.spy(),
   };
-  const { findByLabelText, getByText } = renderInReduxProvider(
-    <TypeOfCarePage router={router} />,
+  const { findByLabelText, getByText } = renderWithStoreAndRouter(
+    <TypeOfCarePage history={history} />,
     { store },
   );
 
   const radioButton = await findByLabelText(label);
   fireEvent.click(radioButton);
   fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(router.push.called).to.be.true);
+  await waitFor(() => expect(history.push.called).to.be.true);
   await cleanup();
 
-  return router.push.firstCall.args[0];
+  return history.push.firstCall.args[0];
 }
 
 export async function setVAFacility(store, facilityId) {
@@ -112,45 +145,45 @@ export async function setVAFacility(store, facilityId) {
     data: facilities,
   });
 
-  const router = {
+  const history = {
     push: sinon.spy(),
   };
-  const { findByText } = renderInReduxProvider(
-    <VAFacilityPage router={router} />,
+  const { findByText } = renderWithStoreAndRouter(
+    <VAFacilityPage history={history} />,
     { store },
   );
 
   const continueButton = await findByText(/Continue/);
   fireEvent.click(continueButton);
-  await waitFor(() => expect(router.push.called).to.be.true);
+  await waitFor(() => expect(history.push.called).to.be.true);
   await cleanup();
 
-  return router.push.firstCall.args[0];
+  return history.push.firstCall.args[0];
 }
 
 export async function setClinic(store, clinicLabel) {
-  const router = {
+  const history = {
     push: sinon.spy(),
   };
-  const { findByText, findByLabelText } = renderInReduxProvider(
-    <ClinicChoicePage router={router} />,
+  const { findByText, findByLabelText } = renderWithStoreAndRouter(
+    <ClinicChoicePage history={history} />,
     { store },
   );
 
   fireEvent.click(await findByLabelText(clinicLabel));
   fireEvent.click(await findByText(/Continue/));
-  await waitFor(() => expect(router.push.called).to.be.true);
+  await waitFor(() => expect(history.push.called).to.be.true);
   await cleanup();
 
-  return router.push.firstCall.args[0];
+  return history.push.firstCall.args[0];
 }
 
 export async function setPreferredDate(store, preferredDate) {
-  const router = {
+  const history = {
     push: sinon.spy(),
   };
-  const { findByText, getByLabelText, getByText } = renderInReduxProvider(
-    <PreferredDatePage router={router} />,
+  const { findByText, getByLabelText, getByText } = renderWithStoreAndRouter(
+    <PreferredDatePage history={history} />,
     { store },
   );
 
@@ -165,37 +198,31 @@ export async function setPreferredDate(store, preferredDate) {
     target: { value: preferredDate.year() },
   });
   fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(router.push.called).to.be.true);
+  await waitFor(() => expect(history.push.called).to.be.true);
   await cleanup();
 
-  return router.push.firstCall.args[0];
+  return history.push.firstCall.args[0];
 }
 
-export async function setExpressCareFacility({ store, router }) {
+export async function setExpressCareFacility({ store }) {
   store.dispatch(fetchExpressCareWindows());
-  const screen = renderInReduxProvider(
-    <ExpressCareInfoPage router={router} />,
-    {
-      store,
-    },
-  );
+  const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+    store,
+  });
 
   await screen.findByText(/How Express Care Works/i);
   fireEvent.click(screen.getByText(/^Continue/));
-  await waitFor(() => expect(router.push.called).to.be.true);
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 }
 
-export async function setExpressCareReason({ store, router, label }) {
-  const screen = renderInReduxProvider(
-    <ExpressCareReasonPage router={router} />,
-    {
-      store,
-    },
-  );
+export async function setExpressCareReason({ store, label }) {
+  const screen = renderWithStoreAndRouter(<ExpressCareReasonPage />, {
+    store,
+  });
   await screen.findByText('Select a reason for your Express Care request');
   fireEvent.click(screen.getByLabelText(label));
   fireEvent.click(screen.getByText(/^Continue/));
-  await waitFor(() => expect(router.push.called).to.be.true);
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 }

@@ -12,9 +12,7 @@ import {
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 import { focusElement } from 'platform/utilities/ui';
 
-import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
-
-import { ProfileMenuItems } from './ProfileSubNav';
+import ProfileSubNavItems from './ProfileSubNavItems';
 
 import {
   closeSideNav as closeSideNavAction,
@@ -55,6 +53,7 @@ const ProfileMobileSubNav = ({
   closeMenu,
   isTriggerButtonFocused,
   isLOA3,
+  isInMVI,
   isMenuPinned,
   isMenuOpen,
   pinMenu,
@@ -237,8 +236,9 @@ const ProfileMobileSubNav = ({
                   <i className="fa fa-times" aria-hidden="true" role="img" />
                 </button>
               </div>
-              <ProfileMenuItems
+              <ProfileSubNavItems
                 isLOA3={isLOA3}
+                isInMVI={isInMVI}
                 routes={routes}
                 clickHandler={() => {
                   closeMenu();
@@ -262,6 +262,7 @@ ProfileMobileSubNav.propTypes = {
   closeMenu: PropTypes.func.isRequired,
   isTriggerButtonFocused: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
+  isInMVI: PropTypes.bool.isRequired,
   isMenuPinned: PropTypes.bool.isRequired,
   openMenu: PropTypes.func.isRequired,
   pinMenu: PropTypes.func.isRequired,
@@ -270,7 +271,6 @@ ProfileMobileSubNav.propTypes = {
 
 const mapStateToProps = state => ({
   isTriggerButtonFocused: selectFocusTriggerButton(state),
-  isLOA3: isLOA3Selector(state),
   isMenuPinned: selectIsMenuTriggerPinned(state),
   isMenuOpen: selectIsSideNavOpen(state),
 });

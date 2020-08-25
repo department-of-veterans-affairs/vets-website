@@ -1,5 +1,5 @@
 import React from 'react';
-import { IndexLink } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { focusElement } from 'platform/utilities/ui';
 
@@ -29,7 +29,7 @@ export default function TabItem({
 
   return (
     <li role="presentation" className="vads-u-margin--0">
-      <IndexLink
+      <NavLink
         id={`tab${id}`}
         aria-controls={isActive ? `tabpanel${id}` : null}
         aria-selected={isActive ? 'true' : 'false'}
@@ -39,9 +39,10 @@ export default function TabItem({
         onKeyDown={onKeyDown}
         activeClassName="vaos-appts__tab--current"
         to={tabpath}
+        exact
       >
         {title}
-      </IndexLink>
+      </NavLink>
     </li>
   );
 }

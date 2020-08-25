@@ -72,7 +72,12 @@ module.exports = {
     fieldPhoneNumber: { type: ['string', 'null'] },
     fieldRegionPage: {
       oneOf: [
-        { $ref: 'output/node-health_care_region_page' },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/node-health_care_region_page' },
+          },
+        },
         { type: 'null' },
       ],
     },
