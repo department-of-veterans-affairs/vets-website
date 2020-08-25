@@ -94,17 +94,17 @@ describe('DebtLettersList', () => {
       wrapper
         .dive()
         .find('h3')
-        .at(1)
+        .at(0)
         .text(),
-    ).to.equal("What if I don't see the letter I'm looking for?");
+    ).to.equal('VA debt collection is on hold due to the coronavirus');
     expect(
       wrapper
         .dive()
         .find('p')
-        .at(1)
+        .at(0)
         .text(),
     ).to.equal(
-      'If you’ve received a letter about a VA debt, but don’t see the letter listed here call the VA Debt Management Center at 800-827-0648. You can also call the DMC to get information about your resolved debts For VA health care copay debt, please go to our pay your VA copay bill page to learn about your payment options.',
+      'We’ve taken action to stop collection on newly established Veteran debt and make it easier for Veterans to request extended repayment plans and address other financial needs during this time.',
     );
     wrapper.unmount();
   });
