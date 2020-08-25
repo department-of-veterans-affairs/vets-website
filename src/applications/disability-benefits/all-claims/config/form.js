@@ -46,7 +46,6 @@ import prefillTransformer from '../prefill-transformer';
 
 import { transform } from '../submit-transformer';
 
-import { veteranInfoDescription } from '../content/veteranDetails';
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import { supportingEvidenceOrientationBDD } from '../content/supportingEvidenceOrientationBDD';
@@ -101,6 +100,7 @@ import {
   uploadPtsdDocuments,
   vaEmployee,
   vaMedicalRecords,
+  veteranInfo,
   workBehaviorChanges,
 } from '../pages';
 
@@ -165,8 +165,8 @@ const formConfig = {
         veteranInformation: {
           title: 'Veteran information',
           path: 'veteran-information',
-          uiSchema: { 'ui:description': veteranInfoDescription },
-          schema: { type: 'object', properties: {} },
+          uiSchema: veteranInfo.uiSchema,
+          schema: veteranInfo.schema,
         },
         alternateNames: {
           title: 'Service under another name',
