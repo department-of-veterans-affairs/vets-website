@@ -76,7 +76,6 @@ export class ProfilePage extends React.Component {
             institution={profile.attributes}
             showModal={this.props.showModal}
             preSelectedProgram={this.props.params.preSelectedProgram}
-            gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
             selectedProgram={this.props.calculator.selectedProgram}
           />
         );
@@ -90,7 +89,6 @@ export class ProfilePage extends React.Component {
             calculator={this.props.calculator}
             eligibility={this.props.eligibility}
             version={this.props.location.query.version}
-            gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
             gibctEybBottomSheet={this.props.gibctEybBottomSheet}
             gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
             gibctFilterEnhancement={this.props.gibctFilterEnhancement}
@@ -122,9 +120,6 @@ const mapStateToProps = state => {
     profile,
     calculator,
     eligibility,
-    gibctEstimateYourBenefits: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
-    ],
     gibctEybBottomSheet: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctEybBottomSheet
     ],

@@ -81,7 +81,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
-  title: 'Add or remove dependents from your VA benefits',
+  title: 'Add or remove a dependent on your VA disability benefits',
   subTitle: 'VA Form 21-686c (and 21-674)',
   defaultDefinitions: { ...fullSchema.definitions },
   transformForSubmit: customTransformForSubmit,

@@ -3,6 +3,7 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 
 import CommunityCareSection from '../../components/review/CommunityCareSection';
+import { MemoryRouter } from 'react-router-dom';
 
 const defaultData = {
   phoneNumber: '5035551234',
@@ -47,7 +48,9 @@ describe('Accessibility', () => {
 
   beforeEach(() => {
     tree = mount(
-      <CommunityCareSection data={data} vaCityState={vaCityState} />,
+      <MemoryRouter>
+        <CommunityCareSection data={data} vaCityState={vaCityState} />
+      </MemoryRouter>,
     );
   });
 

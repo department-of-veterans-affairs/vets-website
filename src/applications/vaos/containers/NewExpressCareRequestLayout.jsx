@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Breadcrumbs from '../components/Breadcrumbs';
 import NeedHelp from '../components/NeedHelp';
@@ -10,13 +10,13 @@ import { selectExpressCare } from '../utils/selectors';
 import ErrorMessage from '../components/ErrorMessage';
 
 function NewExpressCareRequestLayout({
-  router,
-  location,
   children,
   windowsStatus,
   allowRequests,
   fetchExpressCareWindows,
 }) {
+  const history = useHistory();
+  const location = useLocation();
   useEffect(() => {
     if (windowsStatus === FETCH_STATUS.notStarted) {
       fetchExpressCareWindows();
@@ -32,17 +32,17 @@ function NewExpressCareRequestLayout({
       !pathname.endsWith('new-express-care-request') &&
       !pathname.endsWith('confirmation')
     ) {
-      router.replace('/new-express-care-request');
+      history.replace('/new-express-care-request');
     }
   }, []);
 
   useEffect(
     () => {
       if (windowsStatus === FETCH_STATUS.succeeded && !allowRequests) {
-        router.push('/');
+        history.push('/');
       }
     },
-    [router, windowsStatus, allowRequests],
+    [history, windowsStatus, allowRequests],
   );
 
   return (

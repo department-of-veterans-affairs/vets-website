@@ -162,8 +162,7 @@ export class ConfirmEligibilityView extends React.Component {
           <div className="vads-u-margin-top--neg2">
             <a
               className={'usa-button-primary va-button-primary'}
-              href="/education/about-gi-bill-benefits/"
-              target="self"
+              href="/education/"
               onClick={captureEvents.exitApplication()}
             >
               Exit application

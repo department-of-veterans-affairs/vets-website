@@ -3,6 +3,7 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
+import ArrayField from '../components/ArrayField';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -53,6 +54,7 @@ export const uiSchema = {
       'ui:title': 'Military service history',
       'ui:description':
         'Please add or update your military service history details below.',
+      'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
         viewField: ValidatedServicePeriodView,

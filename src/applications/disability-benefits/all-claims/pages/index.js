@@ -94,6 +94,7 @@ import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemplo
 import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
 import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
+import * as veteranInfo from './veteranInfo';
 import * as workBehaviorChanges from './workBehaviorChanges';
 
 export {
@@ -193,5 +194,6 @@ export {
   uploadUnemployabilitySupportingDocumentsChoice,
   vaEmployee,
   vaMedicalRecords,
+  veteranInfo,
   workBehaviorChanges,
 };

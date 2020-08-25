@@ -1,20 +1,23 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import { Route } from 'react-router-dom';
 
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
-import VAFacilityPage from '../../containers/VAFacilityPage';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import VAFacilityPage from '../../containers/VAFacilityPage';
 import {
   getParentSiteMock,
   getFacilityMock,
   getVAFacilityMock,
   getClinicMock,
 } from '../mocks/v0';
-import { createTestStore, setTypeOfCare } from '../mocks/setup';
+import {
+  createTestStore,
+  setTypeOfCare,
+  renderWithStoreAndRouter,
+} from '../mocks/setup';
 import {
   mockEligibilityFetches,
   mockParentSites,
@@ -90,10 +93,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -162,15 +162,14 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const { findByText, baseElement, getByText } = renderInReduxProvider(
-      <VAFacilityPage router={router} />,
-      {
-        store,
-      },
-    );
+    const {
+      findByText,
+      baseElement,
+      getByText,
+      history,
+    } = renderWithStoreAndRouter(<Route component={VAFacilityPage} />, {
+      store,
+    });
 
     expect(baseElement).to.contain.text('Finding your VA facility');
     await findByText(/we found one VA location for you/i);
@@ -184,7 +183,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
 
     fireEvent.click(await findByText(/Continue/));
     await waitFor(() =>
-      expect(router.push.firstCall.args[0]).to.equal(
+      expect(history.push.firstCall.args[0]).to.equal(
         '/new-appointment/request-date',
       ),
     );
@@ -241,10 +240,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -308,12 +304,12 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
-      store,
-    });
+    const screen = renderWithStoreAndRouter(
+      <Route component={VAFacilityPage} />,
+      {
+        store,
+      },
+    );
 
     await screen.findByText(/Cheyenne VA Medical Center/);
 
@@ -362,10 +358,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -415,10 +408,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /mental health/i);
 
-      const router = {
-        push: sinon.spy(),
-      };
-      const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
@@ -444,10 +434,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /mental health/i);
 
-      const router = {
-        push: sinon.spy(),
-      };
-      const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
@@ -467,10 +454,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /mental health/i);
 
-      const router = {
-        push: sinon.spy(),
-      };
-      const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
@@ -525,10 +509,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /mental health/i);
 
-      const router = {
-        push: sinon.spy(),
-      };
-      const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
@@ -553,10 +534,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /mental health/i);
 
-      const router = {
-        push: sinon.spy(),
-      };
-      const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
@@ -587,10 +565,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /mental health/i);
 
-      const router = {
-        push: sinon.spy(),
-      };
-      const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
@@ -623,10 +598,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /mental health/i);
 
-      const router = {
-        push: sinon.spy(),
-      };
-      let screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
@@ -636,7 +608,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
 
       await cleanup();
 
-      screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      screen = renderWithStoreAndRouter(<Route component={VAFacilityPage} />, {
         store,
       });
 
@@ -660,10 +632,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /mental health/i);
 
-      const router = {
-        push: sinon.spy(),
-      };
-      const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
@@ -682,10 +651,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /mental health/i);
 
-      const router = {
-        push: sinon.spy(),
-      };
-      const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
@@ -748,12 +714,12 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
-      store,
-    });
+    const screen = renderWithStoreAndRouter(
+      <Route component={VAFacilityPage} />,
+      {
+        store,
+      },
+    );
 
     expect(screen.baseElement).to.contain.text('Finding your VA facility');
     await waitFor(() =>
@@ -761,7 +727,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     );
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(router.push.firstCall.args[0]).to.equal(
+      expect(screen.history.push.firstCall.args[0]).to.equal(
         '/new-appointment/clinics',
       ),
     );
@@ -807,12 +773,12 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
-      store,
-    });
+    const screen = renderWithStoreAndRouter(
+      <Route component={VAFacilityPage} />,
+      {
+        store,
+      },
+    );
 
     expect(screen.baseElement).to.contain.text('Finding your VA facility');
     await waitFor(() =>
@@ -820,7 +786,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     );
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(router.push.firstCall.args[0]).to.equal(
+      expect(screen.history.push.firstCall.args[0]).to.equal(
         '/new-appointment/request-date',
       ),
     );
@@ -830,10 +796,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -846,10 +809,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -864,12 +824,12 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
-      store,
-    });
+    const screen = renderWithStoreAndRouter(
+      <Route component={VAFacilityPage} />,
+      {
+        store,
+      },
+    );
 
     await screen.findByText(
       /Sorry, we couldn't find any VA health systems you've been seen at/i,
@@ -877,7 +837,9 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
 
     fireEvent.click(screen.getByText('Back'));
     await waitFor(() =>
-      expect(router.push.firstCall.args[0]).to.equal('/new-appointment'),
+      expect(screen.history.push.firstCall.args[0]).to.equal(
+        '/new-appointment',
+      ),
     );
   });
 });

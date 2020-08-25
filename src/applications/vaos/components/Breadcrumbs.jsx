@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 
 export default function VAOSBreadcrumbs({ children }) {
