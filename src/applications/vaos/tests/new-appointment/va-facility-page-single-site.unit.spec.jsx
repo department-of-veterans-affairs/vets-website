@@ -842,4 +842,120 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       ),
     );
   });
+
+  it('should use correct eligibility data after switching type of care', async () => {
+    mockParentSites(
+      ['983'],
+      [
+        {
+          id: '983',
+          attributes: {
+            ...getParentSiteMock().attributes,
+            institutionCode: '983',
+            rootStationCode: '983',
+            parentStationCode: '983',
+          },
+        },
+      ],
+    );
+    mockSupportedFacilities({
+      siteId: '983',
+      parentId: '983',
+      typeOfCareId: '323',
+      data: [
+        {
+          id: '983GC',
+          attributes: {
+            ...getFacilityMock().attributes,
+            authoritativeName: 'Bozeman medical center',
+            institutionCode: '983GC',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            directSchedulingSupported: true,
+            requestSupported: true,
+          },
+        },
+        {
+          id: '983BC',
+          attributes: {
+            ...getFacilityMock().attributes,
+            institutionCode: '983BC',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            directSchedulingSupported: true,
+            requestSupported: true,
+          },
+        },
+      ],
+    });
+    mockSupportedFacilities({
+      siteId: '983',
+      parentId: '983',
+      typeOfCareId: '502',
+      data: [
+        {
+          id: '983AZ',
+          attributes: {
+            ...getFacilityMock().attributes,
+            authoritativeName: 'Belgrade medical center',
+            institutionCode: '983AZ',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            directSchedulingSupported: true,
+            requestSupported: true,
+          },
+        },
+        {
+          id: '983BZ',
+          attributes: {
+            ...getFacilityMock().attributes,
+            institutionCode: '983BZ',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            directSchedulingSupported: true,
+            requestSupported: true,
+          },
+        },
+      ],
+    });
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983GC',
+      typeOfCareId: '323',
+    });
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983AZ',
+      typeOfCareId: '502',
+      limit: true,
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+
+    const router = {
+      push: sinon.spy(),
+    };
+    let screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      store,
+    });
+
+    fireEvent.click(await screen.findByLabelText(/Bozeman medical center/i));
+    await screen.findByText(
+      /You’ve reached the limit for appointment requests at this location/i,
+    );
+
+    await cleanup();
+
+    await setTypeOfCare(store, /mental health/i);
+    screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+      store,
+    });
+
+    fireEvent.click(await screen.findByLabelText(/Belgrade medical center/i));
+    expect(
+      await screen.findByText(
+        /We couldn’t find a recent appointment at this location/i,
+      ),
+    ).to.exist;
+  });
 });
