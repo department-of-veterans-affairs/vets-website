@@ -139,7 +139,7 @@ export function fetchRequestLimits() {
   };
 }
 
-export function routeToPageInFlow(flow, router, current, action) {
+export function routeToPageInFlow(flow, history, current, action) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
@@ -159,7 +159,7 @@ export function routeToPageInFlow(flow, router, current, action) {
       dispatch({
         type: FORM_PAGE_CHANGE_COMPLETED,
       });
-      router.push(nextPage.url);
+      history.push(nextPage.url);
     } else if (nextPage) {
       throw new Error(`Tried to route to a page without a url: ${nextPage}`);
     } else {
@@ -168,14 +168,14 @@ export function routeToPageInFlow(flow, router, current, action) {
   };
 }
 
-export function routeToNextAppointmentPage(router, current) {
-  return routeToPageInFlow(newExpressCareRequestFlow, router, current, 'next');
+export function routeToNextAppointmentPage(history, current) {
+  return routeToPageInFlow(newExpressCareRequestFlow, history, current, 'next');
 }
 
-export function routeToPreviousAppointmentPage(router, current) {
+export function routeToPreviousAppointmentPage(history, current) {
   return routeToPageInFlow(
     newExpressCareRequestFlow,
-    router,
+    history,
     current,
     'previous',
   );
@@ -211,7 +211,7 @@ async function getFacilityName(id) {
     .find(facility => facility.institutionCode === id)?.authoritativeName;
 }
 
-export function submitExpressCareRequest(router) {
+export function submitExpressCareRequest(history) {
   return async (dispatch, getState) => {
     const newRequest = selectExpressCareNewRequest(getState());
     const { facilityId, siteId, data } = newRequest;
@@ -272,7 +272,7 @@ export function submitExpressCareRequest(router) {
         ...additionalEventData,
       });
       resetDataLayer();
-      router.push('/new-express-care-request/confirmation');
+      history.push('/new-express-care-request/confirmation');
     } catch (error) {
       const errorReason = !facilityWindowIsActive
         ? EXPRESS_CARE_ERROR_REASON.noActiveFacility

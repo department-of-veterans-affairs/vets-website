@@ -101,11 +101,11 @@ export class ReasonForAppointmentPage extends React.Component {
       : 'Choose a reason for your appointment';
 
   goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
+    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
   };
 
   goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
   };
 
   render() {

@@ -5,6 +5,7 @@ import moment from 'moment';
 import { MENTAL_HEALTH } from '../../utils/constants';
 
 import { WaitTimeAlert } from '../../components/WaitTimeAlert';
+import { MemoryRouter } from 'react-router-dom';
 
 const today = moment().format('YYYY-MM-DD');
 
@@ -161,13 +162,15 @@ describe('Wait Time Alert', () => {
 
   it('should render a request appointment button if eligible for request', () => {
     const tree = mount(
-      <WaitTimeAlert
-        preferredDate={today}
-        nextAvailableApptDate={today}
-        typeOfCareId="000"
-        facilityId="123"
-        eligibleForRequests
-      />,
+      <MemoryRouter>
+        <WaitTimeAlert
+          preferredDate={today}
+          nextAvailableApptDate={today}
+          typeOfCareId="000"
+          facilityId="123"
+          eligibleForRequests
+        />
+      </MemoryRouter>,
     );
 
     expect(tree.exists('AlertBox')).to.equal(true);
@@ -177,13 +180,15 @@ describe('Wait Time Alert', () => {
 
   it('should render not a request appointment button if not eligible for request', () => {
     const tree = mount(
-      <WaitTimeAlert
-        preferredDate={today}
-        nextAvailableApptDate={today}
-        typeOfCareId="000"
-        facilityId="123"
-        eligibleForRequests={false}
-      />,
+      <MemoryRouter>
+        <WaitTimeAlert
+          preferredDate={today}
+          nextAvailableApptDate={today}
+          typeOfCareId="000"
+          facilityId="123"
+          eligibleForRequests={false}
+        />
+      </MemoryRouter>,
     );
 
     expect(tree.exists('AlertBox')).to.equal(true);

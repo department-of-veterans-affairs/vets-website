@@ -42,7 +42,10 @@ const transform = (entity, { ancestors }) => ({
     ? entity.fieldLocationServices
     : null,
   fieldMainLocation: getDrupalValue(entity.fieldMainLocation),
-  fieldMedia: entity.fieldMedia[0] || null,
+  fieldMedia:
+    entity.fieldMedia && entity.fieldMedia.length
+      ? { entity: entity.fieldMedia[0] }
+      : null,
   fieldMentalHealthPhone: getDrupalValue(entity.fieldMentalHealthPhone),
   fieldNicknameForThisFacility: getDrupalValue(
     entity.fieldNicknameForThisFacility,
@@ -57,7 +60,7 @@ const transform = (entity, { ancestors }) => ({
   fieldRegionPage:
     entity.fieldRegionPage[0] &&
     !ancestors.find(r => r.entity.uuid === entity.fieldRegionPage[0].uuid)
-      ? entity.fieldRegionPage[0]
+      ? { entity: entity.fieldRegionPage[0] }
       : null,
   fieldTwitter: getSocialMediaObject(entity.fieldTwitter),
 });

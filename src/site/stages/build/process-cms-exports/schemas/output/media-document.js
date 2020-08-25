@@ -2,28 +2,21 @@ module.exports = {
   type: 'object',
   properties: {
     contentModelType: { enum: ['media-document'] },
-    entity: {
+    entityType: { enum: ['media'] },
+    entityBundle: { enum: ['document'] },
+    fieldDocument: {
       type: 'object',
       properties: {
-        entityType: { enum: ['media'] },
-        entityBundle: { enum: ['document'] },
-        fieldDocument: {
+        entity: {
           type: 'object',
           properties: {
-            entity: {
-              type: 'object',
-              properties: {
-                filename: { type: 'string' },
-                url: { type: ['string', 'null'] },
-              },
-              required: ['filename', 'url'],
-            },
+            filename: { type: 'string' },
+            url: { type: ['string', 'null'] },
           },
-          required: ['entity'],
+          required: ['filename', 'url'],
         },
       },
-      required: ['fieldDocument'],
     },
   },
-  required: ['entity'],
+  required: ['fieldDocument'],
 };

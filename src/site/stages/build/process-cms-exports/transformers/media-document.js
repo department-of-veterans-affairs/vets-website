@@ -1,18 +1,15 @@
-const { getDrupalValue } = require('./helpers');
-
 const transform = entity => ({
-  entity: {
-    entityType: 'media',
-    entityBundle: 'document',
-    fieldDocument: {
-      entity: {
-        filename: getDrupalValue(entity.name),
-        url: entity.path[0].alias,
-      },
+  entityType: 'media',
+  entityBundle: 'document',
+  fieldDocument: {
+    entity: {
+      filename: entity.fieldDocument[0].filename,
+      url: entity.fieldDocument[0].url,
     },
   },
 });
+
 module.exports = {
-  filter: ['name', 'path'],
+  filter: ['name', 'path', 'field_document'],
   transform,
 };

@@ -38,8 +38,19 @@ module.exports = {
     fieldMetaTitle: { type: 'string' },
     fieldOffice: {
       oneOf: [
-        { $ref: 'output/node-health_care_region_page' },
-        { $ref: 'output/node-office' },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/node-health_care_region_page' },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/node-office' },
+          },
+        },
+        { type: 'null' },
       ],
     },
     reverseFieldListingNode: reverseFieldSchema,
