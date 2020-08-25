@@ -275,9 +275,4 @@ export function initExpressCareMocks() {
       },
     },
   });
-
-  // preferences
-  // cy.route({
-  //   method: 'POST',
-  // });
 }
