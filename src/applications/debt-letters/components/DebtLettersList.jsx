@@ -118,23 +118,22 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
       {!isVBMSError &&
         debtLinks.length < 1 && (
           <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
-            <h4 className="vads-u-font-family--serif vads-u-margin-top--0">
-              Our records show that you don't have any debt letters
-            </h4>
+            <h3 className="vads-u-font-family--serif vads-u-margin-top--0">
+              VA debt collection is on hold due to the coronavirus
+            </h3>
             <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-              Debt collection has been put on hold due to the COVID-19 pandemic.
-              If you received a debt after March 2020, debt collection letters
-              haven't been mailed to your address. For more information about
-              your debt, call the Debt Management Center at{' '}
-              <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-                800-827-0648
-              </a>
-              {'.'}
+              We’ve taken action to stop collection on newly established Veteran
+              debt and make it easier for Veterans to request extended repayment
+              plans and address other financial needs during this time.
             </p>
             <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-              For medical copayment debts, visit{' '}
-              <a href="/health-care/pay-copay-bill/">Pay your VA copay bill</a>{' '}
-              to learn about your payment options.
+              You won’t receive any debt collection letters in the mail until
+              after December 31, 2020. For the latest information about managing
+              VA debt, visit our{' '}
+              <a href="http://va.gov/coronavirus-veteran-frequently-asked-questions/">
+                coronavirus FAQs
+              </a>
+              {'.'}
             </p>
           </div>
         )}
