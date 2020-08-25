@@ -194,7 +194,7 @@ export function initAppointmentListMock() {
 export function initExpressCareMocks() {
   const today = moment();
   initAppointmentListMock();
-  // request eligibility criteria
+
   cy.route({
     method: 'GET',
     url: '/vaos/v0/request_eligibility_criteria*',
@@ -222,7 +222,6 @@ export function initExpressCareMocks() {
     },
   }).as('getRequestEligibilityCriteria');
 
-  // request limit
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities/983/limits*',
@@ -237,7 +236,6 @@ export function initExpressCareMocks() {
     },
   }).as('getRequestLimits');
 
-  // parent site
   const parentSite = {
     id: '983',
     attributes: {
@@ -257,7 +255,6 @@ export function initExpressCareMocks() {
     },
   });
 
-  // submit
   cy.route({
     method: 'POST',
     url: '/vaos/v0/appointment_requests?type=va',
