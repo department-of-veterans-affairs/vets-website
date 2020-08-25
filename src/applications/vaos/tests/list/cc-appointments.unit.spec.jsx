@@ -1,10 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import reducers from '../../reducers';
 import { getCCAppointmentMock } from '../mocks/v0';
 import { mockAppointmentInfo } from '../mocks/helpers';
+import { renderWithStoreAndRouter } from '../mocks/setup';
 
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 
@@ -43,7 +43,7 @@ describe('VAOS integration: upcoming CC appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderInReduxProvider(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -83,10 +83,13 @@ describe('VAOS integration: upcoming CC appointments', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
-    const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-      initialState,
-      reducers,
-    });
+    const { findByText } = renderWithStoreAndRouter(
+      <FutureAppointmentsList />,
+      {
+        initialState,
+        reducers,
+      },
+    );
 
     return expect(findByText(/You don’t have any appointments/i)).to.eventually
       .be.ok;
@@ -102,10 +105,13 @@ describe('VAOS integration: upcoming CC appointments', () => {
     };
 
     mockAppointmentInfo({ cc: [appointment] });
-    const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-      initialState,
-      reducers,
-    });
+    const { findByText } = renderWithStoreAndRouter(
+      <FutureAppointmentsList />,
+      {
+        initialState,
+        reducers,
+      },
+    );
 
     const dateHeader = await findByText(
       new RegExp(appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'), 'i'),

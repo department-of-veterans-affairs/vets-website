@@ -8,8 +8,7 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import TypeOfCarePage, * as noRedux from '../../containers/TypeOfCarePage';
 import { TYPES_OF_CARE } from '../../utils/constants';
-import { createTestStore } from '../mocks/setup';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 import { fireEvent } from '@testing-library/dom';
 
 const initialSchema = {
@@ -43,7 +42,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   it('should not submit empty form', () => {
     const openTypeOfCarePage = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -51,7 +50,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
-        router={router}
+        history={history}
         data={{}}
       />,
     );
@@ -59,7 +58,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(router.push.called).to.be.false;
+    expect(history.push.called).to.be.false;
     form.unmount();
   });
 
@@ -68,7 +67,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     setFetchJSONResponse(global.fetch, { data: [] });
     const openTypeOfCarePage = sinon.spy();
     const updateFormData = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -77,7 +76,7 @@ describe('VAOS <TypeOfCarePage>', () => {
         openTypeOfCarePage={openTypeOfCarePage}
         updateFormData={updateFormData}
         schema={initialSchema}
-        router={router}
+        history={history}
         data={{}}
       />,
     );
@@ -182,11 +181,11 @@ describe('VAOS <TypeOfCarePage>', () => {
   it('should NOT display alert message once user clicks the update address button using redux state', () => {
     const store = createTestStore({});
 
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
-    const { getByText, queryByText } = renderInReduxProvider(
-      <TypeOfCarePage router={router} />,
+    const { getByText, queryByText } = renderWithStoreAndRouter(
+      <TypeOfCarePage history={history} />,
       { store },
     );
     expect(getByText(/You need to have a home addres/i)).to.exist;

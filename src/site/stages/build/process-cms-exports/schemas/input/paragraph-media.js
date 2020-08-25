@@ -9,7 +9,13 @@ module.exports = {
     // because it doesn't look like it's used.
     //
     // field_markup: { $ref: 'GenericNestedString' },
-    field_media: { $ref: 'EntityReferenceArray' },
+
+    field_media: {
+      type: 'array',
+      items: {
+        oneOf: [{ $ref: 'EntityReference' }, { type: 'array', maxItems: 0 }],
+      },
+    },
   },
   required: [
     'field_allow_clicks_on_this_image',

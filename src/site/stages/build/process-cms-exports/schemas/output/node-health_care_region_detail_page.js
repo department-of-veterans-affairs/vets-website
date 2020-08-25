@@ -21,8 +21,19 @@ module.exports = {
     fieldIntroText: { type: 'string' },
     fieldOffice: {
       oneOf: [
-        { $ref: 'output/node-office' },
-        { $ref: 'output/node-health_care_region_page' },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/node-health_care_region_page' },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/node-office' },
+          },
+        },
+        { type: 'null' },
       ],
     },
     fieldRelatedLinks: {
