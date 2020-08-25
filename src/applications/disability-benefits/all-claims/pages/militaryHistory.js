@@ -1,17 +1,8 @@
 import moment from 'moment';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import AutosuggestField from 'platform/forms-system/src/js/fields/AutosuggestField';
-import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
-import { showSeparationLocation } from '../utils';
-import {
-  SeparationLocationTitle,
-  SeparationLocationDescription,
-} from '../content/militaryHistory';
-import { checkSeparationLocation } from '../validations';
-import separationLocations from '../content/separationLocations';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -77,32 +68,6 @@ export const uiSchema = {
         },
       },
     },
-    'view:separationLocation': {
-      'ui:title': SeparationLocationTitle,
-      'ui:description': SeparationLocationDescription,
-      'ui:options': {
-        hideIf: formData => !showSeparationLocation(formData),
-      },
-    },
-    // Not using autosuggest.uiSchema; validations not set?
-    separationLocation: {
-      'ui:title': 'Enter a location',
-      'ui:field': AutosuggestField,
-      'ui:required': formData => showSeparationLocation(formData),
-      'ui:validations': [checkSeparationLocation],
-      'ui:options': {
-        hideIf: formData => !showSeparationLocation(formData),
-        showFieldLabel: 'label',
-        maxOptions: 20,
-        getOptions: () =>
-          Promise.resolve().then(() =>
-            separationLocations.map(({ code, description }) => ({
-              id: code,
-              label: description,
-            })),
-          ),
-      },
-    },
   },
 };
 
@@ -119,11 +84,6 @@ export const schema = {
           type: 'object',
           properties: {},
         },
-        'view:separationLocation': {
-          type: 'object',
-          properties: {},
-        },
-        separationLocation: autosuggest.schema,
       },
     },
   },

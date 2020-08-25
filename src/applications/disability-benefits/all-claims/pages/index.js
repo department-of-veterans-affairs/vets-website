@@ -70,6 +70,7 @@ import * as secondaryOtherSources from './secondaryOtherSources';
 import * as secondaryOtherSourcesHelp from './secondaryOtherSourcesHelp';
 import * as secondaryUploadSourcesChoice from './secondaryUploadSourcesChoice';
 import * as secondaryUploadSources from './secondaryUploadSources';
+import * as separationLocation from './separationLocation';
 import * as separationPay from './separationPay';
 import * as servedInCombatZone from './servedInCombatZone';
 import * as serviceTreatmentRecords from './serviceTreatmentRecords';
@@ -168,6 +169,7 @@ export {
   secondaryOtherSourcesHelp,
   secondaryUploadSources,
   secondaryUploadSourcesChoice,
+  separationLocation,
   separationPay,
   servedInCombatZone,
   serviceTreatmentRecords,
