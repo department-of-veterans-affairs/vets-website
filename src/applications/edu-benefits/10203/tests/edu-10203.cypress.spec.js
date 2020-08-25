@@ -6,6 +6,8 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
+Cypress.config('waitForAnimations', true);
+
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -29,8 +31,6 @@ const testConfig = createTestConfig(
         cy.get('@testKey').then(testKey => {
           if (testKey === 'confirmation-stem-test') {
             cy.get('input[id="root_isEnrolledStemNo"]').click();
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.wait(500);
             cy.get('input[id="root_isPursuingTeachingCertNo"]').click();
             cy.get('input[id="root_benefitLeft_0"]').click();
           } else {
