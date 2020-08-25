@@ -1,9 +1,7 @@
 import { expect } from 'chai';
 import moment from 'moment';
-import sinon from 'sinon';
 import { waitFor, fireEvent } from '@testing-library/dom';
 import React from 'react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
 import {
   mockFetch,
@@ -13,7 +11,7 @@ import {
 import { setupExpressCareMocks } from '../mocks/helpers';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
 import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
-import { createTestStore } from '../mocks/setup';
+import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 
 const initialState = {
   user: {
@@ -21,10 +19,6 @@ const initialState = {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   },
-};
-
-const location = {
-  pathname: '/new-express-care-request',
 };
 
 describe('VAOS integration: Express Care info page', () => {
@@ -52,16 +46,13 @@ describe('VAOS integration: Express Care info page', () => {
       isWindowOpen: true,
     });
 
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
+    const screen = renderWithStoreAndRouter(
+      <NewExpressCareRequestLayout>
+        <ExpressCareInfoPage />
       </NewExpressCareRequestLayout>,
       {
         store,
+        path: '/new-express-care-request',
       },
     );
 
@@ -78,13 +69,15 @@ describe('VAOS integration: Express Care info page', () => {
     ).to.exist;
 
     fireEvent.click(screen.getByText('Cancel'));
-    expect(router.push.calledWith('/')).to.be.true;
+    expect(screen.history.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
     await waitFor(
       () =>
         expect(
-          router.push.calledWith('/new-express-care-request/select-reason'),
+          screen.history.push.calledWith(
+            '/new-express-care-request/select-reason',
+          ),
         ).to.be.true,
     );
   });
@@ -92,25 +85,19 @@ describe('VAOS integration: Express Care info page', () => {
   it('should redirect to error page if request limits reached', async () => {
     setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: false });
 
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
     const store = createTestStore({
       ...initialState,
     });
-    const screen = renderInReduxProvider(
-      <ExpressCareInfoPage router={router} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+      store,
+    });
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.calledWith('/new-express-care-request/request-limit')).to
-      .be.true;
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
+    expect(
+      screen.history.push.calledWith('/new-express-care-request/request-limit'),
+    ).to.be.true;
   });
 
   it('should redirect to error page if request limit fetch fails', async () => {
@@ -123,43 +110,31 @@ describe('VAOS integration: Express Care info page', () => {
       ),
       { errors: [] },
     );
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
     const store = createTestStore({
       ...initialState,
     });
-    const screen = renderInReduxProvider(
-      <ExpressCareInfoPage router={router} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+      store,
+    });
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     fireEvent.click(await screen.findByText(/^Continue/));
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.calledWith('/new-express-care-request/request-limit')).to
-      .be.true;
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
+    expect(
+      screen.history.push.calledWith('/new-express-care-request/request-limit'),
+    ).to.be.true;
   });
 
   it('should redirect home when there is not an active window', async () => {
     setupExpressCareMocks({ isWindowOpen: false, isUnderRequestLimit: true });
-    const router = {
-      push: sinon.spy(),
-    };
     const store = createTestStore({
       ...initialState,
     });
-    renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequestLayout />, {
+      store,
+    });
 
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.firstCall.args[0]).to.equal('/');
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
+    expect(screen.history.push.firstCall.args[0]).to.equal('/');
   });
 });

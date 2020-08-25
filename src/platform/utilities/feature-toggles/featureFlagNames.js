@@ -25,7 +25,6 @@ export default Object.freeze({
   ssoeInbound: 'ssoeInbound',
   ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',
   eduBenefitsStemScholarship: 'eduBenefitsStemScholarship',
-  gibctEstimateYourBenefits: 'gibctEstimateYourBenefits',
   form526OriginalClaims: 'form526OriginalClaims',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
@@ -53,4 +52,5 @@ export default Object.freeze({
     'show_new_schedule_view_appointments_page',
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
+  show526Wizard: 'show526Wizard',
 });
