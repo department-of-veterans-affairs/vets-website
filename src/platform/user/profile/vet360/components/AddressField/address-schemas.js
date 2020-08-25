@@ -212,30 +212,5 @@ const uiSchema = {
   },
 };
 
-/**
- * Helper that returns the correct form schema object based on which address
- * field is being rendered
- */
-export const getFormSchema = fieldName => {
-  if (fieldName === FIELD_NAMES.MAILING_ADDRESS) {
-    return cloneDeep(formSchema);
-  }
-  const schema = cloneDeep(formSchema);
-  delete schema.properties['view:livesOnMilitaryBase'];
-  delete schema.properties['view:livesOnMilitaryBaseInfo'];
-  return schema;
-};
-
-/**
- * Helper that returns the correct ui schema object based on which address
- * field is being rendered
- */
-export const getUiSchema = fieldName => {
-  if (fieldName === FIELD_NAMES.MAILING_ADDRESS) {
-    return cloneDeep(uiSchema);
-  }
-  const schema = cloneDeep(uiSchema);
-  delete schema['view:livesOnMilitaryBase'];
-  delete schema['view:livesOnMilitaryBaseInfo'];
-  return schema;
-};
+export const getFormSchema = () => cloneDeep(formSchema);
+export const getUiSchema = () => cloneDeep(uiSchema);
