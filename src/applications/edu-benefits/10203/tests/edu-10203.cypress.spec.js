@@ -30,7 +30,7 @@ const testConfig = createTestConfig(
           if (testKey === 'confirmation-stem-test') {
             cy.get('input[id="root_isEnrolledStemNo"]').click();
             // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.wait(1500);
+            cy.wait(500);
             cy.get('input[id="root_isPursuingTeachingCertNo"]').click();
             cy.get('input[id="root_benefitLeft_0"]').click();
           } else {
