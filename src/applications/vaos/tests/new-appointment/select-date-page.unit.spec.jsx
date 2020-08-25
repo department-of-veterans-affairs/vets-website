@@ -4,7 +4,6 @@ import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
 import { getClinicMock, getAppointmentSlotMock } from '../mocks/v0';
@@ -14,6 +13,7 @@ import {
   setVAFacility,
   setClinic,
   setPreferredDate,
+  renderWithStoreAndRouter,
 } from '../mocks/setup';
 import {
   mockEligibilityFetches,
@@ -124,7 +124,7 @@ describe('VAOS integration: select date time slot page', () => {
     await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
-    let screen = renderInReduxProvider(<DateTimeSelectPage />, {
+    let screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
       store,
     });
 
@@ -149,7 +149,7 @@ describe('VAOS integration: select date time slot page', () => {
 
     // Second pass make sure the slots associated with red team are displayed
     await setClinic(store, /red team/i);
-    screen = renderInReduxProvider(<DateTimeSelectPage />, {
+    screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
       store,
     });
 

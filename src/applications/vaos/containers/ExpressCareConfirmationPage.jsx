@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router';
+import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -13,18 +13,19 @@ import ExpressCareCard from '../components/ExpressCareCard';
 
 const pageTitle = 'You’ve successfully submitted your Express Care request';
 
-function ExpressCareConfirmationPage({ successfulRequest, router }) {
+function ExpressCareConfirmationPage({ successfulRequest }) {
+  const history = useHistory();
   useEffect(
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
 
       if (!successfulRequest) {
-        router.replace('/new-express-care-request');
+        history.replace('/new-express-care-request');
       }
 
       scrollAndFocus();
     },
-    [successfulRequest, router],
+    [successfulRequest, history],
   );
 
   if (!successfulRequest) {
