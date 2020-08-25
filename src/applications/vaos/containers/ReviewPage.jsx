@@ -26,10 +26,10 @@ export class ReviewPage extends React.Component {
   componentDidMount() {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    const { data, router } = this.props;
+    const { data, history } = this.props;
     // Check formData for typeOfCareId. Reroute if empty
-    if (router && !data?.typeOfCareId) {
-      router.replace('/new-appointment');
+    if (history && !data?.typeOfCareId) {
+      history.replace('/new-appointment');
     }
   }
 
@@ -41,7 +41,7 @@ export class ReviewPage extends React.Component {
       clinic,
       vaCityState,
       flowType,
-      router,
+      history,
       submitStatus,
       submitStatusVaos400,
       systemId,
@@ -75,7 +75,7 @@ export class ReviewPage extends React.Component {
             }
             isLoading={submitStatus === FETCH_STATUS.loading}
             loadingText="Submission in progress"
-            onClick={() => this.props.submitAppointmentOrRequest(router)}
+            onClick={() => this.props.submitAppointmentOrRequest(history)}
             className="usa-button usa-button-primary"
           >
             {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}

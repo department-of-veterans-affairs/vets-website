@@ -11,8 +11,8 @@ describe('<TabItem>', () => {
       <TabItem id="title" title="Title Here" tabpath="upcoming" />,
     );
 
-    expect(tree.find('IndexLink').props().id).to.equal('tabtitle');
-    expect(tree.find('IndexLink').props().to).to.equal('upcoming');
+    expect(tree.find('NavLink').props().id).to.equal('tabtitle');
+    expect(tree.find('NavLink').props().to).to.equal('upcoming');
     tree.unmount();
   });
 
@@ -21,12 +21,12 @@ describe('<TabItem>', () => {
       <TabItem id="title" isActive title="Title Here" tabpath="upcoming" />,
     );
 
-    expect(tree.find('IndexLink').props()['aria-controls']).to.equal(
+    expect(tree.find('NavLink').props()['aria-controls']).to.equal(
       'tabpaneltitle',
     );
-    expect(tree.find('IndexLink').props()['aria-selected']).to.equal('true');
-    expect(tree.find('IndexLink').props().id).to.equal('tabtitle');
-    expect(tree.find('IndexLink').props().to).to.equal('upcoming');
+    expect(tree.find('NavLink').props()['aria-selected']).to.equal('true');
+    expect(tree.find('NavLink').props().id).to.equal('tabtitle');
+    expect(tree.find('NavLink').props().to).to.equal('upcoming');
     tree.unmount();
   });
 
@@ -35,12 +35,12 @@ describe('<TabItem>', () => {
       <TabItem id="title" isActive title="Title Here" tabpath="upcoming" />,
     );
 
-    expect(tree.find('IndexLink').props()['aria-controls']).to.equal(
+    expect(tree.find('NavLink').props()['aria-controls']).to.equal(
       'tabpaneltitle',
     );
-    expect(tree.find('IndexLink').props()['aria-selected']).to.equal('true');
-    expect(tree.find('IndexLink').props().id).to.equal('tabtitle');
-    expect(tree.find('IndexLink').props().to).to.equal('upcoming');
+    expect(tree.find('NavLink').props()['aria-selected']).to.equal('true');
+    expect(tree.find('NavLink').props().id).to.equal('tabtitle');
+    expect(tree.find('NavLink').props().to).to.equal('upcoming');
     tree.unmount();
   });
 
@@ -56,7 +56,7 @@ describe('<TabItem>', () => {
       />,
     );
 
-    tree.find('IndexLink').simulate('keydown', { key: 'ArrowRight' });
+    tree.find('NavLink').simulate('keydown', { key: 'ArrowRight' });
     expect(onNextTab.called).to.be.true;
     tree.unmount();
   });
@@ -73,7 +73,7 @@ describe('<TabItem>', () => {
       />,
     );
 
-    tree.find('IndexLink').simulate('keydown', { key: 'ArrowLeft' });
+    tree.find('NavLink').simulate('keydown', { key: 'ArrowLeft' });
     expect(onPreviousTab.called).to.be.true;
     tree.unmount();
   });
@@ -86,7 +86,7 @@ describe('<TabItem>', () => {
     panel.id = 'tabpaneltitle';
     document.body.appendChild(panel);
 
-    tree.find('IndexLink').simulate('keydown', { key: 'ArrowDown' });
+    tree.find('NavLink').simulate('keydown', { key: 'ArrowDown' });
     expect(document.activeElement.id).to.equal('tabpaneltitle');
     tree.unmount();
   });
@@ -95,7 +95,7 @@ describe('<TabItem>', () => {
     const tree = shallow(
       <TabItem id="title" title="Title Here" tabpath="upcoming" />,
     );
-    expect(tree.find('IndexLink').props().className).to.contain(
+    expect(tree.find('NavLink').props().className).to.contain(
       'vaos-appts__tab',
     );
 

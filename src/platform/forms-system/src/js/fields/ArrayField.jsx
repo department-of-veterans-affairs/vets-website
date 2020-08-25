@@ -336,13 +336,15 @@ export default class ArrayField extends React.Component {
             }
             return (
               <div key={index} className="va-growable-background editable-row">
-                <div className="row small-collapse">
-                  <ViewField
-                    formData={item}
-                    onEdit={() => this.handleEdit(index)}
-                  />
+                <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
+                  <div className="vads-u-flex--fill">
+                    <ViewField
+                      formData={item}
+                      onEdit={() => this.handleEdit(index)}
+                    />
+                  </div>
                   <button
-                    className="usa-button-secondary edit-button"
+                    className="usa-button-secondary edit vads-u-flex--auto"
                     onClick={() => this.handleEdit(index)}
                     aria-label={`Edit ${title}`}
                   >

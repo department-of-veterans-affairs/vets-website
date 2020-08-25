@@ -12,7 +12,10 @@ module.exports = {
     fieldIntroText: { type: 'string' },
     fieldLeadership: { $ref: 'output/node-person_profile' },
     fieldMetaTitle: { type: 'string' },
-    fieldOffice: { $ref: 'output/node-health_care_region_page' },
+    fieldOffice: {
+      type: 'object',
+      properties: { entity: { $ref: 'output/node-health_care_region_page' } },
+    },
   },
   required: [
     'title',

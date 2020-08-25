@@ -76,3 +76,12 @@ export const OperatingStatus = {
  * Service type "Clinic/Center - Urgent Care" code
  */
 export const CLINIC_URGENTCARE_SERVICE = '261QU0200X';
+
+/**
+ * Error Messages
+ */
+export const Error = {
+  DEFAULT: 'We’re sorry. Something went wrong on our end. Please try again.',
+  LOCATION:
+    'Something’s not quite right. Please enter a valid or different location and try your search again.',
+};

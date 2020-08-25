@@ -4,6 +4,16 @@ import ErrorableDate from '@department-of-veterans-affairs/formation-react/Error
 import { pageNames } from './pageList';
 
 import unableToFileBDDProduction from './unable-to-file-bdd-production';
+import { SAVED_SEPARATION_DATE } from '../../all-claims/constants';
+
+const saveDischargeDate = date => {
+  if (date) {
+    const formattedDate = moment(date).format('YYYY-MM-DD');
+    window.sessionStorage.setItem(SAVED_SEPARATION_DATE, formattedDate);
+  } else {
+    window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+  }
+};
 
 // Figure out which page to go to based on the date entered
 const findNextPage = state => {
@@ -18,10 +28,13 @@ const findNextPage = state => {
     dateDischarge.diff(dateToday, 'days') + 1;
 
   if (differenceBetweenDatesInDays < 90) {
+    saveDischargeDate(dateDischarge);
     return pageNames.fileClaimEarly;
   } else if (differenceBetweenDatesInDays <= 180) {
+    saveDischargeDate(dateDischarge);
     return pageNames.fileBDD;
   }
+  saveDischargeDate();
   return pageNames.unableToFileBDD;
 };
 
@@ -55,13 +68,15 @@ const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
     return <unableToFileBDDProduction.component />;
   }
 
-  const onChange = pageState =>
+  const onChange = pageState => {
+    saveDischargeDate();
     setPageState(
       pageState,
       isDateComplete(pageState) && isDateInFuture(pageState)
         ? findNextPage(pageState)
         : undefined,
     );
+  };
 
   return (
     <ErrorableDate

@@ -264,7 +264,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "6.9.5",
-    "@department-of-veterans-affairs/formation-react": "5.4.9",
+    "@department-of-veterans-affairs/formation-react": "5.4.10",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.10.0",
@@ -283,6 +283,7 @@
     "fine-uploader": "^5.16.2",
     "foundation-sites": "^5.5.3",
     "history": "3",
+    "history-v4": "npm:history@4.9.0",
     "ics-js": "^0.10.2",
     "js-cookie": "^2.2.1",
     "js-yaml": "^3.14.0",

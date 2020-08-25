@@ -1,9 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import moment from 'moment';
 
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import {
   mockFetch,
   resetFetch,
@@ -22,6 +20,7 @@ import {
   createTestStore,
   setExpressCareFacility,
   setExpressCareReason,
+  renderWithStoreAndRouter,
 } from '../mocks/setup';
 import {
   mockRequestSubmit,
@@ -54,19 +53,11 @@ describe('VAOS integration: Express Care form submission', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
-    await setExpressCareFacility({ store, router });
-    await setExpressCareReason({ store, router, label: 'Cough' });
-
-    const screen = renderInReduxProvider(
-      <ExpressCareDetailsPage router={router} />,
-      {
-        store,
-      },
-    );
+    await setExpressCareFacility({ store });
+    await setExpressCareReason({ store, label: 'Cough' });
+    const screen = renderWithStoreAndRouter(<ExpressCareDetailsPage />, {
+      store,
+    });
 
     fireEvent.click(await screen.findByText(/submit express care/i));
     expect(screen.baseElement).not.to.contain.text(
@@ -78,10 +69,6 @@ describe('VAOS integration: Express Care form submission', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
     setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
     const parentSite = {
       id: '983',
@@ -107,14 +94,11 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     };
     mockRequestSubmit('va', requestData);
-    await setExpressCareFacility({ store, router });
-    await setExpressCareReason({ store, router, label: 'Cough' });
-    let screen = renderInReduxProvider(
-      <ExpressCareDetailsPage router={router} />,
-      {
-        store,
-      },
-    );
+    await setExpressCareFacility({ store });
+    await setExpressCareReason({ store, label: 'Cough' });
+    let screen = renderWithStoreAndRouter(<ExpressCareDetailsPage />, {
+      store,
+    });
 
     await screen.findByText(/tell us about your cough/i);
 
@@ -136,7 +120,7 @@ describe('VAOS integration: Express Care form submission', () => {
         'Submitting your Express Care request',
       ),
     );
-    expect(router.push.lastCall.args[0]).to.equal(
+    expect(screen.history.push.lastCall.args[0]).to.equal(
       '/new-express-care-request/confirmation',
     );
     await cleanup();
@@ -169,12 +153,9 @@ describe('VAOS integration: Express Care form submission', () => {
       bestTimetoCall: ['Morning', 'Afternoon', 'Evening'],
     });
 
-    screen = renderInReduxProvider(
-      <ExpressCareConfirmationPage router={router} />,
-      {
-        store,
-      },
-    );
+    screen = renderWithStoreAndRouter(<ExpressCareConfirmationPage />, {
+      store,
+    });
     expect(screen.baseElement).to.contain.text('Next step');
     expect(screen.baseElement).to.contain('.fa-exclamation-triangle');
     expect(screen.baseElement).to.contain(
@@ -197,19 +178,13 @@ describe('VAOS integration: Express Care form submission', () => {
     });
     store.dispatch(fetchExpressCareWindows());
 
-    const router = {
-      replace: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(
-      <ExpressCareConfirmationPage router={router} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ExpressCareConfirmationPage />, {
+      store,
+    });
 
-    await waitFor(() => expect(router.replace.called).to.be.true);
+    await waitFor(() => expect(screen.history.replace.called).to.be.true);
     expect(screen.baseElement.textContent).to.not.be.ok;
-    expect(router.replace.firstCall.args[0]).to.equal(
+    expect(screen.history.replace.firstCall.args[0]).to.equal(
       '/new-express-care-request',
     );
   });
@@ -218,10 +193,6 @@ describe('VAOS integration: Express Care form submission', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
     setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
     const parentSite = {
       id: '983',
@@ -247,8 +218,8 @@ describe('VAOS integration: Express Care form submission', () => {
       },
     };
     mockRequestSubmit('va', requestData);
-    await setExpressCareFacility({ store, router });
-    await setExpressCareReason({ store, router, label: 'Cough' });
+    await setExpressCareFacility({ store });
+    await setExpressCareReason({ store, label: 'Cough' });
     setFetchJSONFailure(
       global.fetch.withArgs(
         `${environment.API_URL}/vaos/v0/appointment_requests?type=va`,
@@ -256,7 +227,7 @@ describe('VAOS integration: Express Care form submission', () => {
       { errors: [] },
     );
 
-    const screen = renderInReduxProvider(<ExpressCareDetailsPage />, {
+    const screen = renderWithStoreAndRouter(<ExpressCareDetailsPage />, {
       store,
     });
 
@@ -343,18 +314,11 @@ describe('VAOS integration: Express Care form submission', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
-    await setExpressCareFacility({ store, router });
-    await setExpressCareReason({ store, router, label: 'Cough' });
-    const screen = renderInReduxProvider(
-      <ExpressCareDetailsPage router={router} />,
-      {
-        store,
-      },
-    );
+    await setExpressCareFacility({ store });
+    await setExpressCareReason({ store, label: 'Cough' });
+    const screen = renderWithStoreAndRouter(<ExpressCareDetailsPage />, {
+      store,
+    });
 
     fireEvent.change(await screen.getByLabelText(/phone number/i), {
       target: { value: requestData.attributes.phoneNumber },
@@ -372,7 +336,7 @@ describe('VAOS integration: Express Care form submission', () => {
         'Submitting your Express Care request',
       ),
     );
-    expect(router.push.lastCall.args[0]).to.equal(
+    expect(screen.history.push.lastCall.args[0]).to.equal(
       '/new-express-care-request/confirmation',
     );
 
@@ -396,16 +360,12 @@ describe('VAOS integration: Express Care form submission', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
     setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
-    await setExpressCareFacility({ store, router });
-    await setExpressCareReason({ store, router, label: 'Cough' });
+    await setExpressCareFacility({ store });
+    await setExpressCareReason({ store, label: 'Cough' });
     setupExpressCareMocks({ isWindowOpen: false, isUnderRequestLimit: true });
     store.dispatch(fetchExpressCareWindows());
-    const screen = renderInReduxProvider(<ExpressCareDetailsPage />, {
+    const screen = renderWithStoreAndRouter(<ExpressCareDetailsPage />, {
       store,
     });
 

@@ -6,6 +6,8 @@ import * as autosuggest from 'platform/forms-system/src/js/definitions/autosugge
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 import { showSeparationLocation } from '../utils';
+
+import ArrayField from '../components/ArrayField';
 import {
   SeparationLocationTitle,
   SeparationLocationDescription,
@@ -62,6 +64,7 @@ export const uiSchema = {
       'ui:title': 'Military service history',
       'ui:description':
         'Please add or update your military service history details below.',
+      'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
         viewField: ValidatedServicePeriodView,
