@@ -69,6 +69,7 @@ export const uiSchema = {
         itemName: 'Service Period',
         viewField: ValidatedServicePeriodView,
         reviewMode: true,
+        showSave: true,
       },
       items: {
         serviceBranch: {
