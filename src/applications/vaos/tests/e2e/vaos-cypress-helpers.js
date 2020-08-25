@@ -234,24 +234,24 @@ export function initExpressCareMocks() {
         },
       },
     },
-  }).as('getRequestLimits');
-
-  const parentSite = {
-    id: '983',
-    attributes: {
-      ...getParentSiteMock().attributes,
-      institutionCode: '983',
-      authoritativeName: 'Some VA facility',
-      rootStationCode: '983',
-      parentStationCode: '983',
-    },
-  };
+  });
 
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities?facility_codes[]=983',
     response: {
-      data: [parentSite],
+      data: [
+        {
+          id: '983',
+          attributes: {
+            ...getParentSiteMock().attributes,
+            institutionCode: '983',
+            authoritativeName: 'Some VA facility',
+            rootStationCode: '983',
+            parentStationCode: '983',
+          },
+        },
+      ],
     },
   });
 

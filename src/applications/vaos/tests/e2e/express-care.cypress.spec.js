@@ -12,12 +12,11 @@ describe('Express Care request flow', () => {
     cy.findByText('How Express Care works');
     cy.url().should('include', '/new-express-care-request');
     cy.axeCheck();
-    cy.findByText('Continue with Express Care request').click({ force: true });
-    cy.wait('@getRequestLimits');
+    cy.findByText('Continue with Express Care request').click();
     cy.findByText('Select a reason for your Express Care request');
     cy.url().should('include', '/new-express-care-request/select-reason');
     cy.axeCheck();
-    cy.findByText('Cough').click();
+    cy.findByLabelText('Cough').click();
     cy.findByText('Continue').click();
     cy.findByText('Express Care request details');
     cy.url().should('include', '/new-express-care-request/additional-details');
