@@ -31,7 +31,12 @@ module.exports = {
     fieldOffice: {
       oneOf: [
         { type: 'null' },
-        { $ref: 'output/node-health_care_region_page' },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/node-health_care_region_page' },
+          },
+        },
       ],
     },
     fieldPdfVersion: { $ref: 'Media' },

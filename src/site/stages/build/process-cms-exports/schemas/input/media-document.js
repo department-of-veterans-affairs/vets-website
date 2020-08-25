@@ -16,5 +16,5 @@ module.exports = {
       },
     },
   },
-  required: ['name', 'path'],
+  required: ['name', 'path', 'field_document'],
 };
