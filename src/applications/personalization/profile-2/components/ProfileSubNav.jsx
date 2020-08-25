@@ -1,44 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { NavLink } from 'react-router-dom';
-
 import { focusElement } from 'platform/utilities/ui';
 
-export function ProfileMenuItems({
-  routes,
-  isLOA3,
-  isInMVI,
-  clickHandler = null,
-}) {
-  return (
-    <ul>
-      {routes.map(route => {
-        // Do not render route if it is not isLOA3
-        if (route.requiresLOA3 && !isLOA3) {
-          return null;
-        }
-
-        if (route.requiresMVI && !isInMVI) {
-          return null;
-        }
-
-        return (
-          <li key={route.path}>
-            <NavLink
-              activeClassName="is-active"
-              exact
-              to={route.path}
-              onClick={clickHandler}
-            >
-              {route.name}
-            </NavLink>
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
+import ProfileSubNavItems from './ProfileSubNavItems';
 
 const ProfileSubNav = ({ isInMVI, isLOA3, routes }) => {
   // on first render, set the focus to the h1
@@ -52,7 +17,7 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes }) => {
         <h1 id="subnav-header" className="vads-u-font-size--h4">
           Your profile
         </h1>
-        <ProfileMenuItems routes={routes} isLOA3={isLOA3} isInMVI={isInMVI} />
+        <ProfileSubNavItems routes={routes} isLOA3={isLOA3} isInMVI={isInMVI} />
       </div>
     </nav>
   );

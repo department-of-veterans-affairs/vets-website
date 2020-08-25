@@ -12,7 +12,7 @@ import {
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 import { focusElement } from 'platform/utilities/ui';
 
-import { ProfileMenuItems } from './ProfileSubNav';
+import ProfileSubNavItems from './ProfileSubNavItems';
 
 import {
   closeSideNav as closeSideNavAction,
@@ -236,7 +236,7 @@ const ProfileMobileSubNav = ({
                   <i className="fa fa-times" aria-hidden="true" role="img" />
                 </button>
               </div>
-              <ProfileMenuItems
+              <ProfileSubNavItems
                 isLOA3={isLOA3}
                 isInMVI={isInMVI}
                 routes={routes}
