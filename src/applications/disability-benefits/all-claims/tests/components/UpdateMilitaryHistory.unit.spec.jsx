@@ -26,7 +26,7 @@ describe('UpdateMilitaryHistory', () => {
     },
   };
 
-  function setUp(separationDate, test) {
+  function setUp({ separationDate = '', callback }) {
     const setFormData = data => {
       form.data = data;
     };
@@ -45,7 +45,7 @@ describe('UpdateMilitaryHistory', () => {
     wrapper = mount(
       <UpdateMilitaryHistory form={form} setFormData={setFormData} />,
     );
-    test();
+    callback();
   }
 
   afterEach(() => {
@@ -56,24 +56,30 @@ describe('UpdateMilitaryHistory', () => {
   });
 
   it('should get called', () => {
-    setUp('', () => {
-      expect(form.data.serviceInformation.servicePeriods).to.deep.equal(
-        servicePeriods(),
-      );
+    setUp({
+      separationDate: '', // don't add separation date to sessionStorage
+      callback: () => {
+        expect(form.data.serviceInformation.servicePeriods).to.deep.equal(
+          servicePeriods(),
+        );
+      },
     });
   });
   it('should update the form data', () => {
-    setUp('2021-01-30', () => {
-      expect(form.data.serviceInformation.servicePeriods).to.deep.equal([
-        ...servicePeriods(),
-        {
-          serviceBranch: '',
-          dateRange: {
-            from: '',
-            to: '2021-01-30',
+    setUp({
+      separationDate: '2021-01-30',
+      callback: () => {
+        expect(form.data.serviceInformation.servicePeriods).to.deep.equal([
+          ...servicePeriods(),
+          {
+            serviceBranch: '',
+            dateRange: {
+              from: '',
+              to: '2021-01-30',
+            },
           },
-        },
-      ]);
+        ]);
+      },
     });
   });
 });
