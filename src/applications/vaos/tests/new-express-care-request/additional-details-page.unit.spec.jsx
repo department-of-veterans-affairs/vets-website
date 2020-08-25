@@ -8,7 +8,7 @@ import { waitFor } from '@testing-library/dom';
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
 import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
-import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
+import NewExpressCareRequestLayout from '../../express-care/components/NewExpressCareRequestLayout';
 import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
 import { fetchExpressCareWindows } from '../../actions/appointments';
 
