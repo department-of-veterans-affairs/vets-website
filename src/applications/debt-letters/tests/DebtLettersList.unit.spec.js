@@ -104,7 +104,7 @@ describe('DebtLettersList', () => {
         .at(1)
         .text(),
     ).to.equal(
-      'You won’t receive any debt collection letters in the mail until after December 31, 2020. For the latest information about managing VA debt, visit our coronavirus FAQs.',
+      'If you’ve received a letter about a VA debt, but don’t see the letter listed here call the VA Debt Management Center at 800-827-0648. You can also call the DMC to get information about your resolved debts For VA health care copay debt, please go to our pay your VA copay bill page to learn about your payment options.',
     );
     wrapper.unmount();
   });
