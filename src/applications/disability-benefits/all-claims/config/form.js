@@ -38,6 +38,7 @@ import {
   directToCorrectForm,
   DISABILITY_SHARED_CONFIG,
   isBDD,
+  showSeparationLocation,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -87,6 +88,7 @@ import {
   retirementPay,
   retirementPayWaiver,
   secondaryFinalIncident,
+  separationLocation,
   separationPay,
   servedInCombatZone,
   serviceTreatmentRecords,
@@ -185,6 +187,13 @@ const formConfig = {
             dob: state.user.profile.dob,
             allowBDD: form526BDDFeature(state),
           }),
+        },
+        separationLocation: {
+          title: 'Separation location',
+          path: 'review-veteran-details/separation-location',
+          depends: showSeparationLocation,
+          uiSchema: separationLocation.uiSchema,
+          schema: separationLocation.schema,
         },
         claimType: {
           title: 'Claim type',

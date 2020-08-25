@@ -19,6 +19,7 @@ const ignoreList = {
     'militaryHistory',
     'militaryHistory',
     'reservesNationalGuardService',
+    'separationLocation',
   ],
   unemployability: [
     'medicalCare',
