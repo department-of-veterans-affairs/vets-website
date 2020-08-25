@@ -251,7 +251,11 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 // Moment date format
 export const DATE_FORMAT = 'LL';
 
+// sessionStorage key used to show the wizard has or hasn't been completed
 export const WIZARD_STATUS = 'wizardStatus';
+
+// sessionStorage key used for the user entered separation date in the wizard
+// used by the first page of the form to populate the form data
 export const SAVED_SEPARATION_DATE = 'savedSeparationDate';
 
 export const EBEN_526_PATH =
