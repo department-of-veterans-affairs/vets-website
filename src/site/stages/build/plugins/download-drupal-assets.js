@@ -2,6 +2,7 @@
 require('isomorphic-fetch');
 const path = require('path');
 const fs = require('fs-extra');
+const chalk = require('chalk');
 
 const { logDrupal: log } = require('../drupal/utilities-drupal');
 const getDrupalClient = require('../drupal/api');
@@ -41,7 +42,12 @@ async function downloadFile(
     // For now, not going to fail the build for a missing asset
     // Should get caught by the broken link checker, though
     downloadResults.errorCount++;
-    log(`Image download failed: ${response.statusText}: ${asset.src}`);
+    if (global.verbose) {
+      log(`Image download failed: ${response.statusText}: ${asset.src}`);
+    } else {
+      process.stdout.write(chalk.red('.'));
+      if (!assetsToDownload.length) process.stdout.write('\n');
+    }
   }
 
   const currentDownloadCount =

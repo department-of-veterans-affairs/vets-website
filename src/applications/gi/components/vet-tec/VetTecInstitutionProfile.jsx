@@ -4,9 +4,7 @@ import _ from 'lodash';
 import AccordionItem from '../AccordionItem';
 import VetTecAdditionalInformation from './VetTecAdditionalInformation';
 import VetTecApplicationProcess from './VetTecApplicationProcess';
-import VetTecApprovedPrograms from './VetTecApprovedPrograms';
 import VetTecApprovedProgramsList from './VetTecApprovedProgramsList';
-import VetTecCalculator from './VetTecCalculator';
 import VetTecHeadingSummary from './VetTecHeadingSummary';
 import ContactInformation from '../profile/ContactInformation';
 import { renderVetTecLogo } from '../../utils/render';
@@ -22,7 +20,6 @@ const VetTecInstitutionProfile = ({
   institution,
   showModal,
   preSelectedProgram,
-  gibctEstimateYourBenefits,
   selectedProgram,
 }) => {
   const program =
@@ -38,34 +35,20 @@ const VetTecInstitutionProfile = ({
       }
       <VetTecHeadingSummary institution={institution} showModal={showModal} />
       <ul className="profile-accordion-list">
-        {gibctEstimateYourBenefits ? null : (
-          <AccordionItem button="Approved programs">
-            <VetTecApprovedPrograms
-              institution={institution}
-              preSelectedProgram={preSelectedProgram}
-            />
-          </AccordionItem>
-        )}
         <AccordionItem button="Estimate your benefits">
-          {gibctEstimateYourBenefits ? (
-            <VetTecEstimateYourBenefits
-              institution={institution}
-              showModal={showModal}
-              selectedProgram={program}
-              preSelectedProgram={preSelectedProgram}
-            />
-          ) : (
-            <VetTecCalculator showModal={showModal} />
-          )}
+          <VetTecEstimateYourBenefits
+            institution={institution}
+            showModal={showModal}
+            selectedProgram={program}
+            preSelectedProgram={preSelectedProgram}
+          />
         </AccordionItem>
-        {gibctEstimateYourBenefits ? (
-          <AccordionItem button="Approved programs">
-            <VetTecApprovedProgramsList
-              programs={institution.programs}
-              selectedProgram={program}
-            />
-          </AccordionItem>
-        ) : null}
+        <AccordionItem button="Approved programs">
+          <VetTecApprovedProgramsList
+            programs={institution.programs}
+            selectedProgram={program}
+          />
+        </AccordionItem>
         <AccordionItem button="Veteran programs">
           <VetTecVeteranPrograms
             institution={institution}
