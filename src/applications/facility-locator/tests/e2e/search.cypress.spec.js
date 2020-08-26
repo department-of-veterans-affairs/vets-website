@@ -160,11 +160,11 @@ describe('Facility search', () => {
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select(
-      'Urgent care pharmacies (in VA’s network)',
+      'Community pharmacies (in VA’s network)',
     );
     cy.get('#facility-search').click();
     cy.get('#facility-search-results').contains(
-      'Results for "Urgent care pharmacies (in VA’s network)" near "Austin, Texas"',
+      'Results for "Community pharmacies (in VA’s network)" near "Austin, Texas"',
     );
 
     cy.injectAxe();
