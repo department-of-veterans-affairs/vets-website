@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import {
   parseISODate,
   formatISOPartialDate,
-  createRoutes,
   hasFieldsOtherThanArray,
   transformForSubmit,
   getArrayFields,
@@ -61,45 +60,6 @@ describe('Schemaform helpers:', () => {
         year: '',
       };
       expect(formatISOPartialDate(date)).to.be.undefined;
-    });
-  });
-  describe('createRoutes', () => {
-    it('should create routes', () => {
-      const formConfig = {
-        disableSave: true,
-        chapters: {
-          firstChapter: {
-            pages: {
-              testPage: {
-                path: 'test-page',
-              },
-            },
-          },
-        },
-      };
-
-      const routes = createRoutes(formConfig);
-
-      expect(routes[0].path).to.equal('test-page');
-      expect(routes[1].path).to.equal('review-and-submit');
-    });
-    it('should create routes with intro', () => {
-      const formConfig = {
-        introduction: f => f,
-        chapters: {
-          firstChapter: {
-            pages: {
-              testPage: {
-                path: 'test-page',
-              },
-            },
-          },
-        },
-      };
-
-      const routes = createRoutes(formConfig);
-
-      expect(routes[0].path).to.equal('introduction');
     });
   });
   describe('hasFieldsOtherThanArray', () => {

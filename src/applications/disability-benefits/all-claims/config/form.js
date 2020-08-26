@@ -38,6 +38,7 @@ import {
   directToCorrectForm,
   DISABILITY_SHARED_CONFIG,
   isBDD,
+  showSeparationLocation,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -46,7 +47,6 @@ import prefillTransformer from '../prefill-transformer';
 
 import { transform } from '../submit-transformer';
 
-import { veteranInfoDescription } from '../content/veteranDetails';
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import { supportingEvidenceOrientationBDD } from '../content/supportingEvidenceOrientationBDD';
@@ -88,6 +88,7 @@ import {
   retirementPay,
   retirementPayWaiver,
   secondaryFinalIncident,
+  separationLocation,
   separationPay,
   servedInCombatZone,
   serviceTreatmentRecords,
@@ -101,6 +102,7 @@ import {
   uploadPtsdDocuments,
   vaEmployee,
   vaMedicalRecords,
+  veteranInfo,
   workBehaviorChanges,
 } from '../pages';
 
@@ -165,8 +167,8 @@ const formConfig = {
         veteranInformation: {
           title: 'Veteran information',
           path: 'veteran-information',
-          uiSchema: { 'ui:description': veteranInfoDescription },
-          schema: { type: 'object', properties: {} },
+          uiSchema: veteranInfo.uiSchema,
+          schema: veteranInfo.schema,
         },
         alternateNames: {
           title: 'Service under another name',
@@ -185,6 +187,13 @@ const formConfig = {
             dob: state.user.profile.dob,
             allowBDD: form526BDDFeature(state),
           }),
+        },
+        separationLocation: {
+          title: 'Separation location',
+          path: 'review-veteran-details/separation-location',
+          depends: showSeparationLocation,
+          uiSchema: separationLocation.uiSchema,
+          schema: separationLocation.schema,
         },
         claimType: {
           title: 'Claim type',

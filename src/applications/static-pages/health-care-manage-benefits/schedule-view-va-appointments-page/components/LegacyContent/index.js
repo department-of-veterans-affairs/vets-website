@@ -16,11 +16,14 @@ export const LegacyContent = () => (
       role="alert"
     >
       <div className="usa-alert-body">
-        <h3 className="usa-alert-heading" id="due-to-covid-19-you-can-only-r">
+        <h2
+          className="usa-alert-heading vads-u-font-size--h3 vads-u-margin-bottom--2"
+          id="due-to-covid-19-you-can-only-r"
+        >
           Due to COVID-19, we&apos;ll need to contact you to confirm your
           appointment
-        </h3>
-        <p>
+        </h2>
+        <p className="vads-u-margin--0">
           You can still use our online appointments tool to request an
           appointment. We&apos;ll then contact you to confirm the date, time,
           and location.
@@ -461,9 +464,9 @@ export const LegacyContent = () => (
                 data-links-list-section-header="More information about your benefits"
               >
                 <a href="/health-care/eligibility">
-                  <h4 className="va-nav-linkslist-title">
+                  <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
                     Health care benefits eligibility
-                  </h4>
+                  </h3>
                   <p className="va-nav-linkslist-description">
                     Not sure if you qualify? Find out if you can get VA health
                     care benefits.
@@ -477,9 +480,9 @@ export const LegacyContent = () => (
                 data-links-list-section-header="More information about your benefits"
               >
                 <a href="/health-care/how-to-apply">
-                  <h4 className="va-nav-linkslist-title">
+                  <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
                     How to apply for health care benefits
-                  </h4>
+                  </h3>
                   <p className="va-nav-linkslist-description">
                     Ready to apply? Get started now.
                   </p>
@@ -492,9 +495,9 @@ export const LegacyContent = () => (
                 data-links-list-section-header="More information about your benefits"
               >
                 <a href="/health-care/health-needs-conditions">
-                  <h4 className="va-nav-linkslist-title">
+                  <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
                     Health needs and conditions
-                  </h4>
+                  </h3>
                   <p className="va-nav-linkslist-description">
                     Learn how to access VA services for mental health, women’s
                     health, and other specific needs.
@@ -508,9 +511,9 @@ export const LegacyContent = () => (
                 data-links-list-section-header="More information about your benefits"
               >
                 <a href="/disability">
-                  <h4 className="va-nav-linkslist-title">
+                  <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
                     Disability benefits
-                  </h4>
+                  </h3>
                   <p className="va-nav-linkslist-description">
                     Have an illness or injury that was caused—or made worse—by
                     your active-duty service? Find out if you can get disability
