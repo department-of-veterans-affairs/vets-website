@@ -9,6 +9,7 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
+import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -71,9 +72,34 @@ const formConfig = {
             [formFields.topic]: {
               'ui:title': 'Topic',
             },
-            [formFields.inquiryType]: {
-              'ui:title': 'Inquiry Type',
-            },
+            [formFields.inquiryType]: autoSuggestUiSchema(
+              'Inquiry Type',
+              (_input = '') => {
+                return Promise.resolve([
+                  { id: 'Question', label: 'Question' },
+                  { id: 'Compliment', label: 'Compliment' },
+                  { id: 'Service Complaint', label: 'Service Complaint' },
+                  { id: 'Suggestion', label: 'Suggestion' },
+                  { id: 'Status of Claim', label: 'Status of Claim' },
+                  {
+                    id: 'Status of Appeal at a Local VA Office',
+                    label: 'Status of Appeal at a Local VA Office',
+                  },
+                  {
+                    id: 'Status of Appeals at BVA, Wash DC',
+                    label: 'Status of Appeals at BVA, Wash DC',
+                  },
+                ]);
+              },
+              {
+                'ui:options': { queryForResults: true, freeInput: true },
+                'ui:errorMessages': {
+                  maxLength:
+                    'Please enter a name with fewer than 100 characters.',
+                  pattern: 'Please enter a valid name.',
+                },
+              },
+            ),
             [formFields.query]: {
               'ui:title': 'Question',
             },
