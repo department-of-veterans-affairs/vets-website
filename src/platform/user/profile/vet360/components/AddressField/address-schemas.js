@@ -3,7 +3,7 @@ import React from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 
-import { ADDRESS_FORM_VALUES, FIELD_NAMES, USA } from 'vet360/constants';
+import { ADDRESS_FORM_VALUES, USA } from 'vet360/constants';
 
 // make an object of just the military state codes and names
 const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
