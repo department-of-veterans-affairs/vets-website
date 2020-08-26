@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import * as actions from '../appointment-list/redux/actions';
-import expressCareReducer from '../redux/reducer';
+import expressCareReducer from './redux/reducer';
 import { FETCH_STATUS } from '../utils/constants';
 import { selectExpressCare } from '../utils/selectors';
 import NewExpressCareRequestLayout from './components/FormLayout';
