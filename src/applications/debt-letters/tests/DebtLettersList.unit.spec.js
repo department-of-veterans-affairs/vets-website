@@ -94,17 +94,17 @@ describe('DebtLettersList', () => {
       wrapper
         .dive()
         .find('h3')
-        .at(1)
+        .at(0)
         .text(),
-    ).to.equal("What if I don't see the letter I'm looking for?");
+    ).to.equal('VA debt collection is on hold due to the coronavirus');
     expect(
       wrapper
         .dive()
         .find('p')
-        .at(1)
+        .at(0)
         .text(),
     ).to.equal(
-      'You won’t receive any debt collection letters in the mail until after December 31, 2020. For the latest information about managing VA debt, visit our coronavirus FAQs.',
+      'We’ve taken action to stop collection on newly established Veteran debt and make it easier for Veterans to request extended repayment plans and address other financial needs during this time.',
     );
     wrapper.unmount();
   });

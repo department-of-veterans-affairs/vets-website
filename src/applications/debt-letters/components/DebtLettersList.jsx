@@ -146,7 +146,8 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
           listed here call the VA Debt Management Center at{' '}
           <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
             800-827-0648
-          </a>{' '}
+          </a>
+          {'. '}
           You can also call the DMC to get information about your resolved debts
           For VA health care copay debt, please go to our{' '}
           <a href="/health-care/pay-copay-bill/">pay your VA copay bill</a> page
