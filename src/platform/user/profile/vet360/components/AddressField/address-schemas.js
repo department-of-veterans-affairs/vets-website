@@ -3,7 +3,7 @@ import React from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 
-import { ADDRESS_FORM_VALUES, FIELD_NAMES, USA } from 'vet360/constants';
+import { ADDRESS_FORM_VALUES, USA } from 'vet360/constants';
 
 // make an object of just the military state codes and names
 const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
@@ -212,30 +212,5 @@ const uiSchema = {
   },
 };
 
-/**
- * Helper that returns the correct form schema object based on which address
- * field is being rendered
- */
-export const getFormSchema = fieldName => {
-  if (fieldName === FIELD_NAMES.MAILING_ADDRESS) {
-    return cloneDeep(formSchema);
-  }
-  const schema = cloneDeep(formSchema);
-  delete schema.properties['view:livesOnMilitaryBase'];
-  delete schema.properties['view:livesOnMilitaryBaseInfo'];
-  return schema;
-};
-
-/**
- * Helper that returns the correct ui schema object based on which address
- * field is being rendered
- */
-export const getUiSchema = fieldName => {
-  if (fieldName === FIELD_NAMES.MAILING_ADDRESS) {
-    return cloneDeep(uiSchema);
-  }
-  const schema = cloneDeep(uiSchema);
-  delete schema['view:livesOnMilitaryBase'];
-  delete schema['view:livesOnMilitaryBaseInfo'];
-  return schema;
-};
+export const getFormSchema = () => cloneDeep(formSchema);
+export const getUiSchema = () => cloneDeep(uiSchema);
