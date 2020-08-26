@@ -67,9 +67,24 @@
           {{ fieldVaFormUsage.processed }}
 
           <h3>Downloadable PDF</h3>
-          <a href="{{ fieldVaFormUrl.uri }}" download>Download VA Form {{ fieldVaFormNumber }} (PDF)</a>
+          <a
+            href="{{ fieldVaFormUrl.uri }}"
+            target="_blank"
+            download
+            data-widget-type="find-va-forms-invalid-pdf-alert"
+            data-form-number="{{ fieldVaFormNumber }}">
+            Download VA Form {{ fieldVaFormNumber }} (PDF)
+          </a>
         {% else %}
-          <a class="vads-u-margin-top--4" href="{{ fieldVaFormUrl.uri }}" download>Download VA Form {{ fieldVaFormNumber }} (PDF)</a>
+          <a
+            class="vads-u-margin-top--4"
+            href="{{ fieldVaFormUrl.uri }}"
+            target="_blank"
+            download
+            data-widget-type="find-va-forms-invalid-pdf-alert"
+            data-form-number="{{ fieldVaFormNumber }}">
+            Download VA Form {{ fieldVaFormNumber }} (PDF)
+          </a>
         {% endif %}
 
         {% if fieldAlert.length %}
@@ -107,7 +122,13 @@
                   </hgroup>
 
                   {{ vaForm.entity.fieldVaFormUsage.processed }}
-                  <a href="{{ vaForm.entity.fieldVaFormUrl.uri }}" download>
+
+                  <a
+                    href="{{ vaForm.entity.fieldVaFormUrl.uri }}"
+                    target="_blank"
+                    download
+                    data-widget-type="find-va-forms-invalid-pdf-alert"
+                    data-form-number="{{ vaForm.entity.fieldVaFormNumber }}">
                     Download VA Form {{ vaForm.entity.fieldVaFormNumber }} (PDF)
                   </a>
                 </li>
