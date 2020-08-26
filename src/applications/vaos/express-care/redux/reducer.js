@@ -17,11 +17,11 @@ import {
   FORM_SUBMIT_FAILED,
   FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT,
-} from '../actions/expressCare';
+} from './actions';
 
-import { STARTED_NEW_EXPRESS_CARE_FLOW } from '../actions/sitewide';
+import { STARTED_NEW_EXPRESS_CARE_FLOW } from '../../redux/sitewide';
 
-import { FETCH_STATUS } from '../utils/constants';
+import { FETCH_STATUS } from '../../utils/constants';
 
 const initialState = {
   newRequest: {

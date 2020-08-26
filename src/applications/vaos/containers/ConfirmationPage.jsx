@@ -16,7 +16,7 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
   startNewAppointmentFlow,
   fetchFacilityDetails,
-} from '../actions/newAppointment';
+} from '../new-appointment/redux/actions';
 import { FLOW_TYPES, FACILITY_TYPES, GA_PREFIX } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';

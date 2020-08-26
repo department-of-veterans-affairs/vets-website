@@ -8,7 +8,7 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import { getEligibilityChecks } from '../utils/eligibility';
+import { getEligibilityChecks } from '../../utils/eligibility';
 
 import {
   FORM_DATA_UPDATED,
@@ -47,12 +47,12 @@ import {
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
   CLICKED_UPDATE_ADDRESS_BUTTON,
-} from '../actions/newAppointment';
+} from './actions';
 
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
-} from '../actions/sitewide';
+} from '../../redux/sitewide';
 
 import {
   FACILITY_TYPES,
@@ -63,14 +63,14 @@ import {
   PURPOSE_TEXT,
   TYPES_OF_CARE,
   PODIATRY_ID,
-} from '../utils/constants';
+} from '../../utils/constants';
 
-import { getTypeOfCare } from '../utils/selectors';
+import { getTypeOfCare } from '../../utils/selectors';
 import {
   getOrganizationBySiteId,
   getSiteIdFromOrganization,
-} from '../services/organization';
-import { getClinicId } from '../services/healthcare-service/transformers';
+} from '../../services/organization';
+import { getClinicId } from '../../services/healthcare-service/transformers';
 
 const initialState = {
   pages: {},

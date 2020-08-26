@@ -13,8 +13,8 @@ import {
   startNewAppointmentFlow,
   fetchFutureAppointments,
   fetchExpressCareWindows,
-} from '../actions/appointments';
-import { startNewExpressCareFlow } from '../actions/expressCare';
+} from '../appointment-list/redux/actions';
+import { startNewExpressCareFlow } from '../express-care/redux/actions';
 import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
 import {
   getCancelInfo,

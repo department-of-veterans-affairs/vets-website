@@ -1,4 +1,4 @@
-import { fetchRequestLimits } from './actions/expressCare';
+import { fetchRequestLimits } from './redux/actions';
 
 export default {
   home: {

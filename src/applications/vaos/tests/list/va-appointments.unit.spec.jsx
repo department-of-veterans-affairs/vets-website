@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
-import reducers from '../../reducers';
+import reducers from '../../redux/reducer';
 import { getVAAppointmentMock, getVAFacilityMock } from '../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
 import { renderWithStoreAndRouter } from '../mocks/setup';

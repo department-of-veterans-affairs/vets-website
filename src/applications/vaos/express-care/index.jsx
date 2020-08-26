@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import expressCareReducer from '../reducers/expressCare';
+import expressCareReducer from './redux/reducer';
 import NewExpressCareRequestLayout from '../containers/NewExpressCareRequestLayout';
 import ExpressCareReasonPage from '../containers/ExpressCareReasonPage';
 import ExpressCareDetailsPage from '../containers/ExpressCareDetailsPage';
