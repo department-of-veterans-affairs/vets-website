@@ -5,7 +5,7 @@ import { pageNames } from './pageList';
 
 import unableToFileBDDProduction from './unable-to-file-bdd-production';
 import {
-  WIZARD_STATUS_BDD,
+  FORM_STATUS_BDD,
   SAVED_SEPARATION_DATE,
 } from '../../all-claims/constants';
 
@@ -14,10 +14,10 @@ const saveDischargeDate = date => {
     const formattedDate = moment(date).format('YYYY-MM-DD');
     window.sessionStorage.setItem(SAVED_SEPARATION_DATE, formattedDate);
     // this flag helps maintain the correct form title within a session
-    window.sessionStorage.setItem(WIZARD_STATUS_BDD, 'true');
+    window.sessionStorage.setItem(FORM_STATUS_BDD, 'true');
   } else {
     window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
-    window.sessionStorage.removeItem(WIZARD_STATUS_BDD);
+    window.sessionStorage.removeItem(FORM_STATUS_BDD);
   }
 };
 

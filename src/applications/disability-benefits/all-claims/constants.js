@@ -264,7 +264,7 @@ export const DATE_FORMAT = 'LL';
 // sessionStorage key used to show the wizard has or hasn't been completed
 export const WIZARD_STATUS = 'wizardStatus';
 // sessionStorage key used to determine if the form title should be set to BDD
-export const WIZARD_STATUS_BDD = 'wizardStatusBdd';
+export const FORM_STATUS_BDD = 'formStatusBdd';
 
 // sessionStorage key used for the user entered separation date in the wizard
 // used by the first page of the form to populate the form data

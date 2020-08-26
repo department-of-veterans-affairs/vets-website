@@ -43,7 +43,7 @@ import {
   SAVED_SEPARATION_DATE,
   PAGE_TITLES,
   START_TEXT,
-  WIZARD_STATUS_BDD,
+  FORM_STATUS_BDD,
 } from './constants';
 
 /**
@@ -843,7 +843,7 @@ export const isBDD = formData => {
   // separation date entered in the wizard
   const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
   // this flag helps maintain the correct form title within a session
-  window.sessionStorage.removeItem(WIZARD_STATUS_BDD);
+  window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
   if ((!servicePeriods || !Array.isArray(servicePeriods)) && !separationDate) {
     return false;
@@ -865,7 +865,7 @@ export const isBDD = formData => {
     !mostRecentDate.isAfter(moment().add(180, 'days'));
   if (result) {
     // this flag helps maintain the correct form title within a session
-    window.sessionStorage.setItem(WIZARD_STATUS_BDD, 'true');
+    window.sessionStorage.setItem(FORM_STATUS_BDD, 'true');
   }
   return result;
 };
@@ -874,14 +874,14 @@ export const getPageTitle = formData => {
   const showBDDTitle =
     formData === true ||
     isBDD(formData) ||
-    window.sessionStorage.getItem(WIZARD_STATUS_BDD) === 'true';
+    window.sessionStorage.getItem(FORM_STATUS_BDD) === 'true';
   return PAGE_TITLES[showBDDTitle ? 'BDD' : 'ALL'];
 };
 
 // Intro page doesn't have formData
 export const getStartText = () => {
   const showBDDText =
-    isBDD() || window.sessionStorage.getItem(WIZARD_STATUS_BDD) === 'true';
+    isBDD() || window.sessionStorage.getItem(FORM_STATUS_BDD) === 'true';
   return START_TEXT[showBDDText ? 'BDD' : 'ALL'];
 };
 

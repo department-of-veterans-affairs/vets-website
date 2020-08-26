@@ -20,22 +20,18 @@ import WizardContainer from './containers/WizardContainer';
 import { WIZARD_STATUS } from './constants';
 import { show526Wizard, isBDD, getPageTitle } from './utils';
 
-const wrapInBreadcrumb = (component, isBDDForm) => {
-  const title = getPageTitle(isBDDForm);
-  document.title = title;
-  return (
-    <>
-      <Breadcrumbs>
-        <a href="/">Home</a>
-        <a href="/disability">Disability Benefits</a>
-        <span className="vads-u-color--black">
-          <strong>{title}</strong>
-        </span>
-      </Breadcrumbs>
-      {component}
-    </>
-  );
-};
+const wrapInBreadcrumb = (title, component) => (
+  <>
+    <Breadcrumbs>
+      <a href="/">Home</a>
+      <a href="/disability">Disability Benefits</a>
+      <span className="vads-u-color--black">
+        <strong>{title}</strong>
+      </span>
+    </Breadcrumbs>
+    {component}
+  </>
+);
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -69,6 +65,9 @@ export const Form526Entry = ({
   const defaultWizardState = getWizardStatus();
   const [wizardState, setWizardState] = useState(defaultWizardState);
 
+  const title = getPageTitle(isBDDForm);
+  document.title = title;
+
   const setWizardStatus = value => {
     window.sessionStorage.setItem(WIZARD_STATUS, value);
     setWizardState(value);
@@ -81,8 +80,8 @@ export const Form526Entry = ({
   });
   if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
     return wrapInBreadcrumb(
+      title,
       <WizardContainer setWizardStatus={setWizardStatus} />,
-      isBDDForm,
     );
   }
 
@@ -96,7 +95,7 @@ export const Form526Entry = ({
   // Not logged in, so show the rendered content. The RoutedSavableApp shows
   // an alert with the sign in button
   if (!user.login.currentlyLoggedIn) {
-    return wrapInBreadcrumb(content, isBDDForm);
+    return wrapInBreadcrumb(title, content);
   }
   // "add-person" service means the user has a edipi and SSN in the system, but
   // is missing either a BIRLS or participant ID
@@ -104,7 +103,7 @@ export const Form526Entry = ({
     user.profile.services.includes('add-person') &&
     mvi?.addPersonState !== MVI_ADD_SUCCEEDED
   ) {
-    return wrapInBreadcrumb(<AddPerson />, isBDDForm);
+    return wrapInBreadcrumb(title, <AddPerson title={title} />);
   }
 
   // RequiredLoginView will handle unverified users by showing the
@@ -112,19 +111,21 @@ export const Form526Entry = ({
   if (user.profile.verified) {
     // User is missing either their SSN, EDIPI, or BIRLS ID
     if (!hasRequiredId(user)) {
-      return wrapInBreadcrumb(<MissingId />, isBDDForm);
+      return wrapInBreadcrumb(title, <MissingId title={title} />);
     }
     // User doesn't have the required services. Show an alert
     if (!hasRequiredServices(user)) {
-      return wrapInBreadcrumb(<MissingServices />, isBDDForm);
+      return wrapInBreadcrumb(title, <MissingServices title={title} />);
     }
   }
 
   return wrapInBreadcrumb(
+    title,
     <RequiredLoginView serviceRequired={serviceRequired} user={user} verify>
-      <ITFWrapper location={location}>{content}</ITFWrapper>
+      <ITFWrapper location={location} title={title}>
+        {content}
+      </ITFWrapper>
     </RequiredLoginView>,
-    isBDDForm,
   );
 };
 
