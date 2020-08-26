@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import NeedHelp from '../../components/NeedHelp';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 export default function FormLayout({ children }) {
   return (
@@ -14,7 +15,7 @@ export default function FormLayout({ children }) {
           <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
             Express Care Request
           </span>
-          {children}
+          <ErrorBoundary>{children}</ErrorBoundary>
           <NeedHelp />
         </div>
       </div>

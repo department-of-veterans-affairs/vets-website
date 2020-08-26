@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import NeedHelp from '../../components/NeedHelp';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 export default function FormLayout({ children, isReviewPage }) {
   return (
@@ -16,7 +17,7 @@ export default function FormLayout({ children, isReviewPage }) {
               New appointment
             </span>
           )}
-          {children}
+          <ErrorBoundary>{children}</ErrorBoundary>
           <NeedHelp />
         </div>
       </div>
