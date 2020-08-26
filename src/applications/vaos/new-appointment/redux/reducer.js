@@ -166,8 +166,9 @@ export default function formReducer(state = initialState, action) {
     case FORM_DATA_UPDATED: {
       let newPages = state.pages;
       let actionData = action.data;
+
       if (
-        actionData.typeOfCareId !== state.data.typeOfCareId &&
+        getTypeOfCare(actionData)?.id !== getTypeOfCare(state.data)?.id &&
         (state.pages.vaFacility || state.data.vaFacility)
       ) {
         newPages = unset('vaFacility', newPages);
