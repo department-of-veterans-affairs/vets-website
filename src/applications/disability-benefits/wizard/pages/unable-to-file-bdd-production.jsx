@@ -5,7 +5,10 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
 import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
-import { EBEN_526_PATH, BDD_INFO_URL } from '../../constants';
+import {
+  EBEN_526_PATH,
+  BDD_INFO_URL,
+} from 'applications/disability-benefits/all-claims/constants';
 
 const dateFormat = 'MMMM DD, YYYY';
 const ninetyDays = moment()
@@ -28,7 +31,7 @@ function alertContent(isLoggedIn) {
       </p>
       <p>
         <strong>If your separation date is before {ninetyDays},</strong> you
-        can't file a BDD claim, but you can still begin the process of filing
+        can’t file a BDD claim, but you can still begin the process of filing
         your claim on eBenefits.
       </p>
       <a
