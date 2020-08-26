@@ -879,9 +879,11 @@ export const getPageTitle = formData => {
 };
 
 // Intro page doesn't have formData
-export const getStartText = () => {
+export const getStartText = isBDDForm => {
   const showBDDText =
-    isBDD() || window.sessionStorage.getItem(FORM_STATUS_BDD) === 'true';
+    isBDDForm ||
+    isBDD() ||
+    window.sessionStorage.getItem(FORM_STATUS_BDD) === 'true';
   return START_TEXT[showBDDText ? 'BDD' : 'ALL'];
 };
 

@@ -14,7 +14,7 @@ import { selectAvailableServices } from 'platform/user/selectors';
 import { itfNotice } from '../content/introductionPage';
 import { originalClaimsFeature } from '../config/selectors';
 import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
-import { getPageTitle, getStartText } from '../utils';
+import { isBDD, getPageTitle, getStartText } from '../utils';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -30,9 +30,9 @@ class IntroductionPage extends React.Component {
       : true; // services.includes('form526'); // <- "form526" service should
     // be required to proceed; not changing this now in case it breaks something
 
-    // no formData to pass in at this point
-    const pageTitle = getPageTitle();
-    const startText = getStartText();
+    const isBDDForm = this.props.isBDDForm;
+    const pageTitle = getPageTitle(isBDDForm);
+    const startText = getStartText(isBDDForm);
 
     // Remove this once we original claims feature toggle is set to 100%
     if (!allowContinue) {
@@ -201,6 +201,7 @@ const mapStateToProps = state => ({
   formId: state.form.formId,
   user: state.user,
   allowOriginalClaim: originalClaimsFeature(state),
+  isBDDForm: isBDD(state?.form?.data),
 });
 
 IntroductionPage.propTypes = {
@@ -213,6 +214,7 @@ IntroductionPage.propTypes = {
   }).isRequired,
   user: PropTypes.shape({}),
   allowOriginalClaim: PropTypes.bool,
+  isBDDForm: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);
