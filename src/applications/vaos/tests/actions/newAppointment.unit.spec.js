@@ -1197,6 +1197,7 @@ describe('VAOS newAppointment actions', () => {
         'vaos-express-care-number-of-cards': undefined,
         'vaos-upcoming-number-of-cards': undefined,
         'tab-text': undefined,
+        alertBoxHeading: undefined,
       });
       expect(history.push.called).to.be.true;
     });
@@ -1432,6 +1433,7 @@ describe('VAOS newAppointment actions', () => {
         'vaos-express-care-number-of-cards': undefined,
         'vaos-upcoming-number-of-cards': undefined,
         'tab-text': undefined,
+        alertBoxHeading: undefined,
       });
       expect(history.push.called).to.be.false;
     });
@@ -1518,6 +1520,7 @@ describe('VAOS newAppointment actions', () => {
         'vaos-express-care-number-of-cards': undefined,
         'vaos-upcoming-number-of-cards': undefined,
         'tab-text': undefined,
+        alertBoxHeading: undefined,
       });
       expect(history.push.called).to.be.false;
     });
