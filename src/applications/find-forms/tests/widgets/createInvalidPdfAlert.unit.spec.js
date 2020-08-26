@@ -8,7 +8,6 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import { onDownloadLinkClick } from '../../widgets/createInvalidPdfAlert';
-import { escapeRegExp } from 'lodash';
 
 describe('createInvalidPdfAlert', () => {
   beforeEach(() => {
