@@ -335,7 +335,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
-    "**/lodash": "4.17.15",
+    "**/lodash": "4.17.19",
     "**/js-yaml": "^3.13.1",
     "**/jpeg-js": "^0.4.0",
     "**/dot-prop": "^5.1.1",
