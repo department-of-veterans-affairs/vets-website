@@ -85,7 +85,7 @@ function NewExpressCareRequestSection({
             <Route path="/" component={ExpressCareInfoPage} />
           </Switch>
         )}
-      {windowsStatus === FETCH_STATUS.failure && <ErrorMessage />}
+      {windowsStatus === FETCH_STATUS.failed && <ErrorMessage />}
     </NewExpressCareRequestLayout>
   );
 }
