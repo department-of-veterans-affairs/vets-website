@@ -25,13 +25,13 @@ function getAppointmentType(appt) {
     return APPOINTMENT_TYPES.ccRequest;
   } else if (appt.typeOfCareId) {
     return APPOINTMENT_TYPES.request;
+  } else if (appt.type === 'cc_appointment' || appt.communityCare === true) {
+    return APPOINTMENT_TYPES.ccAppointment;
   } else if (
     appt.vvsAppointments ||
-    (appt.clinicId && !(appt.communityCare === true))
+    (appt.clinicId && appt.communityCare === false)
   ) {
     return APPOINTMENT_TYPES.vaAppointment;
-  } else if (appt.appointmentTime) {
-    return APPOINTMENT_TYPES.ccAppointment;
   }
 
   return null;
@@ -167,7 +167,10 @@ function getConfirmedStatus(appointment, isPast) {
  * @returns {Object} Returns appointment datetime as moment object
  */
 function getMomentConfirmedDate(appt) {
-  if (isCommunityCare(appt)) {
+  if (
+    isCommunityCare(appt) &&
+    (appt.communityCare === undefined || appt.communityCare === null)
+  ) {
     const zoneSplit = appt.timeZone.split(' ');
     const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
     return moment
