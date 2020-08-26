@@ -73,24 +73,6 @@ describe('VAOS <VAOSApp>', () => {
     expect(screen.queryByText('Child content')).not.to.exist;
   });
 
-  it('should render error message when there is an error', async () => {
-    const ComponentWithError = () => {
-      throw new Error('Something bad');
-    };
-    const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(
-      <VAOSApp>
-        <ComponentWithError />
-      </VAOSApp>,
-      {
-        store,
-      },
-    );
-
-    expect(await screen.findByText(/Something went wrong on our end/)).to.exist;
-    expect(screen.queryByText('Child content')).not.to.exist;
-  });
-
   it('should render maintenance message', async () => {
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
