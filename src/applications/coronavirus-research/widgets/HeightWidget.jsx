@@ -16,10 +16,9 @@ function getEmptyState() {
 function setLabelStyles(newState) {
   let labelMarginLeftClass = 'vads-u-margin-left--1';
   if (
-    newState &&
-    newState.touched.feet &&
+    newState?.touched.feet &&
     newState.touched.inches &&
-    (!newState.value.feet || !newState.value.inches)
+    (!newState.value?.feet || !newState.value?.inches)
   ) {
     labelMarginLeftClass = 'vads-u-margin-left--3';
   }
@@ -50,11 +49,11 @@ export default class HeightWidget extends React.Component {
     let newState = _.set(['value', field], value, this.state);
     newState = _.set(['touched', field], true, newState);
     this.setState(newState, () => {
-      if (this.props.required && this.isIncomplete(newState.value)) {
-        this.props.onChange();
-      } else {
-        this.props.onChange(calculateHeight(newState.value));
-      }
+      const height =
+        this.props.required && this.isIncomplete(newState.value)
+          ? undefined
+          : calculateHeight(newState.value);
+      this.props.onChange(height);
       this.labelStyleClasses = setLabelStyles(newState);
     });
   };
