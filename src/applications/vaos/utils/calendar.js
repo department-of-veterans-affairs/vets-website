@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { FREE_BUSY_TYPES } from './constants';
 
 const DEFAULT_MAX_DAYS_AHEAD = 90;
 
@@ -146,7 +147,7 @@ export function generateMockSlots() {
   const minuteSlots = ['00:00', '20:00', '40:00'];
 
   while (times.length < 300) {
-    const daysToAdd = randomInt(1, 365);
+    const daysToAdd = randomInt(1, 395);
     const date = today
       .clone()
       .add(daysToAdd, 'day')
@@ -167,5 +168,37 @@ export function generateMockSlots() {
     bookingStatus: '1',
     remainingAllowedOverBookings: '3',
     availability: true,
+  }));
+}
+
+export function generateMockFHIRSlots() {
+  const times = [];
+  const today = moment();
+  const minuteSlots = [0, 20, 40];
+
+  while (times.length < 300) {
+    const minutes = minuteSlots[Math.floor(Math.random() * minuteSlots.length)];
+    const startDateTime = today
+      .clone()
+      .add(randomInt(1, 395), 'day')
+      .hour(randomInt(9, 16))
+      .minute(minutes)
+      .second(0)
+      .millisecond(0)
+      .toISOString();
+    if (!times.includes(startDateTime)) {
+      times.push(startDateTime);
+    }
+  }
+
+  return times.sort().map(start => ({
+    resource: {
+      start,
+      end: moment(start)
+        .add(20, 'minutes')
+        .toISOString(),
+      overbooked: false,
+      freeBusyType: FREE_BUSY_TYPES.free,
+    },
   }));
 }

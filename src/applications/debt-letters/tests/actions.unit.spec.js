@@ -14,82 +14,6 @@ describe('fetchDebtLetters', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(DEBTS_FETCH_SUCCESS);
       expect(dispatch.secondCall.args[0].debts).to.deep.equal([
         {
-          adamKey: '1',
-          fileNumber: '000000009',
-          payeeNumber: '00',
-          personEntitled: 'STUB_M',
-          deductionCode: '21',
-          benefitType: 'Loan Guaranty (Principal + Interest)',
-          amountOverpaid: 0.0,
-          amountWithheld: 0.0,
-          originalAr: '11599',
-          currentAr: '0',
-          debtHistory: [
-            {
-              date: '03/05/2004',
-              letterCode: '914',
-              status: 'Paid In Full',
-              description:
-                'Account balance cleared via offset, not including TOP.',
-            },
-          ],
-        },
-        {
-          adamKey: '2',
-          fileNumber: '000000009',
-          payeeNumber: '00',
-          personEntitled: 'STUB_M',
-          deductionCode: '30',
-          benefitType: 'Comp & Pen',
-          amountOverpaid: 0.0,
-          amountWithheld: 0.0,
-          originalAr: '13000',
-          currentAr: '0',
-          debtHistory: [
-            {
-              date: '12/03/2008',
-              letterCode: '488',
-              status: 'Death Status - Pending Action',
-              description: 'Pending review for reclamation or next action.',
-            },
-            {
-              date: '02/07/2009',
-              letterCode: '905',
-              status: 'Administrative Write Off',
-              description:
-                'Full debt amount cleared by return of funds to DMC from outside entities (reclamations, insurance companies, etc.)',
-            },
-            {
-              date: '02/25/2009',
-              letterCode: '914',
-              status: 'Paid In Full',
-              description:
-                'Account balance cleared via offset, not including TOP.',
-            },
-          ],
-        },
-        {
-          adamKey: '3',
-          fileNumber: '000000009',
-          payeeNumber: '00',
-          personEntitled: 'STUB_M',
-          deductionCode: '30',
-          benefitType: 'Comp & Pen',
-          amountOverpaid: 0.0,
-          amountWithheld: 0.0,
-          originalAr: '12000',
-          currentAr: '0',
-          debtHistory: [
-            {
-              date: '09/11/1997',
-              letterCode: '914',
-              status: 'Paid In Full',
-              description:
-                'Account balance cleared via offset, not including TOP.',
-            },
-          ],
-        },
-        {
           adamKey: '4',
           fileNumber: '000000009',
           payeeNumber: '00',
@@ -98,8 +22,8 @@ describe('fetchDebtLetters', () => {
           benefitType: 'CH35 EDU',
           amountOverpaid: 16000.0,
           amountWithheld: 0.0,
-          originalAr: '13000',
-          currentAr: '10000',
+          originalAr: 13000,
+          currentAr: 10000,
           debtHistory: [
             {
               date: '09/18/2012',

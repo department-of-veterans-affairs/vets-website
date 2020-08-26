@@ -4,7 +4,14 @@ module.exports = {
     contentModelType: { enum: ['node-press_release'] },
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['press_release'] },
+    // uid is present in GraphQL output, but some uids don't exist ignoring for now
+    // uid: {
+    //   oneOf: [{ type: 'null' }, { $ref: 'output/user' }],
+    // },
     title: { type: 'string' },
+    created: { type: 'number' },
+    changed: { type: 'number' },
+    promote: { type: 'boolean' },
     entityMetatags: {
       type: 'array',
       items: {
@@ -17,14 +24,24 @@ module.exports = {
         required: ['__typename', 'key', 'value'],
       },
     },
+    entityPublished: { type: 'boolean' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldAddress: { $ref: 'Address' },
     fieldIntroText: { type: 'string' },
-    fieldOffice: { $ref: 'output/node-health_care_region_page' },
+    fieldOffice: {
+      oneOf: [
+        { type: 'null' },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/node-health_care_region_page' },
+          },
+        },
+      ],
+    },
     fieldPdfVersion: { $ref: 'Media' },
     fieldPressReleaseContact: {
       type: 'array',
-      maxItems: 1,
       items: {
         type: 'object',
         properties: {
@@ -33,7 +50,7 @@ module.exports = {
         required: ['entity'],
       },
     },
-    fieldPressReleaseDownloads: { type: 'array', maxItems: 0 },
+    fieldPressReleaseDownloads: { type: 'array', items: { $ref: 'Media' } },
     fieldPressReleaseFulltext: { $ref: 'ProcessedString' },
     fieldReleaseDate: {
       type: 'object',
@@ -44,9 +61,15 @@ module.exports = {
       },
       required: ['value', 'date'],
     },
+    status: { type: 'boolean' },
   },
   required: [
+    // 'uid',
     'title',
+    'created',
+    'changed',
+    'promote',
+    'entityPublished',
     'entityUrl',
     'fieldAddress',
     'fieldIntroText',
@@ -56,5 +79,6 @@ module.exports = {
     'fieldPressReleaseDownloads',
     'fieldPressReleaseFulltext',
     'fieldReleaseDate',
+    'status',
   ],
 };

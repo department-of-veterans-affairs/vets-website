@@ -38,7 +38,7 @@ module.exports = {
       type: 'array',
       items: {
         properties: {
-          // These are actually timestamps like: 2019-05-30T21:00:00
+          // These are actually timestamps like: 2019-05-30T21:00:00-04:00
           value: { type: 'string' },
           end_value: { type: 'string' },
         },
@@ -65,6 +65,8 @@ module.exports = {
     },
     field_location_humanreadable: { $ref: 'GenericNestedString' },
     field_media: { $ref: 'EntityReferenceArray' },
+    // Needed for filtering reverse fields in other transformers
+    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
@@ -84,5 +86,6 @@ module.exports = {
     'field_link',
     'field_location_humanreadable',
     'field_media',
+    'status',
   ],
 };

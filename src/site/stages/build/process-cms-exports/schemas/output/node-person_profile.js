@@ -9,13 +9,13 @@ module.exports = {
     fieldBody: { type: ['string', 'null'] },
     fieldDescription: { type: ['string', 'null'] },
     fieldEmailAddress: { type: ['string', 'null'] },
-    fieldLastName: { type: 'string' },
+    fieldLastName: { type: ['string', 'null'] },
     fieldMedia: { $ref: 'Media' },
     fieldNameFirst: { type: 'string' },
     // This isn't a node-office $ref because we only want
     // some of the properties in the entity
     fieldOffice: {
-      type: 'object',
+      type: ['object', 'null'],
       properties: {
         entity: {
           type: 'object',
@@ -30,6 +30,11 @@ module.exports = {
     },
     fieldPhoneNumber: { type: ['string', 'null'] },
     fieldSuffix: { type: ['string', 'null'] },
+    entityPublished: { type: 'boolean' },
+    fieldIntroText: { type: ['string', 'null'] },
+    fieldPhotoAllowHiresDownload: { type: 'boolean' },
+    changed: { type: 'number' },
+    status: { type: 'boolean' },
   },
   required: [
     'title',
@@ -42,5 +47,10 @@ module.exports = {
     'fieldOffice',
     'fieldPhoneNumber',
     'fieldSuffix',
+    'entityPublished',
+    'fieldIntroText',
+    'fieldPhotoAllowHiresDownload',
+    'changed',
+    'status',
   ],
 };

@@ -13,9 +13,10 @@ import {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import { getFormPageInfo } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const initialSchema = {
   type: 'object',
@@ -51,6 +52,10 @@ const initialSchema = {
           minLength: 10,
           pattern: '^[0-9]{10}$',
         },
+        'view:textObject': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   },
@@ -68,8 +73,6 @@ const uiSchema = {
   },
   hasCommunityCareProvider: {
     'ui:widget': 'yesNo',
-    'ui:title':
-      'Do you have a Community Care referral or a preferred VA-approved community care provider?',
     'ui:options': {
       labels: {
         N: "No/I don't know",
@@ -110,7 +113,12 @@ const uiSchema = {
       ...addressUISchema,
       street: {
         ...addressUISchema.street,
+        'ui:title': 'Mailing address line 1',
         'ui:required': data => data.hasCommunityCareProvider,
+      },
+      street2: {
+        ...addressUISchema.street2,
+        'ui:title': 'Mailing address line 2',
       },
       city: {
         ...addressUISchema.city,
@@ -128,6 +136,18 @@ const uiSchema = {
     phone: {
       ...phoneUI(),
       'ui:required': data => data.hasCommunityCareProvider,
+    },
+    'view:textObject': {
+      'ui:description': (
+        <AlertBox
+          status="info"
+          headline="We’ll try to schedule your appointment with your preferred community provider"
+        >
+          If we aren’t able to schedule this appointment with your preferred
+          provider, we’ll make every effort to schedule your appointment with
+          another community provider closest to your home.
+        </AlertBox>
+      ),
     },
   },
 };
@@ -147,11 +167,11 @@ export class CommunityCarePreferencesPage extends React.Component {
   }
 
   goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
+    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
   };
 
   goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
   };
 
   render() {

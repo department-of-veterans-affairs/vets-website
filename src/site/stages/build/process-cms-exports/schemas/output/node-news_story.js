@@ -19,10 +19,21 @@ module.exports = {
     fieldMedia: { oneOf: [{ $ref: 'Media' }, { type: 'null' }] },
     fieldOffice: {
       oneOf: [
-        { $ref: 'output/node-health_care_region_page' },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/node-health_care_region_page' },
+          },
+        },
         { type: 'null' },
       ],
     },
+    status: { type: 'boolean' },
+    fieldFeatured: { type: 'boolean' },
+    // uid is present in GraphQL output, but some uids don't exist ignoring for now
+    // uid: {
+    //   oneOf: [{ type: 'null' }, { $ref: 'output/user' }],
+    // },
   },
   required: [
     'title',
@@ -37,5 +48,8 @@ module.exports = {
     'fieldIntroText',
     'fieldMedia',
     'fieldOffice',
+    'status',
+    'fieldFeatured',
+    // 'uid',
   ],
 };

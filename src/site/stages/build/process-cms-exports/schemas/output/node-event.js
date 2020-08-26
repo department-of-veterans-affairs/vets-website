@@ -21,19 +21,19 @@ module.exports = {
     },
     entityPublished: { type: 'boolean' },
     changed: { type: 'number' },
-    uid: {
-      type: 'object',
-      properties: {
-        targetId: { type: 'number' },
-        entity: {
-          type: 'object',
-          properties: {
-            name: { type: 'string' },
-            timezone: { type: ['null'] }, // All the exmaples are null
-          },
-        },
-      },
-    },
+    // uid: {
+    //   type: 'object',
+    //   properties: {
+    //     targetId: { type: 'number' },
+    //     entity: {
+    //       type: 'object',
+    //       properties: {
+    //         name: { type: 'string' },
+    //         timezone: { type: ['null'] }, // All the exmaples are null
+    //       },
+    //     },
+    //   },
+    // },
     fieldAdditionalInformationAbo: {
       oneOf: [{ $ref: 'ProcessedString' }, { type: 'null' }],
     },
@@ -48,7 +48,7 @@ module.exports = {
         endValue: { type: 'string' }, //  2019-06-12T23:00:00
       },
     },
-    fieldDescription: { type: 'string' },
+    fieldDescription: { type: ['string', 'null'] },
     fieldEventCost: { type: ['string', 'null'] },
     fieldEventCta: { type: ['string', 'null'] },
     fieldEventRegistrationrequired: { type: 'boolean' },
@@ -66,10 +66,11 @@ module.exports = {
     },
     fieldLocationHumanreadable: { type: ['string', 'null'] },
     fieldMedia: { $ref: 'Media' },
+    status: { type: 'boolean' },
   },
   required: [
     'title',
-    'uid',
+    // 'uid',
     'changed',
     'entityUrl',
     'entityMetatags',
@@ -86,5 +87,6 @@ module.exports = {
     'fieldLink',
     'fieldLocationHumanreadable',
     'fieldMedia',
+    'status',
   ],
 };

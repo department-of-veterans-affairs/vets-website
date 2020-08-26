@@ -29,7 +29,7 @@ import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 
-import create686ContentReveal from './view-modify-dependent/686-cta/create686CcontentReveal.js';
+import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
 
 // Health Care | Manage Benefits widgets.
@@ -50,6 +50,8 @@ import createFacilityListWidget from './facilities/facilityList';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import facilityReducer from './facilities/reducers';
 import createOtherFacilityListWidget from './facilities/otherFacilityList';
+
+import createChapter31Wizard from '../vre/28-1900/wizard/app';
 
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 
@@ -141,7 +143,7 @@ createPost911GiBillStatusWidget(
 createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
 
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
-create686ContentReveal(store, widgetTypes.FORM_686_CONTENT_REVEAL);
+form686CTA(store, widgetTypes.FORM_686_CTA);
 
 createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
 
@@ -160,6 +162,8 @@ createViewTestAndLabResultsPage(
   store,
   widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
 );
+
+createChapter31Wizard(store, widgetTypes.CHAPTER_31_WIZARD);
 
 // homepage widgets
 if (location.pathname === '/') {

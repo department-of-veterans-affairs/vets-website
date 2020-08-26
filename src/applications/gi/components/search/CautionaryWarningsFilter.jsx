@@ -3,7 +3,6 @@ import Checkbox from '../Checkbox';
 import PropTypes from 'prop-types';
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
-import environment from 'platform/utilities/environment';
 
 class CautionaryWarningsFilter extends React.Component {
   static propTypes = {

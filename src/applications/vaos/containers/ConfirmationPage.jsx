@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
@@ -16,7 +16,7 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
   startNewAppointmentFlow,
   fetchFacilityDetails,
-} from '../actions/newAppointment';
+} from '../new-appointment/redux/actions';
 import { FLOW_TYPES, FACILITY_TYPES, GA_PREFIX } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
@@ -43,10 +43,10 @@ export class ConfirmationPage extends React.Component {
   componentDidMount() {
     document.title = `${this.pageTitle} | Veterans Affairs`;
 
-    const { data, router } = this.props;
+    const { data, history } = this.props;
     // Check formData for typeOfCareId. Reroute if empty
-    if (router && !data?.typeOfCareId) {
-      router.replace('/new-appointment');
+    if (history && !data?.typeOfCareId) {
+      history.replace('/new-appointment');
     }
 
     if (

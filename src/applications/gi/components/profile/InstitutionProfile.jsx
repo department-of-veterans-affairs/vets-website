@@ -8,7 +8,6 @@ import Programs from './Programs';
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 import SchoolLocations from './SchoolLocations';
-import Calculator from './Calculator';
 import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
 import ContactInformation from './ContactInformation';
@@ -22,6 +21,7 @@ export class InstitutionProfile extends React.Component {
     calculator: PropTypes.object,
     eligibility: PropTypes.object,
     gibctEybBottemSheet: PropTypes.bool,
+    gibctCh33BenefitRateUpdate: PropTypes.bool,
   };
 
   shouldShowSchoolLocations = facilityMap =>
@@ -39,8 +39,9 @@ export class InstitutionProfile extends React.Component {
       isOJT,
       constants,
       showModal,
-      gibctEstimateYourBenefits,
       gibctEybBottomSheet,
+      gibctCh33BenefitRateUpdate,
+      gibctFilterEnhancement,
     } = this.props;
     return (
       <div>
@@ -48,17 +49,15 @@ export class InstitutionProfile extends React.Component {
           institution={profile.attributes}
           onLearnMore={showModal.bind(this, 'gibillstudents')}
           onViewWarnings={this.handleViewWarnings}
+          gibctFilterEnhancement={gibctFilterEnhancement}
         />
         <div className="usa-accordion vads-u-margin-top--4">
           <ul>
             <AccordionItem button="Estimate your benefits">
-              {gibctEstimateYourBenefits ? (
-                <EstimateYourBenefits
-                  gibctEybBottomSheet={gibctEybBottomSheet}
-                />
-              ) : (
-                <Calculator />
-              )}
+              <EstimateYourBenefits
+                gibctEybBottomSheet={gibctEybBottomSheet}
+                gibctCh33BenefitRateUpdate={gibctCh33BenefitRateUpdate}
+              />
             </AccordionItem>
             {!isOJT && (
               <AccordionItem button="Veteran programs">

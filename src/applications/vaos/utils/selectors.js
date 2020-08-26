@@ -1,9 +1,17 @@
+import moment from 'moment';
+import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
+import { titleCase } from './formatters';
+
+import {
+  getTimezoneBySystemId,
+  getTimezoneDescBySystemId,
+  getTimezoneAbbrBySystemId,
+} from './timezone';
 
 import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
-import { getTimezoneDescBySystemId } from './timezone';
 import {
   FACILITY_TYPES,
   TYPES_OF_CARE,
@@ -22,13 +30,13 @@ import { getParentOfLocation } from '../services/location';
 import {
   getVideoAppointmentLocation,
   getVAAppointmentLocationId,
+  isVideoAppointment,
+  isUpcomingAppointmentOrRequest,
+  isValidPastAppointment,
+  sortByDateDescending,
+  sortUpcoming,
+  getVARFacilityId,
 } from '../services/appointment';
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -53,11 +61,6 @@ export function getFormPageInfo(state, pageKey) {
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
   };
 }
-
-export const selectCernerFacilities = state =>
-  selectPatientFacilities(state)
-    ?.filter(f => f.isCerner)
-    .map(f => f.facilityId) || [];
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -173,8 +176,8 @@ export function getChosenFacilityDetails(state) {
   const facilityDetails = getNewAppointment(state).facilityDetails;
 
   return isCommunityCare
-    ? facilityDetails[parseFakeFHIRId(data.communityCareSystemId)]
-    : facilityDetails[parseFakeFHIRId(data.vaFacility)];
+    ? facilityDetails[data.communityCareSystemId]
+    : facilityDetails[data.vaFacility];
 }
 
 export function getEligibilityChecks(state) {
@@ -218,7 +221,10 @@ export function getDateTimeSelect(state, pageKey) {
     new Set(availableSlots?.map(slot => slot.start.split('T')[0])),
   );
 
-  const timezone = systemId ? getTimezoneDescBySystemId(systemId) : null;
+  const timezoneDescription = systemId
+    ? getTimezoneDescBySystemId(systemId)
+    : null;
+  const { timezone = null } = systemId ? getTimezoneBySystemId(systemId) : {};
   const typeOfCareId = getTypeOfCare(data)?.id;
 
   return {
@@ -230,6 +236,7 @@ export function getDateTimeSelect(state, pageKey) {
     appointmentSlotsStatus,
     preferredDate: data.preferredDate,
     timezone,
+    timezoneDescription,
     typeOfCareId,
   };
 }
@@ -243,6 +250,18 @@ export function hasSingleValidVALocation(state) {
     !!formInfo.data.vaParent &&
     !!formInfo.data.vaFacility
   );
+}
+
+export function selectCernerOrgIds(state) {
+  const cernerSites = selectPatientFacilities(state)?.filter(f => f.isCerner);
+  return getNewAppointment(state)
+    .parentFacilities?.filter(parent => {
+      const facilityId = getSiteIdFromOrganization(parent);
+      return cernerSites?.some(cernerSite =>
+        facilityId.startsWith(cernerSite.facilityId),
+      );
+    })
+    .map(facility => facility.id);
 }
 
 export function getFacilityPageInfo(state) {
@@ -271,14 +290,13 @@ export function getFacilityPageInfo(state) {
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     hasDataFetchingError:
       newAppointment.parentFacilitiesStatus === FETCH_STATUS.failed ||
-      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed,
-    hasEligibilityError:
+      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     parentOfChosenFacility: getParentOfChosenFacility(state),
-    cernerFacilities: selectCernerFacilities(state),
+    cernerOrgIds: selectCernerOrgIds(state),
     siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
   };
 }
@@ -310,8 +328,7 @@ export function getClinicPageInfo(state, pageKey) {
 
   return {
     ...formPageInfo,
-    facilityDetails:
-      facilityDetails?.[parseFakeFHIRId(formPageInfo.data.vaFacility)],
+    facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
@@ -321,7 +338,6 @@ export function getClinicPageInfo(state, pageKey) {
 }
 
 export function getCancelInfo(state) {
-  const cernerFacilities = selectCernerFacilities(state);
   const {
     appointmentToCancel,
     showCancelModal,
@@ -330,11 +346,12 @@ export function getCancelInfo(state) {
     facilityData,
   } = state.appointments;
 
+  const isVideo = appointmentToCancel
+    ? isVideoAppointment(appointmentToCancel)
+    : false;
+
   let facility = null;
-  if (
-    appointmentToCancel?.status === APPOINTMENT_STATUS.booked &&
-    !appointmentToCancel?.vaos?.videoType
-  ) {
+  if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
     // Confirmed in person VA appts
     const locationId = getVAAppointmentLocationId(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];
@@ -344,10 +361,17 @@ export function getCancelInfo(state) {
       facilityData[
         `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
       ];
-  } else if (appointmentToCancel?.vaos?.videoType) {
+  } else if (isVideo) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
     facility = facilityData[getRealFacilityId(locationId)];
+  }
+  let isCerner = null;
+  if (appointmentToCancel) {
+    const facilityId = getVARFacilityId(appointmentToCancel);
+    isCerner = selectPatientFacilities(state)
+      ?.filter(f => f.isCerner)
+      .some(cernerSite => facilityId?.startsWith(cernerSite.facilityId));
   }
 
   return {
@@ -356,7 +380,7 @@ export function getCancelInfo(state) {
     showCancelModal,
     cancelAppointmentStatus,
     cancelAppointmentStatusVaos400,
-    cernerFacilities,
+    isCerner,
   };
 }
 
@@ -387,6 +411,10 @@ export const vaosPastAppts = state =>
   toggleValues(state).vaOnlineSchedulingPast;
 export const vaosVSPAppointmentNew = state =>
   toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
+export const vaosExpressCare = state =>
+  toggleValues(state).vaOnlineSchedulingExpressCare;
+export const vaosExpressCareNew = state =>
+  toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 
 export const isWelcomeModalDismissed = state =>
@@ -396,3 +424,252 @@ export const isWelcomeModalDismissed = state =>
 
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
+
+export const selectExpressCareRequests = createSelector(
+  state => state.appointments.pending,
+  pending =>
+    pending?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
+);
+
+export function selectFutureStatus(state) {
+  const { pendingStatus, confirmedStatus } = state.appointments;
+  if (
+    pendingStatus === FETCH_STATUS.failed ||
+    confirmedStatus === FETCH_STATUS.failed
+  ) {
+    return FETCH_STATUS.failed;
+  }
+
+  if (
+    pendingStatus === FETCH_STATUS.loading ||
+    confirmedStatus === FETCH_STATUS.loading
+  ) {
+    return FETCH_STATUS.loading;
+  }
+
+  if (
+    pendingStatus === FETCH_STATUS.succeeded &&
+    confirmedStatus === FETCH_STATUS.succeeded
+  ) {
+    return FETCH_STATUS.succeeded;
+  }
+
+  return FETCH_STATUS.notStarted;
+}
+
+export const selectFutureAppointments = createSelector(
+  vaosExpressCare,
+  state => state.appointments.pending,
+  state => state.appointments.confirmed,
+  (showExpressCare, pending, confirmed) => {
+    if (!confirmed || !pending) {
+      return null;
+    }
+
+    return confirmed
+      .concat(...pending)
+      .filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
+      .filter(isUpcomingAppointmentOrRequest)
+      .sort(sortUpcoming);
+  },
+);
+
+export const selectPastAppointments = createSelector(
+  state => state.appointments.past,
+  past => {
+    return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
+  },
+);
+
+export function selectExpressCareNewRequest(state) {
+  return state.expressCare.newRequest;
+}
+
+export function selectExpressCareFormData(state) {
+  return selectExpressCareNewRequest(state).data;
+}
+
+export function selectExpressCareFacilities(state) {
+  return state.appointments.expressCareFacilities;
+}
+
+/*
+ * Selects any EC windows that we're in at the current (or provided) time
+ */
+export function selectActiveExpressCareWindows(state, nowMoment) {
+  const now = nowMoment || moment();
+  return selectExpressCareFacilities(state)
+    ?.map(({ days, facilityId }) => {
+      const siteId = facilityId.substring(0, 3);
+      const { timezone } = getTimezoneBySystemId(siteId);
+      const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
+      const nowFacilityTime = now.clone().tz(timezone);
+      const currentDayOfWeek = nowFacilityTime.format('dddd').toUpperCase();
+      const activeDay = days.find(day => day.day === currentDayOfWeek);
+
+      if (!activeDay) {
+        return null;
+      }
+
+      const start = moment.tz(
+        `${nowFacilityTime.format('YYYY-MM-DD')}T${activeDay.startTime}:00`,
+        timezone,
+      );
+      const end = moment.tz(
+        `${nowFacilityTime.format('YYYY-MM-DD')}T${activeDay.endTime}:00`,
+        timezone,
+      );
+
+      if (!now.isBetween(start, end)) {
+        return null;
+      }
+
+      return {
+        facilityId,
+        siteId,
+        timezone,
+        timezoneAbbreviation,
+        start,
+        end,
+      };
+    })
+    .filter(win => !!win);
+}
+
+/*
+ * Gets the formatted hours string of the current window, chosen based on the
+ * provided time.
+ * 
+ * Note: we're picking the first active window, there could be more than one
+ */
+export function selectLocalExpressCareWindowString(state, nowMoment) {
+  const current = selectActiveExpressCareWindows(state, nowMoment);
+
+  if (!current?.length) {
+    return null;
+  }
+
+  return `${current[0].start.format('h:mm a')} to ${current[0].end.format(
+    'h:mm a',
+  )} ${current[0].timezoneAbbreviation}`;
+}
+
+/*
+ * Gets the facility info for the current window, chosen based on the
+ * provided time.
+ * 
+ * Note: we're picking the first active window, there could be more than one
+ */
+export function selectActiveExpressCareFacility(state, nowMoment) {
+  const current = selectActiveExpressCareWindows(state, nowMoment);
+
+  if (!current?.length) {
+    return null;
+  }
+
+  return {
+    facilityId: current[0].facilityId,
+    siteId: current[0].facilityId.substring(0, 3),
+  };
+}
+
+function getFormattedTime(time) {
+  return moment(`${moment().format('YYYY-MM-DD')}T${time}:00`).format('h:mm a');
+}
+
+function getWindowString(window, timezoneAbbreviation, isToday) {
+  return `${isToday ? 'today' : titleCase(window.day)} from ${getFormattedTime(
+    window.startTime,
+  )} to ${getFormattedTime(window.endTime)} ${timezoneAbbreviation}`;
+}
+
+/**
+ * Returns next schedulable window.  If today is schedulable and current time is before window,
+ * return today's window.  Otherwise, return the next schedulable day's window
+ */
+export function selectNextAvailableExpressCareWindowString(state, nowMoment) {
+  const supportedFacilities = selectExpressCareFacilities(state);
+  if (!supportedFacilities?.length) {
+    return null;
+  }
+
+  const facility = supportedFacilities[0];
+  const siteId = facility.facilityId.substring(0, 3);
+  const { timezone } = getTimezoneBySystemId(siteId);
+  const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
+  const nowFacilityTime = nowMoment.clone().tz(timezone);
+  const dayOfWeek = nowFacilityTime.format('dddd').toUpperCase();
+  const todayDayOfWeekIndex = Number(nowFacilityTime.format('d'));
+  const todaysWindow = facility.days.find(d => d.day === dayOfWeek);
+
+  // Sort schedulable days after today so we can easily find the next
+  // day if needed
+  const schedulableDaysAfterToday = [
+    ...facility.days.filter(day => day.dayOfWeekIndex > todayDayOfWeekIndex),
+    ...facility.days.filter(day => day.dayOfWeekIndex < todayDayOfWeekIndex),
+  ];
+
+  if (todaysWindow) {
+    const start = moment.tz(
+      `${nowFacilityTime.format('YYYY-MM-DD')}T${todaysWindow.startTime}:00`,
+      timezone,
+    );
+    if (nowMoment.isBefore(start)) {
+      // If today is schedulable and we are before the window, return today's window
+      return getWindowString(todaysWindow, timezoneAbbreviation, true);
+    } else {
+      // In the rare case the today is the only schedulable day and they are past the window,
+      // return today's window and specify "next week". Otherwise, return the next schedulable day
+      if (!schedulableDaysAfterToday.length) {
+        return `next ${getWindowString(
+          todaysWindow,
+          timezoneAbbreviation,
+          false,
+        )}`;
+      }
+      return getWindowString(
+        schedulableDaysAfterToday[0],
+        timezoneAbbreviation,
+        false,
+      );
+    }
+  } else {
+    // If today isn't schedulable, return the next day that is
+    return getWindowString(
+      schedulableDaysAfterToday[0],
+      timezoneAbbreviation,
+      false,
+    );
+  }
+}
+
+export function selectExpressCare(state) {
+  const expressCare = state.expressCare;
+  const activeWindows = selectActiveExpressCareWindows(state);
+  return {
+    ...expressCare,
+    activeWindows,
+    localWindowString: selectLocalExpressCareWindowString(state),
+    localNextAvailableString: selectNextAvailableExpressCareWindowString(
+      state,
+      moment(),
+    ),
+    allowRequests: !!activeWindows?.length,
+    enabled: vaosExpressCare(state),
+    useNewFlow: vaosExpressCareNew(state),
+    hasWindow: !!selectExpressCareFacilities(state)?.length,
+    hasRequests:
+      vaosExpressCare(state) &&
+      state.appointments.pending?.some(appt => appt.vaos.isExpressCare),
+    windowsStatus: state.appointments.expressCareWindowsStatus,
+  };
+}
+
+export function getExpressCareFormPageInfo(state, pageKey) {
+  const newRequest = selectExpressCareNewRequest(state);
+  return {
+    schema: newRequest.pages[pageKey],
+    data: newRequest.data,
+    pageChangeInProgress: newRequest.pageChangeInProgress,
+  };
+}

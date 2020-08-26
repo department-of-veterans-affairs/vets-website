@@ -5,6 +5,7 @@ const {
   getDrupalValue,
   utcToEpochTime,
   createMetaTagArray,
+  isPublished,
 } = require('./helpers');
 
 function pageTransform(entity) {
@@ -15,16 +16,13 @@ function pageTransform(entity) {
     fieldPageLastBuilt,
     fieldAlert,
     fieldDescription,
-    moderationState: [{ value: published }],
+    status,
     metatag: { value: metaTags },
   } = entity;
 
   const transformed = Object.assign({}, entity, {
     title: getDrupalValue(title),
     entityBundle: 'page',
-    entityUrl: {
-      path: entity.path[0].alias,
-    },
     fieldAdministration: entity.fieldAdministration[0],
 
     fieldIntroText: getDrupalValue(fieldIntroText),
@@ -40,13 +38,13 @@ function pageTransform(entity) {
     //   getDrupalValue(fieldPageLastBuilt),
     // ).toUTCString(),
 
-    entityPublished: published === 'published',
+    entityPublished: isPublished(getDrupalValue(status)),
     entityMetaTags: createMetaTagArray(metaTags, 'type'),
   });
 
   transformed.fieldAlert = !isEmpty(flatten(fieldAlert)) ? fieldAlert[0] : null;
 
-  delete transformed.moderationState;
+  delete transformed.status;
   delete transformed.metatag;
   delete transformed.path;
 
@@ -65,7 +63,7 @@ module.exports = {
     'field_page_last_built',
     'metatag',
     'changed',
-    'moderation_state',
+    'status',
     'path',
   ],
   transform: pageTransform,

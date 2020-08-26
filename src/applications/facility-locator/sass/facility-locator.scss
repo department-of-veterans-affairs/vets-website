@@ -71,7 +71,7 @@ $facility-locator-color-gray: #ccc;
   i.fa {
     width: 18px;
     text-align: center;
-    margin-right: 15px;
+    margin-right: 8px;
     color: $color-link-default;
   }
 
@@ -89,10 +89,16 @@ $facility-locator-color-gray: #ccc;
   .facility-result {
     padding: 1em;
     background: $color-white ;
+    border-top: solid 2px $color-gray-lighter;
     border-bottom: none;
 
+    @media screen and (max-width: $small-screen) {
+      // we already have a border from the tab-list on mobile
+      border-top: none;
+    }
+
     &.active {
-      box-shadow: inset 0px 0px 7px $color-link-default;
+      border: $focus-outline;
     }
 
     span.fa {
@@ -101,7 +107,6 @@ $facility-locator-color-gray: #ccc;
 
     a {
       color: $color-link-default;
-      text-decoration: none;
 
       &:focus {
         h5 {
@@ -123,8 +128,10 @@ $facility-locator-color-gray: #ccc;
     }
   }
 
-  .facility-result+.facility-result {
-    border-top: solid 2px $color-gray-lighter;
+  @media screen and (max-width: $small-screen) {
+    .facility-result+.facility-result {
+      border-top: solid 1px $color-gray-light;
+    }
   }
 
   .leaflet-popup-content {
@@ -186,6 +193,13 @@ $facility-locator-color-gray: #ccc;
     border-left: none;
   }
 
+  .search-results-container {
+    float: left;
+    display: block;
+    // foundation usa-width-one-third isn't quite right for our needs
+    width: 34%;
+  }
+
   .facility-search-results {
     ol {
       padding: 0;
@@ -195,10 +209,6 @@ $facility-locator-color-gray: #ccc;
       p {
         color: $color-black;
       }
-    }
-
-    a {
-      text-decoration: none;
     }
   }
 
@@ -232,15 +242,6 @@ $facility-locator-color-gray: #ccc;
     .fl-stats-bar-inner.blue {
       background: url("/img/icons/fa-male-blue.svg") repeat-x left center;
     }
-  }
-
-  .mobile-search-result {
-    padding: 1em 0;
-    border-top: none;
-  }
-
-  .mobile-search-result+.mobile-search-result {
-    border-top: solid 1px $color-gray-light;
   }
 
   p {
@@ -819,4 +820,9 @@ $facility-locator-color-gray: #ccc;
 }
 .icon-base {
   color: $color-base !important;
+}
+
+.facility-phone-group {
+  display: flex;
+  flex-direction: column;
 }

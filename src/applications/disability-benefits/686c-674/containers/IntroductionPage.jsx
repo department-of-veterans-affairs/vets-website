@@ -31,7 +31,6 @@ class IntroductionPage extends React.Component {
       vaFileNumber: { hasVaFileNumber, isLoading },
       user,
     } = this.props;
-
     let ctaState;
     let content;
     // Base case: user is logged out.
@@ -63,7 +62,7 @@ class IntroductionPage extends React.Component {
       );
     } else if (
       user?.login?.currentlyLoggedIn &&
-      !hasVaFileNumber?.validVaFileNumber &&
+      !hasVaFileNumber?.VALIDVAFILENUMBER &&
       !isLoading
     ) {
       content = (
@@ -96,6 +95,7 @@ class IntroductionPage extends React.Component {
           verifiedPrefillAlert={VerifiedAlert}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
+          downtime={this.props.route.formConfig.downtime}
           pageList={this.props.route.pageList}
           startText="Add or remove a dependent"
         />
@@ -112,6 +112,7 @@ class IntroductionPage extends React.Component {
             verifiedPrefillAlert={VerifiedAlert}
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
             messages={this.props.route.formConfig.savedFormMessages}
+            downtime={this.props.route.formConfig.downtime}
             pageList={this.props.route.pageList}
             startText="Add or remove a dependent"
           />

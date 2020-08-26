@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import pickBy from 'lodash/pickBy';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from 'vet360/constants';
 
@@ -11,7 +12,6 @@ import VAPProfileField from 'vet360/containers/VAPProfileField';
 import ReceiveTextMessages from 'vet360/containers/ReceiveTextMessages';
 
 import PhoneEditView from './PhoneEditView';
-import PhoneView from './PhoneView';
 
 const formSchema = {
   type: 'object',
@@ -137,17 +137,24 @@ export default class PhoneField extends React.Component {
   };
 
   render() {
-    const ContentView =
-      this.props.fieldName === FIELD_NAMES.MOBILE_PHONE
-        ? ({ data }) => {
-            return (
-              <div>
-                <PhoneView data={data} />
-                <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
-              </div>
-            );
-          }
-        : PhoneView;
+    const ContentView = ({ data }) => {
+      const { areaCode, phoneNumber, extension } = data;
+
+      return (
+        <div>
+          <Telephone
+            contact={`${areaCode}${phoneNumber}`}
+            extension={extension}
+            notClickable
+          />
+
+          {this.props.fieldName === FIELD_NAMES.MOBILE_PHONE && (
+            <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
+          )}
+        </div>
+      );
+    };
+
     return (
       <VAPProfileField
         apiRoute={API_ROUTES.TELEPHONES}

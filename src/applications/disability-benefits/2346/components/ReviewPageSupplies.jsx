@@ -48,9 +48,9 @@ const ReviewPageSupplies = ({
               key={`${product.productId}_${index}`}
               className="vads-u-background-color--gray-light-alt vads-u-width--full vads-u-padding--4 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
             >
-              <h5 className="vads-u-font-size--h4 vads-u-margin-top--0">
+              <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
                 {product.deviceName}
-              </h5>
+              </h3>
               <span>
                 {product.productName} batteries (Quantity: {product.quantity})
               </span>
@@ -96,9 +96,9 @@ const ReviewPageSupplies = ({
                 key={`${product.productId}_${index}`}
                 className="vads-u-background-color--gray-light-alt vads-u-width--full vads-u-padding--4 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
               >
-                <h5 className="vads-u-font-size--h4 vads-u-margin-top--0">
+                <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
                   {product.productName}
-                </h5>
+                </h3>
                 <span>Quantity: {product.quantity}</span>
               </dd>
             ))}
@@ -110,10 +110,10 @@ const ReviewPageSupplies = ({
 const mapStateToProps = (state, ownProps) => {
   const supplies = state.form?.data?.supplies;
   const batterySupplies = supplies
-    ?.filter(battery => battery.productGroup?.includes('BATTERIES'))
+    ?.filter(battery => battery.productGroup?.includes('Battery'))
     .filter(battery => moment().diff(battery.nextAvailabilityDate) >= 0);
   const accessorySupplies = supplies
-    ?.filter(accessory => accessory.productGroup?.includes('ACCESSORIES'))
+    ?.filter(accessory => accessory.productGroup?.includes('Accessory'))
     .filter(accessory => moment().diff(accessory.nextAvailabilityDate) >= 0);
 
   const order = state.form?.data?.order;

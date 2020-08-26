@@ -34,11 +34,17 @@
     "isPursuingTeachingCert": true,
     "benefitLeft": "none",
     "degreeName": "0",
-    "schoolName": "0",
-    "schoolCity": "0",
+    "schoolName": "TEST SCHOOL",
+    "schoolCity": "TEST",
     "schoolState": "MA",
+    "schoolCountry": "USA",
     "view:benefit": {
       "chapter33": true
+    },
+    "view:remainingEntitlement": {
+      "days": 1,
+      "months": 1,
+      "totalDays": 31
     }
   }
 }

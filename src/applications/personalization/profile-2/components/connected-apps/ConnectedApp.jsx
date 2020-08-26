@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { isEmpty } from 'lodash';
 import moment from 'moment';
 
 import PropTypes from 'prop-types';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { ConnectedAppDeleteModal } from './ConnectedAppDeleteModal';
 
@@ -19,16 +19,11 @@ export class ConnectedApp extends Component {
   };
 
   confirmDelete = () => {
-    recordEvent({
-      event: 'account-navigation',
-      'account-action': 'disconnect-button',
-      'account-section': 'connected-accounts',
-    });
     this.props.confirmDelete(this.props.id);
   };
 
   render() {
-    const { logo, title, created, grants } = this.props.attributes;
+    const { logo, title, grants } = this.props.attributes;
 
     return (
       <div
@@ -47,7 +42,8 @@ export class ConnectedApp extends Component {
                 {title}
               </h3>
               <p className="vads-u-margin-top--0p5">
-                Connected on {moment(created).format('MMMM D, YYYY h:mm A')}
+                Connected on{' '}
+                {moment(grants[0]?.created).format('MMMM D, YYYY h:mm A')}
               </p>
             </div>
 
@@ -55,6 +51,7 @@ export class ConnectedApp extends Component {
               aria-label={`Disconnect ${title} from your account`}
               className="usa-button-secondary vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--0"
               onClick={this.openModal}
+              data-testid={`disconnect-app-${this.props.id}`}
             >
               Disconnect
             </button>
@@ -63,7 +60,7 @@ export class ConnectedApp extends Component {
           <ConnectedAppDeleteModal
             deleting={this.props.deleting}
             title={title}
-            modalOpen={this.state.modalOpen}
+            modalOpen={this.state.modalOpen && isEmpty(this.props.errors)}
             closeModal={this.closeModal}
             confirmDelete={this.confirmDelete}
           />
@@ -87,6 +84,7 @@ ConnectedApp.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   deleting: PropTypes.bool,
+  errors: PropTypes.array,
   attributes: PropTypes.shape({
     title: PropTypes.string.isRequired,
     logo: PropTypes.string.isRequired,

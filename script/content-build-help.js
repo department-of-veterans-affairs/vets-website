@@ -17,6 +17,11 @@ const helpSections = [
           'Use a specific buildtype.\nOptions include {bold localhost} (default), {bold vagovdev}, {bold vagovstaging}, {bold vagovprod}.',
       },
       {
+        name: 'verbose',
+        type: Boolean,
+        description: 'Log more information to the console for debugging.',
+      },
+      {
         name: 'watch',
         type: Boolean,
         description: 'Rebuild content when a template change is detected.',

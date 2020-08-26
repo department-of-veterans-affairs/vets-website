@@ -37,6 +37,8 @@ import {
   isDisabilityPtsd,
   directToCorrectForm,
   DISABILITY_SHARED_CONFIG,
+  isBDD,
+  showSeparationLocation,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -45,9 +47,9 @@ import prefillTransformer from '../prefill-transformer';
 
 import { transform } from '../submit-transformer';
 
-import { veteranInfoDescription } from '../content/veteranDetails';
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
+import { supportingEvidenceOrientationBDD } from '../content/supportingEvidenceOrientationBDD';
 import {
   adaptiveBenefits,
   addDisabilities,
@@ -62,6 +64,7 @@ import {
   claimType,
   contactInformation,
   evidenceTypes,
+  evidenceTypesBDD,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,
@@ -85,8 +88,10 @@ import {
   retirementPay,
   retirementPayWaiver,
   secondaryFinalIncident,
+  separationLocation,
   separationPay,
   servedInCombatZone,
+  serviceTreatmentRecords,
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,
@@ -97,8 +102,11 @@ import {
   uploadPtsdDocuments,
   vaEmployee,
   vaMedicalRecords,
+  veteranInfo,
   workBehaviorChanges,
 } from '../pages';
+
+import { form526BDDFeature } from '../config/selectors';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -159,16 +167,8 @@ const formConfig = {
         veteranInformation: {
           title: 'Veteran information',
           path: 'veteran-information',
-          uiSchema: { 'ui:description': veteranInfoDescription },
-          schema: { type: 'object', properties: {} },
-        },
-        claimType: {
-          title: 'Claim type',
-          path: 'claim-type',
-          depends: formData => hasRatedDisabilities(formData),
-          uiSchema: claimType.uiSchema,
-          schema: claimType.schema,
-          onContinue: captureEvents.claimType,
+          uiSchema: veteranInfo.uiSchema,
+          schema: veteranInfo.schema,
         },
         alternateNames: {
           title: 'Service under another name',
@@ -183,7 +183,26 @@ const formConfig = {
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
           onContinue: captureEvents.militaryHistory,
-          appStateSelector: state => ({ dob: state.user.profile.dob }),
+          appStateSelector: state => ({
+            dob: state.user.profile.dob,
+            allowBDD: form526BDDFeature(state),
+          }),
+        },
+        separationLocation: {
+          title: 'Separation location',
+          path: 'review-veteran-details/separation-location',
+          depends: showSeparationLocation,
+          uiSchema: separationLocation.uiSchema,
+          schema: separationLocation.schema,
+        },
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          depends: formData =>
+            hasRatedDisabilities(formData) && !isBDD(formData),
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+          onContinue: captureEvents.claimType,
         },
         servedInCombatZone: {
           title: 'Combat status',
@@ -196,7 +215,8 @@ const formConfig = {
           title: 'Reserves and National Guard service',
           path:
             'review-veteran-details/military-service-history/reserves-national-guard',
-          depends: form => hasGuardOrReservePeriod(form.serviceInformation),
+          depends: formData =>
+            hasGuardOrReservePeriod(formData.serviceInformation),
           uiSchema: reservesNationalGuardService.uiSchema,
           schema: reservesNationalGuardService.schema,
         },
@@ -211,21 +231,24 @@ const formConfig = {
         separationPay: {
           title: 'Separation or severance pay',
           path: 'separation-pay',
-          depends: formData => !hasRatedDisabilities(formData),
+          depends: formData =>
+            !hasRatedDisabilities(formData) && !isBDD(formData),
           uiSchema: separationPay.uiSchema,
           schema: separationPay.schema,
         },
         retirementPay: {
           title: 'Retirement pay',
           path: 'retirement-pay',
-          depends: formData => !hasRatedDisabilities(formData),
+          depends: formData =>
+            !hasRatedDisabilities(formData) && !isBDD(formData),
           uiSchema: retirementPay.uiSchema,
           schema: retirementPay.schema,
         },
         trainingPay: {
           title: 'Training pay',
           path: 'training-pay',
-          depends: formData => !hasRatedDisabilities(formData),
+          depends: formData =>
+            !hasRatedDisabilities(formData) && !isBDD(formData),
           uiSchema: trainingPay.uiSchema,
           schema: trainingPay.schema,
         },
@@ -237,14 +260,18 @@ const formConfig = {
         disabilitiesOrientation: {
           title: '',
           path: DISABILITY_SHARED_CONFIG.orientation.path,
-          depends: DISABILITY_SHARED_CONFIG.orientation.depends,
+          depends: formData =>
+            DISABILITY_SHARED_CONFIG.orientation.depends(formData) &&
+            !isBDD(formData),
           uiSchema: { 'ui:description': disabilitiesOrientation },
           schema: { type: 'object', properties: {} },
         },
         ratedDisabilities: {
           title: 'Existing conditions (rated disabilities)',
           path: DISABILITY_SHARED_CONFIG.ratedDisabilities.path,
-          depends: DISABILITY_SHARED_CONFIG.ratedDisabilities.depends,
+          depends: formData =>
+            DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData) &&
+            !isBDD(formData),
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
@@ -265,7 +292,7 @@ const formConfig = {
         },
         followUpDesc: {
           title: 'Follow-up questions',
-          depends: hasNewDisabilities,
+          depends: formData => hasNewDisabilities(formData) && !isBDD(formData),
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -447,7 +474,7 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',
-          depends: formData => !increaseOnly(formData),
+          depends: formData => !increaseOnly(formData) && !isBDD(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
         },
@@ -458,6 +485,11 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Additional disability benefits',
             'ui:description': ancillaryFormsWizardDescription,
+            'view:ancillaryFormsWizard': {
+              'ui:title':
+                'Would you like to learn more about additional benefits?',
+              'ui:widget': 'yesNo',
+            },
           },
           schema: {
             type: 'object',
@@ -466,24 +498,30 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              'view:ancillaryFormsWizard': {
+                type: 'boolean',
+              },
             },
           },
         },
         adaptiveBenefits: {
           title: 'Automobile allowance and adaptive benefits',
           path: 'adaptive-benefits',
+          depends: formData => formData['view:ancillaryFormsWizard'],
           uiSchema: adaptiveBenefits.uiSchema,
           schema: adaptiveBenefits.schema,
         },
         aidAndAttendance: {
           title: 'Aid and attendance benefits',
           path: 'aid-and-attendance',
+          depends: formData => formData['view:ancillaryFormsWizard'],
           uiSchema: aidAndAttendance.uiSchema,
           schema: aidAndAttendance.schema,
         },
         individualUnemployability: {
           title: 'Individual Unemployability',
           path: 'individual-unemployability',
+          depends: formData => formData['view:ancillaryFormsWizard'],
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
         },
@@ -510,19 +548,42 @@ const formConfig = {
         orientation: {
           title: '',
           path: 'supporting-evidence/orientation',
+          depends: formData => !isBDD(formData),
           uiSchema: { 'ui:description': supportingEvidenceOrientation },
           schema: { type: 'object', properties: {} },
+        },
+        orientationBDD: {
+          title: '',
+          path: 'supporting-evidence/orientation-bdd',
+          depends: formData => isBDD(formData),
+          uiSchema: { 'ui:description': supportingEvidenceOrientationBDD },
+          schema: { type: 'object', properties: {} },
+        },
+        serviceTreatmentRecords: {
+          title: 'Service treatment records',
+          path: 'supporting-evidence/service-treatment-records',
+          depends: formData => isBDD(formData),
+          uiSchema: serviceTreatmentRecords.uiSchema,
+          schema: serviceTreatmentRecords.schema,
         },
         evidenceTypes: {
           title: 'Supporting evidence types',
           path: 'supporting-evidence/evidence-types',
+          depends: formData => !isBDD(formData),
           uiSchema: evidenceTypes.uiSchema,
           schema: evidenceTypes.schema,
+        },
+        evidenceTypesBDD: {
+          title: 'Supporting evidence types',
+          path: 'supporting-evidence/evidence-types-bdd',
+          depends: formData => isBDD(formData),
+          uiSchema: evidenceTypesBDD.uiSchema,
+          schema: evidenceTypesBDD.schema,
         },
         vaMedicalRecords: {
           title: 'VA medical records',
           path: 'supporting-evidence/va-medical-records',
-          depends: hasVAEvidence,
+          depends: formData => hasVAEvidence(formData) && !isBDD(formData),
           uiSchema: vaMedicalRecords.uiSchema,
           schema: vaMedicalRecords.schema,
         },
@@ -582,6 +643,7 @@ const formConfig = {
         homelessOrAtRisk: {
           title: 'Housing situation',
           path: 'housing-situation',
+          depends: formData => !isBDD(formData),
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
           onContinue: captureEvents.homelessOrAtRisk,
@@ -589,6 +651,7 @@ const formConfig = {
         terminallyIll: {
           title: 'Terminally ill',
           path: 'terminally-ill',
+          depends: formData => !isBDD(formData),
           uiSchema: terminallyIll.uiSchema,
           schema: terminallyIll.schema,
         },
@@ -602,7 +665,9 @@ const formConfig = {
           title: 'Retirement pay waiver',
           path: 'retirement-pay-waiver',
           depends: formData =>
-            hasMilitaryRetiredPay(formData) && !hasRatedDisabilities(formData),
+            hasMilitaryRetiredPay(formData) &&
+            !hasRatedDisabilities(formData) &&
+            !isBDD(formData),
           uiSchema: retirementPayWaiver.uiSchema,
           schema: retirementPayWaiver.schema,
         },
@@ -610,7 +675,9 @@ const formConfig = {
           title: 'Training pay waiver',
           path: 'training-pay-waiver',
           depends: formData =>
-            formData.hasTrainingPay && !hasRatedDisabilities(formData),
+            formData.hasTrainingPay &&
+            !hasRatedDisabilities(formData) &&
+            !isBDD(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },

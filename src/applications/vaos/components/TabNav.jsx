@@ -1,35 +1,59 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { useHistory, useLocation } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 
 import TabItem from './TabItem';
 
-export function TabNav({ location, router }) {
+export default function TabNav({ hasExpressCareRequests }) {
+  const history = useHistory();
+  const location = useLocation();
+
+  const pathWithSlash = location.pathname.endsWith('/')
+    ? location.pathname
+    : `${location.pathname}/`;
+  const isExpressCareTab = pathWithSlash.endsWith('express-care/');
+
   return (
     <ul className="va-tabs vaos-appts__tabs" role="tablist">
       <TabItem
         id="upcoming"
         tabpath="/"
-        isActive={location.pathname === '/'}
+        isActive={pathWithSlash.endsWith('appointments/')}
         firstTab
         onNextTab={() => {
-          router.push('/past');
+          history.push('/past');
           focusElement('#tabpast');
         }}
-        title="Upcoming appointments"
+        title={hasExpressCareRequests ? 'Upcoming' : 'Upcoming appointments'}
       />
       <TabItem
         id="past"
         tabpath="/past"
-        isActive={location.pathname === '/past'}
+        isActive={pathWithSlash.endsWith('past/')}
         onPreviousTab={() => {
-          router.push('/');
+          history.push('/');
           focusElement('#tabupcoming');
         }}
-        title="Past appointments"
+        onNextTab={() => {
+          if (hasExpressCareRequests || isExpressCareTab) {
+            history.push('/express-care');
+            focusElement('#tabexpress-care');
+          }
+        }}
+        title={hasExpressCareRequests ? 'Past' : 'Past appointments'}
       />
+      {(hasExpressCareRequests || isExpressCareTab) && (
+        <TabItem
+          id="express-care"
+          tabpath="/express-care"
+          isActive={isExpressCareTab}
+          onPreviousTab={() => {
+            history.push('/past');
+            focusElement('#tabpast');
+          }}
+          title="Express Care"
+        />
+      )}
     </ul>
   );
 }
-
-export default withRouter(TabNav);

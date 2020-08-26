@@ -159,7 +159,31 @@ export function findCharacteristic(clinic, characteristic) {
     return element.text === characteristic;
   });
 
-  return result.coding.code && result.coding.code !== undefined
-    ? result.coding.code
-    : result.coding.display;
+  return result?.coding?.code || result?.coding?.display;
+}
+
+function getIdentifierToken(clinic, index) {
+  // The FHIR clinic identifier format is, 'urn:va:healthcareservice:983:983:308'
+  // where the last 3 tokens represent the site id, facility id, and clinic id.
+  return clinic?.identifier[0].value.split(':')[index];
+}
+
+/**
+ * Method to get the clinic id.
+ *
+ * @param {Object} clinic
+ * @returns {String} The clinic id or empty string.
+ */
+export function getClinicId(clinic) {
+  return getIdentifierToken(clinic, 5);
+}
+
+/**
+ * Method to get the site code.
+ *
+ * @param {Object} clinic
+ * @returns {String} The clinic site code or empty string.
+ */
+export function getSiteCode(clinic) {
+  return getIdentifierToken(clinic, 3);
 }

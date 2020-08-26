@@ -9,6 +9,7 @@ import formConfig from '../../config/form';
 
 const defaultProps = {
   getContestableIssues: () => {},
+  testHlr: true,
   user: {
     profile: {
       // need to have a saved form or else form will redirect to v2

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
-import { VIDEO_TYPES } from '../utils/constants';
+import { isVideoGFE } from '../services/appointment';
 
 export default function VideoVisitSection({ appointment }) {
   let linkContent = <span>Video visit link unavailable</span>;
@@ -11,7 +11,7 @@ export default function VideoVisitSection({ appointment }) {
     return <span>Video conference</span>;
   }
 
-  if (appointment.vaos.videoType === VIDEO_TYPES.gfe) {
+  if (isVideoGFE(appointment)) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
     );

@@ -2,10 +2,13 @@ import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
-import { BDD_INFO_URL } from '../../constants';
-import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
+import {
+  BDD_INFO_URL,
+  DISABILITY_526_V2_ROOT_URL,
+} from 'applications/disability-benefits/all-claims/constants';
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 
-function alertContent(getPageStateFromPageName) {
+function alertContent(getPageStateFromPageName, setWizardStatus) {
   const stateBDD = getPageStateFromPageName('bdd');
 
   const dateDischarge = moment({
@@ -27,9 +30,11 @@ function alertContent(getPageStateFromPageName) {
   return (
     <>
       <p>
-        Based on your information, you may be eligible for the Benefits Delivery
-        at Discharge program that allows service members to apply for VA
-        disability benefits prior to separation.
+        Based on your separation date, you can file a disability claim under the
+        Benefits Delivery at Discharge (BDD) program. This program allows
+        service members to apply for disability benefits 180 to 90 days before
+        they leave the military. You'll need to be available for 45 days after
+        you submit your claim for a VA exam.
       </p>
       <p>
         {isLastDayToFileBDD ? (
@@ -54,29 +59,36 @@ function alertContent(getPageStateFromPageName) {
         to complete and submit the form.
       </p>
       <p>
-        Please be aware that you will need to be available for 45 days after you
-        file in order to complete VA exams during this period.
-      </p>
-      <p>
         <a href={BDD_INFO_URL}>
-          Learn more about Benefits Delivery at Discharge (BDD)
+          Learn more about the Benefits Delivery at Discharge (BDD) program
         </a>
       </p>
-      <a
-        href={`${BDD_FORM_ROOT_URL}/introduction`}
-        className="usa-button-primary va-button-primary"
-      >
-        File a Benefits Delivery at Discharge claim
-      </a>
+      {/* Remove link to introduction page once show526Wizard flipper is at
+      100% */}
+      {typeof setWizardStatus === 'function' ? (
+        <button
+          onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
+          className="usa-button-primary va-button-primary"
+        >
+          File a Benefits Delivery at Discharge claim
+        </button>
+      ) : (
+        <a
+          href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
+          className="usa-button-primary va-button-primary"
+        >
+          File a Benefits Delivery at Discharge claim
+        </a>
+      )}
     </>
   );
 }
 
-const FileBDDClaim = ({ getPageStateFromPageName }) => (
+const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => (
   <AlertBox
     status="info"
-    headline="You are eligible to file a BDD claim"
-    content={alertContent(getPageStateFromPageName)}
+    headline="You’re eligible to file a BDD claim"
+    content={alertContent(getPageStateFromPageName, setWizardStatus)}
   />
 );
 

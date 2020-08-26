@@ -53,11 +53,11 @@ export const uiSchema = {
       },
     },
     isVeteran: {
-      'ui:title': 'Is your spouse a veteran?',
+      'ui:title': 'Is your spouse a Veteran?',
       'ui:widget': 'yesNo',
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
     },
-    VAFileNumber: {
+    vaFileNumber: {
       'ui:title': 'Spouse’s VA file number',
       'ui:errorMessages': { pattern: 'Please enter a valid VA File number' },
       'ui:options': {

@@ -12,8 +12,6 @@ import {
   eligibilityChange,
   updateEstimatedBenefits,
 } from '../actions';
-import { scroller } from 'react-scroll';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { getCalculatedBenefits } from '../selectors/calculator';
 import EstimateYourBenefitsForm from '../components/profile/EstimateYourBenefitsForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
@@ -125,6 +123,7 @@ export class EstimateYourBenefits extends React.Component {
           onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
           estimatedBenefits={this.props.estimatedBenefits}
           updateEstimatedBenefits={this.updateEstimatedBenefits}
+          gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits

@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import DowntimeNotification, {
@@ -68,7 +71,7 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
           }
         />
       );
-    } else if (some(error.errors, e => ['500', '503'].includes(e.code))) {
+    } else {
       return <LoadFail information="military" />;
     }
   }
@@ -124,21 +127,10 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
             work with you to update your information in DEERS.
           </p>
           <p>
-            To reach the DMDC, call{' '}
-            <a
-              href="tel:1-800-538-9552"
-              aria-label="800. 5 3 8. 9 5 5 2."
-              title="Dial the telephone number 800-538-9552"
-              className="no-wrap"
-            >
-              1-800-538-9552
-            </a>
-            , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
+            To reach the DMDC, call <Telephone contact={CONTACTS.DS_LOGON} />,
+            Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
             p.m. ET. If you have hearing loss, call TTY:{' '}
-            <a href="tel:1-866-363-2883" className="no-wrap">
-              1-866-363-2883
-            </a>
-            .
+            <Telephone contact={CONTACTS.DS_LOGON_TTY} />.
           </p>
         </AdditionalInfo>
       </div>

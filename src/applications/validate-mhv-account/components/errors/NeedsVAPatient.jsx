@@ -1,4 +1,8 @@
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 import MessageTemplate from '../MessageTemplate';
 
 const NeedsVAPatient = () => {
@@ -21,7 +25,8 @@ const NeedsVAPatient = () => {
         <p>
           Call VA311 (<a href="tel:844-698-2311">844-698-2311</a>
           ), and select 3 to reach your nearest VA medical center. If you have
-          hearing loss, call TTY: 711.
+          hearing loss, call TTY:{' '}
+          <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
         </p>
         <p>
           Tell the representative that you tried to sign in to use health tools
@@ -37,7 +42,8 @@ const NeedsVAPatient = () => {
         <p>
           Call <a href="tel:844-698-2311">844-698-2311</a>, and select 3 to
           reach your nearest VA medical center. If you have hearing loss, call
-          TTY: 711.
+          TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+          .
         </p>
         <p>
           Tell the representative that you’re enrolled in VA health care and

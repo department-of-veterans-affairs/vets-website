@@ -81,7 +81,6 @@ describe('<YourClaimsPageV2>', () => {
 
   it('should render a no claims message when no claims or appeals present', () => {
     const props = _.cloneDeep(defaultProps);
-    props.canAccessClaims = false;
     props.list = [];
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('NoClaims').length).to.equal(1);

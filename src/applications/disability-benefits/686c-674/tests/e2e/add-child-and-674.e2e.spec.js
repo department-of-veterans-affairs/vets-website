@@ -10,6 +10,7 @@ import * as TestHelpers from './test-helpers';
 const runTest = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
   TestHelpers.initApplicationSubmitMock(token);
+  TestHelpers.initValidVaFileNumberMock(token).then();
   // Login
   Auth.logIn(
     token,
@@ -31,18 +32,18 @@ const runTest = E2eHelpers.createE2eTest(client => {
     ['addChild', 'report674'],
     testData.data,
   );
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // veteran information
   E2eHelpers.expectLocation(client, '/veteran-information');
-  // client.axeCheck('.main');
-  client.click('button[id="4-continueButton"]');
+  client.axeCheck('.main');
+  client.click('button[id="2-continueButton"]');
 
   // veteran address
   E2eHelpers.expectLocation(client, '/veteran-address');
   client.axeCheck('.main');
   TestHelpers.fillVeteranDomesticAddress(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // child information
   E2eHelpers.expectLocation(client, '/add-child');
@@ -50,13 +51,13 @@ const runTest = E2eHelpers.createE2eTest(client => {
   TestHelpers.fillChildNameInformation(client, testData.data, 0);
   client.click('.va-growable button.usa-button-secondary.va-growable-add-btn');
   TestHelpers.fillChildNameInformation(client, testData.data, 1);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // child 1 place of birth and status
   E2eHelpers.expectLocation(client, '/add-child/0');
   client.axeCheck('.main');
   TestHelpers.fillChildPlaceOfBirthAndStatusInformation(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // child 1 current living location
   E2eHelpers.expectLocation(client, '/add-child/0/additional-information');
@@ -66,7 +67,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fillChildAddressStatus(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // child 2 place of birth and status
   E2eHelpers.expectLocation(client, '/add-child/1');
@@ -76,7 +77,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     testData.data,
     true,
   );
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // child 2 living location - lives with another person
   E2eHelpers.expectLocation(client, '/add-child/1/additional-information');
@@ -86,18 +87,14 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fillChildAddressStatus(client, testData.data, false);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // Student Information for 674
   E2eHelpers.expectLocation(client, '/report-674');
-  client.waitForElementVisible(
-    '#root_studentNameAndSSN_fullName_first',
-    Timeouts.normal,
-  );
+  client.waitForElementVisible('.vads-u-font-weight--bold', Timeouts.verySlow);
   client.axeCheck('.main');
   TestHelpers.fill674StudentInformation(client, testData.data);
-  // TestHelpers.fill674StudentInformation(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // Student Address for 674
   E2eHelpers.expectLocation(client, '/report-674-student-address');
@@ -107,14 +104,14 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fill674StudentAddress(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // School Address for 674
   E2eHelpers.expectLocation(client, '/report-674-student-school-address');
   client.waitForElementVisible('#root_schoolInformation_name', Timeouts.normal);
   client.axeCheck('.main');
   TestHelpers.fill674StudentSchoolAddress(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // School term dates
   E2eHelpers.expectLocation(client, '/report-674-student-school-term-dates');
@@ -124,7 +121,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fill674StudentTermDates(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // Student last term
   E2eHelpers.expectLocation(
@@ -134,7 +131,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.waitForElementVisible('.main', Timeouts.normal);
   client.axeCheck('.main');
   client.selectRadio('root_studentDidAttendSchoolLastTerm', 'N');
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // review page
   E2eHelpers.expectLocation(client, '/review-and-submit');
@@ -153,11 +150,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.click('.form-checkbox input[name="privacyAgreementAccepted"]');
-  client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectLocation(client, '/confirmation');
-
-  // confirmation
-  client.axeCheck('.main');
   client.end();
 });
 

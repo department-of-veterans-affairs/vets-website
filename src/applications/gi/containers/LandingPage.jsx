@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -17,7 +16,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
-import EligibilityForm from '../components/search/EligibilityForm';
 import BenefitNotification from '../components/content/BenefitNotification';
 import LandingPageTypeOfInstitutionFilter from '../components/search/LandingPageTypeOfInstitutionFilter';
 import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
@@ -63,7 +61,7 @@ export class LandingPage extends React.Component {
       category,
     };
 
-    _.forEach(query, (val, key) => {
+    Object.entries(query).forEach(({ val, key }) => {
       if (typeof val !== 'boolean' && (!val || val === 'ALL')) {
         delete query[key];
       }
@@ -145,18 +143,15 @@ export class LandingPage extends React.Component {
             </p>
 
             <form onSubmit={this.handleSubmit}>
-              {this.props.gibctEstimateYourBenefits ? (
-                <BenefitsForm
-                  eligibilityChange={this.handleEligibilityChange}
-                  {...this.props.eligibility}
-                  hideModal={this.props.hideModal}
-                  showModal={this.props.showModal}
-                />
-              ) : (
-                <EligibilityForm
-                  eligibilityChange={this.handleEligibilityChange}
-                />
-              )}
+              <BenefitsForm
+                eligibilityChange={this.handleEligibilityChange}
+                {...this.props.eligibility}
+                hideModal={this.props.hideModal}
+                showModal={this.props.showModal}
+                gibctCh33BenefitRateUpdate={
+                  this.props.gibctCh33BenefitRateUpdate
+                }
+              />
               <LandingPageTypeOfInstitutionFilter
                 category={this.props.filters.category}
                 showModal={this.props.showModal}
@@ -174,13 +169,17 @@ export class LandingPage extends React.Component {
               {!isVetTecSelected(this.props.filters) && (
                 <KeywordSearch
                   label={searchLabel}
+                  searchOnAutcompleteSelection
+                  gibctSearchEnhancements={this.props.gibctSearchEnhancements}
                   autocomplete={this.props.autocomplete}
                   location={this.props.location}
                   onClearAutocompleteSuggestions={
                     this.props.clearAutocompleteSuggestions
                   }
                   onFetchAutocompleteSuggestions={this.autocomplete}
-                  onFilterChange={this.handleFilterChange}
+                  onFilterChange={(field, value) => {
+                    this.handleFilterChange(value);
+                  }}
                   onUpdateAutocompleteSearchTerm={
                     this.props.updateAutocompleteSearchTerm
                   }
@@ -212,11 +211,11 @@ const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: calculateFilters(state.filters),
   eligibility: state.eligibility,
-  gibctEstimateYourBenefits: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
-  ],
   gibctSearchEnhancements: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSearchEnhancements
+  ],
+  gibctCh33BenefitRateUpdate: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
   ],
 });
 

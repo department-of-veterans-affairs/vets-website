@@ -11,10 +11,7 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from 'vet360/util/transactions';
-import {
-  selectAddressValidation,
-  selectAddressValidationType,
-} from 'vet360/selectors';
+import { selectAddressValidation } from 'vet360/selectors';
 
 import Vet360EditModalErrorMessage from 'vet360/components/base/Vet360EditModalErrorMessage';
 
@@ -31,7 +28,24 @@ import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 
 class AddressValidationView extends React.Component {
+  componentDidUpdate(prevProps) {
+    // if the transaction just became pending, start calling the
+    // refreshTransaction() on an interval
+    if (
+      isPendingTransaction(this.props.transaction) &&
+      !isPendingTransaction(prevProps.transaction)
+    ) {
+      this.interval = window.setInterval(
+        this.props.refreshTransaction,
+        window.VetsGov.pollTimeout || 1000,
+      );
+    }
+  }
+
   componentWillUnmount() {
+    if (this.interval) {
+      window.clearInterval(this.interval);
+    }
     focusElement(`#${this.props.addressValidationType}-edit-link`);
   }
 
@@ -161,7 +175,6 @@ class AddressValidationView extends React.Component {
         {isFirstOptionOrEnabled &&
           hasConfirmedSuggestions && (
             <input
-              className="address-validation-input"
               type="radio"
               id={id}
               onChange={() => {
@@ -241,6 +254,7 @@ class AddressValidationView extends React.Component {
           className="vads-u-margin-bottom--1"
           status="warning"
           headline={addressValidationMessage.headline}
+          scrollOnShow
         >
           <addressValidationMessage.ModalText editFunction={this.onEditClick} />
         </AlertBox>

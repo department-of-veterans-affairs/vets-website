@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import DebtLetterCard from '../components/DebtLetterCard';
 
@@ -88,24 +88,16 @@ describe('DebtLetterCard', () => {
     expect(
       wrapper
         .dive()
-        .find('h4')
+        .find('h3')
         .text(),
-    ).to.equal('Comp and Pen updated December 19, 2014');
+    ).to.equal('Chapter 35 education debt');
     expect(
       wrapper
         .dive()
         .find('p')
         .at(1)
         .text(),
-    ).to.equal('$10,000.00');
-    expect(
-      wrapper
-        .dive()
-        .find('p')
-        .at(3)
-        .text(),
-    ).to.equal('Returned From Cross Servicing - At TOP');
-
+    ).to.equal('Amount owed: $10,000.00');
     wrapper.unmount();
   });
 });

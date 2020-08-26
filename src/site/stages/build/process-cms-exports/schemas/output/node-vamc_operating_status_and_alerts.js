@@ -14,7 +14,6 @@ module.exports = {
     fieldBannerAlert: {
       type: 'array',
       items: { $ref: 'output/node-full_width_banner_alert' },
-      // maxItems: 1 // Presumably? The template expects an array, though...
     },
     fieldFacilityOperatingStatus: {
       type: 'array',
@@ -42,7 +41,12 @@ module.exports = {
     },
     fieldOffice: {
       oneOf: [
-        { $ref: 'output/node-health_care_region_page' },
+        {
+          type: 'object',
+          properties: {
+            entity: { $ref: 'output/node-health_care_region_page' },
+          },
+        },
         { type: 'null' },
       ],
     },

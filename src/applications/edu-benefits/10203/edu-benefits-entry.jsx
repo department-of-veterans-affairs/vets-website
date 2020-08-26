@@ -1,10 +1,10 @@
 import 'platform/polyfills';
-import '../sass/edu-benefits.scss';
+import './sass/10203_stem.scss';
 
 import startApp from 'platform/startup';
 
 import routes from './routes';
-import reducer from './reducer';
+import reducer from './reducers';
 import manifest from './manifest.json';
 
 startApp({

@@ -5,6 +5,7 @@ import FacilityHours from './FacilityHours';
 import { FETCH_STATUS } from '../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { lowerCase } from '../utils/formatters';
+import { getRealFacilityId } from '../utils/appointment';
 
 export default function NoValidVAFacilities({ formContext }) {
   const {
@@ -51,7 +52,9 @@ export default function NoValidVAFacilities({ formContext }) {
               <p>
                 You can find contact information for this medical center at{' '}
                 <a
-                  href={`/find-locations/facility/vha_${siteId}`}
+                  href={`/find-locations/facility/vha_${getRealFacilityId(
+                    siteId,
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

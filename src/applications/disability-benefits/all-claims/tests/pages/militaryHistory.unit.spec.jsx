@@ -17,6 +17,7 @@ describe('Military history', () => {
 
   const appStateData = {
     dob: '1990-01-01',
+    allowBDD: true,
   };
 
   it('should render', () => {

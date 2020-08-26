@@ -14,6 +14,7 @@ import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
   getVARFacilityId,
   getVAAppointmentLocationId,
+  isVideoAppointment,
 } from '../services/appointment';
 import AdditionalInfoRow from './AdditionalInfoRow';
 import {
@@ -46,9 +47,8 @@ export default function ConfirmedAppointmentListItem({
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
   const isCommunityCare = appointment.vaos.isCommunityCare;
-  const isInPersonVAAppointment =
-    !appointment.vaos.videoType && !isCommunityCare;
-  const isVideoAppointment = !!appointment.vaos.videoType;
+  const isVideo = isVideoAppointment(appointment);
+  const isInPersonVAAppointment = !isVideo && !isCommunityCare;
 
   const showInstructions =
     isCommunityCare ||
@@ -60,7 +60,7 @@ export default function ConfirmedAppointmentListItem({
   let instructionText;
   if (showInstructions) {
     instructionText = appointment.comment;
-  } else if (isVideoAppointment && appointment.comment) {
+  } else if (isVideo && appointment.comment) {
     instructionText = getVideoInstructionText(appointment.comment);
   }
 
@@ -75,12 +75,14 @@ export default function ConfirmedAppointmentListItem({
 
   let header;
   let location;
-  if (isVideoAppointment) {
+  if (isVideo) {
     header = 'VA Video Connect';
     location = 'Video conference';
   } else if (isCommunityCare) {
     header = 'Community Care';
-    const address = appointment.contained[0].actor.address;
+    const address = appointment.contained.find(
+      res => res.resourceType === 'Location',
+    )?.address;
     location = `${address.line[0]} ${address.city}, ${address.state} ${
       address.postalCode
     }`;
@@ -94,11 +96,7 @@ export default function ConfirmedAppointmentListItem({
       aria-labelledby={`card-${index}-type card-${index}-status`}
       className={itemClasses}
       data-request-id={appointment.id}
-      data-is-cancelable={
-        !appointment.isCommunityCare && !appointment.videoType
-          ? 'true'
-          : 'false'
-      }
+      data-is-cancelable={!isCommunityCare && !isVideo ? 'true' : 'false'}
     >
       <div
         id={`card-${index}-type`}
@@ -110,7 +108,7 @@ export default function ConfirmedAppointmentListItem({
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
-          facilityId={parseFakeFHIRId(getVARFacilityId(appointment))}
+          facilityId={getVARFacilityId(appointment)}
         />
       </h3>
       <AppointmentStatus
@@ -123,9 +121,7 @@ export default function ConfirmedAppointmentListItem({
           {isCommunityCare && (
             <ConfirmedCommunityCareLocation appointment={appointment} />
           )}
-          {isVideoAppointment && (
-            <VideoVisitSection appointment={appointment} />
-          )}
+          {isVideo && <VideoVisitSection appointment={appointment} />}
           {isInPersonVAAppointment && (
             <VAFacilityLocation
               facility={facility}
@@ -151,7 +147,7 @@ export default function ConfirmedAppointmentListItem({
       {!cancelled &&
         !isPastAppointment && (
           <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
-            {isVideoAppointment &&
+            {isVideo &&
               appointment.comment && (
                 <AdditionalInfoRow
                   id={appointment.id}

@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
 import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import {
@@ -11,8 +10,8 @@ import {
   getMessageMock,
 } from '../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
+import { renderWithStoreAndRouter } from '../mocks/setup';
 
-import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 
 const initialState = {
@@ -54,9 +53,8 @@ describe('VAOS integration: pending appointments', () => {
         baseElement,
         getByText,
         queryByText,
-      } = renderInReduxProvider(<FutureAppointmentsList />, {
+      } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
         initialState,
-        reducers,
       });
 
       const dateHeader = await findByText(/primary care appointment/i);
@@ -72,6 +70,7 @@ describe('VAOS integration: pending appointments', () => {
         'href',
         '/find-locations/facility/vha_442GC',
       );
+      expect(baseElement).to.contain.text('Preferred date and time');
       expect(baseElement).to.contain.text(
         `${moment()
           .add(3, 'days')
@@ -98,6 +97,10 @@ describe('VAOS integration: pending appointments', () => {
         ...appointment.attributes,
         status: 'Submitted',
         appointmentType: 'Primary care',
+        optionDate1: moment()
+          .add(3, 'days')
+          .format('MM/DD/YYYY'),
+        optionTime1: 'AM',
         facility: {
           ...appointment.facility,
           facilityCode: '983GC',
@@ -126,11 +129,10 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockFacilitiesFetch('vha_442GC', [facility]);
 
-      const { findByText, baseElement, queryByText } = renderInReduxProvider(
+      const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
         <FutureAppointmentsList />,
         {
           initialState,
-          reducers,
         },
       );
 
@@ -170,11 +172,10 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText, baseElement, queryByText } = renderInReduxProvider(
+      const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
         <FutureAppointmentsList />,
         {
           initialState,
-          reducers,
         },
       );
 
@@ -207,10 +208,12 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-        initialState,
-        reducers,
-      });
+      const { findByText } = renderWithStoreAndRouter(
+        <FutureAppointmentsList />,
+        {
+          initialState,
+        },
+      );
 
       return expect(findByText(/You don’t have any appointments/i)).to
         .eventually.be.ok;
@@ -228,10 +231,12 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-        initialState,
-        reducers,
-      });
+      const { findByText } = renderWithStoreAndRouter(
+        <FutureAppointmentsList />,
+        {
+          initialState,
+        },
+      );
 
       return expect(findByText(/You don’t have any appointments/i)).to
         .eventually.be.ok;
@@ -265,11 +270,10 @@ describe('VAOS integration: pending appointments', () => {
         { data: [message] },
       );
 
-      const { baseElement, findByText } = renderInReduxProvider(
+      const { baseElement, findByText } = renderWithStoreAndRouter(
         <FutureAppointmentsList />,
         {
           initialState,
-          reducers,
         },
       );
 
@@ -285,48 +289,8 @@ describe('VAOS integration: pending appointments', () => {
       expect(baseElement).to.contain.text('patient.test@va.gov');
       expect(baseElement).to.contain.text('5555555566');
     });
-
-    it('should show express care reason for visit and hide times', async () => {
-      const appointment = getVARequestMock();
-      appointment.attributes = {
-        ...appointment.attributes,
-        status: 'Submitted',
-        optionDate1: moment()
-          .add(3, 'days')
-          .format('MM/DD/YYYY'),
-        optionTime1: 'AM',
-        purposeOfVisit: 'New Issue',
-        bestTimetoCall: ['Morning'],
-        email: 'patient.test@va.gov',
-        phoneNumber: '5555555566',
-        typeOfCareId: 'CR1',
-        reasonForVisit: 'Back pain',
-      };
-      appointment.id = '1234';
-      mockAppointmentInfo({ requests: [appointment] });
-
-      const { baseElement, findByText } = renderInReduxProvider(
-        <FutureAppointmentsList />,
-        {
-          initialState,
-          reducers,
-        },
-      );
-
-      const showMoreButton = await findByText(/show more/i);
-      expect(baseElement).not.to.contain.text('in the morning');
-      expect(baseElement).not.to.contain.text('Back pain');
-
-      fireEvent.click(showMoreButton);
-      await findByText(/Reason for appointment/i);
-
-      expect(baseElement).to.contain.text('Call morning');
-      expect(baseElement).to.contain.text('Back pain');
-      expect(baseElement).to.contain.text('Your contact details');
-      expect(baseElement).to.contain.text('patient.test@va.gov');
-      expect(baseElement).to.contain.text('5555555566');
-    });
   });
+
   describe('for community care', () => {
     it('should show provider info', async () => {
       const appointment = getVARequestMock();
@@ -339,6 +303,9 @@ describe('VAOS integration: pending appointments', () => {
           .format('MM/DD/YYYY'),
         optionTime1: 'AM',
         typeOfCareId: 'CCAUDHEAR',
+        bestTimetoCall: ['Morning'],
+        email: 'patient.test@va.gov',
+        phoneNumber: '5555555566',
         ccAppointmentRequest: {
           preferredProviders: [
             {
@@ -353,16 +320,27 @@ describe('VAOS integration: pending appointments', () => {
           ],
         },
       };
+      appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
+      const message = getMessageMock();
+      message.attributes = {
+        ...message.attributes,
+        messageText: 'A message from the patient',
+      };
+      setFetchJSONResponse(
+        global.fetch.withArgs(
+          `${environment.API_URL}/vaos/v0/appointment_requests/1234/messages`,
+        ),
+        { data: [message] },
+      );
 
       const {
         findByText,
         baseElement,
         getByText,
         queryByText,
-      } = renderInReduxProvider(<FutureAppointmentsList />, {
+      } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
         initialState,
-        reducers,
       });
 
       const dateHeader = await findByText(/primary care appointment/i);
@@ -381,8 +359,13 @@ describe('VAOS integration: pending appointments', () => {
           .add(3, 'days')
           .format('ddd, MMMM D, YYYY')} in the morning`,
       );
-
       expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+      fireEvent.click(await findByText(/show more/i));
+      await findByText(/a message from the patient/i);
+      expect(baseElement).to.contain.text('Call morning');
+      expect(baseElement).to.contain.text('Your contact details');
+      expect(baseElement).to.contain.text('patient.test@va.gov');
+      expect(baseElement).to.contain.text('5555555566');
     });
   });
 });

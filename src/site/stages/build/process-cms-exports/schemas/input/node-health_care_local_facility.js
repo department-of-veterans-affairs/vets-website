@@ -7,12 +7,24 @@ const tupleSchema = {
   maxItems: 2,
 };
 
+const socialMediaLinkSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      uri: { type: 'string' },
+      title: { type: 'string' },
+    },
+    required: ['uri', 'title'],
+  },
+};
+
 module.exports = {
   type: 'object',
   properties: {
     title: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
-    moderation_state: { $ref: 'GenericNestedString' },
+    status: { $ref: 'GenericNestedBoolean' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_address: { $ref: 'RawAddress' },
@@ -66,7 +78,7 @@ module.exports = {
     field_nickname_for_this_facility: { $ref: 'GenericNestedString' },
     field_operating_status_facility: { $ref: 'GenericNestedString' },
     // maxItems: 0 until we have an example of what this should be
-    field_operating_status_more_info: { type: 'array', maxItems: 0 },
+    field_operating_status_more_info: { $ref: 'GenericNestedString' },
     field_phone_number: { $ref: 'GenericNestedString' },
     field_region_page: {
       type: 'array',
@@ -77,15 +89,15 @@ module.exports = {
     // Not sure what any of the following should be; all entities had only empty arrays for these
     // jq --slurp 'map(select(.type[0].target_id == "health_care_local_facility")) | map(.field_email_subscription) | map(select(. != []))' node.*.json
     field_email_subscription: { $ref: 'GenericNestedString' },
-    field_facebook: { $ref: 'GenericNestedString' },
-    field_twitter: { $ref: 'GenericNestedString' },
-    field_instagram: { $ref: 'GenericNestedString' },
-    field_flickr: { $ref: 'GenericNestedString' },
+    field_facebook: socialMediaLinkSchema,
+    field_twitter: socialMediaLinkSchema,
+    field_instagram: socialMediaLinkSchema,
+    field_flickr: socialMediaLinkSchema,
   },
   required: [
     'title',
     'changed',
-    'moderation_state',
+    'status',
     'metatag',
     'path',
     'field_address',

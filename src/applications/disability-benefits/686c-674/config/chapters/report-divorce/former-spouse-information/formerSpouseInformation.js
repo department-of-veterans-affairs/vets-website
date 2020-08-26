@@ -2,11 +2,8 @@ import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { validateName, reportDivorce } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
-import {
-  isChapterFieldRequired,
-  stateTitle,
-  cityTitle,
-} from '../../../helpers';
+import { isChapterFieldRequired } from '../../../helpers';
+import { locationUISchema } from '../../../location-schema';
 
 export const schema = {
   type: 'object',
@@ -44,32 +41,20 @@ export const uiSchema = {
       'ui:required': formData =>
         isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
     }),
-    location: {
-      'ui:title': 'Where did this marriage end?',
-      state: {
-        'ui:title': stateTitle,
-        'ui:errorMessages': {
-          required: 'Please enter a state, or country if outside of USA',
-        },
-        'ui:required': formData =>
-          isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
-      },
-      city: {
-        'ui:title': cityTitle,
-        'ui:errorMessages': {
-          required: 'Please enter a city or county',
-        },
-        'ui:required': formData =>
-          isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
-      },
-    },
+    location: locationUISchema(
+      'reportDivorce',
+      'location',
+      false,
+      'Where did this marriage end?',
+      TASK_KEYS.reportDivorce,
+    ),
     reasonMarriageEnded: {
       'ui:required': formData =>
         isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
       'ui:title': 'Reason marriage ended',
       'ui:widget': 'radio',
       'ui:errorMessages': {
-        required: 'Please select yes or no',
+        required: 'Please select an option',
       },
       'ui:options': {
         updateSchema: () => ({

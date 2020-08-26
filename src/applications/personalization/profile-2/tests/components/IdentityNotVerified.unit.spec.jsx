@@ -11,14 +11,17 @@ describe('IdentityNotVerified', () => {
   });
 
   it('should render the correct text', () => {
-    expect(wrapper.text().includes('Verify your identity to view your profile'))
-      .to.be.true;
+    expect(
+      wrapper
+        .text()
+        .includes('Verify your identity to view your complete profile'),
+    ).to.be.true;
     wrapper.unmount();
   });
 
   it('should render the correct link', () => {
     const link = wrapper.find('a');
-    expect(link.text().includes('Verify with ID.me')).to.be.true;
+    expect(link.text().includes('Verify my identity')).to.be.true;
     expect(link.prop('href')).to.equal('/verify');
     wrapper.unmount();
   });

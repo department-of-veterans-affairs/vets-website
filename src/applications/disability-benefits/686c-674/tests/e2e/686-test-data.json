@@ -27,6 +27,7 @@
           "marriageEndDateDay": "1",
           "marriageEndDateYear": "2012",
           "locationState": "California",
+          "locationStateCode": "CA",
           "locationCity": "San Diego",
           "reasonMarriageEnded": "Death"
         }
@@ -48,7 +49,7 @@
         "dobMonth": "1",
         "dobDay": "1",
         "dobYear": "2010",
-        "birthLocationState": "California",
+        "birthLocationState": "CA",
         "birthLocationCity": "Los Angeles",
         "status": {
           "biological": true
@@ -94,7 +95,7 @@
           "marriageEndDateMonth": "1",
           "marriageEndDateDay": "1",
           "marriageEndDateYear": "2012",
-          "locationState": "California",
+          "locationState": "CA",
           "locationCity": "San Diego",
           "reasonMarriageEnded": "Death"
         }
@@ -121,7 +122,7 @@
         "year": "2008"
       },
       "locationOfMarriage": {
-        "state": "California",
+        "state": "CA",
         "city": "Los Angeles"
       },
       "typeOfMarriage": "TRIBAL"
@@ -145,7 +146,7 @@
         "year": "2008"
       },
       "location": {
-        "state": "Texas",
+        "state": "TX",
         "city": "Dallas"
       }
     },
@@ -183,6 +184,9 @@
         "stateCode": "AL",
         "zipCode": "12345"
       }
+    },
+    "reportDivorce": {
+      "reasonMarriageEnded": "Divorce"
     },
     "for674": {
       "studentInformation": {

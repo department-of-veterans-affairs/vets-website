@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import {
-  transformAvailableClinic,
   transformAvailableClinics,
   findCharacteristic,
 } from '../../../services/healthcare-service/transformers';
@@ -84,7 +83,7 @@ describe('VAOS HealthcareService transformer', () => {
 
     describe('should set description of service as presented to a consumer while searching', () => {
       it('should use clinic name', () => {
-        const obj = expect(data[1].serviceName).to.equal('CHY PC CASSIDY');
+        expect(data[1].serviceName).to.equal('CHY PC CASSIDY');
       });
 
       it('should use clinic friendly name when present', () => {

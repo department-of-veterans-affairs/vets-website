@@ -3,6 +3,7 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
+import ArrayField from '../components/ArrayField';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -24,9 +25,23 @@ const validateAge = (
   }
 };
 
-const validateSeparationDate = (errors, dateString) => {
-  if (moment(dateString).isAfter(moment())) {
+const validateSeparationDate = (
+  errors,
+  dateString,
+  formData,
+  schema,
+  uiSchema,
+  currentIndex,
+  appStateData,
+) => {
+  const allowBDD = appStateData.allowBDD;
+  if (!allowBDD && moment(dateString).isAfter(moment())) {
     errors.addError('Your separation date must be in the past');
+  } else if (
+    allowBDD &&
+    moment(dateString).isAfter(moment().add(180, 'days'))
+  ) {
+    errors.addError('Your separation date must be before 180 days from today');
   }
 };
 
@@ -38,11 +53,13 @@ export const uiSchema = {
     servicePeriods: {
       'ui:title': 'Military service history',
       'ui:description':
-        'This is the military service history we have on file for you.',
+        'Please add or update your military service history details below.',
+      'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
         viewField: ValidatedServicePeriodView,
         reviewMode: true,
+        showSave: true,
       },
       items: {
         serviceBranch: {

@@ -10,12 +10,7 @@ import { ApplicationStatus } from '../../save-in-progress/ApplicationStatus';
 describe('schemaform <ApplicationStatus>', () => {
   let formConfigDefaultData;
   beforeEach(() => {
-    formConfigDefaultData = {
-      customText: {
-        startNewAppButtonText: '',
-        continueAppButtonText: '',
-      },
-    };
+    formConfigDefaultData = {};
   });
 
   it('should render loading', () => {
@@ -84,7 +79,7 @@ describe('schemaform <ApplicationStatus>', () => {
       'Continue your application',
     );
     expect(tree.subTree('.form-title').text()).to.contain(
-      'Your form is in progress',
+      'Your application is in progress',
     );
   });
   it('should render expired form', () => {
@@ -113,9 +108,7 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
     expect(tree.subTree('.usa-alert-warning')).to.not.be.false;
-    expect(tree.subTree('.usa-button-primary').text()).to.equal(
-      'Start a new application',
-    );
+    expect(tree.text()).to.include('start a new application');
   });
   it('should render saved form from ids', () => {
     const tree = SkinDeep.shallowRender(
@@ -142,13 +135,12 @@ describe('schemaform <ApplicationStatus>', () => {
         formConfig={formConfigDefaultData}
       />,
     );
-
     expect(tree.subTree('.usa-alert-info')).to.not.be.false;
     expect(tree.subTree('.usa-button-primary').text()).to.equal(
       'Continue your application',
     );
     expect(tree.subTree('.form-title').text()).to.contain(
-      'Your form is in progress',
+      'Your application is in progress',
     );
   });
   it('should render multiple forms message', () => {
@@ -187,7 +179,7 @@ describe('schemaform <ApplicationStatus>', () => {
 
     expect(tree.subTree('.usa-alert-info')).to.not.be.false;
     expect(tree.subTree('.usa-alert-info').text()).to.contain(
-      'more than one in-progress form',
+      'more than one in-progress application',
     );
   });
   it('should display a custom button message when passing in startNewAppButtonText', () => {

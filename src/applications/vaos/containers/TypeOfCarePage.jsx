@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
 import TypeOfCareUnavailableModal from '../components/TypeOfCareUnavailableModal';
+import UpdateAddressAlert from '../components/UpdateAddressAlert';
 import {
   openTypeOfCarePage,
   updateFormData,
@@ -13,7 +13,8 @@ import {
   routeToPreviousAppointmentPage,
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
-} from '../actions/newAppointment.js';
+  clickUpdateAddressButton,
+} from '../new-appointment/redux/actions';
 import {
   getFormPageInfo,
   getNewAppointment,
@@ -45,35 +46,6 @@ const uiSchema = {
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
 
-function UpdateAddress({ address, showAlert, onHide }) {
-  const regexp = /^PO Box/;
-  if (showAlert && (!address || address.match(regexp))) {
-    return (
-      <AlertBox
-        status="warning"
-        headline="You need to have a home address on file to use some of the tool's features"
-        className="vads-u-margin-y--3"
-        content={
-          <p>
-            You can update your address in your VA profile. Please allow some
-            time for your address update to process through our system. <br />
-            <a
-              className="usa-button usa-button-primary vads-u-margin-top--4"
-              target="_blank"
-              rel="noopener noreferrer"
-              href="/change-address/#how-do-i-change-my-address-in-"
-              onClick={onHide}
-            >
-              Update your address
-            </a>
-          </p>
-        }
-      />
-    );
-  }
-  return null;
-}
-
 export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
@@ -81,16 +53,8 @@ export class TypeOfCarePage extends React.Component {
     scrollAndFocus();
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showAlert: true,
-    };
-  }
-
   hideAlert = () => {
-    const showAlert = !this.state.showAlert;
-    this.setState({ showAlert });
+    this.props.clickUpdateAddressButton();
   };
 
   onChange = newData => {
@@ -106,11 +70,11 @@ export class TypeOfCarePage extends React.Component {
   };
 
   goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
+    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
   };
 
   goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
   };
 
   render() {
@@ -120,6 +84,7 @@ export class TypeOfCarePage extends React.Component {
       pageChangeInProgress,
       showToCUnavailableModal,
       addressLine1,
+      hideUpdateAddressAlert,
     } = this.props;
 
     if (!schema) {
@@ -129,9 +94,9 @@ export class TypeOfCarePage extends React.Component {
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        <UpdateAddress
+        <UpdateAddressAlert
           address={addressLine1}
-          showAlert={this.state.showAlert}
+          showAlert={!hideUpdateAddressAlert}
           onHide={this.hideAlert}
         />
 
@@ -170,6 +135,7 @@ function mapStateToProps(state) {
     showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showDirectScheduling: vaosDirectScheduling(state),
+    hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
   };
 }
 
@@ -180,6 +146,7 @@ const mapDispatchToProps = {
   routeToPreviousAppointmentPage,
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
+  clickUpdateAddressButton,
 };
 
 export default connect(

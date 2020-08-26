@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, memo } from 'react';
 import PropTypes from 'prop-types';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
@@ -6,10 +6,10 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from 'vet360/util/transactions';
-import Vet360EditModalActionButtons from './Vet360EditModalActionButtons';
+import VAPEditModalActionButtons from './VAPEditModalActionButtons';
 import Vet360EditModalErrorMessage from './Vet360EditModalErrorMessage';
 
-export default class VAPEditView extends React.Component {
+class VAPEditView extends Component {
   static propTypes = {
     analyticsSectionName: PropTypes.string.isRequired,
     clearErrors: PropTypes.func.isRequired,
@@ -24,8 +24,10 @@ export default class VAPEditView extends React.Component {
     onChangeFormDataAndSchemas: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    refreshTransaction: PropTypes.func,
     render: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
+    transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
     useSchemaForm: PropTypes.bool,
   };
@@ -38,11 +40,35 @@ export default class VAPEditView extends React.Component {
     );
   }
 
+  componentDidUpdate(prevProps) {
+    // if the transaction just became pending, start calling the
+    // refreshTransaction() on an interval
+    if (
+      isPendingTransaction(this.props.transaction) &&
+      !isPendingTransaction(prevProps.transaction)
+    ) {
+      this.interval = window.setInterval(
+        this.props.refreshTransaction,
+        window.VetsGov.pollTimeout || 1000,
+      );
+    }
+    // if the transaction is no longer pending, stop refreshing it
+    if (
+      isPendingTransaction(prevProps.transaction) &&
+      !isPendingTransaction(this.props.transaction)
+    ) {
+      window.clearInterval(this.interval);
+    }
+  }
+
   componentWillUnmount() {
+    if (this.interval) {
+      window.clearInterval(this.interval);
+    }
     // Errors returned directly from the API request (as opposed through a transaction lookup) are
     // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
     // for the next time the modal is opened by removing any existing transaction request from the store.
-    if (this.props.transactionRequest && this.props.transactionRequest.error) {
+    if (this.props.transactionRequest?.error) {
       this.props.clearErrors();
     }
   }
@@ -76,31 +102,38 @@ export default class VAPEditView extends React.Component {
       (isFailedTransaction(transaction) ? {} : null);
 
     const actionButtons = (
-      <Vet360EditModalActionButtons
+      <VAPEditModalActionButtons
         onCancel={onCancel}
         onDelete={onDelete}
         title={title}
         analyticsSectionName={analyticsSectionName}
-        transactionRequest={transactionRequest}
+        isLoading={isLoading}
         deleteEnabled={!isEmpty && !deleteDisabled}
       >
-        <LoadingButton data-action="save-edit" isLoading={isLoading}>
+        <LoadingButton
+          data-action="save-edit"
+          isLoading={isLoading}
+          className="vads-u-width--auto vads-u-margin-top--0"
+        >
           Update
         </LoadingButton>
         <button
           type="button"
-          className="va-button-link vads-u-margin-left--1"
+          className="usa-button-secondary medium-screen:vads-u-margin-left--2 vads-u-margin-top--0 vads-u-width--auto"
           onClick={onCancel}
         >
           Cancel
         </button>
-      </Vet360EditModalActionButtons>
+      </VAPEditModalActionButtons>
     );
 
     return (
       <>
         {error && (
-          <div className="vads-u-margin-bottom--1">
+          <div
+            className="vads-u-margin-bottom--1"
+            data-testid="edit-error-alert"
+          >
             <Vet360EditModalErrorMessage
               title={title}
               error={error}
@@ -113,3 +146,5 @@ export default class VAPEditView extends React.Component {
     );
   }
 }
+
+export default memo(VAPEditView);

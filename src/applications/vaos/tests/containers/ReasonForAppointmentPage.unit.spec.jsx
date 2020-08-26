@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import { ReasonForAppointmentPage } from '../../containers/ReasonForAppointmentPage';
+import { FACILITY_TYPES } from '../../utils/constants';
 
 describe('VAOS <ReasonForAppointmentPage>', () => {
   it('should render', () => {
@@ -26,14 +27,14 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
   it('should not submit empty form', () => {
     const openReasonForAppointment = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
     const form = mount(
       <ReasonForAppointmentPage
         openReasonForAppointment={openReasonForAppointment}
-        router={router}
+        history={history}
         data={{}}
       />,
     );
@@ -43,14 +44,14 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(form.find('AlertBox').length).to.equal(1);
 
     expect(form.find('.usa-input-error').length).to.equal(2);
-    expect(router.push.called).to.be.false;
+    expect(history.push.called).to.be.false;
     form.unmount();
   });
 
   it('should call updateReasonForAppointmentData after change', () => {
     const openReasonForAppointment = sinon.spy();
     const updateReasonForAppointmentData = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -58,7 +59,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
       <ReasonForAppointmentPage
         openReasonForAppointment={openReasonForAppointment}
         updateReasonForAppointmentData={updateReasonForAppointmentData}
-        router={router}
+        history={history}
         data={{}}
       />,
     );
@@ -126,6 +127,42 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
 
+    form.unmount();
+  });
+
+  it('should render radio buttons and a textarea', () => {
+    const openReasonForAppointment = sinon.spy();
+    const updateReasonForAppointmentData = sinon.spy();
+
+    const form = mount(
+      <ReasonForAppointmentPage
+        openReasonForAppointment={openReasonForAppointment}
+        updateReasonForAppointmentData={updateReasonForAppointmentData}
+        data={{}}
+      />,
+    );
+
+    expect(form.find('input[type="radio"]').length).to.equal(4);
+    expect(form.find('textarea').length).to.equal(1);
+
+    form.unmount();
+  });
+
+  it('document title should be different if community care', () => {
+    const openReasonForAppointment = sinon.spy();
+    const updateReasonForAppointmentData = sinon.spy();
+    const pageTitle = 'Tell us the reason for this appointment';
+
+    const form = mount(
+      <ReasonForAppointmentPage
+        openReasonForAppointment={openReasonForAppointment}
+        updateReasonForAppointmentData={updateReasonForAppointmentData}
+        data={{ facilityType: FACILITY_TYPES.COMMUNITY_CARE }}
+      />,
+    );
+
+    expect(form.find('h1').text()).to.equal(pageTitle);
+    expect(document.title).contain(pageTitle);
     form.unmount();
   });
 

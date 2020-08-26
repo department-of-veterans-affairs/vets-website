@@ -10,7 +10,10 @@ import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
 import * as VET360 from '../constants';
 
-import { isPendingTransaction } from '../util/transactions';
+import {
+  isFailedTransaction,
+  isPendingTransaction,
+} from '../util/transactions';
 
 import {
   createTransaction,
@@ -90,7 +93,20 @@ class VAPProfileField extends React.Component {
     // seconds we will show a "we're saving your new information..." message on
     // the Profile
     if (!prevProps.transaction && this.props.transaction) {
-      this.closeModalTimeoutID = setTimeout(() => this.closeModal(), 5000);
+      this.closeModalTimeoutID = setTimeout(
+        () => this.closeModal(),
+        // Using 50ms as the unit test timeout before exiting edit view while
+        // waiting for an update to happen. Being too aggressive, like 5ms,
+        // results in exiting the edit view before Redux has had time to do
+        // everything it needs to do. In that situation we see the "we're saving
+        // your..." message while Redux is processing everything.
+        window.VetsGov.pollTimeout ? 50 : 5000,
+      );
+    }
+
+    // Do not auto-exit edit view if the transaction failed
+    if (this.transactionJustFailed(prevProps, this.props)) {
+      clearTimeout(this.closeModalTimeoutID);
     }
 
     if (this.justClosedModal(prevProps, this.props)) {
@@ -191,6 +207,15 @@ class VAPProfileField extends React.Component {
     );
   }
 
+  transactionJustFailed(prevProps, props) {
+    const previousTransaction = prevProps.transaction;
+    const currentTransaction = props.transaction;
+    return (
+      !isFailedTransaction(previousTransaction) &&
+      isFailedTransaction(currentTransaction)
+    );
+  }
+
   clearErrors = () => {
     this.props.clearTransactionRequest(this.props.fieldName);
   };
@@ -253,8 +278,23 @@ class VAPProfileField extends React.Component {
       refreshTransaction: this.refreshTransaction,
     };
 
+    const wrapInTransaction = children => {
+      return (
+        <Vet360Transaction
+          isModalOpen={showEditView || showValidationView}
+          id={`${fieldName}-transaction-status`}
+          title={title}
+          transaction={transaction}
+          transactionRequest={transactionRequest}
+          refreshTransaction={this.refreshTransaction}
+        >
+          {children}
+        </Vet360Transaction>
+      );
+    };
+
     // default the content to the read-view
-    let content = (
+    let content = wrapInTransaction(
       <div className={classes.wrapper}>
         <ContentView data={this.props.data} />
         {this.isEditLinkVisible() && (
@@ -265,11 +305,11 @@ class VAPProfileField extends React.Component {
             className={classes.editButton}
           />
         )}
-      </div>
+      </div>,
     );
 
     if (isEmpty) {
-      content = (
+      content = wrapInTransaction(
         <button
           type="button"
           onClick={this.onAdd}
@@ -277,17 +317,23 @@ class VAPProfileField extends React.Component {
           id={`${this.props.fieldName}-edit-link`}
         >
           Please add your {title.toLowerCase()}
-        </button>
+        </button>,
       );
     }
 
     if (showEditView) {
-      content = <EditView {...childProps} />;
+      content = (
+        <EditView
+          refreshTransaction={this.refreshTransaction}
+          {...childProps}
+        />
+      );
     }
 
     if (showValidationView) {
       content = (
         <ValidationView
+          refreshTransaction={this.refreshTransaction}
           transaction={transaction}
           transactionRequest={transactionRequest}
           title={title}
@@ -307,7 +353,6 @@ class VAPProfileField extends React.Component {
           }}
         >
           <p>
-            {' '}
             {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won't be saved.`}
           </p>
           <button
@@ -349,16 +394,8 @@ class VAPProfileField extends React.Component {
             OK
           </button>
         </Modal>
-        <Vet360Transaction
-          isModalOpen={showEditView || showValidationView}
-          id={`${fieldName}-transaction-status`}
-          title={title}
-          transaction={transaction}
-          transactionRequest={transactionRequest}
-          refreshTransaction={this.refreshTransaction}
-        >
-          {content}
-        </Vet360Transaction>
+
+        {content}
       </div>
     );
   }
@@ -398,7 +435,7 @@ export const mapStateToProps = (state, ownProps) => {
     data,
     fieldName,
     field: selectEditedFormField(state, fieldName),
-    showEditView: selectCurrentlyOpenEditModal(state) === fieldName,
+    showEditView: activeEditView === fieldName,
     showValidationView: !!showValidationView,
     isEmpty,
     transaction,
@@ -438,7 +475,7 @@ Vet360ProfileFieldContainer.propTypes = {
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
-  hasUnsavedEdits: PropTypes.bool.isRequired,
+  hasUnsavedEdits: PropTypes.bool,
 };
 
 export default Vet360ProfileFieldContainer;

@@ -28,11 +28,6 @@ module.exports = {
     // but only containing the data in field_link
     field_links: {
       type: 'array',
-      // I don't know that this array will *always* have only one item,
-      // but this schema passed the content build so it seemed
-      // like a decent idea to call it out as a potential change
-      // for the templates or CMS export
-      maxItems: 1,
       items: {
         type: 'object',
         properties: {
@@ -63,6 +58,7 @@ module.exports = {
     field_support_services: { $ref: 'EntityReferenceArray' },
     field_title_icon: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
+    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
@@ -80,6 +76,6 @@ module.exports = {
     'field_support_services',
     'field_title_icon',
     'metatag',
-    'moderation_state',
+    'status',
   ],
 };

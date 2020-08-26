@@ -1,0 +1,11 @@
+module.exports = {
+  type: 'object',
+  properties: {
+  entityType: { type: 'string', enum: ['<%= entityType %>'] },
+  entityBundle: { type: 'string', enum: ['<%= entityBundle %>'] },
+  <%_ fieldData.forEach(fd => { _%>
+  <%- fd.outputFieldName %>: <%- fd.outputSchema %>,
+  <%_ }); _%>
+  },
+  required: [<%- fieldData.map(fd => `'${fd.outputFieldName}'`).join(', ') %>],
+};

@@ -23,8 +23,11 @@ class App extends Component {
           <a href="/">Home</a>
           {/* this will get updated when this route is added */}
           <a href="/health-care">Health care</a>
+          <a href="/health-care/order-hearing-aid-batteries-and-accessories">
+            Order hearing aid batteries and accessories
+          </a>
           <span className="vads-u-color--black">
-            <strong>Order hearing aid batteries and accessories</strong>
+            <strong>Order form 2346</strong>
           </span>
         </Breadcrumbs>
         {pending && (
@@ -33,7 +36,7 @@ class App extends Component {
         {isError &&
           !pending &&
           isLoggedIn && (
-            <div className="vads-u-margin-bottom--3">
+            <div className="row vads-u-margin-bottom--3">
               <ErrorMessage />
             </div>
           )}

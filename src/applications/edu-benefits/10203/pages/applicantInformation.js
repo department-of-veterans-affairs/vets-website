@@ -1,5 +1,5 @@
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
+import ApplicantDescription from '../content/ApplicantDescription';
 
 export const uiSchema = {
   'ui:description': ApplicantDescription,

@@ -21,7 +21,11 @@ import DowntimeNotification, {
   externalServiceStatus,
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeMessage from './DowntimeMessage';
-import { APP_TYPE_DEFAULT, UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from './constants';
+import {
+  APP_TYPE_DEFAULT,
+  UNAUTH_SIGN_IN_DEFAULT_MESSAGE,
+  APP_ACTION_DEFAULT,
+} from '../../forms-system/src/js/constants';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {
@@ -40,6 +44,8 @@ class SaveInProgressIntro extends React.Component {
       profile && profile.prefillsAvailable.includes(formId)
     );
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+    const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
+
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const lastUpdated =
@@ -58,7 +64,7 @@ class SaveInProgressIntro extends React.Component {
             <div>
               <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
-                  <strong>Your form is in progress</strong>
+                  <strong>Your {appType} is in progress</strong>
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-item-metadata">
@@ -69,8 +75,8 @@ class SaveInProgressIntro extends React.Component {
                     Your {appType} was last saved on {lastSavedDateTime}
                   </span>
                   <div className="expires-container">
-                    You can continue applying now, or come back later to finish
-                    your {appType}. Your {appType}{' '}
+                    You can continue {appAction} now, or come back later to
+                    finish your {appType}. Your {appType}{' '}
                     <span className="expires">
                       will expire on {expirationDate}.
                     </span>
@@ -86,7 +92,7 @@ class SaveInProgressIntro extends React.Component {
             <div>
               <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
-                  <strong>Your form has expired</strong>
+                  <strong>Your {appType} has expired</strong>
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
@@ -108,8 +114,8 @@ class SaveInProgressIntro extends React.Component {
               <div className="usa-alert-body">
                 <strong>Note:</strong> Since you’re signed in to your account,
                 we can prefill part of your {appType} based on your account
-                details. You can also save your form in progress and come back
-                later to finish filling it out.
+                details. You can also save your {appType} in progress and come
+                back later to finish filling it out.
               </div>
             </div>
             <br />
@@ -122,7 +128,7 @@ class SaveInProgressIntro extends React.Component {
           <div>
             <div className="usa-alert usa-alert-info schemaform-sip-alert">
               <div className="usa-alert-body">
-                You can save this form in progress, and come back later to
+                You can save this {appType} in progress, and come back later to
                 finish filling it out.
               </div>
             </div>
@@ -134,11 +140,14 @@ class SaveInProgressIntro extends React.Component {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
+      const unauthStartButton = (
+        <button className="usa-button-primary" onClick={this.openLoginModal}>
+          {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+        </button>
+      );
       alert = buttonOnly ? (
         <>
-          <button className="usa-button-primary" onClick={this.openLoginModal}>
-            {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-          </button>
+          {unauthStartButton}
           {!this.props.hideUnauthedStartLink && (
             <p>
               <button
@@ -168,8 +177,8 @@ class SaveInProgressIntro extends React.Component {
                   You can save your {appType} in progress, and come back later
                   to finish filling it out. You’ll have {retentionPeriod} from
                   the date you start or update your {appType} to submit it.
-                  After {retentionPeriod}, we’ll delete the form and you’ll need
-                  to start over.
+                  After {retentionPeriod}, we’ll delete the {appType} and you’ll
+                  need to start over.
                 </li>
               </ul>
               <p>
@@ -177,12 +186,7 @@ class SaveInProgressIntro extends React.Component {
                 {appType}, you won’t be able to save the information you’ve
                 already filled in.
               </p>
-              <button
-                className="usa-button-primary"
-                onClick={this.openLoginModal}
-              >
-                {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-              </button>
+              {unauthStartButton}
               {!this.props.hideUnauthedStartLink && (
                 <p>
                   <button
@@ -204,8 +208,8 @@ class SaveInProgressIntro extends React.Component {
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
-              You can save this form in progress, and come back later to finish
-              filling it out.
+              You can save this {appType} in progress, and come back later to
+              finish filling it out.
               <br />
               <button className="va-button-link" onClick={this.openLoginModal}>
                 Sign in to your account.
@@ -249,9 +253,9 @@ class SaveInProgressIntro extends React.Component {
   };
 
   render() {
-    const { profile } = this.props.user;
     const { formConfig } = this.props;
-    const appType = formConfig.customText?.appType || APP_TYPE_DEFAULT;
+    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+    const { profile } = this.props.user;
     const startPage = this.getStartPage();
     const savedForm =
       profile && profile.savedForms.find(f => f.form === this.props.formId);
@@ -329,6 +333,7 @@ class SaveInProgressIntro extends React.Component {
           appTitle={this.props.formId}
           render={this.renderDowntime}
           dependencies={this.props.downtime.dependencies}
+          customText={formConfig.customText}
         >
           {content}
         </DowntimeNotification>

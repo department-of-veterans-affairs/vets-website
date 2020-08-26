@@ -20,84 +20,35 @@ import ResultsList from '../components/ResultsList';
 import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
 import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
-import { facilityTypes } from '../config';
-import {
-  BOUNDING_RADIUS,
-  FacilityType,
-  LocationType,
-  MARKER_LETTERS,
-} from '../constants';
+import { BOUNDING_RADIUS, MARKER_LETTERS } from '../constants';
 import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import {
-  facilityLocatorShowCommunityCares,
   facilitiesPpmsSuppressPharmacies,
-  facilityLocatorFeUseV1,
+  facilitiesPpmsSuppressCommunityCare,
 } from '../utils/selectors';
-import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import recordEvent from 'platform/monitoring/record-event';
 import { distBetween } from '../utils/facilityDistance';
+import SearchResultsHeader from '../components/SearchResultsHeader';
 
 const mbxClient = mbxGeo(mapboxClient);
 
 const otherToolsLink = (
   <p>
-    Can’t find what you’re looking for?
+    Can’t find what you’re looking for?&nbsp;&nbsp;
     <a href="https://www.va.gov/directory/guide/home.asp">
       Try using our other tools to search.
     </a>
   </p>
 );
 
-const headingStyle = {
-  fontWeight: '700',
-  fontFamily: 'Bitter, Georgia, Cambria, Times New Roman, Times, serif',
-  lineHeight: '1.3',
-  clear: 'both',
-};
-
-const ddStyle = {
-  margin: '2rem 0 .5rem 0',
-  lineHeight: '1.5',
-};
-
 // See https://design.va.gov/design/breakpoints
 const isMobile = window.innerWidth <= 481;
-
-// Link to urgent care benefit web page
-const urgentCareDialogLink = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <dl className="usa-alert-text">
-        <dt className="usa-alert-heading" style={headingStyle} tabIndex="-1">
-          Important information about your Community Care appointment
-        </dt>
-        <dd style={ddStyle}>
-          Click below to learn how to prepare for your urgent care appointment
-          with a Community Care provider.
-        </dd>
-        <button
-          className="usa-button-primary vads-u-margin-y--0"
-          onClick={() => {
-            // Record event
-            recordEvent({ event: 'cta-primary-button-click' });
-            window.open(
-              'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp',
-              '_blank',
-            );
-          }}
-        >
-          Learn about VA urgent care benefit
-        </button>
-      </dl>
-    </div>
-  </div>
-);
 
 class VAMap extends Component {
   constructor(props) {
     super(props);
+    this.refInput = React.createRef();
     this.zoomOut = debounce(
       () => this.refs.map.leafletElement.zoomOut(BOUNDING_RADIUS),
       2500,
@@ -110,8 +61,13 @@ class VAMap extends Component {
     this.searchResultTitle = React.createRef();
   }
 
+  getRefInput = () => {
+    return this.refInput;
+  };
+
   componentDidMount() {
     const { location, currentQuery } = this.props;
+    const { facilityType } = currentQuery;
 
     // navigating back from *Detail page preserves previous search results
     if (!isEmpty(this.props.results)) {
@@ -133,7 +89,7 @@ class VAMap extends Component {
       });
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(currentPosition => {
-        this.genBBoxFromCoords(currentPosition.coords);
+        this.genBBoxFromCoords(currentPosition.coords, facilityType);
       });
     } else {
       this.props.searchWithBounds({
@@ -141,7 +97,6 @@ class VAMap extends Component {
         facilityType: currentQuery.facilityType,
         serviceType: currentQuery.serviceType,
         page: currentQuery.currentPage,
-        apiVersion: this.props.useAPIv1 ? 1 : 0,
       });
     }
   }
@@ -224,9 +179,15 @@ class VAMap extends Component {
     const { currentQuery: prevQuery } = prevProps;
     const updatedQuery = this.props.currentQuery;
 
-    const shouldZoomOut = // ToTriggerNewSearch
-      !updatedQuery.searchBoundsInProgress &&
-      prevQuery.searchBoundsInProgress && // search completed
+    const searchCompleted =
+      !updatedQuery.searchBoundsInProgress && prevQuery.searchBoundsInProgress;
+
+    if (searchCompleted && this.searchResultTitle.current) {
+      setFocus(this.searchResultTitle.current);
+    }
+
+    const shouldZoomOut =
+      searchCompleted &&
       isEmpty(this.props.results) &&
       updatedQuery.bounds &&
       parseInt(updatedQuery.zoomLevel, 10) > 2 &&
@@ -331,9 +292,8 @@ class VAMap extends Component {
   /**
    * Generates a bounding box from a lat/long geocoordinate.
    *
-   *  @param position Has shape: `{latitude: x, longitude: y}`
    */
-  genBBoxFromCoords = position => {
+  genBBoxFromCoords = (position, facilityType) => {
     mbxClient
       .reverseGeocode({
         query: [position.longitude, position.latitude],
@@ -341,8 +301,14 @@ class VAMap extends Component {
       })
       .send()
       .then(({ body: { features } }) => {
-        const coordinates = features[0].center;
         const placeName = features[0].place_name;
+        if (!facilityType) {
+          this.props.updateSearchQuery({
+            searchString: placeName,
+          });
+          return;
+        }
+        const coordinates = features[0].center;
         const zipCode =
           features[0].context.find(v => v.id.includes('postcode')).text || '';
 
@@ -377,6 +343,7 @@ class VAMap extends Component {
 
   handleBoundsChanged = () => {
     const { currentQuery } = this.props;
+    if (!currentQuery.facilityType) return;
     const { position } = currentQuery;
     const { leafletElement } = this.refs.map;
 
@@ -399,7 +366,6 @@ class VAMap extends Component {
         bounds._northEast.lat,
       ];
     }
-
     this.props.updateSearchQuery({
       bounds: boundsArray,
       position: {
@@ -437,15 +403,7 @@ class VAMap extends Component {
    */
   renderMapMarkers = () => {
     const { results } = this.props;
-    // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
-    const linkAction = (id, isProvider = false, e) => {
-      e.preventDefault();
-      if (isProvider) {
-        this.context.router.push(`provider/${id}`);
-      } else {
-        this.context.router.push(`facility/${id}`);
-      }
-    };
+    if (!results) return null;
 
     const currentLocation = this.props.currentQuery.position;
     const markers = MARKER_LETTERS.values();
@@ -481,62 +439,10 @@ class VAMap extends Component {
             document.getElementById('searchResultsContainer').scrollTop =
               searchResult.offsetTop;
           }
-          this.props.fetchVAFacility(r.id, r);
         },
         markerText: markers.next().value,
       };
-
-      const popupContent = (
-        <div>
-          {r.type === LocationType.CC_PROVIDER ? (
-            <div>
-              <a
-                href={`/provider/${r.id}`}
-                onClick={linkAction.bind(this, r.id, true)}
-              >
-                <h5>{r.attributes.name}</h5>
-              </a>
-              <h6>{r.attributes.orgName}</h6>
-              <p>
-                Services:{' '}
-                <strong>
-                  {r.attributes.specialty.map(s => s.name.trim()).join(', ')}
-                </strong>
-              </p>
-            </div>
-          ) : (
-            <div>
-              <a
-                href={`/facility/${r.id}`}
-                onClick={linkAction.bind(this, r.id, false)}
-              >
-                <h5>{r.attributes.name}</h5>
-              </a>
-              <p>
-                Facility type:{' '}
-                <strong>{facilityTypes[r.attributes.facilityType]}</strong>
-              </p>
-            </div>
-          )}
-        </div>
-      );
-
-      switch (r.attributes.facilityType) {
-        case FacilityType.VA_HEALTH_FACILITY:
-        case FacilityType.VA_CEMETARY:
-        case FacilityType.VA_BENEFITS_FACILITY:
-        case FacilityType.VET_CENTER:
-          return <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>;
-        case undefined:
-          if (r.type === LocationType.CC_PROVIDER) {
-            return (
-              <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>
-            );
-          }
-          return null;
-        default:
-          return null;
-      }
+      return <FacilityMarker key={r.id} {...iconProps} />;
     });
     if (this.props.currentQuery.searchCoords) {
       mapMarkers.push(
@@ -554,23 +460,31 @@ class VAMap extends Component {
     return mapMarkers;
   };
 
+  renderResultsHeader = (results, facilityType, serviceType, queryContext) => (
+    <SearchResultsHeader
+      results={results}
+      facilityType={facilityType}
+      serviceType={serviceType}
+      context={queryContext}
+      inProgress={this.props.currentQuery.inProgress}
+    />
+  );
+
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const {
       currentQuery,
       selectedResult,
-      showCommunityCares,
+      suppressCCP,
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
     const facilityLocatorMarkers = this.renderMapMarkers();
-    const showDialogUrgCare =
-      (currentQuery.facilityType === LocationType.URGENT_CARE &&
-        currentQuery.serviceType === 'NonVAUrgentCare') ||
-      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
-        ? urgentCareDialogLink
-        : null;
+    const facilityType = currentQuery.facilityType;
+    const serviceType = currentQuery.serviceType;
+    const queryContext = currentQuery.context;
+
     return (
       <div>
         <div className="columns small-12">
@@ -578,26 +492,18 @@ class VAMap extends Component {
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
-            showCommunityCares={showCommunityCares}
+            suppressCCP={suppressCCP}
             isMobile
+            getRefInput={this.getRefInput}
           />
-          <div>{showDialogUrgCare}</div>
-          {/* <div ref={this.searchResultTitle}>
-            {results.length > 0 ? (
-              <p className="search-result-title">
-                <strong>{totalEntries} results</strong>
-                {` for `}
-                <strong>
-                  {facilityTypes[this.props.currentQuery.facilityType]}
-                </strong>
-                {` near `}
-                <strong>“{this.props.currentQuery.context}”</strong>
-              </p>
-            ) : (
-              <br />
+          <div ref={this.searchResultTitle}>
+            {this.renderResultsHeader(
+              results,
+              facilityType,
+              serviceType,
+              queryContext,
             )}
-          </div> */}
-          <br />
+          </div>
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -606,21 +512,20 @@ class VAMap extends Component {
             <TabPanel>
               <div className="facility-search-results">
                 <ResultsList
-                  isMobile
                   updateUrlParams={this.updateUrlParams}
                   query={this.props.currentQuery}
                 />
               </div>
-              {results.length > 0 && (
-                <Pagination
-                  onPageSelect={this.handlePageSelect}
-                  page={currentPage}
-                  pages={totalPages}
-                />
-              )}
+              {results &&
+                results.length > 0 && (
+                  <Pagination
+                    onPageSelect={this.handlePageSelect}
+                    page={currentPage}
+                    pages={totalPages}
+                  />
+                )}
             </TabPanel>
             <TabPanel>
-              {otherToolsLink}
               <Map
                 ref="map"
                 center={position}
@@ -639,11 +544,12 @@ class VAMap extends Component {
                     <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
                     Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
                 />
-                {facilityLocatorMarkers.length > 0 && (
-                  <FeatureGroup ref="facilityMarkers">
-                    {facilityLocatorMarkers}
-                  </FeatureGroup>
-                )}
+                {facilityLocatorMarkers &&
+                  facilityLocatorMarkers.length > 0 && (
+                    <FeatureGroup ref="facilityMarkers">
+                      {facilityLocatorMarkers}
+                    </FeatureGroup>
+                  )}
               </Map>
               {selectedResult && (
                 <div className="mobile-search-result">
@@ -655,6 +561,7 @@ class VAMap extends Component {
               )}
             </TabPanel>
           </Tabs>
+          {otherToolsLink}
         </div>
       </div>
     );
@@ -664,21 +571,18 @@ class VAMap extends Component {
     // defaults to White House coordinates initially
     const {
       currentQuery,
-      showCommunityCares,
+      suppressCCP,
       suppressPharmacies,
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
+    const facilityType = currentQuery.facilityType;
+    const serviceType = currentQuery.serviceType;
+    const queryContext = currentQuery.context;
+
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderMapMarkers();
-    const showDialogUrgCare =
-      (currentQuery.facilityType === LocationType.URGENT_CARE &&
-        currentQuery.serviceType === 'NonVAUrgentCare') ||
-      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
-        ? urgentCareDialogLink
-        : null;
-
     return (
       <div className="desktop-container">
         <div>
@@ -686,30 +590,22 @@ class VAMap extends Component {
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
-            showCommunityCares={showCommunityCares}
+            suppressCCP={suppressCCP}
             suppressPharmacies={suppressPharmacies}
+            getRefInput={this.getRefInput}
           />
         </div>
-        <div>{showDialogUrgCare}</div>
-        {/* <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
-          {results.length > 0 ? (
-            <p className="search-result-title">
-              <strong>{totalEntries} results</strong>
-              {` for `}
-              <strong>
-                {facilityTypes[this.props.currentQuery.facilityType]}
-              </strong>
-              {` near `}
-              <strong>“{this.props.currentQuery.context}”</strong>
-            </p>
-          ) : (
-            <br >
+        <div ref={this.searchResultTitle}>
+          {this.renderResultsHeader(
+            results,
+            facilityType,
+            serviceType,
+            queryContext,
           )}
-        </div> */}
-        <br />
+        </div>
         <div className="row">
           <div
-            className="columns usa-width-one-third medium-4 small-12"
+            className="columns search-results-container medium-4 small-12"
             style={{ maxHeight: '78vh', overflowY: 'auto' }}
             id="searchResultsContainer"
           >
@@ -726,7 +622,6 @@ class VAMap extends Component {
             className="columns usa-width-two-thirds medium-8 small-12"
             style={{ minHeight: '75vh', paddingLeft: '0px' }}
           >
-            {otherToolsLink}
             <Map
               ref="map"
               center={position}
@@ -743,15 +638,18 @@ class VAMap extends Component {
                   <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
                   Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
               />
-              {facilityLocatorMarkers.length > 0 && (
-                <FeatureGroup ref="facilityMarkers">
-                  {facilityLocatorMarkers}
-                </FeatureGroup>
-              )}
+              {facilityLocatorMarkers &&
+                facilityLocatorMarkers.length > 0 && (
+                  <FeatureGroup ref="facilityMarkers">
+                    {facilityLocatorMarkers}
+                  </FeatureGroup>
+                )}
             </Map>
+            {otherToolsLink}
           </div>
         </div>
         {currentPage &&
+          results &&
           results.length > 0 && (
             <Pagination
               onPageSelect={this.handlePageSelect}
@@ -764,40 +662,32 @@ class VAMap extends Component {
   };
 
   render() {
-    const chatbotLink = (
+    const coronavirusUpdate = (
       <>
-        For questions about how COVID-19 may affect your health appointments,
-        benefits, and services, use our{' '}
-        <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
+        Please call first to confirm services or ask about getting help by phone
+        or video. We require everyone entering a VA facility to wear a{' '}
+        <a href="/coronavirus-veteran-frequently-asked-questions/">
+          cloth face covering.
+        </a>{' '}
+        Get answers to questions about COVID-19 and VA benefits and services
+        with our <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
       </>
     );
+
     return (
       <div>
         <div className="title-section">
-          <h1>Find VA Locations</h1>
+          <h1>Find VA locations</h1>
         </div>
 
         <div className="facility-introtext">
           <p>
-            Find one of VA's more than 2,000 health care, counseling, benefits,
-            and cemeteries facilities, plus VA's nationwide network of community
-            health care providers.
+            Find a VA location or in-network community care provider. For
+            same-day care for minor illnesses or injuries, select Urgent care
+            for facility type.
           </p>
           <p>
-            <strong>Coronavirus update:</strong> {chatbotLink} Many locations
-            have changing hours and services. For your safety, please call
-            before visiting to ask about getting help by phone or video. We
-            require everyone entering a VA facility to wear a cloth face
-            covering.{' '}
-            <a href="/coronavirus-veteran-frequently-asked-questions/">
-              Learn more about this requirement
-            </a>
-            .
-          </p>
-          <p>
-            <strong>Need same-day care for a minor illness or injury?</strong>{' '}
-            Select Urgent care under facility type, then select either VA or
-            community providers as the service type.
+            <strong>Coronavirus update:</strong> {coronavirusUpdate}
           </p>
         </div>
         {isMobile ? this.renderMobileView() : this.renderDesktopView()}
@@ -813,10 +703,8 @@ VAMap.contextTypes = {
 function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
-    showCommunityCares:
-      isProduction(state) || facilityLocatorShowCommunityCares(state),
     suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
-    useAPIv1: facilityLocatorFeUseV1(state),
+    suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,
