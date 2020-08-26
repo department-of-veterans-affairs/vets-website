@@ -498,6 +498,7 @@ describe('VAOS actions: appointments', () => {
         'vaos-express-care-number-of-cards': undefined,
         'vaos-upcoming-number-of-cards': undefined,
         'tab-text': undefined,
+        alertBoxHeading: undefined,
       });
     });
 
