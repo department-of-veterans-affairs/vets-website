@@ -1,4 +1,4 @@
-import moment from '../../utils/moment-tz';
+import moment from '../../../utils/moment-tz';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -11,17 +11,17 @@ import {
   FETCH_EXPRESS_CARE_WINDOWS,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
-} from '../../actions/appointments';
+} from '../../../appointment-list/redux/actions';
 import {
   fetchRequestLimits,
   FORM_FETCH_REQUEST_LIMITS,
   FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
-} from '../../actions/expressCare';
+} from '../../../express-care/redux/actions';
 import {
   mockRequestEligibilityCriteria,
   mockRequestLimit,
-} from '../mocks/helpers';
-import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
+} from '../../mocks/helpers';
+import { getExpressCareRequestCriteriaMock } from '../../mocks/v0';
 
 describe('VAOS Express Care actions', () => {
   beforeEach(() => {

@@ -17,7 +17,7 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import ReviewDirectScheduleInfo from '../components/review/ReviewDirectScheduleInfo';
 import ReviewRequestInfo from '../components/review/ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import { submitAppointmentOrRequest } from '../actions/newAppointment';
+import { submitAppointmentOrRequest } from '../new-appointment/redux/actions';
 import FacilityAddress from '../components/FacilityAddress';
 
 const pageTitle = 'Review your appointment details';

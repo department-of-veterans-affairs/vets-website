@@ -7,7 +7,7 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getExpressCareFormPageInfo } from '../utils/selectors';
 import { EXPRESS_CARE_REASONS } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
-import * as actions from '../actions/expressCare';
+import * as actions from '../express-care/redux/actions';
 
 const pageKey = 'reason';
 const pageTitle = 'Select a reason for your Express Care request';

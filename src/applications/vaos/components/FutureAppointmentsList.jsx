@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import environment from 'platform/utilities/environment';
 import { getRealFacilityId } from '../utils/appointment';
 import recordEvent from 'platform/monitoring/record-event';
-import * as actions from '../actions/appointments';
+import * as actions from '../appointment-list/redux/actions';
 import {
   vaosCancel,
   vaosRequests,
