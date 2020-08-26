@@ -179,7 +179,7 @@ export const facilityTypesOptions = {
   [LocationType.URGENT_CARE]: 'Urgent care',
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
   [LocationType.URGENT_CARE_PHARMACIES]:
-    'Urgent care pharmacies (in VA’s network)',
+    'Community pharmacies (in VA’s network)',
   [LocationType.BENEFITS]: 'VA benefits',
   [LocationType.CEMETARY]: 'VA cemeteries',
   [LocationType.VET_CENTER]: 'Vet Centers',

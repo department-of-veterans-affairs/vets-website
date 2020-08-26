@@ -155,7 +155,7 @@ describe('Facility search', () => {
     cy.get('.facility-result h3').contains('MinuteClinic');
   });
 
-  it('finds va urgent care pharmacies', () => {
+  it('finds community care pharmacies', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
