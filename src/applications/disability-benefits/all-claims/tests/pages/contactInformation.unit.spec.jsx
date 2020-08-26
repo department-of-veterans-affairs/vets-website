@@ -11,7 +11,7 @@ import formConfig from '../../config/form.js';
 import {
   STATE_VALUES,
   MILITARY_STATE_VALUES,
-} from '../../../all-claims/constants';
+} from 'applications/disability-benefits/all-claims/constants';
 
 // const NEXT_YEAR = moment()
 //   .add(1, 'year')

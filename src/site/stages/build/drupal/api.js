@@ -141,7 +141,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         );
         await new Promise(resolve => {
           const parentPath = path.join(buildOptions['cms-export-dir'], '..');
-          fs.ensureDirSync(parentPath);
+          fs.emptyDirSync(path.resolve(buildOptions['cms-export-dir']));
           // This untars to parentDir/cms-export-content/ because the tarball
           // contains a single directory named cms-export-content.
           response.body.pipe(tar.extract(parentPath));
@@ -195,9 +195,12 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       );
       const assembleEntityTree = entityTreeFactory(contentDir);
 
+      const timerStart = process.hrtime.bigint();
       const transformedEntities = entities.map(entity =>
         assembleEntityTree(entity),
       );
+      const timeElapsed = (process.hrtime.bigint() - timerStart) / 1000000n;
+
       say(
         `${chalk.green(
           global.readEntityCacheHits,
@@ -207,6 +210,11 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         `${chalk.green(
           global.transformerCacheHits,
         )} cache hits while performing entity transformations`,
+      );
+      say(
+        `Total time to transform ${chalk.blue(
+          transformedEntities.length,
+        )} nodes: ${chalk.green(timeElapsed)}ms`,
       );
       return transformedEntities;
     },

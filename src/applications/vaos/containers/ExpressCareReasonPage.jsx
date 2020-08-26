@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, useHistory } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getExpressCareFormPageInfo } from '../utils/selectors';
 import { EXPRESS_CARE_REASONS } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
-import * as actions from '../actions/expressCare';
+import * as actions from '../express-care/redux/actions';
 
 const pageKey = 'reason';
 const pageTitle = 'Select a reason for your Express Care request';
@@ -56,12 +56,12 @@ function ExpressCareReasonPage({
   data,
   openFormPage,
   pageChangeInProgress,
-  router,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   schema,
   updateFormData,
 }) {
+  const history = useHistory();
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -77,7 +77,7 @@ function ExpressCareReasonPage({
         schema={schema || initialSchema}
         uiSchema={uiSchema}
         onChange={newData => updateFormData(pageKey, uiSchema, newData)}
-        onSubmit={() => routeToNextAppointmentPage(router, pageKey)}
+        onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
         data={data}
       >
         <AlertBox status="info" className="vads-u-margin-y--2">
@@ -107,7 +107,7 @@ function ExpressCareReasonPage({
           backButtonText="Back"
           nextButtonText="Continue"
           pageChangeInProgress={pageChangeInProgress}
-          onBack={() => routeToPreviousAppointmentPage(router, pageKey)}
+          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
         />
       </SchemaForm>
     </div>

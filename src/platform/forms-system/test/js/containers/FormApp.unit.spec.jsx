@@ -56,4 +56,36 @@ describe('Schemaform <FormApp>', () => {
     expect(tree.everySubTree('.child')).not.to.be.empty;
     expect(tree.everySubTree('FormNav')).not.to.be.empty;
   });
+  it('should show dynamic title', () => {
+    const titles = ['Main title', 'Alternate title'];
+    const formData = { test: false };
+    const formConfig = {
+      title: props => titles[props.formData.test ? 1 : 0],
+    };
+    const currentLocation = {
+      pathname: '/veteran-information/personal-information',
+      search: '',
+    };
+    const routes = [
+      {
+        pageList: [{ path: currentLocation.pathname }],
+      },
+    ];
+
+    const tree = SkinDeep.shallowRender(
+      <FormApp
+        formConfig={formConfig}
+        formData={formData}
+        routes={routes}
+        currentLocation={currentLocation}
+      >
+        <div className="child" />
+      </FormApp>,
+    );
+
+    expect(tree.everySubTree('FormTitle')[0].props.title).to.equal(titles[0]);
+    formData.test = true;
+    tree.reRender({ formData, currentLocation, formConfig });
+    expect(tree.everySubTree('FormTitle')[0].props.title).to.equal(titles[1]);
+  });
 });

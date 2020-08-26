@@ -6,7 +6,7 @@ import {
   onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
 import CalendarWidget from '../components/calendar/CalendarWidget';
@@ -58,18 +58,18 @@ export class DateTimeRequestPage extends React.Component {
   }
 
   goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
+    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
   };
 
   goForward = () => {
-    const { data, router } = this.props;
+    const { data, history } = this.props;
     const { calendarData } = data || {};
     this.validate(calendarData);
     if (
       this.userSelectedSlot(calendarData) &&
       !this.exceededMaxSelections(calendarData)
     ) {
-      this.props.routeToNextAppointmentPage(router, pageKey);
+      this.props.routeToNextAppointmentPage(history, pageKey);
     } else if (this.state.submitted) {
       scrollAndFocus('.usa-input-error-message');
     } else {

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from '../utils/constants';
-import * as actions from '../actions/expressCare';
+import * as actions from '../express-care/redux/actions';
 import FormButtons from '../components/FormButtons';
 import {
   selectLocalExpressCareWindowString,
@@ -17,10 +18,10 @@ const pageTitle = 'How Express Care works';
 function ExpressCareInfoPage({
   localWindowString,
   pageChangeInProgress,
-  router,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 }) {
+  const history = useHistory();
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -111,13 +112,13 @@ function ExpressCareInfoPage({
           recordEvent({
             event: `${GA_PREFIX}-express-care-path-cancelled`,
           });
-          routeToPreviousAppointmentPage(router, pageKey);
+          routeToPreviousAppointmentPage(history, pageKey);
         }}
         onSubmit={() => {
           recordEvent({
             event: `${GA_PREFIX}-express-care-path-started`,
           });
-          routeToNextAppointmentPage(router, pageKey);
+          routeToNextAppointmentPage(history, pageKey);
         }}
       />
     </div>

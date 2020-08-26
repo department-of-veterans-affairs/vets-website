@@ -10,7 +10,7 @@ import {
   routeToPreviousAppointmentPage,
   startRequestAppointmentFlow,
   requestAppointmentDateChoice,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
 import { getDateTimeSelect } from '../utils/selectors';
@@ -112,15 +112,15 @@ export class DateTimeSelectPage extends React.Component {
   }
 
   goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
+    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
   };
 
   goForward = () => {
-    const { data, router } = this.props;
+    const { data, history } = this.props;
     const { calendarData } = data || {};
     this.validate(calendarData);
     if (this.userSelectedSlot(calendarData)) {
-      this.props.routeToNextAppointmentPage(router, pageKey);
+      this.props.routeToNextAppointmentPage(history, pageKey);
     } else if (this.state.submitted) {
       scrollAndFocus('.usa-input-error-message');
     } else {
@@ -129,7 +129,7 @@ export class DateTimeSelectPage extends React.Component {
   };
 
   startRequestFlow = () => {
-    this.props.requestAppointmentDateChoice(this.props.router);
+    this.props.requestAppointmentDateChoice(this.props.history);
   };
 
   validate = data => {

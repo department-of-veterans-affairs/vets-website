@@ -13,7 +13,7 @@ import {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import { getFormPageInfo } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -167,11 +167,11 @@ export class CommunityCarePreferencesPage extends React.Component {
   }
 
   goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
+    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
   };
 
   goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
   };
 
   render() {

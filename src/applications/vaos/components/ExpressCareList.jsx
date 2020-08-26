@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
-import * as actions from '../actions/appointments';
+import * as actions from '../appointment-list/redux/actions';
 import {
   vaosCancel,
   vaosRequests,

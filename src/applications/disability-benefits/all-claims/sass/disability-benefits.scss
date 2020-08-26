@@ -23,6 +23,14 @@ ul.original-disability-list {
   }
 }
 
+.wizard-content-inner .fieldset-input:first-child {
+  margin-top: 0;
+}
+
+.row .usa-date-of-birth.row {
+  margin: unset;
+}
+
 .process-step:last-child {
   padding-bottom: 0;
 }

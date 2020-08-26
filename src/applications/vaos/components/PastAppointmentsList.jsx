@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
-import { fetchPastAppointments } from '../actions/appointments';
+import { fetchPastAppointments } from '../appointment-list/redux/actions';
 import { getVAAppointmentLocationId } from '../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import {
@@ -33,12 +33,12 @@ export class PastAppointmentsList extends React.Component {
     const {
       pastStatus,
       pastSelectedIndex,
-      router,
+      history,
       showPastAppointments,
     } = this.props;
 
     if (!showPastAppointments) {
-      router.push('/');
+      history.push('/');
     } else if (pastStatus === FETCH_STATUS.notStarted) {
       const selectedDateRange = this.dateRangeOptions[pastSelectedIndex];
       this.props.fetchPastAppointments(
