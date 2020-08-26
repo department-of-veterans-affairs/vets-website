@@ -20,20 +20,20 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-} from '../actions/appointments';
+} from './actions';
 
 import {
   FORM_SUBMIT_SUCCEEDED,
   EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED,
-} from '../actions/sitewide';
+} from '../../redux/sitewide';
 
-import { sortMessages } from '../services/appointment';
+import { sortMessages } from '../../services/appointment';
 import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   EXPRESS_CARE,
   WEEKDAY_INDEXES,
-} from '../utils/constants';
+} from '../../utils/constants';
 
 const initialState = {
   pending: null,

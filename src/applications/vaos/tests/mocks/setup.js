@@ -10,10 +10,10 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
-import reducers from '../../reducers';
-import newAppointmentReducer from '../../reducers/newAppointment';
-import expressCareReducer from '../../reducers/expressCare';
-import { fetchExpressCareWindows } from '../../actions/appointments';
+import reducers from '../../redux/reducer';
+import newAppointmentReducer from '../../new-appointment/redux/reducer';
+import expressCareReducer from '../../express-care/redux/reducer';
+import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 import TypeOfCarePage from '../../containers/TypeOfCarePage';
 import VAFacilityPage from '../../containers/VAFacilityPage';

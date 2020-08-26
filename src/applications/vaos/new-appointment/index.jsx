@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import newAppointmentReducer from '../reducers/newAppointment';
+import newAppointmentReducer from './redux/reducer';
 import NewAppointmentLayout from '../containers/NewAppointmentLayout';
 import TypeOfCarePage from '../containers/TypeOfCarePage';
 import ContactInfoPage from '../containers/ContactInfoPage';

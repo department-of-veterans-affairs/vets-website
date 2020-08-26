@@ -19,47 +19,47 @@ import {
   getRootIdForChosenFacility,
   getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
-} from '../utils/selectors';
+} from '../../utils/selectors';
 import {
   getPreferences,
   updatePreferences,
   submitRequest,
   submitAppointment,
   sendRequestMessage,
-} from '../api';
+} from '../../api';
 import {
   getOrganizations,
   getIdOfRootOrganization,
-} from '../services/organization';
-import { getLocation } from '../services/location';
-import { getSupportedHealthcareServicesAndLocations } from '../services/healthcare-service';
-import { getSlots } from '../services/slot';
+} from '../../services/organization';
+import { getLocation } from '../../services/location';
+import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
+import { getSlots } from '../../services/slot';
 import {
   FACILITY_TYPES,
   FLOW_TYPES,
   GA_PREFIX,
   GA_FLOWS,
-} from '../utils/constants';
+} from '../../utils/constants';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
   transformFormToAppointment,
   createPreferenceBody,
-} from '../utils/data';
+} from '../../utils/data';
 
 import {
   getEligibilityData,
   recordEligibilityGAEvents,
-} from '../utils/eligibility';
+} from '../../utils/eligibility';
 
-import { recordEligibilityFailure, resetDataLayer } from '../utils/events';
+import { recordEligibilityFailure, resetDataLayer } from '../../utils/events';
 
-import { captureError, getErrorCodes } from '../utils/error';
+import { captureError, getErrorCodes } from '../../utils/error';
 
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
-} from './sitewide';
+} from '../../redux/sitewide';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions

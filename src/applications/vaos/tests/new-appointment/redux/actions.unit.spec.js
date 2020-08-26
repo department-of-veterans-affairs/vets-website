@@ -58,25 +58,25 @@ import {
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   START_REQUEST_APPOINTMENT_FLOW,
   START_DIRECT_SCHEDULE_FLOW,
-} from '../../actions/newAppointment';
+} from '../../../new-appointment/redux/actions';
 import {
   FORM_SUBMIT_SUCCEEDED,
   STARTED_NEW_APPOINTMENT_FLOW,
-} from '../../actions/sitewide';
+} from '../../../redux/sitewide';
 
-import parentFacilities from '../../api/facilities.json';
-import facilities983 from '../../api/facilities_983.json';
-import clinics from '../../api/clinicList983.json';
-import facilityDetails from '../../api/facility_details_983.json';
-import pastAppointments from '../../api/confirmed_va.json';
+import parentFacilities from '../../../api/facilities.json';
+import facilities983 from '../../../api/facilities_983.json';
+import clinics from '../../../api/clinicList983.json';
+import facilityDetails from '../../../api/facility_details_983.json';
+import pastAppointments from '../../../api/confirmed_va.json';
 import {
   FACILITY_TYPES,
   FETCH_STATUS,
   FLOW_TYPES,
   VHA_FHIR_ID,
-} from '../../utils/constants';
-import { transformParentFacilities } from '../../services/organization/transformers';
-import { transformDSFacilities } from '../../services/location/transformers';
+} from '../../../utils/constants';
+import { transformParentFacilities } from '../../../services/organization/transformers';
+import { transformDSFacilities } from '../../../services/location/transformers';
 
 const testFlow = {
   page1: {
