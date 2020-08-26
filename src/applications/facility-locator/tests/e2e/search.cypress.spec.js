@@ -234,6 +234,7 @@ describe('Facility search', () => {
     cy.findByText(/Get Directions/i).should('exist');
     cy.get('[alt="Static map"]').should('exist');
     cy.get('#hours-op').should('exist');
+    cy.get('h3').contains('Hours of operation');
 
     cy.axeCheck();
   });
