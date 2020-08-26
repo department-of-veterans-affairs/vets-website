@@ -64,7 +64,7 @@ export const uiSchema = {
       {
         validator: (errors, fieldData, formData) => {
           if (
-            formData.veteranEmailAddress != formData.veteranConfirmEmailAddress
+            formData.veteranEmailAddress !== formData.veteranConfirmEmailAddress
           ) {
             errors.addError(
               'This email does not match your previously entered email',

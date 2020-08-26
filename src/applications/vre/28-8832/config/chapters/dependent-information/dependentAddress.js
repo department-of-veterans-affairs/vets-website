@@ -59,7 +59,7 @@ export const uiSchema = {
       {
         validator: (errors, fieldData, formData) => {
           if (
-            formData.dependentEmailAddress !=
+            formData.dependentEmailAddress !==
             formData.dependentConfirmEmailAddress
           ) {
             errors.addError(

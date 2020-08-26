@@ -1,4 +1,3 @@
-import { isVeteran } from '../../helpers';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 export const schema = {
