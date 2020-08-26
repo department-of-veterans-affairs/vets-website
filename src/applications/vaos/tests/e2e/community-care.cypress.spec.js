@@ -1,30 +1,8 @@
-import { initAppointmentListMock } from './vaos-cypress-helpers';
+import { initCommunityCareMock } from './vaos-cypress-helpers';
 
 describe('Create new community care appointment', () => {
   beforeEach(() => {
-    initAppointmentListMock();
-    // Stub out Google Analytics call
-    cy.route({
-      method: 'POST',
-      url: '/r/collect',
-      status: 200,
-      response: [],
-    });
-    cy.route({
-      method: 'POST',
-      url: '/j/collect',
-      status: 200,
-      response: [],
-    });
-    // Stub out socks call
-    cy.route({
-      method: 'GET',
-      url: '/sockjs-node/*',
-      status: 200,
-      response:
-        '{"websocket":true,"origins":["*:*"],"cookie_needed":false,"entropy":3380089859}',
-    });
-
+    initCommunityCareMock();
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
@@ -40,8 +18,8 @@ describe('Create new community care appointment', () => {
 
     // Choose where you want to receive your care step
     cy.url().should(
-      'eq',
-      'http://localhost:3001/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-facility-type',
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-facility-type',
     );
     // Select community care
     cy.get('#root_facilityType_1').click();
@@ -52,8 +30,8 @@ describe('Create new community care appointment', () => {
 
     // Choose a day and time for your appointment step
     cy.url().should(
-      'eq',
-      'http://localhost:3001/health-care/schedule-view-va-appointments/appointments/new-appointment/request-date',
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/request-date',
     );
     // Select first available appointment
     cy.get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
@@ -71,8 +49,8 @@ describe('Create new community care appointment', () => {
 
     // Tell us your community care preferences step
     cy.url().should(
-      'eq',
-      'http://localhost:3001/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
     );
     // Select city
     cy.get('#root_communityCareSystemId_0').click();
@@ -134,8 +112,8 @@ describe('Create new community care appointment', () => {
 
     // Tell us the reason for this appointment step
     cy.url().should(
-      'eq',
-      'http://localhost:3001/health-care/schedule-view-va-appointments/appointments/new-appointment/reason-appointment',
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/reason-appointment',
     );
     // Fill out reason input
     cy.get('#root_reasonAdditionalInfo')
@@ -150,8 +128,8 @@ describe('Create new community care appointment', () => {
 
     // Your contact information step
     cy.url().should(
-      'eq',
-      'http://localhost:3001/health-care/schedule-view-va-appointments/appointments/new-appointment/contact-info',
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/contact-info',
     );
     // Verify phone number
     cy.get('#root_phoneNumber').should('have.value', '5035551234');
@@ -168,16 +146,16 @@ describe('Create new community care appointment', () => {
 
     // Review your appointment details step
     cy.url().should(
-      'eq',
-      'http://localhost:3001/health-care/schedule-view-va-appointments/appointments/new-appointment/review',
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/review',
     );
     // Click continue button
     cy.get('.usa-button').click();
 
     // Your appointment request has been submitted step
     cy.url().should(
-      'eq',
-      'http://localhost:3001/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
     );
     cy.get('.usa-alert').contains(
       'Your appointment request has been submitted.',
