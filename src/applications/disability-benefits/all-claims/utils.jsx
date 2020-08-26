@@ -842,6 +842,8 @@ export const isBDD = formData => {
   const servicePeriods = formData?.serviceInformation?.servicePeriods;
   // separation date entered in the wizard
   const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
+  // this flag helps maintain the correct form title within a session
+  window.sessionStorage.removeItem(WIZARD_STATUS_BDD);
 
   if ((!servicePeriods || !Array.isArray(servicePeriods)) && !separationDate) {
     return false;
@@ -858,14 +860,19 @@ export const isBDD = formData => {
     return false;
   }
 
-  return (
+  const result =
     mostRecentDate.isAfter(moment().add(89, 'days')) &&
-    !mostRecentDate.isAfter(moment().add(180, 'days'))
-  );
+    !mostRecentDate.isAfter(moment().add(180, 'days'));
+  if (result) {
+    // this flag helps maintain the correct form title within a session
+    window.sessionStorage.setItem(WIZARD_STATUS_BDD, 'true');
+  }
+  return result;
 };
 
 export const getPageTitle = formData => {
   const showBDDTitle =
+    formData === true ||
     isBDD(formData) ||
     window.sessionStorage.getItem(WIZARD_STATUS_BDD) === 'true';
   return PAGE_TITLES[showBDDTitle ? 'BDD' : 'ALL'];
