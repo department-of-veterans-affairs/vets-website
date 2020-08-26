@@ -7,7 +7,7 @@ import {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../new-appointment/redux/actions.js';
+} from '../new-appointment/redux/actions';
 import { getPreferredDate } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';

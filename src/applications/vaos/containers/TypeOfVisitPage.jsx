@@ -7,7 +7,7 @@ import {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../new-appointment/redux/actions.js';
+} from '../new-appointment/redux/actions';
 import { getFormPageInfo } from '../utils/selectors';
 import { TYPE_OF_VISIT } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';

@@ -14,7 +14,7 @@ import {
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
   clickUpdateAddressButton,
-} from '../new-appointment/redux/actions.js';
+} from '../new-appointment/redux/actions';
 import {
   getFormPageInfo,
   getNewAppointment,

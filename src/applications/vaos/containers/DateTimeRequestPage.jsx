@@ -6,7 +6,7 @@ import {
   onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../new-appointment/redux/actions.js';
+} from '../new-appointment/redux/actions';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
 import CalendarWidget from '../components/calendar/CalendarWidget';
