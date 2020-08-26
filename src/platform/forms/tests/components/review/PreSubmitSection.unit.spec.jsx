@@ -100,6 +100,46 @@ describe('Review PreSubmitSection component', () => {
     tree.unmount();
   });
 
+  it('should render a CustomComponent', () => {
+    const form = createForm({
+      submission: {
+        hasAttemptedSubmit: true
+      }
+    });
+    const formConfig = getFormConfig({
+      preSubmitInfo: {
+        required: true,
+        field: 'privacyAgreementAccepted',
+        notice: '<div>Notice</div>',
+        label: 'I accept the privacy agreement',
+        error: 'You must accept the privacy agreement',    
+        CustomComponent: props => 
+          (<div data-testid="12345">i am custom component</div>),
+      },
+    });
+
+    const formReducer = createformReducer({
+      formConfig: form,
+    });
+
+    const store = createStore();
+    store.injectReducer('form', formReducer);
+
+    const tree = render(
+      <Provider store={store}>
+        <PreSubmitSection
+          formConfig={formConfig}
+          showPreSubmitError
+        />
+      </Provider>
+    );
+
+    expect(tree.getByTestId('12345')).to.not.be.null;
+    expect(tree.container.innerHTML).to.matchSnapshot();
+
+    tree.unmount();
+  });
+
   it('should render presubmit error', () => {
     const form = createForm({
       submission: {
