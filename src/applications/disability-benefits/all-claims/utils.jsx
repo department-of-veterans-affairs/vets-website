@@ -40,6 +40,10 @@ import {
   itfStatuses,
   NULL_CONDITION_STRING,
   DATE_FORMAT,
+  SAVED_SEPARATION_DATE,
+  PAGE_TITLES,
+  START_TEXT,
+  WIZARD_STATUS_BDD,
 } from './constants';
 
 /**
@@ -836,15 +840,19 @@ export const DISABILITY_SHARED_CONFIG = {
 
 export const isBDD = formData => {
   const servicePeriods = formData?.serviceInformation?.servicePeriods;
+  // separation date entered in the wizard
+  const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
 
-  if (!servicePeriods || !Array.isArray(servicePeriods)) {
+  if ((!servicePeriods || !Array.isArray(servicePeriods)) && !separationDate) {
     return false;
   }
 
-  const mostRecentDate = servicePeriods
-    .filter(({ dateRange }) => dateRange?.to)
-    .map(({ dateRange }) => moment(dateRange.to))
-    .sort((dateA, dateB) => dateB - dateA)[0];
+  const mostRecentDate = separationDate
+    ? moment(separationDate)
+    : servicePeriods
+        .filter(({ dateRange }) => dateRange?.to)
+        .map(({ dateRange }) => moment(dateRange.to))
+        .sort((dateA, dateB) => dateB - dateA)[0];
 
   if (!mostRecentDate) {
     return false;
@@ -854,6 +862,20 @@ export const isBDD = formData => {
     mostRecentDate.isAfter(moment().add(89, 'days')) &&
     !mostRecentDate.isAfter(moment().add(180, 'days'))
   );
+};
+
+export const getPageTitle = formData => {
+  const showBDDTitle =
+    isBDD(formData) ||
+    window.sessionStorage.getItem(WIZARD_STATUS_BDD) === 'true';
+  return PAGE_TITLES[showBDDTitle ? 'BDD' : 'ALL'];
+};
+
+// Intro page doesn't have formData
+export const getStartText = () => {
+  const showBDDText =
+    isBDD() || window.sessionStorage.getItem(WIZARD_STATUS_BDD) === 'true';
+  return START_TEXT[showBDDText ? 'BDD' : 'ALL'];
 };
 
 export const showSeparationLocation = formData => {

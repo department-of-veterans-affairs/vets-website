@@ -14,6 +14,7 @@ import { selectAvailableServices } from 'platform/user/selectors';
 import { itfNotice } from '../content/introductionPage';
 import { originalClaimsFeature } from '../config/selectors';
 import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
+import { getPageTitle, getStartText } from '../utils';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -29,18 +30,22 @@ class IntroductionPage extends React.Component {
       : true; // services.includes('form526'); // <- "form526" service should
     // be required to proceed; not changing this now in case it breaks something
 
+    // no formData to pass in at this point
+    const pageTitle = getPageTitle();
+    const startText = getStartText();
+
     // Remove this once we original claims feature toggle is set to 100%
     if (!allowContinue) {
       return (
         <div className="schemaform-intro">
-          <FormTitle title="File for disability compensation" />
+          <FormTitle title={pageTitle} />
           <fileOriginalClaimPage.component props={this.props} />
         </div>
       );
     }
     return (
       <div className="schemaform-intro">
-        <FormTitle title="File for disability compensation" />
+        <FormTitle title={pageTitle} />
         <p>
           Equal to VA Form 21-526EZ (Application for Disability Compensation and
           Related Compensation Benefits).
@@ -50,7 +55,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           formId={this.props.formId}
           pageList={this.props.route.pageList}
-          startText="Start the Disability Compensation Application"
+          startText={startText}
           retentionPeriod="1 year"
           downtime={this.props.route.formConfig.downtime}
         />
@@ -180,7 +185,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           formId={this.props.formId}
           pageList={this.props.route.pageList}
-          startText="Start the Disability Compensation Application"
+          startText={startText}
           downtime={this.props.route.formConfig.downtime}
         />
         {itfNotice}

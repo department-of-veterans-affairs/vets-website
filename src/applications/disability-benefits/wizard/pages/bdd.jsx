@@ -4,14 +4,20 @@ import ErrorableDate from '@department-of-veterans-affairs/formation-react/Error
 import { pageNames } from './pageList';
 
 import unableToFileBDDProduction from './unable-to-file-bdd-production';
-import { SAVED_SEPARATION_DATE } from '../../all-claims/constants';
+import {
+  WIZARD_STATUS_BDD,
+  SAVED_SEPARATION_DATE,
+} from '../../all-claims/constants';
 
 const saveDischargeDate = date => {
   if (date) {
     const formattedDate = moment(date).format('YYYY-MM-DD');
     window.sessionStorage.setItem(SAVED_SEPARATION_DATE, formattedDate);
+    // this flag helps maintain the correct form title within a session
+    window.sessionStorage.setItem(WIZARD_STATUS_BDD, 'true');
   } else {
     window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+    window.sessionStorage.removeItem(WIZARD_STATUS_BDD);
   }
 };
 

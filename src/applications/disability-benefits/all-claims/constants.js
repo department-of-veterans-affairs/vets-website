@@ -2,6 +2,16 @@ import { pciuStates as PCIU_STATES } from 'vets-json-schema/dist/constants.json'
 
 import disabilityLabels from './content/disabilityLabels';
 
+export const PAGE_TITLES = {
+  ALL: 'File for disability compensation',
+  BDD: 'File for Benefits Disability at Discharge',
+};
+
+export const START_TEXT = {
+  ALL: 'Start the Disability Compensation Application',
+  BDD: 'Start the Benefits Disability at Discharge Application',
+};
+
 export const itfStatuses = {
   active: 'active',
   expired: 'expired',
@@ -253,6 +263,8 @@ export const DATE_FORMAT = 'LL';
 
 // sessionStorage key used to show the wizard has or hasn't been completed
 export const WIZARD_STATUS = 'wizardStatus';
+// sessionStorage key used to determine if the form title should be set to BDD
+export const WIZARD_STATUS_BDD = 'wizardStatusBdd';
 
 // sessionStorage key used for the user entered separation date in the wizard
 // used by the first page of the form to populate the form data
