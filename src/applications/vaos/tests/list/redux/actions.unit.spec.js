@@ -33,14 +33,17 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
-} from './../../actions/appointments';
+} from '../../../appointment-list/redux/actions';
 
-import { APPOINTMENT_TYPES, APPOINTMENT_STATUS } from '../../utils/constants';
-import { STARTED_NEW_APPOINTMENT_FLOW } from '../../actions/sitewide';
+import {
+  APPOINTMENT_TYPES,
+  APPOINTMENT_STATUS,
+} from '../../../utils/constants';
+import { STARTED_NEW_APPOINTMENT_FLOW } from '../../../redux/sitewide';
 
-import facilityData from '../../api/facility_data.json';
-import cancelReasons from '../../api/cancel_reasons.json';
-import { getVAAppointmentMock } from '../mocks/v0';
+import facilityData from '../../../api/facility_data.json';
+import cancelReasons from '../../../api/cancel_reasons.json';
+import { getVAAppointmentMock } from '../../mocks/v0';
 
 describe('VAOS actions: appointments', () => {
   beforeEach(() => {

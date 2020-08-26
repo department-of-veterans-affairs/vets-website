@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import newAppointmentFlow from '../../newAppointmentFlow';
+import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import PreferredDates from './PreferredDates';
 
 export default function PreferredDatesSection(props) {

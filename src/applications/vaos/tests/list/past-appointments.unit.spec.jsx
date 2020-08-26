@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
-import reducers from '../../reducers';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
@@ -33,7 +32,6 @@ describe('VAOS integration: past appointments', () => {
 
     const { queryByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
-      reducers,
     });
 
     expect(queryByText(/Past 3 months/i)).to.exist;
@@ -60,7 +58,6 @@ describe('VAOS integration: past appointments', () => {
       getByLabelText,
     } = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
-      reducers,
     });
 
     expect(baseElement).to.contain.text('Loading your appointments');
@@ -106,7 +103,6 @@ describe('VAOS integration: past appointments', () => {
       queryByText,
     } = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
-      reducers,
     });
 
     const dateHeader = await findByText(
@@ -168,7 +164,6 @@ describe('VAOS integration: past appointments', () => {
       <PastAppointmentsList />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -208,7 +203,6 @@ describe('VAOS integration: past appointments', () => {
       <PastAppointmentsList />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -239,7 +233,6 @@ describe('VAOS integration: past appointments', () => {
       <PastAppointmentsList />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -264,7 +257,6 @@ describe('VAOS integration: past appointments', () => {
     mockPastAppointmentInfo({ va: [appointment] });
     const { findByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
-      reducers,
     });
 
     return expect(
@@ -292,7 +284,6 @@ describe('VAOS integration: past appointments', () => {
       <PastAppointmentsList />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -348,7 +339,6 @@ describe('VAOS integration: past appointments', () => {
       <PastAppointmentsList />,
       {
         initialState,
-        reducers,
       },
     );
 

@@ -7,7 +7,7 @@ import { GA_PREFIX } from '../utils/constants';
 import {
   startNewAppointmentFlow,
   fetchFacilityDetails,
-} from '../actions/newAppointment';
+} from '../new-appointment/redux/actions';
 import { transformPendingAppointments } from '../services/appointment/transformers';
 import ExpressCareCard from '../components/ExpressCareCard';
 

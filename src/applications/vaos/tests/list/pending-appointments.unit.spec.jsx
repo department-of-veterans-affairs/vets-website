@@ -12,7 +12,6 @@ import {
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
 import { renderWithStoreAndRouter } from '../mocks/setup';
 
-import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 
 const initialState = {
@@ -56,7 +55,6 @@ describe('VAOS integration: pending appointments', () => {
         queryByText,
       } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
         initialState,
-        reducers,
       });
 
       const dateHeader = await findByText(/primary care appointment/i);
@@ -135,7 +133,6 @@ describe('VAOS integration: pending appointments', () => {
         <FutureAppointmentsList />,
         {
           initialState,
-          reducers,
         },
       );
 
@@ -179,7 +176,6 @@ describe('VAOS integration: pending appointments', () => {
         <FutureAppointmentsList />,
         {
           initialState,
-          reducers,
         },
       );
 
@@ -216,7 +212,6 @@ describe('VAOS integration: pending appointments', () => {
         <FutureAppointmentsList />,
         {
           initialState,
-          reducers,
         },
       );
 
@@ -240,7 +235,6 @@ describe('VAOS integration: pending appointments', () => {
         <FutureAppointmentsList />,
         {
           initialState,
-          reducers,
         },
       );
 
@@ -280,7 +274,6 @@ describe('VAOS integration: pending appointments', () => {
         <FutureAppointmentsList />,
         {
           initialState,
-          reducers,
         },
       );
 
@@ -348,7 +341,6 @@ describe('VAOS integration: pending appointments', () => {
         queryByText,
       } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
         initialState,
-        reducers,
       });
 
       const dateHeader = await findByText(/primary care appointment/i);

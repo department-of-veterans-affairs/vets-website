@@ -1,9 +1,9 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
+import { GA_PREFIX, APPOINTMENT_TYPES } from '../../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
-import { resetDataLayer } from '../utils/events';
-import { selectSystemIds } from '../utils/selectors';
+import { resetDataLayer } from '../../utils/events';
+import { selectSystemIds } from '../../utils/selectors';
 
 import {
   getCancelReasons,
@@ -11,9 +11,9 @@ import {
   getRequestMessages,
   updateAppointment,
   updateRequest,
-} from '../api';
+} from '../../api';
 
-import { getLocations } from '../services/location';
+import { getLocations } from '../../services/location';
 
 import {
   getBookedAppointments,
@@ -23,10 +23,10 @@ import {
   getVAAppointmentLocationId,
   getVideoAppointmentLocation,
   isVideoAppointment,
-} from '../services/appointment';
+} from '../../services/appointment';
 
-import { captureError, getErrorCodes } from '../utils/error';
-import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
+import { captureError, getErrorCodes } from '../../utils/error';
+import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS_FAILED =

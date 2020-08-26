@@ -8,7 +8,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import newAppointmentReducer from '../reducers/newAppointment';
+import newAppointmentReducer from './redux/reducer';
 import NewAppointmentLayout from './components/FormLayout';
 import TypeOfCarePage from '../containers/TypeOfCarePage';
 import ContactInfoPage from '../containers/ContactInfoPage';

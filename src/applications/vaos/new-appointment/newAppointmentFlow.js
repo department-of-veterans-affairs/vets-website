@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/browser';
-import { captureError } from './utils/error';
+import { captureError } from '../utils/error';
 
 import {
   getFormData,
@@ -9,9 +9,9 @@ import {
   getCCEType,
   getTypeOfCare,
   selectSystemIds,
-} from './utils/selectors';
-import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
-import { getCommunityCare, getSitesSupportingVAR } from './api';
+} from '../utils/selectors';
+import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
+import { getCommunityCare, getSitesSupportingVAR } from '../api';
 import {
   showTypeOfCareUnavailableModal,
   startDirectScheduleFlow,
@@ -19,7 +19,7 @@ import {
   updateFacilityType,
   updateCCEnabledSystems,
   updateCCEligibility,
-} from './actions/newAppointment';
+} from './redux/actions';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';

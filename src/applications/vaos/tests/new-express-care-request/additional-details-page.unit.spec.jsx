@@ -10,7 +10,7 @@ import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
 import { NewExpressCareRequest } from '../../express-care';
 import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
-import { fetchExpressCareWindows } from '../../actions/appointments';
+import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 const initialState = {
   user: {
