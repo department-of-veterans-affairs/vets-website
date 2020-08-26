@@ -1,6 +1,7 @@
 import React from 'react';
 import { captureError } from '../utils/error';
 import ErrorMessage from './ErrorMessage';
+import FullWidthLayout from './FullWidthLayout';
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -19,6 +20,14 @@ export default class ErrorBoundary extends React.Component {
   }
 
   render() {
-    return this.state.hasError ? <ErrorMessage /> : this.props.children;
+    const errorMessage = this.props.fullWidth ? (
+      <FullWidthLayout>
+        <ErrorMessage />
+      </FullWidthLayout>
+    ) : (
+      <ErrorMessage />
+    );
+
+    return this.state.hasError ? errorMessage : this.props.children;
   }
 }

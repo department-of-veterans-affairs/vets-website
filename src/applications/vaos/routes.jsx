@@ -7,7 +7,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 export default function createRoutesWithStore(store) {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary fullWidth>
       <VAOSApp>
         <Switch>
           <Route
