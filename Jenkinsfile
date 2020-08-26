@@ -68,27 +68,25 @@ node('vetsgov-general-purpose') {
     dir("vets-website") {
       try {
         parallel (
-          e2e: {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-            try {
-              sh "docker-compose -p e2e run --rm --entrypoint npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run test:puppeteer:docker"
-            } catch (error) {
-              commonStages.puppeteerNotification()
-              throw error
-            }
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run cy:test:docker"
+          'nightwatch-e2e': {
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch up -d && docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
           },
 
-          accessibility: {
+          'nightwatch-accessibility': {
             sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
+          },
+
+          cypress: {
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run cy:test:docker"
           }
         )
       } catch (error) {
         commonStages.slackNotify()
         throw error
       } finally {
-        sh "docker-compose -p e2e down --remove-orphans"
+        sh "docker-compose -p nightwatch down --remove-orphans"
         sh "docker-compose -p accessibility down --remove-orphans"
+        sh "docker-compose -p cypress down --remove-orphans"
         step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
       }
     }

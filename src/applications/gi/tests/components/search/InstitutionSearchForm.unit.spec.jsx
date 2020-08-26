@@ -79,7 +79,6 @@ describe('<InstitutionSearchForm>', () => {
         gibctCh33BenefitRateUpdate
         showModal={() => {}}
         hideModal={() => {}}
-        gibctEstimateYourBenefits
         clearAutocompleteSuggestions={() => {}}
         fetchAutocompleteSuggestions={() => {}}
         toggleFilter={() => {}}
@@ -105,7 +104,6 @@ describe('<InstitutionSearchForm>', () => {
         gibctCh33BenefitRateUpdate
         showModal={() => {}}
         hideModal={() => {}}
-        gibctEstimateYourBenefits
         clearAutocompleteSuggestions={() => {}}
         fetchAutocompleteSuggestions={() => {}}
         toggleFilter={() => {}}
