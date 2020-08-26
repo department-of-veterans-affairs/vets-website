@@ -10,13 +10,6 @@ import reducers from 'platform/forms-system/src/js/state/reducers';
 
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
-const createStore = (options = {}) => {
-  return createCommonStore({
-    form: createForm(options?.form || {}),
-    router: options?.router || {},
-  });
-};
-
 const createForm = options => ({
   submission: {
     hasAttemptedSubmit: false,
@@ -36,6 +29,13 @@ const createForm = options => ({
   data: {},
   ...options,
 });
+
+const createStore = (options = {}) => {
+  return createCommonStore({
+    form: createForm(options?.form || {}),
+    router: options?.router || {},
+  });
+};
 
 const createformReducer = (options = {}) =>
   createSchemaFormReducer(
@@ -88,10 +88,8 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection
-          formConfig={formConfig}
-        />
-      </Provider>
+        <PreSubmitSection formConfig={formConfig} />
+      </Provider>,
     );
 
     expect(tree.getByText('I accept the privacy agreement')).to.not.be.null;
@@ -103,8 +101,8 @@ describe('Review PreSubmitSection component', () => {
   it('should render a CustomComponent', () => {
     const form = createForm({
       submission: {
-        hasAttemptedSubmit: true
-      }
+        hasAttemptedSubmit: true,
+      },
     });
     const formConfig = getFormConfig({
       preSubmitInfo: {
@@ -112,9 +110,10 @@ describe('Review PreSubmitSection component', () => {
         field: 'privacyAgreementAccepted',
         notice: '<div>Notice</div>',
         label: 'I accept the privacy agreement',
-        error: 'You must accept the privacy agreement',    
-        CustomComponent: props => 
-          (<div data-testid="12345">i am custom component</div>),
+        error: 'You must accept the privacy agreement',
+        CustomComponent: () => (
+          <div data-testid="12345">i am custom component</div>
+        ),
       },
     });
 
@@ -127,11 +126,8 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection
-          formConfig={formConfig}
-          showPreSubmitError
-        />
-      </Provider>
+        <PreSubmitSection formConfig={formConfig} />
+      </Provider>,
     );
 
     expect(tree.getByTestId('12345')).to.not.be.null;
@@ -143,8 +139,8 @@ describe('Review PreSubmitSection component', () => {
   it('should render presubmit error', () => {
     const form = createForm({
       submission: {
-        hasAttemptedSubmit: true
-      }
+        hasAttemptedSubmit: true,
+      },
     });
     const formConfig = getFormConfig();
 
@@ -157,11 +153,8 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection
-          formConfig={formConfig}
-          showPreSubmitError
-        />
-      </Provider>
+        <PreSubmitSection formConfig={formConfig} showPreSubmitError />
+      </Provider>,
     );
 
     expect(tree.getByText('Error')).to.not.be.null;
