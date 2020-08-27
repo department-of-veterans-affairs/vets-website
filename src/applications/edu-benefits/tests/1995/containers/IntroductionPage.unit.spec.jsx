@@ -17,10 +17,10 @@ describe('the Edu-Benefit 1995 Introduction Page', () => {
     sessionStorage.clear();
   });
 
-  it('should show the wizard on initial render if shouldEduBenefits1995WizardShow is set to true', () => {
+  it('should show the wizard if showWizard is set to true', () => {
     const fakeStore = {
       getState: () => ({
-        shouldEduBenefits1995WizardShow: true,
+        showWizard: true,
         route: { formConfig: {} },
       }),
       subscribe: () => {},
@@ -33,10 +33,10 @@ describe('the Edu-Benefit 1995 Introduction Page', () => {
     wrapper.unmount();
   });
 
-  it('should show the subway map on initial render if shouldEduBenefits1995WizardShow is set to false', () => {
+  it('should show the subway map if showWizard is set to false', () => {
     const fakeStore = {
       getState: () => ({
-        shouldEduBenefits1995WizardShow: false,
+        showWizard: false,
         route: { formConfig: {} },
       }),
       subscribe: () => {},
@@ -52,7 +52,7 @@ describe('the Edu-Benefit 1995 Introduction Page', () => {
   it('should show the subway map if the wizard was completed', () => {
     const fakeStore = {
       getState: () => ({
-        shouldEduBenefits1995WizardShow: true,
+        showWizard: true,
         route: { formConfig: {} },
       }),
       subscribe: () => {},
