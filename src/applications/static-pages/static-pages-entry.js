@@ -47,7 +47,7 @@ import './sass/static-pages.scss';
 import './social-share-links';
 
 // Authenticated homepage
-import createAuthenticatedHomePage from 'applications/static-pages/authenticated-homepage';
+import createAuthenticatedHomepage from 'applications/static-pages/authenticated-homepage';
 
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
@@ -105,7 +105,7 @@ createApplicationStatus(store, {
   widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
 });
 
-createAuthenticatedHomePage(store, widgetTypes.AUTHENTICATED_HOMEPAGE);
+createAuthenticatedHomepage(store, widgetTypes.AUTHENTICATED_HOMEPAGE);
 
 createCallToActionWidget(store, widgetTypes.CTA);
 
