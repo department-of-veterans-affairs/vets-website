@@ -2,12 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { hasSession } from 'platform/user/profile/utilities';
-// Relative imports.
-// import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 
-export const App = ({ authenticated }) => {
-  if (!authenticated) {
+import { selectShowAuthenticatedHomepage } from 'applications/static-pages/authenticated-homepage/selectors';
+
+export const App = ({ showAuthHomePage }) => {
+  if (!showAuthHomePage) {
     return null;
   }
 
@@ -16,12 +15,18 @@ export const App = ({ authenticated }) => {
 };
 
 App.propTypes = {
-  authenticated: PropTypes.bool,
+  showAuthHomePage: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  authenticated: state.user.login.currentlyLoggedIn,
-});
+const mapStateToProps = state => {
+  const loggedIn = state.user.login.currentlyLoggedIn;
+  const authHomepageFF = selectShowAuthenticatedHomepage(state);
+  const authHomepageLS = localStorage.getItem('AUTHENTICATED_HOMEPAGE');
+
+  return {
+    showAuthHomePage: loggedIn && (authHomepageFF || authHomepageLS),
+  };
+};
 
 export default connect(
   mapStateToProps,
