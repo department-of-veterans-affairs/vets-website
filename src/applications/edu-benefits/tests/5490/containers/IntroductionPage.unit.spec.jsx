@@ -9,51 +9,57 @@ import {
 import { sessionStorageSetup } from 'platform/testing/utilities';
 
 describe('the Edu-Benefit 5490 Introduction Page', () => {
-  let defaultProps;
-
   before(() => {
     sessionStorageSetup();
-  });
-
-  beforeEach(() => {
-    defaultProps = {
-      shouldEduBenefits5490WizardShow: true,
-      route: {
-        formConfig: {},
-      },
-      saveInProgress: {
-        user: {
-          login: {},
-          profile: {
-            services: [],
-          },
-        },
-      },
-    };
   });
 
   afterEach(() => {
     sessionStorage.clear();
   });
 
-  it('should show the wizard on initial render if shouldEduBenefits5490WizardShow is set to true', () => {
-    const wrapper = shallow(<IntroductionPage {...defaultProps} />);
+  it('should show the wizard if showWizard is set to true', () => {
+    const fakeStore = {
+      getState: () => ({
+        showWizard: true,
+        route: { formConfig: {} },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
     expect(wrapper.exists('WizardContainer')).to.equal(true);
     expect(wrapper.exists('.subway-map')).to.equal(false);
     wrapper.unmount();
   });
-  it('should show the subway map on initial render if shouldEduBenefits5490WizardShow is set to false', () => {
-    const props = {
-      ...defaultProps,
-      shouldEduBenefits5490WizardShow: false,
+
+  it('should show the subway map if showWizard is set to false', () => {
+    const fakeStore = {
+      getState: () => ({
+        showWizard: false,
+        route: { formConfig: {} },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
     };
-    const wrapper = shallow(<IntroductionPage {...props} />);
+
+    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
     expect(wrapper.exists('WizardContainer')).to.equal(false);
     expect(wrapper.exists('.subway-map')).to.equal(true);
     wrapper.unmount();
   });
+
   it('should show the subway map if the wizard was completed', () => {
-    const wrapper = shallow(<IntroductionPage {...defaultProps} />);
+    const fakeStore = {
+      getState: () => ({
+        showWizard: true,
+        route: { formConfig: {} },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
     const instance = wrapper.instance();
     instance.setWizardStatus(WIZARD_STATUS_COMPLETE);
     const wizardStatus = getWizardStatus().then(() => {
