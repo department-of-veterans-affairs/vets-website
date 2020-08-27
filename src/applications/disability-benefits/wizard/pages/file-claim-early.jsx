@@ -7,20 +7,20 @@ const FileClaimPage = ({ setWizardStatus }) => (
   <div>
     <p>
       {/* Remove link to introduction page once show526Wizard flipper is at 100% */}
-      {typeof setWizardStatus === 'function' ? (
-        <button
-          onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
-          className="usa-button-primary va-button-primary"
-        >
-          File a disability compensation claim
-        </button>
-      ) : (
+      {window.location.pathname.includes('how-to-file-claim') ? (
         <a
           href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
           className="usa-button-primary va-button-primary"
         >
           File a disability compensation claim
         </a>
+      ) : (
+        <button
+          onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
+          className="usa-button-primary va-button-primary"
+        >
+          File a disability compensation claim
+        </button>
       )}
     </p>
   </div>
