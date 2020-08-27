@@ -15,7 +15,6 @@ export default function SubmitButtons(props) {
   const {
     onBack,
     onSubmit,
-    preSubmitSection,
     renderErrorMessage,
     submission,
     formConfig,
@@ -147,7 +146,7 @@ export default function SubmitButtons(props) {
       <Row>
         <Column role="alert">{submitMessage}</Column>
       </Row>
-      {preSubmitSection}
+      <preSubmitSection />
       <Row classNames="form-progress-buttons">
         <Column classNames="small-6 medium-5">
           <ProgressButton
@@ -169,7 +168,6 @@ export default function SubmitButtons(props) {
 SubmitButtons.propTypes = {
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
-  preSubmitSection: PropTypes.element,
   renderErrorMessage: PropTypes.func,
   submission: PropTypes.object,
   formConfig: PropTypes.shape({
