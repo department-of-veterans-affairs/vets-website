@@ -5,18 +5,12 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import WizardContainer from '../../wizard/containers/WizardContainer';
-import {
-  WIZARD_STATUS_NOT_STARTED,
-  WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
 import { showEduBenefits0994Wizard } from '../../selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
-  state = {
-    wizardStatus:
-      sessionStorage.getItem('wizardStatus') || WIZARD_STATUS_NOT_STARTED,
-  };
+  state = { status: sessionStorage.getItem('wizardStatus') };
 
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -24,21 +18,15 @@ export class IntroductionPage extends React.Component {
 
   setWizardStatus = value => {
     sessionStorage.setItem('wizardStatus', value);
-    this.setState({ wizardStatus: value });
+    this.setState({ status: value });
   };
 
   render() {
-    const resBurden = '10';
-    const ombNumber = '2900-0866';
-    const expDate = '04/30/2022';
-    const { wizardStatus } = this.state;
-    const { shouldEduBenefits0994WizardShow } = this.props;
-    const shouldSubwayMapShow =
-      !shouldEduBenefits0994WizardShow ||
-      wizardStatus === WIZARD_STATUS_COMPLETE;
-    const shouldWizardShow =
-      shouldEduBenefits0994WizardShow &&
-      wizardStatus !== WIZARD_STATUS_COMPLETE;
+    const { status } = this.state;
+    const { showWizard } = this.props;
+    const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
+
+    if (showWizard === undefined) return null;
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for Veteran Employment Through Technology Education Courses (VET TEC)" />
@@ -46,10 +34,9 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-0994 Application for Veteran Employment Through
           Technology Education Courses (VET TEC).
         </p>
-        {shouldWizardShow && (
+        {show ? (
           <WizardContainer setWizardStatus={this.setWizardStatus} />
-        )}
-        {shouldSubwayMapShow && (
+        ) : (
           <div className="subway-map">
             <CallToActionWidget appId="vet-tec">
               <SaveInProgressIntro
@@ -175,9 +162,9 @@ export class IntroductionPage extends React.Component {
             />
             <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
               <OMBInfo
-                resBurden={resBurden}
-                ombNumber={ombNumber}
-                expDate={expDate}
+                resBurden={10}
+                ombNumber={'2900-0866'}
+                expDate={'04/30/2022'}
               />
             </div>
           </div>
@@ -188,7 +175,7 @@ export class IntroductionPage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  shouldEduBenefits0994WizardShow: showEduBenefits0994Wizard(state),
+  showWizard: showEduBenefits0994Wizard(state),
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
