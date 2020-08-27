@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import newAppointmentReducer from './redux/reducer';
-import NewAppointmentLayout from './components/FormLayout';
+import FormLayout from './components/FormLayout';
 import TypeOfCarePage from '../containers/TypeOfCarePage';
 import ContactInfoPage from '../containers/ContactInfoPage';
 import TypeOfVisitPage from '../containers/TypeOfVisitPage';
@@ -81,7 +81,7 @@ function NewAppointmentSection({ isCernerOnlyPatient }) {
   }, []);
 
   return (
-    <NewAppointmentLayout isReviewPage={location.pathname.includes('review')}>
+    <FormLayout isReviewPage={location.pathname.includes('review')}>
       <Switch>
         <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
         <Route
@@ -133,7 +133,7 @@ function NewAppointmentSection({ isCernerOnlyPatient }) {
         />
         <Route path="/" component={TypeOfCarePage} />
       </Switch>
-    </NewAppointmentLayout>
+    </FormLayout>
   );
 }
 

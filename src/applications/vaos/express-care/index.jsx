@@ -12,7 +12,7 @@ import * as actions from '../appointment-list/redux/actions';
 import expressCareReducer from './redux/reducer';
 import { FETCH_STATUS } from '../utils/constants';
 import { selectExpressCare } from '../utils/selectors';
-import NewExpressCareRequestLayout from './components/FormLayout';
+import FormLayout from './components/FormLayout';
 import ExpressCareReasonPage from '../containers/ExpressCareReasonPage';
 import ExpressCareDetailsPage from '../containers/ExpressCareDetailsPage';
 import ExpressCareConfirmationPage from '../containers/ExpressCareConfirmationPage';
@@ -58,7 +58,7 @@ function NewExpressCareRequestSection({
   );
 
   return (
-    <NewExpressCareRequestLayout>
+    <FormLayout>
       {(windowsStatus === FETCH_STATUS.loading ||
         windowsStatus === FETCH_STATUS.notStarted) && (
         <LoadingIndicator message="Checking Express Care availability" />
@@ -86,7 +86,7 @@ function NewExpressCareRequestSection({
           </Switch>
         )}
       {windowsStatus === FETCH_STATUS.failed && <ErrorMessage />}
-    </NewExpressCareRequestLayout>
+    </FormLayout>
   );
 }
 
