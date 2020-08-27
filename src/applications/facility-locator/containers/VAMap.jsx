@@ -479,7 +479,7 @@ class VAMap extends Component {
     return (
       <>
         {this.renderSearchControls(currentQuery)}
-        <div ref={this.searchResultTitle}>
+        <div id="search-results-title" ref={this.searchResultTitle}>
           {this.renderResultsHeader(
             results,
             facilityType,
@@ -567,7 +567,7 @@ class VAMap extends Component {
     return (
       <div className="desktop-container">
         {this.renderSearchControls(currentQuery)}
-        <div ref={this.searchResultTitle}>
+        <div id="search-results-title" ref={this.searchResultTitle}>
           {this.renderResultsHeader(
             results,
             facilityType,

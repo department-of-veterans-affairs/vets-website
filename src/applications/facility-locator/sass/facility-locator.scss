@@ -102,7 +102,7 @@ $facility-locator-color-gray: #ccc;
   }
 
   .facility-result {
-    padding: 1em;
+    padding: 22px 4px 34px;
     background: $color-white ;
     border-top: solid 2px $color-gray-lighter;
     border-bottom: none;
@@ -206,6 +206,11 @@ $facility-locator-color-gray: #ccc;
 
   .react-tabs__tab+.react-tabs__tab {
     border-left: none;
+  }
+
+  #search-results-title {
+    width: calc(100% - 8px);
+    margin-left: 4px;
   }
 
   .search-results-container {
@@ -821,15 +826,16 @@ $facility-locator-color-gray: #ccc;
   flex-direction: column;
 }
 
+.row:after {
+  display: block;
+}
+
 #other-tools {
   text-align: center;
-  position: relative;
-  top: -24px;
+  margin: 22px auto;
 
   @media(max-width: $small-screen) {
     width: 260px;
-    margin: 22px auto;
     white-space: pre-line;
-    position: unset;
   }
 }
