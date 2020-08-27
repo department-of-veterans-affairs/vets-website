@@ -366,7 +366,8 @@ $facility-locator-color-gray: #ccc;
         margin-top: 0;
 
         @media(min-width: $small-desktop-screen) {
-          margin-top: 2.5rem;
+          margin-top: 27px;
+          min-width: 67px;
           width: auto;
         }
       }
