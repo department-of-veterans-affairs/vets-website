@@ -140,7 +140,9 @@ describe('VAOS <TypeOfCarePage>', () => {
       />,
     );
     expect(form.find('.usa-alert').exists()).to.be.true;
-
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-update-address-alert-displayed',
+    );
     form.unmount();
   });
 
@@ -158,6 +160,9 @@ describe('VAOS <TypeOfCarePage>', () => {
       />,
     );
     expect(form.find('.usa-alert').exists()).to.be.true;
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-update-address-alert-displayed',
+    );
     form.unmount();
   });
 
@@ -175,6 +180,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       />,
     );
     expect(form.find('.usa-alert').exists()).to.be.false;
+    expect(global.window.dataLayer.length).to.equal(0);
     form.unmount();
   });
 
@@ -188,9 +194,18 @@ describe('VAOS <TypeOfCarePage>', () => {
       <TypeOfCarePage history={history} />,
       { store },
     );
-    expect(getByText(/You need to have a home addres/i)).to.exist;
-
+    expect(getByText(/You need to have a home address/i)).to.exist;
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-update-address-alert-displayed',
+    );
     fireEvent.click(getByText('Update your address'));
-    expect(queryByText(/You need to have a home addres/i)).to.not.exist;
+    expect(global.window.dataLayer[1].event).to.equal(
+      'nav-warning-alert-box-content-link-click',
+    );
+    expect(global.window.dataLayer[1].alertBoxHeading).to.equal(
+      "You need to have a home address on file to use some of the tool's features",
+    );
+    expect(global.window.dataLayer[2].alertBoxHeading).to.equal(undefined);
+    expect(queryByText(/You need to have a home address/i)).to.not.exist;
   });
 });

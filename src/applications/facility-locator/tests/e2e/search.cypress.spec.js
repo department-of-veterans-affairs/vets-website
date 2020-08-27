@@ -204,4 +204,37 @@ describe('Facility search', () => {
     cy.get('.facility-result a').should('exist');
     cy.axeCheck();
   });
+
+  it('finds va benefits facility in Los Angeles and views its page', () => {
+    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-la-location').as(
+      'caLocation',
+    );
+
+    cy.visit('/find-locations');
+    cy.injectAxe();
+
+    cy.get('#street-city-state-zip').type('Los Angeles');
+    cy.get('#facility-type-dropdown').select('VA benefits');
+    cy.get('#facility-search').click();
+    cy.get('#facility-search-results').contains(
+      'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
+    );
+
+    cy.axeCheck();
+
+    cy.get('.facility-result a').contains('Los Angeles Ambulatory Care Center');
+    cy.findByText(/Los Angeles Ambulatory Care Center/i, { selector: 'a' })
+      .first()
+      .click();
+    cy.get('h1').contains('Los Angeles Ambulatory Care Center');
+    cy.get('.p1')
+      .first()
+      .should('exist');
+    cy.get('.facility-phone-group').should('exist');
+    cy.findByText(/Get Directions/i).should('exist');
+    cy.get('[alt="Static map"]').should('exist');
+    cy.get('#hours-op h3').contains('Hours of operation');
+
+    cy.axeCheck();
+  });
 });

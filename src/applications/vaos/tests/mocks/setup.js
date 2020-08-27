@@ -26,6 +26,7 @@ import { getParentSiteMock, getFacilityMock } from './v0';
 import { mockParentSites, mockSupportedFacilities } from './helpers';
 
 import createRoutesWithStore from '../../routes';
+import TypeOfEyeCarePage from '../../containers/TypeOfEyeCarePage';
 
 export function createTestStore(initialState) {
   return createStore(
@@ -100,6 +101,24 @@ export async function setTypeOfCare(store, label) {
   };
   const { findByLabelText, getByText } = renderWithStoreAndRouter(
     <TypeOfCarePage history={history} />,
+    { store },
+  );
+
+  const radioButton = await findByLabelText(label);
+  fireEvent.click(radioButton);
+  fireEvent.click(getByText(/Continue/));
+  await waitFor(() => expect(history.push.called).to.be.true);
+  await cleanup();
+
+  return history.push.firstCall.args[0];
+}
+
+export async function setTypeOfEyeCare(store, label) {
+  const history = {
+    push: sinon.spy(),
+  };
+  const { findByLabelText, getByText } = renderWithStoreAndRouter(
+    <TypeOfEyeCarePage history={history} />,
     { store },
   );
 

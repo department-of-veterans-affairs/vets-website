@@ -48,7 +48,6 @@ const isMobile = window.innerWidth <= 481;
 class VAMap extends Component {
   constructor(props) {
     super(props);
-    this.refInput = React.createRef();
     this.zoomOut = debounce(
       () => this.refs.map.leafletElement.zoomOut(BOUNDING_RADIUS),
       2500,
@@ -60,10 +59,6 @@ class VAMap extends Component {
     });
     this.searchResultTitle = React.createRef();
   }
-
-  getRefInput = () => {
-    return this.refInput;
-  };
 
   componentDidMount() {
     const { location, currentQuery } = this.props;
@@ -494,7 +489,6 @@ class VAMap extends Component {
             onSubmit={this.handleSearch}
             suppressCCP={suppressCCP}
             isMobile
-            getRefInput={this.getRefInput}
           />
           <div ref={this.searchResultTitle}>
             {this.renderResultsHeader(
@@ -592,7 +586,6 @@ class VAMap extends Component {
             onSubmit={this.handleSearch}
             suppressCCP={suppressCCP}
             suppressPharmacies={suppressPharmacies}
-            getRefInput={this.getRefInput}
           />
         </div>
         <div ref={this.searchResultTitle}>

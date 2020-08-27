@@ -63,7 +63,7 @@ describe('Schemaform FormNav', () => {
 
     expect(tree.subTree('SegmentedProgressBar').props.total).to.equal(4);
     expect(tree.subTree('SegmentedProgressBar').props.current).to.equal(1);
-    expect(tree.subTree('.nav-header').text()).to.equal('1 of 4 Testing');
+    expect(tree.subTree('.nav-header').text()).to.equal('Step 1 of 4: Testing');
   });
   it('should display a custom review page title', () => {
     const formConfigReviewData = getReviewData();

@@ -125,7 +125,7 @@
     "@babel/preset-react": "^7.10.1",
     "@babel/register": "^7.10.3",
     "@cypress/webpack-preprocessor": "^5.4.1",
-    "@department-of-veterans-affairs/generator-vets-website": "^3.3.5",
+    "@department-of-veterans-affairs/generator-vets-website": "^3.4.0",
     "@octokit/rest": "^18.0.0",
     "@sentry/browser": "^5.4.0",
     "@testing-library/cypress": "^6.0.0",
@@ -335,7 +335,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
-    "**/lodash": "4.17.15",
+    "**/lodash": "4.17.19",
     "**/js-yaml": "^3.13.1",
     "**/jpeg-js": "^0.4.0",
     "**/dot-prop": "^5.1.1",
