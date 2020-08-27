@@ -50,7 +50,7 @@ const PharmacyResult = ({ provider, query }) => {
               recordEvent({ event: 'cta-primary-button-click' });
             }}
           >
-            In-network urgent care benefit{' '}
+            In-network pharmacy benefit{' '}
           </a>
         </div>
       </div>

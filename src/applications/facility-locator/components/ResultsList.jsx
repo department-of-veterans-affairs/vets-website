@@ -12,6 +12,7 @@ import {
   CLINIC_URGENTCARE_SERVICE,
   LocationType,
   Error,
+  PHARMACY_RETAIL_SERVICE,
 } from '../constants';
 
 import { distBetween } from '../utils/facilityDistance';
@@ -66,6 +67,8 @@ class ResultsList extends Component {
           // Support non va urgent care search through ccp option
           if (query.serviceType === CLINIC_URGENTCARE_SERVICE) {
             item = <UrgentCareResult provider={r} query={query} key={r.id} />;
+          } else if (query.serviceType === PHARMACY_RETAIL_SERVICE) {
+            item = <PharmacyResult provider={r} query={query} key={r.id} />;
           } else {
             item = <CCProviderResult provider={r} query={query} key={r.id} />;
           }
