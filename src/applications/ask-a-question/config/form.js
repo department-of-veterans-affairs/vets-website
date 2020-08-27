@@ -35,6 +35,14 @@ const formFields = {
   phoneNumber: 'phoneNumber',
 };
 
+const getOptions = allOptions => {
+  return (_input = '') => {
+    return Promise.resolve(
+      allOptions.map(option => ({ id: option, label: option })),
+    );
+  };
+};
+
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   topic: 'topic',
@@ -69,28 +77,21 @@ const formConfig = {
           path: 'topic',
           title: 'What is your Question for the VA?',
           uiSchema: {
-            [formFields.topic]: {
-              'ui:title': 'Topic',
-            },
+            [formFields.topic]: autoSuggestUiSchema(
+              'Topic',
+              getOptions(topic.enum),
+              {
+                'ui:options': { queryForResults: true, freeInput: true },
+                'ui:errorMessages': {
+                  maxLength:
+                    'Please enter a name with fewer than 100 characters.',
+                  pattern: 'Please enter a valid name.',
+                },
+              },
+            ),
             [formFields.inquiryType]: autoSuggestUiSchema(
               'Inquiry Type',
-              (_input = '') => {
-                return Promise.resolve([
-                  { id: 'Question', label: 'Question' },
-                  { id: 'Compliment', label: 'Compliment' },
-                  { id: 'Service Complaint', label: 'Service Complaint' },
-                  { id: 'Suggestion', label: 'Suggestion' },
-                  { id: 'Status of Claim', label: 'Status of Claim' },
-                  {
-                    id: 'Status of Appeal at a Local VA Office',
-                    label: 'Status of Appeal at a Local VA Office',
-                  },
-                  {
-                    id: 'Status of Appeals at BVA, Wash DC',
-                    label: 'Status of Appeals at BVA, Wash DC',
-                  },
-                ]);
-              },
+              getOptions(inquiryType.enum),
               {
                 'ui:options': { queryForResults: true, freeInput: true },
                 'ui:errorMessages': {
