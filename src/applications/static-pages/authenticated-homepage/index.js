@@ -7,7 +7,7 @@ export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
     import(/* webpackChunkName: "authenticated-homepage" */
-    './components/App').then(module => {
+    './components/App/App').then(module => {
       const App = module.default;
       ReactDOM.render(
         <Provider store={store}>
