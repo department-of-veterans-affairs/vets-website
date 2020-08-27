@@ -54,4 +54,5 @@ export default Object.freeze({
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   show526Wizard: 'show526Wizard',
+  // showAuthenticatedHomepage: 'show_authenticated_homepage',
 });

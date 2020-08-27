@@ -46,6 +46,9 @@ import './sass/static-pages.scss';
 // Social share links behavior
 import './social-share-links';
 
+// Authenticated homepage
+import createAuthenticatedHomePage from 'applications/static-pages/authenticated-homepage';
+
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
@@ -167,6 +170,8 @@ createViewTestAndLabResultsPage(
   store,
   widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
 );
+
+createAuthenticatedHomePage(store, widgetTypes.AUTHENTICATED_HOMEPAGE);
 
 createChapter31Wizard(store, widgetTypes.CHAPTER_31_WIZARD);
 
