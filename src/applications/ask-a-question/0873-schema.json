@@ -38,9 +38,14 @@
     "preferredContactMethod": {
       "type": "string",
       "enum": [
-        "mail",
         "email",
+        "mail",
         "phone"
+      ],
+      "enumNames": [
+        "Email",
+        "Mail",
+        "Phone"
       ]
     },
     "email": {
