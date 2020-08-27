@@ -4,7 +4,7 @@
     [
       "@babel/env",
       {
-        "forceAllTransforms": true,
+        // "forceAllTransforms": true,
         "targets": {
           /* This is the full list of browsers we support, but we are not using it because we want babel-polyfill
          * to include only polyfills for more modern browsers.
