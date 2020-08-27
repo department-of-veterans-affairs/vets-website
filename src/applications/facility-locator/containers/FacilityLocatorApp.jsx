@@ -60,8 +60,19 @@ class FacilityLocatorApp extends React.Component {
     return crumbs;
   }
 
+  otherToolsLink = () => (
+    <div id="other-tools">
+      Can’t find what you’re looking for?&nbsp;&nbsp;
+      {/* Add a line break for mobile, which uses white-space: pre-line */}
+      {'\n'}
+      <a href="https://www.va.gov/directory/guide/home.asp">
+        Try using our other tools to search.
+      </a>
+    </div>
+  );
+
   render() {
-    const { location, selectedResult } = this.props;
+    const { location, selectedResult, results } = this.props;
 
     return (
       <div>
@@ -76,6 +87,7 @@ class FacilityLocatorApp extends React.Component {
             <div className="facility-locator">{this.props.children}</div>
           </DowntimeNotification>
         </div>
+        {results && results.length > 0 && this.otherToolsLink()}
       </div>
     );
   }
@@ -85,6 +97,7 @@ function mapStateToProps(state) {
   return {
     selectedResult: state.searchResult.selectedResult,
     searchQuery: state.searchQuery,
+    results: state.searchResult.results,
   };
 }
 
