@@ -15,6 +15,7 @@ import { itfNotice } from '../content/introductionPage';
 import { originalClaimsFeature } from '../config/selectors';
 import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
 import { isBDD, getPageTitle, getStartText } from '../utils';
+import { BDD_INFO_URL } from '../constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -43,13 +44,37 @@ class IntroductionPage extends React.Component {
         </div>
       );
     }
+    const subwayTitle = `Follow the steps below to file ${
+      isBDDForm
+        ? 'a BDD claim.'
+        : 'a claim for a new or secondary condition or for increased disability compensation.'
+    }`;
+
     return (
       <div className="schemaform-intro">
         <FormTitle title={pageTitle} />
-        <p>
-          Equal to VA Form 21-526EZ (Application for Disability Compensation and
-          Related Compensation Benefits).
-        </p>
+        {isBDDForm ? (
+          <>
+            <h2 className="vads-u-font-size--h4">
+              Benefits Delivery at Discharge (BDD)
+            </h2>
+            <p>
+              Service members who have an illness or injury that was caused
+              &mdash;or made worse&mdash;by their active duty service, can file
+              for disability benefits 180 to 90 days before they leave the
+              military through the Benefits Delivery at Discharge (BDD) program.
+            </p>
+            <a href={BDD_INFO_URL}>
+              Learn more about Benefits Delivery at Discharge (BDD)
+            </a>
+            <p />
+          </>
+        ) : (
+          <p>
+            Equal to VA Form 21-526EZ (Application for Disability Compensation
+            and Related Compensation Benefits).
+          </p>
+        )}
         <SaveInProgressIntro
           hideUnauthedStartLink
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -60,25 +85,18 @@ class IntroductionPage extends React.Component {
           downtime={this.props.route.formConfig.downtime}
         />
         {itfNotice}
-        <h2 className="vads-u-font-size--h4">
-          Follow the steps below to file a claim for a new or secondary
-          condition or for increased disability compensation.
-        </h2>
+        <h2 className="vads-u-font-size--h4">{subwayTitle}</h2>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
-              <div>
-                <h3 className="vads-u-font-size--h5">Prepare</h3>
-              </div>
-              <div>
-                <h4 className="vads-u-font-size--h6">
-                  When you file a disability claim, you’ll have a chance to
-                  provide evidence to support your claim. Evidence could
-                  include:
-                </h4>
-              </div>
+              <h3 className="vads-u-font-size--h4">Prepare</h3>
+              <h4 className="vads-u-font-size--h6">
+                When you file a disability claim, you’ll have a chance to
+                provide evidence to support your claim. Evidence could include:
+              </h4>
               <ul>
                 <li>
+                  {isBDDForm ? 'Service treatment records, ' : ''}
                   VA medical records and hospital records that relate to your
                   claimed condition or that show your rated disability has
                   gotten worse
@@ -94,21 +112,35 @@ class IntroductionPage extends React.Component {
                   your disability happened or how it got worse
                 </li>
               </ul>
-              <p>
-                In some cases, you may need to turn in one or more additional
-                forms to support your disability claim. For example, you’ll need
-                to fill out another form if you’re claiming a dependent or
-                applying for aid and attendance benefits.
-                <br />
-                <a href="/disability/how-to-file-claim/supplemental-forms/">
-                  Learn what additional forms you may need to file with your
-                  disability claim
-                </a>
-                .
-              </p>
-              <p>
-                <strong>What if I need help with my application?</strong>
-              </p>
+              {isBDDForm ? (
+                <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--4">
+                  <strong className="usa-alert-body">
+                    Please be aware that you will need to be available for 45
+                    days after you file in order to complete VA exams during
+                    this period.
+                  </strong>
+                </div>
+              ) : (
+                <>
+                  <p>
+                    In some cases, you may need to turn in one or more
+                    additional forms to support your disability claim. For
+                    example, you’ll need to fill out another form if you’re
+                    claiming a dependent or applying for aid and attendance
+                    benefits.
+                  </p>
+                  <p>
+                    <a href="/disability/how-to-file-claim/supplemental-forms/">
+                      Learn what additional forms you may need to file with your
+                      disability claim
+                    </a>
+                    .
+                  </p>
+                </>
+              )}
+              <h4 className="vads-u-font-size--h6">
+                What if I need help with my application?
+              </h4>
               <p>
                 If you need help filing a disability claim, you can contact a VA
                 regional office and ask to speak to a counselor. To find the
@@ -125,42 +157,59 @@ class IntroductionPage extends React.Component {
                 </a>
                 .
               </p>
-              <div>
-                <div className="usa-alert usa-alert-info">
-                  <div className="usa-alert-body">
-                    <p>
-                      <strong>Disability ratings</strong>
-                    </p>
-                    <p>
-                      For each disability we assign a rating from 0% to 100%. We
-                      base this rating on the evidence you turn in with your
-                      claim. In some cases we may also ask you to have an exam
-                      to help us rate your disability.
-                    </p>
-                    <p>
-                      Before filing a claim for increase, you might want to
-                      check to see if you’re already receiving the maximum
-                      disability rating for your condition.
-                    </p>
+              {!isBDDForm && (
+                <div>
+                  <div className="usa-alert usa-alert-info">
+                    <div className="usa-alert-body">
+                      <h4 className="vads-u-font-size--h6">
+                        Disability ratings
+                      </h4>
+                      <p>
+                        For each disability we assign a rating from 0% to 100%.
+                        We base this rating on the evidence you turn in with
+                        your claim. In some cases we may also ask you to have an
+                        exam to help us rate your disability.
+                      </p>
+                      <p>
+                        Before filing a claim for increase, you might want to
+                        check to see if you’re already receiving the maximum
+                        disability rating for your condition.
+                      </p>
+                    </div>
                   </div>
+                  <br />
                 </div>
-                <br />
-              </div>
+              )}
             </li>
             <li className="process-step list-two">
-              <div>
-                <h3 className="vads-u-font-size--h5">Apply</h3>
-              </div>
-              <p>
-                Complete this disability compensation benefits form. After
-                submitting the form, you’ll get a confirmation message. You can
-                print this for your records.
-              </p>
+              <h3 className="vads-u-font-size--h4">Apply</h3>
+              {isBDDForm ? (
+                <>
+                  <h4 className="vads-u-font-size--h6">
+                    Complete the Benefits Delivery at Discharge form. These are
+                    the steps you can expect:
+                  </h4>
+                  <ul>
+                    <li>Provide your Service Member information</li>
+                    <li>Provide your military history</li>
+                    <li>
+                      Describe the conditions you are submitting (a) claim(s)
+                      for
+                    </li>
+                  </ul>
+                  After submitting the form, you’ll get a confirmation message.
+                  You can print this for your records.
+                </>
+              ) : (
+                <p>
+                  Complete this disability compensation benefits form. After
+                  submitting the form, you’ll get a confirmation message. You
+                  can print this for your records.
+                </p>
+              )}
             </li>
             <li className="process-step list-three">
-              <div>
-                <h3 className="vads-u-font-size--h5">VA Review</h3>
-              </div>
+              <h3 className="vads-u-font-size--h4">VA Review</h3>
               <p>
                 We process applications in the order we receive them. The amount
                 of time it takes to process your claim depends on how many
@@ -169,9 +218,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-four">
-              <div>
-                <h3 className="vads-u-font-size--h5">Decision</h3>
-              </div>
+              <h3 className="vads-u-font-size--h4">Decision</h3>
               <p>
                 Once we’ve processed your claim, you’ll get a notice in the mail
                 with our decision.
