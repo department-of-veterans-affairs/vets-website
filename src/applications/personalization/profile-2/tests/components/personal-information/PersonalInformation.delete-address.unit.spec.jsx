@@ -24,29 +24,29 @@ const ui = (
 let view;
 let server;
 
-function getEditButton(numberName) {
-  let editButton = view.queryByText(new RegExp(`add.*${numberName}`, 'i'), {
+function getEditButton(addressName) {
+  let editButton = view.queryByText(new RegExp(`add.*${addressName}`, 'i'), {
     selector: 'button',
   });
   if (!editButton) {
     // Need to use `queryByRole` since the visible label is simply `Edit`, but
     // the aria-label is more descriptive
     editButton = view.queryByRole('button', {
-      name: new RegExp(`edit.*${numberName}`, 'i'),
+      name: new RegExp(`edit.*${addressName}`, 'i'),
     });
   }
   return editButton;
 }
 
-function deletePhoneNumber(numberName) {
-  getEditButton(numberName).click();
+function deleteAddress(addressName) {
+  getEditButton(addressName).click();
 
-  const phoneNumberInput = view.getByLabelText(/Number/);
-  expect(phoneNumberInput).to.exist;
+  const cityInput = view.getByLabelText(/City/);
+  expect(cityInput).to.exist;
 
   // delete
   view
-    .getByText(new RegExp(`remove ${numberName}`, 'i'), {
+    .getByText(new RegExp(`remove ${addressName}`, 'i'), {
       selector: 'button',
     })
     .click();
@@ -54,18 +54,20 @@ function deletePhoneNumber(numberName) {
   const cancelDeleteButton = view.getByText('Cancel', { selector: 'button' });
   confirmDeleteButton.click();
 
-  return { phoneNumberInput, confirmDeleteButton, cancelDeleteButton };
+  return {
+    cityInput,
+    confirmDeleteButton,
+    cancelDeleteButton,
+  };
 }
 
 // When the update happens while the Edit View is still active
-async function testQuickSuccess(numberName) {
+async function testQuickSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  const {
-    cancelDeleteButton,
-    confirmDeleteButton,
-    phoneNumberInput,
-  } = deletePhoneNumber(numberName);
+  const { cancelDeleteButton, confirmDeleteButton, cityInput } = deleteAddress(
+    addressName,
+  );
 
   // Buttons should be disabled while the delete transaction is pending...
   // Waiting 10ms to make this check so that it happens _after_ the initial
@@ -84,17 +86,17 @@ async function testQuickSuccess(numberName) {
   server.use(...mocks.transactionSucceeded);
 
   // wait for the edit mode to exit
-  await waitForElementToBeRemoved(phoneNumberInput);
+  await waitForElementToBeRemoved(cityInput);
 
-  // the edit phone number button should not exist
+  // the edit address button should not exist
   expect(
-    view.queryByText(new RegExp(`edit.*${numberName}`, 'i'), {
+    view.queryByText(new RegExp(`edit.*${addressName}`, 'i'), {
       selector: 'button',
     }),
   ).not.to.exist;
-  // and the add phone number button should exist
+  // and the add address button should exist
   expect(
-    view.getByText(new RegExp(`add.*${numberName}`, 'i'), {
+    view.getByText(new RegExp(`add.*${addressName}`, 'i'), {
       selector: 'button',
     }),
   ).to.exist;
@@ -102,18 +104,18 @@ async function testQuickSuccess(numberName) {
 
 // When the update happens but not until after the Edit View has exited and the
 // user returned to the read-only view
-async function testSlowSuccess(numberName) {
+async function testSlowSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  const { phoneNumberInput } = deletePhoneNumber(numberName);
+  const { cityInput } = deleteAddress(addressName);
 
   // wait for the edit mode to exit
-  await waitForElementToBeRemoved(phoneNumberInput);
+  await waitForElementToBeRemoved(cityInput);
 
   // check that the "we're deleting your..." message appears
   const deletingMessage = await view.findByText(
     new RegExp(
-      `We’re in the process of deleting your ${numberName}. We’ll remove this information soon.`,
+      `We’re in the process of deleting your ${addressName}. We’ll remove this information soon.`,
       'i',
     ),
   );
@@ -125,29 +127,29 @@ async function testSlowSuccess(numberName) {
 
   // the edit phone number button should not exist
   expect(
-    view.queryByText(new RegExp(`edit.*${numberName}`, 'i'), {
+    view.queryByText(new RegExp(`edit.*${addressName}`, 'i'), {
       selector: 'button',
     }),
   ).not.to.exist;
   // and the add phone number button should exist
   expect(
-    view.getByText(new RegExp(`add.*${numberName}`, 'i'), {
+    view.getByText(new RegExp(`add.*${addressName}`, 'i'), {
       selector: 'button',
     }),
   ).to.exist;
 }
 
 // When the initial transaction creation request fails
-async function testTransactionCreationFails(numberName) {
+async function testTransactionCreationFails(addressName) {
   server.use(...mocks.createTransactionFailure);
 
-  deletePhoneNumber(numberName);
+  deleteAddress(addressName);
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
   expect(alert).to.contain.text(
-    `We’re sorry. We couldn’t update your ${numberName.toLowerCase()}. Please try again.`,
+    `We’re sorry. We couldn’t update your ${addressName.toLowerCase()}. Please try again.`,
   );
 
   // make sure that edit mode is not automatically exited
@@ -158,16 +160,16 @@ async function testTransactionCreationFails(numberName) {
 }
 
 // When the update fails while the Edit View is still active
-async function testQuickFailure(numberName) {
+async function testQuickFailure(addressName) {
   server.use(...mocks.transactionFailed);
 
-  deletePhoneNumber(numberName);
+  deleteAddress(addressName);
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
   expect(alert).to.have.descendant('div.usa-alert-error');
   expect(alert).to.contain.text(
-    `We’re sorry. We couldn’t update your ${numberName.toLowerCase()}. Please try again.`,
+    `We’re sorry. We couldn’t update your ${addressName.toLowerCase()}. Please try again.`,
   );
 
   // make sure that edit mode is not automatically exited
@@ -179,18 +181,18 @@ async function testQuickFailure(numberName) {
 
 // When the update fails but not until after the Edit View has exited and the
 // user returned to the read-only view
-async function testSlowFailure(numberName) {
+async function testSlowFailure(addressName) {
   server.use(...mocks.transactionPending);
 
-  const { phoneNumberInput } = deletePhoneNumber(numberName);
+  const { cityInput } = deleteAddress(addressName);
 
   // wait for the edit mode to exit
-  await waitForElementToBeRemoved(phoneNumberInput);
+  await waitForElementToBeRemoved(cityInput);
 
   // check that the "we're deleting your..." message appears
   const deletingMessage = await view.findByText(
     new RegExp(
-      `We’re in the process of deleting your ${numberName}. We’ll remove this information soon.`,
+      `We’re in the process of deleting your ${addressName}. We’ll remove this information soon.`,
       'i',
     ),
   );
@@ -203,12 +205,12 @@ async function testSlowFailure(numberName) {
   // make sure the error message appears
   expect(
     view.getByText(
-      /We couldn’t save your recent .* number update. Please try again later/i,
+      /We couldn’t save your recent .* update. Please try again later/i,
     ),
   ).to.exist;
 
   // and the add/edit button should be back
-  expect(getEditButton(numberName)).to.exist;
+  expect(getEditButton(addressName)).to.exist;
 }
 
 describe('Deleting', () => {
@@ -216,7 +218,7 @@ describe('Deleting', () => {
     // before we can use msw, we need to make sure that global.fetch has been
     // restored and is no longer a sinon stub.
     resetFetch();
-    server = setupServer(...mocks.deletePhoneNumberSuccess());
+    server = setupServer(...mocks.deleteResidentialAddressSuccess);
     server.listen();
   });
   beforeEach(() => {
@@ -234,31 +236,37 @@ describe('Deleting', () => {
     server.close();
   });
 
-  // the list of number fields that we need to test
-  const numbers = [
-    FIELD_NAMES.HOME_PHONE,
-    FIELD_NAMES.MOBILE_PHONE,
-    FIELD_NAMES.WORK_PHONE,
-  ];
+  // the list of address fields that we need to test
+  const addresses = [FIELD_NAMES.RESIDENTIAL_ADDRESS];
 
-  numbers.forEach(number => {
-    const numberName = FIELD_TITLES[number];
-    describe(numberName, () => {
+  addresses.forEach(address => {
+    const addressName = FIELD_TITLES[address];
+    describe(addressName, () => {
       it('should handle a transaction that succeeds quickly', async () => {
-        await testQuickSuccess(numberName);
+        await testQuickSuccess(addressName);
       });
       it('should handle a transaction that does not succeed until after the edit view exits', async () => {
-        await testSlowSuccess(numberName);
+        await testSlowSuccess(addressName);
       });
       it('should show an error and not auto-exit edit mode if the transaction cannot be created', async () => {
-        await testTransactionCreationFails(numberName);
+        await testTransactionCreationFails(addressName);
       });
       it('should show an error and not auto-exit edit mode if the transaction fails quickly', async () => {
-        await testQuickFailure(numberName);
+        await testQuickFailure(addressName);
       });
       it('should show an error if the transaction fails after the edit view exits', async () => {
-        await testSlowFailure(numberName);
+        await testSlowFailure(addressName);
       });
     });
+  });
+  it('should not be supported for mailing address', () => {
+    const addressName = FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS];
+    getEditButton(addressName).click();
+
+    expect(
+      view.queryByText(new RegExp(`remove ${addressName}`, 'i'), {
+        selector: 'button',
+      }),
+    ).to.not.exist;
   });
 });
