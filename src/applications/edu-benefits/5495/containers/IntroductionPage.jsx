@@ -4,37 +4,28 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import WizardContainer from 'applications/edu-benefits/wizard/containers/WizardContainer';
-import {
-  WIZARD_STATUS_NOT_STARTED,
-  WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
 import { showEduBenefits5495Wizard } from 'applications/edu-benefits/selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
-  state = {
-    wizardStatus:
-      sessionStorage.getItem('wizardStatus') || WIZARD_STATUS_NOT_STARTED,
-  };
-
-  setWizardStatus = value => {
-    sessionStorage.setItem('wizardStatus', value);
-    this.setState({ wizardStatus: value });
-  };
+  state = { status: sessionStorage.getItem('wizardStatus') };
 
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
+  setWizardStatus = value => {
+    sessionStorage.setItem('wizardStatus', value);
+    this.setState({ status: value });
+  };
+
   render() {
-    const { wizardStatus } = this.state;
-    const { shouldEduBenefits5495WizardShow } = this.props;
-    const shouldSubwayMapShow =
-      !shouldEduBenefits5495WizardShow ||
-      wizardStatus === WIZARD_STATUS_COMPLETE;
-    const shouldWizardShow =
-      shouldEduBenefits5495WizardShow &&
-      wizardStatus !== WIZARD_STATUS_COMPLETE;
+    const { status } = this.state;
+    const { showWizard } = this.props;
+    const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
+
+    if (showWizard === undefined) return null;
     return (
       <div className="schemaform-intro">
         <FormTitle title="Manage your education benefits" />
@@ -42,10 +33,9 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-5495 (Dependents’ Request for Change of Program or
           Place of Training).
         </p>
-        {shouldWizardShow && (
+        {show ? (
           <WizardContainer setWizardStatus={this.setWizardStatus} />
-        )}
-        {shouldSubwayMapShow && (
+        ) : (
           <div className="subway-map">
             <SaveInProgressIntro
               prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -158,7 +148,7 @@ export class IntroductionPage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  shouldEduBenefits5495WizardShow: showEduBenefits5495Wizard(state),
+  showWizard: showEduBenefits5495Wizard(state),
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
