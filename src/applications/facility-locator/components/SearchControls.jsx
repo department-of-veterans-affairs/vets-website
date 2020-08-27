@@ -11,10 +11,6 @@ import {
 import { focusElement } from 'platform/utilities/ui';
 
 class SearchControls extends Component {
-  handleEditSearch = () => {
-    this.props.onChange({ active: false });
-  };
-
   handleQueryChange = e => {
     this.props.onChange({ searchString: e.target.value });
   };
@@ -55,6 +51,24 @@ class SearchControls extends Component {
 
     this.props.onSubmit();
   };
+
+  renderLocationInputField = currentQuery => (
+    <>
+      <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
+        City, state or postal code
+      </label>
+      <input
+        id="street-city-state-zip"
+        name="street-city-state-zip"
+        style={{ fontWeight: 'bold' }}
+        type="text"
+        onChange={this.handleQueryChange}
+        value={currentQuery.searchString}
+        title="Your location: Street, City, State or Postal code"
+        required
+      />
+    </>
+  );
 
   renderFacilityTypeDropdown = () => {
     const { suppressCCP, suppressPharmacies } = this.props;
@@ -146,54 +160,17 @@ class SearchControls extends Component {
   };
 
   render() {
-    const { currentQuery, isMobile } = this.props;
-
-    if (currentQuery.active && isMobile) {
-      return (
-        <div className="search-controls-container">
-          <button className="small-12" onClick={this.handleEditSearch}>
-            Edit Search
-          </button>
-        </div>
-      );
-    }
+    const { currentQuery } = this.props;
 
     return (
       <div className="search-controls-container clearfix">
         <form id="facility-search-controls" onSubmit={this.handleSubmit}>
-          <div className="row">
-            <div className={isMobile ? 'columns' : 'columns marg-left'}>
-              <div className="row">
-                <div className="columns large-1-2">
-                  <label
-                    htmlFor="street-city-state-zip"
-                    id="street-city-state-zip-label"
-                  >
-                    City, state or postal code
-                  </label>
-                  <input
-                    id="street-city-state-zip"
-                    name="street-city-state-zip"
-                    style={{ fontWeight: 'bold' }}
-                    type="text"
-                    onChange={this.handleQueryChange}
-                    value={currentQuery.searchString}
-                    title="Your location: Street, City, State or Postal code"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="columns large-1-2">
-                  {this.renderFacilityTypeDropdown()}
-                </div>
-                <div className="columns large-1-2">
-                  {this.renderServiceTypeDropdown()}
-                </div>
-                <div className="columns medium-1-2">
-                  <input id="facility-search" type="submit" value="Search" />
-                </div>
-              </div>
+          <div className={'columns'}>
+            {this.renderLocationInputField(currentQuery)}
+            <div id="search-controls-bottom-row">
+              {this.renderFacilityTypeDropdown()}
+              {this.renderServiceTypeDropdown()}
+              <input id="facility-search" type="submit" value="Search" />
             </div>
           </div>
         </form>

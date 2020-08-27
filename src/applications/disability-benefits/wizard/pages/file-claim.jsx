@@ -8,20 +8,20 @@ import { pageNames } from './pageList';
  */
 const FileClaimPage = ({ setWizardStatus }) => (
   <p>
-    {window.location.pathname.includes('how-to-file-claim') ? (
-      <a
-        href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
-        className="usa-button-primary va-button-primary"
-      >
-        File a disability compensation claim
-      </a>
-    ) : (
+    {window.location.pathname.includes(DISABILITY_526_V2_ROOT_URL) ? (
       <button
         onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
         className="usa-button-primary va-button-primary"
       >
         File a disability compensation claim
       </button>
+    ) : (
+      <a
+        href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
+        className="usa-button-primary va-button-primary"
+      >
+        File a disability compensation claim
+      </a>
     )}
   </p>
 );
