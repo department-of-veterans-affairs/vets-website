@@ -16,10 +16,12 @@ const pacticipants = fs
 const options = {
   output: 'table',
   pactBroker: process.env.PACT_BROKER_URL,
+  // pactBrokerUsername: process.env.PACT_BROKER_USERNAME,
+  // pactBrokerPassword: process.env.PACT_BROKER_PASSWORD,
   pacticipants,
   retryInterval: 10,
   retryWhileUnknown: 3,
-  to: 'pact-master',
+  to: 'master',
 };
 
 pact.canDeploy(options).catch(() => process.exit(1));
