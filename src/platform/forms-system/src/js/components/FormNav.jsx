@@ -71,9 +71,9 @@ export default class FormNav extends React.Component {
             aria-valuemax={chapters.length}
             className="nav-header nav-header-schemaform"
           >
-            {environment.isDev() ? (
+            {!environment.isProduction() ? (
               <h2 className="vads-u-font-size--h4">
-                {`${current} of ${chapters.length} ${chapterName}`}
+                {`Step ${current} of ${chapters.length}: ${chapterName}`}
               </h2>
             ) : (
               <h2 className="vads-u-font-size--h4">

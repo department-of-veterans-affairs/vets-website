@@ -9,6 +9,11 @@ export const questions = [
     startQuestion: true,
   },
   {
+    id: 'test-results-hi',
+    text: 'Are you waiting for COVID-19 test results?',
+    customId: ['459', '459GE', '459GF', '459GH'],
+  },
+  {
     id: 'fever',
     text: 'In the past 24 hours, have you had a fever?',
   },

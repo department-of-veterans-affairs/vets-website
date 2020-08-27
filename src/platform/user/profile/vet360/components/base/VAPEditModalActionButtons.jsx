@@ -120,7 +120,7 @@ class VAPEditModalActionButtons extends React.Component {
     }
 
     return (
-      <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
+      <div className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-flex-direction--column">
         {this.props.children}
         {this.renderDeleteAction()}
       </div>
