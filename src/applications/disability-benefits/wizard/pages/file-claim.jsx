@@ -1,7 +1,6 @@
 import React from 'react';
 import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
-import manifest from '../../all-claims/manifest.json';
 import { pageNames } from './pageList';
 
 /**
@@ -9,7 +8,7 @@ import { pageNames } from './pageList';
  */
 const FileClaimPage = ({ setWizardStatus }) => (
   <p>
-    {window.location.pathname.includes(manifest.rootUrl) ? (
+    {window.location.pathname.includes(DISABILITY_526_V2_ROOT_URL) ? (
       <button
         onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
         className="usa-button-primary va-button-primary"

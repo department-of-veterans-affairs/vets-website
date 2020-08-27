@@ -1,8 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-
-import manifest from '../../all-claims/manifest.json';
 import { pageNames } from './pageList';
 import {
   BDD_INFO_URL,
@@ -67,7 +65,7 @@ function alertContent(getPageStateFromPageName, setWizardStatus) {
       </p>
       {/* Remove link to introduction page once show526Wizard flipper is at
       100% */}
-      {window.location.pathname.includes(manifest.rootUrl) ? (
+      {window.location.pathname.includes(DISABILITY_526_V2_ROOT_URL) ? (
         <button
           onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
           className="usa-button-primary va-button-primary"
