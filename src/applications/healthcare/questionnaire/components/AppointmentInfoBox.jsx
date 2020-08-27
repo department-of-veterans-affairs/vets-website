@@ -31,6 +31,7 @@ const AppointmentInfoBox = props => {
           <p
             className="vads-u-margin--1px vads-u-font-weight--bold"
             aria-label="Veterans Full Name"
+            data-cy="fullName"
           >
             {fullName}
           </p>
