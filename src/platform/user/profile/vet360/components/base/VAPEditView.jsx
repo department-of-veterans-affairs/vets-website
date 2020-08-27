@@ -110,7 +110,7 @@ class VAPEditView extends Component {
         isLoading={isLoading}
         deleteEnabled={!isEmpty && !deleteDisabled}
       >
-        <div className="vads-u-display--flex">
+        <div>
           <LoadingButton
             data-action="save-edit"
             isLoading={isLoading}
