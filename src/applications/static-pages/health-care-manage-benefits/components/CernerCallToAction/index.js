@@ -104,7 +104,10 @@ export class CernerCallToAction extends Component {
     }
 
     return (
-      <div className="usa-alert usa-alert-warning">
+      <div
+        className="usa-alert usa-alert-warning"
+        data-testid="cerner-patient-cta-widget"
+      >
         <div className="usa-alert-body">
           <h3 className="usa-alert-heading">
             Your VA health care team may be using our new My VA Health portal
