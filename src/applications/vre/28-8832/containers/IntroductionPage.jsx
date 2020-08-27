@@ -5,6 +5,8 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
+import WizardContainer from './WizardContainer';
+
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -13,8 +15,9 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="28-8832-planning-and-guidance" />
+        <FormTitle title="Apply for Personalized Career Planning and Guidance" />
         <p>Equal to VA Form 28-8832 (28-8832-planning-and-guidance).</p>
+        <WizardContainer />
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
