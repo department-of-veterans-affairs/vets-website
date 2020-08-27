@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
+import manifest from '../../all-claims/manifest.json';
 import { pageNames } from './pageList';
 import {
   BDD_INFO_URL,
@@ -65,20 +67,20 @@ function alertContent(getPageStateFromPageName, setWizardStatus) {
       </p>
       {/* Remove link to introduction page once show526Wizard flipper is at
       100% */}
-      {window.location.pathname.includes('how-to-file-claim') ? (
-        <a
-          href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
-          className="usa-button-primary va-button-primary"
-        >
-          File a Benefits Delivery at Discharge claim
-        </a>
-      ) : (
+      {window.location.pathname.includes(manifest.rootUrl) ? (
         <button
           onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
           className="usa-button-primary va-button-primary"
         >
           File a Benefits Delivery at Discharge claim
         </button>
+      ) : (
+        <a
+          href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
+          className="usa-button-primary va-button-primary"
+        >
+          File a Benefits Delivery at Discharge claim
+        </a>
       )}
     </>
   );

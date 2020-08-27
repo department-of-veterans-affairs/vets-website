@@ -1,6 +1,7 @@
 import React from 'react';
 import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import manifest from '../../all-claims/manifest.json';
 import { pageNames } from './pageList';
 
 /**
@@ -8,20 +9,20 @@ import { pageNames } from './pageList';
  */
 const FileClaimPage = ({ setWizardStatus }) => (
   <p>
-    {window.location.pathname.includes('how-to-file-claim') ? (
-      <a
-        href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
-        className="usa-button-primary va-button-primary"
-      >
-        File a disability compensation claim
-      </a>
-    ) : (
+    {window.location.pathname.includes(manifest.rootUrl) ? (
       <button
         onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
         className="usa-button-primary va-button-primary"
       >
         File a disability compensation claim
       </button>
+    ) : (
+      <a
+        href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
+        className="usa-button-primary va-button-primary"
+      >
+        File a disability compensation claim
+      </a>
     )}
   </p>
 );
