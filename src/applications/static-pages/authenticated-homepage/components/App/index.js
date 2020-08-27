@@ -14,7 +14,7 @@ export const App = ({ authenticated }) => {
 
   console.log('I am authenticated');
   // document.getElementById('homepage').style.display = 'none';
-  return <div>This authenticated homepage extreme!</div>;
+  return <div>This is authenticated homepage extreme!</div>;
 };
 
 App.propTypes = {
