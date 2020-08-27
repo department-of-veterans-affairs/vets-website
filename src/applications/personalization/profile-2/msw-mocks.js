@@ -103,6 +103,12 @@ const createTransactionRequestFailedError = {
   status: '400',
 };
 
+export const validateAddressFailure = [
+  rest.post(``, (req, res, ctx) => {
+    return res(ctx.status(500), ctx.json(mock500));
+  }),
+];
+
 // Response when transaction fails to be created.
 export const createTransactionFailure = [
   rest.post(`${prefix}/v0/profile/*`, (req, res, ctx) => {
@@ -1164,6 +1170,215 @@ export const deletePhoneNumberSuccess = () => {
     }),
   ];
 };
+
+// Sets up the responses needed to mock a successful address update. In
+// particular it mocks the `GET user/` response so that both mailing and
+// residential addresses are updated to make testing a little bit easier
+export const editAddressSuccess = [
+  rest.post(`${prefix}/v0/profile/address_validation`, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        addresses: [
+          {
+            address: {
+              addressLine1: '123 Main St',
+              addressType: 'DOMESTIC',
+              city: 'San Francisco',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '06075',
+              countyName: 'San Francisco',
+              stateCode: 'CA',
+              zipCode: '94105',
+              zipCodeSuffix: '1804',
+            },
+            addressMetaData: {
+              confidenceScore: 100.0,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'CONFIRMED',
+              residentialDeliveryIndicator: 'RESIDENTIAL',
+            },
+          },
+        ],
+        validationKey: 1438191680,
+      }),
+    );
+  }),
+  rest.post(`${prefix}/v0/profile/addresses`, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        data: createTransactionRequestSuccessBody,
+      }),
+    );
+  }),
+  rest.put(`${prefix}/v0/profile/addresses`, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        data: createTransactionRequestSuccessBody,
+      }),
+    );
+  }),
+  // for testing purposes, after saving an address, return a user object
+  // where both the mailing and residential addresses are updated.
+  rest.get(`${prefix}/v0/user`, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        data: {
+          id: '',
+          type: 'users_scaffolds',
+          attributes: {
+            services: [
+              'facilities',
+              'hca',
+              'edu-benefits',
+              'form-save-in-progress',
+              'form-prefill',
+              'mhv-accounts',
+              'evss-claims',
+              'form526',
+              'user-profile',
+              'appeals-status',
+              'id-card',
+              'identity-proofed',
+              'vet360',
+              'evss_common_client',
+              'claim_increase',
+            ],
+            account: { accountUuid: 'c049d895-ecdf-40a4-ac0f-7947a06ea0c2' },
+            profile: {
+              email: 'vets.gov.user+36@gmail.com',
+              firstName: 'WESLEY',
+              middleName: 'WATSON',
+              lastName: 'FORD',
+              birthDate: '1986-05-06',
+              gender: 'M',
+              zip: '21122-6706',
+              lastSignedIn: '2020-07-28T14:57:28.196Z',
+              loa: { current: 3, highest: 3 },
+              multifactor: true,
+              verified: true,
+              signIn: {
+                serviceName: 'idme',
+                accountType: 'N/A',
+                ssoe: true,
+                transactionid: '/lob0lmUWabZaaWqJ+ydOKkCYvu55jG3IxIJI4qzGic=',
+              },
+              authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+            },
+            vaProfile: {
+              status: 'OK',
+              birthDate: '19860506',
+              familyName: 'Ford',
+              gender: 'M',
+              givenNames: ['Wesley', 'Watson'],
+              isCernerPatient: false,
+              facilities: [{ facilityId: '983', isCerner: false }],
+              vaPatient: true,
+              mhvAccountState: 'NONE',
+            },
+            veteranStatus: {
+              status: 'OK',
+              isVeteran: true,
+              servedInMilitary: true,
+            },
+            inProgressForms: [],
+            prefillsAvailable: [
+              '21-686C',
+              '40-10007',
+              '22-1990',
+              '22-1990N',
+              '22-1990E',
+              '22-1995',
+              '22-1995S',
+              '22-5490',
+              '22-5495',
+              '22-0993',
+              '22-0994',
+              'FEEDBACK-TOOL',
+              '22-10203',
+              '21-526EZ',
+              '21-526EZ-BDD',
+              '1010ez',
+              '21P-530',
+              '21P-527EZ',
+              '686C-674',
+              '20-0996',
+              'MDOT',
+            ],
+            vet360ContactInformation: {
+              email: null,
+              residentialAddress: {
+                addressLine1: '123 Main St',
+                addressLine2: null,
+                addressLine3: null,
+                addressPou: 'RESIDENCE/CHOICE',
+                addressType: 'DOMESTIC',
+                city: 'San Francisco',
+                countryName: 'United States',
+                countryCodeIso2: 'US',
+                countryCodeIso3: 'USA',
+                countryCodeFips: null,
+                countyCode: '06075',
+                countyName: 'San Francisco',
+                createdAt: '2020-07-25T00:32:10.000Z',
+                effectiveEndDate: null,
+                effectiveStartDate: '2020-07-25T00:32:09.000Z',
+                id: 185731,
+                internationalPostalCode: null,
+                province: null,
+                sourceDate: '2020-07-25T00:32:09.000Z',
+                sourceSystemUser: null,
+                stateCode: 'CA',
+                transactionId: '6bde244e-a92f-421f-a7dc-923fc85f4f5f',
+                updatedAt: '2020-07-25T00:32:10.000Z',
+                validationKey: null,
+                vet360Id: '1273780',
+                zipCode: '94105',
+                zipCodeSuffix: '1804',
+              },
+              mailingAddress: {
+                addressLine1: '123 Main St',
+                addressLine2: null,
+                addressLine3: null,
+                addressPou: 'CORRESPONDENCE',
+                addressType: 'DOMESTIC',
+                city: 'San Francisco',
+                countryName: 'United States',
+                countryCodeIso2: 'US',
+                countryCodeIso3: 'USA',
+                countryCodeFips: null,
+                countyCode: '06075',
+                countyName: 'San Francisco',
+                createdAt: '2020-07-25T00:32:10.000Z',
+                effectiveEndDate: null,
+                effectiveStartDate: '2020-07-25T00:32:09.000Z',
+                id: 185731,
+                internationalPostalCode: null,
+                province: null,
+                sourceDate: '2020-07-25T00:32:09.000Z',
+                sourceSystemUser: null,
+                stateCode: 'CA',
+                transactionId: '6bde244e-a92f-421f-a7dc-923fc85f4f5f',
+                updatedAt: '2020-07-25T00:32:10.000Z',
+                validationKey: null,
+                vet360Id: '1273780',
+                zipCode: '94105',
+                zipCodeSuffix: '1804',
+              },
+              mobilePhone: null,
+              homePhone: null,
+              workPhone: null,
+              temporaryPhone: null,
+              faxNumber: null,
+              textPermission: null,
+            },
+          },
+        },
+        meta: { errors: null },
+      }),
+    );
+  }),
+];
 
 // Sets up the responses needed to mock a successful home address deletion. In
 // particular it mocks the `GET user/` response so that the residential address
