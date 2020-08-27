@@ -21,7 +21,12 @@ export const schema = {
       minLength: 7,
       maxLength: 10,
     },
-    emailAddress: {
+    dependentEmailAddress: {
+      type: 'string',
+      minLength: 6,
+      maxLength: 80,
+    },
+    dependentConfirmEmailAddress: {
       type: 'string',
       minLength: 6,
       maxLength: 80,
@@ -42,5 +47,27 @@ export const uiSchema = {
       pattern: 'Please enter only numbers, no dashes or parentheses',
     },
   },
-  emailAddress: emailUI(),
+  dependentEmailAddress: {
+    ...emailUI(),
+    'ui:required': () => true,
+  },
+  dependentConfirmEmailAddress: {
+    ...emailUI(),
+    'ui:title': 'Confirm email address',
+    'ui:required': () => true,
+    'ui:validations': [
+      {
+        validator: (errors, fieldData, formData) => {
+          if (
+            formData.dependentEmailAddress !==
+            formData.dependentConfirmEmailAddress
+          ) {
+            errors.addError(
+              'This email does not match your previously entered email',
+            );
+          }
+        },
+      },
+    ],
+  },
 };

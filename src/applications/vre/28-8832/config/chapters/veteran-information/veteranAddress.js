@@ -11,6 +11,13 @@ veteranAddress.properties['view:livesOnMilitaryBase'] = {
   type: 'boolean',
 };
 
+function validateEmailsMatch(errors, pageData) {
+  const { email, confirmEmail } = pageData;
+  if (email !== confirmEmail) {
+    errors.confirmEmail.addError('Please ensure your entries match');
+  }
+}
+
 export const schema = {
   type: 'object',
   properties: {
@@ -19,7 +26,12 @@ export const schema = {
       type: 'string',
       minLength: 10,
     },
-    emailAddress: {
+    veteranEmailAddress: {
+      type: 'string',
+      minLength: 6,
+      maxLength: 80,
+    },
+    veteranConfirmEmailAddress: {
       type: 'string',
       minLength: 6,
       maxLength: 80,
@@ -28,8 +40,9 @@ export const schema = {
 };
 
 export const uiSchema = {
+  'ui:validations': [validateEmailsMatch],
   veteranAddress: addressUISchema(true, 'veteranAddress', () => true),
-  phone: {
+  veteranPhone: {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
@@ -39,5 +52,26 @@ export const uiSchema = {
       pattern: 'Please enter only numbers, no dashes or parentheses',
     },
   },
-  emailAddress: emailUI(),
+  veteranEmailAddress: {
+    ...emailUI(),
+    'ui:required': () => true,
+  },
+  veteranConfirmEmailAddress: {
+    ...emailUI(),
+    'ui:title': 'Confirm email address',
+    'ui:required': () => true,
+    'ui:validations': [
+      {
+        validator: (errors, fieldData, formData) => {
+          if (
+            formData.veteranEmailAddress !== formData.veteranConfirmEmailAddress
+          ) {
+            errors.addError(
+              'This email does not match your previously entered email',
+            );
+          }
+        },
+      },
+    ],
+  },
 };
