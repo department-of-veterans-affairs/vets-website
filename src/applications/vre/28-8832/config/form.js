@@ -49,6 +49,7 @@ const formConfig = {
       title: 'Claimant Information',
       pages: {
         staticClaimantInformation: {
+          depends: () => hasSession(),
           path: 'claimant-information',
           title: 'Claimant Information',
           uiSchema: staticInformation.uiSchema,
@@ -79,7 +80,18 @@ const formConfig = {
       title: 'Service member or Veteran information',
       pages: {
         veteranInformation: {
-          depends: formData => isVeteran(formData) && !hasSession(),
+          depends: formData => {
+            if (isVeteran(formData) && !hasSession()) {
+              return true;
+            }
+            if (isDependent(formData) && hasSession()) {
+              return true;
+            }
+            if (isDependent(formData) && !hasSession()) {
+              return true;
+            }
+            return false;
+          },
           path: 'personal-information',
           title: 'Personal Information',
           uiSchema: veteranInformation.uiSchema,
