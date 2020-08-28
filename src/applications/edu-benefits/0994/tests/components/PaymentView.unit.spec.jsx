@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import { PaymentView } from '../../../0994/components/PaymentView';
+import { PaymentView } from '../../components/PaymentView';
 
 const originalData = {
   bankAccountType: 'Checking',
