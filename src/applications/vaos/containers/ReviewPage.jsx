@@ -86,7 +86,7 @@ export class ReviewPage extends React.Component {
             status="error"
             headline={
               submitStatusVaos400
-                ? 'We can’t schedule your appointment'
+                ? "We're sorry."
                 : `Your ${
                     isDirectSchedule ? 'appointment' : 'request'
                   } didn’t go through`
