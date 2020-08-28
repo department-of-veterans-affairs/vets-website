@@ -40,10 +40,11 @@ describe('The schedule view VA appointments page', () => {
     setup({ authenticated: false });
 
     // Ensure the non-Cerner patient content shows.
-    cy.contains('You can use this tool to:');
+    cy.get('[data-testid="non-cerner-content"]').should('exist');
+    cy.get('[data-testid="cerner-content"]').should('not.exist');
 
     // Make sure CTA widget is displaying correctly.
-    cy.get('[data-testid="cerner-patient-cta-widget"]').should('not.exist');
+    cy.get('[data-testid="cerner-cta-widget"]').should('not.exist');
   });
 
   it('Shows the correct CTA widget when authenticated and is NOT a Cerner patient', () => {
@@ -51,10 +52,11 @@ describe('The schedule view VA appointments page', () => {
     setup({ authenticated: true, isCerner: false });
 
     // Ensure the non-Cerner patient content shows.
-    cy.contains('You can use this tool to:');
+    cy.get('[data-testid="non-cerner-content"]').should('exist');
+    cy.get('[data-testid="cerner-content"]').should('not.exist');
 
     // Make sure CTA widget is displaying correctly.
-    cy.get('[data-testid="cerner-patient-cta-widget"]').should('not.exist');
+    cy.get('[data-testid="cerner-cta-widget"]').should('not.exist');
   });
 
   it('Shows the correct CTA widget when authenticated and IS a Cerner patient', () => {
@@ -62,9 +64,10 @@ describe('The schedule view VA appointments page', () => {
     setup({ authenticated: true, isCerner: true });
 
     // Ensure the Cerner patient content shows.
-    cy.contains('You can use these tools to:');
+    cy.get('[data-testid="non-cerner-content"]').should('not.exist');
+    cy.get('[data-testid="cerner-content"]').should('exist');
 
     // Make sure CTA widget is displaying correctly.
-    cy.get('[data-testid="cerner-patient-cta-widget"]').should('exist');
+    cy.get('[data-testid="cerner-cta-widget"]').should('exist');
   });
 });
