@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import CommunityCareInstructions from '../../components/CommunityCareInstructions';
+import CommunityCareInstructions from '../../../../../appointment-list/components/cards/confirmed/CommunityCareInstructions';
 
 describe('VAOS <CommunityCareInstructions>', () => {
   it('should return instructions', () => {
