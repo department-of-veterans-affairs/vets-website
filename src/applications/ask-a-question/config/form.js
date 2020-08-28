@@ -5,6 +5,8 @@ import fullSchema from '../0873-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/0873-schema.json';
 
+import { countries } from 'platform/forms/address';
+
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
@@ -41,7 +43,11 @@ const formFields = {
   phoneNumber: 'phoneNumber',
   relationshipToVeteran: 'relationshipToVeteran',
   branchOfService: 'branchOfService',
+  country: 'country',
 };
+
+const countryValues = countries.map(object => object.value);
+const countryNames = countries.map(object => object.label);
 
 const getOptions = allOptions => {
   return (_input = '') => {
@@ -72,14 +78,14 @@ const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  title: 'Ask a Question',
+  title: 'Contact us',
   defaultDefinitions: {
     fullName,
     phone,
   },
   chapters: {
     contactInformationChapter: {
-      title: 'Contact Information',
+      title: 'Tell us about you',
       pages: {
         [formPages.contactInformation]: {
           path: 'contact-information',
@@ -109,6 +115,9 @@ const formConfig = {
                   relationshipToVeteran.enum.slice(-1)[0],
               },
             },
+            [formFields.country]: {
+              'ui:title': 'Country',
+            },
             [formFields.preferredContactMethod]: {
               'ui:title': 'How would you like to be contacted?',
               'ui:widget': 'radio',
@@ -126,11 +135,18 @@ const formConfig = {
               formFields.preferredContactMethod,
               formFields.fullName,
               formFields.relationshipToVeteran,
+              formFields.country,
             ],
             properties: {
               [formFields.fullName]: fullName,
               [formFields.relationshipToVeteran]: relationshipToVeteran,
               [formFields.branchOfService]: branchOfService,
+              [formFields.country]: {
+                default: 'USA',
+                type: 'string',
+                enum: countryValues,
+                enumNames: countryNames,
+              },
               [formFields.preferredContactMethod]: preferredContactMethod,
               [formFields.email]: email,
               [formFields.verifyEmail]: {
