@@ -221,13 +221,14 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           Update benefits
         </button>
         <div className="vads-u-padding-bottom--2p5">
-          <a
+          <button
+            type="button"
             className="va-button-link learn-more-button eyb-skip-link"
             aria-label="Skip to your estimated benefits"
             onClick={this.handleEYBSkipLinkOnClick}
           >
             Skip to your estimated benefits
-          </a>
+          </button>
         </div>
       </div>
     );
