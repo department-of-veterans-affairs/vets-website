@@ -1,8 +1,8 @@
 import React from 'react';
 
 const IneligibleNotice = () => (
-  <div>
-    <p>
+  <div className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--primary-alt-lightest">
+    <p className="vads-u-margin--0">
       To be eligible for Chapter 36 career planning and guidance, you must be a
       Veteran or service member, or a dependent of one.
     </p>
