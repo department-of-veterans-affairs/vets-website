@@ -10,9 +10,9 @@ import { facilityTypes } from '../config';
 import {
   MARKER_LETTERS,
   CLINIC_URGENTCARE_SERVICE,
+  PHARMACY_RETAIL_SERVICE,
   LocationType,
   Error,
-  PHARMACY_RETAIL_SERVICE,
 } from '../constants';
 
 import { distBetween } from '../utils/facilityDistance';
