@@ -6,9 +6,10 @@ describe('Create new community care appointment', () => {
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
+    cy.injectAxe();
   });
 
-  it('should render choose the type of care you need', () => {
+  it('should fill out community care form and submit request', () => {
     // Select primary care
     cy.get('#root_typeOfCareId_8').click();
     // Verify primary care checked
@@ -21,6 +22,7 @@ describe('Create new community care appointment', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-facility-type',
     );
+    cy.axeCheck();
     // Select community care
     cy.get('#root_facilityType_1').click();
     // Verify community care checked
@@ -33,6 +35,7 @@ describe('Create new community care appointment', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/request-date',
     );
+    cy.axeCheck();
     // Select first available appointment
     cy.get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
       .first()
@@ -52,6 +55,7 @@ describe('Create new community care appointment', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
     );
+    cy.axeCheck();
     // Select city
     cy.get('#root_communityCareSystemId_0').click();
     cy.get('#root_communityCareSystemId_0').should('be.checked');
@@ -115,6 +119,7 @@ describe('Create new community care appointment', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/reason-appointment',
     );
+    cy.axeCheck();
     // Fill out reason input
     cy.get('#root_reasonAdditionalInfo')
       .type('This is a very good reason.')
@@ -131,6 +136,7 @@ describe('Create new community care appointment', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/contact-info',
     );
+    cy.axeCheck();
     // Verify phone number
     cy.get('#root_phoneNumber').should('have.value', '5035551234');
     // Select best times for us to call morning & evening
@@ -149,6 +155,7 @@ describe('Create new community care appointment', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/review',
     );
+    cy.axeCheck();
     // Click continue button
     cy.get('.usa-button').click();
 
@@ -157,6 +164,7 @@ describe('Create new community care appointment', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
     );
+    cy.axeCheck();
     cy.get('.usa-alert').contains(
       'Your appointment request has been submitted.',
     );
