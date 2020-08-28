@@ -65,7 +65,7 @@ function alertContent(getPageStateFromPageName, setWizardStatus) {
       </p>
       {/* Remove link to introduction page once show526Wizard flipper is at
       100% */}
-      {typeof setWizardStatus === 'function' ? (
+      {window.location.pathname.includes(DISABILITY_526_V2_ROOT_URL) ? (
         <button
           onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
           className="usa-button-primary va-button-primary"

@@ -110,20 +110,22 @@ class VAPEditView extends Component {
         isLoading={isLoading}
         deleteEnabled={!isEmpty && !deleteDisabled}
       >
-        <LoadingButton
-          data-action="save-edit"
-          isLoading={isLoading}
-          className="vads-u-width--auto vads-u-margin-top--0"
-        >
-          Update
-        </LoadingButton>
-        <button
-          type="button"
-          className="usa-button-secondary medium-screen:vads-u-margin-left--2 vads-u-margin-top--0 vads-u-width--auto"
-          onClick={onCancel}
-        >
-          Cancel
-        </button>
+        <div>
+          <LoadingButton
+            data-action="save-edit"
+            isLoading={isLoading}
+            className="vads-u-width--auto vads-u-margin-top--0"
+          >
+            Update
+          </LoadingButton>
+          <button
+            type="button"
+            className="usa-button-secondary vads-u-margin-top--0 vads-u-width--auto"
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+        </div>
       </VAPEditModalActionButtons>
     );
 
