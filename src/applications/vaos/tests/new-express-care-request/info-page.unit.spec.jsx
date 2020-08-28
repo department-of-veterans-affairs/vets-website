@@ -10,7 +10,7 @@ import {
 } from 'platform/testing/unit/helpers';
 import { setupExpressCareMocks } from '../mocks/helpers';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
-import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
+import { NewExpressCareRequest } from '../../express-care';
 import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 
 const initialState = {
@@ -46,15 +46,9 @@ describe('VAOS integration: Express Care info page', () => {
       isWindowOpen: true,
     });
 
-    const screen = renderWithStoreAndRouter(
-      <NewExpressCareRequestLayout>
-        <ExpressCareInfoPage />
-      </NewExpressCareRequestLayout>,
-      {
-        store,
-        path: '/new-express-care-request',
-      },
-    );
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
+      store,
+    });
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     expect(
@@ -130,7 +124,7 @@ describe('VAOS integration: Express Care info page', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const screen = renderWithStoreAndRouter(<NewExpressCareRequestLayout />, {
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
       store,
     });
 

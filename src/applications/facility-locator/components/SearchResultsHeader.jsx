@@ -56,9 +56,8 @@ export const SearchResultsHeader = ({
 
   return (
     <h2
-      id="facility-search-results"
+      id="search-results-subheader"
       className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
-      style={{ marginLeft: '12px' }}
       tabIndex="-1"
     >
       Results for &quot;
