@@ -257,8 +257,7 @@ describe('Updating', () => {
       it('should handle a transaction that does not succeed until after the edit view exits', async () => {
         await testSlowSuccess(addressName);
       });
-      // TODO: this test does not pass. If the address validation API fails, we exit edit mode when we should actually keep it open. So we should fix the edit address flow to make this pass.
-      it.skip('should show an error and not auto-exit edit mode if the address validation API errors', async () => {
+      it('should show an error and not auto-exit edit mode if the address validation API errors', async () => {
         await testAddressValidation500(addressName);
       });
       it('should show an error and not auto-exit edit mode if the transaction cannot be created', async () => {

@@ -104,7 +104,7 @@ const createTransactionRequestFailedError = {
 };
 
 export const validateAddressFailure = [
-  rest.post(``, (req, res, ctx) => {
+  rest.post(`${prefix}/v0/profile/address_validation`, (req, res, ctx) => {
     return res(ctx.status(500), ctx.json(mock500));
   }),
 ];
