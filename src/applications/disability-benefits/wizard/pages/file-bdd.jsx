@@ -2,10 +2,13 @@ import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
-import { BDD_INFO_URL } from '../../constants';
-import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
+import {
+  BDD_INFO_URL,
+  DISABILITY_526_V2_ROOT_URL,
+} from 'applications/disability-benefits/all-claims/constants';
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 
-function alertContent(getPageStateFromPageName) {
+function alertContent(getPageStateFromPageName, setWizardStatus) {
   const stateBDD = getPageStateFromPageName('bdd');
 
   const dateDischarge = moment({
@@ -60,21 +63,32 @@ function alertContent(getPageStateFromPageName) {
           Learn more about the Benefits Delivery at Discharge (BDD) program
         </a>
       </p>
-      <a
-        href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
-        className="usa-button-primary va-button-primary"
-      >
-        File a Benefits Delivery at Discharge claim
-      </a>
+      {/* Remove link to introduction page once show526Wizard flipper is at
+      100% */}
+      {window.location.pathname.includes(DISABILITY_526_V2_ROOT_URL) ? (
+        <button
+          onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
+          className="usa-button-primary va-button-primary"
+        >
+          File a Benefits Delivery at Discharge claim
+        </button>
+      ) : (
+        <a
+          href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
+          className="usa-button-primary va-button-primary"
+        >
+          File a Benefits Delivery at Discharge claim
+        </a>
+      )}
     </>
   );
 }
 
-const FileBDDClaim = ({ getPageStateFromPageName }) => (
+const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => (
   <AlertBox
     status="info"
-    headline="You're eligible to file a BDD claim"
-    content={alertContent(getPageStateFromPageName)}
+    headline="You’re eligible to file a BDD claim"
+    content={alertContent(getPageStateFromPageName, setWizardStatus)}
   />
 );
 

@@ -33,6 +33,7 @@ import {
   formatDate,
   formatDateRange,
   isBDD,
+  show526Wizard,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -999,6 +1000,17 @@ describe('526 v2 depends functions', () => {
     });
     it('should return false if no service period is provided with a separation date', () => {
       expect(isBDD(null)).to.be.false;
+    });
+  });
+
+  describe('showWizard', () => {
+    it('should get wizard feature flag value of true', () => {
+      expect(show526Wizard({ featureToggles: { show526Wizard: true } })).to.be
+        .true;
+    });
+    it('should get wizard feature flag value of false', () => {
+      expect(show526Wizard({ featureToggles: { show526Wizard: false } })).to.be
+        .false;
     });
   });
 });

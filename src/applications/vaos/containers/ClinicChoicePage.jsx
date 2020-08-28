@@ -13,7 +13,7 @@ import {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import { getClinicPageInfo } from '../utils/selectors';
 import { formatTypeOfCare } from '../utils/formatters';
 

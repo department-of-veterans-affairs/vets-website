@@ -135,11 +135,19 @@ const addCommonProperties = (transformedEntity, originalEntity) => {
     transformedEntity.entityBundle || entityBundle;
   transformedEntity.entityUrl =
     transformedEntity.entityUrl || originalEntity.entityUrl;
-  transformedEntity.entityId = (originalEntity.nid ||
+  const entityId = (originalEntity.nid ||
     originalEntity.tid ||
     originalEntity.id ||
     originalEntity.mid ||
     originalEntity.fid)[0].value.toString();
+
+  // Always assign the entityId to the root object
+  transformedEntity.entityId = entityId;
+  // But also assign it to the .entity if available. The Liquid templates
+  // typically pass the .entity property when including template partials.
+  if (transformedEntity.entity) {
+    transformedEntity.entity.entityId = entityId;
+  }
   /* eslint-enable no-param-reassign */
 };
 

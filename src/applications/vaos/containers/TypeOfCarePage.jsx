@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
@@ -14,12 +15,13 @@ import {
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
   clickUpdateAddressButton,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import {
   getFormPageInfo,
   getNewAppointment,
   vaosDirectScheduling,
 } from '../utils/selectors';
+import { resetDataLayer } from '../utils/events';
 
 import {
   selectIsCernerOnlyPatient,
@@ -51,10 +53,21 @@ export class TypeOfCarePage extends React.Component {
     this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+
+    if (this.showUpdateAddressAlert()) {
+      recordEvent({
+        event: 'vaos-update-address-alert-displayed',
+      });
+    }
   }
 
-  hideAlert = () => {
+  onClickUpdateAddress = heading => {
     this.props.clickUpdateAddressButton();
+    recordEvent({
+      event: 'nav-warning-alert-box-content-link-click',
+      alertBoxHeading: heading,
+    });
+    resetDataLayer();
   };
 
   onChange = newData => {
@@ -77,14 +90,20 @@ export class TypeOfCarePage extends React.Component {
     this.props.routeToNextAppointmentPage(this.props.history, pageKey);
   };
 
+  showUpdateAddressAlert = () => {
+    const { hideUpdateAddressAlert, addressLine1 } = this.props;
+    return (
+      !hideUpdateAddressAlert &&
+      (!addressLine1 || addressLine1.match(/^PO Box/))
+    );
+  };
+
   render() {
     const {
       schema,
       data,
       pageChangeInProgress,
       showToCUnavailableModal,
-      addressLine1,
-      hideUpdateAddressAlert,
     } = this.props;
 
     if (!schema) {
@@ -94,11 +113,11 @@ export class TypeOfCarePage extends React.Component {
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        <UpdateAddressAlert
-          address={addressLine1}
-          showAlert={!hideUpdateAddressAlert}
-          onHide={this.hideAlert}
-        />
+        {this.showUpdateAddressAlert() && (
+          <UpdateAddressAlert
+            onClickUpdateAddress={this.onClickUpdateAddress}
+          />
+        )}
 
         <SchemaForm
           name="Type of care"

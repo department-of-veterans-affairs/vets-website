@@ -10,7 +10,7 @@ import {
   routeToPreviousAppointmentPage,
   startRequestAppointmentFlow,
   requestAppointmentDateChoice,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
 import { getDateTimeSelect } from '../utils/selectors';

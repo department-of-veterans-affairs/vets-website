@@ -9,6 +9,7 @@ import { apiRequest } from 'platform/utilities/api';
 const DownLoadLink = ({ form }) => {
   const [PDFLink, setPDFLink] = useState(null);
   const formData = submitTransform(formConfig, form);
+  const veteranFullName = form.data.veteranFullName;
 
   useEffect(
     () => {
@@ -38,6 +39,7 @@ const DownLoadLink = ({ form }) => {
     <div className="vads-u-margin-top--2">
       <a
         href={PDFLink}
+        download={`10-10CG_${veteranFullName.first}_${veteranFullName.last}`}
         target="_blank"
         rel="noreferrer noopener"
         aria-label="Download 1010CG filled out PDF form"
