@@ -25,13 +25,27 @@ App.propTypes = {
 
 const mapStateToProps = state => {
   const loggedIn = state.user.login.currentlyLoggedIn;
-  const authHomepageFF = selectShowAuthenticatedHomepage(state);
-  const authHomepageLS = localStorage.getItem('AUTHENTICATED_HOMEPAGE');
+  const authHomepageFeatureFlag = selectShowAuthenticatedHomepage(state);
+  const authHomepageLocalStorage = localStorage.getItem(
+    'AUTHENTICATED_HOMEPAGE',
+  );
+  // This value exists to override the feature flag when it's on
   const noAuthHomepage = localStorage.getItem('NO_AUTHENTICATED_HOMEPAGE');
 
+  // Show auth homepage when
+  // 1) the user is logged in
+  // 2) not in production environment
+  // 3) the feature flag is turned on OR
+  // 4) AUTHENTICATED_HOMEPAGE in localStorage is true
+
+  // Don't show auth homepage when
+  // 1) NO_AUTHENTICATED_HOMEPAGE in localStorage is true
+  // 2) Neither the feature flag or localStorage value AUTHENTICATED_HOMEPAGE is true
   return {
     showAuthHomePage:
-      loggedIn && (authHomepageFF || authHomepageLS) && !noAuthHomepage,
+      loggedIn &&
+      (authHomepageFeatureFlag || authHomepageLocalStorage) &&
+      !noAuthHomepage,
   };
 };
 
