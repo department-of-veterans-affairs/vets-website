@@ -5,17 +5,17 @@
 		"attributes": {
 			"services": ["facilities", "hca", "edu-benefits", "form-save-in-progress", "form-prefill", "evss-claims", "add-person", "user-profile", "appeals-status", "identity-proofed"],
 			"account": {
-				"accountUuid": "1030c6e7-2d33-4f06-b163-d55e01195878"
+				"accountUuid": "43a069ce-9b60-4c9f-b8d6-72f385307eb3"
 			},
 			"profile": {
-				"email": "vets.gov.user+34@gmail.com",
-				"firstName": "CALVIN",
-				"middleName": "C",
-				"lastName": "FLETCHER",
-				"birthDate": "1924-12-19",
+				"email": "vets.gov.user+0@gmail.com",
+				"firstName": "HECTOR",
+				"middleName": "J",
+				"lastName": "ALLEN",
+				"birthDate": "1932-02-05",
 				"gender": "M",
-				"zip": null,
-				"lastSignedIn": "2020-08-27T15:29:31.184Z",
+				"zip": "60131",
+				"lastSignedIn": "2020-08-28T13:44:22.940Z",
 				"loa": {
 					"current": 3,
 					"highest": 3
@@ -30,10 +30,10 @@
 			},
 			"vaProfile": {
 				"status": "OK",
-				"birthDate": "19241219",
-				"familyName": "Fletcher",
+				"birthDate": "19320205",
+				"familyName": "Allen",
 				"gender": "M",
-				"givenNames": ["Calvin", "Null"],
+				"givenNames": ["Hector", "J"],
 				"isCernerPatient": false,
 				"facilities": [{
 					"facilityId": "648",
@@ -51,10 +51,10 @@
 	"meta": {
 		"errors": [{
 			"externalService": "EMIS",
-			"startTime": "2020-08-27T15:38:55Z",
+			"startTime": "2020-08-28T13:56:58Z",
 			"endTime": null,
-			"description": "IOError, Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/by_edipi/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/by_edipi/default.yml].",
-			"status": 503
+			"description": "EMISRedis::VeteranStatus::RecordNotFound, NOT_FOUND",
+			"status": 404
 		}]
 	}
 }
