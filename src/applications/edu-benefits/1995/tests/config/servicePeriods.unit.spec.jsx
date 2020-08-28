@@ -8,7 +8,7 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../1995/config/form';
+import formConfig from '../../config/form';
 
 describe('Edu 1995 servicePeriods', () => {
   const {
