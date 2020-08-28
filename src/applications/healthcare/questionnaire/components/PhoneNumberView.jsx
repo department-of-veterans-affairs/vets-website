@@ -7,7 +7,7 @@ export default function PhoneNumberView({ number }) {
   return (
     <p className="vads-u-margin--1px">
       <span className=" vads-u-font-weight--bold">{number.label}: </span>
-      {phone}
+      <span data-testId={`${number.label.toLowerCase()}Phone`}>{phone}</span>
     </p>
   );
 }
