@@ -14,6 +14,8 @@ import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/de
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { confirmationEmailUI } from '../../caregivers/definitions/caregiverUI';
+import TextareaWidget from '../../vaos/components/TextareaWidget';
+import { validateWhiteSpace } from 'platform/forms/validations';
 
 const {
   topic,
@@ -162,8 +164,20 @@ const formConfig = {
       pages: {
         [formPages.topic]: {
           path: 'topic',
-          title: 'What is your Question for the VA?',
+          title: "Share why you're contacting us",
           uiSchema: {
+            [formFields.inquiryType]: autoSuggestUiSchema(
+              'Type of inquiry',
+              getOptions(inquiryType.enum),
+              {
+                'ui:options': { queryForResults: true, freeInput: true },
+                'ui:errorMessages': {
+                  maxLength:
+                    'Please enter a name with fewer than 100 characters.',
+                  pattern: 'Please enter a valid name.',
+                },
+              },
+            ),
             [formFields.topic]: autoSuggestUiSchema(
               'Topic',
               getOptions(topic.enum),
@@ -176,32 +190,22 @@ const formConfig = {
                 },
               },
             ),
-            [formFields.inquiryType]: autoSuggestUiSchema(
-              'Inquiry Type',
-              getOptions(inquiryType.enum),
-              {
-                'ui:options': { queryForResults: true, freeInput: true },
-                'ui:errorMessages': {
-                  maxLength:
-                    'Please enter a name with fewer than 100 characters.',
-                  pattern: 'Please enter a valid name.',
-                },
-              },
-            ),
             [formFields.query]: {
-              'ui:title': 'Question',
+              'ui:title': 'Enter your message here',
+              'ui:widget': TextareaWidget,
+              'ui:validations': [validateWhiteSpace],
             },
           },
           schema: {
             type: 'object',
             required: [
-              formFields.topic,
               formFields.inquiryType,
+              formFields.topic,
               formFields.query,
             ],
             properties: {
-              [formFields.topic]: topic,
               [formFields.inquiryType]: inquiryType,
+              [formFields.topic]: topic,
               [formFields.query]: query,
             },
           },
