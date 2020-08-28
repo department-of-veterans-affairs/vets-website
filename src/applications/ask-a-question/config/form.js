@@ -13,7 +13,13 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { confirmationEmailUI } from '../../caregivers/definitions/caregiverUI';
 
-const { topic, inquiryType, query } = fullSchema.properties;
+const {
+  topic,
+  inquiryType,
+  query,
+  relationshipToVeteran,
+  branchOfService,
+} = fullSchema.properties;
 
 const {
   fullName,
@@ -33,6 +39,8 @@ const formFields = {
   email: 'email',
   verifyEmail: 'view:email',
   phoneNumber: 'phoneNumber',
+  relationshipToVeteran: 'relationshipToVeteran',
+  branchOfService: 'branchOfService',
 };
 
 const getOptions = allOptions => {
@@ -86,6 +94,21 @@ const formConfig = {
               },
               ...fullNameUI,
             },
+            [formFields.relationshipToVeteran]: {
+              'ui:title': 'I am asking about benefits/services',
+            },
+            [formFields.branchOfService]: {
+              'ui:title': 'Branch of service',
+              'ui:required': formData =>
+                formData.relationshipToVeteran !==
+                relationshipToVeteran.enum.slice(-1)[0],
+              'ui:options': {
+                expandUnder: 'relationshipToVeteran',
+                hideIf: formData =>
+                  formData.relationshipToVeteran ===
+                  relationshipToVeteran.enum.slice(-1)[0],
+              },
+            },
             [formFields.preferredContactMethod]: {
               'ui:title': 'How would you like to be contacted?',
               'ui:widget': 'radio',
@@ -99,9 +122,15 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.preferredContactMethod, formFields.fullName],
+            required: [
+              formFields.preferredContactMethod,
+              formFields.fullName,
+              formFields.relationshipToVeteran,
+            ],
             properties: {
               [formFields.fullName]: fullName,
+              [formFields.relationshipToVeteran]: relationshipToVeteran,
+              [formFields.branchOfService]: branchOfService,
               [formFields.preferredContactMethod]: preferredContactMethod,
               [formFields.email]: email,
               [formFields.verifyEmail]: {
