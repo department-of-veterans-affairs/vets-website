@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { prefillTransformer } from '../../1990/helpers.jsx';
+import { prefillTransformer } from '../../../1990/helpers.jsx';
 
 describe('1990 helpers', () => {
   describe('prefillTransformer', () => {
