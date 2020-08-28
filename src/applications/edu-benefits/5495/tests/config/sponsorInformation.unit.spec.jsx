@@ -8,7 +8,7 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../5495/config/form.js';
+import formConfig from '../../config/form.js';
 
 describe('Edu 5495 sponsorInformation', () => {
   const {
