@@ -7,7 +7,7 @@ import { selectShowAuthenticatedHomepage } from 'applications/static-pages/authe
 import environment from 'platform/utilities/environment';
 
 export const App = ({ showAuthHomePage }) => {
-  if (environment.isProduction) {
+  if (environment.isProduction()) {
     return null;
   }
 
