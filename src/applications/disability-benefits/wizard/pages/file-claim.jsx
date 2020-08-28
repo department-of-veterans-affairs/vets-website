@@ -8,7 +8,7 @@ import { pageNames } from './pageList';
  */
 const FileClaimPage = ({ setWizardStatus }) => (
   <p>
-    {typeof setWizardStatus === 'function' ? (
+    {window.location.pathname.includes(DISABILITY_526_V2_ROOT_URL) ? (
       <button
         onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
         className="usa-button-primary va-button-primary"

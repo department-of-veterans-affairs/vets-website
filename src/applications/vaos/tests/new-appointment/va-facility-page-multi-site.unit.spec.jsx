@@ -215,7 +215,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
 
     await cleanup();
 
-    screen = renderWithStoreAndRouter(<VAFacilityPage history={history} />, {
+    screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 

@@ -29,7 +29,7 @@ describe('Facility search', () => {
     cy.get('#facility-type-dropdown').select('VA health');
     cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click();
-    cy.get('#facility-search-results').contains(
+    cy.get('#search-results-subheader').contains(
       'Results for "VA health", "Primary care" near "Austin, Texas"',
     );
     cy.get('.facility-result a').should('exist');
@@ -91,7 +91,7 @@ describe('Facility search', () => {
   it('does not show search result header if no results are found', () => {
     cy.visit('/find-locations?fail=true');
 
-    cy.get('#facility-search-results').should('not.exist');
+    cy.get('#search-results-subheader').should('not.exist');
   });
 
   it('finds community dentists', () => {
@@ -105,7 +105,7 @@ describe('Facility search', () => {
     cy.get('#downshift-1-item-0').click();
 
     cy.get('#facility-search').click();
-    cy.get('#facility-search-results').contains(
+    cy.get('#search-results-subheader').contains(
       'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
     );
 
@@ -126,7 +126,7 @@ describe('Facility search', () => {
     cy.get('#downshift-1-item-0').click();
 
     cy.get('#facility-search').click();
-    cy.get('#facility-search-results').contains(
+    cy.get('#search-results-subheader').contains(
       'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
     );
 
@@ -145,7 +145,7 @@ describe('Facility search', () => {
       'Community urgent care providers (in VA’s network)',
     );
     cy.get('#facility-search').click();
-    cy.get('#facility-search-results').contains(
+    cy.get('#search-results-subheader').contains(
       'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
     );
 
@@ -163,7 +163,7 @@ describe('Facility search', () => {
       'Community pharmacies (in VA’s network)',
     );
     cy.get('#facility-search').click();
-    cy.get('#facility-search-results').contains(
+    cy.get('#search-results-subheader').contains(
       'Results for "Community pharmacies (in VA’s network)" near "Austin, Texas"',
     );
 
@@ -198,7 +198,7 @@ describe('Facility search', () => {
     cy.get('#facility-type-dropdown').select('VA health');
     cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click();
-    cy.get('#facility-search-results').contains(
+    cy.get('#search-results-subheader').contains(
       'Results for "VA health", "Primary care" near "Austin, Texas"',
     );
     cy.get('.facility-result a').should('exist');
@@ -216,7 +216,7 @@ describe('Facility search', () => {
     cy.get('#street-city-state-zip').type('Los Angeles');
     cy.get('#facility-type-dropdown').select('VA benefits');
     cy.get('#facility-search').click();
-    cy.get('#facility-search-results').contains(
+    cy.get('#search-results-subheader').contains(
       'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
     );
 
@@ -236,5 +236,41 @@ describe('Facility search', () => {
     cy.get('#hours-op h3').contains('Hours of operation');
 
     cy.axeCheck();
+  });
+
+  it('should render the appropriate elements at each breakpoint', () => {
+    cy.visit('/find-locations');
+
+    // desktop - large
+    cy.viewport(1008, 1000);
+    cy.get('#facility-search').then($element => {
+      expect($element.width()).closeTo(48, 2);
+    });
+    cy.get('.desktop-map-container').should('exist');
+    cy.get('.react-tabs').should('not.exist');
+
+    // desktop - small
+    cy.viewport(1007, 1000);
+    cy.get('#facility-search').then($element => {
+      expect($element.width()).closeTo(899, 2);
+    });
+    cy.get('.desktop-map-container').should('exist');
+    cy.get('.react-tabs').should('not.exist');
+
+    // tablet
+    cy.viewport(768, 1000);
+    cy.get('#facility-search').then($element => {
+      expect($element.width()).closeTo(660, 2);
+    });
+    cy.get('.desktop-map-container').should('exist');
+    cy.get('.react-tabs').should('not.exist');
+
+    // mobile
+    cy.viewport(481, 1000);
+    cy.get('#facility-search').then($element => {
+      expect($element.width()).closeTo(397, 2);
+    });
+    cy.get('.desktop-map-container').should('not.exist');
+    cy.get('.react-tabs').should('exist');
   });
 });
