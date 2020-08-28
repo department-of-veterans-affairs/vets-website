@@ -1,11 +1,11 @@
-const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
-const EduHelpers = require('../1990/edu-helpers');
-const Edu1990eHelpers = require('./edu-1990e-helpers');
-const testData = require('./schema/maximal-test.json');
-const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const E2eHelpers = require('../../../../../platform/testing/e2e/helpers');
+const Timeouts = require('../../../../../platform/testing/e2e/timeouts.js');
+const EduHelpers = require('../utils/edu-1990e-helpers');
+const Edu1990eHelpers = require('../utils/edu-1990e-helpers');
+const testData = require('../schema/maximal-test.json');
+const FormsTestHelpers = require('../../../../../platform/testing/e2e/form-helpers');
 
-import manifest from '../../1990e/manifest.json';
+import manifest from '../../manifest.json';
 import environments from 'site/constants/environments';
 
 module.exports = E2eHelpers.createE2eTest(client => {
