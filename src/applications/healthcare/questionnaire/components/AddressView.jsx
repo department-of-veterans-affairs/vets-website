@@ -10,9 +10,11 @@ export default function AddressView({ address }) {
     .join(' ');
   return (
     <>
-      {display}
+      <span className="address">{display}</span>
       <br />
-      {address.city}, {address.stateCode} {address.zipCode}
+      <span className="city-state-zip">
+        {address.city}, {address.stateCode} {address.zipCode}
+      </span>
     </>
   );
 }
