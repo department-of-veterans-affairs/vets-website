@@ -35,10 +35,9 @@ const uiSchema = {
               {TYPES_OF_EYE_CARE[0].name}
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm">
-              You can schedule an optometry appointment for a routine eye exam,
-              eye test, or to treat conditions like glaucoma or low vision.
-              Optometrists will also give you a prescription for eyeglasses or
-              corrective lenses.
+              This includes routine eye exams, preventive vision testing and
+              treatment for conditions like glaucoma. Optometrists also can
+              provide prescriptions for eyeglasses and other assistive devices.
             </span>
           </>
         ),
@@ -48,10 +47,10 @@ const uiSchema = {
               {TYPES_OF_EYE_CARE[1].name}
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm">
-              You can schedule an ophthalmology appointment for the diagnosis
-              and treatment of more serious eye conditions that may need
-              surgery, like cataracts, macular degeneration, diabetic
-              retinopathy, or other eye diseases.
+              You can schedule an appointment with an ophthalmology specialist
+              to diagnose and provide medical and surgical care for conditions
+              that affect your eyes—like cataracts, glaucoma, macular
+              degeneration, and diabetic retinopathy.
             </span>
           </>
         ),
