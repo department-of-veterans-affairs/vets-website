@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../1990n/config/form';
+import formConfig from '../../config/form';
 
 describe('Edu 1990n applicantService', () => {
   const {
