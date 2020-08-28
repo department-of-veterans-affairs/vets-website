@@ -7,11 +7,11 @@ import fullSchema from '../0873-schema.json';
 
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
+import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { confirmationEmailUI } from '../../caregivers/definitions/caregiverUI';
 
 const { topic, inquiryType, query } = fullSchema.properties;
 
@@ -31,7 +31,16 @@ const formFields = {
   fullName: 'fullName',
   address: 'address',
   email: 'email',
+  verifyEmail: 'view:email',
   phoneNumber: 'phoneNumber',
+};
+
+const getOptions = allOptions => {
+  return (_input = '') => {
+    return Promise.resolve(
+      allOptions.map(option => ({ id: option, label: option })),
+    );
+  };
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
@@ -61,6 +70,48 @@ const formConfig = {
     phone,
   },
   chapters: {
+    contactInformationChapter: {
+      title: 'Contact Information',
+      pages: {
+        [formPages.contactInformation]: {
+          path: 'contact-information',
+          title: 'Contact Information',
+          uiSchema: {
+            [formFields.fullName]: {
+              title: {
+                'ui:title': 'Title',
+                'ui:options': {
+                  widgetClassNames: 'form-select-medium',
+                },
+              },
+              ...fullNameUI,
+            },
+            [formFields.preferredContactMethod]: {
+              'ui:title': 'How would you like to be contacted?',
+              'ui:widget': 'radio',
+            },
+            [formFields.email]: set(
+              'ui:required',
+              (formData, _index) => formData.preferredContactMethod === 'email',
+              emailUI(),
+            ),
+            [formFields.verifyEmail]: confirmationEmailUI('', formFields.email),
+          },
+          schema: {
+            type: 'object',
+            required: [formFields.preferredContactMethod, formFields.fullName],
+            properties: {
+              [formFields.fullName]: fullName,
+              [formFields.preferredContactMethod]: preferredContactMethod,
+              [formFields.email]: email,
+              [formFields.verifyEmail]: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
+    },
     topicChapter: {
       title: 'Topic',
       pages: {
@@ -68,12 +119,30 @@ const formConfig = {
           path: 'topic',
           title: 'What is your Question for the VA?',
           uiSchema: {
-            [formFields.topic]: {
-              'ui:title': 'Topic',
-            },
-            [formFields.inquiryType]: {
-              'ui:title': 'Inquiry Type',
-            },
+            [formFields.topic]: autoSuggestUiSchema(
+              'Topic',
+              getOptions(topic.enum),
+              {
+                'ui:options': { queryForResults: true, freeInput: true },
+                'ui:errorMessages': {
+                  maxLength:
+                    'Please enter a name with fewer than 100 characters.',
+                  pattern: 'Please enter a valid name.',
+                },
+              },
+            ),
+            [formFields.inquiryType]: autoSuggestUiSchema(
+              'Inquiry Type',
+              getOptions(inquiryType.enum),
+              {
+                'ui:options': { queryForResults: true, freeInput: true },
+                'ui:errorMessages': {
+                  maxLength:
+                    'Please enter a name with fewer than 100 characters.',
+                  pattern: 'Please enter a valid name.',
+                },
+              },
+            ),
             [formFields.query]: {
               'ui:title': 'Question',
             },
@@ -89,50 +158,6 @@ const formConfig = {
               [formFields.topic]: topic,
               [formFields.inquiryType]: inquiryType,
               [formFields.query]: query,
-            },
-          },
-        },
-      },
-    },
-    contactInformationChapter: {
-      title: 'Contact Information',
-      pages: {
-        [formPages.contactInformation]: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            [formFields.preferredContactMethod]: {
-              'ui:title': 'Preferred Contact Method',
-            },
-            [formFields.fullName]: fullNameUI,
-            [formFields.email]: set(
-              'ui:required',
-              (formData, _index) => formData.preferredContactMethod === 'email',
-              emailUI(),
-            ),
-            [formFields.phoneNumber]: set(
-              'ui:required',
-              (formData, _index) => formData.preferredContactMethod === 'phone',
-              phoneUI(),
-            ),
-            [formFields.address]: address.uiSchema(
-              'Mailing address',
-              false,
-              (formData, _index) => {
-                return formData.preferredContactMethod === 'mail';
-              },
-              false,
-            ),
-          },
-          schema: {
-            type: 'object',
-            required: [formFields.preferredContactMethod, formFields.fullName],
-            properties: {
-              [formFields.preferredContactMethod]: preferredContactMethod,
-              [formFields.fullName]: fullName,
-              [formFields.email]: email,
-              [formFields.phoneNumber]: phone,
-              [formFields.address]: address.schema(fullSchema, true),
             },
           },
         },
