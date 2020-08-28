@@ -61,7 +61,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
       <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
-    expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
+    expect(tree.everySubTree('ErrorMessage')).not.to.be.empty;
     expect(tree.everySubTree('Column', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('a').length).to.equal(2);
   });
@@ -75,7 +75,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     );
 
     // Make sure it displays an error--and the right one
-    expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain(
+    expect(tree.everySubTree('ErrorMessage')[0].props.title).to.contain(
       'Some information in your application is missing or not valid',
     );
     expect(tree.everySubTree('Column', { role: 'alert' })).not.to.be.empty;
@@ -92,7 +92,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
       <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
-    expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
+    expect(tree.everySubTree('ErrorMessage')).not.to.be.empty;
     expect(tree.everySubTree('Column', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('a').length).to.equal(1);
 
@@ -126,7 +126,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     );
 
     // Make sure it displays an error--and the right one
-    expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain(
+    expect(tree.everySubTree('ErrorMessage')[0].props.message).to.contain(
       'too many requests',
     );
     expect(tree.everySubTree('Column', { role: 'alert' })).not.to.be.empty;
@@ -142,7 +142,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     );
 
     // Make sure it displays an error--and the right one
-    expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain(
+    expect(tree.everySubTree('ErrorMessage')[0].props.message).to.contain(
       'Internet connection',
     );
     expect(tree.everySubTree('Column', { role: 'alert' })).not.to.be.empty;
