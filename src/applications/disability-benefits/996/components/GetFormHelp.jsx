@@ -4,10 +4,6 @@ import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
-
 const GetFormHelp = () => (
   <p className="help-talk">
     Need help filling out the form or have questions about eligibility? Please

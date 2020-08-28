@@ -58,7 +58,7 @@ const downloadLink = (
       className="fas fa-download vads-u-padding-right--0p5"
       role="img"
     />
-    download VA Form 20-0996{' '}
+    download and fill out VA Form 20-0996{' '}
     <dfn>
       <abbr title="Portable Document Format">PDF</abbr> (1.5
       <abbr title="Megabytes">MB</abbr>)
@@ -67,41 +67,54 @@ const downloadLink = (
 );
 
 const disabilitiesList = (
-  <ul>
-    <li>
-      We made the decision over a year ago. You have 1 year from the date on
-      your decision letter to request a Higher-Level Review.
-    </li>
-    <li>
-      Your issue is for a benefit type other than compensation or pension. To
-      request a Higher-Level Review for another benefit type like health care,
-      insurance, or education, you’ll need to {downloadLink} and submit a
-      completed application by mail or in person.
-    </li>
-    <li>
-      The issue or decision isn’t in our system yet. Please refer to your
-      decision letter about what form you’ll need to submit to request a
-      Higher-Level Review.
-    </li>
-    <li>
-      You’re unable to request a Higher-Level Review within 1 year of the date
-      on your decision letter due to the COVID-19 pandemic. To request a good
-      cause extension, you’ll need to {downloadLink} fill it out and attach a
-      note to your application that you’re requesting an exemption for timely
-      filing due to COVID-19.
-      <br />
-      <br />
-      To learn more about how COVID-19 affect claims or appeals, please visit
+  <div>
+    <ul>
+      <li>
+        We made the decision over a year ago. You have 1 year from the date on
+        your decision letter to request a Higher-Level Review.{' '}
+        <strong>**Note:**</strong> If you weren’t able to request a timely
+        review due to COVID-19 pandemic, we may grant you an extension of the
+        deadline. To request an extension, {downloadLink} and attach a note that
+        you’re requesting a filing extension due to COVID-19.
+      </li>
+      <li>
+        Your issue isn’t related to monthly compensation, pension, or survivor
+        benefits. For all other benefits, like health care, insurance or
+        education, you’ll need to {downloadLink} and submit it by mail or in
+        person.
+      </li>
+      <li>
+        The issue or decision isn’t in our system yet. You’ll need to{' '}
+        {downloadLink} and submit it by fax or mail.
+      </li>
+      <li>
+        You’re applying for a benefit that another surviving dependent of the
+        Veteran is also applying for. And by law, only 1 of you can receive the
+        benefit. You’ll need to appeal to the Board of Veterans’ Appeals.
+      </li>
+      <li>
+        You’re requesting a review of a Board of Veterans’ Appeals decision.
+        You’ll need to refer to the Board’s decision notice for your review
+        options.
+      </li>
+      <li>
+        You’re requesting a review of another Higher-Level Review. You can
+        either submit a supplmental claim or appeal to the Board of Veterans’
+        Appeals.
+      </li>
+    </ul>
+    <p>
+      To learn more about how COVID-19 affects claims or appeals, please visit
       our <a href={COVID_FAQ_URL}>Coronavirus FAQ page</a>.
-    </li>
-  </ul>
+    </p>
+  </div>
 );
 
 export const disabilitiesExplanationAlert = (
   <>
     <p className="vads-u-margin-top--2p5" />
     <AdditionalInfo triggerText={'Why isn’t my issue eligible?'}>
-      Your issue may not be eligible for a Higher-Level Review if:
+      <p>Your issue may not be eligible for a Higher-Level Review if:</p>
       {disabilitiesList}
     </AdditionalInfo>
   </>
@@ -111,7 +124,9 @@ export const disabilitiesExplanation = (
   <>
     <p className="vads-u-margin-top--2p5" />
     <AdditionalInfo triggerText={'Don’t see the issue you’re looking for?'}>
-      Your issue may not be eligible for a Higher-Level Review if:
+      <p>
+        There are many reasons a decision might not appear in the list above.
+      </p>
       {disabilitiesList}
     </AdditionalInfo>
   </>
