@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../0993/config/form';
+import formConfig from '../../config/form';
 
 describe('0993 claimant information', () => {
   const {
