@@ -103,7 +103,6 @@ class VAPEditView extends Component {
 
     const actionButtons = (
       <VAPEditModalActionButtons
-        onCancel={onCancel}
         onDelete={onDelete}
         title={title}
         analyticsSectionName={analyticsSectionName}

@@ -17,6 +17,7 @@ const ContactInfoForm = props => (
     }}
     onSubmit={e => props.onSubmit(e)}
     data={props.formData}
+    liveValidate={false}
   >
     {props.children}
   </SchemaForm>

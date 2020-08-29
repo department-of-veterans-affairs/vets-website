@@ -179,6 +179,7 @@ class SchemaForm extends React.Component {
       safeRenderCompletion,
       name,
       addNameAttribute,
+      liveValidate,
     } = this.props;
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
@@ -188,7 +189,7 @@ class SchemaForm extends React.Component {
         safeRenderCompletion={safeRenderCompletion}
         FieldTemplate={useReviewMode ? ReviewFieldTemplate : FieldTemplate}
         formContext={this.state.formContext}
-        liveValidate
+        liveValidate={liveValidate}
         noHtml5Validate
         onError={this.onError}
         onBlur={this.onBlur}
@@ -223,6 +224,7 @@ SchemaForm.propTypes = {
   onChange: PropTypes.func,
   hideTitle: PropTypes.bool,
   addNameAttribute: PropTypes.bool,
+  liveValidate: PropTypes.bool,
 };
 
 SchemaForm.defaultProps = {
@@ -235,6 +237,9 @@ SchemaForm.defaultProps = {
   // re: the implicit role:
   // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form
   addNameAttribute: false,
+  // When `false` the form is not validated when each field is marked as dirty.
+  // Instead, validation only happens before trying to submit the form.
+  liveValidate: true,
 };
 
 export default SchemaForm;

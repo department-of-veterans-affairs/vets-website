@@ -132,7 +132,6 @@ VAPEditModalActionButtons.propTypes = {
   deleteEnabled: PropTypes.bool,
   title: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
 };
 
