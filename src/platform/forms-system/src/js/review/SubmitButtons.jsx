@@ -128,7 +128,7 @@ export default function SubmitButtons(props) {
             {submitMessage}
           </Column>
         </Row>
-        <PreSubmitSection />
+        <PreSubmitSection formConfig={formConfig} />
         <Row classNames="form-progress-buttons schemaform-back-buttons">
           <Column classNames="small-6 usa-width-one-half medium-6">
             <a href="/">
@@ -146,7 +146,7 @@ export default function SubmitButtons(props) {
       <Row>
         <Column role="alert">{submitMessage}</Column>
       </Row>
-      <preSubmitSection />
+      <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons">
         <Column classNames="small-6 medium-5">
           <ProgressButton

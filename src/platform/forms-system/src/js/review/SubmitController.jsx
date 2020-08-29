@@ -113,12 +113,13 @@ class SubmitController extends React.Component {
   };
 
   render() {
-    const { form, renderErrorMessage } = this.props;
+    const { form, formConfig, renderErrorMessage } = this.props;
     // Render inside SubmitButtons by using `preSubmitSection` so the alert is _above_ the submit button;
     // helps with accessibility
 
     return (
       <SubmitButtons
+        formConfig={formConfig}
         onBack={this.goBack}
         onSubmit={this.handleSubmit}
         submission={form.submission}

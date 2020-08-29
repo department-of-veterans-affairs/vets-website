@@ -1,14 +1,32 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
-import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
+import createCommonStore from 'platform/startup/store';
+
 import { SubmitController } from '../../../src/js/review/SubmitController';
+
+import createSchemaFormReducer from 'platform/forms-system/src/js/state';
+import reducers from 'platform/forms-system/src/js/state/reducers';
+
+import {
+  setPreSubmit as setPreSubmitAction,
+} from 'platform/forms-system/src/js/actions';
+
+const createformReducer = (options = {}) =>
+  createSchemaFormReducer(
+    options?.formConfig || {},
+    options?.formConfig || {},
+    reducers,
+  );
 
 // Return fresh objects from templates for use with individual tests
 // Default setup: Valid (but empty) form, privacy agreement not set
 const createFormConfig = options => ({
   urlPrefix: '/',
+  trackingPrefix: 'test-',
   preSubmitInfo: {
     required: true,
     field: 'privacyAgreementAccepted',
@@ -73,79 +91,104 @@ const createPageList = () => [
   },
 ];
 
-const createPagesByChapter = () => ({
-  chapter1: [
-    {
-      chapterKey: 'chapter1',
-      pageKey: 'page1',
-    },
-    {
-      chapterKey: 'chapter1',
-      pageKey: 'page2',
-    },
-  ],
-  chapter2: [
-    {
-      chapterKey: 'chapter2',
-      pageKey: 'page3',
-    },
-  ],
-});
+const createStore = (options = {}) => {
+  return createCommonStore({
+    form: createForm(options?.form || {}),
+    router: options?.router || {},
+  });
+};
 
 describe('Schemaform review: SubmitController', () => {
   it('should route to confirmation page after submit', () => {
-    const formConfig = createFormConfig();
     const form = createForm();
+    const formConfig = createFormConfig();
     const pageList = createPageList();
     const router = { push: sinon.spy() };
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
+    const submitForm = sinon.spy();
 
-    const tree = shallow(
-      <SubmitController
-        form={form}
-        formConfig={formConfig}
-        route={{ formConfig, pageList }}
-        router={router}
-      />,
-    );
-
-    tree.setProps({
-      route: {},
-      formConfig,
-      form: createForm({
-        submission: { status: 'applicationSubmitted' },
-        data: { privacyAgreementAccepted: true },
-      }),
+    const formReducer = createformReducer({
+      formConfig: form,
     });
 
-    // BUG: this assumes there is always a confirmation page with this route
+    const store = createStore();
+    store.injectReducer('form', formReducer);
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={[]}
+          route={{ formConfig, pageList }}
+          router={router}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
+    );
+
+    tree.rerender(
+      <Provider store={store}>
+        <SubmitController
+          form={createForm({ submission: { status: 'applicationSubmitted' } })}
+          formConfig={formConfig}
+          pageList={[]}
+          route={{ formConfig, pageList }}
+          router={router}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
+    );
+
+    // // BUG: this assumes there is always a confirmation page with this route
     expect(router.push.calledWith('/confirmation')).to.be.true;
     tree.unmount();
   });
+
   it('should not submit when privacy agreement not accepted', () => {
     const form = createForm();
-    const pagesByChapter = createPagesByChapter();
     const formConfig = createFormConfig();
-    const submitForm = sinon.spy();
+    const router = { push: sinon.spy() };
+    const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
+    const submitForm = sinon.spy();
 
-    const tree = mount(
-      <SubmitController
-        setSubmission={setSubmission}
-        submitForm={submitForm}
-        formConfig={formConfig}
-        form={form}
-        pagesByChapter={pagesByChapter}
-      />,
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={[]}
+          router={router}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
     );
 
-    // SubmitButtons .usa-button-primary is the submit button
-    tree.find('.usa-button-primary').simulate('click');
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
 
     expect(submitForm.called).to.be.false;
     expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
     tree.unmount();
   });
+
   it('should not submit when invalid', () => {
+    const form = createForm();
     // Form with missing rquired field
     const formConfig = createFormConfig({
       chapters: {
@@ -166,110 +209,154 @@ describe('Schemaform review: SubmitController', () => {
       },
       data: { privacyAgreementAccepted: true },
     });
-    const pagesByChapter = createPagesByChapter();
-    const form = createForm();
     const pageList = createPageList();
-    const submitForm = sinon.spy();
+    const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
+    const submitForm = sinon.spy();
 
-    const tree = mount(
-      <SubmitController
-        setSubmission={setSubmission}
-        submitForm={submitForm}
-        form={form}
-        formConfig={formConfig}
-        pagesByChapter={pagesByChapter}
-        pageList={pageList}
-        route={{ formConfig, pageList }}
-      />,
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
     );
 
-    tree.find('.usa-button-primary').simulate('click');
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
 
     expect(submitForm.called).to.be.false;
     expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
     tree.unmount();
   });
+
   it('should submit when valid', () => {
-    const formConfig = createFormConfig();
-    const pagesByChapter = createPagesByChapter();
     const form = createForm({
       data: { privacyAgreementAccepted: true },
     });
+    const formConfig = createFormConfig();
     const pageList = createPageList();
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
 
-    const tree = mount(
-      <SubmitController
-        submitForm={submitForm}
-        formConfig={formConfig}
-        form={form}
-        pagesByChapter={pagesByChapter}
-        pageList={pageList}
-        route={{ formConfig, pageList }}
-      />,
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
     );
 
-    tree.find('.usa-button-primary').simulate('click');
+    // tree.find('.usa-button-primary').simulate('click');
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
 
     expect(submitForm.called).to.be.true;
     tree.unmount();
   });
+
   it('should submit when valid and no preSubmit specified', () => {
+    const form = createForm();
     const formConfig = createFormConfig({
       preSubmitInfo: undefined,
     });
-    const pagesByChapter = createPagesByChapter();
-    const form = createForm();
     const pageList = createPageList();
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
 
-    const tree = mount(
-      <SubmitController
-        submitForm={submitForm}
-        formConfig={formConfig}
-        form={form}
-        pagesByChapter={pagesByChapter}
-        pageList={pageList}
-        route={{ formConfig, pageList }}
-      />,
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
     );
 
-    tree.find('.usa-button-primary').simulate('click');
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
 
     expect(submitForm.called).to.be.true;
     tree.unmount();
   });
+
   it('should submit when valid and only preSubmit.notice specified', () => {
+    const form = createForm();
     const formConfig = createFormConfig({
       preSubmitInfo: {
         notice: <p className="presubmit-notice">NOTICE</p>,
         required: false,
       },
     });
-    const pagesByChapter = createPagesByChapter();
-    const form = createForm();
     const pageList = createPageList();
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
 
-    const tree = mount(
-      <SubmitController
-        submitForm={submitForm}
-        formConfig={formConfig}
-        form={form}
-        pagesByChapter={pagesByChapter}
-        pageList={pageList}
-        route={{ formConfig, pageList }}
-      />,
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
     );
 
-    tree.find('.usa-button-primary').simulate('click');
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
 
-    expect(tree.find('.presubmit-notice').text()).to.equal('NOTICE');
+    expect(tree.getByText('NOTICE')).to.not.be.null;
     expect(submitForm.called).to.be.true;
+
     tree.unmount();
   });
+
   it('should change the preSubmit value when the checkbox is clicked', () => {
+    const form = createForm();
     const formConfig = createFormConfig({
       preSubmitInfo: {
         required: true,
@@ -277,124 +364,191 @@ describe('Schemaform review: SubmitController', () => {
         label: 'Count me in!',
       },
     });
-    const pagesByChapter = createPagesByChapter();
-    const form = createForm();
     const pageList = createPageList();
     const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
+    const submitForm = sinon.spy();
 
-    const tree = mount(
-      <SubmitController
-        submitForm={f => f}
-        setPreSubmit={setPreSubmit}
-        formConfig={formConfig}
-        form={form}
-        pagesByChapter={pagesByChapter}
-        pageList={pageList}
-        route={{ formConfig, pageList }}
-      />,
+    const formReducer = createformReducer({
+      formConfig: form,
+    });
+
+    const store = createStore();
+    store.injectReducer('form', formReducer);
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
     );
 
-    tree
-      .find('[type="checkbox"]')
-      .simulate('change', { target: { checked: true } });
-    expect(setPreSubmit.calledWith('yep', true)).to.be.true;
+    store.dispatch(setPreSubmitAction('yep', true));
+
+    tree.rerender(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
+    );
+
+    expect(store.getState().form.data.yep).to.be.true;
     tree.unmount();
   });
+
   it('should render a CustomComponent, and override default PreSubmitSection', () => {
     const CustomPreSubmitInfo = () => (
       <>
-        <h1 className="custom-preSubmitInfo">'Hello from CustomComponent!'</h1>
+        <h1 className="custom-preSubmitInfo">Hello from CustomComponent!</h1>
       </>
     );
 
+    const form = createForm();
     const formConfig = createFormConfig({
       preSubmitInfo: {
         required: true,
         CustomComponent: CustomPreSubmitInfo,
       },
     });
-    const pagesByChapter = createPagesByChapter();
-    const form = createForm();
     const pageList = createPageList();
     const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
     const submission = {
       hasAttemptedSubmit: false,
     };
+    const submitForm = sinon.spy();
 
-    const tree = mount(
-      <SubmitController
-        submitForm={f => f}
-        setPreSubmit={setPreSubmit}
-        formConfig={formConfig}
-        form={form}
-        pagesByChapter={pagesByChapter}
-        pageList={pageList}
-        submission={submission}
-        route={{ formConfig, pageList }}
-      />,
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          submission={submission}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
     );
 
-    const customComponent = tree.find('.custom-preSubmitInfo');
-    const defaultComponent = tree.find('.form-checkbox');
-    expect(customComponent.length).to.equal(1);
-    expect(defaultComponent.length).to.equal(0);
+    const customComponent = tree.getByText('Hello from CustomComponent!');
+    const defaultComponent = tree.queryAllByText(
+      'I agree to the terms and conditions.',
+    );
+
+    expect(customComponent).to.not.be.null;
+    expect(defaultComponent).to.be.an('array').that.is.empty;
+
     tree.unmount();
   });
+
   it('should render the PreSubmitSection, and NOT a CustomComponent', () => {
+    const form = createForm();
     const formConfig = createFormConfig({
       preSubmitInfo: {
         required: true,
       },
     });
-    const pagesByChapter = createPagesByChapter();
-    const form = createForm();
     const pageList = createPageList();
     const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
     const submission = {
       hasAttemptedSubmit: false,
     };
+    const submitForm = sinon.spy();
 
-    const tree = mount(
-      <SubmitController
-        submitForm={f => f}
-        setPreSubmit={setPreSubmit}
-        formConfig={formConfig}
-        form={form}
-        pagesByChapter={pagesByChapter}
-        pageList={pageList}
-        submission={submission}
-        route={{ formConfig, pageList }}
-      />,
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          submission={submission}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
     );
 
-    const customComponent = tree.find('.custom-preSubmitInfo');
-    const defaultComponent = tree.find('.form-checkbox');
-    expect(customComponent.length).to.equal(0);
-    expect(defaultComponent.length).to.equal(1);
+    const customComponent = tree.queryAllByText('Hello from CustomComponent!');
+    const defaultComponent = tree.getByText(
+      'I agree to the terms and conditions.',
+    );
+
+    expect(customComponent).to.be.an('array').that.is.empty;
+    expect(defaultComponent).to.not.be.null;
+
     tree.unmount();
   });
+
   it('should go back', () => {
-    const formConfig = createFormConfig();
-    const pageList = createPageList();
     const form = createForm({
       data: { privacyAgreementAccepted: true },
     });
+    const formConfig = createFormConfig();
+    const pageList = createPageList();
     const router = { push: sinon.spy() };
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
     const submission = {
       hasAttemptedSubmit: false,
     };
+    const submitForm = sinon.spy();
 
-    const tree = mount(
-      <SubmitController
-        form={form}
-        formConfig={formConfig}
-        pageList={pageList}
-        router={router}
-        submission={submission}
-      />,
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          router={router}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          submission={submission}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
     );
 
-    tree.instance().goBack();
+    // SubmitButtons .usa-button-secondary is the back button
+    const backButton = tree.getByText('Back');
+    fireEvent.click(backButton);
 
     // BUG: The code is making a bunch of bogus assumptions about routes
     // and pages since it always adds review and confirmation routes.
