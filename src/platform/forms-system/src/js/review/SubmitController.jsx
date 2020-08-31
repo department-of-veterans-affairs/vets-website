@@ -77,7 +77,7 @@ class SubmitController extends React.Component {
 
   render() {
     const { form, formConfig, renderErrorMessage } = this.props;
-    
+
     return (
       <SubmitButtons
         formConfig={formConfig}
