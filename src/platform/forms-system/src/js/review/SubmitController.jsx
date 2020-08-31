@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import SubmitButtons from './SubmitButtons';
-import { PreSubmitSection } from '../components/PreSubmitSection';
 import { isValidForm } from '../validation';
 import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
 import recordEvent from 'platform/monitoring/record-event';
@@ -76,47 +75,9 @@ class SubmitController extends React.Component {
     this.props.submitForm(formConfig, form);
   };
 
-  /*
-*  RenderPreSubmitSection - Component that conditionally renders PreSubmitSection, which is default, or a custom override
-*  PreSubmitSection - Default component that renders if no CustomComponent is provided
-*  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
-*/
-  RenderPreSubmitSection = () => {
-    const { form, formConfig, showPreSubmitError } = this.props;
-    const preSubmit = this.getPreSubmit(formConfig);
-    const { CustomComponent } = preSubmit;
-
-    return (
-      <>
-        {CustomComponent ? (
-          <CustomComponent
-            formData={form.data}
-            preSubmitInfo={preSubmit}
-            showError={showPreSubmitError}
-            onSectionComplete={value =>
-              this.props.setPreSubmit(preSubmit.field, value)
-            }
-          />
-        ) : (
-          <PreSubmitSection
-            checked={form.data[preSubmit.field] || false}
-            formData={form.data}
-            preSubmitInfo={preSubmit}
-            showError={showPreSubmitError}
-            onSectionComplete={value =>
-              this.props.setPreSubmit(preSubmit.field, value)
-            }
-          />
-        )}
-      </>
-    );
-  };
-
   render() {
     const { form, formConfig, renderErrorMessage } = this.props;
-    // Render inside SubmitButtons by using `preSubmitSection` so the alert is _above_ the submit button;
-    // helps with accessibility
-
+    
     return (
       <SubmitButtons
         formConfig={formConfig}
@@ -124,7 +85,6 @@ class SubmitController extends React.Component {
         onSubmit={this.handleSubmit}
         submission={form.submission}
         renderErrorMessage={renderErrorMessage}
-        preSubmitSection={this.RenderPreSubmitSection()}
       />
     );
   }

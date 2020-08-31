@@ -3,11 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+// formation
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+
 // platform - forms - selectors
 import { preSubmitSelector } from 'platform/forms/selectors/review';
-
-// platform - forms-system components
-import { PreSubmitSection as DefaultPreSubmitSection } from 'platform/forms-system/src/js/components/PreSubmitSection';
 
 // platform - form-system actions
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
@@ -22,6 +22,7 @@ export function PreSubmitSection(props) {
   const { form, preSubmit = {}, setPreSubmit, showPreSubmitError } = props;
 
   const { CustomComponent } = preSubmit;
+  const checked = form?.data[preSubmit?.field] || false;
 
   return (
     <>
@@ -33,13 +34,23 @@ export function PreSubmitSection(props) {
           onSectionComplete={value => setPreSubmit(preSubmit?.field, value)}
         />
       ) : (
-        <DefaultPreSubmitSection
-          checked={form?.data[preSubmit?.field] || false}
-          formData={form?.data}
-          preSubmitInfo={preSubmit}
-          showError={showPreSubmitError}
-          onSectionComplete={value => setPreSubmit(preSubmit?.field, value)}
-        />
+        <div>
+          {preSubmit.notice}
+          {preSubmit.required && (
+            <ErrorableCheckbox
+              required
+              checked={checked}
+              onValueChange={value => setPreSubmit(preSubmit?.field, value)}
+              name={preSubmit.field}
+              errorMessage={
+                showPreSubmitError && !checked
+                  ? preSubmit.error || 'Please accept'
+                  : undefined
+              }
+              label={preSubmit.label}
+            />
+          )}
+        </div>
       )}
     </>
   );
