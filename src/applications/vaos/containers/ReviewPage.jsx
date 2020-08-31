@@ -86,8 +86,8 @@ export class ReviewPage extends React.Component {
             status="error"
             headline={
               submitStatusVaos400
-                ? "We're sorry."
-                : `Your ${
+                ? 'We’re sorry. We can’t schedule your appointment'
+                : `We’re sorry. Your ${
                     isDirectSchedule ? 'appointment' : 'request'
                   } didn’t go through`
             }
@@ -95,9 +95,9 @@ export class ReviewPage extends React.Component {
               <>
                 {submitStatusVaos400 ? (
                   <p>
-                    We’re sorry. You can’t schedule your appointment on the VA
-                    appointments tool. Please contact your local VA medical
-                    center to schedule this appointment:
+                    You can’t schedule your appointment on the VA appointments
+                    tool. Please contact your local VA medical center to
+                    schedule this appointment:
                   </p>
                 ) : (
                   <p>
