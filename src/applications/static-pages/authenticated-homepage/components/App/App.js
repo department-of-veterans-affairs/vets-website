@@ -42,8 +42,8 @@ const mapStateToProps = state => {
   return {
     showAuthHomePage:
       loggedIn &&
-      (authHomepageFeatureFlag || authHomepageLocalStorage === "true") &&
-      !noAuthHomepage,
+      (authHomepageFeatureFlag || authHomepageLocalStorage === 'true') &&
+      noAuthHomepage !== 'true',
   };
 };
 
