@@ -243,7 +243,6 @@ class ArrayField extends React.Component {
     const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
     const numeratedItems = items.map(numerateKeys);
-    // console.log(numeratedItems);
 
     return (
       <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
@@ -272,9 +271,6 @@ class ArrayField extends React.Component {
               uiSchema.items,
               index,
             );
-
-            // console.log(numeratedUiSchema);
-            // console.log(itemSchema);
 
             if (isEditing) {
               return (
