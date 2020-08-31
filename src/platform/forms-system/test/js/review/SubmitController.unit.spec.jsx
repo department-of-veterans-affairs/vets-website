@@ -11,9 +11,7 @@ import { SubmitController } from '../../../src/js/review/SubmitController';
 import createSchemaFormReducer from 'platform/forms-system/src/js/state';
 import reducers from 'platform/forms-system/src/js/state/reducers';
 
-import {
-  setPreSubmit as setPreSubmitAction,
-} from 'platform/forms-system/src/js/actions';
+import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
 const createformReducer = (options = {}) =>
   createSchemaFormReducer(
