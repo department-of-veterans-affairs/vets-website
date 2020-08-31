@@ -14,7 +14,6 @@ import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/de
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { confirmationEmailUI } from '../../caregivers/definitions/caregiverUI';
-import TextareaWidget from '../../vaos/components/TextareaWidget';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
 const {
@@ -160,11 +159,11 @@ const formConfig = {
       },
     },
     topicChapter: {
-      title: 'Topic',
+      title: "Share why you're contacting us",
       pages: {
         [formPages.topic]: {
           path: 'topic',
-          title: "Share why you're contacting us",
+          title: 'Your inquiry',
           uiSchema: {
             [formFields.inquiryType]: autoSuggestUiSchema(
               'Type of inquiry',
@@ -192,7 +191,7 @@ const formConfig = {
             ),
             [formFields.query]: {
               'ui:title': 'Enter your message here',
-              'ui:widget': TextareaWidget,
+              'ui:widget': 'textarea',
               'ui:validations': [validateWhiteSpace],
             },
           },
