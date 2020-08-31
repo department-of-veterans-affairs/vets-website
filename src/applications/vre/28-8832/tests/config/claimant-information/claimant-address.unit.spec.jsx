@@ -10,11 +10,11 @@ import { changeDropdown } from '../../helpers';
 
 import formConfig from '../../../config/form';
 
-describe('Chapter 36 Dependent Address', () => {
+describe('Chapter 36 Claimant Address', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.dependentInformation.pages.dependentAddress;
+  } = formConfig.chapters.claimantInformation.pages.claimantAddress;
 
   const formData = {
     status: 'isSpouse',
@@ -61,15 +61,15 @@ describe('Chapter 36 Dependent Address', () => {
       />,
     );
 
-    changeDropdown(form, 'select#root_dependentAddress_countryName', 'USA');
-    fillData(form, 'input#root_dependentAddress_addressLine1', 'Sunny Road');
-    fillData(form, 'input#root_dependentAddress_city', 'Someplace');
-    changeDropdown(form, 'select#root_dependentAddress_stateCode', 'DC');
-    fillData(form, 'input#root_dependentAddress_zipCode', '12345');
-    fillData(form, 'input#root_dependentEmailAddress', 'someEmail@email.com');
+    changeDropdown(form, 'select#root_claimantAddress_countryName', 'USA');
+    fillData(form, 'input#root_claimantAddress_addressLine1', 'Sunny Road');
+    fillData(form, 'input#root_claimantAddress_city', 'Someplace');
+    changeDropdown(form, 'select#root_claimantAddress_stateCode', 'DC');
+    fillData(form, 'input#root_claimantAddress_zipCode', '12345');
+    fillData(form, 'input#root_claimantEmailAddress', 'someEmail@email.com');
 
     // inccorect confirmation email address should fail
-    fillData(form, 'input#root_dependentConfirmEmailAddress', 'derp@email.com');
+    fillData(form, 'input#root_claimantEmailAddress', 'derp@email.com');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
@@ -89,15 +89,15 @@ describe('Chapter 36 Dependent Address', () => {
       />,
     );
 
-    changeDropdown(form, 'select#root_dependentAddress_countryName', 'USA');
-    fillData(form, 'input#root_dependentAddress_addressLine1', 'Sunny Road');
-    fillData(form, 'input#root_dependentAddress_city', 'Someplace');
-    changeDropdown(form, 'select#root_dependentAddress_stateCode', 'DC');
-    fillData(form, 'input#root_dependentAddress_zipCode', '12345');
-    fillData(form, 'input#root_dependentEmailAddress', 'someEmail@email.com');
+    changeDropdown(form, 'select#root_claimantAddress_countryName', 'USA');
+    fillData(form, 'input#root_claimantAddress_addressLine1', 'Sunny Road');
+    fillData(form, 'input#root_claimantAddress_city', 'Someplace');
+    changeDropdown(form, 'select#root_claimantAddress_stateCode', 'DC');
+    fillData(form, 'input#root_claimantAddress_zipCode', '12345');
+    fillData(form, 'input#root_claimantEmailAddress', 'someEmail@email.com');
     fillData(
       form,
-      'input#root_dependentConfirmEmailAddress',
+      'input#root_claimantConfirmEmailAddress',
       'someEmail@email.com',
     );
 

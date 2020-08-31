@@ -10,11 +10,11 @@ import { changeDropdown } from '../../helpers';
 
 import formConfig from '../../../config/form';
 
-describe('Chapter 36 Dependent Information', () => {
+describe('Chapter 36 Claimant Information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.dependentInformation.pages.dependentInformation;
+  } = formConfig.chapters.claimantInformation.pages.claimantInformation;
 
   const formData = {
     status: 'isSpouse',
@@ -28,7 +28,7 @@ describe('Chapter 36 Dependent Information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
+    expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 
