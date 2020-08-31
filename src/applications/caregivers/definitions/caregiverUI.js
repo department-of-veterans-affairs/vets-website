@@ -230,7 +230,7 @@ export const confirmationEmailUI = (label, dataConstant) => ({
   'ui:required': formData => !!formData[dataConstant],
   'ui:validations': [
     {
-      validator: (errors, formData) => {
+      validator: (errors, fieldData, formData) => {
         const emailMatcher = () =>
           formData[dataConstant] === formData[`view:${dataConstant}`];
         const doesEmailMatch = emailMatcher();
