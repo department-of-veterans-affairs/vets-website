@@ -14,7 +14,7 @@ describe('healthcare-questionnaire - display a phone number', () => {
       },
     };
     const phoneNumber = mount(<PhoneNumberView number={data} />);
-    expect(phoneNumber.find('[data-testId="my-labelPhone"]').text()).to.equal(
+    expect(phoneNumber.find('[data-test-id="my-labelPhone"]').text()).to.equal(
       '123-867-5309',
     );
     phoneNumber.unmount();

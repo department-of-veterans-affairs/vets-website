@@ -18,29 +18,29 @@ describe('healthcare questionnaire -- demographics', () => {
     cy.visit('/healthcare/questionnaire/demographics');
   });
   it('all default phone numbers', () => {
-    cy.get('[data-testId="homePhone"]', {
+    cy.get('[data-test-id="homePhone"]', {
       timeout: Timeouts.normal,
     }).contains('503-222-2222', {
       matchCase: false,
     });
-    cy.get('[data-testId="mobilePhone"]', {
+    cy.get('[data-test-id="mobilePhone"]', {
       timeout: Timeouts.normal,
     }).contains('503-555-1234', {
       matchCase: false,
     });
-    cy.get('[data-testId="temporaryPhone"]', {
+    cy.get('[data-test-id="temporaryPhone"]', {
       timeout: Timeouts.normal,
     }).contains('503-555-5555', {
       matchCase: false,
     });
   });
   it('all default addresses', () => {
-    cy.get('[data-testId="mailingAddress"]', {
+    cy.get('[data-test-id="mailingAddress"]', {
       timeout: Timeouts.normal,
     }).contains('1493 Martin Luther King Rd Apt 1', {
       matchCase: false,
     });
-    cy.get('[data-testId="residentialAddress"]', {
+    cy.get('[data-test-id="residentialAddress"]', {
       timeout: Timeouts.normal,
     }).contains('PSC 808 Box 37', {
       matchCase: false,
@@ -50,18 +50,18 @@ describe('healthcare questionnaire -- demographics', () => {
     cy.get('.schemaform-title>h1', { timeout: Timeouts.normal }).contains(
       'Healthcare Questionnaire',
     );
-    cy.get('[data-testId="fullName"]', { timeout: Timeouts.normal }).contains(
+    cy.get('[data-test-id="fullName"]', { timeout: Timeouts.normal }).contains(
       'CALVIN C FLETCHER',
       {
         matchCase: false,
       },
     );
-    cy.get('[data-testId="dateOfBirth"]', {
+    cy.get('[data-test-id="dateOfBirth"]', {
       timeout: Timeouts.normal,
     }).contains('December 19, 1924', {
       matchCase: false,
     });
-    cy.get('[data-testId="gender"]', { timeout: Timeouts.normal }).contains(
+    cy.get('[data-test-id="gender"]', { timeout: Timeouts.normal }).contains(
       'male',
       {
         matchCase: false,
