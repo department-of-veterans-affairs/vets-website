@@ -50,7 +50,6 @@ describe('<InstitutionSearchForm>', () => {
   const autocomplete = {
     suggestions: [],
   };
-
   const eligibility = {
     onlineClasses: 'no',
   };
@@ -62,6 +61,7 @@ describe('<InstitutionSearchForm>', () => {
         search={search}
         autocomplete={autocomplete}
         eligibility={eligibility}
+        filters={() => {}}
         gibctCh33BenefitRateUpdate
         showModal={() => {}}
         hideModal={() => {}}
@@ -75,32 +75,6 @@ describe('<InstitutionSearchForm>', () => {
 
     const html = wrapper.html();
     expect(html).to.not.be.undefined;
-    wrapper.unmount();
-  });
-
-  it('should render html including filter components when gibctFilterEnhancement feature flag is enabled', () => {
-    const wrapper = shallow(
-      <InstitutionSearchForm
-        filtersClass={filtersClass}
-        search={search}
-        autocomplete={autocomplete}
-        eligibility={eligibility}
-        gibctFilterEnhancement
-        gibctCh33BenefitRateUpdate
-        showModal={() => {}}
-        hideModal={() => {}}
-        clearAutocompleteSuggestions={() => {}}
-        fetchAutocompleteSuggestions={() => {}}
-        toggleFilter={() => {}}
-        updateAutocompleteSearchTerm={() => {}}
-        handleFilterChange={() => {}}
-      />,
-    );
-
-    const html = wrapper.html();
-    expect(html).to.include('Gender');
-    expect(html).to.include('Specialized mission');
-    expect(html).to.include('Religious affiliation');
     wrapper.unmount();
   });
 });
