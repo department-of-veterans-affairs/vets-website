@@ -10,7 +10,7 @@ import { changeDropdown } from '../../helpers';
 
 import formConfig from '../../../config/form';
 
-describe('686 upload additional evidence for spouse', () => {
+describe('Chapter 36 Dependent Information', () => {
   const {
     schema,
     uiSchema,
