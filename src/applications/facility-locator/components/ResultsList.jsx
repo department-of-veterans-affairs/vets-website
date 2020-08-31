@@ -10,6 +10,7 @@ import { facilityTypes } from '../config';
 import {
   MARKER_LETTERS,
   CLINIC_URGENTCARE_SERVICE,
+  PHARMACY_RETAIL_SERVICE,
   LocationType,
   Error,
 } from '../constants';
@@ -66,6 +67,8 @@ class ResultsList extends Component {
           // Support non va urgent care search through ccp option
           if (query.serviceType === CLINIC_URGENTCARE_SERVICE) {
             item = <UrgentCareResult provider={r} query={query} key={r.id} />;
+          } else if (query.serviceType === PHARMACY_RETAIL_SERVICE) {
+            item = <PharmacyResult provider={r} query={query} key={r.id} />;
           } else {
             item = <CCProviderResult provider={r} query={query} key={r.id} />;
           }
