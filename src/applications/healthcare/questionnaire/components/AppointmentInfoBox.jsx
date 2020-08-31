@@ -21,7 +21,7 @@ const AppointmentInfoBox = props => {
           <p
             className="vads-u-margin--1px vads-u-font-weight--bold"
             aria-label="Veterans Full Name"
-            data-test-id="fullName"
+            data-testid="fullName"
           >
             {fullName}
           </p>
@@ -31,7 +31,7 @@ const AppointmentInfoBox = props => {
               dateTime={dateOfBirth}
               aria-label="Veteran's date of birth"
               className="vads-u-font-weight--bold"
-              data-test-id="dateOfBirth"
+              data-testid="dateOfBirth"
             >
               {moment(dateOfBirth).format('MMMM DD, YYYY')}
             </time>
@@ -42,7 +42,7 @@ const AppointmentInfoBox = props => {
                 Gender:
                 <span
                   className=" vads-u-font-weight--bold"
-                  data-test-id="gender"
+                  data-testid="gender"
                 >
                   {gender ? genderLabels[gender] : 'UNKNOWN'}
                 </span>
@@ -55,7 +55,7 @@ const AppointmentInfoBox = props => {
                 <span className=" vads-u-font-weight--bold">
                   Mailing Address:{' '}
                 </span>
-                <span data-test-id="mailingAddress">
+                <span data-testid="mailingAddress">
                   <AddressView address={mailing} />
                 </span>
               </p>
@@ -67,7 +67,7 @@ const AppointmentInfoBox = props => {
                 <span className=" vads-u-font-weight--bold">
                   Residential Address:{' '}
                 </span>
-                <span data-test-id="residentialAddress">
+                <span data-testid="residentialAddress">
                   <AddressView address={residential} />
                 </span>
               </p>

@@ -1,5 +1,3 @@
-const Timeouts = require('platform/testing/e2e/timeouts.js');
-
 import basicUser from './fixtures/users/user-basic.json';
 
 describe('healthcare questionnaire -- demographics', () => {
@@ -15,57 +13,40 @@ describe('healthcare questionnaire -- demographics', () => {
         JSON.stringify(['single-sign-on-intro']),
       );
     });
-    cy.visit('/healthcare/questionnaire/demographics');
+    cy.visit('/healthcare/questionnaire/demographics?skip');
   });
   it('all default phone numbers', () => {
-    cy.get('[data-test-id="homePhone"]', {
-      timeout: Timeouts.normal,
-    }).contains('503-222-2222', {
+    cy.findByTestId('homePhone').contains('503-222-2222', {
       matchCase: false,
     });
-    cy.get('[data-test-id="mobilePhone"]', {
-      timeout: Timeouts.normal,
-    }).contains('503-555-1234', {
+    cy.findByTestId('mobilePhone').contains('503-555-1234', {
       matchCase: false,
     });
-    cy.get('[data-test-id="temporaryPhone"]', {
-      timeout: Timeouts.normal,
-    }).contains('503-555-5555', {
+    cy.findByTestId('temporaryPhone').contains('503-555-5555', {
       matchCase: false,
     });
   });
   it('all default addresses', () => {
-    cy.get('[data-test-id="mailingAddress"]', {
-      timeout: Timeouts.normal,
-    }).contains('1493 Martin Luther King Rd Apt 1', {
-      matchCase: false,
-    });
-    cy.get('[data-test-id="residentialAddress"]', {
-      timeout: Timeouts.normal,
-    }).contains('PSC 808 Box 37', {
+    cy.findByTestId('mailingAddress').contains(
+      '1493 Martin Luther King Rd Apt 1',
+      {
+        matchCase: false,
+      },
+    );
+    cy.findByTestId('residentialAddress').contains('PSC 808 Box 37', {
       matchCase: false,
     });
   });
   it('basic information', () => {
-    cy.get('.schemaform-title>h1', { timeout: Timeouts.normal }).contains(
-      'Healthcare Questionnaire',
-    );
-    cy.get('[data-test-id="fullName"]', { timeout: Timeouts.normal }).contains(
-      'CALVIN C FLETCHER',
-      {
-        matchCase: false,
-      },
-    );
-    cy.get('[data-test-id="dateOfBirth"]', {
-      timeout: Timeouts.normal,
-    }).contains('December 19, 1924', {
+    cy.get('.schemaform-title>h1').contains('Healthcare Questionnaire');
+    cy.findByTestId('fullName').contains('CALVIN C FLETCHER', {
       matchCase: false,
     });
-    cy.get('[data-test-id="gender"]', { timeout: Timeouts.normal }).contains(
-      'male',
-      {
-        matchCase: false,
-      },
-    );
+    cy.findByTestId('dateOfBirth').contains('December 19, 1924', {
+      matchCase: false,
+    });
+    cy.findByTestId('gender').contains('male', {
+      matchCase: false,
+    });
   });
 });

@@ -10,11 +10,11 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
   it('Appointment Info Box -- details that are always shown -- Full name; date of birth;', () => {
     const fakeStore = createFakeStore();
     const appointmentDetails = mount(<AppointmentInfoBox store={fakeStore} />);
+    expect(appointmentDetails.find('[data-testid="fullName"]').text()).to.equal(
+      'CALVIN C FLETCHER',
+    );
     expect(
-      appointmentDetails.find('[data-test-id="fullName"]').text(),
-    ).to.equal('CALVIN C FLETCHER');
-    expect(
-      appointmentDetails.find('[data-test-id="dateOfBirth"]').text(),
+      appointmentDetails.find('[data-testid="dateOfBirth"]').text(),
     ).to.equal('December 19, 1924');
 
     appointmentDetails.unmount();
@@ -23,7 +23,7 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
     const noGender = createFakeStore('');
     const hasGender = createFakeStore('M');
     const appointmentNoGender = mount(<AppointmentInfoBox store={noGender} />);
-    expect(appointmentNoGender.exists('[data-test-id="gender"]')).to.equal(
+    expect(appointmentNoGender.exists('[data-testid="gender"]')).to.equal(
       false,
     );
     appointmentNoGender.unmount();
@@ -31,16 +31,16 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
     const appointmentHasGender = mount(
       <AppointmentInfoBox store={hasGender} />,
     );
-    expect(
-      appointmentHasGender.find('[data-test-id="gender"]').text(),
-    ).to.equal('Male');
+    expect(appointmentHasGender.find('[data-testid="gender"]').text()).to.equal(
+      'Male',
+    );
     appointmentHasGender.unmount();
   });
   it('Appointment Info Box -- dynamic details -- mailing address', () => {
     const hasAddress = createFakeStore();
     const appointmentInfoBox = mount(<AppointmentInfoBox store={hasAddress} />);
     expect(
-      appointmentInfoBox.find('[data-test-id="mailingAddress"]').text(),
+      appointmentInfoBox.find('[data-testid="mailingAddress"]').text(),
     ).to.contains('1493 Martin Luther King Rd Apt 1');
     appointmentInfoBox.unmount();
 
@@ -49,7 +49,7 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
       <AppointmentInfoBox store={noAddress} />,
     );
     expect(
-      appointmentInfoBoxNoAddress.exists('[data-test-id="mailingAddress"]'),
+      appointmentInfoBoxNoAddress.exists('[data-testid="mailingAddress"]'),
     ).to.equal(false);
     appointmentInfoBoxNoAddress.unmount();
   });
@@ -57,7 +57,7 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
     const hasAddress = createFakeStore();
     const appointmentInfoBox = mount(<AppointmentInfoBox store={hasAddress} />);
     expect(
-      appointmentInfoBox.find('[data-test-id="residentialAddress"]').text(),
+      appointmentInfoBox.find('[data-testid="residentialAddress"]').text(),
     ).to.contains('PSC 808 Box 37');
     appointmentInfoBox.unmount();
 
@@ -66,7 +66,7 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
       <AppointmentInfoBox store={noAddress} />,
     );
     expect(
-      appointmentInfoBoxNoAddress.exists('[data-test-id="mailingAddress"]'),
+      appointmentInfoBoxNoAddress.exists('[data-testid="mailingAddress"]'),
     ).to.equal(false);
     appointmentInfoBoxNoAddress.unmount();
   });
@@ -77,7 +77,7 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
       <AppointmentInfoBox store={hasAllPhones} />,
     );
     expect(
-      appointmentInfoBoxAllPhones.find('[data-test-id="phoneNumber"]').length,
+      appointmentInfoBoxAllPhones.find('[data-testid="phoneNumber"]').length,
     ).to.equal(4);
     appointmentInfoBoxAllPhones.unmount();
 
@@ -87,7 +87,7 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
       <AppointmentInfoBox store={hasNoPhones} />,
     );
     expect(
-      appointmentInfoBoxNoPhones.find('[data-test-id="phoneNumber"]').length,
+      appointmentInfoBoxNoPhones.find('[data-testid="phoneNumber"]').length,
     ).to.equal(0);
     appointmentInfoBoxNoPhones.unmount();
 
@@ -100,7 +100,7 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
       <AppointmentInfoBox store={hasHomeAndMobile} />,
     );
     expect(
-      appointmentInfoBoxHomeAndMobilePhones.find('[data-test-id="phoneNumber"]')
+      appointmentInfoBoxHomeAndMobilePhones.find('[data-testid="phoneNumber"]')
         .length,
     ).to.equal(2);
     appointmentInfoBoxHomeAndMobilePhones.unmount();
