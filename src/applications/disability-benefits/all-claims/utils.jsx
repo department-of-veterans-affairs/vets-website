@@ -606,7 +606,7 @@ export const ancillaryFormUploadUi = (
     widgetType = 'select',
     customClasses = '',
     isDisabled = false,
-    addAnotherLabel = 'Add Another',
+    addAnotherLabel = 'Add another',
   } = {},
 ) =>
   fileUploadUI(label, {

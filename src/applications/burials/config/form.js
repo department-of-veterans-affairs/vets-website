@@ -607,7 +607,7 @@ const formConfig = {
               fileUploadUI(
                 'Documentation for transportation of the Veteran’s remains or other supporting evidence',
                 {
-                  addAnotherLabel: 'Add Another Document',
+                  addAnotherLabel: 'Add another document',
                   fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
                 },
               ),
