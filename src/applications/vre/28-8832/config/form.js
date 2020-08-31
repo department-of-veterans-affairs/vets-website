@@ -3,17 +3,17 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import { hasSession } from 'platform/user/profile/utilities';
+
 import { statusSelection } from './chapters/status-selection';
+import { veteranInformation } from './chapters/veteran-information';
+
 import {
-  veteranInformation,
-  veteranAddress,
-  staticVeteranInformation,
-} from './chapters/veteran-information';
-import {
-  dependentInformation,
-  dependentAddress,
-} from './chapters/dependent-information';
-import { isDependent, isVeteran } from './helpers';
+  claimantInformation,
+  claimantAddress,
+  staticClaimantInformation,
+} from './chapters/claimant-information';
+import { isDependent } from './helpers';
 
 const formConfig = {
   urlPrefix: '/',
@@ -32,57 +32,46 @@ const formConfig = {
   title: '28-8832-planning-and-guidance',
   defaultDefinitions: {},
   chapters: {
-    statusSelection: {
-      title: 'Your Status',
+    claimantInformation: {
+      title: 'Claimant Information',
       pages: {
-        wizard: {
-          path: 'your-status',
-          title: 'Your Status',
+        claimantInformation: {
+          depends: () => !hasSession(),
+          path: 'basic-information',
+          title: 'Claimant Information',
+          uiSchema: claimantInformation.uiSchema,
+          schema: claimantInformation.schema,
+        },
+        claimantStaticInformation: {
+          depends: () => hasSession(),
+          path: 'claimant-information',
+          title: 'Claimant Information',
+          uiSchema: staticClaimantInformation.uiSchema,
+          schema: staticClaimantInformation.schema,
+        },
+        claimantAddress: {
+          path: 'claimant-address',
+          title: 'Claimant Address',
+          uiSchema: claimantAddress.uiSchema,
+          schema: claimantAddress.schema,
+        },
+        statusSelection: {
+          path: 'status-selection',
+          title: 'Claimant Status',
           uiSchema: statusSelection.uiSchema,
           schema: statusSelection.schema,
         },
       },
     },
-    dependentInformation: {
-      title: 'Dependent Information',
-      pages: {
-        dependentInformation: {
-          depends: formData => isDependent(formData),
-          path: 'dependent-information',
-          title: 'Dependent Information',
-          uiSchema: dependentInformation.uiSchema,
-          schema: dependentInformation.schema,
-        },
-        dependentAddress: {
-          depends: formData => isDependent(formData),
-          path: 'dependent-address',
-          title: 'Dependent Address',
-          uiSchema: dependentAddress.uiSchema,
-          schema: dependentAddress.schema,
-        },
-      },
-    },
-    veteranDetails: {
-      title: 'Service member or Veteran information',
+    veteranInformation: {
+      title: 'Veteran or service member information',
       pages: {
         veteranInformation: {
-          path: 'personal-information',
-          title: 'Personal Information',
+          depends: formData => isDependent(formData),
+          path: 'veteran-information',
+          title: 'Veteran or service member information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
-        },
-        veteranStaticInformation: {
-          depends: formData => isVeteran(formData),
-          path: 'veteran-information',
-          title: 'Veteran Information',
-          uiSchema: staticVeteranInformation.uiSchema,
-          schema: staticVeteranInformation.schema,
-        },
-        veteranAddress: {
-          path: 'veteran-address',
-          title: 'Veteran Address',
-          uiSchema: veteranAddress.uiSchema,
-          schema: veteranAddress.schema,
         },
       },
     },
