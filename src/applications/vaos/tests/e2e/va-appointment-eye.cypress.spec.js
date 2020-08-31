@@ -20,7 +20,7 @@ describe('Appointment Request', () => {
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Eye care');
 
-    // Type of sleep care
+    // Type of eye care
     cy.url().should('include', '/choose-eye-care');
     cy.injectAxe();
     cy.findByLabelText(/Optometry/).click();
