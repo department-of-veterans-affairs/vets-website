@@ -11,6 +11,49 @@ import { focusElement } from '../utilities/ui';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
+function getNumeratedUiSchema(uiSchema, index) {
+  const fields = Object.entries(uiSchema).filter(
+    ([key, _val]) => !key.startsWith('ui:'),
+  );
+
+  /* eslint-disable no-param-reassign */
+  return fields.reduce(
+    (numerated, [key, value]) => {
+      numerated[`${key}${index}`] = value;
+      delete numerated[key];
+      return numerated;
+    },
+    { ...uiSchema },
+  );
+  /* eslint-enable no-param-reassign */
+}
+
+function numerateKeys(object, index) {
+  const entries = Object.entries(object);
+  return entries.reduce((numerated, [key, value]) => {
+    // eslint-disable-next-line no-param-reassign
+    numerated[`${key}${index}`] = value;
+    return numerated;
+  }, {});
+}
+
+function getNumeratedItemSchema(schema, index) {
+  if (schema.items.length > index) {
+    return schema.items[index];
+  }
+
+  const required = schema.additionalItems.required.map(
+    (prop, idx) => `${prop}${idx}`,
+  );
+  const properties = numerateKeys(schema.additionalItems.properties, index);
+
+  return {
+    ...schema.additionalItems,
+    properties,
+    required,
+  };
+}
+
 /* Growable table (Array) field on the Review page
  *
  * The idea here is that, because our pattern for growable tables on the review
@@ -203,6 +246,9 @@ class ArrayField extends React.Component {
     const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;
     const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
+    const numeratedItems = items.map(numerateKeys);
+    // console.log(numeratedItems);
+
     return (
       <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
         {title && (
@@ -217,14 +263,22 @@ class ArrayField extends React.Component {
           <Element
             name={`topOfTable_${fieldName}${itemCountLocked ? '_locked' : ''}`}
           />
-          {items.map((item, index) => {
+          {numeratedItems.map((item, index) => {
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
             const showReviewButton =
               !itemCountLocked &&
               (!schema.minItems || items.length > schema.minItems);
-            const itemSchema = this.getItemSchema(index);
+            const itemSchema = getNumeratedItemSchema(this.props.schema, index);
             const itemTitle = itemSchema ? itemSchema.title : '';
+
+            const numeratedUiSchema = getNumeratedUiSchema(
+              arrayPageConfig.uiSchema,
+              index,
+            );
+
+            // console.log(numeratedUiSchema);
+            // console.log(itemSchema);
 
             if (isEditing) {
               return (
@@ -249,7 +303,7 @@ class ArrayField extends React.Component {
                         data={item}
                         appStateData={this.props.appStateData}
                         schema={itemSchema}
-                        uiSchema={arrayPageConfig.uiSchema}
+                        uiSchema={numeratedUiSchema}
                         trackingPrefix={this.props.trackingPrefix}
                         title={pageTitle}
                         hideTitle
@@ -290,7 +344,7 @@ class ArrayField extends React.Component {
                     data={item}
                     appStateData={this.props.appStateData}
                     schema={itemSchema}
-                    uiSchema={arrayPageConfig.uiSchema}
+                    uiSchema={numeratedUiSchema}
                     trackingPrefix={this.props.trackingPrefix}
                     title={itemTitle}
                     name={fieldName}
