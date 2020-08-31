@@ -22,6 +22,8 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import schemas from 'vets-json-schema/dist/schemas';
 
+import { sessionStorageSetup } from 'platform/testing/utilities';
+
 // Maps schema id to config id
 const mappedIds = [
   '10-10EZ',
@@ -86,6 +88,7 @@ const excludedForms = new Set([
 ]);
 
 describe('form:', () => {
+  sessionStorageSetup();
   it('should check all forms', () => {
     const includedSchemaIds = Object.keys(schemas).filter(
       formId => !excludedForms.has(formId),
@@ -158,7 +161,11 @@ describe('form:', () => {
       });
 
       it('should have title', () => {
-        expect(form.title).to.be.a('string');
+        const title =
+          typeof form.title === 'function'
+            ? form.title({ formData: {} })
+            : form.title;
+        expect(title).to.be.a('string');
       });
 
       if (form.subTitle) {
