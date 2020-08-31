@@ -1,5 +1,10 @@
 import React from 'react';
 import Wizard from 'applications/static-pages/wizard';
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_COMPLETE,
+  PCPG_ROOT_URL,
+} from '../constants';
 import pages from '../wizard/pages';
 
 const WizardContainer = () => (
@@ -24,7 +29,14 @@ const WizardContainer = () => (
         Click on the link below to go to our online application without
         answering the questions above.
       </p>
-      <a>Apply online with VA Form 28-8832</a>
+      <a
+        href={`${PCPG_ROOT_URL}/introduction`}
+        onClick={() => {
+          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+        }}
+      >
+        Apply online with VA Form 28-8832
+      </a>
     </div>
   </div>
 );
