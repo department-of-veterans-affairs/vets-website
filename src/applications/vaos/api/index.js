@@ -1,8 +1,6 @@
 import moment from 'moment';
-import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import { generateMockSlots } from '../utils/calendar';
-import { EXPRESS_CARE } from '../utils/constants';
+import apiRequestWithMocks from '../utils/api';
 
 function getStagingId(facilityId) {
   if (!environment.isProduction() && facilityId.startsWith('983')) {
@@ -16,17 +14,12 @@ function getStagingId(facilityId) {
   return facilityId;
 }
 
-const USE_MOCK_DATA =
-  !window.Cypress &&
-  environment.isLocalhost() &&
-  !environment.API_URL.includes('review.vetsgov');
-
 function vaosApiRequest(url, ...options) {
-  return apiRequest(`${environment.API_URL}/vaos${url}`, ...options);
+  return apiRequestWithMocks(`${environment.API_URL}/vaos${url}`, ...options);
 }
 
 function v1ApiRequest(url, ...options) {
-  return apiRequest(`${environment.API_URL}/v1${url}`, ...options);
+  return apiRequestWithMocks(`${environment.API_URL}/v1${url}`, ...options);
 }
 
 export function getConfirmedAppointments(type, startDate, endDate) {
@@ -95,19 +88,9 @@ export const getLongTermAppointmentHistory = (() => {
 })();
 
 export function getParentFacilities(systemIds) {
-  let promise;
+  const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
 
-  if (USE_MOCK_DATA) {
-    promise = import('./facilities.json').then(
-      module => (module.default ? module.default : module),
-    );
-  } else {
-    const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
-
-    promise = vaosApiRequest(`/v0/facilities?${idList}`);
-  }
-
-  return promise.then(resp =>
+  return vaosApiRequest(`/v0/facilities?${idList}`).then(resp =>
     resp.data.map(item => ({ ...item.attributes, id: item.id })),
   );
 }
@@ -117,65 +100,15 @@ export function getFacilitiesBySystemAndTypeOfCare(
   parentId,
   typeOfCareId,
 ) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    if (typeOfCareId === EXPRESS_CARE) {
-      if (parentId === '983') {
-        promise = new Promise(resolve => {
-          setTimeout(() => {
-            import('./facilities_983_express_care.json').then(module => {
-              resolve(module.default ? module.default : module);
-            });
-          }, 500);
-        });
-      } else {
-        promise = new Promise(resolve => {
-          setTimeout(() => {
-            import('./facilities_984_express_care.json').then(module => {
-              resolve(module.default ? module.default : module);
-            });
-          }, 500);
-        });
-      }
-    } else if (parentId === '984') {
-      promise = import('./facilities_984.json').then(
-        module => (module.default ? module.default : module),
-      );
-    } else if (parentId === '983A6') {
-      promise = import('./facilities_983A6.json').then(
-        module => (module.default ? module.default : module),
-      );
-    } else {
-      promise = import('./facilities_983.json').then(
-        module => (module.default ? module.default : module),
-      );
-    }
-  } else {
-    promise = vaosApiRequest(
-      `/v0/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
-    );
-  }
-
-  return promise.then(resp =>
-    resp.data.map(item => ({ ...item.attributes, id: item.id })),
-  );
+  return vaosApiRequest(
+    `/v0/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
+  ).then(resp => resp.data.map(item => ({ ...item.attributes, id: item.id })));
 }
 
 export function getCommunityCare(typeOfCare) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    promise = Promise.resolve({
-      data: {
-        id: 'PrimaryCare',
-        type: 'cc_eligibility',
-        attributes: { eligible: true },
-      },
-    });
-  } else {
-    promise = vaosApiRequest(`/v0/community_care/eligibility/${typeOfCare}`);
-  }
-
-  return promise.then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
+  return vaosApiRequest(`/v0/community_care/eligibility/${typeOfCare}`).then(
+    resp => ({ ...resp.data.attributes, id: resp.data.id }),
+  );
 }
 
 export function checkPastVisits(
@@ -184,160 +117,49 @@ export function checkPastVisits(
   typeOfCareId,
   directOrRequest,
 ) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    let attributes;
-    if (directOrRequest === 'direct') {
-      attributes = {
-        durationInMonths: 24,
-        hasVisitedInPastMonths: !facilityId.includes('984'),
-      };
-    } else {
-      attributes = {
-        durationInMonths: 12,
-        hasVisitedInPastMonths: facilityId !== '984',
-      };
-    }
-
-    promise = Promise.resolve({
-      data: {
-        id: '05084676-77a1-4754-b4e7-3638cb3124e5',
-        type: 'facility_visit',
-        attributes,
-      },
-    });
-  } else {
-    promise = vaosApiRequest(
-      `/v0/facilities/${facilityId}/visits/${directOrRequest}?system_id=${systemId}&type_of_care_id=${typeOfCareId}`,
-    );
-  }
-
-  return promise.then(resp => resp.data.attributes);
+  return vaosApiRequest(
+    `/v0/facilities/${facilityId}/visits/${directOrRequest}?system_id=${systemId}&type_of_care_id=${typeOfCareId}`,
+  ).then(resp => resp.data.attributes);
 }
 
 export function getRequestLimits(facilityId, typeOfCareId) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    promise = new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          data: {
-            id: facilityId,
-            attributes: {
-              requestLimit: 1,
-              numberOfRequests: facilityId.includes('984') ? 1 : 0,
-            },
-          },
-        });
-      }, 1000);
-    });
-  } else {
-    promise = vaosApiRequest(
-      `/v0/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
-    );
-  }
-
-  return promise.then(resp => ({
+  return vaosApiRequest(
+    `/v0/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
+  ).then(resp => ({
     ...resp.data.attributes,
     id: resp.data.id,
   }));
 }
 
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    if (facilityId === '983') {
-      promise = import('./clinicList983.json').then(
-        module => (module.default ? module.default : module),
-      );
-    } else {
-      promise = Promise.resolve({ data: [] });
-    }
-  } else {
-    promise = vaosApiRequest(
-      `/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${systemId}`,
-    );
-  }
-
-  return promise.then(resp =>
-    resp.data.map(item => ({ ...item.attributes, id: item.id })),
-  );
-}
-
-export function getPacTeam(systemId) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    if (systemId.includes('983')) {
-      promise = import('./pact.json').then(
-        module => (module.default ? module.default : module),
-      );
-    } else {
-      promise = Promise.resolve({ data: [] });
-    }
-  } else {
-    promise = vaosApiRequest(`/v0/systems/${systemId}/pact`);
-  }
-
-  return promise.then(resp =>
-    resp.data.map(item => ({ ...item.attributes, id: item.id })),
-  );
+  return vaosApiRequest(
+    `/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${systemId}`,
+  ).then(resp => resp.data.map(item => ({ ...item.attributes, id: item.id })));
 }
 
 export function getFacilityInfo(facilityId) {
-  let promise;
-
-  if (USE_MOCK_DATA) {
-    if (facilityId === '984') {
-      promise = import('./facility_details_984.json').then(
-        module => (module.default ? module.default : module),
-      );
-    } else {
-      promise = import('./facility_details_983.json').then(
-        module => (module.default ? module.default : module),
-      );
-    }
-  } else {
-    promise = v1ApiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`);
-  }
-  return promise.then(resp => ({ id: resp.data.id, ...resp.data.attributes }));
+  return v1ApiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`).then(
+    resp => ({ id: resp.data.id, ...resp.data.attributes }),
+  );
 }
 
 export function getFacilitiesInfo(facilityIds) {
-  let promise;
+  const idList = facilityIds
+    .map(getStagingId)
+    .map(id => `vha_${id}`)
+    .join(',');
 
-  if (USE_MOCK_DATA) {
-    promise = import('./facility_data.json').then(
-      module => (module.default ? module.default : module),
-    );
-  } else {
-    const idList = facilityIds
-      .map(getStagingId)
-      .map(id => `vha_${id}`)
-      .join(',');
-
-    promise = v1ApiRequest(`/facilities/va?ids=${idList}`);
-  }
-
-  return promise.then(resp => resp.data.map(item => item.attributes));
+  return v1ApiRequest(`/facilities/va?ids=${idList}`).then(resp =>
+    resp.data.map(item => item.attributes),
+  );
 }
 
 export function getSitesSupportingVAR(systemIds) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    promise = import('./sites-supporting-var.json').then(
-      module => (module.default ? module.default : module),
-    );
-  } else {
-    promise = vaosApiRequest(
-      `/v0/community_care/supported_sites?${systemIds
-        .map(id => `site_codes[]=${id}`)
-        .join('&')}`,
-    );
-  }
-
-  return promise.then(resp =>
-    resp.data.map(item => ({ id: item.id, ...item.attributes })),
-  );
+  return vaosApiRequest(
+    `/v0/community_care/supported_sites?${systemIds
+      .map(id => `site_codes[]=${id}`)
+      .join('&')}`,
+  ).then(resp => resp.data.map(item => ({ id: item.id, ...item.attributes })));
 }
 
 export function getAvailableSlots(
@@ -347,128 +169,45 @@ export function getAvailableSlots(
   startDate,
   endDate,
 ) {
-  let promise;
-
-  if (USE_MOCK_DATA) {
-    promise = new Promise(resolve => {
-      setTimeout(() => {
-        import('./slots.json').then(module => {
-          const response = module.default ? module.default : module;
-          response.data[0].attributes.appointmentTimeSlot = generateMockSlots();
-          resolve(response);
-        });
-      }, 500);
-    });
-  } else {
-    promise = vaosApiRequest(
-      `/v0/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
-    );
-  }
-
-  return promise.then(resp =>
-    resp.data.map(item => ({ ...item.attributes, id: item.id })),
-  );
+  return vaosApiRequest(
+    `/v0/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
+  ).then(resp => resp.data.map(item => ({ ...item.attributes, id: item.id })));
 }
 
 export function getCancelReasons(systemId) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    promise = import('./cancel_reasons.json').then(
-      module => (module.default ? module.default : module),
-    );
-  } else {
-    promise = vaosApiRequest(`/v0/facilities/${systemId}/cancel_reasons`);
-  }
-
-  return promise.then(resp =>
-    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  return vaosApiRequest(`/v0/facilities/${systemId}/cancel_reasons`).then(
+    resp => resp.data.map(item => ({ ...item.attributes, id: item.id })),
   );
 }
 
 export function updateAppointment(appt) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    promise = Promise.resolve();
-  } else {
-    promise = vaosApiRequest(`/v0/appointments/cancel`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(appt),
-    });
-  }
-
-  return promise;
+  return vaosApiRequest(`/v0/appointments/cancel`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(appt),
+  });
 }
 
 export function updateRequest(req) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    promise = import('./requests.json')
-      .then(module => (module.default ? module.default : module))
-      .then(data => ({
-        data: {
-          id: req.id,
-          attributes: {
-            ...data.data.find(item => item.id === req.id).attributes,
-            status: 'Cancelled',
-          },
-        },
-      }));
-  } else {
-    promise = vaosApiRequest(`/v0/appointment_requests/${req.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(req),
-    });
-  }
-
-  return promise.then(resp => ({
+  return vaosApiRequest(`/v0/appointment_requests/${req.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(req),
+  }).then(resp => ({
     ...resp.data.attributes,
     id: resp.data.id,
   }));
 }
 
 export function submitRequest(type, request) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    if (request.typeOfCareId === EXPRESS_CARE) {
-      promise = Promise.resolve({
-        data: {
-          id: 'testing',
-          attributes: {
-            email: request.email,
-            phoneNumber: request.phoneNumber,
-            typeOfCareId: request.typeOfCareId,
-            reasonForVisit: request.reasonForVisit,
-            additionalInformation: request.additionalInformation,
-            status: 'Submitted',
-          },
-        },
-      });
-    } else {
-      promise = Promise.resolve({
-        data: {
-          id: 'testing',
-          attributes: {},
-        },
-      });
-    }
-  } else {
-    promise = vaosApiRequest(`/v0/appointment_requests?type=${type}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(request),
-    });
-  }
-
-  return promise.then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
+  return vaosApiRequest(`/v0/appointment_requests?type=${type}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request),
+  }).then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
 }
 
 export function submitAppointment(appointment) {
-  if (USE_MOCK_DATA) {
-    return Promise.resolve();
-  }
-
   return vaosApiRequest('/v0/appointments', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -477,59 +216,29 @@ export function submitAppointment(appointment) {
 }
 
 export function sendRequestMessage(id, messageText) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    promise = Promise.resolve({ data: { attributes: {} } });
-  } else {
-    promise = vaosApiRequest(`/v0/appointment_requests/${id}/messages`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messageText }),
-    });
-  }
-
-  return promise.then(resp => resp.data.attributes);
+  return vaosApiRequest(`/v0/appointment_requests/${id}/messages`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messageText }),
+  }).then(resp => resp.data.attributes);
 }
 
 export function getPreferences() {
-  let promise;
-  if (USE_MOCK_DATA) {
-    promise = Promise.resolve({ data: { attributes: { emailAllowed: true } } });
-  } else {
-    promise = vaosApiRequest(`/v0/preferences`);
-  }
-
-  return promise.then(resp => resp.data.attributes);
+  return vaosApiRequest(`/v0/preferences`).then(resp => resp.data.attributes);
 }
 
 export function updatePreferences(data) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    promise = Promise.resolve({ data: { attributes: {} } });
-  } else {
-    promise = vaosApiRequest(`/v0/preferences`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-  }
-
-  return promise.then(resp => resp.data.attributes);
+  return vaosApiRequest(`/v0/preferences`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  }).then(resp => resp.data.attributes);
 }
 
 export function getRequestEligibilityCriteria(sites) {
-  let promise;
-  if (USE_MOCK_DATA) {
-    promise = import('./request_eligibility_criteria.json').then(
-      module => (module.default ? module.default : module),
-    );
-  } else {
-    promise = vaosApiRequest(
-      `/v0/request_eligibility_criteria?${sites
-        .map(site => `parent_sites[]=${site}`)
-        .join('&')}`,
-    );
-  }
-
-  return promise.then(resp => resp.data.map(data => data.attributes));
+  return vaosApiRequest(
+    `/v0/request_eligibility_criteria?${sites
+      .map(site => `parent_sites[]=${site}`)
+      .join('&')}`,
+  ).then(resp => resp.data.map(data => data.attributes));
 }

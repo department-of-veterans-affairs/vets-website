@@ -1,4 +1,3 @@
-const path = require('path');
 const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
 const manifestHelpers = require('./manifest-helpers');
 
@@ -56,14 +55,6 @@ function generateWebpackDevConfig(buildOptions) {
       app.use(/.*\.asp/, (req, res, next) => {
         res.type('html');
         next();
-      });
-
-      app.get(/.*mockServiceWorker\.js/, (req, res, next) => {
-        res.sendFile(path.join(__dirname, 'mockServiceWorker.js'), err => {
-          if (err) {
-            next(err);
-          }
-        });
       });
 
       if (buildOptions['local-proxy-rewrite']) {
