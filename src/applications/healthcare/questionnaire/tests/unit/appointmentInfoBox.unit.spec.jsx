@@ -36,6 +36,39 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
     );
     appointmentHasGender.unmount();
   });
-  it('Appointment Info Box -- dynamic details -- addresses', () => {});
+  it('Appointment Info Box -- dynamic details -- mailing address', () => {
+    const hasAddress = createFakeStore();
+    const appointmentInfoBox = mount(<AppointmentInfoBox store={hasAddress} />);
+    expect(
+      appointmentInfoBox.find('[data-testId="mailingAddress"]').text(),
+    ).to.contains('1493 Martin Luther King Rd Apt 1');
+    appointmentInfoBox.unmount();
+
+    const noAddress = createFakeStore(null, false);
+    const appointmentInfoBoxNoAddress = mount(
+      <AppointmentInfoBox store={noAddress} />,
+    );
+    expect(
+      appointmentInfoBoxNoAddress.exists('[data-testId="mailingAddress"]'),
+    ).to.equal(false);
+    appointmentInfoBoxNoAddress.unmount();
+  });
+  it('Appointment Info Box -- dynamic details -- residential address', () => {
+    const hasAddress = createFakeStore();
+    const appointmentInfoBox = mount(<AppointmentInfoBox store={hasAddress} />);
+    expect(
+      appointmentInfoBox.find('[data-testId="residentialAddress"]').text(),
+    ).to.contains('PSC 808 Box 37');
+    appointmentInfoBox.unmount();
+
+    const noAddress = createFakeStore(null, false, false);
+    const appointmentInfoBoxNoAddress = mount(
+      <AppointmentInfoBox store={noAddress} />,
+    );
+    expect(
+      appointmentInfoBoxNoAddress.exists('[data-testId="mailingAddress"]'),
+    ).to.equal(false);
+    appointmentInfoBoxNoAddress.unmount();
+  });
   it('Appointment Info Box -- dynamic details --  phone numbers', () => {});
 });
