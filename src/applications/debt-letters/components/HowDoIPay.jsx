@@ -1,8 +1,14 @@
 import React from 'react';
+import classnames from 'classnames';
 
-const HowDoIPay = () => (
+const HowDoIPay = ({ debtLettersV2 }) => (
   <div className="vads-u-font-family--sans">
-    <h3 className="right-heading vads-u-margin-top--0">
+    <h3
+      className={classnames({
+        'right-heading': !debtLettersV2,
+        'vads-u-margin-top--0': true,
+      })}
+    >
       How do I pay my VA debt?
     </h3>
     <p>
