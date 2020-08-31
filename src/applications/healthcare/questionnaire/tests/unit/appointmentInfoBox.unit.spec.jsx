@@ -70,5 +70,39 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
     ).to.equal(false);
     appointmentInfoBoxNoAddress.unmount();
   });
-  it('Appointment Info Box -- dynamic details --  phone numbers', () => {});
+  it('Appointment Info Box -- dynamic details --  phone numbers', () => {
+    // all phones
+    const hasAllPhones = createFakeStore();
+    const appointmentInfoBoxAllPhones = mount(
+      <AppointmentInfoBox store={hasAllPhones} />,
+    );
+    expect(
+      appointmentInfoBoxAllPhones.find('[data-test-id="phoneNumber"]').length,
+    ).to.equal(4);
+    appointmentInfoBoxAllPhones.unmount();
+
+    // no phones
+    const hasNoPhones = createFakeStore(null, false, false, {});
+    const appointmentInfoBoxNoPhones = mount(
+      <AppointmentInfoBox store={hasNoPhones} />,
+    );
+    expect(
+      appointmentInfoBoxNoPhones.find('[data-test-id="phoneNumber"]').length,
+    ).to.equal(0);
+    appointmentInfoBoxNoPhones.unmount();
+
+    // Home and mobile only
+    const hasHomeAndMobile = createFakeStore(null, false, false, {
+      hasHome: true,
+      hasMobile: true,
+    });
+    const appointmentInfoBoxHomeAndMobilePhones = mount(
+      <AppointmentInfoBox store={hasHomeAndMobile} />,
+    );
+    expect(
+      appointmentInfoBoxHomeAndMobilePhones.find('[data-test-id="phoneNumber"]')
+        .length,
+    ).to.equal(2);
+    appointmentInfoBoxHomeAndMobilePhones.unmount();
+  });
 });

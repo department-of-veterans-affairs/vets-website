@@ -8,7 +8,7 @@ export default function PhoneNumberView({ number }) {
   }
   const phone = '###-###-####'.replace(/#/g, () => fullPhone[i++] || '');
   return (
-    <p className="vads-u-margin--1px">
+    <p className="vads-u-margin--1px" data-test-id="phoneNumber">
       <span className=" vads-u-font-weight--bold">{number.label}: </span>
       <span data-testId={`${number.label.toLowerCase()}Phone`}>{phone}</span>
     </p>
