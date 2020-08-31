@@ -14,7 +14,7 @@ export const App = ({ showAuthHomePage }) => {
   }
 
   homepage.style.display = 'none';
-  return <div>This is authenticated homepage extreme!</div>;
+  return <div>This is the new authenticated homepage.</div>;
 };
 
 App.propTypes = {
