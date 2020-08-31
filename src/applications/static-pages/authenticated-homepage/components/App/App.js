@@ -7,15 +7,13 @@ import { selectShowAuthenticatedHomepage } from 'applications/static-pages/authe
 import environment from 'platform/utilities/environment';
 
 export const App = ({ showAuthHomePage }) => {
-  if (environment.isProduction()) {
+  const homepage = document.getElementById('homepage');
+
+  if (environment.isProduction() || !showAuthHomePage || !homepage) {
     return null;
   }
 
-  if (!showAuthHomePage) {
-    return null;
-  }
-
-  document.getElementById('homepage').style.display = 'none';
+  homepage.style.display = 'none';
   return <div>This is authenticated homepage extreme!</div>;
 };
 
