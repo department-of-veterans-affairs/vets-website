@@ -89,7 +89,7 @@ $facility-locator-color-gray: #ccc;
 
   .desktop-map-container {
     min-height: 75vh;
-    padding-left: 0px;
+    padding-left: 0;
     float: right;
     width: calc(100% - 305px);
     margin-bottom: 24px;
@@ -597,7 +597,7 @@ $facility-locator-color-gray: #ccc;
   font-size: 1.6rem;
   height: 4.2rem;
   line-height: 1.3;
-  margin: 0.2em 0;
+  margin: 0.2em 0 3rem;
   position: relative;
   width: 100%;
 
@@ -620,6 +620,10 @@ $facility-locator-color-gray: #ccc;
     top: 44px;
     width: 100%;
     z-index: 1010;
+
+    @media(min-width: $small-desktop-screen) {
+      width: 418px;
+    }
 
     .dropdown-option {
       border-bottom: solid 1px $color-black;
