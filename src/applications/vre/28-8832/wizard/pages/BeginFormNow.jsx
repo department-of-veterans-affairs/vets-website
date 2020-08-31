@@ -1,13 +1,14 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import { pageNames } from './pageList';
 
 const options = [
   {
-    value: 'startForm',
+    value: pageNames.startForm,
     label: 'Yes',
   },
   {
-    value: 'applyLaterNotification',
+    value: pageNames.applyLaterNotification,
     label: 'No',
   },
 ];

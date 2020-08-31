@@ -1,13 +1,14 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import { pageNames } from './pageList';
 
 const options = [
   {
-    value: 'chapter31Notification',
+    value: pageNames.chapter31Notification,
     label: 'Yes',
   },
   {
-    value: 'VREBenefits',
+    value: pageNames.VREBenefits,
     label: 'No',
   },
 ];

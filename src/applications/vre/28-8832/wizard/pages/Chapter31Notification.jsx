@@ -5,7 +5,9 @@ const Chapter31Notification = () => (
     <p className="vads-u-margin--0">
       You may be eligible for Chapter 31 Veteran Readiness and Employment
       benefits. To apply for Chapter 31 benefits,{' '}
-      <a>please start your application</a>
+      <a href="https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply/">
+        please start your application
+      </a>
     </p>
   </div>
 );
