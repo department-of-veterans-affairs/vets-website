@@ -5,7 +5,7 @@ const {
   createMetaTagArray,
 } = require('./helpers');
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'health_care_region_detail_page',
   title: getDrupalValue(entity.title),
@@ -16,7 +16,11 @@ const transform = entity => ({
   fieldContentBlock: entity.fieldContentBlock,
   fieldFeaturedContent: entity.fieldFeaturedContent,
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldOffice: entity.fieldOffice[0] || null,
+  fieldOffice:
+    entity.fieldOffice[0] &&
+    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+      ? { entity: entity.fieldOffice[0] }
+      : null,
   fieldRelatedLinks: entity.fieldRelatedLinks[0] || null,
   fieldTableOfContentsBoolean: getDrupalValue(
     entity.fieldTableOfContentsBoolean,

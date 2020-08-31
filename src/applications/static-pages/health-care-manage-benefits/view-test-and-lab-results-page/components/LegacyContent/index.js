@@ -5,7 +5,6 @@ import Telephone, {
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
-import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 
 export const LegacyContent = () => (
   <>
@@ -346,7 +345,8 @@ export const LegacyContent = () => (
                 >
                   Find out how to contact us online
                 </a>
-                <br />
+              </p>
+              <p>
                 Or call us at{' '}
                 <a aria-label="8 7 7. 3 2 7. 0 0 2 2." href="tel:18773270022">
                   877-327-0022

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
 import {
   setFetchJSONResponse,
@@ -24,14 +23,17 @@ import {
   mockFacilitiesFetch,
   mockVACancelFetches,
 } from '../mocks/helpers';
+import { renderWithStoreAndRouter } from '../mocks/setup';
 
-import reducers from '../../reducers';
+import reducers from '../../redux/reducer';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 import AppointmentsPage from '../../containers/AppointmentsPage';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
   },
 };
 
@@ -79,7 +81,7 @@ describe('VAOS integration appointment cancellation:', () => {
     };
     mockFacilitiesFetch('vha_442', [facility]);
 
-    const { getByRole, findByText } = renderInReduxProvider(
+    const { getByRole, findByText } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -123,7 +125,7 @@ describe('VAOS integration appointment cancellation:', () => {
       getByRole,
       findByText,
       queryByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -179,7 +181,7 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       queryByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -283,7 +285,7 @@ describe('VAOS integration appointment cancellation:', () => {
       findByText,
       queryByRole,
       getByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -380,7 +382,7 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       getByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -446,7 +448,7 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       queryByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -502,7 +504,7 @@ describe('VAOS integration appointment cancellation:', () => {
 
     mockAppointmentInfo({ va: [appointment] });
 
-    const screen = renderInReduxProvider(
+    const screen = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -515,6 +517,7 @@ describe('VAOS integration appointment cancellation:', () => {
                 { facilityId: '983', isCerner: false },
                 { facilityId: '668', isCerner: true },
               ],
+              isCernerPatient: true,
             },
           },
         },
@@ -533,14 +536,10 @@ describe('VAOS integration appointment cancellation:', () => {
       /You can’t cancel this appointment on the VA appointments tool/i,
     );
 
-    const oldWindow = global.window;
-
-    global.window = {
-      open: sinon.spy(),
-    };
+    sinon.spy(window, 'open');
     fireEvent.click(screen.getByText('Go to My VA Health'));
-    waitFor(() => expect(global.window.open.called).to.be.true);
-    waitFor(() => expect(screen.queryByRole('alertdialog')).to.not.exist);
-    global.window = oldWindow;
+    await waitFor(() => expect(window.open.called).to.be.true);
+    await waitFor(() => expect(screen.queryByRole('alertdialog')).to.not.exist);
+    window.open.restore();
   });
 });

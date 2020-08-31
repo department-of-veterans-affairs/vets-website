@@ -8,7 +8,12 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import { CERNER_FACILITY_IDS, getCernerURL } from 'platform/utilities/cerner';
+import {
+  CERNER_FACILITY_IDS,
+  appointmentsToolLink,
+} from 'platform/utilities/cerner';
+
+import { selectPatientFacilities } from 'platform/user/selectors';
 
 export class CernerCallToAction extends Component {
   static propTypes = {
@@ -42,9 +47,7 @@ export class CernerCallToAction extends Component {
     }
 
     // Derive the cerner facilities.
-    const cernerFacilities = facilities.filter(facility =>
-      CERNER_FACILITY_IDS.includes(facility?.facilityId),
-    );
+    const cernerFacilities = facilities.filter(facility => facility.isCerner);
 
     // Escape early if there are no cerner facilities.
     if (isEmpty(cernerFacilities)) {
@@ -85,23 +88,32 @@ export class CernerCallToAction extends Component {
 
     // Escape early if we are fetching.
     if (fetching) {
-      return <LoadingIndicator message="Loading your information..." />;
+      return (
+        <div data-testid="cerner-cta-widget">
+          <LoadingIndicator message="Loading your information..." />
+        </div>
+      );
     }
 
     // Escape early if there was an error fetching the Cerner facilities.
     if (error || isEmpty(facilities)) {
       // WARNING: Add sentry logging here if there is an error fetching Cerner facilities.
       return (
-        <AlertBox
-          headline="Something went wrong"
-          content="We’re sorry. Something went wrong on our end. Please try again later."
-          status="error"
-        />
+        <div data-testid="cerner-cta-widget">
+          <AlertBox
+            headline="Something went wrong"
+            content="We’re sorry. Something went wrong on our end. Please try again later."
+            status="error"
+          />
+        </div>
       );
     }
 
     return (
-      <div className="usa-alert usa-alert-warning">
+      <div
+        className="usa-alert usa-alert-warning"
+        data-testid="cerner-cta-widget"
+      >
         <div className="usa-alert-body">
           <h3 className="usa-alert-heading">
             Your VA health care team may be using our new My VA Health portal
@@ -159,7 +171,7 @@ export class CernerCallToAction extends Component {
                   rel="noreferrer noopener"
                   target="_blank"
                 >
-                  {isCerner ? 'Use My VA Health' : 'Use My HealtheVet'}
+                  {isCerner ? 'Go to My VA Health' : 'Go to My HealtheVet'}
                 </a>
               </div>
             );
@@ -174,7 +186,9 @@ export class CernerCallToAction extends Component {
               rel="noreferrer noopener"
               target="_blank"
             >
-              Use My HealtheVet
+              {myHealtheVetLink === appointmentsToolLink
+                ? 'Go to the VA appointments tool'
+                : 'Go to My HealtheVet'}
             </a>
           </div>
         </div>
@@ -184,7 +198,7 @@ export class CernerCallToAction extends Component {
 }
 
 const mapStateToProps = state => ({
-  facilities: state?.user?.profile?.facilities,
+  facilities: selectPatientFacilities(state),
 });
 
 export default connect(

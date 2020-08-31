@@ -61,8 +61,8 @@ describe('Schemaform review: <SubmitButtons>', () => {
       <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
-    expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
-    expect(tree.everySubTree('div', { role: 'alert' })).not.to.be.empty;
+    expect(tree.everySubTree('ErrorMessage')).not.to.be.empty;
+    expect(tree.everySubTree('Column', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('a').length).to.equal(2);
   });
   it('should render validation error', () => {
@@ -75,10 +75,10 @@ describe('Schemaform review: <SubmitButtons>', () => {
     );
 
     // Make sure it displays an error--and the right one
-    expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain(
+    expect(tree.everySubTree('ErrorMessage')[0].props.title).to.contain(
       'Some information in your application is missing or not valid',
     );
-    expect(tree.everySubTree('div', { role: 'alert' })).not.to.be.empty;
+    expect(tree.everySubTree('Column', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
   });
   it('should render error in prod mode', () => {
@@ -92,8 +92,8 @@ describe('Schemaform review: <SubmitButtons>', () => {
       <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
-    expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
-    expect(tree.everySubTree('div', { role: 'alert' })).not.to.be.empty;
+    expect(tree.everySubTree('ErrorMessage')).not.to.be.empty;
+    expect(tree.everySubTree('Column', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('a').length).to.equal(1);
 
     // Reset buildtype
@@ -126,10 +126,10 @@ describe('Schemaform review: <SubmitButtons>', () => {
     );
 
     // Make sure it displays an error--and the right one
-    expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain(
+    expect(tree.everySubTree('ErrorMessage')[0].props.message).to.contain(
       'too many requests',
     );
-    expect(tree.everySubTree('div', { role: 'alert' })).not.to.be.empty;
+    expect(tree.everySubTree('Column', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
   });
   it('should render client error', () => {
@@ -142,10 +142,10 @@ describe('Schemaform review: <SubmitButtons>', () => {
     );
 
     // Make sure it displays an error--and the right one
-    expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain(
+    expect(tree.everySubTree('ErrorMessage')[0].props.message).to.contain(
       'Internet connection',
     );
-    expect(tree.everySubTree('div', { role: 'alert' })).not.to.be.empty;
+    expect(tree.everySubTree('Column', { role: 'alert' })).not.to.be.empty;
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
   });
 });

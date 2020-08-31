@@ -43,10 +43,10 @@
     "camelcase": [2, { "properties": "always" }], // Override airbnb style.
     // "func-names": 2,
     "no-console": 2,
-    // "no-unused-vars": [
-    //   2,
-    //   { "args": "after-used", "argsIgnorePattern": "^_", "vars": "local" }
-    // ],
+    "no-unused-vars": [
+      2,
+      { "args": "after-used", "argsIgnorePattern": "^_", "vars": "local" }
+    ],
     "no-restricted-imports": ["error", "raven"],
     "prefer-rest-params": 2,
 
@@ -136,7 +136,6 @@
     "func-names": 0, //14
     "no-restricted-globals": 0, //28
     "no-else-return": 0, //41 (fixable)
-    "no-unused-vars": 0, //61
     "prefer-object-spread": 0, //78 (fixable)
     "lines-between-class-members": 0, //103 (fixable)
     "prefer-destructuring": 0, //261 (fixable)

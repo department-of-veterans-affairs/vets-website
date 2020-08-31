@@ -6,7 +6,7 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from 'vet360/util/transactions';
-import Vet360EditModalActionButtons from './Vet360EditModalActionButtons';
+import VAPEditModalActionButtons from './VAPEditModalActionButtons';
 import Vet360EditModalErrorMessage from './Vet360EditModalErrorMessage';
 
 class VAPEditView extends Component {
@@ -52,6 +52,13 @@ class VAPEditView extends Component {
         window.VetsGov.pollTimeout || 1000,
       );
     }
+    // if the transaction is no longer pending, stop refreshing it
+    if (
+      isPendingTransaction(prevProps.transaction) &&
+      !isPendingTransaction(this.props.transaction)
+    ) {
+      window.clearInterval(this.interval);
+    }
   }
 
   componentWillUnmount() {
@@ -95,25 +102,31 @@ class VAPEditView extends Component {
       (isFailedTransaction(transaction) ? {} : null);
 
     const actionButtons = (
-      <Vet360EditModalActionButtons
+      <VAPEditModalActionButtons
         onCancel={onCancel}
         onDelete={onDelete}
         title={title}
         analyticsSectionName={analyticsSectionName}
-        transactionRequest={transactionRequest}
+        isLoading={isLoading}
         deleteEnabled={!isEmpty && !deleteDisabled}
       >
-        <LoadingButton data-action="save-edit" isLoading={isLoading}>
-          Update
-        </LoadingButton>
-        <button
-          type="button"
-          className="va-button-link vads-u-margin-left--1"
-          onClick={onCancel}
-        >
-          Cancel
-        </button>
-      </Vet360EditModalActionButtons>
+        <div>
+          <LoadingButton
+            data-action="save-edit"
+            isLoading={isLoading}
+            className="vads-u-width--auto vads-u-margin-top--0"
+          >
+            Update
+          </LoadingButton>
+          <button
+            type="button"
+            className="usa-button-secondary vads-u-margin-top--0 vads-u-width--auto"
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+        </div>
+      </VAPEditModalActionButtons>
     );
 
     return (

@@ -107,10 +107,6 @@
         "value": true
       },
       {
-        "name": "gibctEstimateYourBenefits",
-        "value": true
-      },
-      {
         "name": "form526OriginalClaims",
         "value": true
       },
@@ -129,10 +125,6 @@
       {
         "name": "gibctEybBottomSheet",
         "value": true
-      },
-      {
-        "name": "routeStLouisRPOtoBuffaloRPO",
-        "value": false
       },
       {
         "name": "gibctSearchEnhancements",

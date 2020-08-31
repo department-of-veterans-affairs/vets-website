@@ -26,14 +26,14 @@ describe('VAOS <TypeOfSleepCarePage>', () => {
 
   it('should not submit empty form', () => {
     const openFormPage = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
     const form = mount(
       <TypeOfSleepCarePage
         openFormPage={openFormPage}
-        router={router}
+        history={history}
         data={{}}
       />,
     );
@@ -41,14 +41,14 @@ describe('VAOS <TypeOfSleepCarePage>', () => {
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(router.push.called).to.be.false;
+    expect(history.push.called).to.be.false;
     form.unmount();
   });
 
   it('should call updateFormData after change', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -56,7 +56,7 @@ describe('VAOS <TypeOfSleepCarePage>', () => {
       <TypeOfSleepCarePage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
-        router={router}
+        history={history}
         data={{}}
       />,
     );

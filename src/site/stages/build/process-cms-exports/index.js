@@ -2,15 +2,20 @@
 
 const chalk = require('chalk');
 const get = require('lodash/get');
+const cloneDeep = require('lodash/cloneDeep');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
+const { getCacheKey } = require('./get-cache-key');
 const { toId, readEntity, getContentModelType } = require('./helpers');
 
 const {
   validateRawEntity,
   validateTransformedEntity,
 } = require('./schema-validation');
+
+const transformedEntitiesCache = new Map();
+global.transformerCacheHits = 0;
 
 /**
  * An ancestor for an entity.
@@ -31,8 +36,10 @@ const findCircularReference = (entity, ancestors) => {
   if (a) {
     // This logging is to help debug if AJV fails on an unexpected circular
     // reference
-    console.log(`I'm my own grandpa! (${toId(entity)})`);
-    console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
+    if (global.verbose) {
+      console.log(`I'm my own grandpa! (${toId(entity)})`);
+      console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
+    }
 
     // NOTE: If we find a circular reference, it needs to be addressed in the
     // transformer and accounted for in the transformed schema.
@@ -128,11 +135,19 @@ const addCommonProperties = (transformedEntity, originalEntity) => {
     transformedEntity.entityBundle || entityBundle;
   transformedEntity.entityUrl =
     transformedEntity.entityUrl || originalEntity.entityUrl;
-  transformedEntity.entityId = (originalEntity.nid ||
+  const entityId = (originalEntity.nid ||
     originalEntity.tid ||
     originalEntity.id ||
     originalEntity.mid ||
     originalEntity.fid)[0].value.toString();
+
+  // Always assign the entityId to the root object
+  transformedEntity.entityId = entityId;
+  // But also assign it to the .entity if available. The Liquid templates
+  // typically pass the .entity property when including template partials.
+  if (transformedEntity.entity) {
+    transformedEntity.entity.entityId = entityId;
+  }
   /* eslint-enable no-param-reassign */
 };
 
@@ -158,7 +173,9 @@ const entityAssemblerFactory = contentDir => {
     // Recursively expand entity references
     for (const [key, prop] of Object.entries(filteredEntity)) {
       const isEntityArray =
-        Array.isArray(prop) && prop.some(e => e.target_uuid && e.target_type);
+        Array.isArray(prop) &&
+        prop.some(e => e.target_uuid && e.target_type) &&
+        key !== 'image';
       if (isEntityArray) {
         prop.forEach((item, index) => {
           const { target_uuid: targetUuid, target_type: targetType } = item;
@@ -188,10 +205,6 @@ const entityAssemblerFactory = contentDir => {
    * searches for references to other entities, and replaces the
    * references with the contents of those entities recursively.
    *
-   * TODO: Memoize this function if the build is slow because of this CMS
-   * content transformation process. If we do memoize this, make sure the
-   * memoized function is used in findMatchingEntities as well.
-   *
    * @param {Object} entity - The entity object.
    * @param {Array<Object>} ancestors - All the ancestors, each like:
    *                          { id: toId(entity), entity }
@@ -211,6 +224,22 @@ const entityAssemblerFactory = contentDir => {
     ancestors = [],
     parentFieldName = '',
   ) => {
+    const transformArgs = {
+      uuid: entity.uuid[0].value,
+      ancestors,
+      parentFieldName,
+      contentDir,
+      assembleEntityTree,
+      transformUnpublished,
+    };
+
+    const cacheKey = getCacheKey(entity, transformArgs);
+
+    if (transformedEntitiesCache.has(cacheKey)) {
+      global.transformerCacheHits++;
+      return cloneDeep(transformedEntitiesCache.get(cacheKey));
+    }
+
     // If the entity is unpublished
     if (!entity.status[0].value && !transformUnpublished) {
       return null;
@@ -243,15 +272,7 @@ const entityAssemblerFactory = contentDir => {
 
     let transformedEntity;
     try {
-      // Post-transformation JSON schema validation
-      transformedEntity = transformEntity(expandedEntity, {
-        uuid: entity.uuid[0].value,
-        ancestors,
-        parentFieldName,
-        contentDir,
-        assembleEntityTree,
-        transformUnpublished,
-      });
+      transformedEntity = transformEntity(expandedEntity, transformArgs);
     } catch (e) {
       console.log(
         chalk.red(`Error encountered while transforming ${toId(entity)}`),
@@ -267,6 +288,7 @@ const entityAssemblerFactory = contentDir => {
       validateOutput(entity, transformedEntity);
     }
 
+    transformedEntitiesCache.set(cacheKey, cloneDeep(transformedEntity));
     return transformedEntity;
   };
 

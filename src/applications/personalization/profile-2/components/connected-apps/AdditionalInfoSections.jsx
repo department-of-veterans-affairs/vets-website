@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-import { focusElement } from 'platform/utilities/ui';
 import availableConnectedApps from './availableConnectedApps';
 
 export const AdditionalInfoSections = ({ activeApps }) => {
@@ -71,8 +69,9 @@ export const AdditionalInfoSections = ({ activeApps }) => {
               it will ask you to sign in.
             </li>
             <li className="vads-u-padding-left--1">
-              Sign in with your preferred VA.gov account: DS Logon, My
-              HealtheVet, or ID.me.
+              Sign in with your preferred VA.gov account:{' '}
+              <strong>DS Logon</strong>, <strong>My HealtheVet</strong>, or{' '}
+              <strong>ID.me</strong>.
             </li>
             <li className="vads-u-padding-left--1">
               Review the information the app is asking to access.
@@ -110,7 +109,8 @@ export const AdditionalInfoSections = ({ activeApps }) => {
               </li>
               <li className="vads-u-padding-left--1">
                 <strong>If your information isn’t accurate:</strong> Call VA311
-                at <Telephone contact={CONTACTS.VA_311} />. If you have hearing{' '}
+                at <Telephone contact={CONTACTS.VA_311} />. If you have hearing
+                loss, call{' '}
                 <Telephone
                   contact={CONTACTS['711']}
                   pattern={PATTERNS['911']}
@@ -125,10 +125,10 @@ export const AdditionalInfoSections = ({ activeApps }) => {
               </li>
               <li className="vads-u-padding-left--1">
                 <strong>If you’re getting an “unreadable data” message:</strong>{' '}
-                This means the This means the connected app has access to your
-                information, but isn’t using it in its interface. It’s nothing
-                to worry about. If you have questions about this, send feedback
-                directly to the app.
+                This means the connected app has access to your information, but
+                isn’t using it in its interface. It’s nothing to worry about. If
+                you have questions about this, send feedback directly to the
+                app.
               </li>
             </ul>
           </AdditionalInfo>

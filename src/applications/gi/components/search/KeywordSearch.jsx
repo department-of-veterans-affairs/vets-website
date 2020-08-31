@@ -22,7 +22,7 @@ export class KeywordSearch extends React.Component {
     const { onFilterChange, autocomplete } = this.props;
     if ((e.which || e.keyCode) === KEY_CODES.enterKey) {
       e.target.blur();
-      onFilterChange(autocomplete.searchTerm);
+      onFilterChange('name', autocomplete.searchTerm);
     }
   };
 
@@ -54,7 +54,14 @@ export class KeywordSearch extends React.Component {
       event: 'gibct-autosuggest',
       'gibct-autosuggest-value': searchQuery,
     });
-    this.props.onFilterChange(searchQuery);
+    if (
+      this.props.searchOnAutcompleteSelection &&
+      this.props.gibctSearchEnhancements
+    ) {
+      this.props.onUpdateAutocompleteSearchTerm(searchQuery);
+    } else {
+      this.props.onFilterChange('name', searchQuery);
+    }
   };
 
   handleFocus = () => {

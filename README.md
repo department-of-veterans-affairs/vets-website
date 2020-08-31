@@ -40,10 +40,10 @@ To **recompile your application when you make changes**, run:
 yarn watch
 ```
 
-You can also **limit the applications Webpack builds** with `--env.entryname`:
+You can also **limit the applications Webpack builds** with `--env.entry`:
 
 ```sh
-yarn watch --env.entryname static-pages,auth
+yarn watch --env.entry static-pages,auth
 ```
 
 The `entryname` for your application can be found in its `manifest.json` file.
@@ -129,6 +129,12 @@ To **run tests with some extra debugging info**, you can pass a log-level:
 
 ```sh
 yarn test:unit --log-level debug
+```
+
+To **run tests with coverage output**, you can pass the coverage option:
+
+```sh
+yarn test:unit --coverage
 ```
 
 ### End-to-end (E2E) / Browser tests

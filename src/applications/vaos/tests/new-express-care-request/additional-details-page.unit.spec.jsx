@@ -1,20 +1,16 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import moment from 'moment';
 
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import environment from 'platform/utilities/environment';
 import { waitFor } from '@testing-library/dom';
 
 import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
-import { createTestStore } from '../mocks/setup';
+import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
-import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
+import { NewExpressCareRequest } from '../../express-care';
 import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
-import { fetchExpressCareWindows } from '../../actions/expressCare';
-import { EXPRESS_CARE } from '../../utils/constants';
+import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 const initialState = {
   user: {
@@ -64,15 +60,9 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     });
     store.dispatch(fetchExpressCareWindows());
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(
-      <ExpressCareDetailsPage router={router} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ExpressCareDetailsPage />, {
+      store,
+    });
 
     expect(screen.baseElement).to.contain.text(
       'Please provide additional details about your symptoms',
@@ -101,23 +91,13 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     });
     store.dispatch(fetchExpressCareWindows());
 
-    const router = {
-      replace: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout
-        router={router}
-        location={{ pathname: '/additional-details' }}
-      >
-        <ExpressCareDetailsPage router={router} />
-      </NewExpressCareRequestLayout>,
-      {
-        store,
-      },
-    );
+    const { history } = renderWithStoreAndRouter(<NewExpressCareRequest />, {
+      store,
+      path: '/additional-details',
+    });
 
-    await waitFor(() => expect(router.replace.called).to.be.true);
-    expect(router.replace.firstCall.args[0]).to.equal(
+    await waitFor(() => expect(history.replace.called).to.be.true);
+    expect(history.replace.firstCall.args[0]).to.equal(
       '/new-express-care-request',
     );
   });

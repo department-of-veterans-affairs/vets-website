@@ -1,4 +1,3 @@
-import cloneDeep from 'platform/utilities/data/cloneDeep';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import {
   buildAddressSchema,

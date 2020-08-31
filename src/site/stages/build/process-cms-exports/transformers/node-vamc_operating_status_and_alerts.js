@@ -4,7 +4,7 @@ const {
   createMetaTagArray,
 } = require('./helpers');
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'vamc_operating_status_and_alerts',
   title: getDrupalValue(entity.title),
@@ -30,7 +30,11 @@ const transform = entity => ({
     },
   })),
   fieldLinks: entity.fieldLinks,
-  fieldOffice: entity.fieldOffice[0] || null,
+  fieldOffice:
+    entity.fieldOffice[0] &&
+    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+      ? { entity: entity.fieldOffice[0] }
+      : null,
   fieldOperatingStatusEmergInf: {
     value: getDrupalValue(entity.fieldOperatingStatusEmergInf),
   },

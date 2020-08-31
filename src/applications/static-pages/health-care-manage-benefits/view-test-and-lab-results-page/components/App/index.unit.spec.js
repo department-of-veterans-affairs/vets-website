@@ -9,14 +9,18 @@ import { App } from './index';
 
 describe('Get Medical Records Page <App>', () => {
   it('renders what we expect when not a Cerner patient', () => {
-    const wrapper = shallow(<App isCernerPatient={false} />);
+    const wrapper = shallow(
+      <App showNewViewTestLabResultsPage isCernerPatient={false} />,
+    );
     expect(wrapper.find(UnauthContent)).to.have.lengthOf(1);
     expect(wrapper.find(AuthContent)).to.have.lengthOf(0);
     wrapper.unmount();
   });
 
   it('renders what we expect when a Cerner patient', () => {
-    const wrapper = shallow(<App isCernerPatient />);
+    const wrapper = shallow(
+      <App showNewViewTestLabResultsPage isCernerPatient />,
+    );
     expect(wrapper.find(UnauthContent)).to.have.lengthOf(0);
     expect(wrapper.find(AuthContent)).to.have.lengthOf(1);
     wrapper.unmount();

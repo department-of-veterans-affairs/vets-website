@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, useHistory } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getExpressCareFormPageInfo } from '../utils/selectors';
-import { EXPRESS_CARE_REASONS, GA_PREFIX } from '../utils/constants';
+import { EXPRESS_CARE_REASONS } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
-import * as actions from '../actions/expressCare';
+import * as actions from '../express-care/redux/actions';
 
 const pageKey = 'reason';
 const pageTitle = 'Select a reason for your Express Care request';
@@ -53,28 +52,16 @@ const uiSchema = {
   },
 };
 
-function recordNewAppointmentEvent() {
-  recordEvent({
-    event: `${GA_PREFIX}-express-care-switch-to-appointment-flow-clicked`,
-  });
-}
-
-function recordFacilitiesLinkEvent() {
-  recordEvent({
-    event: `${GA_PREFIX}-express-care-facilities-link-clicked`,
-  });
-}
-
 function ExpressCareReasonPage({
   data,
   openFormPage,
   pageChangeInProgress,
-  router,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   schema,
   updateFormData,
 }) {
+  const history = useHistory();
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -90,34 +77,27 @@ function ExpressCareReasonPage({
         schema={schema || initialSchema}
         uiSchema={uiSchema}
         onChange={newData => updateFormData(pageKey, uiSchema, newData)}
-        onSubmit={() => routeToNextAppointmentPage(router, pageKey)}
+        onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
         data={data}
       >
         <AlertBox status="info" className="vads-u-margin-y--2">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4 vads-u-margin-bottom--1">
+          <h2 className="vads-u-margin-top--0 vads-u-font-size--h4 vads-u-margin-bottom--1">
             If you need a mental health appointment today
-          </h3>
+          </h2>
           <p className="vads-u-margin-top--0">
             Please call your nearest VA medical center or Vet center, and ask
             for a “same-day mental health appointment.”
             <br />
-            <a
-              onClick={recordFacilitiesLinkEvent}
-              href="/find-locations?facilityType=health&serviceType=MentalHealthCare"
-            >
+            <a href="/find-locations?facilityType=health&serviceType=MentalHealthCare">
               Find a VA location
             </a>
           </p>
-          <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--1">
+          <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--1">
             If your health concern isn’t listed here
-          </h3>
+          </h2>
           <p className="vads-u-margin-top--0">
             Please use our{' '}
-            <Link
-              onClick={recordNewAppointmentEvent}
-              id="new-appointment"
-              to="/new-appointment"
-            >
+            <Link id="new-appointment" to="/new-appointment">
               appointments tool
             </Link>{' '}
             to schedule an appointment.
@@ -127,7 +107,7 @@ function ExpressCareReasonPage({
           backButtonText="Back"
           nextButtonText="Continue"
           pageChangeInProgress={pageChangeInProgress}
-          onBack={() => routeToPreviousAppointmentPage(router, pageKey)}
+          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
         />
       </SchemaForm>
     </div>

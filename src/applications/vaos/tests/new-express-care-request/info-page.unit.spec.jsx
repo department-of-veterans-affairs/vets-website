@@ -1,15 +1,17 @@
 import { expect } from 'chai';
 import moment from 'moment';
-import sinon from 'sinon';
 import { waitFor, fireEvent } from '@testing-library/dom';
 import React from 'react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import environment from 'platform/utilities/environment';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONFailure,
+} from 'platform/testing/unit/helpers';
+import { setupExpressCareMocks } from '../mocks/helpers';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
-import NewExpressCareRequestLayout from '../../containers/NewExpressCareRequestLayout';
-import { createTestStore } from '../mocks/setup';
-import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
-import { mockRequestEligibilityCriteria } from '../mocks/helpers';
+import { NewExpressCareRequest } from '../../express-care';
+import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 
 const initialState = {
   user: {
@@ -19,49 +21,34 @@ const initialState = {
   },
 };
 
-const location = {
-  pathname: '/new-express-care-request',
-};
-
 describe('VAOS integration: Express Care info page', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
   it('should render info page when there are active windows', async () => {
+    const store = createTestStore({
+      ...initialState,
+    });
     const today = moment();
     const startTime = today
       .clone()
-      .subtract('2', 'minutes')
+      .subtract(5, 'minutes')
       .tz('America/Denver');
     const endTime = today
       .clone()
-      .add('1', 'minutes')
+      .add(3, 'minutes')
       .tz('America/Denver');
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: startTime.format('HH:mm'),
-        endTime: endTime.format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
-    const router = {
-      push: sinon.spy(),
-    };
-    const store = createTestStore(initialState);
-    const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout location={location}>
-        <ExpressCareInfoPage router={router} />
-      </NewExpressCareRequestLayout>,
-      {
-        store,
-      },
-    );
+
+    setupExpressCareMocks({
+      startTime,
+      endTime,
+      isUnderRequestLimit: true,
+      isWindowOpen: true,
+    });
+
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
+      store,
+    });
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     expect(
@@ -74,52 +61,74 @@ describe('VAOS integration: Express Care info page', () => {
         ),
       ),
     ).to.exist;
+
     fireEvent.click(screen.getByText('Cancel'));
-    expect(router.push.calledWith('/')).to.be.true;
+    expect(screen.history.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
-    expect(router.push.calledWith('/new-express-care-request/select-reason')).to
-      .be.true;
+    await waitFor(
+      () =>
+        expect(
+          screen.history.push.calledWith(
+            '/new-express-care-request/select-reason',
+          ),
+        ).to.be.true,
+    );
+  });
+
+  it('should redirect to error page if request limits reached', async () => {
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: false });
+
+    const store = createTestStore({
+      ...initialState,
+    });
+    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+      store,
+    });
+
+    expect(await screen.findByText(/How Express Care Works/i)).to.exist;
+    fireEvent.click(await screen.findByText(/^Continue/));
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
+    expect(
+      screen.history.push.calledWith('/new-express-care-request/request-limit'),
+    ).to.be.true;
+  });
+
+  it('should redirect to error page if request limit fetch fails', async () => {
+    setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
+    setFetchJSONFailure(
+      global.fetch.withArgs(
+        `${
+          environment.API_URL
+        }/vaos/v0/facilities/983/limits?type_of_care_id=CR1`,
+      ),
+      { errors: [] },
+    );
+    const store = createTestStore({
+      ...initialState,
+    });
+    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+      store,
+    });
+
+    expect(await screen.findByText(/How Express Care Works/i)).to.exist;
+    fireEvent.click(await screen.findByText(/^Continue/));
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
+    expect(
+      screen.history.push.calledWith('/new-express-care-request/request-limit'),
+    ).to.be.true;
   });
 
   it('should redirect home when there is not an active window', async () => {
-    const today = moment();
-    const requestCriteria = getExpressCareRequestCriteriaMock('983', [
-      {
-        day: today
-          .clone()
-          .tz('America/Denver')
-          .format('dddd')
-          .toUpperCase(),
-        canSchedule: true,
-        startTime: today
-          .clone()
-          .subtract('2', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-        endTime: today
-          .clone()
-          .subtract('1', 'minutes')
-          .tz('America/Denver')
-          .format('HH:mm'),
-      },
-    ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
-    const router = {
-      push: sinon.spy(),
-    };
-    const store = createTestStore(initialState);
-    const screen = renderInReduxProvider(
-      <NewExpressCareRequestLayout router={router} location={location}>
-        <ExpressCareInfoPage router={router} />
-      </NewExpressCareRequestLayout>,
-      {
-        store,
-      },
-    );
+    setupExpressCareMocks({ isWindowOpen: false, isUnderRequestLimit: true });
+    const store = createTestStore({
+      ...initialState,
+    });
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
+      store,
+    });
 
-    await waitFor(() => expect(router.push.called).to.be.true);
-    expect(router.push.firstCall.args[0]).to.equal('/');
-    expect(screen.queryByText(/How Express Care Works/i)).to.not.exist;
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
+    expect(screen.history.push.firstCall.args[0]).to.equal('/');
   });
 });

@@ -9,9 +9,11 @@ function createReactPages() {
       const filePath = path.join(trimmedUrl, 'index.html');
 
       if (!files[filePath]) {
-        console.log(
-          `Generating HTML template for application ${appName} at ${rootUrl}`,
-        );
+        if (global.verbose) {
+          console.log(
+            `Generating HTML template for application ${appName} at ${rootUrl}`,
+          );
+        }
         files[filePath] = {
           title: appName,
           entryname: entryName,

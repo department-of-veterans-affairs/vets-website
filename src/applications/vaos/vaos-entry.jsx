@@ -1,10 +1,10 @@
 import 'platform/polyfills';
 import './sass/vaos.scss';
 
-import startApp from 'platform/startup';
+import startApp from 'platform/startup/router';
 import createRoutesWithStore from './routes';
 import manifest from './manifest.json';
-import reducer from './reducers';
+import reducer from './redux/reducer';
 
 const { worker } = require('./mockServer');
 

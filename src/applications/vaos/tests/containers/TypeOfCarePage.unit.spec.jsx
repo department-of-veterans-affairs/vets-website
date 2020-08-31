@@ -8,8 +8,7 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import TypeOfCarePage, * as noRedux from '../../containers/TypeOfCarePage';
 import { TYPES_OF_CARE } from '../../utils/constants';
-import { createTestStore } from '../mocks/setup';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 import { fireEvent } from '@testing-library/dom';
 
 const initialSchema = {
@@ -43,7 +42,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   it('should not submit empty form', () => {
     const openTypeOfCarePage = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -51,7 +50,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       <noRedux.TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         schema={initialSchema}
-        router={router}
+        history={history}
         data={{}}
       />,
     );
@@ -59,7 +58,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(router.push.called).to.be.false;
+    expect(history.push.called).to.be.false;
     form.unmount();
   });
 
@@ -68,7 +67,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     setFetchJSONResponse(global.fetch, { data: [] });
     const openTypeOfCarePage = sinon.spy();
     const updateFormData = sinon.spy();
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
 
@@ -77,7 +76,7 @@ describe('VAOS <TypeOfCarePage>', () => {
         openTypeOfCarePage={openTypeOfCarePage}
         updateFormData={updateFormData}
         schema={initialSchema}
-        router={router}
+        history={history}
         data={{}}
       />,
     );
@@ -141,7 +140,9 @@ describe('VAOS <TypeOfCarePage>', () => {
       />,
     );
     expect(form.find('.usa-alert').exists()).to.be.true;
-
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-update-address-alert-displayed',
+    );
     form.unmount();
   });
 
@@ -159,6 +160,9 @@ describe('VAOS <TypeOfCarePage>', () => {
       />,
     );
     expect(form.find('.usa-alert').exists()).to.be.true;
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-update-address-alert-displayed',
+    );
     form.unmount();
   });
 
@@ -176,22 +180,32 @@ describe('VAOS <TypeOfCarePage>', () => {
       />,
     );
     expect(form.find('.usa-alert').exists()).to.be.false;
+    expect(global.window.dataLayer.length).to.equal(0);
     form.unmount();
   });
 
   it('should NOT display alert message once user clicks the update address button using redux state', () => {
     const store = createTestStore({});
 
-    const router = {
+    const history = {
       push: sinon.spy(),
     };
-    const { debug, getByText, queryByText } = renderInReduxProvider(
-      <TypeOfCarePage router={router} />,
+    const { getByText, queryByText } = renderWithStoreAndRouter(
+      <TypeOfCarePage history={history} />,
       { store },
     );
-    expect(getByText(/You need to have a home addres/i)).to.exist;
-
+    expect(getByText(/You need to have a home address/i)).to.exist;
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-update-address-alert-displayed',
+    );
     fireEvent.click(getByText('Update your address'));
-    expect(queryByText(/You need to have a home addres/i)).to.not.exist;
+    expect(global.window.dataLayer[1].event).to.equal(
+      'nav-warning-alert-box-content-link-click',
+    );
+    expect(global.window.dataLayer[1].alertBoxHeading).to.equal(
+      "You need to have a home address on file to use some of the tool's features",
+    );
+    expect(global.window.dataLayer[2].alertBoxHeading).to.equal(undefined);
+    expect(queryByText(/You need to have a home address/i)).to.not.exist;
   });
 });

@@ -67,15 +67,16 @@ export function mapRawUserDataToState(json) {
 
   const userState = {
     accountType: loa.current,
-    signIn,
     dob,
     email,
     gender,
+    isCernerPatient: vaProfile?.isCernerPatient,
     loa,
     multifactor,
     prefillsAvailable,
     savedForms,
     services,
+    signIn,
     userFullName: {
       first,
       middle,

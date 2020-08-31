@@ -16,7 +16,7 @@ import {
   updateFacilityPageData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import { getFacilityPageInfo } from '../utils/selectors';
 
 import NoVASystems from '../components/NoVASystems';
@@ -80,11 +80,11 @@ export class VAFacilityPage extends React.Component {
   }
 
   goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
+    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
   };
 
   goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
   };
 
   render() {
@@ -106,7 +106,6 @@ export class VAFacilityPage extends React.Component {
       parentDetails,
       facilityDetails,
       hasDataFetchingError,
-      hasEligibilityError,
       parentOfChosenFacility,
       cernerOrgIds,
       siteId,
@@ -192,10 +191,7 @@ export class VAFacilityPage extends React.Component {
     }
 
     const disableSubmitButton =
-      loadingFacilities ||
-      noValidVAFacilities ||
-      notEligibleAtChosenFacility ||
-      hasEligibilityError;
+      loadingFacilities || noValidVAFacilities || notEligibleAtChosenFacility;
 
     return (
       <div>
@@ -226,7 +222,6 @@ export class VAFacilityPage extends React.Component {
               />
             </div>
           )}
-          {hasEligibilityError && <ErrorMessage />}
           <FormButtons
             onBack={this.goBack}
             continueLabel=""

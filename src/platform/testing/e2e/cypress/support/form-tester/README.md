@@ -391,6 +391,12 @@ skip: ['a-test', 'c-test'],
 skip: true,
 ```
 
+It can be useful to skip tests only in CI so you can continue running them locally. The environment variable `CI` should be present in CI environments.
+
+```js
+skip: Cypress.env('CI'),
+```
+
 ## Aliases
 
 The following aliases are available to `pageHooks` and `setupPerTest`.
@@ -412,7 +418,7 @@ The data set currently being used to fill the form. This data is what drives eac
 It will be the object structure that's returned from resolving the path with `dataPrefix`, so when using this alias, there is no need to qualify the object path with the prefix to get to the actual form data.
 
 ```json
-// test-data.json
+minimal-test.json
 
 {
   "data": {
@@ -528,10 +534,12 @@ const testConfig = createTestConfig(
     pageHooks: {
       // Due to automatic path resolution, this URL expands to:
       // '/some-form-app-url/introduction'. Either format can be used.
-      introduction: () => {
-        cy.findAllByText(/start/i, { selector: 'button' })
-          .first()
-          .click();
+      introduction: ({ afterHook }) => {
+        afterHook(() => {
+          cy.findAllByText(/start/i, { selector: 'button' })
+            .first()
+            .click();
+        });
       },
 
       'sub-page/do-stuff-before-filling': () => {
@@ -542,11 +550,6 @@ const testConfig = createTestConfig(
 
         // Fill out the rest of the page like normal.
         cy.fillPage();
-
-        // Don't forget to click continue!
-        cy.findAllByText(/continue/i, { selector: 'button' })
-          .first()
-          .click();
       },
 
       // Use files synced to fixtures, either individually or from folders.

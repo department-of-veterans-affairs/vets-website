@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import DebtLettersList from '../components/DebtLettersList';
 
@@ -93,17 +93,18 @@ describe('DebtLettersList', () => {
     expect(
       wrapper
         .dive()
-        .find('h4')
+        .find('h3')
+        .at(0)
         .text(),
-    ).to.equal("Our records show that you don't have any debt letters");
+    ).to.equal('VA debt collection is on hold due to the coronavirus');
     expect(
       wrapper
         .dive()
         .find('p')
-        .at(2)
+        .at(0)
         .text(),
     ).to.equal(
-      "If you have been notified of a debt and don't see the debt's letter on this page, or you would like to get information about your debts that have been resolved, call the Debt Management Center at 800-827-0648",
+      'We’ve taken action to stop collection on newly established Veteran debt and make it easier for Veterans to request extended repayment plans and address other financial needs during this time.',
     );
     wrapper.unmount();
   });

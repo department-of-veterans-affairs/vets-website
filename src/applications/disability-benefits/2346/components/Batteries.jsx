@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { BATTERY } from '../constants';
 
 class Batteries extends Component {
-  componentDidMount(props) {
+  componentDidMount() {
     const areBatterySuppliesEligible = this.props.eligibility?.batteries;
     if (!areBatterySuppliesEligible) {
       recordEvent({

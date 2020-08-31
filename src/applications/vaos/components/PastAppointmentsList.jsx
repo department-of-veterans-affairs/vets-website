@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { fetchPastAppointments } from '../actions/appointments';
+import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
+import { fetchPastAppointments } from '../appointment-list/redux/actions';
 import { getVAAppointmentLocationId } from '../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import {
@@ -17,7 +19,7 @@ import {
 } from '../utils/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
-import { focusElement } from 'platform/utilities/ui';
+import { resetDataLayer } from '../utils/events';
 
 export class PastAppointmentsList extends React.Component {
   constructor(props) {
@@ -31,12 +33,12 @@ export class PastAppointmentsList extends React.Component {
     const {
       pastStatus,
       pastSelectedIndex,
-      router,
+      history,
       showPastAppointments,
     } = this.props;
 
     if (!showPastAppointments) {
-      router.push('/');
+      history.push('/');
     } else if (pastStatus === FETCH_STATUS.notStarted) {
       const selectedDateRange = this.dateRangeOptions[pastSelectedIndex];
       this.props.fetchPastAppointments(
@@ -45,6 +47,12 @@ export class PastAppointmentsList extends React.Component {
         pastSelectedIndex,
       );
     }
+
+    recordEvent({
+      event: 'nav-tab-click',
+      'tab-text': 'Past',
+    });
+    resetDataLayer();
   }
 
   componentDidUpdate(prevProps) {

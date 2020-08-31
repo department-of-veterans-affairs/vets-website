@@ -2,10 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import reducers from '../../reducers';
 import { mockAppointmentInfo } from '../mocks/helpers';
 import { getVideoAppointmentMock } from '../mocks/v0';
+import { renderWithStoreAndRouter } from '../mocks/setup';
 
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 
@@ -39,9 +38,8 @@ describe('VAOS integration: upcoming video appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderInReduxProvider(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
       initialState,
-      reducers,
     });
 
     const dateHeader = await findByText(
@@ -97,11 +95,10 @@ describe('VAOS integration: upcoming video appointments', () => {
     };
     mockAppointmentInfo({ va: [appointment] });
 
-    const { findByText, getByText, queryByText } = renderInReduxProvider(
+    const { findByText, getByText, queryByText } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -155,11 +152,10 @@ describe('VAOS integration: upcoming video appointments', () => {
     };
     mockAppointmentInfo({ va: [appointment] });
 
-    const { findByText, getByText, queryByText } = renderInReduxProvider(
+    const { findByText, getByText, queryByText } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -214,11 +210,10 @@ describe('VAOS integration: upcoming video appointments', () => {
     };
     mockAppointmentInfo({ va: [appointment] });
 
-    const { findByText, getByText, queryByText } = renderInReduxProvider(
+    const { findByText, getByText, queryByText } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -265,11 +260,10 @@ describe('VAOS integration: upcoming video appointments', () => {
     };
     mockAppointmentInfo({ va: [appointment] });
 
-    const { findByText, baseElement, queryByText } = renderInReduxProvider(
+    const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -311,11 +305,10 @@ describe('VAOS integration: upcoming video appointments', () => {
     };
     mockAppointmentInfo({ va: [appointment] });
 
-    const { findByText, getByText, queryByText } = renderInReduxProvider(
+    const { findByText, getByText, queryByText } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -357,11 +350,10 @@ describe('VAOS integration: upcoming video appointments', () => {
     };
     mockAppointmentInfo({ va: [appointment] });
 
-    const { findByText, getByText, queryByText } = renderInReduxProvider(
+    const { findByText, getByText, queryByText } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -405,9 +397,8 @@ describe('VAOS integration: upcoming video appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderInReduxProvider(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
       initialState,
-      reducers,
     });
 
     const dateHeader = await findByText(

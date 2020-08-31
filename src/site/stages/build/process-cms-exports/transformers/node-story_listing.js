@@ -5,7 +5,7 @@ const {
   isPublished,
 } = require('./helpers');
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'story_listing',
   title: getDrupalValue(entity.title),
@@ -17,20 +17,26 @@ const transform = entity => ({
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
-  fieldOffice: entity.fieldOffice[0],
+  fieldOffice:
+    entity.fieldOffice[0] &&
+    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+      ? { entity: entity.fieldOffice[0] }
+      : null,
   reverseFieldListingNode: {
-    entities: entity.reverseFieldList
-      ? entity.reverseFieldList
+    entities: entity.reverseFieldListing
+      ? entity.reverseFieldListing
           .filter(
             reverseField =>
               reverseField.entityBundle === 'news_story' &&
-              reverseField.isPublished,
+              reverseField.entityPublished,
           )
           .map(reverseField => ({
             entityId: reverseField.entityId,
             title: reverseField.title,
             fieldFeatured: reverseField.fieldFeatured,
             entityUrl: reverseField.entityUrl,
+            entityPublished: reverseField.entityPublished,
+            entityBundle: reverseField.entityBundle,
             // Ignoring for now since some uids are missing from the export
             // uid: reverseField.uid,
             promote: reverseField.promote,
@@ -59,7 +65,7 @@ module.exports = {
     'field_intro_text',
     'field_meta_title',
     'field_office',
-    'reverse_field_list',
+    'reverse_field_listing',
     'status',
   ],
   transform,

@@ -1,10 +1,9 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 
-import { ADDRESS_FORM_VALUES, FIELD_NAMES, USA } from 'vet360/constants';
+import { ADDRESS_FORM_VALUES, USA } from 'vet360/constants';
 
 // make an object of just the military state codes and names
 const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
@@ -84,18 +83,14 @@ const uiSchema = {
   },
   'view:livesOnMilitaryBaseInfo': {
     'ui:description': () => (
-      <div className="vads-u-padding-x--2p5">
-        <AdditionalInfo
-          status="info"
-          triggerText="Learn more about military base addresses"
-        >
-          <span>
-            The United States is automatically chosen as your country if you
-            live on a military base outside of the country.
-          </span>
-        </AdditionalInfo>
-      </div>
+      <p className="profile-military-domestic">
+        U.S. military bases are considered a domestic address and a part of the
+        United States.
+      </p>
     ),
+    'ui:options': {
+      hideIf: formData => !formData?.['view:livesOnMilitaryBase'],
+    },
   },
   countryCodeIso3: {
     'ui:title': 'Country',
@@ -217,30 +212,5 @@ const uiSchema = {
   },
 };
 
-/**
- * Helper that returns the correct form schema object based on which address
- * field is being rendered
- */
-export const getFormSchema = fieldName => {
-  if (fieldName === FIELD_NAMES.MAILING_ADDRESS) {
-    return cloneDeep(formSchema);
-  }
-  const schema = cloneDeep(formSchema);
-  delete schema.properties['view:livesOnMilitaryBase'];
-  delete schema.properties['view:livesOnMilitaryBaseInfo'];
-  return schema;
-};
-
-/**
- * Helper that returns the correct ui schema object based on which address
- * field is being rendered
- */
-export const getUiSchema = fieldName => {
-  if (fieldName === FIELD_NAMES.MAILING_ADDRESS) {
-    return cloneDeep(uiSchema);
-  }
-  const schema = cloneDeep(uiSchema);
-  delete schema['view:livesOnMilitaryBase'];
-  delete schema['view:livesOnMilitaryBaseInfo'];
-  return schema;
-};
+export const getFormSchema = () => cloneDeep(formSchema);
+export const getUiSchema = () => cloneDeep(uiSchema);

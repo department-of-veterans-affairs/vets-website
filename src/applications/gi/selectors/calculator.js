@@ -902,7 +902,6 @@ export const getCalculatedBenefits = createSelector(
     const { militaryStatus } = eligibility;
     const giBillChapter = +eligibility.giBillChapter;
     const institutionType = getInstitutionType(institution);
-    const isOJT = institutionType === 'ojt';
 
     calculatedBenefits.inputs = {
       inState: false,

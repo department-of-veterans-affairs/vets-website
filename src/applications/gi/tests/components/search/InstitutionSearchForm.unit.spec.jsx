@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import { expect } from 'chai';
 
@@ -80,7 +79,6 @@ describe('<InstitutionSearchForm>', () => {
         gibctCh33BenefitRateUpdate
         showModal={() => {}}
         hideModal={() => {}}
-        gibctEstimateYourBenefits
         clearAutocompleteSuggestions={() => {}}
         fetchAutocompleteSuggestions={() => {}}
         toggleFilter={() => {}}
@@ -106,7 +104,6 @@ describe('<InstitutionSearchForm>', () => {
         gibctCh33BenefitRateUpdate
         showModal={() => {}}
         hideModal={() => {}}
-        gibctEstimateYourBenefits
         clearAutocompleteSuggestions={() => {}}
         fetchAutocompleteSuggestions={() => {}}
         toggleFilter={() => {}}

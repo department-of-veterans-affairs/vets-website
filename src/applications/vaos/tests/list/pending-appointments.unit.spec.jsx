@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
 import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import {
@@ -11,8 +10,8 @@ import {
   getMessageMock,
 } from '../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
+import { renderWithStoreAndRouter } from '../mocks/setup';
 
-import reducers from '../../reducers';
 import FutureAppointmentsList from '../../components/FutureAppointmentsList';
 
 const initialState = {
@@ -54,9 +53,8 @@ describe('VAOS integration: pending appointments', () => {
         baseElement,
         getByText,
         queryByText,
-      } = renderInReduxProvider(<FutureAppointmentsList />, {
+      } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
         initialState,
-        reducers,
       });
 
       const dateHeader = await findByText(/primary care appointment/i);
@@ -131,11 +129,10 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockFacilitiesFetch('vha_442GC', [facility]);
 
-      const { findByText, baseElement, queryByText } = renderInReduxProvider(
+      const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
         <FutureAppointmentsList />,
         {
           initialState,
-          reducers,
         },
       );
 
@@ -175,11 +172,10 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText, baseElement, queryByText } = renderInReduxProvider(
+      const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
         <FutureAppointmentsList />,
         {
           initialState,
-          reducers,
         },
       );
 
@@ -212,10 +208,12 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-        initialState,
-        reducers,
-      });
+      const { findByText } = renderWithStoreAndRouter(
+        <FutureAppointmentsList />,
+        {
+          initialState,
+        },
+      );
 
       return expect(findByText(/You don’t have any appointments/i)).to
         .eventually.be.ok;
@@ -233,10 +231,12 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-        initialState,
-        reducers,
-      });
+      const { findByText } = renderWithStoreAndRouter(
+        <FutureAppointmentsList />,
+        {
+          initialState,
+        },
+      );
 
       return expect(findByText(/You don’t have any appointments/i)).to
         .eventually.be.ok;
@@ -270,11 +270,10 @@ describe('VAOS integration: pending appointments', () => {
         { data: [message] },
       );
 
-      const { baseElement, findByText } = renderInReduxProvider(
+      const { baseElement, findByText } = renderWithStoreAndRouter(
         <FutureAppointmentsList />,
         {
           initialState,
-          reducers,
         },
       );
 
@@ -340,9 +339,8 @@ describe('VAOS integration: pending appointments', () => {
         baseElement,
         getByText,
         queryByText,
-      } = renderInReduxProvider(<FutureAppointmentsList />, {
+      } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
         initialState,
-        reducers,
       });
 
       const dateHeader = await findByText(/primary care appointment/i);

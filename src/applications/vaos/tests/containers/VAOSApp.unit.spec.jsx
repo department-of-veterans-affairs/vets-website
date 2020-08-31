@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import {
   mockFetch,
   resetFetch,
@@ -10,7 +9,7 @@ import {
 import environment from 'platform/utilities/environment';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { createTestStore } from '../mocks/setup';
+import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 import VAOSApp from '../../containers/VAOSApp';
 import moment from 'moment';
 
@@ -47,7 +46,7 @@ describe('VAOS <VAOSApp>', () => {
 
   it('should render child content when logged in', async () => {
     const store = createTestStore(initialState);
-    const screen = renderInReduxProvider(<VAOSApp>Child content</VAOSApp>, {
+    const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
       store,
     });
 
@@ -62,7 +61,7 @@ describe('VAOS <VAOSApp>', () => {
         vaOnlineScheduling: false,
       },
     });
-    const screen = renderInReduxProvider(<VAOSApp>Child content</VAOSApp>, {
+    const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
       store,
     });
 
@@ -71,24 +70,6 @@ describe('VAOS <VAOSApp>', () => {
         /VA online scheduling application isn’t available/,
       ),
     ).to.exist;
-    expect(screen.queryByText('Child content')).not.to.exist;
-  });
-
-  it('should render error message when there is an error', async () => {
-    const ComponentWithError = () => {
-      throw new Error('Something bad');
-    };
-    const store = createTestStore(initialState);
-    const screen = renderInReduxProvider(
-      <VAOSApp>
-        <ComponentWithError />
-      </VAOSApp>,
-      {
-        store,
-      },
-    );
-
-    expect(await screen.findByText(/Something went wrong on our end/)).to.exist;
     expect(screen.queryByText('Child content')).not.to.exist;
   });
 
@@ -111,7 +92,7 @@ describe('VAOS <VAOSApp>', () => {
       },
     );
     const store = createTestStore(initialState);
-    const screen = renderInReduxProvider(<VAOSApp>Child content</VAOSApp>, {
+    const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
       store,
     });
 
@@ -137,7 +118,7 @@ describe('VAOS <VAOSApp>', () => {
       },
     );
     const store = createTestStore(initialState);
-    const screen = renderInReduxProvider(<VAOSApp>Child content</VAOSApp>, {
+    const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
       store,
     });
 

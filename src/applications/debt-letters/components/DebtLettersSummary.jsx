@@ -1,7 +1,9 @@
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
@@ -62,17 +64,18 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
   const bannerContent = (
     <>
       <p>
-        VA is extending debt relief to those impacted by COVID-19 to the end of
-        2020. This includes suspension of debt collection or extending repayment
-        terms on preexisting VA debts
+        We’ve taken action to stop collection on newly established Veteran debt
+        and make it easier for Veterans to request extended repayment plans and
+        address other financial needs during this time.
       </p>
       <p>
-        If you are impacted by COVID-19 and need temporary financial relief for
-        a VA debt, please contact DMC at{' '}
-        <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-          800-827-0648
-        </a>{' '}
-        to request assistance
+        You won’t receive any debt collection letters in the mail until after
+        December 31, 2020. For the latest information about managing VA debt,
+        visit our{' '}
+        <a href="http://va.gov/coronavirus-veteran-frequently-asked-questions/">
+          coronavirus FAQs
+        </a>
+        .
       </p>
     </>
   );
@@ -89,31 +92,39 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
       </Breadcrumbs>
       <div className="vads-l-row vads-u-margin-x--neg2p5">
         <h1 className="vads-u-padding-x--2p5 vads-u-margin-bottom--2">
-          Your VA debt
+          Current VA debt
         </h1>
-        <div className="large-screen:vads-u-display--flex vads-u-flex-direction--row vads-u-display--block">
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-            <h2 className="vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--2">
-              Download your debt letters, learn your payment options, or find
-              out how to get help with your VA debts.
-            </h2>
-            {allDebtsFetchFailure && renderAlert()}
-            {allDebtsEmpty && renderEmptyAlert()}
-            {!allDebtsFetchFailure &&
-              !allDebtsEmpty && (
-                <>
-                  <AlertBox
-                    className="vads-u-margin-bottom--2"
-                    headline="Certain debt collection is suspended to the end of 2020"
-                    content={bannerContent}
-                    status="info"
-                    isVisible
-                  />
-                  <DebtCardsList />
-                  <DebtLettersList />
-                </>
-              )}
-          </div>
+        <div className="medium-screen:vads-u-display--flex vads-u-flex-direction--row vads-u-display--block">
+          <CallToActionWidget appId="debt-letters">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              <h2
+                className={classNames(
+                  'vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--2',
+                )}
+              >
+                Check the details of VA debt you might have related to your
+                education, disability compensation, pension, or home loan
+                benefits. Find out how to pay your debt and what to do if you
+                need financial assistance.
+              </h2>
+              {allDebtsFetchFailure && renderAlert()}
+              {allDebtsEmpty && renderEmptyAlert()}
+              {!allDebtsFetchFailure &&
+                !allDebtsEmpty && (
+                  <>
+                    <AlertBox
+                      className="vads-u-margin-bottom--2"
+                      headline="VA debt collection is on hold due to the coronavirus"
+                      content={bannerContent}
+                      status="info"
+                      isVisible
+                    />
+                    <DebtCardsList />
+                    <DebtLettersList />
+                  </>
+                )}
+            </div>
+          </CallToActionWidget>
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
             <HowDoIPay />
             <NeedHelp />

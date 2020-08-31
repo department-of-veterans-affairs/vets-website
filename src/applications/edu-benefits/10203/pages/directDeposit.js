@@ -37,6 +37,9 @@ export const uiSchema = {
   },
   declineDirectDeposit: {
     'ui:title': "I don't want to use direct deposit",
+    'ui:options': {
+      hideOnReviewIfFalse: true,
+    },
   },
   'view:directDespositInfo': {
     'ui:description': directDepositAlert,

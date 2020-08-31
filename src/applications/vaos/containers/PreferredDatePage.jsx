@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
 import FormButtons from '../components/FormButtons';
 import {
   openFormPage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import { getPreferredDate } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import moment from 'moment';
 
 const initialSchema = {
   type: 'object',
@@ -28,7 +28,20 @@ const uiSchema = {
   preferredDate: {
     'ui:title': 'What is the earliest date you’d like to be seen?',
     'ui:widget': 'date',
-    'ui:validations': [validateCurrentOrFutureDate],
+    'ui:description': 'Please pick a date within the next 13 months.',
+    'ui:validations': [
+      (errors, preferredDate) => {
+        const maxDate = moment().add(13, 'months');
+        if (moment(preferredDate).isBefore(moment(), 'day')) {
+          errors.addError('Please enter a future date ');
+        }
+        if (moment(preferredDate).isAfter(maxDate, 'day')) {
+          errors.addError(
+            'Please enter a date less than 395 days in the future ',
+          );
+        }
+      },
+    ],
   },
 };
 
@@ -43,16 +56,15 @@ export class PreferredDatePage extends React.Component {
   }
 
   goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
+    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
   };
 
   goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
   };
 
   render() {
     const { schema, data, pageChangeInProgress } = this.props;
-
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>

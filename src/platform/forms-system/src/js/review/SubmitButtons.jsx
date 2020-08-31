@@ -6,6 +6,10 @@ import ProgressButton from '../components/ProgressButton';
 import { timeFromNow } from '../utilities/date';
 import { APP_TYPE_DEFAULT } from '../constants';
 
+// components
+import { Column, Row } from 'platform/forms/components/common/grid';
+import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
+
 export default function SubmitButtons(props) {
   const {
     onBack,
@@ -18,6 +22,7 @@ export default function SubmitButtons(props) {
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   let submitButton;
   let submitMessage;
+
   if (submission.status === false) {
     submitButton = (
       <ProgressButton
@@ -54,16 +59,11 @@ export default function SubmitButtons(props) {
       />
     );
     submitMessage = (
-      <div className="usa-alert usa-alert-error schemaform-failure-alert">
-        <div className="usa-alert-body">
-          <p className="schemaform-warning-header">
-            <strong>
-              We’re sorry, there was an error connecting to VA.gov.
-            </strong>
-          </p>
-          <p>Please check your Internet connection and try again.</p>
-        </div>
-      </div>
+      <ErrorMessage
+        active
+        title="We’re sorry, there was an error connecting to VA.gov."
+        message="Please check your Internet connection and try again."
+      />
     );
   } else if (submission.status === 'throttledError') {
     submitButton = (
@@ -74,19 +74,14 @@ export default function SubmitButtons(props) {
       />
     );
     submitMessage = (
-      <div className="usa-alert usa-alert-error schemaform-failure-alert">
-        <div className="usa-alert-body">
-          <p className="schemaform-warning-header">
-            <strong>We’ve run into a problem</strong>
-          </p>
-          <p>
-            We’re sorry. Your submission didn’t go through because we received
-            too many requests from you. Please wait{' '}
-            {timeFromNow(moment.unix(submission.extra))} and submit your request
-            again.
-          </p>
-        </div>
-      </div>
+      <ErrorMessage
+        active
+        title="We’ve run into a problem"
+        message={`We’re sorry. Your submission didn’t go through because we received
+          too many requests from you. Please wait 
+          ${timeFromNow(moment.unix(submission.extra))} and submit your request
+          again.`}
+      />
     );
   } else if (submission.status === 'validationError') {
     submitButton = (
@@ -97,89 +92,75 @@ export default function SubmitButtons(props) {
       />
     );
     submitMessage = (
-      <div className="usa-alert usa-alert-error schemaform-failure-alert">
-        <div className="usa-alert-body">
-          <p className="schemaform-warning-header">
-            <strong>
-              We’re sorry. Some information in your {appType} is missing or not
-              valid.
-            </strong>
-          </p>
-          <p>
-            Please check each section of your {appType} to make sure you’ve
-            filled out all the information that is required.
-          </p>
-        </div>
-      </div>
+      <ErrorMessage
+        active
+        title={`We’re sorry. Some information in your ${appType} is missing or not valid.`}
+        message={`Please check each section of your ${appType} to make sure you’ve
+          filled out all the information that is required.`}
+      />
     );
   } else {
     if (renderErrorMessage) {
       submitMessage = renderErrorMessage();
     } else {
       submitMessage = (
-        <div className="usa-alert usa-alert-error schemaform-failure-alert">
-          <div className="usa-alert-body">
-            <p className="schemaform-warning-header">
-              <strong>We’re sorry, the {appType} didn’t go through.</strong>
-            </p>
-            <p>
-              You’ll have to start over. We suggest you wait 1 day while we fix
-              this problem.
-            </p>
-          </div>
-        </div>
+        <ErrorMessage
+          active
+          title={`We’re sorry, the ${appType} didn’t go through.`}
+          message="You’ll have to start over. We suggest you wait 1 day while we fix
+          this problem."
+        />
       );
     }
 
     if (process.env.NODE_ENV !== 'production') {
       submitButton = (
-        <div className="small-6 usa-width-one-half medium-6 columns">
+        <Column classNames="small-6 usa-width-one-half medium-6">
           <a onClick={onSubmit}>Submit again</a>
-        </div>
+        </Column>
       );
     }
 
     return (
       <>
-        <div className="row">
-          <div className="small-12 medium-12 columns" role="alert">
+        <Row>
+          <Column classNames="small-12 medium-12" role="alert">
             {submitMessage}
-          </div>
-        </div>
+          </Column>
+        </Row>
         {preSubmitSection}
-        <div className="row form-progress-buttons schemaform-back-buttons">
-          <div className="small-6 usa-width-one-half medium-6 columns">
+        <Row classNames="form-progress-buttons schemaform-back-buttons">
+          <Column classNames="small-6 usa-width-one-half medium-6">
             <a href="/">
               <button className="usa-button-primary">Go Back to VA.gov</button>
             </a>
-          </div>
+          </Column>
           {submitButton}
-        </div>
+        </Row>
       </>
     );
   }
+
   return (
     <>
-      <div className="row">
-        <div className="columns" role="alert">
-          {submitMessage}
-        </div>
-      </div>
+      <Row>
+        <Column role="alert">{submitMessage}</Column>
+      </Row>
       {preSubmitSection}
-      <div className="row form-progress-buttons">
-        <div className="small-6 medium-5 columns">
+      <Row classNames="form-progress-buttons">
+        <Column classNames="small-6 medium-5">
           <ProgressButton
             onButtonClick={onBack}
             buttonText="Back"
             buttonClass="usa-button-secondary"
             beforeText="«"
           />
-        </div>
-        <div className="small-6 medium-5 columns">{submitButton}</div>
-        <div className="small-1 medium-1 end columns">
+        </Column>
+        <Column classNames="small-6 medium-5">{submitButton}</Column>
+        <Column classNames="small-1 medium-1 end">
           <div className="hidden">&nbsp;</div>
-        </div>
-      </div>
+        </Column>
+      </Row>
     </>
   );
 }

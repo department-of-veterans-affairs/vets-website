@@ -16,7 +16,10 @@ module.exports = {
     fieldDescription: { type: 'string' },
     fieldIntroText: { type: 'string' },
     fieldMetaTitle: { type: 'string' },
-    fieldOffice: { $ref: 'output/node-health_care_region_page' },
+    fieldOffice: {
+      type: 'object',
+      properties: { entity: { $ref: 'output/node-health_care_region_page' } },
+    },
     entityUrl: { $ref: 'EntityUrl' },
   },
   required: [

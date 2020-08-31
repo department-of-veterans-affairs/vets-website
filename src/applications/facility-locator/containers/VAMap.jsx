@@ -20,14 +20,8 @@ import ResultsList from '../components/ResultsList';
 import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
 import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
-import { facilityTypes } from '../config';
-import {
-  BOUNDING_RADIUS,
-  FacilityType,
-  LocationType,
-  MARKER_LETTERS,
-} from '../constants';
-import { areGeocodeEqual, setFocus, showDialogUrgCare } from '../utils/helpers';
+import { BOUNDING_RADIUS, MARKER_LETTERS } from '../constants';
+import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
@@ -36,21 +30,9 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
-import get from 'platform/utilities/data/get';
+import vaDebounce from 'platform/utilities/data/debounce';
 
 const mbxClient = mbxGeo(mapboxClient);
-
-const otherToolsLink = (
-  <p>
-    Can’t find what you’re looking for?&nbsp;&nbsp;
-    <a href="https://www.va.gov/directory/guide/home.asp">
-      Try using our other tools to search.
-    </a>
-  </p>
-);
-
-// See https://design.va.gov/design/breakpoints
-const isMobile = window.innerWidth <= 481;
 
 class VAMap extends Component {
   constructor(props) {
@@ -65,10 +47,25 @@ class VAMap extends Component {
       this.syncStateWithLocation(location);
     });
     this.searchResultTitle = React.createRef();
+    this.debouncedResize = vaDebounce(250, this.setIsMobile);
+    this.state = {
+      isMobile: this.getMobile(),
+    };
   }
+
+  getMobile = () => {
+    return window.innerWidth <= 481;
+  };
+
+  setIsMobile = () => {
+    this.setState({ isMobile: this.getMobile() });
+  };
 
   componentDidMount() {
     const { location, currentQuery } = this.props;
+    const { facilityType } = currentQuery;
+
+    window.addEventListener('resize', this.debouncedResize);
 
     // navigating back from *Detail page preserves previous search results
     if (!isEmpty(this.props.results)) {
@@ -90,7 +87,7 @@ class VAMap extends Component {
       });
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(currentPosition => {
-        this.genBBoxFromCoords(currentPosition.coords);
+        this.genBBoxFromCoords(currentPosition.coords, facilityType);
       });
     } else {
       this.props.searchWithBounds({
@@ -101,6 +98,7 @@ class VAMap extends Component {
       });
     }
   }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { currentQuery } = this.props;
@@ -195,7 +193,7 @@ class VAMap extends Component {
       !updatedQuery.error;
 
     if (shouldZoomOut) {
-      if (isMobile) {
+      if (this.state.isMobile) {
         // manual zoom-out for mobile
         this.props.updateSearchQuery({
           bounds: [
@@ -222,26 +220,9 @@ class VAMap extends Component {
   componentWillUnmount() {
     // call the func returned by browserHistory.listen to unbind the listener
     this.listener();
-  }
 
-  /**
-   * Helper method to compare search parameters between
-   * component updates/renders.
-   *
-   * Currently compares search string, location type,
-   * service type, and map bounding box.
-   *
-   * @param {object} previous Previous component props
-   * @param {object} current Current componet props
-   */
-  /* didParamsChange = (previous, current) => {
-    return (
-      current.searchString !== previous.searchString ||
-      current.facilityType !== previous.facilityType ||
-      current.serviceType !== previous.serviceType ||
-      !areBoundsEqual(current.bounds, previous.bounds)
-    );
-  }; */
+    window.removeEventListener('resize', this.debouncedResize);
+  }
 
   /**
    * Presumably handles the case if a user manually makes a change to the
@@ -293,9 +274,8 @@ class VAMap extends Component {
   /**
    * Generates a bounding box from a lat/long geocoordinate.
    *
-   *  @param position Has shape: `{latitude: x, longitude: y}`
    */
-  genBBoxFromCoords = position => {
+  genBBoxFromCoords = (position, facilityType) => {
     mbxClient
       .reverseGeocode({
         query: [position.longitude, position.latitude],
@@ -303,8 +283,14 @@ class VAMap extends Component {
       })
       .send()
       .then(({ body: { features } }) => {
-        const coordinates = features[0].center;
         const placeName = features[0].place_name;
+        if (!facilityType) {
+          this.props.updateSearchQuery({
+            searchString: placeName,
+          });
+          return;
+        }
+        const coordinates = features[0].center;
         const zipCode =
           features[0].context.find(v => v.id.includes('postcode')).text || '';
 
@@ -399,15 +385,7 @@ class VAMap extends Component {
    */
   renderMapMarkers = () => {
     const { results } = this.props;
-    // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
-    const linkAction = (id, isProvider = false, e) => {
-      e.preventDefault();
-      if (isProvider) {
-        this.context.router.push(`provider/${id}`);
-      } else {
-        this.context.router.push(`facility/${id}`);
-      }
-    };
+    if (!results) return null;
 
     const currentLocation = this.props.currentQuery.position;
     const markers = MARKER_LETTERS.values();
@@ -443,68 +421,10 @@ class VAMap extends Component {
             document.getElementById('searchResultsContainer').scrollTop =
               searchResult.offsetTop;
           }
-          this.props.fetchVAFacility(r.id, r);
         },
         markerText: markers.next().value,
       };
-
-      const specialties = get(
-        ['attributes', 'relationships', 'specialties'],
-        r,
-        [],
-      );
-
-      const popupContent = (
-        <div>
-          {r.type === LocationType.CC_PROVIDER ? (
-            <div>
-              <a
-                href={`/provider/${r.id}`}
-                onClick={linkAction.bind(this, r.id, true)}
-              >
-                <h5>{r.attributes.name}</h5>
-              </a>
-              <h6>{r.attributes.orgName}</h6>
-              <p>
-                Services:{' '}
-                <strong>
-                  {specialties.map(s => s.name.trim()).join(', ')}
-                </strong>
-              </p>
-            </div>
-          ) : (
-            <div>
-              <a
-                href={`/facility/${r.id}`}
-                onClick={linkAction.bind(this, r.id, false)}
-              >
-                <h5>{r.attributes.name}</h5>
-              </a>
-              <p>
-                Facility type:{' '}
-                <strong>{facilityTypes[r.attributes.facilityType]}</strong>
-              </p>
-            </div>
-          )}
-        </div>
-      );
-
-      switch (r.attributes.facilityType) {
-        case FacilityType.VA_HEALTH_FACILITY:
-        case FacilityType.VA_CEMETARY:
-        case FacilityType.VA_BENEFITS_FACILITY:
-        case FacilityType.VET_CENTER:
-          return <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>;
-        case undefined:
-          if (r.type === LocationType.CC_PROVIDER) {
-            return (
-              <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>
-            );
-          }
-          return null;
-        default:
-          return null;
-      }
+      return <FacilityMarker key={r.id} {...iconProps} />;
     });
     if (this.props.currentQuery.searchCoords) {
       mapMarkers.push(
@@ -532,13 +452,22 @@ class VAMap extends Component {
     />
   );
 
+  renderSearchControls = currentQuery => (
+    <SearchControls
+      currentQuery={currentQuery}
+      onChange={this.props.updateSearchQuery}
+      onSubmit={this.handleSearch}
+      suppressCCP={this.props.suppressCCP}
+      suppressPharmacies={this.props.suppressPharmacies}
+    />
+  );
+
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const {
       currentQuery,
       selectedResult,
-      suppressCCP,
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
@@ -548,24 +477,17 @@ class VAMap extends Component {
     const queryContext = currentQuery.context;
 
     return (
-      <div>
+      <>
+        {this.renderSearchControls(currentQuery)}
+        <div id="search-results-title" ref={this.searchResultTitle}>
+          {this.renderResultsHeader(
+            results,
+            facilityType,
+            serviceType,
+            queryContext,
+          )}
+        </div>
         <div className="columns small-12">
-          <SearchControls
-            currentQuery={currentQuery}
-            onChange={this.props.updateSearchQuery}
-            onSubmit={this.handleSearch}
-            suppressCCP={suppressCCP}
-            isMobile
-          />
-          <div>{showDialogUrgCare(currentQuery)}</div>
-          <div ref={this.searchResultTitle}>
-            {this.renderResultsHeader(
-              results,
-              facilityType,
-              serviceType,
-              queryContext,
-            )}
-          </div>
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -574,18 +496,18 @@ class VAMap extends Component {
             <TabPanel>
               <div className="facility-search-results">
                 <ResultsList
-                  isMobile
                   updateUrlParams={this.updateUrlParams}
                   query={this.props.currentQuery}
                 />
               </div>
-              {results.length > 0 && (
-                <Pagination
-                  onPageSelect={this.handlePageSelect}
-                  page={currentPage}
-                  pages={totalPages}
-                />
-              )}
+              {results &&
+                results.length > 0 && (
+                  <Pagination
+                    onPageSelect={this.handlePageSelect}
+                    page={currentPage}
+                    pages={totalPages}
+                  />
+                )}
             </TabPanel>
             <TabPanel>
               <Map
@@ -606,11 +528,12 @@ class VAMap extends Component {
                     <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
                     Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
                 />
-                {facilityLocatorMarkers.length > 0 && (
-                  <FeatureGroup ref="facilityMarkers">
-                    {facilityLocatorMarkers}
-                  </FeatureGroup>
-                )}
+                {facilityLocatorMarkers &&
+                  facilityLocatorMarkers.length > 0 && (
+                    <FeatureGroup ref="facilityMarkers">
+                      {facilityLocatorMarkers}
+                    </FeatureGroup>
+                  )}
               </Map>
               {selectedResult && (
                 <div className="mobile-search-result">
@@ -622,9 +545,8 @@ class VAMap extends Component {
               )}
             </TabPanel>
           </Tabs>
-          {otherToolsLink}
         </div>
-      </div>
+      </>
     );
   };
 
@@ -632,8 +554,6 @@ class VAMap extends Component {
     // defaults to White House coordinates initially
     const {
       currentQuery,
-      suppressCCP,
-      suppressPharmacies,
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
@@ -646,17 +566,8 @@ class VAMap extends Component {
     const facilityLocatorMarkers = this.renderMapMarkers();
     return (
       <div className="desktop-container">
-        <div>
-          <SearchControls
-            currentQuery={currentQuery}
-            onChange={this.props.updateSearchQuery}
-            onSubmit={this.handleSearch}
-            suppressCCP={suppressCCP}
-            suppressPharmacies={suppressPharmacies}
-          />
-        </div>
-        <div>{showDialogUrgCare(currentQuery)}</div>
-        <div ref={this.searchResultTitle}>
+        {this.renderSearchControls(currentQuery)}
+        <div id="search-results-title" ref={this.searchResultTitle}>
           {this.renderResultsHeader(
             results,
             facilityType,
@@ -664,51 +575,47 @@ class VAMap extends Component {
             queryContext,
           )}
         </div>
-        <div className="row">
-          <div
-            className="columns usa-width-one-third medium-4 small-12"
-            style={{ maxHeight: '78vh', overflowY: 'auto' }}
-            id="searchResultsContainer"
-          >
-            <div className="facility-search-results">
-              <div>
-                <ResultsList
-                  updateUrlParams={this.updateUrlParams}
-                  query={this.props.currentQuery}
-                />
-              </div>
+        <div
+          className="columns search-results-container medium-4 small-12"
+          style={{ maxHeight: '78vh', overflowY: 'auto' }}
+          id="searchResultsContainer"
+        >
+          <div className="facility-search-results">
+            <div>
+              <ResultsList
+                updateUrlParams={this.updateUrlParams}
+                query={this.props.currentQuery}
+              />
             </div>
           </div>
-          <div
-            className="columns usa-width-two-thirds medium-8 small-12"
-            style={{ minHeight: '75vh', paddingLeft: '0px' }}
+        </div>
+        <div className="desktop-map-container">
+          <Map
+            ref="map"
+            center={position}
+            zoomSnap={1}
+            zoomDelta={1}
+            zoom={parseInt(currentQuery.zoomLevel, 10)}
+            style={{ minHeight: '75vh', width: '100%' }}
+            scrollWheelZoom={false}
+            onMoveEnd={this.handleBoundsChanged}
           >
-            <Map
-              ref="map"
-              center={position}
-              zoomSnap={1}
-              zoomDelta={1}
-              zoom={parseInt(currentQuery.zoomLevel, 10)}
-              style={{ minHeight: '75vh', width: '100%' }}
-              scrollWheelZoom={false}
-              onMoveEnd={this.handleBoundsChanged}
-            >
-              <TileLayer
-                url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
-                  <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
-                  Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
-              />
-              {facilityLocatorMarkers.length > 0 && (
+            <TileLayer
+              url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
+              attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
+                <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
+                Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
+            />
+            {facilityLocatorMarkers &&
+              facilityLocatorMarkers.length > 0 && (
                 <FeatureGroup ref="facilityMarkers">
                   {facilityLocatorMarkers}
                 </FeatureGroup>
               )}
-            </Map>
-            {otherToolsLink}
-          </div>
+          </Map>
         </div>
         {currentPage &&
+          results &&
           results.length > 0 && (
             <Pagination
               onPageSelect={this.handlePageSelect}
@@ -749,7 +656,9 @@ class VAMap extends Component {
             <strong>Coronavirus update:</strong> {coronavirusUpdate}
           </p>
         </div>
-        {isMobile ? this.renderMobileView() : this.renderDesktopView()}
+        {this.state.isMobile
+          ? this.renderMobileView()
+          : this.renderDesktopView()}
       </div>
     );
   }

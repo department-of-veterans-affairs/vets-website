@@ -23,7 +23,10 @@ const transform = entity => ({
     ? mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k))
     : null,
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldOffice: (entity.fieldOffice && entity.fieldOffice[0]) || null,
+  fieldOffice:
+    entity.fieldOffice && entity.fieldOffice[0]
+      ? { entity: entity.fieldOffice[0] }
+      : null,
   fieldPdfVersion: entity.fieldPdfVersion[0] || null,
   fieldPressReleaseContact: entity.fieldPressReleaseContact.map(i => ({
     entity: i,

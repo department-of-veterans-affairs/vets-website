@@ -17,7 +17,7 @@ export const SearchResultsHeader = ({
   inProgress,
   specialtyMap,
 }) => {
-  if (inProgress || !results.length) {
+  if (inProgress || !results || !results.length) {
     return <div style={{ height: '38px' }} />;
   }
 
@@ -25,10 +25,16 @@ export const SearchResultsHeader = ({
 
   const formatServiceType = rawServiceType => {
     if (facilityType === LocationType.URGENT_CARE) {
+      if (!rawServiceType) {
+        return urgentCareServices.AllUrgentCare;
+      }
       return urgentCareServices[rawServiceType];
     }
 
     if (facilityType === LocationType.HEALTH) {
+      if (!rawServiceType) {
+        return healthServices.All;
+      }
       return healthServices[rawServiceType];
     }
 
@@ -37,26 +43,30 @@ export const SearchResultsHeader = ({
     }
 
     if (facilityType === LocationType.BENEFITS) {
+      if (!rawServiceType) {
+        return benefitsServices.All;
+      }
       return benefitsServices[rawServiceType];
     }
 
     return rawServiceType;
   };
 
+  const formattedServiceType = formatServiceType(serviceType);
+
   return (
     <h2
-      id="facility-search-results"
+      id="search-results-subheader"
       className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
-      style={{ marginLeft: '12px' }}
       tabIndex="-1"
     >
       Results for &quot;
       <b>{facilityTypes[facilityType]}</b>
       &quot;
-      {serviceType && (
+      {formattedServiceType && (
         <>
           ,&nbsp;&quot;
-          <b>{formatServiceType(serviceType)}</b>
+          <b>{formattedServiceType}</b>
           &quot;
         </>
       )}
