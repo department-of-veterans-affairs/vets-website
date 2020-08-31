@@ -61,7 +61,7 @@ describe('<InstitutionSearchForm>', () => {
         search={search}
         autocomplete={autocomplete}
         eligibility={eligibility}
-        filters={() => {}}
+        filters
         gibctCh33BenefitRateUpdate
         showModal={() => {}}
         hideModal={() => {}}
