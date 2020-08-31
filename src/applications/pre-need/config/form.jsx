@@ -431,7 +431,7 @@ const formConfig = {
                 serviceRecords: _.merge(serviceRecordsUI, {
                   'ui:title': 'Sponsor’s service periods',
                   'ui:description':
-                    'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add Another Service Period button.',
+                    'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add another service period button.',
                   items: {
                     serviceBranch: {
                       'ui:title': 'Sponsor’s branch of service',

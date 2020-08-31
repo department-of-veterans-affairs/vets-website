@@ -105,7 +105,7 @@ class ArrayField extends React.Component {
   }
 
   /*
-   * Clicking Add Another in the header of the array field section
+   * Clicking Add another in the header of the array field section
    */
   handleAdd() {
     const newState = {
@@ -322,8 +322,8 @@ class ArrayField extends React.Component {
                   onClick={() => this.handleAdd()}
                 >
                   {uiOptions.itemName
-                    ? `Add Another ${uiOptions.itemName}`
-                    : 'Add Another'}
+                    ? `Add another ${uiOptions.itemName?.toLowerCase()}`
+                    : 'Add another'}
                 </button>
                 <div>
                   {addAnotherDisabled &&

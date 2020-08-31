@@ -245,7 +245,7 @@ export default class AdditionalSourcesField extends React.Component {
               className="usa-button-secondary pensions-sources-add-btn"
               onClick={this.handleAdd}
             >
-              Add Another Source
+              Add another source
             </button>
           )}
         </div>

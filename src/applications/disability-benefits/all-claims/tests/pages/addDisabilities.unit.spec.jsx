@@ -26,6 +26,9 @@ describe('Add new disabilities', () => {
     );
 
     expect(form.find('input').length).to.equal(1);
+    const addBtn = form.find('.va-growable-add-btn');
+    expect(addBtn.length).to.equal(1);
+    expect(addBtn.text()).to.equal('Add another disability');
     form.unmount();
   });
 

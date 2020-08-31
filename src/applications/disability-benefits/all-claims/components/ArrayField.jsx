@@ -220,7 +220,7 @@ export default class ArrayField extends React.Component {
   };
 
   /*
-   * Clicking Add Another
+   * Clicking Add another
    */
   handleAdd = () => {
     const lastIndex = this.props.formData.length - 1;
@@ -277,7 +277,7 @@ export default class ArrayField extends React.Component {
         // Scroll to last entry
         this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
       }
-      // Focus on "Add Another Disability" button after removing
+      // Focus on "Add another disability" button after removing
       focusElement('.va-growable-add-btn');
     });
   };
@@ -465,7 +465,7 @@ export default class ArrayField extends React.Component {
             disabled={!this.props.formData}
             onClick={this.handleAdd}
           >
-            Add Another {uiOptions.itemName}
+            Add another {uiOptions.itemName?.toLowerCase()}
           </button>
         </div>
       </div>
