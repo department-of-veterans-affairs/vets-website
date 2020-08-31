@@ -39,6 +39,7 @@ import {
   DISABILITY_SHARED_CONFIG,
   isBDD,
   showSeparationLocation,
+  getPageTitle,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -157,7 +158,7 @@ const formConfig = {
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
-  title: 'File for disability compensation',
+  title: ({ formData }) => getPageTitle(formData),
   subTitle: 'Form 21-526EZ',
   preSubmitInfo,
   chapters: {
