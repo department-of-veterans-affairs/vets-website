@@ -7,16 +7,6 @@ import PhoneNumberView from './PhoneNumberView';
 
 const AppointmentInfoBox = props => {
   const { userFullName, dateOfBirth, gender, addresses, phoneNumbers } = props;
-
-  // eslint-disable-next-line no-console
-  console.log({
-    userFullName,
-    dateOfBirth,
-    gender,
-    addresses,
-    phoneNumbers,
-  });
-
   const fullName = [userFullName.first, userFullName.middle, userFullName.last]
     .join(' ')
     .trim();
