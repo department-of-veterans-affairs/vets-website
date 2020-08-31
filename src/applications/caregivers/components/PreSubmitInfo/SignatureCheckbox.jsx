@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import SignatureInput from 'applications/caregivers/components/PreSubmitInfo/components/SignatureInput';
+
+import SignatureInput from './SignatureInput';
 
 const SignatureCheckbox = ({
   children,
