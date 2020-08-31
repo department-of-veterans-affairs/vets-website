@@ -2,26 +2,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
-
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { fetchFormsApi } from '../api';
 
-const InvalidFormDownload = () => (
-  <AlertBox
-    isVisible
-    status="error"
-    headline="This form link isn’t working"
-    content={
-      <>
-        We’re sorry, but the form you’re trying to download appears to have an
-        invalid link. Please{' '}
-        <a href="mailto:VaFormsManagers@va.gov">email the forms managers</a> for
-        help with this form.
-      </>
-    }
-  />
-);
+function InvalidFormDownload({ downloadUrl }) {
+  const subject = encodeURIComponent('Bad PDF link');
+  const body = encodeURIComponent(
+    `I tried to download this form but the link doesn't work: ${downloadUrl}`,
+  );
+  const mailto = `mailto:VaFormsManagers@va.gov?subject=${subject}&body=${body}`;
+
+  return (
+    <AlertBox
+      isVisible
+      status="error"
+      headline="This form link isn’t working"
+      content={
+        <>
+          We’re sorry, but the form you’re trying to download appears to have an
+          invalid link. Please <a href={mailto}>email the forms managers</a> for
+          help with this form.
+        </>
+      }
+    />
+  );
+}
 
 export async function onDownloadLinkClick(event) {
   event.preventDefault();
@@ -55,7 +61,7 @@ export async function onDownloadLinkClick(event) {
     });
 
     const div = document.createElement('div');
-    const alertBox = <InvalidFormDownload />;
+    const alertBox = <InvalidFormDownload downloadUrl={downloadUrl} />;
 
     ReactDOM.render(alertBox, div);
     link.parentNode.insertBefore(div, link);

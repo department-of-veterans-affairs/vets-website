@@ -7,7 +7,11 @@ import { appointmentsToolLink, getCernerURL } from 'platform/utilities/cerner';
 
 export const AuthContent = () => (
   <>
-    <div className="usa-alert usa-alert-info" role="alert">
+    <div
+      className="usa-alert usa-alert-info"
+      data-testid="cerner-content"
+      role="alert"
+    >
       <div className="usa-alert-body">
         <h2
           className="usa-alert-heading vads-u-font-size--h3"
