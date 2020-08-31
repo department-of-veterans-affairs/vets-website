@@ -1,6 +1,20 @@
 import mockUser from 'applications/personalization/profile-2/tests/fixtures/users/user-36.json';
 // import mockFeatureToggles from 'applications/static-pages/authenticated-homepage/tests/fixtures/feature-toggles.json';
 
+const checkAuthenticatedHomepageVisible = () => {
+  cy.get('[id="homepage"]').should('not.be.visible');
+  cy.get('[data-widget-type="authenticated-homepage"]').should('be.visible');
+  cy.get('[data-widget-type="authenticated-homepage"]').should('not.be.empty');
+};
+
+const checkAuthenticatedHomepageNotVisible = () => {
+  cy.get('[id="homepage"]').should('be.visible');
+  cy.get('[data-widget-type="authenticated-homepage"]').should(
+    'not.be.visible',
+  );
+  cy.get('[data-widget-type="authenticated-homepage"]').should('be.empty');
+};
+
 describe('The authenticated homepage', () => {
   describe('does not render when the user is not logged in and', () => {
     beforeEach(() => {
@@ -8,23 +22,20 @@ describe('The authenticated homepage', () => {
     });
 
     it('no values are set in localStorage or Feature Flag', () => {
-      cy.get('[id="homepage"]').should('be.visible');
-      cy.get('[data-widget-type="authenticated-homepage"]').should('be.empty');
+      checkAuthenticatedHomepageNotVisible();
     });
 
     it('the localStorage value of AUTHENTICATED_HOMEPAGE is "true"', () => {
       localStorage.setItem('AUTHENTICATED_HOMEPAGE', true);
       cy.reload();
-      cy.get('[id="homepage"]').should('be.visible');
-      cy.get('[data-widget-type="authenticated-homepage"]').should('be.empty');
+      checkAuthenticatedHomepageNotVisible();
     });
 
     // Uncomment when the feature flag is added to vets-api
     // it('the feature flag is on', () => {
     //   cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
     //   cy.reload();
-    //   cy.get('[id="homepage"]').should('be.visible');
-    //   cy.get('[data-widget-type="authenticated-homepage"]').should('be.empty');
+    //   checkAuthenticatedHomepageNotVisible();
     // });
   });
 
@@ -38,17 +49,22 @@ describe('The authenticated homepage', () => {
       localStorage.setItem('AUTHENTICATED_HOMEPAGE', true);
       localStorage.setItem('NO_AUTHENTICATED_HOMEPAGE', true);
       cy.reload();
-      cy.get('[id="homepage"]').should('be.visible');
-      cy.get('[data-widget-type="authenticated-homepage"]').should('be.empty');
+      checkAuthenticatedHomepageNotVisible();
+    });
+
+    it('the localStorage value of AUTHENTICATED_HOMEPAGE is "true" and then set to "false"', () => {
+      localStorage.setItem('AUTHENTICATED_HOMEPAGE', true);
+      cy.reload();
+      checkAuthenticatedHomepageVisible();
+      localStorage.setItem('AUTHENTICATED_HOMEPAGE', true);
     });
 
     // Uncomment when the feature flag is added to vets-api
     // it('the feature flag is on and NO_AUTHENICATED_HOMEPAGE is "true"', () => {
     //   cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
     //   localStorage.setItem('NO_AUTHENTICATED_HOMEPAGE', true);
-    // cy.visit('/');
-    //   cy.get('[id="homepage"]').should('be.visible');
-    //   cy.get('[data-widget-type="authenticated-homepage"]').should('be.empty');
+    //   cy.visit('/');
+    //   checkAuthenticatedHomepageNotVisible();
     // });
   });
 
@@ -65,40 +81,25 @@ describe('The authenticated homepage', () => {
     it('the localStorage value of AUTHENTICATED_HOMEPAGE is "true"', () => {
       localStorage.setItem('AUTHENTICATED_HOMEPAGE', true);
       cy.reload();
-      cy.get('[id="homepage"]').should('not.be.visible');
-      cy.get('[data-widget-type="authenticated-homepage"]').should(
-        'be.visible',
-      );
-      cy.get('[data-widget-type="authenticated-homepage"]').should(
-        'not.be.empty',
-      );
+      checkAuthenticatedHomepageVisible();
     });
 
     it('the localStorage value of NO_AUTHENTICATED_HOMEPAGE is flipped twice', () => {
       localStorage.setItem('AUTHENTICATED_HOMEPAGE', true);
       cy.reload();
-      cy.get('[id="homepage"]').should('not.be.visible');
+      checkAuthenticatedHomepageVisible();
       localStorage.setItem('NO_AUTHENTICATED_HOMEPAGE', true);
       cy.reload();
-      cy.get('[id="homepage"]').should('be.visible');
+      checkAuthenticatedHomepageNotVisible();
       localStorage.setItem('NO_AUTHENTICATED_HOMEPAGE', false);
       cy.reload();
-      cy.get('[id="homepage"]').should('not.be.visible');
-      cy.get('[data-widget-type="authenticated-homepage"]').should(
-        'be.visible',
-      );
-      cy.get('[data-widget-type="authenticated-homepage"]').should(
-        'not.be.empty',
-      );
+      checkAuthenticatedHomepageVisible();
     });
 
     // Uncomment when the feature flag is added to vets-api
     // it('the feature flag is on', () => {
     //   cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
-    //   cy.get('[id="homepage"]').should('be.empty');
-    //   cy.get('[data-widget-type="authenticated-homepage"]').should(
-    //     'not.be.empty',
-    //   );
+    //   checkAuthenticatedHomepageVisible();
     // });
   });
 });
