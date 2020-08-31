@@ -28,7 +28,7 @@ function getNumeratedUiSchema(uiSchema, index) {
   /* eslint-enable no-param-reassign */
 }
 
-function numerateKeys(object, index) {
+function numerateKeys(object = {}, index) {
   const entries = Object.entries(object);
   return entries.reduce((numerated, [key, value]) => {
     // eslint-disable-next-line no-param-reassign
@@ -42,10 +42,10 @@ function getNumeratedItemSchema(schema, index) {
     return schema.items[index];
   }
 
-  const required = schema.additionalItems.required.map(
+  const required = schema.additionalItems?.required?.map(
     (prop, idx) => `${prop}${idx}`,
   );
-  const properties = numerateKeys(schema.additionalItems.properties, index);
+  const properties = numerateKeys(schema.additionalItems?.properties, index);
 
   return {
     ...schema.additionalItems,
