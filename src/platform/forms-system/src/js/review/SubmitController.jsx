@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,7 +10,7 @@ import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import { setPreSubmit, setSubmission, submitForm } from '../actions';
 
-class SubmitController extends React.Component {
+class SubmitController extends Component {
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(nextProps) {
     const nextStatus = nextProps.form.submission.status;
