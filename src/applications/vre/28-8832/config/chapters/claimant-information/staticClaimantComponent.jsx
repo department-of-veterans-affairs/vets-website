@@ -6,7 +6,7 @@ import Telephone, {
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-const VeteranInformationComponent = ({
+const ClaimantInformationComponent = ({
   user: {
     gender,
     dob,
@@ -59,4 +59,4 @@ const mapStateToProps = state => ({
   user: state.user.profile,
 });
 
-export default connect(mapStateToProps)(VeteranInformationComponent);
+export default connect(mapStateToProps)(ClaimantInformationComponent);
