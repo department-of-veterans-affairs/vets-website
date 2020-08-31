@@ -231,10 +231,6 @@ class ArrayField extends React.Component {
     const fieldName = path[path.length - 1];
     const title =
       _.get('ui:title', uiSchema) || uiOptions.reviewTitle || pageTitle;
-    const arrayPageConfig = {
-      uiSchema: uiSchema.items,
-      pageKey: fieldName,
-    };
 
     // TODO: Make this better; it’s super hacky for now.
     const itemCountLocked = this.isLocked();
@@ -273,7 +269,7 @@ class ArrayField extends React.Component {
             const itemTitle = itemSchema ? itemSchema.title : '';
 
             const numeratedUiSchema = getNumeratedUiSchema(
-              arrayPageConfig.uiSchema,
+              uiSchema.items,
               index,
             );
 
