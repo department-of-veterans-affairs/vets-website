@@ -6,7 +6,11 @@ import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 
 export const UnauthContent = () => (
   <>
-    <div className="usa-alert usa-alert-info" role="alert">
+    <div
+      className="usa-alert usa-alert-info"
+      data-testid="non-cerner-content"
+      role="alert"
+    >
       <div className="usa-alert-body">
         <h2
           className="usa-alert-heading vads-u-font-size--h3"

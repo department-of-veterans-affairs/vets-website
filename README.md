@@ -131,6 +131,12 @@ To **run tests with some extra debugging info**, you can pass a log-level:
 yarn test:unit --log-level debug
 ```
 
+To **run tests with coverage output**, you can pass the coverage option:
+
+```sh
+yarn test:unit --coverage
+```
+
 ### End-to-end (E2E) / Browser tests
 
 - E2E or browser tests primarily run in Cypress.
