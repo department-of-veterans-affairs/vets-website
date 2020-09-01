@@ -1,5 +1,5 @@
 import React from 'react';
-import FacilityAddress from './FacilityAddress';
+import FacilityAddress from '../../../../components/FacilityAddress';
 
 export default function ConfirmedCommunityCareLocation({ appointment }) {
   const location = appointment.contained.find(

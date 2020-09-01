@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
-import * as actions from '../appointment-list/redux/actions';
+import * as actions from '../redux/actions';
 import {
   vaosCancel,
   vaosRequests,
   selectExpressCareRequests,
-} from '../utils/selectors';
+} from '../../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
-import ExpressCareCard from './ExpressCareCard';
+import { GA_PREFIX, FETCH_STATUS } from '../../utils/constants';
+import ExpressCareCard from './cards/express-care/ExpressCareCard';
 import NoAppointments from './NoAppointments';
-import { resetDataLayer } from '../utils/events';
+import { resetDataLayer } from '../../utils/events';
 
 export function ExpressCareList({
   showCancelButton,

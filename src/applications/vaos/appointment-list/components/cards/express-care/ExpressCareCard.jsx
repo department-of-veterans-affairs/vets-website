@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { sentenceCase } from '../utils/formatters';
-import { getPatientTelecom } from '../services/appointment';
-import { APPOINTMENT_STATUS } from '../utils/constants';
+import { sentenceCase } from '../../../../utils/formatters';
+import { getPatientTelecom } from '../../../../services/appointment';
+import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import ExpressCareStatus from './ExpressCareStatus';
 
 export default function ExpressCareCard({

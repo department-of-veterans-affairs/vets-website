@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import moment from '../utils/moment-tz';
-import { formatFacilityAddress } from '../utils/formatters';
-import { APPOINTMENT_STATUS, PURPOSE_TEXT } from '../utils/constants';
+import moment from '../../../../utils/moment-tz';
+import { formatFacilityAddress } from '../../../../utils/formatters';
+import { APPOINTMENT_STATUS, PURPOSE_TEXT } from '../../../../utils/constants';
 import VideoVisitSection from './VideoVisitSection';
-import AddToCalendar from './AddToCalendar';
-import VAFacilityLocation from './VAFacilityLocation';
+import AddToCalendar from '../../../../components/AddToCalendar';
+import VAFacilityLocation from '../../../../components/VAFacilityLocation';
 import AppointmentDateTime from './AppointmentDateTime';
 import AppointmentInstructions from './AppointmentInstructions';
 import CommunityCareInstructions from './CommunityCareInstructions';
-import AppointmentStatus from './AppointmentStatus';
+import AppointmentStatus from '../AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
   getVARFacilityId,
   getVAAppointmentLocationId,
   isVideoAppointment,
-} from '../services/appointment';
-import AdditionalInfoRow from './AdditionalInfoRow';
+} from '../../../../services/appointment';
+import AdditionalInfoRow from '../AdditionalInfoRow';
 import {
   getVideoInstructionText,
   VideoVisitInstructions,

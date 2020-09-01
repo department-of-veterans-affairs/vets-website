@@ -1,7 +1,7 @@
 import React from 'react';
 import environment from 'platform/utilities/environment';
 import { Link } from 'react-router-dom';
-import { FETCH_STATUS } from '../utils/constants';
+import { FETCH_STATUS } from '../../../utils/constants';
 
 export default function RequestExpressCare({
   windowsStatus,

@@ -5,16 +5,16 @@ import { Switch, Route } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
-import ScheduleNewAppointment from '../components/ScheduleNewAppointment';
+import ScheduleNewAppointment from './header/ScheduleNewAppointment';
 import {
   closeCancelAppointment,
   confirmCancelAppointment,
   startNewAppointmentFlow,
   fetchFutureAppointments,
   fetchExpressCareWindows,
-} from '../appointment-list/redux/actions';
-import { startNewExpressCareFlow } from '../express-care/redux/actions';
-import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
+} from '../redux/actions';
+import { startNewExpressCareFlow } from '../../express-care/redux/actions';
+import CancelAppointmentModal from '../../components/cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
   vaosRequests,
@@ -25,16 +25,16 @@ import {
   isWelcomeModalDismissed,
   selectExpressCare,
   selectFutureStatus,
-} from '../utils/selectors';
+} from '../../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
-import TabNav from '../components/TabNav';
-import RequestExpressCare from '../components/RequestExpressCare';
-import FutureAppointmentsList from '../components/FutureAppointmentsList';
+import { GA_PREFIX, FETCH_STATUS } from '../../utils/constants';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import TabNav from './header/TabNav';
+import RequestExpressCare from './header/RequestExpressCare';
+import FutureAppointmentsList from './FutureAppointmentsList';
 import PastAppointmentsList from '../components/PastAppointmentsList';
-import ExpressCareList from '../components/ExpressCareList';
-import PageLayout from '../appointment-list/components/PageLayout';
+import ExpressCareList from './ExpressCareList';
+import PageLayout from './PageLayout';
 
 const pageTitle = 'VA appointments';
 

@@ -5,21 +5,21 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
-import { fetchPastAppointments } from '../appointment-list/redux/actions';
-import { getVAAppointmentLocationId } from '../services/appointment';
-import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
+import { fetchPastAppointments } from '../redux/actions';
+import { getVAAppointmentLocationId } from '../../services/appointment';
+import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
 import {
   vaosPastAppts,
   selectPastAppointments,
   selectExpressCare,
-} from '../utils/selectors';
+} from '../../utils/selectors';
 import {
   getRealFacilityId,
   getPastAppointmentDateRangeOptions,
-} from '../utils/appointment';
-import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
+} from '../../utils/appointment';
+import ConfirmedAppointmentListItem from './cards/confirmed/ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
-import { resetDataLayer } from '../utils/events';
+import { resetDataLayer } from '../../utils/events';
 
 export class PastAppointmentsList extends React.Component {
   constructor(props) {
