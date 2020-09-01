@@ -33,7 +33,6 @@ export default Object.freeze({
   form996HigherLevelReview: 'form996HigherLevelReview',
   gibctFilterEnhancement: 'gibctFilterEnhancement',
   debtLettersShowLetters: 'debtLettersShowLetters',
-  gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
   form526BDD: 'form526BenefitsDeliveryAtDischarge',
   showEduBenefits1995Wizard: 'show_edu_benefits_1995_wizard',
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
