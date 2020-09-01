@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import AppointmentStatus from '../../components/AppointmentStatus';
-import { APPOINTMENT_STATUS } from '../../utils/constants';
+import AppointmentStatus from '../../../../appointment-list/components/cards/AppointmentStatus';
+import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 
 describe('VAOS <AppointmentStatus>', () => {
   it('should render booked', () => {

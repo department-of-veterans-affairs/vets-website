@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
-import { isVideoGFE } from '../services/appointment';
+import { isVideoGFE } from '../../../../services/appointment';
 
 export default function VideoVisitSection({ appointment }) {
   let linkContent = <span>Video visit link unavailable</span>;

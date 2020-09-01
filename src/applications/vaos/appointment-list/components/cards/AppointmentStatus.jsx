@@ -1,5 +1,5 @@
 import React from 'react';
-import { APPOINTMENT_STATUS } from '../utils/constants';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 export default function AppointmentStatus({
   status,

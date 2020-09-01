@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import ListBestTimeToCall from './ListBestTimeToCall';
-import { sentenceCase } from '../utils/formatters';
+import ListBestTimeToCall from '../../../../components/ListBestTimeToCall';
+import { sentenceCase } from '../../../../utils/formatters';
 import {
   getVAAppointmentLocationName,
   getPatientTelecom,
   isVideoAppointment,
-} from '../services/appointment';
-import { APPOINTMENT_STATUS, TIME_TEXT } from '../utils/constants';
-import AppointmentStatus from './AppointmentStatus';
-import VAFacilityLocation from './VAFacilityLocation';
+} from '../../../../services/appointment';
+import { APPOINTMENT_STATUS, TIME_TEXT } from '../../../../utils/constants';
+import AppointmentStatus from '../AppointmentStatus';
+import VAFacilityLocation from '../../../../components/VAFacilityLocation';
 import AppointmentRequestCommunityCareLocation from './AppointmentRequestCommunityCareLocation';
-import AdditionalInfoRow from './AdditionalInfoRow';
+import AdditionalInfoRow from '../AdditionalInfoRow';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions

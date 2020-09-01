@@ -2,7 +2,7 @@ import React from 'react';
 import {
   APPOINTMENT_STATUS,
   UNABLE_TO_REACH_VETERAN_DETCODE,
-} from '../utils/constants';
+} from '../../../../utils/constants';
 
 export default function ExpressCareStatus({ appointment }) {
   let iconClass = null;

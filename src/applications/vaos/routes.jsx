@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import asyncLoader from 'platform/utilities/ui/asyncLoader';
-import AppointmentsPage from './containers/AppointmentsPage';
+import AppointmentsPage from './appointment-list/components/AppointmentsPage';
 import VAOSApp from './containers/VAOSApp';
 import ErrorBoundary from './components/ErrorBoundary';
 import { captureError } from './utils/error';

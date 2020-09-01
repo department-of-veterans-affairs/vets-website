@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import environment from 'platform/utilities/environment';
-import { getRealFacilityId } from '../utils/appointment';
+import { getRealFacilityId } from '../../utils/appointment';
 import recordEvent from 'platform/monitoring/record-event';
-import * as actions from '../appointment-list/redux/actions';
+import * as actions from '../redux/actions';
 import {
   vaosCancel,
   vaosRequests,
@@ -14,14 +14,18 @@ import {
   selectFutureAppointments,
   selectExpressCare,
   selectFutureStatus,
-} from '../utils/selectors';
+} from '../../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
-import { getVAAppointmentLocationId } from '../services/appointment';
-import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
-import AppointmentRequestListItem from './AppointmentRequestListItem';
+import {
+  FETCH_STATUS,
+  GA_PREFIX,
+  APPOINTMENT_TYPES,
+} from '../../utils/constants';
+import { getVAAppointmentLocationId } from '../../services/appointment';
+import ConfirmedAppointmentListItem from './cards/confirmed/ConfirmedAppointmentListItem';
+import AppointmentRequestListItem from './cards/pending/AppointmentRequestListItem';
 import NoAppointments from './NoAppointments';
-import { resetDataLayer } from '../utils/events';
+import { resetDataLayer } from '../../utils/events';
 
 function FutureAppointmentsList({
   showPastAppointments,
