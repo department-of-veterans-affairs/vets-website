@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
 import HeightWidget from '../widgets/HeightWidget';
+import WeightWidget from '../widgets/WeightWidget';
 
 import {
   validateMatch,
@@ -338,12 +339,14 @@ export const uiSchema = {
   height: {
     'ui:title': 'Height',
     'ui:widget': HeightWidget,
+    'ui:errorMessages': {
+      required: 'Please enter your height',
+      pattern: 'Please enter a valid height (feet and inches)',
+    },
   },
   weight: {
-    'ui:title': 'Weight (pounds)',
-    'ui:options': {
-      classNames: 'input-width',
-    },
+    'ui:title': 'Weight',
+    'ui:widget': WeightWidget,
     'ui:errorMessages': {
       required: 'Please enter your weight',
       pattern: 'Please enter a valid weight (decimals allowed)',
