@@ -265,8 +265,6 @@ class ArrayField extends React.Component {
     const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;
     const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
-    const numeratedItems = items.map(numerateKeys);
-
     return (
       <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
         {title && (
@@ -281,7 +279,7 @@ class ArrayField extends React.Component {
           <Element
             name={`topOfTable_${fieldName}${itemCountLocked ? '_locked' : ''}`}
           />
-          {numeratedItems.map((item, index) => {
+          {items.map((item, index) => {
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
             const showReviewButton =
