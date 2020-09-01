@@ -6,16 +6,6 @@
     "fullName": {
       "type": "object",
       "properties": {
-        "title": {
-          "type": "string",
-          "enum": [
-            "Mr.",
-            "Miss",
-            "Mrs.",
-            "Dr.",
-            "Rev."
-          ]
-        },
         "first": {
           "type": "string",
           "minLength": 1,
@@ -396,27 +386,27 @@
         "Air Force Reserves",
         "Air Force National Guard",
         "Air Force Nursing Corps (AFNC)",
-        "Women's Air Force Service Pilots (WASPS)",
         "Army",
         "Army National Guard",
         "Army Reserves",
-        "Women's Army Auxiliary Corps (WAAC)",
-        "Women's Army Corps (WACs)",
+        "Coast Guard",
+        "Coast Guard Women's Reserve (SPARS)",
+        "Environmental Services Administration",
         "Marine Corps",
         "Marine Corps Reserves",
+        "Natl Oceanic & Atmospheric Admin (NOAA)",
         "Navy",
         "Navy Reserves",
         "Navy Nursing Corps (NNC)",
-        "Coast Guard",
-        "Coast Guard Women's Reserve (SPARS)",
-        "Womens Voluntary Emerg Srv (WAVES)",
-        "Public Health Service",
-        "Environmental Services Administration",
-        "Natl Oceanic &amp; Atmospheric Admin (NOAA)",
-        "U. S. Merchant Marine",
         "Philippines Guerilla",
         "Philippines Scout",
-        "Don't Know"
+        "Public Health Service",
+        "U. S. Merchant Marine",
+        "Women's Air Force Service Pilots (WASPS)",
+        "Women's Army Auxiliary Corps (WAAC)",
+        "Women's Army Corps (WACs)",
+        "Womens Voluntary Emerg Srv (WAVES)",
+        "Other"
       ]
     },
     "privacyAgreementAccepted": {

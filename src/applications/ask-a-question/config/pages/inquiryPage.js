@@ -21,7 +21,7 @@ const getOptions = allOptions => {
 const inquiryPage = {
   uiSchema: {
     [formFields.inquiryType]: autoSuggestUiSchema(
-      'Type of inquiry',
+      "Tell us the reason you're contacting us",
       getOptions(inquiryType.enum),
       {
         'ui:options': { queryForResults: true, freeInput: true },
@@ -31,15 +31,19 @@ const inquiryPage = {
         },
       },
     ),
-    [formFields.topic]: autoSuggestUiSchema('Topic', getOptions(topic.enum), {
-      'ui:options': { queryForResults: true, freeInput: true },
-      'ui:errorMessages': {
-        maxLength: 'Please enter a name with fewer than 100 characters.',
-        pattern: 'Please enter a valid name.',
+    [formFields.topic]: autoSuggestUiSchema(
+      'Which topic best describes your question or message?',
+      getOptions(topic.enum),
+      {
+        'ui:options': { queryForResults: true, freeInput: true },
+        'ui:errorMessages': {
+          maxLength: 'Please enter a name with fewer than 100 characters.',
+          pattern: 'Please enter a valid name.',
+        },
       },
-    }),
+    ),
     [formFields.query]: {
-      'ui:title': 'Enter your message here',
+      'ui:title': 'Please enter your question or message below',
       'ui:widget': 'textarea',
       'ui:validations': [validateWhiteSpace],
     },
