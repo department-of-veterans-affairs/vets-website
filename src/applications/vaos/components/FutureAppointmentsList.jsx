@@ -21,7 +21,6 @@ import { getVAAppointmentLocationId } from '../services/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from './AppointmentRequestListItem';
 import NoAppointments from './NoAppointments';
-import { resetDataLayer } from '../utils/events';
 
 function FutureAppointmentsList({
   showPastAppointments,
@@ -40,23 +39,12 @@ function FutureAppointmentsList({
 }) {
   useEffect(
     () => {
-      if (futureStatus === FETCH_STATUS.succeeded) {
-        recordEvent({
-          event: 'nav-tab-click',
-          'tab-text': 'Upcoming',
-          [`${GA_PREFIX}-upcoming-number-of-cards`]: future?.length,
-        });
-        resetDataLayer();
+      if (!expressCare.enabled && futureStatus === FETCH_STATUS.notStarted) {
+        fetchFutureAppointments();
       }
     },
-    [futureStatus, future],
+    [expressCare.enabled, fetchFutureAppointments, futureStatus],
   );
-
-  useEffect(() => {
-    if (!expressCare.enabled && futureStatus === FETCH_STATUS.notStarted) {
-      fetchFutureAppointments();
-    }
-  }, []);
 
   let content;
 

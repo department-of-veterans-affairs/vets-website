@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { GA_PREFIX, APPOINTMENT_TYPES } from '../../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../../utils/events';
-import { selectSystemIds } from '../../utils/selectors';
+import { selectSystemIds, vaosExpressCare } from '../../utils/selectors';
 
 import {
   getCancelReasons,
@@ -134,7 +134,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 }
 
 export function fetchFutureAppointments() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
     });
@@ -158,6 +158,19 @@ export function fetchFutureAppointments() {
               type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
               data: requests,
             });
+
+            if (vaosExpressCare(getState())) {
+              const expressCareRequests = requests.filter(
+                appt => appt.vaos.isExpressCare,
+              );
+
+              if (expressCareRequests.length) {
+                recordEvent({
+                  event: `${GA_PREFIX}-express-care-fetch-requests-successful`,
+                  [`${GA_PREFIX}-express-care-number-of-cards`]: expressCareRequests.length,
+                });
+              }
+            }
             return requests;
           })
           .catch(resp => {
