@@ -2,7 +2,7 @@
  * Functions in here should map a var-resources API request to a similar response from
  * a FHIR resource request
  */
-import { getAvailableSlots } from '../../api';
+import { getAvailableSlots } from '../var';
 import { fhirSearch, mapToFHIRErrors } from '../utils';
 import { transformSlots } from './transformers';
 import { generateMockFHIRSlots } from '../../utils/calendar';

@@ -1,4 +1,4 @@
-import { getAvailableClinics } from '../../api';
+import { getAvailableClinics } from '../var';
 import { transformAvailableClinics } from './transformers';
 import { fhirSearch, mapToFHIRErrors } from '../utils';
 import { getSupportedLocationsByTypeOfCare } from '../location';

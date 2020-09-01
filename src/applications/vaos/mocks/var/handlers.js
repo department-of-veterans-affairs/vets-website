@@ -21,8 +21,8 @@ import slots from './slots.json';
 import cancelReasons from './cancel_reasons.json';
 import requestEligibilityCriteria from './request_eligibility_criteria.json';
 
-import { generateMockSlots } from '../utils/calendar';
-import { EXPRESS_CARE } from '../utils/constants';
+import { generateMockSlots } from '../../utils/calendar';
+import { EXPRESS_CARE } from '../../utils/constants';
 
 /*
  * Handler definition:

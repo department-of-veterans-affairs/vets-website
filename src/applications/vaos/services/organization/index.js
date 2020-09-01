@@ -2,7 +2,7 @@
  * Functions in here should map a var-resources API request to a similar response from
  * a FHIR resource request
  */
-import { getParentFacilities } from '../../api';
+import { getParentFacilities } from '../var';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { transformParentFacilities } from './transformers';
 import { fhirSearch, mapToFHIRErrors } from '../utils';

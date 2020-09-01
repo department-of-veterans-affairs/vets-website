@@ -11,7 +11,7 @@ import {
   getRequestMessages,
   updateAppointment,
   updateRequest,
-} from '../../api';
+} from '../../services/var';
 
 import { getLocations } from '../../services/location';
 
