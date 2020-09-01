@@ -12,8 +12,7 @@ const runCommand = (cmd, forcedExitCode = null) => {
   });
 };
 
-// eslint-disable-next-line no-unused-vars
-const runCommandSync = (cmd, forcedExitCode = null) => {
+const runCommandSync = cmd => {
   const child = spawnSync(cmd, [], { shell: true, stdio: 'inherit' });
   return child.status;
 };
