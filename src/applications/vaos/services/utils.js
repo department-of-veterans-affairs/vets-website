@@ -1,11 +1,14 @@
-import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
+import apiRequestWithMocks from '../utils/api';
 
 const USE_MOCK_DATA =
   environment.isLocalhost() && !environment.API_URL.includes('review.vetsgov');
 
 function vaosFHIRRequest(url, ...options) {
-  return apiRequest(`${environment.API_URL}/vaos/v1/${url}`, ...options);
+  return apiRequestWithMocks(
+    `${environment.API_URL}/vaos/v1/${url}`,
+    ...options,
+  );
 }
 
 /**

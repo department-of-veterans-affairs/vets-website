@@ -14,30 +14,22 @@ function getStagingId(facilityId) {
   return facilityId;
 }
 
-function vaosApiRequest(url, ...options) {
-  return apiRequestWithMocks(`${environment.API_URL}/vaos${url}`, ...options);
-}
-
-function v1ApiRequest(url, ...options) {
-  return apiRequestWithMocks(`${environment.API_URL}/v1${url}`, ...options);
-}
-
 export function getConfirmedAppointments(type, startDate, endDate) {
-  return vaosApiRequest(
-    `/v0/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
+  return apiRequestWithMocks(
+    `/vaos/vaos/v0/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
   ).then(resp => resp.data.map(item => ({ ...item.attributes, id: item.id })));
 }
 
 export function getPendingAppointments(startDate, endDate) {
-  return vaosApiRequest(
-    `/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
+  return apiRequestWithMocks(
+    `/vaos/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
   ).then(resp => resp.data.map(item => ({ ...item.attributes, id: item.id })));
 }
 
 export function getRequestMessages(requestId) {
-  return vaosApiRequest(`/v0/appointment_requests/${requestId}/messages`).then(
-    resp => resp.data,
-  );
+  return apiRequestWithMocks(
+    `/vaos/v0/appointment_requests/${requestId}/messages`,
+  ).then(resp => resp.data);
 }
 
 // This request takes a while, so we're going to call it early
@@ -90,7 +82,7 @@ export const getLongTermAppointmentHistory = (() => {
 export function getParentFacilities(systemIds) {
   const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
 
-  return vaosApiRequest(`/v0/facilities?${idList}`).then(resp =>
+  return apiRequestWithMocks(`/vaos/v0/facilities?${idList}`).then(resp =>
     resp.data.map(item => ({ ...item.attributes, id: item.id })),
   );
 }
@@ -100,15 +92,15 @@ export function getFacilitiesBySystemAndTypeOfCare(
   parentId,
   typeOfCareId,
 ) {
-  return vaosApiRequest(
-    `/v0/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
+  return apiRequestWithMocks(
+    `/vaos/v0/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
   ).then(resp => resp.data.map(item => ({ ...item.attributes, id: item.id })));
 }
 
 export function getCommunityCare(typeOfCare) {
-  return vaosApiRequest(`/v0/community_care/eligibility/${typeOfCare}`).then(
-    resp => ({ ...resp.data.attributes, id: resp.data.id }),
-  );
+  return apiRequestWithMocks(
+    `/vaos/v0/community_care/eligibility/${typeOfCare}`,
+  ).then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
 }
 
 export function checkPastVisits(
@@ -117,14 +109,14 @@ export function checkPastVisits(
   typeOfCareId,
   directOrRequest,
 ) {
-  return vaosApiRequest(
-    `/v0/facilities/${facilityId}/visits/${directOrRequest}?system_id=${systemId}&type_of_care_id=${typeOfCareId}`,
+  return apiRequestWithMocks(
+    `/vaos/v0/facilities/${facilityId}/visits/${directOrRequest}?system_id=${systemId}&type_of_care_id=${typeOfCareId}`,
   ).then(resp => resp.data.attributes);
 }
 
 export function getRequestLimits(facilityId, typeOfCareId) {
-  return vaosApiRequest(
-    `/v0/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
+  return apiRequestWithMocks(
+    `/vaos/v0/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
   ).then(resp => ({
     ...resp.data.attributes,
     id: resp.data.id,
@@ -132,15 +124,15 @@ export function getRequestLimits(facilityId, typeOfCareId) {
 }
 
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
-  return vaosApiRequest(
-    `/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${systemId}`,
+  return apiRequestWithMocks(
+    `/vaos/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${systemId}`,
   ).then(resp => resp.data.map(item => ({ ...item.attributes, id: item.id })));
 }
 
 export function getFacilityInfo(facilityId) {
-  return v1ApiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`).then(
-    resp => ({ id: resp.data.id, ...resp.data.attributes }),
-  );
+  return apiRequestWithMocks(
+    `/v1/facilities/va/vha_${getStagingId(facilityId)}`,
+  ).then(resp => ({ id: resp.data.id, ...resp.data.attributes }));
 }
 
 export function getFacilitiesInfo(facilityIds) {
@@ -149,14 +141,14 @@ export function getFacilitiesInfo(facilityIds) {
     .map(id => `vha_${id}`)
     .join(',');
 
-  return v1ApiRequest(`/facilities/va?ids=${idList}`).then(resp =>
+  return apiRequestWithMocks(`/v1/facilities/va?ids=${idList}`).then(resp =>
     resp.data.map(item => item.attributes),
   );
 }
 
 export function getSitesSupportingVAR(systemIds) {
-  return vaosApiRequest(
-    `/v0/community_care/supported_sites?${systemIds
+  return apiRequestWithMocks(
+    `/vaos/v0/community_care/supported_sites?${systemIds
       .map(id => `site_codes[]=${id}`)
       .join('&')}`,
   ).then(resp => resp.data.map(item => ({ id: item.id, ...item.attributes })));
@@ -169,19 +161,19 @@ export function getAvailableSlots(
   startDate,
   endDate,
 ) {
-  return vaosApiRequest(
-    `/v0/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
+  return apiRequestWithMocks(
+    `/vaos/v0/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
   ).then(resp => resp.data.map(item => ({ ...item.attributes, id: item.id })));
 }
 
 export function getCancelReasons(systemId) {
-  return vaosApiRequest(`/v0/facilities/${systemId}/cancel_reasons`).then(
-    resp => resp.data.map(item => ({ ...item.attributes, id: item.id })),
-  );
+  return apiRequestWithMocks(
+    `/vaos/v0/facilities/${systemId}/cancel_reasons`,
+  ).then(resp => resp.data.map(item => ({ ...item.attributes, id: item.id })));
 }
 
 export function updateAppointment(appt) {
-  return vaosApiRequest(`/v0/appointments/cancel`, {
+  return apiRequestWithMocks(`/vaos/v0/appointments/cancel`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(appt),
@@ -189,7 +181,7 @@ export function updateAppointment(appt) {
 }
 
 export function updateRequest(req) {
-  return vaosApiRequest(`/v0/appointment_requests/${req.id}`, {
+  return apiRequestWithMocks(`/vaos/v0/appointment_requests/${req.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(req),
@@ -200,7 +192,7 @@ export function updateRequest(req) {
 }
 
 export function submitRequest(type, request) {
-  return vaosApiRequest(`/v0/appointment_requests?type=${type}`, {
+  return apiRequestWithMocks(`/vaos/v0/appointment_requests?type=${type}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request),
@@ -208,7 +200,7 @@ export function submitRequest(type, request) {
 }
 
 export function submitAppointment(appointment) {
-  return vaosApiRequest('/v0/appointments', {
+  return apiRequestWithMocks('/vaos/v0/appointments', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(appointment),
@@ -216,7 +208,7 @@ export function submitAppointment(appointment) {
 }
 
 export function sendRequestMessage(id, messageText) {
-  return vaosApiRequest(`/v0/appointment_requests/${id}/messages`, {
+  return apiRequestWithMocks(`/vaos/v0/appointment_requests/${id}/messages`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ messageText }),
@@ -224,11 +216,13 @@ export function sendRequestMessage(id, messageText) {
 }
 
 export function getPreferences() {
-  return vaosApiRequest(`/v0/preferences`).then(resp => resp.data.attributes);
+  return apiRequestWithMocks(`/vaos/v0/preferences`).then(
+    resp => resp.data.attributes,
+  );
 }
 
 export function updatePreferences(data) {
-  return vaosApiRequest(`/v0/preferences`, {
+  return apiRequestWithMocks(`/vaos/v0/preferences`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -236,8 +230,8 @@ export function updatePreferences(data) {
 }
 
 export function getRequestEligibilityCriteria(sites) {
-  return vaosApiRequest(
-    `/v0/request_eligibility_criteria?${sites
+  return apiRequestWithMocks(
+    `/vaos/v0/request_eligibility_criteria?${sites
       .map(site => `parent_sites[]=${site}`)
       .join('&')}`,
   ).then(resp => resp.data.map(data => data.attributes));

@@ -1,25 +1,25 @@
 /* istanbul ignore file */
 import set from 'platform/utilities/data/set';
 
-import confirmedVA from '../api/confirmed_va.json';
-import confirmedCC from '../api/confirmed_cc.json';
-import requests from '../api/requests.json';
-import messages0190 from '../api/messages_0190.json';
-import messages0038 from '../api/messages_0038.json';
-import parentFacilities from '../api/facilities.json';
-import expressCareFacilities983 from '../api/facilities_983_express_care.json';
-import expressCareFacilities984 from '../api/facilities_984_express_care.json';
-import facilities983 from '../api/facilities_983.json';
-import facilities984 from '../api/facilities_984.json';
-import facilities983A6 from '../api/facilities_983A6.json';
-import clinicList983 from '../api/clinicList983.json';
-import facilityDetails983 from '../api/facility_details_983.json';
-import facilityDetails984 from '../api/facility_details_984.json';
-import facilityData from '../api/facility_data.json';
-import sitesSupportingVAR from '../api/sites-supporting-var.json';
-import slots from '../api/slots.json';
-import cancelReasons from '../api/cancel_reasons.json';
-import requestEligibilityCriteria from '../api/request_eligibility_criteria.json';
+import confirmedVA from './confirmed_va.json';
+import confirmedCC from './confirmed_cc.json';
+import requests from './requests.json';
+import messages0190 from './messages_0190.json';
+import messages0038 from './messages_0038.json';
+import parentFacilities from './facilities.json';
+import expressCareFacilities983 from './facilities_983_express_care.json';
+import expressCareFacilities984 from './facilities_984_express_care.json';
+import facilities983 from './facilities_983.json';
+import facilities984 from './facilities_984.json';
+import facilities983A6 from './facilities_983A6.json';
+import clinicList983 from './clinicList983.json';
+import facilityDetails983 from './facility_details_983.json';
+import facilityDetails984 from './facility_details_984.json';
+import facilityData from './facility_data.json';
+import sitesSupportingVAR from './sites-supporting-var.json';
+import slots from './slots.json';
+import cancelReasons from './cancel_reasons.json';
+import requestEligibilityCriteria from './request_eligibility_criteria.json';
 
 import { generateMockSlots } from '../utils/calendar';
 import { EXPRESS_CARE } from '../utils/constants';

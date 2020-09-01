@@ -47,5 +47,5 @@ export default async function apiRequestWithMocks(url, options, ...rest) {
     }
   }
 
-  return apiRequest(url, options, ...rest);
+  return apiRequest(`${environment.API_URL}${url}`, options, ...rest);
 }
