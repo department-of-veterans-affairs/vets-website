@@ -1,4 +1,4 @@
-import VeteranInformationComponent from './staticVeteranComponent.jsx';
+import ClaimantInformationComponent from './staticClaimantComponent.jsx';
 
 export const schema = {
   type: 'object',
@@ -6,7 +6,7 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'ui:description': VeteranInformationComponent,
+  'ui:description': ClaimantInformationComponent,
   'ui:options': {
     hideOnReview: true,
   },
