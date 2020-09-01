@@ -1,0 +1,36 @@
+import React from 'react';
+
+const NeedHelpV2 = () => (
+  <div
+    id="howDoIGetHelp"
+    className="vads-u-font-family--sans vads-u-margin-top--4"
+  >
+    <h3>How do I get financial help?</h3>
+    <p>If you need financial help, you can request:</p>
+    <ul>
+      <li>
+        An extended monthly payment plan, <strong>or</strong>
+      </li>
+      <li>
+        A compromise (ask us to accept a lower amount of money as full payment
+        of the debt), <strong>or</strong>
+      </li>
+      <li>A waiver (ask us to stop collection on the debt)</li>
+    </ul>
+    <p>
+      You may be required to submit a financial status report. Call the DMC at{' '}
+      <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
+        800-827-0648
+      </a>
+      {'.'}
+      between 6:30 a.m. and 6:00 p.m. CT discuss your options and next steps.
+      For international callers, use{' '}
+      <a href="tel: 612-713-6415" aria-label="612. 7 1 3. 6415.">
+        612-713-6415
+      </a>
+      {'.'}
+    </p>
+  </div>
+);
+
+export default NeedHelpV2;

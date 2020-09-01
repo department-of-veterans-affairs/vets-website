@@ -8,12 +8,13 @@ import { setActiveDebt } from '../actions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const DebtLetterCardV2 = (props, { debt }) => {
+const DebtLetterCardV2 = props => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
   });
+  const { debt } = props;
   const mostRecentHistory = last(debt.debtHistory);
   const debtCardHeading =
     deductionCodes[debt.deductionCode] || debt.benefitType;

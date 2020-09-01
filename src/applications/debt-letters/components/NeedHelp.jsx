@@ -1,16 +1,8 @@
 import React from 'react';
-import classnames from 'classnames';
 
-const NeedHelp = ({ debtLettersV2 }) => (
+const NeedHelp = () => (
   <div className="vads-u-font-family--sans vads-u-margin-top--4">
-    <h3
-      className={classnames({
-        'right-heading': !debtLettersV2,
-        'vads-u-margin-top--0': true,
-      })}
-    >
-      Need help?
-    </h3>
+    <h3 className="right-heading vads-u-margin-top--0">Need help?</h3>
     <p>
       Call the Debt Management Center between 6:30 a.m. and 6:00 p.m. CT using
       the numbers below:

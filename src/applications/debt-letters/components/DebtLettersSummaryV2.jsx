@@ -2,11 +2,12 @@ import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import HowDoIPay from './HowDoIPay';
-import NeedHelp from './NeedHelp';
-import DebtCardsList from './DebtCardsList';
+import HowDoIPayV2 from './HowDoIPayV2';
+import NeedHelpV2 from './NeedHelpV2';
+import { OnThisPageLinks } from './OnThisPageLinks';
+import DebtCardsListV2 from './DebtCardsListV2';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const DebtLettersSummaryV2 = ({ isError, isVBMSError, debts, debtLinks }) => {
   const renderAlert = () => (
@@ -59,6 +60,25 @@ const DebtLettersSummaryV2 = ({ isError, isVBMSError, debts, debtLinks }) => {
     </div>
   );
 
+  const bannerContent = (
+    <>
+      <p>
+        We’ve taken action to stop collection on newly established Veteran debt
+        and make it easier for Veterans to request extended repayment plans and
+        address other financial needs during this time.
+      </p>
+      <p>
+        You won’t receive any debt collection letters in the mail until after
+        December 31, 2020. For the latest information about managing VA debt,
+        visit our{' '}
+        <a href="http://va.gov/coronavirus-veteran-frequently-asked-questions/">
+          coronavirus FAQs
+        </a>
+        .
+      </p>
+    </>
+  );
+
   const allDebtsFetchFailure = isVBMSError && isError;
   const allDebtsEmpty =
     !allDebtsFetchFailure && debts.length === 0 && debtLinks.length === 0;
@@ -76,11 +96,7 @@ const DebtLettersSummaryV2 = ({ isError, isVBMSError, debts, debtLinks }) => {
         <div className="vads-u-display--block">
           <CallToActionWidget appId="debt-letters">
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              <h2
-                className={classNames(
-                  'vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--2',
-                )}
-              >
+              <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-weight--normal">
                 Check the details of VA debt you might have related to your
                 education, disability compensation, pension, or home loan
                 benefits. Find out how to pay your debt and what to do if you
@@ -88,9 +104,21 @@ const DebtLettersSummaryV2 = ({ isError, isVBMSError, debts, debtLinks }) => {
               </h2>
               {allDebtsFetchFailure && renderAlert()}
               {allDebtsEmpty && renderEmptyAlert()}
-              {!allDebtsFetchFailure && <DebtCardsList />}
-              <HowDoIPay debtLettersV2 />
-              <NeedHelp debtLettersV2 />
+              {!allDebtsFetchFailure && (
+                <>
+                  <AlertBox
+                    className="vads-u-margin-bottom--2"
+                    headline="VA debt collection is on hold due to the coronavirus"
+                    content={bannerContent}
+                    status="info"
+                    isVisible
+                  />
+                  <OnThisPageLinks />
+                  <DebtCardsListV2 />
+                </>
+              )}
+              <HowDoIPayV2 />
+              <NeedHelpV2 />
             </div>
           </CallToActionWidget>
         </div>
