@@ -1,8 +1,7 @@
 import basicUser from './fixtures/users/user-basic.json';
 
-describe('healthcare questionnaire -- demographics', () => {
-  before(() => {
-    cy.server();
+describe('healthcare questionnaire -- demographics -- basic information', () => {
+  beforeEach(() => {
     cy.fixture(
       '../../src/applications/healthcare/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
     ).then(async features => {
@@ -12,31 +11,10 @@ describe('healthcare questionnaire -- demographics', () => {
         'DISMISSED_ANNOUNCEMENTS',
         JSON.stringify(['single-sign-on-intro']),
       );
-    });
-    cy.visit('/healthcare/questionnaire/demographics?skip');
-  });
-  it('all default phone numbers', () => {
-    cy.findByTestId('homePhone').contains('503-222-2222', {
-      matchCase: false,
-    });
-    cy.findByTestId('mobilePhone').contains('503-555-1234', {
-      matchCase: false,
-    });
-    cy.findByTestId('temporaryPhone').contains('503-555-5555', {
-      matchCase: false,
+      cy.visit('/healthcare/questionnaire/demographics?skip');
     });
   });
-  it('all default addresses', () => {
-    cy.findByTestId('mailingAddress').contains(
-      '1493 Martin Luther King Rd Apt 1',
-      {
-        matchCase: false,
-      },
-    );
-    cy.findByTestId('residentialAddress').contains('PSC 808 Box 37', {
-      matchCase: false,
-    });
-  });
+
   it('basic information', () => {
     cy.get('.schemaform-title>h1').contains('Healthcare Questionnaire');
     cy.findByTestId('fullName').contains('CALVIN C FLETCHER', {
