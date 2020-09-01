@@ -5,6 +5,9 @@ import moment from 'moment';
 import { srSubstitute } from '../../all-claims/utils';
 import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
@@ -48,14 +51,8 @@ export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
       <p>
         <strong>Note:</strong> If you need to update your personal information,
         please call Veterans Benefits Assistance toll free at{' '}
-        <a
-          href="tel:1-800-827-1000"
-          aria-label="8 0 0. 8 2 7. 1 0 0 0."
-          className="nowrap"
-        >
-          800-827-1000
-        </a>
-        , Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
+        8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
   );

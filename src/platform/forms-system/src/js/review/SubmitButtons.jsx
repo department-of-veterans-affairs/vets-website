@@ -9,12 +9,12 @@ import { APP_TYPE_DEFAULT } from '../constants';
 // components
 import { Column, Row } from 'platform/forms/components/common/grid';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
+import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function SubmitButtons(props) {
   const {
     onBack,
     onSubmit,
-    preSubmitSection,
     renderErrorMessage,
     submission,
     formConfig,
@@ -128,7 +128,7 @@ export default function SubmitButtons(props) {
             {submitMessage}
           </Column>
         </Row>
-        {preSubmitSection}
+        <PreSubmitSection formConfig={formConfig} />
         <Row classNames="form-progress-buttons schemaform-back-buttons">
           <Column classNames="small-6 usa-width-one-half medium-6">
             <a href="/">
@@ -146,7 +146,7 @@ export default function SubmitButtons(props) {
       <Row>
         <Column role="alert">{submitMessage}</Column>
       </Row>
-      {preSubmitSection}
+      <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons">
         <Column classNames="small-6 medium-5">
           <ProgressButton
@@ -168,7 +168,6 @@ export default function SubmitButtons(props) {
 SubmitButtons.propTypes = {
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
-  preSubmitSection: PropTypes.element,
   renderErrorMessage: PropTypes.func,
   submission: PropTypes.object,
   formConfig: PropTypes.shape({
