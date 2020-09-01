@@ -16,24 +16,12 @@ function vaosFHIRRequest(url, ...options) {
  *
  * @export
  * @param {String} params.query The FHIR resource and query string to fetch
- * @param {Function} params.mock A function that returns a promise containing mock data to use
  * @returns {Array} An array of FHIR resources (not necessarily all the same type as the resource in the query)
  */
-export function fhirSearch({ query, mock }) {
-  let promise = null;
-  if (USE_MOCK_DATA) {
-    promise = new Promise(resolve =>
-      setTimeout(() => {
-        mock().then(module => {
-          resolve(module.default ? module.default : module);
-        });
-      }, 500),
-    );
-  } else {
-    promise = vaosFHIRRequest(query);
-  }
-
-  return promise.then(resp => resp.entry?.map(item => item.resource) || []);
+export function fhirSearch({ query }) {
+  return vaosFHIRRequest(query).then(
+    resp => resp.entry?.map(item => item.resource) || [],
+  );
 }
 
 /**
@@ -62,7 +50,7 @@ export async function apiRequestWithMocks(url, options, ...rest) {
   /* istanbul ignore if  */
   if (USE_MOCK_DATA) {
     // This needs to be lazy loaded to keep it out of the main bundle
-    const handlers = (await import('../mocks/var/handlers')).default;
+    const handlers = (await import('../mocks')).default;
 
     // find a matching handler by method and path checks
     const match = handlers.find(handler => {
