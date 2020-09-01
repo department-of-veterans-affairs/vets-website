@@ -9,9 +9,9 @@ import {
   getAvailableHealthcareServices,
   getSupportedHealthcareServicesAndLocations,
 } from '../../../services/healthcare-service';
-import mockLocations983 from '../../../services/healthcare-service/mock_locations_983.json';
+import mockLocations983 from '../../../mocks/fhir//mock_locations_983.json';
 import clinicList983 from '../../../mocks/var/clinicList983.json';
-import mockHealthcareSystem983 from '../../../services/healthcare-service/mock_healthcare_system_983.json';
+import mockHealthcareSystem983 from '../../../mocks/fhir/mock_healthcare_system_983.json';
 
 describe('VAOS Healthcare service', () => {
   beforeEach(() => {

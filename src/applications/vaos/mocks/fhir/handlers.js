@@ -1,10 +1,10 @@
 /* istanbul ignore file */
-import healthcareService983 from '../../services/healthcare-service/mock_healthcare_system_983.json';
-import healthcareService984 from '../../services/healthcare-service/mock_healthcare_system_984.json';
-import locations983 from '../../services/healthcare-service/mock_locations_983.json';
-import locations984 from '../../services/healthcare-service/mock_locations_984.json';
-import organization from '../../services/organization/mock.json';
-import slots from '../../services/slot/mock_slots.json';
+import healthcareService983 from './mock_healthcare_system_983.json';
+import healthcareService984 from './mock_healthcare_system_984.json';
+import locations983 from './mock_locations_983.json';
+import locations984 from './mock_locations_984.json';
+import organization from './mock_organizations.json';
+import slots from './mock_slots.json';
 import { generateMockFHIRSlots } from '../../utils/calendar';
 
 /*

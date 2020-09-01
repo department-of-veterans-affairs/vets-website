@@ -46,6 +46,9 @@ export function mapToFHIRErrors(errors) {
   };
 }
 
+/*
+ * Makes an api request using the standard helpers, but runs through the vaos mock handlers first
+ */
 export async function apiRequestWithMocks(url, options, ...rest) {
   /* istanbul ignore if  */
   if (USE_MOCK_DATA) {

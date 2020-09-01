@@ -7,7 +7,7 @@ import {
 
 import { getSlots } from '../../../services/slot';
 import slots from '../../../mocks/var/slots.json';
-import vspSlots from '../../../services/slot/mock_slots.json';
+import vspSlots from '../../../mocks/fhir/mock_slots.json';
 
 describe('VAOS Slot service', () => {
   describe('getSlots', () => {

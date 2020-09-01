@@ -12,7 +12,7 @@ import {
   getOrganizationBySiteId,
 } from '../../../services/organization';
 import facilities from '../../../mocks/var/facilities.json';
-import mockOrganizations from '../../../services/organization/mock.json';
+import mockOrganizations from '../../../mocks/fhir/mock_organizations.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
 
 const facilitiesParsed = facilities.data.map(f => ({

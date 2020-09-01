@@ -35,7 +35,6 @@ export async function getOrganizations({ siteIds, useVSP = false }) {
 
   return fhirSearch({
     query: `Organization?identifier=${siteIds.join(',')}&_sort=name`,
-    mock: () => import('./mock.json'),
   });
 }
 
