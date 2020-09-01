@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const HowDoIPayV2 = () => (
   <div className="vads-u-font-family--sans">
@@ -34,8 +35,12 @@ const HowDoIPayV2 = () => (
     </p>
     <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">By mail</h3>
     <p className="vads-u-margin-top--0">
-      Find instructions on how to pay by mail in the demand letters sent to your
-      address or download your most recent letter.
+      Find instructions on how to pay by mail in the demand letter sent to your
+      address or you can{' '}
+      <Link className="usa-button" to="/view-details">
+        download them online
+      </Link>
+      .
     </p>
   </div>
 );
