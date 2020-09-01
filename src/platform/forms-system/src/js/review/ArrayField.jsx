@@ -8,74 +8,10 @@ import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsons
 import SchemaForm from '../components/SchemaForm';
 import { focusElement } from '../utilities/ui';
 
+import { getNumeratedUiSchema, getNumeratedItemSchema } from '../helpers';
+
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
-
-/**
- * Numerate the field names (keys) in a uiSchema object.
- *
- * @param {Object} uiSchema - The uiSchema for the field
- * @param {number} index = The integer to append to the field names
- * @returns {Object} The uiSchema with an integer appended to property names
- */
-function getNumeratedUiSchema(uiSchema, index) {
-  // We don't want to enumerate things like `ui:options`
-  const fields = Object.entries(uiSchema).filter(
-    ([key, _val]) => !key.startsWith('ui:'),
-  );
-
-  /* eslint-disable no-param-reassign */
-  return fields.reduce(
-    (numerated, [key, value]) => {
-      numerated[`${key}${index}`] = value;
-      delete numerated[key];
-      return numerated;
-    },
-    { ...uiSchema },
-  );
-  /* eslint-enable no-param-reassign */
-}
-
-/**
- * Append an index to each key of the object
- *
- * @param {Object} object - The object whose keys will be modified
- * @param {number} index - The integer which will be appended to the keys
- * @returns {Object} The object with the index appended to each key
- */
-function numerateKeys(object = {}, index) {
-  const entries = Object.entries(object);
-  return entries.reduce((numerated, [key, value]) => {
-    // eslint-disable-next-line no-param-reassign
-    numerated[`${key}${index}`] = value;
-    return numerated;
-  }, {});
-}
-
-/**
- * Almost a copy of the class method `getItemSchema`.
- * This version applies numeration to the `properties` and `required` values
- *
- * @param {Object} schema - The schema for the field
- * @param {number} index - The integer which will be appended to the property names
- * @returns {Object} The object which *might* have integers appended to property names
- */
-function getNumeratedItemSchema(schema, index) {
-  if (schema.items.length > index) {
-    return schema.items[index];
-  }
-
-  const required = schema.additionalItems?.required?.map(
-    (prop, idx) => `${prop}${idx}`,
-  );
-  const properties = numerateKeys(schema.additionalItems?.properties, index);
-
-  return {
-    ...schema.additionalItems,
-    properties,
-    required,
-  };
-}
 
 /* Growable table (Array) field on the Review page
  *

@@ -2,6 +2,8 @@ import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
+import numerateKeys from 'platform/utilities/data/numerateKeys';
+
 // An active page is one that will be shown to the user.
 // Pages become inactive if they are conditionally shown based
 // on answers to previous questions.
@@ -641,4 +643,54 @@ export function transformForSubmit(
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
   return JSON.stringify(withoutViewFields, replacer) || '{}';
+}
+
+/**
+ * Numerate the field names (keys) in a uiSchema object.
+ *
+ * @param {Object} uiSchema - The uiSchema for the field
+ * @param {number} index = The integer to append to the field names
+ * @returns {Object} The uiSchema with an integer appended to property names
+ */
+export function getNumeratedUiSchema(uiSchema, index) {
+  // We don't want to enumerate things like `ui:options`
+  const fields = Object.entries(uiSchema).filter(
+    ([key, _val]) => !key.startsWith('ui:'),
+  );
+
+  /* eslint-disable no-param-reassign */
+  return fields.reduce(
+    (numerated, [key, value]) => {
+      numerated[`${key}${index}`] = value;
+      delete numerated[key];
+      return numerated;
+    },
+    { ...uiSchema },
+  );
+  /* eslint-enable no-param-reassign */
+}
+
+/**
+ * Almost a copy of the class method `getItemSchema`.
+ * This version applies numeration to the `properties` and `required` values
+ *
+ * @param {Object} schema - The schema for the field
+ * @param {number} index - The integer which will be appended to the property names
+ * @returns {Object} The object which *might* have integers appended to property names
+ */
+export function getNumeratedItemSchema(schema, index) {
+  if (schema.items.length > index) {
+    return schema.items[index];
+  }
+
+  const required = schema.additionalItems?.required?.map(
+    (prop, idx) => `${prop}${idx}`,
+  );
+  const properties = numerateKeys(schema.additionalItems?.properties, index);
+
+  return {
+    ...schema.additionalItems,
+    properties,
+    required,
+  };
 }
