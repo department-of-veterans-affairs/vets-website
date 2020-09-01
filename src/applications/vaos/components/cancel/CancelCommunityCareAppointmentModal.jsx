@@ -12,6 +12,8 @@ export default function CancelCommunityCareAppointmentModal({
     res.actor.reference.startsWith('Practitioner'),
   )?.actor.display;
   const phone = location.telecom?.find(item => item.system === 'phone')?.value;
+  const address = location.address;
+
   return (
     <Modal
       id="cancelAppt"
@@ -20,8 +22,13 @@ export default function CancelCommunityCareAppointmentModal({
       onClose={onClose}
       title="You need to call your community care provider to cancel this appointment"
     >
-      Community care appointments can’t be canceled online. Please call the
-      below provider to cancel your appointment.
+      Community care appointments can’t be canceled online.
+      {!!address && (
+        <>
+          &nbsp; Please call the below provider to cancel your appointment.
+          <br />
+        </>
+      )}
       <div className="vads-u-margin-y--2">
         {!!practitionerName && (
           <>

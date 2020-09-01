@@ -12,6 +12,7 @@ import {
   UNABLE_TO_REACH_VETERAN_DETCODE,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
+import { deburr } from 'lodash';
 
 /**
  * Determines what type of appointment a VAR appointment object is depending on
@@ -25,7 +26,7 @@ function getAppointmentType(appt) {
     return APPOINTMENT_TYPES.ccRequest;
   } else if (appt.typeOfCareId) {
     return APPOINTMENT_TYPES.request;
-  } else if (appt.type === 'cc_appointment' || appt.communityCare === true) {
+  } else if (appt.distanceEligibleConfirmed || appt.communityCare === true) {
     return APPOINTMENT_TYPES.ccAppointment;
   } else if (
     appt.vvsAppointments ||
@@ -534,7 +535,6 @@ export function transformConfirmedAppointments(appointments) {
     const start = getMomentConfirmedDate(appt).format();
     const isPast = isPastAppointment(appt);
     const isCC = isCommunityCare(appt);
-
     return {
       resourceType: 'Appointment',
       id: `var${appt.id}`,

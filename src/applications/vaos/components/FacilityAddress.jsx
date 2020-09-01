@@ -8,7 +8,9 @@ export default function FacilityAddress({
 }) {
   const address = facility?.address;
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
-
+  if (!address) {
+    showDirectionsLink = false;
+  }
   return (
     <>
       {!!name && (
@@ -23,8 +25,13 @@ export default function FacilityAddress({
           <br />
         </React.Fragment>
       ))}
-      {address.city}, {address.state} {address.postalCode}
-      <br />
+      {!!address && (
+        <>
+          {address.city}, {address.state} {address.postalCode}
+          <br />
+        </>
+      )}
+
       {showDirectionsLink && (
         <>
           <FacilityDirectionsLink location={facility} />

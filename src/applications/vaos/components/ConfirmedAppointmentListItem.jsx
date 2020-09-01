@@ -51,7 +51,7 @@ export default function ConfirmedAppointmentListItem({
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
 
   const showInstructions =
-    isCommunityCare ||
+    (isCommunityCare && appointment.contained[0].address) ||
     (isInPersonVAAppointment &&
       PURPOSE_TEXT.some(purpose =>
         appointment?.comment?.startsWith(purpose.short),
@@ -83,9 +83,11 @@ export default function ConfirmedAppointmentListItem({
     const address = appointment.contained.find(
       res => res.resourceType === 'Location',
     )?.address;
-    location = `${address.line[0]} ${address.city}, ${address.state} ${
-      address.postalCode
-    }`;
+    if (address) {
+      location = `${address.line[0]} ${address.city}, ${address.state} ${
+        address.postalCode
+      }`;
+    }
   } else {
     header = 'VA Appointment';
     location = facility ? formatFacilityAddress(facility) : null;
