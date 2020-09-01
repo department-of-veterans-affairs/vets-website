@@ -282,18 +282,7 @@
       "title": "File for disability benefits",
       "layout": "page-react.html",
       "description": "Learn how to apply online for disability compensation.",
-      "hideFromSidebar": true,
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "name": "Disability Benefits",
-          "path": "disability/"
-        },
-        {
-          "name": "File for Disability Compensation",
-          "path": "disability/file-disability-claim-form-21-526ez"
-        }
-      ]
+      "hideFromSidebar": true
     }
   },
   {
