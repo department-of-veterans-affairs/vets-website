@@ -65,7 +65,7 @@ function getStagingId(facilityId) {
 
 export function getConfirmedAppointments(type, startDate, endDate) {
   return apiRequestWithMocks(
-    `/vaos/vaos/v0/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
+    `/vaos/v0/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
   ).then(resp => resp.data.map(item => ({ ...item.attributes, id: item.id })));
 }
 
