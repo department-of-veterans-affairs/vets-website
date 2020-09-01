@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 
 const SignatureInput = ({
@@ -8,48 +8,65 @@ const SignatureInput = ({
   setIsSigned,
   showError,
 }) => {
-  const inputRef = useRef(null);
-  const firstName = fullName.first?.toLowerCase();
-  const lastName = fullName.last?.toLowerCase();
-  const middleName = fullName.middle?.toLowerCase();
-  const firstLetterOfMiddleName = middleName ? middleName.charAt(0) : '';
-  const signatureRegEx = new RegExp(
-    `${firstName}(\\s{1,4}|\\s{0,4}${firstLetterOfMiddleName}\\s{0,4}|\\s{0,4}${middleName}\\s{0,4})${lastName}`,
-  );
+  const [hasError, setError] = useState(false);
+  const firstName = fullName.first.toLowerCase();
+  const lastName = fullName.last.toLowerCase();
+  const middleName = fullName.middle === undefined ? '' : fullName.middle;
+
   const [signature, setSignature] = useState({
     value: '',
     dirty: false,
   });
-  const [hasError, setError] = useState(false);
-  const hasSignatureMatched = signatureRegEx.test(
-    signature.value?.toLowerCase(),
-  );
+
+  const firstLetterOfMiddleName =
+    middleName === undefined ? '' : middleName.charAt(0);
+
+  const getName = (middle = '') =>
+    `${firstName}${middle}${lastName}`
+      .split(' ')
+      .join('')
+      .toLocaleLowerCase();
+
+  const normalizedSignature = signature.value
+    .split(' ')
+    .join('')
+    .toLocaleLowerCase();
+
+  // first and last
+  const firstAndLastMatches = getName() === normalizedSignature;
+
+  // middle initial
+  const middleInitialMatches =
+    getName(firstLetterOfMiddleName) === normalizedSignature;
+
+  // middle name
+  const withMiddleNameMatches = getName(middleName) === normalizedSignature;
+
+  const signatureMatches =
+    firstAndLastMatches || middleInitialMatches || withMiddleNameMatches;
 
   useEffect(
     () => {
       const isDirty = signature.dirty;
-      const activeElementId = document.activeElement.id;
-      const inputId = inputRef.current.inputId;
-      setIsSigned(hasSignatureMatched);
 
-      if (
-        (isDirty && activeElementId !== inputId && !hasSignatureMatched) ||
-        showError
-      ) {
+      setIsSigned(true);
+
+      if ((isDirty && !signatureMatches) || showError) {
+        setIsSigned(false);
         setError(true);
       }
 
-      if (hasSignatureMatched) {
+      if (signatureMatches) {
+        setIsSigned(true);
         setError(false);
       }
     },
-    [setIsSigned, signature, hasSignatureMatched, showError],
+    [setIsSigned, signature.dirty, signatureMatches, showError],
   );
 
   return (
     <ErrorableTextInput
       additionalClass="signature-input"
-      ref={inputRef}
       label={label}
       required={required}
       onValueChange={value => setSignature(value)}
