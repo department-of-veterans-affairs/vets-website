@@ -1156,7 +1156,7 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('cumulativeService')}
       >
-        <h3>Cumulative Post-9/11 service</h3>(
+        <h3>Cumulative Post-9/11 service</h3>
         <div>
           <p>
             The Post-9/11 GI Bill provides financial support for education and a
