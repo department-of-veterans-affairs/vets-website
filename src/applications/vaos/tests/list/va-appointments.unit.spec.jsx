@@ -9,7 +9,7 @@ import { getVAAppointmentMock, getVAFacilityMock } from '../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
 import { renderWithStoreAndRouter } from '../mocks/setup';
 
-import FutureAppointmentsList from '../../components/FutureAppointmentsList';
+import FutureAppointmentsList from '../../appointment-list/components/FutureAppointmentsList';
 
 const initialState = {
   featureToggles: {

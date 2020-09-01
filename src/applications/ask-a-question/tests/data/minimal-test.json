@@ -1,14 +1,16 @@
 {
   "data": {
-    "topic": "Policy Questions",
-    "inquiryType": "Question",
-    "query": "Some question?",
     "fullName": {
       "first": "Jane",
       "last": "Doe"
     },
+    "relationshipToVeteran": "A general question",
     "preferredContactMethod": "email",
     "email": "jane.doe@va.gov",
-    "privacyAgreementAccepted": true
+    "view:email": "jane.doe@va.gov",
+    "privacyAgreementAccepted": true,
+    "inquiryType": "Question",
+    "topic": "Policy Question",
+    "query": "Some question?"
   }
 }
