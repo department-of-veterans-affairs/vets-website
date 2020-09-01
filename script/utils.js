@@ -1,4 +1,4 @@
-const { spawn } = require('child_process');
+const { spawn, spawnSync } = require('child_process');
 
 const runCommand = (cmd, forcedExitCode = null) => {
   const child = spawn(cmd, [], { shell: true, stdio: 'inherit' });
@@ -12,6 +12,13 @@ const runCommand = (cmd, forcedExitCode = null) => {
   });
 };
 
+// eslint-disable-next-line no-unused-vars
+const runCommandSync = (cmd, forcedExitCode = null) => {
+  const child = spawnSync(cmd, [], { shell: true, stdio: 'inherit' });
+  return child.status;
+};
+
 module.exports = {
   runCommand,
+  runCommandSync,
 };
