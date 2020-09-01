@@ -4,16 +4,16 @@ const mock = require('../../../../platform/testing/e2e/mock-helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const Auth = require('../../../../platform/testing/e2e/auth');
 
-const confirmedVA = require('../../api/confirmed_va.json');
-const confirmedCC = require('../../api/confirmed_cc.json');
-const requests = require('../../api/requests.json');
-const cancelReasons = require('../../api/cancel_reasons.json');
-const supportedSites = require('../../api/sites-supporting-var.json');
-const facilities = require('../../api/facilities.json');
-const facilities983 = require('../../api/facilities_983.json');
-const clinicList983 = require('../../api/clinicList983.json');
-const slots = require('../../api/slots.json');
-const pact = require('../../api/pact.json');
+const confirmedVA = require('../../mocks/var/confirmed_va.json');
+const confirmedCC = require('../../mocks/var/confirmed_cc.json');
+const requests = require('../../mocks/var/requests.json');
+const cancelReasons = require('../../mocks/var/cancel_reasons.json');
+const supportedSites = require('../../mocks/var/sites-supporting-var.json');
+const facilities = require('../../mocks/var/facilities.json');
+const facilities983 = require('../../mocks/var/facilities_983.json');
+const clinicList983 = require('../../mocks/var/clinicList983.json');
+const slots = require('../../mocks/var/slots.json');
+const pact = require('../../mocks/var/pact.json');
 
 function updateConfirmedVADates(data) {
   data.data.forEach(item => {

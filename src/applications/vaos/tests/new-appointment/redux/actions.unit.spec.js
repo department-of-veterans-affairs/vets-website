@@ -64,11 +64,11 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
 } from '../../../redux/sitewide';
 
-import parentFacilities from '../../../api/facilities.json';
-import facilities983 from '../../../api/facilities_983.json';
-import clinics from '../../../api/clinicList983.json';
-import facilityDetails from '../../../api/facility_details_983.json';
-import pastAppointments from '../../../api/confirmed_va.json';
+import parentFacilities from '../../../mocks/var/facilities.json';
+import facilities983 from '../../../mocks/var/facilities_983.json';
+import clinics from '../../../mocks/var/clinicList983.json';
+import facilityDetails from '../../../mocks/var/facility_details_983.json';
+import pastAppointments from '../../../mocks/var/confirmed_va.json';
 import {
   FACILITY_TYPES,
   FETCH_STATUS,

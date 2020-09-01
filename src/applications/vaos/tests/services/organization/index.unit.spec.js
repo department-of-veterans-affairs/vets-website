@@ -11,7 +11,7 @@ import {
   getRootOrganization,
   getOrganizationBySiteId,
 } from '../../../services/organization';
-import facilities from '../../../api/facilities.json';
+import facilities from '../../../mocks/var/facilities.json';
 import mockOrganizations from '../../../services/organization/mock.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
 

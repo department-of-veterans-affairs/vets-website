@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import facilities983 from '../../../api/facilities_983.json';
-import facilityDetails from '../../../api/facility_data.json';
+import facilities983 from '../../../mocks/var/facilities_983.json';
+import facilityDetails from '../../../mocks/var/facility_data.json';
 import {
   transformDSFacilities,
   transformFacility,
