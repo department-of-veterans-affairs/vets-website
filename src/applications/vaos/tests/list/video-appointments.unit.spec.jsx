@@ -6,7 +6,7 @@ import { mockAppointmentInfo } from '../mocks/helpers';
 import { getVideoAppointmentMock } from '../mocks/v0';
 import { renderWithStoreAndRouter } from '../mocks/setup';
 
-import FutureAppointmentsList from '../../components/FutureAppointmentsList';
+import FutureAppointmentsList from '../../appointment-list/components/FutureAppointmentsList';
 
 const initialState = {
   featureToggles: {

@@ -6,6 +6,9 @@ import confirmedCC from '../../api/confirmed_cc.json';
 import requests from '../../api/requests.json';
 import cancelReasons from '../../api/cancel_reasons.json';
 import supportedSites from '../../api/sites-supporting-var.json';
+import facilities from '../../api/facilities.json';
+import facilities983 from '../../api/facilities_983.json';
+import clinicList983 from '../../api/clinicList983.json';
 import {
   getVAAppointmentMock,
   getExpressCareRequestCriteriaMock,
@@ -271,5 +274,92 @@ export function initExpressCareMocks() {
         },
       },
     },
+  });
+}
+
+export function initCommunityCareMock() {
+  cy.server();
+  cy.login();
+  cy.route({
+    method: 'GET',
+    url: '/v0/feature_toggles*',
+    status: 200,
+    response: {
+      data: {
+        features: [
+          {
+            name: 'vaOnlineScheduling',
+            value: true,
+          },
+          {
+            name: 'vaOnlineSchedulingRequests',
+            value: true,
+          },
+          {
+            name: 'vaOnlineSchedulingCommunityCare',
+            value: true,
+          },
+        ],
+      },
+    },
+  });
+
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/community_care/supported_sites*',
+    response: supportedSites,
+  });
+
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities**',
+    response: facilities,
+  });
+
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/systems/983/direct_scheduling_facilities',
+    response: facilities983,
+  });
+
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/clinics',
+    response: clinicList983,
+  });
+
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/community_care/eligibility/PrimaryCare',
+    response: {
+      data: {
+        id: 'PrimaryCare',
+        type: 'cc_eligibility',
+        attributes: { eligible: true },
+      },
+    },
+  });
+
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/appointments?start_date=*&end_date=*&type=va',
+    response: updateConfirmedVADates(confirmedVA),
+  });
+
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests?type=*',
+    response: {
+      data: {
+        id: 'testing',
+        attributes: {},
+      },
+    },
+  });
+
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests/testing/messages',
+    response: [],
   });
 }

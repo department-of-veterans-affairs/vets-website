@@ -88,23 +88,32 @@ export class CernerCallToAction extends Component {
 
     // Escape early if we are fetching.
     if (fetching) {
-      return <LoadingIndicator message="Loading your information..." />;
+      return (
+        <div data-testid="cerner-cta-widget">
+          <LoadingIndicator message="Loading your information..." />
+        </div>
+      );
     }
 
     // Escape early if there was an error fetching the Cerner facilities.
     if (error || isEmpty(facilities)) {
       // WARNING: Add sentry logging here if there is an error fetching Cerner facilities.
       return (
-        <AlertBox
-          headline="Something went wrong"
-          content="We’re sorry. Something went wrong on our end. Please try again later."
-          status="error"
-        />
+        <div data-testid="cerner-cta-widget">
+          <AlertBox
+            headline="Something went wrong"
+            content="We’re sorry. Something went wrong on our end. Please try again later."
+            status="error"
+          />
+        </div>
       );
     }
 
     return (
-      <div className="usa-alert usa-alert-warning">
+      <div
+        className="usa-alert usa-alert-warning"
+        data-testid="cerner-cta-widget"
+      >
         <div className="usa-alert-body">
           <h3 className="usa-alert-heading">
             Your VA health care team may be using our new My VA Health portal

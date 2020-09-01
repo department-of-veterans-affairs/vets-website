@@ -70,7 +70,7 @@ export class ITFWrapper extends React.Component {
   }
 
   render() {
-    const { itf } = this.props;
+    const { itf, title } = this.props;
 
     if (this.shouldBlockITF(this.props.location.pathname)) {
       return this.props.children;
@@ -78,13 +78,16 @@ export class ITFWrapper extends React.Component {
       // If we get here, componentDidMount or componentWillRecieveProps called
       // fetchITF; While we're waiting, show the loading indicator...
       return (
-        <div className="vads-u-margin-bottom--4">
-          <LoadingIndicator message="Please wait while we check to see if you have an existing Intent to File." />
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--4">
+            <h1>{title}</h1>
+            <LoadingIndicator message="Please wait while we check to see if you have an existing Intent to File." />
+          </div>
         </div>
       );
     } else if (itf.fetchCallState === requestStates.failed) {
       // We'll get here after the fetchITF promise is fulfilled
-      return <ITFBanner status="error" />;
+      return <ITFBanner title={title} status="error" />;
     } else if (itf?.currentITF?.status === itfStatuses.active) {
       const status =
         itf.creationCallState === 'succeeded' ? 'itf-created' : 'itf-found';
@@ -96,6 +99,7 @@ export class ITFWrapper extends React.Component {
         // success message
         return (
           <ITFBanner
+            title={title}
             status={status}
             previousITF={itf.previousITF}
             currentExpDate={currentExpDate}
@@ -108,7 +112,11 @@ export class ITFWrapper extends React.Component {
 
       // Else we fetched an active ITF
       return (
-        <ITFBanner status={status} currentExpDate={currentExpDate}>
+        <ITFBanner
+          title={title}
+          status={status}
+          currentExpDate={currentExpDate}
+        >
           {this.props.children}
         </ITFBanner>
       );
@@ -116,15 +124,18 @@ export class ITFWrapper extends React.Component {
       // componentWillRecieveProps called createITF if there was no active ITF
       // found; While we're waiting (again), show the loading indicator...again
       return (
-        <div className="vads-u-margin-bottom--4">
-          <LoadingIndicator message="Submitting a new Intent to File..." />
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--4">
+            <h1>{title}</h1>
+            <LoadingIndicator message="Submitting a new Intent to File..." />
+          </div>
         </div>
       );
     }
 
     // We'll get here after the createITF promise is fulfilled and we have no
     // active ITF because of a failed creation call
-    return <ITFBanner status="error" />;
+    return <ITFBanner title={title} status="error" />;
   }
 }
 
