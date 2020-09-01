@@ -8,11 +8,12 @@ import Wizard, {
 
 import pages from '../../wizard/pages';
 import formConfig from '../config/form';
+import { getPageTitle } from '../utils';
 
 const WizardContainer = ({ setWizardStatus }) => (
   <div className="row">
     <div className="usa-width-two-thirds medium-8 columns">
-      <h1>File for disability compensation</h1>
+      <h1>{getPageTitle()}</h1>
       <p>
         Equal to VA Form 21-526EZ (Application for Disability Compensation and
         Related Compensation Benefits).
