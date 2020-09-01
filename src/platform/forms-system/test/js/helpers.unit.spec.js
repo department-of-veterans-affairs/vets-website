@@ -12,6 +12,8 @@ import {
   formatReviewDate,
   expandArrayPages,
   omitRequired,
+  getNumeratedUiSchema,
+  getNumeratedItemSchema,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -1001,6 +1003,85 @@ describe('Schemaform helpers:', () => {
         },
       };
       expect(omitRequired(schema)).to.eql(expected);
+    });
+  });
+
+  describe('getNumeratedUiSchema', () => {
+    const uiSchema = {
+      'ui:title': 'My form',
+      'ui:options': {
+        someValue: true,
+      },
+      firstName: {
+        'ui:title': 'First Name',
+      },
+      lastName: {
+        'ui:title': 'Last Name',
+      },
+    };
+
+    it('should numerate the keys for uiSchema fields', () => {
+      const numeratedUiSchema = getNumeratedUiSchema(uiSchema, 4);
+
+      expect(numeratedUiSchema.firstName).to.equal(undefined);
+      expect(numeratedUiSchema.lastName).to.equal(undefined);
+
+      expect(numeratedUiSchema.firstName4).to.eql({ 'ui:title': 'First Name' });
+      expect(numeratedUiSchema.lastName4).to.eql({ 'ui:title': 'Last Name' });
+    });
+
+    it("should leave keys that start with 'ui:' alone", () => {
+      const numeratedUiSchema = getNumeratedUiSchema(uiSchema, 4);
+
+      expect(numeratedUiSchema['ui:title']).to.equal('My form');
+      expect(numeratedUiSchema['ui:options']).to.eql({ someValue: true });
+    });
+  });
+
+  describe('getNumeratedItemSchema', () => {
+    const schema = {
+      type: 'array',
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          streetAddress: {
+            type: 'string',
+          },
+          phoneNumber: {
+            type: 'string',
+          },
+        },
+        required: ['streetAddress', 'phoneNumber'],
+      },
+    };
+
+    it('should numerate the field names in `additionalItems.properties`', () => {
+      const numeratedSchema = getNumeratedItemSchema(schema, 3);
+
+      expect(Object.keys(numeratedSchema.properties).length).to.equal(2);
+      expect(numeratedSchema.properties).to.eql({
+        streetAddress3: { type: 'string' },
+        phoneNumber3: { type: 'string' },
+      });
+    });
+
+    it('should numerate the field names in `additionalItems.required`', () => {
+      const numeratedSchema = getNumeratedItemSchema(schema, 2);
+
+      expect(numeratedSchema.required).to.eql([
+        'streetAddress2',
+        'phoneNumber2',
+      ]);
     });
   });
 });

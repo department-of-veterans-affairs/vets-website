@@ -684,7 +684,7 @@ export function getNumeratedItemSchema(schema, index) {
   }
 
   const required = schema.additionalItems?.required?.map(
-    (prop, idx) => `${prop}${idx}`,
+    prop => `${prop}${index}`,
   );
   const properties = numerateKeys(schema.additionalItems?.properties, index);
 
