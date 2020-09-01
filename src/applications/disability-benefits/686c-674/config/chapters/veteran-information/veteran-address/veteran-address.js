@@ -11,6 +11,11 @@ veteranContactInformationSchema.properties.veteranAddress = buildAddressSchema(
   true,
 );
 
+// add confirm email field on the frontend only
+veteranContactInformationSchema.properties['view:confirmEmail'] = {
+  type: 'string',
+};
+
 export const schema = {
   type: 'object',
   properties: {
@@ -36,5 +41,27 @@ export const uiSchema = {
       },
     },
     emailAddress: emailUI(),
+    'view:confirmEmail': {
+      'ui:required': formData =>
+        formData.veteranContactInformation.emailAddress !== undefined,
+      'ui:validations': [
+        (errors, fieldData, formData) => {
+          if (
+            formData?.veteranContactInformation?.emailAddress !==
+            formData?.veteranContactInformation?.['view:confirmEmail']
+          ) {
+            errors.addError('Please ensure your emails match');
+          }
+        },
+      ],
+      'ui:title': 'Confirm email address',
+      'ui:options': {
+        expandUnder: 'emailAddress',
+        expandUnderCondition: emailAddress => {
+          return emailAddress;
+        },
+        hideOnReview: true,
+      },
+    },
   },
 };
