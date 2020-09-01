@@ -256,6 +256,7 @@ export default class ReviewCardField extends React.Component {
       volatileData,
       reviewTitle,
       itemName,
+      itemNameLowerCase,
       itemNameAction,
     } = this.props.uiSchema['ui:options'];
     const title = reviewTitle || this.getTitle();
@@ -317,7 +318,7 @@ export default class ReviewCardField extends React.Component {
             onClick={this.startEditing}
             aria-label={`${itemNameAction || 'New'} ${itemName || title}`}
           >
-            {itemNameAction || 'New'} {itemName || title}
+            {itemNameAction || 'New'} {itemNameLowerCase || itemName || title}
           </button>
         )}
       </div>
@@ -452,6 +453,10 @@ ReviewCardField.propTypes = {
        * button if volatileData is set to true.
        */
       itemName: PropTypes.string,
+      /**
+       * Lower-case version of the itemName for use in the button
+       */
+      itemNameLowerCase: PropTypes.string,
 
       /**
        * Replaces the "New" in "New X" when volatileData is true. For example,

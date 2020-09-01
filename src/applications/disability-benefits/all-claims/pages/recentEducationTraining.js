@@ -27,6 +27,7 @@ export const uiSchema = {
         viewField: EducationTrainingField,
         expandUnder: 'receivedOtherEducationTrainingPostUnemployability',
         itemName: 'Training',
+        itemNameLowerCase: 'training',
       },
       items: {
         name: {

@@ -30,6 +30,7 @@ export const uiSchema = {
         viewField: RecentJobApplicationField,
         expandUnder: 'attemptedToObtainEmploymentSinceUnemployability',
         itemName: 'Job',
+        itemNameLowerCase: 'job',
       },
       items: {
         name: {

@@ -57,6 +57,7 @@ export const uiSchema = {
       'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
+        itemNameLowerCase: 'service period',
         viewField: ValidatedServicePeriodView,
         reviewMode: true,
         showSave: true,

@@ -28,6 +28,7 @@ export const uiSchema = index => {
       sources: {
         'ui:options': {
           itemName: 'Authority',
+          itemNameLowerCase: 'authority',
           viewField: AuthorityField,
         },
         items: {

@@ -21,6 +21,7 @@ export const uiSchema = {
       'ui:title': unemployabilityPageTitle('Hospitalization'),
       'ui:options': {
         itemName: 'Hospital',
+        itemNameLowerCase: 'hospital',
         viewField: HospitalizationPeriodView,
         hideTitle: true,
       },

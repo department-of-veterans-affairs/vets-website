@@ -40,6 +40,7 @@ export const uiSchema = {
   providerFacility: {
     'ui:options': {
       itemName: 'Provider Facility',
+      itemNameLowerCase: 'provider facility',
       viewField: PrivateProviderTreatmentView,
       hideTitle: true,
     },

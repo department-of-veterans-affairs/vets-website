@@ -25,6 +25,7 @@ export const uiSchema = {
       'ui:options': {
         viewField: UnemployabilityDoctorCareField,
         itemName: 'Doctor',
+        itemNameLowerCase: 'doctor',
       },
       items: {
         name: {

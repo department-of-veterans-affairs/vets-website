@@ -133,6 +133,7 @@ describe('Schemaform review <ArrayField>', () => {
       'ui:options': {
         viewField: f => f,
         itemName: 'Item name',
+        itemNameLowerCase: 'item name',
       },
     };
     const arrayData = [{}, {}];

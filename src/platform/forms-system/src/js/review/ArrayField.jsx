@@ -322,7 +322,8 @@ class ArrayField extends React.Component {
                   onClick={() => this.handleAdd()}
                 >
                   {uiOptions.itemName
-                    ? `Add another ${uiOptions.itemName?.toLowerCase()}`
+                    ? `Add another ${uiOptions.itemNameLowerCase ||
+                        uiOptions.itemName}`
                     : 'Add another'}
                 </button>
                 <div>
