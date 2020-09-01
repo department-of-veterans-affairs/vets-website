@@ -4,15 +4,12 @@ import React from 'react';
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
 import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
-import GenderFilter from './GenderFilter';
 import {
   addAllOption,
   getStateNameForCode,
   sortOptionsByStateName,
 } from '../../utils/helpers';
 import CautionaryWarningsFilter from './CautionaryWarningsFilter';
-
-import { religiousAffiliations } from '../../utils/data/religiousAffiliations';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -23,16 +20,6 @@ class InstitutionFilterForm extends React.Component {
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
     this.props.handleFilterChange(field, value);
-  };
-
-  handleGenderFilterChange = e => {
-    const { value } = e.target;
-
-    const womenonly = value === 'womenonly';
-    const menonly = value === 'menonly';
-    this.props.handleFilterChange('womenonly', womenonly, [
-      { field: 'menonly', value: menonly },
-    ]);
   };
 
   renderCategoryFilter = () => (
@@ -144,57 +131,6 @@ class InstitutionFilterForm extends React.Component {
     );
   };
 
-  renderGenderFilter = () => {
-    return (
-      <div>
-        <GenderFilter
-          filters={this.props.filters}
-          onChange={this.handleGenderFilterChange}
-          onFocus={this.props.handleInputFocus}
-        />
-      </div>
-    );
-  };
-
-  renderSpecializedMission = () => {
-    return (
-      <div>
-        <p>Specialized mission</p>
-        <Checkbox
-          checked={this.props.filters.hbcu}
-          name="hbcu"
-          label="Historically Black Colleges and Universities (HBCU)"
-          onChange={this.handleCheckboxChange}
-          onFocus={this.props.handleInputFocus}
-        />
-      </div>
-    );
-  };
-
-  renderReligiousAffiliation = () => {
-    const options = [];
-    if (this.props.search.facets?.relaffil) {
-      Object.keys(this.props.search.facets.relaffil).forEach(num =>
-        options.push({ value: num, label: religiousAffiliations[num] }),
-      );
-    }
-
-    return (
-      <Dropdown
-        label="Religious affiliation"
-        name="relaffil"
-        options={addAllOption(
-          options.sort((a, b) => a.label?.localeCompare(b.label)),
-        )}
-        value={this.props.filters.relaffil}
-        alt="Filter results by institution type"
-        visible
-        onChange={this.handleDropdownChange}
-        onFocus={this.props.handleInputFocus}
-      />
-    );
-  };
-
   renderTypeFilter = () => {
     const options = [
       { value: 'ALL', label: 'ALL' },
@@ -241,9 +177,6 @@ class InstitutionFilterForm extends React.Component {
           {this.renderCategoryFilter()}
           {this.renderTypeFilter()}
           {this.renderProgramFilters()}
-          {this.renderGenderFilter()}
-          {this.renderSpecializedMission()}
-          {this.renderReligiousAffiliation()}
         </div>
       );
     }
@@ -287,10 +220,6 @@ InstitutionFilterForm.propTypes = {
     stemIndicator: PropTypes.bool,
     excludeWarnings: PropTypes.bool,
     excludeCautionFlags: PropTypes.bool,
-    womenonly: PropTypes.bool,
-    menonly: PropTypes.bool,
-    hbcu: PropTypes.bool,
-    relaffil: PropTypes.string,
   }),
   handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -309,10 +238,6 @@ InstitutionFilterForm.propTypes = {
     stemIndicator: PropTypes.object,
     excludeWarnings: PropTypes.bool,
     excludeCautionFlags: PropTypes.bool,
-    womenonly: PropTypes.bool,
-    menonly: PropTypes.bool,
-    hbcu: PropTypes.bool,
-    relaffil: PropTypes.string,
   }),
   handleInputFocus: PropTypes.func,
 };

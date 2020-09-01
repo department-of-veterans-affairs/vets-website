@@ -55,7 +55,7 @@ export default {
       phoneUI(`${label}  alternate telephone number (including area code)`),
     ssnUI: label => ({
       ...ssnUI,
-      'ui:title': `${label}  Social Security Number/Tax Identification Number`,
+      'ui:title': `${label}  Social Security number/Tax identification number`,
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
