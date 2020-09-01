@@ -11,7 +11,6 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 
-import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { confirmationEmailUI } from '../../caregivers/definitions/caregiverUI';
 import { validateWhiteSpace } from 'platform/forms/validations';
@@ -70,7 +69,6 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'complex-form-',
-  introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '0873',
   version: 0,
