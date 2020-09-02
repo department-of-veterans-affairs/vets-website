@@ -139,7 +139,7 @@ export class AppointmentsPage extends Component {
                 )}
                 {expressCare.hasRequests && (
                   <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
-                    View your upcoming, past, and Express Care appointments
+                    Your upcoming, past, and Express Care appointments
                   </h2>
                 )}
                 <TabNav hasExpressCareRequests={expressCare.hasRequests} />

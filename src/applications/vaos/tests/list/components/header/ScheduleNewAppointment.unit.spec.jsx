@@ -56,7 +56,7 @@ describe('VAOS <ScheduleNewAppointment>', () => {
 
     expect(tree.find('h2').text()).to.equal('Create a new appointment');
     expect(tree.find('Link').props().to).to.contain('new-appointment');
-    expect(tree.text()).to.contain('Community Care');
+    expect(tree.text()).to.contain('community care');
     expect(tree.text()).not.to.contain('Send a request');
     tree.unmount();
   });
