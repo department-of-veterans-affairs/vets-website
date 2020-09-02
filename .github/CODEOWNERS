@@ -41,8 +41,6 @@ src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-public-websit
 src/applications/facility-locator @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/static-pages/facilities @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/layouts @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
-src/platform/site-wide/sass/modules/_m-side-nav.scss @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
-src/platform/site-wide/side-nav @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 
 # Caregiver
 src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
