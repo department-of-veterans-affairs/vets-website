@@ -10,11 +10,11 @@ function Complete({ children }) {
   return (
     <div>
       {children}
-      <div className="covid-screener-date">
-        <div className="vads-u-font-size--lg">Valid for</div>
-        <div className="vads-u-font-size--xl">{moment().format('dddd')}</div>
-        <div className="vads-u-font-size--2xl">{moment().format('MMM D')}</div>
-        <div className="vads-u-font-size--lg">{moment().format('h:mm a')}</div>
+      <div className="covid-screener-date vads-u-font-weight--bold">
+        <div className="vads-u-font-size--xl">Valid for</div>
+        <div className="covid-screener-400">{moment().format('dddd')}</div>
+        <div className="covid-screener-500">{moment().format('MMM D')}</div>
+        <div className="vads-u-font-size--xl">{moment().format('h:mm a')}</div>
       </div>
       <div className="vads-u-font-size--lg">
         <p>
