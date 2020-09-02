@@ -15,7 +15,7 @@ import {
 } from '../mocks/helpers';
 import { renderWithStoreAndRouter } from '../mocks/setup';
 
-import PastAppointmentsList from '../../components/PastAppointmentsList';
+import PastAppointmentsList from '../../appointment-list/components/PastAppointmentsList';
 
 const initialState = {
   featureToggles: {

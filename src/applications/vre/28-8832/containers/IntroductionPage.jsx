@@ -13,7 +13,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="28-8832-planning-and-guidance" />
+        <FormTitle title="Apply for Personalized Career Planning and Guidance" />
         <p>Equal to VA Form 28-8832 (28-8832-planning-and-guidance).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -76,7 +76,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Application"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={30} ombNumber="" expDate="12/31/2021" />
+          <OMBInfo resBurden={30} ombNumber="2900-0265" expDate="12/31/2021" />
         </div>
       </div>
     );

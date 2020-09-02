@@ -69,10 +69,5 @@ export const MissingId = ({ title }) => {
       </p>
     </>
   );
-  return (
-    <>
-      <h1>{title}</h1>
-      <Alert content={content} />
-    </>
-  );
+  return <Alert content={content} />;
 };
