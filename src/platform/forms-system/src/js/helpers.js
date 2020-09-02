@@ -679,17 +679,14 @@ export function getNumeratedUiSchema(uiSchema, index) {
  * @returns {Object} The object which *might* have integers appended to property names
  */
 export function getNumeratedItemSchema(schema, index) {
-  if (schema.items.length > index) {
-    return schema.items[index];
-  }
+  const itemSchema =
+    schema.items.length > index ? schema.items[index] : schema.additionalItems;
 
-  const required = schema.additionalItems?.required?.map(
-    prop => `${prop}${index}`,
-  );
-  const properties = numerateKeys(schema.additionalItems?.properties, index);
+  const required = itemSchema?.required?.map(prop => `${prop}${index}`);
+  const properties = numerateKeys(itemSchema?.properties, index);
 
   return {
-    ...schema.additionalItems,
+    ...itemSchema,
     properties,
     required,
   };

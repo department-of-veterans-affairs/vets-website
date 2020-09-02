@@ -54,15 +54,6 @@ class ArrayField extends React.Component {
     }
   }
 
-  getItemSchema(index) {
-    const schema = this.props.schema;
-    if (schema.items.length > index) {
-      return schema.items[index];
-    }
-
-    return schema.additionalItems;
-  }
-
   scrollToTop() {
     setTimeout(() => {
       // Hacky; won’t work if the array field is used in two pages and one isn’t
@@ -113,7 +104,7 @@ class ArrayField extends React.Component {
     const newState = {
       items: this.state.items.concat(
         getDefaultFormState(
-          this.getItemSchema(this.state.items.length),
+          getNumeratedItemSchema(this.props.schema, this.state.items.length),
           undefined,
           this.props.schema.definitions,
         ) || {},

@@ -1045,7 +1045,15 @@ describe('Schemaform helpers:', () => {
         {
           type: 'object',
           properties: {
-            field: {
+            fooField: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            barField: {
               type: 'string',
             },
           },
@@ -1064,6 +1072,13 @@ describe('Schemaform helpers:', () => {
         required: ['streetAddress', 'phoneNumber'],
       },
     };
+
+    it('should numerate the field names in the items', () => {
+      const numeratedSchema = getNumeratedItemSchema(schema, 1);
+
+      expect(Object.keys(numeratedSchema.properties).length).to.equal(1);
+      expect(numeratedSchema.properties.barField1).to.eql({ type: 'string' });
+    });
 
     it('should numerate the field names in `additionalItems.properties`', () => {
       const numeratedSchema = getNumeratedItemSchema(schema, 3);
