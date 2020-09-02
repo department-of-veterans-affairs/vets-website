@@ -92,7 +92,7 @@ export class DateTimeSelectPage extends React.Component {
         .startOf('month')
         .format('YYYY-MM-DD'),
       moment(preferredDate)
-        .add(1, 'months')
+        .add(12, 'months')
         .endOf('month')
         .format('YYYY-MM-DD'),
       true,
