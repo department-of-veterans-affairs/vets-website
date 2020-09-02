@@ -21,16 +21,16 @@ const SignatureInput = ({
   const firstLetterOfMiddleName =
     middleName === undefined ? '' : middleName.charAt(0);
 
-  const getName = (middle = '') =>
-    `${firstName}${middle}${lastName}`
+  const removeSpaces = string =>
+    string
       .split(' ')
       .join('')
       .toLocaleLowerCase();
 
-  const normalizedSignature = signature.value
-    .split(' ')
-    .join('')
-    .toLocaleLowerCase();
+  const getName = (middle = '') =>
+    removeSpaces(`${firstName}${middle}${lastName}`);
+
+  const normalizedSignature = removeSpaces(signature.value);
 
   // first and last
   const firstAndLastMatches = getName() === normalizedSignature;
@@ -49,19 +49,17 @@ const SignatureInput = ({
     () => {
       const isDirty = signature.dirty;
 
-      setIsSigned(true);
-
-      if ((isDirty && !signatureMatches) || showError) {
+      if (isDirty && !signatureMatches) {
         setIsSigned(false);
         setError(true);
       }
 
-      if (signatureMatches) {
+      if (!isDirty && signatureMatches) {
         setIsSigned(true);
         setError(false);
       }
     },
-    [setIsSigned, signature.dirty, signatureMatches, showError],
+    [setIsSigned, signature.dirty, signatureMatches, showError, hasError],
   );
 
   return (
