@@ -27,6 +27,12 @@ function setLabelStyles(newState) {
 const calculateHeight = ({ feet, inches }) =>
   (parseInt(feet, 10) || 0) * 12 + (parseInt(inches, 10) || 0);
 
+const formatHeightString = height => {
+  const feet = Math.floor(parseInt(height, 10) / 12);
+  const inches = parseInt(height, 10) % 12;
+  return `height: ${feet} ft. ${inches} in.`;
+};
+
 export default class HeightWidget extends React.Component {
   state = getEmptyState();
   labelStyleClasses = setLabelStyles();
@@ -59,9 +65,31 @@ export default class HeightWidget extends React.Component {
   };
 
   render() {
-    const { id } = this.props;
+    const { id, formContext } = this.props;
     const { feet, inches } = this.state.value;
-    return (
+
+    // inReviewMode = true (review page view, not in edit mode)
+    // inReviewMode = false (in edit mode)
+    const onReviewPage = formContext.onReviewPage;
+    const inReviewMode = onReviewPage && formContext.reviewMode;
+
+    // console.log('onReviewpage: ', onReviewPage);
+    // console.log('inReviewMode: ', inReviewMode);
+
+    // if (onReviewPage && !inReviewMode) {
+    //   // SWEET THIS WORKS...
+    //   console.log('IS this EDIT MODE and value exists: ', this.props.value);
+    //   // this.handleChange('feet', 6);
+    //   // this.handleChange('inches', 2);
+    // }
+    // console.log('feet: ', feet);
+    // console.log('inches: ', inches);
+    // console.log('props: ', this.props);
+    // console.log('FC: ', formContext);
+
+    const displayValue = inReviewMode ? (
+      <div>{formatHeightString(this.props.value)}</div>
+    ) : (
       <div className="vads-l-grid-container--full">
         <div className="vads-l-row">
           <div className="vads-l-col--2">
@@ -92,6 +120,43 @@ export default class HeightWidget extends React.Component {
           <div className={this.labelStyleClasses}>.in</div>
         </div>
       </div>
+    );
+    return (
+      <span>{displayValue}</span>
+      // <div className="vads-l-grid-container--full">
+      //   <div className="vads-l-row">
+      //     <div className="vads-l-col--2">
+
+      //         <input
+      //           type="number"
+      //           name={`${id}Feet`}
+      //           id={`${id}Feet`}
+      //           value={feet}
+      //           onBlur={() => this.handleBlur('feet')}
+      //           onChange={event =>
+      //             this.handleChange('feet', event.target.value)
+      //           }
+      //         />
+
+      //     </div>
+      //     <div className={this.labelStyleClasses}>.ft</div>
+      //     <div className="vads-l-col--2">
+      //       <input
+      //         type="number"
+      //         name={`${id}Inches`}
+      //         id={`${id}Inches`}
+      //         min="0"
+      //         max="11"
+      //         value={inches}
+      //         onBlur={() => this.handleBlur('inches')}
+      //         onChange={event =>
+      //           this.handleChange('inches', event.target.value)
+      //         }
+      //       />
+      //     </div>
+      //     <div className={this.labelStyleClasses}>.in</div>
+      //   </div>
+      // </div>
     );
   }
 }
