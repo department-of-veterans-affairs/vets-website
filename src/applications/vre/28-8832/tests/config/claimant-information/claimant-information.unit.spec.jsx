@@ -1,76 +1,72 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { mount } from 'enzyme';
-
+import sinon from 'sinon';
 import {
   DefinitionTester,
   fillData,
-  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form';
+import { changeDropdown } from '../../helpers';
 
-describe('686 veteran information', () => {
+import formConfig from '../../../config/form';
+
+describe('Chapter 36 Claimant Information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranInformation.pages.veteranInformation;
+  } = formConfig.chapters.claimantInformation.pages.claimantInformation;
 
+  const formData = {
+    status: 'isSpouse',
+  };
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
-    form.unmount();
-  });
-
-  it('should expand VA file number if noSSN is checked', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
-    );
-    selectCheckbox(form, 'root_view:noSSN', true);
     expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  it('should not submit without required fields', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
         uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it('should submit completed form', () => {
+  it('should submit with required fields', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
         uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
       />,
     );
 
-    fillData(form, 'input#root_veteranFullName_first', 'test');
-    fillData(form, 'input#root_veteranFullName_last', 'test');
-    fillData(form, 'input#root_veteranSocialSecurityNumber', '222-23-2424');
+    fillData(form, 'input#root_firstName', 'Johnny');
+    fillData(form, 'input#root_lastName', 'Appleseed');
+    fillData(form, 'input#root_ssn', '370947141');
+    changeDropdown(form, '#root_dateOfBirthMonth', 1);
+    changeDropdown(form, '#root_dateOfBirthDay', 1);
+    fillData(form, 'input#root_dateOfBirthYear', '1981');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
