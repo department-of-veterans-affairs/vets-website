@@ -3,6 +3,7 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import GetFormHelp from '../components/GetFormHelp';
 import { hasSession } from 'platform/user/profile/utilities';
 
 import { statusSelection } from './chapters/status-selection';
@@ -23,6 +24,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '28-8832',
   version: 0,
+  getHelp: GetFormHelp,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for Planning and career guidance.',

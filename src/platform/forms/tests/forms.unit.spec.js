@@ -85,6 +85,8 @@ const excludedForms = new Set([
   'caregiverProgramFacilities',
   'COVID-VACCINE-TRIAL',
   '0873',
+  'CREATE_HLR_200_RESPONSE',
+  'CREATE_HLR_422_RESPONSE',
 ]);
 
 describe('form:', () => {
