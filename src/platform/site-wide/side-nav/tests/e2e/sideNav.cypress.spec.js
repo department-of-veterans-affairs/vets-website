@@ -32,6 +32,7 @@ it('should tab access the links on the left nav and verify active link elements'
   cy.get('.va-sidenav-item-label')
     .first()
     .focus();
+
   do {
     cy.tab();
     cy.focused().should('have.attr', 'aria-label');
