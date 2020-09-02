@@ -1,0 +1,18 @@
+import React from 'react';
+
+const ObjectViewField = props => {
+  const { renderedProperties, editButton } = props;
+  if (!renderedProperties) {
+    return null;
+  }
+  return (
+    <dl className="vads-u-width--full">
+      <div className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
+        <dt className="capitalize-first-letter">{renderedProperties}</dt>
+        <dd>{editButton}</dd>
+      </div>
+    </dl>
+  );
+};
+
+export default ObjectViewField;

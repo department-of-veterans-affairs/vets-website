@@ -11,6 +11,7 @@ import {
 } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
+import ObjectViewField from '../components/ObjectViewField';
 import { validateDisabilityName, requireDisability } from '../validations';
 import {
   newConditionsOnly,
@@ -48,6 +49,7 @@ export const uiSchema = {
             })),
           ),
         {
+          'ui:reviewField': ({ children }) => children,
           'ui:options': {
             debounceRate: 200,
             freeInput: true,
@@ -79,6 +81,7 @@ export const uiSchema = {
       'view:descriptionInfo': {
         'ui:description': descriptionInfo,
       },
+      'ui:objectViewField': ObjectViewField,
       'ui:options': {
         ariaLabelForEditButtonOnReview: 'Edit New condition',
       },
