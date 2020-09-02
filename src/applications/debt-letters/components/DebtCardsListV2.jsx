@@ -36,7 +36,10 @@ const DebtCardsListV2 = ({ debts, isError }) => {
 
   return (
     <>
-      <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+      <h2
+        id="currentDebts"
+        className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+      >
         Current debts
       </h2>
       {isError && renderAlert()}
@@ -52,7 +55,7 @@ const DebtCardsListV2 = ({ debts, isError }) => {
               ))}
             </div>
             <h3>What if I don't see a debt?</h3>
-            <p>
+            <p className="vads-u-font-family--sans">
               If you’ve received a letter about a VA debt, but don’t see it
               listed here call the Debt Management Center (DMC) at{' '}
               <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
@@ -60,7 +63,20 @@ const DebtCardsListV2 = ({ debts, isError }) => {
               </a>
               {'.'}
             </p>
-            <p>
+            <p className="vads-u-font-family--sans">
+              For medical co-payment debt, please go to Pay your VA copay bill
+              to learn about your payment options.
+            </p>
+            <h3 id="downloadDebtLetters">Download debt letters</h3>
+            <p className="vads-u-font-family--sans">
+              If you’ve received a letter about a VA debt, but don’t see it
+              listed here call the Debt Management Center (DMC) at{' '}
+              <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
+                800-827-0648
+              </a>
+              {'.'}
+            </p>
+            <p className="vads-u-font-family--sans">
               For medical co-payment debt, please go to Pay your VA copay bill
               to learn about your payment options.
             </p>

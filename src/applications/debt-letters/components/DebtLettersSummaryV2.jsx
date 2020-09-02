@@ -94,33 +94,33 @@ const DebtLettersSummaryV2 = ({ isError, isVBMSError, debts, debtLinks }) => {
           Current VA debt
         </h1>
         <div className="vads-u-display--block">
-          <CallToActionWidget appId="debt-letters">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-weight--normal">
-                Check the details of VA debt you might have related to your
-                education, disability compensation, pension, or home loan
-                benefits. Find out how to pay your debt and what to do if you
-                need financial assistance.
-              </h2>
-              {allDebtsFetchFailure && renderAlert()}
-              {allDebtsEmpty && renderEmptyAlert()}
-              {!allDebtsFetchFailure && (
-                <>
-                  <AlertBox
-                    className="vads-u-margin-bottom--2"
-                    headline="VA debt collection is on hold due to the coronavirus"
-                    content={bannerContent}
-                    status="info"
-                    isVisible
-                  />
+          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-weight--normal">
+              Check the details of VA debt you might have related to your
+              education, disability compensation, pension, or home loan
+              benefits. Find out how to pay your debt and what to do if you need
+              financial assistance.
+            </h2>
+            {allDebtsFetchFailure && renderAlert()}
+            {allDebtsEmpty && renderEmptyAlert()}
+            {!allDebtsFetchFailure && (
+              <>
+                <AlertBox
+                  className="vads-u-margin-bottom--2"
+                  headline="VA debt collection is on hold due to the coronavirus"
+                  content={bannerContent}
+                  status="info"
+                  isVisible
+                />
+                <CallToActionWidget appId="debt-letters">
                   <OnThisPageLinks />
                   <DebtCardsListV2 />
-                </>
-              )}
-              <HowDoIPayV2 />
-              <NeedHelpV2 />
-            </div>
-          </CallToActionWidget>
+                </CallToActionWidget>
+              </>
+            )}
+            <HowDoIPayV2 />
+            <NeedHelpV2 />
+          </div>
         </div>
       </div>
     </>

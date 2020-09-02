@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import reverse from 'lodash/reverse';
 import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
@@ -88,7 +87,7 @@ const DebtDetails = ({ selectedDebt }) => {
             </a>
             {'.'}
           </p>
-          {reverse(selectedDebt.debtHistory).map((debtEntry, index) => (
+          {selectedDebt.debtHistory.map((debtEntry, index) => (
             <div
               className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-y--1p5 vads-u-border-bottom--3px vads-u-border-color--gray-lightest"
               key={`${debtEntry.letterCode}-${index}`}
@@ -100,10 +99,6 @@ const DebtDetails = ({ selectedDebt }) => {
                 {debtEntry.status}
               </p>
               <p className="vads-u-margin-y--1">{debtEntry.description}</p>
-              {/* ToDo: Add link to actual debt letter download in VBMS */}
-              <a className="vads-u-margin-bottom--3" href="#">
-                Download and print the letter
-              </a>
             </div>
           ))}
         </div>

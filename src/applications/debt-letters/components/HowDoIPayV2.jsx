@@ -3,8 +3,10 @@ import { Link } from 'react-router';
 
 const HowDoIPayV2 = () => (
   <div className="vads-u-font-family--sans">
-    <h3>How do I pay my VA debt?</h3>
-    <p>
+    <h3 id="howDoIPay" className="vads-u-margin-top--4 vads-u-margin-bottom-2">
+      How do I pay my VA debt?
+    </h3>
+    <p className="vads-u-margin-top--0">
       You can pay your debt online, by phone, or by mail. If you can't pay all
       of your debt or if you currently receive monthly benefits, call the Debt
       Management Center at{' '}
