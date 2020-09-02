@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 
 import {
   createTestStore,
@@ -35,9 +35,10 @@ describe('VAOS integration: Express Care form', () => {
     });
 
     await screen.findByText('Select a reason for your Express Care request');
-    const radio = screen.getByLabelText('Cough');
-    fireEvent.click(radio);
-    expect(radio.checked).to.be.true;
+    fireEvent.click(screen.getByLabelText('Cough'));
+    await waitFor(
+      () => expect(screen.getByLabelText('Cough').checked).to.be.true,
+    );
     expect(screen.baseElement).to.contain.text(
       'If you need a mental health appointment today',
     );

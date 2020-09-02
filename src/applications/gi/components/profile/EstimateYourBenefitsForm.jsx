@@ -311,13 +311,6 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleAccordionFocus();
   };
 
-  handleEYBSkipLinkOnClick = () => {
-    scroller.scrollTo('estimated-benefits', getScrollOptions());
-    setTimeout(() => {
-      focusElement('#estimated-benefits');
-    }, 50);
-  };
-
   /**
    * Renders a learn more label with common props for this component being set
    * @param text
@@ -1044,14 +1037,13 @@ class EstimateYourBenefitsForm extends React.Component {
   renderEYBSkipLink = () => {
     return (
       <div className="vads-u-padding-bottom--2p5">
-        <button
-          type="button"
+        <a
           className="va-button-link learn-more-button eyb-skip-link"
           aria-label="Skip to your estimated benefits"
-          onClick={this.handleEYBSkipLinkOnClick}
+          href="#estimated-benefits"
         >
           Skip to your estimated benefits
-        </button>
+        </a>
       </div>
     );
   };

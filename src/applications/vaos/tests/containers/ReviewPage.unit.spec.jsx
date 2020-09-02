@@ -128,7 +128,7 @@ describe('VAOS <ReviewPage>', () => {
         .exists(),
     ).to.be.true;
     expect(alertBox.dive().text()).contain(
-      'We’re sorry. You can’t schedule your appointment on the VA appointments tool.',
+      'You can’t schedule your appointment on the VA appointments tool.',
     );
     tree.unmount();
   });

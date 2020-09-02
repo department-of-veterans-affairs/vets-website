@@ -70,6 +70,14 @@ export const fillVeteranDomesticAddress = (client, data) => {
     .fill(
       'input[name="root_veteranContactInformation_phoneNumber"]',
       data.veteranDomesticAddress.phoneNumber,
+    )
+    .fill(
+      'input[name="root_veteranContactInformation_emailAddress"]',
+      data.veteranDomesticAddress.email,
+    )
+    .fill(
+      'input[name="root_veteranContactInformation_view:confirmEmail"]',
+      data.veteranDomesticAddress.email,
     );
 };
 
@@ -107,8 +115,8 @@ export const fillChildPlaceOfBirthAndStatusInformation = (
   isMarried = false,
 ) => {
   client
-    .fill(
-      'input[name="root_placeOfBirth_state"]',
+    .selectDropdown(
+      'root_placeOfBirth_state',
       data.childInformation[0].birthLocationState,
     )
     .fill(
@@ -235,14 +243,6 @@ export const fillSpousePersonalInformation = (client, data) => {
     .selectRadio(
       'root_spouseInformation_isVeteran',
       data.spouseInformation.isVeteran,
-    )
-    .fill(
-      'input[name="root_spouseInformation_VAFileNumber"]',
-      data.spouseInformation.vaFileNumber,
-    )
-    .fill(
-      'input[name="root_spouseInformation_serviceNumber"]',
-      data.spouseInformation.serviceNumber,
     );
 };
 
@@ -260,8 +260,8 @@ export const fillCurrentMarriageInformation = (client, data) => {
       'input[name="root_currentMarriageInformation_dateYear"]',
       data.currentMarriageInformation.dateOfMarriage.year,
     )
-    .fill(
-      'input[name="root_currentMarriageInformation_location_state"]',
+    .selectDropdown(
+      'root_currentMarriageInformation_location_state',
       data.currentMarriageInformation.locationOfMarriage.state,
     )
     .fill(
@@ -376,8 +376,8 @@ export const fillSpouseMarriageHistoryDetails = (client, data) => {
       'input[name="root_startDateYear"]',
       data.spouseInformation.marriageHistory[0].marriageStartDateYear,
     )
-    .fill(
-      'input[name="root_startLocation_state"]',
+    .selectDropdown(
+      'root_startLocation_state',
       data.spouseInformation.marriageHistory[0].locationState,
     )
     .fill(
@@ -400,8 +400,8 @@ export const fillSpouseMarriageHistoryDetails = (client, data) => {
       'input[name="root_endDateYear"]',
       data.spouseInformation.marriageHistory[0].marriageEndDateYear,
     )
-    .fill(
-      'input[name="root_endLocation_state"]',
+    .selectDropdown(
+      'root_endLocation_state',
       data.spouseInformation.marriageHistory[0].locationState,
     )
     .fill(
@@ -460,9 +460,9 @@ export const fillVeteranMarriageHistoryDetails = (client, data) => {
       'input[name="root_startDateYear"]',
       data.veteranInformation.marriageHistory[0].marriageStartDateYear,
     )
-    .fill(
-      'input[name="root_startLocation_state"]',
-      data.veteranInformation.marriageHistory[0].locationState,
+    .selectDropdown(
+      'root_startLocation_state',
+      data.veteranInformation.marriageHistory[0].locationStateCode,
     )
     .fill(
       'input[name="root_startLocation_city"]',
@@ -484,9 +484,9 @@ export const fillVeteranMarriageHistoryDetails = (client, data) => {
       'input[name="root_endDateYear"]',
       data.veteranInformation.marriageHistory[0].marriageEndDateYear,
     )
-    .fill(
-      'input[name="root_endLocation_state"]',
-      data.veteranInformation.marriageHistory[0].locationState,
+    .selectDropdown(
+      'root_endLocation_state',
+      data.veteranInformation.marriageHistory[0].locationStateCode,
     )
     .fill(
       'input[name="root_endLocation_city"]',
@@ -520,8 +520,8 @@ export const fillReportDivorceSpouseInformation = (client, data) => {
 
 export const fillReportDivorceLocationOfDivorce = (client, data) => {
   client
-    .fill(
-      'input[name="root_reportDivorce_location_state"]',
+    .selectDropdown(
+      'root_reportDivorce_location_state',
       data.veteranDomesticAddress.stateCode,
     )
     .fill(
@@ -563,8 +563,8 @@ export const fillDeceasedDetails = (client, data) => {
     .selectDropdown('root_dateMonth', data.deceasedDependent.date.month)
     .selectDropdown('root_dateDay', data.deceasedDependent.date.day)
     .fill('input[name="root_dateYear"]', data.deceasedDependent.date.year)
-    .fill(
-      'input[name="root_location_state"]',
+    .selectDropdown(
+      'root_location_state',
       data.deceasedDependent.location.state,
     )
     .fill(
@@ -666,27 +666,27 @@ export const fillStepchildDetails = (client, data) => {
 
 export const fill674StudentInformation = (client, data) => {
   client.fill(
-    'input[name="root_studentNameAndSSN_fullName_first"]',
+    'input[name="root_studentNameAndSsn_fullName_first"]',
     data.for674.studentInformation.firstName,
   );
   client.fill(
-    'input[name="root_studentNameAndSSN_fullName_last"]',
+    'input[name="root_studentNameAndSsn_fullName_last"]',
     data.for674.studentInformation.lastName,
   );
   client.fill(
-    'input[name="root_studentNameAndSSN_ssn"]',
+    'input[name="root_studentNameAndSsn_ssn"]',
     data.for674.studentInformation.ssn,
   );
   client.selectDropdown(
-    'root_studentNameAndSSN_birthDateMonth',
+    'root_studentNameAndSsn_birthDateMonth',
     data.for674.studentInformation.dob.month,
   );
   client.selectDropdown(
-    'root_studentNameAndSSN_birthDateDay',
+    'root_studentNameAndSsn_birthDateDay',
     data.for674.studentInformation.dob.day,
   );
   client.fill(
-    'input[name="root_studentNameAndSSN_birthDateYear"]',
+    'input[name="root_studentNameAndSsn_birthDateYear"]',
     data.for674.studentInformation.dob.year,
   );
 };

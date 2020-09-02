@@ -7,7 +7,7 @@ export default function Description({ data, flowType }) {
   const typeOfCare = lowerCase(getTypeOfCare(data)?.name);
   const description =
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
-      ? 'Community Care'
+      ? 'community care'
       : typeOfCare;
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 

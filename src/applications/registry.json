@@ -268,7 +268,8 @@
           "name": "View or change your dependents"
         },
         {
-          "name": "Add or remove dependents Form 21-686c"
+          "path": "view-change-dependents/add-remove-form-686c/",
+          "name": "Add or remove dependents form 21-686c"
         }
       ]
     }
@@ -281,18 +282,7 @@
       "title": "File for disability benefits",
       "layout": "page-react.html",
       "description": "Learn how to apply online for disability compensation.",
-      "hideFromSidebar": true,
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "name": "Disability Benefits",
-          "path": "disability/"
-        },
-        {
-          "name": "File for Disability Compensation",
-          "path": "disability/file-disability-claim-form-21-526ez"
-        }
-      ]
+      "hideFromSidebar": true
     }
   },
   {
@@ -819,7 +809,7 @@
   {
     "appName": "28-8832-planning-and-guidance",
     "entryName": "28-8832-planning-and-career-guidance",
-    "rootUrl": "/vre/28-8832",
+    "rootUrl": "/education-and-career-counseling/apply-career-guidance-form-28-8832/",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"

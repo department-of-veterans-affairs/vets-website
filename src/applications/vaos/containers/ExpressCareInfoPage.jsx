@@ -4,7 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from '../utils/constants';
-import * as actions from '../actions/expressCare';
+import * as actions from '../express-care/redux/actions';
 import FormButtons from '../components/FormButtons';
 import {
   selectLocalExpressCareWindowString,
@@ -33,26 +33,26 @@ function ExpressCareInfoPage({
       <div className="process schemaform-process">
         <ol>
           <li className="process-step list-one">
-            <p className="vads-u-font-size--h4 vads-u-font-family--serif vads-u-padding-y--0p25 vads-u-font-weight--bold">
+            <h2 className="vads-u-padding-y--0p25">
               Submit an Express Care request online
-            </p>
+            </h2>
             You can request Express Care today between{' '}
             {localWindowString?.replace(' to ', ' and ')}. You don’t need to
             have an assigned Patient Aligned Care Team (PACT) to use Express
             Care.
           </li>
           <li className="process-step list-two">
-            <p className="vads-u-font-size--h4 vads-u-font-family--serif vads-u-padding-y--0p25 vads-u-font-weight--bold">
+            <h2 className="vads-u-padding-y--0p25">
               Wait for a call from VA health care staff
-            </p>
+            </h2>
             Someone from VA health care staff will call you soon after you
             submit your request. This call won’t be from your primary care
             provider or someone on your PACT team.
           </li>
           <li className="process-step list-three">
-            <p className="vads-u-font-size--h4 vads-u-font-family--serif vads-u-padding-y--0p25 vads-u-font-weight--bold">
+            <h2 className="vads-u-padding-y--0p25">
               Talk to the VA health care staff member about your health concern
-            </p>
+            </h2>
             The VA health care staff will assess your condition and recommend
             next steps. Depending on your needs, they might recommend you have a
             follow-up phone or video call with your primary care provider or a

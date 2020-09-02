@@ -8,7 +8,7 @@ import {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import { getFormPageInfo } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 
@@ -26,7 +26,7 @@ const initialSchema = {
 const uiSchema = {
   facilityType: {
     'ui:title':
-      'You’re eligible to see either a VA provider or Community Care provider for this type of care.',
+      'You’re eligible to see either a VA provider or community care provider for this type of care.',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -43,10 +43,10 @@ const uiSchema = {
         [FACILITY_TYPES.COMMUNITY_CARE]: (
           <>
             <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              Community Care facility
+              Community care facility
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm">
-              Go to a Community Care facility near your home
+              Go to a community care facility near your home
             </span>
           </>
         ),

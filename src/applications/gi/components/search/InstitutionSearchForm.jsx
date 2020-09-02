@@ -1,6 +1,5 @@
 import React from 'react';
 
-import EligibilityForm from './EligibilityForm';
 import InstitutionFilterForm from './InstitutionFilterForm';
 import KeywordSearch from './KeywordSearch';
 import OnlineClassesFilter from './OnlineClassesFilter';
@@ -58,23 +57,16 @@ function InstitutionSearchForm(props) {
             handleInputFocus={handleInstitutionSearchInputFocus}
             gibctFilterEnhancement={props.gibctFilterEnhancement}
           />
-          {props.gibctEstimateYourBenefits ? (
-            <BenefitsForm
-              eligibilityChange={props.eligibilityChange}
-              {...props.eligibility}
-              hideModal={props.hideModal}
-              showModal={props.showModal}
-              showHeader
-              handleInputFocus={handleInstitutionSearchInputFocus}
-              gibctFilterEnhancement={props.gibctFilterEnhancement}
-              gibctCh33BenefitRateUpdate={props.gibctCh33BenefitRateUpdate}
-            />
-          ) : (
-            <EligibilityForm
-              eligibilityChange={props.eligibilityChange}
-              handleInputFocus={props.handleInputFocus}
-            />
-          )}
+          <BenefitsForm
+            eligibilityChange={props.eligibilityChange}
+            {...props.eligibility}
+            hideModal={props.hideModal}
+            showModal={props.showModal}
+            showHeader
+            handleInputFocus={handleInstitutionSearchInputFocus}
+            gibctFilterEnhancement={props.gibctFilterEnhancement}
+            gibctCh33BenefitRateUpdate={props.gibctCh33BenefitRateUpdate}
+          />
           <OnlineClassesFilter
             onlineClasses={props.eligibility.onlineClasses}
             onChange={props.eligibilityChange}

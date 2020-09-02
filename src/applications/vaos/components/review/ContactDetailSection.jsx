@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import newAppointmentFlow from '../../newAppointmentFlow';
+import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
 function formatBestTimetoCall(bestTime) {
   const times = [];

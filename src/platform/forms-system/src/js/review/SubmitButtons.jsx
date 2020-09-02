@@ -8,12 +8,13 @@ import { APP_TYPE_DEFAULT } from '../constants';
 
 // components
 import { Column, Row } from 'platform/forms/components/common/grid';
+import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
+import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function SubmitButtons(props) {
   const {
     onBack,
     onSubmit,
-    preSubmitSection,
     renderErrorMessage,
     submission,
     formConfig,
@@ -21,6 +22,7 @@ export default function SubmitButtons(props) {
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   let submitButton;
   let submitMessage;
+
   if (submission.status === false) {
     submitButton = (
       <ProgressButton
@@ -57,16 +59,11 @@ export default function SubmitButtons(props) {
       />
     );
     submitMessage = (
-      <div className="usa-alert usa-alert-error schemaform-failure-alert">
-        <div className="usa-alert-body">
-          <p className="schemaform-warning-header">
-            <strong>
-              We’re sorry, there was an error connecting to VA.gov.
-            </strong>
-          </p>
-          <p>Please check your Internet connection and try again.</p>
-        </div>
-      </div>
+      <ErrorMessage
+        active
+        title="We’re sorry, there was an error connecting to VA.gov."
+        message="Please check your Internet connection and try again."
+      />
     );
   } else if (submission.status === 'throttledError') {
     submitButton = (
@@ -77,19 +74,14 @@ export default function SubmitButtons(props) {
       />
     );
     submitMessage = (
-      <div className="usa-alert usa-alert-error schemaform-failure-alert">
-        <div className="usa-alert-body">
-          <p className="schemaform-warning-header">
-            <strong>We’ve run into a problem</strong>
-          </p>
-          <p>
-            We’re sorry. Your submission didn’t go through because we received
-            too many requests from you. Please wait{' '}
-            {timeFromNow(moment.unix(submission.extra))} and submit your request
-            again.
-          </p>
-        </div>
-      </div>
+      <ErrorMessage
+        active
+        title="We’ve run into a problem"
+        message={`We’re sorry. Your submission didn’t go through because we received
+          too many requests from you. Please wait 
+          ${timeFromNow(moment.unix(submission.extra))} and submit your request
+          again.`}
+      />
     );
   } else if (submission.status === 'validationError') {
     submitButton = (
@@ -100,37 +92,24 @@ export default function SubmitButtons(props) {
       />
     );
     submitMessage = (
-      <div className="usa-alert usa-alert-error schemaform-failure-alert">
-        <div className="usa-alert-body">
-          <p className="schemaform-warning-header">
-            <strong>
-              We’re sorry. Some information in your {appType} is missing or not
-              valid.
-            </strong>
-          </p>
-          <p>
-            Please check each section of your {appType} to make sure you’ve
-            filled out all the information that is required.
-          </p>
-        </div>
-      </div>
+      <ErrorMessage
+        active
+        title={`We’re sorry. Some information in your ${appType} is missing or not valid.`}
+        message={`Please check each section of your ${appType} to make sure you’ve
+          filled out all the information that is required.`}
+      />
     );
   } else {
     if (renderErrorMessage) {
       submitMessage = renderErrorMessage();
     } else {
       submitMessage = (
-        <div className="usa-alert usa-alert-error schemaform-failure-alert">
-          <div className="usa-alert-body">
-            <p className="schemaform-warning-header">
-              <strong>We’re sorry, the {appType} didn’t go through.</strong>
-            </p>
-            <p>
-              You’ll have to start over. We suggest you wait 1 day while we fix
-              this problem.
-            </p>
-          </div>
-        </div>
+        <ErrorMessage
+          active
+          title={`We’re sorry, the ${appType} didn’t go through.`}
+          message="You’ll have to start over. We suggest you wait 1 day while we fix
+          this problem."
+        />
       );
     }
 
@@ -149,7 +128,7 @@ export default function SubmitButtons(props) {
             {submitMessage}
           </Column>
         </Row>
-        {preSubmitSection}
+        <PreSubmitSection formConfig={formConfig} />
         <Row classNames="form-progress-buttons schemaform-back-buttons">
           <Column classNames="small-6 usa-width-one-half medium-6">
             <a href="/">
@@ -161,12 +140,13 @@ export default function SubmitButtons(props) {
       </>
     );
   }
+
   return (
     <>
       <Row>
         <Column role="alert">{submitMessage}</Column>
       </Row>
-      {preSubmitSection}
+      <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons">
         <Column classNames="small-6 medium-5">
           <ProgressButton
@@ -188,7 +168,6 @@ export default function SubmitButtons(props) {
 SubmitButtons.propTypes = {
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
-  preSubmitSection: PropTypes.element,
   renderErrorMessage: PropTypes.func,
   submission: PropTypes.object,
   formConfig: PropTypes.shape({

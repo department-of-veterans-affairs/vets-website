@@ -13,7 +13,7 @@ import {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import { getFormPageInfo } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -69,7 +69,7 @@ const uiSchema = {
   },
   preferredLanguage: {
     'ui:title':
-      'Do you prefer that your Community Care provider speak a certain language?',
+      'Do you prefer that your community care provider speak a certain language?',
   },
   hasCommunityCareProvider: {
     'ui:widget': 'yesNo',
@@ -153,7 +153,7 @@ const uiSchema = {
 };
 
 const pageKey = 'ccPreferences';
-const pageTitle = 'Tell us your Community Care preferences';
+const pageTitle = 'Tell us your community care preferences';
 
 export class CommunityCarePreferencesPage extends React.Component {
   componentDidMount() {

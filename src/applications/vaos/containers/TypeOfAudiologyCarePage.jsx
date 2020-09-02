@@ -7,7 +7,7 @@ import {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment.js';
+} from '../new-appointment/redux/actions';
 import { getFormPageInfo } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 
@@ -34,7 +34,7 @@ const uiSchema = {
               Routine hearing exam
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm">
-              This incudes an office visit for a hearing exam and an evaluation
+              This includes an office visit for a hearing exam and an evaluation
               using non-invasive tests to check your hearing and inner ear
               health. A routine exam is not meant for any new or sudden changes
               with your hearing or ears.

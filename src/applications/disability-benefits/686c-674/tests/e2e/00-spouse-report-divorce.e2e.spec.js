@@ -32,19 +32,19 @@ const runTest = E2eHelpers.createE2eTest(client => {
     ['addSpouse', 'reportDivorce'],
     testData.data,
   );
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // veteran information
   E2eHelpers.expectLocation(client, '/veteran-information');
   client.axeCheck('.main');
   client.pause(Timeouts.normal);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // veteran address
   E2eHelpers.expectLocation(client, '/veteran-address');
   client.axeCheck('.main');
   TestHelpers.fillVeteranDomesticAddress(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // spouse information
   E2eHelpers.expectLocation(client, '/add-spouse');
@@ -54,7 +54,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fillSpousePersonalInformation(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // current marriage information
   E2eHelpers.expectLocation(client, '/current-marriage-information');
@@ -64,7 +64,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fillCurrentMarriageInformation(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // current spouse address
   E2eHelpers.expectLocation(client, '/current-marriage-address');
@@ -74,7 +74,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fillSpouseAddressInformation(client, testData.data, false);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // current spouse marriage history
   E2eHelpers.expectLocation(client, '/current-spouse-marriage-history');
@@ -85,7 +85,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main');
   client.pause(Timeouts.normal);
   TestHelpers.fillSpouseMarriageHistory(client, testData.data, true);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // spouse marriage history details
   client.pause(Timeouts.normal);
@@ -94,7 +94,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main');
   client.pause(Timeouts.normal);
   TestHelpers.fillSpouseMarriageHistoryDetails(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // veteran marriage history
   E2eHelpers.expectLocation(client, '/veteran-marriage-history');
@@ -105,7 +105,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main');
   client.pause(Timeouts.normal);
   TestHelpers.fillVeteranMarriageHistory(client, testData.data, false);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // marriage additional evidence
   E2eHelpers.expectLocation(client, '/add-spouse-evidence');

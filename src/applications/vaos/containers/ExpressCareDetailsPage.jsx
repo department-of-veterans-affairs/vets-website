@@ -14,7 +14,7 @@ import {
   getExpressCareFormPageInfo,
 } from '../utils/selectors';
 
-import * as actions from '../actions/expressCare';
+import * as actions from '../express-care/redux/actions';
 
 const pageKey = 'details';
 const pageTitle = 'Express Care request details';

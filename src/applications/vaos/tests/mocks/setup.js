@@ -10,10 +10,10 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
-import reducers from '../../reducers';
-import newAppointmentReducer from '../../reducers/newAppointment';
-import expressCareReducer from '../../reducers/expressCare';
-import { fetchExpressCareWindows } from '../../actions/appointments';
+import reducers from '../../redux/reducer';
+import newAppointmentReducer from '../../new-appointment/redux/reducer';
+import expressCareReducer from '../../express-care/redux/reducer';
+import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 import TypeOfCarePage from '../../containers/TypeOfCarePage';
 import VAFacilityPage from '../../containers/VAFacilityPage';
@@ -26,6 +26,7 @@ import { getParentSiteMock, getFacilityMock } from './v0';
 import { mockParentSites, mockSupportedFacilities } from './helpers';
 
 import createRoutesWithStore from '../../routes';
+import TypeOfEyeCarePage from '../../containers/TypeOfEyeCarePage';
 
 export function createTestStore(initialState) {
   return createStore(
@@ -100,6 +101,24 @@ export async function setTypeOfCare(store, label) {
   };
   const { findByLabelText, getByText } = renderWithStoreAndRouter(
     <TypeOfCarePage history={history} />,
+    { store },
+  );
+
+  const radioButton = await findByLabelText(label);
+  fireEvent.click(radioButton);
+  fireEvent.click(getByText(/Continue/));
+  await waitFor(() => expect(history.push.called).to.be.true);
+  await cleanup();
+
+  return history.push.firstCall.args[0];
+}
+
+export async function setTypeOfEyeCare(store, label) {
+  const history = {
+    push: sinon.spy(),
+  };
+  const { findByLabelText, getByText } = renderWithStoreAndRouter(
+    <TypeOfEyeCarePage history={history} />,
     { store },
   );
 

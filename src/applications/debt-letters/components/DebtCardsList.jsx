@@ -55,6 +55,7 @@ const DebtCardsList = ({ debts, isError }) => {
               <a href="tel: 800-827-0648" aria-label="8 0 0. 8 2 7. 0 6 4 8.">
                 800-827-0648
               </a>
+              {'.'}
             </p>
             <div className="vads-u-margin-top--3">
               {reverse(debts).map((debt, index) => (

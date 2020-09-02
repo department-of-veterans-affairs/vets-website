@@ -35,6 +35,10 @@ class FormApp extends React.Component {
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
     const isNonFormPage = this.nonFormPages.includes(lastPathComponent);
     const Footer = formConfig.footerContent;
+    const title =
+      typeof formConfig.title === 'function'
+        ? formConfig.title(this.props)
+        : formConfig.title;
 
     let formTitle;
     let formNav;
@@ -43,10 +47,8 @@ class FormApp extends React.Component {
     // 1. we're not on the intro page *or* one of the additionalRoutes
     //    specified in the form config
     // 2. there is a title specified in the form config
-    if (!isIntroductionPage && !isNonFormPage && formConfig.title) {
-      formTitle = (
-        <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
-      );
+    if (!isIntroductionPage && !isNonFormPage && title) {
+      formTitle = <FormTitle title={title} subTitle={formConfig.subTitle} />;
     }
 
     // Show nav only if we're not on the intro, form-saved, error, confirmation

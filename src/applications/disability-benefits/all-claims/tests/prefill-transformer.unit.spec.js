@@ -7,7 +7,7 @@ import prefillTransformer, {
 import {
   SERVICE_CONNECTION_TYPES,
   disabilityActionTypes,
-} from '../../all-claims/constants';
+} from 'applications/disability-benefits/all-claims/constants';
 
 describe('526v2 prefill transformer', () => {
   const noTransformData = {

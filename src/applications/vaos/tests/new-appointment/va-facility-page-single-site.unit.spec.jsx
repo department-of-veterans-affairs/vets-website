@@ -17,6 +17,7 @@ import {
   createTestStore,
   setTypeOfCare,
   renderWithStoreAndRouter,
+  setTypeOfEyeCare,
 } from '../mocks/setup';
 import {
   mockEligibilityFetches,
@@ -841,5 +842,116 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
         '/new-appointment',
       ),
     );
+  });
+
+  it('should use correct eligibility info after a split type of care is changed', async () => {
+    mockParentSites(
+      ['983'],
+      [
+        {
+          id: '983',
+          attributes: {
+            ...getParentSiteMock().attributes,
+            institutionCode: '983',
+            rootStationCode: '983',
+            parentStationCode: '983',
+          },
+        },
+      ],
+    );
+    mockSupportedFacilities({
+      siteId: '983',
+      parentId: '983',
+      typeOfCareId: '408',
+      data: [
+        {
+          id: '983GC',
+          attributes: {
+            ...getFacilityMock().attributes,
+            authoritativeName: 'Bozeman medical center',
+            institutionCode: '983GC',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            requestSupported: true,
+          },
+        },
+        {
+          id: '983BC',
+          attributes: {
+            ...getFacilityMock().attributes,
+            institutionCode: '983BC',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            requestSupported: true,
+          },
+        },
+      ],
+    });
+    mockSupportedFacilities({
+      siteId: '983',
+      parentId: '983',
+      typeOfCareId: '407',
+      data: [
+        {
+          id: '983AZ',
+          attributes: {
+            ...getFacilityMock().attributes,
+            authoritativeName: 'Belgrade medical center',
+            institutionCode: '983AZ',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            requestSupported: true,
+          },
+        },
+        {
+          id: '983BZ',
+          attributes: {
+            ...getFacilityMock().attributes,
+            institutionCode: '983BZ',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            requestSupported: true,
+          },
+        },
+      ],
+    });
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983GC',
+      typeOfCareId: '408',
+      requestPastVisits: true,
+    });
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983AZ',
+      typeOfCareId: '407',
+      limit: true,
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /eye care/i);
+    await setTypeOfEyeCare(store, /optometry/i);
+
+    let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    fireEvent.click(await screen.findByLabelText(/Bozeman medical center/i));
+    await screen.findByText(
+      /You’ve reached the limit for appointment requests at this location/i,
+    );
+
+    await cleanup();
+
+    await setTypeOfEyeCare(store, /Ophthalmology/i);
+    screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    fireEvent.click(await screen.findByLabelText(/Belgrade medical center/i));
+    expect(
+      await screen.findByText(
+        /We couldn’t find a recent appointment at this location/i,
+      ),
+    ).to.exist;
   });
 });

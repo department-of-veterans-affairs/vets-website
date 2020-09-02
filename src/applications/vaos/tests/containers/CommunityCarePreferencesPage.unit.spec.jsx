@@ -114,7 +114,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
 
   it('document title should match h1 text', () => {
     const form = mount(<CommunityCarePreferencesPageTester />);
-    const pageTitle = 'Tell us your Community Care preferences';
+    const pageTitle = 'Tell us your community care preferences';
 
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
