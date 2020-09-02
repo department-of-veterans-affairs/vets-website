@@ -132,7 +132,7 @@ const testSecondaryTwo = createTestConfig(
         cy.route({
           method: 'POST',
           url: '/v0/caregivers_assistance_claims',
-          status: 401,
+          status: 200,
           response: {
             body: {
               data: {
@@ -150,7 +150,7 @@ const testSecondaryTwo = createTestConfig(
     },
 
     // disable all tests until 1010CG is in production
-    skip: false,
+    skip: true,
   },
   manifest,
   formConfig,
