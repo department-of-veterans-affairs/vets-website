@@ -30,11 +30,14 @@ const calculateHeight = ({ feet, inches }) =>
 const formatHeightString = height => {
   const feet = Math.floor(parseInt(height, 10) / 12);
   const inches = parseInt(height, 10) % 12;
-  return `height: ${feet} ft. ${inches} in.`;
+  return `${feet} ft. ${inches} in.`;
 };
 
 export default class HeightWidget extends React.Component {
   state = getEmptyState();
+  // state = props => {
+  //   return !props.value ? getEmptyState() : this.state;
+  // };
   labelStyleClasses = setLabelStyles();
 
   isTouched = ({ feet, inches }) => feet && inches;
@@ -67,25 +70,19 @@ export default class HeightWidget extends React.Component {
   render() {
     const { id, formContext } = this.props;
     const { feet, inches } = this.state.value;
+    let feetValue;
+    let inchesValue;
+    // console.log('state: ', this.state);
 
     // inReviewMode = true (review page view, not in edit mode)
     // inReviewMode = false (in edit mode)
     const onReviewPage = formContext.onReviewPage;
     const inReviewMode = onReviewPage && formContext.reviewMode;
 
-    // console.log('onReviewpage: ', onReviewPage);
-    // console.log('inReviewMode: ', inReviewMode);
-
-    // if (onReviewPage && !inReviewMode) {
-    //   // SWEET THIS WORKS...
-    //   console.log('IS this EDIT MODE and value exists: ', this.props.value);
-    //   // this.handleChange('feet', 6);
-    //   // this.handleChange('inches', 2);
-    // }
-    // console.log('feet: ', feet);
-    // console.log('inches: ', inches);
-    // console.log('props: ', this.props);
-    // console.log('FC: ', formContext);
+    if (onReviewPage && !inReviewMode) {
+      feetValue = Math.floor(parseInt(this.props.value, 10) / 12);
+      inchesValue = parseInt(this.props.value, 10) % 12;
+    }
 
     const displayValue = inReviewMode ? (
       <div>{formatHeightString(this.props.value)}</div>
@@ -97,7 +94,8 @@ export default class HeightWidget extends React.Component {
               type="number"
               name={`${id}Feet`}
               id={`${id}Feet`}
-              value={feet}
+              // value={feet}
+              value={feetValue !== null ? feetValue : feet}
               onBlur={() => this.handleBlur('feet')}
               onChange={event => this.handleChange('feet', event.target.value)}
             />
@@ -110,7 +108,7 @@ export default class HeightWidget extends React.Component {
               id={`${id}Inches`}
               min="0"
               max="11"
-              value={inches}
+              value={inchesValue !== null ? inchesValue : inches}
               onBlur={() => this.handleBlur('inches')}
               onChange={event =>
                 this.handleChange('inches', event.target.value)
