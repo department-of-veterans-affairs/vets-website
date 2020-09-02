@@ -261,15 +261,9 @@ describe('VAOS integration: appointment list', () => {
     );
     expect(header).to.have.tagName('h2');
     expect(getAllByRole('tab').length).to.equal(3);
-
-    const upcomingTab = getByText('Upcoming');
-    const pastTab = getByText('Past');
-    const expressCareTab = getByText('Express Care');
-
-    expect(upcomingTab).to.have.attribute('role', 'tab');
-    expect(pastTab).to.have.attribute('role', 'tab');
-    expect(expressCareTab).to.have.attribute('role', 'tab');
-
+    expect(getByText('Upcoming')).to.have.attribute('role', 'tab');
+    expect(getByText('Past')).to.have.attribute('role', 'tab');
+    expect(getByText('Express Care')).to.have.attribute('role', 'tab');
     expect(
       getByText(/View your upcoming, past, and Express Care appointments/i),
     ).to.have.tagName('h2');
