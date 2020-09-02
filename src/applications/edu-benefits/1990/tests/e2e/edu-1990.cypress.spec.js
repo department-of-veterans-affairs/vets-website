@@ -5,7 +5,8 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import featureToggles from '../e2e/fixtures/mocks/feature-toggles.json';
 import mockUser from './mock-user.json';
-// import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+
+Cypress.config('waitForAnimations', true);
 
 const form = createTestConfig(
   {
@@ -15,12 +16,17 @@ const form = createTestConfig(
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
-
     setupPerTest: () => {
-      window.sessionStorage.clear();
       cy.login(mockUser);
       cy.route('GET', '/v0/feature_toggles?*', featureToggles);
-      // window.sessionStorage.setItem('wizardStatus', WIZARD_STATUS_COMPLETE);
+      cy.route('POST', '/v0/education_benefits_claims/1990', {
+        data: {
+          attributes: {
+            confirmationNumber: 'BB935000000F3VnCAW',
+            submittedAt: '2020-08-09T19:18:11+00:00',
+          },
+        },
+      });
     },
     pageHooks: {
       introduction: () => {
