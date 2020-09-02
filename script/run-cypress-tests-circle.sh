@@ -10,9 +10,6 @@ else
   # Use mocha-junit-reporter and save results in './test-results'.
   reporterArgs="--reporter cypress-multi-reporters --reporter-options \"configFile=config/cypress-reporters.json\""
 
-  #Env args
-  envArgs =" --env ci_name=circle"
-
   # Start the web server & run Cypress tests.
-  yarn start-server-and-test "node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 > /dev/null 2>&1" :3001 "yarn cy:run $reporterArgs $envArgs"
+  yarn start-server-and-test "node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 > /dev/null 2>&1" :3001 "yarn cy:run $reporterArgs --env ci_name=circle"
 fi
