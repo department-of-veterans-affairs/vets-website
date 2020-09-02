@@ -1,6 +1,6 @@
 it('should tab access the links on the left nav and verify active link elements', () => {
-  cy.visit('/pittsburgh-health-care');
   if (Cypress.env('ci_name') && Cypress.env('ci_name') === 'circle') return;
+  cy.visit('/pittsburgh-health-care');
   cy.injectAxe();
   cy.axeCheck();
 
