@@ -20,18 +20,6 @@ const testConfig = createTestConfig(
           .first()
           .click();
       },
-      topic: () => {
-        cy.fillPage();
-        cy.findAllByText(/continue/i)
-          .first()
-          .click();
-      },
-      'contact-information': () => {
-        cy.fillPage();
-        cy.findAllByText(/continue/i)
-          .first()
-          .click();
-      },
     },
     skip: true,
   },
