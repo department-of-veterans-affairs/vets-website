@@ -5,16 +5,16 @@ import {
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 
 describe('Appointment Request', () => {
-  beforeEach(() => {
+  beforeEach(() => {});
+
+  it('should submit an a va appointment', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
-    cy.get('.va-modal-body button').click();
-  });
-
-  it('should submit an a va appointment', () => {
-    // Start flow
     cy.injectAxe();
+    cy.get('.va-modal-body button').click();
+
+    // Start flow
     cy.findByText('Schedule an appointment').click();
 
     // Choose Type of Care
@@ -22,7 +22,7 @@ describe('Appointment Request', () => {
 
     // Choose Facility Type
     cy.url().should('include', '/choose-facility-type');
-    cy.injectAxe();
+    cy.axeCheck();
     cy.findByLabelText(/VA medical center/).click();
     cy.findByText(/Continue/).click();
 
