@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { focusElement } from 'platform/utilities/ui';
-import { resetDataLayer } from '../utils/events';
+import { resetDataLayer } from '../../../utils/events';
 import recordEvent from 'platform/monitoring/record-event';
 
 export default function TabItem({
