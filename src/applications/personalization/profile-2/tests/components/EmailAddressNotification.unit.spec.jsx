@@ -54,4 +54,20 @@ describe('EmailAddressNotification', () => {
     });
     wrapper.unmount();
   });
+
+  describe('when `signInServiceName` is `myhealthevet`', () => {
+    const wrapper = shallow(
+      <EmailAddressNotification signInServiceName="myhealthevet" />,
+    );
+
+    const anchor = wrapper.find('a');
+
+    it('should render the correct button text', () => {
+      expect(anchor.text().includes('My HealtheVet')).to.be.true;
+    });
+    it('should render the correct link url', () => {
+      expect(anchor.props().href).to.equal('https://www.myhealth.va.gov');
+    });
+    wrapper.unmount();
+  });
 });
