@@ -29,7 +29,7 @@ export default {
       'edu-eligibility-criteria-stem-or-teaching-met': enrolledStemAndTeaching,
       'edu-eligibility-criteria-used-all-benefits-met':
         benefitLeft !== 'moreThanSixMonths',
-      'edu-eligibilty-criteria-months-remaining-for-use': benefitLeft,
+      'edu-eligibility-criteria-months-remaining-for-use': benefitLeft,
     });
   },
   exitApplication: () => {

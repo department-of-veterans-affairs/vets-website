@@ -12,7 +12,7 @@ const runCommand = (cmd, forcedExitCode = null) => {
   });
 };
 
-const runCommandSync = (cmd, forcedExitCode = null) => {
+const runCommandSync = cmd => {
   const child = spawnSync(cmd, [], { shell: true, stdio: 'inherit' });
   return child.status;
 };
