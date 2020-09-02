@@ -4,7 +4,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import featureToggles from '../e2e/fixtures/mocks/feature-toggles.json';
-import mockUser from './mock-user.json';
+import mockUser from './fixtures/mocks/mock-user.json';
 
 Cypress.config('waitForAnimations', true);
 
