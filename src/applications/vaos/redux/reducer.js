@@ -1,7 +1,7 @@
 import appointments from '../appointment-list/redux/reducer';
 
 export default {
-  // newAppoinment state slice lazy loaded
-  // expressCare state slice lazy loaded
+  // newAppointment state slice lazy loaded (new-appointment/redux/reducer.js)
+  // expressCare state slice lazy loaded (express-care/redux/reducer.js)
   appointments,
 };
