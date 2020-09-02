@@ -14,7 +14,10 @@ export default function ConfirmedCommunityCareLocation({ appointment }) {
     <dl className="vads-u-margin--0">
       <dt className="vads-u-font-weight--bold">{location.name}</dt>
       <dd>
-        <FacilityAddress facility={location} showDirectionsLink />
+        <FacilityAddress
+          facility={location}
+          showDirectionsLink={location.address ? true : false}
+        />
       </dd>
     </dl>
   );

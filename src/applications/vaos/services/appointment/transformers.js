@@ -12,7 +12,6 @@ import {
   UNABLE_TO_REACH_VETERAN_DETCODE,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
-import { deburr } from 'lodash';
 
 /**
  * Determines what type of appointment a VAR appointment object is depending on
