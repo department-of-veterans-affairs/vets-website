@@ -16,8 +16,9 @@ const tags = [branchName];
 
 const opts = {
   pactFilesOrDirs: [path.resolve(__dirname, '../pacts')],
-  // pactBroker: 'http://localhost:9292',
   pactBroker: process.env.PACT_BROKER_URL,
+  pactBrokerUsername: process.env.PACT_BROKER_BASIC_AUTH_USERNAME,
+  pactBrokerPassword: process.env.PACT_BROKER_BASIC_AUTH_PASSWORD,
   consumerVersion,
   tags,
 };
