@@ -581,12 +581,10 @@ class VAMap extends Component {
           id="searchResultsContainer"
         >
           <div className="facility-search-results">
-            <div>
-              <ResultsList
-                updateUrlParams={this.updateUrlParams}
-                query={this.props.currentQuery}
-              />
-            </div>
+            <ResultsList
+              updateUrlParams={this.updateUrlParams}
+              query={this.props.currentQuery}
+            />
           </div>
         </div>
         <div className="desktop-map-container">

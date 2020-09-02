@@ -22,7 +22,8 @@ import { getRealFacilityId } from '../utils/appointment';
 const pageKey = 'selectDateTime';
 const pageTitle = 'Tell us the date and time you’d like your appointment';
 
-const missingDateError = 'Please select a preferred date for your appointment';
+const missingDateError =
+  'Please choose your preferred date and time for your appointment.';
 
 export function getOptionsByDate(
   selectedDate,

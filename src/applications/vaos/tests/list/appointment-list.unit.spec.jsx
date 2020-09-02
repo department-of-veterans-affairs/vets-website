@@ -22,8 +22,8 @@ import {
 import { renderWithStoreAndRouter } from '../mocks/setup';
 
 import reducers from '../../redux/reducer';
-import FutureAppointmentsList from '../../components/FutureAppointmentsList';
-import AppointmentsPage from '../../containers/AppointmentsPage';
+import FutureAppointmentsList from '../../appointment-list/components/FutureAppointmentsList';
+import AppointmentsPage from '../../appointment-list/components/AppointmentsPage';
 
 const initialState = {
   featureToggles: {
@@ -265,7 +265,7 @@ describe('VAOS integration: appointment list', () => {
     expect(getByText('Past')).to.have.attribute('role', 'tab');
     expect(getByText('Express Care')).to.have.attribute('role', 'tab');
     expect(
-      getByText(/View your upcoming, past, and Express Care appointments/i),
+      getByText(/Your upcoming, past, and Express Care appointments/i),
     ).to.have.tagName('h2');
 
     expect(
@@ -359,9 +359,8 @@ describe('VAOS integration: appointment list', () => {
       'tab',
     );
     expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
-    expect(
-      queryByText(/View your upcoming, past, and Express Care appointments/i),
-    ).not.to.exist;
+    expect(queryByText(/Your upcoming, past, and Express Care appointments/i))
+      .not.to.exist;
   });
 
   it('should show express care action but not tab when flag is on and no requests', async () => {
@@ -415,9 +414,8 @@ describe('VAOS integration: appointment list', () => {
       'tab',
     );
     expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
-    expect(
-      queryByText(/View your upcoming, past, and Express Care appointments/i),
-    ).not.to.exist;
+    expect(queryByText(/Your upcoming, past, and Express Care appointments/i))
+      .not.to.exist;
   });
 
   it('should show Cerner portal link when user is only registered at Cerner sites', async () => {
