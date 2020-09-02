@@ -11,11 +11,12 @@ function Complete({ children }) {
     <div>
       {children}
       <div className="covid-screener-date">
-        <h2 className="vads-u-font-size--h4">Valid for</h2>
-        <h3>{moment().format('dddd')}</h3>
-        <h4>{moment().format('MMM D, h:mm a')}</h4>
+        <div className="vads-u-font-size--lg">Valid for</div>
+        <div className="vads-u-font-size--xl">{moment().format('dddd')}</div>
+        <div className="vads-u-font-size--2xl">{moment().format('MMM D')}</div>
+        <div className="vads-u-font-size--lg">{moment().format('h:mm a')}</div>
       </div>
-      <div className="vads-u-font-size--h3">
+      <div className="vads-u-font-size--lg">
         <p>
           Please show this screen to the staff member at the facility entrance.
         </p>
@@ -28,13 +29,13 @@ function Complete({ children }) {
 const Pass = () => (
   <Complete>
     <i aria-hidden="true" role="presentation" className="fas fa-check" />
-    <h2 className="vads-u-font-size--h1">OK to proceed</h2>
+    <h2 className="vads-u-font-size--2xl">OK to proceed</h2>
   </Complete>
 );
 
 const MoreScreening = () => (
   <Complete>
-    <h2 className="vads-u-font-size--h1">More screening needed</h2>
+    <h2 className="vads-u-font-size--2xl">More screening needed</h2>
   </Complete>
 );
 
