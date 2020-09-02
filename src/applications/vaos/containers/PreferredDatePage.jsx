@@ -81,10 +81,9 @@ export class PreferredDatePage extends React.Component {
         >
           <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--neg2">
             <AdditionalInfo triggerText="Why are you asking me this?">
-              If you tell us the earliest date you’re available for your
-              appointment, we’ll try to find the closest date to your request.
-              Note we might not be able to find the appointment for that
-              particular day.
+              Tell us the earliest day you’re available and we'll try find the
+              date closest to your request. Please note that we might not be
+              able to find an appointment for that particular day.
             </AdditionalInfo>
           </div>
           <FormButtons
