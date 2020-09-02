@@ -6,8 +6,5 @@
   "pluginsFile": "src/platform/testing/e2e/cypress/plugins/index.js",
   "supportFile": "src/platform/testing/e2e/cypress/support/index.js",
   "testFiles": "**/tests/**/*.cypress.spec.js?(x)",
-  "waitForAnimations": false,
-  "env" :{
-  "ci_name": "circle"
-   }
+  "waitForAnimations": false
 }
