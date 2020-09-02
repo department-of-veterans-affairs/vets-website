@@ -14,7 +14,11 @@ const secondaryTwoLabel =
 const testSecondaryTwo = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['requiredOnly'],
+    dataSets: [
+      'requiredOnly',
+      'oneSecondaryCaregivers',
+      'twoSecondaryCaregivers',
+    ],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
