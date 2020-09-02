@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import { waitFor } from '@testing-library/dom';
 import environment from 'platform/utilities/environment';
 import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../redux/reducer';
@@ -64,14 +63,6 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(baseElement).not.to.contain.text('Some random note');
     expect(getByText(/add to calendar/i)).to.have.tagName('a');
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
-
-    await waitFor(() =>
-      expect(
-        global.window.dataLayer.find(ev => ev['tab-text'] === 'Upcoming')?.[
-          'vaos-upcoming-number-of-cards'
-        ],
-      ).to.equal(1),
-    );
   });
 
   it('should show information with facility details', async () => {

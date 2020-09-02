@@ -139,6 +139,14 @@ export function fetchFutureAppointments() {
       type: FETCH_FUTURE_APPOINTMENTS,
     });
 
+    recordEvent({
+      event: `${GA_PREFIX}-get-future-appointments-started`,
+    });
+
+    recordEvent({
+      event: `${GA_PREFIX}-get-pending-appointments-started`,
+    });
+
     try {
       const data = await Promise.all([
         getBookedAppointments({
@@ -159,21 +167,27 @@ export function fetchFutureAppointments() {
               data: requests,
             });
 
-            if (vaosExpressCare(getState())) {
-              const expressCareRequests = requests.filter(
-                appt => appt.vaos.isExpressCare,
-              );
+            const requestSuccessEvent = {
+              event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
+            };
 
-              if (expressCareRequests.length) {
-                recordEvent({
-                  event: `${GA_PREFIX}-express-care-fetch-requests-successful`,
-                  [`${GA_PREFIX}-express-care-number-of-cards`]: expressCareRequests.length,
-                });
-              }
+            const expressCareRequests = requests.filter(
+              appt => appt.vaos.isExpressCare,
+            );
+
+            if (vaosExpressCare(getState()) && expressCareRequests.length) {
+              requestSuccessEvent[`${GA_PREFIX}-express-care-number-of-cards`] =
+                expressCareRequests.length;
             }
+
+            recordEvent(requestSuccessEvent);
+            resetDataLayer();
             return requests;
           })
           .catch(resp => {
+            recordEvent({
+              event: `${GA_PREFIX}-get-pending-appointments-failed`,
+            });
             dispatch({
               type: FETCH_PENDING_APPOINTMENTS_FAILED,
             });
@@ -181,6 +195,10 @@ export function fetchFutureAppointments() {
             return Promise.reject(resp);
           }),
       ]);
+
+      recordEvent({
+        event: `${GA_PREFIX}-get-future-appointments-retrieved`,
+      });
 
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
@@ -203,6 +221,9 @@ export function fetchFutureAppointments() {
       }
     } catch (error) {
       captureError(error);
+      recordEvent({
+        event: `${GA_PREFIX}-get-future-appointments-failed`,
+      });
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_FAILED,
         error,

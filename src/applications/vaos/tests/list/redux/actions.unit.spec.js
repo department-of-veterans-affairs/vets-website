@@ -54,6 +54,10 @@ describe('VAOS actions: appointments', () => {
     resetFetch();
   });
 
+  const featureToggles = {
+    vaOnlineSchedulingExpressCare: true,
+  };
+
   it('should fetch future appointments', async () => {
     const data = {
       data: [],
@@ -67,7 +71,9 @@ describe('VAOS actions: appointments', () => {
     setFetchJSONResponse(global.fetch.onCall(4), facilityData);
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy);
+    await thunk(dispatchSpy, () => ({
+      featureToggles,
+    }));
     expect(dispatchSpy.firstCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS,
     );
@@ -90,7 +96,9 @@ describe('VAOS actions: appointments', () => {
     setFetchJSONFailure(global.fetch, data);
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy);
+    await thunk(dispatchSpy, () => ({
+      featureToggles,
+    }));
     expect(dispatchSpy.firstCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS,
     );
@@ -111,6 +119,7 @@ describe('VAOS actions: appointments', () => {
     const thunk = fetchPastAppointments('2019-02-02', '2029-12-31', 1);
     const dispatchSpy = sinon.spy();
     const getState = () => ({
+      featureToggles,
       appointments: {
         pastStatus: 'notStarted',
         past: [{ facilityId: '442' }],
@@ -152,6 +161,13 @@ describe('VAOS actions: appointments', () => {
     const data = {
       data: [],
     };
+    const getState = () => ({
+      featureToggles,
+      appointments: {
+        pastStatus: 'notStarted',
+        past: [{ facilityId: '442' }],
+      },
+    });
     setFetchJSONResponse(global.fetch, data);
     setFetchJSONResponse(global.fetch.onCall(2), {
       data: [getVAAppointmentMock()],
@@ -159,7 +175,7 @@ describe('VAOS actions: appointments', () => {
     setFetchJSONFailure(global.fetch.onCall(3), {});
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy);
+    await thunk(dispatchSpy, getState);
     expect(dispatchSpy.firstCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS,
     );
