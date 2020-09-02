@@ -22,7 +22,7 @@ export const uiSchema = {
         <span>
           Thank you for your interest in participating in coronavirus research
           at VA. Please answer the questions below, and we’ll add you to our
-          volunteer registry. If we think you may be eligible for one of our
+          volunteer list. If we think you may be eligible for one of our
           COVID-19 studies, we’ll contact you to tell you more about it so you
           can decide if you want to join. You don’t need to be a Veteran to
           volunteer.

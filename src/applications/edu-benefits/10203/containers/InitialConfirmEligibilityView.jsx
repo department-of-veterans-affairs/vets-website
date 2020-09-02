@@ -1,11 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import captureEvents from '../analytics-functions';
+import { isChapter33 } from '../helpers';
 
 function InitialConfirmEligibilityView(props) {
   if (props.onReviewPage) {
     return null;
   }
+  captureEvents.ineligibilityAlert(props);
+
   return (
     <div>
       <div>
@@ -33,7 +36,7 @@ function InitialConfirmEligibilityView(props) {
           className={'usa-button-primary va-button-primary'}
           href="/education/"
           target="_self"
-          onClick={captureEvents.exitApplication()}
+          onClick={captureEvents.exitApplication}
         >
           Exit application
         </a>
@@ -48,6 +51,10 @@ function InitialConfirmEligibilityView(props) {
 
 const mapStateToProps = (state, props) => ({
   onReviewPage: props?.formContext?.onReviewPage,
+  isChapter33: isChapter33(state.form.data),
+  benefitLeft: state?.form?.data.benefitLeft,
+  isEnrolledStem: state?.form?.data.isEnrolledStem,
+  isPursuingTeachingCert: state?.form?.data?.isPursuingTeachingCert || false,
 });
 
 export default connect(mapStateToProps)(InitialConfirmEligibilityView);
