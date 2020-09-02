@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
 import HeightWidget from '../widgets/HeightWidget';
+import WeightWidget from '../widgets/WeightWidget';
 
 import {
   validateMatch,
@@ -21,7 +22,7 @@ export const uiSchema = {
         <span>
           Thank you for your interest in participating in coronavirus research
           at VA. Please answer the questions below, and we’ll add you to our
-          volunteer registry. If we think you may be eligible for one of our
+          volunteer list. If we think you may be eligible for one of our
           COVID-19 studies, we’ll contact you to tell you more about it so you
           can decide if you want to join. You don’t need to be a Veteran to
           volunteer.
@@ -338,12 +339,14 @@ export const uiSchema = {
   height: {
     'ui:title': 'Height',
     'ui:widget': HeightWidget,
+    'ui:errorMessages': {
+      required: 'Please enter your height',
+      pattern: 'Please enter a valid height (feet and inches)',
+    },
   },
   weight: {
-    'ui:title': 'Weight (pounds)',
-    'ui:options': {
-      classNames: 'input-width',
-    },
+    'ui:title': 'Weight',
+    'ui:widget': WeightWidget,
     'ui:errorMessages': {
       required: 'Please enter your weight',
       pattern: 'Please enter a valid weight (decimals allowed)',

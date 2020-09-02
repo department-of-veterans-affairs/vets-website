@@ -155,16 +155,16 @@ describe('Facility search', () => {
     cy.get('.facility-result h3').contains('MinuteClinic');
   });
 
-  it('finds va urgent care pharmacies', () => {
+  it('finds community care pharmacies', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select(
-      'Urgent care pharmacies (in VA’s network)',
+      'Community pharmacies (in VA’s network)',
     );
     cy.get('#facility-search').click();
     cy.get('#search-results-subheader').contains(
-      'Results for "Urgent care pharmacies (in VA’s network)" near "Austin, Texas"',
+      'Results for "Community pharmacies (in VA’s network)" near "Austin, Texas"',
     );
 
     cy.injectAxe();
