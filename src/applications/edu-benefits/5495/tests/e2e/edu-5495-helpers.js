@@ -1,4 +1,4 @@
-const EduHelpers = require('../../../1990/tests/utils/edu-helpers');
+const EduHelpers = require('../../helpers');
 
 function completeOldSchool(client, data) {
   client.fill('input[name="root_oldSchool_name"]', data.oldSchool.name);
