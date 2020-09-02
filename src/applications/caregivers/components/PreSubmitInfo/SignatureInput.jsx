@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 
-const SignatureInput = ({
-  fullName,
-  required,
-  label,
-  setIsSigned,
-  showError,
-}) => {
+const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
   const [hasError, setError] = useState(false);
   const firstName = fullName.first.toLowerCase();
   const lastName = fullName.last.toLowerCase();
@@ -54,12 +48,12 @@ const SignatureInput = ({
         setError(true);
       }
 
-      if (!isDirty && signatureMatches) {
+      if (isDirty && signatureMatches) {
         setIsSigned(true);
         setError(false);
       }
     },
-    [setIsSigned, signature.dirty, signatureMatches, showError, hasError],
+    [setIsSigned, signature.dirty, signatureMatches],
   );
 
   return (
