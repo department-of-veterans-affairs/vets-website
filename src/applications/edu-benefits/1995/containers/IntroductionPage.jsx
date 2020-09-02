@@ -4,19 +4,22 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import WizardContainer from 'applications/edu-benefits/wizard/containers/WizardContainer';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
 import { showEduBenefits1995Wizard } from 'applications/edu-benefits/selectors/educationWizard';
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_COMPLETE,
+} from 'applications/static-pages/wizard';
 
 export class IntroductionPage extends React.Component {
-  state = { status: sessionStorage.getItem('wizardStatus') };
+  state = { status: sessionStorage.getItem(WIZARD_STATUS) };
 
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
   setWizardStatus = value => {
-    sessionStorage.setItem('wizardStatus', value);
+    sessionStorage.setItem(WIZARD_STATUS, value);
     this.setState({ status: value });
   };
 

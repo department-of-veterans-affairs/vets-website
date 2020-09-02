@@ -62,8 +62,8 @@ describe('the Edu-Benefit 1990E Introduction Page', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
     const instance = wrapper.instance();
     instance.setWizardStatus(WIZARD_STATUS_COMPLETE);
-    const wizardStatus = getWizardStatus().then(() => {
-      expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
+    const status = getWizardStatus().then(() => {
+      expect(status).to.equal(WIZARD_STATUS_COMPLETE);
     });
     expect(wrapper.exists('WizardContainer')).to.equal(false);
     expect(wrapper.exists('.subway-map')).to.equal(true);

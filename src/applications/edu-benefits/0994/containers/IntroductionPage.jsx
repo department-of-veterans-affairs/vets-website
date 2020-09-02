@@ -5,19 +5,22 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import WizardContainer from '../../wizard/containers/WizardContainer';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
 import { showEduBenefits0994Wizard } from '../../selectors/educationWizard';
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_COMPLETE,
+} from 'applications/static-pages/wizard';
 
 export class IntroductionPage extends React.Component {
-  state = { status: sessionStorage.getItem('wizardStatus') };
+  state = { status: sessionStorage.getItem(WIZARD_STATUS) };
 
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
   setWizardStatus = value => {
-    sessionStorage.setItem('wizardStatus', value);
+    sessionStorage.setItem(WIZARD_STATUS, value);
     this.setState({ status: value });
   };
 

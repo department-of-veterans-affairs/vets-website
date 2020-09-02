@@ -2,13 +2,14 @@ import React from 'react';
 import WizardContainer from 'applications/edu-benefits/wizard/containers/WizardContainer';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import { sessionStorageSetup } from 'platform/testing/utilities';
 import {
   getReferredBenefit,
   getWizardStatus,
+  WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
   NO_BENEFIT_REFERRED,
 } from 'applications/static-pages/wizard';
-import { sessionStorageSetup } from 'platform/testing/utilities';
 
 describe('the Wizard Container', () => {
   let mockStore = {};
@@ -20,7 +21,7 @@ describe('the Wizard Container', () => {
 
   beforeEach(() => {
     setWizardStatus = value => {
-      sessionStorage.setItem('wizardStatus', value);
+      sessionStorage.setItem(WIZARD_STATUS, value);
     };
   });
 
@@ -42,8 +43,8 @@ describe('the Wizard Container', () => {
     wrapper
       .find('.skip-wizard-link')
       .simulate('click', { preventDefault: () => {} });
-    const wizardStatus = getWizardStatus().then(() => {
-      expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
+    const status = getWizardStatus().then(() => {
+      expect(status).to.equal(WIZARD_STATUS_COMPLETE);
     });
     const referredBenefit = getReferredBenefit().then(() => {
       // because this test is not running on a browser, it will return the default message

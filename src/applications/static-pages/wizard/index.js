@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { form526BDDFeature } from '../../disability-benefits/all-claims/config/selectors';
 
 export const NO_BENEFIT_REFERRED = 'no benefit was referred';
+export const WIZARD_STATUS = 'wizardStatus';
 export const WIZARD_STATUS_NOT_STARTED = 'not started';
 export const WIZARD_STATUS_COMPLETE = 'complete';
 export const WIZARD_STATUS_APPLY_NOW = 'awaiting click on apply button';
