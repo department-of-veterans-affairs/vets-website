@@ -60,7 +60,6 @@ export const uiSchema = {
         expandUnderCondition: emailAddress => {
           return emailAddress;
         },
-        hideOnReview: true,
       },
     },
   },
