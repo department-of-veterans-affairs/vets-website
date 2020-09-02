@@ -89,7 +89,7 @@ const formConfig = {
           updateFormData: updateData,
           uiSchema,
           schema: {
-            required: [],
+            required: fullSchema.required,
             type: 'object',
             properties: {
               descriptionText: {

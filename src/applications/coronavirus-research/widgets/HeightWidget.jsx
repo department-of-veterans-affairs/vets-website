@@ -1,18 +1,19 @@
 import React from 'react';
 import _ from 'lodash/fp';
 
-function getEmptyState() {
+function getInitialState(height) {
   return {
     value: {
-      feet: null,
-      inches: null,
+      feet: height ? Math.floor(parseInt(height, 10) / 12) : null,
+      inches: height ? parseInt(height, 10) % 12 : null,
     },
     touched: {
-      feet: false,
-      inches: false,
+      feet: !!height,
+      inches: !!height,
     },
   };
 }
+
 function setLabelStyles(newState) {
   let labelMarginLeftClass = 'vads-u-margin-left--1';
   if (
@@ -34,10 +35,8 @@ const formatHeightString = height => {
 };
 
 export default class HeightWidget extends React.Component {
-  state = getEmptyState();
-  // state = props => {
-  //   return !props.value ? getEmptyState() : this.state;
-  // };
+  state = getInitialState(this.props.value);
+
   labelStyleClasses = setLabelStyles();
 
   isTouched = ({ feet, inches }) => feet && inches;
@@ -70,19 +69,7 @@ export default class HeightWidget extends React.Component {
   render() {
     const { id, formContext } = this.props;
     const { feet, inches } = this.state.value;
-    let feetValue;
-    let inchesValue;
-    // console.log('state: ', this.state);
-
-    // inReviewMode = true (review page view, not in edit mode)
-    // inReviewMode = false (in edit mode)
-    const onReviewPage = formContext.onReviewPage;
-    const inReviewMode = onReviewPage && formContext.reviewMode;
-
-    if (onReviewPage && !inReviewMode) {
-      feetValue = Math.floor(parseInt(this.props.value, 10) / 12);
-      inchesValue = parseInt(this.props.value, 10) % 12;
-    }
+    const inReviewMode = formContext.onReviewPage && formContext.reviewMode;
 
     const displayValue = inReviewMode ? (
       <div>{formatHeightString(this.props.value)}</div>
@@ -94,8 +81,7 @@ export default class HeightWidget extends React.Component {
               type="number"
               name={`${id}Feet`}
               id={`${id}Feet`}
-              // value={feet}
-              value={feetValue !== null ? feetValue : feet}
+              value={feet}
               onBlur={() => this.handleBlur('feet')}
               onChange={event => this.handleChange('feet', event.target.value)}
             />
@@ -108,7 +94,7 @@ export default class HeightWidget extends React.Component {
               id={`${id}Inches`}
               min="0"
               max="11"
-              value={inchesValue !== null ? inchesValue : inches}
+              value={inches}
               onBlur={() => this.handleBlur('inches')}
               onChange={event =>
                 this.handleChange('inches', event.target.value)
@@ -119,43 +105,7 @@ export default class HeightWidget extends React.Component {
         </div>
       </div>
     );
-    return (
-      <span>{displayValue}</span>
-      // <div className="vads-l-grid-container--full">
-      //   <div className="vads-l-row">
-      //     <div className="vads-l-col--2">
-
-      //         <input
-      //           type="number"
-      //           name={`${id}Feet`}
-      //           id={`${id}Feet`}
-      //           value={feet}
-      //           onBlur={() => this.handleBlur('feet')}
-      //           onChange={event =>
-      //             this.handleChange('feet', event.target.value)
-      //           }
-      //         />
-
-      //     </div>
-      //     <div className={this.labelStyleClasses}>.ft</div>
-      //     <div className="vads-l-col--2">
-      //       <input
-      //         type="number"
-      //         name={`${id}Inches`}
-      //         id={`${id}Inches`}
-      //         min="0"
-      //         max="11"
-      //         value={inches}
-      //         onBlur={() => this.handleBlur('inches')}
-      //         onChange={event =>
-      //           this.handleChange('inches', event.target.value)
-      //         }
-      //       />
-      //     </div>
-      //     <div className={this.labelStyleClasses}>.in</div>
-      //   </div>
-      // </div>
-    );
+    return <span>{displayValue}</span>;
   }
 }
 HeightWidget.propTypes = {};
