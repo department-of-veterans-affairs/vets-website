@@ -10,7 +10,7 @@ const routes = (
     <Route component={DebtLettersWrapper} key="/main">
       <IndexRoute component={DebtLettersSummary} key="/debt-list" />
       <Route component={DebtDetails} key="/view-details" path="/view-details" />
-      <Route component={DebtLettersDownload} path="/view-details" />
+      <Route component={DebtLettersDownload} path="/download-letters" />
     </Route>
   </Route>
 );

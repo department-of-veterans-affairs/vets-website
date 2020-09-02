@@ -43,20 +43,6 @@ const DebtCardsListV2 = ({ debts, isError }) => {
       {!isError &&
         debts.length > 0 && (
           <>
-            <p className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0">
-              This list shows your current debts, the date they were created,
-              and the amount you owe.
-            </p>
-            <p className="vads-u-font-size--base vads-u-margin-bottom--0 vads-u-font-family--sans">
-              <strong>Note: </strong>
-              This list may not show your most recently updated debts. If you
-              have questions about your VA debt, contact the Debt Management
-              Center at{' '}
-              <a href="tel: 800-827-0648" aria-label="8 0 0. 8 2 7. 0 6 4 8.">
-                800-827-0648
-              </a>
-              {'.'}
-            </p>
             <div className="vads-u-margin-top--3">
               {debts.map((debt, index) => (
                 <DebtLetterCardV2
@@ -65,6 +51,19 @@ const DebtCardsListV2 = ({ debts, isError }) => {
                 />
               ))}
             </div>
+            <h3>What if I don't see a debt?</h3>
+            <p>
+              If you’ve received a letter about a VA debt, but don’t see it
+              listed here call the Debt Management Center (DMC) at{' '}
+              <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
+                800-827-0648
+              </a>
+              {'.'}
+            </p>
+            <p>
+              For medical co-payment debt, please go to Pay your VA copay bill
+              to learn about your payment options.
+            </p>
           </>
         )}
       {!isError &&

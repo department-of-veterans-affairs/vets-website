@@ -30,6 +30,22 @@ const NeedHelpV2 = () => (
       </a>
       {'.'}
     </p>
+    <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
+      Find information about submitting a financial status report
+    </a>
+    <h3>How do I dispute a debt?</h3>
+    <p>
+      If you think a debt was created in error, you can dispute it. Get
+      information about disputing a debt by calling the DMC at{' '}
+      <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
+        800-827-0648
+      </a>
+      between 6:30 a.m. and 6:00 p.m. CST. For international callers, use{' '}
+      <a href="tel: 612-713-6415" aria-label="612. 7 1 3. 6415.">
+        612-713-6415
+      </a>
+      {'.'}
+    </p>
   </div>
 );
 

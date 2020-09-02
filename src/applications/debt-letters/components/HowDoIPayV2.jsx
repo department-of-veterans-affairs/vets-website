@@ -37,10 +37,7 @@ const HowDoIPayV2 = () => (
     <p className="vads-u-margin-top--0">
       Find instructions on how to pay by mail in the demand letter sent to your
       address or you can{' '}
-      <Link className="usa-button" to="/view-details">
-        download them online
-      </Link>
-      .
+      <Link to="/download-letters">download them online</Link>.
     </p>
   </div>
 );
