@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import reducers from '../../reducers';
+import reducers from '../../redux/reducer';
 import { getCCAppointmentMock, getVAAppointmentMock } from '../mocks/v0';
 import { mockAppointmentInfo } from '../mocks/helpers';
 import { renderWithStoreAndRouter } from '../mocks/setup';
