@@ -649,7 +649,7 @@ export function transformForSubmit(
  * Numerate the field names (keys) in a uiSchema object.
  *
  * @param {Object} uiSchema - The uiSchema for the field
- * @param {number} index = The integer to append to the field names
+ * @param {number} index - The integer to append to the field names
  * @returns {Object} The uiSchema with an integer appended to property names
  */
 export function getNumeratedUiSchema(uiSchema, index) {
