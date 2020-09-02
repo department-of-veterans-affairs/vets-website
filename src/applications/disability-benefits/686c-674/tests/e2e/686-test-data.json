@@ -39,7 +39,8 @@
       "city": "The City",
       "stateCode": "AL",
       "zipCode": "12345",
-      "phoneNumber": "1231231234"
+      "phoneNumber": "1231231234",
+      "email": "test2@test1.net"
     },
     "childInformation": [
       {
