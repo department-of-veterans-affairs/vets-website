@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import SignatureInput from 'applications/caregivers/components/PreSubmitInfo/components/SignatureInput';
+
+import SignatureInput from './SignatureInput';
 
 const SignatureCheckbox = ({
   children,
@@ -14,7 +15,7 @@ const SignatureCheckbox = ({
 }) => {
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [shouldShowError, setError] = useState(null);
+  const [hasError, setError] = useState(null);
   const isSignatureComplete = isSigned && isChecked;
 
   useEffect(
@@ -53,7 +54,7 @@ const SignatureCheckbox = ({
       <ErrorableCheckbox
         onValueChange={value => setIsChecked(value)}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
-        errorMessage={shouldShowError && 'Must certify by checking box'}
+        errorMessage={hasError && 'Must certify by checking box'}
         required={isRequired}
       />
     </article>
