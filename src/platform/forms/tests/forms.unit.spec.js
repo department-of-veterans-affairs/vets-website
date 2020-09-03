@@ -95,13 +95,13 @@ describe('form:', () => {
 
   // Find all config/form.js or config/form.jsx files within src/applications
   const configFiles = find.fileSync(
-    /config\/form\.js.$/,
+    /config\/form\.js.?$/,
     path.join(root, './applications'),
   );
 
   Object.values(configFiles).forEach(configFilePath => {
     it(`${configFilePath.replace(root, '')}:`, () => {
-      expect(
+      return expect(
         // Dynamically import the module and perform tests on its default export
         import(configFilePath).then(({ default: formConfig }) => {
           return (
