@@ -1,6 +1,9 @@
-import { api, resolveParamsWithUrl, urgentCareServices } from '../config';
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
+
+import { api, resolveParamsWithUrl } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
-import { FacilityType } from '../constants';
+import { LocationType } from '../constants';
 
 class LocatorApi {
   /**
@@ -35,25 +38,25 @@ class LocatorApi {
       fetch(`${url}?${params}`, api.settings)
         .then(async res => {
           let response = await res.json();
-          if (
-            locationType === FacilityType.URGENT_CARE &&
-            (!serviceType || serviceType === Object.keys(urgentCareServices)[0])
-          ) {
-            response = {
-              meta: {
-                pagination: {
-                  currentPage: 1,
-                  nextPage: null,
-                  prevPage: null,
-                  totalPages: 1,
+          switch (locationType) {
+            case LocationType.URGENT_CARE:
+            case LocationType.CC_PROVIDER:
+            case LocationType.URGENT_CARE_PHARMACIES:
+              response = {
+                meta: {
+                  pagination: {
+                    currentPage: 1,
+                    nextPage: null,
+                    prevPage: null,
+                    totalPages: 1,
+                  },
                 },
-              },
-              links: {},
-              data: response.included,
-            };
-            return response;
-          } else {
-            return response;
+                links: {},
+                data: response.included,
+              };
+              return response;
+            default:
+              return response;
           }
         })
         .then(data => resolve(data), error => reject(error));
