@@ -28,6 +28,7 @@ const initialState = {
     data: {},
     pages: {},
     pageChangeInProgress: false,
+    previousPages: ['home'],
     facilityId: null,
     siteId: null,
     isUnderRequestLimit: null,
@@ -109,6 +110,11 @@ export default function expressCareReducer(state = initialState, action) {
         newRequest: {
           ...state.newRequest,
           pageChangeInProgress: false,
+          previousPages:
+            action.direction === 'next'
+              ? state.newRequest.previousPages.concat([action.pageKey])
+              : state.newRequest.previousPages.pop() &&
+                state.newRequest.previousPages,
         },
       };
     }

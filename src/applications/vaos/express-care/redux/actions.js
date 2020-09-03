@@ -145,19 +145,31 @@ export function routeToPageInFlow(flow, history, current, action) {
       type: FORM_PAGE_CHANGE_STARTED,
     });
 
-    const nextAction = flow[current][action];
     let nextPage;
 
-    if (typeof nextAction === 'string') {
-      nextPage = flow[nextAction];
+    if (action === 'next') {
+      const nextAction = flow[current][action];
+
+      if (typeof nextAction === 'string') {
+        nextPage = flow[nextAction];
+      } else {
+        const nextStateKey = await nextAction(getState(), dispatch);
+        nextPage = flow[nextStateKey];
+      }
     } else {
-      const nextStateKey = await nextAction(getState(), dispatch);
-      nextPage = flow[nextStateKey];
+      const state = await getState();
+      const previousPage =
+        state.expressCare.newRequest.previousPages[
+          state.expressCare.newRequest.previousPages.length - 1
+        ];
+      nextPage = flow[previousPage];
     }
 
     if (nextPage?.url) {
       dispatch({
         type: FORM_PAGE_CHANGE_COMPLETED,
+        pageKey: current,
+        direction: action,
       });
       history.push(nextPage.url);
     } else if (nextPage) {
