@@ -4,7 +4,6 @@ describe('Facilities VAMC SideNav', () => {
   });
 
   it('should tab access the links on the left nav and verify focus', () => {
-    if (Cypress.env('ci_name') && Cypress.env('ci_name') === 'circle') return;
     cy.visit('/pittsburgh-health-care');
     cy.injectAxe();
     cy.axeCheck();
