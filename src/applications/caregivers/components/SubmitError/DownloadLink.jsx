@@ -35,17 +35,17 @@ const DownLoadLink = ({ form }) => {
         .then(blob => {
           const url = URL.createObjectURL(blob);
           setPDFLink(url);
-          recordEvent({ event: 'caregivers-10-10cg-pdf-download-success' });
+          recordEvent({ event: 'caregivers-10-10cg--pdf-download--success' });
         })
         .catch(error => {
           Sentry.withScope(scope => {
             scope.setExtra('error', error);
             scope.setFingerprint(['{{default}}', scope._tags?.source]);
             Sentry.captureMessage(
-              `caregivers-10-10cg-pdf-failure: ${error.message}`,
+              `caregivers-10-10cg-pdf--failure: ${error.message}`,
             );
           });
-          recordEvent({ event: 'caregivers-10-10cg-pdf-failure' });
+          recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
         });
     },
     [formData, isFormValid],
