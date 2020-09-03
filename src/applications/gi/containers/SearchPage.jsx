@@ -212,6 +212,10 @@ export class SearchPage extends React.Component {
                 yr={result.yr}
                 poe={result.poe}
                 eightKeys={result.eightKeys}
+                womenonly={result.womenonly}
+                menonly={result.menonly}
+                relaffil={result.relaffil}
+                hbcu={result.hbcu}
               />
             ))}
           </div>
