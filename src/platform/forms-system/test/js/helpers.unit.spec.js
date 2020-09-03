@@ -12,7 +12,6 @@ import {
   formatReviewDate,
   expandArrayPages,
   omitRequired,
-  getNumeratedUiSchema,
   getNumeratedItemSchema,
 } from '../../src/js/helpers';
 
@@ -1003,38 +1002,6 @@ describe('Schemaform helpers:', () => {
         },
       };
       expect(omitRequired(schema)).to.eql(expected);
-    });
-  });
-
-  describe('getNumeratedUiSchema', () => {
-    const uiSchema = {
-      'ui:title': 'My form',
-      'ui:options': {
-        someValue: true,
-      },
-      firstName: {
-        'ui:title': 'First Name',
-      },
-      lastName: {
-        'ui:title': 'Last Name',
-      },
-    };
-
-    it('should numerate the keys for uiSchema fields', () => {
-      const numeratedUiSchema = getNumeratedUiSchema(uiSchema, 4);
-
-      expect(numeratedUiSchema.firstName).to.equal(undefined);
-      expect(numeratedUiSchema.lastName).to.equal(undefined);
-
-      expect(numeratedUiSchema.firstName4).to.eql({ 'ui:title': 'First Name' });
-      expect(numeratedUiSchema.lastName4).to.eql({ 'ui:title': 'Last Name' });
-    });
-
-    it("should leave keys that start with 'ui:' alone", () => {
-      const numeratedUiSchema = getNumeratedUiSchema(uiSchema, 4);
-
-      expect(numeratedUiSchema['ui:title']).to.equal('My form');
-      expect(numeratedUiSchema['ui:options']).to.eql({ someValue: true });
     });
   });
 

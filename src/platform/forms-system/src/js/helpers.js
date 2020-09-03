@@ -646,31 +646,6 @@ export function transformForSubmit(
 }
 
 /**
- * Numerate the field names (keys) in a uiSchema object.
- *
- * @param {Object} uiSchema - The uiSchema for the field
- * @param {number} index - The integer to append to the field names
- * @returns {Object} The uiSchema with an integer appended to property names
- */
-export function getNumeratedUiSchema(uiSchema, index) {
-  // We don't want to enumerate things like `ui:options`
-  const fields = Object.entries(uiSchema).filter(
-    ([key, _val]) => !key.startsWith('ui:'),
-  );
-
-  /* eslint-disable no-param-reassign */
-  return fields.reduce(
-    (numerated, [key, value]) => {
-      numerated[`${key}${index}`] = value;
-      delete numerated[key];
-      return numerated;
-    },
-    { ...uiSchema },
-  );
-  /* eslint-enable no-param-reassign */
-}
-
-/**
  * Almost a copy of the class method `getItemSchema`.
  * This version applies numeration to the `properties` and `required` values
  *
