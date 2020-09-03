@@ -53,7 +53,7 @@ export default function ConfirmationDirectScheduleInfo({
           <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
-                {clinic?.clinicFriendlyLocationName || clinic?.clinicName}
+                {clinic?.serviceName}
               </dt>
               <dd>
                 {!!facilityDetails && (
