@@ -7,6 +7,7 @@ import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
+import { changeDropdown } from '../helpers/index.js';
 import formConfig from '../../config/form';
 
 describe('686 report a child has stopped attending school', () => {
@@ -30,7 +31,7 @@ describe('686 report a child has stopped attending school', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 
@@ -46,7 +47,7 @@ describe('686 report a child has stopped attending school', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -66,6 +67,22 @@ describe('686 report a child has stopped attending school', () => {
       form,
       'input#root_childStoppedAttendingSchool_fullName_first',
       'john',
+    );
+    fillData(form, 'input#root_childStoppedAttendingSchool_ssn', '123211234');
+    changeDropdown(
+      form,
+      'select#root_childStoppedAttendingSchool_birthDateMonth',
+      1,
+    );
+    changeDropdown(
+      form,
+      'select#root_childStoppedAttendingSchool_birthDateDay',
+      1,
+    );
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_birthDateYear',
+      '2010',
     );
     const month = form.find(
       'select#root_childStoppedAttendingSchool_dateChildLeftSchoolMonth',
@@ -112,6 +129,22 @@ describe('686 report a child has stopped attending school', () => {
       'input#root_childStoppedAttendingSchool_fullName_last',
       'doe',
     );
+    fillData(form, 'input#root_childStoppedAttendingSchool_ssn', '123211234');
+    changeDropdown(
+      form,
+      'select#root_childStoppedAttendingSchool_birthDateMonth',
+      1,
+    );
+    changeDropdown(
+      form,
+      'select#root_childStoppedAttendingSchool_birthDateDay',
+      1,
+    );
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_birthDateYear',
+      '2010',
+    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
@@ -138,6 +171,22 @@ describe('686 report a child has stopped attending school', () => {
       form,
       'input#root_childStoppedAttendingSchool_fullName_last',
       'doe',
+    );
+    fillData(form, 'input#root_childStoppedAttendingSchool_ssn', '123211234');
+    changeDropdown(
+      form,
+      'select#root_childStoppedAttendingSchool_birthDateMonth',
+      1,
+    );
+    changeDropdown(
+      form,
+      'select#root_childStoppedAttendingSchool_birthDateDay',
+      1,
+    );
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_birthDateYear',
+      '2010',
     );
     const month = form.find(
       'select#root_childStoppedAttendingSchool_dateChildLeftSchoolMonth',
@@ -193,6 +242,22 @@ describe('686 report a child has stopped attending school', () => {
     suffix.simulate('change', {
       target: { value: 'II' },
     });
+    fillData(form, 'input#root_childStoppedAttendingSchool_ssn', '123211234');
+    changeDropdown(
+      form,
+      'select#root_childStoppedAttendingSchool_birthDateMonth',
+      1,
+    );
+    changeDropdown(
+      form,
+      'select#root_childStoppedAttendingSchool_birthDateDay',
+      1,
+    );
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_birthDateYear',
+      '2010',
+    );
     const month = form.find(
       'select#root_childStoppedAttendingSchool_dateChildLeftSchoolMonth',
     );

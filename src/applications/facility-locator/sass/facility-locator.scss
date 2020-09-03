@@ -88,7 +88,7 @@ $facility-locator-color-gray: #ccc;
   }
 
   .desktop-map-container {
-    min-height: 75vh;
+    min-height: 78vh;
     padding-left: 0;
     float: right;
     width: calc(100% - 305px);
@@ -222,6 +222,8 @@ $facility-locator-color-gray: #ccc;
     float: left;
     display: block;
     width: 305px;
+    max-height: 78vh;
+    overflow-y: auto;
   }
 
   .facility-search-results {
