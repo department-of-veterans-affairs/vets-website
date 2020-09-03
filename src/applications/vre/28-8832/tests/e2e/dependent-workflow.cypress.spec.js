@@ -10,6 +10,7 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
+    skip: ['dependent-workflow-test'], // Will remove when back end is set up
     dataPrefix: 'data',
     dataSets: ['dependent-workflow-test'],
     fixtures: { data: path.join(__dirname, 'formDataSets') },
