@@ -169,6 +169,12 @@ describe('VAOS integration: express care requests', () => {
         'You shared these details about your concern',
       );
       expect(baseElement).to.contain.text('Need help ASAP');
+
+      const tab = getByText('Express Care');
+      expect(tab).to.have.attribute('role', 'tab');
+      fireEvent.click(tab);
+      expect(global.window.dataLayer.some(e => e.event === 'nav-tab-click')).to
+        .be.true;
     });
 
     it('should show appropriate information for an escalated request', async () => {

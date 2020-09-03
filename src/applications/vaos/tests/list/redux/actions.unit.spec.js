@@ -87,6 +87,22 @@ describe('VAOS actions: appointments', () => {
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
     expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
+
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-get-future-appointments-started',
+    );
+    expect(global.window.dataLayer[1].event).to.equal(
+      'vaos-get-pending-appointments-started',
+    );
+    expect(global.window.dataLayer[2].event).to.equal(
+      'vaos-get-pending-appointments-retrieved',
+    );
+    expect(global.window.dataLayer[4].event).to.equal(
+      'vaos-get-future-appointments-retrieved',
+    );
+    expect(
+      global.window.dataLayer[4]['vaos-upcoming-number-of-cards'],
+    ).to.equal(0);
   });
 
   it('should dispatch fail action when fetching future appointments', async () => {
@@ -107,6 +123,20 @@ describe('VAOS actions: appointments', () => {
     );
     expect(dispatchSpy.thirdCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS_FAILED,
+    );
+
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-get-future-appointments-started',
+    );
+    expect(global.window.dataLayer[1].event).to.equal(
+      'vaos-get-pending-appointments-started',
+    );
+    expect(global.window.dataLayer[2].event).to.equal(
+      'vaos-get-pending-appointments-failed',
+    );
+    expect(global.window.dataLayer[3].event).to.equal('vaos-error');
+    expect(global.window.dataLayer[4].event).to.equal(
+      'vaos-get-future-appointments-failed',
     );
   });
 
@@ -135,6 +165,13 @@ describe('VAOS actions: appointments', () => {
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
     expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
+
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-get-past-appointments-started',
+    );
+    expect(global.window.dataLayer[1].event).to.equal(
+      'vaos-get-past-appointments-retrieved',
+    );
   });
 
   it('should dispatch fail action when fetching past appointments', async () => {
@@ -154,6 +191,14 @@ describe('VAOS actions: appointments', () => {
     expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_PAST_APPOINTMENTS);
     expect(dispatchSpy.secondCall.args[0].type).to.eql(
       FETCH_PAST_APPOINTMENTS_FAILED,
+    );
+
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-get-past-appointments-started',
+    );
+    expect(global.window.dataLayer[1].event).to.equal('vaos-error');
+    expect(global.window.dataLayer[2].event).to.equal(
+      'vaos-get-past-appointments-failed',
     );
   });
 

@@ -261,7 +261,11 @@ describe('VAOS integration: appointment list', () => {
     );
     expect(header).to.have.tagName('h2');
     expect(getAllByRole('tab').length).to.equal(3);
-    expect(getByText('Upcoming')).to.have.attribute('role', 'tab');
+    const upcomingTab = getByText('Upcoming');
+    expect(upcomingTab).to.have.attribute('role', 'tab');
+    fireEvent.click(upcomingTab);
+    expect(global.window.dataLayer.some(e => e.event === 'nav-tab-click')).to.be
+      .true;
     expect(getByText('Past')).to.have.attribute('role', 'tab');
     expect(getByText('Express Care')).to.have.attribute('role', 'tab');
     expect(

@@ -198,7 +198,9 @@ export function fetchFutureAppointments() {
 
       recordEvent({
         event: `${GA_PREFIX}-get-future-appointments-retrieved`,
+        [`${GA_PREFIX}-upcoming-number-of-cards`]: data[0]?.length,
       });
+      resetDataLayer();
 
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
@@ -239,6 +241,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       selectedIndex,
     });
 
+    recordEvent({
+      event: `${GA_PREFIX}-get-past-appointments-started`,
+    });
+
     try {
       const data = await getBookedAppointments({
         startDate,
@@ -250,6 +256,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         data,
         startDate,
         endDate,
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-get-past-appointments-retrieved`,
       });
 
       try {
@@ -271,6 +281,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_FAILED,
         error,
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-get-past-appointments-failed`,
       });
     }
   };
