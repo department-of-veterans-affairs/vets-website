@@ -166,6 +166,8 @@ describe('VAOS newAppointment actions', () => {
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_COMPLETED,
+        pageKey: 'page1',
+        direction: 'next',
       });
       expect(history.push.firstCall.args[0]).to.equal('/page2');
     });
