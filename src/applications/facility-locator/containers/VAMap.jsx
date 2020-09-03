@@ -20,7 +20,7 @@ import ResultsList from '../components/ResultsList';
 import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
 import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
-import { BOUNDING_RADIUS, MARKER_LETTERS } from '../constants';
+import { BOUNDING_RADIUS, MARKER_LETTERS, LocationType } from '../constants';
 import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
@@ -380,6 +380,23 @@ class VAMap extends Component {
     }, 1);
   };
 
+  renderPagination = (facilityType, currentPage, totalPages) => {
+    switch (facilityType) {
+      case LocationType.URGENT_CARE:
+      case LocationType.CC_PROVIDER:
+      case LocationType.URGENT_CARE_PHARMACIES:
+        return null;
+      default:
+        return (
+          <Pagination
+            onPageSelect={this.handlePageSelect}
+            page={currentPage}
+            pages={totalPages}
+          />
+        );
+    }
+  };
+
   /**
    * Use the list of search results to generate map markers and current position marker
    */
@@ -500,14 +517,7 @@ class VAMap extends Component {
                   query={this.props.currentQuery}
                 />
               </div>
-              {results &&
-                results.length > 0 && (
-                  <Pagination
-                    onPageSelect={this.handlePageSelect}
-                    page={currentPage}
-                    pages={totalPages}
-                  />
-                )}
+              {this.renderPagination(facilityType, currentPage, totalPages)}
             </TabPanel>
             <TabPanel>
               <Map
@@ -612,15 +622,7 @@ class VAMap extends Component {
               )}
           </Map>
         </div>
-        {currentPage &&
-          results &&
-          results.length > 0 && (
-            <Pagination
-              onPageSelect={this.handlePageSelect}
-              page={currentPage}
-              pages={totalPages}
-            />
-          )}
+        {this.renderPagination(facilityType, currentPage, totalPages)}
       </div>
     );
   };
