@@ -836,16 +836,12 @@
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
-          "path": "/",
-          "name": "Home"
-        },
-        {
           "path": "health-care/",
-          "name": "Health Care"
+          "name": "Health care"
         },
         {
           "path": "/coronavirus-research/volunteer",
-          "name": "Coronavirus Research Sign-up"
+          "name": "Coronavirus research sign-up"
         }
       ]
     }

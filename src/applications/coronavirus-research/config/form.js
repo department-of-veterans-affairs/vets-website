@@ -71,6 +71,10 @@ const formConfig = {
   formId: 'COVID-RESEARCH-VOLUNTEER',
   version: 0,
   prefillEnabled: true,
+  customText: {
+    reviewPageTitle: 'Review information',
+    appType: ' ',
+  },
   savedFormMessages: {
     notFound:
       'Please start over to sign up for our coronavirus research volunteer list.',
@@ -81,11 +85,11 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     chapter1: {
-      title: 'Volunteer Information',
+      title: 'Your information',
       pages: {
         page1: {
           path: 'sign-up',
-          title: 'Volunteer Information - Page 1',
+          title: 'Your information - page 1',
           updateFormData: updateData,
           uiSchema,
           schema: {
