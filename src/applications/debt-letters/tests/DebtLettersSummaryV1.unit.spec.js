@@ -1,11 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import DebtLettersSummary from '../components/DebtLettersSummary';
+import DebtLettersSummaryV1 from '../components/DebtLettersSummaryV1';
 
-describe('DebtLettersSummary', () => {
+describe('DebtLettersSummaryV1', () => {
   const fakeStore = {
     getState: () => ({
+      featureToggles: {
+        debtLettersShowLetters: true,
+      },
       user: {
         login: {
           currentlyLoggedIn: true,
@@ -25,8 +28,8 @@ describe('DebtLettersSummary', () => {
             benefitType: 'Loan Guaranty (Principal + Interest)',
             amountOverpaid: 0.0,
             amountWithheld: 0.0,
-            originalAR: '11599',
-            currentAR: '0',
+            originalAR: 11599,
+            currentAR: 0,
             debtHistory: [
               {
                 date: '03/05/2004',
@@ -46,8 +49,8 @@ describe('DebtLettersSummary', () => {
             benefitType: 'Comp & Pen',
             amountOverpaid: 0.0,
             amountWithheld: 0.0,
-            originalAR: '13000',
-            currentAR: '0',
+            originalAR: 13000,
+            currentAR: 0,
             debtHistory: [
               {
                 date: '12/03/2008',
@@ -80,8 +83,8 @@ describe('DebtLettersSummary', () => {
             benefitType: 'Comp & Pen',
             amountOverpaid: 0.0,
             amountWithheld: 0.0,
-            originalAR: '12000',
-            currentAR: '0',
+            originalAR: 12000,
+            currentAR: 0,
             debtHistory: [
               {
                 date: '09/11/1997',
@@ -101,8 +104,8 @@ describe('DebtLettersSummary', () => {
             benefitType: 'CH35 EDU',
             amountOverpaid: 16000.0,
             amountWithheld: 0.0,
-            originalAR: '13000',
-            currentAR: '10000',
+            originalAR: 13000,
+            currentAR: 10000,
             debtHistory: [
               {
                 date: '09/18/2012',
@@ -163,13 +166,16 @@ describe('DebtLettersSummary', () => {
   };
 
   it('mounts wrapper component', () => {
-    const wrapper = shallow(<DebtLettersSummary store={fakeStore} />);
+    const wrapper = shallow(<DebtLettersSummaryV1 store={fakeStore} />);
     expect(wrapper.length).to.equal(1);
     wrapper.unmount();
   });
   it('renders correct error state', () => {
     const fakeStoreEmptyState = {
       getState: () => ({
+        featureToggles: {
+          debtLettersShowLetters: true,
+        },
         user: {
           login: {
             currentlyLoggedIn: true,
@@ -185,7 +191,9 @@ describe('DebtLettersSummary', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const wrapper = shallow(<DebtLettersSummary store={fakeStoreEmptyState} />);
+    const wrapper = shallow(
+      <DebtLettersSummaryV1 store={fakeStoreEmptyState} />,
+    );
     expect(wrapper.dive().find(`Connect(DebtLetterCard)`).length).to.equal(0);
     expect(
       wrapper

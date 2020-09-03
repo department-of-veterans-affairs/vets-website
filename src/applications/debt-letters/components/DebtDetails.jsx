@@ -138,7 +138,7 @@ class DebtDetails extends Component {
             </Link>
             <HowDoIPayV2 />
             <NeedHelpV2 />
-            <Link className="vads-u-margin-top--4" to="">
+            <Link className="vads-u-margin-top--4" to="/">
               Return to your list of debts.
             </Link>
           </div>
