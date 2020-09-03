@@ -11,6 +11,7 @@ import chaiDOM from 'chai-dom';
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
+import { sessionStorageSetup } from '../utilities';
 
 // import sinon from 'sinon'
 
@@ -125,3 +126,4 @@ export default function setupJSDom() {
 }
 
 setupJSDom();
+sessionStorageSetup();
