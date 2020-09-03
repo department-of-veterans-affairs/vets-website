@@ -1,6 +1,8 @@
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
-import fullSchema from '../../0873-schema.json';
 import { validateWhiteSpace } from 'platform/forms/validations';
+
+import fullSchema from '../../0873-schema.json';
+import { topicTitle } from '../../content/inquiryPage';
 
 const { topic, inquiryType, query } = fullSchema.properties;
 
@@ -24,7 +26,7 @@ const inquiryPage = {
       'ui:title': "Tell us the reason you're contacting us",
     },
     [formFields.topic]: autoSuggestUiSchema(
-      'Which topic best describes your question or message?',
+      topicTitle,
       getOptions(topic.enum),
       {
         'ui:options': { queryForResults: true, freeInput: true },
