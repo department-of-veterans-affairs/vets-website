@@ -97,8 +97,7 @@ describe('form:', () => {
   );
 
   Object.values(configFiles).forEach(configFilePath => {
-    const configFileRepoPath = configFilePath.replace(root, '');
-    it(`${configFileRepoPath}:`, () => {
+    it(`${configFilePath.replace(root, '')}:`, () => {
       expect(
         // Dynamically import the module and perform tests on its default export
         import(configFilePath).then(({ default: formConfig }) => {
