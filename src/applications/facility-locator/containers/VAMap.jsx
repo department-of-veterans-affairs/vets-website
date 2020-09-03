@@ -497,7 +497,7 @@ class VAMap extends Component {
               <div className="facility-search-results">
                 <ResultsList
                   updateUrlParams={this.updateUrlParams}
-                  query={this.props.currentQuery}
+                  query={currentQuery}
                 />
               </div>
               <PaginationWrapper
@@ -505,7 +505,7 @@ class VAMap extends Component {
                 currentPage={currentPage}
                 totalPages={totalPages}
                 results={results}
-                inProgress={this.props.currentQuery.inProgress}
+                inProgress={currentQuery.inProgress}
               />
             </TabPanel>
             <TabPanel>

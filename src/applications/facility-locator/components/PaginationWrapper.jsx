@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { LocationType } from '../constants';
 
-class PaginationWrapper extends Component {
+export class PaginationWrapper extends Component {
   shouldComponentUpdate = nextProps =>
     nextProps.results !== this.props.results ||
     nextProps.inProgress !== this.props.inProgress;
@@ -20,7 +20,7 @@ class PaginationWrapper extends Component {
     if (
       shouldRender &&
       currentPage &&
-      totalPages &&
+      totalPages > 1 &&
       results &&
       results.length > 0
     ) {
