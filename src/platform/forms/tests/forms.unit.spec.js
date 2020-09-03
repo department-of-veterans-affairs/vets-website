@@ -93,7 +93,7 @@ const validTitle = ({ title }) => {
 describe('form:', () => {
   sessionStorageSetup();
 
-  // Find all config/form.js files within src/applications
+  // Find all config/form.js or config/form.jsx files within src/applications
   const configFiles = find.fileSync(
     /config\/form\.js.$/,
     path.join(root, './applications'),
