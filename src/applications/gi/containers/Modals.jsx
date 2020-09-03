@@ -1157,49 +1157,17 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('cumulativeService')}
       >
         <h3>Cumulative Post-9/11 service</h3>
-        {!this.props.gibctCh33BenefitRateUpdate ? (
-          <div>
-            {' '}
-            <p>
-              The{' '}
-              <a
-                title="Post-9/11 GI Bill"
-                href="../post911_gibill.asp"
-                id="anch_375"
-              >
-                Post-9/11 GI Bill
-              </a>{' '}
-              provides financial support for education and a housing allowance.
-              To qualify for this program, you must have served after September
-              10, 2001 for at least 90 days or, if you were discharged with a
-              service-connected disability, for at least 30 days. You also need
-              to have received an honorable discharge.
-            </p>
-            <p>
-              For detailed information about Cumulative Post-9/11 Service, visit{' '}
-              <a
-                href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                this page
-              </a>
-              .
-            </p>
-          </div>
-        ) : (
-          <div>
-            <p>
-              The Post-9/11 GI Bill provides financial support for education and
-              a housing allowance. To qualify for this program, you must have
-              served after September 10, 2001 for at least 90 days or, if you
-              were discharged with a service-connected disability, for at least
-              30 days. The service period for these benefits doesn't include
-              your entry and initial skill training. You also need to have
-              received an honorable discharge.
-            </p>
-          </div>
-        )}
+        <div>
+          <p>
+            The Post-9/11 GI Bill provides financial support for education and a
+            housing allowance. To qualify for this program, you must have served
+            after September 10, 2001 for at least 90 days or, if you were
+            discharged with a service-connected disability, for at least 30
+            days. The service period for these benefits doesn't include your
+            entry and initial skill training. You also need to have received an
+            honorable discharge.
+          </p>
+        </div>
       </Modal>
 
       <Modal
