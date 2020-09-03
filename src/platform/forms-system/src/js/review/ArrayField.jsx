@@ -241,9 +241,9 @@ class ArrayField extends React.Component {
                   >
                     <div className="small-12 columns va-growable-expanded">
                       {isLast ? (
-                        <h3 className="schemaform-array-row-title vads-u-font-size--h5">
+                        <h4 className="schemaform-array-row-title vads-u-font-size--h5">
                           New {uiOptions.itemName || 'Item'}
-                        </h3>
+                        </h4>
                       ) : null}
                       <SchemaForm
                         data={item}
