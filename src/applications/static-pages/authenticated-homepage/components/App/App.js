@@ -27,8 +27,6 @@ const mapStateToProps = state => {
   const authHomepageLocalStorage = localStorage.getItem(
     'AUTHENTICATED_HOMEPAGE',
   );
-  // This value exists to override the feature flag when it's on
-  const noAuthHomepage = localStorage.getItem('NO_AUTHENTICATED_HOMEPAGE');
 
   // Show auth homepage when
   // 1) the user is logged in
@@ -37,13 +35,13 @@ const mapStateToProps = state => {
   // 4) AUTHENTICATED_HOMEPAGE in localStorage is true
 
   // Don't show auth homepage when
-  // 1) NO_AUTHENTICATED_HOMEPAGE in localStorage is true
+  // 1) AUTHENTICATED_HOMEPAGE in localStorage is false
   // 2) Neither the feature flag or localStorage value AUTHENTICATED_HOMEPAGE is true
   return {
     showAuthHomePage:
       loggedIn &&
       (authHomepageFeatureFlag || authHomepageLocalStorage === 'true') &&
-      noAuthHomepage !== 'true',
+      authHomepageLocalStorage !== 'false',
   };
 };
 
