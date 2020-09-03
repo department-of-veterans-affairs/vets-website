@@ -95,7 +95,7 @@ describe('form:', () => {
 
   // Find all config/form.js files within src/applications
   const configFiles = find.fileSync(
-    /config\/form\.js$/,
+    /config\/form\.js.$/,
     path.join(root, './applications'),
   );
 
