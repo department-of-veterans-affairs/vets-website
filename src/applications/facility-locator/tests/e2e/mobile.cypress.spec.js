@@ -1,7 +1,6 @@
 import path from 'path';
 
 Cypress.Commands.add('checks', () => {
-  cy.injectAxe();
   cy.axeCheck();
 
   // Search
@@ -39,6 +38,7 @@ describe('Mobile', () => {
 
   it('should render in mobile layouts and tabs actions work', () => {
     cy.visit('/find-locations');
+    cy.injectAxe();
 
     // iPhone X
     cy.viewport(400, 812);
