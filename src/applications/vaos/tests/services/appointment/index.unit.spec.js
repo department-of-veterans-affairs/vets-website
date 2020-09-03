@@ -23,8 +23,8 @@ import {
   getVideoAppointmentMock,
   getVARequestMock,
 } from '../../mocks/v0';
-import confirmed from '../../../mocks/var/confirmed_va.json';
-import requests from '../../../mocks/var/requests.json';
+import confirmed from '../../..//services/mocks/var/confirmed_va.json';
+import requests from '../../..//services/mocks/var/requests.json';
 import { setRequestedPeriod } from '../../mocks/helpers';
 import {
   APPOINTMENT_STATUS,

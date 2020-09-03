@@ -7,8 +7,8 @@ import {
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 
-import clinics from '../../mocks/var/clinicList983.json';
-import confirmed from '../../mocks/var/confirmed_va.json';
+import clinics from '../..//services/mocks/var/clinicList983.json';
+import confirmed from '../..//services/mocks/var/confirmed_va.json';
 
 import {
   isEligible,
