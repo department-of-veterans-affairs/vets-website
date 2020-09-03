@@ -1,0 +1,28 @@
+{
+  "view:phoneAndEmail": {
+    "dayTimePhone": "5555555555",
+    "emailAddress": "test@email.com"
+  },
+  "mailingAddress": {
+    "street": "555 Fake St",
+    "city": "Tampa",
+    "country": "USA",
+    "state": "FL",
+    "postalCode": "33543"
+  },
+  "view:contactInfoNote": {},
+  "appliedForVaEducationBenefits": true,
+  "currentHighTechnologyEmployment": false,
+  "pastHighTechnologyEmployment": false,
+  "activeDuty": true,
+  "view:activeDutyNotice": {},
+  "view:benefitNotice": {},
+  "applicantFullName": { "first": "Test", "last": "User" },
+  "applicantSocialSecurityNumber": "111223333",
+  "dateOfBirth": "1980-01-01",
+  "view:noProgramsYet": {},
+  "view:descriptionWithoutInfo": {},
+  "view:bankAccount": { "bankAccount": {} },
+  "view:bankInfoNote": {},
+  "view:bankInfoHelpText": {}
+}
