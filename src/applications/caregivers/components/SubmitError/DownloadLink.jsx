@@ -31,9 +31,7 @@ const DownLoadLink = ({ form }) => {
           },
         },
       )
-        .then(response => {
-          return response.blob();
-        })
+        .then(response => response.blob())
         .then(blob => {
           const url = URL.createObjectURL(blob);
           setPDFLink(url);
