@@ -1,6 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
-
 import { api, resolveParamsWithUrl } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { LocationType } from '../constants';
