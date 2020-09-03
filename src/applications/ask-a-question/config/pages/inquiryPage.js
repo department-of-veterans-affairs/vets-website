@@ -48,8 +48,8 @@ const inquiryPage = {
     type: 'object',
     required: [formFields.inquiryType, formFields.topic, formFields.query],
     properties: {
-      [formFields.inquiryType]: inquiryType,
       [formFields.topic]: topic,
+      [formFields.inquiryType]: inquiryType,
       [formFields.query]: query,
     },
   },
