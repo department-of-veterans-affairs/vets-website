@@ -55,8 +55,14 @@ const validFormId = formConfig => {
   }
 
   validStringProperty(formConfig, 'formId');
-  if (!missingFromVetsJsonSchema.includes(formId)) {
-    expect(Object.keys(schemas)).to.include(
+  const schemaFormIds = Object.keys(schemas);
+  if (missingFromVetsJsonSchema.includes(formId)) {
+    expect(schemaFormIds).to.not.include(
+      formId,
+      `${formId} is in missingFromVetsJsonSchema but has a corresponding vets-json-schema, please remove from missingFromVetsJsonSchema`,
+    );
+  } else {
+    expect(schemaFormIds).to.include(
       formId,
       `the formId "${formId}" does not match a formId property in vets-json-schema/dist/schemas`,
     );
