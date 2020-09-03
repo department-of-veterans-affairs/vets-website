@@ -7,6 +7,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { uiSchema } from '../pages/covidResearchUISchema';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 
@@ -68,7 +69,7 @@ const formConfig = {
   trackingPrefix: 'covid-research-volunteer-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'COVID-RESEARCH-VOLUNTEER',
+  formId: VA_FORM_IDS.FORM_COVID_RESEARCH_VOLUNTEER,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
