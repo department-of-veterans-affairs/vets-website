@@ -11,6 +11,7 @@ import { OnThisPageLinks } from './OnThisPageLinks';
 import moment from 'moment';
 import last from 'lodash/last';
 import first from 'lodash/first';
+import { Link } from 'react-router';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 class DebtDetails extends Component {
@@ -104,16 +105,42 @@ class DebtDetails extends Component {
               </a>
               {'.'}
             </p>
-            {selectedDebt.debtHistory.map((debtEntry, index) => (
-              <div
-                className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-y--1p5 vads-u-border-bottom--3px vads-u-border-color--gray-lightest"
-                key={`${debtEntry.letterCode}-${index}`}
-              >
-                <div />
-              </div>
-            ))}
+            <table className="vads-u-margin-bottom--1">
+              <thead>
+                <tr>
+                  <td className="vads-u-font-weight--bold">Date</td>
+                  <td className="vads-u-font-weight--bold">Letter</td>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedDebt.debtHistory.map((debtEntry, index) => (
+                  <tr key={`${debtEntry.date}-${index}`}>
+                    <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
+                    <td>
+                      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
+                        {debtEntry.status}
+                      </p>
+                      <p className="vads-u-margin-top--0">
+                        {debtEntry.description}
+                      </p>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <h3>Download debt letters</h3>
+            <p className="vads-u-margin-bottom--0">
+              You can download some of your letters for education, compensation
+              and pension debt.
+            </p>
+            <Link to="download-letters" className="vads-u-margin-top--1">
+              Download letters related to your va debt
+            </Link>
             <HowDoIPayV2 />
             <NeedHelpV2 />
+            <Link className="vads-u-margin-top--4" to="">
+              Return to your list of debts.
+            </Link>
           </div>
         </div>
       </div>

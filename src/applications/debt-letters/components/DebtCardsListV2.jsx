@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import DebtLetterCardV2 from './DebtLetterCardV2';
+import { Link } from 'react-router';
 
 const DebtCardsListV2 = ({ debts, isError }) => {
   const renderAlert = () => (
@@ -38,7 +39,7 @@ const DebtCardsListV2 = ({ debts, isError }) => {
     <>
       <h2
         id="currentDebts"
-        className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+        className="vads-u-margin-top--4 vads-u-margin-bottom--2"
       >
         Current debts
       </h2>
@@ -68,18 +69,13 @@ const DebtCardsListV2 = ({ debts, isError }) => {
               to learn about your payment options.
             </p>
             <h3 id="downloadDebtLetters">Download debt letters</h3>
-            <p className="vads-u-font-family--sans">
-              If you’ve received a letter about a VA debt, but don’t see it
-              listed here call the Debt Management Center (DMC) at{' '}
-              <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-                800-827-0648
-              </a>
-              {'.'}
+            <p className="vads-u-margin-bottom--0">
+              You can download some of your letters for education, compensation
+              and pension debt.
             </p>
-            <p className="vads-u-font-family--sans">
-              For medical co-payment debt, please go to Pay your VA copay bill
-              to learn about your payment options.
-            </p>
+            <Link to="download-letters" className="vads-u-margin-top--1">
+              Download letters related to your va debt
+            </Link>
           </>
         )}
       {!isError &&

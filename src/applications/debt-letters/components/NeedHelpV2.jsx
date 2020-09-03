@@ -25,8 +25,7 @@ const NeedHelpV2 = () => (
       You may be required to submit a financial status report. Call the DMC at{' '}
       <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
         800-827-0648
-      </a>
-      {'.'}
+      </a>{' '}
       between 6:30 a.m. and 6:00 p.m. CT discuss your options and next steps.
       For international callers, use{' '}
       <a href="tel: 612-713-6415" aria-label="612. 7 1 3. 6415.">
@@ -48,7 +47,7 @@ const NeedHelpV2 = () => (
       information about disputing a debt by calling the DMC at{' '}
       <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
         800-827-0648
-      </a>
+      </a>{' '}
       between 6:30 a.m. and 6:00 p.m. CST. For international callers, use{' '}
       <a href="tel: 612-713-6415" aria-label="612. 7 1 3. 6415.">
         612-713-6415
