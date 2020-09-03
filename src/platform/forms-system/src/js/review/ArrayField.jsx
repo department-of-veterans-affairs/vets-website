@@ -8,7 +8,7 @@ import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsons
 import SchemaForm from '../components/SchemaForm';
 import { focusElement } from '../utilities/ui';
 
-import { getNumeratedItemSchema } from '../helpers';
+// import { getNumeratedItemSchema } from '../helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -221,9 +221,8 @@ class ArrayField extends React.Component {
             const showReviewButton =
               !itemCountLocked &&
               (!schema.minItems || items.length > schema.minItems);
-            const itemSchema = this.getItemSchema(this.state.items.length);
+            const itemSchema = this.getItemSchema(index);
             const itemTitle = itemSchema ? itemSchema.title : '';
-
 
             if (isEditing) {
               return (
