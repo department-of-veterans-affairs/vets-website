@@ -1,11 +1,11 @@
 import set from 'platform/utilities/data/set';
-
 import { countries } from 'platform/forms/address';
-
-import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
-import fullSchema from '../../0873-schema.json';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
+
+import fullSchema from '../../0873-schema.json';
+import pageDescription from '../../content/PageDescription';
 
 const countryValues = countries.map(object => object.value);
 const countryNames = countries.map(object => object.label);
@@ -28,6 +28,7 @@ const formFields = {
 
 const contactInformationPage = {
   uiSchema: {
+    'ui:description': pageDescription('Your contact info'),
     [formFields.fullName]: fullNameUI,
     [formFields.relationshipToVeteran]: {
       'ui:title': 'My message is about benefits/services',

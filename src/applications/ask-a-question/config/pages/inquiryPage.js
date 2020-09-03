@@ -3,6 +3,7 @@ import { validateWhiteSpace } from 'platform/forms/validations';
 
 import fullSchema from '../../0873-schema.json';
 import { topicTitle } from '../../content/inquiryPage';
+import pageDescription from '../../content/PageDescription';
 
 const { topic, inquiryType, query } = fullSchema.properties;
 
@@ -22,6 +23,7 @@ const getOptions = allOptions => {
 
 const inquiryPage = {
   uiSchema: {
+    'ui:description': pageDescription('Your message'),
     [formFields.inquiryType]: {
       'ui:title': "Tell us the reason you're contacting us",
     },
