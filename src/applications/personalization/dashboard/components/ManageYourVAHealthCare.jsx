@@ -47,14 +47,23 @@ const ScheduleAnAppointmentWidget = () => (
 const ScheduleAnAppointmentCernerWidget = () => (
   <AlertBox
     status="warning"
-    headline="Our records show that you’re registered at Chalmers P. Wylie Ambulatory Care Center.  Starting April 10, 2020, providers at this center are using My VA Health to manage appointments."
+    headline="Your VA health care team may be using our new My VA Health portal"
   >
+    <h3>Our records show you’re registered at:</h3>
+    <h4>
+      Chalmers P. Wylie Veteran Outpatient Clinic{' '}
+      <span className="vads-u-font-weight--normal vads-u-font-size--base">
+        (Now using My VA Health)
+      </span>
+    </h4>
     <p>
-      You may need to sign in again to use VA health appointment tools. If you
-      do, sign in with the same account you used to sign in on VA.gov. You may
-      need to disable your browser’s pop-up block so these tools can open.
+      Please choose a health management portal below, depending on the facility
+      for your appointment. You may need to disable your browser’s pop-up
+      blocker to open the portal. If you’re prompted to sign in again, use the
+      same account you used to sign in on VA.gov.
     </p>
-    <h4>Manage appointments with Chalmers P. Wylie provider</h4>
+    <h3>Manage appointments at:</h3>
+    <h4>Chalmers P. Wylie Veteran Outpatient Clinic</h4>
     <a
       href={
         environment.isProduction()
@@ -68,13 +77,13 @@ const ScheduleAnAppointmentCernerWidget = () => (
     >
       Go to My VA Health
     </a>
-    <h4>Manage appointments at all other VA Medical center</h4>
+    <h4>Another VA health facility</h4>
     <a
       href="/health-care/schedule-view-va-appointments/"
       type="button"
       className="usa-button-secondary"
     >
-      Go to VA appointments
+      Go to the VA appointments tool
     </a>
   </AlertBox>
 );
