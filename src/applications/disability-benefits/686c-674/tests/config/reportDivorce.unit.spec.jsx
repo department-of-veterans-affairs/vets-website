@@ -38,7 +38,7 @@ describe('686 report a divorce', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(10);
     form.unmount();
   });
 
@@ -54,7 +54,7 @@ describe('686 report a divorce', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(8);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -73,6 +73,11 @@ describe('686 report a divorce', () => {
     // spouse name
     fillData(form, 'input#root_reportDivorce_fullName_first', 'John');
     fillData(form, 'input#root_reportDivorce_fullName_last', 'Doe');
+    fillData(form, 'input#root_reportDivorce_ssn', '123211234');
+    changeDropdown(form, 'select#root_reportDivorce_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_reportDivorce_birthDateDay', 1);
+    fillData(form, 'input#root_reportDivorce_birthDateYear', '2010');
+
     // date of divorce
     changeDropdown(form, 'select#root_reportDivorce_dateMonth', 1);
     changeDropdown(form, 'select#root_reportDivorce_dateDay', 1);
@@ -102,6 +107,10 @@ describe('686 report a divorce', () => {
     // spouse name
     fillData(form, 'input#root_reportDivorce_fullName_first', 'John');
     fillData(form, 'input#root_reportDivorce_fullName_last', 'Doe');
+    fillData(form, 'input#root_reportDivorce_ssn', '123211234');
+    changeDropdown(form, 'select#root_reportDivorce_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_reportDivorce_birthDateDay', 1);
+    fillData(form, 'input#root_reportDivorce_birthDateYear', '2010');
     // date of divorce
     const monthDropdown = form.find('select#root_reportDivorce_dateMonth');
     const dayDropdown = form.find('select#root_reportDivorce_dateDay');
@@ -137,6 +146,10 @@ describe('686 report a divorce', () => {
     // spouse name
     fillData(form, 'input#root_reportDivorce_fullName_first', 'John');
     fillData(form, 'input#root_reportDivorce_fullName_last', 'Doe');
+    fillData(form, 'input#root_reportDivorce_ssn', '123211234');
+    changeDropdown(form, 'select#root_reportDivorce_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_reportDivorce_birthDateDay', 1);
+    fillData(form, 'input#root_reportDivorce_birthDateYear', '2010');
     // date of divorce
     const monthDropdown = form.find('select#root_reportDivorce_dateMonth');
     const dayDropdown = form.find('select#root_reportDivorce_dateDay');
@@ -173,6 +186,10 @@ describe('686 report a divorce', () => {
     // spouse name
     fillData(form, 'input#root_reportDivorce_fullName_first', 'John');
     fillData(form, 'input#root_reportDivorce_fullName_last', 'Doe');
+    fillData(form, 'input#root_reportDivorce_ssn', '123211234');
+    changeDropdown(form, 'select#root_reportDivorce_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_reportDivorce_birthDateDay', 1);
+    fillData(form, 'input#root_reportDivorce_birthDateYear', '2010');
     // date of divorce
     const monthDropdown = form.find('select#root_reportDivorce_dateMonth');
     const dayDropdown = form.find('select#root_reportDivorce_dateDay');
