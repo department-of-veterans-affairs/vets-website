@@ -17,15 +17,27 @@ export default function FacilityAddress({
           <br />
         </>
       )}
-      {address?.line?.map(line => (
-        <React.Fragment key={line}>
-          {line}
-          <br />
-        </React.Fragment>
-      ))}
       {!!address && (
         <>
+          {address?.line?.map(line => (
+            <React.Fragment key={line}>
+              {line}
+              <br />
+            </React.Fragment>
+          ))}
           {address.city}, {address.state} {address.postalCode}
+          <br />
+        </>
+      )}
+      {!address && (
+        <>
+          This appointment is scheduled with a community care provider. Please
+          do not report to your local VA facility. If you have questions, please
+          contact{' '}
+          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+            your facility
+          </a>{' '}
+          community care staff at your local VA.
           <br />
         </>
       )}
