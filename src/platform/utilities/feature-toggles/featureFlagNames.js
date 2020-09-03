@@ -34,7 +34,6 @@ export default Object.freeze({
   gibctFilterEnhancement: 'gibctFilterEnhancement',
   debtLettersShowLetters: 'debtLettersShowLetters',
   debtLettersShowLettersV2: 'debtLettersShowLettersV2',
-  gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
   form526BDD: 'form526BenefitsDeliveryAtDischarge',
   showEduBenefits1995Wizard: 'show_edu_benefits_1995_wizard',
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
