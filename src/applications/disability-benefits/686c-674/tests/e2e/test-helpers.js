@@ -70,6 +70,14 @@ export const fillVeteranDomesticAddress = (client, data) => {
     .fill(
       'input[name="root_veteranContactInformation_phoneNumber"]',
       data.veteranDomesticAddress.phoneNumber,
+    )
+    .fill(
+      'input[name="root_veteranContactInformation_emailAddress"]',
+      data.veteranDomesticAddress.email,
+    )
+    .fill(
+      'input[name="root_veteranContactInformation_view:confirmEmail"]',
+      data.veteranDomesticAddress.email,
     );
 };
 

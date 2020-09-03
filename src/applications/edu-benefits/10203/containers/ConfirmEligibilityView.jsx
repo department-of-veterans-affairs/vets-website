@@ -163,7 +163,7 @@ export class ConfirmEligibilityView extends React.Component {
             <a
               className={'usa-button-primary va-button-primary'}
               href="/education/"
-              onClick={captureEvents.exitApplication()}
+              onClick={captureEvents.exitApplication}
             >
               Exit application
             </a>
