@@ -5,6 +5,8 @@ import formConfig from 'applications/caregivers/config/form';
 import environment from 'platform/utilities/environment';
 import { submitTransform } from 'applications/caregivers/helpers';
 import { apiRequest } from 'platform/utilities/api';
+import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import { checkValidSchema } from 'platform/forms-system/src/js/helpers';
 
 const DownLoadLink = ({ form }) => {
   const [PDFLink, setPDFLink] = useState(null);
@@ -13,24 +15,26 @@ const DownLoadLink = ({ form }) => {
 
   useEffect(
     () => {
-      apiRequest(
-        `${environment.API_URL}/v0/caregivers_assistance_claims/download_pdf`,
-        {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Content-Type': 'application/json',
-            'Source-App-Name': 'caregivers-10-10cg-',
+      if (checkValidSchema(fullSchema)) {
+        apiRequest(
+          `${environment.API_URL}/v0/caregivers_assistance_claims/download_pdf`,
+          {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Content-Type': 'application/json',
+              'Source-App-Name': 'caregivers-10-10cg-',
+            },
           },
-        },
-      )
-        .then(response => {
-          return response.blob();
-        })
-        .then(blob => {
-          const url = URL.createObjectURL(blob);
-          setPDFLink(url);
-        });
+        )
+          .then(response => {
+            return response.blob();
+          })
+          .then(blob => {
+            const url = URL.createObjectURL(blob);
+            setPDFLink(url);
+          });
+      }
     },
     [formData],
   );
