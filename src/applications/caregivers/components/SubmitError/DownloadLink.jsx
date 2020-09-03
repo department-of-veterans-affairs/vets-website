@@ -19,40 +19,36 @@ const DownLoadLink = ({ form }) => {
 
   useEffect(
     () => {
-      try {
-        if (isFormValid.isValid) {
-          apiRequest(
-            `${
-              environment.API_URL
-            }/v0/caregivers_assistance_claims/download_pdf`,
-            {
-              method: 'POST',
-              body: formData,
-              headers: {
-                'Content-Type': 'application/json',
-                'Source-App-Name': 'caregivers-10-10cg-',
-              },
-            },
-          )
-            .then(response => {
-              return response.blob();
-            })
-            .then(blob => {
-              const url = URL.createObjectURL(blob);
-              setPDFLink(url);
-            });
+      if (!isFormValid.isValid) return;
+      apiRequest(
+        `${environment.API_URL}/v0/caregivers_assistance_claims/download_pdf`,
+        {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'application/json',
+            'Source-App-Name': 'caregivers-10-10cg-',
+          },
+        },
+      )
+        .then(response => {
+          return response.blob();
+        })
+        .then(blob => {
+          const url = URL.createObjectURL(blob);
+          setPDFLink(url);
           recordEvent({ event: 'caregivers-10-10cg-pdf-download-success' });
-        }
-      } catch (error) {
-        Sentry.withScope(scope => {
-          scope.setExtra('error', error);
-          scope.setFingerprint(['{{default}}', scope._tags?.source]);
-          Sentry.captureMessage(
-            `caregivers-10-10cg-pdf-failure: ${error.message}`,
-          );
+        })
+        .catch(error => {
+          Sentry.withScope(scope => {
+            scope.setExtra('error', error);
+            scope.setFingerprint(['{{default}}', scope._tags?.source]);
+            Sentry.captureMessage(
+              `caregivers-10-10cg-pdf-failure: ${error.message}`,
+            );
+          });
+          recordEvent({ event: 'caregivers-10-10cg-pdf-failure' });
         });
-      }
-      recordEvent({ event: 'caregivers-10-10cg-pdf-failure' });
     },
     [formData, isFormValid],
   );
