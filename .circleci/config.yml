@@ -60,6 +60,7 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run: mkdir -p ./test-results
+      - run: mkdir -p ./pacts
       - run: yarn test:contract
       - run: yarn pact:publish
       - persist_to_workspace:
