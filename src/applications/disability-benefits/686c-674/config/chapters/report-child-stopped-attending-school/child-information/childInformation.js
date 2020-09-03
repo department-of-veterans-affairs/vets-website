@@ -47,11 +47,17 @@ export const uiSchema = {
       ...ssnUI,
       'ui:title': 'Child’s Social Security number',
       'ui:required': formData =>
-        isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+        isChapterFieldRequired(
+          formData,
+          TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+        ),
     },
     birthDate: merge(currentOrPastDateUI('Child’s date of birth'), {
       'ui:required': formData =>
-        isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+        isChapterFieldRequired(
+          formData,
+          TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+        ),
     }),
     dateChildLeftSchool: {
       ...currentOrPastDateUI('When did child stop attending school?'),
