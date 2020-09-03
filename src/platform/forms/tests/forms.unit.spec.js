@@ -21,44 +21,6 @@ const missingFromVetsJsonSchema = [
 
 const root = path.join(__dirname, '../../../');
 
-const validFormId = formConfig => {
-  let formId = formConfig.formId;
-  if (Object.keys(remapFormId).includes(formId)) {
-    formId = remapFormId[formId];
-  }
-
-  if (!missingFromVetsJsonSchema.includes(formId)) {
-    return expect(Object.keys(schemas)).to.include(
-      formId,
-      `the formId "${formId}" does not match a formId property in vets-json-schema/dist/schemas`,
-    );
-  }
-  return true;
-};
-
-const validMigrations = formConfig => {
-  const { migrations } = formConfig;
-  if (migrations || formConfig.version > 0) {
-    return (
-      expect(migrations.length).to.equal(
-        formConfig.version,
-        'migrations length does not match version number',
-      ) &&
-      expect(migrations).to.be.an('array', 'migrations is not an array') &&
-      expect(
-        migrations.every(migration => typeof migration === 'function'),
-      ).to.equal(true, 'migrations is not an array of functions')
-    );
-  }
-  return true;
-};
-
-const validTitle = ({ title }) => {
-  const formTitle =
-    typeof title === 'function' ? title({ formData: {} }) : title;
-  return expect(formTitle).to.be.a('string', 'title does not return a string');
-};
-
 const validProperty = (formConfig, name, type, required = true) => {
   const property = formConfig[name];
   if (required || property) {
@@ -85,6 +47,47 @@ const validStringProperty = (formConfig, name, required = true) => {
 
 const validNumberProperty = (formConfig, name, required = true) => {
   return validProperty(formConfig, name, 'number', required);
+};
+
+const validFormId = formConfig => {
+  let formId = formConfig.formId;
+  if (Object.keys(remapFormId).includes(formId)) {
+    formId = remapFormId[formId];
+  }
+
+  if (!missingFromVetsJsonSchema.includes(formId)) {
+    return (
+      validStringProperty(formConfig, 'formId') &&
+      expect(Object.keys(schemas)).to.include(
+        formId,
+        `the formId "${formId}" does not match a formId property in vets-json-schema/dist/schemas`,
+      )
+    );
+  }
+  return validStringProperty(formConfig, 'formId');
+};
+
+const validMigrations = formConfig => {
+  const { migrations } = formConfig;
+  if (migrations || formConfig.version > 0) {
+    return (
+      expect(migrations.length).to.equal(
+        formConfig.version,
+        'migrations length does not match version number',
+      ) &&
+      expect(migrations).to.be.an('array', 'migrations is not an array') &&
+      expect(
+        migrations.every(migration => typeof migration === 'function'),
+      ).to.equal(true, 'migrations is not an array of functions')
+    );
+  }
+  return true;
+};
+
+const validTitle = ({ title }) => {
+  const formTitle =
+    typeof title === 'function' ? title({ formData: {} }) : title;
+  return expect(formTitle).to.be.a('string', 'title does not return a string');
 };
 
 describe('form:', () => {
