@@ -62,7 +62,6 @@ export default {
     // Temporary stub for typeOfAppointment which will eventually be first step
     // Next will direct to type of care or provider once both flows are complete
     next: 'typeOfFacility',
-    previous: 'home',
   },
   typeOfCare: {
     url: '/new-appointment',
@@ -92,7 +91,6 @@ export default {
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
       return 'vaFacility';
     },
-    previous: 'home',
   },
   typeOfFacility: {
     url: '/new-appointment/choose-facility-type',
@@ -120,7 +118,6 @@ export default {
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
     next: 'vaFacility',
-    previous: 'typeOfCare',
   },
   typeOfEyeCare: {
     url: '/new-appointment/choose-eye-care',
@@ -139,7 +136,6 @@ export default {
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
       return 'vaFacility';
     },
-    previous: 'typeOfCare',
   },
   audiologyCareType: {
     url: '/new-appointment/audiology',
@@ -147,12 +143,10 @@ export default {
       dispatch(startRequestAppointmentFlow(true));
       return 'requestDateTime';
     },
-    previous: 'typeOfFacility',
   },
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
     next: 'reasonForAppointment',
-    previous: 'requestDateTime',
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
@@ -192,7 +186,6 @@ export default {
   },
   clinicChoice: {
     url: '/new-appointment/clinics',
-    previous: 'vaFacility',
     next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
         dispatch(startRequestAppointmentFlow());
@@ -206,12 +199,10 @@ export default {
   preferredDate: {
     url: '/new-appointment/preferred-date',
     next: 'selectDateTime',
-    previous: 'clinicChoice',
   },
   selectDateTime: {
     url: '/new-appointment/select-date',
     next: 'reasonForAppointment',
-    previous: 'preferredDate',
   },
   requestDateTime: {
     url: '/new-appointment/request-date',
@@ -263,13 +254,11 @@ export default {
   },
   visitType: {
     url: '/new-appointment/choose-visit-type',
-    previous: 'reasonForAppointment',
     next: 'contactInfo',
   },
   appointmentTime: {
     url: '/new-appointment/appointment-time',
     next: 'contactInfo',
-    previous: 'vaFacility',
   },
   contactInfo: {
     url: '/new-appointment/contact-info',

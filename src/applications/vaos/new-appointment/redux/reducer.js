@@ -77,6 +77,7 @@ const initialState = {
   parentFacilities: null,
   ccEnabledSystems: null,
   pageChangeInProgress: false,
+  previousPages: ['home'],
   childFacilitiesStatus: FETCH_STATUS.notStarted,
   parentFacilitiesStatus: FETCH_STATUS.notStarted,
   eligibilityStatus: FETCH_STATUS.notStarted,
@@ -205,6 +206,10 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         pageChangeInProgress: false,
+        previousPages:
+          action.direction === 'next'
+            ? state.previousPages.concat([action.pageKey])
+            : state.previousPages.pop() && state.previousPages,
       };
     }
     case FORM_TYPE_OF_CARE_PAGE_OPENED: {
