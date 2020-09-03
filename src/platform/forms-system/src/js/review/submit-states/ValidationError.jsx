@@ -1,5 +1,5 @@
 import React from 'react';
-import Back from './Back'
+import Back from './Back';
 import ProgressButton from '../../components/ProgressButton';
 import PropTypes from 'prop-types';
 import { Column, Row } from 'platform/forms/components/common/grid';
@@ -24,9 +24,7 @@ export default function ValidationError(props) {
       <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons">
         <Column classNames="small-6 medium-5">
-          <Back
-            onButtonClick={onBack}
-          />
+          <Back onButtonClick={onBack} />
         </Column>
         <Column classNames="small-6 medium-5">
           <ProgressButton

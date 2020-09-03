@@ -26,11 +26,22 @@ export default function SubmitButtons(props) {
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
   if (submission.status === false) {
-    return <Default appType={appType} onBack={onBack} onSubmit={onSubmit} formConfig={formConfig} />;
+    return (
+      <Default
+        appType={appType}
+        onBack={onBack}
+        onSubmit={onSubmit}
+        formConfig={formConfig}
+      />
+    );
   } else if (submission.status === 'submitPending') {
-    return <Pending onBack={onBack} onSubmit={onSubmit} formConfig={formConfig} />;
+    return (
+      <Pending onBack={onBack} onSubmit={onSubmit} formConfig={formConfig} />
+    );
   } else if (submission.status === 'applicationSubmitted') {
-    return <Submitted onBack={onBack} onSubmit={onSubmit} formConfig={formConfig} />;
+    return (
+      <Submitted onBack={onBack} onSubmit={onSubmit} formConfig={formConfig} />
+    );
   } else if (submission.status === 'clientError') {
     return (
       <ClientError
