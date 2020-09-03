@@ -24,29 +24,28 @@ const root = path.join(__dirname, '../../../');
 const validProperty = (formConfig, name, type, required = true) => {
   const property = formConfig[name];
   if (required || property) {
-    return expect(property).to.be.a(type, `${name} is not a ${type}`);
+    expect(property).to.be.a(type, `${name} is not a ${type}`);
   }
-  return true;
 };
 
 const validObjectProperty = (formConfig, name, required = true) => {
-  return validProperty(formConfig, name, 'object', required);
+  validProperty(formConfig, name, 'object', required);
 };
 
 const validFunctionProperty = (formConfig, name, required = true) => {
-  return validProperty(formConfig, name, 'function', required);
+  validProperty(formConfig, name, 'function', required);
 };
 
 const validBooleanProperty = (formConfig, name, required = true) => {
-  return validProperty(formConfig, name, 'boolean', required);
+  validProperty(formConfig, name, 'boolean', required);
 };
 
 const validStringProperty = (formConfig, name, required = true) => {
-  return validProperty(formConfig, name, 'string', required);
+  validProperty(formConfig, name, 'string', required);
 };
 
 const validNumberProperty = (formConfig, name, required = true) => {
-  return validProperty(formConfig, name, 'number', required);
+  validProperty(formConfig, name, 'number', required);
 };
 
 const validFormId = formConfig => {
@@ -55,39 +54,33 @@ const validFormId = formConfig => {
     formId = remapFormId[formId];
   }
 
+  validStringProperty(formConfig, 'formId');
   if (!missingFromVetsJsonSchema.includes(formId)) {
-    return (
-      validStringProperty(formConfig, 'formId') &&
-      expect(Object.keys(schemas)).to.include(
-        formId,
-        `the formId "${formId}" does not match a formId property in vets-json-schema/dist/schemas`,
-      )
+    expect(Object.keys(schemas)).to.include(
+      formId,
+      `the formId "${formId}" does not match a formId property in vets-json-schema/dist/schemas`,
     );
   }
-  return validStringProperty(formConfig, 'formId');
 };
 
 const validMigrations = formConfig => {
   const { migrations } = formConfig;
   if (migrations || formConfig.version > 0) {
-    return (
-      expect(migrations.length).to.equal(
-        formConfig.version,
-        'migrations length does not match version number',
-      ) &&
-      expect(migrations).to.be.an('array', 'migrations is not an array') &&
-      expect(
-        migrations.every(migration => typeof migration === 'function'),
-      ).to.equal(true, 'migrations is not an array of functions')
+    expect(migrations.length).to.equal(
+      formConfig.version,
+      'migrations length does not match version number',
     );
+    expect(migrations).to.be.an('array', 'migrations is not an array');
+    expect(
+      migrations.every(migration => typeof migration === 'function'),
+    ).to.equal(true, 'migrations is not an array of functions');
   }
-  return true;
 };
 
 const validTitle = ({ title }) => {
   const formTitle =
     typeof title === 'function' ? title({ formData: {} }) : title;
-  return expect(formTitle).to.be.a('string', 'title does not return a string');
+  expect(formTitle).to.be.a('string', 'title does not return a string');
 };
 
 describe('form:', () => {
@@ -104,29 +97,28 @@ describe('form:', () => {
       return expect(
         // Dynamically import the module and perform tests on its default export
         import(configFilePath).then(({ default: formConfig }) => {
-          return (
-            validFormId(formConfig) &&
-            validNumberProperty(formConfig, 'version') &&
-            validMigrations(formConfig) &&
-            validObjectProperty(formConfig, 'chapters') &&
-            validObjectProperty(formConfig, 'defaultDefinitions') &&
-            validFunctionProperty(formConfig, 'introduction', false) &&
-            validBooleanProperty(formConfig, 'prefillEnabled', false) &&
-            validFunctionProperty(formConfig, 'prefillTransformer', false) &&
-            validStringProperty(formConfig, 'trackingPrefix') &&
-            validTitle(formConfig) &&
-            validStringProperty(formConfig, 'subTitle', false) &&
-            validStringProperty(formConfig, 'urlPrefix', false) &&
-            validStringProperty(formConfig, 'submitUrl', false) &&
-            validFunctionProperty(formConfig, 'submit', false) &&
-            validObjectProperty(formConfig, 'saveFormMessages', false) &&
-            validFunctionProperty(formConfig, 'transformForSubmit', false) &&
-            validFunctionProperty(formConfig, 'confirmation') &&
-            validObjectProperty(formConfig, 'preSubmitInfo', false) &&
-            validFunctionProperty(formConfig, 'footerContent', false) &&
-            validFunctionProperty(formConfig, 'getHelp', false) &&
-            validFunctionProperty(formConfig, 'errorText', false)
-          );
+          validFormId(formConfig);
+          validNumberProperty(formConfig, 'version');
+          validMigrations(formConfig);
+          validObjectProperty(formConfig, 'chapters');
+          validObjectProperty(formConfig, 'defaultDefinitions');
+          validFunctionProperty(formConfig, 'introduction', false);
+          validBooleanProperty(formConfig, 'prefillEnabled', false);
+          validFunctionProperty(formConfig, 'prefillTransformer', false);
+          validStringProperty(formConfig, 'trackingPrefix');
+          validTitle(formConfig);
+          validStringProperty(formConfig, 'subTitle', false);
+          validStringProperty(formConfig, 'urlPrefix', false);
+          validStringProperty(formConfig, 'submitUrl', false);
+          validFunctionProperty(formConfig, 'submit', false);
+          validObjectProperty(formConfig, 'saveFormMessages', false);
+          validFunctionProperty(formConfig, 'transformForSubmit', false);
+          validFunctionProperty(formConfig, 'confirmation');
+          validObjectProperty(formConfig, 'preSubmitInfo', false);
+          validFunctionProperty(formConfig, 'footerContent', false);
+          validFunctionProperty(formConfig, 'getHelp', false);
+          validFunctionProperty(formConfig, 'errorText', false);
+          return true;
         }),
       ).to.eventually.be.ok;
     });
