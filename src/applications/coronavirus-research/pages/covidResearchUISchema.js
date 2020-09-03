@@ -133,7 +133,7 @@ export const uiSchema = {
         <br />
       </span>
     ),
-    ALLERGY_VACCINE: {
+    'HEALTH_HISTORY::ALLERGY_VACCINE': {
       'ui:title': 'Allergy to any vaccines',
     },
     AUTOIMMUNE_DISEASE: {
