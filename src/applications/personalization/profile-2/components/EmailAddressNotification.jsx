@@ -15,7 +15,7 @@ const EmailAddressNotification = ({ signInServiceName }) => {
     buttonText = 'DS Logon';
   }
 
-  if (signInServiceName === 'mhv') {
+  if (signInServiceName === 'mhv' || signInServiceName === 'myhealthevet') {
     link = 'https://www.myhealth.va.gov';
     buttonText = 'My HealtheVet';
   }

@@ -123,7 +123,6 @@ export class EstimateYourBenefits extends React.Component {
           onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
           estimatedBenefits={this.props.estimatedBenefits}
           updateEstimatedBenefits={this.updateEstimatedBenefits}
-          gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits
