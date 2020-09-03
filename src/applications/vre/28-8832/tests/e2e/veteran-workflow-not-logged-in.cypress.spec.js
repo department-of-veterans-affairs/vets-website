@@ -15,15 +15,19 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'formDataSets') },
     pageHooks: {
       introduction: ({ afterHook }) => {
+        cy.get('#claimant-relationship-0').click();
+        cy.get('#disability-rating-1').click();
+        cy.get('#vre-benefits-1').click();
+        cy.get('#education-benefits-0').click();
+        cy.get('#begin-form-now-0').click();
+        cy.get('.va-button-primary').click();
+
+        // Previous button click fully loads a new page, so we need to
+        // re-inject aXe to get the automatic aXe checks working.
+        cy.injectAxe();
+
         afterHook(() => {
-          cy.get('#claimant-relationship-0').click();
-          cy.get('#disability-rating-1').click();
-          cy.get('#vre-benefits-1').click();
-          cy.get('#education-benefits-0').click();
-          cy.get('#begin-form-now-0').click();
-          cy.get('.va-button-primary').click();
           cy.get('.schemaform-start-button').click();
-          cy.fillPage();
         });
       },
     },
