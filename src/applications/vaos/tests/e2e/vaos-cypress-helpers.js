@@ -9,6 +9,7 @@ import supportedSites from '../../api/sites-supporting-var.json';
 import facilities from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinicList983 from '../../api/clinicList983.json';
+import slots from '../../api/slots.json';
 import {
   getVAAppointmentMock,
   getExpressCareRequestCriteriaMock,
@@ -86,9 +87,7 @@ export function createPastVAAppointments() {
   };
 }
 
-export function initAppointmentListMock() {
-  cy.server();
-  cy.login();
+function mockFeatureToggles() {
   cy.route({
     method: 'GET',
     url: '/v0/feature_toggles*',
@@ -132,12 +131,143 @@ export function initAppointmentListMock() {
       },
     },
   });
+}
 
+function mockRequestLimits() {
   cy.route({
     method: 'GET',
-    url: '/vaos/v0/community_care/supported_sites',
+    url: '/vaos/v0/facilities/983/limits*',
+    response: {
+      data: {
+        id: '983',
+        attributes: {
+          requestLimit: 1,
+          numberOfRequests: 0,
+        },
+      },
+    },
+  });
+}
+
+function mockSupportedSites() {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/community_care/supported_sites*',
     response: supportedSites,
   });
+}
+
+function mockCCPrimaryCareEligibility() {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/community_care/eligibility/PrimaryCare',
+    response: {
+      data: {
+        id: 'PrimaryCare',
+        type: 'cc_eligibility',
+        attributes: { eligible: true },
+      },
+    },
+  });
+}
+
+function mockFacilities() {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities**',
+    response: facilities,
+  });
+}
+
+function mockDirectSchedulingFacilities() {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/systems/983/direct_scheduling_facilities*',
+    response: facilities983,
+  });
+}
+
+function mockPrimaryCareClinics() {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/clinics*',
+    response: clinicList983,
+  });
+}
+
+function mockSubmitVAAppointment() {
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointments',
+    response: { data: {} },
+  });
+}
+
+function setupSchedulingMocks() {
+  cy.server();
+  cy.login();
+  mockFeatureToggles();
+  mockSupportedSites();
+  mockCCPrimaryCareEligibility();
+  mockFacilities();
+  mockDirectSchedulingFacilities();
+  mockPrimaryCareClinics();
+}
+
+function updateTimeslots(data) {
+  const startDateTime = moment()
+    .add(4, 'days')
+    .day(9)
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
+  const endDateTime = moment()
+    .add(4, 'days')
+    .day(9)
+    .add(60, 'minutes')
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
+
+  const newSlot = {
+    bookingStatus: '1',
+    remainingAllowedOverBookings: '3',
+    availability: true,
+    startDateTime,
+    endDateTime,
+  };
+
+  data.data[0].attributes.appointmentTimeSlot = [newSlot];
+
+  return data;
+}
+
+function mockVisits() {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/visits/*',
+    response: {
+      data: {
+        id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+        type: 'facility_visit',
+        attributes: {
+          durationInMonths: 24,
+          hasVisitedInPastMonths: true,
+        },
+      },
+    },
+  });
+}
+
+function mockDirectScheduleSlots() {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/available_appointments*',
+    response: updateTimeslots(slots),
+  });
+}
+
+export function initAppointmentListMock() {
+  cy.server();
+  cy.login();
+  mockFeatureToggles();
+  mockSupportedSites();
 
   cy.route({
     method: 'GET',
@@ -225,19 +355,7 @@ export function initExpressCareMocks() {
     },
   }).as('getRequestEligibilityCriteria');
 
-  cy.route({
-    method: 'GET',
-    url: '/vaos/v0/facilities/983/limits*',
-    response: {
-      data: {
-        id: '983',
-        attributes: {
-          requestLimit: 1,
-          numberOfRequests: 0,
-        },
-      },
-    },
-  });
+  mockRequestLimits();
 
   cy.route({
     method: 'GET',
@@ -277,68 +395,16 @@ export function initExpressCareMocks() {
   });
 }
 
+export function initVAAppointmentMock() {
+  setupSchedulingMocks();
+  mockRequestLimits();
+  mockVisits();
+  mockDirectScheduleSlots();
+  mockSubmitVAAppointment();
+}
+
 export function initCommunityCareMock() {
-  cy.server();
-  cy.login();
-  cy.route({
-    method: 'GET',
-    url: '/v0/feature_toggles*',
-    status: 200,
-    response: {
-      data: {
-        features: [
-          {
-            name: 'vaOnlineScheduling',
-            value: true,
-          },
-          {
-            name: 'vaOnlineSchedulingRequests',
-            value: true,
-          },
-          {
-            name: 'vaOnlineSchedulingCommunityCare',
-            value: true,
-          },
-        ],
-      },
-    },
-  });
-
-  cy.route({
-    method: 'GET',
-    url: '/vaos/v0/community_care/supported_sites*',
-    response: supportedSites,
-  });
-
-  cy.route({
-    method: 'GET',
-    url: '/vaos/v0/facilities**',
-    response: facilities,
-  });
-
-  cy.route({
-    method: 'GET',
-    url: '/vaos/v0/systems/983/direct_scheduling_facilities',
-    response: facilities983,
-  });
-
-  cy.route({
-    method: 'GET',
-    url: '/vaos/v0/facilities/983/clinics',
-    response: clinicList983,
-  });
-
-  cy.route({
-    method: 'GET',
-    url: '/vaos/v0/community_care/eligibility/PrimaryCare',
-    response: {
-      data: {
-        id: 'PrimaryCare',
-        type: 'cc_eligibility',
-        attributes: { eligible: true },
-      },
-    },
-  });
+  setupSchedulingMocks();
 
   cy.route({
     method: 'GET',
