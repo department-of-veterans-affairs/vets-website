@@ -1,5 +1,6 @@
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { TASK_KEYS } from '../../../constants';
 import { validateName, reportChildMarriage } from '../../../utilities';
 import { isChapterFieldRequired } from '../../../helpers';
@@ -40,6 +41,16 @@ export const uiSchema = {
         'ui:options': { widgetClassNames: 'form-select-medium' },
       },
     },
+    ssn: {
+      ...ssnUI,
+      'ui:title': 'Child’s Social Security number',
+      'ui:required': formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+    },
+    birthDate: merge(currentOrPastDateUI('Child’s date of birth'), {
+      'ui:required': formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+    }),
     dateMarried: merge(currentOrPastDateUI('Date of marriage'), {
       'ui:required': formData =>
         isChapterFieldRequired(

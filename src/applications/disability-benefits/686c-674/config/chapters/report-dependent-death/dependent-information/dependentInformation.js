@@ -1,3 +1,6 @@
+import merge from 'lodash/merge';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import DependentViewField from '../../../../components/DependentViewField';
@@ -35,6 +38,16 @@ export const uiSchema = {
           'ui:options': { widgetClassNames: 'form-select-medium' },
         },
       },
+      ssn: {
+        ...ssnUI,
+        'ui:title': 'Dependent’s Social Security number',
+        'ui:required': formData =>
+          isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+      },
+      birthDate: merge(currentOrPastDateUI('Dependent’s date of birth'), {
+        'ui:required': formData =>
+          isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+      }),
       dependentType: {
         'ui:title': "What was your dependent's status?",
         'ui:widget': 'radio',
