@@ -21,7 +21,12 @@ const missingFromVetsJsonSchema = [
 
 const root = path.join(__dirname, '../../../');
 
-const validFormId = formId => {
+const validFormId = formConfig => {
+  let formId = formConfig.formId;
+  if (Object.keys(remapFormId).includes(formId)) {
+    formId = remapFormId[formId];
+  }
+
   if (!missingFromVetsJsonSchema.includes(formId)) {
     return expect(Object.keys(schemas)).to.include(
       formId,
@@ -78,8 +83,14 @@ const validStringProperty = (formConfig, name, required = true) => {
   return validProperty(formConfig, name, 'string', required);
 };
 
+const validNumberProperty = (formConfig, name, required = true) => {
+  return validProperty(formConfig, name, 'number', required);
+};
+
 describe('form:', () => {
   sessionStorageSetup();
+
+  // Find all config/form.js files within src/applications
   const configFiles = find.fileSync(
     /config\/form\.js$/,
     path.join(root, './applications'),
@@ -88,15 +99,12 @@ describe('form:', () => {
   Object.values(configFiles).forEach(configFilePath => {
     const configFileRepoPath = configFilePath.replace(root, '');
     it(`${configFileRepoPath}:`, () => {
-      return expect(
+      expect(
+        // Dynamically import the module and perform tests on its default export
         import(configFilePath).then(({ default: formConfig }) => {
-          let formId = formConfig.formId;
-          if (Object.keys(remapFormId).includes(formId)) {
-            formId = remapFormId[formId];
-          }
-
           return (
-            validFormId(formId) &&
+            validFormId(formConfig) &&
+            validNumberProperty(formConfig, 'version') &&
             validMigrations(formConfig) &&
             validObjectProperty(formConfig, 'chapters') &&
             validObjectProperty(formConfig, 'defaultDefinitions') &&
