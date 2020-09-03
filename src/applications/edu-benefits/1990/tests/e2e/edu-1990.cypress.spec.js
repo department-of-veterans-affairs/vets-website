@@ -29,16 +29,15 @@ const form = createTestConfig(
       });
     },
     pageHooks: {
-      introduction: () => {
-        cy.findByText(/Find the right application form/i, {
-          selector: 'button',
-        }).click();
-        cy.get('#NewBenefit-0').check();
-        cy.get('#ClaimingBenefitOwnService-0').check();
-        cy.get('#NationalCallToService-1').click();
-        cy.get('#VetTec-1').click();
-        cy.get('#apply-now-link').click();
-        cy.get('#2-continueButton').click();
+      introduction: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#NewBenefit-0').check();
+          cy.get('#ClaimingBenefitOwnService-0').check();
+          cy.get('#NationalCallToService-1').click();
+          cy.get('#VetTec-1').click();
+          cy.get('#apply-now-link').click();
+          cy.get('#2-continueButton').click();
+        });
       },
     },
     skip: false,
