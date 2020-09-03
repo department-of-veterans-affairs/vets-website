@@ -7,6 +7,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { uiSchema } from '../pages/covidResearchUISchema';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 
@@ -62,12 +63,25 @@ function updateData(oldForm, newForm) {
   return updatedForm;
 }
 
+export function transform(formConfig, form) {
+  const transformedForm = form;
+  checkBoxElements.forEach(elementName => {
+    Object.keys(form.data[elementName])
+      .filter(key => form.data[elementName][key] === undefined)
+      .forEach(filteredKey => {
+        transformedForm.data[elementName][filteredKey] = false;
+      });
+  });
+  return transformForSubmit(formConfig, transformedForm);
+}
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/covid-research/volunteer/create`,
   trackingPrefix: 'covid-research-volunteer-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit: transform,
   formId: 'COVID-RESEARCH-VOLUNTEER',
   version: 0,
   prefillEnabled: true,
