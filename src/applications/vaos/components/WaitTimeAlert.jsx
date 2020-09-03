@@ -39,12 +39,12 @@ export const WaitTimeAlert = ({
     if (showUrgentCareMessage || notMeetingStandardOfCare) {
       return (
         <AlertBox
-          headline="This is the earliest date we can schedule your appointment"
+          headline="Your earliest appointment time"
           status={showUrgentCareMessage ? 'warning' : 'info'}
           content={
             <>
               <p>
-                The earliest appointment we can schedule for you is{' '}
+                The earliest we can schedule your appointment is{' '}
                 {momentNextAvailableDate.format('MMMM D, YYYY')} at{' '}
                 {momentNextAvailableDate.format('h:mm a')} {timezone}.
               </p>
