@@ -7,6 +7,7 @@ import Decision from '../components/appeals-v2/Decision';
 
 // This literally determines how many rows are displayed per page on the v2 index page
 export const ROWS_PER_PAGE = 10;
+export const DECISION_REVIEW_URL = '/decision-reviews';
 
 export const APPEAL_ACTIONS = {
   original: 'original',
@@ -129,6 +130,7 @@ export const STATUS_TYPES = {
   hlrDecision: 'hlr_decision',
   hlrClosed: 'hlr_closed',
   statutoryOptIn: 'statutory_opt_in',
+  remandReturn: 'remand_return',
 };
 
 export const ISSUE_STATUS = {
@@ -293,9 +295,9 @@ export function getStatusContents(appeal, name = {}) {
       contents.description = (
         <p>
           The {aojDescription} received your Notice of Disagreement. A Decision
-          Review Officer will review all of the evidence related to your appeal,
-          including any new evidence you sent. The officer may contact you to
-          ask for more evidence or medical exams as needed. When the officer has
+          Review Officer (DRO) will review all of the evidence related to your
+          appeal, including any new evidence you sent. The DRO may contact you
+          to ask for more evidence or medical exams as needed. When the DRO has
           completed their review, they’ll determine whether or not they can
           grant your appeal.
         </p>
@@ -314,9 +316,22 @@ export function getStatusContents(appeal, name = {}) {
             why they couldn’t fully grant your appeal.
           </p>
           <p>
-            If you don’t agree with the Statement of the Case, you can continue
-            your appeal to the Board of Veterans’ Appeals. To do this, you must
-            complete and return a VA Form 9 within 60 days.
+            If you don’t agree with the Statement of the Case, you have two
+            options:
+            <ul>
+              <li>
+                You can continue your appeal to the Board of Veterans’ Appeals.
+                To do this, you must complete and return a VA Form 9 within 60
+                days, <strong>or</strong>.
+              </li>
+              <li>
+                <a href={DECISION_REVIEW_URL}>
+                  Opt in to the new decision review process
+                </a>
+                . You have 60 days from the date on the Statement of Case to op
+                in to the new decision review process.
+              </li>
+            </ul>
           </p>
         </div>
       );
@@ -348,7 +363,8 @@ export function getStatusContents(appeal, name = {}) {
           <ul>
             <li>
               You, your legal representative, your health care provider, or VA
-              added new evidence to your appeal, and/or
+              added new evidence to your appeal and requested VA review it prior
+              to certifying to the Board, <strong>and/or</strong>
             </li>
             <li>
               VA found it had further duty to assist you to develop your appeal,
@@ -605,7 +621,7 @@ export function getStatusContents(appeal, name = {}) {
             Check <Link to="/your-claims">Your claims and appeals</Link> for the
             decision review that contains the issues from this appeal, or learn
             more about{' '}
-            <a href="/decision-reviews">
+            <a href={DECISION_REVIEW_URL}>
               decision reviews under the Appeals Modernization Act
             </a>
             .
@@ -791,9 +807,8 @@ export function getStatusContents(appeal, name = {}) {
       contents.description = (
         <p>
           During their review, the senior reviewer identified an error that must
-          be corrected before deciding your case. If needed, the reviewer may
-          contact you to ask for more evidence or to schedule a new medical
-          exam.
+          be corrected before deciding your case. If needed, VA may contact you
+          to ask for more evidence or to schedule a new medical exam.
         </p>
       );
       break;
@@ -812,6 +827,16 @@ export function getStatusContents(appeal, name = {}) {
         <p>
           Your Higher-Level Review was closed. Please contact VA or your
           Veterans Service Organization or representative for more information.
+        </p>
+      );
+      break;
+    case STATUS_TYPES.remandReturn:
+      contents.title =
+        'Your appeal was returned to the Board of Veterans’ Appeals';
+      contents.description = (
+        <p>
+          The Veterans Benefits Administration finished their work on the remand
+          and will return your case to the Board of Veterans’ Appeals.
         </p>
       );
       break;
@@ -887,7 +912,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.form9:
       return {
-        title: 'VA recieved your Form 9',
+        title: 'VA received your Form 9',
         description: '',
       };
     case EVENT_TYPES.ssoc:
@@ -1154,6 +1179,11 @@ export const makeDurationText = timeliness => {
  * @returns {allNextEvents} a section description and array containing all next event possibilities
  *                          for a given current status
  */
+/**
+ * ****** NOTE ******
+ * Duration info (at the DurationCard level) has been hidden since 07/01/2020
+ * https://github.com/department-of-veterans-affairs/va.gov-team/issues/10293
+ */
 export function getNextEvents(appeal) {
   const { type: currentStatus, details } = appeal.attributes.status;
   const appealType = appeal.type;
@@ -1199,7 +1229,11 @@ export function getNextEvents(appeal) {
                 </strong>{' '}
                 they’ll send you their findings in a document called a Statement
                 of the Case. You can then decide whether to continue your appeal
-                to the Board of Veterans’ Appeals.
+                to the Board of Veterans’ Appeals, or{' '}
+                <a href={DECISION_REVIEW_URL}>
+                  opt in to one of the new decision review lanes
+                </a>
+                .
               </p>
             ),
             durationText: '',
@@ -1215,8 +1249,9 @@ export function getNextEvents(appeal) {
         'MMMM D, YYYY',
       );
       return {
-        header: `If you return a VA Form 9 within 60 days, what happens next depends on whether you
-          also submit new evidence.`,
+        header: `If you return a VA Form 9 within 60 days, what happens next
+          depends on whether you also submit new evidence and request VA review
+          it before sending to the Board.`,
         events: [
           {
             title: 'Your appeal will be sent to the Board',
@@ -1239,12 +1274,14 @@ export function getNextEvents(appeal) {
             description: (
               <p>
                 <strong>If you submit new evidence</strong> after the Statement
-                of the Case on {formattedSocDate}, the Decision Review Officer
-                will need to write a Supplemental Statement of the Case before
-                sending your case to the Board of Veterans’ Appeals. Once your
-                appeal has been sent, new evidence can be submitted directly to
-                the Board and won’t be reviewed by the Veterans Benefits
-                Administration.
+                of the Case on {formattedSocDate} <strong>and</strong> request
+                VA review the evidence first, the Decision Review Officer will
+                need to write a Supplemental Statement of the Case before
+                sending your case to the Board of Veterans’ Appeals. Otherwise,
+                the Decision Review Officer will send your appeal to the Board.
+                Once your appeal has been sent, new evidence can be submitted
+                directly to the Board and won’t be reviewed by the Veterans
+                Benefits Administration.
               </p>
             ),
             durationText: ssocDuration.header,
@@ -1285,12 +1322,14 @@ export function getNextEvents(appeal) {
             description: (
               <p>
                 <strong>If you submit new evidence</strong> after the Statement
-                of the Case on {formattedSocDate}, the Decision Review Officer
-                will need to write a Supplemental Statement of the Case before
-                sending your case to the Board of Veterans’ Appeals. Once your
-                appeal has been sent, new evidence can be submitted directly to
-                the Board and won’t be reviewed by the Veterans Benefits
-                Administration.
+                of the Case on {formattedSocDate} <strong>and</strong> request
+                VA review the evidence first, the Decision Review Officer will
+                need to write a Supplemental Statement of the Case before
+                sending your case to the Board of Veterans’ Appeals. Otherwise,
+                the Decision Review Officer will send your appeal to the Board.
+                Once your appeal has been sent, new evidence can be submitted
+                directly to the Board and won’t be reviewed by the Veterans
+                Benefits Administration.
               </p>
             ),
             durationText: ssocDuration.header,
@@ -1331,12 +1370,14 @@ export function getNextEvents(appeal) {
             description: (
               <p>
                 <strong>If you submit new evidence</strong> after the
-                Supplemental Statement of the Case on {formattedSocDate}, the
+                Supplemental Statement of the Case on {formattedSocDate}{' '}
+                <strong>and</strong> request VA review the evidence first, the
                 Decision Review Officer will need to write a new Supplemental
                 Statement of the Case before sending your case to the Board of
-                Veterans’ Appeals. Once your appeal has been sent, new evidence
-                can be submitted directly to the Board and won’t be reviewed by
-                the Veterans Benefits Administration.
+                Veterans’ Appeals. Otherwise, the Decision Review Office will
+                send your appeal to the Board. Once your appeal has been sent,
+                new evidence can be submitted directly to the Board and won’t be
+                reviewed by the Veterans Benefits Administration.
               </p>
             ),
             durationText: ssocDuration.header,
@@ -1377,10 +1418,12 @@ export function getNextEvents(appeal) {
             description: (
               <p>
                 <strong>If you submit new evidence</strong> after the
-                Supplemental Statement of the Case on {formattedSocDate}, the
+                Supplemental Statement of the Case on {formattedSocDate}{' '}
+                <strong>and</strong> request VA review the evidence first, the
                 Veterans Benefits Administration will need to write a new
                 Supplemental Statement of the Case before returning your case to
-                the Board of Veterans’ Appeals.
+                the Board of Veterans’ Appeals. Otherwise, the Decision Review
+                Officer will send your appeal to the Board.
               </p>
             ),
             durationText: remandSsocDuration.header,
@@ -1657,8 +1700,8 @@ export function getNextEvents(appeal) {
               <p>
                 The {getAojDescription(appeal.attributes.aoj)} will send you a
                 new decision in the mail. Your review may take longer than the
-                expected 4–5 months because the reviewer needs to correct an
-                error before completing their review.
+                expected 4–5 months because VA needs to correct an error before
+                completing their review.
               </p>
             ),
             durationText: '',
@@ -1717,6 +1760,13 @@ export function getAlertContent(alert, appealIsActive) {
               If you need help understanding your Statement of the Case or
               completing the VA Form 9, contact your Veterans Service
               Organization or representative.
+            </p>
+            <p>
+              You may also opt in to the new decision review process. You have
+              60 days from the date on the Statement of the Case to{' '}
+              <a href={DECISION_REVIEW_URL}>
+                opt in to one of the new decision review lanes.
+              </a>
             </p>
           </div>
         ),
@@ -2024,7 +2074,7 @@ export function getAlertContent(alert, appealIsActive) {
               </p>
             )}
             <p>
-              <a href="/decision-reviews">
+              <a href={DECISION_REVIEW_URL}>
                 Learn more about your decision review options.
               </a>
             </p>
