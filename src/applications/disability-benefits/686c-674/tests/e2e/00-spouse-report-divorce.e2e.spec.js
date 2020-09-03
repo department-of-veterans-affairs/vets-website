@@ -118,6 +118,18 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '.row.form-progress-buttons.schemaform-buttons div.small-6.medium-5.end.columns button.usa-button-primary',
   );
 
+  // previous spouse information and location of divorce
+  E2eHelpers.expectLocation(client, '/report-a-divorce');
+  client.waitForElementVisible(
+    '#root_reportDivorce_fullName_first',
+    Timeouts.normal,
+  );
+  client.axeCheck('.main');
+  TestHelpers.fillReportDivorceSpouseInformation(client, testData.data);
+  TestHelpers.fillReportDivorceLocationOfDivorce(client, testData.data);
+  TestHelpers.fillReportDivorceReasonMarriageEnded(client, testData.data);
+  client.click('button[id="2-continueButton"]');
+
   // review page
   E2eHelpers.expectLocation(client, '/review-and-submit');
   client.waitForElementVisible(
