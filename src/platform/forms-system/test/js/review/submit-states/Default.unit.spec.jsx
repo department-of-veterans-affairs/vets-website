@@ -7,7 +7,7 @@ import Back from '../../../../src/js/review/submit-states/Back';
 import Default from '../../../../src/js/review/submit-states/Default';
 
 describe('Schemaform review: <Default />', () => {
-  let formConfig = {};
+  const formConfig = {};
   const onBack = _event => {
     // no-op
   };
@@ -15,7 +15,12 @@ describe('Schemaform review: <Default />', () => {
     // no-op
   };
   const subject = SkinDeep.shallowRender(
-    <Default appType="Dummy" formConfig={formConfig} onBack={onBack} onSubmit={onSubmit} />,
+    <Default
+      appType="Dummy"
+      formConfig={formConfig}
+      onBack={onBack}
+      onSubmit={onSubmit}
+    />,
   );
 
   it('has a back button', () => {

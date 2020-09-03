@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 // import PreSubmitSection from '../../../../../forms/components/review/PreSubmitSection';
-import GenericError from '../../../../src/js/review/submit-states/GenericError';
+import GenericError from 'platform/forms-system/src/js/review/submit-states/GenericError';
 
 describe('Schemaform review: <GenericError />', () => {
-  let formConfig = {};
+  const formConfig = {};
   const onSubmit = _event => {
     // no-op
   };
@@ -51,11 +51,9 @@ describe('Schemaform review: <GenericError />', () => {
 
   it('renders custom error element', () => {
     const renderErrorMessage = () => {
-      return (
-        <span className="message">Error message</span>
-      );
+      return <span className="message">Error message</span>;
     };
-    const subject = SkinDeep.shallowRender(
+    const tree = SkinDeep.shallowRender(
       <GenericError
         appType="Dummy"
         formConfig={formConfig}
@@ -64,7 +62,6 @@ describe('Schemaform review: <GenericError />', () => {
       />,
     );
 
-    expect(subject.everySubTree('.message')[0].text()).to.equal('Error message');
+    expect(tree.everySubTree('.message')[0].text()).to.equal('Error message');
   });
-
 });

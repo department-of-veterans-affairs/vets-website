@@ -55,9 +55,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
 
   it('renders generic error', () => {
     const renderErrorMessage = () => {
-      return (
-        <span className="message">Error message</span>
-      );
+      return <span className="message">Error message</span>;
     };
 
     const submission = {
@@ -73,7 +71,9 @@ describe('Schemaform review: <SubmitButtons>', () => {
     );
 
     expect(tree.everySubTree('GenericError')[0].type).to.equal(GenericError);
-    expect(tree.everySubTree('GenericError')[0].props.renderErrorMessage).to.equal(renderErrorMessage);
+    expect(
+      tree.everySubTree('GenericError')[0].props.renderErrorMessage,
+    ).to.equal(renderErrorMessage);
   });
 
   it('renders validation error', () => {
@@ -85,7 +85,9 @@ describe('Schemaform review: <SubmitButtons>', () => {
       <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
-    expect(tree.everySubTree('ValidationError')[0].type).to.equal(ValidationError);
+    expect(tree.everySubTree('ValidationError')[0].type).to.equal(
+      ValidationError,
+    );
   });
 
   it('renders throttled error', () => {
@@ -97,7 +99,9 @@ describe('Schemaform review: <SubmitButtons>', () => {
       <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
-    expect(tree.everySubTree('ThrottledError')[0].type).to.equal(ThrottledError);
+    expect(tree.everySubTree('ThrottledError')[0].type).to.equal(
+      ThrottledError,
+    );
   });
 
   it('renders client error', () => {

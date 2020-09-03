@@ -7,7 +7,7 @@ import Back from '../../../../src/js/review/submit-states/Back';
 import ValidationError from '../../../../src/js/review/submit-states/ValidationError';
 
 describe('Schemaform review: <ValidationError />', () => {
-  let formConfig = {};
+  const formConfig = {};
   const onBack = _event => {
     // no-op
   };

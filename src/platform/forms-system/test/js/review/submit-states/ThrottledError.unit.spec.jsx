@@ -7,7 +7,7 @@ import Back from '../../../../src/js/review/submit-states/Back';
 import ThrottledError from '../../../../src/js/review/submit-states/ThrottledError';
 
 describe('Schemaform review: <ThrottledError />', () => {
-  let formConfig = {};
+  const formConfig = {};
   const onBack = _event => {
     // no-op
   };

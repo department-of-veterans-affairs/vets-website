@@ -7,7 +7,7 @@ import Back from '../../../../src/js/review/submit-states/Back';
 import Submitted from '../../../../src/js/review/submit-states/Submitted';
 
 describe('Schemaform review: <Submitted />', () => {
-  let formConfig = {};
+  const formConfig = {};
   const onBack = _event => {
     // no-op
   };

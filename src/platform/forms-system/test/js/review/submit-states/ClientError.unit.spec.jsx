@@ -7,7 +7,7 @@ import Back from '../../../../src/js/review/submit-states/Back';
 import ClientError from '../../../../src/js/review/submit-states/ClientError';
 
 describe('Schemaform review: <ClientError />', () => {
-  let formConfig = {};
+  const formConfig = {};
   const onBack = _event => {
     // no-op
   };

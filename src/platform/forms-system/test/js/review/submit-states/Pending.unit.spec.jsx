@@ -7,7 +7,7 @@ import Back from '../../../../src/js/review/submit-states/Back';
 import Pending from '../../../../src/js/review/submit-states/Pending';
 
 describe('Schemaform review: <Pending />', () => {
-  let formConfig = {};
+  const formConfig = {};
   const onBack = _event => {
     // no-op
   };
