@@ -1,8 +1,6 @@
 describe('Facilities VAMC SideNav', () => {
-  beforeEach(function() {
-    if (Cypress.env('ci_name') && Cypress.env('ci_name') === 'circle') {
-      this.skip();
-    }
+  before(function() {
+    if (Cypress.env('CIRCLECI')) this.skip();
   });
 
   it('should tab access the links on the left nav and verify focus', () => {

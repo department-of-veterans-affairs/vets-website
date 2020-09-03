@@ -35,12 +35,6 @@ const setup = ({ authenticated, isCerner } = {}) => {
 };
 
 describe('The schedule view VA appointments page', () => {
-  beforeEach(function() {
-    if (Cypress.env('ci_name') && Cypress.env('ci_name') === 'circle') {
-      this.skip();
-    }
-  });
-
   it('Shows the correct CTA widget when unauthenticated', () => {
     // Set up the test.
     setup({ authenticated: false });
