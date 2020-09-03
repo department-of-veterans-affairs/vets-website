@@ -35,6 +35,8 @@ module.exports = {
     fieldPhotoAllowHiresDownload: { type: 'boolean' },
     changed: { type: 'number' },
     status: { type: 'boolean' },
+    entityMetatags: { $ref: 'MetaTags' },
+    fieldCompleteBiography: { type: ['string', 'null'] },
   },
   required: [
     'title',
@@ -52,5 +54,7 @@ module.exports = {
     'fieldPhotoAllowHiresDownload',
     'changed',
     'status',
+    'entityMetatags',
+    'fieldCompleteBiography',
   ],
 };
