@@ -615,7 +615,7 @@ class VAMap extends Component {
           currentPage={currentPage}
           totalPages={totalPages}
           results={results}
-          inProgress={this.props.currentQuery.inProgress}
+          inProgress={currentQuery.inProgress}
         />
       </div>
     );
