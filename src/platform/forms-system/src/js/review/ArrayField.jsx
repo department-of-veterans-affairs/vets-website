@@ -8,7 +8,7 @@ import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsons
 import SchemaForm from '../components/SchemaForm';
 import { focusElement } from '../utilities/ui';
 
-import { getNumeratedUiSchema, getNumeratedItemSchema } from '../helpers';
+import { getNumeratedItemSchema } from '../helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -52,6 +52,15 @@ class ArrayField extends React.Component {
 
       this.setState(newState);
     }
+  }
+
+  getItemSchema(index) {
+    const schema = this.props.schema;
+    if (schema.items.length > index) {
+      return schema.items[index];
+    }
+
+    return schema.additionalItems;
   }
 
   scrollToTop() {
@@ -104,7 +113,7 @@ class ArrayField extends React.Component {
     const newState = {
       items: this.state.items.concat(
         getDefaultFormState(
-          getNumeratedItemSchema(this.props.schema, this.state.items.length),
+          this.getItemSchema(this.state.items.length),
           undefined,
           this.props.schema.definitions,
         ) || {},
@@ -212,13 +221,9 @@ class ArrayField extends React.Component {
             const showReviewButton =
               !itemCountLocked &&
               (!schema.minItems || items.length > schema.minItems);
-            const itemSchema = getNumeratedItemSchema(this.props.schema, index);
+            const itemSchema = this.getItemSchema(this.state.items.length);
             const itemTitle = itemSchema ? itemSchema.title : '';
 
-            const numeratedUiSchema = getNumeratedUiSchema(
-              uiSchema.items,
-              index,
-            );
 
             if (isEditing) {
               return (
@@ -243,7 +248,7 @@ class ArrayField extends React.Component {
                         data={item}
                         appStateData={this.props.appStateData}
                         schema={itemSchema}
-                        uiSchema={numeratedUiSchema}
+                        uiSchema={uiSchema.items}
                         trackingPrefix={this.props.trackingPrefix}
                         title={pageTitle}
                         hideTitle
@@ -284,7 +289,7 @@ class ArrayField extends React.Component {
                     data={item}
                     appStateData={this.props.appStateData}
                     schema={itemSchema}
-                    uiSchema={numeratedUiSchema}
+                    uiSchema={uiSchema.items}
                     trackingPrefix={this.props.trackingPrefix}
                     title={itemTitle}
                     name={fieldName}
