@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
 import formConfig from 'applications/caregivers/config/form';
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 import { submitTransform } from 'applications/caregivers/helpers';
 import { apiRequest } from 'platform/utilities/api';
 import { isValidForm } from 'platform/forms-system/src/js/validation';
@@ -17,25 +19,40 @@ const DownLoadLink = ({ form }) => {
 
   useEffect(
     () => {
-      if (!isFormValid.isValid) return;
-      apiRequest(
-        `${environment.API_URL}/v0/caregivers_assistance_claims/download_pdf`,
-        {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Content-Type': 'application/json',
-            'Source-App-Name': 'caregivers-10-10cg-',
-          },
-        },
-      )
-        .then(response => {
-          return response.blob();
-        })
-        .then(blob => {
-          const url = URL.createObjectURL(blob);
-          setPDFLink(url);
+      try {
+        if (isFormValid.isValid) {
+          apiRequest(
+            `${
+              environment.API_URL
+            }/v0/caregivers_assistance_claims/download_pdf`,
+            {
+              method: 'POST',
+              body: formData,
+              headers: {
+                'Content-Type': 'application/json',
+                'Source-App-Name': 'caregivers-10-10cg-',
+              },
+            },
+          )
+            .then(response => {
+              return response.blob();
+            })
+            .then(blob => {
+              const url = URL.createObjectURL(blob);
+              setPDFLink(url);
+            });
+          recordEvent({ event: 'caregivers-10-10cg-pdf-download-success' });
+        }
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          scope.setFingerprint(['{{default}}', scope._tags?.source]);
+          Sentry.captureMessage(
+            `caregivers-10-10cg-pdf-failure: ${error.message}`,
+          );
         });
+      }
+      recordEvent({ event: 'caregivers-10-10cg-pdf-failure' });
     },
     [formData, isFormValid],
   );
