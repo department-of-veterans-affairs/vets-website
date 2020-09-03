@@ -1,5 +1,8 @@
+// libs
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// forms-system constants
 import { APP_TYPE_DEFAULT } from '../constants';
 
 // submit states
@@ -19,71 +22,52 @@ export default function SubmitButtons(props) {
     submission,
     formConfig,
   } = props;
+
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
   if (submission.status === false) {
-    return (
-      <>
-        <Default appType={appType} onBack={onBack} onSubmit={onSubmit} />
-      </>
-    );
+    return <Default appType={appType} onBack={onBack} onSubmit={onSubmit} />;
   } else if (submission.status === 'submitPending') {
-    return (
-      <>
-        <Pending onBack={onBack} onSubmit={onSubmit} />
-      </>
-    );
+    return <Pending onBack={onBack} onSubmit={onSubmit} />;
   } else if (submission.status === 'applicationSubmitted') {
-    return (
-      <>
-        <Submitted onBack={onBack} onSubmit={onSubmit} />
-      </>
-    );
+    return <Submitted onBack={onBack} onSubmit={onSubmit} />;
   } else if (submission.status === 'clientError') {
     return (
-      <>
-        <ClientError
-          appType={appType}
-          formConfig={formConfig}
-          onBack={onBack}
-          onSubmit={onSubmit}
-        />
-      </>
+      <ClientError
+        appType={appType}
+        formConfig={formConfig}
+        onBack={onBack}
+        onSubmit={onSubmit}
+      />
     );
   } else if (submission.status === 'throttledError') {
     return (
-      <>
-        <ThrottledError
-          appType={appType}
-          formConfig={formConfig}
-          when={submission.extra}
-          onBack={onBack}
-          onSubmit={onSubmit}
-        />
-      </>
+      <ThrottledError
+        appType={appType}
+        formConfig={formConfig}
+        when={submission.extra}
+        onBack={onBack}
+        onSubmit={onSubmit}
+      />
     );
   } else if (submission.status === 'validationError') {
     return (
-      <>
-        <ValidationError
-          appType={appType}
-          formConfig={formConfig}
-          onBack={onBack}
-          onSubmit={onSubmit}
-        />
-      </>
+      <ValidationError
+        appType={appType}
+        formConfig={formConfig}
+        onBack={onBack}
+        onSubmit={onSubmit}
+      />
     );
   } else {
     return (
-      <>
-        <GenericError
-          appType={appType}
-          formConfig={formConfig}
-          renderErrorMessage={renderErrorMessage}
-          onBack={onBack}
-          onSubmit={onSubmit}
-        />
-      </>
+      <GenericError
+        appType={appType}
+        formConfig={formConfig}
+        renderErrorMessage={renderErrorMessage}
+        onBack={onBack}
+        onSubmit={onSubmit}
+      />
     );
   }
 }
