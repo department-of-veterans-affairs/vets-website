@@ -463,7 +463,7 @@ export class EducationWizard extends React.Component {
                                 })
                               }
                             >
-                              See eligible programs
+                              See eligible degree programs
                             </a>
                           </li>
                         </ul>
