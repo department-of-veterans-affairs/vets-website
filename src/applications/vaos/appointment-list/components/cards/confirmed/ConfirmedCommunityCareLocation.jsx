@@ -16,7 +16,7 @@ export default function ConfirmedCommunityCareLocation({ appointment }) {
       <dd>
         <FacilityAddress
           facility={location}
-          showDirectionsLink={location.address ? true : false}
+          showDirectionsLink={!!location.address}
         />
       </dd>
     </dl>
