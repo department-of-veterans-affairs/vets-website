@@ -7,11 +7,16 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { deductionCodes } from '../const';
 import HowDoIPayV2 from './HowDoIPayV2';
 import NeedHelpV2 from './NeedHelpV2';
+import { OnThisPageLinks } from './OnThisPageLinks';
 import moment from 'moment';
 import last from 'lodash/last';
 import first from 'lodash/first';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 class DebtDetails extends Component {
+  componentDidMount() {
+    scrollToTop();
+  }
   render() {
     if (Object.keys(this.props.selectedDebt).length === 0) {
       return window.location.replace('/manage-va-debt/your-debt');
@@ -41,35 +46,32 @@ class DebtDetails extends Component {
                 'MMMM D, YYYY',
               )}
             </p>
-
-            <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
-              Date of first notice:
-            </p>
-            <p className="vads-u-margin-top--0">
-              {moment(first(selectedDebt.debtHistory).date).format(
-                'MMMM D, YYYY',
-              )}
-            </p>
-            <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
-              Original debt amount:
-            </p>
-            <p className="vads-u-margin-top--0">
-              {' '}
-              {formatter.format(parseFloat(selectedDebt.originalAr))}
-            </p>
-            <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
-              Current balance:
-            </p>
-            <p className="vads-u-margin-top--0">
-              {' '}
-              {formatter.format(parseFloat(selectedDebt.currentAr))}
-            </p>
-            <AdditionalInfo triggerText="Why might I have this debt?">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
-              excepturi fugit non sunt. Asperiores autem error ipsam magnam
-              minus modi nam obcaecati quasi, ratione rem repellendus
-              reprehenderit ut veritatis vitae.
-            </AdditionalInfo>
+            <div className="vads-u-display--flex vads-u-flex-direction--row">
+              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-right--2">
+                <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
+                  Date of first notice:
+                </p>
+                <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
+                  Original debt amount:
+                </p>
+                <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
+                  Current balance:
+                </p>
+              </div>
+              <div className="vads-u-display--flex vads-u-flex-direction--column">
+                <p className="vads-u-margin-y--0">
+                  {moment(first(selectedDebt.debtHistory).date).format(
+                    'MMMM D, YYYY',
+                  )}
+                </p>
+                <p className="vads-u-margin-y--0">
+                  {formatter.format(parseFloat(selectedDebt.originalAr))}
+                </p>
+                <p className="vads-u-margin-y--0">
+                  {formatter.format(parseFloat(selectedDebt.currentAr))}
+                </p>
+              </div>
+            </div>
 
             <AlertBox
               className="vads-u-margin-y--4"
@@ -78,9 +80,16 @@ class DebtDetails extends Component {
               status="info"
               backgroundOnly
             />
+            <AdditionalInfo triggerText="Why might I have this debt?">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
+              excepturi fugit non sunt. Asperiores autem error ipsam magnam
+              minus modi nam obcaecati quasi, ratione rem repellendus
+              reprehenderit ut veritatis vitae.
+            </AdditionalInfo>
+            <OnThisPageLinks />
 
-            <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
-              Debt history
+            <h2 className="vads-u-font-size--h3 vads-u-margin-top--5">
+              Debt letter history
             </h2>
             <p className="vads-u-margin-y--2">
               You can view the status or download the letters for this debt.
@@ -100,13 +109,7 @@ class DebtDetails extends Component {
                 className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-y--1p5 vads-u-border-bottom--3px vads-u-border-color--gray-lightest"
                 key={`${debtEntry.letterCode}-${index}`}
               >
-                <h3 className="vads-u-margin-top--1">
-                  {moment(debtEntry.date).format('MMMM D, YYYY')}
-                </h3>
-                <p className="vads-u-font-weight--bold vads-u-margin-y--0">
-                  {debtEntry.status}
-                </p>
-                <p className="vads-u-margin-y--1">{debtEntry.description}</p>
+                <div />
               </div>
             ))}
             <HowDoIPayV2 />

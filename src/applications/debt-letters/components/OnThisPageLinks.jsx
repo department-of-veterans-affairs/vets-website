@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const OnThisPageLinks = () => (
-  <div className="vads-u-margin-y--5">
+  <div>
     <h4>On this page</h4>
     <div className="vads-u-font-family--sans vads-u-display--flex vads-u-flex-direction--column vads-u-font-size--md">
       <a href="#currentDebts" className="vads-u-margin-y--1">
