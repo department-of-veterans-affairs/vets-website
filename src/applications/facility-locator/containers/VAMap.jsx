@@ -26,11 +26,11 @@ import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
 } from '../utils/selectors';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import vaDebounce from 'platform/utilities/data/debounce';
+import PaginationWrapper from '../components/PaginationWrapper';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -497,17 +497,16 @@ class VAMap extends Component {
               <div className="facility-search-results">
                 <ResultsList
                   updateUrlParams={this.updateUrlParams}
-                  query={this.props.currentQuery}
+                  query={currentQuery}
                 />
               </div>
-              {results &&
-                results.length > 0 && (
-                  <Pagination
-                    onPageSelect={this.handlePageSelect}
-                    page={currentPage}
-                    pages={totalPages}
-                  />
-                )}
+              <PaginationWrapper
+                handlePageSelect={this.handlePageSelect}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                results={results}
+                inProgress={currentQuery.inProgress}
+              />
             </TabPanel>
             <TabPanel>
               <Map
@@ -577,7 +576,6 @@ class VAMap extends Component {
         </div>
         <div
           className="columns search-results-container medium-4 small-12"
-          style={{ maxHeight: '78vh', overflowY: 'auto' }}
           id="searchResultsContainer"
         >
           <div className="facility-search-results">
@@ -594,7 +592,7 @@ class VAMap extends Component {
             zoomSnap={1}
             zoomDelta={1}
             zoom={parseInt(currentQuery.zoomLevel, 10)}
-            style={{ minHeight: '75vh', width: '100%' }}
+            style={{ minHeight: '78vh', width: '100%' }} // TODO - move this into CSS
             scrollWheelZoom={false}
             onMoveEnd={this.handleBoundsChanged}
           >
@@ -612,15 +610,13 @@ class VAMap extends Component {
               )}
           </Map>
         </div>
-        {currentPage &&
-          results &&
-          results.length > 0 && (
-            <Pagination
-              onPageSelect={this.handlePageSelect}
-              page={currentPage}
-              pages={totalPages}
-            />
-          )}
+        <PaginationWrapper
+          handlePageSelect={this.handlePageSelect}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          results={results}
+          inProgress={currentQuery.inProgress}
+        />
       </div>
     );
   };
