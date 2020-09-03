@@ -250,7 +250,6 @@ export class SearchPage extends React.Component {
         eligibilityChange={this.props.eligibilityChange}
         hideModal={this.props.hideModal}
         gibctFilterEnhancement={this.props.gibctFilterEnhancement}
-        gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
       />
     </div>
   );
@@ -294,9 +293,6 @@ const mapStateToProps = state => ({
   ],
   gibctFilterEnhancement: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctFilterEnhancement
-  ],
-  gibctCh33BenefitRateUpdate: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
   ],
 });
 
