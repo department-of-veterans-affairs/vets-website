@@ -158,7 +158,7 @@ function toRadians(value) {
 }
 
 export function distanceBetween(lat1, lng1, lat2, lng2) {
-  const R = 3959; // radius in miles
+  const R = 3959; // Earth's radius in miles
   const dLat = toRadians(lat2 - lat1);
   const dLon = toRadians(lng2 - lng1);
 
