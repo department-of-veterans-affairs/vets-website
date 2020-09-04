@@ -230,7 +230,8 @@ export const validateAddress = (
       }));
     const confirmedSuggestions = suggestedAddresses.filter(
       suggestion =>
-        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED,
+        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED ||
+        suggestion.addressMetaData?.addressType === 'International',
     );
     const payloadWithSuggestedAddress = {
       ...confirmedSuggestions[0],
