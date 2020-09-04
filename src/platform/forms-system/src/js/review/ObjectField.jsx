@@ -132,7 +132,7 @@ class ObjectField extends React.Component {
           return (
             (options.volatileData && !formContext.reviewMode) || // ReviewCardField
             options.customTitle || // SelectArrayItemsWidget
-            (options.addAnotherLabel && formContext.reviewMode) // fileUiSchema
+            (options.fileUploadUrl && formContext.reviewMode) // fileUiSchema
           );
         });
         if (objectFields.length > 1 && visible.length > 0) {

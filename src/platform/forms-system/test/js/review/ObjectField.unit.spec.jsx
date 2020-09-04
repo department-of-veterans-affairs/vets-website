@@ -499,7 +499,7 @@ describe('Schemaform review: ObjectField', () => {
     const uiSchema = {
       test: {
         'ui:options': {
-          addAnotherLabel: 'test',
+          fileUploadUrl: 'test',
         },
       },
     };
@@ -536,7 +536,7 @@ describe('Schemaform review: ObjectField', () => {
     const uiSchema = {
       test: {
         'ui:options': {
-          addAnotherLabel: 'test',
+          fileUploadUrl: 'test',
         },
       },
     };
