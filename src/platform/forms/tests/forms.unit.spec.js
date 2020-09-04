@@ -125,6 +125,7 @@ const validArrayProperty = (
 ) => {
   validProperty(formConfig, name, 'array', required, warning);
 };
+
 const validFormConfigKeys = formConfig => {
   Object.keys(formConfig).forEach(key =>
     expect(formConfigKeys).to.include(
@@ -135,6 +136,7 @@ const validFormConfigKeys = formConfig => {
     ),
   );
 };
+
 const validFormId = formConfig => {
   let formId = formConfig.formId;
   if (Object.keys(remapFormId).includes(formId)) {
@@ -166,7 +168,7 @@ const validMigrations = formConfig => {
     validArrayProperty({ migrations }, 'migrations');
     expect(
       migrations.every(migration => typeof migration === 'function'),
-    ).to.equal(true, 'migrations is not an array of functions');
+    ).to.equal(true, 'migrations contains an element that is not a function');
   }
 };
 
@@ -200,30 +202,30 @@ const validDowntime = ({ downtime }) => {
 const validAdditionalRoutes = ({ additionalRoutes }) => {
   validArrayProperty({ additionalRoutes }, 'additionalRoutes', false);
   if (additionalRoutes) {
-    additionalRoutes.forEach(route => {
+    additionalRoutes.forEach((route, index) => {
       validStringProperty(
         route,
         'path',
         true,
-        'additionalRoutes.path is not a string',
+        `additionalRoutes[${index}].path is not a string`,
       );
       validFunctionProperty(
         route,
         'component',
         true,
-        'additionalRoutes.component is not a function',
+        `additionalRoutes[${index}].component is not a function`,
       );
       validStringProperty(
         route,
         'pageKey',
         true,
-        'additionalRoutes.component is not a string',
+        `additionalRoutes[${index}].component is not a string`,
       );
       validFunctionProperty(
         route,
         'depends',
         true,
-        'additionalRoutes.depends is not a function',
+        `additionalRoutes[${index}].depends is not a function`,
       );
     });
   }
@@ -241,16 +243,12 @@ const validAuthorization = formConfig => {
 const validCustomText = ({ customText }) => {
   validObjectProperty({ customText }, 'customText', false);
   if (customText) {
-    Object.keys(customText).forEach(key => {
-      validStringProperty(
-        customText,
-        key,
-        true,
-        `customText.${key} is not a string`,
-      );
-    });
+    expect(
+      Object.values(customText).every(value => typeof value === 'string'),
+    ).to.equal(true, 'customText has a property value that is not a string');
   }
 };
+
 describe('form:', () => {
   sessionStorageSetup();
 
