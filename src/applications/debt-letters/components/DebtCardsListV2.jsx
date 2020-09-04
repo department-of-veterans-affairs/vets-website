@@ -69,11 +69,14 @@ const DebtCardsListV2 = ({ debts, isError }) => {
               to learn about your payment options.
             </p>
             <h3 id="downloadDebtLetters">Download debt letters</h3>
-            <p className="vads-u-margin-bottom--0">
+            <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
               You can download some of your letters for education, compensation
               and pension debt.
             </p>
-            <Link to="download-letters" className="vads-u-margin-top--1">
+            <Link
+              to="download-letters"
+              className="vads-u-margin-top--1 vads-u-font-family--sans"
+            >
               Download letters related to your va debt
             </Link>
           </>

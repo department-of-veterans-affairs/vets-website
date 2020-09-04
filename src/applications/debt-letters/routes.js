@@ -3,7 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 import DebtLettersSummary from './components/DebtLettersSummary';
 import DebtLettersWrapper from './components/DebtLettersWrapper';
 import DebtDetails from './components/DebtDetails';
-import { DebtLettersDownload } from './components/DebtLettersDownload';
+import DebtLettersDownload from './components/DebtLettersDownload';
 
 const routes = (
   <Route path="/">

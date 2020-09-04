@@ -76,10 +76,9 @@ class DebtDetails extends Component {
 
             <AlertBox
               className="vads-u-margin-y--4"
-              headline="Informational backgroundOnly alert"
+              headline="Hidden alert"
               content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id felis pulvinar ligula ultricies sollicitudin eget nec dui. Cras augue velit, pellentesque sit amet nisl ut, tristique suscipit sem. Cras sollicitudin auctor mattis."
               status="info"
-              backgroundOnly
             />
             <AdditionalInfo triggerText="Why might I have this debt?">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
@@ -87,9 +86,12 @@ class DebtDetails extends Component {
               minus modi nam obcaecati quasi, ratione rem repellendus
               reprehenderit ut veritatis vitae.
             </AdditionalInfo>
-            <OnThisPageLinks />
+            <OnThisPageLinks isDetailsPage />
 
-            <h2 className="vads-u-font-size--h3 vads-u-margin-top--5">
+            <h2
+              id="debtLetterHistory"
+              className="vads-u-font-size--h3 vads-u-margin-top--5"
+            >
               Debt letter history
             </h2>
             <p className="vads-u-margin-y--2">
@@ -139,7 +141,7 @@ class DebtDetails extends Component {
             <HowDoIPayV2 />
             <NeedHelpV2 />
             <Link className="vads-u-margin-top--4" to="/">
-              Return to your list of debts.
+              <i className="fa fa-chevron-left" /> Return to your list of debts.
             </Link>
           </div>
         </div>
