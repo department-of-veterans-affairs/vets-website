@@ -84,6 +84,7 @@ export default function setupJSDom() {
   global.Blob = window.Blob;
   window.dataLayer = [];
   window.matchMedia = () => ({ matches: false });
+  window.scrollTo = () => {};
 
   window.VetsGov = {
     scroll: {
