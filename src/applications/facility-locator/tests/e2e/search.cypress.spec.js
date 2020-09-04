@@ -67,6 +67,8 @@ describe('Facility search', () => {
     cy.get('.i-pin-card-map').contains('B');
     cy.get('.i-pin-card-map').contains('C');
     cy.get('.i-pin-card-map').contains('D');
+
+    cy.get('.va-pagination').should('exist');
   });
 
   it('should render breadcrumbs ', () => {
@@ -143,6 +145,8 @@ describe('Facility search', () => {
     cy.axeCheck();
 
     cy.get('.facility-result h3').contains('BADEA, LUANA');
+
+    cy.get('.va-pagination').should('not.exist');
   });
 
   it('finds community urgent care', () => {
@@ -164,6 +168,7 @@ describe('Facility search', () => {
     cy.axeCheck();
 
     cy.get('.facility-result h3').contains('Concentra Urgent Care');
+    cy.get('.va-pagination').should('not.exist');
   });
 
   it('finds community urgent care', () => {
@@ -183,6 +188,7 @@ describe('Facility search', () => {
     cy.axeCheck();
 
     cy.get('.facility-result h3').contains('MinuteClinic');
+    cy.get('.va-pagination').should('not.exist');
   });
 
   it('finds community care pharmacies', () => {
@@ -201,6 +207,7 @@ describe('Facility search', () => {
     cy.axeCheck();
 
     cy.get('.facility-result h3').contains('CVS');
+    cy.get('.va-pagination').should('not.exist');
   });
 
   it('should recover search from an error response state - invalid input location', () => {

@@ -1,7 +1,6 @@
 import path from 'path';
 
 Cypress.Commands.add('checks', () => {
-  cy.injectAxe();
   cy.axeCheck();
 
   // Search
@@ -9,16 +8,24 @@ Cypress.Commands.add('checks', () => {
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search').click();
 
-  // Search present
+  // Search title
   cy.get('#search-results-subheader').should('exist');
 
-  // Tabs present
+  // Tabs
   cy.get('#react-tabs-0').contains('View List');
   cy.get('#react-tabs-2').contains('View Map');
 
-  // Result list present
+  // Result list
   cy.get('.facility-result').should('exist');
 
+  // Switch tab map
+  cy.get('#react-tabs-2').click();
+
+  // Pin
+  cy.get('.i-pin-card-map').contains('A');
+
+  // Back to Result list
+  cy.get('#react-tabs-0').click();
   cy.get('#street-city-state-zip').clear();
 });
 
@@ -31,6 +38,7 @@ describe('Mobile', () => {
 
   it('should render in mobile layouts and tabs actions work', () => {
     cy.visit('/find-locations');
+    cy.injectAxe();
 
     // iPhone X
     cy.viewport(400, 812);

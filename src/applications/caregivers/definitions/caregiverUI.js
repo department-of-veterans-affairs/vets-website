@@ -227,14 +227,6 @@ export default {
 export const confirmationEmailUI = (label, dataConstant) => ({
   'ui:title': `Re-enter ${label}  email address`,
   'ui:widget': 'email',
-  'ui:errorMessages': {
-    pattern: 'Please enter an email address using this format: X@X.com',
-    required: 'Please enter an email address',
-  },
-  'ui:options': {
-    widgetClassNames: 'va-input-large',
-    inputType: 'email',
-  },
   'ui:required': formData => !!formData[dataConstant],
   'ui:validations': [
     {
