@@ -136,7 +136,7 @@ class DebtDetails extends Component {
               and pension debt.
             </p>
             <Link to="download-letters" className="vads-u-margin-top--1">
-              Download letters related to your va debt
+              Download letters related to your VA debt
             </Link>
             <HowDoIPayV2 />
             <NeedHelpV2 />
