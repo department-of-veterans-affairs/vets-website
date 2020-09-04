@@ -104,6 +104,9 @@ export default function setupJSDom() {
 
   copyProps(window, global);
 
+  // The following properties provided by JSDom are read-only by default.
+  // Some tests rely on modifying them, so set them to writable to enable that.
+
   Object.defineProperty(global, 'window', {
     value: global.window,
     configurable: true,
