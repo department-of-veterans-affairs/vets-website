@@ -6,6 +6,7 @@ import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
+import { changeDropdown } from '../helpers/index.js';
 import formConfig from '../../config/form.js';
 
 describe('686 stepchildren', () => {
@@ -29,8 +30,8 @@ describe('686 stepchildren', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    expect(form.find('input').length).to.equal(3);
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('input').length).to.equal(5);
+    expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
 
@@ -46,7 +47,7 @@ describe('686 stepchildren', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -64,7 +65,10 @@ describe('686 stepchildren', () => {
     );
     fillData(form, 'input#root_stepChildren_0_fullName_first', 'Bill');
     fillData(form, 'input#root_stepChildren_0_fullName_last', 'Bob');
-
+    fillData(form, 'input#root_stepChildren_0_ssn', '123211234');
+    changeDropdown(form, 'select#root_stepChildren_0_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_stepChildren_0_birthDateDay', 1);
+    fillData(form, 'input#root_stepChildren_0_birthDateYear', '2010');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
-import recordEvent from 'platform/monitoring/record-event';
 import LocationDistance from './common/LocationDistance';
 
 const PharmacyResult = ({ provider, query }) => {
@@ -32,28 +31,6 @@ const PharmacyResult = ({ provider, query }) => {
         />
       </div>
       <p>Call to confirm services and hours</p>
-      <div
-        className={`usa-alert usa-alert-info background-color-only vads-u-padding--1  vads-u-font-weight--bold`}
-      >
-        <i
-          aria-hidden="true"
-          className={`fa fa-info-circle vads-u-margin-top--1 icon-base`}
-        />
-        <div className="usa-alert-body">
-          <a
-            href={
-              'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp'
-            }
-            target={'_/blank'}
-            onClick={() => {
-              // Record event
-              recordEvent({ event: 'cta-primary-button-click' });
-            }}
-          >
-            In-network urgent care benefit{' '}
-          </a>
-        </div>
-      </div>
     </div>
   );
 };

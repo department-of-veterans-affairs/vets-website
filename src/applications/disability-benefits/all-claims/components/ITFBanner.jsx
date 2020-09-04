@@ -55,13 +55,19 @@ export default class ITFBanner extends React.Component {
     }
 
     return (
-      <div className="usa-grid vads-u-margin-bottom--2">
-        {message}
-        {this.props.status !== 'error' && (
-          <button className="usa-button-primary" onClick={this.dismissMessage}>
-            Continue
-          </button>
-        )}
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--2">
+          <h1>{this.props.title}</h1>
+          {message}
+          {this.props.status !== 'error' && (
+            <button
+              className="usa-button-primary"
+              onClick={this.dismissMessage}
+            >
+              Continue
+            </button>
+          )}
+        </div>
       </div>
     );
   }
@@ -69,6 +75,7 @@ export default class ITFBanner extends React.Component {
 
 ITFBanner.propTypes = {
   status: PropTypes.oneOf(['error', 'itf-found', 'itf-created']).isRequired,
+  title: PropTypes.string,
   previousITF: PropTypes.object,
   currentExpDate: PropTypes.string,
   previousExpDate: PropTypes.string,

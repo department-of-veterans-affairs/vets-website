@@ -39,8 +39,10 @@ src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-public-websit
 
 # Facility Locator and VAMC pages
 src/applications/facility-locator @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
-src/applications/static-pages/facilities @department-of-veterans-affairs/vsa-facilities-frontend
-src/site/layouts @department-of-veterans-affairs/vsa-facilities-frontend
+src/applications/static-pages/facilities @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
+src/site/layouts @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
+src/platform/site-wide/sass/modules/_m-side-nav.scss @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
+src/platform/site-wide/side-nav @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 
 # Caregiver
 src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
@@ -61,6 +63,6 @@ src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-hea
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products
 
 # Other
-src/applications/ask-a-question @department-of-veterans-affairs/thoughtworks
+src/applications/ask-a-question @department-of-veterans-affairs/orchid
 src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos

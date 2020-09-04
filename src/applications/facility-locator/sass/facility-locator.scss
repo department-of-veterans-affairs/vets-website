@@ -88,17 +88,22 @@ $facility-locator-color-gray: #ccc;
   }
 
   .desktop-map-container {
-    min-height: 75vh;
-    padding-left: 0px;
+    min-height: 78vh;
+    padding-left: 0;
     float: right;
     width: calc(100% - 305px);
     margin-bottom: 24px;
   }
 
-  .search-result-title:focus {
-    @include focus-gold-light-outline(0);
-    outline-offset: 2px;
-    z-index: 3;
+  .search-result-title {
+    padding: 4px;
+    margin: 4px;
+
+    :focus {
+      @include focus-gold-light-outline(0);
+      outline-offset: 2px;
+      z-index: 3;
+    }
   }
 
   .facility-result {
@@ -217,6 +222,8 @@ $facility-locator-color-gray: #ccc;
     float: left;
     display: block;
     width: 305px;
+    max-height: 78vh;
+    overflow-y: auto;
   }
 
   .facility-search-results {
@@ -366,7 +373,8 @@ $facility-locator-color-gray: #ccc;
         margin-top: 0;
 
         @media(min-width: $small-desktop-screen) {
-          margin-top: 2.5rem;
+          margin-top: 27px;
+          min-width: 67px;
           width: auto;
         }
       }
@@ -588,7 +596,6 @@ $facility-locator-color-gray: #ccc;
 }
 
 #service-typeahead {
-  background: $color-white;
   border-radius: 0;
   box-sizing: border-box;
   cursor: pointer;
@@ -597,7 +604,7 @@ $facility-locator-color-gray: #ccc;
   font-size: 1.6rem;
   height: 4.2rem;
   line-height: 1.3;
-  margin: 0.2em 0;
+  margin: 0.2em 0 3rem;
   position: relative;
   width: 100%;
 
@@ -617,8 +624,13 @@ $facility-locator-color-gray: #ccc;
     overflow-y: auto;
     padding: 0;
     position: absolute;
+    top: 44px;
     width: 100%;
     z-index: 1010;
+
+    @media(min-width: $small-desktop-screen) {
+      width: 418px;
+    }
 
     .dropdown-option {
       border-bottom: solid 1px $color-black;

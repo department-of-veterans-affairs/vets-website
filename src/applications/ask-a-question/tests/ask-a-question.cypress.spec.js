@@ -14,25 +14,6 @@ const testConfig = createTestConfig(
     fixtures: {
       data: path.join(__dirname, 'data'),
     },
-    pageHooks: {
-      introduction: () => {
-        cy.findAllByText(/start.+without signing in/i)
-          .first()
-          .click();
-      },
-      topic: () => {
-        cy.fillPage();
-        cy.findAllByText(/continue/i)
-          .first()
-          .click();
-      },
-      'contact-information': () => {
-        cy.fillPage();
-        cy.findAllByText(/continue/i)
-          .first()
-          .click();
-      },
-    },
     skip: true,
   },
   manifest,
