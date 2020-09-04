@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 
-import { sessionStorageSetup } from 'platform/testing/utilities';
 import { SAVED_SEPARATION_DATE } from '../../all-claims/constants';
 import {
   makeSchemaForNewDisabilities,
@@ -995,11 +994,8 @@ describe('526 v2 depends functions', () => {
   });
 
   describe('isBDD', () => {
-    before(() => {
-      sessionStorageSetup();
-    });
     afterEach(() => {
-      sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+      global.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
     });
 
     it('should return true if the most recent service period has a separation date 90 to 180 days from today', () => {
@@ -1012,7 +1008,7 @@ describe('526 v2 depends functions', () => {
       expect(isBDD(null)).to.be.false;
     });
     it('should return true if a valid date is added to session storage from the wizard', () => {
-      sessionStorage.setItem(
+      global.sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
         moment()
           .add(90, 'days')
@@ -1021,7 +1017,7 @@ describe('526 v2 depends functions', () => {
       expect(isBDD(null)).to.be.true;
     });
     it('should return false for invalid dates in session storage from the wizard', () => {
-      sessionStorage.setItem(
+      global.sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
         moment()
           .add(200, 'days')

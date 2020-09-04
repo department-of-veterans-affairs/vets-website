@@ -6,14 +6,9 @@ import {
   WIZARD_STATUS_COMPLETE,
   getWizardStatus,
 } from 'applications/static-pages/wizard';
-import { sessionStorageSetup } from '../../utils';
 
 describe('the Edu-Benefit 1990E Introduction Page', () => {
   let defaultProps;
-
-  before(() => {
-    sessionStorageSetup();
-  });
 
   beforeEach(() => {
     defaultProps = {
@@ -30,10 +25,6 @@ describe('the Edu-Benefit 1990E Introduction Page', () => {
         },
       },
     };
-  });
-
-  afterEach(() => {
-    sessionStorage.clear();
   });
 
   it('should show the wizard on initial render if shouldEduBenefits1990EWizardShow is set to true', () => {
