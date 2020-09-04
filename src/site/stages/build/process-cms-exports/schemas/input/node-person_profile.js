@@ -27,6 +27,8 @@ module.exports = {
     moderation_state: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
     status: { $ref: 'GenericNestedBoolean' },
+    metatag: { $ref: 'RawMetaTags' },
+    field_complete_biography: { $ref: 'GenericNestedString' },
   },
   required: [
     'path',
@@ -44,5 +46,7 @@ module.exports = {
     'changed',
     'moderation_state',
     'status',
+    'metatag',
+    'field_complete_biography',
   ],
 };
