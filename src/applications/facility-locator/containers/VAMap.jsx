@@ -26,11 +26,11 @@ import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
 } from '../utils/selectors';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import vaDebounce from 'platform/utilities/data/debounce';
+import PaginationWrapper from '../components/PaginationWrapper';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -497,17 +497,16 @@ class VAMap extends Component {
               <div className="facility-search-results">
                 <ResultsList
                   updateUrlParams={this.updateUrlParams}
-                  query={this.props.currentQuery}
+                  query={currentQuery}
                 />
               </div>
-              {results &&
-                results.length > 0 && (
-                  <Pagination
-                    onPageSelect={this.handlePageSelect}
-                    page={currentPage}
-                    pages={totalPages}
-                  />
-                )}
+              <PaginationWrapper
+                handlePageSelect={this.handlePageSelect}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                results={results}
+                inProgress={currentQuery.inProgress}
+              />
             </TabPanel>
             <TabPanel>
               <Map
@@ -577,7 +576,6 @@ class VAMap extends Component {
         </div>
         <div
           className="columns search-results-container medium-4 small-12"
-          style={{ maxHeight: '78vh', overflowY: 'auto' }}
           id="searchResultsContainer"
         >
           <div className="facility-search-results">
@@ -594,7 +592,7 @@ class VAMap extends Component {
             zoomSnap={1}
             zoomDelta={1}
             zoom={parseInt(currentQuery.zoomLevel, 10)}
-            style={{ minHeight: '75vh', width: '100%' }}
+            style={{ minHeight: '78vh', width: '100%' }} // TODO - move this into CSS
             scrollWheelZoom={false}
             onMoveEnd={this.handleBoundsChanged}
           >
@@ -612,20 +610,31 @@ class VAMap extends Component {
               )}
           </Map>
         </div>
-        {currentPage &&
-          results &&
-          results.length > 0 && (
-            <Pagination
-              onPageSelect={this.handlePageSelect}
-              page={currentPage}
-              pages={totalPages}
-            />
-          )}
+        <PaginationWrapper
+          handlePageSelect={this.handlePageSelect}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          results={results}
+          inProgress={currentQuery.inProgress}
+        />
       </div>
     );
   };
 
+  otherToolsLink = () => (
+    <div id="other-tools">
+      Can’t find what you’re looking for?&nbsp;&nbsp;
+      {/* Add a line break for mobile, which uses white-space: pre-line */}
+      {'\n'}
+      <a href="https://www.va.gov/directory/guide/home.asp">
+        Try using our other tools to search.
+      </a>
+    </div>
+  );
+
   render() {
+    const results = this.props.results;
+
     const coronavirusUpdate = (
       <>
         Please call first to confirm services or ask about getting help by phone
@@ -639,25 +648,28 @@ class VAMap extends Component {
     );
 
     return (
-      <div>
-        <div className="title-section">
-          <h1>Find VA locations</h1>
-        </div>
+      <>
+        <div>
+          <div className="title-section">
+            <h1>Find VA locations</h1>
+          </div>
 
-        <div className="facility-introtext">
-          <p>
-            Find a VA location or in-network community care provider. For
-            same-day care for minor illnesses or injuries, select Urgent care
-            for facility type.
-          </p>
-          <p>
-            <strong>Coronavirus update:</strong> {coronavirusUpdate}
-          </p>
+          <div className="facility-introtext">
+            <p>
+              Find a VA location or in-network community care provider. For
+              same-day care for minor illnesses or injuries, select Urgent care
+              for facility type.
+            </p>
+            <p>
+              <strong>Coronavirus update:</strong> {coronavirusUpdate}
+            </p>
+          </div>
+          {this.state.isMobile
+            ? this.renderMobileView()
+            : this.renderDesktopView()}
         </div>
-        {this.state.isMobile
-          ? this.renderMobileView()
-          : this.renderDesktopView()}
-      </div>
+        {results && results.length > 0 && this.otherToolsLink()}
+      </>
     );
   }
 }

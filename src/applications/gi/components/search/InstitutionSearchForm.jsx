@@ -64,15 +64,15 @@ function InstitutionSearchForm(props) {
             showModal={props.showModal}
             showHeader
             handleInputFocus={handleInstitutionSearchInputFocus}
+            gibctBenefitFilterEnhancement={props.gibctBenefitFilterEnhancement}
             gibctFilterEnhancement={props.gibctFilterEnhancement}
-            gibctCh33BenefitRateUpdate={props.gibctCh33BenefitRateUpdate}
           />
           <OnlineClassesFilter
             onlineClasses={props.eligibility.onlineClasses}
             onChange={props.eligibilityChange}
             showModal={props.showModal}
             handleInputFocus={handleInstitutionSearchInputFocus}
-            gibctFilterEnhancement={props.gibctFilterEnhancement}
+            gibctBenefitFilterEnhancement={props.gibctBenefitFilterEnhancement}
           />
         </div>
         <div id="see-results-button" className="results-button">
