@@ -28,21 +28,11 @@ describe('Facilities VAMC SideNav', () => {
         .click();
     }
 
-    // Start tab access level one
+    // Start tab access
     cy.get('.va-sidenav-item-label')
       .first()
       .focus();
 
     cy.tabFocus('.va-sidenav-level-2 a');
-
-    // Start tab access level 2
-    cy.findByText(/Locations/i, { selector: 'a' })
-      .first()
-      .click();
-    cy.get('.va-sidenav-item-label')
-      .first()
-      .focus();
-
-    cy.tabFocus('.va-sidenav-level-3 a');
   });
 });
