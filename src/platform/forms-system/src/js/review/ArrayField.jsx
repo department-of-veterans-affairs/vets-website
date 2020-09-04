@@ -3,7 +3,10 @@ import React from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import Scroll from 'react-scroll';
 
-import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import {
+  getDefaultFormState,
+  toIdSchema,
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import SchemaForm from '../components/SchemaForm';
 import { focusElement } from '../utilities/ui';
@@ -222,6 +225,13 @@ class ArrayField extends React.Component {
             const itemSchema = this.getItemSchema(index);
             const itemTitle = itemSchema ? itemSchema.title : '';
 
+            const idSchema = toIdSchema(
+              itemSchema,
+              itemSchema.$id,
+              this.props.schema.definitions,
+              index,
+            );
+
             if (isEditing) {
               return (
                 <div key={index} className="va-growable-background">
@@ -246,6 +256,7 @@ class ArrayField extends React.Component {
                         appStateData={this.props.appStateData}
                         schema={itemSchema}
                         uiSchema={uiSchema.items}
+                        idSchema={idSchema}
                         trackingPrefix={this.props.trackingPrefix}
                         title={pageTitle}
                         hideTitle
@@ -287,6 +298,7 @@ class ArrayField extends React.Component {
                     appStateData={this.props.appStateData}
                     schema={itemSchema}
                     uiSchema={uiSchema.items}
+                    idSchema={idSchema}
                     trackingPrefix={this.props.trackingPrefix}
                     title={itemTitle}
                     name={fieldName}
