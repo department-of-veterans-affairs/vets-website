@@ -444,7 +444,7 @@ export class EducationWizard extends React.Component {
                       </li>
                       <li>
                         <b>STEM degree:</b>
-                        <ul className="circle-bullet ul-styling li-styling2">
+                        <ul className="circle-bullet ul-styling vads-u-margin-bottom--neg1">
                           <li className="li-styling">
                             You're enrolled in a bachelor’s degree program for
                             science, technology, engineering, or math (STEM),{' '}
