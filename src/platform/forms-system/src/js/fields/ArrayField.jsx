@@ -236,6 +236,9 @@ export default class ArrayField extends React.Component {
       'schemaform-block': hasTitleOrDescription,
     });
 
+    const addAnotherText =
+      uiOptions.addAnotherLabel || `Add Another ${uiOptions.itemName}`;
+
     return (
       <div className={containerClassNames}>
         {hasTitleOrDescription && (
@@ -372,7 +375,7 @@ export default class ArrayField extends React.Component {
             disabled={!this.props.formData || addAnotherDisabled}
             onClick={this.handleAdd}
           >
-            Add another {uiOptions.itemNameLowerCase || uiOptions.itemName}
+            {addAnotherText}
           </button>
           <p>
             {addAnotherDisabled &&

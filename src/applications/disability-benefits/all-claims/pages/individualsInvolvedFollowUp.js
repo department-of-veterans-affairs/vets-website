@@ -21,7 +21,7 @@ export const uiSchema = index => ({
       'ui:options': {
         viewField: IndividualsInvolvedCard,
         itemName: 'Person',
-        itemNameLowerCase: 'person',
+        addAnotherLabel: 'Add another person',
         title: 'New Person',
         reviewTitle: 'Persons Involved',
       },

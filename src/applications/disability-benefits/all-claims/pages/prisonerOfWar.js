@@ -29,7 +29,7 @@ export const uiSchema = {
         viewField: PeriodOfConfinement,
         reviewTitle: 'Periods of confinement',
         itemName: 'Period',
-        itemNameLowerCase: 'period',
+        addAnotherLabel: 'Add another period',
       },
       items: confinementUI,
     },

@@ -27,7 +27,7 @@ export const uiSchema = {
   vaTreatmentFacilities: {
     'ui:options': {
       itemName: 'Facility',
-      itemNameLowerCase: 'facility',
+      addAnotherLabel: 'Add another facility',
       viewField: treatmentView,
     },
     items: {

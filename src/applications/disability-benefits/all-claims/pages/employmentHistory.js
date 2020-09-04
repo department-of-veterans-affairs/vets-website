@@ -19,7 +19,7 @@ export const uiSchema = {
     previousEmployers: {
       'ui:options': {
         itemName: 'Employer',
-        itemNameLowerCase: 'employer',
+        addAnotherLabel: 'Add another employer',
         viewField: EmploymentHistoryCard,
         hideTitle: true,
       },

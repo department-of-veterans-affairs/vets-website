@@ -321,6 +321,8 @@ export default class ArrayField extends React.Component {
     });
 
     const isOnlyItem = items.length < 2;
+    const addAnotherText =
+      uiOptions.addAnotherLabel || `Add Another ${uiOptions.itemName}`;
 
     return (
       <div className={containerClassNames}>
@@ -465,7 +467,7 @@ export default class ArrayField extends React.Component {
             disabled={!this.props.formData}
             onClick={this.handleAdd}
           >
-            Add another {uiOptions.itemNameLowerCase || uiOptions.itemName}
+            {addAnotherText}
           </button>
         </div>
       </div>

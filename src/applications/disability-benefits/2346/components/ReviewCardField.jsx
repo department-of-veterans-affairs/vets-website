@@ -309,7 +309,6 @@ class ReviewCardField extends React.Component {
       reviewTitle,
       itemName,
       itemNameAction,
-      itemNameLowerCase,
     } = this.props.uiSchema['ui:options'];
     const title = reviewTitle || this.getTitle();
 
@@ -446,7 +445,7 @@ class ReviewCardField extends React.Component {
             style={{ minWidth: '8rem' }}
             onClick={() => this.startEditing(this.props.name)}
           >
-            {itemNameAction || 'New'} {itemNameLowerCase || itemName || title}
+            {itemNameAction || 'New'} {itemName || title}
           </button>
         )}
       </div>

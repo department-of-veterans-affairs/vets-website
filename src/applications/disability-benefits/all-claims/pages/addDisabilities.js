@@ -33,7 +33,7 @@ export const uiSchema = {
       viewField: NewDisability,
       reviewTitle: 'New Disabilities',
       itemName: 'Disability',
-      itemNameLowerCase: 'disability',
+      addAnotherLabel: 'Add another disability',
     },
     // Ideally, this would show the validation on the array itself (or the name
     // field in an array item), but that's not working.

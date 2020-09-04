@@ -19,7 +19,7 @@ export const uiSchema = {
       reviewTitle: 'Other names',
       expandUnder: 'view:hasAlternateName',
       itemName: 'Name',
-      itemNameLowerCase: 'name',
+      addAnotherLabel: 'Add another name',
     },
     items: {
       first: {
