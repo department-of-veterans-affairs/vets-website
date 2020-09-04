@@ -12,14 +12,19 @@ import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 
-// import sinon from 'sinon'
-
 global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 global.__API__ = null;
 global.__MEGAMENU_CONFIG__ = null;
 
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
+
+function copyProps(src, target) {
+  Object.defineProperties(target, {
+    ...Object.getOwnPropertyDescriptors(src),
+    ...Object.getOwnPropertyDescriptors(target),
+  });
+}
 
 function filterStackTrace(trace) {
   return trace
@@ -61,51 +66,42 @@ export default function setupJSDom() {
     url: 'http://localhost',
   });
 
-  // get the window object out of the document
-  const win = dom.window;
+  const { window } = dom;
 
   global.dom = dom;
-  global.document = win.document;
+  global.window = window;
+  global.document = window.document;
   global.navigator = { userAgent: 'node.js' };
 
-  win.VetsGov = {
-    scroll: {
-      duration: 0,
-      delay: 0,
-      smooth: false,
-    },
+  global.requestAnimationFrame = function(callback) {
+    return setTimeout(callback, 0);
   };
 
-  win.Forms = {
-    scroll: {
-      duration: 0,
-      delay: 0,
-      smooth: false,
-    },
+  global.cancelAnimationFrame = function(id) {
+    clearTimeout(id);
   };
 
-  win.scrollTo = () => {};
-  win.requestAnimationFrame = func => func();
-  win.matchMedia = () => ({
-    matches: false,
-  });
-
-  function copyProps(src, target) {
-    const props = Object.getOwnPropertyNames(src)
-      .filter(prop => typeof target[prop] === 'undefined')
-      .reduce(
-        (result, prop) => ({
-          ...result,
-          [prop]: Object.getOwnPropertyDescriptor(src, prop),
-        }),
-        {},
-      );
-    Object.defineProperties(target, props);
-  }
-
-  copyProps(win, global);
   global.Blob = window.Blob;
   window.dataLayer = [];
+  window.matchMedia = () => ({ matches: false });
+
+  window.VetsGov = {
+    scroll: {
+      duration: 0,
+      delay: 0,
+      smooth: false,
+    },
+  };
+
+  window.Forms = {
+    scroll: {
+      duration: 0,
+      delay: 0,
+      smooth: false,
+    },
+  };
+
+  copyProps(window, global);
 
   Object.defineProperty(global, 'window', {
     value: global.window,
@@ -114,8 +110,22 @@ export default function setupJSDom() {
     writable: true,
   });
 
+  Object.defineProperty(global, 'sessionStorage', {
+    value: window.sessionStorage,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+
+  Object.defineProperty(global, 'localStorage', {
+    value: window.localStorage,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+
   Object.defineProperty(window, 'location', {
-    value: global.window.location,
+    value: window.location,
     configurable: true,
     enumerable: true,
     writable: true,
