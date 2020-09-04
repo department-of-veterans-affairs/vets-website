@@ -1,3 +1,15 @@
+Cypress.Commands.add('tabFocus', el => {
+  do {
+    cy.tab();
+    cy.focused().should('have.attr', 'aria-label');
+  } while (
+    !cy
+      .get(el)
+      .last()
+      .focus()
+  );
+});
+
 describe('Facilities VAMC SideNav', () => {
   before(function() {
     if (Cypress.env('CIRCLECI')) this.skip();
@@ -9,25 +21,19 @@ describe('Facilities VAMC SideNav', () => {
     cy.axeCheck();
 
     // Accept initial modal and start atop
-    cy.findByText(/Continue to the website/i)
-      .first()
-      .click();
-    cy.scrollTo(0, 0);
+    if (Cypress.$('body').find('#modal-announcement')) {
+      cy.get('#modal-announcement')
+        .get('.va-modal-close')
+        .first()
+        .click();
+    }
 
     // Start tab access level one
     cy.get('.va-sidenav-item-label')
       .first()
       .focus();
 
-    do {
-      cy.tab();
-      cy.focused().should('have.attr', 'aria-label');
-    } while (
-      !cy
-        .get('.va-sidenav-level-2 a')
-        .last()
-        .focus()
-    );
+    cy.tabFocus('.va-sidenav-level-2 a');
 
     // Start tab access level 2
     cy.findByText(/Locations/i, { selector: 'a' })
@@ -37,14 +43,6 @@ describe('Facilities VAMC SideNav', () => {
       .first()
       .focus();
 
-    do {
-      cy.tab();
-      cy.focused().should('have.attr', 'aria-label');
-    } while (
-      !cy
-        .get('.va-sidenav-level-3 a')
-        .last()
-        .focus()
-    );
+    cy.tabFocus('.va-sidenav-level-3 a');
   });
 });
