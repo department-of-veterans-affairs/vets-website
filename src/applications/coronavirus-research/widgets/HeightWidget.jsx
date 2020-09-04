@@ -79,6 +79,7 @@ export default class HeightWidget extends React.Component {
           <div className="vads-l-col--2">
             <input
               type="number"
+              min="0"
               name={`${id}Feet`}
               id={`${id}Feet`}
               value={feet}
