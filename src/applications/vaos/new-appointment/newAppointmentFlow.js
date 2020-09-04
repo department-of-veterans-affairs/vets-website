@@ -37,10 +37,6 @@ function isCCFacility(state) {
   return getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE;
 }
 
-function isCCEligible(state) {
-  return getNewAppointment(state).isCCEligible;
-}
-
 function isSleepCare(state) {
   return getFormData(state).typeOfCareId === SLEEP_CARE;
 }
@@ -106,14 +102,6 @@ export default {
 
       return 'vaFacility';
     },
-    previous(state) {
-      //  check for eye care flow
-      if (isEyeCare(state)) {
-        return 'typeOfEyeCare';
-      }
-
-      return 'typeOfCare';
-    },
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
@@ -165,24 +153,6 @@ export default {
 
       throw new Error('Veteran not eligible for direct scheduling or requests');
     },
-    previous(state) {
-      let nextState = 'typeOfCare';
-      const communityCareEnabled = vaosCommunityCare(state);
-
-      if (isSleepCare(state)) {
-        nextState = 'typeOfSleepCare';
-      } else if (
-        communityCareEnabled &&
-        isCCEligible(state) &&
-        getTypeOfCare(getFormData(state))?.ccId !== undefined
-      ) {
-        nextState = 'typeOfFacility';
-      } else if (isEyeCare(state)) {
-        nextState = 'typeOfEyeCare';
-      }
-
-      return nextState;
-    },
   },
   clinicChoice: {
     url: '/new-appointment/clinics',
@@ -213,20 +183,6 @@ export default {
 
       return 'reasonForAppointment';
     },
-    previous(state) {
-      if (isPodiatry(state)) {
-        return 'typeOfCare';
-      }
-
-      if (isCCFacility(state)) {
-        if (isCCAudiology(state)) {
-          return 'audiologyCareType';
-        }
-        return 'typeOfFacility';
-      }
-
-      return 'vaFacility';
-    },
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
@@ -240,17 +196,6 @@ export default {
 
       return 'visitType';
     },
-    previous(state) {
-      if (isCCFacility(state)) {
-        return 'ccPreferences';
-      }
-
-      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
-        return 'selectDateTime';
-      }
-
-      return 'requestDateTime';
-    },
   },
   visitType: {
     url: '/new-appointment/choose-visit-type',
@@ -263,16 +208,6 @@ export default {
   contactInfo: {
     url: '/new-appointment/contact-info',
     next: 'review',
-    previous(state) {
-      if (
-        isCCFacility(state) ||
-        getNewAppointment(state).flowType === FLOW_TYPES.DIRECT
-      ) {
-        return 'reasonForAppointment';
-      }
-
-      return 'visitType';
-    },
   },
   review: {
     url: '/new-appointment/review',
