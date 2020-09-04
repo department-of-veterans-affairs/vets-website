@@ -127,14 +127,14 @@ const validArrayProperty = (
 };
 
 const validFormConfigKeys = formConfig => {
-  Object.keys(formConfig).forEach(key =>
-    expect(formConfigKeys).to.include(
-      key,
-      `${
-        formConfig.formId
-      } has an unknown property "${key}". Please check that property name is correct or add a test to src/platform/forms/tests/forms.unit.spec.js for this property.`,
-    ),
-  );
+  Object.keys(formConfig).forEach(key => {
+    const warning =
+      `${formConfig.formId} has an unknown property "${key}". ` +
+      '\nPlease check that property name is correct.' +
+      '\nIf this is a new property please update https://github.com/department-of-veterans-affairs/veteran-facing-services-tools/blob/master/packages/documentation/src/pages/forms/config-options.mdx' +
+      ' add a test to src/platform/forms/tests/forms.unit.spec.js for this property.\n';
+    expect(formConfigKeys).to.include(key, warning);
+  });
 };
 
 const validFormId = formConfig => {
