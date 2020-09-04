@@ -38,10 +38,6 @@ const DownLoadLink = ({ form }) => {
       .catch(error => {
         Sentry.withScope(scope => {
           scope.setExtra('error', error);
-          scope.setFingerprint(['{{default}}', scope._tags?.source]);
-          Sentry.captureMessage(
-            `caregivers-10-10cg-pdf--failure: ${error.message}`,
-          );
         });
         recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
       });
