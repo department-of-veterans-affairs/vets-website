@@ -30,13 +30,23 @@ const form = createTestConfig(
     },
     pageHooks: {
       introduction: ({ afterHook }) => {
+        cy.findByText(/Find the right application form/i, {
+          selector: 'button',
+        })
+          .first()
+          .click();
+        cy.get('#NewBenefit-0').check();
+        cy.get('#ClaimingBenefitOwnService-0').check();
+        cy.get('#NationalCallToService-1').click();
+        cy.get('#VetTec-0').click();
+
         afterHook(() => {
-          cy.get('#NewBenefit-0').check();
-          cy.get('#ClaimingBenefitOwnService-0').check();
-          cy.get('#NationalCallToService-1').click();
-          cy.get('#VetTec-0').click();
           cy.get('#apply-now-link').click();
-          cy.get('#1-continueButton').click();
+          cy.findByText(/Start the VET TEC application/i, {
+            selector: 'button',
+          })
+            .first()
+            .click();
         });
       },
     },
