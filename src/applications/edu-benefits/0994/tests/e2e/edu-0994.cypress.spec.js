@@ -6,8 +6,6 @@ import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 
-Cypress.config('waitForAnimations', true);
-
 const form = createTestConfig(
   {
     dataPrefix: 'data',
@@ -39,9 +37,9 @@ const form = createTestConfig(
         cy.get('#ClaimingBenefitOwnService-0').check();
         cy.get('#NationalCallToService-1').click();
         cy.get('#VetTec-0').click();
+        cy.get('#apply-now-link').click();
 
         afterHook(() => {
-          cy.get('#apply-now-link').click();
           cy.findByText(/Start the VET TEC application/i, {
             selector: 'button',
           })
