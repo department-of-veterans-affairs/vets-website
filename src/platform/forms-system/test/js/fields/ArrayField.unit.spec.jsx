@@ -141,7 +141,7 @@ describe('Schemaform <ArrayField>', () => {
     // no remove button
     expect(button.length).to.equal(2);
     expect(button[0].text()).to.equal('Save');
-    expect(button[1].text()).to.contain('Add another');
+    expect(button[1].text()).to.contain('Add Another');
   });
   it('should render save button with showSave option', () => {
     const idSchema = {
@@ -164,6 +164,7 @@ describe('Schemaform <ArrayField>', () => {
       'ui:options': {
         viewField: f => f,
         showSave: true,
+        addAnotherLabel: 'Add another',
       },
     };
     const formData = [{}, {}];

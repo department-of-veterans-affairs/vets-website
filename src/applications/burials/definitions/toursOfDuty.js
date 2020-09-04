@@ -5,7 +5,6 @@ export default {
   'ui:title': 'Service periods',
   'ui:options': {
     itemName: 'Service Period',
-    addAnotherLabel: 'Add another service period',
     viewField: ServicePeriodView,
     hideTitle: true,
   },

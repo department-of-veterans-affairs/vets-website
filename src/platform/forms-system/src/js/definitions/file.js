@@ -24,7 +24,7 @@ export default function fileUiSchema(label, userOptions = {}) {
           size: fileInfo.data.attributes.size,
           confirmationCode: fileInfo.data.attributes.confirmationCode,
         }),
-        addAnotherLabel: 'Add another',
+        addAnotherLabel: 'Add Another',
         showFieldLabel: true,
         keepInPageOnReview: true,
         classNames: 'schemaform-file-upload',
