@@ -22,16 +22,6 @@
   position: relative;
 }
 
-.edu-review-hr {
-  border: none;
-  height: 1px;
-  margin-right: -6px;
-  margin-top: 1.5em;
-  /* Set the hr color */
-  color: #a4a7ac; /* old IE */
-  background-color: #a4a7ac; /* Modern Browsers */
-}
-
 .edu-benefits-alert {
   margin-bottom: 23px;
 }
@@ -153,11 +143,11 @@
   text-indent: -9999em;
   width: 1em;
 }
-.program-details{
+.program-details {
   margin-top: 2em;
 }
 
-.wizard-button[aria-expanded=true]:after {
+.wizard-button[aria-expanded="true"]:after {
   background-image: url(/img/arrow-up-white.svg);
 }
 
@@ -172,9 +162,9 @@
   }
 }
 
-div[data-chapter="benefitSelection"]{
+div[data-chapter="benefitSelection"] {
   .form-review-panel-page {
-    margin-bottom:0px;
+    margin-bottom: 0px;
   }
 }
 
@@ -184,7 +174,7 @@ div[data-chapter="programDetails"] {
   }
 }
 
-div[data-chapter="personalInformation"]{
+div[data-chapter="personalInformation"] {
   .form-review-panel-page {
     margin-bottom: 0px;
   }
