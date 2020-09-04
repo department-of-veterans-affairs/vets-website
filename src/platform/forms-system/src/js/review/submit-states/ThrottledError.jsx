@@ -10,12 +10,12 @@ import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function ThrottledError(props) {
-  const { appType, when, formConfig, onBack, onSubmit } = props;
+  const { appType, when, formConfig, onBack, onSubmit, testId } = props;
 
   return (
     <>
       <Row>
-        <Column role="alert">
+        <Column role="alert" testId={testId}>
           <ErrorMessage
             active
             title="We’ve run into a problem"

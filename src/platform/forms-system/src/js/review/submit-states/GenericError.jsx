@@ -5,7 +5,7 @@ import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function GenericError(props) {
-  const { appType, formConfig, renderErrorMessage, onSubmit } = props;
+  const { appType, formConfig, renderErrorMessage, onSubmit, testId } = props;
   let submitButton;
   let submitMessage;
 
@@ -33,7 +33,7 @@ export default function GenericError(props) {
   return (
     <>
       <Row>
-        <Column classNames="small-12 medium-12" role="alert">
+        <Column classNames="small-12 medium-12" role="alert" testId={testId}>
           {submitMessage}
         </Column>
       </Row>

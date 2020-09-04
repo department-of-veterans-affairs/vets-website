@@ -7,12 +7,12 @@ import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function ClientError(props) {
-  const { appType, formConfig, onBack, onSubmit } = props;
+  const { appType, formConfig, onBack, onSubmit, testId } = props;
 
   return (
     <>
       <Row>
-        <Column role="alert">
+        <Column role="alert" testId={testId}>
           <ErrorMessage
             active
             title="We’re sorry, there was an error connecting to VA.gov."
