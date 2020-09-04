@@ -5,17 +5,13 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import HeightWidget from '../widgets/HeightWidget';
 import WeightWidget from '../widgets/WeightWidget';
 
-import {
-  validateMatch,
-  validateBooleanGroup,
-} from 'platform/forms-system/src/js/validation';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 export const uiSchema = {
-  'ui:validations': [validateMatch('email', 'view:confirmEmail')],
   descriptionText: {
     'view:descriptionText': {
       'ui:description': (
@@ -310,7 +306,6 @@ export const uiSchema = {
     'ui:order': ['first', 'middle', 'last', 'suffix'],
   }),
   email: emailUI(),
-  'view:confirmEmail': emailUI('Re-enter email address'),
   phone: {
     ...phoneUI(),
     'ui:options': {

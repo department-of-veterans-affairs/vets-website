@@ -168,7 +168,6 @@ const formConfig = {
               },
               veteranFullName: fullName,
               email,
-              'view:confirmEmail': email,
               phone: usaPhone,
               zipCode: usaPostalCode,
               veteranDateOfBirth: date,
