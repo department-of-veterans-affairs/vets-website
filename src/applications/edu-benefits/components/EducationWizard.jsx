@@ -472,8 +472,17 @@ export class EducationWizard extends React.Component {
                         <b>Remaining entitlement:</b> You've used all of your
                         education benefits or are within 6 months of using all
                         your benefits when you submit your application.{' '}
-                        <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/">
-                          Check your remaining benefits
+                        <a
+                          className="checkBenefitsLink"
+                          href="../gi-bill/post-9-11/ch-33-benefit/"
+                          onClick={() =>
+                            recordEvent({
+                              event: 'edu-navigation',
+                              'edu-action': 'check-remaining-benefits',
+                            })
+                          }
+                        >
+                          Check remaining benefits
                         </a>
                       </li>
                     </ul>
