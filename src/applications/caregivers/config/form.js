@@ -6,6 +6,8 @@ import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
 import SubmitError from 'applications/caregivers/components/SubmitError';
 import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
 import {
   submitTransform,
   hasSecondaryCaregiverOne,
@@ -58,7 +60,7 @@ const formConfig = {
   preSubmitInfo: PreSubmitInfo,
   confirmation: ConfirmationPage,
   submissionError: SubmitError,
-  formId: '10-10CG',
+  formId: VA_FORM_IDS.FORM_10_10CG,
   version: 0,
   prefillEnabled: false,
   title:
