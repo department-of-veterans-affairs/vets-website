@@ -29,10 +29,6 @@ describe('<IntroductionPage/>', () => {
     },
   };
 
-  afterEach(() => {
-    sessionStorage.removeItem(SAVED_SEPARATION_DATE);
-  });
-
   const originalClaimsProps = allow => ({
     ...defaultProps,
     testOriginalClaim: allow,
