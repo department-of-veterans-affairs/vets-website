@@ -167,7 +167,7 @@
     "cypress-axe": "^0.8.1",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
-    "decompress": "^4.2.0",
+    "decompress": "^4.2.1",
     "enhanced-resolve": "^0.7.6",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
@@ -331,7 +331,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#b0babb0b91ac2f84eccfc14bbea1d2d0b03af8d1",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ec2d8b3d8bb10b9a37c425c350cfeb694ea0d7af",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
@@ -339,6 +339,8 @@
     "**/js-yaml": "^3.13.1",
     "**/jpeg-js": "^0.4.0",
     "**/dot-prop": "^5.1.1",
-    "cypress": "^4.8.0"
+    "cypress": "^4.8.0",
+    "tar-fs/tar-stream/bl": "^4.0.3",
+    "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }
 }

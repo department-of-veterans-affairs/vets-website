@@ -137,6 +137,12 @@
       "firstName": "John",
       "lastName": "Doe",
       "type": "CHILD",
+      "ssn": "123121234",
+      "birthDate": {
+        "month": "1",
+        "day": "2",
+        "year": "2008"
+      },
       "childTypes": {
         "under18": true,
         "stepchild": true
@@ -154,6 +160,12 @@
     "marriedChild": {
       "firstName": "James",
       "lastName": "Doe",
+      "ssn": "123121234",
+      "birthDate": {
+        "month": "1",
+        "day": "2",
+        "year": "2008"
+      },
       "date": {
         "month": "3",
         "day": "3",
@@ -163,6 +175,12 @@
     "childStoppedAttending": {
       "firstName": "James",
       "lastName": "Doe",
+      "ssn": "123121234",
+      "birthDate": {
+        "month": "1",
+        "day": "2",
+        "year": "2008"
+      },
       "date": {
         "month": "3",
         "day": "3",
@@ -172,6 +190,12 @@
     "stepchild": {
       "firstName": "James",
       "lastName": "Doe",
+      "ssn": "123121234",
+      "birthDate": {
+        "month": "1",
+        "day": "2",
+        "year": "2008"
+      },
       "supporting": "Y",
       "supportingValue": "Half",
       "personChildLivesWith": {

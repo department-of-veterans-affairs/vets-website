@@ -1,4 +1,9 @@
-const { getDrupalValue, isPublished, utcToEpochTime } = require('./helpers');
+const {
+  getDrupalValue,
+  isPublished,
+  utcToEpochTime,
+  createMetaTagArray,
+} = require('./helpers');
 
 const transform = (entity, { ancestors }) => ({
   entityType: 'node',
@@ -6,6 +11,7 @@ const transform = (entity, { ancestors }) => ({
   title: `${getDrupalValue(entity.fieldNameFirst)} ${getDrupalValue(
     entity.fieldLastName,
   )}`,
+  entityMetatags: createMetaTagArray(entity.metatag.value),
   entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldBody: getDrupalValue(entity.fieldBody),
   fieldDescription: getDrupalValue(entity.fieldDescription),
@@ -38,6 +44,7 @@ const transform = (entity, { ancestors }) => ({
   ),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   status: getDrupalValue(entity.status),
+  fieldCompleteBiography: getDrupalValue(entity.fieldCompleteBiography),
 });
 module.exports = {
   filter: [
@@ -56,6 +63,8 @@ module.exports = {
     'changed',
     'moderation_state',
     'status',
+    'metatag',
+    'field_complete_biography',
   ],
   transform,
 };
