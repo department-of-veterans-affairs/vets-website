@@ -157,7 +157,7 @@ export function routeToPageInFlow(flow, history, current, action) {
         nextPage = flow[nextStateKey];
       }
     } else {
-      const state = await getState();
+      const state = getState();
       const previousPage =
         state.expressCare.newRequest.previousPages[
           state.expressCare.newRequest.previousPages.length - 1

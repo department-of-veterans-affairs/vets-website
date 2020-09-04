@@ -209,7 +209,7 @@ export default function formReducer(state = initialState, action) {
         previousPages:
           action.direction === 'next'
             ? state.previousPages.concat([action.pageKey])
-            : state.previousPages.pop() && state.previousPages,
+            : state.previousPages.slice(0, -1),
       };
     }
     case FORM_TYPE_OF_CARE_PAGE_OPENED: {

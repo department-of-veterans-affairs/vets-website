@@ -113,8 +113,7 @@ export default function expressCareReducer(state = initialState, action) {
           previousPages:
             action.direction === 'next'
               ? state.newRequest.previousPages.concat([action.pageKey])
-              : state.newRequest.previousPages.pop() &&
-                state.newRequest.previousPages,
+              : state.newRequest.previousPages.slice(0, -1),
         },
       };
     }
