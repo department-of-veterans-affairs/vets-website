@@ -64,6 +64,7 @@ function InstitutionSearchForm(props) {
             showModal={props.showModal}
             showHeader
             handleInputFocus={handleInstitutionSearchInputFocus}
+            gibctBenefitFilterEnhancement={props.gibctBenefitFilterEnhancement}
             gibctFilterEnhancement={props.gibctFilterEnhancement}
           />
           <OnlineClassesFilter
@@ -71,7 +72,7 @@ function InstitutionSearchForm(props) {
             onChange={props.eligibilityChange}
             showModal={props.showModal}
             handleInputFocus={handleInstitutionSearchInputFocus}
-            gibctFilterEnhancement={props.gibctFilterEnhancement}
+            gibctBenefitFilterEnhancement={props.gibctBenefitFilterEnhancement}
           />
         </div>
         <div id="see-results-button" className="results-button">
