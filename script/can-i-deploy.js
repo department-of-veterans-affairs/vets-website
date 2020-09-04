@@ -1,5 +1,11 @@
 /* eslint-disable no-console */
 
+/**
+ * Checks if the generated pacts have been successfully verified by provider(s)
+ * in master. Retries if status is unknown while verification is running.
+ * Only meant to run in CI.
+ */
+
 const { execSync } = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
