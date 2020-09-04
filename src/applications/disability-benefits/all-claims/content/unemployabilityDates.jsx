@@ -21,7 +21,7 @@ export const dateDescription = (
 );
 
 export const dateFieldsDescription = (
-  <div className="additional-info-title-help">
+  <div className="additional-info-title-help vads-u-margin-top--4">
     <AdditionalInfo
       triggerText="How are these dates different?"
       onClick={helpClicked}

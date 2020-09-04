@@ -1,5 +1,6 @@
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { validateName, reportDivorce } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
@@ -37,6 +38,16 @@ export const uiSchema = {
         },
       },
     },
+    ssn: {
+      ...ssnUI,
+      'ui:title': 'Former spouse’s Social Security number',
+      'ui:required': formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+    },
+    birthDate: merge(currentOrPastDateUI('Former spouse’s date of birth'), {
+      'ui:required': formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+    }),
     date: merge(currentOrPastDateUI('Date of divorce'), {
       'ui:required': formData =>
         isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),

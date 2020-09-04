@@ -38,7 +38,7 @@ export default function ScheduleNewAppointment({
             showDirectScheduling && (
               <p className="vads-u-margin-top--1">
                 Schedule an appointment at a VA medical center, clinic, or
-                Community Care facility.
+                community care facility.
               </p>
             )}
           {!showCommunityCare &&

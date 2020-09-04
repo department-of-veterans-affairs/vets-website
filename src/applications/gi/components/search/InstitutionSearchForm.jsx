@@ -64,8 +64,8 @@ function InstitutionSearchForm(props) {
             showModal={props.showModal}
             showHeader
             handleInputFocus={handleInstitutionSearchInputFocus}
-            gibctCh33BenefitRateUpdate={props.gibctCh33BenefitRateUpdate}
             gibctBenefitFilterEnhancement={props.gibctBenefitFilterEnhancement}
+            gibctFilterEnhancement={props.gibctFilterEnhancement}
           />
           <OnlineClassesFilter
             onlineClasses={props.eligibility.onlineClasses}
