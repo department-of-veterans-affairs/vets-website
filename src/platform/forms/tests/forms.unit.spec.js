@@ -182,15 +182,16 @@ const validDowntime = ({ downtime }) => {
     validBooleanProperty(downtime, 'requireForPrefill', false);
     validFunctionProperty(downtime, 'message', false);
     const { dependencies } = downtime;
-    validArrayProperty(downtime, 'dependencies');
-    expect(dependencies).to.be.an(
-      'array',
+    validArrayProperty(
+      downtime,
+      'dependencies',
+      true,
       'downtime.dependencies is not an array',
     );
     dependencies.forEach(dependency => {
       expect(Object.values(externalServices)).to.include(
         dependency,
-        `${dependency} is not a valid dependency. Please see platform/monitoring/DowntimeNotification`,
+        `${dependency} is not a valid dependency. Please see platform/monitoring/DowntimeNotification for a list of dependencies`,
       );
     });
   }
