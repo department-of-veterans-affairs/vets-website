@@ -6,7 +6,6 @@ import deconstructPath from '../data/deconstructPath';
 import checkValidPath from '../data/checkValidPath';
 import removeDeeplyEmptyObjects from '../data/removeDeeplyEmptyObjects';
 import deduplicate from '../data/deduplicate';
-import { numerateKeys } from '../data/numerateKeys';
 
 // Could split these out into separate files...
 describe('data utils', () => {
@@ -512,15 +511,6 @@ describe('data utils', () => {
       const uniques = deduplicate([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]);
       expect(uniques).to.have.members([1, 2, 3, 4, 5]);
       expect(uniques.length).to.equal(5);
-    });
-  });
-
-  describe('numerateKeys', () => {
-    it('should add an integer to the end of each key in an object', () => {
-      const obj = { foo: 'bar', firstName: 'John' };
-      const numeratedObj = { foo2: 'bar', firstName2: 'John' };
-
-      expect(numerateKeys(obj, 2)).to.eql(numeratedObj);
     });
   });
 });

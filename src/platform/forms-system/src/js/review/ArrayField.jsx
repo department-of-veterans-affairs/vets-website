@@ -8,8 +8,6 @@ import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsons
 import SchemaForm from '../components/SchemaForm';
 import { focusElement } from '../utilities/ui';
 
-// import { getNumeratedItemSchema } from '../helpers';
-
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
