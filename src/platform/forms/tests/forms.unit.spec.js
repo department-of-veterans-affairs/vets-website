@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import schemas from 'vets-json-schema/dist/schemas';
 import { sessionStorageSetup } from 'platform/testing/utilities';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 const path = require('path');
 const find = require('find');
@@ -21,33 +22,119 @@ const missingFromVetsJsonSchema = [
 
 const root = path.join(__dirname, '../../../');
 
-const validProperty = (formConfig, name, type, required = true) => {
+const formConfigKeys = [
+  'formId',
+  'version',
+  'migrations',
+  'chapters',
+  'defaultDefinitions',
+  'introduction',
+  'prefillEnabled',
+  'prefillTransformer',
+  'trackingPrefix',
+  'title',
+  'subTitle',
+  'urlPrefix',
+  'submitUrl',
+  'submit',
+  'savedFormMessages',
+  'transformForSubmit',
+  'confirmation',
+  'preSubmitInfo',
+  'footerContent',
+  'getHelp',
+  'errorText',
+  'verifyRequiredPrefill',
+  'downtime',
+  'intentToFileUrl',
+  'onFormLoaded',
+  'formSavedPage',
+  'additionalRoutes',
+  'submitErrorText',
+  'authorize',
+  'getAuthorizationState',
+  'authorizationMessage',
+  'customText',
+  'submissionError',
+];
+
+const validProperty = (
+  formConfig,
+  name,
+  type,
+  required = true,
+  warning = null,
+) => {
   const property = formConfig[name];
   if (required || property) {
-    expect(property).to.be.a(type, `${name} is not a ${type}`);
+    const msg = warning || `${name} is not a ${type}`;
+    expect(property).to.be.a(type, msg);
   }
 };
 
-const validObjectProperty = (formConfig, name, required = true) => {
-  validProperty(formConfig, name, 'object', required);
+const validObjectProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'object', required, warning);
 };
 
-const validFunctionProperty = (formConfig, name, required = true) => {
-  validProperty(formConfig, name, 'function', required);
+const validFunctionProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'function', required, warning);
 };
 
-const validBooleanProperty = (formConfig, name, required = true) => {
-  validProperty(formConfig, name, 'boolean', required);
+const validBooleanProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'boolean', required, warning);
 };
 
-const validStringProperty = (formConfig, name, required = true) => {
-  validProperty(formConfig, name, 'string', required);
+const validStringProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'string', required, warning);
 };
 
-const validNumberProperty = (formConfig, name, required = true) => {
-  validProperty(formConfig, name, 'number', required);
+const validNumberProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'number', required, warning);
 };
 
+const validArrayProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'array', required, warning);
+};
+const validFormConfigKeys = formConfig => {
+  Object.keys(formConfig).forEach(key =>
+    expect(formConfigKeys).to.include(
+      key,
+      `${
+        formConfig.formId
+      } has an unknown property "${key}". Please check that property name is correct or add a test to src/platform/forms/tests/forms.unit.spec.js for this property.`,
+    ),
+  );
+};
 const validFormId = formConfig => {
   let formId = formConfig.formId;
   if (Object.keys(remapFormId).includes(formId)) {
@@ -76,7 +163,7 @@ const validMigrations = formConfig => {
       formConfig.version,
       'migrations length does not match version number',
     );
-    expect(migrations).to.be.an('array', 'migrations is not an array');
+    validArrayProperty({ migrations }, 'migrations');
     expect(
       migrations.every(migration => typeof migration === 'function'),
     ).to.equal(true, 'migrations is not an array of functions');
@@ -89,6 +176,80 @@ const validTitle = ({ title }) => {
   expect(formTitle).to.be.a('string', 'title does not return a string');
 };
 
+const validDowntime = ({ downtime }) => {
+  validObjectProperty({ downtime }, 'downtime', false);
+  if (downtime) {
+    validBooleanProperty(downtime, 'requireForPrefill', false);
+    validFunctionProperty(downtime, 'message', false);
+    const { dependencies } = downtime;
+    validArrayProperty(downtime, 'dependencies');
+    expect(dependencies).to.be.an(
+      'array',
+      'downtime.dependencies is not an array',
+    );
+    dependencies.forEach(dependency => {
+      expect(Object.values(externalServices)).to.include(
+        dependency,
+        `${dependency} is not a valid dependency. Please see platform/monitoring/DowntimeNotification`,
+      );
+    });
+  }
+};
+
+const validAdditionalRoutes = ({ additionalRoutes }) => {
+  validArrayProperty({ additionalRoutes }, 'additionalRoutes', false);
+  if (additionalRoutes) {
+    additionalRoutes.forEach(route => {
+      validStringProperty(
+        route,
+        'path',
+        true,
+        'additionalRoutes.path is not a string',
+      );
+      validFunctionProperty(
+        route,
+        'component',
+        true,
+        'additionalRoutes.component is not a function',
+      );
+      validStringProperty(
+        route,
+        'pageKey',
+        true,
+        'additionalRoutes.component is not a string',
+      );
+      validFunctionProperty(
+        route,
+        'depends',
+        true,
+        'additionalRoutes.depends is not a function',
+      );
+    });
+  }
+};
+
+const validAuthorization = formConfig => {
+  validFunctionProperty(formConfig, 'authorize', false);
+  const { authorize } = formConfig;
+  if (authorize) {
+    validFunctionProperty(formConfig, 'authorizationMessage');
+    validFunctionProperty(formConfig, 'getAuthorizationState');
+  }
+};
+
+const validCustomText = ({ customText }) => {
+  validObjectProperty({ customText }, 'customText', false);
+  if (customText) {
+    Object.keys(customText).forEach(key => {
+      validStringProperty(
+        customText,
+        key,
+        true,
+        `customText.${key} is not a string`,
+      );
+    });
+  }
+};
 describe('form:', () => {
   sessionStorageSetup();
 
@@ -103,6 +264,7 @@ describe('form:', () => {
       return expect(
         // Dynamically import the module and perform tests on its default export
         import(configFilePath).then(({ default: formConfig }) => {
+          validFormConfigKeys(formConfig);
           validFormId(formConfig);
           validNumberProperty(formConfig, 'version');
           validMigrations(formConfig);
@@ -117,13 +279,21 @@ describe('form:', () => {
           validStringProperty(formConfig, 'urlPrefix', false);
           validStringProperty(formConfig, 'submitUrl', false);
           validFunctionProperty(formConfig, 'submit', false);
-          validObjectProperty(formConfig, 'saveFormMessages', false);
+          validObjectProperty(formConfig, 'savedFormMessages', false);
           validFunctionProperty(formConfig, 'transformForSubmit', false);
           validFunctionProperty(formConfig, 'confirmation');
           validObjectProperty(formConfig, 'preSubmitInfo', false);
           validFunctionProperty(formConfig, 'footerContent', false);
           validFunctionProperty(formConfig, 'getHelp', false);
           validFunctionProperty(formConfig, 'errorText', false);
+          validBooleanProperty(formConfig, 'verifyRequiredPrefill', false);
+          validDowntime(formConfig);
+          validFunctionProperty(formConfig, 'onFormLoaded', false);
+          validFunctionProperty(formConfig, 'formSavedPage', false);
+          validAdditionalRoutes(formConfig);
+          validAuthorization(formConfig);
+          validCustomText(formConfig);
+          validFunctionProperty(formConfig, 'submissionError', false);
           return true;
         }),
       ).to.eventually.be.ok;
