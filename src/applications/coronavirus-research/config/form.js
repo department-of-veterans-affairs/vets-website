@@ -13,19 +13,19 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 
 const checkBoxElements = [
-  'healthHistory',
-  'transportation',
-  'employmentStatus',
-  'gender',
-  'raceEthnicityOrigin',
+  'HEALTH_HISTORY',
+  'TRANSPORTATION',
+  'EMPLOYMENT_STATUS',
+  'GENDER',
+  'RACE_ETHNICITY_ORIGIN',
 ];
 const NONE_OF_ABOVE = 'NONE_OF_ABOVE';
 
-export const setNoneOfAbove = (form, elementName) => {
+export const setNoneOfAbove = (form, elementName, elementNOA) => {
   const updatedForm = form;
   Object.keys(updatedForm[elementName]).map((key, _val) => {
     updatedForm[elementName][key] = false;
-    updatedForm[elementName][NONE_OF_ABOVE] = true;
+    updatedForm[elementName][elementNOA] = true;
     return updatedForm;
   });
 };
@@ -40,25 +40,25 @@ function updateData(oldForm, newForm) {
       val => newForm[elementName][val] === true,
     ).length;
 
-    // TODO: Refactor - this could probably be done in a better way
+    const elementNOA = `${elementName}::${NONE_OF_ABOVE}`;
     // if no change just return
     if (oldSelectedCount === newSelectedCount) return;
-    if (newSelectedCount === 0) updatedForm[elementName][NONE_OF_ABOVE] = true;
+    if (newSelectedCount === 0) updatedForm[elementName][elementNOA] = true;
     // When there are 2 selected, need to know if the user just selected NONE_OF_ABOVE of a new selection
     else if (newSelectedCount === 2) {
-      const oldNoResp = oldForm[elementName][NONE_OF_ABOVE];
-      const newNoResp = newForm[elementName][NONE_OF_ABOVE];
+      const oldNoResp = oldForm[elementName][elementNOA];
+      const newNoResp = newForm[elementName][elementNOA];
       if (oldNoResp !== newNoResp) {
-        setNoneOfAbove(updatedForm, elementName);
+        setNoneOfAbove(updatedForm, elementName, elementNOA);
       } else {
-        updatedForm[elementName][NONE_OF_ABOVE] = false;
+        updatedForm[elementName][elementNOA] = false;
       }
     } else if (
       // if NONE_OF_ABOVE is selected clear out all others
       newSelectedCount > 2 &&
-      newForm[elementName][NONE_OF_ABOVE] === true
+      newForm[elementName][elementNOA] === true
     ) {
-      setNoneOfAbove(updatedForm, elementName);
+      setNoneOfAbove(updatedForm, elementName, elementNOA);
     }
   });
   return updatedForm;
@@ -108,7 +108,8 @@ const formConfig = {
           updateFormData: updateData,
           uiSchema,
           schema: {
-            required: fullSchema.required,
+            // required: fullSchema.required,
+            required: [],
             type: 'object',
             properties: {
               descriptionText: {
@@ -142,7 +143,7 @@ const formConfig = {
               closeContactPositive: fullSchema.properties.closeContactPositive,
               hospitalized: fullSchema.properties.hospitalized,
               smokeOrVape: fullSchema.properties.smokeOrVape,
-              healthHistory: fullSchema.properties.healthHistory,
+              HEALTH_HISTORY: fullSchema.properties.HEALTH_HISTORY,
               exposureRiskHeaderText: {
                 type: 'object',
                 properties: {
@@ -152,8 +153,8 @@ const formConfig = {
                   },
                 },
               },
-              employmentStatus: fullSchema.properties.employmentStatus,
-              transportation: fullSchema.properties.transportation,
+              EMPLOYMENT_STATUS: fullSchema.properties.EMPLOYMENT_STATUS,
+              TRANSPORTATION: fullSchema.properties.TRANSPORTATION,
               residentsInHome: fullSchema.properties.residentsInHome,
               closeContact: fullSchema.properties.closeContact,
               contactHeaderText: {
@@ -173,8 +174,9 @@ const formConfig = {
               veteranDateOfBirth: date,
               height: fullSchema.properties.height,
               weight: fullSchema.properties.weight,
-              gender: fullSchema.properties.gender,
-              raceEthnicityOrigin: fullSchema.properties.raceEthnicityOrigin,
+              GENDER: fullSchema.properties.GENDER,
+              RACE_ETHNICITY_ORIGIN:
+                fullSchema.properties.RACE_ETHNICITY_ORIGIN,
             },
           },
         },

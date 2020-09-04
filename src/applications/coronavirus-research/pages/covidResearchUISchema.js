@@ -119,7 +119,7 @@ export const uiSchema = {
       classNames: '',
     },
   },
-  healthHistory: {
+  HEALTH_HISTORY: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
@@ -136,37 +136,37 @@ export const uiSchema = {
     'HEALTH_HISTORY::ALLERGY_VACCINE': {
       'ui:title': 'Allergy to any vaccines',
     },
-    AUTOIMMUNE_DISEASE: {
+    'HEALTH_HISTORY::AUTOIMMUNE_DISEASE': {
       'ui:title': 'Autoimmune disease (like rheumatoid arthritis or lupus)',
     },
-    CANCER: {
+    'HEALTH_HISTORY::CANCER': {
       'ui:title': 'Cancer',
     },
-    IMMUNOCOMPROMISED: {
+    'HEALTH_HISTORY::IMMUNOCOMPROMISED': {
       'ui:title': 'Compromised immune system (including due to HIV/AIDS)',
     },
-    DIABETES: {
+    'HEALTH_HISTORY::DIABETES': {
       'ui:title': 'Diabetes (Type 1 or 2)',
     },
-    HEART_DISEASE: {
+    'HEALTH_HISTORY::HEART_DISEASE': {
       'ui:title': 'Heart disease',
     },
-    HIGH_BLOOD_PRESSURE: {
+    'HEALTH_HISTORY::HIGH_BLOOD_PRESSURE': {
       'ui:title': 'High blood pressure',
     },
-    KIDNEY_LIVER_DISEASE: {
+    'HEALTH_HISTORY::KIDNEY_LIVER_DISEASE': {
       'ui:title': 'Kidney or liver disease',
     },
-    LUNG_DISEASE: {
+    'HEALTH_HISTORY::LUNG_DISEASE': {
       'ui:title': 'Lung disease',
     },
-    STROKE: {
+    'HEALTH_HISTORY::STROKE': {
       'ui:title': 'Stroke',
     },
-    ANOTHER_SERIOUS_CHRONIC_ILLNESS: {
+    'HEALTH_HISTORY::ANOTHER_SERIOUS_CHRONIC_ILLNESS': {
       'ui:title': 'Another serious chronic (long-term) illness',
     },
-    NONE_OF_ABOVE: {
+    'HEALTH_HISTORY::NONE_OF_ABOVE': {
       'ui:title': 'None of the above',
     },
   },
@@ -179,7 +179,7 @@ export const uiSchema = {
       },
     },
   },
-  employmentStatus: {
+  EMPLOYMENT_STATUS: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
@@ -191,29 +191,29 @@ export const uiSchema = {
         <br />
       </span>
     ),
-    EMPLOYED_HOME: {
+    'EMPLOYMENT_STATUS::EMPLOYED_HOME': {
       'ui:title': 'Employed (working from home)',
     },
-    EMPLOYED_OUTSIDE_OF_HOME: {
+    'EMPLOYMENT_STATUS::EMPLOYED_OUTSIDE_OF_HOME': {
       'ui:title': 'Employed (working outside the home)',
     },
-    FRONTLINE_WORKER: {
+    'EMPLOYMENT_STATUS::FRONTLINE_WORKER': {
       'ui:title': 'Frontline health care provider',
     },
-    FURLOUGHED_UNEMPLOYED: {
+    'EMPLOYMENT_STATUS::FURLOUGHED_UNEMPLOYED': {
       'ui:title': 'Furloughed or unemployed',
     },
-    RETIRED: {
+    'EMPLOYMENT_STATUS::RETIRED': {
       'ui:title': 'Retired',
     },
-    STUDENT: {
+    'EMPLOYMENT_STATUS::STUDENT': {
       'ui:title': 'Student',
     },
-    NONE_OF_ABOVE: {
+    'EMPLOYMENT_STATUS::NONE_OF_ABOVE': {
       'ui:title': 'None of the above',
     },
   },
-  transportation: {
+  TRANSPORTATION: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
@@ -224,22 +224,22 @@ export const uiSchema = {
         <br />
       </span>
     ),
-    CAR: {
+    'TRANSPORTATION::CAR': {
       'ui:title': 'Car',
     },
-    FREQUENT_AIR_TRAVEL: {
+    'TRANSPORTATION::FREQUENT_AIR_TRAVEL': {
       'ui:title': 'Frequent air travel',
     },
-    PUBLIC_TRANSPORT: {
+    'TRANSPORTATION::PUBLIC_TRANSPORT': {
       'ui:title': 'Public transporation (bus, train, subway)',
     },
-    WALK_BIKE: {
+    'TRANSPORTATION::WALK_BIKE': {
       'ui:title': 'Walk or bike',
     },
-    WORK_FROM_HOME: {
+    'TRANSPORTATION::WORK_FROM_HOME': {
       'ui:title': 'Work from home',
     },
-    NONE_OF_ABOVE: {
+    'TRANSPORTATION::NONE_OF_ABOVE': {
       'ui:title': 'None of the above',
     },
   },
@@ -352,7 +352,7 @@ export const uiSchema = {
       pattern: 'Please enter a valid weight (decimals allowed)',
     },
   },
-  gender: {
+  GENDER: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
@@ -367,30 +367,30 @@ export const uiSchema = {
         <br />
       </span>
     ),
-    FEMALE: {
+    'GENDER::FEMALE': {
       'ui:title': 'Female',
     },
-    MALE: {
+    'GENDER::MALE': {
       'ui:title': 'Male',
     },
-    TRANSGENDER_FEMALE: {
+    'GENDER::TRANSGENDER_FEMALE': {
       'ui:title': 'Transgender female',
     },
-    TRANSGENDER_MALE: {
+    'GENDER::TRANSGENDER_MALE': {
       'ui:title': 'Transgender male',
     },
-    GENDER_VARIANT: {
+    'GENDER::GENDER_VARIANT': {
       'ui:title':
         'Gender variant/nonbinary (neither exclusively female nor male)',
     },
-    SELF_IDENTIFY: {
+    'GENDER::SELF_IDENTIFY': {
       'ui:title': 'Prefer to self-identify',
     },
-    NONE_OF_ABOVE: {
+    'GENDER::NONE_OF_ABOVE': {
       'ui:title': 'Prefer not to answer',
     },
   },
-  raceEthnicityOrigin: {
+  RACE_ETHNICITY_ORIGIN: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
@@ -405,28 +405,28 @@ export const uiSchema = {
         include a diverse range of people in our research studies.
       </span>
     ),
-    AMERICAN_INDIAN_ALASKA_NATIVE: {
+    'RACE_ETHNICITY_ORIGIN::AMERICAN_INDIAN_ALASKA_NATIVE': {
       'ui:title': 'American Indian or Alaska Native',
     },
-    ASIAN: {
+    'RACE_ETHNICITY_ORIGIN::ASIAN': {
       'ui:title': 'Asian',
     },
-    BLACK_AFRICAN_AMERICAN: {
+    'RACE_ETHNICITY_ORIGIN::BLACK_AFRICAN_AMERICAN': {
       'ui:title': 'Black or African American',
     },
-    HISPANIC_LATINO_SPANISH_ORIGIN: {
+    'RACE_ETHNICITY_ORIGIN::HISPANIC_LATINO_SPANISH_ORIGIN': {
       'ui:title': 'Hispanic, Latino, or Spanish origin',
     },
-    HAWAIIAN_PACIFIC_ISLANDER: {
+    'RACE_ETHNICITY_ORIGIN::HAWAIIAN_PACIFIC_ISLANDER': {
       'ui:title': 'Native Hawaiian or other Pacific Islander',
     },
-    WHITE: {
+    'RACE_ETHNICITY_ORIGIN::WHITE': {
       'ui:title': 'White',
     },
-    OTHER_RACE_ETHNICITY: {
+    'RACE_ETHNICITY_ORIGIN::OTHER_RACE_ETHNICITY': {
       'ui:title': 'Another race or ethnicity',
     },
-    NONE_OF_ABOVE: {
+    'RACE_ETHNICITY_ORIGIN::NONE_OF_ABOVE': {
       'ui:title': 'Prefer not to answer',
     },
   },
