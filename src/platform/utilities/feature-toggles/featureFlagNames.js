@@ -31,6 +31,7 @@ export default Object.freeze({
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   gibctSearchEnhancements: 'gibctSearchEnhancements',
   gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
+  gibctFilterEnhancement: 'gibctFilterEnhancement',
   gibctBenefitFilterEnhancement: 'gibctBenefitFilterEnhancement',
   form996HigherLevelReview: 'form996HigherLevelReview',
   debtLettersShowLetters: 'debtLettersShowLetters',
