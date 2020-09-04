@@ -36,9 +36,7 @@ const DownLoadLink = ({ form }) => {
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
       })
       .catch(error => {
-        Sentry.withScope(scope => {
-          scope.setExtra('error', error);
-        });
+        Sentry.withScope(scope => scope.setExtra('error', error));
         recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
       });
   };
