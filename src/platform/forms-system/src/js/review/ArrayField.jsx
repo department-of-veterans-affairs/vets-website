@@ -227,8 +227,9 @@ class ArrayField extends React.Component {
 
             const idSchema = toIdSchema(
               itemSchema,
-              `${itemSchema.$id}_${index}`,
+              itemSchema.$id,
               this.props.schema.definitions,
+              index,
             );
 
             if (isEditing) {
