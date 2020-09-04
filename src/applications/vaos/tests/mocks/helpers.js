@@ -325,7 +325,7 @@ export function mockAppointmentSlotFetch({
           .format('YYYY-MM-DD')}` +
         `&end_date=${preferredDate
           .clone()
-          .add(1, 'month')
+          .add(12, 'month')
           .endOf('month')
           .format('YYYY-MM-DD')}`,
     ),

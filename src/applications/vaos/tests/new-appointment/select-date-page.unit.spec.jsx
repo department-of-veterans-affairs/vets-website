@@ -38,7 +38,7 @@ describe('VAOS integration: select date time slot page', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
-  xit('should fetch new slots after clinic change', async () => {
+  it('should fetch new slots after clinic change', async () => {
     const clinics = [
       {
         id: '308',
