@@ -151,7 +151,7 @@ const validFormId = formConfig => {
   } else {
     expect(schemaFormIds).to.include(
       formId,
-      `the formId "${formId}" does not match a formId property in vets-json-schema/dist/schemas`,
+      `the formId "${formId}" does not match a formId property in vets-json-schema/dist/schemas, add to missingFromVetsJsonSchema until such a time`,
     );
   }
 };
