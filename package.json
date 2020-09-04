@@ -167,7 +167,7 @@
     "cypress-axe": "^0.8.1",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
-    "decompress": "^4.2.0",
+    "decompress": "^4.2.1",
     "enhanced-resolve": "^0.7.6",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
@@ -340,6 +340,7 @@
     "**/jpeg-js": "^0.4.0",
     "**/dot-prop": "^5.1.1",
     "cypress": "^4.8.0",
-    "tar-fs/tar-stream/bl": "^4.0.3"
+    "tar-fs/tar-stream/bl": "^4.0.3",
+    "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }
 }
