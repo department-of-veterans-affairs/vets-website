@@ -644,25 +644,3 @@ export function transformForSubmit(
 
   return JSON.stringify(withoutViewFields, replacer) || '{}';
 }
-
-/**
- * Almost a copy of the class method `getItemSchema`.
- * This version applies numeration to the `properties` and `required` values
- *
- * @param {Object} schema - The schema for the field
- * @param {number} index - The integer which will be appended to the property names
- * @returns {Object} The object which *might* have integers appended to property names
- */
-export function getNumeratedItemSchema(schema, index) {
-  const itemSchema =
-    schema.items.length > index ? schema.items[index] : schema.additionalItems;
-
-  const required = itemSchema?.required?.map(prop => `${prop}${index}`);
-  const properties = numerateKeys(itemSchema?.properties, index);
-
-  return {
-    ...itemSchema,
-    properties,
-    required,
-  };
-}

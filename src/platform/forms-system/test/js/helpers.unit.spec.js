@@ -12,7 +12,6 @@ import {
   formatReviewDate,
   expandArrayPages,
   omitRequired,
-  getNumeratedItemSchema,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -1002,68 +1001,6 @@ describe('Schemaform helpers:', () => {
         },
       };
       expect(omitRequired(schema)).to.eql(expected);
-    });
-  });
-
-  describe('getNumeratedItemSchema', () => {
-    const schema = {
-      type: 'array',
-      items: [
-        {
-          type: 'object',
-          properties: {
-            fooField: {
-              type: 'string',
-            },
-          },
-        },
-        {
-          type: 'object',
-          properties: {
-            barField: {
-              type: 'string',
-            },
-          },
-        },
-      ],
-      additionalItems: {
-        type: 'object',
-        properties: {
-          streetAddress: {
-            type: 'string',
-          },
-          phoneNumber: {
-            type: 'string',
-          },
-        },
-        required: ['streetAddress', 'phoneNumber'],
-      },
-    };
-
-    it('should numerate the field names in the items', () => {
-      const numeratedSchema = getNumeratedItemSchema(schema, 1);
-
-      expect(Object.keys(numeratedSchema.properties).length).to.equal(1);
-      expect(numeratedSchema.properties.barField1).to.eql({ type: 'string' });
-    });
-
-    it('should numerate the field names in `additionalItems.properties`', () => {
-      const numeratedSchema = getNumeratedItemSchema(schema, 3);
-
-      expect(Object.keys(numeratedSchema.properties).length).to.equal(2);
-      expect(numeratedSchema.properties).to.eql({
-        streetAddress3: { type: 'string' },
-        phoneNumber3: { type: 'string' },
-      });
-    });
-
-    it('should numerate the field names in `additionalItems.required`', () => {
-      const numeratedSchema = getNumeratedItemSchema(schema, 2);
-
-      expect(numeratedSchema.required).to.eql([
-        'streetAddress2',
-        'phoneNumber2',
-      ]);
     });
   });
 });
