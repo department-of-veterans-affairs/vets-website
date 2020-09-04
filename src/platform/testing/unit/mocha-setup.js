@@ -66,10 +66,7 @@ export default function setupJSDom() {
 
   global.dom = dom;
   global.document = win.document;
-  global.window = win;
-  global.navigator = {
-    userAgent: 'node.js',
-  };
+  global.navigator = { userAgent: 'node.js' };
 
   win.VetsGov = {
     scroll: {
@@ -87,26 +84,11 @@ export default function setupJSDom() {
     },
   };
 
-  win.dataLayer = [];
   win.scrollTo = () => {};
-  Object.defineProperty(win, 'sessionStorage', {
-    value: global.sessionStorage,
-    configurable: true,
-    enumerable: true,
-    writable: true,
-  });
-  Object.defineProperty(win, 'localStorage', {
-    value: global.localStorage,
-    configurable: true,
-    enumerable: true,
-    writable: true,
-  });
   win.requestAnimationFrame = func => func();
   win.matchMedia = () => ({
     matches: false,
   });
-
-  global.Blob = window.Blob;
 
   function copyProps(src, target) {
     const props = Object.getOwnPropertyNames(src)
@@ -122,6 +104,22 @@ export default function setupJSDom() {
   }
 
   copyProps(win, global);
+  global.Blob = window.Blob;
+  window.dataLayer = [];
+
+  Object.defineProperty(global, 'window', {
+    value: global.window,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+
+  Object.defineProperty(window, 'location', {
+    value: global.window.location,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
 }
 
 setupJSDom();
