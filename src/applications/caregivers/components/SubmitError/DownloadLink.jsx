@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
@@ -17,48 +17,45 @@ const DownLoadLink = ({ form }) => {
   const pageList = createFormPageList(formConfig);
   const isFormValid = isValidForm(form, pageList);
 
-  useEffect(
-    () => {
-      if (!isFormValid.isValid) return;
-      apiRequest(
-        `${environment.API_URL}/v0/caregivers_assistance_claims/download_pdf`,
-        {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Content-Type': 'application/json',
-            'Source-App-Name': 'caregivers-10-10cg-',
-          },
+  const downloadPDF = () => {
+    apiRequest(
+      `${environment.API_URL}/v0/caregivers_assistance_claims/download_pdf`,
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+          'Source-App-Name': 'caregivers-10-10cg-',
         },
-      )
-        .then(response => response.blob())
-        .then(blob => {
-          const url = URL.createObjectURL(blob);
-          setPDFLink(url);
-          recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
-        })
-        .catch(error => {
-          Sentry.withScope(scope => {
-            scope.setExtra('error', error);
-            scope.setFingerprint(['{{default}}', scope._tags?.source]);
-            Sentry.captureMessage(
-              `caregivers-10-10cg-pdf--failure: ${error.message}`,
-            );
-          });
-          recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
+      },
+    )
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        setPDFLink(url);
+        recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
+      })
+      .catch(error => {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          scope.setFingerprint(['{{default}}', scope._tags?.source]);
+          Sentry.captureMessage(
+            `caregivers-10-10cg-pdf--failure: ${error.message}`,
+          );
         });
-    },
-    [formData, isFormValid],
-  );
+        recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
+      });
+  };
 
   return (
     <div className="vads-u-margin-top--2">
       <a
+        onClick={() => isFormValid.isValid && downloadPDF()}
+        aria-label="Download 1010CG filled out PDF form"
         href={PDFLink}
         download={`10-10CG_${veteranFullName.first}_${veteranFullName.last}`}
         target="_blank"
         rel="noreferrer noopener"
-        aria-label="Download 1010CG filled out PDF form"
       >
         <i
           aria-hidden="true"
