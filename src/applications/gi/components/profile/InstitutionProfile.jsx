@@ -48,7 +48,6 @@ export class InstitutionProfile extends React.Component {
         <HeadingSummary
           institution={profile.attributes}
           onLearnMore={showModal.bind(this, 'gibillstudents')}
-          onViewWarnings={this.handleViewWarnings}
           gibctFilterEnhancement={gibctFilterEnhancement}
         />
         <div className="usa-accordion vads-u-margin-top--4">
