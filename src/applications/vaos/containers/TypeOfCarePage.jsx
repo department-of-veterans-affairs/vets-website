@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
-import { getLongTermAppointmentHistory } from '../api';
+import { getLongTermAppointmentHistory } from '../services/var';
 import FormButtons from '../components/FormButtons';
 import TypeOfCareUnavailableModal from '../components/TypeOfCareUnavailableModal';
 import UpdateAddressAlert from '../components/UpdateAddressAlert';

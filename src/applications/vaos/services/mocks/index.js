@@ -1,28 +1,36 @@
-/* istanbul ignore file */
 import set from 'platform/utilities/data/set';
 
-import confirmedVA from './confirmed_va.json';
-import confirmedCC from './confirmed_cc.json';
-import requests from './requests.json';
-import messages0190 from './messages_0190.json';
-import messages0038 from './messages_0038.json';
-import parentFacilities from './facilities.json';
-import expressCareFacilities983 from './facilities_983_express_care.json';
-import expressCareFacilities984 from './facilities_984_express_care.json';
-import facilities983 from './facilities_983.json';
-import facilities984 from './facilities_984.json';
-import facilities983A6 from './facilities_983A6.json';
-import clinicList983 from './clinicList983.json';
-import facilityDetails983 from './facility_details_983.json';
-import facilityDetails984 from './facility_details_984.json';
-import facilityData from './facility_data.json';
-import sitesSupportingVAR from './sites-supporting-var.json';
-import slots from './slots.json';
-import cancelReasons from './cancel_reasons.json';
-import requestEligibilityCriteria from './request_eligibility_criteria.json';
+import { generateMockFHIRSlots, generateMockSlots } from '../../utils/calendar';
 
-import { generateMockSlots } from '../utils/calendar';
-import { EXPRESS_CARE } from '../utils/constants';
+// fhir
+import healthcareService983 from './fhir/mock_healthcare_system_983.json';
+import healthcareService984 from './fhir/mock_healthcare_system_984.json';
+import locations983 from './fhir/mock_locations_983.json';
+import locations984 from './fhir/mock_locations_984.json';
+import organization from './fhir/mock_organizations.json';
+import fhirSlots from './fhir/mock_slots.json';
+
+// var
+import confirmedVA from './var/confirmed_va.json';
+import confirmedCC from './var/confirmed_cc.json';
+import requests from './var/requests.json';
+import messages0190 from './var/messages_0190.json';
+import messages0038 from './var/messages_0038.json';
+import parentFacilities from './var/facilities.json';
+import expressCareFacilities983 from './var/facilities_983_express_care.json';
+import expressCareFacilities984 from './var/facilities_984_express_care.json';
+import facilities983 from './var/facilities_983.json';
+import facilities984 from './var/facilities_984.json';
+import facilities983A6 from './var/facilities_983A6.json';
+import clinicList983 from './var/clinicList983.json';
+import facilityDetails983 from './var/facility_details_983.json';
+import facilityDetails984 from './var/facility_details_984.json';
+import facilityData from './var/facility_data.json';
+import sitesSupportingVAR from './var/sites-supporting-var.json';
+import varSlots from './var/slots.json';
+import cancelReasons from './var/cancel_reasons.json';
+import requestEligibilityCriteria from './var/request_eligibility_criteria.json';
+import { EXPRESS_CARE } from '../../utils/constants';
 
 /*
  * Handler definition:
@@ -175,7 +183,7 @@ export default [
       return set(
         'data[0].attributes.appointmentTimeSlot',
         generateMockSlots(),
-        slots,
+        varSlots,
       );
     },
   },
@@ -263,5 +271,29 @@ export default [
     response: {
       data: { attributes: {} },
     },
+  },
+  {
+    path: /vaos.*HealthcareService.*Location.identifier=983/,
+    response: healthcareService983,
+  },
+  {
+    path: /vaos.*HealthcareService.*Location.identifier=984/,
+    response: healthcareService984,
+  },
+  {
+    path: /vaos.*HealthcareService.*Organization.identifier=983/,
+    response: locations983,
+  },
+  {
+    path: /vaos.*HealthcareService.*Organization.identifier=984/,
+    response: locations984,
+  },
+  {
+    path: /vaos.*\/Organization\?/,
+    response: organization,
+  },
+  {
+    path: /vaos.*\/Slot\?/,
+    response: () => ({ ...fhirSlots, entry: generateMockFHIRSlots() }),
   },
 ];
