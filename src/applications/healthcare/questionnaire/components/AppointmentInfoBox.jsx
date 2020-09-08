@@ -8,13 +8,15 @@ import PhoneNumberView from './PhoneNumberView';
 const AppointmentInfoBox = props => {
   const { userFullName, dateOfBirth, gender, addresses, phoneNumbers } = props;
   const fullName = [userFullName.first, userFullName.middle, userFullName.last]
+    .filter(f => f)
+    .map(name => name[0].toUpperCase() + name.substr(1).toLowerCase())
     .join(' ')
     .trim();
   const { residential, mailing } = addresses;
 
   return (
     <div>
-      <p>This is formation is for you appointment at.....</p>
+      <p>This is formation is for you appointment at ... </p>
       <p>This is the personal information we have on file for you.</p>
       <div className="vads-u-border-left--7px vads-u-border-color--primary">
         <div className="vads-u-padding-left--1">
@@ -39,7 +41,7 @@ const AppointmentInfoBox = props => {
           {gender && (
             <>
               <p className="vads-u-margin--1px">
-                Gender:
+                Gender:{' '}
                 <span
                   className=" vads-u-font-weight--bold"
                   data-testid="gender"
@@ -52,10 +54,11 @@ const AppointmentInfoBox = props => {
           {mailing && (
             <>
               <p>
-                <span className=" vads-u-font-weight--bold">
-                  Mailing Address:{' '}
-                </span>
-                <span data-testid="mailingAddress">
+                <span>Mailing Address: </span>
+                <span
+                  data-testid="mailingAddress"
+                  className="vads-u-font-weight--bold"
+                >
                   <AddressView address={mailing} />
                 </span>
               </p>
@@ -64,10 +67,11 @@ const AppointmentInfoBox = props => {
           {residential && (
             <>
               <p>
-                <span className=" vads-u-font-weight--bold">
-                  Residential Address:{' '}
-                </span>
-                <span data-testid="residentialAddress">
+                <span>Home Address: </span>
+                <span
+                  data-testid="residentialAddress"
+                  className="vads-u-font-weight--bold"
+                >
                   <AddressView address={residential} />
                 </span>
               </p>
