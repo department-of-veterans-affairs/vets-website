@@ -27,6 +27,15 @@ describe('Schemaform <PhoneNumberWidget>', () => {
     expect(onChange.calledWith('1549455677')).to.be.true;
   });
 
+  it('should strip ~, !, @, #, $, %, ^, &, *, _, and = on change', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <PhoneNumberWidget value="" onChange={onChange} />,
+    );
+    tree.subTree('TextWidget').props.onChange('+(154) 945-56x77~!@#$%^&*_=');
+    expect(onChange.calledWith('1549455677')).to.be.true;
+  });
+
   it('should call onChange with undefined if value is blank', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
