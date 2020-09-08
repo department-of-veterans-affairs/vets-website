@@ -9,11 +9,14 @@ import { connect } from 'react-redux';
 import { showEduBenefits0994Wizard } from '../../selectors/educationWizard';
 import {
   WIZARD_STATUS,
+  WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 
 export class IntroductionPage extends React.Component {
-  state = { status: sessionStorage.getItem(WIZARD_STATUS) };
+  state = {
+    status: sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
+  };
 
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
