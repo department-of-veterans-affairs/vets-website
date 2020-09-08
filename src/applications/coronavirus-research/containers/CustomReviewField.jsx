@@ -8,10 +8,10 @@ export default function CustomReviewField({ children, uiSchema }) {
   }
   switch (true) {
     case whichSelectQuestions('EMPLOYMENT_STATUS'):
-      selectQuestionTitle = 'Employment Status';
+      selectQuestionTitle = 'Employment status';
       break;
     case whichSelectQuestions('HEALTH_HISTORY'):
-      selectQuestionTitle = 'Health History';
+      selectQuestionTitle = 'Health history';
       break;
     case whichSelectQuestions('TRANSPORTATION'):
       selectQuestionTitle = 'Transportation';
@@ -30,9 +30,9 @@ export default function CustomReviewField({ children, uiSchema }) {
     <div>
       <div className="review-row">
         <dt>
-          {selectQuestionTitle} : {uiSchema['ui:title']}
+          <strong>{selectQuestionTitle}:</strong>
         </dt>
-        <dd>{children?.props.formData ? 'Selected' : 'Not Selected'}</dd>
+        <dd>{uiSchema['ui:title']}</dd>
       </div>
     </div>
   ) : (
