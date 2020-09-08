@@ -12,6 +12,7 @@ export default function uiSchema(title = 'Phone') {
     'ui:reviewWidget': PhoneNumberReviewWidget,
     'ui:title': title,
     'ui:errorMessages': {
+      pattern: 'Please enter a 10-digit phone number (with or without dashes)',
       minLength:
         'Please enter a 10-digit phone number (with or without dashes)',
       required: 'Please enter a phone number',
