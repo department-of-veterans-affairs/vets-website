@@ -207,6 +207,32 @@ describe('VAOS newAppointment actions', () => {
           done();
         });
     });
+
+    it('should route to previous page', async () => {
+      const history = {
+        push: sinon.spy(),
+      };
+      const dispatch = sinon.spy();
+      const state = {
+        newAppointment: {
+          previousPages: ['page2', 'page3'],
+        },
+      };
+      const getState = () => state;
+
+      const thunk = routeToPageInFlow(testFlow, history, 'page3', 'previous');
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: FORM_PAGE_CHANGE_STARTED,
+      });
+      expect(dispatch.secondCall.args[0]).to.deep.equal({
+        type: FORM_PAGE_CHANGE_COMPLETED,
+        pageKey: 'page3',
+        direction: 'previous',
+      });
+      expect(history.push.firstCall.args[0]).to.equal('/page3');
+    });
   });
 
   describe('fetchFacilityDetails', () => {
