@@ -226,8 +226,8 @@ class ArrayField extends React.Component {
             const itemTitle = itemSchema ? itemSchema.title : '';
 
             const idSchema = toIdSchema(
-              itemSchema,
-              itemSchema.$id,
+              itemSchema || {},
+              itemSchema?.$id,
               this.props.schema.definitions,
               index,
             );
