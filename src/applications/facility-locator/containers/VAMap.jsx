@@ -621,7 +621,20 @@ class VAMap extends Component {
     );
   };
 
+  otherToolsLink = () => (
+    <div id="other-tools">
+      Can’t find what you’re looking for?&nbsp;&nbsp;
+      {/* Add a line break for mobile, which uses white-space: pre-line */}
+      {'\n'}
+      <a href="https://www.va.gov/directory/guide/home.asp">
+        Try using our other tools to search.
+      </a>
+    </div>
+  );
+
   render() {
+    const results = this.props.results;
+
     const coronavirusUpdate = (
       <>
         Please call first to confirm services or ask about getting help by phone
@@ -635,25 +648,28 @@ class VAMap extends Component {
     );
 
     return (
-      <div>
-        <div className="title-section">
-          <h1>Find VA locations</h1>
-        </div>
+      <>
+        <div>
+          <div className="title-section">
+            <h1>Find VA locations</h1>
+          </div>
 
-        <div className="facility-introtext">
-          <p>
-            Find a VA location or in-network community care provider. For
-            same-day care for minor illnesses or injuries, select Urgent care
-            for facility type.
-          </p>
-          <p>
-            <strong>Coronavirus update:</strong> {coronavirusUpdate}
-          </p>
+          <div className="facility-introtext">
+            <p>
+              Find a VA location or in-network community care provider. For
+              same-day care for minor illnesses or injuries, select Urgent care
+              for facility type.
+            </p>
+            <p>
+              <strong>Coronavirus update:</strong> {coronavirusUpdate}
+            </p>
+          </div>
+          {this.state.isMobile
+            ? this.renderMobileView()
+            : this.renderDesktopView()}
         </div>
-        {this.state.isMobile
-          ? this.renderMobileView()
-          : this.renderDesktopView()}
-      </div>
+        {results && results.length > 0 && this.otherToolsLink()}
+      </>
     );
   }
 }

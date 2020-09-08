@@ -212,6 +212,10 @@ export class SearchPage extends React.Component {
                 yr={result.yr}
                 poe={result.poe}
                 eightKeys={result.eightKeys}
+                womenonly={result.womenonly}
+                menonly={result.menonly}
+                relaffil={result.relaffil}
+                hbcu={result.hbcu}
               />
             ))}
           </div>
@@ -250,6 +254,7 @@ export class SearchPage extends React.Component {
         eligibilityChange={this.props.eligibilityChange}
         hideModal={this.props.hideModal}
         gibctFilterEnhancement={this.props.gibctFilterEnhancement}
+        gibctBenefitFilterEnhancement={this.props.gibctBenefitFilterEnhancement}
       />
     </div>
   );
@@ -293,6 +298,9 @@ const mapStateToProps = state => ({
   ],
   gibctFilterEnhancement: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctFilterEnhancement
+  ],
+  gibctBenefitFilterEnhancement: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctBenefitFilterEnhancement
   ],
 });
 
