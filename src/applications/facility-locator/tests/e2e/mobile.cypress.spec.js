@@ -1,6 +1,6 @@
 import path from 'path';
 
-Cypress.Commands.add('checks', () => {
+Cypress.Commands.add('checkSearch', () => {
   cy.axeCheck();
 
   // Search
@@ -42,19 +42,19 @@ describe('Mobile', () => {
 
     // iPhone X
     cy.viewport(400, 812);
-    cy.checks();
+    cy.checkSearch();
 
     // iPhone 6/7/8 plus
     cy.viewport(414, 736);
-    cy.checks();
+    cy.checkSearch();
 
     // Pixel 2
     cy.viewport(411, 731);
-    cy.checks();
+    cy.checkSearch();
 
     // Galaxy S5/Moto
     cy.viewport(360, 640);
-    cy.checks();
+    cy.checkSearch();
   });
 
   it('should render the appropriate elements at each breakpoint', () => {
