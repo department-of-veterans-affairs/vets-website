@@ -1,4 +1,3 @@
-import React from 'react';
 import { createSelector } from 'reselect';
 
 import { capitalizeEachWord } from '../utils';
@@ -6,8 +5,8 @@ import disabilityLabels from '../content/disabilityLabels';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import {
-  CauseTitle,
   disabilityNameTitle,
+  ServiceConnectedDisabilityDescription,
 } from '../content/newDisabilityFollowUp';
 
 import { validateLength } from 'platform/forms/validations';
@@ -62,7 +61,7 @@ export const uiSchema = {
     items: {
       'ui:title': disabilityNameTitle,
       cause: {
-        'ui:title': <CauseTitle />,
+        'ui:title': 'What caused this service-connected disability?',
         'ui:widget': 'radio',
         'ui:options': {
           labels: {
@@ -184,6 +183,9 @@ export const uiSchema = {
           'ui:validations': [validateLength(25)],
         },
       },
+      'view:serviceConnectedDisability': {
+        'ui:description': ServiceConnectedDisabilityDescription,
+      },
     },
   },
 };
@@ -220,6 +222,10 @@ export const schema = {
               vaMistreatmentLocation,
               vaMistreatmentDate,
             },
+          },
+          'view:serviceConnectedDisability': {
+            type: 'object',
+            properties: {},
           },
         },
       },
