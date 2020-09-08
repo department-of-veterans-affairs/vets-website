@@ -836,12 +836,12 @@
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
-          "path": "health-care/",
-          "name": "Health care"
+          "path": "coronavirus-research/",
+          "name": "Participating in coronavirus research at VA"
         },
         {
-          "path": "/coronavirus-research/volunteer",
-          "name": "Coronavirus research sign-up"
+          "path": "coronavirus-research/volunteer/",
+          "name": "Sign up to volunteer"
         }
       ]
     }
