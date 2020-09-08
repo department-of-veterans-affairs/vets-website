@@ -18,7 +18,7 @@ export default class PhoneNumberWidget extends React.Component {
   handleChange = val => {
     let stripped;
     if (val) {
-      stripped = val.replace(/([^a-z0-9]|[x])/g, '');
+      stripped = val.replace(/[^0-9]/g, '');
     }
 
     this.setState({ val, firstUpdate: false }, () => {

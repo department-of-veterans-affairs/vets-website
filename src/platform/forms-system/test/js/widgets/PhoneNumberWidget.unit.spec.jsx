@@ -18,7 +18,7 @@ describe('Schemaform <PhoneNumberWidget>', () => {
     expect(tree.subTree('TextWidget').props.type).to.equal('tel');
   });
 
-  it('should strip x, and anything that is not a number or text on change', () => {
+  it('should strip anything that is not a number on change', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <PhoneNumberWidget value="" onChange={onChange} />,
