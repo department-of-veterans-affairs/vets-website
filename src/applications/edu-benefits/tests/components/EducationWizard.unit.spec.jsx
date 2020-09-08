@@ -202,7 +202,7 @@ describe('<EducationWizard>', () => {
       href: 'https://benefits.va.gov/gibill/fgib/stem.asp',
     });
     const remainingBenefitsLink = tree.find({
-      href: '../gi-bill/post-9-11/ch-33-benefit/',
+      href: '/education/gi-bill/post-9-11/ch-33-benefit/',
     });
     const approvedBenefitsLink = tree.find({
       href: 'https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf',
