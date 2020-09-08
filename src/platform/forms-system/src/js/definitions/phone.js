@@ -17,7 +17,6 @@ export default function uiSchema(title = 'Phone') {
     },
     'ui:options': {
       widgetClassNames: 'va-input-medium-large',
-      inputType: 'tel',
     },
   };
 }

@@ -30,7 +30,7 @@ export default class PhoneNumberWidget extends React.Component {
     return (
       <TextWidget
         {...this.props}
-        inputType={'tel'}
+        type={'tel'}
         value={this.state.val}
         onChange={this.handleChange}
       />
