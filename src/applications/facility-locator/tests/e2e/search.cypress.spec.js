@@ -69,6 +69,7 @@ describe('Facility search', () => {
     cy.get('.i-pin-card-map').contains('D');
 
     cy.get('.va-pagination').should('exist');
+    cy.get('#other-tools').should('exist');
   });
 
   it('should render breadcrumbs ', () => {
@@ -124,6 +125,7 @@ describe('Facility search', () => {
     cy.visit('/find-locations?fail=true');
 
     cy.get('#search-results-subheader').should('not.exist');
+    cy.get('#other-tools').should('not.exist');
   });
 
   it('finds community dentists', () => {
@@ -140,6 +142,7 @@ describe('Facility search', () => {
     cy.get('#search-results-subheader').contains(
       'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
     );
+    cy.get('#other-tools').should('exist');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -163,6 +166,7 @@ describe('Facility search', () => {
     cy.get('#search-results-subheader').contains(
       'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
     );
+    cy.get('#other-tools').should('exist');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -183,6 +187,7 @@ describe('Facility search', () => {
     cy.get('#search-results-subheader').contains(
       'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
     );
+    cy.get('#other-tools').should('exist');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -202,6 +207,7 @@ describe('Facility search', () => {
     cy.get('#search-results-subheader').contains(
       'Results for "Community pharmacies (in VA’s network)" near "Austin, Texas"',
     );
+    cy.get('#other-tools').should('exist');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -256,6 +262,7 @@ describe('Facility search', () => {
     cy.get('#search-results-subheader').contains(
       'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
     );
+    cy.get('#other-tools').should('exist');
 
     cy.axeCheck();
 
@@ -271,6 +278,7 @@ describe('Facility search', () => {
     cy.findByText(/Get Directions/i).should('exist');
     cy.get('[alt="Static map"]').should('exist');
     cy.get('#hours-op h3').contains('Hours of operation');
+    cy.get('#other-tools').should('not.exist');
 
     cy.axeCheck();
   });
