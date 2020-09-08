@@ -1,6 +1,9 @@
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
-import fullSchema from '../../0873-schema.json';
 import { validateWhiteSpace } from 'platform/forms/validations';
+
+import fullSchema from '../../0873-schema.json';
+import { topicTitle } from '../../content/inquiryPage';
+import pageDescription from '../../content/PageDescription';
 
 const { topic, inquiryType, query } = fullSchema.properties;
 
@@ -20,9 +23,13 @@ const getOptions = allOptions => {
 
 const inquiryPage = {
   uiSchema: {
-    [formFields.inquiryType]: autoSuggestUiSchema(
-      'Type of inquiry',
-      getOptions(inquiryType.enum),
+    'ui:description': pageDescription('Your message'),
+    [formFields.inquiryType]: {
+      'ui:title': "Tell us the reason you're contacting us",
+    },
+    [formFields.topic]: autoSuggestUiSchema(
+      topicTitle,
+      getOptions(topic.enum),
       {
         'ui:options': { queryForResults: true, freeInput: true },
         'ui:errorMessages': {
@@ -31,15 +38,8 @@ const inquiryPage = {
         },
       },
     ),
-    [formFields.topic]: autoSuggestUiSchema('Topic', getOptions(topic.enum), {
-      'ui:options': { queryForResults: true, freeInput: true },
-      'ui:errorMessages': {
-        maxLength: 'Please enter a name with fewer than 100 characters.',
-        pattern: 'Please enter a valid name.',
-      },
-    }),
     [formFields.query]: {
-      'ui:title': 'Enter your message here',
+      'ui:title': 'Please enter your question or message below',
       'ui:widget': 'textarea',
       'ui:validations': [validateWhiteSpace],
     },
@@ -48,8 +48,8 @@ const inquiryPage = {
     type: 'object',
     required: [formFields.inquiryType, formFields.topic, formFields.query],
     properties: {
-      [formFields.inquiryType]: inquiryType,
       [formFields.topic]: topic,
+      [formFields.inquiryType]: inquiryType,
       [formFields.query]: query,
     },
   },
