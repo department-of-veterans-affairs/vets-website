@@ -88,7 +88,7 @@ const formConfig = {
   prefillEnabled: true,
   customText: {
     reviewPageTitle: 'Review information',
-    appType: ' ',
+    appType: 'volunteer form',
   },
   savedFormMessages: {
     notFound:

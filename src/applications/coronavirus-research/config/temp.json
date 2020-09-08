@@ -50,43 +50,43 @@
       "type": "string",
       "enum": ["ONE_TWO", "THREE_FIVE", "SIX_TEN", "MORE_THAN_TEN"]
     },
-    "healthHistory": {
+    "HEALTH_HISTORY": {
       "type": "object",
       "properties": {
         "HEALTH_HISTORY::ALLERGY_VACCINE": {
           "type": "boolean"
         },
-        "AUTOIMMUNE_DISEASE": {
+        "HEALTH_HISTORY::AUTOIMMUNE_DISEASE": {
           "type": "boolean"
         },
-        "CANCER": {
+        "HEALTH_HISTORY::CANCER": {
           "type": "boolean"
         },
-        "DIABETES": {
+        "HEALTH_HISTORY::DIABETES": {
           "type": "boolean"
         },
-        "HEART_DISEASE": {
+        "HEALTH_HISTORY::HEART_DISEASE": {
           "type": "boolean"
         },
-        "HIGH_BLOOD_PRESSURE": {
+        "HEALTH_HISTORY::HIGH_BLOOD_PRESSURE": {
           "type": "boolean"
         },
-        "IMMUNOCOMPROMISED": {
+        "HEALTH_HISTORY::IMMUNOCOMPROMISED": {
           "type": "boolean"
         },
-        "KIDNEY_LIVER_DISEASE": {
+        "HEALTH_HISTORY::KIDNEY_LIVER_DISEASE": {
           "type": "boolean"
         },
-        "LUNG_DISEASE": {
+        "HEALTH_HISTORY::LUNG_DISEASE": {
           "type": "boolean"
         },
-        "STROKE": {
+        "HEALTH_HISTORY::STROKE": {
           "type": "boolean"
         },
-        "ANOTHER_SERIOUS_CHRONIC_ILLNESS": {
+        "HEALTH_HISTORY::ANOTHER_SERIOUS_CHRONIC_ILLNESS": {
           "type": "boolean"
         },
-        "NONE_OF_ABOVE": {
+        "HEALTH_HISTORY::NONE_OF_ABOVE": {
           "type": "boolean"
         }
       }
@@ -104,51 +104,51 @@
     "smokeOrVape": {
       "type": "boolean"
     },
-    "employmentStatus": {
+    "EMPLOYMENT_STATUS": {
       "type": "object",
       "properties": {
-        "EMPLOYED_HOME": {
+        "EMPLOYMENT_STATUS::EMPLOYED_HOME": {
           "type": "boolean"
         },
-        "EMPLOYED_OUTSIDE_OF_HOME": {
+        "EMPLOYMENT_STATUS::EMPLOYED_OUTSIDE_OF_HOME": {
           "type": "boolean"
         },
-        "FRONTLINE_WORKER": {
+        "EMPLOYMENT_STATUS::FRONTLINE_WORKER": {
           "type": "boolean"
         },
-        "FURLOUGHED_UNEMPLOYED": {
+        "EMPLOYMENT_STATUS::FURLOUGHED_UNEMPLOYED": {
           "type": "boolean"
         },
-        "RETIRED": {
+        "EMPLOYMENT_STATUS::RETIRED": {
           "type": "boolean"
         },
-        "STUDENT": {
+        "EMPLOYMENT_STATUS::STUDENT": {
           "type": "boolean"
         },
-        "NONE_OF_ABOVE": {
+        "EMPLOYMENT_STATUS::NONE_OF_ABOVE": {
           "type": "boolean"
         }
       }
     },
-    "transportation": {
+    "TRANSPORTATION": {
       "type": "object",
       "properties": {
-        "CAR": {
+        "TRANSPORTATION::CAR": {
           "type": "boolean"
         },
-        "FREQUENT_AIR_TRAVEL": {
+        "TRANSPORTATION::FREQUENT_AIR_TRAVEL": {
           "type": "boolean"
         },
-        "PUBLIC_TRANSPORT": {
+        "TRANSPORTATION::PUBLIC_TRANSPORT": {
           "type": "boolean"
         },
-        "WALK_BIKE": {
+        "TRANSPORTATION::WALK_BIKE": {
           "type": "boolean"
         },
-        "WORK_FROM_HOME": {
+        "TRANSPORTATION::WORK_FROM_HOME": {
           "type": "boolean"
         },
-        "NONE_OF_ABOVE": {
+        "TRANSPORTATION::NONE_OF_ABOVE": {
           "type": "boolean"
         }
       }
@@ -170,57 +170,57 @@
       "type": "string",
       "pattern": "^([1-9]\\d*)(\\.(\\d{1}|\\d{2}))?$"
     },
-    "gender": {
+    "GENDER": {
       "type": "object",
       "properties": {
-        "FEMALE": {
+        "GENDER::FEMALE": {
           "type": "boolean"
         },
-        "MALE": {
+        "GENDER::MALE": {
           "type": "boolean"
         },
-        "TRANSGENDER_FEMALE": {
+        "GENDER::TRANSGENDER_FEMALE": {
           "type": "boolean"
         },
-        "TRANSGENDER_MALE": {
+        "GENDER::TRANSGENDER_MALE": {
           "type": "boolean"
         },
-        "GENDER_VARIANT": {
+        "GENDER::GENDER_VARIANT": {
           "type": "boolean"
         },
-        "SELF_IDENTIFY": {
+        "GENDER::SELF_IDENTIFY": {
           "type": "boolean"
         },
-        "NONE_OF_ABOVE": {
+        "GENDER::NONE_OF_ABOVE": {
           "type": "boolean"
         }
       }
     },
-    "raceEthnicityOrigin": {
+    "RACE_ETHNICITY_ORIGIN": {
       "type": "object",
       "properties": {
-        "AMERICAN_INDIAN_ALASKA_NATIVE": {
+        "RACE_ETHNICITY_ORIGIN::AMERICAN_INDIAN_ALASKA_NATIVE": {
           "type": "boolean"
         },
-        "ASIAN": {
+        "RACE_ETHNICITY_ORIGIN::ASIAN": {
           "type": "boolean"
         },
-        "BLACK_AFRICAN_AMERICAN": {
+        "RACE_ETHNICITY_ORIGIN::BLACK_AFRICAN_AMERICAN": {
           "type": "boolean"
         },
-        "HISPANIC_LATINO_SPANISH_ORIGIN": {
+        "RACE_ETHNICITY_ORIGIN::HISPANIC_LATINO_SPANISH_ORIGIN": {
           "type": "boolean"
         },
-        "HAWAIIAN_PACIFIC_ISLANDER": {
+        "RACE_ETHNICITY_ORIGIN::HAWAIIAN_PACIFIC_ISLANDER": {
           "type": "boolean"
         },
-        "WHITE": {
+        "RACE_ETHNICITY_ORIGIN::WHITE": {
           "type": "boolean"
         },
-        "OTHER_RACE_ETHNICITY": {
+        "RACE_ETHNICITY_ORIGIN::OTHER_RACE_ETHNICITY": {
           "type": "boolean"
         },
-        "NONE_OF_ABOVE": {
+        "RACE_ETHNICITY_ORIGIN::NONE_OF_ABOVE": {
           "type": "boolean"
         }
       }
@@ -248,17 +248,17 @@
     "zipCode",
     "phone",
     "residentsInHome",
-    "healthHistory",
+    "HEALTH_HISTORY",
     "diagnosed",
     "closeContactPositive",
     "hospitalized",
     "smokeOrVape",
-    "employmentStatus",
-    "transportation",
+    "EMPLOYMENT_STATUS",
+    "TRANSPORTATION",
     "closeContact",
     "height",
     "weight",
-    "gender",
-    "raceEthnicityOrigin"
+    "GENDER",
+    "RACE_ETHNICITY_ORIGIN"
   ]
 }
