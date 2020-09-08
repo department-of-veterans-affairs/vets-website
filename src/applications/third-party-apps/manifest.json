@@ -1,0 +1,6 @@
+{
+  "appName": "Third Party Applications",
+  "entryFile": "./third-party-apps-entry",
+  "entryName": "third-party-apps",
+  "rootUrl": "/third-party-applications"
+}

@@ -1,0 +1,31 @@
+.va-u-outline--none:focus {
+  outline: none;
+}
+
+.third-party-apps {
+  hr {
+    border-top: none;
+  }
+
+  .search-results {
+    li {
+      list-style: none;
+    }
+
+    ol li {
+      list-style: disc;
+    }
+  }
+
+  .third-party-app {
+    border-radius: 5px;
+
+    img {
+      max-width: 70px;
+    }
+
+    .learn-more {
+      margin-left: 86px;
+    }
+  }
+}
