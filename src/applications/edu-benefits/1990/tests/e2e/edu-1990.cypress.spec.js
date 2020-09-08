@@ -27,16 +27,29 @@ const form = createTestConfig(
           },
         },
       });
+      cy.get('@testData').then(testData => {
+        cy.route('GET', '/v0/in_progress_forms/1990', testData);
+      });
     },
     pageHooks: {
       introduction: ({ afterHook }) => {
+        cy.findByText(/Find the right application form/i, {
+          selector: 'button',
+        })
+          .first()
+          .click();
+        cy.get('#NewBenefit-0').check();
+        cy.get('#ClaimingBenefitOwnService-0').check();
+        cy.get('#NationalCallToService-1').click();
+        cy.get('#VetTec-1').click();
+        cy.get('#apply-now-link').click();
+
         afterHook(() => {
-          cy.get('#NewBenefit-0').check();
-          cy.get('#ClaimingBenefitOwnService-0').check();
-          cy.get('#NationalCallToService-1').click();
-          cy.get('#VetTec-1').click();
-          cy.get('#apply-now-link').click();
-          cy.get('#2-continueButton').click();
+          cy.findAllByText(/Start the education application/i, {
+            selector: 'button',
+          })
+            .first()
+            .click();
         });
       },
     },

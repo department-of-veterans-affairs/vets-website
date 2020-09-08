@@ -43,7 +43,7 @@ const form = createTestConfig(
         cy.get('#apply-now-link').click();
 
         afterHook(() => {
-          cy.findByText(/Start the VET TEC application/i, {
+          cy.findAllByText(/Start the VET TEC application/i, {
             selector: 'button',
           })
             .first()
