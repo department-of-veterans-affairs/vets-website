@@ -11,7 +11,7 @@ describe('healthcare-questionnaire - AppointmentInfoBox', () => {
     const fakeStore = createFakeStore();
     const appointmentDetails = mount(<AppointmentInfoBox store={fakeStore} />);
     expect(appointmentDetails.find('[data-testid="fullName"]').text()).to.equal(
-      'CALVIN C FLETCHER',
+      'Calvin C Fletcher',
     );
     expect(
       appointmentDetails.find('[data-testid="dateOfBirth"]').text(),
