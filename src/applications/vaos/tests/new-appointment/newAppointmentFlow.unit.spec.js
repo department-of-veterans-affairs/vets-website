@@ -10,6 +10,7 @@ import {
 
 import past from '../../api/past.json';
 import supportedSites from '../../api/sites-supporting-var.json';
+import parentFacilities from '../../api/facilities.json';
 
 import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
@@ -64,8 +65,9 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be vaFacility page if CC check has an error', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, supportedSites);
-        setFetchJSONFailure(global.fetch.onCall(1), {});
+        setFetchJSONResponse(global.fetch, parentFacilities);
+        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
+        setFetchJSONResponse(global.fetch.onCall(2), {});
         const state = {
           ...userState,
           featureToggles: {
@@ -91,8 +93,9 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be typeOfCare page if CC check has an error and podiatry chosen', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, supportedSites);
-        setFetchJSONFailure(global.fetch.onCall(1), {});
+        setFetchJSONResponse(global.fetch, parentFacilities);
+        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
+        setFetchJSONFailure(global.fetch.onCall(2), {});
         const state = {
           ...userState,
           featureToggles: {
@@ -145,8 +148,9 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be requestDateTime if CC support and typeOfCare is podiatry', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, supportedSites);
-        setFetchJSONResponse(global.fetch.onCall(1), {
+        setFetchJSONResponse(global.fetch, parentFacilities);
+        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
+        setFetchJSONResponse(global.fetch.onCall(2), {
           data: {
             attributes: { eligible: true },
           },
@@ -198,8 +202,9 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be typeOfFacility page if site has CC support', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, supportedSites);
-        setFetchJSONResponse(global.fetch.onCall(1), {
+        setFetchJSONResponse(global.fetch, parentFacilities);
+        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
+        setFetchJSONResponse(global.fetch.onCall(2), {
           data: {
             attributes: { eligible: true },
           },
@@ -801,8 +806,9 @@ describe('VAOS newAppointmentFlow', () => {
 
     it('should be typeOfFacility page when optometry selected', async () => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, supportedSites);
-      setFetchJSONResponse(global.fetch.onCall(1), {
+      setFetchJSONResponse(global.fetch, parentFacilities);
+      setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
+      setFetchJSONResponse(global.fetch.onCall(2), {
         data: {
           attributes: { eligible: true },
         },
@@ -834,8 +840,9 @@ describe('VAOS newAppointmentFlow', () => {
 
     it('should be vaFacility page when Ophthalmology selected', async () => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, supportedSites);
-      setFetchJSONResponse(global.fetch.onCall(1), {
+      setFetchJSONResponse(global.fetch, parentFacilities);
+      setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
+      setFetchJSONResponse(global.fetch.onCall(2), {
         data: {
           attributes: { eligible: true },
         },

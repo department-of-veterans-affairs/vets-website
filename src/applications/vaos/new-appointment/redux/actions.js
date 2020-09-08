@@ -124,12 +124,8 @@ export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED';
 export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
-export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
-  'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED';
-export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED =
-  'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED';
 export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 export const FORM_UPDATE_CC_ELIGIBILITY =
@@ -167,10 +163,11 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-export function updateCCEnabledSystems(ccEnabledSystems) {
+export function updateCCEnabledSystems(ccEnabledSystems, parentFacilities) {
   return {
     type: FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
     ccEnabledSystems,
+    parentFacilities,
   };
 }
 
@@ -615,37 +612,11 @@ export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
 }
 
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
-  return async (dispatch, getState) => {
-    const useVSP = vaosVSPAppointmentNew(getState());
-    const newAppointment = getState().newAppointment;
-    const siteIds = newAppointment.ccEnabledSystems;
-    let parentFacilities = newAppointment.parentFacilities;
-
-    dispatch({
-      type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
-    });
-
-    try {
-      if (!newAppointment.parentFacilities) {
-        parentFacilities = await getOrganizations({
-          siteIds,
-          useVSP,
-        });
-      }
-
-      dispatch({
-        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
-        page,
-        uiSchema,
-        schema,
-        parentFacilities,
-      });
-    } catch (e) {
-      captureError(e);
-      dispatch({
-        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
-      });
-    }
+  return {
+    type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+    page,
+    uiSchema,
+    schema,
   };
 }
 

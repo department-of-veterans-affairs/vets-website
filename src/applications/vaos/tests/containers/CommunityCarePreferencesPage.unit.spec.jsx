@@ -14,28 +14,10 @@ function CommunityCarePreferencesPageTester(props) {
     props.data,
     'openCommunityCarePreferencesPage',
   );
-  return (
-    <CommunityCarePreferencesPage
-      {...props}
-      {...formProps}
-      parentFacilitiesStatus={FETCH_STATUS.succeeded}
-    />
-  );
+  return <CommunityCarePreferencesPage {...props} {...formProps} />;
 }
 
 describe('VAOS <CommunityCarePreferencesPage>', () => {
-  it('should render loading state', () => {
-    const form = mount(
-      <CommunityCarePreferencesPage
-        openCommunityCarePreferencesPage={f => f}
-        parentFacilitiesStatus={FETCH_STATUS.loading}
-      />,
-    );
-
-    expect(form.find('LoadingIndicator').exists()).to.be.true;
-    form.unmount();
-  });
-
   it('should render', () => {
     const form = mount(<CommunityCarePreferencesPageTester />);
 

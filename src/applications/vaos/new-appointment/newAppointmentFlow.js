@@ -9,6 +9,7 @@ import {
   getCCEType,
   getTypeOfCare,
   selectSystemIds,
+  vaosVSPAppointmentNew,
 } from '../utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
 import { getCommunityCare, getSitesSupportingVAR } from '../api';
@@ -20,6 +21,10 @@ import {
   updateCCEnabledSystems,
   updateCCEligibility,
 } from './redux/actions';
+import {
+  getOrganizations,
+  getSiteIdFromOrganization,
+} from '../services/organization';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -75,6 +80,7 @@ export default {
     url: '/new-appointment',
     async next(state, dispatch) {
       const communityCareEnabled = vaosCommunityCare(state);
+      const useVSP = vaosVSPAppointmentNew(state);
 
       if (isSleepCare(state)) {
         dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
@@ -85,12 +91,15 @@ export default {
         try {
           if (communityCareEnabled) {
             // Check if user registered systems support community care...
-            const userSystemIds = selectSystemIds(state);
-            const ccSites = await getSitesSupportingVAR(userSystemIds);
-            const ccEnabledSystems = userSystemIds.filter(id =>
-              ccSites.some(site => site.id === id),
+            const siteIds = selectSystemIds(state);
+            const parentIds = await getOrganizations({ siteIds, useVSP });
+            const ccSites = await getSitesSupportingVAR(parentIds);
+            const ccEnabledSystems = parentIds.filter(parent =>
+              ccSites.some(
+                site => site.id === getSiteIdFromOrganization(parent),
+              ),
             );
-            dispatch(updateCCEnabledSystems(ccEnabledSystems));
+            dispatch(updateCCEnabledSystems(ccEnabledSystems, parentIds));
 
             // Reroute to VA facility page if none of the user's registered systems support community care.
             if (ccEnabledSystems.length) {
@@ -161,18 +170,22 @@ export default {
     async next(state, dispatch) {
       const data = getFormData(state);
       const communityCareEnabled = vaosCommunityCare(state);
+      const useVSP = vaosVSPAppointmentNew(state);
 
       // check that the result does have a ccId
       if (getTypeOfCare(data)?.ccId !== undefined) {
         try {
           if (communityCareEnabled) {
             // Check if user registered systems support community care...
-            const userSystemIds = selectSystemIds(state);
-            const ccSites = await getSitesSupportingVAR(userSystemIds);
-            const ccEnabledSystems = userSystemIds.filter(id =>
-              ccSites.some(site => site.id === id),
+            const siteIds = selectSystemIds(state);
+            const parentIds = await getOrganizations({ siteIds, useVSP });
+            const ccSites = await getSitesSupportingVAR(parentIds);
+            const ccEnabledSystems = parentIds.filter(parent =>
+              ccSites.some(
+                site => site.id === getSiteIdFromOrganization(parent),
+              ),
             );
-            dispatch(updateCCEnabledSystems(ccEnabledSystems));
+            dispatch(updateCCEnabledSystems(ccEnabledSystems, parentIds));
 
             // Reroute to VA facility page if none of the user's registered systems support community care.
             if (ccEnabledSystems.length) {

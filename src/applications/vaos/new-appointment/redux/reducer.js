@@ -39,9 +39,7 @@ import {
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
-  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
-  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
@@ -66,10 +64,7 @@ import {
 } from '../../utils/constants';
 
 import { getTypeOfCare } from '../../utils/selectors';
-import {
-  getOrganizationBySiteId,
-  getSiteIdFromOrganization,
-} from '../../services/organization';
+import { getSiteIdFromOrganization } from '../../services/organization';
 import { getClinicId } from '../../services/healthcare-service/transformers';
 
 const initialState = {
@@ -366,8 +361,7 @@ export default function formReducer(state = initialState, action) {
         pastAppointments,
       };
     }
-    case FORM_PAGE_FACILITY_OPEN_FAILED:
-    case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED: {
+    case FORM_PAGE_FACILITY_OPEN_FAILED: {
       return {
         ...state,
         parentFacilitiesStatus: FETCH_STATUS.failed,
@@ -460,6 +454,7 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         ccEnabledSystems: action.ccEnabledSystems,
+        parentFacilities: action.parentFacilities,
       };
     }
     case FORM_ELIGIBILITY_CHECKS: {
@@ -720,12 +715,6 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN: {
-      return {
-        ...state,
-        parentFacilitiesStatus: FETCH_STATUS.loading,
-      };
-    }
     case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED: {
       let formData = state.data;
       const typeOfCare = getTypeOfCare(formData);
@@ -736,30 +725,23 @@ export default function formReducer(state = initialState, action) {
         } appointment?`,
         action.schema,
       );
-      const parentFacilities =
-        action.parentFacilities || state.parentFacilities;
+
       if (state.ccEnabledSystems?.length === 1) {
         formData = {
           ...formData,
-          communityCareSystemId: getOrganizationBySiteId(
-            parentFacilities,
-            state.ccEnabledSystems[0],
-          ).id,
+          communityCareSystemId: state.ccEnabledSystems[0].id,
         };
         initialSchema = unset(
           'properties.communityCareSystemId',
           initialSchema,
         );
       } else {
-        const systems = action.parentFacilities.filter(
-          parent => !parent.partOf,
-        );
         initialSchema = set(
           'properties.communityCareSystemId.enum',
-          systems.map(system => system.id),
+          state.ccEnabledSystems.map(system => system.id),
           initialSchema,
         );
-        initialSchema.properties.communityCareSystemId.enumNames = systems.map(
+        initialSchema.properties.communityCareSystemId.enumNames = state.ccEnabledSystems.map(
           system =>
             `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
         );
@@ -773,8 +755,6 @@ export default function formReducer(state = initialState, action) {
 
       return {
         ...state,
-        parentFacilitiesStatus: FETCH_STATUS.succeeded,
-        parentFacilities,
         data,
         pages: {
           ...state.pages,

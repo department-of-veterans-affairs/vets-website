@@ -21,9 +21,7 @@ import {
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_DATA_CHANGED,
-  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
-  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
@@ -51,6 +49,7 @@ import {
 
 import { transformParentFacilities } from '../../../services/organization/transformers';
 import { transformDSFacilities } from '../../../services/location/transformers';
+import { getSiteIdFromOrganization } from '../../../services/organization';
 
 const parentFacilitiesParsed = transformParentFacilities(
   parentFacilities.data.map(item => ({
@@ -908,16 +907,6 @@ describe('VAOS reducer: newAppointment', () => {
   });
 
   describe('CC preferences page', () => {
-    it('should set loading state', () => {
-      const action = {
-        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
-      };
-
-      const newState = newAppointmentReducer(defaultState, action);
-
-      expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.loading);
-    });
-
     it('should remove system id if only one', () => {
       const action = {
         type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
@@ -947,16 +936,15 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const state = {
         ...defaultState,
-        parentFacilitiesStatus: FETCH_STATUS.loading,
-        ccEnabledSystems: ['983'],
+        ccEnabledSystems: parentFacilitiesParsed.filter(
+          facility => getSiteIdFromOrganization(facility) === '983',
+        ),
         data: {
           typeOfCareId: '323',
         },
       };
 
       const newState = newAppointmentReducer(state, action);
-
-      expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.succeeded);
 
       expect(newState.pages.ccPreferences.properties.communityCareSystemId).to
         .be.undefined;
@@ -978,20 +966,18 @@ describe('VAOS reducer: newAppointment', () => {
         },
         uiSchema: {},
         page: 'ccPreferences',
-        parentFacilities: parentFacilitiesParsed,
       };
       const state = {
         ...defaultState,
-        parentFacilitiesStatus: FETCH_STATUS.loading,
-        ccEnabledSystems: ['983', '984'],
+        ccEnabledSystems: parentFacilitiesParsed.filter(facility =>
+          ['983', '984'].includes(getSiteIdFromOrganization(facility)),
+        ),
         data: {
           typeOfCareId: '323',
         },
       };
 
       const newState = newAppointmentReducer(state, action);
-
-      expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.succeeded);
 
       expect(newState.pages.ccPreferences.properties.communityCareSystemId).not
         .to.be.undefined;
@@ -1003,16 +989,6 @@ describe('VAOS reducer: newAppointment', () => {
         enum: ['var983', 'var984'],
         enumNames: ['Cheyenne, WY', 'Dayton, OH'],
       });
-    });
-
-    it('should set error', () => {
-      const action = {
-        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
-      };
-
-      const newState = newAppointmentReducer(defaultState, action);
-
-      expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.failed);
     });
   });
   describe('submit request', () => {
