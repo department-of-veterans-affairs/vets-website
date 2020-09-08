@@ -12,8 +12,8 @@ import {
   getParentOfLocation,
   getFacilityIdFromLocation,
 } from '../../../services/location';
-import facilities983 from '../../..//services/mocks/var/facilities_983.json';
-import facilityDetails from '../../..//services/mocks/var/facility_data.json';
+import facilities983 from '../../../services/mocks/var/facilities_983.json';
+import facilityDetails from '../../../services/mocks/var/facility_data.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
 
 describe('VAOS Location service', () => {

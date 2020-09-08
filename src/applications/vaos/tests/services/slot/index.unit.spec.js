@@ -6,8 +6,8 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import { getSlots } from '../../../services/slot';
-import slots from '../../..//services/mocks/var/slots.json';
-import vspSlots from '../../..//services/mocks/fhir/mock_slots.json';
+import slots from '../../../services/mocks/var/slots.json';
+import vspSlots from '../../../services/mocks/fhir/mock_slots.json';
 
 describe('VAOS Slot service', () => {
   describe('getSlots', () => {

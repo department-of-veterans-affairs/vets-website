@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import facilities from '../../..//services/mocks/var/facilities.json';
+import facilities from '../../../services/mocks/var/facilities.json';
 import { transformParentFacilities } from '../../../services/organization/transformers';
 
 const facilitiesParsed = facilities.data.map(f => ({

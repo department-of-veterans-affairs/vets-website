@@ -1,15 +1,15 @@
 /* eslint-disable no-param-reassign */
 import moment from '../../utils/moment-tz';
 
-import confirmedVA from '../..//services/mocks/var/confirmed_va.json';
-import confirmedCC from '../..//services/mocks/var/confirmed_cc.json';
-import requests from '../..//services/mocks/var/requests.json';
-import cancelReasons from '../..//services/mocks/var/cancel_reasons.json';
-import supportedSites from '../..//services/mocks/var/sites-supporting-var.json';
-import facilities from '../..//services/mocks/var/facilities.json';
-import facilities983 from '../..//services/mocks/var/facilities_983.json';
-import clinicList983 from '../..//services/mocks/var/clinicList983.json';
-import slots from '../..//services/mocks/var/slots.json';
+import confirmedVA from '../../services/mocks/var/confirmed_va.json';
+import confirmedCC from '../../services/mocks/var/confirmed_cc.json';
+import requests from '../../services/mocks/var/requests.json';
+import cancelReasons from '../../services/mocks/var/cancel_reasons.json';
+import supportedSites from '../../services/mocks/var/sites-supporting-var.json';
+import facilities from '../../services/mocks/var/facilities.json';
+import facilities983 from '../../services/mocks/var/facilities_983.json';
+import clinicList983 from '../../services/mocks/var/clinicList983.json';
+import slots from '../../services/mocks/var/slots.json';
 import {
   getVAAppointmentMock,
   getExpressCareRequestCriteriaMock,

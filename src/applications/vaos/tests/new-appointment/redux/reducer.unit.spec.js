@@ -37,8 +37,8 @@ import {
   FORM_SUBMIT_SUCCEEDED,
 } from '../../../redux/sitewide';
 
-import parentFacilities from '../../..//services/mocks/var/facilities.json';
-import facilities983 from '../../..//services/mocks/var/facilities_983.json';
+import parentFacilities from '../../../services/mocks/var/facilities.json';
+import facilities983 from '../../../services/mocks/var/facilities_983.json';
 import {
   FETCH_STATUS,
   REASON_ADDITIONAL_INFO_TITLES,

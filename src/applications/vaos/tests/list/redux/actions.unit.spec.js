@@ -41,8 +41,8 @@ import {
 } from '../../../utils/constants';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../../redux/sitewide';
 
-import facilityData from '../../..//services/mocks/var/facility_data.json';
-import cancelReasons from '../../..//services/mocks/var/cancel_reasons.json';
+import facilityData from '../../../services/mocks/var/facility_data.json';
+import cancelReasons from '../../../services/mocks/var/cancel_reasons.json';
 import { getVAAppointmentMock } from '../../mocks/v0';
 
 describe('VAOS actions: appointments', () => {
