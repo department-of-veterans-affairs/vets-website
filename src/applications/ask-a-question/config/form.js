@@ -4,7 +4,6 @@ import fullSchema from '../0873-schema.json';
 // import fullSchema from 'vets-json-schema/dist/0873-schema.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
-
 import { contactInformationPage, inquiryPage } from './pages';
 
 const { fullName, phone } = fullSchema.definitions;
@@ -30,11 +29,26 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   title: 'Contact us',
+  subTitle: 'Form 0873',
+  customText: {
+    reviewPageTitle: 'Review your information',
+  },
   defaultDefinitions: {
     fullName,
     phone,
   },
   chapters: {
+    topicChapter: {
+      title: "Share why you're contacting us",
+      pages: {
+        [formPages.topic]: {
+          path: 'topic',
+          title: 'Your message',
+          uiSchema: inquiryPage.uiSchema,
+          schema: inquiryPage.schema,
+        },
+      },
+    },
     contactInformationChapter: {
       title: 'Tell us about you',
       pages: {
@@ -43,17 +57,6 @@ const formConfig = {
           title: 'Contact Information',
           uiSchema: contactInformationPage.uiSchema,
           schema: contactInformationPage.schema,
-        },
-      },
-    },
-    topicChapter: {
-      title: "Share why you're contacting us",
-      pages: {
-        [formPages.topic]: {
-          path: 'topic',
-          title: 'Your inquiry',
-          uiSchema: inquiryPage.uiSchema,
-          schema: inquiryPage.schema,
         },
       },
     },

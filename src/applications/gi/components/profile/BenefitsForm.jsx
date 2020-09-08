@@ -229,7 +229,7 @@ export class BenefitsForm extends React.Component {
   }
 
   render() {
-    if (this.props.gibctFilterEnhancement) {
+    if (this.props.gibctBenefitFilterEnhancement) {
       return (
         <div className="filter-additional-info">
           <AdditionalInfo triggerText="Your military details">
