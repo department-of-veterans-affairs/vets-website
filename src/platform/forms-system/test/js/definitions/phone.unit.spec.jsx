@@ -43,7 +43,7 @@ describe('Schemaform definition phone', () => {
     const formDOM = findDOMNode(form);
     ReactTestUtils.Simulate.change(formDOM.querySelector('input'), {
       target: {
-        value: 'asdf',
+        value: '1asdf',
       },
     });
     ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
