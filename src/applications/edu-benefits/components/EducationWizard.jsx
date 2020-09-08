@@ -426,6 +426,7 @@ export class EducationWizard extends React.Component {
                       To be eligible for the{' '}
                       <a
                         href="https://benefits.va.gov/gibill/fgib/stem.asp"
+                        rel="noopener noreferrer"
                         onClick={() =>
                           recordEvent({
                             event: 'edu-navigation',
@@ -456,6 +457,8 @@ export class EducationWizard extends React.Component {
                             are pursuing a teaching certification.{' '}
                             <a
                               href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                              rel="noopener noreferrer"
+                              target="_blank"
                               onClick={() =>
                                 recordEvent({
                                   event: 'edu-navigation',
@@ -474,7 +477,9 @@ export class EducationWizard extends React.Component {
                         your benefits when you submit your application.{' '}
                         <a
                           className="checkBenefitsLink"
-                          href="../gi-bill/post-9-11/ch-33-benefit/"
+                          href="/education/gi-bill/post-9-11/ch-33-benefit/"
+                          rel="noopener noreferrer"
+                          target="_blank"
                           onClick={() =>
                             recordEvent({
                               event: 'edu-navigation',
