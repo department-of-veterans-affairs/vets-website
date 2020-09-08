@@ -45,7 +45,7 @@ import {
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
-  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
@@ -1054,7 +1054,7 @@ describe('VAOS newAppointment actions', () => {
       );
 
       expect(succeededAction).to.deep.equal({
-        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
         schema: defaultSchema,
         page: 'ccPreferences',
         uiSchema: {},

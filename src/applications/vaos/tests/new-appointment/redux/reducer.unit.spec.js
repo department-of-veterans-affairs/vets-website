@@ -21,7 +21,7 @@ import {
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_DATA_CHANGED,
-  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
@@ -909,7 +909,7 @@ describe('VAOS reducer: newAppointment', () => {
   describe('CC preferences page', () => {
     it('should remove system id if only one', () => {
       const action = {
-        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
         schema: {
           type: 'object',
           required: [],
@@ -953,7 +953,7 @@ describe('VAOS reducer: newAppointment', () => {
 
     it('should fill in enum props if more than one cc system', () => {
       const action = {
-        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
         schema: {
           type: 'object',
           required: [],
