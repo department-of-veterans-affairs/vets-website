@@ -3,7 +3,6 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import featureToggles from '../e2e/fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 
 Cypress.config('waitForAnimations', true);
@@ -18,7 +17,7 @@ const form = createTestConfig(
     },
     setupPerTest: () => {
       cy.login(mockUser);
-      cy.route('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
       cy.route('POST', '/v0/education_benefits_claims/1990', {
         data: {
           attributes: {
