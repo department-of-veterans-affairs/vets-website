@@ -37,6 +37,8 @@
     "nightwatch-sauce": "nightwatch -c config/nightwatch-sauce.js",
     "nightwatch-visual": "node src/platform/testing/visual-regression/index.js",
     "install-repos": "./script/install-repos.sh",
+    "pact:can-i-deploy": "node ./script/can-i-deploy.js",
+    "pact:publish": "node ./script/publish-pacts.js",
     "postinstall": "npm rebuild node-sass",
     "proxy-rewrite:verify-targets": "node src/applications/proxy-rewrite/scripts/verify-injection-targets.js",
     "pr-check": "node script/pr-check.js",
@@ -49,6 +51,7 @@
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:accessibility:docker": "docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility && docker-compose -p accessibility stop",
     "test:best-practice": "./script/run-nightwatch.sh --env bestpractice",
+    "test:contract": "./script/run-pact-tests.sh",
     "test:coverage": "npm run test:unit -- --coverage",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
     "test:puppeteer": "./script/run-puppeteer-tests.sh",
@@ -127,6 +130,7 @@
     "@cypress/webpack-preprocessor": "^5.4.1",
     "@department-of-veterans-affairs/generator-vets-website": "^3.4.0",
     "@octokit/rest": "^18.0.0",
+    "@pact-foundation/pact": "^9.11.1",
     "@sentry/browser": "^5.4.0",
     "@testing-library/cypress": "^6.0.0",
     "@testing-library/dom": "^7.17.1",
@@ -167,7 +171,7 @@
     "cypress-axe": "^0.8.1",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
-    "decompress": "^4.2.0",
+    "decompress": "^4.2.1",
     "enhanced-resolve": "^0.7.6",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
@@ -264,7 +268,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "6.9.5",
-    "@department-of-veterans-affairs/formation-react": "5.4.10",
+    "@department-of-veterans-affairs/formation-react": "5.4.11",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.10.0",
@@ -340,6 +344,7 @@
     "**/jpeg-js": "^0.4.0",
     "**/dot-prop": "^5.1.1",
     "cypress": "^4.8.0",
-    "tar-fs/tar-stream/bl": "^4.0.3"
+    "tar-fs/tar-stream/bl": "^4.0.3",
+    "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }
 }

@@ -41,8 +41,8 @@ import {
 } from '../../../utils/constants';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../../redux/sitewide';
 
-import facilityData from '../../../api/facility_data.json';
-import cancelReasons from '../../../api/cancel_reasons.json';
+import facilityData from '../../../services/mocks/var/facility_data.json';
+import cancelReasons from '../../../services/mocks/var/cancel_reasons.json';
 import { getVAAppointmentMock } from '../../mocks/v0';
 
 describe('VAOS actions: appointments', () => {
@@ -53,6 +53,10 @@ describe('VAOS actions: appointments', () => {
   afterEach(() => {
     resetFetch();
   });
+
+  const featureToggles = {
+    vaOnlineSchedulingExpressCare: true,
+  };
 
   it('should fetch future appointments', async () => {
     const data = {
@@ -67,7 +71,9 @@ describe('VAOS actions: appointments', () => {
     setFetchJSONResponse(global.fetch.onCall(4), facilityData);
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy);
+    await thunk(dispatchSpy, () => ({
+      featureToggles,
+    }));
     expect(dispatchSpy.firstCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS,
     );
@@ -81,6 +87,22 @@ describe('VAOS actions: appointments', () => {
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
     expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
+
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-get-future-appointments-started',
+    );
+    expect(global.window.dataLayer[1].event).to.equal(
+      'vaos-get-pending-appointments-started',
+    );
+    expect(global.window.dataLayer[2].event).to.equal(
+      'vaos-get-pending-appointments-retrieved',
+    );
+    expect(global.window.dataLayer[4].event).to.equal(
+      'vaos-get-future-appointments-retrieved',
+    );
+    expect(
+      global.window.dataLayer[4]['vaos-upcoming-number-of-cards'],
+    ).to.equal(0);
   });
 
   it('should dispatch fail action when fetching future appointments', async () => {
@@ -90,7 +112,9 @@ describe('VAOS actions: appointments', () => {
     setFetchJSONFailure(global.fetch, data);
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy);
+    await thunk(dispatchSpy, () => ({
+      featureToggles,
+    }));
     expect(dispatchSpy.firstCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS,
     );
@@ -99,6 +123,20 @@ describe('VAOS actions: appointments', () => {
     );
     expect(dispatchSpy.thirdCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS_FAILED,
+    );
+
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-get-future-appointments-started',
+    );
+    expect(global.window.dataLayer[1].event).to.equal(
+      'vaos-get-pending-appointments-started',
+    );
+    expect(global.window.dataLayer[2].event).to.equal(
+      'vaos-get-pending-appointments-failed',
+    );
+    expect(global.window.dataLayer[3].event).to.equal('vaos-error');
+    expect(global.window.dataLayer[4].event).to.equal(
+      'vaos-get-future-appointments-failed',
     );
   });
 
@@ -111,6 +149,7 @@ describe('VAOS actions: appointments', () => {
     const thunk = fetchPastAppointments('2019-02-02', '2029-12-31', 1);
     const dispatchSpy = sinon.spy();
     const getState = () => ({
+      featureToggles,
       appointments: {
         pastStatus: 'notStarted',
         past: [{ facilityId: '442' }],
@@ -126,6 +165,13 @@ describe('VAOS actions: appointments', () => {
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
     expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
+
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-get-past-appointments-started',
+    );
+    expect(global.window.dataLayer[1].event).to.equal(
+      'vaos-get-past-appointments-retrieved',
+    );
   });
 
   it('should dispatch fail action when fetching past appointments', async () => {
@@ -146,6 +192,14 @@ describe('VAOS actions: appointments', () => {
     expect(dispatchSpy.secondCall.args[0].type).to.eql(
       FETCH_PAST_APPOINTMENTS_FAILED,
     );
+
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-get-past-appointments-started',
+    );
+    expect(global.window.dataLayer[1].event).to.equal('vaos-error');
+    expect(global.window.dataLayer[2].event).to.equal(
+      'vaos-get-past-appointments-failed',
+    );
   });
 
   it('should not send fail action if location details fetch fails', async () => {
@@ -159,7 +213,7 @@ describe('VAOS actions: appointments', () => {
     setFetchJSONFailure(global.fetch.onCall(3), {});
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy);
+    await thunk(dispatchSpy, () => ({ featureToggles }));
     expect(dispatchSpy.firstCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS,
     );
