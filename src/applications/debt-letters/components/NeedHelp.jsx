@@ -1,8 +1,8 @@
 import React from 'react';
 
 const NeedHelp = () => (
-  <div className="vads-u-font-family--sans">
-    <h4 className="right-heading">Need help?</h4>
+  <div className="vads-u-font-family--sans vads-u-margin-top--4">
+    <h3 className="right-heading vads-u-margin-top--0">Need help?</h3>
     <p>
       Call the Debt Management Center between 6:30 a.m. and 6:00 p.m. CT using
       the numbers below:

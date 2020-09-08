@@ -4,17 +4,17 @@ import {
   addressUISchema,
 } from 'applications/disability-benefits/686c-674/config/address-schema';
 
-const dependentAddress = buildAddressSchema(true);
+const claimantAddress = buildAddressSchema(true);
 // reset boolean type for checkbox
-dependentAddress.properties['view:livesOnMilitaryBase'] = {
+claimantAddress.properties['view:livesOnMilitaryBase'] = {
   type: 'boolean',
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    dependentAddress,
-    phoneNumber: {
+    claimantAddress,
+    claimantPhoneNumber: {
       type: 'string',
       minLength: 7,
       maxLength: 10,
@@ -33,8 +33,8 @@ export const schema = {
 };
 
 export const uiSchema = {
-  dependentAddress: addressUISchema(true, 'dependentAddress', () => true),
-  phoneNumber: {
+  claimantAddress: addressUISchema(true, 'dependentAddress', () => true),
+  claimantPhoneNumber: {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },

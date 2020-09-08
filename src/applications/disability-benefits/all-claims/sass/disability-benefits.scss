@@ -49,10 +49,6 @@ ul.original-disability-list {
   }
 }
 
-.progress-box .va-growable button {
-  max-height: 2.3em;
-}
-
 // Bring the text of an element nested in a <label> up to the same line as the check box
 .form-checkbox input[type="checkbox"] + label {
   div {
@@ -155,6 +151,12 @@ div.review {
     margin-top: 0;
     margin-bottom: 0;
   }
+}
+
+/* Remove bold on New Disability AdditionalInfo link in review #12678 */
+.usa-accordion > ul button.additional-info-button,
+.usa-accordion-bordered > ul button.additional-info-button {
+  font-weight: normal;
 }
 
 @media (min-width: 481px) {

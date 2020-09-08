@@ -10,9 +10,9 @@ function OnlineClassesFilter({
   onlineClasses,
   onChange,
   handleInputFocus,
-  gibctFilterEnhancement,
+  gibctBenefitFilterEnhancement,
 }) {
-  if (gibctFilterEnhancement) {
+  if (gibctBenefitFilterEnhancement) {
     return (
       <div className="filter-additional-info vads-u-margin-bottom--4">
         <AdditionalInfo triggerText="Your housing allowance">

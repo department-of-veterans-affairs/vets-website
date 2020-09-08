@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { focusElement } from 'platform/utilities/ui';
+import { resetDataLayer } from '../../../utils/events';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function TabItem({
   onNextTab,
@@ -40,6 +42,13 @@ export default function TabItem({
         activeClassName="vaos-appts__tab--current"
         to={tabpath}
         exact
+        onClick={() => {
+          recordEvent({
+            event: 'nav-tab-click',
+            'tab-text': title,
+          });
+          resetDataLayer();
+        }}
       >
         {title}
       </NavLink>
