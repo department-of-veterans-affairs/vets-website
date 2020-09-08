@@ -67,7 +67,7 @@ const AppointmentInfoBox = props => {
           {residential && (
             <>
               <p>
-                <span>Residential Address: </span>
+                <span>Home Address: </span>
                 <span
                   data-testid="residentialAddress"
                   className="vads-u-font-weight--bold"
