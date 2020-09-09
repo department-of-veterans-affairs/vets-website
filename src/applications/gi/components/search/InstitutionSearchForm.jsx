@@ -65,7 +65,6 @@ function InstitutionSearchForm(props) {
             showHeader
             handleInputFocus={handleInstitutionSearchInputFocus}
             gibctBenefitFilterEnhancement={props.gibctBenefitFilterEnhancement}
-            gibctFilterEnhancement={props.gibctFilterEnhancement}
           />
           <OnlineClassesFilter
             onlineClasses={props.eligibility.onlineClasses}

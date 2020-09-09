@@ -62,7 +62,6 @@ describe('<InstitutionSearchForm>', () => {
         autocomplete={autocomplete}
         eligibility={eligibility}
         filters
-        gibctCh33BenefitRateUpdate
         showModal={() => {}}
         hideModal={() => {}}
         clearAutocompleteSuggestions={() => {}}
