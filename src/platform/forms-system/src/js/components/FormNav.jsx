@@ -13,13 +13,9 @@ import {
 import PropTypes from 'prop-types';
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
-export default class FormNav extends React.Component {
-  // The formConfig transforming is a little heavy, so skip it if we can
-  shouldComponentUpdate(newProps) {
-    return !shallowEqual(this.props, newProps);
-  }
-  render() {
-    const { formConfig, currentPath, formData } = this.props;
+const FormNav = React.memo(
+  props => {
+    const { formConfig, currentPath, formData } = props;
 
     // This is converting the config into a list of pages with chapter keys,
     // finding the current page, then getting the chapter name using the key
@@ -75,8 +71,11 @@ export default class FormNav extends React.Component {
         </div>
       </div>
     );
-  }
-}
+  },
+  (prevProps, nextProps) => !shallowEqual(prevProps, nextProps),
+);
+
+export default FormNav;
 
 FormNav.defaultProps = {
   formConfig: {
