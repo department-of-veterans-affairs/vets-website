@@ -14,7 +14,7 @@ import {
   submitRequest,
   getParentFacilities,
   getRequestLimits,
-} from '../../api';
+} from '../../services/var';
 
 import {
   transformFormToExpressCareRequest,

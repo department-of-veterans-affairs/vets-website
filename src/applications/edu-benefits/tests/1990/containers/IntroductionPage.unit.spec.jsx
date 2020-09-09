@@ -6,14 +6,9 @@ import {
   WIZARD_STATUS_COMPLETE,
   getWizardStatus,
 } from 'applications/static-pages/wizard';
-import { sessionStorageSetup } from 'platform/testing/utilities';
 
 describe('the Edu-Benefit 1990 Introduction Page', () => {
   let defaultProps;
-
-  before(() => {
-    sessionStorageSetup();
-  });
 
   beforeEach(() => {
     defaultProps = {

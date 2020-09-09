@@ -9,6 +9,7 @@ import {
   selectCheckbox,
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
+import { changeDropdown } from '../helpers/index.js';
 import formConfig from '../../config/form';
 
 describe('686 report dependent death', () => {
@@ -32,8 +33,8 @@ describe('686 report dependent death', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(6);
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('input').length).to.equal(8);
+    expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
 
@@ -49,7 +50,7 @@ describe('686 report dependent death', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -64,7 +65,7 @@ describe('686 report dependent death', () => {
       />,
     );
     selectRadio(form, 'root_deaths_0_dependentType', 'SPOUSE');
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(8);
     form.unmount();
   });
 
@@ -78,7 +79,7 @@ describe('686 report dependent death', () => {
       />,
     );
     selectRadio(form, 'root_deaths_0_dependentType', 'DEPENDENT_PARENT');
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(8);
     form.unmount();
   });
 
@@ -92,7 +93,7 @@ describe('686 report dependent death', () => {
       />,
     );
     selectRadio(form, 'root_deaths_0_dependentType', 'CHILD');
-    expect(form.find('input').length).to.equal(11);
+    expect(form.find('input').length).to.equal(13);
     form.unmount();
   });
 
@@ -111,6 +112,10 @@ describe('686 report dependent death', () => {
     selectRadio(form, 'root_deaths_0_dependentType', 'SPOUSE');
     fillData(form, 'input#root_deaths_0_fullName_first', 'Billy');
     fillData(form, 'input#root_deaths_0_fullName_last', 'Bob');
+    fillData(form, 'input#root_deaths_0_ssn', '123211234');
+    changeDropdown(form, 'select#root_deaths_0_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_deaths_0_birthDateDay', 1);
+    fillData(form, 'input#root_deaths_0_birthDateYear', '2010');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -134,7 +139,10 @@ describe('686 report dependent death', () => {
     selectCheckbox(form, 'root_deaths_0_childStatus_childUnder18', true);
     fillData(form, 'input#root_deaths_0_fullName_first', 'Billy');
     fillData(form, 'input#root_deaths_0_fullName_last', 'Bob');
-
+    fillData(form, 'input#root_deaths_0_ssn', '123211234');
+    changeDropdown(form, 'select#root_deaths_0_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_deaths_0_birthDateDay', 1);
+    fillData(form, 'input#root_deaths_0_birthDateYear', '2010');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -156,7 +164,7 @@ describe('686 report dependent death', () => {
     selectRadio(form, 'root_deaths_0_dependentType', 'CHILD');
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

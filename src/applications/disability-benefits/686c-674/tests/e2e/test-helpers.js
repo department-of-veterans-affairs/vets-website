@@ -70,6 +70,14 @@ export const fillVeteranDomesticAddress = (client, data) => {
     .fill(
       'input[name="root_veteranContactInformation_phoneNumber"]',
       data.veteranDomesticAddress.phoneNumber,
+    )
+    .fill(
+      'input[name="root_veteranContactInformation_emailAddress"]',
+      data.veteranDomesticAddress.email,
+    )
+    .fill(
+      'input[name="root_veteranContactInformation_view:confirmEmail"]',
+      data.veteranDomesticAddress.email,
     );
 };
 
@@ -496,6 +504,19 @@ export const fillReportDivorceSpouseInformation = (client, data) => {
       'input[name="root_reportDivorce_fullName_last"]',
       data.spouseInformation.lastName,
     )
+    .fill('input[name="root_reportDivorce_ssn"]', data.spouseInformation.ssn)
+    .selectDropdown(
+      'root_reportDivorce_birthDateMonth',
+      data.veteranInformation.marriageHistory[0].marriageEndDateMonth,
+    )
+    .selectDropdown(
+      'root_reportDivorce_birthDateDay',
+      data.veteranInformation.marriageHistory[0].marriageEndDateDay,
+    )
+    .fill(
+      'input[name="root_reportDivorce_birthDateYear"]',
+      data.veteranInformation.marriageHistory[0].marriageEndDateYear,
+    )
     .selectDropdown(
       'root_reportDivorce_dateMonth',
       data.veteranInformation.marriageHistory[0].marriageEndDateMonth,
@@ -539,6 +560,19 @@ export const fillDeceasedName = (client, data) => {
       'input[name="root_deaths_0_fullName_last"]',
       data.deceasedDependent.lastName,
     )
+    .fill('input[name="root_deaths_0_ssn"]', data.deceasedDependent.ssn)
+    .selectDropdown(
+      'root_deaths_0_birthDateMonth',
+      data.deceasedDependent.birthDate.month,
+    )
+    .selectDropdown(
+      'root_deaths_0_birthDateDay',
+      data.deceasedDependent.birthDate.day,
+    )
+    .fill(
+      'input[name="root_deaths_0_birthDateYear"]',
+      data.deceasedDependent.birthDate.year,
+    )
     .selectRadio('root_deaths_0_dependentType', data.deceasedDependent.type)
     .fillCheckbox(
       'input[name="root_deaths_0_childStatus_childUnder18"]',
@@ -575,6 +609,19 @@ export const fillChildMarriageDetails = (client, data) => {
       'input[name="root_childMarriage_fullName_last"]',
       data.marriedChild.lastName,
     )
+    .fill('input[name="root_childMarriage_ssn"]', data.marriedChild.ssn)
+    .selectDropdown(
+      'root_childMarriage_birthDateMonth',
+      data.marriedChild.birthDate.month,
+    )
+    .selectDropdown(
+      'root_childMarriage_birthDateDay',
+      data.marriedChild.birthDate.day,
+    )
+    .fill(
+      'input[name="root_childMarriage_birthDateYear"]',
+      data.marriedChild.birthDate.year,
+    )
     .selectDropdown(
       'root_childMarriage_dateMarriedMonth',
       data.marriedChild.date.month,
@@ -599,6 +646,22 @@ export const fillChildStoppedAttendingDetails = (client, data) => {
       'input[name="root_childStoppedAttendingSchool_fullName_last"]',
       data.childStoppedAttending.lastName,
     )
+    .fill(
+      'input[name="root_childStoppedAttendingSchool_ssn"]',
+      data.childStoppedAttending.ssn,
+    )
+    .selectDropdown(
+      'root_childStoppedAttendingSchool_birthDateMonth',
+      data.childStoppedAttending.birthDate.month,
+    )
+    .selectDropdown(
+      'root_childStoppedAttendingSchool_birthDateDay',
+      data.childStoppedAttending.birthDate.day,
+    )
+    .fill(
+      'input[name="root_childStoppedAttendingSchool_birthDateYear"]',
+      data.childStoppedAttending.birthDate.year,
+    )
     .selectDropdown(
       'root_childStoppedAttendingSchool_dateChildLeftSchoolMonth',
       data.childStoppedAttending.date.month,
@@ -617,11 +680,24 @@ export const fillStepchildName = (client, data) => {
   client
     .fill(
       'input[name="root_stepChildren_0_fullName_first"]',
-      data.deceasedDependent.firstName,
+      data.stepChild.firstName,
     )
     .fill(
       'input[name="root_stepChildren_0_fullName_last"]',
-      data.deceasedDependent.lastName,
+      data.stepChild.lastName,
+    )
+    .fill('input[name="root_stepChildren_0_ssn"]', data.stepChild.ssn)
+    .selectDropdown(
+      'root_stepChildren_0_birthDateMonth',
+      data.stepChild.birthDate.month,
+    )
+    .selectDropdown(
+      'root_stepChildren_0_birthDateDay',
+      data.stepChild.birthDate.day,
+    )
+    .fill(
+      'input[name="root_stepChildren_0_birthDateYear"]',
+      data.stepChild.birthDate.year,
     );
 };
 

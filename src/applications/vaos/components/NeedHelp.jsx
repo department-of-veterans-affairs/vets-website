@@ -15,7 +15,7 @@ export default function NeedHelp() {
         className="vads-u-margin-y--1p5 vads-u-border-color--primary"
       />
       <p className="vads-u-margin-top--0">
-        For help scheduling a VA or Community Care appointment, please call{' '}
+        For help scheduling a VA or community care appointment, please call{' '}
         <a href="tel:8774705947">877-470-5947</a> (if you have hearing loss,
         call TTY:{' '}
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
