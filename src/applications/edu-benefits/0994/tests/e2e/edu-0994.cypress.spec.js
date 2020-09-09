@@ -12,7 +12,7 @@ Cypress.config('waitForAnimations', true);
 
 const form = createTestConfig(
   {
-    dataPrefix: 'testData',
+    dataPrefix: 'data',
     dataSets: ['minimal'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -30,8 +30,8 @@ const form = createTestConfig(
           },
         },
       });
-      cy.get('@testData').then(testData => {
-        cy.route('GET', '/v0/in_progress_forms/22-0994', testData);
+      cy.get('@testData').then(data => {
+        cy.route('GET', '/v0/in_progress_forms/22-0994', data);
       });
     },
     pageHooks: {
