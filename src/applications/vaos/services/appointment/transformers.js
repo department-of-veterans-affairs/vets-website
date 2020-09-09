@@ -25,13 +25,13 @@ function getAppointmentType(appt) {
     return APPOINTMENT_TYPES.ccRequest;
   } else if (appt.typeOfCareId) {
     return APPOINTMENT_TYPES.request;
-  } else if (appt.distanceEligibleConfirmed || appt.communityCare === true) {
-    return APPOINTMENT_TYPES.ccAppointment;
   } else if (
-    appt.vvsAppointments ||
+    appt.vvsAppointments?.length ||
     (appt.clinicId && appt.communityCare === false)
   ) {
     return APPOINTMENT_TYPES.vaAppointment;
+  } else if (appt.appointmentTime || appt.communityCare === true) {
+    return APPOINTMENT_TYPES.ccAppointment;
   }
 
   return null;
