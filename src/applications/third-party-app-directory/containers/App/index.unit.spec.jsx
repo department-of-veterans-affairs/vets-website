@@ -11,7 +11,6 @@ describe('container <App>', () => {
     const tree = shallow(<App />);
 
     // Expect there to be:
-    expect(tree.find('Breadcrumbs')).to.have.lengthOf(1);
     expect(tree.find(SearchPage)).to.have.lengthOf(1);
 
     tree.unmount();
