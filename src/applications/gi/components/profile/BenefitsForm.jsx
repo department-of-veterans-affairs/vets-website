@@ -103,11 +103,7 @@ export class BenefitsForm extends React.Component {
           }
         >
           <Dropdown
-            label={this.renderLearnMoreLabel({
-              text: 'Which GI Bill benefit do you want to use?',
-              modal: 'giBillChapter',
-              ariaLabel: ariaLabels.learnMore.giBillBenefits,
-            })}
+            label="Which GI Bill benefit do you want to use?"
             name="giBillChapter"
             options={[
               { value: '33', label: 'Post-9/11 GI Bill (Ch 33)' },
@@ -127,6 +123,9 @@ export class BenefitsForm extends React.Component {
             visible
             onChange={this.props.eligibilityChange}
             onFocus={this.props.handleInputFocus}
+            learnMore={ariaLabels.learnMore.giBillBenefits}
+            modal="giBillChapter"
+            showModal={this.props.showModal}
           />
           <div>
             {this.props.militaryStatus === 'active duty' &&
@@ -158,11 +157,7 @@ export class BenefitsForm extends React.Component {
               </div>
             )}
             <Dropdown
-              label={this.renderLearnMoreLabel({
-                text: 'Cumulative Post-9/11 active-duty service',
-                modal: 'cumulativeService',
-                ariaLabel: ariaLabels.learnMore.post911Chapter33,
-              })}
+              label="Cumulative Post-9/11 active-duty service"
               name="cumulativeService"
               options={this.cumulativeServiceOptions()}
               value={this.props.cumulativeService}
@@ -170,6 +165,9 @@ export class BenefitsForm extends React.Component {
               visible={this.props.giBillChapter === '33'}
               onChange={this.props.eligibilityChange}
               onFocus={this.props.handleInputFocus}
+              learnMore={ariaLabels.learnMore.post911Chapter33}
+              modal="cumulativeService"
+              showModal={this.props.showModal}
             />
             <Dropdown
               label={this.renderLearnMoreLabel({
